@@ -2,258 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6340C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 17:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EEE0C63777
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 17:30:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DA342065C
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 17:25:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E260620857
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 17:30:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="O1otos6r"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PJShiVFy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390799AbgKXRZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:25:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42400 "EHLO
+        id S2390725AbgKXRa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 12:30:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390796AbgKXRZo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 12:25:44 -0500
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D918C061A4D
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 09:25:44 -0800 (PST)
-Received: by mail-il1-x141.google.com with SMTP id a19so14235549ilm.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 09:25:44 -0800 (PST)
+        with ESMTP id S1726929AbgKXRa5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 12:30:57 -0500
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1025C0617A6
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 09:30:56 -0800 (PST)
+Received: by mail-lj1-x244.google.com with SMTP id i17so22994474ljd.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 09:30:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z6tlEwV2va2PDMozZGMdT895LM4tZsvIbgGRKWaEoV4=;
-        b=O1otos6rFw3st6xur2OtmZ59kmbeoRug0Ytr6D48haYnFV/4i5YTnbi7zgXShcxOYw
-         qW4Lxi/kxwNU/9Q+YW3586WdhZjbM0GSSV2zXURBFZGjJuH+gfoFZj+6309L5sfOP7Uz
-         ZNE/98YEWZrRlCURKbfdWnqDbiBV906YsvYKY=
+        bh=OADMwQE1HfwIqpykz3TZHnF1kNpcSHUWVvcwMzNsJSQ=;
+        b=PJShiVFyF1QNS10ZK4hJqy3gWb157c8QAhEOlJGh2WvhpNpcKK4xyS2IJjsn1qT0o9
+         7z5S5VxcVYvqQEhJ+/qHSd+14/OcThKF0xaB0Zrai3oT+DFHkJgtmI/4gbsw2VGDCFTf
+         9lYnYnkuCE+t0kqHdYmUa4AheBKK5giwYdR7ynp4suEuBcxe+TwkKY/2jUjhQmBkwsoi
+         KrHHhun/l4cIx8YdaDMakKI0Op0/sCEYNA/DmDr6zDJD8cdttK+bAs27ymsbZlrhYsXB
+         UX9kzKbv1leE1HsdepaQRJIOVpkmu5ogHpKKcDBoiFcNJnUMu17DN+V02PxWNMwk7zhb
+         Zz4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z6tlEwV2va2PDMozZGMdT895LM4tZsvIbgGRKWaEoV4=;
-        b=J7nH3aAOyBgRGl28xJGQdVQj7CnPbd59DxPDGtSbH8wy3wHULe5zTdsIAzBl2k8u3c
-         /k9Mr6RT7lXMfnu19xdO8zu9qdP16NLWXiawFeBZxoxkpx81KCSs34WMV0ySjQNyIXnC
-         mxK2w5Cjn0/MIPoj2QfUIisBWcuRKIudTm3R7nymUVgEWzqF9xT9bmvgs91ANZW2h0KY
-         c+gCN1dZW7v5VdyN/eiorgF0F/+K4Pfw39kDvD+3lRZ72AT7FUiTQDnOSs2Rvves7vnj
-         yQn01RXIVlwu+MNvuc3lyE0IpevsGhMRznGt0c+OpYhKZ4LkpYlo0CuyMTe7OanzUx1g
-         0X9Q==
-X-Gm-Message-State: AOAM532CC1gZVhx191MafmnzxB+A+hw2mKTH2N1uHsTH0WhCwo4bRzja
-        1BSMJIZAaslPncdbGLeZ5GtHvcTSRdswQdBM
-X-Google-Smtp-Source: ABdhPJzfxoY2YZ5Cre7kYjRurpA1Zyrf1adAO64BTEjLSnHh2pKkaA2JsqXQG7OnKDr2ugu6lOW9wg==
-X-Received: by 2002:a92:de47:: with SMTP id e7mr4774018ilr.15.1606238743402;
-        Tue, 24 Nov 2020 09:25:43 -0800 (PST)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com. [209.85.166.49])
-        by smtp.gmail.com with ESMTPSA id k26sm8000645iom.32.2020.11.24.09.25.41
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2020 09:25:42 -0800 (PST)
-Received: by mail-io1-f49.google.com with SMTP id r1so22700828iob.13
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 09:25:41 -0800 (PST)
-X-Received: by 2002:a02:b144:: with SMTP id s4mr5587937jah.32.1606238741494;
- Tue, 24 Nov 2020 09:25:41 -0800 (PST)
+        bh=OADMwQE1HfwIqpykz3TZHnF1kNpcSHUWVvcwMzNsJSQ=;
+        b=GJ+6GVuBzdj5k1Ba6Q8wXMrIJ02hHddUxK+ox4F3mZhy7sclGJYhH+ZTOSjLdwMFY0
+         6jLgEU5J2saVgI+Xfa9/T00iT3F4K+Y9ZZCHtFVHvmCby7567GgJeo0Rln03rAlAN2cQ
+         bwZ+aH8FEIuSlaxDm1d5/CFUrKYPIf1NFb1SnBUmT66OrZUe6iDewH5fbx43hnPQdLN9
+         svC/EwnNZ7iVHsG/iHz4RvXmimnyDe6tWNrmeS5qmTvvCHxaX17nhxbQQKHmbQ24fZUH
+         w1cH7Oe2HEFJM9Z1OZDbM8QY4QJkepoeImyNFHLFKvizMg4M37qz3tbJ9PV/+wOpTijY
+         CBIw==
+X-Gm-Message-State: AOAM53098qsq2zgQjncIde0kjt/iD7ryBjicNcP3XyP4FlmwkLal6n3X
+        RWMtirKOK1q36ZVWrdCqFfRCs2Y2hLALFpbjM8uoMe3885zDNvon
+X-Google-Smtp-Source: ABdhPJzAUS95IiJtBmLXO44wiBfEN3j6soT+ctyunXlhCZXtXqVbQTF1xIIFi3BAaCvjBNUGriYGAWkADaFGkqIB3QQ=
+X-Received: by 2002:a05:651c:1035:: with SMTP id w21mr100232ljm.326.1606239055088;
+ Tue, 24 Nov 2020 09:30:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20201124153845.132207-1-ribalda@chromium.org> <20201124153845.132207-5-ribalda@chromium.org>
- <f1055d12-8bde-80d0-29f3-dfbfbf59cc11@arm.com>
-In-Reply-To: <f1055d12-8bde-80d0-29f3-dfbfbf59cc11@arm.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 24 Nov 2020 18:25:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuVgN=d-TdW1T0EVxMALhyOcy2Sc511D4SkxN_1kh8h9A@mail.gmail.com>
-Message-ID: <CANiDSCuVgN=d-TdW1T0EVxMALhyOcy2Sc511D4SkxN_1kh8h9A@mail.gmail.com>
-Subject: Re: [PATCH 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
+References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com> <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
+ <878saq3ofx.fsf@oldenburg2.str.redhat.com> <dcffcbacbc75086582ea3f073c9e6a981a6dd27f.camel@klomp.org>
+ <20201124164546.GA14094@infradead.org> <CAG48ez2ZHPavVU3_2VnRADFQstOM1s+3GwfWsRaEjAA1jYcHDg@mail.gmail.com>
+ <X70/uPNt2BA/vUSo@kroah.com>
+In-Reply-To: <X70/uPNt2BA/vUSo@kroah.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 24 Nov 2020 18:30:28 +0100
+Message-ID: <CAG48ez2NH2Esw_55JiwK1FAzr_qFFyGaPrE_A=iH=dNuVvY6GQ@mail.gmail.com>
+Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions & workaround
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Will Drewry <wad@chromium.org>, Mark Wielaard <mark@klomp.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        dev@opencontainers.org, Jonathan Corbet <corbet@lwn.net>,
+        "Carlos O'Donell" <carlos@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Robin
-
-On Tue, Nov 24, 2020 at 5:29 PM Robin Murphy <robin.murphy@arm.com> wrote:
+On Tue, Nov 24, 2020 at 6:15 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> On Tue, Nov 24, 2020 at 06:06:38PM +0100, Jann Horn wrote:
+> > +seccomp maintainers/reviewers
+> > [thread context is at
+> > https://lore.kernel.org/linux-api/87lfer2c0b.fsf@oldenburg2.str.redhat.com/
+> > ]
+> >
+> > On Tue, Nov 24, 2020 at 5:49 PM Christoph Hellwig <hch@infradead.org> wrote:
+> > > On Tue, Nov 24, 2020 at 03:08:05PM +0100, Mark Wielaard wrote:
+> > > > For valgrind the issue is statx which we try to use before falling back
+> > > > to stat64, fstatat or stat (depending on architecture, not all define
+> > > > all of these). The problem with these fallbacks is that under some
+> > > > containers (libseccomp versions) they might return EPERM instead of
+> > > > ENOSYS. This causes really obscure errors that are really hard to
+> > > > diagnose.
+> > >
+> > > So find a way to detect these completely broken container run times
+> > > and refuse to run under them at all.  After all they've decided to
+> > > deliberately break the syscall ABI.  (and yes, we gave the the rope
+> > > to do that with seccomp :().
+> >
+> > FWIW, if the consensus is that seccomp filters that return -EPERM by
+> > default are categorically wrong, I think it should be fairly easy to
+> > add a check to the seccomp core that detects whether the installed
+> > filter returns EPERM for some fixed unused syscall number and, if so,
+> > prints a warning to dmesg or something along those lines...
 >
-> On 2020-11-24 15:38, Ricardo Ribalda wrote:
-> > On architectures where the is no coherent caching such as ARM use the
-> > dma_alloc_noncontiguos API and handle manually the cache flushing using
-> > dma_sync_single().
-> >
-> > With this patch on the affected architectures we can measure up to 20x
-> > performance improvement in uvc_video_copy_data_work().
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >   drivers/media/usb/uvc/uvc_video.c | 74 ++++++++++++++++++++++++++-----
-> >   drivers/media/usb/uvc/uvcvideo.h  |  1 +
-> >   2 files changed, 63 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index a6a441d92b94..9e90b261428a 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1490,6 +1490,11 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
-> >       urb->transfer_buffer_length = stream->urb_size - len;
-> >   }
-> >
-> > +static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
-> > +{
-> > +     return stream->dev->udev->bus->controller->parent;
-> > +}
-> > +
-> >   static void uvc_video_complete(struct urb *urb)
-> >   {
-> >       struct uvc_urb *uvc_urb = urb->context;
-> > @@ -1539,6 +1544,11 @@ static void uvc_video_complete(struct urb *urb)
-> >        * Process the URB headers, and optionally queue expensive memcpy tasks
-> >        * to be deferred to a work queue.
-> >        */
-> > +     if (uvc_urb->pages)
-> > +             dma_sync_single_for_cpu(stream_to_dmadev(stream),
-> > +                                     urb->transfer_dma,
-> > +                                     urb->transfer_buffer_length,
-> > +                                     DMA_FROM_DEVICE);
+> Why?  seccomp is saying "this syscall is not permitted", so -EPERM seems
+> like the correct error to provide here.  It's not -ENOSYS as the syscall
+> is present.
 >
-> This doesn't work. Even in iommu-dma, the streaming API still expects to
-> work on physically-contiguous memory that could have been passed to
-> dma_map_single() in the first place. As-is, this will invalidate
-> transfer_buffer_length bytes from the start of the *first* physical
-> page, and thus destroy random other data if lines from subsequent
-> unrelated pages are dirty in caches.
->
-> The only feasible way to do a DMA sync on disjoint pages in a single
-> call is with a scatterlist.
+> As everyone knows, there are other ways to have -EPERM be returned from
+> a syscall if you don't have the correct permissions to do something.
+> Why is seccomp being singled out here?  It's doing the correct thing.
 
-Thanks for pointing this out. I guess I was lucky on my hardware and
-the areas were always  contiguous.
+AFAIU from what the others have said, it's being singled out because
+it means that for two semantically equivalent operations (e.g.
+openat() vs open()), one can fail while the other works because the
+filter doesn't know about one of the syscalls. Normally semantically
+equivalent syscalls are supposed to be subject to the same checks, and
+if one of them fails, trying the other one won't help.
 
-Will rework and send back to the list.
-
-Thanks again.
-
->
-> Robin.
->
-> >       stream->decode(uvc_urb, buf, buf_meta);
-> >
-> >       /* If no async work is needed, resubmit the URB immediately. */
-> > @@ -1566,8 +1576,15 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
-> >                       continue;
-> >
-> >   #ifndef CONFIG_DMA_NONCOHERENT
-> > -             usb_free_coherent(stream->dev->udev, stream->urb_size,
-> > -                               uvc_urb->buffer, uvc_urb->dma);
-> > +             if (uvc_urb->pages) {
-> > +                     vunmap(uvc_urb->buffer);
-> > +                     dma_free_noncontiguous(stream_to_dmadev(stream),
-> > +                                            stream->urb_size,
-> > +                                            uvc_urb->pages, uvc_urb->dma);
-> > +             } else {
-> > +                     usb_free_coherent(stream->dev->udev, stream->urb_size,
-> > +                                       uvc_urb->buffer, uvc_urb->dma);
-> > +             }
-> >   #else
-> >               kfree(uvc_urb->buffer);
-> >   #endif
-> > @@ -1577,6 +1594,47 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
-> >       stream->urb_size = 0;
-> >   }
-> >
-> > +#ifndef CONFIG_DMA_NONCOHERENT
-> > +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
-> > +                              struct uvc_urb *uvc_urb, gfp_t gfp_flags)
-> > +{
-> > +     struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
-> > +
-> > +     if (!dma_can_alloc_noncontiguous(dma_dev)) {
-> > +             uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev,
-> > +                                                  stream->urb_size,
-> > +                                                  gfp_flags | __GFP_NOWARN,
-> > +                                                  &uvc_urb->dma);
-> > +             return uvc_urb->buffer != NULL;
-> > +     }
-> > +
-> > +     uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-> > +                                              &uvc_urb->dma,
-> > +                                              gfp_flags | __GFP_NOWARN, 0);
-> > +     if (!uvc_urb->pages)
-> > +             return false;
-> > +
-> > +     uvc_urb->buffer = vmap(uvc_urb->pages,
-> > +                            PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
-> > +                            VM_DMA_COHERENT, PAGE_KERNEL);
-> > +     if (!uvc_urb->buffer) {
-> > +             dma_free_noncontiguous(dma_dev, stream->urb_size,
-> > +                                    uvc_urb->pages, uvc_urb->dma);
-> > +             return false;
-> > +     }
-> > +
-> > +     return true;
-> > +}
-> > +#else
-> > +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
-> > +                              struct uvc_urb *uvc_urb, gfp_t gfp_flags)
-> > +{
-> > +     uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
-> > +
-> > +     return uvc_urb->buffer != NULL;
-> > +}
-> > +#endif
-> > +
-> >   /*
-> >    * Allocate transfer buffers. This function can be called with buffers
-> >    * already allocated when resuming from suspend, in which case it will
-> > @@ -1607,19 +1665,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
-> >
-> >       /* Retry allocations until one succeed. */
-> >       for (; npackets > 1; npackets /= 2) {
-> > +             stream->urb_size = psize * npackets;
-> >               for (i = 0; i < UVC_URBS; ++i) {
-> >                       struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
-> >
-> > -                     stream->urb_size = psize * npackets;
-> > -#ifndef CONFIG_DMA_NONCOHERENT
-> > -                     uvc_urb->buffer = usb_alloc_coherent(
-> > -                             stream->dev->udev, stream->urb_size,
-> > -                             gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
-> > -#else
-> > -                     uvc_urb->buffer =
-> > -                         kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
-> > -#endif
-> > -                     if (!uvc_urb->buffer) {
-> > +                     if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
-> >                               uvc_free_urb_buffers(stream);
-> >                               break;
-> >                       }
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index a3dfacf069c4..3e3ef1f1daa5 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -532,6 +532,7 @@ struct uvc_urb {
-> >
-> >       char *buffer;
-> >       dma_addr_t dma;
-> > +     struct page **pages;
-> >
-> >       unsigned int async_operations;
-> >       struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
-> >
-
-
-
--- 
-Ricardo Ribalda
+But if you can't tell whether the more modern syscall failed because
+of a seccomp filter, you may be forced to retry with an older syscall
+even on systems where the new syscall works fine, and such a fallback
+may reduce security or reliability if you're trying to use some flags
+that only the new syscall provides for security, or something like
+that. (As a contrived example, imagine being forced to retry any
+tgkill() that fails with EPERM as a tkill() just in case you're
+running under a seccomp filter.)
