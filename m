@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49483C63777
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A3AC63798
 	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:56:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F331F206FA
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:56:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A8D8206FB
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:56:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389937AbgKXPzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2389965AbgKXPzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 24 Nov 2020 10:55:49 -0500
 Received: from mga02.intel.com ([134.134.136.20]:48016 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728411AbgKXPzs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Nov 2020 10:55:48 -0500
-IronPort-SDR: GHWUwl2hYUKpjJXttbXvvpWnb2a75BrPcD1aHaE3qUXGkzbadECiW0w5Ph6eF27AU99FpoT9eO
- pqFF4GP5pPNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="159009678"
+        id S2389934AbgKXPzt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Nov 2020 10:55:49 -0500
+IronPort-SDR: Hg3YCddKYDxXMjGAHbOqoamFE5167ZvFT0n/hnR7F2I2EOdaSakruv3TzJBS82yOBdcc997jRs
+ 1Um9p8bxXJ1w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="159009676"
 X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; 
-   d="scan'208";a="159009678"
+   d="scan'208";a="159009676"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2020 07:55:43 -0800
-IronPort-SDR: yD4PdLdmVNg1Jum32C6oqDO91RNWUuMHFEgf+QBuOjxRx7036OxzyX6y4hgVuNzEmn3jkH1aS5
- vuWwCTpN1ycQ==
+IronPort-SDR: dgUbOEgPz8fFz6GulRm6TvgDxeQwc+GMEHe4GtKMrz7Vd5UIGU5RqTI4H48P+i7wQ2o1BpOhhO
+ X5wxo90C1J2A==
 X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; 
-   d="scan'208";a="365051342"
+   d="scan'208";a="365051339"
 Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
   by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2020 07:55:43 -0800
 From:   matthew.gerlach@linux.intel.com
@@ -39,12 +39,10 @@ To:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
         mdf@kernel.org, hao.wu@intel.com, trix@redhat.com,
         linux-doc@vger.kernel.org, corbet@lwn.net
 Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v3 1/2] fpga: dfl: refactor cci_enumerate_feature_devs()
-Date:   Tue, 24 Nov 2020 07:56:57 -0800
-Message-Id: <20201124155658.700976-2-matthew.gerlach@linux.intel.com>
+Subject: [PATCH v3 0/2] fpga: dfl: optional VSEC for start of dfl
+Date:   Tue, 24 Nov 2020 07:56:56 -0800
+Message-Id: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
-References: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -53,134 +51,21 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
-In preparation of looking for dfls based on a vendor
-specific pcie capability, move code that assumes
-Bar0/offset0 as start of DFL to its own function.
+The start of a Device Feature List (DFL) is currently assumed to be at
+Bar0/Offset 0 on the PCIe bus by drivers/fpga/dfl-pci.c.  This patchset
+adds support for the start one or more DFLs to be specified in a
+Vendor-Specific Capability (VSEC) structure in PCIe config space.  If no
+such VSEC structure exists, then the start is assumed to be
+Bar0/Offset 0 for backward compatibility.
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
----
-v3: no change
+Matthew Gerlach (2):
+  fpga: dfl: refactor cci_enumerate_feature_devs()
+  fpga: dfl: look for vendor specific capability
 
-v2: remove spurious blank lines
-    rename find_dfl_in_bar0 to find_dfls_by_default
----
- drivers/fpga/dfl-pci.c | 84 +++++++++++++++++++++++-------------------
- 1 file changed, 47 insertions(+), 37 deletions(-)
+ Documentation/fpga/dfl.rst |  25 ++++++
+ drivers/fpga/dfl-pci.c     | 169 +++++++++++++++++++++++++++++--------
+ 2 files changed, 159 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index a2203d03c9e2..b27fae045536 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -119,49 +119,20 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
- 	return table;
- }
- 
--/* enumerate feature devices under pci device */
--static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
-+static int find_dfls_by_default(struct pci_dev *pcidev,
-+				struct dfl_fpga_enum_info *info)
- {
--	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
--	int port_num, bar, i, nvec, ret = 0;
--	struct dfl_fpga_enum_info *info;
--	struct dfl_fpga_cdev *cdev;
- 	resource_size_t start, len;
-+	int port_num, bar, i;
- 	void __iomem *base;
--	int *irq_table;
-+	int ret = 0;
- 	u32 offset;
- 	u64 v;
- 
--	/* allocate enumeration info via pci_dev */
--	info = dfl_fpga_enum_info_alloc(&pcidev->dev);
--	if (!info)
--		return -ENOMEM;
--
--	/* add irq info for enumeration if the device support irq */
--	nvec = cci_pci_alloc_irq(pcidev);
--	if (nvec < 0) {
--		dev_err(&pcidev->dev, "Fail to alloc irq %d.\n", nvec);
--		ret = nvec;
--		goto enum_info_free_exit;
--	} else if (nvec) {
--		irq_table = cci_pci_create_irq_table(pcidev, nvec);
--		if (!irq_table) {
--			ret = -ENOMEM;
--			goto irq_free_exit;
--		}
--
--		ret = dfl_fpga_enum_info_add_irq(info, nvec, irq_table);
--		kfree(irq_table);
--		if (ret)
--			goto irq_free_exit;
--	}
--
--	/* start to find Device Feature List in Bar 0 */
-+	/* start to find Device Feature List from Bar 0 */
- 	base = cci_pci_ioremap_bar0(pcidev);
--	if (!base) {
--		ret = -ENOMEM;
--		goto irq_free_exit;
--	}
-+	if (!base)
-+		return -ENOMEM;
- 
- 	/*
- 	 * PF device has FME and Ports/AFUs, and VF device only has one
-@@ -208,12 +179,51 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
- 		dfl_fpga_enum_info_add_dfl(info, start, len);
- 	} else {
- 		ret = -ENODEV;
--		goto irq_free_exit;
- 	}
- 
- 	/* release I/O mappings for next step enumeration */
- 	pcim_iounmap_regions(pcidev, BIT(0));
- 
-+	return ret;
-+}
-+
-+/* enumerate feature devices under pci device */
-+static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
-+{
-+	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
-+	struct dfl_fpga_enum_info *info;
-+	struct dfl_fpga_cdev *cdev;
-+	int nvec, ret = 0;
-+	int *irq_table;
-+
-+	/* allocate enumeration info via pci_dev */
-+	info = dfl_fpga_enum_info_alloc(&pcidev->dev);
-+	if (!info)
-+		return -ENOMEM;
-+
-+	/* add irq info for enumeration if the device support irq */
-+	nvec = cci_pci_alloc_irq(pcidev);
-+	if (nvec < 0) {
-+		dev_err(&pcidev->dev, "Fail to alloc irq %d.\n", nvec);
-+		ret = nvec;
-+		goto enum_info_free_exit;
-+	} else if (nvec) {
-+		irq_table = cci_pci_create_irq_table(pcidev, nvec);
-+		if (!irq_table) {
-+			ret = -ENOMEM;
-+			goto irq_free_exit;
-+		}
-+
-+		ret = dfl_fpga_enum_info_add_irq(info, nvec, irq_table);
-+		kfree(irq_table);
-+		if (ret)
-+			goto irq_free_exit;
-+	}
-+
-+	ret = find_dfls_by_default(pcidev, info);
-+	if (ret)
-+		goto irq_free_exit;
-+
- 	/* start enumeration with prepared enumeration information */
- 	cdev = dfl_fpga_feature_devs_enumerate(info);
- 	if (IS_ERR(cdev)) {
 -- 
 2.25.2
 
