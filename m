@@ -2,84 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC26C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 030F3C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:27:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCED22076B
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:11:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cM01k4eK"
+	by mail.kernel.org (Postfix) with ESMTP id ABD0A20782
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:27:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733271AbgKXMLT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 07:11:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729173AbgKXMLT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:11:19 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C5FC0613D6;
-        Tue, 24 Nov 2020 04:11:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=0snAvb5DOf+oPMchsCEyUIU/3RDtclpkTrApuWx5x1w=; b=cM01k4eKrSZ1mFMoilnZWF+zm3
-        AvkPQ8IXi5lb0AqfaKPACXJH5QGsEUDKUlx9rQqMare2QscEbYFINvjV3RstjDHldXXZ8X+a33e04
-        8VB/uB0teuTiN/iDL1jAgnn9dhOdbi9clxK+cA973oz7OGYADzkC4zqVMk9PbogOnJ1cEMnmAKZ58
-        6QKTd5+nWr4diAEMBEC8yTzsmYuBVwAmrYhriaVUmX9/3eh6QBIeHSVFhQ0OHDLDcKOA5ZMWVqxoJ
-        G6N5RxYVI1O4iIzvM9h6IxGrIVEDW2LopW5W8kbTUNzkcKAvDW/q505V8tSrogaYT59/VFaJEzKEg
-        X14JMrSg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1khXA5-0001k0-Qp; Tue, 24 Nov 2020 12:11:10 +0000
-Date:   Tue, 24 Nov 2020 12:11:09 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
-Message-ID: <20201124121109.GY4327@casper.infradead.org>
-References: <cover.1606137108.git.linux@leemhuis.info>
- <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info>
- <20201124091852.GB11695@lst.de>
- <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info>
- <20201124093658.GA13174@lst.de>
- <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info>
+        id S2387556AbgKXM0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 07:26:43 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:52243 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729172AbgKXM0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:26:43 -0500
+Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1khXP6-0004Kf-77; Tue, 24 Nov 2020 12:26:40 +0000
+Date:   Tue, 24 Nov 2020 13:26:39 +0100
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dev@opencontainers.org,
+        corbet@lwn.net, Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
+ workaround
+Message-ID: <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
+References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info>
+In-Reply-To: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 11:07:41AM +0100, Thorsten Leemhuis wrote:
-> There is nothing special with this text, it's just that GPL is known to not
-> be really ideal for documentation. That makes it hard for people to reuse
-> parts of the docs outside of the kernel context, say in books or on
-> websites. But it IMHO would be good for us if others could simply use this
-> text as a base in such places. Otherwise they'd often face a situation where
-> they had to write something completely new themselves, which afsics often
-> leads to texts that can be incomplete, inaccurate or actually missleading.
-> That can lead to bad bug reports, which is annoying both for reporters and
-> kernel developers.
+On Tue, Nov 24, 2020 at 01:08:20PM +0100, Florian Weimer wrote:
+> This documents a way to safely use new security-related system calls
+> while preserving compatibility with container runtimes that require
+> insecure emulation (because they filter the system call by default).
+> Admittedly, it is somewhat hackish, but it can be implemented by
+> userspace today, for existing system calls such as faccessat2,
+> without kernel or container runtime changes.
 > 
-> That's why I came up with the thought "make the text available under more
-> liberal license in addition to the GPLv2 is a good idea here". I considered
-> MIT, but from what I see CC-BY 4.0 is a way better choice for documentation
-> that is more known to authors.
+> Signed-off-by: Florian Weimer <fweimer@redhat.com>
 > 
-> And I hope others pick up the idea when they write new documentation for the
-> kernel, so maybe sooner or later it's not unusual anymore.
+> ---
+>  Documentation/process/adding-syscalls.rst | 37 +++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> index a3ecb236576c..7d1e578a1df1 100644
+> --- a/Documentation/process/adding-syscalls.rst
+> +++ b/Documentation/process/adding-syscalls.rst
+> @@ -436,6 +436,40 @@ simulates registers etc).  Fixing this is as simple as adding a #define to
+>  
+>      #define stub_xyzzy sys_xyzzy
+>  
+> +Container Compatibility and seccomp
+> +-----------------------------------
+> +
+> +The Linux Foundation Open Container Initiative Runtime Specification
+> +requires that by default, implementations install seccomp system call
+> +filters which cause system calls to fail with ``EPERM``.  As a result,
+> +all new system calls in such containers fail with ``EPERM`` instead of
+> +``ENOSYS``.  This design is problematic because ``EPERM`` is a
+> +legitimate system call result which should not trigger fallback to a
+> +userspace emulation, particularly for security-related system calls.
+> +(With ``ENOSYS``, it is clear that a fallback implementation has to be
+> +used to maintain compatibility with older kernels or container
+> +runtimes.)
+> +
+> +New system calls should therefore provide a way to reliably trigger an
+> +error distinct from ``EPERM``, without any side effects.  Some ways to
+> +achieve that are:
+> +
+> + - ``EBADFD`` for the invalid file descriptor -1
+> + - ``EFAULT`` for a null pointer
+> + - ``EINVAL`` for a contradictory set of flags that will remain invalid
+> +   in the future
 
-It's really tricky to make this work when, eg, including kernel-doc from
-files which are unambiguously licensed under the GPL.  I'd be happy to
-sign up to licensing the files I control under GPL-with-CC-BY-SA-exception
-that said something like "any documentation extracted from this file may
-be distributed under the BY-SA license", but I'm not sure everybody would.
+I'm sorry but I have some doubts about this new "rule". The idea of
+being able to reliably trigger an error for a system call other then
+EPERM might have merrit in some scenarios but justifying it via a bug in
+a userspace standard is not enough in my opinion.
+
+The solution is to fix the standard to mandate ENOSYS. This is the
+correct error for this exact scenario and standards can be changed.
+I don't think it is the kernel's job to work around a deliberate
+userspace decision to use EPERM and not ENOSYS. The kernel's system call
+design should not be informed by this especially since this is clearly
+not a kernel bug.
+
+Apart from that I have doubts that this is in any shape or form
+enforceable. Not just because in principle there might be system calls
+that only return EPERM on error but also because this requirement feels
+arbitrary and I doubt developers will feel bound by it or people will
+check for it.
+
+> +
+> +If a system call has such error behavior, upon encountering an
+> +``EPERM`` error, userspace applications can perform further
+> +invocations of the same system call to check if the ``EPERM`` error
+> +persists for those known error conditions.  If those also fail with
+> +``EPERM``, that likely means that the original ``EPERM`` error was the
+> +result of a seccomp filter, and should be treated like ``ENOSYS``
+
+I think that this "approach" alone should illustrate that this is the
+wrong way to approach this. It's hacky and requires excercising a system
+call multiple times just to find out whether or not it is supported.
+The only application that would possibly do this is probably glibc.
+This seems to be the complete wrong way of solving this problem.
+
+> +(e.g., trigger an alternative fallback implementation).  If those
+> +probing system calls do not fail with ``EPERM``, the error likely came
+> +from a real implementation, and should be reported to the caller
+> +directly, without resorting to ``ENOSYS``-style fallback.
+> +
+>  
+>  Other Details
+>  -------------
+> @@ -575,3 +609,6 @@ References and Sources
+>   - Recommendation from Linus Torvalds that x32 system calls should prefer
+>     compatibility with 64-bit versions rather than 32-bit versions:
+>     https://lkml.org/lkml/2011/8/31/244
+> + - Linux Configuration section of the Open Container Initiative
+> +   Runtime Specification:
+> +   https://github.com/opencontainers/runtime-spec/blob/master/config-linux.md
+> 
+> -- 
+> Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+> Commercial register: Amtsgericht Muenchen, HRB 153243,
+> Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+> 
