@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B139CC2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B2B5C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:39:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53BA92067C
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:38:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C85D2206FB
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 15:39:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R8lV2o5T"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R4iABjEv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389792AbgKXPit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 10:38:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53976 "EHLO
+        id S2389818AbgKXPiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 10:38:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388538AbgKXPit (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 10:38:49 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A946C0613D6
+        with ESMTP id S2389810AbgKXPiv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 10:38:51 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F1AC061A4F
         for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 07:38:49 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id r3so4470915wrt.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 07:38:48 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id 23so22738011wrc.8
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 07:38:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kEyLf8LFch+KdsSp/Rnz95CvSLqxxYSUroQ+WOd06N4=;
-        b=R8lV2o5TDdkXVFg+npOQOfmTr894UuBL+hiZgpOvOeemCAGJLSxzNsjKPmbqTtaUBV
-         df3z1UFF5oKZaN5ZQr91KwUZQ6ERHZqqQx0vdG6is+IDe89rDGCvNsXovvJQ5Kdp+51K
-         7t350VA05XF6rpHuFim6dpw29CirGR9tsMJuQ=
+        bh=nhjzpN/I0YbMNWZ/cuMZ/ssTNlecoXIrDpTSY4gcP5k=;
+        b=R4iABjEvQuBHvnc+z9r2hhUutog05+6ThoWbUMykt7He8q7/Lm2MAV0kmbeONcOsxN
+         U2G4j4uIxzcbx66W51sw80c9eTxt/OKrFsuZ2UvdrOfTO25Ud9jfdkZp/nNgFi5xd4uI
+         Q/97qiFwUbs+YE8Pkx8HCm4VLRpdrdwGyTIe8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kEyLf8LFch+KdsSp/Rnz95CvSLqxxYSUroQ+WOd06N4=;
-        b=OYYVpJx7nBaZu5Zr5am1WnaLlGyZ60Pb7TQeg6uG2yLZgn6g7xX+vIwm1jyQZMrLEl
-         UQqZxLlELFqCa7edL9Q2h+puWjthEPcT0BSHkYMP0sIFEGnVrMgRlVLa/6tXqSSY798+
-         K+5EdP1CqtdkLPot/XQHmW/Q8P2Z8UNP2g83qLnPweZw3YKJF36jdGwDIR1787HHn72x
-         sRuAZhmxw3dM4+8653BEgyztZDt6uE1MlJsD8jBlj7XnA+pB6Q2rJMubsYF+1JUWq4JO
-         0V29PhxSfqm3UHZ/QOh+N3F0F7IaS+7jx0n694werLmTDw5g567g8Q7blgUnm5dQan1Y
-         tfRw==
-X-Gm-Message-State: AOAM530hE/tNc47JJTqcgxjD6NbxdxJrIjnZItBszZbBEWY+J8tSQoYu
-        wQVniUYXWeQvICfToI7iDuNTGg==
-X-Google-Smtp-Source: ABdhPJyTWs2twpXLViHJQD11LS9U4IjfLcUt+cmKdO9Gzz+al2IGsYQUFvlDboFYPvWNuaA9EeR8BQ==
-X-Received: by 2002:a5d:544e:: with SMTP id w14mr5889967wrv.227.1606232327782;
-        Tue, 24 Nov 2020 07:38:47 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nhjzpN/I0YbMNWZ/cuMZ/ssTNlecoXIrDpTSY4gcP5k=;
+        b=X9b4HE0jXOpOg5j9qOnqObynFDu2NUpJtKGcEUWYjKZu5ZGtTS7vJloP6VVkAcphhv
+         bwvXiX3BNGoKoBBQuSVnOjppN/XDqIrdjzu7bgXnRp8J4jWQOwDKdjWprzjQGRHxuW5F
+         s0MbRK2/oTtDuMSz/KOKTEtFiZw2eZGSzWt+Z5KfKHOaQnr+cSaMrKMXWopm92vrJEQd
+         BZU7uHeQRA09iA5W5VwQoj+5LqSEwLdNhWvixpOD2hlKchj5/RD/v5P3wiTA+r4zV0eq
+         mmMrf/gdl89sgpw0Lf6SYh4WxCoO67BOEcdZ0USCvvKnUrZRQyzevwzuHF6D+emovidb
+         6iDg==
+X-Gm-Message-State: AOAM532aFnd0xe1Nsu+w+ShgRf9M1ovjEh3zAtFV13t6wbUpd6a2h1yB
+        koL5QvdfWGejp4Rg7YaGQ3Z2Ng==
+X-Google-Smtp-Source: ABdhPJyV94IkqLC3tQEI4e07+BimW/uaxT27Q28R/rp8nTUS06m6LEQw8+T51Xjpu9YZ6o8rFd6DgQ==
+X-Received: by 2002:adf:f944:: with SMTP id q4mr5883724wrr.120.1606232328515;
+        Tue, 24 Nov 2020 07:38:48 -0800 (PST)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id 25sm5814752wmk.19.2020.11.24.07.38.46
+        by smtp.gmail.com with ESMTPSA id 25sm5814752wmk.19.2020.11.24.07.38.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 07:38:47 -0800 (PST)
+        Tue, 24 Nov 2020 07:38:48 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Christoph Hellwig <hch@lst.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -66,10 +66,12 @@ To:     Christoph Hellwig <hch@lst.de>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Sergey Senozhatsky <senozhatsky@google.com>
-Subject: [PATCH 1/6] dma-mapping: remove the {alloc,free}_noncoherent methods
-Date:   Tue, 24 Nov 2020 16:38:40 +0100
-Message-Id: <20201124153845.132207-1-ribalda@chromium.org>
+Subject: [PATCH 2/6] dma-direct: use __GFP_ZERO in dma_direct_alloc_pages
+Date:   Tue, 24 Nov 2020 16:38:41 +0100
+Message-Id: <20201124153845.132207-2-ribalda@chromium.org>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+In-Reply-To: <20201124153845.132207-1-ribalda@chromium.org>
+References: <20201124153845.132207-1-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -78,134 +80,48 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-It turns out allowing non-contigous allocations here was a rather bad
-idea, as we'll now need to define ways to get the pages for mmaping
-or dma_buf sharing.  Revert this change and stick to the original
-concept.  A different API for the use case of non-contigous allocations
-will be added back later.
+Prepare for supporting the DMA_ATTR_NO_KERNEL_MAPPING flag in
+dma_alloc_pages.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/iommu/dma-iommu.c   | 30 ------------------------------
- include/linux/dma-map-ops.h |  5 -----
- kernel/dma/mapping.c        | 33 ++++++---------------------------
- 3 files changed, 6 insertions(+), 62 deletions(-)
+ kernel/dma/direct.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 0cbcd3fc3e7e..73249732afd3 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1054,34 +1054,6 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
- 	return cpu_addr;
- }
- 
--#ifdef CONFIG_DMA_REMAP
--static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
--		dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
--{
--	if (!gfpflags_allow_blocking(gfp)) {
--		struct page *page;
--
--		page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
--		if (!page)
--			return NULL;
--		return page_address(page);
--	}
--
--	return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
--				     PAGE_KERNEL, 0);
--}
--
--static void iommu_dma_free_noncoherent(struct device *dev, size_t size,
--		void *cpu_addr, dma_addr_t handle, enum dma_data_direction dir)
--{
--	__iommu_dma_unmap(dev, handle, size);
--	__iommu_dma_free(dev, size, cpu_addr);
--}
--#else
--#define iommu_dma_alloc_noncoherent		NULL
--#define iommu_dma_free_noncoherent		NULL
--#endif /* CONFIG_DMA_REMAP */
--
- static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs)
-@@ -1152,8 +1124,6 @@ static const struct dma_map_ops iommu_dma_ops = {
- 	.free			= iommu_dma_free,
- 	.alloc_pages		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
--	.alloc_noncoherent	= iommu_dma_alloc_noncoherent,
--	.free_noncoherent	= iommu_dma_free_noncoherent,
- 	.mmap			= iommu_dma_mmap,
- 	.get_sgtable		= iommu_dma_get_sgtable,
- 	.map_page		= iommu_dma_map_page,
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index a5f89fc4d6df..3d1f91464bcf 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -22,11 +22,6 @@ struct dma_map_ops {
- 			gfp_t gfp);
- 	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
- 			dma_addr_t dma_handle, enum dma_data_direction dir);
--	void *(*alloc_noncoherent)(struct device *dev, size_t size,
--			dma_addr_t *dma_handle, enum dma_data_direction dir,
--			gfp_t gfp);
--	void (*free_noncoherent)(struct device *dev, size_t size, void *vaddr,
--			dma_addr_t dma_handle, enum dma_data_direction dir);
- 	int (*mmap)(struct device *, struct vm_area_struct *,
- 			void *, dma_addr_t, size_t, unsigned long attrs);
- 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 51bb8fa8eb89..d3032513c54b 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -514,40 +514,19 @@ EXPORT_SYMBOL_GPL(dma_free_pages);
- void *dma_alloc_noncoherent(struct device *dev, size_t size,
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 06c111544f61..76c741e610fc 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -280,13 +280,12 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
  		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
  {
--	const struct dma_map_ops *ops = get_dma_ops(dev);
--	void *vaddr;
--
--	if (!ops || !ops->alloc_noncoherent) {
--		struct page *page;
--
--		page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
--		if (!page)
--			return NULL;
--		return page_address(page);
--	}
-+	struct page *page;
+ 	struct page *page;
+-	void *ret;
  
--	size = PAGE_ALIGN(size);
--	vaddr = ops->alloc_noncoherent(dev, size, dma_handle, dir, gfp);
--	if (vaddr)
--		debug_dma_map_page(dev, virt_to_page(vaddr), 0, size, dir,
--				   *dma_handle);
--	return vaddr;
-+	page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
-+	if (!page)
-+		return NULL;
-+	return page_address(page);
- }
- EXPORT_SYMBOL_GPL(dma_alloc_noncoherent);
+ 	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
+ 	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
+ 		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
  
- void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
- 		dma_addr_t dma_handle, enum dma_data_direction dir)
- {
--	const struct dma_map_ops *ops = get_dma_ops(dev);
--
--	if (!ops || !ops->free_noncoherent) {
--		dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
--		return;
--	}
--
--	size = PAGE_ALIGN(size);
--	debug_dma_unmap_page(dev, dma_handle, size, dir);
--	ops->free_noncoherent(dev, size, vaddr, dma_handle, dir);
-+	dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
- }
- EXPORT_SYMBOL_GPL(dma_free_noncoherent);
+-	page = __dma_direct_alloc_pages(dev, size, gfp);
++	page = __dma_direct_alloc_pages(dev, size, gfp | __GFP_ZERO);
+ 	if (!page)
+ 		return NULL;
+ 	if (PageHighMem(page)) {
+@@ -300,13 +299,11 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
+ 		goto out_free_pages;
+ 	}
  
+-	ret = page_address(page);
+ 	if (force_dma_unencrypted(dev)) {
+-		if (set_memory_decrypted((unsigned long)ret,
++		if (set_memory_decrypted((unsigned long) page_address(page),
+ 				1 << get_order(size)))
+ 			goto out_free_pages;
+ 	}
+-	memset(ret, 0, size);
+ 	*dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
+ 	return page;
+ out_free_pages:
 -- 
 2.29.2.454.gaff20da3a2-goog
 
