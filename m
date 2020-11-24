@@ -2,145 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B39C64E75
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF4DAC2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:54:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F281320866
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:46:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74B1F206D9
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:54:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="FrdMPUpD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RZ1Qd378"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387608AbgKXMqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 07:46:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387565AbgKXMqK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:46:10 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C71C0617A6
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 04:46:10 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id s63so7502480pgc.8
-        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 04:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zvMoedg9c3vAj7qTNNLGhSdFiVG9vOlTW6cU7Q9XeFo=;
-        b=FrdMPUpDEFFjBtYI8z4IeWI2Z4ohddd3ZcheGrplS0kTOmz4h18rj8yx1KD0p94H/4
-         4da07fC+FGhGMT861t9xebrdtDKWv9GNFNa7UdYTDzRWtSm8THlMn+8gUcHPYDBgU4BG
-         0Ioe9Otk2VxnLl3jVXir6r5KJbCI/ivA9S5xTRVUBw7Q0usttObbgvmqqTbLfu3cCPpP
-         gjzox5FYTLPTL7hND87YVmaJkLBvFPmyYgeJF/5aqmejfQ7Pst18yDrJ+VYwlnnykvgZ
-         eJjGrnH6KVtJNyy+toC6DpaYps582AB+j+Zu9MrYeWS5JSy1WQj/QILf892bEpx8fxwL
-         DhFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zvMoedg9c3vAj7qTNNLGhSdFiVG9vOlTW6cU7Q9XeFo=;
-        b=r7KTOJWGm3l4f4tVLJY1eaPTMdwKQEVyh3JAfKvu9C8/AxqPGDPoV2Id5pBcF6Hpch
-         pA7XLLDv+rbnj8LCw7pmEFuucYD8cApVXZzLn7f1vzrVdHycEji5BFV6V2KLmgEDv4UO
-         PmcW8aH/siwycx4ylOb7U9Po38bAlR1VDun6zbVM7qt0RN3fxyosAoBfhSy3laqKlGJN
-         NG65qsPyY1p711XZdIbddfMq7RForoRX1cCwm+PdmlSzgWjFxVtBSfD6aA2W7qU6Iggg
-         6oiz9qCz9wMNgUhBs9xo1MsG9vOEhD6yTtaG5s2oVmuD/Xznv08Vsny37/vHay3W+Ad9
-         0YKA==
-X-Gm-Message-State: AOAM5300p77IHzMjFKkmV3TY08YeMEy+MFw1/XvYdlytTBI0E1sHBXRb
-        Ic6R3kiSu99jACjb8z/q1S2qquE7E+CanfWmkIRlKQ==
-X-Google-Smtp-Source: ABdhPJw4zreHDeiqTrvJd7toGaCPcJpurHA+IsBwgCC6p/FqJZJI2OUo3Y313QMps8SXpsVjl4nPz3fGSgYe8qccqlw=
-X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr4752466pjb.147.1606221969905;
- Tue, 24 Nov 2020 04:46:09 -0800 (PST)
+        id S2387565AbgKXMyj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 07:54:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24683 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732709AbgKXMyi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:54:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606222477;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NxyDVGiScUymMEgZnP7ajOPo8IogUNPzYRx+wwBnAqs=;
+        b=RZ1Qd378STVn9CQiE86DXkYA/Zk+L0iOPtRxvnj3IIL1dwIZtfxqo8r55IPDZGpIBKUFpj
+        ML/fqcpNLSWnmuz3iZwGqJGtJPlSZPiRCucQwcLvT+DtQqokxpiyDIIwP76/dte1vJapsN
+        BydurBCm5/d/+3SSPOzufTdQzEMy4CU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-vV42pFFiPLGyIrUVbaVWiQ-1; Tue, 24 Nov 2020 07:54:34 -0500
+X-MC-Unique: vV42pFFiPLGyIrUVbaVWiQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4561010151E9;
+        Tue, 24 Nov 2020 12:54:33 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-112-141.ams2.redhat.com [10.36.112.141])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C3D45D9CA;
+        Tue, 24 Nov 2020 12:54:28 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dev@opencontainers.org,
+        corbet@lwn.net, Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
+ workaround
+References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+        <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
+Date:   Tue, 24 Nov 2020 13:54:26 +0100
+In-Reply-To: <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein> (Christian
+        Brauner's message of "Tue, 24 Nov 2020 13:26:39 +0100")
+Message-ID: <878saq3ofx.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201124095259.58755-1-songmuchun@bytedance.com>
- <20201124095259.58755-10-songmuchun@bytedance.com> <20201124115109.GW27488@dhcp22.suse.cz>
-In-Reply-To: <20201124115109.GW27488@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 24 Nov 2020 20:45:30 +0800
-Message-ID: <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of
- HugeTLB pages
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 7:51 PM Michal Hocko <mhocko@suse.com> wrote:
+* Christian Brauner:
+
+> I'm sorry but I have some doubts about this new "rule". The idea of
+> being able to reliably trigger an error for a system call other then
+> EPERM might have merrit in some scenarios but justifying it via a bug in
+> a userspace standard is not enough in my opinion.
 >
-> On Tue 24-11-20 17:52:52, Muchun Song wrote:
-> > In the subsequent patch, we will allocate the vmemmap pages when free
-> > HugeTLB pages. But update_and_free_page() is called from a non-task
-> > context(and hold hugetlb_lock), so we can defer the actual freeing in
-> > a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+> The solution is to fix the standard to mandate ENOSYS. This is the
+> correct error for this exact scenario and standards can be changed.
+> I don't think it is the kernel's job to work around a deliberate
+> userspace decision to use EPERM and not ENOSYS. The kernel's system call
+> design should not be informed by this especially since this is clearly
+> not a kernel bug.
 >
-> This has been brought up earlier without any satisfying answer. Do we
-> really have bother with the freeing from the pool and reconstructing the
-> vmemmap page tables? Do existing usecases really require such a dynamic
-> behavior? In other words, wouldn't it be much simpler to allow to use
-
-If someone wants to free a HugeTLB page, there is no way to do that if we
-do not allow this behavior. When do we need this? On our server, we will
-allocate a lot of HugeTLB pages for SPDK or virtualization. Sometimes,
-we want to debug some issues and want to apt install some debug tools,
-but if the host has little memory and the install operation can be failed
-because of no memory. In this time, we can try to free some HugeTLB
-pages to buddy in order to continue debugging. So maybe we need this.
-
-> hugetlb pages with sparse vmemmaps only for the boot time reservations
-> and never allow them to be freed back to the allocator. This is pretty
-> restrictive, no question about that, but it would drop quite some code
-
-Yeah, if we do not allow freeing the HugeTLB page to buddy, it actually
-can drop some code. But I think that it only drop this one and next one
-patch. It seems not a lot. And if we drop this patch, we need to add some
-another code to do the boot time reservations and other code to disallow
-freeing HugeTLB pages. So why not support freeing now.
-
-> AFAICS and the resulting series would be much easier to review really
-> carefully. Additional enhancements can be done on top with specifics
-> about usecases which require more flexibility.
-
-The code of allocating vmemmap pages for the HugeTLB page is very
-similar to the freeing vmemmap pages. The two operations are opposite.
-I think that if someone can understand the freeing path, it is also easy
-for him to understand the allcating path. If you look at close to this patch,
-I believe that it is easy for you.
-
+> Apart from that I have doubts that this is in any shape or form
+> enforceable. Not just because in principle there might be system calls
+> that only return EPERM on error but also because this requirement feels
+> arbitrary and I doubt developers will feel bound by it or people will
+> check for it.
 >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  mm/hugetlb.c         | 96 ++++++++++++++++++++++++++++++++++++++++++++++------
-> >  mm/hugetlb_vmemmap.c |  5 ---
-> >  mm/hugetlb_vmemmap.h | 10 ++++++
-> >  3 files changed, 95 insertions(+), 16 deletions(-)
-> --
-> Michal Hocko
-> SUSE Labs
+>> +
+>> +If a system call has such error behavior, upon encountering an
+>> +``EPERM`` error, userspace applications can perform further
+>> +invocations of the same system call to check if the ``EPERM`` error
+>> +persists for those known error conditions.  If those also fail with
+>> +``EPERM``, that likely means that the original ``EPERM`` error was the
+>> +result of a seccomp filter, and should be treated like ``ENOSYS``
+>
+> I think that this "approach" alone should illustrate that this is the
+> wrong way to approach this. It's hacky and requires excercising a system
+> call multiple times just to find out whether or not it is supported.
+> The only application that would possibly do this is probably glibc.
+> This seems to be the complete wrong way of solving this problem.
 
+Thank you for your feedback.  I appreciate it.
 
+I agree that the standard should mandate ENOSYS, and I've just proposed
+a specification change here:
 
+  <https://groups.google.com/a/opencontainers.org/g/dev/c/8Phfq3VBxtw>
+
+However, such a change may take some time to implement.
+
+Meanwhile, we have the problem today with glibc that it wants to use the
+faccessat2 system call but it can't.  I've been told that it would make
+glibc incompatible with the public cloud and Docker.  The best solution
+I could come up with it is this awkward probing sequence.  (Just
+checking for the zero flags argument is not sufficient because systemd
+calls fchmodat with AT_SYMLINK_NOFOLLOW.)
+
+I do not wish to put the probing sequence into glibc (upstream or
+downstream) unless it is blessed to some degree by kernel developers.  I
+consider it quite ugly and would prefer if more of us share the blame.
+
+We will face the same issue again with fchmodat2 (or fchmodat4 if that's
+what it's name is going to be).  And we have been lucky in recent times
+that didn't need a new system call to fix a security vulnerability in an
+existing system call in wide use by userspace (although faccessat2 comes
+rather close because it replaces a userspace permission check
+approximation with a proper kernel check).  The seccomp situation means
+that we can't, reliably, and the probing hack seems to be way out.
+That's another reason for not just putting in the probing sequence
+quietly and be done with it: I'd like to discuss this aspect in the
+open, before we need it as part of a fix for some embargoed security
+vulnerability.
+
+Thanks,
+Florian
 -- 
-Yours,
-Muchun
+Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
+Commercial register: Amtsgericht Muenchen, HRB 153243,
+Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
+
