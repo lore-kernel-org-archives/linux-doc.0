@@ -2,125 +2,339 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23058C64E7A
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 23:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5675C56202
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 00:26:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E097A20729
-	for <linux-doc@archiver.kernel.org>; Mon, 23 Nov 2020 23:46:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 535FA20773
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 00:26:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BEoa4Qic"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oc54z6HI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726904AbgKWXpz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 23 Nov 2020 18:45:55 -0500
-Received: from nat-hk.nvidia.com ([203.18.50.4]:21978 "EHLO nat-hk.nvidia.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726630AbgKWXpz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 23 Nov 2020 18:45:55 -0500
-Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fbc49ae0000>; Tue, 24 Nov 2020 07:45:50 +0800
-Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov
- 2020 23:45:47 +0000
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.54) by
- HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Mon, 23 Nov 2020 23:45:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G/6/wHjqLAa1Fvq0z19HpHWiYP7iB8QAdSKNj/JCUTD457s8iog4FjdFD6DwtuMOPEyevjYY4F+ShtkYYBMM0LB3Yap5JpG9LTPB7mZRJ69Jp3vWNs9WByoNQq2Uo8uLkxmVvu1hwfO1OHH66EmDrPpSR6lSqep5m/hlmwlSVdnJn0mKKmrWJwe/nfx8IO67QKCsce7oEGpTfRewpTQVsJGlXaz3ZHYyKluCwQp+Q2ZIp6ng2q4p0C1xeA/UktdcgwuddK86PXDDO3ZC85cJGRmYUJpgJC/vd14L2rZqii7OYskxzLu6i5BIjltIcOg1VbkU99Bx0q1la1n7RAK/OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E01IzcN4XoZ6n+sfxHTo73e1HBdmVfQ3RmtpDQ4t1h4=;
- b=LPwZOIDoILW/l9wm63ii5Jk8OSxNEna9lVWsBF5uoqcM6K+tZ9r1nk82Lrdh895XMjaQx7bj2tyQDJqfRCeCT1zJaXBjiktFKuTC7u8kO4axbQRFh2VIIuGAWornXDqAtG8Gj2X3WM9WEJojAOCmkReDjsFBfWn7x39virhxaf/APBS8iDHGHHkFKFokyPVUoR5gmwoefT7D49SKYA2/oRqQiXPQ5ZxpWPdfol3CIZHUFX2YrBLh5wYUL5Q7MseSSstTTDidjGlN5+DP8jmxl1/6W2kpP6x8Bz68VY7VQJqRe4mwic8yvj+R5adueYO8YstsXYHvRMQwp17Guj4vUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4778.namprd12.prod.outlook.com (2603:10b6:5:167::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.25; Mon, 23 Nov
- 2020 23:45:43 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::e40c:730c:156c:2ef9]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::e40c:730c:156c:2ef9%7]) with mapi id 15.20.3589.022; Mon, 23 Nov 2020
- 23:45:43 +0000
-Date:   Mon, 23 Nov 2020 19:45:42 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        =?utf-8?B?SMOla29u?= Bugge <haakon.bugge@oracle.com>,
+        id S1729272AbgKXA02 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 23 Nov 2020 19:26:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729107AbgKXA01 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 23 Nov 2020 19:26:27 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1278C0613CF;
+        Mon, 23 Nov 2020 16:26:26 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id k5so3291911plt.6;
+        Mon, 23 Nov 2020 16:26:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:subject:to:cc:newsgroups:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Nt3WL/sMZDFdQ0jAbOhXhrOfUwobfRhA4oYHScZyEuA=;
+        b=Oc54z6HIkJQlFjkPTcr65cfgUp+grLzgjNRN4/CJ1+XKQWLG5D12r7elXf4hS19Uap
+         7S6Kbe4/Xau6BCwvExNeAoQ4jm1ZA49Ex76lhFBxxcLfCGTAyxqnZb6LJKtir5hanryj
+         W/novpTZ0kcl/7Lt3HhjbZQvL8hLnEMnJOKsGrNGGY5YxLoedCtMLiZFiKAIknj1sIGa
+         KrPYNf3D2q1jAzZACjf2b36x7EpsJwo6CLbMoQdRfFu0GzXwP7nwF6a8+bLz0HHwzQMu
+         tmwVtWgApsX8Jo00b+rsMZLa52Kfxozy1t4hV/QAvfnJtcI0Bn+XqCeK4LODz51vbCko
+         EE6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:subject:to:cc:newsgroups:references
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Nt3WL/sMZDFdQ0jAbOhXhrOfUwobfRhA4oYHScZyEuA=;
+        b=QDnvEsDlhXDEISFft2AQ00JMVPWTDzAjYUv1/Y8LQKAg3cROlNUOPGtTPqzENe9QyY
+         gkHWJU9AVHBEbwan27uHgzPxi3zI3tduhh/3+21dYwcv1qdhcAdQFgtklFqtS4VNr5Ul
+         VDFNbdOfnfkIaJ3MHcFL7e9Quzf3TLR/ByHRaQVIusjRGcsQjGIC3WtvT/0smxc44LRf
+         zXEaO+qdDBMmslqGMVhVzV+0RCNq5W7A0KC3FZYqfIZ00wFCs9N0It32YQA8NBtJH/IG
+         fw9+cNfH565xpsZmSp18fOddVrkN6PffY9ZdCZPdik1LUObUThq3SaKkExrg9s/YbLTO
+         FVPw==
+X-Gm-Message-State: AOAM5334Figrq+D1EU+e3TO+sLnHRHxUr018MGNLBJA/T1Sd40QGulDU
+        b/W/5rHKW/I0t2nGhec7UWg=
+X-Google-Smtp-Source: ABdhPJxCEhCjGIy2PVAc5Q4JGQ5FebvcnHmsaAsAUqP8ddjKTbGi1i1Ua+KLRC8mYp1dd9Lt347RqA==
+X-Received: by 2002:a17:902:778e:b029:d8:d024:a9a with SMTP id o14-20020a170902778eb02900d8d0240a9amr1721810pll.12.1606177584778;
+        Mon, 23 Nov 2020 16:26:24 -0800 (PST)
+Received: from [192.168.50.50] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
+        by smtp.gmail.com with ESMTPSA id ha21sm529493pjb.2.2020.11.23.16.26.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2020 16:26:24 -0800 (PST)
+Sender: Vineet Gupta <vineetg76@gmail.com>
+From:   Vineet Gupta <vgupta@synopsys.com>
+Subject: Re: [PATCH v2 10/13] arc: use FLATMEM with freeing of unused memory
+ map instead of DISCONTIGMEM
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Danit Goldberg <danitg@mellanox.com>,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Divya Indi <divya.indi@oracle.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Moni Shoua <monis@mellanox.com>,
-        "Or Gerlitz" <ogerlitz@mellanox.com>,
-        Parav Pandit <parav@mellanox.com>,
-        "Sagi Grimberg" <sagi@grimberg.me>,
-        Ursula Braun <ubraun@linux.ibm.com>,
-        Xi Wang <wangxi11@huawei.com>,
-        Yamin Friedman <yaminf@mellanox.com>,
-        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <target-devel@vger.kernel.org>
-Subject: Re: [PATCH v4 07/27] IB: fix kernel-doc markups
-Message-ID: <20201123234542.GA142861@nvidia.com>
-References: <cover.1605521731.git.mchehab+huawei@kernel.org>
- <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <4983a0c6fe5dbc2c779d2b5950a6f90f81a16d56.1605521731.git.mchehab+huawei@kernel.org>
-X-ClientProxiedBy: BL0PR02CA0071.namprd02.prod.outlook.com
- (2603:10b6:207:3d::48) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>, Will Deacon <will@kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        arcml <linux-snps-arc@lists.infradead.org>
+Newsgroups: gmane.linux.ports.ia64,gmane.linux.ports.alpha,gmane.linux.ports.arm.kernel,gmane.linux.documentation,gmane.linux.file-systems,gmane.linux.kernel,gmane.linux.kernel.mm
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <20201101170454.9567-11-rppt@kernel.org>
+ <3a1ef201-611b-3eb0-1a8a-4fcb05634b85@synopsys.com>
+ <20201117065708.GD370813@kernel.org>
+X-Mozilla-News-Host: news://news.gmane.io
+Message-ID: <dfbbfa6c-15ea-bc64-d163-5c96c1df43a3@synopsys.com>
+Date:   Mon, 23 Nov 2020 16:26:20 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by BL0PR02CA0071.namprd02.prod.outlook.com (2603:10b6:207:3d::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21 via Frontend Transport; Mon, 23 Nov 2020 23:45:43 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1khLWg-000bAy-7V; Mon, 23 Nov 2020 19:45:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1606175150; bh=E01IzcN4XoZ6n+sfxHTo73e1HBdmVfQ3RmtpDQ4t1h4=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=BEoa4QiccrY265iqHUpgSzIo2RLsJuTbTSVfaQ05KIRZlCsIAoBAbXwqw4nvzz6Og
-         wcRlLjRne2NISETCbo12ASmp5TjAgp2DoJbdxS8kSBdspyIGTkmW0s8TEYWHJLDNnQ
-         4uM44NCmtE0Qa/cPB+lpyc7ElBW6TJ/+WuB7TTiZoh387hw3sVPhakeREtv0oyT2jD
-         GXAXUeUX6Z76tnjbPfHFj+Pe0XOPev/CLuDkkkBY1/Wii7yHpx/k65bkOaaR4pLwTT
-         LD30Ivpe3wE2uG9wGFRofSRbKyNq7yFQ461pA1tOCd/0O0GhKQ2g9Dtk6fabOP+u59
-         FC2n4rHrvDy1w==
+In-Reply-To: <20201117065708.GD370813@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 11:18:03AM +0100, Mauro Carvalho Chehab wrote:
+On 11/16/20 10:57 PM, Mike Rapoport wrote:
+> On Tue, Nov 17, 2020 at 06:40:16AM +0000, Vineet Gupta wrote:
+>> Hi Mike,
+>>
+>> On 11/1/20 9:04 AM, Mike Rapoport wrote:
+>>> From: Mike Rapoport <rppt@linux.ibm.com>
+>>>
+>>> Currently ARC uses DISCONTIGMEM to cope with sparse physical memory address
+>>> space on systems with 2 memory banks. While DISCONTIGMEM avoids wasting
+>>> memory on unpopulated memory map, it adds both memory and CPU overhead
+>>> relatively to FLATMEM. Moreover, DISCONTINGMEM is generally considered
+>>> deprecated.
+>>>
+>>> The obvious replacement for DISCONTIGMEM would be SPARSEMEM, but it is also
+>>> less efficient than FLATMEM in pfn_to_page() and page_to_pfn() conversions.
+>>> Besides it requires tuning of SECTION_SIZE which is not trivial for
+>>> possible ARC memory configuration.
+>>>
+>>> Since the memory map for both banks is always allocated from the "lowmem"
+>>> bank, it is possible to use FLATMEM for two-bank configuration and simply
+>>> free the unused hole in the memory map. All is required for that is to
+>>> provide ARC-specific pfn_valid() that will take into account actual
+>>> physical memory configuration and define HAVE_ARCH_PFN_VALID.
+>>>
+>>> The resulting kernel image configured with defconfig + HIGHMEM=y is
+>>> smaller:
+>>>
+>>> $ size a/vmlinux b/vmlinux
+>>>      text    data     bss     dec     hex filename
+>>> 4673503 1245456  279756 6198715  5e95bb a/vmlinux
+>>> 4658706 1246864  279756 6185326  5e616e b/vmlinux
+>>>
+>>> $ ./scripts/bloat-o-meter a/vmlinux b/vmlinux
+>>> add/remove: 28/30 grow/shrink: 42/399 up/down: 10986/-29025 (-18039)
+>>> ...
+>>> Total: Before=4709315, After=4691276, chg -0.38%
+>>>
+>>> Booting nSIM with haps_ns.dts results in the following memory usage
+>>> reports:
+>>>
+>>> a:
+>>> Memory: 1559104K/1572864K available (3531K kernel code, 595K rwdata, 752K rodata, 136K init, 275K bss, 13760K reserved, 0K cma-reserved, 1048576K highmem)
+>>>
+>>> b:
+>>> Memory: 1559112K/1572864K available (3519K kernel code, 594K rwdata, 752K rodata, 136K init, 280K bss, 13752K reserved, 0K cma-reserved, 1048576K highmem)
+>>>
+>>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-> +/**
-> + * ib_alloc_pd - Allocates an unused protection domain.
-> + * @device: The device on which to allocate the protection domain.
-> + * @flags: protection domain flags
-> + *
-> + * A protection domain object provides an association between QPs, shared
-> + * receive queues, address handles, memory regions, and memory windows.
-> + *
-> + * Every PD has a local_dma_lkey which can be used as the lkey value for local
-> + * memory operations.
-> + */
->  #define ib_alloc_pd(device, flags) \
->  	__ib_alloc_pd((device), (flags), KBUILD_MODNAME)
+To avoid any surprises later, I tested that highmem was actually working 
+on real hardware (HSDK-4xD dev platform) with modified hsdk.dts to 
+enable 2 GB of memory.
 
-Why this hunk adding a completely new description in this patch?
+        reg = <0x0 0x80000000 0x0 0x40000000    /* 1 GB low mem */
+-         0x1 0x00000000 0x0 0x40000000>;  /* 1 GB highmem PAE */
++         0x0 0x00000000 0x0 0x40000000>;  /* 1 GB highmem low phy mem*/
+         };
 
-Jason
+A simple malloc+memset program can allocate upto 1.98 GB of memory.
+
+# cat /proc/meminfo | grep Mem
+MemTotal:        2077984 kB
+MemFree:         2047512 kB
+MemAvailable:    2005712 kB
+
+# /oom 1000 &
+# malloc 1000 MB
+# Done memset, sleeping for 20 secs
+
+# cat /proc/meminfo | grep Mem
+MemTotal:        2077984 kB
+MemFree:         1163888 kB
+MemAvailable:    1122088 kB
+
+# /oom 980 &
+# malloc 980 MB
+# Done memset, sleeping for 20 secs
+
+# cat /proc/meminfo | grep Mem
+MemTotal:        2077984 kB
+MemFree:          239096 kB
+MemAvailable:     197296 kB
+
+# Done free.
+Done free.
+
+So this is all hunky-dory. Thanks for working on this Mike and improving 
+things.
+
+Acked-by: Vineet Gupta <vgupta@synopsys.com>
+
+-Vineet
+
+>>
+>> Sorry this fell through the cracks. Do you have a branch I can checkout
+>> and do a quick test.
+> 
+> It's in mmotm and in my tree:
+> https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git memory-models/rm-discontig/v0
+> 
+>> Thx,
+>> -Vineet
+>>
+>>> ---
+>>>    arch/arc/Kconfig            |  3 ++-
+>>>    arch/arc/include/asm/page.h | 20 +++++++++++++++++---
+>>>    arch/arc/mm/init.c          | 29 ++++++++++++++++++++++-------
+>>>    3 files changed, 41 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/arch/arc/Kconfig b/arch/arc/Kconfig
+>>> index 0a89cc9def65..c874f8ab0341 100644
+>>> --- a/arch/arc/Kconfig
+>>> +++ b/arch/arc/Kconfig
+>>> @@ -67,6 +67,7 @@ config GENERIC_CSUM
+>>>    
+>>>    config ARCH_DISCONTIGMEM_ENABLE
+>>>    	def_bool n
+>>> +	depends on BROKEN
+>>>    
+>>>    config ARCH_FLATMEM_ENABLE
+>>>    	def_bool y
+>>> @@ -506,7 +507,7 @@ config LINUX_RAM_BASE
+>>>    
+>>>    config HIGHMEM
+>>>    	bool "High Memory Support"
+>>> -	select ARCH_DISCONTIGMEM_ENABLE
+>>> +	select HAVE_ARCH_PFN_VALID
+>>>    	help
+>>>    	  With ARC 2G:2G address split, only upper 2G is directly addressable by
+>>>    	  kernel. Enable this to potentially allow access to rest of 2G and PAE
+>>> diff --git a/arch/arc/include/asm/page.h b/arch/arc/include/asm/page.h
+>>> index b0dfed0f12be..23e41e890eda 100644
+>>> --- a/arch/arc/include/asm/page.h
+>>> +++ b/arch/arc/include/asm/page.h
+>>> @@ -82,11 +82,25 @@ typedef pte_t * pgtable_t;
+>>>     */
+>>>    #define virt_to_pfn(kaddr)	(__pa(kaddr) >> PAGE_SHIFT)
+>>>    
+>>> -#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
+>>> +/*
+>>> + * When HIGHMEM is enabled we have holes in the memory map so we need
+>>> + * pfn_valid() that takes into account the actual extents of the physical
+>>> + * memory
+>>> + */
+>>> +#ifdef CONFIG_HIGHMEM
+>>> +
+>>> +extern unsigned long arch_pfn_offset;
+>>> +#define ARCH_PFN_OFFSET		arch_pfn_offset
+>>> +
+>>> +extern int pfn_valid(unsigned long pfn);
+>>> +#define pfn_valid		pfn_valid
+>>>    
+>>> -#ifdef CONFIG_FLATMEM
+>>> +#else /* CONFIG_HIGHMEM */
+>>> +
+>>> +#define ARCH_PFN_OFFSET		virt_to_pfn(CONFIG_LINUX_RAM_BASE)
+>>>    #define pfn_valid(pfn)		(((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+>>> -#endif
+>>> +
+>>> +#endif /* CONFIG_HIGHMEM */
+>>>    
+>>>    /*
+>>>     * __pa, __va, virt_to_page (ALERT: deprecated, don't use them)
+>>> diff --git a/arch/arc/mm/init.c b/arch/arc/mm/init.c
+>>> index 3a35b82a718e..ce07e697916c 100644
+>>> --- a/arch/arc/mm/init.c
+>>> +++ b/arch/arc/mm/init.c
+>>> @@ -28,6 +28,8 @@ static unsigned long low_mem_sz;
+>>>    static unsigned long min_high_pfn, max_high_pfn;
+>>>    static phys_addr_t high_mem_start;
+>>>    static phys_addr_t high_mem_sz;
+>>> +unsigned long arch_pfn_offset;
+>>> +EXPORT_SYMBOL(arch_pfn_offset);
+>>>    #endif
+>>>    
+>>>    #ifdef CONFIG_DISCONTIGMEM
+>>> @@ -98,16 +100,11 @@ void __init setup_arch_memory(void)
+>>>    	init_mm.brk = (unsigned long)_end;
+>>>    
+>>>    	/* first page of system - kernel .vector starts here */
+>>> -	min_low_pfn = ARCH_PFN_OFFSET;
+>>> +	min_low_pfn = virt_to_pfn(CONFIG_LINUX_RAM_BASE);
+>>>    
+>>>    	/* Last usable page of low mem */
+>>>    	max_low_pfn = max_pfn = PFN_DOWN(low_mem_start + low_mem_sz);
+>>>    
+>>> -#ifdef CONFIG_FLATMEM
+>>> -	/* pfn_valid() uses this */
+>>> -	max_mapnr = max_low_pfn - min_low_pfn;
+>>> -#endif
+>>> -
+>>>    	/*------------- bootmem allocator setup -----------------------*/
+>>>    
+>>>    	/*
+>>> @@ -153,7 +150,9 @@ void __init setup_arch_memory(void)
+>>>    	 * DISCONTIGMEM in turns requires multiple nodes. node 0 above is
+>>>    	 * populated with normal memory zone while node 1 only has highmem
+>>>    	 */
+>>> +#ifdef CONFIG_DISCONTIGMEM
+>>>    	node_set_online(1);
+>>> +#endif
+>>>    
+>>>    	min_high_pfn = PFN_DOWN(high_mem_start);
+>>>    	max_high_pfn = PFN_DOWN(high_mem_start + high_mem_sz);
+>>> @@ -161,8 +160,15 @@ void __init setup_arch_memory(void)
+>>>    	max_zone_pfn[ZONE_HIGHMEM] = min_low_pfn;
+>>>    
+>>>    	high_memory = (void *)(min_high_pfn << PAGE_SHIFT);
+>>> +
+>>> +	arch_pfn_offset = min(min_low_pfn, min_high_pfn);
+>>>    	kmap_init();
+>>> -#endif
+>>> +
+>>> +#else /* CONFIG_HIGHMEM */
+>>> +	/* pfn_valid() uses this when FLATMEM=y and HIGHMEM=n */
+>>> +	max_mapnr = max_low_pfn - min_low_pfn;
+>>> +
+>>> +#endif /* CONFIG_HIGHMEM */
+>>>    
+>>>    	free_area_init(max_zone_pfn);
+>>>    }
+>>> @@ -190,3 +196,12 @@ void __init mem_init(void)
+>>>    	highmem_init();
+>>>    	mem_init_print_info(NULL);
+>>>    }
+>>> +
+>>> +#ifdef CONFIG_HIGHMEM
+>>> +int pfn_valid(unsigned long pfn)
+>>> +{
+>>> +	return (pfn >= min_high_pfn && pfn <= max_high_pfn) ||
+>>> +		(pfn >= min_low_pfn && pfn <= max_low_pfn);
+>>> +}
+>>> +EXPORT_SYMBOL(pfn_valid);
+>>> +#endif
+>>
+> 
+
