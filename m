@@ -2,65 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E63BC2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:33:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C612C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:37:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5E8E20708
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:33:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CD8D20708
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:37:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VBYUp/uE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388276AbgKXNdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 08:33:18 -0500
-Received: from verein.lst.de ([213.95.11.211]:54461 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388011AbgKXNdS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Nov 2020 08:33:18 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4C5866736F; Tue, 24 Nov 2020 14:33:15 +0100 (CET)
-Date:   Tue, 24 Nov 2020 14:33:15 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Subject: Re: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20201124133315.GA30214@lst.de>
-References: <20200930160917.1234225-9-hch@lst.de> <20201118142546.170621-1-ribalda@chromium.org> <20201124113512.GA21974@lst.de> <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
+        id S2388428AbgKXNhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 08:37:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387693AbgKXNhV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 08:37:21 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915BFC0613D6;
+        Tue, 24 Nov 2020 05:37:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=gxsDeVGamS0hlIf6ve+2luB3JdMIOEqdPuqPaIv9Dls=; b=VBYUp/uEnseBoeTeKEhlEWh3HQ
+        g9jh5J/6w+XXN7KTPAWqRI2umbF+U2cvDEHRZ2+NADxjtfotGOawPf+w3FZ95YmoiYfvSAmBJq9D4
+        26wEASipBY6rGNiLU2Hi8AssdKYuF70q8nnjB8RjiU2SZP0YZgXvYmtZelAahPgqFm4LGeIQPwHt2
+        lo8QqqROqwzFUNAoeIMBekulW9J+J1XJwzu6vYqp6gvntJCCRyHMb2MlYx3Ct96pZ8dB9NbUflhGt
+        pjlmHxstjZln9ZulPC9kuS4AQj7iF7mj/kiKWYtjSCVN0VIYtEoRfye1lyQIHousEOYYA4BSj7/yO
+        m9EVCaBg==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1khYVT-00086n-HE; Tue, 24 Nov 2020 13:37:19 +0000
+Date:   Tue, 24 Nov 2020 13:37:19 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dev@opencontainers.org,
+        corbet@lwn.net, Carlos O'Donell <carlos@redhat.com>
+Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
+ workaround
+Message-ID: <20201124133719.GA30896@infradead.org>
+References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 01:01:33PM +0100, Ricardo Ribalda wrote:
-> I was hoping that you could answer that question :).
-> 
-> Do you have other use-cases than linux-media in mind?
-> 
-> I think Sergey wants to experiment also with vb2, to figure out how
-> much it affects it.
-> His change will be much more complicated than mine thought, there are
-> more cornercases there.
+On Tue, Nov 24, 2020 at 01:08:20PM +0100, Florian Weimer wrote:
+> This documents a way to safely use new security-related system calls
+> while preserving compatibility with container runtimes that require
+> insecure emulation (because they filter the system call by default).
+> Admittedly, it is somewhat hackish, but it can be implemented by
+> userspace today, for existing system calls such as faccessat2,
+> without kernel or container runtime changes.
 
-I don't have anything urgend lined up, although I think there are plenty
-other potential use cases.
-
-> > Can you respost a combined series to get started?
-> 
-> Sure. Shall I also include the profiling patch?
-
-That is in the media code, right?  I don't really care too much.
+I think this is completely insane.  Tell the OCI folks to fix their
+completely broken specification instead.
