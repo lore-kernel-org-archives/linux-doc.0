@@ -2,98 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 736A3C56201
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:06:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE603C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:14:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2324A20782
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:06:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB342206F9
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:14:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pc/Opv3a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387786AbgKXNGN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 08:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387739AbgKXNGM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 08:06:12 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B7CC0613D6;
-        Tue, 24 Nov 2020 05:06:12 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1khY1E-0004Nd-P2; Tue, 24 Nov 2020 14:06:05 +0100
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <cover.1606137108.git.linux@leemhuis.info>
- <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info>
- <20201124091852.GB11695@lst.de>
- <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info>
- <20201124093658.GA13174@lst.de>
- <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info>
- <20201124121109.GY4327@casper.infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
-Message-ID: <7d6c3ce6-a635-8066-924b-3ee41ee34353@leemhuis.info>
-Date:   Tue, 24 Nov 2020 14:06:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S2387958AbgKXNOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 08:14:40 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38082 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387878AbgKXNOj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Nov 2020 08:14:39 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606223677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HqT93hPnj0lZKcD5jf1u3wzpiTA2s4b6ubLt/KHbxM8=;
+        b=Pc/Opv3aa3WAuV7rrBCPOrdnlDjYA+E02bHsIe2iDUefcYRCH3QKFA3INs1m1E2VAPmWPE
+        gXPJqsGzDZgiR1xyfkGlCbkWPTYhfAvLkopDie6KOSc5TSbB6K667GlWC+e5/P8E+eYnx3
+        VTkZ4ROgmeNsTrcATunjXRl0UTG+JK8=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 96937AC2D;
+        Tue, 24 Nov 2020 13:14:37 +0000 (UTC)
+Date:   Tue, 24 Nov 2020 14:14:36 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of
+ HugeTLB pages
+Message-ID: <20201124131436.GX27488@dhcp22.suse.cz>
+References: <20201124095259.58755-1-songmuchun@bytedance.com>
+ <20201124095259.58755-10-songmuchun@bytedance.com>
+ <20201124115109.GW27488@dhcp22.suse.cz>
+ <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201124121109.GY4327@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GH
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1606223172;6529df00;
-X-HE-SMSGID: 1khY1E-0004Nd-P2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 24.11.20 um 13:11 schrieb Matthew Wilcox:
-> On Tue, Nov 24, 2020 at 11:07:41AM +0100, Thorsten Leemhuis wrote:
->> There is nothing special with this text, it's just that GPL is known to not
->> be really ideal for documentation. That makes it hard for people to reuse
->> parts of the docs outside of the kernel context, say in books or on
->> websites. But it IMHO would be good for us if others could simply use this
->> text as a base in such places. Otherwise they'd often face a situation where
->> they had to write something completely new themselves, which afsics often
->> leads to texts that can be incomplete, inaccurate or actually missleading.
->> That can lead to bad bug reports, which is annoying both for reporters and
->> kernel developers.
->>
->> That's why I came up with the thought "make the text available under more
->> liberal license in addition to the GPLv2 is a good idea here". I considered
->> MIT, but from what I see CC-BY 4.0 is a way better choice for documentation
->> that is more known to authors.
->>
->> And I hope others pick up the idea when they write new documentation for the
->> kernel, so maybe sooner or later it's not unusual anymore.
+On Tue 24-11-20 20:45:30, Muchun Song wrote:
+> On Tue, Nov 24, 2020 at 7:51 PM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Tue 24-11-20 17:52:52, Muchun Song wrote:
+> > > In the subsequent patch, we will allocate the vmemmap pages when free
+> > > HugeTLB pages. But update_and_free_page() is called from a non-task
+> > > context(and hold hugetlb_lock), so we can defer the actual freeing in
+> > > a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+> >
+> > This has been brought up earlier without any satisfying answer. Do we
+> > really have bother with the freeing from the pool and reconstructing the
+> > vmemmap page tables? Do existing usecases really require such a dynamic
+> > behavior? In other words, wouldn't it be much simpler to allow to use
 > 
-> It's really tricky to make this work when, eg, including kernel-doc from
-> files which are unambiguously licensed under the GPL.
+> If someone wants to free a HugeTLB page, there is no way to do that if we
+> do not allow this behavior.
 
-Yeah, I'm aware of that and see the risk. But the text I proposed does 
-not include anything from other files (apart from titles), so is this 
-risk a problem for this case? Or just something you fear might become a 
-problem when other texts in the documentation start to use CC-BY without 
-thinking it through?
+Right. The question is how much that matters for the _initial_ feature
+submission. Is this restriction so important that it would render it
+unsuable?
 
-And the processed text at no point mentions its license, so people can't 
-redistribute it anyway. Only the source file mentions it, where nothing 
-is included.
+> When do we need this? On our server, we will
+> allocate a lot of HugeTLB pages for SPDK or virtualization. Sometimes,
+> we want to debug some issues and want to apt install some debug tools,
+> but if the host has little memory and the install operation can be failed
+> because of no memory. In this time, we can try to free some HugeTLB
+> pages to buddy in order to continue debugging. So maybe we need this.
 
->  I'd be happy to
-> sign up to licensing the files I control under GPL-with-CC-BY-SA-exception
-> that said something like "any documentation extracted from this file may
-> be distributed under the BY-SA license", but I'm not sure everybody would.
+Or maybe you can still allocate hugetlb pages for debugging in runtime
+and try to free those when you need to.
 
-I tend to say discussing steps like that is better left for a point of 
-time when somebody actually wants to use BY-SA for the documentation and 
-include kernel-doc from source files at the same time.
+> > hugetlb pages with sparse vmemmaps only for the boot time reservations
+> > and never allow them to be freed back to the allocator. This is pretty
+> > restrictive, no question about that, but it would drop quite some code
+> 
+> Yeah, if we do not allow freeing the HugeTLB page to buddy, it actually
+> can drop some code. But I think that it only drop this one and next one
+> patch. It seems not a lot. And if we drop this patch, we need to add some
+> another code to do the boot time reservations and other code to disallow
+> freeing HugeTLB pages.
 
-Ciao, Thorsten
+you need a per hugetlb page flag to note the sparse vmemmap anyway so
+the freeing path should be a trivial check for the flag. Early boot
+reservation. Special casing for the early boot reservation shouldn't be
+that hard either. But I haven't checked closely.
+
+> So why not support freeing now.
+
+Because it adds some non trivial challenges which would be better to
+deal with with a stable and tested and feature limited implementation.
+The most obvious one is the problem with vmemmap allocations when
+freeing hugetlb page. Others like vmemmap manipulation is quite some
+code but no surprises. Btw. that should be implemented in vmemmap proper
+and ready for other potential users. But this is a minor detail.
+
+-- 
+Michal Hocko
+SUSE Labs
