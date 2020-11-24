@@ -2,129 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE603C63798
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E63BC2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:33:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB342206F9
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:14:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pc/Opv3a"
+	by mail.kernel.org (Postfix) with ESMTP id E5E8E20708
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:33:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387958AbgKXNOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 08:14:40 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38082 "EHLO mx2.suse.de"
+        id S2388276AbgKXNdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 08:33:18 -0500
+Received: from verein.lst.de ([213.95.11.211]:54461 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387878AbgKXNOj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Nov 2020 08:14:39 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1606223677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HqT93hPnj0lZKcD5jf1u3wzpiTA2s4b6ubLt/KHbxM8=;
-        b=Pc/Opv3aa3WAuV7rrBCPOrdnlDjYA+E02bHsIe2iDUefcYRCH3QKFA3INs1m1E2VAPmWPE
-        gXPJqsGzDZgiR1xyfkGlCbkWPTYhfAvLkopDie6KOSc5TSbB6K667GlWC+e5/P8E+eYnx3
-        VTkZ4ROgmeNsTrcATunjXRl0UTG+JK8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 96937AC2D;
-        Tue, 24 Nov 2020 13:14:37 +0000 (UTC)
-Date:   Tue, 24 Nov 2020 14:14:36 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of
- HugeTLB pages
-Message-ID: <20201124131436.GX27488@dhcp22.suse.cz>
-References: <20201124095259.58755-1-songmuchun@bytedance.com>
- <20201124095259.58755-10-songmuchun@bytedance.com>
- <20201124115109.GW27488@dhcp22.suse.cz>
- <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
+        id S2388011AbgKXNdS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Nov 2020 08:33:18 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 4C5866736F; Tue, 24 Nov 2020 14:33:15 +0100 (CET)
+Date:   Tue, 24 Nov 2020 14:33:15 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201124133315.GA30214@lst.de>
+References: <20200930160917.1234225-9-hch@lst.de> <20201118142546.170621-1-ribalda@chromium.org> <20201124113512.GA21974@lst.de> <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
+In-Reply-To: <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 24-11-20 20:45:30, Muchun Song wrote:
-> On Tue, Nov 24, 2020 at 7:51 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Tue 24-11-20 17:52:52, Muchun Song wrote:
-> > > In the subsequent patch, we will allocate the vmemmap pages when free
-> > > HugeTLB pages. But update_and_free_page() is called from a non-task
-> > > context(and hold hugetlb_lock), so we can defer the actual freeing in
-> > > a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
-> >
-> > This has been brought up earlier without any satisfying answer. Do we
-> > really have bother with the freeing from the pool and reconstructing the
-> > vmemmap page tables? Do existing usecases really require such a dynamic
-> > behavior? In other words, wouldn't it be much simpler to allow to use
+On Tue, Nov 24, 2020 at 01:01:33PM +0100, Ricardo Ribalda wrote:
+> I was hoping that you could answer that question :).
 > 
-> If someone wants to free a HugeTLB page, there is no way to do that if we
-> do not allow this behavior.
-
-Right. The question is how much that matters for the _initial_ feature
-submission. Is this restriction so important that it would render it
-unsuable?
-
-> When do we need this? On our server, we will
-> allocate a lot of HugeTLB pages for SPDK or virtualization. Sometimes,
-> we want to debug some issues and want to apt install some debug tools,
-> but if the host has little memory and the install operation can be failed
-> because of no memory. In this time, we can try to free some HugeTLB
-> pages to buddy in order to continue debugging. So maybe we need this.
-
-Or maybe you can still allocate hugetlb pages for debugging in runtime
-and try to free those when you need to.
-
-> > hugetlb pages with sparse vmemmaps only for the boot time reservations
-> > and never allow them to be freed back to the allocator. This is pretty
-> > restrictive, no question about that, but it would drop quite some code
+> Do you have other use-cases than linux-media in mind?
 > 
-> Yeah, if we do not allow freeing the HugeTLB page to buddy, it actually
-> can drop some code. But I think that it only drop this one and next one
-> patch. It seems not a lot. And if we drop this patch, we need to add some
-> another code to do the boot time reservations and other code to disallow
-> freeing HugeTLB pages.
+> I think Sergey wants to experiment also with vb2, to figure out how
+> much it affects it.
+> His change will be much more complicated than mine thought, there are
+> more cornercases there.
 
-you need a per hugetlb page flag to note the sparse vmemmap anyway so
-the freeing path should be a trivial check for the flag. Early boot
-reservation. Special casing for the early boot reservation shouldn't be
-that hard either. But I haven't checked closely.
+I don't have anything urgend lined up, although I think there are plenty
+other potential use cases.
 
-> So why not support freeing now.
+> > Can you respost a combined series to get started?
+> 
+> Sure. Shall I also include the profiling patch?
 
-Because it adds some non trivial challenges which would be better to
-deal with with a stable and tested and feature limited implementation.
-The most obvious one is the problem with vmemmap allocations when
-freeing hugetlb page. Others like vmemmap manipulation is quite some
-code but no surprises. Btw. that should be implemented in vmemmap proper
-and ready for other potential users. But this is a minor detail.
-
--- 
-Michal Hocko
-SUSE Labs
+That is in the media code, right?  I don't really care too much.
