@@ -2,65 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C612C63798
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:37:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D005C64E7B
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:43:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CD8D20708
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:37:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06DF820872
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 13:43:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VBYUp/uE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbQXIJ5i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388428AbgKXNhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 08:37:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35038 "EHLO
+        id S2388530AbgKXNnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 08:43:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387693AbgKXNhV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 08:37:21 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915BFC0613D6;
-        Tue, 24 Nov 2020 05:37:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=gxsDeVGamS0hlIf6ve+2luB3JdMIOEqdPuqPaIv9Dls=; b=VBYUp/uEnseBoeTeKEhlEWh3HQ
-        g9jh5J/6w+XXN7KTPAWqRI2umbF+U2cvDEHRZ2+NADxjtfotGOawPf+w3FZ95YmoiYfvSAmBJq9D4
-        26wEASipBY6rGNiLU2Hi8AssdKYuF70q8nnjB8RjiU2SZP0YZgXvYmtZelAahPgqFm4LGeIQPwHt2
-        lo8QqqROqwzFUNAoeIMBekulW9J+J1XJwzu6vYqp6gvntJCCRyHMb2MlYx3Ct96pZ8dB9NbUflhGt
-        pjlmHxstjZln9ZulPC9kuS4AQj7iF7mj/kiKWYtjSCVN0VIYtEoRfye1lyQIHousEOYYA4BSj7/yO
-        m9EVCaBg==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1khYVT-00086n-HE; Tue, 24 Nov 2020 13:37:19 +0000
-Date:   Tue, 24 Nov 2020 13:37:19 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dev@opencontainers.org,
-        corbet@lwn.net, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
- workaround
-Message-ID: <20201124133719.GA30896@infradead.org>
-References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+        with ESMTP id S2388527AbgKXNnS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 08:43:18 -0500
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBD6C0613D6;
+        Tue, 24 Nov 2020 05:43:18 -0800 (PST)
+Received: by mail-ed1-x541.google.com with SMTP id cq7so20902499edb.4;
+        Tue, 24 Nov 2020 05:43:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ctRbS11BgFmifUEFq2VQXHr3JxOfCOKEQgfEbTr9MN0=;
+        b=IbQXIJ5ipOWYlxa4NICpwlQaJnL3WpTzfaLXhKO6rfPPiUTxNDcfHrjpWsihNLoowm
+         R7C/RraZRBeQCcUGXKY7IeBEiK4cS9bIJKdXnnVsSdfofoMHxYNIpAY4/IR0RtNPgT9p
+         b1/GyYxse9KodHSyQSRQgYJTSYnlHem0HQgN/Do93KSQQo+0aqqlyNCrxW+qoewSQ6Cb
+         JVikUX/EFcBAEM8jid33E220rM0GeRbXyUI+Dojb5ZdFLFdIaRpo2kBsXTJleytq7Gr0
+         NMNlM1/pHH3iD8TlVljKWYruDhiAQHGzqrzF7j3CK3I2xgVjBe3Fb/4zd+FzL11Js42B
+         MA8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ctRbS11BgFmifUEFq2VQXHr3JxOfCOKEQgfEbTr9MN0=;
+        b=DeVsrHRLuyDE95ObSKvq2Hs/J/Gz3n4RdLf3VVnRc5x2JcczAKtPh801CZTwWsFJcv
+         DTkiKtVlDd3KI4sYOHCscPgL+fafwp/klvLk8hk18+idZ4HdtgjCV6EYGp2UHGDcZgDz
+         k5HFRxL4H6LEcykIB5IN72BDybxxAjcRFSvxU8R4U6/FcmoCKScfjpv0V647cYV9/PiC
+         r94OdSSfk0v05uvT28bXFrsxBaBvtgO9tnTCIg/HZNx9Yu/CPC2dpEPSlq3ALBa/vBfo
+         6il1Xv3aCnUnjLNT06/vplf2x/a9Gd6rtb2Oh7vqEYZtJd0ankRrdmiN+0uQvmQSm74D
+         SoTQ==
+X-Gm-Message-State: AOAM533537ulOkAADXpdNy6nfibNzxsXMlQ15gEjvrulR33jfgVo8uqd
+        lKnR7YpvhKbP0vth7wsH4oT2bC315t0=
+X-Google-Smtp-Source: ABdhPJxWR9HjOYFpydOK8KY8l6vqAJU6DdBK50fePfrUG+pRzPoEwIaXFKbwO70cbXierpKS775+1Q==
+X-Received: by 2002:a50:a40a:: with SMTP id u10mr3896586edb.16.1606225396556;
+        Tue, 24 Nov 2020 05:43:16 -0800 (PST)
+Received: from [192.168.2.202] (pd9e5aead.dip0.t-ipconnect.de. [217.229.174.173])
+        by smtp.gmail.com with ESMTPSA id n14sm6950875edw.38.2020.11.24.05.43.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 05:43:15 -0800 (PST)
+Subject: Re: [PATCH 0/9] Add support for Microsoft Surface System Aggregator
+ Module
+To:     Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     Mark Gross <mgross@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201115192143.21571-1-luzmaximilian@gmail.com>
+ <059069df-c972-5060-1b26-2ddcc842810d@redhat.com>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <d1a781d9-6433-e1b5-5683-4de15efde686@gmail.com>
+Date:   Tue, 24 Nov 2020 14:43:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <059069df-c972-5060-1b26-2ddcc842810d@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 01:08:20PM +0100, Florian Weimer wrote:
-> This documents a way to safely use new security-related system calls
-> while preserving compatibility with container runtimes that require
-> insecure emulation (because they filter the system call by default).
-> Admittedly, it is somewhat hackish, but it can be implemented by
-> userspace today, for existing system calls such as faccessat2,
-> without kernel or container runtime changes.
+On 11/24/20 12:59 PM, Hans de Goede wrote:
+> Hi,
+> 
+> On 11/15/20 8:21 PM, Maximilian Luz wrote:
+>> Hello,
+>>
+>>    N.B.: the following text is mostly a repeat of cover letter from the
+>>    previous RFC for the uninitiated, which can be found at
+>>
+>>    https://lore.kernel.org/linux-serial/20200923151511.3842150-1-luzmaximilian@gmail.com/
+>>
+>>    See "Changes" below for an overview of differences between the RFC and
+>>    this patchset. I hope I have addressed all comments from that in this
+>>    version, thank you again for those.
+>>
+>> The Surface System Aggregator Module (we'll refer to it as Surface
+>> Aggregator or SAM below) is an embedded controller (EC) found on various
+>> Microsoft Surface devices. Specifically, all 4th and later generation
+>> Surface devices, i.e. Surface Pro 4, Surface Book 1 and later, with the
+>> exception of the Surface Go series and the Surface Duo. Notably, it
+>> seems like this EC can also be found on the ARM-based Surface Pro X [1].
+> 
+> <snip>
+> 
+>> This patch-set can also be found at the following repository and
+>> reference, if you prefer to look at a kernel tree instead of these
+>> emails:
+>>
+>>    https://github.com/linux-surface/kernel tags/s/surface-aggregator/v1
+>>
+>> Thanks,
+>> Max
+> 
+> Thank you for your work on this. It would be great if we can get better
+> support for the Surface line in the mainline kernel.
+> 
+> Since a lot of people have already commented on this series I think that
+> you have enough feedback to do a v2 addressing that feedback right?
 
-I think this is completely insane.  Tell the OCI folks to fix their
-completely broken specification instead.
+Yes, I'm already working on it.
+
+> For now I'm going to assume that you will do a v2 addressing the
+> initial round of comments and not review this myself (IOW I'll review
+> this when v2 is posted).
+
+Sure, no need for you to review v1 at this point.
+  
+> Let me know if you see things differently.
+
+Thanks,
+Max
