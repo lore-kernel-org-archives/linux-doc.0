@@ -2,123 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF3DC2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A405C63777
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:51:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D1D3206D5
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:17:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IBs+2YGD"
+	by mail.kernel.org (Postfix) with ESMTP id C042C20B1F
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:51:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403986AbgKXSRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 13:17:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50653 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404168AbgKXSRO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 13:17:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606241833;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LUJObGYPcxmWCt1F5rpzYy+8ynXVUFmmSX89XWvIPx0=;
-        b=IBs+2YGDR2hhvilYBLNrT23SHZ6eA45UCPVf5n2IsVVEPSI00bmNbwlSZXXrqE2SIhVO0w
-        axjZz04a1/WI1KnHSSMTnVkwDpDaJnT+MgfYzxqzpLT1AEwiCy25X0x65XzQe/NWFOnzPg
-        7PFPLet8FUO4d9Z8DRdw4hCRYw3W9Ig=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-kFERPdGdOIaj_Nega45EAA-1; Tue, 24 Nov 2020 13:17:11 -0500
-X-MC-Unique: kFERPdGdOIaj_Nega45EAA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E83A180364D;
-        Tue, 24 Nov 2020 18:17:08 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-141.ams2.redhat.com [10.36.112.141])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F81760BE5;
-        Tue, 24 Nov 2020 18:17:02 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Drewry <wad@chromium.org>, Mark Wielaard <mark@klomp.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        dev@opencontainers.org, Jonathan Corbet <corbet@lwn.net>,
-        "Carlos O'Donell" <carlos@redhat.com>
-Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
- workaround
-References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
-        <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
-        <878saq3ofx.fsf@oldenburg2.str.redhat.com>
-        <dcffcbacbc75086582ea3f073c9e6a981a6dd27f.camel@klomp.org>
-        <20201124164546.GA14094@infradead.org>
-        <CAG48ez2ZHPavVU3_2VnRADFQstOM1s+3GwfWsRaEjAA1jYcHDg@mail.gmail.com>
-        <X70/uPNt2BA/vUSo@kroah.com>
-        <CAG48ez2NH2Esw_55JiwK1FAzr_qFFyGaPrE_A=iH=dNuVvY6GQ@mail.gmail.com>
-Date:   Tue, 24 Nov 2020 19:17:00 +0100
-In-Reply-To: <CAG48ez2NH2Esw_55JiwK1FAzr_qFFyGaPrE_A=iH=dNuVvY6GQ@mail.gmail.com>
-        (Jann Horn's message of "Tue, 24 Nov 2020 18:30:28 +0100")
-Message-ID: <87h7pezkkj.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S2404299AbgKXSvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 13:51:12 -0500
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:37489 "EHLO
+        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729281AbgKXSvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 13:51:11 -0500
+Received: by mail-ej1-f65.google.com with SMTP id z5so9915662ejp.4;
+        Tue, 24 Nov 2020 10:51:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h0R+EtKLcwBUIWNPi6ZHdj1eAgyrTOpvSjIN7TNW7t4=;
+        b=J7e9W8FFOQD9AOYLW4eYtB+FWzu2WQLvTCpklH/x2EvnCxgBgW68znPsSlazeOdyMz
+         fODgjjoyeef5ni5vXKdvaQdDBbNL6wuOa+iH5DkNUEaRMr319wGs9NmwhIrl3dKEo9xk
+         aJDxx8sjTWq1B65dhA52rVdtLAJHukJDjQkw0YsqU6D+/m23zlk7InezzTELPAFxpNH9
+         HySzPK9QI2FuOf3+SyOQghQH7Jde19hdsaIGnX/8247SWnjVBmOBXF7AiMfgXnfpDYGC
+         jsePtY7ENuOw63phiPCDjI+Nf2kwbL9CWb5yxmbREUKLdeW/S8DHKkw+KXzRxHGX28H5
+         /UXg==
+X-Gm-Message-State: AOAM533EImo1fraDkJBJyATyoLvJ8XtQoRYcKD9c9DTIpGFZ+M7m2CBI
+        WEAjHR9ef1RZVVRVtXtoRrB7QtGMEqLc5GxJULGBKt8tJMw=
+X-Google-Smtp-Source: ABdhPJzQinRO0l6tnBe2mj7AAuZg0aZU9mTVb7m/VOeaa82ddlcWM2AAVL5a9KzUSHsMsTWMYXDVlRM0qa58a1rHLNQ=
+X-Received: by 2002:a17:906:578b:: with SMTP id k11mr5521318ejq.330.1606243869540;
+ Tue, 24 Nov 2020 10:51:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20201119233257.2939-1-chang.seok.bae@intel.com>
+ <20201119233257.2939-23-chang.seok.bae@intel.com> <CALCETrXBRATBVySDM9f0H-+gD37n7=CsNLWa446eLHi1mjokGw@mail.gmail.com>
+In-Reply-To: <CALCETrXBRATBVySDM9f0H-+gD37n7=CsNLWa446eLHi1mjokGw@mail.gmail.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Tue, 24 Nov 2020 13:50:58 -0500
+Message-ID: <CAJvTdKng_WMrmO_KtkuCxvvzGZ_HLcd84u2SwJiD_UJivb4Yaw@mail.gmail.com>
+Subject: Re: [PATCH v2 22/22] x86/fpu/xstate: Introduce boot-parameters for
+ control some state component support
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
+        X86 ML <x86@kernel.org>, Len Brown <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Jann Horn:
+On Fri, Nov 20, 2020 at 12:03 AM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> On Thu, Nov 19, 2020 at 3:37 PM Chang S. Bae <chang.seok.bae@intel.com> wrote:
+> > "xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
+> > compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
+> > to support this feature).
+> >
+>
+> What's the purpose of xstate.enable?  I can't really imagine it's
+> useful for AMX.  I suppose it could be useful for hypothetical
+> post-AMX features, but that sounds extremely dangerous.  Intel has
+> changed its strategy so many times on XSTATE extensibility that I find
+> it quite hard to believe that supporting unknown states is wise.
 
-> But if you can't tell whether the more modern syscall failed because
-> of a seccomp filter, you may be forced to retry with an older syscall
-> even on systems where the new syscall works fine, and such a fallback
-> may reduce security or reliability if you're trying to use some flags
-> that only the new syscall provides for security, or something like
-> that. (As a contrived example, imagine being forced to retry any
-> tgkill() that fails with EPERM as a tkill() just in case you're
-> running under a seccomp filter.)
+Not hypothetical -- there are subsequent hardware features coming that
+will use the same
+exact XSTATE support that this series puts in place for AMX.
 
-We have exactly this situation with faccessat2 and faccessat today.
-EPERM could mean a reject from a LSM, and we really don't want to do our
-broken fallback in this case because it will mask the EPERM error from
-the LSM (and the sole purpose of faccessat2 is to get that error).
+We know that when those features ship in new hardware, there will be
+a set of customers who want to exercise those features immediately,
+but their kernel binary has not yet been re-compiled to see those
+features by-default.
 
-This is why I was so eager to start using faccessat2 in glibc, and we
-are now encountering breakage with container runtimes.  Applications
-call faccessat (with a non-zero flags argument) today, and they now get
-routed to the faccessat2 entry point, without needing recompilation or
-anything like that.
+The purpose of "xstate.enable" is to empower those users to be able to
+explicitly enable support using their existing binary.
 
-We have the same problem for any new system call, but it's different
-this time because it affects 64-bit hosts *and* existing applications.
+You are right -- the feature isn't needed to enable AMX, unless somebody went to
+the trouble of building a kernel with the AMX source update, but chose
+to disable
+AMX-specific recognition, by-default.
 
-And as I explained earlier, I want to take this opportunity to get
-consensus how to solve this properly, so that we are ready for a new
-system call where incorrect fallback would definitely reintroduce a
-security issue.  Whether it's that ugly probing sequence, a change to
-the OCI specification that gets deployed in a reasonable time frame, or
-something else that I haven't thought of=E2=80=94I do not have a very strong
-preference, although I lean towards the spec change myself.  But I do
-feel that we shouldn't throw in a distro-specific patch to paper over
-the current faccessat2 issue and forget about it.
-
-Thanks,
-Florian
---=20
-Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-Commercial register: Amtsgericht Muenchen, HRB 153243,
-Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'N=
-eill
-
+thanks,
+Len Brown, Intel Open Source Technology Center
