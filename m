@@ -2,68 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDBE9C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0492C2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:51:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9EC32145D
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:35:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F82F2076B
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:51:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="MIozIeOF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732345AbgKXLfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 06:35:17 -0500
-Received: from verein.lst.de ([213.95.11.211]:54112 "EHLO verein.lst.de"
+        id S1732982AbgKXLvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 06:51:13 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60154 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730158AbgKXLfP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Nov 2020 06:35:15 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 94C046736F; Tue, 24 Nov 2020 12:35:12 +0100 (CET)
-Date:   Tue, 24 Nov 2020 12:35:12 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20201124113512.GA21974@lst.de>
-References: <20200930160917.1234225-9-hch@lst.de> <20201118142546.170621-1-ribalda@chromium.org>
+        id S1728491AbgKXLvN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 24 Nov 2020 06:51:13 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606218671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=R7XL6NbI/L1JqsoaBbCg/8rQlfbuYPIiCpwYgPMu2mg=;
+        b=MIozIeOFbRW5Ry015oTrsjcDq4T7mnxR+twzbUa9fIW9K/f3oqhKhlhZd+LqIaCp5Bbwdy
+        nijaaQDw2prFGMcM7lEa8aBYf85Mkh1wJaKucPhsT2IR+O2zTI6PikuLd2ZRFHhs1JRFJl
+        Z49fqQu/QRyT6EKdt//6TbB8p28+J3o=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 04F77ADC5;
+        Tue, 24 Nov 2020 11:51:11 +0000 (UTC)
+Date:   Tue, 24 Nov 2020 12:51:09 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of HugeTLB pages
+Message-ID: <20201124115109.GW27488@dhcp22.suse.cz>
+References: <20201124095259.58755-1-songmuchun@bytedance.com>
+ <20201124095259.58755-10-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201118142546.170621-1-ribalda@chromium.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20201124095259.58755-10-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 03:25:46PM +0100, Ricardo Ribalda wrote:
-> On architectures where the is no coherent caching such as ARM use the
-> dma_alloc_noncontiguos API and handle manually the cache flushing using
-> dma_sync_single().
-> 
-> With this patch on the affected architectures we can measure up to 20x
-> performance improvement in uvc_video_copy_data_work().
+On Tue 24-11-20 17:52:52, Muchun Song wrote:
+> In the subsequent patch, we will allocate the vmemmap pages when free
+> HugeTLB pages. But update_and_free_page() is called from a non-task
+> context(and hold hugetlb_lock), so we can defer the actual freeing in
+> a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
 
-This has a bunch of crazy long lines, but otherwise looks fine to me.
+This has been brought up earlier without any satisfying answer. Do we
+really have bother with the freeing from the pool and reconstructing the
+vmemmap page tables? Do existing usecases really require such a dynamic
+behavior? In other words, wouldn't it be much simpler to allow to use
+hugetlb pages with sparse vmemmaps only for the boot time reservations
+and never allow them to be freed back to the allocator. This is pretty
+restrictive, no question about that, but it would drop quite some code
+AFAICS and the resulting series would be much easier to review really
+carefully. Additional enhancements can be done on top with specifics
+about usecases which require more flexibility.
 
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
-> 
-> This patch depends on dma_alloc_contiguous API￼1315351diffmboxseries
-
-How do we want to proceed?  Do the media maintainers want to pick up
-that patch?  Should I pick up the media patch in the dma-mapping tree?
-
-Can you respost a combined series to get started?
+>  mm/hugetlb.c         | 96 ++++++++++++++++++++++++++++++++++++++++++++++------
+>  mm/hugetlb_vmemmap.c |  5 ---
+>  mm/hugetlb_vmemmap.h | 10 ++++++
+>  3 files changed, 95 insertions(+), 16 deletions(-)
+-- 
+Michal Hocko
+SUSE Labs
