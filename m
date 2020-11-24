@@ -2,87 +2,273 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0492C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC50C63798
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:00:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F82F2076B
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 11:51:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 262DF20782
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:00:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="MIozIeOF"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NIYejds6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732982AbgKXLvN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 06:51:13 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60154 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728491AbgKXLvN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 24 Nov 2020 06:51:13 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1606218671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S1732694AbgKXMAC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 07:00:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50197 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732479AbgKXMAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:00:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606219199;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=R7XL6NbI/L1JqsoaBbCg/8rQlfbuYPIiCpwYgPMu2mg=;
-        b=MIozIeOFbRW5Ry015oTrsjcDq4T7mnxR+twzbUa9fIW9K/f3oqhKhlhZd+LqIaCp5Bbwdy
-        nijaaQDw2prFGMcM7lEa8aBYf85Mkh1wJaKucPhsT2IR+O2zTI6PikuLd2ZRFHhs1JRFJl
-        Z49fqQu/QRyT6EKdt//6TbB8p28+J3o=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 04F77ADC5;
-        Tue, 24 Nov 2020 11:51:11 +0000 (UTC)
-Date:   Tue, 24 Nov 2020 12:51:09 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, song.bao.hua@hisilicon.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of HugeTLB pages
-Message-ID: <20201124115109.GW27488@dhcp22.suse.cz>
-References: <20201124095259.58755-1-songmuchun@bytedance.com>
- <20201124095259.58755-10-songmuchun@bytedance.com>
+        bh=HqLKkdSNa/eGdRcb+JU0V3lhIwGJU8Y7t6iuocEiAMc=;
+        b=NIYejds6pD0smBkCZyI0zR+LVfZSJKFK4Oae7GswVhqXDpxbcXG4SGFNmeVtZ7Naxb7iMk
+        paWLt2oV+Z7XtyCb4/8K+GSuDEEH1y8eUi+yXi/YNGptGg++q0dD8WcoVI6Blkp4q6M0Zo
+        B3SbagQqeIlRRcMdIifwc+I5RQOjppQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-5ql2AfipNdGovSwd2yzIxg-1; Tue, 24 Nov 2020 06:59:57 -0500
+X-MC-Unique: 5ql2AfipNdGovSwd2yzIxg-1
+Received: by mail-ej1-f69.google.com with SMTP id q2so6634626ejj.16
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 03:59:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HqLKkdSNa/eGdRcb+JU0V3lhIwGJU8Y7t6iuocEiAMc=;
+        b=kh/krz1s6u1m261D23WK9D4Tkk01TCGgQ+jvPfSfJxV97TGGBaYBN4KZ2FlIQfcZbg
+         JbL1sJSxhSs40hBV9tyHlsYkE5xyGWQJ67g/39MtWbQYL6mpTD/CsH9e9Fs8VfBcEapB
+         zTc7qSYzIqnd1Z8u2/pTUeqym0L3XGjz9kW1p5aUOhpCxfSyMeAj07KYufFInzyVffcN
+         JoMO+qqw/RnNzSXWNqKfz1P+x09mxD2FFrsKcU86dSg2c37gdVK6TY4bBjvz9jlSJRsj
+         2ZrqlkRiOSkKQl8dLiagc++Xk2KC+4WFukfXEkr1N0gJDUR6n0PfkSkH7x7Feypb+e+K
+         93/w==
+X-Gm-Message-State: AOAM530uvdKjstNB0fltyHYRh8ZVLs8S21dg0O+/k2NJwmiY30uKQeDk
+        Hro+EgFBD35d9ifKtcG9ZEx5X5eIwUUC+DXh8GqRs9vbjfW8HfTpeo3U8jcneGFj/SVCIjDUQjn
+        ZyoyYAGHD5z7j8HgEOq7rEezDn8v/7O+jFXdAcCfKLwsOJ1+RwV9yqjJPJaIdbz8gBKdhDtb8
+X-Received: by 2002:a17:907:aaf:: with SMTP id bz15mr621858ejc.199.1606219195594;
+        Tue, 24 Nov 2020 03:59:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwnCij/SJ7Wd3Me+rHMeQtaycgwouAEEHLWJ7dLsFw1WPkEy5X9jhJ819Edn92e3ucjlyGs6Q==
+X-Received: by 2002:a17:907:aaf:: with SMTP id bz15mr621817ejc.199.1606219195126;
+        Tue, 24 Nov 2020 03:59:55 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id c8sm6843427edr.29.2020.11.24.03.59.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 03:59:54 -0800 (PST)
+Subject: Re: [PATCH 0/9] Add support for Microsoft Surface System Aggregator
+ Module
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc:     Mark Gross <mgross@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201115192143.21571-1-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <059069df-c972-5060-1b26-2ddcc842810d@redhat.com>
+Date:   Tue, 24 Nov 2020 12:59:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201124095259.58755-10-songmuchun@bytedance.com>
+In-Reply-To: <20201115192143.21571-1-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 24-11-20 17:52:52, Muchun Song wrote:
-> In the subsequent patch, we will allocate the vmemmap pages when free
-> HugeTLB pages. But update_and_free_page() is called from a non-task
-> context(and hold hugetlb_lock), so we can defer the actual freeing in
-> a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+Hi,
 
-This has been brought up earlier without any satisfying answer. Do we
-really have bother with the freeing from the pool and reconstructing the
-vmemmap page tables? Do existing usecases really require such a dynamic
-behavior? In other words, wouldn't it be much simpler to allow to use
-hugetlb pages with sparse vmemmaps only for the boot time reservations
-and never allow them to be freed back to the allocator. This is pretty
-restrictive, no question about that, but it would drop quite some code
-AFAICS and the resulting series would be much easier to review really
-carefully. Additional enhancements can be done on top with specifics
-about usecases which require more flexibility.
+On 11/15/20 8:21 PM, Maximilian Luz wrote:
+> Hello,
+> 
+>   N.B.: the following text is mostly a repeat of cover letter from the
+>   previous RFC for the uninitiated, which can be found at
+> 
+>   https://lore.kernel.org/linux-serial/20200923151511.3842150-1-luzmaximilian@gmail.com/
+> 
+>   See "Changes" below for an overview of differences between the RFC and
+>   this patchset. I hope I have addressed all comments from that in this
+>   version, thank you again for those.
+> 
+> The Surface System Aggregator Module (we'll refer to it as Surface
+> Aggregator or SAM below) is an embedded controller (EC) found on various
+> Microsoft Surface devices. Specifically, all 4th and later generation
+> Surface devices, i.e. Surface Pro 4, Surface Book 1 and later, with the
+> exception of the Surface Go series and the Surface Duo. Notably, it
+> seems like this EC can also be found on the ARM-based Surface Pro X [1].
 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  mm/hugetlb.c         | 96 ++++++++++++++++++++++++++++++++++++++++++++++------
->  mm/hugetlb_vmemmap.c |  5 ---
->  mm/hugetlb_vmemmap.h | 10 ++++++
->  3 files changed, 95 insertions(+), 16 deletions(-)
--- 
-Michal Hocko
-SUSE Labs
+<snip>
+
+> This patch-set can also be found at the following repository and
+> reference, if you prefer to look at a kernel tree instead of these
+> emails:
+> 
+>   https://github.com/linux-surface/kernel tags/s/surface-aggregator/v1
+> 
+> Thanks,
+> Max
+
+Thank you for your work on this. It would be great if we can get better
+support for the Surface line in the mainline kernel.
+
+Since a lot of people have already commented on this series I think that
+you have enough feedback to do a v2 addressing that feedback right? 
+
+For now I'm going to assume that you will do a v2 addressing the
+initial round of comments and not review this myself (IOW I'll review
+this when v2 is posted).
+
+Let me know if you see things differently.
+
+Regards,
+
+Hans
+
+
+
+
+
+> [1]: The Surface Pro X is, however, currently considered unsupported due
+>      to a lack of test candidates and, as it seems, general lack of
+>      Linux support on other parts. AFAIK there is an issue preventing
+>      serial devices from being registered, on which the core driver in
+>      this series is build on, thus there is no way to even test that at
+>      this point. I'd be happy to work out any issues regarding SAM on
+>      the Pro X at some point in the future, provided someone can/wants
+>      to actually test it.
+> 
+> [2]: https://github.com/linux-surface/surface-aggregator-module
+> [3]: https://github.com/linux-surface/linux-surface
+> 
+> 
+> Note: This patch depends on
+> 
+>   [PATCH v4] platform/surface: Create a platform subdirectory for
+>              Microsoft Surface devices
+> 
+> which can be found at
+> 
+>   https://lore.kernel.org/platform-driver-x86/20201009141128.683254-1-luzmaximilian@gmail.com/
+> 
+> and is currently in platform-drivers-x86/for-next.
+> 
+> 
+> Changes from the previous RFC (overview):
+>  - move to platform/surface
+>  - add copyright lines
+>  - change SPDX identifier to GPL-2.0+ (was GPL-2.0-or-later)
+>  - change user-space interface from debugfs to misc-device
+>  - address issues in user-space interface
+>  - fix typos in commit messages and documentation
+>  - fix some bugs, address other issues
+> 
+> Changes regarding specific patches (and more details) can be found on
+> the individual patch.
+> 
+> 
+> Maximilian Luz (9):
+>   platform/surface: Add Surface Aggregator subsystem
+>   platform/surface: aggregator: Add control packet allocation caching
+>   platform/surface: aggregator: Add event item allocation caching
+>   platform/surface: aggregator: Add trace points
+>   platform/surface: aggregator: Add error injection capabilities
+>   platform/surface: aggregator: Add dedicated bus and device type
+>   docs: driver-api: Add Surface Aggregator subsystem documentation
+>   platform/surface: Add Surface Aggregator user-space interface
+>   platform/surface: Add Surface ACPI Notify driver
+> 
+>  Documentation/driver-api/index.rst            |    1 +
+>  .../surface_aggregator/client-api.rst         |   38 +
+>  .../driver-api/surface_aggregator/client.rst  |  394 +++
+>  .../surface_aggregator/clients/cdev.rst       |   85 +
+>  .../surface_aggregator/clients/index.rst      |   21 +
+>  .../surface_aggregator/clients/san.rst        |   44 +
+>  .../driver-api/surface_aggregator/index.rst   |   21 +
+>  .../surface_aggregator/internal-api.rst       |   67 +
+>  .../surface_aggregator/internal.rst           |   50 +
+>  .../surface_aggregator/overview.rst           |   76 +
+>  .../driver-api/surface_aggregator/ssh.rst     |  343 +++
+>  MAINTAINERS                                   |   13 +
+>  drivers/platform/surface/Kconfig              |   39 +
+>  drivers/platform/surface/Makefile             |    3 +
+>  drivers/platform/surface/aggregator/Kconfig   |   65 +
+>  drivers/platform/surface/aggregator/Makefile  |   17 +
+>  drivers/platform/surface/aggregator/bus.c     |  424 +++
+>  drivers/platform/surface/aggregator/bus.h     |   27 +
+>  .../platform/surface/aggregator/controller.c  | 2557 +++++++++++++++++
+>  .../platform/surface/aggregator/controller.h  |  288 ++
+>  drivers/platform/surface/aggregator/core.c    |  831 ++++++
+>  .../platform/surface/aggregator/ssh_msgb.h    |  201 ++
+>  .../surface/aggregator/ssh_packet_layer.c     | 2009 +++++++++++++
+>  .../surface/aggregator/ssh_packet_layer.h     |  175 ++
+>  .../platform/surface/aggregator/ssh_parser.c  |  229 ++
+>  .../platform/surface/aggregator/ssh_parser.h  |  157 +
+>  .../surface/aggregator/ssh_request_layer.c    | 1254 ++++++++
+>  .../surface/aggregator/ssh_request_layer.h    |  142 +
+>  drivers/platform/surface/aggregator/trace.h   |  625 ++++
+>  .../platform/surface/surface_acpi_notify.c    |  884 ++++++
+>  .../surface/surface_aggregator_cdev.c         |  299 ++
+>  include/linux/mod_devicetable.h               |   18 +
+>  include/linux/surface_acpi_notify.h           |   39 +
+>  include/linux/surface_aggregator/controller.h |  832 ++++++
+>  include/linux/surface_aggregator/device.h     |  430 +++
+>  include/linux/surface_aggregator/serial_hub.h |  659 +++++
+>  include/uapi/linux/surface_aggregator/cdev.h  |   58 +
+>  scripts/mod/devicetable-offsets.c             |    8 +
+>  scripts/mod/file2alias.c                      |   23 +
+>  39 files changed, 13446 insertions(+)
+>  create mode 100644 Documentation/driver-api/surface_aggregator/client-api.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/client.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/cdev.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/index.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/san.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/index.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/internal-api.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/internal.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/overview.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/ssh.rst
+>  create mode 100644 drivers/platform/surface/aggregator/Kconfig
+>  create mode 100644 drivers/platform/surface/aggregator/Makefile
+>  create mode 100644 drivers/platform/surface/aggregator/bus.c
+>  create mode 100644 drivers/platform/surface/aggregator/bus.h
+>  create mode 100644 drivers/platform/surface/aggregator/controller.c
+>  create mode 100644 drivers/platform/surface/aggregator/controller.h
+>  create mode 100644 drivers/platform/surface/aggregator/core.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_msgb.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_parser.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_parser.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.h
+>  create mode 100644 drivers/platform/surface/aggregator/trace.h
+>  create mode 100644 drivers/platform/surface/surface_acpi_notify.c
+>  create mode 100644 drivers/platform/surface/surface_aggregator_cdev.c
+>  create mode 100644 include/linux/surface_acpi_notify.h
+>  create mode 100644 include/linux/surface_aggregator/controller.h
+>  create mode 100644 include/linux/surface_aggregator/device.h
+>  create mode 100644 include/linux/surface_aggregator/serial_hub.h
+>  create mode 100644 include/uapi/linux/surface_aggregator/cdev.h
+> 
+
