@@ -2,141 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 030F3C2D0E4
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:27:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B39C64E75
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:46:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABD0A20782
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:27:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F281320866
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 12:46:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.b="FrdMPUpD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387556AbgKXM0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 07:26:43 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:52243 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729172AbgKXM0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:26:43 -0500
-Received: from ip5f5af0a0.dynamic.kabel-deutschland.de ([95.90.240.160] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1khXP6-0004Kf-77; Tue, 24 Nov 2020 12:26:40 +0000
-Date:   Tue, 24 Nov 2020 13:26:39 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dev@opencontainers.org,
-        corbet@lwn.net, Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] syscalls: Document OCI seccomp filter interactions &
- workaround
-Message-ID: <20201124122639.x4zqtxwlpnvw7ycx@wittgenstein>
-References: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+        id S2387608AbgKXMqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 07:46:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387565AbgKXMqK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 07:46:10 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C71C0617A6
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 04:46:10 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id s63so7502480pgc.8
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 04:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zvMoedg9c3vAj7qTNNLGhSdFiVG9vOlTW6cU7Q9XeFo=;
+        b=FrdMPUpDEFFjBtYI8z4IeWI2Z4ohddd3ZcheGrplS0kTOmz4h18rj8yx1KD0p94H/4
+         4da07fC+FGhGMT861t9xebrdtDKWv9GNFNa7UdYTDzRWtSm8THlMn+8gUcHPYDBgU4BG
+         0Ioe9Otk2VxnLl3jVXir6r5KJbCI/ivA9S5xTRVUBw7Q0usttObbgvmqqTbLfu3cCPpP
+         gjzox5FYTLPTL7hND87YVmaJkLBvFPmyYgeJF/5aqmejfQ7Pst18yDrJ+VYwlnnykvgZ
+         eJjGrnH6KVtJNyy+toC6DpaYps582AB+j+Zu9MrYeWS5JSy1WQj/QILf892bEpx8fxwL
+         DhFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zvMoedg9c3vAj7qTNNLGhSdFiVG9vOlTW6cU7Q9XeFo=;
+        b=r7KTOJWGm3l4f4tVLJY1eaPTMdwKQEVyh3JAfKvu9C8/AxqPGDPoV2Id5pBcF6Hpch
+         pA7XLLDv+rbnj8LCw7pmEFuucYD8cApVXZzLn7f1vzrVdHycEji5BFV6V2KLmgEDv4UO
+         PmcW8aH/siwycx4ylOb7U9Po38bAlR1VDun6zbVM7qt0RN3fxyosAoBfhSy3laqKlGJN
+         NG65qsPyY1p711XZdIbddfMq7RForoRX1cCwm+PdmlSzgWjFxVtBSfD6aA2W7qU6Iggg
+         6oiz9qCz9wMNgUhBs9xo1MsG9vOEhD6yTtaG5s2oVmuD/Xznv08Vsny37/vHay3W+Ad9
+         0YKA==
+X-Gm-Message-State: AOAM5300p77IHzMjFKkmV3TY08YeMEy+MFw1/XvYdlytTBI0E1sHBXRb
+        Ic6R3kiSu99jACjb8z/q1S2qquE7E+CanfWmkIRlKQ==
+X-Google-Smtp-Source: ABdhPJw4zreHDeiqTrvJd7toGaCPcJpurHA+IsBwgCC6p/FqJZJI2OUo3Y313QMps8SXpsVjl4nPz3fGSgYe8qccqlw=
+X-Received: by 2002:a17:90b:941:: with SMTP id dw1mr4752466pjb.147.1606221969905;
+ Tue, 24 Nov 2020 04:46:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87lfer2c0b.fsf@oldenburg2.str.redhat.com>
+References: <20201124095259.58755-1-songmuchun@bytedance.com>
+ <20201124095259.58755-10-songmuchun@bytedance.com> <20201124115109.GW27488@dhcp22.suse.cz>
+In-Reply-To: <20201124115109.GW27488@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 24 Nov 2020 20:45:30 +0800
+Message-ID: <CAMZfGtV=_=f-AybncRDxyp9FB3e499RuPCz5B-8R2Or7285MrQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v6 09/16] mm/hugetlb: Defer freeing of
+ HugeTLB pages
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 01:08:20PM +0100, Florian Weimer wrote:
-> This documents a way to safely use new security-related system calls
-> while preserving compatibility with container runtimes that require
-> insecure emulation (because they filter the system call by default).
-> Admittedly, it is somewhat hackish, but it can be implemented by
-> userspace today, for existing system calls such as faccessat2,
-> without kernel or container runtime changes.
-> 
-> Signed-off-by: Florian Weimer <fweimer@redhat.com>
-> 
-> ---
->  Documentation/process/adding-syscalls.rst | 37 +++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
-> 
-> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> index a3ecb236576c..7d1e578a1df1 100644
-> --- a/Documentation/process/adding-syscalls.rst
-> +++ b/Documentation/process/adding-syscalls.rst
-> @@ -436,6 +436,40 @@ simulates registers etc).  Fixing this is as simple as adding a #define to
->  
->      #define stub_xyzzy sys_xyzzy
->  
-> +Container Compatibility and seccomp
-> +-----------------------------------
-> +
-> +The Linux Foundation Open Container Initiative Runtime Specification
-> +requires that by default, implementations install seccomp system call
-> +filters which cause system calls to fail with ``EPERM``.  As a result,
-> +all new system calls in such containers fail with ``EPERM`` instead of
-> +``ENOSYS``.  This design is problematic because ``EPERM`` is a
-> +legitimate system call result which should not trigger fallback to a
-> +userspace emulation, particularly for security-related system calls.
-> +(With ``ENOSYS``, it is clear that a fallback implementation has to be
-> +used to maintain compatibility with older kernels or container
-> +runtimes.)
-> +
-> +New system calls should therefore provide a way to reliably trigger an
-> +error distinct from ``EPERM``, without any side effects.  Some ways to
-> +achieve that are:
-> +
-> + - ``EBADFD`` for the invalid file descriptor -1
-> + - ``EFAULT`` for a null pointer
-> + - ``EINVAL`` for a contradictory set of flags that will remain invalid
-> +   in the future
+On Tue, Nov 24, 2020 at 7:51 PM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Tue 24-11-20 17:52:52, Muchun Song wrote:
+> > In the subsequent patch, we will allocate the vmemmap pages when free
+> > HugeTLB pages. But update_and_free_page() is called from a non-task
+> > context(and hold hugetlb_lock), so we can defer the actual freeing in
+> > a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+>
+> This has been brought up earlier without any satisfying answer. Do we
+> really have bother with the freeing from the pool and reconstructing the
+> vmemmap page tables? Do existing usecases really require such a dynamic
+> behavior? In other words, wouldn't it be much simpler to allow to use
 
-I'm sorry but I have some doubts about this new "rule". The idea of
-being able to reliably trigger an error for a system call other then
-EPERM might have merrit in some scenarios but justifying it via a bug in
-a userspace standard is not enough in my opinion.
+If someone wants to free a HugeTLB page, there is no way to do that if we
+do not allow this behavior. When do we need this? On our server, we will
+allocate a lot of HugeTLB pages for SPDK or virtualization. Sometimes,
+we want to debug some issues and want to apt install some debug tools,
+but if the host has little memory and the install operation can be failed
+because of no memory. In this time, we can try to free some HugeTLB
+pages to buddy in order to continue debugging. So maybe we need this.
 
-The solution is to fix the standard to mandate ENOSYS. This is the
-correct error for this exact scenario and standards can be changed.
-I don't think it is the kernel's job to work around a deliberate
-userspace decision to use EPERM and not ENOSYS. The kernel's system call
-design should not be informed by this especially since this is clearly
-not a kernel bug.
+> hugetlb pages with sparse vmemmaps only for the boot time reservations
+> and never allow them to be freed back to the allocator. This is pretty
+> restrictive, no question about that, but it would drop quite some code
 
-Apart from that I have doubts that this is in any shape or form
-enforceable. Not just because in principle there might be system calls
-that only return EPERM on error but also because this requirement feels
-arbitrary and I doubt developers will feel bound by it or people will
-check for it.
+Yeah, if we do not allow freeing the HugeTLB page to buddy, it actually
+can drop some code. But I think that it only drop this one and next one
+patch. It seems not a lot. And if we drop this patch, we need to add some
+another code to do the boot time reservations and other code to disallow
+freeing HugeTLB pages. So why not support freeing now.
 
-> +
-> +If a system call has such error behavior, upon encountering an
-> +``EPERM`` error, userspace applications can perform further
-> +invocations of the same system call to check if the ``EPERM`` error
-> +persists for those known error conditions.  If those also fail with
-> +``EPERM``, that likely means that the original ``EPERM`` error was the
-> +result of a seccomp filter, and should be treated like ``ENOSYS``
+> AFAICS and the resulting series would be much easier to review really
+> carefully. Additional enhancements can be done on top with specifics
+> about usecases which require more flexibility.
 
-I think that this "approach" alone should illustrate that this is the
-wrong way to approach this. It's hacky and requires excercising a system
-call multiple times just to find out whether or not it is supported.
-The only application that would possibly do this is probably glibc.
-This seems to be the complete wrong way of solving this problem.
+The code of allocating vmemmap pages for the HugeTLB page is very
+similar to the freeing vmemmap pages. The two operations are opposite.
+I think that if someone can understand the freeing path, it is also easy
+for him to understand the allcating path. If you look at close to this patch,
+I believe that it is easy for you.
 
-> +(e.g., trigger an alternative fallback implementation).  If those
-> +probing system calls do not fail with ``EPERM``, the error likely came
-> +from a real implementation, and should be reported to the caller
-> +directly, without resorting to ``ENOSYS``-style fallback.
-> +
->  
->  Other Details
->  -------------
-> @@ -575,3 +609,6 @@ References and Sources
->   - Recommendation from Linus Torvalds that x32 system calls should prefer
->     compatibility with 64-bit versions rather than 32-bit versions:
->     https://lkml.org/lkml/2011/8/31/244
-> + - Linux Configuration section of the Open Container Initiative
-> +   Runtime Specification:
-> +   https://github.com/opencontainers/runtime-spec/blob/master/config-linux.md
-> 
-> -- 
-> Red Hat GmbH, https://de.redhat.com/ , Registered seat: Grasbrunn,
-> Commercial register: Amtsgericht Muenchen, HRB 153243,
-> Managing Directors: Charles Cachera, Brian Klemm, Laurie Krebs, Michael O'Neill
-> 
+>
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  mm/hugetlb.c         | 96 ++++++++++++++++++++++++++++++++++++++++++++++------
+> >  mm/hugetlb_vmemmap.c |  5 ---
+> >  mm/hugetlb_vmemmap.h | 10 ++++++
+> >  3 files changed, 95 insertions(+), 16 deletions(-)
+> --
+> Michal Hocko
+> SUSE Labs
+
+
+
+-- 
+Yours,
+Muchun
