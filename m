@@ -2,94 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A405C63777
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:51:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3569AC2D0E4
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 19:16:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C042C20B1F
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 18:51:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8E2F206B5
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 19:16:56 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jTQQN0yK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404299AbgKXSvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 24 Nov 2020 13:51:12 -0500
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:37489 "EHLO
-        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729281AbgKXSvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 13:51:11 -0500
-Received: by mail-ej1-f65.google.com with SMTP id z5so9915662ejp.4;
-        Tue, 24 Nov 2020 10:51:10 -0800 (PST)
+        id S2390998AbgKXTQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 24 Nov 2020 14:16:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389340AbgKXTQe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 14:16:34 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90AD7C061A4D
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 11:16:34 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id f17so33162pge.6
+        for <linux-doc@vger.kernel.org>; Tue, 24 Nov 2020 11:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to;
+        bh=pJAA+910//zkOrL+GZT4fayjhef5fPiRUZKFa+bHFto=;
+        b=jTQQN0yKgoHMjObT8c6z3ir7J5qbZ+HlYkbU0CHXWDtNyE2FtKAxO+njeutCJkOaTm
+         ab+BpneBPyX9fvpRdbOKUPvBB1WIvXa4Mzq6etB41U+hcdIlIqe82okpYouL15RRyvB3
+         Oda47hlDQJ6j06HyWdb4IPVUqbzadTBTrMdi0ZR31xMDtT18CUsel67bRXs/jVTB+sbl
+         3KHk4Tg6NXwYjzXl96x1LuvcNCL6ux2+BocDP2Fx0790aSq2+qHkeavl41niRzi1JTE8
+         y0qd0g3iwMnXbiXGreSVhMLDzATcHLq/rlS51+h2q9E5DogrpwiGedNJa3Ke3G/UcsU9
+         P4nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h0R+EtKLcwBUIWNPi6ZHdj1eAgyrTOpvSjIN7TNW7t4=;
-        b=J7e9W8FFOQD9AOYLW4eYtB+FWzu2WQLvTCpklH/x2EvnCxgBgW68znPsSlazeOdyMz
-         fODgjjoyeef5ni5vXKdvaQdDBbNL6wuOa+iH5DkNUEaRMr319wGs9NmwhIrl3dKEo9xk
-         aJDxx8sjTWq1B65dhA52rVdtLAJHukJDjQkw0YsqU6D+/m23zlk7InezzTELPAFxpNH9
-         HySzPK9QI2FuOf3+SyOQghQH7Jde19hdsaIGnX/8247SWnjVBmOBXF7AiMfgXnfpDYGC
-         jsePtY7ENuOw63phiPCDjI+Nf2kwbL9CWb5yxmbREUKLdeW/S8DHKkw+KXzRxHGX28H5
-         /UXg==
-X-Gm-Message-State: AOAM533EImo1fraDkJBJyATyoLvJ8XtQoRYcKD9c9DTIpGFZ+M7m2CBI
-        WEAjHR9ef1RZVVRVtXtoRrB7QtGMEqLc5GxJULGBKt8tJMw=
-X-Google-Smtp-Source: ABdhPJzQinRO0l6tnBe2mj7AAuZg0aZU9mTVb7m/VOeaa82ddlcWM2AAVL5a9KzUSHsMsTWMYXDVlRM0qa58a1rHLNQ=
-X-Received: by 2002:a17:906:578b:: with SMTP id k11mr5521318ejq.330.1606243869540;
- Tue, 24 Nov 2020 10:51:09 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to;
+        bh=pJAA+910//zkOrL+GZT4fayjhef5fPiRUZKFa+bHFto=;
+        b=B50WQdlD6TseZPK97TSf/1j7TEbYMojSUQpBaVjlF1ZvmxrmfiAU1nJ8jAtjgAlCux
+         s3HZ1BTF/dq5Yao/yKKfr3Aep9ZmILt1tzvGf5QNyWq+RYMULl+1KVK0/sbuHKsbJKrI
+         tUn0EpH5WJidCtfX7qzbCMZadpxbK7FLqrOz+S9etLJyw2AkHGe1WU4VBezDFgLq2SM6
+         QG20tj4Zo4d98BnYl2jhBQ4aq8X6CV3dd4bhyNxpI48JW7fijFrRMFsknjSN0b4lz1Yv
+         JZC0YFvxHaMh+I5hfjz1DgKMCOiUGuJZ8xlHOK5ATrh1M/4iRpCCxmamKlJQKIN7KNc7
+         xjnw==
+X-Gm-Message-State: AOAM533CaKp+NAKmswAb6Ef9YXEoYNmZZxY0NldU5AESB0oTjqDD/5az
+        iRJMsugg+HHs7+URg+DQq+9d9g==
+X-Google-Smtp-Source: ABdhPJxln9/MnFj9z5/qDERpAmj+/1EFQ7n2dmHAbvctCUA4pSc5AcEYAUh0jCxlDcCE2GB+epy9zQ==
+X-Received: by 2002:a17:90b:b15:: with SMTP id bf21mr64410pjb.21.1606245393777;
+        Tue, 24 Nov 2020 11:16:33 -0800 (PST)
+Received: from google.com (242.67.247.35.bc.googleusercontent.com. [35.247.67.242])
+        by smtp.gmail.com with ESMTPSA id 35sm16827pgp.26.2020.11.24.11.16.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2020 11:16:32 -0800 (PST)
+Date:   Tue, 24 Nov 2020 19:16:29 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     David Rientjes <rientjes@google.com>
+Cc:     Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Vipin Sharma <vipinsh@google.com>, Lendacky@google.com,
+        Thomas <thomas.lendacky@amd.com>, pbonzini@redhat.com,
+        tj@kernel.org, lizefan@huawei.com, joro@8bytes.org, corbet@lwn.net,
+        Singh@google.com, Brijesh <brijesh.singh@amd.com>,
+        Grimm@google.com, Jon <jon.grimm@amd.com>, VanTassell@google.com,
+        Eric <eric.vantassell@amd.com>, gingell@google.com,
+        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
+Message-ID: <20201124191629.GB235281@google.com>
 MIME-Version: 1.0
-References: <20201119233257.2939-1-chang.seok.bae@intel.com>
- <20201119233257.2939-23-chang.seok.bae@intel.com> <CALCETrXBRATBVySDM9f0H-+gD37n7=CsNLWa446eLHi1mjokGw@mail.gmail.com>
-In-Reply-To: <CALCETrXBRATBVySDM9f0H-+gD37n7=CsNLWa446eLHi1mjokGw@mail.gmail.com>
-From:   Len Brown <lenb@kernel.org>
-Date:   Tue, 24 Nov 2020 13:50:58 -0500
-Message-ID: <CAJvTdKng_WMrmO_KtkuCxvvzGZ_HLcd84u2SwJiD_UJivb4Yaw@mail.gmail.com>
-Subject: Re: [PATCH v2 22/22] x86/fpu/xstate: Introduce boot-parameters for
- control some state component support
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@suse.de>,
-        X86 ML <x86@kernel.org>, Len Brown <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Liu, Jing2" <jing2.liu@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.23.453.2011131615510.333518@chino.kir.corp.google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 12:03 AM Andy Lutomirski <luto@kernel.org> wrote:
->
-> On Thu, Nov 19, 2020 at 3:37 PM Chang S. Bae <chang.seok.bae@intel.com> wrote:
-> > "xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
-> > compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
-> > to support this feature).
-> >
->
-> What's the purpose of xstate.enable?  I can't really imagine it's
-> useful for AMX.  I suppose it could be useful for hypothetical
-> post-AMX features, but that sounds extremely dangerous.  Intel has
-> changed its strategy so many times on XSTATE extensibility that I find
-> it quite hard to believe that supporting unknown states is wise.
+On Fri, Nov 13, 2020, David Rientjes wrote:                                     
+>                                                                               
+> On Mon, 2 Nov 2020, Sean Christopherson wrote:                                
+>                                                                               
+> > On Fri, Oct 02, 2020 at 01:48:10PM -0700, Vipin Sharma wrote:               
+> > > On Fri, Sep 25, 2020 at 03:22:20PM -0700, Vipin Sharma wrote:             
+> > > > I agree with you that the abstract name is better than the concrete     
+> > > > name, I also feel that we must provide HW extensions. Here is one       
+> > > > approach:                                                               
+> > > >                                                                         
+> > > > Cgroup name: cpu_encryption, encryption_slots, or memcrypt (open to     
+> > > > suggestions)                                                            
+> > > >                                                                         
+> > > > Control files: slots.{max, current, events}                             
+> >                                                                             
+> > I don't particularly like the "slots" name, mostly because it could be confused
+> > with KVM's memslots.  Maybe encryption_ids.ids.{max, current, events}?  I don't
+> > love those names either, but "encryption" and "IDs" are the two obvious     
+> > commonalities betwee TDX's encryption key IDs and SEV's encryption address  
+> > space IDs.                                                                  
+> >                                                                             
+>                                                                               
+> Looping Janosch and Christian back into the thread.                           
+>                                                                               
+> I interpret this suggestion as                                                
+> encryption.{sev,sev_es,keyids}.{max,current,events} for AMD and Intel         
 
-Not hypothetical -- there are subsequent hardware features coming that
-will use the same
-exact XSTATE support that this series puts in place for AMX.
+I think it makes sense to use encryption_ids instead of simply encryption, that
+way it's clear the cgroup is accounting ids as opposed to restricting what
+techs can be used on yes/no basis.
 
-We know that when those features ship in new hardware, there will be
-a set of customers who want to exercise those features immediately,
-but their kernel binary has not yet been re-compiled to see those
-features by-default.
+> offerings, which was my thought on this as well.                              
+>                                                                               
+> Certainly the kernel could provide a single interface for all of these and    
+> key value pairs depending on the underlying encryption technology but it      
+> seems to only introduce additional complexity in the kernel in string         
+> parsing that can otherwise be avoided.  I think we all agree that a single    
+> interface for all encryption keys or one-value-per-file could be done in      
+> the kernel and handled by any userspace agent that is configuring these       
+> values.                                                                       
+>                                                                               
+> I think Vipin is adding a root level file that describes how many keys we     
+> have available on the platform for each technology.  So I think this comes    
+> down to, for example, a single encryption.max file vs                         
+> encryption.{sev,sev_es,keyid}.max.  SEV and SEV-ES ASIDs are provisioned      
 
-The purpose of "xstate.enable" is to empower those users to be able to
-explicitly enable support using their existing binary.
+Are you suggesting that the cgroup omit "current" and "events"?  I agree there's
+no need to enumerate platform total, but not knowing how many of the allowed IDs
+have been allocated seems problematic.
 
-You are right -- the feature isn't needed to enable AMX, unless somebody went to
-the trouble of building a kernel with the AMX source update, but chose
-to disable
-AMX-specific recognition, by-default.
+> separately so we treat them as their own resource here.                       
+>                                                                               
+> So which is easier?                                                           
+>                                                                               
+> $ cat encryption.sev.max                                                      
+> 10                                                                            
+> $ echo -n 15 > encryption.sev.max                                             
+>                                                                               
+> or                                                                            
+>                                                                               
+> $ cat encryption.max                                                          
+> sev 10                                                                        
+> sev_es 10                                                                     
+> keyid 0                                                                       
+> $ echo -n "sev 10" > encryption.max                                           
+>                                                                               
+> I would argue the former is simplest (always preferring                       
+> one-value-per-file) and avoids any string parsing or resource controller      
+> lookups that need to match on that string in the kernel.                      
 
-thanks,
-Len Brown, Intel Open Source Technology Center
+Ya, I prefer individual files as well.
+
+I don't think "keyid" is the best name for TDX, it doesn't leave any wiggle room
+if there are other flavors of key IDs on Intel platform, e.g. private vs. shared
+in the future.  It's also inconsistent with the SEV names, e.g. "asid" isn't
+mentioned anywhere.  And "keyid" sort of reads as "max key id", rather than "max
+number of keyids".  Maybe "tdx_private", or simply "tdx"?  Doesn't have to be
+solved now though, there's plenty of time before TDX will be upstream. :-)
+
+> The set of encryption.{sev,sev_es,keyid} files that exist would depend on     
+> CONFIG_CGROUP_ENCRYPTION and whether CONFIG_AMD_MEM_ENCRYPT or                
+> CONFIG_INTEL_TDX is configured.  Both can be configured so we have all        
+> three files, but the root file will obviously indicate 0 keys available       
+> for one of them (can't run on AMD and Intel at the same time :).              
+>                                                                               
+> So I'm inclined to suggest that the one-value-per-file format is the ideal    
+> way to go unless there are objections to it.
