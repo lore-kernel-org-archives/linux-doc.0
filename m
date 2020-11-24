@@ -3,146 +3,173 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC6DC56201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C3BC64E7A
 	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 08:00:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2170206E5
-	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 08:00:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36AFD206E5
+	for <linux-doc@archiver.kernel.org>; Tue, 24 Nov 2020 08:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730301AbgKXIA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730312AbgKXIA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 24 Nov 2020 03:00:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730295AbgKXIA2 (ORCPT
+        with ESMTP id S1730297AbgKXIA2 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 24 Nov 2020 03:00:28 -0500
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20AFC0617A6;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E94C061A4D;
         Tue, 24 Nov 2020 00:00:27 -0800 (PST)
 Received: from [77.20.159.110] (helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1khTFP-0003Uf-NA; Tue, 24 Nov 2020 09:00:23 +0100
+        id 1khTFQ-0003Uf-LK; Tue, 24 Nov 2020 09:00:24 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] New documentation text describing how to report issues (aka "reporting-bugs rewritten")
-Date:   Tue, 24 Nov 2020 09:00:00 +0100
-Message-Id: <cover.1606137108.git.linux@leemhuis.info>
+Subject: [PATCH v3 3/3] docs: make reporting-bugs.rst obsolete
+Date:   Tue, 24 Nov 2020 09:00:03 +0100
+Message-Id: <0f9a836a10d6c046316737e64f09f22109c4b170.1606137108.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1606137108.git.linux@leemhuis.info>
+References: <cover.1606137108.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1606204827;b4e8ca47;
-X-HE-SMSGID: 1khTFP-0003Uf-NA
+X-HE-SMSGID: 1khTFQ-0003Uf-LK
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds a new and mostly finished document describing how to report
-issues with the Linux kernel to its developers. It is designed to be a lot more
-straight forward and yet more detailed than the current text about this
-(Documentation/admin-guide/reporting-bugs.rst). The new text still needs to be
-reviewed by more people and a few open issues will need discussion. To make
-these tasks easier, it was decided to add this document to the kernel sources in
-parallel to the existing text for now:
-https://lkml.kernel.org/r/20201118172958.5b014a44@lwn.net
+Make various places which point to
+Documentation/admin-guide/reporting-bugs.rst point to
+Documentation/admin-guide/reporting-issues.rst instead. That document is
+brand new and as of now is not completely finished. But even at this
+stage it's a lot more helpful and accurate than reporting-bugs.rst.
+Hence also add a note to reporting-bugs.rst, telling people they're
+better off reading reporting-issues.rst instead.
 
-The first patch in the series adds the CC-BY-4.0 license to the
-LICENSES/preferred/ directory, as the main author wants to make it easy for
-others to use the new text as a base when writing about this topic in books or
-on websites. He for now went with for dual-licensing the text under GPL-2.0+ and
-CC-BY-4.0. We shouldn't lose much when people use the more liberal of the two,
-but gain one thing: it increases chances that texts about this topic are based
-on this one, which should make them more accurate and to our liking.
+reporting-bugs.rst is scheduled for removal once reporting-issues.rst
+is considered ready.
 
-The last patch in the series adds a note to
-Documentation/admin-guide/reporting-bugs.rst, declaring it obsolete and telling
-readers to head over to the new text, as discussed after the v2 submission.
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+ Documentation/admin-guide/README.rst                     | 4 ++--
+ Documentation/admin-guide/bug-bisect.rst                 | 2 +-
+ Documentation/admin-guide/index.rst                      | 2 +-
+ Documentation/admin-guide/reporting-bugs.rst             | 5 +++++
+ Documentation/admin-guide/security-bugs.rst              | 2 +-
+ .../networking/device_drivers/ethernet/3com/vortex.rst   | 4 ++--
+ Documentation/process/howto.rst                          | 9 ++++-----
+ 7 files changed, 16 insertions(+), 12 deletions(-)
 
-To see how the new text relates to the current reporting-bugs.rst document, see
-v2 of this patchset, which gradually replaced the old text with the new (which
-hasn't changed much since then):
-https://lore.kernel.org/lkml/cover.1605203187.git.linux@leemhuis.info/
-
-To see how the new text from v3 relates to the one from v2 or v1, compare these
-files with tools like meld or kdiff3:
-
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v3-wrapped.rst
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v2-wrapped.rst
-https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v1-wrapped.rst
-
-The patch series is against docs-next and can also be found on gitlab:
-git://git@gitlab.com:knurd42/linux.git reporting-bugs-v3
-
-[1] https://lkml.kernel.org/r/20201118172958.5b014a44@lwn.net
-
-= Changes =
-
-v2 -> v3
-- drop the RFC tag
-- add CC-BY-4.0 to LICENSES/preferred/
-- instead of adding the new text in small parts while gradually replacing the
-  old text simply dump the whole new text in a new file in one go
-- add a note at the top pointing out the text is not completely finished yet,
-  but ready for consumption
-- add a few notes to the text pointing to issues that need discussion or work;
-  this until now was done in the patch
-- let the automarkup extension handle links to Documentation/whatever instead of
-  using an explicit :ref:
-- leave scripts/ver_linux untouched
-- a handful of small improvements and fixes in the main text
-- add a patch that makes reporting-bugs.rst obsolete
-
-v1 -> v2
-- all over: a whole lot of spelling fixes and small improvements. Many thx to
-  suggestions from Randy Dunlap (many thx!).
-- use "ref:" to reference MAINTAINERs file
-- the licensing advice is now a rst comment near the top
-- reshuffle and rewrite some parts to make them more straight forward:
- - The short guide (aka TL;DR)" (patch 2)
- - Locate kernel area that causes the issue (patch 9)
- - Install a fresh kernel for testing (patch 15)
-
-= Links =
-
-v2 submission:
-https://lore.kernel.org/lkml/cover.1605203187.git.linux@leemhuis.info/
-
-v1 submission:
-https://lore.kernel.org/lkml/cover.1601541165.git.linux@leemhuis.info/
-
-Current version of reporting-bugs.rst
-https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
-
-Commits to it and its predecessor:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/Documentation/admin-guide/reporting-bugs.rst
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/REPORTING-BUGS
-
-Thorsten Leemhuis (3):
-  LICENSES: Add the CC-BY-4.0 license
-  docs: Add a new text describing how to report bugs
-  docs: make reporting-bugs.rst obsolete
-
- Documentation/admin-guide/README.rst          |    4 +-
- Documentation/admin-guide/bug-bisect.rst      |    2 +-
- Documentation/admin-guide/index.rst           |    3 +-
- Documentation/admin-guide/reporting-bugs.rst  |    5 +
- .../admin-guide/reporting-issues.rst          | 1626 +++++++++++++++++
- Documentation/admin-guide/security-bugs.rst   |    2 +-
- .../device_drivers/ethernet/3com/vortex.rst   |    4 +-
- Documentation/process/howto.rst               |    9 +-
- LICENSES/preferred/CC-BY-4.0                  |  405 ++++
- 9 files changed, 2048 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/admin-guide/reporting-issues.rst
- create mode 100644 LICENSES/preferred/CC-BY-4.0
-
-
-base-commit: ac7711427014a84ba08353df2b77f115565216d8
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index 95a28f47ac30..261b7b4cca1f 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -398,8 +398,8 @@ If something goes wrong
+ 
+    If you for some reason cannot do the above (you have a pre-compiled
+    kernel image or similar), telling me as much about your setup as
+-   possible will help.  Please read the :ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+-   document for details.
++   possible will help.  Please read
++   'Documentation/admin-guide/reporting-issues.rst' for details.
+ 
+  - Alternatively, you can use gdb on a running kernel. (read-only; i.e. you
+    cannot change values or set break points.) To do this, first compile the
+diff --git a/Documentation/admin-guide/bug-bisect.rst b/Documentation/admin-guide/bug-bisect.rst
+index 59567da344e8..325c5d0ed34a 100644
+--- a/Documentation/admin-guide/bug-bisect.rst
++++ b/Documentation/admin-guide/bug-bisect.rst
+@@ -15,7 +15,7 @@ give up. Report as much as you have found to the relevant maintainer. See
+ MAINTAINERS for who that is for the subsystem you have worked on.
+ 
+ Before you submit a bug report read
+-:ref:`Documentation/admin-guide/reporting-bugs.rst <reportingbugs>`.
++'Documentation/admin-guide/reporting-issues.rst'.
+ 
+ Devices not appearing
+ =====================
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index c52c1882bd04..937e1a157fc9 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -34,7 +34,7 @@ problems and bugs in particular.
+    :maxdepth: 1
+ 
+    reporting-issues
+-   reporting-bugs
++   Reporting bugs (obsolete) <reporting-bugs>
+    security-bugs
+    bug-hunting
+    bug-bisect
+diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+index 42481ea7b41d..409fa91d7495 100644
+--- a/Documentation/admin-guide/reporting-bugs.rst
++++ b/Documentation/admin-guide/reporting-bugs.rst
+@@ -1,5 +1,10 @@
+ .. _reportingbugs:
+ 
++.. note::
++
++   This document is obsolete, and will be replaced by
++   'Documentation/admin-guide/reporting-issues.rst' in the near future.
++
+ Reporting bugs
+ ++++++++++++++
+ 
+diff --git a/Documentation/admin-guide/security-bugs.rst b/Documentation/admin-guide/security-bugs.rst
+index c32eb786201c..82e29837d589 100644
+--- a/Documentation/admin-guide/security-bugs.rst
++++ b/Documentation/admin-guide/security-bugs.rst
+@@ -21,7 +21,7 @@ understand and fix the security vulnerability.
+ 
+ As it is with any bug, the more information provided the easier it
+ will be to diagnose and fix.  Please review the procedure outlined in
+-:doc:`reporting-bugs` if you are unclear about what
++'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
+ information is helpful.  Any exploit code is very helpful and will not
+ be released without consent from the reporter unless it has already been
+ made public.
+diff --git a/Documentation/networking/device_drivers/ethernet/3com/vortex.rst b/Documentation/networking/device_drivers/ethernet/3com/vortex.rst
+index eab10fc6da5c..e89e4192af88 100644
+--- a/Documentation/networking/device_drivers/ethernet/3com/vortex.rst
++++ b/Documentation/networking/device_drivers/ethernet/3com/vortex.rst
+@@ -374,8 +374,8 @@ steps you should take:
+    email address will be in the driver source or in the MAINTAINERS file.
+ 
+ - The contents of your report will vary a lot depending upon the
+-  problem.  If it's a kernel crash then you should refer to the
+-  admin-guide/reporting-bugs.rst file.
++  problem.  If it's a kernel crash then you should refer to
++  'Documentation/admin-guide/reporting-issues.rst'.
+ 
+   But for most problems it is useful to provide the following:
+ 
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 20c9e07e09a4..7a5c105e34d4 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -348,11 +348,10 @@ tool.  For details on how to use the kernel bugzilla, please see:
+ 
+ 	https://bugzilla.kernel.org/page.cgi?id=faq.html
+ 
+-The file :ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+-in the main kernel source directory has a good
+-template for how to report a possible kernel bug, and details what kind
+-of information is needed by the kernel developers to help track down the
+-problem.
++The file 'Documentation/admin-guide/reporting-issues.rst' in the main kernel
++source directory has a good template for how to report a possible kernel bug,
++and details what kind of information is needed by the kernel developers to help
++track down the problem.
+ 
+ 
+ Managing bug reports
 -- 
 2.28.0
 
