@@ -2,556 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 902A8C56202
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 15:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F39EC56201
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 16:58:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DD412083E
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 15:31:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iD2KJNqW"
+	by mail.kernel.org (Postfix) with ESMTP id 51019206D8
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 16:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730279AbgKYPbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 10:31:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730162AbgKYPbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 10:31:06 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509F0C0613D4
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 07:30:50 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id z21so3658903lfe.12
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 07:30:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Y6Qteui0U72GjYb0hcFpaKt3E3Pqq0pI63D/2ARNoU=;
-        b=iD2KJNqW6rBlkyxz/a4qfRgMBqYkDbYojLMRg8ZUbG9uMipKMNnAyG4TOBJFpELGqF
-         eAxW8U4l5jkoHRx0YRQH1mFDPO3GVedHz8tRw6U6h21p/C7on6lplUDi3vzKmobnFsE6
-         nMcbyNyn90bk6QLUaWy2FansljF+e+SvI3m12/V58XHtr48BvcMHLV6V4qWVFQcyoQ7l
-         Rb109ThEBjgQzQr8ODnRCCMvjGlOk3sMJ7f42P1qekq7aK/14PFiWJbQZthJTEQidrjD
-         JtDQPeyAJPmlgWvTe18aOG7fasVO5lf6fuJKR7Vj6r2VDoQda3kleXyMFunAa5dL3DZ5
-         8c+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Y6Qteui0U72GjYb0hcFpaKt3E3Pqq0pI63D/2ARNoU=;
-        b=sgr9ipm863sZCf8bIgiQLZQjglPeeD8wtDHtvHh30XKp+EnH2b8zAOCUzm2QiqE4G8
-         G2hrx7GlUX9wfZ57XuO+uxjyxUXlGhnOvnm+ehWrPBuceD0nFib+BN3ig545zE0+hQc1
-         Ltm2mFPRg2P1diUs3VnOhNrK7FTTCY2XQXRfG750WNtN0/ATpHMNHbD8H30pbN6vg9eQ
-         MzETAPsSrXkgDQYCV9Fe5tftG3JjgDC8ibIeJzOnB16CE6/mJkAa23D9lWNHvk1Q6kx+
-         V4BqLcz7NHnv2Rtebfw/rVW6ujzMCypqxfqwL7xWa4F2NzwPTabwyTrNGKgYDutEC/K3
-         uhUw==
-X-Gm-Message-State: AOAM530HbHIoAhnQCmFJWeVuMiaKZoDPir86YKhLf3E8nKy8mZbBJob4
-        K41OeUInKlO1dDYyNDS0YxqGdBz81UwhE+qilJrOuw==
-X-Google-Smtp-Source: ABdhPJxKMDSfUq4mA5Zhp9+bspwRx1sJB7dxVtiVouvYyiHhVQKtzRygXeR1SPiri8AE/PlULIk/gfm5xr7EtRPuIyE=
-X-Received: by 2002:ac2:5a4d:: with SMTP id r13mr1495513lfn.449.1606318248233;
- Wed, 25 Nov 2020 07:30:48 -0800 (PST)
+        id S1732155AbgKYQ5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Nov 2020 11:57:31 -0500
+Received: from smtp.asem.it ([151.1.184.197]:60884 "EHLO smtp.asem.it"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732141AbgKYQ5b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 25 Nov 2020 11:57:31 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Nov 2020 11:57:30 EST
+Received: from webmail.asem.it
+        by asem.it (smtp.asem.it)
+        (SecurityGateway 6.5.2)
+        with ESMTP id SG000631152.MSG 
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 17:52:26 +0100
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 25
+ Nov 2020 17:52:23 +0100
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Wed, 25 Nov 2020 17:52:23 +0100
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v1] docs/vm: hwpoison: fix spelling mistakes
+Date:   Wed, 25 Nov 2020 17:52:22 +0100
+Message-ID: <20201125165222.788910-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201020085940.13875-1-sjpark@amazon.com> <20201020085940.13875-11-sjpark@amazon.com>
-In-Reply-To: <20201020085940.13875-11-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 25 Nov 2020 07:30:36 -0800
-Message-ID: <CALvZod6md-OQD6ZKYtPjOgC5TvhDb0X0fBewA9dZAwhmwQw4=w@mail.gmail.com>
-Subject: Re: [PATCH v22 10/18] mm/damon: Implement a debugfs-based user space interface
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
-        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A090210.5FBE8BC8.0058,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 2:06 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> DAMON is designed to be used by kernel space code such as the memory
-> management subsystems, and therefore it provides only kernel space API.
-> That said, letting the user space control DAMON could provide some
-> benefits to them.  For example, it will allow user space to analyze
-> their specific workloads and make their own special optimizations.
->
-> For such cases, this commit implements a simple DAMON application kernel
-> module, namely 'damon-dbgfs', which merely wraps the DAMON api and
-> exports those to the user space via the debugfs.
->
-> 'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
-> ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
->
-> Attributes
-> ----------
->
-> Users can read and write the ``sampling interval``, ``aggregation
-> interval``, ``regions update interval``, and min/max number of
-> monitoring target regions by reading from and writing to the ``attrs``
-> file.  For example, below commands set those values to 5 ms, 100 ms,
-> 1,000 ms, 10, 1000 and check it again::
->
->     # cd <debugfs>/damon
->     # echo 5000 100000 1000000 10 1000 > attrs
->     # cat attrs
->     5000 100000 1000000 10 1000
->
-> Target IDs
-> ----------
->
-> Some types of address spaces supports multiple monitoring target.  For
-> example, the virtual memory address spaces monitoring can have multiple
-> processes as the monitoring targets.  Users can set the targets by
-> writing relevant id values of the targets to, and get the ids of the
-> current targets by reading from the ``target_ids`` file.  In case of the
-> virtual address spaces monitoring, the values should be pids of the
-> monitoring target processes.  For example, below commands set processes
-> having pids 42 and 4242 as the monitoring targets and check it again::
->
->     # cd <debugfs>/damon
->     # echo 42 4242 > target_ids
->     # cat target_ids
->     42 4242
->
-> Note that setting the target ids doesn't start the monitoring.
->
-> Turning On/Off
-> --------------
->
-> Setting the files as described above doesn't incur effect unless you
-> explicitly start the monitoring.  You can start, stop, and check the
-> current status of the monitoring by writing to and reading from the
-> ``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
-> of the targets with the attributes.  Writing ``off`` to the file stops
-> those.  DAMON also stops if every targets are invalidated (in case of
-> the virtual memory monitoring, target processes are invalidated when
-> terminated).  Below example commands turn on, off, and check the status
-> of DAMON::
->
->     # cd <debugfs>/damon
->     # echo on > monitor_on
->     # echo off > monitor_on
->     # cat monitor_on
->     off
->
-> Please note that you cannot write to the above-mentioned debugfs files
-> while the monitoring is turned on.  If you write to the files while
-> DAMON is running, an error code such as ``-EBUSY`` will be returned.
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> ---
->  include/linux/damon.h |   2 +
->  mm/damon/Kconfig      |   9 +
->  mm/damon/Makefile     |   1 +
->  mm/damon/core.c       |  48 +++++
->  mm/damon/dbgfs.c      | 428 ++++++++++++++++++++++++++++++++++++++++++
->  5 files changed, 488 insertions(+)
->  create mode 100644 mm/damon/dbgfs.c
->
-> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> index 70cc4b54212e..d675ea908a02 100644
-> --- a/include/linux/damon.h
-> +++ b/include/linux/damon.h
-> @@ -226,6 +226,8 @@ void damon_free_target(struct damon_target *t);
->  void damon_destroy_target(struct damon_target *t);
->  unsigned int damon_nr_regions(struct damon_target *t);
->
-> +struct damon_ctx *damon_new_ctx(void);
-> +void damon_destroy_ctx(struct damon_ctx *ctx);
->  int damon_set_targets(struct damon_ctx *ctx,
->                 unsigned long *ids, ssize_t nr_ids);
->  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-> diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-> index 63b9c905b548..e38f95d28f74 100644
-> --- a/mm/damon/Kconfig
-> +++ b/mm/damon/Kconfig
-> @@ -22,4 +22,13 @@ config DAMON_PRIMITIVES
->           The primitives support only virtual address spaces.  If this cannot
->           cover your use case, you can implement and use your own primitives.
->
-> +config DAMON_DBGFS
-> +       bool "DAMON debugfs interface"
-> +       depends on DAMON_PRIMITIVES && DEBUG_FS
-> +       help
-> +         This builds the debugfs interface for DAMON.  The user space admins
-> +         can use the interface for arbitrary data access monitoring.
-> +
-> +         If unsure, say N.
-> +
->  endmenu
-> diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-> index 2f3235a52e5e..2295deb2fe0e 100644
-> --- a/mm/damon/Makefile
-> +++ b/mm/damon/Makefile
-> @@ -2,3 +2,4 @@
->
->  obj-$(CONFIG_DAMON)            := core.o
->  obj-$(CONFIG_DAMON_PRIMITIVES) += primitives.o
-> +obj-$(CONFIG_DAMON_DBGFS)      += dbgfs.o
-> diff --git a/mm/damon/core.c b/mm/damon/core.c
-> index d7957d8ff530..47baf859d7d9 100644
-> --- a/mm/damon/core.c
-> +++ b/mm/damon/core.c
-> @@ -135,6 +135,40 @@ unsigned int damon_nr_regions(struct damon_target *t)
->         return nr_regions;
->  }
->
-> +struct damon_ctx *damon_new_ctx(void)
-> +{
-> +       struct damon_ctx *ctx;
-> +
-> +       ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-> +       if (!ctx)
-> +               return NULL;
-> +
-> +       ctx->sample_interval = 5 * 1000;
-> +       ctx->aggr_interval = 100 * 1000;
-> +       ctx->regions_update_interval = 1000 * 1000;
-> +       ctx->min_nr_regions = 10;
-> +       ctx->max_nr_regions = 1000;
-> +
-> +       ktime_get_coarse_ts64(&ctx->last_aggregation);
-> +       ctx->last_regions_update = ctx->last_aggregation;
-> +
-> +       mutex_init(&ctx->kdamond_lock);
-> +
-> +       INIT_LIST_HEAD(&ctx->targets_list);
-> +
-> +       return ctx;
-> +}
-> +
-> +void damon_destroy_ctx(struct damon_ctx *ctx)
-> +{
-> +       struct damon_target *t, *next_t;
-> +
-> +       damon_for_each_target_safe(t, next_t, ctx)
-> +               damon_destroy_target(t);
-> +
-> +       kfree(ctx);
-> +}
-> +
->  /**
->   * damon_set_targets() - Set monitoring targets.
->   * @ctx:       monitoring context
-> @@ -204,6 +238,20 @@ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
->         return 0;
->  }
->
-> +/**
-> + * damon_nr_running_ctxs() - Return number of currently running contexts.
-> + */
-> +int damon_nr_running_ctxs(void)
-> +{
-> +       int nr_ctxs;
-> +
-> +       mutex_lock(&damon_lock);
-> +       nr_ctxs = nr_running_ctxs;
-> +       mutex_unlock(&damon_lock);
-> +
+Actions:
 
-READ_ONCE() instead of mutex?
+- fix spelling mistake
+- reduce some double spaces to a single one
+- substitute spaces with tab
 
-> +       return nr_ctxs;
-> +}
-> +
->  /* Returns the size upper limit for each monitoring region */
->  static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
->  {
-> diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-> new file mode 100644
-> index 000000000000..6316d4cae2a4
-> --- /dev/null
-> +++ b/mm/damon/dbgfs.c
-> @@ -0,0 +1,428 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * DAMON Debugfs Interface
-> + *
-> + * Author: SeongJae Park <sjpark@amazon.de>
-> + */
-> +
-> +#define pr_fmt(fmt) "damon-dbgfs: " fmt
-> +
-> +#include <linux/damon.h>
-> +#include <linux/debugfs.h>
-> +#include <linux/file.h>
-> +#include <linux/mm.h>
-> +#include <linux/module.h>
-> +#include <linux/page_idle.h>
-> +#include <linux/slab.h>
-> +
-> +static struct damon_ctx **dbgfs_ctxs;
-> +static int dbgfs_nr_ctxs = 1;
-> +static int dbgfs_nr_terminated_ctxs;
-> +static struct dentry **dbgfs_dirs;
-> +static DEFINE_MUTEX(damon_dbgfs_lock);
-> +
-> +/*
-> + * Returns non-empty string on success, negarive error code otherwise.
-> + */
-> +static char *user_input_str(const char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +       char *kbuf;
-> +       ssize_t ret;
-> +
-> +       /* We do not accept continuous write */
-> +       if (*ppos)
-> +               return ERR_PTR(-EINVAL);
-> +
-> +       kbuf = kmalloc(count + 1, GFP_KERNEL);
-> +       if (!kbuf)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       ret = simple_write_to_buffer(kbuf, count + 1, ppos, buf, count);
-> +       if (ret != count) {
-> +               kfree(kbuf);
-> +               return ERR_PTR(-EIO);
-> +       }
-> +       kbuf[ret] = '\0';
-> +
-> +       return kbuf;
-> +}
-> +
-> +static ssize_t dbgfs_attrs_read(struct file *file,
-> +               char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +       struct damon_ctx *ctx = file->private_data;
-> +       char kbuf[128];
-> +       int ret;
-> +
-> +       mutex_lock(&ctx->kdamond_lock);
-> +       ret = scnprintf(kbuf, ARRAY_SIZE(kbuf), "%lu %lu %lu %lu %lu\n",
-> +                       ctx->sample_interval, ctx->aggr_interval,
-> +                       ctx->regions_update_interval, ctx->min_nr_regions,
-> +                       ctx->max_nr_regions);
-> +       mutex_unlock(&ctx->kdamond_lock);
-> +
-> +       return simple_read_from_buffer(buf, count, ppos, kbuf, ret);
-> +}
-> +
-> +static ssize_t dbgfs_attrs_write(struct file *file,
-> +               const char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +       struct damon_ctx *ctx = file->private_data;
-> +       unsigned long s, a, r, minr, maxr;
-> +       char *kbuf;
-> +       ssize_t ret = count;
-> +       int err;
-> +
-> +       kbuf = user_input_str(buf, count, ppos);
-> +       if (IS_ERR(kbuf))
-> +               return PTR_ERR(kbuf);
-> +
-> +       if (sscanf(kbuf, "%lu %lu %lu %lu %lu",
-> +                               &s, &a, &r, &minr, &maxr) != 5) {
-> +               ret = -EINVAL;
-> +               goto out;
-> +       }
-> +
-> +       mutex_lock(&ctx->kdamond_lock);
-> +       if (ctx->kdamond) {
-> +               ret = -EBUSY;
-> +               goto unlock_out;
-> +       }
-> +
-> +       err = damon_set_attrs(ctx, s, a, r, minr, maxr);
-> +       if (err)
-> +               ret = err;
-> +unlock_out:
-> +       mutex_unlock(&ctx->kdamond_lock);
-> +out:
-> +       kfree(kbuf);
-> +       return ret;
-> +}
-> +
-> +#define targetid_is_pid(ctx)   \
-> +       (ctx->primitive.target_valid == damon_va_target_valid)
-> +
-> +static ssize_t sprint_target_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
-> +{
-> +       struct damon_target *t;
-> +       unsigned long id;
-> +       int written = 0;
-> +       int rc;
-> +
-> +       damon_for_each_target(t, ctx) {
-> +               id = t->id;
-> +               if (targetid_is_pid(ctx))
-> +                       /* Show pid numbers to debugfs users */
-> +                       id = (unsigned long)pid_vnr((struct pid *)id);
-> +
-> +               rc = scnprintf(&buf[written], len - written, "%lu ", id);
-> +               if (!rc)
-> +                       return -ENOMEM;
-> +               written += rc;
-> +       }
-> +       if (written)
-> +               written -= 1;
-> +       written += scnprintf(&buf[written], len - written, "\n");
-> +       return written;
-> +}
-> +
-> +static ssize_t dbgfs_target_ids_read(struct file *file,
-> +               char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +       struct damon_ctx *ctx = file->private_data;
-> +       ssize_t len;
-> +       char ids_buf[320];
-> +
-> +       mutex_lock(&ctx->kdamond_lock);
-> +       len = sprint_target_ids(ctx, ids_buf, 320);
-> +       mutex_unlock(&ctx->kdamond_lock);
-> +       if (len < 0)
-> +               return len;
-> +
-> +       return simple_read_from_buffer(buf, count, ppos, ids_buf, len);
-> +}
-> +
-> +/*
-> + * Converts a string into an array of unsigned long integers
-> + *
-> + * Returns an array of unsigned long integers if the conversion success, or
-> + * NULL otherwise.
-> + */
-> +static unsigned long *str_to_target_ids(const char *str, ssize_t len,
-> +                                       ssize_t *nr_ids)
-> +{
-> +       unsigned long *ids;
-> +       const int max_nr_ids = 32;
-> +       unsigned long id;
-> +       int pos = 0, parsed, ret;
-> +
-> +       *nr_ids = 0;
-> +       ids = kmalloc_array(max_nr_ids, sizeof(id), GFP_KERNEL);
-> +       if (!ids)
-> +               return NULL;
-> +       while (*nr_ids < max_nr_ids && pos < len) {
-> +               ret = sscanf(&str[pos], "%lu%n", &id, &parsed);
-> +               pos += parsed;
-> +               if (ret != 1)
-> +                       break;
-> +               ids[*nr_ids] = id;
-> +               *nr_ids += 1;
-> +       }
-> +
-> +       return ids;
-> +}
-> +
-> +/* Returns pid for the given pidfd if it's valid, or NULL otherwise. */
-> +static struct pid *damon_get_pidfd_pid(unsigned int pidfd)
-> +{
-> +       struct fd f;
-> +       struct pid *pid;
-> +
-> +       f = fdget(pidfd);
-> +       if (!f.file)
-> +               return NULL;
-> +
-> +       pid = pidfd_pid(f.file);
-> +       if (!IS_ERR(pid))
-> +               get_pid(pid);
-> +       else
-> +               pid = NULL;
-> +
-> +       fdput(f);
-> +       return pid;
-> +}
-> +
-> +static ssize_t dbgfs_target_ids_write(struct file *file,
-> +               const char __user *buf, size_t count, loff_t *ppos)
-> +{
-> +       struct damon_ctx *ctx = file->private_data;
-> +       char *kbuf, *nrs;
-> +       bool received_pidfds = false;
-> +       unsigned long *targets;
-> +       ssize_t nr_targets;
-> +       ssize_t ret = count;
-> +       int i;
-> +       int err;
-> +
-> +       kbuf = user_input_str(buf, count, ppos);
-> +       if (IS_ERR(kbuf))
-> +               return PTR_ERR(kbuf);
-> +
-> +       nrs = kbuf;
-> +
-> +       if (!strncmp(kbuf, "pidfd ", 6)) {
-> +               received_pidfds = true;
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
+ Documentation/vm/hwpoison.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-I am inclining towards having simple pids instead of pidfds. Basically
-what cgroup/resctrl does.
+diff --git a/Documentation/vm/hwpoison.rst b/Documentation/vm/hwpoison.rst
+index a5c884293dac..88ba2df198d1 100644
+--- a/Documentation/vm/hwpoison.rst
++++ b/Documentation/vm/hwpoison.rst
+@@ -50,7 +50,7 @@ of applications. KVM support requires a recent qemu-kvm release.
+ For the KVM use there was need for a new signal type so that
+ KVM can inject the machine check into the guest with the proper
+ address. This in theory allows other applications to handle
+-memory failures too. The expection is that near all applications
++memory failures too. The expectation is that near all applications
+ won't do that, but some very specialized ones might.
+ 
+ Failure recovery modes
+@@ -121,7 +121,7 @@ Testing
+ 
+   unpoison-pfn
+ 	Software-unpoison page at PFN echoed into this file. This way
+-	a page can be reused again.  This only works for Linux
++	a page can be reused again. This only works for Linux
+ 	injected failures, not for real memory failures.
+ 
+   Note these injection interfaces are not stable and might change between
+@@ -129,8 +129,8 @@ Testing
+ 
+   corrupt-filter-dev-major, corrupt-filter-dev-minor
+ 	Only handle memory failures to pages associated with the file
+-	system defined by block device major/minor.  -1U is the
+-	wildcard value.  This should be only used for testing with
++	system defined by block device major/minor. -1U is the
++	wildcard value. This should be only used for testing with
+ 	artificial injection.
+ 
+   corrupt-filter-memcg
+@@ -141,7 +141,7 @@ Testing
+ 
+ 		mkdir /sys/fs/cgroup/mem/hwpoison
+ 
+-	        usemem -m 100 -s 1000 &
++		usemem -m 100 -s 1000 &
+ 		echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
+ 
+ 		memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
+@@ -152,7 +152,7 @@ Testing
+ 
+   corrupt-filter-flags-mask, corrupt-filter-flags-value
+ 	When specified, only poison pages if ((page_flags & mask) ==
+-	value).  This allows stress testing of many kinds of
++	value). This allows stress testing of many kinds of
+ 	pages. The page_flags are the same as in /proc/kpageflags. The
+ 	flag bits are defined in include/linux/kernel-page-flags.h and
+ 	documented in Documentation/admin-guide/mm/pagemap.rst
+-- 
+2.25.1
 
-
-> +               nrs = &kbuf[6];
-> +       }
-> +
-> +       targets = str_to_target_ids(nrs, ret, &nr_targets);
-> +       if (!targets) {
-> +               ret = -ENOMEM;
-> +               goto out;
-> +       }
-> +
-> +       if (received_pidfds) {
-> +               for (i = 0; i < nr_targets; i++)
-> +                       targets[i] = (unsigned long)damon_get_pidfd_pid(
-> +                                       (unsigned int)targets[i]);
-> +       } else if (targetid_is_pid(ctx)) {
-> +               for (i = 0; i < nr_targets; i++)
-> +                       targets[i] = (unsigned long)find_get_pid(
-> +                                       (int)targets[i]);
-> +       }
-> +
-> +       mutex_lock(&ctx->kdamond_lock);
-> +       if (ctx->kdamond) {
-> +               ret = -EINVAL;
-> +               goto unlock_out;
-> +       }
-> +
-> +       err = damon_set_targets(ctx, targets, nr_targets);
-
-Hmm this is leaking the references to the previous targets.
-
-> +       if (err)
-> +               ret = err;
-> +unlock_out:
-> +       mutex_unlock(&ctx->kdamond_lock);
-> +       kfree(targets);
-> +out:
-> +       kfree(kbuf);
-> +       return ret;
-> +}
-> +
-
-Still looking.
