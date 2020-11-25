@@ -2,93 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB013C63777
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 11:54:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32176C5519F
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 12:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9257A21534
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 11:54:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3B01206F7
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 12:58:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ywQ8QxOv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f+/u2xvQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RCltcKLU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725836AbgKYLyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 06:54:44 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:49652 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbgKYLyo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 06:54:44 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1606305281;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r4HNcEhYd2VgvyfBGtCMGm1chw2/6OizpvW8l9Q1z+M=;
-        b=ywQ8QxOvwDbvJE9c9JPJzdHwfBCFRH3928DMITp+dq6S9GRoV/xjLwkQeLiEne8RKqkllG
-        iKVa1fAyiQhkE2K7EL2ZNXg5qcjEmYm4NNClmpSikNsbWuCiNyB7kThBL538GP24uhK34p
-        QLNAWIcOQX73qxCvPL3M6lrU4JZWg+HY4PluhL+athGxq2jX1pMZjDobYjGsk4N6lh7QCk
-        IxdDzTsWYNI32jzPQhMjuO8WcLU/ZQGWEWO4eGfvD9Q1iMHcmUc2+NbbedEoH3fn7wqymB
-        HN09hyC9SnRqW+yBncQcahkJ+xgGcPQH17GwsQge1MhyUAAW3rxRYCuGLaAkYQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1606305281;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=r4HNcEhYd2VgvyfBGtCMGm1chw2/6OizpvW8l9Q1z+M=;
-        b=f+/u2xvQDCOr/gl/tvrYOTM09dSlbIXP+gm/q5P2/5ke+AusnJMy2GxaO+M4gwP2xdULK6
-        Mv04xdkGQIaP7zCQ==
-To:     Stefan =?utf-8?Q?B=C3=BChler?= 
-        <stefan.buehler@tik.uni-stuttgart.de>,
-        sean.v.kelley@linux.intel.com
-Cc:     bhelgaas@google.com, bp@alien8.de, corbet@lwn.net,
-        kar.hin.ong@ni.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        mingo@redhat.com, sassmann@kpanic.de, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: boot interrupt quirk (also in 4.19.y) breaks serial ports (was: [PATCH v2 0/2] pci: Add boot interrupt quirk mechanism for Xeon chipsets)
-In-Reply-To: <b2da25c8-121a-b241-c028-68e49bab0081@tik.uni-stuttgart.de>
-References: <20200220192930.64820-1-sean.v.kelley@linux.intel.com> <b2da25c8-121a-b241-c028-68e49bab0081@tik.uni-stuttgart.de>
-Date:   Wed, 25 Nov 2020 12:54:41 +0100
-Message-ID: <87zh35k5xa.fsf@nanos.tec.linutronix.de>
+        id S1727865AbgKYM6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Nov 2020 07:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727409AbgKYM6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 07:58:51 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0550C0613D4;
+        Wed, 25 Nov 2020 04:58:51 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id l2so1481681qtq.4;
+        Wed, 25 Nov 2020 04:58:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jBninAlOvpYrGbFhaowzWy50Zpfu7elwWYRocqgCoUw=;
+        b=RCltcKLUbOv0wiHSEWExJwFW+yO60P5UsIfxRcbymCTATMDcPJcEXr/KfMoSJPbDLz
+         n7jLA1tZzTjoKOvnl8cl1kdXUSJH+fCvD/QMma/B76WYGPMw87AUriUpfyhNN2Bryl8L
+         uDW7c+QxYiOV/CJLMr8rLlKxM4FcMxK2z6bBHlDRrjkCz05oUjMq9zh8SFRc1VkpeMyT
+         xpw16qmlVImcO4t9m/lpP4RkAsNnCOT+sgTtxwHbOpzBgzroggmNI1t0yclCE3gUzNU6
+         rxGXgn4Ruij2Ikjsizy16v/XpJb5wBXPLRMbUJ4UQSxJ1QwYinGYBrbkxGHXwiJEZlWu
+         Flqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=jBninAlOvpYrGbFhaowzWy50Zpfu7elwWYRocqgCoUw=;
+        b=GEOPY5ueUk7K1ixYNNf6B9VSmMgMkQyFjuxD2mxqh8sEG//EseyUKTW7t9h3NrUYkY
+         9/NiSZEkzZ8efK+gxwlxiMQD3WICLGxCJCDfiiyz4Razr5YWGP6YY2DOtarqjnqdqhG0
+         ANp7eTkb76pXw5Gwqndpb3sQjoGEyR4P7oghZd6zp75g01EhwlE42RcU4Jl/fN4DrKbN
+         HcHn3SSF/12BYuQENNGOraH7YwcLQFSB907MDMqgUVGttLdQqDPkAlHzpi8ftgYit5Cr
+         /1OSRrHwfNvHT7jyq+2fYYbFP/LLI/Fh9j9Wv+dmENbkmHeSv9z4KDxgujvc6t6l2fWV
+         IAHg==
+X-Gm-Message-State: AOAM532fXYLxcHK9O5G3FMR2DSooR5IZvv+gRXDGnr33ff2qTef8Qggj
+        B5owjBq3VXV8aAKFIi3le8Zq6jkLouTIJA==
+X-Google-Smtp-Source: ABdhPJw4mQygHYPeh6LgduHGJHfbfpt1qFdgJmlNB2fbxViZkyLEoz3fP21kS6D/Ewn7xh6gZWvMHQ==
+X-Received: by 2002:aed:3363:: with SMTP id u90mr2952000qtd.5.1606309130958;
+        Wed, 25 Nov 2020 04:58:50 -0800 (PST)
+Received: from localhost (dhcp-6c-ae-f6-dc-d8-61.cpe.echoes.net. [72.28.8.195])
+        by smtp.gmail.com with ESMTPSA id z19sm2272753qtu.51.2020.11.25.04.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 04:58:50 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 25 Nov 2020 07:58:28 -0500
+From:   Tejun Heo <tj@kernel.org>
+To:     Hui Su <sh_def@163.com>
+Cc:     lizefan@huawei.com, hannes@cmpxchg.org, corbet@lwn.net,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Docs/cgroup: update the cgroup-v1 docs
+Message-ID: <X75U9NjlD4RQq3z3@mtj.duckdns.org>
+References: <20201102152116.GA186491@rlk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201102152116.GA186491@rlk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stefan,
+On Mon, Nov 02, 2020 at 11:21:16PM +0800, Hui Su wrote:
+> Since 'commit 69d0206c793a ("cgroup: bring some sanity to
+> naming around cg_cgroup_link")', 'cg_cgroup_link' has been
+> changed to 'cgrp_cset_link'.
+> so as its element 'cgrp_link_list' and 'cg_link_list'.
+> 
+> Since commit 47cfcd092245 ("cgroup: kill cgroup_[un]lock()"),
+> cgroup_lock/cgroup_unlock have been killed.
+> 
+> So update the cgroup-v1 Docs.
+> 
+> Signed-off-by: Hui Su <sh_def@163.com>
 
-On Wed, Sep 16 2020 at 12:12, Stefan B=C3=BChler wrote:
+Applied to cgroup/for-5.10-fixes.
 
-sorry for the delay. This fell through the cracks.
+Thanks.
 
-> this quirk breaks our serial ports PCIe card (i.e. we don't see any=20
-> output from the connected devices; no idea whether anything we send=20
-> reaches them):
->
-> 05:00.0 PCI bridge: PLX Technology, Inc. PEX8112 x1 Lane PCI Express-to-P=
-CI Bridge (rev aa)
-> 06:00.0 Serial controller: Oxford Semiconductor Ltd OX16PCI954 (Quad 1695=
-0 UART) function 0 (Uart)
-> 06:00.1 Bridge: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART) fun=
-ction 0 (Disabled)
-> 06:01.0 Serial controller: Oxford Semiconductor Ltd OX16PCI954 (Quad 1695=
-0 UART) function 0 (Uart)
-> 06:01.1 Bridge: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART)
-> function 0 (Disabled)
-
-Can you please provide the output of:
-
- for ID in 05:00.0 06:00.0 06:00.1 06:01.0 06:01.1; do lspci -s $ID -vvv; d=
-one
-
-Thanks,
-
-        tglx
+-- 
+tejun
