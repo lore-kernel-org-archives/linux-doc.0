@@ -2,176 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5C6C56202
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 18:14:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD65C56202
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 20:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA94F20857
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 18:14:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 258BE2075A
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 20:31:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kWV6G2yZ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BIbP6CPi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730646AbgKYSOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 13:14:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46872 "EHLO
+        id S1729957AbgKYUbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Nov 2020 15:31:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730643AbgKYSOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 13:14:54 -0500
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE93AC0613D4;
-        Wed, 25 Nov 2020 10:14:53 -0800 (PST)
-Received: by mail-io1-xd42.google.com with SMTP id m13so3040895ioq.9;
-        Wed, 25 Nov 2020 10:14:53 -0800 (PST)
+        with ESMTP id S1730016AbgKYUbV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 15:31:21 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5C8C061A4F
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 12:31:21 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id s8so3185097wrw.10
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 12:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NIpG45UWwddpGV+62KwVJM4R9vkmQaVM+kUHYytsuOk=;
-        b=kWV6G2yZXMm4VSHbnojYmPa+C5P3JnpUTHqE23CMhNkQBQWRzmmhqOLBUtQv2atXCT
-         gfx8m7eCmFJ7pVlsuccPiH6QWEPUd8AOsN93MuFELIyPMSRf5jsCMU0WOq//RI0OE3v8
-         Xcdy8XkXYHOwwkywVeuV38sTpPsttpVy3JvqUPqjjnzwH11K8V/hcwvS5Z9IHaMrKIUK
-         5aPycy8OBpj2x7nvopzyosAyOu5TyhaWlUYzEp+8JqfTnIOXSNZZFCbA0rFGLuslWfdY
-         0h9j9VHpYmDhGDt0sVob662k93U0Re/54lGaFjmxi8C+L9fpuTq3YUdx9b9EMjfmYlAP
-         xBkg==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q710+yuAXMJxe0nd7TtiMj+ZjNL+TkbdcSV2kJANPFc=;
+        b=BIbP6CPisTVorSg5qoPf0+dLgPrcTLlTwlVp8ftZSvaFgDocUfy9W0QG0G5Ods6KYD
+         yNuT+KUHJ3LuzVLi2aruhMW4cOqXa3HmxH07ArrA7Ka9z6jrGkuyP/FM26RjBdMrBi+s
+         P4RXP9NBi6sM7Lf6VlkFS3ouGBO+VOYD2B60o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NIpG45UWwddpGV+62KwVJM4R9vkmQaVM+kUHYytsuOk=;
-        b=eGNs1ZBLBayuVA4HFTYdwRRp2B6JX5sBFZu9gdbQXp7ZkUya3FzV3rNyLsIaXdh2fl
-         1hQVdNaU/cI4mn4GB6XdOTFgRjLyBuUNfVBU2Z3gWB7RYJm69S8+NnaWho44nF792gC0
-         m9/tuZkaVbKSINvAVLeZLKT1105l/4jdMX2EaRAHu2NQUWMkZiJUZ2p7NZJW7RN0SWjd
-         5g/5eUxANUESc3xvKVXaQDvpAGH66XBCSRsdWnA2DeB/mEBI//RsTVYavGsCHo9s6O58
-         TtbjsxqiahEdB+eL3UWU6sF1XuHw5r6SL2FNZgNfVIHPIzvePpZQ1RHKLz8pDGjqmEfC
-         N8uA==
-X-Gm-Message-State: AOAM531jHlFCHk4UC5pcbvGttDLYkCbgoo6zlgxUMds69xaYUmoWI5hh
-        vvs65c/j52dhKSxTH0IKtPfC/znq5UeUzz7EIkQ=
-X-Google-Smtp-Source: ABdhPJy4bdnOlLLsyDMAPulYW5mY6232Uy6n2lvrULm8bBlPIp8KqHJcFEF94nx0UycVv+ODFkxSMwE58yByCsD5otA=
-X-Received: by 2002:a5e:a815:: with SMTP id c21mr2793016ioa.141.1606328093153;
- Wed, 25 Nov 2020 10:14:53 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q710+yuAXMJxe0nd7TtiMj+ZjNL+TkbdcSV2kJANPFc=;
+        b=ZxZtRmKVBUGpr7KWfMUPYA/YLFDrYjUVIfPa1BkhLUJSokbaDMy7Ljr4AOPz8g8cys
+         KYnLK9RBTD9TxIZvvxoC9M2Q4EJ863ow57U8c9ij7daQG2EzMXetftQ9mJyJ6lqlSWYI
+         jBPDasLnHX+oeqxhw74fCw+nCNMb3dwHMx5q1Jibb22JyTt0u7ugVK42MHsigKMyOhI8
+         +YVXPwkloNkettuTY+VqmSWNKLvdD5Y3Wy6bgWUqaFGaJOfOFWxIsMEUeDdcXTWb1ZKQ
+         f57SEUGpUUc154WELMakjEleFEx2E22qIVQGggy1agcVElH2JprZpIVjZNipVapteRKc
+         xGYA==
+X-Gm-Message-State: AOAM5328C0f4xZuLlB87CeU0CnQRtSTolyHezVzn+exgwz+y6qfaaobG
+        r5vOu0WonZBsw7QSls0UElCIfw==
+X-Google-Smtp-Source: ABdhPJyaT4T+JFlra8+I0dMKQzQ88jRUsULWXg1Du+OwyPFSmH7nHfduCIkjo/9lH+6AkK7sbuYwqA==
+X-Received: by 2002:adf:fd52:: with SMTP id h18mr6084459wrs.90.1606336279903;
+        Wed, 25 Nov 2020 12:31:19 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id h83sm4827088wmf.9.2020.11.25.12.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 12:31:19 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        auro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Date:   Wed, 25 Nov 2020 21:31:14 +0100
+Message-Id: <20201125203114.130967-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
 MIME-Version: 1.0
-References: <30b491ad-a7e1-f7b5-26b8-2cfffc81a080@huawei.com> <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-In-Reply-To: <CAAH8bW_p3LJPgOoJgUHt6O0run+LB2RbjnAVpeLn_KCAZKNR+A@mail.gmail.com>
-From:   Yury Norov <yury.norov@gmail.com>
-Date:   Wed, 25 Nov 2020 10:14:42 -0800
-Message-ID: <CAAH8bW8Zo1U3oMu5Gggp-MyNNZ8_WieQn+GKYiML93O9sJB=Dg@mail.gmail.com>
-Subject: Re: [Question] About SECCOMP issue for ILP32
-To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc:     bobo.shaobowang@huawei.com,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Alexander Graf <agraf@suse.de>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Andreas Schwab <schwab@suse.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Florian Weimer <fweimer@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        James Morse <james.morse@arm.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 11:15 AM Yury Norov <yury.norov@gmail.com> wrote:
->
-> On Mon, Aug 31, 2020 at 5:48 AM Xiongfeng Wang
-> <wangxiongfeng2@huawei.com> wrote:
-> >
-> > Hi Yury,
-> >
->
-> Hi Xiongfeng,
->
-> [restore CC list]
->
-> Haven't seen this before. What kernel / glibc / ltp do you use?
->
-> > We were testing the ILP32 feature and came accross a problem. Very apperaciate
-> > it if you could give us some help !
-> >
-> > We compile the LTP testsuite with '-mabi=ilp32' and run it on a machine with
-> > kernel and glibc applied with ILP32 patches. But we failed on one testcase,
-> > prctl04. It print the following error info.
-> > 'prctl04.c:199: FAIL: SECCOMP_MODE_STRICT doesn't permit read(2) write(2) and
-> > _exit(2)'
-> >
-> > The testcase is like below, syscall 'prctl' followed by a syscall 'write'.
-> > prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
-> > SAFE_WRITE(1, fd, "a", 1);
-> >
-> > When we execute syscall 'write', we receive a SIGKILL. It's not as expected.
-> > We track the kernel and found out it is because we failed the syscall_whitelist
-> > check in '__secure_computing_strict'. Because flag 'TIF_32BIT_AARCH64' is set,
-> > we falls into the 'in_compat_syscall()' branch. We compare the parameter
-> > 'this_syscall' with return value of 'get_compat_model_syscalls()'
-> > The syscall number of '__NR_write' for ilp32 application is 64, but it is 4 for
-> > 'model_syscalls_32' returned from 'get_compat_model_syscalls()'
-> > So '__secure_computing_strict' retuned with 'do_exit(SIGKILL)'. We have a
-> > modification like below, but I am not sure if it correct or not.
-> >
-> > --- a/kernel/seccomp.c
-> > +++ b/kernel/seccomp.c
-> > @@ -618,7 +618,7 @@ static void __secure_computing_strict(int this_syscall)
-> >  {
-> >         const int *syscall_whitelist = mode1_syscalls;
-> >  #ifdef CONFIG_COMPAT
-> > -       if (in_compat_syscall())
-> > +       if (is_a32_compat_task())
-> >                 syscall_whitelist = get_compat_mode1_syscalls();
->
-> It calls the arch function from generic code. It may break build for
-> other arches.
-> This also looks dangerous because it treats ILP32 execution as non-compat.
->
-> The right approach would be implementing arch-specific
-> get_compat_mode1_syscalls()
-> in arch/arm64/include/asm/seccomp.h that returns an appropriate table.
-> Refer MIPS
-> code for this: arch/mips/include/asm/seccomp.h
->
-> Thanks,
-> Yury
->
-> >  #endif
-> >         do {
-> >
-> >
-> > Thanks,
-> > Xiongfeng
-> >
+On architectures where the is no coherent caching such as ARM use the
+dma_alloc_noncontiguos API and handle manually the cache flushing using
+dma_sync_sg().
 
-The fix is on my repo; versions 5.2 and 4.19 are updated:
+With this patch on the affected architectures we can measure up to 20x
+performance improvement in uvc_video_copy_data_work().
 
-https://github.com/norov/linux/commits/ilp32-4.19
-https://github.com/norov/linux/commits/ilp32-5.2
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+
+v2: Thanks to Robin!
+
+Use dma_sync_sg instead of dma_sync_single
+
+
+ drivers/media/usb/uvc/uvc_video.c | 83 ++++++++++++++++++++++++++-----
+ drivers/media/usb/uvc/uvcvideo.h  |  2 +
+ 2 files changed, 73 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index a6a441d92b94..b2e6a9522999 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1490,6 +1490,11 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+ 	urb->transfer_buffer_length = stream->urb_size - len;
+ }
+ 
++static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
++{
++	return stream->dev->udev->bus->controller->parent;
++}
++
+ static void uvc_video_complete(struct urb *urb)
+ {
+ 	struct uvc_urb *uvc_urb = urb->context;
+@@ -1539,6 +1544,10 @@ static void uvc_video_complete(struct urb *urb)
+ 	 * Process the URB headers, and optionally queue expensive memcpy tasks
+ 	 * to be deferred to a work queue.
+ 	 */
++	if (uvc_urb->pages) {
++		dma_sync_sg_for_cpu(stream_to_dmadev(stream), uvc_urb->sgt.sgl,
++				    uvc_urb->sgt.nents,	DMA_FROM_DEVICE);
++	}
+ 	stream->decode(uvc_urb, buf, buf_meta);
+ 
+ 	/* If no async work is needed, resubmit the URB immediately. */
+@@ -1566,8 +1575,16 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 			continue;
+ 
+ #ifndef CONFIG_DMA_NONCOHERENT
+-		usb_free_coherent(stream->dev->udev, stream->urb_size,
+-				  uvc_urb->buffer, uvc_urb->dma);
++		if (uvc_urb->pages) {
++			sg_free_table(&uvc_urb->sgt);
++			vunmap(uvc_urb->buffer);
++			dma_free_noncontiguous(stream_to_dmadev(stream),
++					       stream->urb_size,
++					       uvc_urb->pages, uvc_urb->dma);
++		} else {
++			usb_free_coherent(stream->dev->udev, stream->urb_size,
++					  uvc_urb->buffer, uvc_urb->dma);
++		}
+ #else
+ 		kfree(uvc_urb->buffer);
+ #endif
+@@ -1577,6 +1594,56 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 	stream->urb_size = 0;
+ }
+ 
++#ifndef CONFIG_DMA_NONCOHERENT
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
++
++	if (!dma_can_alloc_noncontiguous(dma_dev)) {
++		uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev,
++						     stream->urb_size,
++						     gfp_flags | __GFP_NOWARN,
++						     &uvc_urb->dma);
++		return uvc_urb->buffer != NULL;
++	}
++
++	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
++						 &uvc_urb->dma,
++						 gfp_flags | __GFP_NOWARN, 0);
++	if (!uvc_urb->pages)
++		return false;
++
++	uvc_urb->buffer = vmap(uvc_urb->pages,
++			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
++			       VM_DMA_COHERENT, PAGE_KERNEL);
++	if (!uvc_urb->buffer) {
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->pages, uvc_urb->dma);
++		return false;
++	}
++
++	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
++				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
++				stream->urb_size, GFP_KERNEL)) {
++		vunmap(uvc_urb->buffer);
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->pages, uvc_urb->dma);
++		return false;
++	}
++
++	return true;
++}
++#else
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
++
++	return uvc_urb->buffer != NULL;
++}
++#endif
++
+ /*
+  * Allocate transfer buffers. This function can be called with buffers
+  * already allocated when resuming from suspend, in which case it will
+@@ -1607,19 +1674,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 
+ 	/* Retry allocations until one succeed. */
+ 	for (; npackets > 1; npackets /= 2) {
++		stream->urb_size = psize * npackets;
+ 		for (i = 0; i < UVC_URBS; ++i) {
+ 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ 
+-			stream->urb_size = psize * npackets;
+-#ifndef CONFIG_DMA_NONCOHERENT
+-			uvc_urb->buffer = usb_alloc_coherent(
+-				stream->dev->udev, stream->urb_size,
+-				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+-#else
+-			uvc_urb->buffer =
+-			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+-#endif
+-			if (!uvc_urb->buffer) {
++			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+ 				uvc_free_urb_buffers(stream);
+ 				break;
+ 			}
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index a3dfacf069c4..3e6618a2ac82 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -532,6 +532,8 @@ struct uvc_urb {
+ 
+ 	char *buffer;
+ 	dma_addr_t dma;
++	struct page **pages;
++	struct sg_table sgt;
+ 
+ 	unsigned int async_operations;
+ 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+-- 
+2.29.2.454.gaff20da3a2-goog
+
