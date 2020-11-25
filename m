@@ -2,116 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F39EC56201
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 16:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D34C56201
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 17:14:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51019206D8
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 16:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EE3C206D9
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 17:14:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732155AbgKYQ5b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 11:57:31 -0500
-Received: from smtp.asem.it ([151.1.184.197]:60884 "EHLO smtp.asem.it"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732141AbgKYQ5b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 25 Nov 2020 11:57:31 -0500
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Nov 2020 11:57:30 EST
-Received: from webmail.asem.it
-        by asem.it (smtp.asem.it)
-        (SecurityGateway 6.5.2)
-        with ESMTP id SG000631152.MSG 
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 17:52:26 +0100
-Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 25
- Nov 2020 17:52:23 +0100
-Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
- (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
- Transport; Wed, 25 Nov 2020 17:52:23 +0100
-From:   Flavio Suligoi <f.suligoi@asem.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Flavio Suligoi <f.suligoi@asem.it>
-Subject: [PATCH v1] docs/vm: hwpoison: fix spelling mistakes
-Date:   Wed, 25 Nov 2020 17:52:22 +0100
-Message-ID: <20201125165222.788910-1-f.suligoi@asem.it>
-X-Mailer: git-send-email 2.25.1
+        id S1731385AbgKYROH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Nov 2020 12:14:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730445AbgKYROG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 12:14:06 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F4DC0613D4;
+        Wed, 25 Nov 2020 09:14:06 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7832D9A8;
+        Wed, 25 Nov 2020 17:14:06 +0000 (UTC)
+Date:   Wed, 25 Nov 2020 10:14:05 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Flavio Suligoi <f.suligoi@asem.it>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] docs/vm: hwpoison: fix spelling mistakes
+Message-ID: <20201125101405.7ae6ff92@lwn.net>
+In-Reply-To: <20201125165222.788910-1-f.suligoi@asem.it>
+References: <20201125165222.788910-1-f.suligoi@asem.it>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
-X-SGSPF-Result: none (smtp.asem.it)
-X-SGOP-RefID: str=0001.0A090210.5FBE8BC8.0058,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Actions:
+On Wed, 25 Nov 2020 17:52:22 +0100
+Flavio Suligoi <f.suligoi@asem.it> wrote:
 
-- fix spelling mistake
-- reduce some double spaces to a single one
-- substitute spaces with tab
+> Actions:
+> 
+> - fix spelling mistake
+> - reduce some double spaces to a single one
 
-Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
----
- Documentation/vm/hwpoison.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Please don't make changes like that last one; double spaces are not an
+error, and "fixing" them just adds noise to the history.
 
-diff --git a/Documentation/vm/hwpoison.rst b/Documentation/vm/hwpoison.rst
-index a5c884293dac..88ba2df198d1 100644
---- a/Documentation/vm/hwpoison.rst
-+++ b/Documentation/vm/hwpoison.rst
-@@ -50,7 +50,7 @@ of applications. KVM support requires a recent qemu-kvm release.
- For the KVM use there was need for a new signal type so that
- KVM can inject the machine check into the guest with the proper
- address. This in theory allows other applications to handle
--memory failures too. The expection is that near all applications
-+memory failures too. The expectation is that near all applications
- won't do that, but some very specialized ones might.
- 
- Failure recovery modes
-@@ -121,7 +121,7 @@ Testing
- 
-   unpoison-pfn
- 	Software-unpoison page at PFN echoed into this file. This way
--	a page can be reused again.  This only works for Linux
-+	a page can be reused again. This only works for Linux
- 	injected failures, not for real memory failures.
- 
-   Note these injection interfaces are not stable and might change between
-@@ -129,8 +129,8 @@ Testing
- 
-   corrupt-filter-dev-major, corrupt-filter-dev-minor
- 	Only handle memory failures to pages associated with the file
--	system defined by block device major/minor.  -1U is the
--	wildcard value.  This should be only used for testing with
-+	system defined by block device major/minor. -1U is the
-+	wildcard value. This should be only used for testing with
- 	artificial injection.
- 
-   corrupt-filter-memcg
-@@ -141,7 +141,7 @@ Testing
- 
- 		mkdir /sys/fs/cgroup/mem/hwpoison
- 
--	        usemem -m 100 -s 1000 &
-+		usemem -m 100 -s 1000 &
- 		echo `jobs -p` > /sys/fs/cgroup/mem/hwpoison/tasks
- 
- 		memcg_ino=$(ls -id /sys/fs/cgroup/mem/hwpoison | cut -f1 -d' ')
-@@ -152,7 +152,7 @@ Testing
- 
-   corrupt-filter-flags-mask, corrupt-filter-flags-value
- 	When specified, only poison pages if ((page_flags & mask) ==
--	value).  This allows stress testing of many kinds of
-+	value). This allows stress testing of many kinds of
- 	pages. The page_flags are the same as in /proc/kpageflags. The
- 	flag bits are defined in include/linux/kernel-page-flags.h and
- 	documented in Documentation/admin-guide/mm/pagemap.rst
--- 
-2.25.1
+Thanks,
 
+jon
