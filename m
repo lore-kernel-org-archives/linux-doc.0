@@ -2,235 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D42C56202
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 13:49:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D12FC64E7A
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 14:43:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BDDA2065D
-	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 13:49:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFC9520857
+	for <linux-doc@archiver.kernel.org>; Wed, 25 Nov 2020 14:43:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=uni-stuttgart.de header.i=@tik.uni-stuttgart.de header.b="Lryv3blb"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.b="G8dZ4rBW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729575AbgKYNt4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 08:49:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726992AbgKYNtz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 08:49:55 -0500
-X-Greylist: delayed 507 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 25 Nov 2020 05:49:55 PST
-Received: from mxex2.tik.uni-stuttgart.de (mxex2.tik.uni-stuttgart.de [IPv6:2001:7c0:2041:24::a:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D500C0613D4;
-        Wed, 25 Nov 2020 05:49:55 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by mxex2.tik.uni-stuttgart.de (Postfix) with ESMTP id 3AB7560C9C;
-        Wed, 25 Nov 2020 14:41:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=uni-stuttgart.de;
-         h=content-language:content-type:content-type:in-reply-to
-        :mime-version:user-agent:date:date:message-id:from:from
-        :references:subject:subject:received:received; s=dkim; i=
-        @tik.uni-stuttgart.de; t=1606311681; x=1608050482; bh=i9TWXDNtoR
-        KLLrG9KRrq5j/4SjE+bbBjALademgWjKk=; b=Lryv3blbCU4s+jdKS6qZ2EvDtL
-        x85EwNHlqFNuevqGCGFUiKhHLQq8RLg3C3luq9Aji94kH2sIiiS9qZ2bRKHsB98B
-        HyAWqhIz3LAxXleqfPaXw3B/99ExwgfmV+BXhKZAL9WftadY7iViqzM1IEWcpa9K
-        XK1sGN2C2gzKZhobK32MQAyHRSiG5f76+UmWaLUfUpoJJ697qDP+116l362zL93q
-        qkdEk4B8i7GcAHi3KjOVDzYTv1xwx7akwfO5gmHBaEVs+PrNLi5izmD+l8Tw1BfR
-        5UVB7oSIU9JF//AdeHMl46hJhz9hDxXW8fSsMfIVgaHEiP6IbLLoDVVtOVYw==
-X-Virus-Scanned: USTUTT mailrelay AV services at mxex2.tik.uni-stuttgart.de
-Received: from mxex2.tik.uni-stuttgart.de ([127.0.0.1])
-        by localhost (mxex2.tik.uni-stuttgart.de [127.0.0.1]) (amavisd-new, port 10031)
-        with ESMTP id Fr45tlTCoT8D; Wed, 25 Nov 2020 14:41:21 +0100 (CET)
-Received: from [IPv6:2001:7c0:2050:1:1::6] (unknown [IPv6:2001:7c0:2050:1:1::6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mxex2.tik.uni-stuttgart.de (Postfix) with ESMTPSA;
-        Wed, 25 Nov 2020 14:41:20 +0100 (CET)
-Subject: Re: boot interrupt quirk (also in 4.19.y) breaks serial ports (was:
- [PATCH v2 0/2] pci: Add boot interrupt quirk mechanism for Xeon chipsets)
-To:     Thomas Gleixner <tglx@linutronix.de>, sean.v.kelley@linux.intel.com
-Cc:     bhelgaas@google.com, bp@alien8.de, corbet@lwn.net,
-        kar.hin.ong@ni.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        mingo@redhat.com, sassmann@kpanic.de, x86@kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20200220192930.64820-1-sean.v.kelley@linux.intel.com>
- <b2da25c8-121a-b241-c028-68e49bab0081@tik.uni-stuttgart.de>
- <87zh35k5xa.fsf@nanos.tec.linutronix.de>
-From:   "=?UTF-8?Q?Stefan_B=c3=bchler?=" 
-        <stefan.buehler@tik.uni-stuttgart.de>
-Autocrypt: addr=stefan.buehler@tik.uni-stuttgart.de; prefer-encrypt=mutual;
- keydata=
- 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
- rwHRmQ==
-Message-ID: <d512469f-de04-2f66-ca42-21ec3c5331ba@tik.uni-stuttgart.de>
-Date:   Wed, 25 Nov 2020 14:41:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729672AbgKYOn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 25 Nov 2020 09:43:27 -0500
+Received: from gproxy7-pub.mail.unifiedlayer.com ([70.40.196.235]:36757 "EHLO
+        gproxy7-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725616AbgKYOnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 09:43:24 -0500
+Received: from cmgw15.unifiedlayer.com (unknown [10.9.0.15])
+        by gproxy7.mail.unifiedlayer.com (Postfix) with ESMTP id 9C927215CFA
+        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 07:43:23 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id hw0xkbtUdh41lhw0xkfjGo; Wed, 25 Nov 2020 07:43:23 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=QrRwI26d c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
+ a=nNwsprhYR40A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=pGLkceISAAAA:8
+ a=_jlGtV7tAAAA:8 a=jtbBNqsHAAAA:8 a=wDQFPEhNYyAw1ElLWhAA:9
+ a=CjuIK1q_8ugA:10:nop_charset_2 a=nlm17XC03S6CtCLSeiRr:22
+ a=RWaeYqt-Cn-VcsFsiLGo:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=UJRSog9lmDY1zKtsy7ZZF4ejMAXYqU0EhOMjDDdQg2E=; b=G8dZ4rBWC3O5ELN1IUrzQ36j8C
+        XbwEyKYh42djUFKXaMVETcs2WWkLlcK/SaDdmFyL7PTLZRl04ITbppWZ1CZLpE8fHyYCTZ3+11E4f
+        937Wkpo1YUcJ70noNb97hP/NZQ/f3rmHcXS6FpgliyJZvsMaEhx0UajUu120oUroluy6h001OMQiG
+        HGz+edXstiTq410SZaUGoWF37HE0B9cNzbES0xrOIkrnBonnDQTicj10UAj8TJht0PrkhduAGpK/1
+        IkuUx3DnTXzhvQhRnhFgygL3b6sblbUAHJ+FonmHT5U65XVq/0IPY8stylW47agfAmePALIzEWYsC
+        KQRfK6GA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:34496 helo=localhost)
+        by bh-25.webhostbox.net with esmtpa (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1khw0w-002VVB-Gg; Wed, 25 Nov 2020 14:43:22 +0000
+Date:   Wed, 25 Nov 2020 06:43:22 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     rentao.bupt@gmail.com
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        taoren@fb.com, mikechoi@fb.com
+Subject: Re: [PATCH v5 2/2] docs: hwmon: Document max127 driver
+Message-ID: <20201125144322.GA98562@roeck-us.net>
+References: <20201123185658.7632-1-rentao.bupt@gmail.com>
+ <20201123185658.7632-3-rentao.bupt@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87zh35k5xa.fsf@nanos.tec.linutronix.de>
-Content-Type: multipart/mixed;
- boundary="------------5DDA533774A88CDE3CBCA263"
-Content-Language: de-DE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201123185658.7632-3-rentao.bupt@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1khw0w-002VVB-Gg
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:34496
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 58
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------5DDA533774A88CDE3CBCA263
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-Hi tglx,
-
-On 11/25/20 12:54 PM, Thomas Gleixner wrote:
-> Stefan,
+On Mon, Nov 23, 2020 at 10:56:58AM -0800, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
 > 
-> On Wed, Sep 16 2020 at 12:12, Stefan Bühler wrote:
+> Add documentation for the max127 hardware monitoring driver.
 > 
-> sorry for the delay. This fell through the cracks.
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
+Applied.
+
+Thanks,
+Guenter
+
+> ---
+>  Changes in v5:
+>    - None.
+>  Changes in v4:
+>    - None.
+>  Changes in v3:
+>    - no code change. xdp maintainers were removed from to/cc list.
+>  Changes in v2:
+>    - add more description for min/max sysfs nodes.
+>    - convert values from volt to millivolt in the document.
 > 
->> this quirk breaks our serial ports PCIe card (i.e. we don't see any 
->> output from the connected devices; no idea whether anything we send 
->> reaches them):
->>
->> 05:00.0 PCI bridge: PLX Technology, Inc. PEX8112 x1 Lane PCI Express-to-PCI Bridge (rev aa)
->> 06:00.0 Serial controller: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART) function 0 (Uart)
->> 06:00.1 Bridge: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART) function 0 (Disabled)
->> 06:01.0 Serial controller: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART) function 0 (Uart)
->> 06:01.1 Bridge: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART)
->> function 0 (Disabled)
+>  Documentation/hwmon/index.rst  |  1 +
+>  Documentation/hwmon/max127.rst | 45 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 46 insertions(+)
+>  create mode 100644 Documentation/hwmon/max127.rst
 > 
-> Can you please provide the output of:
-> 
->  for ID in 05:00.0 06:00.0 06:00.1 06:01.0 06:01.1; do lspci -s $ID -vvv; done
-> 
-
-See attachment.
-
-Also I boot the affected systems now with "pci=noioapicquirk", which
-"solves" the issue too (instead of patching the kernel).
-
-cheers,
-Stefan
-
---------------5DDA533774A88CDE3CBCA263
-Content-Type: text/plain; charset=UTF-8;
- name="oxford-serial-lspci.txt"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="oxford-serial-lspci.txt"
-
-MDU6MDAuMCBQQ0kgYnJpZGdlOiBQTFggVGVjaG5vbG9neSwgSW5jLiBQRVg4MTEyIHgxIExh
-bmUgUENJIEV4cHJlc3MtdG8tUENJIEJyaWRnZSAocmV2IGFhKSAocHJvZy1pZiAwMCBbTm9y
-bWFsIGRlY29kZV0pCglQaHlzaWNhbCBTbG90OiAxCglDb250cm9sOiBJL08rIE1lbSsgQnVz
-TWFzdGVyKyBTcGVjQ3ljbGUtIE1lbVdJTlYtIFZHQVNub29wLSBQYXJFcnItIFN0ZXBwaW5n
-LSBTRVJSKyBGYXN0QjJCLSBEaXNJTlR4LQoJU3RhdHVzOiBDYXArIDY2TUh6LSBVREYtIEZh
-c3RCMkItIFBhckVyci0gREVWU0VMPWZhc3QgPlRBYm9ydC0gPFRBYm9ydC0gPE1BYm9ydC0g
-PlNFUlItIDxQRVJSLSBJTlR4LQoJTGF0ZW5jeTogMCwgQ2FjaGUgTGluZSBTaXplOiAzMiBi
-eXRlcwoJSW50ZXJydXB0OiBwaW4gQSByb3V0ZWQgdG8gSVJRIDE2CglOVU1BIG5vZGU6IDAK
-CUJ1czogcHJpbWFyeT0wNSwgc2Vjb25kYXJ5PTA2LCBzdWJvcmRpbmF0ZT0wNiwgc2VjLWxh
-dGVuY3k9NjQKCUkvTyBiZWhpbmQgYnJpZGdlOiAwMDAwZTAwMC0wMDAwZWZmZgoJTWVtb3J5
-IGJlaGluZCBicmlkZ2U6IGZiNDAwMDAwLWZiNGZmZmZmCglQcmVmZXRjaGFibGUgbWVtb3J5
-IGJlaGluZCBicmlkZ2U6IGZmZjAwMDAwLTAwMGZmZmZmCglTZWNvbmRhcnkgc3RhdHVzOiA2
-Nk1IeisgRmFzdEIyQi0gUGFyRXJyLSBERVZTRUw9bWVkaXVtID5UQWJvcnQtIDxUQWJvcnQt
-IDxNQWJvcnQrIDxTRVJSLSA8UEVSUi0KCUJyaWRnZUN0bDogUGFyaXR5LSBTRVJSKyBOb0lT
-QS0gVkdBLSBNQWJvcnQtID5SZXNldC0gRmFzdEIyQi0KCQlQcmlEaXNjVG1yLSBTZWNEaXNj
-VG1yLSBEaXNjVG1yU3RhdC0gRGlzY1RtclNFUlJFbi0KCUNhcGFiaWxpdGllczogPGFjY2Vz
-cyBkZW5pZWQ+CgowNjowMC4wIFNlcmlhbCBjb250cm9sbGVyOiBPeGZvcmQgU2VtaWNvbmR1
-Y3RvciBMdGQgT1gxNlBDSTk1NCAoUXVhZCAxNjk1MCBVQVJUKSBmdW5jdGlvbiAwIChVYXJ0
-KSAocHJvZy1pZiAwNiBbMTY5NTBdKQoJU3Vic3lzdGVtOiBPeGZvcmQgU2VtaWNvbmR1Y3Rv
-ciBMdGQgT1gxNlBDSTk1NCAoUXVhZCAxNjk1MCBVQVJUKSBmdW5jdGlvbiAwIChVYXJ0KQoJ
-Q29udHJvbDogSS9PKyBNZW0rIEJ1c01hc3Rlci0gU3BlY0N5Y2xlLSBNZW1XSU5WLSBWR0FT
-bm9vcC0gUGFyRXJyLSBTdGVwcGluZy0gU0VSUisgRmFzdEIyQi0gRGlzSU5UeC0KCVN0YXR1
-czogQ2FwKyA2Nk1Iei0gVURGLSBGYXN0QjJCKyBQYXJFcnItIERFVlNFTD1tZWRpdW0gPlRB
-Ym9ydC0gPFRBYm9ydC0gPE1BYm9ydC0gPlNFUlItIDxQRVJSLSBJTlR4LQoJSW50ZXJydXB0
-OiBwaW4gQSByb3V0ZWQgdG8gSVJRIDE2CglOVU1BIG5vZGU6IDAKCVJlZ2lvbiAwOiBJL08g
-cG9ydHMgYXQgZTBlMCBbc2l6ZT0zMl0KCVJlZ2lvbiAxOiBNZW1vcnkgYXQgZmI0MDcwMDAg
-KDMyLWJpdCwgbm9uLXByZWZldGNoYWJsZSkgW3NpemU9NEtdCglSZWdpb24gMjogSS9PIHBv
-cnRzIGF0IGUwYzAgW3NpemU9MzJdCglSZWdpb24gMzogTWVtb3J5IGF0IGZiNDA2MDAwICgz
-Mi1iaXQsIG5vbi1wcmVmZXRjaGFibGUpIFtzaXplPTRLXQoJQ2FwYWJpbGl0aWVzOiA8YWNj
-ZXNzIGRlbmllZD4KCUtlcm5lbCBkcml2ZXIgaW4gdXNlOiBzZXJpYWwKCjA2OjAwLjEgQnJp
-ZGdlOiBPeGZvcmQgU2VtaWNvbmR1Y3RvciBMdGQgT1gxNlBDSTk1NCAoUXVhZCAxNjk1MCBV
-QVJUKSBmdW5jdGlvbiAwIChEaXNhYmxlZCkKCVN1YnN5c3RlbTogT3hmb3JkIFNlbWljb25k
-dWN0b3IgTHRkIE9YMTZQQ0k5NTQgKFF1YWQgMTY5NTAgVUFSVCkgZnVuY3Rpb24gMCAoRGlz
-YWJsZWQpCglDb250cm9sOiBJL08tIE1lbS0gQnVzTWFzdGVyLSBTcGVjQ3ljbGUtIE1lbVdJ
-TlYtIFZHQVNub29wLSBQYXJFcnItIFN0ZXBwaW5nLSBTRVJSKyBGYXN0QjJCLSBEaXNJTlR4
-LQoJU3RhdHVzOiBDYXArIDY2TUh6LSBVREYtIEZhc3RCMkIrIFBhckVyci0gREVWU0VMPW1l
-ZGl1bSA+VEFib3J0LSA8VEFib3J0LSA8TUFib3J0LSA+U0VSUi0gPFBFUlItIElOVHgtCglO
-VU1BIG5vZGU6IDAKCVJlZ2lvbiAwOiBJL08gcG9ydHMgYXQgZTBhMCBbZGlzYWJsZWRdIFtz
-aXplPTMyXQoJUmVnaW9uIDE6IE1lbW9yeSBhdCBmYjQwNTAwMCAoMzItYml0LCBub24tcHJl
-ZmV0Y2hhYmxlKSBbZGlzYWJsZWRdIFtzaXplPTRLXQoJUmVnaW9uIDI6IEkvTyBwb3J0cyBh
-dCBlMDgwIFtkaXNhYmxlZF0gW3NpemU9MzJdCglSZWdpb24gMzogTWVtb3J5IGF0IGZiNDA0
-MDAwICgzMi1iaXQsIG5vbi1wcmVmZXRjaGFibGUpIFtkaXNhYmxlZF0gW3NpemU9NEtdCglD
-YXBhYmlsaXRpZXM6IDxhY2Nlc3MgZGVuaWVkPgoKMDY6MDEuMCBTZXJpYWwgY29udHJvbGxl
-cjogT3hmb3JkIFNlbWljb25kdWN0b3IgTHRkIE9YMTZQQ0k5NTQgKFF1YWQgMTY5NTAgVUFS
-VCkgZnVuY3Rpb24gMCAoVWFydCkgKHByb2ctaWYgMDYgWzE2OTUwXSkKCVN1YnN5c3RlbTog
-T3hmb3JkIFNlbWljb25kdWN0b3IgTHRkIE9YMTZQQ0k5NTQgKFF1YWQgMTY5NTAgVUFSVCkg
-ZnVuY3Rpb24gMCAoVWFydCkKCUNvbnRyb2w6IEkvTysgTWVtKyBCdXNNYXN0ZXItIFNwZWND
-eWNsZS0gTWVtV0lOVi0gVkdBU25vb3AtIFBhckVyci0gU3RlcHBpbmctIFNFUlIrIEZhc3RC
-MkItIERpc0lOVHgtCglTdGF0dXM6IENhcCsgNjZNSHotIFVERi0gRmFzdEIyQisgUGFyRXJy
-LSBERVZTRUw9bWVkaXVtID5UQWJvcnQtIDxUQWJvcnQtIDxNQWJvcnQtID5TRVJSLSA8UEVS
-Ui0gSU5UeC0KCUludGVycnVwdDogcGluIEEgcm91dGVkIHRvIElSUSAxNwoJTlVNQSBub2Rl
-OiAwCglSZWdpb24gMDogSS9PIHBvcnRzIGF0IGUwNjAgW3NpemU9MzJdCglSZWdpb24gMTog
-TWVtb3J5IGF0IGZiNDAzMDAwICgzMi1iaXQsIG5vbi1wcmVmZXRjaGFibGUpIFtzaXplPTRL
-XQoJUmVnaW9uIDI6IEkvTyBwb3J0cyBhdCBlMDQwIFtzaXplPTMyXQoJUmVnaW9uIDM6IE1l
-bW9yeSBhdCBmYjQwMjAwMCAoMzItYml0LCBub24tcHJlZmV0Y2hhYmxlKSBbc2l6ZT00S10K
-CUNhcGFiaWxpdGllczogPGFjY2VzcyBkZW5pZWQ+CglLZXJuZWwgZHJpdmVyIGluIHVzZTog
-c2VyaWFsCgowNjowMS4xIEJyaWRnZTogT3hmb3JkIFNlbWljb25kdWN0b3IgTHRkIE9YMTZQ
-Q0k5NTQgKFF1YWQgMTY5NTAgVUFSVCkgZnVuY3Rpb24gMCAoRGlzYWJsZWQpCglTdWJzeXN0
-ZW06IE94Zm9yZCBTZW1pY29uZHVjdG9yIEx0ZCBPWDE2UENJOTU0IChRdWFkIDE2OTUwIFVB
-UlQpIGZ1bmN0aW9uIDAgKERpc2FibGVkKQoJQ29udHJvbDogSS9PLSBNZW0tIEJ1c01hc3Rl
-ci0gU3BlY0N5Y2xlLSBNZW1XSU5WLSBWR0FTbm9vcC0gUGFyRXJyLSBTdGVwcGluZy0gU0VS
-UisgRmFzdEIyQi0gRGlzSU5UeC0KCVN0YXR1czogQ2FwKyA2Nk1Iei0gVURGLSBGYXN0QjJC
-KyBQYXJFcnItIERFVlNFTD1tZWRpdW0gPlRBYm9ydC0gPFRBYm9ydC0gPE1BYm9ydC0gPlNF
-UlItIDxQRVJSLSBJTlR4LQoJTlVNQSBub2RlOiAwCglSZWdpb24gMDogSS9PIHBvcnRzIGF0
-IGUwMjAgW2Rpc2FibGVkXSBbc2l6ZT0zMl0KCVJlZ2lvbiAxOiBNZW1vcnkgYXQgZmI0MDEw
-MDAgKDMyLWJpdCwgbm9uLXByZWZldGNoYWJsZSkgW2Rpc2FibGVkXSBbc2l6ZT00S10KCVJl
-Z2lvbiAyOiBJL08gcG9ydHMgYXQgZTAwMCBbZGlzYWJsZWRdIFtzaXplPTMyXQoJUmVnaW9u
-IDM6IE1lbW9yeSBhdCBmYjQwMDAwMCAoMzItYml0LCBub24tcHJlZmV0Y2hhYmxlKSBbZGlz
-YWJsZWRdIFtzaXplPTRLXQoJQ2FwYWJpbGl0aWVzOiA8YWNjZXNzIGRlbmllZD4KCg==
---------------5DDA533774A88CDE3CBCA263--
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 408760d13813..0a07b6000c20 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -111,6 +111,7 @@ Hardware Monitoring Kernel Drivers
+>     ltc4245
+>     ltc4260
+>     ltc4261
+> +   max127
+>     max16064
+>     max16065
+>     max1619
+> diff --git a/Documentation/hwmon/max127.rst b/Documentation/hwmon/max127.rst
+> new file mode 100644
+> index 000000000000..dc192dd9c37c
+> --- /dev/null
+> +++ b/Documentation/hwmon/max127.rst
+> @@ -0,0 +1,45 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver max127
+> +====================
+> +
+> +Author:
+> +
+> +  * Tao Ren <rentao.bupt@gmail.com>
+> +
+> +Supported chips:
+> +
+> +  * Maxim MAX127
+> +
+> +    Prefix: 'max127'
+> +
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX127-MAX128.pdf
+> +
+> +Description
+> +-----------
+> +
+> +The MAX127 is a multirange, 12-bit data acquisition system (DAS) providing
+> +8 analog input channels that are independently software programmable for
+> +a variety of ranges. The available ranges are {0,5V}, {0,10V}, {-5,5V}
+> +and {-10,10V}.
+> +
+> +The MAX127 features a 2-wire, I2C-compatible serial interface that allows
+> +communication among multiple devices using SDA and SCL lines.
+> +
+> +Sysfs interface
+> +---------------
+> +
+> +  ============== ==============================================================
+> +  in[0-7]_input  The input voltage (in mV) of the corresponding channel.
+> +		 RO
+> +
+> +  in[0-7]_min    The lower input limit (in mV) for the corresponding channel.
+> +		 ADC range and LSB will be updated when the limit is changed.
+> +		 For the MAX127, it will be adjusted to -10000, -5000, or 0.
+> +		 RW
+> +
+> +  in[0-7]_max    The higher input limit (in mV) for the corresponding channel.
+> +		 ADC range and LSB will be updated when the limit is changed.
+> +		 For the MAX127, it will be adjusted to 0, 5000, or 10000.
+> +		 RW
+> +  ============== ==============================================================
