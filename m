@@ -2,123 +2,253 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90193C56202
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEFF1C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:53:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14D8120DD4
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 507A920678
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:53:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYGL5wwM"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="oj7m4NlJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731627AbgKZLoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 06:44:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731379AbgKZLoz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 06:44:55 -0500
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6415C0613D4;
-        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
-Received: by mail-pg1-x542.google.com with SMTP id 62so1519150pgg.12;
-        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
+        id S1733203AbgKZLww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 06:52:52 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:20398 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387504AbgKZLww (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 06:52:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UpERwUmn/OuG9/9GiqizbXJDLzVxL1S8PfGCKpa9aUg=;
-        b=nYGL5wwMzInwZKf69/TnCeMo02Cht0pAdcQoAUSgCVe5YzuaNqWcOj9BMSrJG11J2f
-         KNcl4S4BCDyYQZ9xw4Y7s1+6wFphhly5hk8wMuIGqUaPzSzSN98tnParN/VVKeaQNJV1
-         KhMm0oyRhW/8xPEbWsyFARG/ib75aDcW85H82wQyIIf/H75HSWxzBXzqqRPWQh1WqZcX
-         iPdAS4W+W92oDObcecbFDg5zHufOPtH8/afpKxrogGEW3TTkAY+fxXaJ14gouOOTshdj
-         lDZUplgZzM2IrqxRyA5OetWAyeNjvrdA+uf3NtbZL7nOSM1+RgxdRJ0hsNWi3qqnzHJX
-         thgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UpERwUmn/OuG9/9GiqizbXJDLzVxL1S8PfGCKpa9aUg=;
-        b=dIdT955rtQoAL64otwwvv/PreNSIo+OCTRiwTTrYytKCmhEVYIFmPBgpKa4li1opUF
-         ENuYDpabXwU+CpJa8j76AojDhJihANjgeZVceyLteDSn0A2OL3jeBR71i+/GCysTpJdv
-         cSIildg/MwpxP0/bdaWNzzrsLj7IptP8YXYX/WljIOyVkx3AssVFjR32d5yQ69anLzLS
-         eQw888ZHd2jjwj1SEGkOk9Pz7njeNkgtrZ6haP9uafdwO2CiP/4xmEwgMN6Mhun0afNe
-         Ubu9t6HEbdhVMDZ7SLEgyrUHddEAezYLcUyHFGyOAz34F7jVbQ+IqGgFhG+hMujl6efv
-         1brw==
-X-Gm-Message-State: AOAM531MqtQJ9BV8njN2OMrBbAWzewjpObongyYwvcOxlxWVK4gK5mud
-        HQpfd9ISnT81YQGx5JeLaBk=
-X-Google-Smtp-Source: ABdhPJw/1d59DXda0KuVqjExWVYT3bxoXf2mR5gIjPc+28YwR+iFHQlRFLWrBosK+geb9FM5JmT/vA==
-X-Received: by 2002:a63:62c6:: with SMTP id w189mr2343708pgb.440.1606391093464;
-        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
-        by smtp.gmail.com with ESMTPSA id d15sm6575313pjr.27.2020.11.26.03.44.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2020 03:44:52 -0800 (PST)
-Date:   Thu, 26 Nov 2020 20:44:50 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20201126114450.GB3723071@google.com>
-References: <20201125221917.150463-1-ribalda@chromium.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1606391571; x=1637927571;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=LVzyqzcGOHq/lPo7TqlyXt1Tku8FZUsCf1O0EHMX9B8=;
+  b=oj7m4NlJ2DSRCJJwLlk0nwaxJo8FNeuTQuuoJVzWSnbGifonNfJ+C/lB
+   ZW+X89vhSYpJLU7A/Kn6bxrbc4gRCcm41HF3qNYKf9nNufhKRmF7kHJvg
+   DVKnbh/vCJPPDmVyqqu7aT1gaCmJsaJLFV6VLG5+Jxz+oiv1TTDj1zFVk
+   o=;
+X-IronPort-AV: E=Sophos;i="5.78,372,1599523200"; 
+   d="scan'208";a="99435090"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 26 Nov 2020 11:52:42 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com (Postfix) with ESMTPS id 0CE9EA1AB8;
+        Thu, 26 Nov 2020 11:52:29 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.67) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 26 Nov 2020 11:52:12 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v22 01/18] mm: Introduce Data Access MONitor (DAMON)
+Date:   Thu, 26 Nov 2020 12:51:57 +0100
+Message-ID: <20201126115157.6888-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod5rALTNRzK2w-y7AJMxFfBV9upJECPvCjhF=iFcDFt-5g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201125221917.150463-1-ribalda@chromium.org>
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.67]
+X-ClientProxiedBy: EX13D23UWC002.ant.amazon.com (10.43.162.22) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (20/11/25 23:19), Ricardo Ribalda wrote:
-[..]
-> +	if (uvc_urb->pages)
-> +		dma_sync_sgtable_for_device(stream_to_dmadev(uvc_urb->stream),
-> +					    &uvc_urb->sgt, DMA_FROM_DEVICE);
+Hi Shakeel,
 
-[..]
 
-> +	if (uvc_urb->pages)
-> +		dma_sync_sgtable_for_cpu(stream_to_dmadev(stream),
-> +					 &uvc_urb->sgt, DMA_FROM_DEVICE);
+Thanks for the review! :D
 
-[..]
+On Wed, 25 Nov 2020 07:29:10 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-> +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-> +						 &uvc_urb->dma,
-> +						 gfp_flags | __GFP_NOWARN, 0);
+> On Tue, Oct 20, 2020 at 2:01 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > DAMON is a data access monitoring framework for the Linux kernel.  The
+> > core mechanisms of DAMON make it
+> >
+> >  - accurate (the monitoring output is useful enough for DRAM level
+> >    performance-centric memory management; It might be inappropriate for
+> >    CPU Cache levels, though),
+> >  - light-weight (the monitoring overhead is normally low enough to be
+> >    applied online), and
+> >  - scalable (the upper-bound of the overhead is in constant range
+> >    regardless of the size of target workloads).
+> >
+> > Using this framework, hence, we can easily write efficient kernel space
+> > data access monitoring applications.  For example, the kernel's memory
+> > management mechanisms can make advanced decisions using this.
+> > Experimental data access aware optimization works that incurring high
+> > access monitoring overhead could implemented again on top of this.
+> >
+> > Due to its simple and flexible interface, providing user space interface
+> > would be also easy.  Then, user space users who have some special
+> > workloads can write personalized applications for better understanding
+> > and optimizations of their workloads and systems.
+> >
+> > That said, this commit is implementing only basic data structures and
+> > simple manipulation functions of the structures.  The core mechanisms of
+> > DAMON will be implemented by following commits.
+> >
+> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> > Reviewed-by: Varad Gautam <vrd@amazon.de>
+> 
+> I don't see any benefit of this patch on its own. Some of this should
+> be part of the main damon context patch.
 
-Do we need to pass __GFP_NOWARN? It seems that
+Agreed.  Will change so in the next version.
 
-dma_alloc_noncontiguous()
-  __iommu_dma_alloc_noncontiguous()
-    __iommu_dma_alloc_pages()
+> I would suggest to separate
+> the core (damon context) from the target related structs (target,
+> region, addr range).
 
-does this internally.
+To be honest, I unsure if I'm fully understanding what specific change you want
+to make.  So if I'm misunderstanding your point below, please let me know.
 
-> +	if (!uvc_urb->pages)
-> +		return false;
-> +
-> +	uvc_urb->buffer = vmap(uvc_urb->pages,
-> +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
-> +			       VM_DMA_COHERENT, PAGE_KERNEL);
+Seems like you are concerning for future support of special kind use cases that
+don't need targets/regions/addresses, such as page granularity monitoring that
+having interest in only if the pages accessed or not, rather than access
+frequency.  In the context, your suggestion makes sense as the region
+abstraction is only burden in the case, as I also mentioned in the cover
+letter.  This could be done via idle pages tracking, but DAMON will be able to
+do this faster by reducing the number of user-kernel context switches.
 
-This is not related to Ricardo's patch, just a side note:
+I once considered adding some change in the core part for efficient support of
+such use cases, but resulted in believing that the best way for that is
+implementing another primitive for the case and use it in a controlled way.
 
-  I think VM_DMA_COHERENT needs to be renamed. I found it a bit confusing
-  to see DMA_COHERENT mapping being dma_sync-ed. It turned out that the
-  flag has different meaning.
+In a high level, it should disable the 'adaptive regions adjustment' feature
+and define it's own targets structs other than the damon_target.  Then, your
+implementation of the primitive callbacks should use your own targets.
 
-	-ss
+In more detail, the 'adaptive regions adjustment' can be disabled by setting
+the min_nr_regions and max_nr_regions of the damon_ctx with same value, say, 0.
+Your own targets structs could be stored in 'damon_callback->private'.  Or, we
+could add another 'private' field in damon_ctx for that.
+
+I think this will work, but I also admit that this could look like a hairy
+hack to someone.  Fundamentally, this is because the region based
+overhead/accuracy handling is strongly coupled in the design.  So, I think what
+you are really suggesting is making DAMON more general by default and
+supporting the region based overhead/accuracy handling additionally.
+
+If I'm understanding correctly, how about below like change?  Obviously this
+should be cleaned up a lot, but I just want to quickly share my idea and
+discuss.  Also note that it's based on the damon/next tree[1].
+
+[1] https://github.com/sjp38/linux/tree/damon/next
+
++enum damon_type {
++       ARBITRARY_TARGETS,
++       ADAPTIVE_REGIONS,
++};
++
++struct damon_adaptive_regions_ctx {
++       unsigned long min_nr_regions;
++       unsigned long max_nr_regions;
++       struct list_head targets;
++       struct list_head schemes;
++};
++
+ /**
+  * struct damon_ctx - Represents a context for each monitoring.  This is the
+  * main interface that allows users to set the attributes and get the results
+@@ -243,8 +255,6 @@ struct damon_ctx {
+        unsigned long sample_interval;
+        unsigned long aggr_interval;
+        unsigned long regions_update_interval;
+-       unsigned long min_nr_regions;
+-       unsigned long max_nr_regions;
+
+        struct timespec64 last_aggregation;
+        struct timespec64 last_regions_update;
+@@ -253,11 +263,14 @@ struct damon_ctx {
+        bool kdamond_stop;
+        struct mutex kdamond_lock;
+
+-       struct list_head targets_list;  /* 'damon_target' objects */
+-       struct list_head schemes_list;  /* 'damos' objects */
+-
+        struct damon_primitive primitive;
+        struct damon_callback callback;
++
++       enum damon_type type;
++       union {
++               struct damon_adaptive_regions_ctx arctx;
++               void *targets;
++       };
+ };
+
+The patchset will first introduce DAMON as only ARBITRARY_TARGETS (or, would
+TINY be a better name?) type supporting form.  After that, following patch will
+add ADAPTIVE_REGIONS type support.  Do you think I'm correctly understanding
+your point and above suggestion makes sense?
+
+> 
+> Also I would prefer the code be added with the actual usage otherwise
+> it is hard to review.
+
+Agreed.  Will do so in the next version.
+
+> 
+> > ---
+> [snip]
+> > +unsigned int damon_nr_regions(struct damon_target *t)
+> > +{
+> > +       struct damon_region *r;
+> > +       unsigned int nr_regions = 0;
+> > +
+> > +       damon_for_each_region(r, t)
+> > +               nr_regions++;
+> > +
+> > +       return nr_regions;
+> > +}
+> 
+> Why not keep a count instead of traversing to get the size?
+
+First of all, because this makes code simpler while this is not confirmed as
+bottleneck, yet.  Because users can set the max_nr_regions, I think this will
+not be real problem in the region based overhead/accuracy handling case.  In
+case of the 'ARBITRARY_TARGETS', this will not used at all.  I also prefer this
+because the user could add/remove regions on their own inside their callbacks.
+
+
+Thanks,
+SeongJae Park
