@@ -2,112 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C12D4C56201
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 00:06:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964A5C6379D
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 07:57:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 708A6206C0
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 00:06:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2841B206D9
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 07:57:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aW/vxIjX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SiXKaMYg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728631AbgKZAFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 25 Nov 2020 19:05:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45378 "EHLO
+        id S1732157AbgKZH5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 02:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728283AbgKZAFz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 25 Nov 2020 19:05:55 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2670DC061A51
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 16:05:55 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id f17so157200pge.6
-        for <linux-doc@vger.kernel.org>; Wed, 25 Nov 2020 16:05:55 -0800 (PST)
+        with ESMTP id S1732070AbgKZH5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 02:57:37 -0500
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B358C0613D4;
+        Wed, 25 Nov 2020 23:57:37 -0800 (PST)
+Received: by mail-pl1-x641.google.com with SMTP id x15so762884pll.2;
+        Wed, 25 Nov 2020 23:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=EyRWgsCsWzd7GS7feF4xpXXG7fpSnCNWLmqNXluILiU=;
-        b=aW/vxIjX7r6+dEWr5RCMGzYCnQyNtDQDHMu83ev+2zbCUOkNuVOuBtDV5UX1LUE23h
-         WsnHe+lDoQZMfL1V2jP4lUkIbz9wzlCU+yTjXlQNk5wZOUMy4d7m73U1enBMnLVGXDw/
-         XLQWmDOQGHB7CON5824EggMipT7n3Rcw5jKqaEqd5SgRzHrWW/Jj6rSNwMrz7mzeAILo
-         Z370H+aE8KSbLl9P1ZkFqqvpS9pbhF94xYbRP3HWCNO8y/BWcAdng5Ase6TPLXEvKr0R
-         Q8ttgfFtjSAgh3gEP//Gm3mMIPtHDLm44Be3+fY7GFp5N/UonPqXmVcYxQ7QytWuu2Pv
-         0O2w==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=AmZyur3dqLRwt7CJZ9S3po1AfiI2akYIsVedoPBwE7w=;
+        b=SiXKaMYgvMErrwMXKGeTftOQWdQCu+a9i7O7lFlvF4dznPEEJ5eocPrTSm1EIfSwwm
+         CAj+BKOTrwQiqpxmHIdn44ryjPBuB0vdVxBGdYGjZHtDRQuvnht1eDfZHdshBF2Ofq9U
+         yKUXRRgNPtaXARZDK4hPq9erJPpJztujgA31U5Qo4DOUVted0BYXv6vJcf986vQ0RTQM
+         TtLWahAJjM3lpQZkFgFEg2rXT+w6mpZx47Dx9utPY81q7MNePcFLk8poaLM03Wy+JsvC
+         3l+TKUVsFNdnSuDf0XtON6y5VIwSvsBBAycCY/HHtBCwdh/q9+MFmOaCjfGpJ7MrwDxD
+         a0TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EyRWgsCsWzd7GS7feF4xpXXG7fpSnCNWLmqNXluILiU=;
-        b=EiWATcu1ViRPBfdhOQSYHn9qkrszqDtiUZQkdJMbfBUi34czO0M8wOP5mulL5a4Rtu
-         n4Da7nmrQ34ptwyBSjzlKDa5/uRzAmq/1ziv+Lry5VGYN1IT1OUvwbH0DNp3QoQtIxan
-         waAcbnLVWFni7mEHnq2vYwDxoug37eme+z9OPXXj28QgIeuDzo0kPRL2NkFbxPW+bb0v
-         RTNtDukRsDEsh709Lwh3Hl8U4ZcPvxVQyWFmWZwOnISFaNqd9StvpR1/Wqr4lATN8+wE
-         Mtt5g1iiVByj14h6ZgsmRxzrgdbqWYHfRi4vNbnmdfvmE5EUCWpMYvyM1aPlNcsb3Vvj
-         Yqkw==
-X-Gm-Message-State: AOAM532+6Xg4ah4KRGRwh5ND6pkH4fr8uv7Ff6xLEVj9Si82ZzUnXImJ
-        XxE3m4ECkZVVb7i6OoLRChqoJg==
-X-Google-Smtp-Source: ABdhPJwBXTMSc5udFknAAI9pVHPZm6e1jtl2G1dym6ZaM3JWgTp7ubqiMcA3QW/Wti3cC+yO+/VhDw==
-X-Received: by 2002:a62:2b4e:0:b029:197:96c2:bfef with SMTP id r75-20020a622b4e0000b029019796c2bfefmr398437pfr.46.1606349154408;
-        Wed, 25 Nov 2020 16:05:54 -0800 (PST)
-Received: from google.com (242.67.247.35.bc.googleusercontent.com. [35.247.67.242])
-        by smtp.gmail.com with ESMTPSA id 85sm2924588pfv.197.2020.11.25.16.05.53
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=AmZyur3dqLRwt7CJZ9S3po1AfiI2akYIsVedoPBwE7w=;
+        b=JOs0aErx/jJDgsqw8sLDwu71VdR77baxojk/Dj5idBy1HT+aGwK+9dSUD7UvY6dqt8
+         W4wDceqWZLfoiCGuAtlMDP8YG3quEnOO9IZ70OIEFfRi/61JsjQg7ZL0ib0lNzBn8317
+         SAdGCJjFVcK+R4AIlj6lkSo5xreRI+Szyv4crfeu/hG6zo0Rbs1oUFGrcbNn48bYdh1m
+         Jv9ZnQQxEgS+mUj/sztYi22PkevPYLQYPz5zfO0akpSTSFIhdv1C/lAc0mfjYbm9ae/D
+         QAFwkSrHroWLF22pDV3A6eYcW2d2guLQB7Y1jg9SCSB7oVMnuAdweB3/+gSslA1wSJQN
+         OuoQ==
+X-Gm-Message-State: AOAM530lnd3eQAzP7zsxX0o8WyxAZiUR7fAiT7tbSmjE4CbMuGxD9cpM
+        MNQW4G3qV3xjHllCzNxT+E0=
+X-Google-Smtp-Source: ABdhPJz640wG66IGDjYOa+fF/lDDn07TkbqINzHI/+LOB8n1+kd77ugQHZBzK4TP9BeeqV3Taenmpg==
+X-Received: by 2002:a17:902:b182:b029:da:d0c:abac with SMTP id s2-20020a170902b182b02900da0d0cabacmr1787002plr.40.1606377456773;
+        Wed, 25 Nov 2020 23:57:36 -0800 (PST)
+Received: from adolin ([49.207.211.158])
+        by smtp.gmail.com with ESMTPSA id fh22sm5726642pjb.45.2020.11.25.23.57.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 16:05:53 -0800 (PST)
-Date:   Thu, 26 Nov 2020 00:05:49 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Lai Jiangshan <jiangshanlai@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Lai Jiangshan <laijs@linux.alibaba.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Avi Kivity <avi@qumranet.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kvm/x86/mmu: use the correct inherited permissions to
- get shadow page
-Message-ID: <20201126000549.GC450871@google.com>
-References: <20201120095517.19211-1-jiangshanlai@gmail.com>
+        Wed, 25 Nov 2020 23:57:36 -0800 (PST)
+Date:   Thu, 26 Nov 2020 13:27:30 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     Julia.Lawall@lip6.fr
+Cc:     corbet@lwn.net, cocci@systeme.lip6.fr, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, michal.lkml@markovi.net,
+        nicolas.palix@imag.fr, Gilles.Muller@lip6.fr
+Subject: [PATCH v2] Documentation: Coccinelle: Improve command example for
+ debugging patches
+Message-ID: <20201126075730.w6brpeuviefmsxhl@adolin>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201120095517.19211-1-jiangshanlai@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 20, 2020, Lai Jiangshan wrote:
-> From: Lai Jiangshan <laijs@linux.alibaba.com>
-> 
-> Commit 41074d07c78b ("KVM: MMU: Fix inherited permissions for emulated
-> guest pte updates") said role.access is common access permissions for
-> all ptes in this shadow page, which is the inherited permissions from
-> the parent ptes.
-> 
-> But the commit did not enforce this definition when kvm_mmu_get_page()
-> is called in FNAME(fetch). Rather, it uses a random (last level pte's
-> combined) access permissions.
+Modify Coccinelle documentation to clarify usage of make command to
+run coccicheck on a folder.
 
-I wouldn't say it's random, the issue is specifically that all shadow pages end
-up using the combined set of permissions of the entire walk, as opposed to the
-only combined permissions of its parents.
+Changes in v2:
+- Give example of folder instead of file
+- Add note
 
-> And the permissions won't be checked again in next FNAME(fetch) since the
-> spte is present. It might fail to meet guest's expectation when guest sets up
-> spaghetti pagetables.
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+ Documentation/dev-tools/coccinelle.rst | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Can you provide details on the exact failure scenario?  It would be very helpful
-for documentation and understanding.  I can see how using the full combined
-permissions will cause weirdness for upper level SPs in kvm_mmu_get_page(), but
-I'm struggling to connect the dots to understand how that will cause incorrect
-behavior for the guest.  AFAICT, outside of the SP cache, KVM only consumes
-role.access for the final/last SP.
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 74c5e6aeeff5..9c454de5a7f7 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -224,14 +224,21 @@ you may want to use::
+ 
+     rm -f err.log
+     export COCCI=scripts/coccinelle/misc/irqf_oneshot.cocci
+-    make coccicheck DEBUG_FILE="err.log" MODE=report SPFLAGS="--profile --show-trying" M=./drivers/mfd/arizona-irq.c
++    make coccicheck DEBUG_FILE="err.log" MODE=report SPFLAGS="--profile --show-trying" M=./drivers/mfd
+ 
+ err.log will now have the profiling information, while stdout will
+ provide some progress information as Coccinelle moves forward with
+ work.
+ 
++NOTE:
++
+ DEBUG_FILE support is only supported when using coccinelle >= 1.0.2.
+ 
++Currently, DEBUG_FILE support is only available to check folders, and
++not single files. This is because checking a single file requires spatch
++to be called twice leading to DEBUG_FILE being set both times to the same value,
++giving rise to an error.
++
+ .cocciconfig support
+ --------------------
+ 
+-- 
+2.25.1
+
