@@ -2,61 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEC8C63798
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D271C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 674B721D46
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A51821D40
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dbbWmaFG"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RIxckPoe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391287AbgKZPy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 10:54:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        id S2391348AbgKZPyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 10:54:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391284AbgKZPy3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:29 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D91C0617A7
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:29 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id r3so2656220wrt.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:29 -0800 (PST)
+        with ESMTP id S2391344AbgKZPyc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:32 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342EEC0613D4
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:32 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id h21so2869036wmb.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PYeJaSm88hY1OXHAOwbtBVxKGHgJPc5mwzbhhlyynEE=;
-        b=dbbWmaFGzmEM/5ruz4/Z+DeG8I1QJ3E7BZZIUlz04xlmm5mpXCXyDNZuQEBkdhMaMl
-         AS/3kbrq6ApEJVDa1EWQ7GE3Zv+43ZDFCu8ZgL6c2in1kkmdfc3Xfb56Nbw+I4tyzZ0d
-         cZfOb5fGLtaLONRw5bxxovN0HifciY0MSOOaqB8tHbaiNFVZgbyB68yI7gdIxEcwWDkU
-         vwfFPgrG7LFDXj1G/CIUMjwKu5AxT/h9i6BiTmLEmW3vf6euE0U8dVUGZT6nIdsbJnQD
-         pwVKLM8IK4mJUYQTOBDyoBAyy+P1dvspXdNdJiZdnyOnj3LkxIwHH6CqJof5p6AlYAxA
-         GNsA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GRbbAoAyT+twJ6DWAMnVPh0yMfbGrEWPbKn8Cs93LQs=;
+        b=RIxckPoe2SCexeONFtE4DSkvr9AstiWpnehcv0VL5bhqQYEg6F/oOLEITVaQ1YoEfP
+         hGk3BAB/mFs/TVGkOysWFzWL2o2OJ63MAD9vHn6ziIvpoT6iU7Kp+f3yRtPmRLGrK3uL
+         0deZiq22+yVHN3uu+0OcZirO1XVk48C0r0exGjyDri75/b+No5iT5S4xp4Jb/F2siD20
+         9mbZCjgyOtXgQaVY+Md/r07NG7gzIABxytKiAfgC6hHFqf47OWj1AJA/CygIdN1Nz3RG
+         QjClGrsnaR32TvHvOZhfrzbfM8Kl2yeEXRKWMhh3KYMG0WT+diIy8djka0sD24s2czFl
+         LSkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PYeJaSm88hY1OXHAOwbtBVxKGHgJPc5mwzbhhlyynEE=;
-        b=QCqD+hnc1edVGxRc4sameTEYcA5K0iaCRWQjtG0XzIX9wTTTI41pKk4GsNa4ARaATr
-         h3ivcwownTfVQTYMBigpUaBKEJuj3QDM8WyoO+Pi6tHIupfVYprK4KuBwrbhMIYfe6ma
-         vU6KtliOVJzr9eQ7x/dNuIwaPrbpYJJDbXg/sXM8BNSN9lsFVf23/vobMeOoHf7HvY1D
-         g/R8jWRd6vdotdn7O3R/eQ6twc562ysYY1eVzM4ZFCRJeWOXiUYnyajY7aB6MunNlZcu
-         8xGMlluyCH0hCicbO8ge+OgxfrMcSZnzHx5JDTxNf1XnRVWsKg/JkXKjDyKjlBBdy9My
-         dmFg==
-X-Gm-Message-State: AOAM530FjtoX1yxb3EoMfaBJrvumaXzfHJ7mKGxMiKp/1QlHxH+jFV3T
-        /hmOqaFf4jE57NOdimiswF82tw==
-X-Google-Smtp-Source: ABdhPJw48M5ZmOT1FESI9opelMUihSUq3ZOHJRFXfPns+z2bHZ7YU5uZ5kH5mgL1y3kcqmMB5aOkvw==
-X-Received: by 2002:a5d:5604:: with SMTP id l4mr4564625wrv.127.1606406066449;
-        Thu, 26 Nov 2020 07:54:26 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GRbbAoAyT+twJ6DWAMnVPh0yMfbGrEWPbKn8Cs93LQs=;
+        b=Fms59tLJ8LmKKrX3aEoVZ0gtKsJU0Er1Kx5vU/UfMa8LPn6vcup25BonsV3w9Q1or3
+         HUWqhPgCOiFrB9Dus1bzas4u+ji7Y+o2lHuHlae10As2ItOvBJ2d/b/bzWPU/yi5H2US
+         2W9vUGoGZPLlhGcDOkkaBOtDdcUFweV6VzBk9EO5Ta7QJ7j8/xHdOz8pJ+g6SryBo2bJ
+         me0hxTHxsaFKccotaaW3DUcbPKrtYklvXkORnZQNy2Dp7+i4jhkvaHZMwq3oq5xKsCcV
+         qIhM2gz12BDkS4r8uIbvS9kaKlCzau5QZjc94FE9QkWNjC++wvENNHuEs5ZkDzIUECG+
+         59uA==
+X-Gm-Message-State: AOAM531nHkodd6QsxZ5AY5DSWDeuxFZF5FWfKUMEsgZ2RduGmLZVqg1w
+        iZubumbG4/pbr+n1U3XFdTD/CA==
+X-Google-Smtp-Source: ABdhPJwT9SLDB2L8OAgTeM8M2ZPVm2Y3TUfSJCQdJPrpoyLr/4gGDkZXGYwQZBc52TdBQc78XLbyjQ==
+X-Received: by 2002:a1c:31c6:: with SMTP id x189mr4071224wmx.50.1606406070792;
+        Thu, 26 Nov 2020 07:54:30 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:f008:704d:8d4b:9951])
-        by smtp.gmail.com with ESMTPSA id r21sm9938901wrc.16.2020.11.26.07.54.24
+        by smtp.gmail.com with ESMTPSA id q1sm9612864wrj.8.2020.11.26.07.54.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2020 07:54:25 -0800 (PST)
+        Thu, 26 Nov 2020 07:54:29 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -72,131 +73,78 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v3 00/23] Opt-in always-on nVHE hypervisor
-Date:   Thu, 26 Nov 2020 15:53:58 +0000
-Message-Id: <20201126155421.14901-1-dbrazdil@google.com>
+Subject: [PATCH v3 02/23] psci: Accessor for configured PSCI function IDs
+Date:   Thu, 26 Nov 2020 15:54:00 +0000
+Message-Id: <20201126155421.14901-3-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201126155421.14901-1-dbrazdil@google.com>
+References: <20201126155421.14901-1-dbrazdil@google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As we progress towards being able to keep guest state private to the
-host running nVHE hypervisor, this series allows the hypervisor to
-install itself on newly booted CPUs before the host is allowed to run
-on them.
+Function IDs used by PSCI are configurable for v0.1 via DT/APCI. If the
+host is using PSCI v0.1, KVM's host PSCI proxy needs to use the same IDs.
+Expose the array holding the information with a read-only accessor.
 
-All functionality described below is opt-in, guarded by an early param
-'kvm-arm.protected'. Future patches specific to the new "protected" mode
-should be hidden behind the same param.
+Signed-off-by: David Brazdil <dbrazdil@google.com>
+---
+ drivers/firmware/psci/psci.c | 16 ++++++++--------
+ include/linux/psci.h         | 10 ++++++++++
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-The hypervisor starts trapping host SMCs and intercepting host's PSCI
-CPU_ON/SUSPEND calls. It replaces the host's entry point with its own,
-initializes the EL2 state of the new CPU and installs the nVHE hyp vector
-before ERETing to the host's entry point.
-
-The kernel checks new cores' features against the finalized system
-capabilities. To avoid the need to move this code/data to EL2, the
-implementation only allows to boot cores that were online at the time of
-KVM initialization and therefore had been checked already.
-
-Other PSCI SMCs are forwarded to EL3, though only the known set of SMCs
-implemented in the kernel is allowed. Non-PSCI SMCs are also forwarded
-to EL3. Future changes will need to ensure the safety of all SMCs wrt.
-private guests.
-
-The host is still allowed to reset EL2 back to the stub vector, eg. for
-hibernation or kexec, but will not disable nVHE when there are no VMs.
-
-Tested on Rock Pi 4B, based on kvmarm/queue, itself on top of 5.10-rc4.
-
-Patches also available at:
-    https://android-kvm.googlesource.com/linux topic/psci-on-master_v3
-
-changes since v2:
-  * avoid non-spec error in CPU_SUSPEND
-  * refuse to init without PSCI
-  * compute hyp VA args of hyp-init in hyp instead of using params struct
-  * use hyp_symbol_addr in per-cpu calls
-  * simplify memory.h/sysreg.h includes
-  * rebase on kvmarm/queue, use trap handler args macros
-
-changes since v1:
-  * early param sets a capability instead of a static key
-  * assume SMCCC v1.2 for host SMC forwarding
-  * fix reserved SMC ID range for PSCI
-  * split init_el2_state into smaller macros, move to el2_setup.h
-  * many small cleanups
-
-changes since RFC:
-  * add early param to make features opt-in
-  * simplify CPU_ON/SUSPEND implementation
-  * replace spinlocks with CAS atomic
-  * make cpu_logical_map ro_after_init
-
-David Brazdil (23):
-  psci: Support psci_ops.get_version for v0.1
-  psci: Accessor for configured PSCI function IDs
-  arm64: Make cpu_logical_map() take unsigned int
-  arm64: Move MAIR_EL1_SET to asm/memory.h
-  arm64: Extract parts of el2_setup into a macro
-  kvm: arm64: Add kvm-arm.protected early kernel parameter
-  kvm: arm64: Initialize MAIR_EL2 using a constant
-  kvm: arm64: Remove vector_ptr param of hyp-init
-  kvm: arm64: Move hyp-init params to a per-CPU struct
-  kvm: arm64: Add .hyp.data..ro_after_init ELF section
-  kvm: arm64: Support per_cpu_ptr in nVHE hyp code
-  kvm: arm64: Create nVHE copy of cpu_logical_map
-  kvm: arm64: Add SMC handler in nVHE EL2
-  kvm: arm64: Bootstrap PSCI SMC handler in nVHE EL2
-  kvm: arm64: Add offset for hyp VA <-> PA conversion
-  kvm: arm64: Forward safe PSCI SMCs coming from host
-  kvm: arm64: Extract __do_hyp_init into a helper function
-  kvm: arm64: Add function to enter host from KVM nVHE hyp code
-  kvm: arm64: Intercept host's CPU_ON SMCs
-  kvm: arm64: Intercept host's CPU_SUSPEND PSCI SMCs
-  kvm: arm64: Keep nVHE EL2 vector installed
-  kvm: arm64: Trap host SMCs in protected mode
-  kvm: arm64: Fix EL2 mode availability checks
-
- .../admin-guide/kernel-parameters.txt         |   5 +
- arch/arm64/include/asm/cpucaps.h              |   3 +-
- arch/arm64/include/asm/el2_setup.h            | 182 +++++++++++
- arch/arm64/include/asm/kvm_arm.h              |   1 +
- arch/arm64/include/asm/kvm_asm.h              |   8 +-
- arch/arm64/include/asm/kvm_hyp.h              |   4 +-
- arch/arm64/include/asm/kvm_mmu.h              |  26 +-
- arch/arm64/include/asm/memory.h               |  13 +
- arch/arm64/include/asm/percpu.h               |   6 +
- arch/arm64/include/asm/sections.h             |   1 +
- arch/arm64/include/asm/smp.h                  |   4 +-
- arch/arm64/include/asm/virt.h                 |  26 ++
- arch/arm64/kernel/asm-offsets.c               |   3 +
- arch/arm64/kernel/cpufeature.c                |  29 ++
- arch/arm64/kernel/head.S                      | 144 +--------
- arch/arm64/kernel/image-vars.h                |   3 +
- arch/arm64/kernel/setup.c                     |   2 +-
- arch/arm64/kernel/vmlinux.lds.S               |  10 +
- arch/arm64/kvm/arm.c                          | 101 ++++--
- .../arm64/kvm/hyp/include/nvhe/trap_handler.h |  18 ++
- arch/arm64/kvm/hyp/nvhe/Makefile              |   3 +-
- arch/arm64/kvm/hyp/nvhe/host.S                |  47 +++
- arch/arm64/kvm/hyp/nvhe/hyp-init.S            |  97 +++++-
- arch/arm64/kvm/hyp/nvhe/hyp-main.c            |  45 ++-
- arch/arm64/kvm/hyp/nvhe/hyp-smp.c             |  40 +++
- arch/arm64/kvm/hyp/nvhe/hyp.lds.S             |   1 +
- arch/arm64/kvm/hyp/nvhe/psci-relay.c          | 296 ++++++++++++++++++
- arch/arm64/kvm/hyp/nvhe/switch.c              |   5 +-
- arch/arm64/kvm/va_layout.c                    |  30 +-
- arch/arm64/mm/proc.S                          |  15 +-
- drivers/firmware/psci/psci.c                  |  23 +-
- include/linux/psci.h                          |  10 +
- 32 files changed, 999 insertions(+), 202 deletions(-)
- create mode 100644 arch/arm64/include/asm/el2_setup.h
- create mode 100644 arch/arm64/kvm/hyp/include/nvhe/trap_handler.h
- create mode 100644 arch/arm64/kvm/hyp/nvhe/hyp-smp.c
- create mode 100644 arch/arm64/kvm/hyp/nvhe/psci-relay.c
-
---
+diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+index 213c68418a65..40609564595e 100644
+--- a/drivers/firmware/psci/psci.c
++++ b/drivers/firmware/psci/psci.c
+@@ -58,16 +58,16 @@ typedef unsigned long (psci_fn)(unsigned long, unsigned long,
+ 				unsigned long, unsigned long);
+ static psci_fn *invoke_psci_fn;
+ 
+-enum psci_function {
+-	PSCI_FN_CPU_SUSPEND,
+-	PSCI_FN_CPU_ON,
+-	PSCI_FN_CPU_OFF,
+-	PSCI_FN_MIGRATE,
+-	PSCI_FN_MAX,
+-};
+-
+ static u32 psci_function_id[PSCI_FN_MAX];
+ 
++u32 psci_get_function_id(enum psci_function fn)
++{
++	if (WARN_ON_ONCE(fn < 0 || fn >= PSCI_FN_MAX))
++		return 0;
++
++	return psci_function_id[fn];
++}
++
+ #define PSCI_0_2_POWER_STATE_MASK		\
+ 				(PSCI_0_2_POWER_STATE_ID_MASK | \
+ 				PSCI_0_2_POWER_STATE_TYPE_MASK | \
+diff --git a/include/linux/psci.h b/include/linux/psci.h
+index 2a1bfb890e58..5b49a5c82d6f 100644
+--- a/include/linux/psci.h
++++ b/include/linux/psci.h
+@@ -21,6 +21,16 @@ bool psci_power_state_is_valid(u32 state);
+ int psci_set_osi_mode(bool enable);
+ bool psci_has_osi_support(void);
+ 
++enum psci_function {
++	PSCI_FN_CPU_SUSPEND,
++	PSCI_FN_CPU_ON,
++	PSCI_FN_CPU_OFF,
++	PSCI_FN_MIGRATE,
++	PSCI_FN_MAX,
++};
++
++u32 psci_get_function_id(enum psci_function fn);
++
+ struct psci_operations {
+ 	u32 (*get_version)(void);
+ 	int (*cpu_suspend)(u32 state, unsigned long entry_point);
+-- 
 2.29.2.454.gaff20da3a2-goog
+
