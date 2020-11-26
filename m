@@ -2,85 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 437D9C63697
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 16:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09610C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 17:21:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 086E921741
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 16:24:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K5NPkzil"
+	by mail.kernel.org (Postfix) with ESMTP id B288821D7E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 17:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391174AbgKZQXq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 11:23:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390011AbgKZQXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 11:23:46 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35613C0613D4;
-        Thu, 26 Nov 2020 08:23:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=J/yD0KFriqWMZtNa1/eriAjfaLbTwrShtSXGHA91Qqg=; b=K5NPkzils6igylPVgbl+1esF0f
-        xEzI5QMLfMEX0KgTXqboE+X4bWmnUW/Z5SekuMxAJZq+QYCwLAOHi85g4/x8hK92dQo6z0uuzcIYI
-        +YUWiX9k0nw6q+Q3B20Oi0l7wp/0CCpUmjiU4EZ7NE4KRt7RGmJTuus3kubc0TygiTjwTm8irUWXG
-        gRz/HaZGA19gBb4X4o5azgcd55gSeyCKO8NiElpskZsl7C/ft1Rd+MjrZ+aUgEJrPbRLZl7ujCadT
-        psBDmdMn+xz5XFyWb3zYx9TSbT6GAcvM3VZi6h/MD/NtmJ4Ob4qrpJPnzVP+5C8cn9nn0PGlgDn5j
-        zBeC1vBA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kiK3X-0000x3-2G; Thu, 26 Nov 2020 16:23:39 +0000
-Date:   Thu, 26 Nov 2020 16:23:38 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     David Brazdil <dbrazdil@google.com>, kvmarm@lists.cs.columbia.edu,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1727301AbgKZRV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 12:21:29 -0500
+Received: from foss.arm.com ([217.140.110.172]:41088 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726677AbgKZRV3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Nov 2020 12:21:29 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DACB31B;
+        Thu, 26 Nov 2020 09:21:28 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.30.234])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 353A53F23F;
+        Thu, 26 Nov 2020 09:21:24 -0800 (PST)
+Date:   Thu, 26 Nov 2020 17:21:21 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
         James Morse <james.morse@arm.com>,
         Julien Thierry <julien.thierry.kdev@gmail.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
         Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com
-Subject: Re: [PATCH v3 00/23] Opt-in always-on nVHE hypervisor
-Message-ID: <20201126162338.GV4327@casper.infradead.org>
+Subject: Re: [PATCH v3 01/23] psci: Support psci_ops.get_version for v0.1
+Message-ID: <20201126172121.GB38486@C02TD0UTHF1T.local>
 References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155746.GU4327@casper.infradead.org>
- <6a2a14af06232cdf2f5146cd8ec6fc35@kernel.org>
+ <20201126155421.14901-2-dbrazdil@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a2a14af06232cdf2f5146cd8ec6fc35@kernel.org>
+In-Reply-To: <20201126155421.14901-2-dbrazdil@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 04:19:55PM +0000, Marc Zyngier wrote:
-> On 2020-11-26 15:57, Matthew Wilcox wrote:
-> > On Thu, Nov 26, 2020 at 03:53:58PM +0000, David Brazdil wrote:
-> > > The hypervisor starts trapping host SMCs and intercepting host's PSCI
-> > > CPU_ON/SUSPEND calls. It replaces the host's entry point with its own,
-> > > initializes the EL2 state of the new CPU and installs the nVHE hyp
-> > > vector
-> > > before ERETing to the host's entry point.
-> > 
-> > I hate CPU people.  This is complete gibberish to anyone who doesn't
-> > already have their head deep in ... whatever you're talking about.
+On Thu, Nov 26, 2020 at 03:53:59PM +0000, David Brazdil wrote:
+> KVM's host PSCI SMC filter needs to be aware of the PSCI version of the
+> system but currently it is impossible to distinguish between v0.1 and
+> PSCI disabled because both have get_version == NULL.
 > 
-> What I hate the most is people having a go at other people because they
-> don't understand what is being discussed. Who is at fault there?
+> Populate get_version for v0.1 with a function that returns a constant.
+> 
+> psci_opt.get_version is currently unused so this has no effect on
+> existing functionality.
+> 
+> Signed-off-by: David Brazdil <dbrazdil@google.com>
+> ---
+>  drivers/firmware/psci/psci.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+> index 00af99b6f97c..213c68418a65 100644
+> --- a/drivers/firmware/psci/psci.c
+> +++ b/drivers/firmware/psci/psci.c
+> @@ -146,6 +146,11 @@ static int psci_to_linux_errno(int errno)
+>  	return -EINVAL;
+>  }
+>  
+> +static u32 psci_get_version_0_1(void)
+> +{
+> +	return PSCI_VERSION(0, 1);
+> +}
 
-The person who wrote an explanation that doesn't actually explain
-anything?  If you're sending mail to a bunch of mailing lists which
-aren't already familiar with what you're trying to do, the onus is on
-you to do more explanation.
+Elsewhere in this file we've used a psci_${MAJOR}_${MINOR}_* naming
+scheme.
+
+To match that, I'd prefer we call this psci_0_1_get_version(), and
+rename psci_get_version() to psci_0_2_get_version().
+
+With that:
+	
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+Thanks,
+Mark.
+
+> +
+>  static u32 psci_get_version(void)
+>  {
+>  	return invoke_psci_fn(PSCI_0_2_FN_PSCI_VERSION, 0, 0, 0);
+> @@ -514,6 +519,8 @@ static int __init psci_0_1_init(struct device_node *np)
+>  
+>  	pr_info("Using PSCI v0.1 Function IDs from DT\n");
+>  
+> +	psci_ops.get_version = psci_get_version_0_1;
+> +
+>  	if (!of_property_read_u32(np, "cpu_suspend", &id)) {
+>  		psci_function_id[PSCI_FN_CPU_SUSPEND] = id;
+>  		psci_ops.cpu_suspend = psci_cpu_suspend;
+> -- 
+> 2.29.2.454.gaff20da3a2-goog
+> 
