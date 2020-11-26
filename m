@@ -2,46 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44059C63697
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FCC5C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:38:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAFA421D40
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:35:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5247221FF
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:38:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="B0K4IZCM"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="a0N4KrUD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390135AbgKZNfU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 08:35:20 -0500
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:49258 "EHLO
-        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389919AbgKZNfT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 08:35:19 -0500
+        id S2390139AbgKZNiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 08:38:06 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:6228 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389878AbgKZNiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 08:38:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1606397719; x=1637933719;
+  t=1606397885; x=1637933885;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=ZzE6apVr+NBCq2ey7Bb9uQl8U1AZvvrD2/7u2VMKxsI=;
-  b=B0K4IZCM92G3QScOp2yrGzP5cjhPLdTGgGqyjZ/9erJrwKDjEL7PIpvV
-   R1zCReUlSlL/+RP+n9ICHlecog1hgfIqmbTxDwNGY+igi3QMl3ZAG+mKg
-   FuxiXzaYgpKsmWny8sU1huZbQKCZKtdqDHlI0HTG1ycD5iBqZtoJUsuHv
-   c=;
+  bh=G/pChsn4fN3Vyl1crrOE4ndzcerWTWr/tVT2Qyr7i24=;
+  b=a0N4KrUDQki8GNjEhJ+VOiXpMARJjCuSucNavaBxCp6F1JdyUoB2Rsxu
+   caV/jIcwDnWrA1NFpP2JffUtnDYyEQuxGL5RYSa7SR8NOXzBarNVrfsXD
+   Xgj6nExgt8+lDWDXRO/mkgxlQlXyMKaH9LHzTE6LlLJEfYm3ENmkAHxQq
+   k=;
 X-IronPort-AV: E=Sophos;i="5.78,372,1599523200"; 
-   d="scan'208";a="67484231"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-42f764a0.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 26 Nov 2020 13:35:12 +0000
+   d="scan'208";a="66219790"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 26 Nov 2020 13:37:58 +0000
 Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1e-42f764a0.us-east-1.amazon.com (Postfix) with ESMTPS id 5324EC1B51;
-        Thu, 26 Nov 2020 13:35:00 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.124) by
+        by email-inbound-relay-1a-16acd5e0.us-east-1.amazon.com (Postfix) with ESMTPS id A071FA21E3;
+        Thu, 26 Nov 2020 13:37:46 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.229) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 26 Nov 2020 13:34:43 +0000
+ id 15.0.1497.2; Thu, 26 Nov 2020 13:37:30 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Shakeel Butt <shakeelb@google.com>
 CC:     SeongJae Park <sjpark@amazon.com>,
@@ -75,205 +74,55 @@ CC:     SeongJae Park <sjpark@amazon.com>,
         Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
         <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v22 06/18] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Thu, 26 Nov 2020 14:34:27 +0100
-Message-ID: <20201126133427.3677-1-sjpark@amazon.com>
+Subject: Re: [PATCH v22 07/18] mm/page_idle: Avoid interferences from concurrent users
+Date:   Thu, 26 Nov 2020 14:37:15 +0100
+Message-ID: <20201126133715.4468-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod4hYx4nytwkDrxd9MOtzMUKe-YmRavfTOxZaHCfUK6dXA@mail.gmail.com>
+In-Reply-To: <CALvZod7xhyp6yY_v6nyWp-yqHQUCtCBcxFXz=fSKOjS62HrG-A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.124]
-X-ClientProxiedBy: EX13D42UWB004.ant.amazon.com (10.43.161.99) To
+X-Originating-IP: [10.43.160.229]
+X-ClientProxiedBy: EX13D11UWC003.ant.amazon.com (10.43.162.162) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 25 Nov 2020 07:30:18 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+On Wed, 25 Nov 2020 07:30:27 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
 > On Tue, Oct 20, 2020 at 2:06 AM SeongJae Park <sjpark@amazon.com> wrote:
 > >
 > > From: SeongJae Park <sjpark@amazon.de>
 > >
-> > This commit introduces a reference implementation of the address space
-> > specific low level primitives for the virtual address space, so that
-> > users of DAMON can easily monitor the data accesses on virtual address
-> > spaces of specific processes by simply configuring the implementation to
-> > be used by DAMON.
+> > Concurrent Idle Page Tracking users can interfere each other because the
+> > interface doesn't provide a central rule for synchronization between the
+> > users.  Users could implement their own synchronization rule, but even
+> > in that case, applications developed by different users would not know
+> > how to synchronize with others.  To help this situation, this commit
+> > introduces a centralized synchronization infrastructure of Idle Page
+> > Tracking.
 > >
-> > The low level primitives for the fundamental access monitoring are
-> > defined in two parts:
-> > 1. Identification of the monitoring target address range for the address
-> > space.
-> > 2. Access check of specific address range in the target space.
+> > In detail, this commit introduces a mutex lock for Idle Page Tracking,
+> > called 'page_idle_lock'.  It is exposed to user space via a new bool
+> > sysfs file, '/sys/kernel/mm/page_idle/lock'.  By writing to and reading
+> > from the file, users can hold/release and read status of the mutex.
+> > Writes to the Idle Page Tracking 'bitmap' file fails if the lock is not
+> > held, while reads of the file can be done regardless of the lock status.
 > >
-> > The reference implementation for the virtual address space provided by
-> > this commit is designed as below.
-> >
-> > PTE Accessed-bit Based Access Check
-> > -----------------------------------
-> >
-> > The implementation uses PTE Accessed-bit for basic access checks.  That
-> > is, it clears the bit for next sampling target page and checks whether
-> > it set again after one sampling period.  This could disturb other kernel
-> > subsystems using the Accessed bits, namely Idle page tracking and the
-> > reclaim logic.  To avoid such disturbances, DAMON makes it mutually
-> > exclusive with Idle page tracking and uses ``PG_idle`` and ``PG_young``
-> > page flags to solve the conflict with the reclaim logics, as Idle page
-> > tracking does.
-> >
-> > VMA-based Target Address Range Construction
-> > -------------------------------------------
-> >
-> > Only small parts in the super-huge virtual address space of the
-> > processes are mapped to physical memory and accessed.  Thus, tracking
-> > the unmapped address regions is just wasteful.  However, because DAMON
-> > can deal with some level of noise using the adaptive regions adjustment
-> > mechanism, tracking every mapping is not strictly required but could
-> > even incur a high overhead in some cases.  That said, too huge unmapped
-> > areas inside the monitoring target should be removed to not take the
-> > time for the adaptive mechanism.
-> >
-> > For the reason, this implementation converts the complex mappings to
-> > three distinct regions that cover every mapped area of the address
-> > space.  Also, the two gaps between the three regions are the two biggest
-> > unmapped areas in the given address space.  The two biggest unmapped
-> > areas would be the gap between the heap and the uppermost mmap()-ed
-> > region, and the gap between the lowermost mmap()-ed region and the stack
-> > in most of the cases.  Because these gaps are exceptionally huge in
-> > usual address spacees, excluding these will be sufficient to make a
-> > reasonable trade-off.  Below shows this in detail::
-> >
-> >     <heap>
-> >     <BIG UNMAPPED REGION 1>
-> >     <uppermost mmap()-ed region>
-> >     (small mmap()-ed regions and munmap()-ed regions)
-> >     <lowermost mmap()-ed region>
-> >     <BIG UNMAPPED REGION 2>
-> >     <stack>
+> > Note that users could still interfere each other if they abuse this
+> > locking rule.  Nevertheless, this change will let them notice the rule.
 > >
 > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> > ---
-> >  include/linux/damon.h |  14 +
-> >  mm/damon/Kconfig      |  10 +
-> >  mm/damon/Makefile     |   1 +
-> >  mm/damon/primitives.c | 582 ++++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 607 insertions(+)
-> >  create mode 100644 mm/damon/primitives.c
-> >
-> > diff --git a/include/linux/damon.h b/include/linux/damon.h
-> > index b8562814751e..70cc4b54212e 100644
-> > --- a/include/linux/damon.h
-> > +++ b/include/linux/damon.h
-> > @@ -238,4 +238,18 @@ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
-> >
-> >  #endif /* CONFIG_DAMON */
-> >
-> > +#ifdef CONFIG_DAMON_PRIMITIVES
-> > +
-> > +/* Reference callback implementations for virtual memory */
-> > +void damon_va_init_regions(struct damon_ctx *ctx);
-> > +void damon_va_update_regions(struct damon_ctx *ctx);
-> > +void damon_va_prepare_access_checks(struct damon_ctx *ctx);
-> > +unsigned int damon_va_check_accesses(struct damon_ctx *ctx);
-> > +bool damon_va_target_valid(struct damon_target *t);
-> > +void damon_va_cleanup(struct damon_ctx *ctx);
-> > +void damon_va_set_primitives(struct damon_ctx *ctx);
-> > +
-> > +#endif /* CONFIG_DAMON_PRIMITIVES */
-> > +
-> > +
-> >  #endif
-> > diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-> > index d00e99ac1a15..0d2a18ddb9d8 100644
-> > --- a/mm/damon/Kconfig
-> > +++ b/mm/damon/Kconfig
-> > @@ -12,4 +12,14 @@ config DAMON
-> >           See https://damonitor.github.io/doc/html/latest-damon/index.html for
-> >           more information.
-> >
-> > +config DAMON_PRIMITIVES
 > 
-> I would rather name this base on virtual address space monitoring
-> maybe like DAMON_VMA_OPTIMIZED_MONITORING or something similar.
-> PRIMITIVES does not seem like a good name for this.
-
-Agreed, will rename in the next version.  How about DAMON_PRIMITIVES_VADDR?
-
+> I don't think this is allowed. I mean returning to user space with
+> held mutex and other processes can unlock it. I don't think mutex is
+> what you need. Or more importantly is this really an issue?
 > 
-> > +       bool "Monitoring primitives for virtual address spaces monitoring"
-> > +       depends on DAMON && MMU && !IDLE_PAGE_TRACKING
-> > +       select PAGE_EXTENSION if !64BIT
-> > +       select PAGE_IDLE_FLAG
-> > +       help
-> > +         This builds the default data access monitoring primitives for DAMON.
-> > +         The primitives support only virtual address spaces.  If this cannot
-> > +         cover your use case, you can implement and use your own primitives.
-> > +
-> >  endmenu
-> > diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-> > index 4fd2edb4becf..2f3235a52e5e 100644
-> > --- a/mm/damon/Makefile
-> > +++ b/mm/damon/Makefile
-> > @@ -1,3 +1,4 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >
-> >  obj-$(CONFIG_DAMON)            := core.o
-> > +obj-$(CONFIG_DAMON_PRIMITIVES) += primitives.o
-> > diff --git a/mm/damon/primitives.c b/mm/damon/primitives.c
-> > new file mode 100644
-> > index 000000000000..9b603ac0077c
-> > --- /dev/null
-> > +++ b/mm/damon/primitives.c
-> 
-> Same with the filename.
 
-Agreed.
-
-> 
-> > @@ -0,0 +1,582 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> [snip]
-> > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-> > +                       unsigned long *page_sz)
-> > +{
-> > +       pte_t *pte = NULL;
-> > +       pmd_t *pmd = NULL;
-> > +       spinlock_t *ptl;
-> > +       bool young = false;
-> > +
-> > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> > +               return false;
-> > +
-> > +       *page_sz = PAGE_SIZE;
-> > +       if (pte) {
-> > +               young = pte_young(*pte);
-> > +               if (!young)
-> > +                       young = !page_is_idle(pte_page(*pte));
-> > +               pte_unmap_unlock(pte, ptl);
-> > +               return young;
-> > +       }
-> > +
-> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > +       young = pmd_young(*pmd);
-> > +       if (!young)
-> > +               young = !page_is_idle(pmd_page(*pmd));
-> > +       spin_unlock(ptl);
-> > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-> > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> > +
-> > +       return young;
-> 
-> Don't you need mmu_notifier_clear_young() here?
-
-I think we don't need it here because we only read the Accessed bit and PG_Idle
-if Accessed bit was not set.
-
-> 
-> I am still looking more into this patch
-
-Looking forward your more comments!
+In a separate call, I and Shakeel agreed on that this is trying to fix an issue
+that aren't proved real.  So I will drop this patch in next version of the
+patchset.  We can restore this patch or find better fix later if the problem
+comes out in real.
 
 
 Thanks,
