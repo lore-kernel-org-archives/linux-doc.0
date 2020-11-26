@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21468C71155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F647C8300F
 	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:55:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFB6D21D40
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:55:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6187A21D7E
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:55:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jqLq4mvu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HwVGV83S"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391426AbgKZPy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 10:54:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51182 "EHLO
+        id S2391491AbgKZPzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 10:55:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391473AbgKZPyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:55 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B66C0617A7
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:53 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id s8so2622795wrw.10
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:53 -0800 (PST)
+        with ESMTP id S2391473AbgKZPy7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:59 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E887C0613D4
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:58 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id k14so2663410wrn.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=abHZKvAnOIOh0cfJUm3aASRkjBMLNkdSVRPPeTy9mxo=;
-        b=jqLq4mvuFUHRNYTuDA8X4VqzR999IfDP4q84W39BYEKyBQxNgrPCGYrczkPYGhK3xu
-         rAyOQQer3BhE9duh1aWdFCeG+6knjdw5TuROmYdg4HhznGrigbB06JqMnjAT7xfK+est
-         C3hOyQ9Hz6DwLFMNdCGX7L+t1pUqK9ugYB0c9EsrTz5zLyPmstSDlVJslLskorCLfkLJ
-         xnDwNLr1x8JteRXu7nG+IZYBSzTE8FzQbQlInhi+UOtUpSqxM/09so4wFxOqzOzG7W3k
-         fMq1ulRSMT+FhtRSYbgZxKC8qiIf4rnRr+xoJ9PrqtwZUt/DvnRvDjiCJXDqxMKOdZfk
-         IUcA==
+        bh=96Y1Pg8NboBYaC6v7mMq4UlUhEivDMpMpRFkrQ3cNDg=;
+        b=HwVGV83SA1pu0EkNWbTp3SpTcyRYOohY63MbncNrkmkpg6bhNUNdS9EwDWsj4Ce67U
+         sX5d/patePE2huLGqwQ6Jie1Q1vG6nL70ED1869nNdm/tCnLnbOUUuaYuYxRvLqWTWlA
+         n+pKGCOOAOUj9OioMDgZ7dFik62hQ4KtzRO8SEpOreGSG4WJdXWKsjeWr0PpEZJ31KQ0
+         uyakkl+o8i8hSlOLz7STTfHEfJv8cyfx/WkL14oX8ruk6bAw7+AQ7Rq5PEW1A0HMgDKU
+         jphMf3l5iWH8GZG+N9JC+Q0uwPhBd/wdTIHnjLR53pqRZ9C0utsotAEPqbV8Rdju9kFI
+         hegw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=abHZKvAnOIOh0cfJUm3aASRkjBMLNkdSVRPPeTy9mxo=;
-        b=KJqBTx1ZVkykPkdehvxJstrNK2hJ3B5fuJj5lyWbcL7yC+DrCI4T1Vmom0ss9IGs6y
-         +DHaQlZjc96yimXrieUeTuta4WEUMLGdycYI4QoXb7Ctk5M8CjucySqvfAyDr2Y89XoR
-         BhX2gP07ULPf5Y4DSjEkW1D+wIHOVELcWhs1JlmJd7PjwnIMsc92VXASo7F9hpq/akry
-         DLmVbP03ZN3FQa3st0+TrRTGmF+1rshx+7LLc01qKMrxtEd85Lxb7U0a8vj//0DAy/tD
-         iz65+YqBgZqIb5341CVVrs2iROAY1rTLhDtSJ0Vs2HS8AbXFCpRnejU5IYE508i5Gjmx
-         EfNw==
-X-Gm-Message-State: AOAM532CZu+dZIYhU5cMOekfAunBRaNEyxb5Y+sJGHXpKT1ymbnHagbq
-        3VrXRVBlWJUDZbZTpf+G9AG/wg==
-X-Google-Smtp-Source: ABdhPJzBk1cgJvigLTBpzrkzyw93ozQjhaI8GSxKK42oABc32zYGurmL/AUO7+tHdNOzK5VOfFnjDw==
-X-Received: by 2002:adf:dc83:: with SMTP id r3mr4498991wrj.223.1606406092266;
-        Thu, 26 Nov 2020 07:54:52 -0800 (PST)
+        bh=96Y1Pg8NboBYaC6v7mMq4UlUhEivDMpMpRFkrQ3cNDg=;
+        b=k6ayvNaqUGwzo0Ou9z/Sxvduf1Rn2CIGbZimnZFg2cQ5fPJ2Tms9m0NXOdIvtLl0Cl
+         TG/3IKHXW6pQfEghGiopAwQ6lf5s9xjYC5FjSG9XGILnA89XLsPE9P7Zudg30AqAeu7P
+         EYATNACd3K2D/VQg8DxnXSm7v8EPAHngE/DB/uUC3FdNMYoOpwntqtFcxA/y61E7gZZz
+         k439TSUKz34KjaObDliugXCS39/0yqKCUqnEk/bIEHw1kIRJU8eRjcmXMdQYuPn1ENXv
+         n3tC0a9Vc60wTLa2EY9RzAZ8lFlyA0GhyKGGY/e1ix8OiOxeplNJpoWHiBL8aEZ16Bgu
+         O2Vg==
+X-Gm-Message-State: AOAM531g2a4sknV15Gm63nRqJYfhinPAAbrPTrvjObTXYMOSnyX8Nle4
+        uvxIL3pYQXrv4zZIcRcBUWpzag==
+X-Google-Smtp-Source: ABdhPJxZM90ubqSRiYq0ls0OqUo2eyyMniWNiLiTqx8tmAhlFoXELKzvYp156Crsd8Y4IBGxE+f1vA==
+X-Received: by 2002:a5d:570d:: with SMTP id a13mr4513622wrv.193.1606406096673;
+        Thu, 26 Nov 2020 07:54:56 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:f008:704d:8d4b:9951])
-        by smtp.gmail.com with ESMTPSA id r13sm4193297wrm.25.2020.11.26.07.54.50
+        by smtp.gmail.com with ESMTPSA id o4sm8751771wmh.33.2020.11.26.07.54.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2020 07:54:51 -0800 (PST)
+        Thu, 26 Nov 2020 07:54:55 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -73,9 +73,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v3 12/23] kvm: arm64: Create nVHE copy of cpu_logical_map
-Date:   Thu, 26 Nov 2020 15:54:10 +0000
-Message-Id: <20201126155421.14901-13-dbrazdil@google.com>
+Subject: [PATCH v3 14/23] kvm: arm64: Bootstrap PSCI SMC handler in nVHE EL2
+Date:   Thu, 26 Nov 2020 15:54:12 +0000
+Message-Id: <20201126155421.14901-15-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201126155421.14901-1-dbrazdil@google.com>
 References: <20201126155421.14901-1-dbrazdil@google.com>
@@ -85,91 +85,275 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When KVM starts validating host's PSCI requests, it will need to map
-MPIDR back to the CPU ID. To this end, copy cpu_logical_map into nVHE
-hyp memory when KVM is initialized.
-
-Only copy the information for CPUs that are online at the point of KVM
-initialization so that KVM rejects CPUs whose features were not checked
-against the finalized capabilities.
+Add a handler of PSCI SMCs in nVHE hyp code. The handler is initialized
+with the version used by the host's PSCI driver and the function IDs it
+was configured with. If the SMC function ID matches one of the
+configured PSCI calls (for v0.1) or falls into the PSCI function ID
+range (for v0.2+), the SMC is handled by the PSCI handler. For now, all
+SMCs return PSCI_RET_NOT_SUPPORTED.
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- arch/arm64/kvm/arm.c              | 19 +++++++++++++++++++
- arch/arm64/kvm/hyp/nvhe/hyp-smp.c | 16 ++++++++++++++++
- 2 files changed, 35 insertions(+)
+ arch/arm64/include/asm/kvm_hyp.h              |   2 +
+ arch/arm64/kvm/arm.c                          |  29 ++++-
+ .../arm64/kvm/hyp/include/nvhe/trap_handler.h |  18 +++
+ arch/arm64/kvm/hyp/nvhe/Makefile              |   2 +-
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c            |  10 +-
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c          | 103 ++++++++++++++++++
+ 6 files changed, 158 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm64/kvm/hyp/include/nvhe/trap_handler.h
+ create mode 100644 arch/arm64/kvm/hyp/nvhe/psci-relay.c
 
+diff --git a/arch/arm64/include/asm/kvm_hyp.h b/arch/arm64/include/asm/kvm_hyp.h
+index cb25c15e3d8d..c0450828378b 100644
+--- a/arch/arm64/include/asm/kvm_hyp.h
++++ b/arch/arm64/include/asm/kvm_hyp.h
+@@ -93,6 +93,8 @@ void deactivate_traps_vhe_put(void);
+ 
+ u64 __guest_enter(struct kvm_vcpu *vcpu);
+ 
++bool kvm_host_psci_handler(struct kvm_cpu_context *host_ctxt);
++
+ void __noreturn hyp_panic(void);
+ #ifdef __KVM_NVHE_HYPERVISOR__
+ void __noreturn __hyp_do_panic(bool restore_host, u64 spsr, u64 elr, u64 par);
 diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index bb07f0401c68..bb3c541d3ddb 100644
+index bb3c541d3ddb..7a17b5048454 100644
 --- a/arch/arm64/kvm/arm.c
 +++ b/arch/arm64/kvm/arm.c
-@@ -61,6 +61,8 @@ static bool vgic_present;
- static DEFINE_PER_CPU(unsigned char, kvm_arm_hardware_enabled);
+@@ -19,6 +19,7 @@
+ #include <linux/kvm_irqfd.h>
+ #include <linux/irqbypass.h>
+ #include <linux/sched/stat.h>
++#include <linux/psci.h>
+ #include <trace/events/kvm.h>
+ 
+ #define CREATE_TRACE_POINTS
+@@ -62,6 +63,8 @@ static DEFINE_PER_CPU(unsigned char, kvm_arm_hardware_enabled);
  DEFINE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
  
-+extern u64 kvm_nvhe_sym(__cpu_logical_map)[NR_CPUS];
-+
+ extern u64 kvm_nvhe_sym(__cpu_logical_map)[NR_CPUS];
++extern u32 kvm_nvhe_sym(kvm_host_psci_version);
++extern u32 kvm_nvhe_sym(kvm_host_psci_function_id)[PSCI_FN_MAX];
+ 
  int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu)
  {
- 	return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
-@@ -1531,6 +1533,20 @@ static inline void hyp_cpu_pm_exit(void)
+@@ -1547,6 +1550,26 @@ static void init_cpu_logical_map(void)
+ 		kvm_nvhe_sym(__cpu_logical_map)[cpu] = cpu_logical_map(cpu);
  }
- #endif
  
-+static void init_cpu_logical_map(void)
++static bool init_psci_relay(void)
 +{
-+	unsigned int cpu;
++	int i;
 +
 +	/*
-+	 * Copy the MPIDR <-> logical CPU ID mapping to hyp.
-+	 * Only copy the set of online CPUs whose features have been chacked
-+	 * against the finalized system capabilities. The hypervisor will not
-+	 * allow any other CPUs from the `possible` set to boot.
++	 * If PSCI has not been initialized, protected KVM cannot install
++	 * itself on newly booted CPUs.
 +	 */
-+	for_each_online_cpu(cpu)
-+		kvm_nvhe_sym(__cpu_logical_map)[cpu] = cpu_logical_map(cpu);
++	if (!psci_ops.get_version) {
++		kvm_err("Cannot initialize protected mode without PSCI\n");
++		return false;
++	}
++
++	kvm_nvhe_sym(kvm_host_psci_version) = psci_ops.get_version();
++	for (i = 0; i < PSCI_FN_MAX; ++i)
++		kvm_nvhe_sym(kvm_host_psci_function_id)[i] = psci_get_function_id(i);
++
++	return true;
 +}
 +
  static int init_common_resources(void)
  {
  	return kvm_set_ipa_limit();
-@@ -1703,6 +1719,9 @@ static int init_hyp_mode(void)
+@@ -1719,9 +1742,13 @@ static int init_hyp_mode(void)
  		}
  	}
  
-+	if (is_protected_kvm_enabled())
-+		init_cpu_logical_map();
+-	if (is_protected_kvm_enabled())
++	if (is_protected_kvm_enabled()) {
+ 		init_cpu_logical_map();
+ 
++		if (!init_psci_relay())
++			goto out_err;
++	}
 +
  	return 0;
  
  out_err:
-diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-smp.c b/arch/arm64/kvm/hyp/nvhe/hyp-smp.c
-index c168d86f885a..ceb427aabb91 100644
---- a/arch/arm64/kvm/hyp/nvhe/hyp-smp.c
-+++ b/arch/arm64/kvm/hyp/nvhe/hyp-smp.c
-@@ -8,6 +8,22 @@
+diff --git a/arch/arm64/kvm/hyp/include/nvhe/trap_handler.h b/arch/arm64/kvm/hyp/include/nvhe/trap_handler.h
+new file mode 100644
+index 000000000000..92d34675acdb
+--- /dev/null
++++ b/arch/arm64/kvm/hyp/include/nvhe/trap_handler.h
+@@ -0,0 +1,18 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Trap handler helpers.
++ *
++ * Copyright (C) 2020 - Google LLC
++ * Author: Marc Zyngier <dbrazdil@google.com>
++ */
++
++#ifndef __ARM64_KVM_NVHE_TRAP_HANDLER_H__
++#define __ARM64_KVM_NVHE_TRAP_HANDLER_H__
++
++#include <asm/kvm_host.h>
++
++#define cpu_reg(ctxt, r)	(ctxt)->regs.regs[r]
++#define DECLARE_REG(type, name, ctxt, reg)	\
++				type name = (type)cpu_reg(ctxt, (reg))
++
++#endif /* __ARM64_KVM_NVHE_TRAP_HANDLER_H__ */
+diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
+index cf11f8182756..1f1e351c5fe2 100644
+--- a/arch/arm64/kvm/hyp/nvhe/Makefile
++++ b/arch/arm64/kvm/hyp/nvhe/Makefile
+@@ -7,7 +7,7 @@ asflags-y := -D__KVM_NVHE_HYPERVISOR__
+ ccflags-y := -D__KVM_NVHE_HYPERVISOR__
+ 
+ obj-y := timer-sr.o sysreg-sr.o debug-sr.o switch.o tlb.o hyp-init.o host.o \
+-	 hyp-main.o hyp-smp.o
++	 hyp-main.o hyp-smp.o psci-relay.o
+ obj-y += ../vgic-v3-sr.o ../aarch32.o ../vgic-v2-cpuif-proxy.o ../entry.o \
+ 	 ../fpsimd.o ../hyp-entry.o ../exception.o
+ 
+diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+index f25680ede080..bde658d51404 100644
+--- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
++++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+@@ -12,9 +12,7 @@
  #include <asm/kvm_hyp.h>
  #include <asm/kvm_mmu.h>
  
+-#define cpu_reg(ctxt, r)	(ctxt)->regs.regs[r]
+-#define DECLARE_REG(type, name, ctxt, reg)	\
+-				type name = (type)cpu_reg(ctxt, (reg))
++#include <nvhe/trap_handler.h>
+ 
+ DEFINE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
+ 
+@@ -166,7 +164,11 @@ static void skip_host_instruction(void)
+ 
+ static void handle_host_smc(struct kvm_cpu_context *host_ctxt)
+ {
+-	default_host_smc_handler(host_ctxt);
++	bool handled;
++
++	handled = kvm_host_psci_handler(host_ctxt);
++	if (!handled)
++		default_host_smc_handler(host_ctxt);
+ 
+ 	/*
+ 	 * Unlike HVC, the return address of an SMC is the instruction's PC.
+diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+new file mode 100644
+index 000000000000..44a9fb462d24
+--- /dev/null
++++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * nVHE copy of data structures tracking available CPU cores.
-+ * Only entries for CPUs that were online at KVM init are populated.
-+ * Other CPUs should not be allowed to boot because their features were
-+ * not checked against the finalized system capabilities.
++ * Copyright (C) 2020 - Google LLC
++ * Author: David Brazdil <dbrazdil@google.com>
 + */
-+u64 __ro_after_init __cpu_logical_map[NR_CPUS] = { [0 ... NR_CPUS-1] = INVALID_HWID };
 +
-+u64 cpu_logical_map(unsigned int cpu)
++#include <asm/kvm_asm.h>
++#include <asm/kvm_hyp.h>
++#include <asm/kvm_mmu.h>
++#include <kvm/arm_hypercalls.h>
++#include <linux/arm-smccc.h>
++#include <linux/psci.h>
++#include <kvm/arm_psci.h>
++#include <uapi/linux/psci.h>
++
++#include <nvhe/trap_handler.h>
++
++/* Config options set by the host. */
++u32 __ro_after_init kvm_host_psci_version;
++u32 __ro_after_init kvm_host_psci_function_id[PSCI_FN_MAX];
++
++static u64 get_psci_func_id(struct kvm_cpu_context *host_ctxt)
 +{
-+	if (cpu >= ARRAY_SIZE(__cpu_logical_map))
-+		hyp_panic();
++	DECLARE_REG(u64, func_id, host_ctxt, 0);
 +
-+	return __cpu_logical_map[cpu];
++	return func_id;
 +}
 +
- unsigned long __hyp_per_cpu_offset(unsigned int cpu)
- {
- 	unsigned long *cpu_base_array;
++static bool is_psci_0_1_call(u64 func_id)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(kvm_host_psci_function_id); ++i) {
++		if (func_id == kvm_host_psci_function_id[i])
++			return true;
++	}
++	return false;
++}
++
++static bool is_psci_0_2_call(u64 func_id)
++{
++	/* SMCCC reserves IDs 0x00-1F with the given 32/64-bit base for PSCI. */
++	return (PSCI_0_2_FN(0) <= func_id && func_id <= PSCI_0_2_FN(31)) ||
++	       (PSCI_0_2_FN64(0) <= func_id && func_id <= PSCI_0_2_FN64(31));
++}
++
++static bool is_psci_call(u64 func_id)
++{
++	switch (kvm_host_psci_version) {
++	case PSCI_VERSION(0, 1):
++		return is_psci_0_1_call(func_id);
++	default:
++		return is_psci_0_2_call(func_id);
++	}
++}
++
++static unsigned long psci_0_1_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
++{
++	return PSCI_RET_NOT_SUPPORTED;
++}
++
++static unsigned long psci_0_2_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
++{
++	switch (func_id) {
++	default:
++		return PSCI_RET_NOT_SUPPORTED;
++	}
++}
++
++static unsigned long psci_1_0_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
++{
++	switch (func_id) {
++	default:
++		return psci_0_2_handler(func_id, host_ctxt);
++	}
++}
++
++bool kvm_host_psci_handler(struct kvm_cpu_context *host_ctxt)
++{
++	u64 func_id = get_psci_func_id(host_ctxt);
++	unsigned long ret;
++
++	if (!is_psci_call(func_id))
++		return false;
++
++	switch (kvm_host_psci_version) {
++	case PSCI_VERSION(0, 1):
++		ret = psci_0_1_handler(func_id, host_ctxt);
++		break;
++	case PSCI_VERSION(0, 2):
++		ret = psci_0_2_handler(func_id, host_ctxt);
++		break;
++	default:
++		ret = psci_1_0_handler(func_id, host_ctxt);
++		break;
++	}
++
++	cpu_reg(host_ctxt, 0) = ret;
++	cpu_reg(host_ctxt, 1) = 0;
++	cpu_reg(host_ctxt, 2) = 0;
++	cpu_reg(host_ctxt, 3) = 0;
++	return true;
++}
 -- 
 2.29.2.454.gaff20da3a2-goog
 
