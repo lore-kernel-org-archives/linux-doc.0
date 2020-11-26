@@ -2,86 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36142C63777
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 10:11:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ABA1C64E75
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:02:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D79EC20DD4
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 10:11:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAA18221FC
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 11:02:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="pcm6mB5+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387679AbgKZKLu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 05:11:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387678AbgKZKLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 05:11:50 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66ADC0613D4;
-        Thu, 26 Nov 2020 02:11:49 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kiEFW-0004KQ-8H; Thu, 26 Nov 2020 11:11:38 +0100
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S1730302AbgKZLCS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 06:02:18 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:44948 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729663AbgKZLCR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Nov 2020 06:02:17 -0500
+Received: from zn.tnic (p200300ec2f0c90002c8516e75060f16f.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9000:2c85:16e7:5060:f16f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 864301EC04CC;
+        Thu, 26 Nov 2020 12:02:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1606388535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=thPwP/sRGoGF+5wJi3jAB2qEXFSTTtsRS5IciU/FKjE=;
+        b=pcm6mB5+9r0Oi78iZwGK6chAYEl3nP9AOEKBkZfQT5sioFIkiPiyR8uzRCUIRftvxb6ibJ
+        tOyCIem2q0U6MWKIEJUG1eqjzj3/R111C2RXSrsgkQZ9SOtNLTWotnQheFk45xhycOPV8q
+        0EbKNo0zrfri2cdGiAR2H2Q2W4KiAXg=
+Date:   Thu, 26 Nov 2020 12:02:15 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <cover.1606137108.git.linux@leemhuis.info>
- <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info>
- <20201124091852.GB11695@lst.de>
- <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info>
- <20201124093658.GA13174@lst.de>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
-Message-ID: <f3113ffc-3fae-a53e-4aef-ffdd333a3c6a@leemhuis.info>
-Date:   Thu, 26 Nov 2020 11:11:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v15 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
+ supervisor states
+Message-ID: <20201126110215.GD31565@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-4-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201124093658.GA13174@lst.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1606385509;36d40bdf;
-X-HE-SMSGID: 1kiEFW-0004KQ-8H
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201110162211.9207-4-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 24.11.20 um 10:36 schrieb Christoph Hellwig:
-> On Tue, Nov 24, 2020 at 10:31:33AM +0100, Thorsten Leemhuis wrote:
->> Am 24.11.20 um 10:18 schrieb Christoph Hellwig:
->>> On Tue, Nov 24, 2020 at 09:00:01AM +0100, Thorsten Leemhuis wrote:
->>>> For context: Patch 2 of this series adds a text to the Documentation/ directory
->>>> which (for now) uses "GPL-2.0+ OR CC-BY-4.0", as I want to make it easy and
->>>> attractive for others to base their work on it. I'm not strongly attached to
->>>> CC-BY-4.0, but it seemed like the best choice: it's designed for such usage and
->>>> afaics better than using MIT for text files.
->>> And you've not Cced me on that patch 2 or patch 3, which makes Ccing
->>> me on this pretty useless as I can't judge the context.
->> Argh, sorry, slipped through. You can find it here:
->> https://lore.kernel.org/linux-doc/2f314e58cb14c1579f843f8c72bdb4bbb83ac20a.1606137108.git.linux@leemhuis.info/
-> 
-> [...]  How to we make sure people
-> don't accidentally end up including things they can't?
+On Tue, Nov 10, 2020 at 08:21:48AM -0800, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> index 972a34d93505..6f05ab2a1fa4 100644
+> --- a/arch/x86/include/asm/msr-index.h
+> +++ b/arch/x86/include/asm/msr-index.h
+> @@ -922,4 +922,24 @@
+>  #define MSR_VM_IGNNE                    0xc0010115
+>  #define MSR_VM_HSAVE_PA                 0xc0010117
+>  
+> +/* Control-flow Enforcement Technology MSRs */
+> +#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
+> +#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
+> +#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shstk pointer */
+> +#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shstk pointer */
+> +#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shstk pointer */
+> +#define MSR_IA32_PL3_SSP	0x6a7 /* user shstk pointer */
+> +#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shstk table */
+> +
+> +/* MSR_IA32_U_CET and MSR_IA32_S_CET bits */
 
-A quick question for this part of your mail; I'm getting on thin ice 
-with it (hope I won't regret this), but I guess it's worth it to make me 
-understand the problem better:
+Pls put the bit defines under the MSRs they belong to.
 
-How is having a CC-BY text that tracks in part from GPL2 text or code in 
-this case any different than having MIT code that links or includes 
-GPLv2 licensed code? Both CC-BY and MIT are compatible to the GPL (see 
-[1]) and the processed result is only available under GPL (see [2]).
+> +#define CET_SHSTK_EN		BIT_ULL(0)
+> +#define CET_WRSS_EN		BIT_ULL(1)
+> +#define CET_ENDBR_EN		BIT_ULL(2)
+> +#define CET_LEG_IW_EN		BIT_ULL(3)
+> +#define CET_NO_TRACK_EN		BIT_ULL(4)
+> +#define CET_SUPPRESS_DISABLE	BIT_ULL(5)
+> +#define CET_RESERVED		(BIT_ULL(6) | BIT_ULL(7) | BIT_ULL(8) | BIT_ULL(9))
+> +#define CET_SUPPRESS		BIT_ULL(10)
+> +#define CET_WAIT_ENDBR		BIT_ULL(11)
 
-Ciao, Thorsten
+...
 
-[1]
-https://www.gnu.org/licenses/license-list.en.html#ccby
+>  	 * Clear XSAVE features that are disabled in the normal CPUID.
+>  	 */
+>  	for (i = 0; i < ARRAY_SIZE(xsave_cpuid_features); i++) {
+> -		if (!boot_cpu_has(xsave_cpuid_features[i]))
+> -			xfeatures_mask_all &= ~BIT_ULL(i);
+> +		if (xsave_cpuid_features[i] == X86_FEATURE_SHSTK) {
+> +			/*
+> +			 * X86_FEATURE_SHSTK and X86_FEATURE_IBT share
+> +			 * same states, but can be enabled separately.
+> +			 */
+> +			if (!boot_cpu_has(X86_FEATURE_SHSTK) &&
+> +			    !boot_cpu_has(X86_FEATURE_IBT))
+> +				xfeatures_mask_all &= ~BIT_ULL(i);
+> +		} else {
+> +			if ((xsave_cpuid_features[i] == -1) ||
+			     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-[2]
-https://www.gnu.org/licenses/gpl-faq.html#GPLModuleLicense
+That is a new check. I guess it could be done first to simplify the
+code:
+
+	for (i = 0; i < ARRAY_SIZE(xsave_cpuid_features); i++) {
+		if (xsave_cpuid_features[i] == -1) {
+			xfeatures_mask_all &= ~BIT_ULL(i);
+			continue;
+		}
+
+		/* the rest of the bla */
+
+Yes?
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
