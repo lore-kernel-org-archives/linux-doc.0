@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2F4C56202
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 12:13:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F136C56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 12:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6C342173E
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 12:13:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C324E20DD4
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 12:19:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="fOC0/2hg"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Hox05Ywx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389112AbgKZMNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 07:13:20 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:18678 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389007AbgKZMNU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 07:13:20 -0500
+        id S1730078AbgKZMT5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 07:19:57 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:26898 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729257AbgKZMT5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 07:19:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1606392800; x=1637928800;
+  t=1606393196; x=1637929196;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=wuAaV6r6w2/rFPIrtuYzgXuA5dvTc38BY0LFs0T2lz4=;
-  b=fOC0/2hgNZWu+U8ZSpi+SwfeIyO/e968pDhijpYQ0+9YQQ8iuW+XdhFL
-   yQoz+ERfRpQDN9PuwzyOajxExkv6E68IJI1lATjwuTzW0R9Np6qJR/n63
-   H8zN9P6ant90wdFHU/MW1xvWR4UbwelIwHlyWxbI+H9tzZ6BWN6oA85/1
-   I=;
+  bh=p0/xkxLXkEdm/1gb/+u5+pqssnjdPH8RP/0kpost/VQ=;
+  b=Hox05Ywxn3VX6XYH3WbGVHZ6rW7A6A8wuzcaBCaxcpCqP8r2q20OfnEH
+   EZXgRNO7KRLfimylwUETVvMF27d5P9u8T4aqBgSWVVYHDYNrvaYpQske8
+   RyqCLMSQJvKgd4PqMgmfai2WWhPTnLYVO0Ho0ukfvcoOAF7d3e5AMAWiC
+   0=;
 X-IronPort-AV: E=Sophos;i="5.78,372,1599523200"; 
-   d="scan'208";a="65938514"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 26 Nov 2020 12:13:09 +0000
+   d="scan'208";a="99441687"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 26 Nov 2020 12:19:43 +0000
 Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com (Postfix) with ESMTPS id 33FB7A1BD9;
-        Thu, 26 Nov 2020 12:12:56 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.50) by
+        by email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com (Postfix) with ESMTPS id 66F96A2252;
+        Thu, 26 Nov 2020 12:19:31 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.229) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 26 Nov 2020 12:12:40 +0000
+ id 15.0.1497.2; Thu, 26 Nov 2020 12:19:14 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Shakeel Butt <shakeelb@google.com>
 CC:     SeongJae Park <sjpark@amazon.com>,
@@ -74,53 +74,75 @@ CC:     SeongJae Park <sjpark@amazon.com>,
         Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
         <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v22 03/18] mm/damon: Adaptively adjust regions
-Date:   Thu, 26 Nov 2020 13:12:26 +0100
-Message-ID: <20201126121226.18883-1-sjpark@amazon.com>
+Subject: Re: [PATCH v22 04/18] mm/damon: Track dynamic monitoring target regions update
+Date:   Thu, 26 Nov 2020 13:18:58 +0100
+Message-ID: <20201126121858.19832-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod6nhJyOh943+EqttG+33ugrkNYxpLM3Gq7U7TFw70dOAA@mail.gmail.com>
+In-Reply-To: <CALvZod6iLkNyePTMn9=DOgbD5Q7Yqc_WrQrNqOQ3e-2+FtJZsg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.162.50]
-X-ClientProxiedBy: EX13D15UWB003.ant.amazon.com (10.43.161.138) To
+X-Originating-IP: [10.43.160.229]
+X-ClientProxiedBy: EX13D35UWC003.ant.amazon.com (10.43.162.130) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 25 Nov 2020 07:29:41 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+On Wed, 25 Nov 2020 07:29:57 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-> On Tue, Oct 20, 2020 at 2:01 AM SeongJae Park <sjpark@amazon.com> wrote:
+> On Tue, Oct 20, 2020 at 2:02 AM SeongJae Park <sjpark@amazon.com> wrote:
 > >
 > > From: SeongJae Park <sjpark@amazon.de>
 > >
-> > Even somehow the initial monitoring target regions are well constructed
-> > to fulfill the assumption (pages in same region have similar access
-> > frequencies), the data access pattern can be dynamically changed.  This
-> > will result in low monitoring quality.  To keep the assumption as much
-> > as possible, DAMON adaptively merges and splits each region based on
-> > their access frequency.
+> > The monitoring target address range can be dynamically changed.  For
+> > example, virtual memory could be dynamically mapped and unmapped.
+> > Physical memory could be hot-plugged.
 > >
-> > For each ``aggregation interval``, it compares the access frequencies of
-> > adjacent regions and merges those if the frequency difference is small.
-> > Then, after it reports and clears the aggregated access frequency of
-> > each region, it splits each region into two or three regions if the
-> > total number of regions will not exceed the user-specified maximum
-> > number of regions after the split.
-> >
-> > In this way, DAMON provides its best-effort quality and minimal overhead
-> > while keeping the upper-bound overhead that users set.
+> > As the changes could be quite frequent in some cases,
+> 
+> Which cases? Usually address space changes are very infrequent for
+> performance reasons.
+
+It depends on the application, but there are some cases for the mmap[1].
+ebizzy, the popular benchmarks in mm community is also one such application.
+
+[1] Section 4.3, https://dl.acm.org/doi/pdf/10.1145/3342195.3387527
+
+> 
+> > DAMON checks the
+> > dynamic memory mapping changes and applies it to the abstracted target
+> > area only for each of a user-specified time interval, ``regions update
+> > interval``.
 > >
 > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> [snip]
+> >   * Check whether current monitoring should be stopped
+> >   *
+> > @@ -612,6 +625,11 @@ static int kdamond_fn(void *data)
+> >                         kdamond_reset_aggregated(ctx);
+> >                         kdamond_split_regions(ctx);
+> >                 }
+> > +
+> > +               if (kdamond_need_update_regions(ctx)) {
+> > +                       kdamond_call_prmt(ctx, update_target_regions);
 > 
-> The high level comment I have is that kdamond_[merge|split]_regions
-> should be part of the abstraction of the target instead of the damon
-> context.
+> The implementation of update_target_regions callback should be part of
+> this patch.
 
-Agreed in a high level.  Please refer to my answer to your second suggestion at
-https://lore.kernel.org/linux-mm/20201126115157.6888-1-sjpark@amazon.com/
+Agreed, will make so in the next version.
 
 
 Thanks,
 SeongJae Park
+
+> 
+> 
+> > +                       sz_limit = damon_region_sz_limit(ctx);
+> > +               }
+> >         }
+> >         damon_for_each_target(t, ctx) {
+> >                 damon_for_each_region_safe(r, next, t)
+> > --
+> > 2.17.1
+> >
