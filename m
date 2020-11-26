@@ -2,166 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E4CC56202
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33D0C63798
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 23:46:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF4A721D1A
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:50:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD7CF20665
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 23:46:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="FlzZs4iD"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iZi1qo83";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="py+qfo2W"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404877AbgKZStl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 13:49:41 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:35552 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404018AbgKZStl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Nov 2020 13:49:41 -0500
-Received: from zn.tnic (p200300ec2f0c9000558d893f9f23e622.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9000:558d:893f:9f23:e622])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EA7DB1EC051F;
-        Thu, 26 Nov 2020 19:49:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1606416579;
+        id S2388598AbgKZXqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 18:46:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729501AbgKZXqC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 18:46:02 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B993AC0613D4;
+        Thu, 26 Nov 2020 15:46:01 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1606434359;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=2W+NL3SAFLUluBOMDMd2sp2541nCq4pNaSr+RwgKTNo=;
-        b=FlzZs4iD/b1N/2T6ze+nzfRu5fchjA5IhevHmlusf1y3m5/h8mqAnGoz6gDYdGcG7pDV46
-        5NC838TlUNV/76f1iPpRpp+I5SQ6QTgqyL5FOl2Ax/jwED3ngFT3Au1m6fbcyWqa9S+mxW
-        u71XOVZbahIDozSfK49q+L8fWUgOX4s=
-Date:   Thu, 26 Nov 2020 19:49:33 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v15 04/26] x86/cet: Add control-protection fault handler
-Message-ID: <20201126184933.GF31565@zn.tnic>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-5-yu-cheng.yu@intel.com>
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jm3trDZs2718Nq5qmyX6yF17hhp4QM/wTJbnNLUJFxM=;
+        b=iZi1qo83o5fs+vlu4+dekBXqIV8GFGw7W/dxJXPxjlj8pJbInC3lHg44oYBn4uF8lQegya
+        XEnbgxLmQcBDq25U6kmKG+svIACh4OdheTYNY7zq6PnSgYvCz13lloj8xIhk+0oHD24BTG
+        oqzucwF40KrXG8F6fEMG250XrKzEONUnl7l6ecvxV/6NXQ2es2nKydtlKnDBpETYYVGI+M
+        v7Zp8dbvogMn7AES0KszTsLHC13i/oFpOuA6joxchtavJH7hfGgoFVMj29Ase2nXpuOEfs
+        oBVqWW1/zLyqxCujAPWlEn00+njmCPvMRHylWtNCNmigolvRPl7tVhIw05Qogg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1606434359;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jm3trDZs2718Nq5qmyX6yF17hhp4QM/wTJbnNLUJFxM=;
+        b=py+qfo2WlcnagPSLxEU+AK7kCxekA8q6QytsGP4WVywQr+Sk4nJZJ7lHNK4tVBBq3kzISq
+        eLF7TLoc/rRGikDQ==
+To:     Stefan =?utf-8?Q?B=C3=BChler?= 
+        <stefan.buehler@tik.uni-stuttgart.de>,
+        sean.v.kelley@linux.intel.com
+Cc:     bhelgaas@google.com, bp@alien8.de, corbet@lwn.net,
+        kar.hin.ong@ni.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        mingo@redhat.com, sassmann@kpanic.de, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: boot interrupt quirk (also in 4.19.y) breaks serial ports (was: [PATCH v2 0/2] pci: Add boot interrupt quirk mechanism for Xeon chipsets)
+In-Reply-To: <d512469f-de04-2f66-ca42-21ec3c5331ba@tik.uni-stuttgart.de>
+References: <20200220192930.64820-1-sean.v.kelley@linux.intel.com> <b2da25c8-121a-b241-c028-68e49bab0081@tik.uni-stuttgart.de> <87zh35k5xa.fsf@nanos.tec.linutronix.de> <d512469f-de04-2f66-ca42-21ec3c5331ba@tik.uni-stuttgart.de>
+Date:   Fri, 27 Nov 2020 00:45:59 +0100
+Message-ID: <87blfjk7go.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201110162211.9207-5-yu-cheng.yu@intel.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 08:21:49AM -0800, Yu-cheng Yu wrote:
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index e19df6cde35d..6c21c1e92605 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -598,6 +598,65 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->  	cond_local_irq_disable(regs);
->  }
->  
-> +#ifdef CONFIG_X86_CET
-> +static const char * const control_protection_err[] = {
-> +	"unknown",
-> +	"near-ret",
-> +	"far-ret/iret",
-> +	"endbranch",
-> +	"rstorssp",
-> +	"setssbsy",
-> +};
-> +
-> +/*
-> + * When a control protection exception occurs, send a signal
-> + * to the responsible application.  Currently, control
-> + * protection is only enabled for the user mode.  This
-> + * exception should not come from the kernel mode.
-> + */
+Stefan,
 
-Make that 80 cols wide.
+On Wed, Nov 25 2020 at 14:41, Stefan B=C3=BChler wrote:
+> On 11/25/20 12:54 PM, Thomas Gleixner wrote:
+>> On Wed, Sep 16 2020 at 12:12, Stefan B=C3=BChler wrote:
+>> Can you please provide the output of:
+>>=20
+>>  for ID in 05:00.0 06:00.0 06:00.1 06:01.0 06:01.1; do lspci -s $ID -vvv=
+; done
+>
+> See attachment.
+>
+> Also I boot the affected systems now with "pci=3Dnoioapicquirk", which
+> "solves" the issue too (instead of patching the kernel).
 
-> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
-> +{
-> +	struct task_struct *tsk;
-> +
-> +	if (notify_die(DIE_TRAP, "control protection fault", regs,
-> +		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-> +		return;
+Yes, it skips the quirks.
 
-What is the intent here, notifiers can prevent the machine from printing
-the CP error below?
+> 05:00.0 PCI bridge: PLX Technology, Inc. PEX8112 x1 Lane PCI Express-to-P=
+CI Bridge (rev aa) (prog-if 00 [Normal decode])
+> 	Physical Slot: 1
+> 	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Step=
+ping- SERR+ FastB2B- DisINTx-
+> 	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbort=
+- <MAbort- >SERR- <PERR- INTx-
+> 	Latency: 0, Cache Line Size: 32 bytes
+> 	Interrupt: pin A routed to IRQ 16
+> 	NUMA node: 0
+> 	Bus: primary=3D05, secondary=3D06, subordinate=3D06, sec-latency=3D64
+> 	I/O behind bridge: 0000e000-0000efff
+> 	Memory behind bridge: fb400000-fb4fffff
+> 	Prefetchable memory behind bridge: fff00000-000fffff
+> 	Secondary status: 66MHz+ FastB2B- ParErr- DEVSEL=3Dmedium >TAbort- <TAbo=
+rt- <MAbort+ <SERR- <PERR-
+> 	BridgeCtl: Parity- SERR+ NoISA- VGA- MAbort- >Reset- FastB2B-
+> 		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+> 	Capabilities: <access denied>
 
-> +	cond_local_irq_enable(regs);
-> +
-> +	if (!user_mode(regs))
-> +		die("kernel control protection fault", regs, error_code);
+Can you please run this as root so the Capabilities are accessible?
 
-Let's write that more explicitly:
+Thanks,
 
-		die("Unexpected/unsupported control protection fault"...
-
-> +
-> +	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-> +	    !static_cpu_has(X86_FEATURE_IBT))
-
-Why static_cpu_has?
-
-> +		WARN_ONCE(1, "CET is disabled but got control protection fault\n");
-
-			     "Control protection fault with CET support disabled\n"
-
-> +
-> +	tsk = current;
-> +	tsk->thread.error_code = error_code;
-> +	tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +	    printk_ratelimit()) {
-> +		unsigned int max_err;
-> +		unsigned long ssp;
-> +
-> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
-> +		if ((error_code < 0) || (error_code > max_err))
-> +			error_code = 0;
-
-<---- newline here.
-
-> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +		pr_info("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
-> +			tsk->comm, task_pid_nr(tsk),
-> +			regs->ip, regs->sp, ssp, error_code,
-> +			control_protection_err[error_code]);
-> +		print_vma_addr(KERN_CONT " in ", regs->ip);
-> +		pr_cont("\n");
-> +	}
-
-...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+        tglx
