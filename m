@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D271C56202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CD92C63697
 	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A51821D40
+	by mail.kernel.org (Postfix) with ESMTP id 5B3A821D7E
 	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RIxckPoe"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="q0DXHENI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391348AbgKZPyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 10:54:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
+        id S1730181AbgKZPya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 10:54:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391344AbgKZPyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:32 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 342EEC0613D4
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:32 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id h21so2869036wmb.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:32 -0800 (PST)
+        with ESMTP id S2391335AbgKZPya (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:30 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC5EC0617A7
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:30 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id l1so2634867wrb.9
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GRbbAoAyT+twJ6DWAMnVPh0yMfbGrEWPbKn8Cs93LQs=;
-        b=RIxckPoe2SCexeONFtE4DSkvr9AstiWpnehcv0VL5bhqQYEg6F/oOLEITVaQ1YoEfP
-         hGk3BAB/mFs/TVGkOysWFzWL2o2OJ63MAD9vHn6ziIvpoT6iU7Kp+f3yRtPmRLGrK3uL
-         0deZiq22+yVHN3uu+0OcZirO1XVk48C0r0exGjyDri75/b+No5iT5S4xp4Jb/F2siD20
-         9mbZCjgyOtXgQaVY+Md/r07NG7gzIABxytKiAfgC6hHFqf47OWj1AJA/CygIdN1Nz3RG
-         QjClGrsnaR32TvHvOZhfrzbfM8Kl2yeEXRKWMhh3KYMG0WT+diIy8djka0sD24s2czFl
-         LSkQ==
+        bh=9eBkN6lmfdOZ6y3T4AeVQ2xEMCxfbxxoIUc76Qx59Gw=;
+        b=q0DXHENIOaqhJFnVso9J1kN3Eb61iVK8nd3AricHajirGlfnSXv+NmgwWHCMVIELoM
+         /xkucGICwySq83LXla7dhpUSyhhrYAX2WyLB2M0GSO+2LUD2XI2l+m2AypGqvHH1oZWj
+         ar44f6d4mUGekt4sM2d7YlccV/6w5dO+75q5vS8ABmkgJxt4nsK1E5YYxMSRXHZwtqRw
+         CgRzDUSpetP2+yE0F4UC58Vh56PRAdl/j8zQgvJ3gdi0B97IexPJS8ZDk2Z0gcqlwvRq
+         +6NN5jRL2/yL9KuYo3aGBfcKHp1j9xVMqkzoFKdL7JrD/vM8UlDrwr99kKCpPxKPalu6
+         8LXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GRbbAoAyT+twJ6DWAMnVPh0yMfbGrEWPbKn8Cs93LQs=;
-        b=Fms59tLJ8LmKKrX3aEoVZ0gtKsJU0Er1Kx5vU/UfMa8LPn6vcup25BonsV3w9Q1or3
-         HUWqhPgCOiFrB9Dus1bzas4u+ji7Y+o2lHuHlae10As2ItOvBJ2d/b/bzWPU/yi5H2US
-         2W9vUGoGZPLlhGcDOkkaBOtDdcUFweV6VzBk9EO5Ta7QJ7j8/xHdOz8pJ+g6SryBo2bJ
-         me0hxTHxsaFKccotaaW3DUcbPKrtYklvXkORnZQNy2Dp7+i4jhkvaHZMwq3oq5xKsCcV
-         qIhM2gz12BDkS4r8uIbvS9kaKlCzau5QZjc94FE9QkWNjC++wvENNHuEs5ZkDzIUECG+
-         59uA==
-X-Gm-Message-State: AOAM531nHkodd6QsxZ5AY5DSWDeuxFZF5FWfKUMEsgZ2RduGmLZVqg1w
-        iZubumbG4/pbr+n1U3XFdTD/CA==
-X-Google-Smtp-Source: ABdhPJwT9SLDB2L8OAgTeM8M2ZPVm2Y3TUfSJCQdJPrpoyLr/4gGDkZXGYwQZBc52TdBQc78XLbyjQ==
-X-Received: by 2002:a1c:31c6:: with SMTP id x189mr4071224wmx.50.1606406070792;
-        Thu, 26 Nov 2020 07:54:30 -0800 (PST)
+        bh=9eBkN6lmfdOZ6y3T4AeVQ2xEMCxfbxxoIUc76Qx59Gw=;
+        b=RBlLOjXsDqGGZjIpFSOo72SJSlSDXU18AiUr5QzZLWs7yEzlYVJq9CV3TtvDa1hdA4
+         ulKHfSB2wgy6DMudC/d52f+PjWIm7OoctQGbuEyoKWwIIVcEWJ16uKEz1wFRMfWIv2Dh
+         vU41gMXypZMmwz2MQQIIZMmV0K5pjvE4VjKRpLczyji36NvHT36gHRbgsm6nR/ARVpcK
+         H3B3V2i6jaIEeYVU3hTcz6uZcvzXm1HukMVMfa5s09oL0PqeC3ssrjgBil9ggAISY2mj
+         GshOHVYXWXC2zK9CJGmOdvbwg+9ESDHmrFEKFJ9dmYjkG284vn8/tQ8DBWvPAXV9KG/r
+         Wi4A==
+X-Gm-Message-State: AOAM533Y+N3Aq5d26BGZ/cXQirNgocMaJp1s4dh+ZnDLf4j+vwMHvIxz
+        x+LR2U5tYdd3GsEWZqWDhsThLQ==
+X-Google-Smtp-Source: ABdhPJw/lRW3PEMxi02nhLES66F/ltyrof/LoT+FjVRp6ybB+E4igrjSX8c/nxUUNknF9HL5GfidZA==
+X-Received: by 2002:a5d:5482:: with SMTP id h2mr4667449wrv.18.1606406068612;
+        Thu, 26 Nov 2020 07:54:28 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:f008:704d:8d4b:9951])
-        by smtp.gmail.com with ESMTPSA id q1sm9612864wrj.8.2020.11.26.07.54.29
+        by smtp.gmail.com with ESMTPSA id v7sm2637615wma.26.2020.11.26.07.54.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2020 07:54:29 -0800 (PST)
+        Thu, 26 Nov 2020 07:54:27 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -73,9 +73,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v3 02/23] psci: Accessor for configured PSCI function IDs
-Date:   Thu, 26 Nov 2020 15:54:00 +0000
-Message-Id: <20201126155421.14901-3-dbrazdil@google.com>
+Subject: [PATCH v3 01/23] psci: Support psci_ops.get_version for v0.1
+Date:   Thu, 26 Nov 2020 15:53:59 +0000
+Message-Id: <20201126155421.14901-2-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201126155421.14901-1-dbrazdil@google.com>
 References: <20201126155421.14901-1-dbrazdil@google.com>
@@ -85,66 +85,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Function IDs used by PSCI are configurable for v0.1 via DT/APCI. If the
-host is using PSCI v0.1, KVM's host PSCI proxy needs to use the same IDs.
-Expose the array holding the information with a read-only accessor.
+KVM's host PSCI SMC filter needs to be aware of the PSCI version of the
+system but currently it is impossible to distinguish between v0.1 and
+PSCI disabled because both have get_version == NULL.
+
+Populate get_version for v0.1 with a function that returns a constant.
+
+psci_opt.get_version is currently unused so this has no effect on
+existing functionality.
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- drivers/firmware/psci/psci.c | 16 ++++++++--------
- include/linux/psci.h         | 10 ++++++++++
- 2 files changed, 18 insertions(+), 8 deletions(-)
+ drivers/firmware/psci/psci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
-index 213c68418a65..40609564595e 100644
+index 00af99b6f97c..213c68418a65 100644
 --- a/drivers/firmware/psci/psci.c
 +++ b/drivers/firmware/psci/psci.c
-@@ -58,16 +58,16 @@ typedef unsigned long (psci_fn)(unsigned long, unsigned long,
- 				unsigned long, unsigned long);
- static psci_fn *invoke_psci_fn;
+@@ -146,6 +146,11 @@ static int psci_to_linux_errno(int errno)
+ 	return -EINVAL;
+ }
  
--enum psci_function {
--	PSCI_FN_CPU_SUSPEND,
--	PSCI_FN_CPU_ON,
--	PSCI_FN_CPU_OFF,
--	PSCI_FN_MIGRATE,
--	PSCI_FN_MAX,
--};
--
- static u32 psci_function_id[PSCI_FN_MAX];
- 
-+u32 psci_get_function_id(enum psci_function fn)
++static u32 psci_get_version_0_1(void)
 +{
-+	if (WARN_ON_ONCE(fn < 0 || fn >= PSCI_FN_MAX))
-+		return 0;
-+
-+	return psci_function_id[fn];
++	return PSCI_VERSION(0, 1);
 +}
 +
- #define PSCI_0_2_POWER_STATE_MASK		\
- 				(PSCI_0_2_POWER_STATE_ID_MASK | \
- 				PSCI_0_2_POWER_STATE_TYPE_MASK | \
-diff --git a/include/linux/psci.h b/include/linux/psci.h
-index 2a1bfb890e58..5b49a5c82d6f 100644
---- a/include/linux/psci.h
-+++ b/include/linux/psci.h
-@@ -21,6 +21,16 @@ bool psci_power_state_is_valid(u32 state);
- int psci_set_osi_mode(bool enable);
- bool psci_has_osi_support(void);
+ static u32 psci_get_version(void)
+ {
+ 	return invoke_psci_fn(PSCI_0_2_FN_PSCI_VERSION, 0, 0, 0);
+@@ -514,6 +519,8 @@ static int __init psci_0_1_init(struct device_node *np)
  
-+enum psci_function {
-+	PSCI_FN_CPU_SUSPEND,
-+	PSCI_FN_CPU_ON,
-+	PSCI_FN_CPU_OFF,
-+	PSCI_FN_MIGRATE,
-+	PSCI_FN_MAX,
-+};
+ 	pr_info("Using PSCI v0.1 Function IDs from DT\n");
+ 
++	psci_ops.get_version = psci_get_version_0_1;
 +
-+u32 psci_get_function_id(enum psci_function fn);
-+
- struct psci_operations {
- 	u32 (*get_version)(void);
- 	int (*cpu_suspend)(u32 state, unsigned long entry_point);
+ 	if (!of_property_read_u32(np, "cpu_suspend", &id)) {
+ 		psci_function_id[PSCI_FN_CPU_SUSPEND] = id;
+ 		psci_ops.cpu_suspend = psci_cpu_suspend;
 -- 
 2.29.2.454.gaff20da3a2-goog
 
