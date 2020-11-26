@@ -2,113 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4D4C6379D
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E4CC56202
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:50:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C81B21D91
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:06:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF4A721D1A
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 18:50:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="FlzZs4iD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404466AbgKZSGQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 13:06:16 -0500
-Received: from foss.arm.com ([217.140.110.172]:42526 "EHLO foss.arm.com"
+        id S2404877AbgKZStl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 13:49:41 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:35552 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404339AbgKZSGQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 26 Nov 2020 13:06:16 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C69831B;
-        Thu, 26 Nov 2020 10:06:15 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.30.234])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F2F63F23F;
-        Thu, 26 Nov 2020 10:06:11 -0800 (PST)
-Date:   Thu, 26 Nov 2020 18:06:08 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v3 05/23] arm64: Extract parts of el2_setup into a macro
-Message-ID: <20201126180608.GF38486@C02TD0UTHF1T.local>
-References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155421.14901-6-dbrazdil@google.com>
+        id S2404018AbgKZStl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 26 Nov 2020 13:49:41 -0500
+Received: from zn.tnic (p200300ec2f0c9000558d893f9f23e622.dip0.t-ipconnect.de [IPv6:2003:ec:2f0c:9000:558d:893f:9f23:e622])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EA7DB1EC051F;
+        Thu, 26 Nov 2020 19:49:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1606416579;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=2W+NL3SAFLUluBOMDMd2sp2541nCq4pNaSr+RwgKTNo=;
+        b=FlzZs4iD/b1N/2T6ze+nzfRu5fchjA5IhevHmlusf1y3m5/h8mqAnGoz6gDYdGcG7pDV46
+        5NC838TlUNV/76f1iPpRpp+I5SQ6QTgqyL5FOl2Ax/jwED3ngFT3Au1m6fbcyWqa9S+mxW
+        u71XOVZbahIDozSfK49q+L8fWUgOX4s=
+Date:   Thu, 26 Nov 2020 19:49:33 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v15 04/26] x86/cet: Add control-protection fault handler
+Message-ID: <20201126184933.GF31565@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201126155421.14901-6-dbrazdil@google.com>
+In-Reply-To: <20201110162211.9207-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 03:54:03PM +0000, David Brazdil wrote:
-> When the a CPU is booted in EL2, the kernel checks for VHE support and
-> initializes the CPU core accordingly. For nVHE it also installs the stub
-> vectors and drops down to EL1.
-> 
-> Once KVM gains the ability to boot cores without going through the
-> kernel entry point, it will need to initialize the CPU the same way.
-> Extract the relevant bits of el2_setup into an init_el2_state macro
-> with an argument specifying whether to initialize for VHE or nVHE.
-> 
-> No functional change. Size of el2_setup increased by 148 bytes due
-> to duplication.
-
-As a heads-up, this will conflict with my rework which is queued in the
-arm64 for-next/uaccess branch. I reworked an renamed el2_setup to
-initialize SCTLR_ELx and PSTATE more consistently as a prerequisite for
-the set_fs() removal.
-
-I'm afraid this is going to conflict, and I reckon this needs to be
-rebased atop that. I think the actual conflicts are logically trivial,
-but the diff is going to be painful.
-
-I'm certainly in favour of breaking this down into manageable chunks,
-especially as that makes the branch naming easier to follow, but I have
-a couple of concerns below.
-
-> +/* GICv3 system register access */
-> +.macro __init_el2_gicv3
-> +	mrs	x0, id_aa64pfr0_el1
-> +	ubfx	x0, x0, #ID_AA64PFR0_GIC_SHIFT, #4
-> +	cbz	x0, 1f
+On Tue, Nov 10, 2020 at 08:21:49AM -0800, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index e19df6cde35d..6c21c1e92605 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -598,6 +598,65 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>  	cond_local_irq_disable(regs);
+>  }
+>  
+> +#ifdef CONFIG_X86_CET
+> +static const char * const control_protection_err[] = {
+> +	"unknown",
+> +	"near-ret",
+> +	"far-ret/iret",
+> +	"endbranch",
+> +	"rstorssp",
+> +	"setssbsy",
+> +};
 > +
-> +	mrs_s	x0, SYS_ICC_SRE_EL2
-> +	orr	x0, x0, #ICC_SRE_EL2_SRE	// Set ICC_SRE_EL2.SRE==1
-> +	orr	x0, x0, #ICC_SRE_EL2_ENABLE	// Set ICC_SRE_EL2.Enable==1
-> +	msr_s	SYS_ICC_SRE_EL2, x0
-> +	isb					// Make sure SRE is now set
-> +	mrs_s	x0, SYS_ICC_SRE_EL2		// Read SRE back,
-> +	tbz	x0, #0, 1f			// and check that it sticks
-> +	msr_s	SYS_ICH_HCR_EL2, xzr		// Reset ICC_HCR_EL2 to defaults
-> +1:
-> +.endm
+> +/*
+> + * When a control protection exception occurs, send a signal
+> + * to the responsible application.  Currently, control
+> + * protection is only enabled for the user mode.  This
+> + * exception should not come from the kernel mode.
+> + */
 
-In the head.S code, this was under an ifdef CONFIG_ARM_GIC_V3, but that
-ifdef wasn't carried into the macro here, or into its use below. I'm not
-sure of the impact, but that does seem to be a functional change.
+Make that 80 cols wide.
+
+> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
+> +{
+> +	struct task_struct *tsk;
+> +
+> +	if (notify_die(DIE_TRAP, "control protection fault", regs,
+> +		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
+> +		return;
+
+What is the intent here, notifiers can prevent the machine from printing
+the CP error below?
+
+> +	cond_local_irq_enable(regs);
+> +
+> +	if (!user_mode(regs))
+> +		die("kernel control protection fault", regs, error_code);
+
+Let's write that more explicitly:
+
+		die("Unexpected/unsupported control protection fault"...
 
 > +
-> +.macro __init_el2_hstr
-> +	msr	hstr_el2, xzr			// Disable CP15 traps to EL2
-> +.endm
+> +	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
+> +	    !static_cpu_has(X86_FEATURE_IBT))
 
-Likewise, this used to be be guarded by CONFIG_COMPAT, but that's not
-carried into the macro or its use.
+Why static_cpu_has?
 
-If the intent was to remove the conditionality, then that should be
-mentioned in the commit message, since it is a potential functional
-change.
+> +		WARN_ONCE(1, "CET is disabled but got control protection fault\n");
 
-Thanks,
-Mark.
+			     "Control protection fault with CET support disabled\n"
+
+> +
+> +	tsk = current;
+> +	tsk->thread.error_code = error_code;
+> +	tsk->thread.trap_nr = X86_TRAP_CP;
+> +
+> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
+> +	    printk_ratelimit()) {
+> +		unsigned int max_err;
+> +		unsigned long ssp;
+> +
+> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
+> +		if ((error_code < 0) || (error_code > max_err))
+> +			error_code = 0;
+
+<---- newline here.
+
+> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
+> +		pr_info("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
+> +			tsk->comm, task_pid_nr(tsk),
+> +			regs->ip, regs->sp, ssp, error_code,
+> +			control_protection_err[error_code]);
+> +		print_vma_addr(KERN_CONT " in ", regs->ip);
+> +		pr_cont("\n");
+> +	}
+
+...
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
