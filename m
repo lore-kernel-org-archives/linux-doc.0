@@ -2,212 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F2BC63697
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFEC8C63798
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24E5320DD4
-	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 13:47:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 674B721D46
+	for <linux-doc@archiver.kernel.org>; Thu, 26 Nov 2020 15:54:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="nFc2aNQO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dbbWmaFG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390467AbgKZNrf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 26 Nov 2020 08:47:35 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:61604 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390354AbgKZNrf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 08:47:35 -0500
+        id S2391287AbgKZPy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 26 Nov 2020 10:54:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51074 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391284AbgKZPy3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 26 Nov 2020 10:54:29 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D91C0617A7
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:29 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id r3so2656220wrt.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Nov 2020 07:54:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1606398454; x=1637934454;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=fyAnVHSM7DUGAUg/UQTCA37wZ5eyuf7HfQz0TTccKaA=;
-  b=nFc2aNQOhGa8p77FBo0X3QwCL2C+7jixou3Ag1n7OdQmebRr2CvNjCNY
-   I5BruyZHh6rnAYmjNBviXiXGrvOs+Di2uyl7iemJLm7YsnsKNKK5/DO1/
-   ttX+IYOlnQ4WEGnQpRe6xQPQXIa/vhItJupLrwEjD12+ynr21sVzt1M0I
-   s=;
-X-IronPort-AV: E=Sophos;i="5.78,372,1599523200"; 
-   d="scan'208";a="91197811"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 26 Nov 2020 13:46:15 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2b-c7131dcf.us-west-2.amazon.com (Postfix) with ESMTPS id 8C108A1F84;
-        Thu, 26 Nov 2020 13:46:12 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.237) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 26 Nov 2020 13:45:55 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Shakeel Butt <shakeelb@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@huawei.com>,
-        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PYeJaSm88hY1OXHAOwbtBVxKGHgJPc5mwzbhhlyynEE=;
+        b=dbbWmaFGzmEM/5ruz4/Z+DeG8I1QJ3E7BZZIUlz04xlmm5mpXCXyDNZuQEBkdhMaMl
+         AS/3kbrq6ApEJVDa1EWQ7GE3Zv+43ZDFCu8ZgL6c2in1kkmdfc3Xfb56Nbw+I4tyzZ0d
+         cZfOb5fGLtaLONRw5bxxovN0HifciY0MSOOaqB8tHbaiNFVZgbyB68yI7gdIxEcwWDkU
+         vwfFPgrG7LFDXj1G/CIUMjwKu5AxT/h9i6BiTmLEmW3vf6euE0U8dVUGZT6nIdsbJnQD
+         pwVKLM8IK4mJUYQTOBDyoBAyy+P1dvspXdNdJiZdnyOnj3LkxIwHH6CqJof5p6AlYAxA
+         GNsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PYeJaSm88hY1OXHAOwbtBVxKGHgJPc5mwzbhhlyynEE=;
+        b=QCqD+hnc1edVGxRc4sameTEYcA5K0iaCRWQjtG0XzIX9wTTTI41pKk4GsNa4ARaATr
+         h3ivcwownTfVQTYMBigpUaBKEJuj3QDM8WyoO+Pi6tHIupfVYprK4KuBwrbhMIYfe6ma
+         vU6KtliOVJzr9eQ7x/dNuIwaPrbpYJJDbXg/sXM8BNSN9lsFVf23/vobMeOoHf7HvY1D
+         g/R8jWRd6vdotdn7O3R/eQ6twc562ysYY1eVzM4ZFCRJeWOXiUYnyajY7aB6MunNlZcu
+         8xGMlluyCH0hCicbO8ge+OgxfrMcSZnzHx5JDTxNf1XnRVWsKg/JkXKjDyKjlBBdy9My
+         dmFg==
+X-Gm-Message-State: AOAM530FjtoX1yxb3EoMfaBJrvumaXzfHJ7mKGxMiKp/1QlHxH+jFV3T
+        /hmOqaFf4jE57NOdimiswF82tw==
+X-Google-Smtp-Source: ABdhPJw48M5ZmOT1FESI9opelMUihSUq3ZOHJRFXfPns+z2bHZ7YU5uZ5kH5mgL1y3kcqmMB5aOkvw==
+X-Received: by 2002:a5d:5604:: with SMTP id l4mr4564625wrv.127.1606406066449;
+        Thu, 26 Nov 2020 07:54:26 -0800 (PST)
+Received: from localhost ([2a01:4b00:8523:2d03:f008:704d:8d4b:9951])
+        by smtp.gmail.com with ESMTPSA id r21sm9938901wrc.16.2020.11.26.07.54.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2020 07:54:25 -0800 (PST)
+From:   David Brazdil <dbrazdil@google.com>
+To:     kvmarm@lists.cs.columbia.edu
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter <cl@linux.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
-        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
-        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v22 10/18] mm/damon: Implement a debugfs-based user space interface
-Date:   Thu, 26 Nov 2020 14:45:39 +0100
-Message-ID: <20201126134539.5974-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod6md-OQD6ZKYtPjOgC5TvhDb0X0fBewA9dZAwhmwQw4=w@mail.gmail.com>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel-team@android.com, David Brazdil <dbrazdil@google.com>
+Subject: [PATCH v3 00/23] Opt-in always-on nVHE hypervisor
+Date:   Thu, 26 Nov 2020 15:53:58 +0000
+Message-Id: <20201126155421.14901-1-dbrazdil@google.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.237]
-X-ClientProxiedBy: EX13D42UWA001.ant.amazon.com (10.43.160.153) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 25 Nov 2020 07:30:36 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+As we progress towards being able to keep guest state private to the
+host running nVHE hypervisor, this series allows the hypervisor to
+install itself on newly booted CPUs before the host is allowed to run
+on them.
 
-> On Tue, Oct 20, 2020 at 2:06 AM SeongJae Park <sjpark@amazon.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > DAMON is designed to be used by kernel space code such as the memory
-> > management subsystems, and therefore it provides only kernel space API.
-> > That said, letting the user space control DAMON could provide some
-> > benefits to them.  For example, it will allow user space to analyze
-> > their specific workloads and make their own special optimizations.
-> >
-> > For such cases, this commit implements a simple DAMON application kernel
-> > module, namely 'damon-dbgfs', which merely wraps the DAMON api and
-> > exports those to the user space via the debugfs.
-> >
-> > 'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
-> > ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
-> >>
-[...]
-> > +/**
-> > + * damon_nr_running_ctxs() - Return number of currently running contexts.
-> > + */
-> > +int damon_nr_running_ctxs(void)
-> > +{
-> > +       int nr_ctxs;
-> > +
-> > +       mutex_lock(&damon_lock);
-> > +       nr_ctxs = nr_running_ctxs;
-> > +       mutex_unlock(&damon_lock);
-> > +
-> 
-> READ_ONCE() instead of mutex?
+All functionality described below is opt-in, guarded by an early param
+'kvm-arm.protected'. Future patches specific to the new "protected" mode
+should be hidden behind the same param.
 
-Right, it would be ok and even make the code slightly faster.  But, if you're
-ok, I'd like to keep this as is because this helps reader easily find what
-variables are protected by the mutex and this is not performance critical.
+The hypervisor starts trapping host SMCs and intercepting host's PSCI
+CPU_ON/SUSPEND calls. It replaces the host's entry point with its own,
+initializes the EL2 state of the new CPU and installs the nVHE hyp vector
+before ERETing to the host's entry point.
 
-> 
-> > +       return nr_ctxs;
-> > +}
-> > +
-[...]
-> > +
-> > +static ssize_t dbgfs_target_ids_write(struct file *file,
-> > +               const char __user *buf, size_t count, loff_t *ppos)
-> > +{
-> > +       struct damon_ctx *ctx = file->private_data;
-> > +       char *kbuf, *nrs;
-> > +       bool received_pidfds = false;
-> > +       unsigned long *targets;
-> > +       ssize_t nr_targets;
-> > +       ssize_t ret = count;
-> > +       int i;
-> > +       int err;
-> > +
-> > +       kbuf = user_input_str(buf, count, ppos);
-> > +       if (IS_ERR(kbuf))
-> > +               return PTR_ERR(kbuf);
-> > +
-> > +       nrs = kbuf;
-> > +
-> > +       if (!strncmp(kbuf, "pidfd ", 6)) {
-> > +               received_pidfds = true;
-> 
-> I am inclining towards having simple pids instead of pidfds. Basically
-> what cgroup/resctrl does.
+The kernel checks new cores' features against the finalized system
+capabilities. To avoid the need to move this code/data to EL2, the
+implementation only allows to boot cores that were online at the time of
+KVM initialization and therefore had been checked already.
 
-Ok, I will drop the pidfd support for simplicity.  Restoring it back when real
-requirement comes out would not be too late.
+Other PSCI SMCs are forwarded to EL3, though only the known set of SMCs
+implemented in the kernel is allowed. Non-PSCI SMCs are also forwarded
+to EL3. Future changes will need to ensure the safety of all SMCs wrt.
+private guests.
 
-> 
-> 
-> > +               nrs = &kbuf[6];
-> > +       }
-> > +
-> > +       targets = str_to_target_ids(nrs, ret, &nr_targets);
-> > +       if (!targets) {
-> > +               ret = -ENOMEM;
-> > +               goto out;
-> > +       }
-> > +
-> > +       if (received_pidfds) {
-> > +               for (i = 0; i < nr_targets; i++)
-> > +                       targets[i] = (unsigned long)damon_get_pidfd_pid(
-> > +                                       (unsigned int)targets[i]);
-> > +       } else if (targetid_is_pid(ctx)) {
-> > +               for (i = 0; i < nr_targets; i++)
-> > +                       targets[i] = (unsigned long)find_get_pid(
-> > +                                       (int)targets[i]);
-> > +       }
-> > +
-> > +       mutex_lock(&ctx->kdamond_lock);
-> > +       if (ctx->kdamond) {
-> > +               ret = -EINVAL;
-> > +               goto unlock_out;
-> > +       }
-> > +
-> > +       err = damon_set_targets(ctx, targets, nr_targets);
-> 
-> Hmm this is leaking the references to the previous targets.
+The host is still allowed to reset EL2 back to the stub vector, eg. for
+hibernation or kexec, but will not disable nVHE when there are no VMs.
 
-'damon_set_targets()' frees the previous targets itself, so we don't leak.
+Tested on Rock Pi 4B, based on kvmarm/queue, itself on top of 5.10-rc4.
 
-> 
-> > +       if (err)
-> > +               ret = err;
-> > +unlock_out:
-> > +       mutex_unlock(&ctx->kdamond_lock);
-> > +       kfree(targets);
-> > +out:
-> > +       kfree(kbuf);
-> > +       return ret;
-> > +}
-> > +
-> 
-> Still looking.
+Patches also available at:
+    https://android-kvm.googlesource.com/linux topic/psci-on-master_v3
 
-Looking forward your comments!
+changes since v2:
+  * avoid non-spec error in CPU_SUSPEND
+  * refuse to init without PSCI
+  * compute hyp VA args of hyp-init in hyp instead of using params struct
+  * use hyp_symbol_addr in per-cpu calls
+  * simplify memory.h/sysreg.h includes
+  * rebase on kvmarm/queue, use trap handler args macros
 
+changes since v1:
+  * early param sets a capability instead of a static key
+  * assume SMCCC v1.2 for host SMC forwarding
+  * fix reserved SMC ID range for PSCI
+  * split init_el2_state into smaller macros, move to el2_setup.h
+  * many small cleanups
 
-Thanks,
-SeongJae Park
+changes since RFC:
+  * add early param to make features opt-in
+  * simplify CPU_ON/SUSPEND implementation
+  * replace spinlocks with CAS atomic
+  * make cpu_logical_map ro_after_init
+
+David Brazdil (23):
+  psci: Support psci_ops.get_version for v0.1
+  psci: Accessor for configured PSCI function IDs
+  arm64: Make cpu_logical_map() take unsigned int
+  arm64: Move MAIR_EL1_SET to asm/memory.h
+  arm64: Extract parts of el2_setup into a macro
+  kvm: arm64: Add kvm-arm.protected early kernel parameter
+  kvm: arm64: Initialize MAIR_EL2 using a constant
+  kvm: arm64: Remove vector_ptr param of hyp-init
+  kvm: arm64: Move hyp-init params to a per-CPU struct
+  kvm: arm64: Add .hyp.data..ro_after_init ELF section
+  kvm: arm64: Support per_cpu_ptr in nVHE hyp code
+  kvm: arm64: Create nVHE copy of cpu_logical_map
+  kvm: arm64: Add SMC handler in nVHE EL2
+  kvm: arm64: Bootstrap PSCI SMC handler in nVHE EL2
+  kvm: arm64: Add offset for hyp VA <-> PA conversion
+  kvm: arm64: Forward safe PSCI SMCs coming from host
+  kvm: arm64: Extract __do_hyp_init into a helper function
+  kvm: arm64: Add function to enter host from KVM nVHE hyp code
+  kvm: arm64: Intercept host's CPU_ON SMCs
+  kvm: arm64: Intercept host's CPU_SUSPEND PSCI SMCs
+  kvm: arm64: Keep nVHE EL2 vector installed
+  kvm: arm64: Trap host SMCs in protected mode
+  kvm: arm64: Fix EL2 mode availability checks
+
+ .../admin-guide/kernel-parameters.txt         |   5 +
+ arch/arm64/include/asm/cpucaps.h              |   3 +-
+ arch/arm64/include/asm/el2_setup.h            | 182 +++++++++++
+ arch/arm64/include/asm/kvm_arm.h              |   1 +
+ arch/arm64/include/asm/kvm_asm.h              |   8 +-
+ arch/arm64/include/asm/kvm_hyp.h              |   4 +-
+ arch/arm64/include/asm/kvm_mmu.h              |  26 +-
+ arch/arm64/include/asm/memory.h               |  13 +
+ arch/arm64/include/asm/percpu.h               |   6 +
+ arch/arm64/include/asm/sections.h             |   1 +
+ arch/arm64/include/asm/smp.h                  |   4 +-
+ arch/arm64/include/asm/virt.h                 |  26 ++
+ arch/arm64/kernel/asm-offsets.c               |   3 +
+ arch/arm64/kernel/cpufeature.c                |  29 ++
+ arch/arm64/kernel/head.S                      | 144 +--------
+ arch/arm64/kernel/image-vars.h                |   3 +
+ arch/arm64/kernel/setup.c                     |   2 +-
+ arch/arm64/kernel/vmlinux.lds.S               |  10 +
+ arch/arm64/kvm/arm.c                          | 101 ++++--
+ .../arm64/kvm/hyp/include/nvhe/trap_handler.h |  18 ++
+ arch/arm64/kvm/hyp/nvhe/Makefile              |   3 +-
+ arch/arm64/kvm/hyp/nvhe/host.S                |  47 +++
+ arch/arm64/kvm/hyp/nvhe/hyp-init.S            |  97 +++++-
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c            |  45 ++-
+ arch/arm64/kvm/hyp/nvhe/hyp-smp.c             |  40 +++
+ arch/arm64/kvm/hyp/nvhe/hyp.lds.S             |   1 +
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c          | 296 ++++++++++++++++++
+ arch/arm64/kvm/hyp/nvhe/switch.c              |   5 +-
+ arch/arm64/kvm/va_layout.c                    |  30 +-
+ arch/arm64/mm/proc.S                          |  15 +-
+ drivers/firmware/psci/psci.c                  |  23 +-
+ include/linux/psci.h                          |  10 +
+ 32 files changed, 999 insertions(+), 202 deletions(-)
+ create mode 100644 arch/arm64/include/asm/el2_setup.h
+ create mode 100644 arch/arm64/kvm/hyp/include/nvhe/trap_handler.h
+ create mode 100644 arch/arm64/kvm/hyp/nvhe/hyp-smp.c
+ create mode 100644 arch/arm64/kvm/hyp/nvhe/psci-relay.c
+
+--
+2.29.2.454.gaff20da3a2-goog
