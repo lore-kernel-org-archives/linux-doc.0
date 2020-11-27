@@ -6,63 +6,63 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F57CC64E8A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 898DEC71155
 	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:02:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46309206D9
+	by mail.kernel.org (Postfix) with ESMTP id 64C5622249
 	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:02:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729796AbgK0NBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Nov 2020 08:01:52 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36504 "EHLO www.linuxtv.org"
+        id S1727859AbgK0NBy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Nov 2020 08:01:54 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36506 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727859AbgK0NBw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Nov 2020 08:01:52 -0500
+        id S1729802AbgK0NBy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Nov 2020 08:01:54 -0500
 Received: from mchehab by www.linuxtv.org with local (Exim 4.92)
         (envelope-from <mchehab@linuxtv.org>)
-        id 1kid6Z-00CcOI-HP; Fri, 27 Nov 2020 12:44:03 +0000
+        id 1kid6Z-00CcMM-3A; Fri, 27 Nov 2020 12:44:03 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date:   Fri, 27 Nov 2020 11:49:43 +0000
-Subject: [git:media_tree/master] media: Documentation: userspace-api/media: dvb/ca: drop doubled word
+Date:   Fri, 27 Nov 2020 11:51:30 +0000
+Subject: [git:media_tree/master] media: Documentation: userspace-api/media: v4l/vidioc-g-output: drop doubled word
 To:     linuxtv-commits@linuxtv.org
-Cc:     linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
 Mail-followup-to: linux-media@vger.kernel.org
 Forward-to: linux-media@vger.kernel.org
 Reply-to: linux-media@vger.kernel.org
-Message-Id: <E1kid6Z-00CcOI-HP@www.linuxtv.org>
+Message-Id: <E1kid6Z-00CcMM-3A@www.linuxtv.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 This is an automatic generated email to let you know that the following patch were queued:
 
-Subject: media: Documentation: userspace-api/media: dvb/ca: drop doubled word
+Subject: media: Documentation: userspace-api/media: v4l/vidioc-g-output: drop doubled word
 Author:  Randy Dunlap <rdunlap@infradead.org>
-Date:    Sat Jul 4 01:55:27 2020 +0200
+Date:    Sat Jul 4 01:55:35 2020 +0200
 
-Drop the doubled word "and".
+Drop the doubled word "standard.".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
- Documentation/userspace-api/media/dvb/ca.rst | 2 +-
+ Documentation/userspace-api/media/v4l/vidioc-g-output.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 ---
 
-diff --git a/Documentation/userspace-api/media/dvb/ca.rst b/Documentation/userspace-api/media/dvb/ca.rst
-index 6f6821e322a9..0dc00e5e4a8c 100644
---- a/Documentation/userspace-api/media/dvb/ca.rst
-+++ b/Documentation/userspace-api/media/dvb/ca.rst
-@@ -7,7 +7,7 @@ Digital TV CA Device
- ####################
- 
- The Digital TV CA device controls the conditional access hardware. It
--can be accessed through ``/dev/dvb/adapter?/ca?``. Data types and and ioctl
-+can be accessed through ``/dev/dvb/adapter?/ca?``. Data types and ioctl
- definitions can be accessed by including ``linux/dvb/ca.h`` in your
- application.
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-output.rst b/Documentation/userspace-api/media/v4l/vidioc-g-output.rst
+index 3138c4cc8fe3..dbcdd51dd2a8 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-output.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-output.rst
+@@ -46,7 +46,7 @@ To select a video output applications store the number of the desired
+ output in an integer and call the :ref:`VIDIOC_S_OUTPUT <VIDIOC_G_OUTPUT>` ioctl with a
+ pointer to this integer. Side effects are possible. For example outputs
+ may support different video standards, so the driver may implicitly
+-switch the current standard. standard. Because of these possible side
++switch the current standard. Because of these possible side
+ effects applications must select an output before querying or
+ negotiating any other parameters.
  
