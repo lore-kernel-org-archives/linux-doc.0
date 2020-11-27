@@ -2,183 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57137C3E8C5
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 17:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBCAC63798
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 18:01:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E91E221FD
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 17:47:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 642C72224B
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 18:01:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q72yuXrJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732198AbgK0Rrf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Nov 2020 12:47:35 -0500
-Received: from foss.arm.com ([217.140.110.172]:47578 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731834AbgK0Rre (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Nov 2020 12:47:34 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33FAD31B;
-        Fri, 27 Nov 2020 09:47:33 -0800 (PST)
-Received: from bogus (unknown [10.57.59.53])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4F5AA3F71F;
-        Fri, 27 Nov 2020 09:47:30 -0800 (PST)
-Date:   Fri, 27 Nov 2020 17:47:26 +0000
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel-team@android.com
-Subject: Re: [PATCH v3 19/23] kvm: arm64: Intercept host's CPU_ON SMCs
-Message-ID: <20201127174726.4b6azdyzn5j6qmao@bogus>
-References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155421.14901-20-dbrazdil@google.com>
+        id S1732175AbgK0SBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Nov 2020 13:01:36 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14070 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732303AbgK0SBg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 27 Nov 2020 13:01:36 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0ARHVmiN162416;
+        Fri, 27 Nov 2020 13:01:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+EzQmBcpDdFMQ0B4y+2SmyFO/YnTKNjLD5kNjjGWmbs=;
+ b=Q72yuXrJALzbwKkcWDd+gjyS2Kj9jhnSnh2CyKGHXd7ez9VzdQUBO7zj7nufTrF+kJ76
+ bQTU+bRrxgIX+FJS7wz90Ciqf3StPFX0/CNKdOSQdoc4GqGGv0hby+2zL5wdZ0kNB0zb
+ xllt9OkXCdJKcJcgJKgnveVMp4H1fteGryF8AX3gdU7aQVJv5U/sRcl55j0vA3eB+WL+
+ nA15n7Fg9qdjWMkNFtLSIFgTl0zO3S1vwnaduEqLijG3hhoqlNj4/zox6Hi1JjZwRx8Z
+ kGcuqjCEdG0EVlWH0Oj+OqszCHm9hfAXGB2ziX4AUfREnEiEoE0VOoBSNmi8nHm+p4MC BQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3531crfnsx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Nov 2020 13:01:20 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0ARHWmXl164545;
+        Fri, 27 Nov 2020 13:01:19 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3531crfnq4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Nov 2020 13:01:19 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0ARHwnCK020456;
+        Fri, 27 Nov 2020 18:01:13 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma03ams.nl.ibm.com with ESMTP id 34xth8eu38-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 27 Nov 2020 18:01:12 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0ARI1AkG49742318
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 27 Nov 2020 18:01:10 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9E4EFA4054;
+        Fri, 27 Nov 2020 18:01:09 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9ECEBA4064;
+        Fri, 27 Nov 2020 18:01:08 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.78.207])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 27 Nov 2020 18:01:08 +0000 (GMT)
+Subject: Re: [RFC Patch 0/2] KVM: SVM: Cgroup support for SVM SEV ASIDs
+To:     Sean Christopherson <seanjc@google.com>,
+        David Rientjes <rientjes@google.com>
+Cc:     Janosch Frank <frankja@linux.ibm.com>,
+        Vipin Sharma <vipinsh@google.com>, Lendacky@google.com,
+        Thomas <thomas.lendacky@amd.com>, pbonzini@redhat.com,
+        tj@kernel.org, lizefan@huawei.com, joro@8bytes.org, corbet@lwn.net,
+        Singh@google.com, Brijesh <brijesh.singh@amd.com>,
+        Grimm@google.com, Jon <jon.grimm@amd.com>, VanTassell@google.com,
+        Eric <eric.vantassell@amd.com>, gingell@google.com,
+        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201124191629.GB235281@google.com>
+From:   Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <d738731e-bda2-031c-c301-94e3cf6b5e44@de.ibm.com>
+Date:   Fri, 27 Nov 2020 19:01:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201126155421.14901-20-dbrazdil@google.com>
-User-Agent: NeoMutt/20171215
+In-Reply-To: <20201124191629.GB235281@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-27_10:2020-11-26,2020-11-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 suspectscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011270099
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 03:54:17PM +0000, David Brazdil wrote:
-> Add a handler of the CPU_ON PSCI call from host. When invoked, it looks
-> up the logical CPU ID corresponding to the provided MPIDR and populates
-> the state struct of the target CPU with the provided x0, pc. It then
-> calls CPU_ON itself, with an entry point in hyp that initializes EL2
-> state before returning ERET to the provided PC in EL1.
-> 
-> There is a simple atomic lock around the boot args struct. If it is
-> already locked, CPU_ON will return PENDING_ON error code.
-> 
-> Signed-off-by: David Brazdil <dbrazdil@google.com>
-> ---
->  arch/arm64/kvm/hyp/nvhe/hyp-init.S   |  30 ++++++++
->  arch/arm64/kvm/hyp/nvhe/psci-relay.c | 109 +++++++++++++++++++++++++++
->  2 files changed, 139 insertions(+)
-> 
-> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-init.S b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-> index 98ce40e17b42..ea71f653af55 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-> @@ -9,6 +9,7 @@
->  
->  #include <asm/alternative.h>
->  #include <asm/assembler.h>
-> +#include <asm/el2_setup.h>
->  #include <asm/kvm_arm.h>
->  #include <asm/kvm_asm.h>
->  #include <asm/kvm_mmu.h>
-> @@ -161,6 +162,35 @@ alternative_else_nop_endif
->  	ret
->  SYM_CODE_END(___kvm_hyp_init)
->  
-> +SYM_CODE_START(__kvm_hyp_cpu_on_entry)
-> +	msr	SPsel, #1			// We want to use SP_EL{1,2}
-> +
-> +	/* Check that the core was booted in EL2. */
-> +	mrs	x1, CurrentEL
-> +	cmp	x1, #CurrentEL_EL2
-> +	b.eq	2f
-> +
-> +	/* The core booted in EL1. KVM cannot be initialized on it. */
-> +1:	wfe
-> +	wfi
-> +	b	1b
-> +
-> +	/* Initialize EL2 CPU state to sane values. */
-> +2:	mov	x29, x0
-> +	init_el2_state nvhe
-> +	mov	x0, x29
-> +
-> +	/* Enable MMU, set vectors and stack. */
-> +	bl	___kvm_hyp_init
-> +
-> +	/* Load address of the C handler. */
-> +	ldr	x1, =__kvm_hyp_psci_cpu_entry
-> +	kimg_hyp_va x1, x2
-> +
-> +	/* Leave idmap. */
-> +	br	x1
-> +SYM_CODE_END(__kvm_hyp_cpu_on_entry)
-> +
->  SYM_CODE_START(__kvm_handle_stub_hvc)
->  	cmp	x0, #HVC_SOFT_RESTART
->  	b.ne	1f
-> diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-> index 7aa87ab7f5ce..39e507672e6e 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-> @@ -9,12 +9,17 @@
->  #include <asm/kvm_mmu.h>
->  #include <kvm/arm_hypercalls.h>
->  #include <linux/arm-smccc.h>
-> +#include <linux/kvm_host.h>
->  #include <linux/psci.h>
->  #include <kvm/arm_psci.h>
->  #include <uapi/linux/psci.h>
->  
->  #include <nvhe/trap_handler.h>
->  
-> +extern char __kvm_hyp_cpu_on_entry[];
-> +
-> +void __noreturn __host_enter(struct kvm_cpu_context *host_ctxt);
-> +
->  /* Config options set by the host. */
->  u32 __ro_after_init kvm_host_psci_version;
->  u32 __ro_after_init kvm_host_psci_function_id[PSCI_FN_MAX];
-> @@ -22,6 +27,19 @@ s64 __ro_after_init hyp_physvirt_offset;
->  
->  #define __hyp_pa(x) ((phys_addr_t)((x)) + hyp_physvirt_offset)
->  
-> +#define INVALID_CPU_ID	UINT_MAX
-> +
-> +#define CPU_UNLOCKED	0
-> +#define CPU_LOCKED	1
-> +
-> +struct cpu_boot_args {
-> +	unsigned long pc;
-> +	unsigned long r0;
-> +};
-> +
-> +static DEFINE_PER_CPU(atomic_t, cpu_on_lock) = ATOMIC_INIT(0);
-> +static DEFINE_PER_CPU(struct cpu_boot_args, cpu_on_args);
-> +
->  static u64 get_psci_func_id(struct kvm_cpu_context *host_ctxt)
->  {
->  	DECLARE_REG(u64, func_id, host_ctxt, 0);
-> @@ -78,10 +96,99 @@ static __noreturn unsigned long psci_forward_noreturn(struct kvm_cpu_context *ho
->  	hyp_panic(); /* unreachable */
->  }
->
-> +static unsigned int find_cpu_id(u64 mpidr)
-> +{
-> +	unsigned int i;
-> +
-> +	/* Reject invalid MPIDRs */
-> +	if (mpidr & ~MPIDR_HWID_BITMASK)
-> +		return INVALID_CPU_ID;
-> +
-> +	for (i = 0; i < NR_CPUS; i++) {
 
-I may not have understood the flow correctly, so just asking:
-This is just called for secondaries on boot right ? And the cpumasks
-are setup by then ? Just trying to see if we can use cpu_possible_mask
-instead of running through all 256/1k/4k cpus(ofcourse based on NR_CPUS
-config)
 
---
-Regards,
-Sudeep
+On 24.11.20 20:16, Sean Christopherson wrote:
+> On Fri, Nov 13, 2020, David Rientjes wrote:                                     
+>>                                                                               
+>> On Mon, 2 Nov 2020, Sean Christopherson wrote:                                
+>>                                                                               
+>>> On Fri, Oct 02, 2020 at 01:48:10PM -0700, Vipin Sharma wrote:               
+>>>> On Fri, Sep 25, 2020 at 03:22:20PM -0700, Vipin Sharma wrote:             
+>>>>> I agree with you that the abstract name is better than the concrete     
+>>>>> name, I also feel that we must provide HW extensions. Here is one       
+>>>>> approach:                                                               
+>>>>>                                                                         
+>>>>> Cgroup name: cpu_encryption, encryption_slots, or memcrypt (open to     
+>>>>> suggestions)                                                            
+>>>>>                                                                         
+>>>>> Control files: slots.{max, current, events}                             
+>>>                                                                             
+>>> I don't particularly like the "slots" name, mostly because it could be confused
+>>> with KVM's memslots.  Maybe encryption_ids.ids.{max, current, events}?  I don't
+>>> love those names either, but "encryption" and "IDs" are the two obvious     
+>>> commonalities betwee TDX's encryption key IDs and SEV's encryption address  
+>>> space IDs.                                                                  
+>>>                                                                             
+>>                                                                               
+>> Looping Janosch and Christian back into the thread.                           
+>>                                                                               
+>> I interpret this suggestion as                                                
+>> encryption.{sev,sev_es,keyids}.{max,current,events} for AMD and Intel         
+> 
+> I think it makes sense to use encryption_ids instead of simply encryption, that
+> way it's clear the cgroup is accounting ids as opposed to restricting what
+> techs can be used on yes/no basis.
+
+For what its worth the IDs for s390x are called SEIDs (secure execution IDs)
+
+> 
+>> offerings, which was my thought on this as well.                              
+>>                                                                               
+>> Certainly the kernel could provide a single interface for all of these and    
+>> key value pairs depending on the underlying encryption technology but it      
+>> seems to only introduce additional complexity in the kernel in string         
+>> parsing that can otherwise be avoided.  I think we all agree that a single    
+>> interface for all encryption keys or one-value-per-file could be done in      
+>> the kernel and handled by any userspace agent that is configuring these       
+>> values.                                                                       
+>>                                                                               
+>> I think Vipin is adding a root level file that describes how many keys we     
+>> have available on the platform for each technology.  So I think this comes    
+>> down to, for example, a single encryption.max file vs                         
+>> encryption.{sev,sev_es,keyid}.max.  SEV and SEV-ES ASIDs are provisioned      
+> 
+> Are you suggesting that the cgroup omit "current" and "events"?  I agree there's
+> no need to enumerate platform total, but not knowing how many of the allowed IDs
+> have been allocated seems problematic.
+> 
+>> separately so we treat them as their own resource here.                       
+>>                                                                               
+>> So which is easier?                                                           
+>>                                                                               
+>> $ cat encryption.sev.max                                                      
+>> 10                                                                            
+>> $ echo -n 15 > encryption.sev.max                                             
+>>                                                                               
+>> or                                                                            
+>>                                                                               
+>> $ cat encryption.max                                                          
+>> sev 10                                                                        
+>> sev_es 10                                                                     
+>> keyid 0                                                                       
+>> $ echo -n "sev 10" > encryption.max                                           
+>>                                                                               
+>> I would argue the former is simplest (always preferring                       
+>> one-value-per-file) and avoids any string parsing or resource controller      
+>> lookups that need to match on that string in the kernel.                      
+
+I like the idea of having encryption_ids.max for all platforms. 
+If we go for individual files using "seid" for s390 seems the best name.
+
+> 
+> Ya, I prefer individual files as well.
+> 
+> I don't think "keyid" is the best name for TDX, it doesn't leave any wiggle room
+> if there are other flavors of key IDs on Intel platform, e.g. private vs. shared
+> in the future.  It's also inconsistent with the SEV names, e.g. "asid" isn't
+> mentioned anywhere.  And "keyid" sort of reads as "max key id", rather than "max
+> number of keyids".  Maybe "tdx_private", or simply "tdx"?  Doesn't have to be
+> solved now though, there's plenty of time before TDX will be upstream. :-)
+> 
+>> The set of encryption.{sev,sev_es,keyid} files that exist would depend on     
+>> CONFIG_CGROUP_ENCRYPTION and whether CONFIG_AMD_MEM_ENCRYPT or                
+>> CONFIG_INTEL_TDX is configured.  Both can be configured so we have all        
+>> three files, but the root file will obviously indicate 0 keys available       
+>> for one of them (can't run on AMD and Intel at the same time :).              
+>>                                                                               
+>> So I'm inclined to suggest that the one-value-per-file format is the ideal    
+>> way to go unless there are objections to it.
