@@ -6,63 +6,63 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF2FC2D0E4
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:01:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D14DC63798
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:01:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFD5E2224C
-	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:01:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDCE92224C
+	for <linux-doc@archiver.kernel.org>; Fri, 27 Nov 2020 13:01:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729362AbgK0NBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 27 Nov 2020 08:01:31 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36470 "EHLO www.linuxtv.org"
+        id S1729425AbgK0NBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 27 Nov 2020 08:01:33 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36472 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728963AbgK0NBb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 27 Nov 2020 08:01:31 -0500
+        id S1728963AbgK0NBd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 27 Nov 2020 08:01:33 -0500
 Received: from mchehab by www.linuxtv.org with local (Exim 4.92)
         (envelope-from <mchehab@linuxtv.org>)
-        id 1kid6Y-00CcKA-Jx; Fri, 27 Nov 2020 12:44:02 +0000
+        id 1kid6Z-00CcLy-0c; Fri, 27 Nov 2020 12:44:03 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Date:   Fri, 27 Nov 2020 11:53:23 +0000
-Subject: [git:media_tree/master] media: Documentation: userspace-api/media: dvb/audio: drop doubled word
+Date:   Fri, 27 Nov 2020 11:51:52 +0000
+Subject: [git:media_tree/master] media: Documentation: userspace-api/media: v4l/vidioc-g-ext-ctrls: drop doubled word
 To:     linuxtv-commits@linuxtv.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
 Mail-followup-to: linux-media@vger.kernel.org
 Forward-to: linux-media@vger.kernel.org
 Reply-to: linux-media@vger.kernel.org
-Message-Id: <E1kid6Y-00CcKA-Jx@www.linuxtv.org>
+Message-Id: <E1kid6Z-00CcLy-0c@www.linuxtv.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 This is an automatic generated email to let you know that the following patch were queued:
 
-Subject: media: Documentation: userspace-api/media: dvb/audio: drop doubled word
+Subject: media: Documentation: userspace-api/media: v4l/vidioc-g-ext-ctrls: drop doubled word
 Author:  Randy Dunlap <rdunlap@infradead.org>
-Date:    Sat Jul 4 01:55:26 2020 +0200
+Date:    Sat Jul 4 01:55:34 2020 +0200
 
-Drop the doubled word "and".
+Drop the doubled word "controls".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
- Documentation/userspace-api/media/dvb/audio.rst | 2 +-
+ Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 ---
 
-diff --git a/Documentation/userspace-api/media/dvb/audio.rst b/Documentation/userspace-api/media/dvb/audio.rst
-index 071abac9d52d..eaae5675a47d 100644
---- a/Documentation/userspace-api/media/dvb/audio.rst
-+++ b/Documentation/userspace-api/media/dvb/audio.rst
-@@ -8,7 +8,7 @@ Digital TV Audio Device
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+index f2173e310d67..a8d12bd50d22 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+@@ -53,7 +53,7 @@ by the ``controls`` fields.
+ To get the current value of a set of controls applications initialize
+ the ``id``, ``size`` and ``reserved2`` fields of each struct
+ :c:type:`v4l2_ext_control` and call the
+-:ref:`VIDIOC_G_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` ioctl. String controls controls must also set the
++:ref:`VIDIOC_G_EXT_CTRLS <VIDIOC_G_EXT_CTRLS>` ioctl. String controls must also set the
+ ``string`` field. Controls of compound types
+ (``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set) must set the ``ptr`` field.
  
- The Digital TV audio device controls the MPEG2 audio decoder of the Digital
- TV hardware. It can be accessed through ``/dev/dvb/adapter?/audio?``. Data
--types and and ioctl definitions can be accessed by including
-+types and ioctl definitions can be accessed by including
- ``linux/dvb/audio.h`` in your application.
- 
- Please note that some Digital TV cards don’t have their own MPEG decoder, which
