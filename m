@@ -7,26 +7,26 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E11C83026
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BFDC8302A
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0365F22274
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DB7622268
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388327AbgK1Vtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Nov 2020 16:49:35 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:51224 "EHLO
+        id S2388302AbgK1Vte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:49:34 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:33228 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730955AbgK1Sql (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:46:41 -0500
+        with ESMTP id S1729980AbgK1Sdd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:33:33 -0500
 Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 045563B0BD1;
-        Sat, 28 Nov 2020 14:29:50 +0000 (UTC)
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id ABAFB3AEAF1;
+        Sat, 28 Nov 2020 14:29:30 +0000 (UTC)
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4EDB34000F;
-        Sat, 28 Nov 2020 14:29:28 +0000 (UTC)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 06D7440010;
+        Sat, 28 Nov 2020 14:29:07 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com
-Subject: [PATCH v2 18/19] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
-Date:   Sat, 28 Nov 2020 15:28:38 +0100
-Message-Id: <20201128142839.517949-19-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 08/19] ARM: dts: sun8i: a83t: Add CSI controller ports
+Date:   Sat, 28 Nov 2020 15:28:28 +0100
+Message-Id: <20201128142839.517949-9-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
@@ -62,55 +62,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MIPI CSI-2 is supported on the A83T with a dedicated controller that
-covers both the protocol and D-PHY. It can be connected to the CSI
-interface as a V4L2 subdev through the fwnode graph.
+Since the CSI controller binding is getting a bit more complex due
+to the addition of MIPI CSI-2 bridge support, make the ports node
+explicit with the parallel and MIPI CSI-2 bridge ports.
 
-This is not done by default since connecting the bridge without a
-subdev attached to it will cause a failure on the CSI driver.
+This way, it's clear that the controller supports both parallel and
+MIPI CSI-2 interface inputs and there's no confusion about their port
+number.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ arch/arm/boot/dts/sun8i-a83t.dtsi | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index 3ce030f7e05d..ee19cbb565a6 100644
+index c010b27fdb6a..3ce030f7e05d 100644
 --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
 +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -1076,6 +1076,32 @@ csi_in_mipi_csi2_bridge: port@1 {
- 			};
- 		};
+@@ -1062,7 +1062,17 @@ csi: camera@1cb0000 {
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
  
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-a83t-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI_SCLK>,
-+				 <&ccu CLK_MIPI_CSI>,
-+				 <&ccu CLK_CSI_MISC>;
-+			clock-names = "bus", "mod", "mipi", "misc";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
-+
+-			csi_in: port {
 +			ports {
 +				#address-cells = <1>;
 +				#size-cells = <0>;
 +
-+				mipi_csi2_in: port@0 {
++				csi_in_parallel: port@0 {
 +					reg = <0>;
 +				};
 +
-+				mipi_csi2_out: port@1 {
++				csi_in_mipi_csi2_bridge: port@1 {
 +					reg = <1>;
 +				};
-+			};
-+		};
-+
- 		hdmi: hdmi@1ee0000 {
- 			compatible = "allwinner,sun8i-a83t-dw-hdmi";
- 			reg = <0x01ee0000 0x10000>;
+ 			};
+ 		};
+ 
 -- 
 2.29.2
 
