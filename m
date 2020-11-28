@@ -2,85 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E128C83021
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E11C83026
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 480BA2225A
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0365F22274
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731578AbgK1Vtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2388327AbgK1Vtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:49:35 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8163 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387617AbgK1T4d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 14:56:33 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Ck2KT6fHzz15JqJ;
-        Sun, 29 Nov 2020 03:55:25 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.202.220) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 29 Nov 2020 03:55:39 +0800
-From:   Barry Song <song.bao.hua@hisilicon.com>
-To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v2] Documentation/admin-guide: mark memmap parameter is supported by a few architectures
-Date:   Sun, 29 Nov 2020 08:51:21 +1300
-Message-ID: <20201128195121.2556-1-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:51224 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730955AbgK1Sql (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:46:41 -0500
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 045563B0BD1;
+        Sat, 28 Nov 2020 14:29:50 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 4EDB34000F;
+        Sat, 28 Nov 2020 14:29:28 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: [PATCH v2 18/19] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+Date:   Sat, 28 Nov 2020 15:28:38 +0100
+Message-Id: <20201128142839.517949-19-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.202.220]
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-early_param memmap is only implemented on X86, MIPS and XTENSA. To avoid
-wasting users’ time on trying this on platform like ARM, mark it clearly.
+MIPI CSI-2 is supported on the A83T with a dedicated controller that
+covers both the protocol and D-PHY. It can be connected to the CSI
+interface as a V4L2 subdev through the fwnode graph.
 
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+This is not done by default since connecting the bridge without a
+subdev attached to it will cause a failure on the CSI driver.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- -v2:
- * add reviewed-by of Mike, thanks!
+ arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
- Documentation/admin-guide/kernel-parameters.rst | 1 +
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 6d421694d98e..06fb1b4aa849 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -172,6 +172,7 @@ parameter is applicable::
- 	X86	Either 32-bit or 64-bit x86 (same as X86-32+X86-64)
- 	X86_UV	SGI UV support is enabled.
- 	XEN	Xen support is enabled
-+	XTENSA	xtensa architecture is enabled.
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index 3ce030f7e05d..ee19cbb565a6 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -1076,6 +1076,32 @@ csi_in_mipi_csi2_bridge: port@1 {
+ 			};
+ 		};
  
- In addition, the following text indicates that the option::
- 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 526d65d8573a..8bdbc555f221 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2709,7 +2709,7 @@
- 			option description.
- 
- 	memmap=nn[KMG]@ss[KMG]
--			[KNL] Force usage of a specific region of memory.
-+			[KNL, X86, MIPS, XTENSA] Force usage of a specific region of memory.
- 			Region of memory to be used is from ss to ss+nn.
- 			If @ss[KMG] is omitted, it is equivalent to mem=nn[KMG],
- 			which limits max address to nn[KMG].
++		mipi_csi2: csi@1cb1000 {
++			compatible = "allwinner,sun8i-a83t-mipi-csi2";
++			reg = <0x01cb1000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI_SCLK>,
++				 <&ccu CLK_MIPI_CSI>,
++				 <&ccu CLK_CSI_MISC>;
++			clock-names = "bus", "mod", "mipi", "misc";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mipi_csi2_in: port@0 {
++					reg = <0>;
++				};
++
++				mipi_csi2_out: port@1 {
++					reg = <1>;
++				};
++			};
++		};
++
+ 		hdmi: hdmi@1ee0000 {
+ 			compatible = "allwinner,sun8i-a83t-dw-hdmi";
+ 			reg = <0x01ee0000 0x10000>;
 -- 
-2.25.1
+2.29.2
 
