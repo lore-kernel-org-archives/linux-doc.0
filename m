@@ -7,26 +7,26 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49412C83018
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5C3C8301F
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2624F222EC
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92071222C2
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388289AbgK1Vte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Nov 2020 16:49:34 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:59726 "EHLO
+        id S2388229AbgK1Vtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:49:32 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:49082 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729915AbgK1Scn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:32:43 -0500
+        with ESMTP id S1729254AbgK1SZj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:25:39 -0500
 Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id AF6EC3AF30C;
-        Sat, 28 Nov 2020 14:29:32 +0000 (UTC)
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 918483ADB8C;
+        Sat, 28 Nov 2020 14:29:18 +0000 (UTC)
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 005B240008;
-        Sat, 28 Nov 2020 14:29:09 +0000 (UTC)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9DA034000A;
+        Sat, 28 Nov 2020 14:28:55 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com
-Subject: [PATCH v2 09/19] ARM: dts: sunxi: h3/h5: Add CSI controller port for parallel input
-Date:   Sat, 28 Nov 2020 15:28:29 +0100
-Message-Id: <20201128142839.517949-10-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 02/19] phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
+Date:   Sat, 28 Nov 2020 15:28:22 +0100
+Message-Id: <20201128142839.517949-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
@@ -62,38 +62,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the CSI controller binding is getting a bit more complex due
-to the addition of MIPI CSI-2 bridge support, make the ports node
-explicit with the parallel port.
+As some D-PHY controllers support both Rx and Tx mode, we need a way for
+users to explicitly request one or the other. For instance, Rx mode can
+be used along with MIPI CSI-2 while Tx mode can be used with MIPI DSI.
 
-This way, it's clear that the controller only supports parallel
-interface input and there's no confusion about the port number.
+Introduce new MIPI D-PHY PHY submodes to use with PHY_MODE_MIPI_DPHY.
+The default (zero value) is kept to Tx so only the rkisp1 driver, which
+uses D-PHY in Rx mode, needs to be adapted.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Acked-by: Helen Koike <helen.koike@collabora.com>
 ---
- arch/arm/boot/dts/sunxi-h3-h5.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/staging/media/rkisp1/rkisp1-isp.c |  3 ++-
+ include/linux/phy/phy-mipi-dphy.h         | 13 +++++++++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-index 9be13378d4df..02b698cace6a 100644
---- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-+++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-@@ -803,6 +803,15 @@ csi: camera@1cb0000 {
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&csi_pins>;
- 			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				csi_in_parallel: port@0 {
-+					reg = <0>;
-+				};
-+			};
- 		};
+diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+index a9715b0b7264..f1167995688a 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-isp.c
++++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+@@ -914,7 +914,8 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
  
- 		hdmi: hdmi@1ee0000 {
+ 	phy_mipi_dphy_get_default_config(pixel_clock, isp->sink_fmt->bus_width,
+ 					 sensor->lanes, cfg);
+-	phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
++	phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
++			 PHY_MIPI_DPHY_SUBMODE_RX);
+ 	phy_configure(sensor->dphy, &opts);
+ 	phy_power_on(sensor->dphy);
+ 
+diff --git a/include/linux/phy/phy-mipi-dphy.h b/include/linux/phy/phy-mipi-dphy.h
+index a877ffee845d..0f57ef46a8b5 100644
+--- a/include/linux/phy/phy-mipi-dphy.h
++++ b/include/linux/phy/phy-mipi-dphy.h
+@@ -6,6 +6,19 @@
+ #ifndef __PHY_MIPI_DPHY_H_
+ #define __PHY_MIPI_DPHY_H_
+ 
++/**
++ * enum phy_mipi_dphy_submode - MIPI D-PHY sub-mode
++ *
++ * A MIPI D-PHY can be used to transmit or receive data.
++ * Since some controllers can support both, the direction to enable is specified
++ * with the PHY sub-mode. Transmit is assumed by default with phy_set_mode.
++ */
++
++enum phy_mipi_dphy_submode {
++	PHY_MIPI_DPHY_SUBMODE_TX = 0,
++	PHY_MIPI_DPHY_SUBMODE_RX,
++};
++
+ /**
+  * struct phy_configure_opts_mipi_dphy - MIPI D-PHY configuration set
+  *
 -- 
 2.29.2
 
