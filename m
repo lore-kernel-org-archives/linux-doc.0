@@ -2,98 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D39B0C83027
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11EBBC8302E
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3BDE222EC
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3E74222C2
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kCmw1AxL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388216AbgK1Vtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1729428AbgK1Vtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:49:31 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:48102 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726885AbgK1SZE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:25:04 -0500
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 9BE193AF953;
-        Sat, 28 Nov 2020 14:29:37 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 088FF40007;
-        Sat, 28 Nov 2020 14:29:11 +0000 (UTC)
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732358AbgK1SPi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:15:38 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E07C0254A6;
+        Sat, 28 Nov 2020 08:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=ubev1giHn2jmSzhtp/f94pjbxFaoCeWhmi4D5S6DRMQ=; b=kCmw1AxLSz9zAUV1hx0lxMwV1K
+        iHNuj/MU6Bqv/Rdf7HMk9MrKt3TjRtiRFu4DLkMgrYriTq0mvSfQBCT0dHzN3bple/c8tlOdVLjHc
+        UsVmctYTXxoPhP2N4b2ENuThOCVoN6iA0n4PJvijUiSwN98mADc/8pHk9g795HJTfE+XiXzEzWCyU
+        GELAuFvNBcyDSnCPsrzAVXb5iZeDMbTeyee5P2DD1312mI/qq0cZNXTXgBUZBaW8xf+yeAMYSY+w3
+        hcRx08LtEqG1kTGw9DIt+yDDfeDiY/plD9d6BlIrkTucYEnLAfGepv2jbVpLiRfTKE2mUzS0tj2qT
+        Y0QUyrag==;
+Received: from [2601:1c0:6280:3f0::cc1f]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kj3Wq-0005cP-OY; Sat, 28 Nov 2020 16:56:57 +0000
+Subject: Re: [PATCH 7/7] kbuild: doc: document subdir-y syntax
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: [PATCH v2 10/19] ARM: dts: sun8i: v3s: Add CSI1 controller port for parallel input
-Date:   Sat, 28 Nov 2020 15:28:30 +0100
-Message-Id: <20201128142839.517949-11-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
-References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20201123045403.63402-1-masahiroy@kernel.org>
+ <20201123045403.63402-7-masahiroy@kernel.org>
+ <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
+ <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f69d022b-a3a6-03e6-5ece-d5e6bd6d7035@infradead.org>
+Date:   Sat, 28 Nov 2020 08:56:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the CSI controller binding is getting a bit more complex due
-to the addition of MIPI CSI-2 bridge support, make the ports node
-explicit with the parallel port.
+On 11/28/20 12:58 AM, Masahiro Yamada wrote:
+> On Tue, Nov 24, 2020 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> On 11/22/20 8:54 PM, Masahiro Yamada wrote:
+>>> There is no explanation about subdir-y.
+>>>
+>>> Let's document it.
+>>>
+>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>>> ---
+>>>
+>>>  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
+>>>  1 file changed, 14 insertions(+)
+>>>
+>>> +
+>>> +     Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
+>>> +     syntax is always used for directories.
+>>> +
+>>
+>> Just curious:  Is a trailing slash allowed here?  say for consistency?
+> 
+> 
+> If you use a trailing slash for the subdir-y syntax,
+> it will still work.
+> 
+> 
+> Only the problem I see is that the build log will look clumsy
+> due to the double slashes "//".
+> 
 
-This way, it's clear that the controller only supports parallel
-interface input and there's no confusion about the port number.
+Yes, that does look odd.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-v3s.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> For example, if you change scripts/Makefile as follows:
+> 
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index 7b2d684aeb97..7926c8b2ac5e 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -540,6 +540,15 @@ csi1: camera@1cb4000 {
- 			clock-names = "bus", "mod", "ram";
- 			resets = <&ccu RST_BUS_CSI>;
- 			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				csi1_in_parallel: port@0 {
-+					reg = <0>;
-+				};
-+			};
- 		};
- 
- 		gic: interrupt-controller@1c81000 {
+...
+
+> The build log will look like follows:
+> 
+> 
+> masahiro@grover:~/workspace/linux$ make allmodconfig; make scripts
+> #
+> # configuration written to .config
+> #
+>   SYNC    include/config/auto.conf
+>   HOSTCC  scripts/dtc/dtc.o
+>   HOSTCC  scripts/dtc/flattree.o
+>   HOSTCC  scripts/dtc/fstree.o
+>   HOSTCC  scripts/dtc/data.o
+>   HOSTCC  scripts/dtc/livetree.o
+>   HOSTCC  scripts/dtc/treesource.o
+>   HOSTCC  scripts/dtc/srcpos.o
+>   HOSTCC  scripts/dtc/checks.o
+>   HOSTCC  scripts/dtc/util.o
+>   LEX     scripts/dtc/dtc-lexer.lex.c
+>   YACC    scripts/dtc/dtc-parser.tab.[ch]
+>   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+>   HOSTCC  scripts/dtc/dtc-parser.tab.o
+>   HOSTLD  scripts/dtc/dtc
+>   HOSTCXX scripts/gcc-plugins//latent_entropy_plugin.so
+>   GENSEED scripts/gcc-plugins//randomize_layout_seed.h
+>   HOSTCXX scripts/gcc-plugins//randomize_layout_plugin.so
+>   HOSTCXX scripts/gcc-plugins//stackleak_plugin.so
+>   HOSTCC  scripts/genksyms//genksyms.o
+>   YACC    scripts/genksyms//parse.tab.[ch]
+>   HOSTCC  scripts/genksyms//parse.tab.o
+>   LEX     scripts/genksyms//lex.lex.c
+>   HOSTCC  scripts/genksyms//lex.lex.o
+>   HOSTLD  scripts/genksyms//genksyms
+>   HOSTCC  scripts/selinux//genheaders/genheaders
+>   HOSTCC  scripts/selinux//mdp/mdp
+>   HOSTCC  scripts/kallsyms
+>   HOSTCC  scripts/sorttable
+>   HOSTCC  scripts/asn1_compiler
+>   HOSTCC  scripts/extract-cert
+>   HOSTCC  scripts/bin2c
+>   HOSTCC  scripts/recordmcount
+>   HOSTCC  scripts/sign-file
+>   HOSTCC  scripts/insert-sys-cert
+> 
+> 
+> 
+> 
+> I can fix Kbuild to avoid "//", but I do not want to support two ways.
+> 
+> So, I'd recommend not to add the trailing slash to subdir-y.
+OK, I agree. Thanks.
+
 -- 
-2.29.2
+~Randy
 
