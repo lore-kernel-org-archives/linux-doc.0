@@ -2,92 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC3BC63777
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 504D4C64E7D
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62342223BD
+	by mail.kernel.org (Postfix) with ESMTP id F2B00223BE
 	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="nWR2a++I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729256AbgK1Vt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2388140AbgK1Vt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:49:29 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:54078 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730301AbgK1SIb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:08:31 -0500
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 2B8073B1031;
-        Sat, 28 Nov 2020 14:29:53 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 63AEF4000E;
-        Sat, 28 Nov 2020 14:29:30 +0000 (UTC)
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+Received: from condef-08.nifty.com ([202.248.20.73]:32762 "EHLO
+        condef-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729256AbgK1SGy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:06:54 -0500
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-08.nifty.com with ESMTP id 0ASBqZ1a006246;
+        Sat, 28 Nov 2020 20:52:35 +0900
+Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 0ASBpD6C027804;
+        Sat, 28 Nov 2020 20:51:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6C027804
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606564276;
+        bh=rX5Xp2DQ7Fb1cQZ9EkV0O0kQNgRf2+LwScKyCXET4yg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nWR2a++IXEGtghjl9z0jqeZ7+BR6ExiUmTDFhWNvckXgvnD4xiZM0KCHJtGJmY70l
+         BK99VIcJMVGgI95LumCd4Vis5hmm3ntDOuHlAq9lgPbj3ofXTJ6KfCXAFWecQyStJ4
+         Ge6EMu9V63gbYdf6TzXq7B4zvutNDOoKU0pemzt+dV8a3sFKQBy0r71a5lVwIcGpKY
+         E7u6uKFIE4+ytW0tPEpTUbIGO2CUMdNxiicjqJhxg/eyBRHfZ7mWBf+M+bePrZDPAH
+         U987raOwJ0+ETcOrjmu9CkbcKaPMbwm4MV6fDUcGsIvUk+fzvmlFx5moA7L0wSEX9v
+         7OVE8uI+DEt5A==
+X-Nifty-SrcIP: [126.90.211.135]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: [PATCH v2 19/19] MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
-Date:   Sat, 28 Nov 2020 15:28:39 +0100
-Message-Id: <20201128142839.517949-20-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
-References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 3/7] kbuild: doc: fix 'List directories to visit when descending' section
+Date:   Sat, 28 Nov 2020 20:51:04 +0900
+Message-Id: <20201128115108.179256-3-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201128115108.179256-1-masahiroy@kernel.org>
+References: <20201128115108.179256-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as maintainer of the A83T MIPI CSI-2 bridge media driver.
+Fix stale information:
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ - Fix the section number in the reference from 6.4 to 7.4.
+
+ - Remove init-y and net-y. They were removed by commit 23febe375d94
+   ("kbuild: merge init-y into core-y") and commit 95fb6317b3ab
+   ("kbuild: merge net-y and virt-y into drivers-y"), respectively.
+
+ - Update the example because arch/sparc64/Makefile does not exit.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a1352171778b..3b48612657b6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -717,6 +717,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
- F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
+(no changes since v1)
+
+ Documentation/kbuild/makefiles.rst | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 1d4335c7f496..283ccfec7613 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -278,7 +278,7 @@ more details, with real examples.
+ 	actually recognize that there is a lib.a being built, the directory
+ 	shall be listed in libs-y.
  
-+ALLWINNER A83T MIPI CSI-2 BRIDGE
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-+F:	drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/
+-	See also "6.4 List directories to visit when descending".
++	See also "7.4 List directories to visit when descending".
+ 
+ 	Use of lib-y is normally restricted to `lib/` and `arch/*/lib`.
+ 
+@@ -1154,7 +1154,7 @@ When kbuild executes, the following steps are followed (roughly):
+ 	machinery is all architecture-independent.
+ 
+ 
+-	head-y, init-y, core-y, libs-y, drivers-y, net-y
++	head-y, core-y, libs-y, drivers-y
+ 	    $(head-y) lists objects to be linked first in vmlinux.
+ 
+ 	    $(libs-y) lists directories where a lib.a archive can be located.
+@@ -1162,11 +1162,9 @@ When kbuild executes, the following steps are followed (roughly):
+ 	    The rest list directories where a built-in.a object file can be
+ 	    located.
+ 
+-	    $(init-y) objects will be located after $(head-y).
+-
+ 	    Then the rest follows in this order:
+ 
+-		$(core-y), $(libs-y), $(drivers-y) and $(net-y).
++		$(core-y), $(libs-y), $(drivers-y)
+ 
+ 	    The top level Makefile defines values for all generic directories,
+ 	    and arch/$(SRCARCH)/Makefile only adds architecture-specific
+@@ -1174,11 +1172,14 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 	    Example::
+ 
+-		#arch/sparc64/Makefile
+-		core-y += arch/sparc64/kernel/
+-		libs-y += arch/sparc64/prom/ arch/sparc64/lib/
+-		drivers-$(CONFIG_OPROFILE)  += arch/sparc64/oprofile/
++		# arch/sparc/Makefile
++		core-y                 += arch/sparc/
 +
- ALLWINNER CPUFREQ DRIVER
- M:	Yangtao Li <tiny.windzz@gmail.com>
- L:	linux-pm@vger.kernel.org
++		libs-y                 += arch/sparc/prom/
++		libs-y                 += arch/sparc/lib/
+ 
++		drivers-$(CONFIG_PM) += arch/sparc/power/
++		drivers-$(CONFIG_OPROFILE)	+= arch/sparc/oprofile/
+ 
+ 7.5 Architecture-specific boot images
+ -------------------------------------
 -- 
-2.29.2
+2.27.0
 
