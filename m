@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B74C83029
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7521AC63777
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADC79223BD
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4241F223BE
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="bBlIUNiI"
+	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="gmLhK6hp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388099AbgK1Vt2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2388092AbgK1Vt2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:49:28 -0500
-Received: from condef-05.nifty.com ([202.248.20.70]:61056 "EHLO
-        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731315AbgK1SEH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:04:07 -0500
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-05.nifty.com with ESMTP id 0ASBqZ45018999;
-        Sat, 28 Nov 2020 20:52:35 +0900
+Received: from condef-03.nifty.com ([202.248.20.68]:18157 "EHLO
+        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731037AbgK1SDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:03:09 -0500
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-03.nifty.com with ESMTP id 0ASBqOc6005313;
+        Sat, 28 Nov 2020 20:52:24 +0900
 Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0ASBpD6F027804;
-        Sat, 28 Nov 2020 20:51:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6F027804
+        by conuserg-07.nifty.com with ESMTP id 0ASBpD6B027804;
+        Sat, 28 Nov 2020 20:51:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6B027804
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606564278;
-        bh=XyszwlfQ3hvNfVNGL6RnB28DMsdpvA6WSiiDWams/Co=;
+        s=dec2015msa; t=1606564275;
+        bh=SE+omClH6XnEuelJQD2bhwlsfVM3XM0bJofbnY8BqgY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bBlIUNiIm7lTudPcHNSRotKD8Aj8uAV7rzjaW8mbgWPuGWiFyTn58IbdE5yCIROcd
-         Gqvvo7gpdv4GQJKzWTWLzSK/unYxCtBc+eZ05OM4fTBudZ9FiEW0BszvgD6Sj+2XiI
-         T1euA+eFXHQOdOvdoovw41f3SY1qs2pgW5Fq8HU75M6+WFmEymB3E8I2moDCE0ggey
-         KquEwpTdu3zqDL2ApRCaS8HTEwrhBCeWVMsXXwywJRFBJdgRD8wju6jRqKgNUhy4ab
-         AuEYAN0aib8fZgnDP9GVMalL9Zo0mCkgRGruveNkGn3Lf6aMhCVlIb+7Vuy5tbxFfP
-         2afeKU0+KrZNA==
+        b=gmLhK6hp1RquRrDmk5oEh8bdInyfEKBEkoI0+vmKam3OnNtjz3da+NZ5O/ifmRHKm
+         XHEnX9XCxuNXPXB5eNqsRbPVUL5KwOj9+bdHUa/uigX4Rs1om1SjaRwb6kM4zVClj+
+         6Tp5dMdLpx6rJaUTdrlGaxPT/68X+YdnW8dDqql7xFZj2eQVIe1UkMtM3c3Y+/NgWQ
+         8AzsUBEz/ZRwkFcqwOsoLY3dpeCcDWCyPc2XuUgTzEuslQnV7TBU2PPu8n81yHHVVs
+         /q5cflOKHDz4fkCM/SGeaijgEo149mzdKTHXFTwo9wIS5ugmdOgLeK+kYut2MNCNXF
+         WukVC8qTycvcw==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -45,9 +45,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/7] kbuild: doc: clarify the difference between extra-y and always-y
-Date:   Sat, 28 Nov 2020 20:51:07 +0900
-Message-Id: <20201128115108.179256-6-masahiroy@kernel.org>
+Subject: [PATCH v2 2/7] kbuild: doc: replace arch/$(ARCH)/ with arch/$(SRCARCH)/
+Date:   Sat, 28 Nov 2020 20:51:03 +0900
+Message-Id: <20201128115108.179256-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128115108.179256-1-masahiroy@kernel.org>
 References: <20201128115108.179256-1-masahiroy@kernel.org>
@@ -57,230 +57,230 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The difference between extra-y and always-y is obscure.
+Precisely speaking, the arch directory is specified by $(SRCARCH),
+not $(ARCH).
 
-Basically, Kbuild builds targets listed in extra-y and always-y in
-visited Makefiles without relying on any dependency.
+In old days, $(ARCH) actually matched to the arch directory because
+32-bit and 64-bit were supported as separate architectures.
 
-The difference is that extra-y is used to list the targets needed for
-vmlinux whereas always-y is used to list the targets that must be always
-built irrespective of final targets.
+Most architectures (except arm/arm64) were unified like follows:
 
-Kbuild skips extra-y when it is building only modules (i.e.
-'make modules'). This is the long-standing behavior since extra-y was
-introduced in 2003, and it is explained in that commit log [1].
+    arch/i386, arch/x86_64    ->  arch/x86
+    arch/sh, arch/sh64        ->  arch/sh
+    arch/sparc, arch/sparc64  ->  arch/sparc
 
-For clarification, this is the extra-y vs always-y table:
+To not break the user interface, commit 6752ed90da03 ("Kbuild: allow
+arch/xxx to use a different source path") introduced SRCARCH to point
+to the arch directory, still allowing to pass in the former ARCH=i386
+or ARCH=x86_64.
 
-                  extra-y    always-y
-  'make'             y          y
-  'make vmlinux'     y          y
-  'make modules'     n          y
-
-Kbuild skips extra-y also when building external modules since obviously
-it never builds vmlinux.
-
-Unfortunately, extra-y is wrongly used in many places of upstream code,
-and even in external modules.
-
-Using extra-y in external module Makefiles is wrong. What you should
-use is probably always-y or 'targets'.
-
-The current documentation for extra-y is misleading. I rewrote it, and
-moved it to the section 3.7.
-
-always-y is not documented anywhere. I added.
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=f94e5fd7e5d09a56a60670a9bb211a791654bba8
+Update the documents for preciseness, and add the explanation of SRCARCH.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 ---
 
 Changes in v2:
-  - Use y/n instead of o/x
-  - Fix a typo
+ - Fix a typo
 
- Documentation/kbuild/makefiles.rst | 110 +++++++++++++++++++----------
- 1 file changed, 71 insertions(+), 39 deletions(-)
+ Documentation/kbuild/makefiles.rst | 61 +++++++++++++++++-------------
+ Documentation/kbuild/modules.rst   |  2 +-
+ 2 files changed, 35 insertions(+), 28 deletions(-)
 
 diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 1dde4a096226..4fd6b327a19f 100644
+index a7b874097a91..1d4335c7f496 100644
 --- a/Documentation/kbuild/makefiles.rst
 +++ b/Documentation/kbuild/makefiles.rst
-@@ -15,13 +15,15 @@ This document describes the Linux kernel Makefiles.
- 	   --- 3.4 Objects which export symbols
- 	   --- 3.5 Library file goals - lib-y
- 	   --- 3.6 Descending down in directories
--	   --- 3.7 Compilation flags
--	   --- 3.8 Dependency tracking
--	   --- 3.9 Custom Rules
--	   --- 3.10 Command change detection
--	   --- 3.11 $(CC) support functions
--	   --- 3.12 $(LD) support functions
--	   --- 3.13 Script Invocation
-+	   --- 3.7 Non-builtin vmlinux targets - extra-y
-+	   --- 3.8 Always built goals - always-y
-+	   --- 3.9 Compilation flags
-+	   --- 3.10 Dependency tracking
-+	   --- 3.11 Custom Rules
-+	   --- 3.12 Command change detection
-+	   --- 3.13 $(CC) support functions
-+	   --- 3.14 $(LD) support functions
-+	   --- 3.15 Script Invocation
+@@ -67,11 +67,11 @@ This document describes the Linux kernel Makefiles.
  
- 	=== 4 Host Program support
- 	   --- 4.1 Simple Host Program
-@@ -321,7 +323,60 @@ more details, with real examples.
- 	names. This allows kbuild to totally skip the directory if the
- 	corresponding `CONFIG_` option is neither 'y' nor 'm'.
+ The Makefiles have five parts::
  
--3.7 Compilation flags
-+3.7 Non-builtin vmlinux targets - extra-y
-+-----------------------------------------
-+
-+	extra-y specifies targets which are needed for building vmlinux,
-+	but not combined into built-in.a.
-+
-+	Examples are:
-+
-+	1) head objects
-+
-+	    Some objects must be placed at the head of vmlinux. They are
-+	    directly linked to vmlinux without going through built-in.a
-+	    A typical use-case is an object that contains the entry point.
-+
-+	    arch/$(SRCARCH)/Makefile should specify such objects as head-y.
-+
-+	    Discussion:
-+	      Given that we can control the section order in the linker script,
-+	      why do we need head-y?
-+
-+	2) vmlinux linker script
-+
-+	    The linker script for vmlinux is located at
-+	    arch/$(SRCARCH)/kernel/vmlinux.lds
-+
-+	Example::
-+
-+		# arch/x86/kernel/Makefile
-+		extra-y	:= head_$(BITS).o
-+		extra-y	+= head$(BITS).o
-+		extra-y	+= ebda.o
-+		extra-y	+= platform-quirks.o
-+		extra-y	+= vmlinux.lds
-+
-+	$(extra-y) should only contain targets needed for vmlinux.
-+
-+	Kbuild skips extra-y when vmlinux is apparently not a final goal.
-+	(e.g. 'make modules', or building external modules)
-+
-+	If you intend to build targets unconditionally, always-y (explained
-+	in the next section) is the correct syntax to use.
-+
-+3.8 Always built goals - always-y
-+---------------------------------
-+
-+	always-y specifies targets which are literally always built when
-+	Kbuild visits the Makefile.
-+
-+	Example::
-+	  # ./Kbuild
-+	  offsets-file := include/generated/asm-offsets.h
-+	  always-y += $(offsets-file)
-+
-+3.9 Compilation flags
- ---------------------
+-	Makefile		the top Makefile.
+-	.config			the kernel configuration file.
+-	arch/$(ARCH)/Makefile	the arch Makefile.
+-	scripts/Makefile.*	common rules etc. for all kbuild Makefiles.
+-	kbuild Makefiles	exist in every subdirectory
++	Makefile                    the top Makefile.
++	.config                     the kernel configuration file.
++	arch/$(SRCARCH)/Makefile    the arch Makefile.
++	scripts/Makefile.*          common rules etc. for all kbuild Makefiles.
++	kbuild Makefiles            exist in every subdirectory
  
-     ccflags-y, asflags-y and ldflags-y
-@@ -410,8 +465,8 @@ more details, with real examples.
- 		AFLAGS_iwmmxt.o      := -Wa,-mcpu=iwmmxt
+ The top Makefile reads the .config file, which comes from the kernel
+ configuration process.
+@@ -82,7 +82,7 @@ It builds these goals by recursively descending into the subdirectories of
+ the kernel source tree.
+ The list of subdirectories which are visited depends upon the kernel
+ configuration. The top Makefile textually includes an arch Makefile
+-with the name arch/$(ARCH)/Makefile. The arch Makefile supplies
++with the name arch/$(SRCARCH)/Makefile. The arch Makefile supplies
+ architecture-specific information to the top Makefile.
  
+ Each subdirectory has a kbuild Makefile which carries out the commands
+@@ -933,7 +933,7 @@ When "make clean" is executed, make will descend down in arch/x86/boot,
+ and clean as usual. The Makefile located in arch/x86/boot/ may use
+ the subdir- trick to descend further down.
  
--3.8 Dependency tracking
-------------------------
-+3.10 Dependency tracking
-+------------------------
+-Note 1: arch/$(ARCH)/Makefile cannot use "subdir-", because that file is
++Note 1: arch/$(SRCARCH)/Makefile cannot use "subdir-", because that file is
+ included in the top level makefile, and the kbuild infrastructure
+ is not operational at that point.
  
- 	Kbuild tracks dependencies on the following:
+@@ -946,9 +946,9 @@ be visited during "make clean".
+ The top level Makefile sets up the environment and does the preparation,
+ before starting to descend down in the individual directories.
+ The top level makefile contains the generic part, whereas
+-arch/$(ARCH)/Makefile contains what is required to set up kbuild
++arch/$(SRCARCH)/Makefile contains what is required to set up kbuild
+ for said architecture.
+-To do so, arch/$(ARCH)/Makefile sets up a number of variables and defines
++To do so, arch/$(SRCARCH)/Makefile sets up a number of variables and defines
+ a few targets.
  
-@@ -422,8 +477,8 @@ more details, with real examples.
- 	Thus, if you change an option to $(CC) all affected files will
- 	be re-compiled.
+ When kbuild executes, the following steps are followed (roughly):
+@@ -956,14 +956,14 @@ When kbuild executes, the following steps are followed (roughly):
+ 1) Configuration of the kernel => produce .config
+ 2) Store kernel version in include/linux/version.h
+ 3) Updating all other prerequisites to the target prepare:
+-   - Additional prerequisites are specified in arch/$(ARCH)/Makefile
++   - Additional prerequisites are specified in arch/$(SRCARCH)/Makefile
+ 4) Recursively descend down in all directories listed in
+    init-* core* drivers-* net-* libs-* and build all targets.
+-   - The values of the above variables are expanded in arch/$(ARCH)/Makefile.
++   - The values of the above variables are expanded in arch/$(SRCARCH)/Makefile.
+ 5) All object files are then linked and the resulting file vmlinux is
+    located at the root of the obj tree.
+    The very first objects linked are listed in head-y, assigned by
+-   arch/$(ARCH)/Makefile.
++   arch/$(SRCARCH)/Makefile.
+ 6) Finally, the architecture-specific part does any required post processing
+    and builds the final bootimage.
+    - This includes building boot records
+@@ -1169,7 +1169,7 @@ When kbuild executes, the following steps are followed (roughly):
+ 		$(core-y), $(libs-y), $(drivers-y) and $(net-y).
  
--3.9 Custom Rules
------------------
-+3.11 Custom Rules
-+-----------------
+ 	    The top level Makefile defines values for all generic directories,
+-	    and arch/$(ARCH)/Makefile only adds architecture-specific
++	    and arch/$(SRCARCH)/Makefile only adds architecture-specific
+ 	    directories.
  
- 	Custom rules are used when the kbuild infrastructure does
- 	not provide the required support. A typical example is
-@@ -499,7 +554,7 @@ more details, with real examples.
+ 	    Example::
+@@ -1189,15 +1189,15 @@ When kbuild executes, the following steps are followed (roughly):
+ 	The actual goals are not standardized across architectures.
  
- 	will be displayed with "make KBUILD_VERBOSE=0".
+ 	It is common to locate any additional processing in a boot/
+-	directory below arch/$(ARCH)/.
++	directory below arch/$(SRCARCH)/.
  
--3.10 Command change detection
-+3.12 Command change detection
- -----------------------------
+ 	Kbuild does not provide any smart way to support building a
+-	target specified in boot/. Therefore arch/$(ARCH)/Makefile shall
++	target specified in boot/. Therefore arch/$(SRCARCH)/Makefile shall
+ 	call make manually to build a target in boot/.
  
- 	When the rule is evaluated, timestamps are compared between the target
-@@ -545,7 +600,7 @@ more details, with real examples.
- 		unwanted results when the target is up to date and only the
- 		tests on changed commands trigger execution of commands.
+ 	The recommended approach is to include shortcuts in
+-	arch/$(ARCH)/Makefile, and use the full path when calling down
+-	into the arch/$(ARCH)/boot/Makefile.
++	arch/$(SRCARCH)/Makefile, and use the full path when calling down
++	into the arch/$(SRCARCH)/boot/Makefile.
  
--3.11 $(CC) support functions
-+3.13 $(CC) support functions
- ----------------------------
+ 	Example::
  
- 	The kernel may be built with several different versions of
-@@ -660,7 +715,7 @@ more details, with real examples.
- 			endif
+@@ -1217,7 +1217,7 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 		#arch/x86/Makefile
+ 		define archhelp
+-		  echo  '* bzImage      - Image (arch/$(ARCH)/boot/bzImage)'
++		  echo  '* bzImage      - Compressed kernel image (arch/x86/boot/bzImage)'
  		endif
  
--3.12 $(LD) support functions
-+3.14 $(LD) support functions
- ----------------------------
+ 	When make is executed without arguments, the first goal encountered
+@@ -1332,7 +1332,7 @@ When kbuild executes, the following steps are followed (roughly):
  
-     ld-option
-@@ -674,7 +729,7 @@ more details, with real examples.
- 		#Makefile
- 		LDFLAGS_vmlinux += $(call ld-option, -X)
+     objcopy
+ 	Copy binary. Uses OBJCOPYFLAGS usually specified in
+-	arch/$(ARCH)/Makefile.
++	arch/$(SRCARCH)/Makefile.
+ 	OBJCOPYFLAGS_$@ may be used to set additional options.
  
--3.13 Script invocation
-+3.15 Script invocation
- ----------------------
+     gzip
+@@ -1395,7 +1395,7 @@ When kbuild executes, the following steps are followed (roughly):
+ --------------------------------
  
- 	Make rules may invoke scripts to build the kernel. The rules shall
-@@ -1304,29 +1359,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 	When the vmlinux image is built, the linker script
+-	arch/$(ARCH)/kernel/vmlinux.lds is used.
++	arch/$(SRCARCH)/kernel/vmlinux.lds is used.
+ 	The script is a preprocessed variant of the file vmlinux.lds.S
+ 	located in the same directory.
+ 	kbuild knows .lds files and includes a rule `*lds.S` -> `*lds`.
+@@ -1405,9 +1405,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 		#arch/x86/kernel/Makefile
+ 		extra-y := vmlinux.lds
  
- 	When "make" is executed without arguments, bzImage will be built.
+-		#Makefile
+-		export CPPFLAGS_vmlinux.lds += -P -C -U$(ARCH)
+-
+ 	The assignment to extra-y is used to tell kbuild to build the
+ 	target vmlinux.lds.
+ 	The assignment to $(CPPFLAGS_vmlinux.lds) tells kbuild to use the
+@@ -1481,7 +1478,7 @@ See subsequent chapter for the syntax of the Kbuild file.
  
--7.6 Building non-kbuild targets
---------------------------------
--
--    extra-y
--	extra-y specifies additional targets created in the current
--	directory, in addition to any targets specified by `obj-*`.
--
--	Listing all targets in extra-y is required for two purposes:
--
--	1) Enable kbuild to check changes in command lines
--
--	   - When $(call if_changed,xxx) is used
--
--	2) kbuild knows what files to delete during "make clean"
--
--	Example::
--
--		#arch/x86/kernel/Makefile
--		extra-y := head.o init_task.o
--
--	In this example, extra-y is used to list object files that
--	shall be built, but shall not be linked as part of built-in.a.
--
- 7.7 Commands useful for building a boot image
- ---------------------------------------------
+ 	If an architecture uses a verbatim copy of a header from
+ 	include/asm-generic then this is listed in the file
+-	arch/$(ARCH)/include/asm/Kbuild like this:
++	arch/$(SRCARCH)/include/asm/Kbuild like this:
  
+ 		Example::
+ 
+@@ -1492,7 +1489,7 @@ See subsequent chapter for the syntax of the Kbuild file.
+ 	During the prepare phase of the build a wrapper include
+ 	file is generated in the directory::
+ 
+-		arch/$(ARCH)/include/generated/asm
++		arch/$(SRCARCH)/include/generated/asm
+ 
+ 	When a header is exported where the architecture uses
+ 	the generic header a similar wrapper is generated as part
+@@ -1527,8 +1524,8 @@ See subsequent chapter for the syntax of the Kbuild file.
+ 	to define the minimum set of ASM headers that all architectures must have.
+ 
+ 	This works like optional generic-y. If a mandatory header is missing
+-	in arch/$(ARCH)/include/(uapi/)/asm, Kbuild will automatically generate
+-	a wrapper of the asm-generic one.
++	in arch/$(SRCARCH)/include/(uapi/)/asm, Kbuild will automatically
++	generate a wrapper of the asm-generic one.
+ 
+ 9 Kbuild Variables
+ ==================
+@@ -1564,6 +1561,16 @@ The top Makefile exports the following variables:
+ 
+ 	    make ARCH=m68k ...
+ 
++    SRCARCH
++	This variable specifies the directory in arch/ to build.
++
++	ARCH and SRCARCH may not necessarily match. A couple of arch
++	directories are biarch, that is, a single arch/*/ directory supports
++	both 32-bit and 64-bit.
++
++	For example, you can pass in ARCH=i386, ARCH=x86_64, or ARCH=x86.
++	For all of them, SRCARCH=x86 because arch/x86/ supports	both i386 and
++	x86_64.
+ 
+     INSTALL_PATH
+ 	This variable defines a place for the arch Makefiles to install
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index 85ccc878895e..a1f3eb7a43e2 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -332,7 +332,7 @@ according to the following rule:
+ 	      There are two notable exceptions to this rule: larger
+ 	      subsystems have their own directory under include/, such as
+ 	      include/scsi; and architecture specific headers are located
+-	      under arch/$(ARCH)/include/.
++	      under arch/$(SRCARCH)/include/.
+ 
+ 4.1 Kernel Includes
+ -------------------
 -- 
 2.27.0
 
