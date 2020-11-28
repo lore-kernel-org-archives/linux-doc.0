@@ -2,218 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BACBCC83036
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB34C83021
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F876222C2
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="E1q4cXva"
+	by mail.kernel.org (Postfix) with ESMTP id D3521222C2
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388191AbgK1Vtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Nov 2020 16:49:31 -0500
-Received: from condef-03.nifty.com ([202.248.20.68]:23261 "EHLO
-        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730439AbgK1SLD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:11:03 -0500
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-03.nifty.com with ESMTP id 0AS8xqdU021620;
-        Sat, 28 Nov 2020 17:59:52 +0900
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0AS8xLoe018866;
-        Sat, 28 Nov 2020 17:59:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0AS8xLoe018866
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606553962;
-        bh=or6FxwVXVxFfpEj0Luv2tuaXUJ8opms2IiV1/HsXt4Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=E1q4cXva+bpjcpXaGWr/OYFuWMwx3Muw4MmMlRE6Fnee1RkJfpqv+S2ZL1FF3q40P
-         bEZmbZSFm7QzTk2n3d0q+pmwUz7dOBQK5emi5mbTHyBHgq/qhSOU7nM619QbJQRJD2
-         08o51c0wnBZvihLjs/Pd796uuingNQOsW2iVC3nznz1XPvzpGr+M89i56LMOW+hbAV
-         SX16teJuWJ5PO0zA1ueyeox1WPoSLSf8npEAbrEvDtGf1hF06FiQkars0VpObLo3jK
-         dn6iyLf17BaI7wpUA/aqOrKNf5YF00ODPtFBzX611fbuLwQEMz56TXwP7WRq1IB/gI
-         xDyp4DAcUju7g==
-X-Nifty-SrcIP: [209.85.214.174]
-Received: by mail-pl1-f174.google.com with SMTP id l1so3797343pld.5;
-        Sat, 28 Nov 2020 00:59:22 -0800 (PST)
-X-Gm-Message-State: AOAM532PurvpjODr1FI84ooeO98AMyGqyX8/StNgJAyYaw2maXXqyxGP
-        iuVlsCl56YqieXamhDFwiBxH43vtZQTAHV7mYew=
-X-Google-Smtp-Source: ABdhPJxbnwIMJTDwx2bWyNRpOBFKGe9eQNQzIODbAeFQBj+lYRE8I6BoP3iqkFQ0IWRo1eGmws1ENWXYSf53uKM0knI=
-X-Received: by 2002:a17:902:868b:b029:da:3f2f:6c4d with SMTP id
- g11-20020a170902868bb02900da3f2f6c4dmr9979556plo.47.1606553961310; Sat, 28
- Nov 2020 00:59:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20201123045403.63402-1-masahiroy@kernel.org> <20201123045403.63402-7-masahiroy@kernel.org>
- <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
-In-Reply-To: <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 28 Nov 2020 17:58:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-Message-ID: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] kbuild: doc: document subdir-y syntax
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S2388226AbgK1Vtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:49:32 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:48938 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729170AbgK1SZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:25:36 -0500
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 9C4EE3AFB58;
+        Sat, 28 Nov 2020 14:29:37 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 0B91A4000B;
+        Sat, 28 Nov 2020 14:29:13 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: [PATCH v2 11/19] arm64: dts: allwinner: a64: Add CSI controller port for parallel input
+Date:   Sat, 28 Nov 2020 15:28:31 +0100
+Message-Id: <20201128142839.517949-12-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 11/22/20 8:54 PM, Masahiro Yamada wrote:
-> > There is no explanation about subdir-y.
-> >
-> > Let's document it.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> > index 159e470f2616..6332b9ca7942 100644
-> > --- a/Documentation/kbuild/makefiles.rst
-> > +++ b/Documentation/kbuild/makefiles.rst
-> > @@ -319,6 +319,20 @@ more details, with real examples.
-> >       that directory specifies obj-y, those objects will be left orphan.
-> >       It is very likely a bug of the Makefile or of dependencies in Kconfig.
-> >
-> > +     Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
-> > +     descending into subdirectories. It is a good fit when you know they
-> > +     do not contain kernel-space objects at all. A typical usage is to let
-> > +     Kbuild descend into subdirectories to build tools.
-> > +
-> > +     Examples::
-> > +
-> > +             subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
-> > +             subdir-$(CONFIG_MODVERSIONS) += genksyms
-> > +             subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-> > +
-> > +     Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
-> > +     syntax is always used for directories.
-> > +
->
-> Just curious:  Is a trailing slash allowed here?  say for consistency?
+Since the CSI controller binding is getting a bit more complex due
+to the addition of MIPI CSI-2 bridge support, make the ports node
+explicit with the parallel port.
 
+This way, it's clear that the controller only supports parallel
+interface input and there's no confusion about the port number.
 
-If you use a trailing slash for the subdir-y syntax,
-it will still work.
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 51cc30e84e26..1e1f0d2097d5 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -1109,6 +1109,15 @@ csi: csi@1cb0000 {
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&csi_pins>;
+ 			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				csi_in_parallel: port@0 {
++					reg = <0>;
++				};
++			};
+ 		};
+ 
+ 		dsi: dsi@1ca0000 {
+-- 
+2.29.2
 
-Only the problem I see is that the build log will look clumsy
-due to the double slashes "//".
-
-
-
-
-
-For example, if you change scripts/Makefile as follows:
-
-
-diff --git a/scripts/Makefile b/scripts/Makefile
-index b5418ec587fb..554534449877 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -32,9 +32,9 @@ hostprogs += unifdef
- # The module linker script is preprocessed on demand
- targets += module.lds
-
--subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
--subdir-$(CONFIG_MODVERSIONS) += genksyms
--subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-+subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins/
-+subdir-$(CONFIG_MODVERSIONS) += genksyms/
-+subdir-$(CONFIG_SECURITY_SELINUX) += selinux/
-
- # Let clean descend into subdirs
- subdir-        += basic dtc gdb kconfig mod
-
-
-
-
-The build log will look like follows:
-
-
-masahiro@grover:~/workspace/linux$ make allmodconfig; make scripts
-#
-# configuration written to .config
-#
-  SYNC    include/config/auto.conf
-  HOSTCC  scripts/dtc/dtc.o
-  HOSTCC  scripts/dtc/flattree.o
-  HOSTCC  scripts/dtc/fstree.o
-  HOSTCC  scripts/dtc/data.o
-  HOSTCC  scripts/dtc/livetree.o
-  HOSTCC  scripts/dtc/treesource.o
-  HOSTCC  scripts/dtc/srcpos.o
-  HOSTCC  scripts/dtc/checks.o
-  HOSTCC  scripts/dtc/util.o
-  LEX     scripts/dtc/dtc-lexer.lex.c
-  YACC    scripts/dtc/dtc-parser.tab.[ch]
-  HOSTCC  scripts/dtc/dtc-lexer.lex.o
-  HOSTCC  scripts/dtc/dtc-parser.tab.o
-  HOSTLD  scripts/dtc/dtc
-  HOSTCXX scripts/gcc-plugins//latent_entropy_plugin.so
-  GENSEED scripts/gcc-plugins//randomize_layout_seed.h
-  HOSTCXX scripts/gcc-plugins//randomize_layout_plugin.so
-  HOSTCXX scripts/gcc-plugins//stackleak_plugin.so
-  HOSTCC  scripts/genksyms//genksyms.o
-  YACC    scripts/genksyms//parse.tab.[ch]
-  HOSTCC  scripts/genksyms//parse.tab.o
-  LEX     scripts/genksyms//lex.lex.c
-  HOSTCC  scripts/genksyms//lex.lex.o
-  HOSTLD  scripts/genksyms//genksyms
-  HOSTCC  scripts/selinux//genheaders/genheaders
-  HOSTCC  scripts/selinux//mdp/mdp
-  HOSTCC  scripts/kallsyms
-  HOSTCC  scripts/sorttable
-  HOSTCC  scripts/asn1_compiler
-  HOSTCC  scripts/extract-cert
-  HOSTCC  scripts/bin2c
-  HOSTCC  scripts/recordmcount
-  HOSTCC  scripts/sign-file
-  HOSTCC  scripts/insert-sys-cert
-
-
-
-
-I can fix Kbuild to avoid "//", but I do not want to support two ways.
-
-So, I'd recommend not to add the trailing slash to subdir-y.
-
-
-
-
-
-For the others, thank you for pointing out my typos.
-
-
-
-
->
-> >       It is good practice to use a `CONFIG_` variable when assigning directory
-> >       names. This allows kbuild to totally skip the directory if the
-> >       corresponding `CONFIG_` option is neither 'y' nor 'm'.
-> >
->
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->
-> thanks.
->
-> --
-> ~Randy
-
-
-
---
-Best Regards
-Masahiro Yamada
