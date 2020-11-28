@@ -2,155 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11EBBC8302E
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:52 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3E74222C2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD81C8302B
 	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kCmw1AxL"
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 48902222EC
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729428AbgK1Vtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2388205AbgK1Vtb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:49:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732358AbgK1SPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:15:38 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E07C0254A6;
-        Sat, 28 Nov 2020 08:57:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=ubev1giHn2jmSzhtp/f94pjbxFaoCeWhmi4D5S6DRMQ=; b=kCmw1AxLSz9zAUV1hx0lxMwV1K
-        iHNuj/MU6Bqv/Rdf7HMk9MrKt3TjRtiRFu4DLkMgrYriTq0mvSfQBCT0dHzN3bple/c8tlOdVLjHc
-        UsVmctYTXxoPhP2N4b2ENuThOCVoN6iA0n4PJvijUiSwN98mADc/8pHk9g795HJTfE+XiXzEzWCyU
-        GELAuFvNBcyDSnCPsrzAVXb5iZeDMbTeyee5P2DD1312mI/qq0cZNXTXgBUZBaW8xf+yeAMYSY+w3
-        hcRx08LtEqG1kTGw9DIt+yDDfeDiY/plD9d6BlIrkTucYEnLAfGepv2jbVpLiRfTKE2mUzS0tj2qT
-        Y0QUyrag==;
-Received: from [2601:1c0:6280:3f0::cc1f]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kj3Wq-0005cP-OY; Sat, 28 Nov 2020 16:56:57 +0000
-Subject: Re: [PATCH 7/7] kbuild: doc: document subdir-y syntax
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:47638 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729051AbgK1SYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:24:46 -0500
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 906213ADD1D;
+        Sat, 28 Nov 2020 14:29:24 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id B48BC4000D;
+        Sat, 28 Nov 2020 14:29:01 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20201123045403.63402-1-masahiroy@kernel.org>
- <20201123045403.63402-7-masahiroy@kernel.org>
- <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
- <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f69d022b-a3a6-03e6-5ece-d5e6bd6d7035@infradead.org>
-Date:   Sat, 28 Nov 2020 08:56:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com,
+        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
+        <kevin.lhopital@bootlin.com>
+Subject: [PATCH v2 05/19] media: sun6i-csi: Only configure the interface data width for parallel
+Date:   Sat, 28 Nov 2020 15:28:25 +0100
+Message-Id: <20201128142839.517949-6-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/28/20 12:58 AM, Masahiro Yamada wrote:
-> On Tue, Nov 24, 2020 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> On 11/22/20 8:54 PM, Masahiro Yamada wrote:
->>> There is no explanation about subdir-y.
->>>
->>> Let's document it.
->>>
->>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>> ---
->>>
->>>  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
->>>  1 file changed, 14 insertions(+)
->>>
->>> +
->>> +     Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
->>> +     syntax is always used for directories.
->>> +
->>
->> Just curious:  Is a trailing slash allowed here?  say for consistency?
-> 
-> 
-> If you use a trailing slash for the subdir-y syntax,
-> it will still work.
-> 
-> 
-> Only the problem I see is that the build log will look clumsy
-> due to the double slashes "//".
-> 
+Bits related to the interface data width are only applicable to the
+parallel interface and are irrelevant when the CSI controller is taking
+input from the MIPI CSI-2 controller.
 
-Yes, that does look odd.
+In prevision of adding support for this case, set these bits
+conditionally so there is no ambiguity. The conditional block is
+moved around before the interlaced conditional block for nicer code
+symmetry (conditional blocks first) while at it.
 
-> For example, if you change scripts/Makefile as follows:
-> 
+Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++--------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
-...
-
-> The build log will look like follows:
-> 
-> 
-> masahiro@grover:~/workspace/linux$ make allmodconfig; make scripts
-> #
-> # configuration written to .config
-> #
->   SYNC    include/config/auto.conf
->   HOSTCC  scripts/dtc/dtc.o
->   HOSTCC  scripts/dtc/flattree.o
->   HOSTCC  scripts/dtc/fstree.o
->   HOSTCC  scripts/dtc/data.o
->   HOSTCC  scripts/dtc/livetree.o
->   HOSTCC  scripts/dtc/treesource.o
->   HOSTCC  scripts/dtc/srcpos.o
->   HOSTCC  scripts/dtc/checks.o
->   HOSTCC  scripts/dtc/util.o
->   LEX     scripts/dtc/dtc-lexer.lex.c
->   YACC    scripts/dtc/dtc-parser.tab.[ch]
->   HOSTCC  scripts/dtc/dtc-lexer.lex.o
->   HOSTCC  scripts/dtc/dtc-parser.tab.o
->   HOSTLD  scripts/dtc/dtc
->   HOSTCXX scripts/gcc-plugins//latent_entropy_plugin.so
->   GENSEED scripts/gcc-plugins//randomize_layout_seed.h
->   HOSTCXX scripts/gcc-plugins//randomize_layout_plugin.so
->   HOSTCXX scripts/gcc-plugins//stackleak_plugin.so
->   HOSTCC  scripts/genksyms//genksyms.o
->   YACC    scripts/genksyms//parse.tab.[ch]
->   HOSTCC  scripts/genksyms//parse.tab.o
->   LEX     scripts/genksyms//lex.lex.c
->   HOSTCC  scripts/genksyms//lex.lex.o
->   HOSTLD  scripts/genksyms//genksyms
->   HOSTCC  scripts/selinux//genheaders/genheaders
->   HOSTCC  scripts/selinux//mdp/mdp
->   HOSTCC  scripts/kallsyms
->   HOSTCC  scripts/sorttable
->   HOSTCC  scripts/asn1_compiler
->   HOSTCC  scripts/extract-cert
->   HOSTCC  scripts/bin2c
->   HOSTCC  scripts/recordmcount
->   HOSTCC  scripts/sign-file
->   HOSTCC  scripts/insert-sys-cert
-> 
-> 
-> 
-> 
-> I can fix Kbuild to avoid "//", but I do not want to support two ways.
-> 
-> So, I'd recommend not to add the trailing slash to subdir-y.
-OK, I agree. Thanks.
-
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 531a4cccd14a..f1150de94e98 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 	unsigned char bus_width;
+ 	u32 flags;
+ 	u32 cfg;
++	bool input_parallel = false;
+ 	bool input_interlaced = false;
+ 
++	if (endpoint->bus_type == V4L2_MBUS_PARALLEL ||
++	    endpoint->bus_type == V4L2_MBUS_BT656)
++		input_parallel = true;
++
+ 	if (csi->config.field == V4L2_FIELD_INTERLACED
+ 	    || csi->config.field == V4L2_FIELD_INTERLACED_TB
+ 	    || csi->config.field == V4L2_FIELD_INTERLACED_BT)
+@@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
+ 		 CSI_IF_CFG_SRC_TYPE_MASK);
+ 
++	if (input_parallel) {
++		switch (bus_width) {
++		case 8:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
++			break;
++		case 10:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
++			break;
++		case 12:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
++			break;
++		case 16: /* No need to configure DATA_WIDTH for 16bit */
++			break;
++		default:
++			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
++				 bus_width);
++			break;
++		}
++	}
++
+ 	if (input_interlaced)
+ 		cfg |= CSI_IF_CFG_SRC_TYPE_INTERLACED;
+ 	else
+@@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		break;
+ 	}
+ 
+-	switch (bus_width) {
+-	case 8:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
+-		break;
+-	case 10:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
+-		break;
+-	case 12:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
+-		break;
+-	case 16: /* No need to configure DATA_WIDTH for 16bit */
+-		break;
+-	default:
+-		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
+-		break;
+-	}
+-
+ 	regmap_write(sdev->regmap, CSI_IF_CFG_REG, cfg);
+ }
+ 
 -- 
-~Randy
+2.29.2
 
