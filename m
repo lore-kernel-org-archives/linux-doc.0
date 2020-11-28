@@ -7,26 +7,26 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57118C83013
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B283C8301A
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 297FE223BE
-	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32223223BE
+	for <linux-doc@archiver.kernel.org>; Sat, 28 Nov 2020 22:22:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388123AbgK1Vt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 28 Nov 2020 16:49:29 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:47298 "EHLO
+        id S2388170AbgK1Vta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:49:30 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:57454 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731258AbgK1SEd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:04:33 -0500
+        with ESMTP id S1730070AbgK1SKH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 28 Nov 2020 13:10:07 -0500
 Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id BC3EB3AFC97;
-        Sat, 28 Nov 2020 14:29:40 +0000 (UTC)
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id D49603AE6DD;
+        Sat, 28 Nov 2020 14:29:28 +0000 (UTC)
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 1E57A40005;
-        Sat, 28 Nov 2020 14:29:18 +0000 (UTC)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E866F4000E;
+        Sat, 28 Nov 2020 14:29:05 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com
-Subject: [PATCH v2 13/19] media: sunxi: Add support for the A31 MIPI CSI-2 controller
-Date:   Sat, 28 Nov 2020 15:28:33 +0100
-Message-Id: <20201128142839.517949-14-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2 07/19] media: sun6i-csi: Add support for MIPI CSI-2 bridge input
+Date:   Sat, 28 Nov 2020 15:28:27 +0100
+Message-Id: <20201128142839.517949-8-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
@@ -62,803 +62,394 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
-found on Allwinner SoCs such as the A31 and V3/V3s.
+The A31 CSI controller supports a MIPI CSI-2 bridge input, which has
+its own dedicated port in the fwnode graph.
 
-It is a standalone block, connected to the CSI controller on one side
-and to the MIPI D-PHY block on the other. It has a dedicated address
-space, interrupt line and clock.
+Support for this input is added with this change:
+- two pads are defined for the media entity instead of one
+  and only one needs to be connected at a time;
+- the pads currently match the fwnode graph representation;
+- links are created between our pads and the subdevs for each
+  interface and are no longer immutable so that userspace can select
+  which interface to use in case both are bound to a subdev;
+- fwnode endpoints are parsed and stored for each interface;
+- the active subdev (and fwnode endpoint) is retrieved when validating
+  the media link at stream on time and cleared at stream off;
+- an error is raised if both links are active at the same time;
+- the MIPI interface bit is set if the MIPI CSI-2 bridge endpoint is
+  active.
 
-It is represented as a V4L2 subdev to the CSI controller and takes a
-MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
-media controller API.
+In the future, the media entity representation might evolve to:
+- distinguish the internal parallel bridge and data formatter;
+- represent each of the 4 internal channels that can exist between
+  the parallel bridge (for BT656 time-multiplex) and MIPI CSI-2
+  (internal channels can be mapped to virtual channels);
+- connect the controller's output to the ISP instead of its
+  DMA engine.
 
-Only 8-bit and 10-bit Bayer formats are currently supported.
-While up to 4 internal channels to the CSI controller exist, only one
-is currently supported by this implementation.
+Finally note that the MIPI CSI-2 bridges should not be linked in
+the fwnode graph unless they have a sensor subdev attached.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- drivers/media/platform/sunxi/Kconfig          |   1 +
- drivers/media/platform/sunxi/Makefile         |   1 +
- .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
- .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 591 ++++++++++++++++++
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
- 6 files changed, 726 insertions(+)
- create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
- create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
- create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
- create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 123 ++++++++++++++----
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |   3 -
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |  53 ++++----
+ .../platform/sunxi/sun6i-csi/sun6i_video.h    |   7 +-
+ 4 files changed, 135 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
-index 7151cc249afa..9684e07454ad 100644
---- a/drivers/media/platform/sunxi/Kconfig
-+++ b/drivers/media/platform/sunxi/Kconfig
-@@ -2,3 +2,4 @@
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index f1150de94e98..481181038e1e 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -52,15 +52,16 @@ bool sun6i_csi_is_format_supported(struct sun6i_csi *csi,
+ 				   u32 pixformat, u32 mbus_code)
+ {
+ 	struct sun6i_csi_dev *sdev = sun6i_csi_to_dev(csi);
++	struct v4l2_fwnode_endpoint *endpoint = sdev->csi.video.source_endpoint;
  
- source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
- source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
-+source "drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig"
-diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platform/sunxi/Makefile
-index fc537c9f5ca9..887a7cae8fca 100644
---- a/drivers/media/platform/sunxi/Makefile
-+++ b/drivers/media/platform/sunxi/Makefile
-@@ -2,5 +2,6 @@
+ 	/*
+ 	 * Some video receivers have the ability to be compatible with
+ 	 * 8bit and 16bit bus width.
+ 	 * Identify the media bus format from device tree.
+ 	 */
+-	if ((sdev->csi.v4l2_ep.bus_type == V4L2_MBUS_PARALLEL
+-	     || sdev->csi.v4l2_ep.bus_type == V4L2_MBUS_BT656)
+-	     && sdev->csi.v4l2_ep.bus.parallel.bus_width == 16) {
++	if ((endpoint->bus_type == V4L2_MBUS_PARALLEL
++	     || endpoint->bus_type == V4L2_MBUS_BT656)
++	     && endpoint->bus.parallel.bus_width == 16) {
+ 		switch (pixformat) {
+ 		case V4L2_PIX_FMT_HM12:
+ 		case V4L2_PIX_FMT_NV12:
+@@ -373,7 +374,7 @@ static enum csi_input_seq get_csi_input_seq(struct sun6i_csi_dev *sdev,
  
- obj-y		+= sun4i-csi/
- obj-y		+= sun6i-csi/
-+obj-y		+= sun6i-mipi-csi2/
- obj-y		+= sun8i-di/
- obj-y		+= sun8i-rotate/
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-new file mode 100644
-index 000000000000..3260591ed5c0
---- /dev/null
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config VIDEO_SUN6I_MIPI_CSI2
-+	tristate "Allwinner A31 MIPI CSI-2 Controller Driver"
-+	depends on VIDEO_V4L2 && COMMON_CLK
-+	depends on ARCH_SUNXI || COMPILE_TEST
-+	select PHY_SUN6I_MIPI_DPHY
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select REGMAP_MMIO
-+	select V4L2_FWNODE
-+	help
-+	   Support for the Allwinner A31 MIPI CSI-2 Controller.
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-new file mode 100644
-index 000000000000..14e4e03818b5
---- /dev/null
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+sun6i-mipi-csi2-y += sun6i_mipi_csi2.o
+ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ {
+-	struct v4l2_fwnode_endpoint *endpoint = &sdev->csi.v4l2_ep;
++	struct v4l2_fwnode_endpoint *endpoint = sdev->csi.video.source_endpoint;
+ 	struct sun6i_csi *csi = &sdev->csi;
+ 	unsigned char bus_width;
+ 	u32 flags;
+@@ -459,6 +460,9 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+ 			cfg |= CSI_IF_CFG_CLK_POL_FALLING_EDGE;
+ 		break;
++	case V4L2_MBUS_CSI2_DPHY:
++		cfg |= CSI_IF_CFG_MIPI_IF_MIPI;
++		break;
+ 	default:
+ 		dev_warn(sdev->dev, "Unsupported bus type: %d\n",
+ 			 endpoint->bus_type);
+@@ -636,11 +640,11 @@ void sun6i_csi_set_stream(struct sun6i_csi *csi, bool enable)
+  * Media Controller and V4L2
+  */
+ static int sun6i_csi_link_entity(struct sun6i_csi *csi,
++				 struct media_pad *sink_pad,
+ 				 struct media_entity *entity,
+-				 struct fwnode_handle *fwnode)
++				 struct fwnode_handle *fwnode, bool enabled)
+ {
+ 	struct media_entity *sink;
+-	struct media_pad *sink_pad;
+ 	int src_pad_index;
+ 	int ret;
+ 
+@@ -654,14 +658,12 @@ static int sun6i_csi_link_entity(struct sun6i_csi *csi,
+ 	src_pad_index = ret;
+ 
+ 	sink = &csi->video.vdev.entity;
+-	sink_pad = &csi->video.pad;
+ 
+ 	dev_dbg(csi->dev, "creating %s:%u -> %s:%u link\n",
+ 		entity->name, src_pad_index, sink->name, sink_pad->index);
+ 	ret = media_create_pad_link(entity, src_pad_index, sink,
+ 				    sink_pad->index,
+-				    MEDIA_LNK_FL_ENABLED |
+-				    MEDIA_LNK_FL_IMMUTABLE);
++				    enabled ? MEDIA_LNK_FL_ENABLED : 0);
+ 	if (ret < 0) {
+ 		dev_err(csi->dev, "failed to create %s:%u -> %s:%u link\n",
+ 			entity->name, src_pad_index,
+@@ -676,19 +678,67 @@ static int sun6i_subdev_notify_complete(struct v4l2_async_notifier *notifier)
+ {
+ 	struct sun6i_csi *csi = container_of(notifier, struct sun6i_csi,
+ 					     notifier);
++	struct sun6i_video *video = &csi->video;
+ 	struct v4l2_device *v4l2_dev = &csi->v4l2_dev;
+-	struct v4l2_subdev *sd;
++	struct v4l2_subdev *parallel_sd = NULL;
++	struct v4l2_subdev *mipi_csi2_bridge_sd = NULL;
++	struct fwnode_handle *handle = NULL;
+ 	int ret;
+ 
+ 	dev_dbg(csi->dev, "notify complete, all subdevs registered\n");
+ 
+-	sd = list_first_entry(&v4l2_dev->subdevs, struct v4l2_subdev, list);
+-	if (!sd)
+-		return -EINVAL;
++	/* Find the subdevs that match our fwnode ports. */
++	while (1) {
++		struct v4l2_fwnode_link link;
++		struct v4l2_subdev *sd;
+ 
+-	ret = sun6i_csi_link_entity(csi, &sd->entity, sd->fwnode);
+-	if (ret < 0)
+-		return ret;
++		handle = fwnode_graph_get_next_endpoint(dev_fwnode(csi->dev),
++							handle);
++		if (!handle)
++			break;
 +
-+obj-$(CONFIG_VIDEO_SUN6I_MIPI_CSI2) += sun6i-mipi-csi2.o
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-new file mode 100644
-index 000000000000..a6567ef82fb4
---- /dev/null
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -0,0 +1,591 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2020 Bootlin
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
++		ret = v4l2_fwnode_parse_link(handle, &link);
++		if (ret)
++			break;
 +
-+#include <linux/clk.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
++		list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
++			if (!sd->fwnode || link.remote_node != sd->fwnode)
++				continue;
 +
-+#include "sun6i_mipi_csi2.h"
++			switch (link.local_port) {
++			case 0:
++				parallel_sd = sd;
++				break;
++			case 1:
++				mipi_csi2_bridge_sd = sd;
++				break;
++			}
++		}
 +
-+#define MODULE_NAME	"sun6i-mipi-csi2"
-+
-+static const u32 sun6i_mipi_csi2_mbus_codes[] = {
-+	MEDIA_BUS_FMT_SBGGR8_1X8,
-+	MEDIA_BUS_FMT_SGBRG8_1X8,
-+	MEDIA_BUS_FMT_SGRBG8_1X8,
-+	MEDIA_BUS_FMT_SRGGB8_1X8,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+};
-+
-+/* Video */
-+
-+static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-+{
-+	struct sun6i_mipi_csi2_video *video =
-+		sun6i_mipi_csi2_subdev_video(subdev);
-+	struct sun6i_mipi_csi2_dev *cdev = sun6i_mipi_csi2_video_dev(video);
-+	struct v4l2_subdev *remote_subdev = video->remote_subdev;
-+	struct v4l2_fwnode_bus_mipi_csi2 *bus_mipi_csi2 =
-+		&video->endpoint.bus.mipi_csi2;
-+	union phy_configure_opts dphy_opts = { 0 };
-+	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
-+	struct regmap *regmap = cdev->regmap;
-+	struct v4l2_ctrl *ctrl;
-+	unsigned int lanes_count;
-+	unsigned int bpp;
-+	unsigned long pixel_rate;
-+	u8 data_type = 0;
-+	u32 version = 0;
-+	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
-+	int ret = 0;
-+
-+	if (!remote_subdev)
-+		return -ENODEV;
-+
-+	if (!on) {
-+		v4l2_subdev_call(remote_subdev, video, s_stream, 0);
-+		goto disable;
++		v4l2_fwnode_put_link(&link);
 +	}
 +
-+	switch (video->mbus_format.code) {
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		data_type = MIPI_CSI2_DATA_TYPE_RAW8;
-+		bpp = 8;
++	if (parallel_sd) {
++		dev_dbg(csi->dev, "linking parallel interface subdev\n");
++
++		ret = sun6i_csi_link_entity(csi, &video->pads[0],
++					    &parallel_sd->entity,
++					    parallel_sd->fwnode, true);
++		if (ret < 0)
++			return ret;
++	}
++
++	if (mipi_csi2_bridge_sd) {
++		dev_dbg(csi->dev, "linking MIPI CSI-2 bridge subdev\n");
++
++		/* Mark the link as disabled if a parallel subdev is there. */
++		ret = sun6i_csi_link_entity(csi, &video->pads[1],
++					    &mipi_csi2_bridge_sd->entity,
++					    mipi_csi2_bridge_sd->fwnode,
++					    parallel_sd ? false : true);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	ret = v4l2_device_register_subdev_nodes(&csi->v4l2_dev);
+ 	if (ret < 0)
+@@ -706,21 +756,44 @@ static int sun6i_csi_fwnode_parse(struct device *dev,
+ 				  struct v4l2_async_subdev *asd)
+ {
+ 	struct sun6i_csi *csi = dev_get_drvdata(dev);
++	struct sun6i_video *video = &csi->video;
++	struct v4l2_fwnode_endpoint *endpoint = NULL;
++
++	switch (vep->base.port) {
++	case 0:
++		endpoint = &video->parallel_endpoint;
+ 
+-	if (vep->base.port || vep->base.id) {
+-		dev_warn(dev, "Only support a single port with one endpoint\n");
++		switch (vep->bus_type) {
++		case V4L2_MBUS_PARALLEL:
++		case V4L2_MBUS_BT656:
++			break;
++		default:
++			dev_err(dev, "Unsupported media bus type\n");
++			return -ENOTCONN;
++		}
 +		break;
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		data_type = MIPI_CSI2_DATA_TYPE_RAW10;
-+		bpp = 10;
++	case 1:
++		endpoint = &video->mipi_csi2_bridge_endpoint;
 +		break;
 +	default:
-+		return -EINVAL;
++		dev_warn(dev, "Unsupported port at index %u\n", vep->base.port);
+ 		return -ENOTCONN;
+ 	}
+ 
+-	switch (vep->bus_type) {
+-	case V4L2_MBUS_PARALLEL:
+-	case V4L2_MBUS_BT656:
+-		csi->v4l2_ep = *vep;
+-		return 0;
+-	default:
+-		dev_err(dev, "Unsupported media bus type\n");
++	if (vep->base.id) {
++		dev_warn(dev, "Unsupported endpoint at index %u for port %u\n",
++			 vep->base.id, vep->base.port);
+ 		return -ENOTCONN;
+ 	}
++
++	*endpoint = *vep;
++
++	if (vep->base.port == 1) {
++		/* Set this for our local convenience. */
++		endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
 +	}
 +
-+	/* Sensor pixel rate */
++	return 0;
+ }
+ 
+ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi *csi)
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+index 092445f04c60..d7b15452ab3a 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+@@ -40,9 +40,6 @@ struct sun6i_csi {
+ 
+ 	struct v4l2_async_notifier	notifier;
+ 
+-	/* video port settings */
+-	struct v4l2_fwnode_endpoint	v4l2_ep;
+-
+ 	struct sun6i_csi_config		config;
+ 
+ 	struct sun6i_video		video;
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+index b55de9ab64d8..5bb7c013f6bb 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+@@ -72,22 +72,6 @@ static bool is_pixformat_valid(unsigned int pixformat)
+ 	return false;
+ }
+ 
+-static struct v4l2_subdev *
+-sun6i_video_remote_subdev(struct sun6i_video *video, u32 *pad)
+-{
+-	struct media_pad *remote;
+-
+-	remote = media_entity_remote_pad(&video->pad);
+-
+-	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
+-		return NULL;
+-
+-	if (pad)
+-		*pad = remote->index;
+-
+-	return media_entity_to_v4l2_subdev(remote->entity);
+-}
+-
+ static int sun6i_video_queue_setup(struct vb2_queue *vq,
+ 				   unsigned int *nbuffers,
+ 				   unsigned int *nplanes,
+@@ -150,7 +134,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		goto stop_media_pipeline;
+ 	}
+ 
+-	subdev = sun6i_video_remote_subdev(video, NULL);
++	subdev = video->source_subdev;
+ 	if (!subdev)
+ 		goto stop_media_pipeline;
+ 
+@@ -206,6 +190,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	sun6i_csi_set_stream(video->csi, false);
+ stop_media_pipeline:
+ 	media_pipeline_stop(&video->vdev.entity);
++	video->source_subdev = NULL;
+ clear_dma_queue:
+ 	spin_lock_irqsave(&video->dma_queue_lock, flags);
+ 	list_for_each_entry(buf, &video->dma_queue, list)
+@@ -223,13 +208,16 @@ static void sun6i_video_stop_streaming(struct vb2_queue *vq)
+ 	unsigned long flags;
+ 	struct sun6i_csi_buffer *buf;
+ 
+-	subdev = sun6i_video_remote_subdev(video, NULL);
++	subdev = video->source_subdev;
+ 	if (subdev)
+ 		v4l2_subdev_call(subdev, video, s_stream, 0);
+ 
+ 	sun6i_csi_set_stream(video->csi, false);
+ 
+-	media_pipeline_stop(&video->vdev.entity);
++	if (subdev)
++		media_pipeline_stop(&video->vdev.entity);
 +
-+	ctrl = v4l2_ctrl_find(remote_subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
-+	if (!ctrl) {
-+		dev_err(cdev->dev,
-+			"%s: no MIPI CSI-2 pixel rate from the sensor\n",
-+			__func__);
++	video->source_subdev = NULL;
+ 
+ 	/* Release all active buffers */
+ 	spin_lock_irqsave(&video->dma_queue_lock, flags);
+@@ -550,16 +538,36 @@ static int sun6i_video_link_validate(struct media_link *link)
+ 						 struct video_device, entity);
+ 	struct sun6i_video *video = video_get_drvdata(vdev);
+ 	struct v4l2_subdev_format source_fmt;
++	struct v4l2_subdev *subdev;
+ 	int ret;
+ 
+ 	video->mbus_code = 0;
+ 
+-	if (!media_entity_remote_pad(link->sink->entity->pads)) {
++	if (!link->source) {
+ 		dev_info(video->csi->dev,
+ 			 "video node %s pad not connected\n", vdev->name);
+ 		return -ENOLINK;
+ 	}
+ 
++	if (!is_media_entity_v4l2_subdev(link->source->entity))
 +		return -ENODEV;
++
++	subdev = media_entity_to_v4l2_subdev(link->source->entity);
++
++	if (video->source_subdev) {
++		dev_err(video->csi->dev,
++			"unable to connect both parallel and MIPI CSI-2 bridge interfaces\n");
++		return -ENOLINK;
 +	}
 +
-+	pixel_rate = (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
-+	if (!pixel_rate) {
-+		dev_err(cdev->dev,
-+			"%s: zero MIPI CSI-2 pixel rate from the sensor\n",
-+			__func__);
-+		return -ENODEV;
++	if (link->sink == &video->pads[0]) {
++		video->source_endpoint = &video->parallel_endpoint;
++		video->source_subdev = subdev;
++	} else if (link->sink == &video->pads[1]) {
++		video->source_endpoint = &video->mipi_csi2_bridge_endpoint;
++		video->source_subdev = subdev;
 +	}
 +
-+	/* Power management */
-+
-+	ret = pm_runtime_get_sync(cdev->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(cdev->dev);
-+		return ret;
-+	}
-+
-+	/* D-PHY configuration */
-+
-+	lanes_count = bus_mipi_csi2->num_data_lanes;
-+	phy_mipi_dphy_get_default_config(pixel_rate, bpp, lanes_count,
-+					 dphy_cfg);
-+
-+	/*
-+	 * Note that our hardware is using DDR, which is not taken in account by
-+	 * phy_mipi_dphy_get_default_config when calculating hs_clk_rate from
-+	 * the pixel rate, lanes count and bpp.
-+	 *
-+	 * The resulting clock rate is basically the symbol rate over the whole
-+	 * link. The actual clock rate is calculated with division by two since
-+	 * DDR samples both on rising and falling edges.
-+	 */
-+
-+	dev_dbg(cdev->dev, "A31 MIPI CSI-2 config:\n");
-+	dev_dbg(cdev->dev, "%ld pixels/s, %u bits/pixel, %lu Hz clock\n",
-+		pixel_rate, bpp, dphy_cfg->hs_clk_rate / 2);
-+
-+	ret = phy_reset(cdev->dphy);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to reset MIPI D-PHY\n");
-+		goto error_pm;
-+	}
-+
-+	ret = phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
-+			       PHY_MIPI_DPHY_SUBMODE_RX);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to set MIPI D-PHY mode\n");
-+		goto error_pm;
-+	}
-+
-+	ret = phy_configure(cdev->dphy, &dphy_opts);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to configure MIPI D-PHY\n");
-+		goto error_pm;
-+	}
-+
-+	ret = phy_power_on(cdev->dphy);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to power on MIPI D-PHY\n");
-+		goto error_pm;
-+	}
-+
-+	/* MIPI CSI-2 controller setup */
-+
-+	/*
-+	 * The enable flow in the Allwinner BSP is a bit different: the enable
-+	 * and reset bits are set together before starting the CSI controller.
-+	 *
-+	 * In mainline we enable the CSI controller first (due to subdev logic).
-+	 * One reliable way to make this work is to deassert reset, configure
-+	 * registers and enable the controller when everything's ready.
-+	 *
-+	 * However, setting the version enable bit and removing it afterwards
-+	 * appears necessary for capture to work reliably, while replacing it
-+	 * with a delay doesn't do the trick.
-+	 */
-+	regmap_write(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-+		     SUN6I_MIPI_CSI2_CTL_RESET_N |
-+		     SUN6I_MIPI_CSI2_CTL_VERSION_EN |
-+		     SUN6I_MIPI_CSI2_CTL_UNPK_EN);
-+
-+	regmap_read(regmap, SUN6I_MIPI_CSI2_VERSION_REG, &version);
-+
-+	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-+				   SUN6I_MIPI_CSI2_CTL_VERSION_EN, 0);
-+
-+	dev_dbg(cdev->dev, "A31 MIPI CSI-2 version: %04x\n", version);
-+
-+	regmap_write(regmap, SUN6I_MIPI_CSI2_CFG_REG,
-+		     SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(1) |
-+		     SUN6I_MIPI_CSI2_CFG_LANE_COUNT(lanes_count));
-+
-+	/*
-+	 * Our MIPI CSI-2 controller has internal channels that can be
-+	 * configured to match a specific MIPI CSI-2 virtual channel and/or
-+	 * a specific data type. Each internal channel can be piped to an
-+	 * internal channel of the CSI controller.
-+	 *
-+	 * We set virtual channel numbers to all channels to make sure that
-+	 * virtual channel 0 goes to CSI channel 0 only.
-+	 */
-+	regmap_write(regmap, SUN6I_MIPI_CSI2_VCDT_RX_REG,
-+		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(3, 3) |
-+		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(2, 2) |
-+		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(1, 1) |
-+		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(0, 0) |
-+		     SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(0, data_type));
-+
-+	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-+			   SUN6I_MIPI_CSI2_CTL_EN, SUN6I_MIPI_CSI2_CTL_EN);
-+
-+	ret = v4l2_subdev_call(remote_subdev, video, s_stream, 1);
-+	if (ret)
-+		goto disable;
-+
-+	return 0;
-+
-+disable:
-+	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-+			   SUN6I_MIPI_CSI2_CTL_EN, 0);
-+
-+	phy_power_off(cdev->dphy);
-+
-+error_pm:
-+	pm_runtime_put(cdev->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_video_ops sun6i_mipi_csi2_subdev_video_ops = {
-+	.s_stream	= sun6i_mipi_csi2_s_stream,
-+};
-+
-+/* Pad */
-+
-+static int
-+sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
-+			       struct v4l2_subdev_pad_config *config,
-+			       struct v4l2_subdev_mbus_code_enum *code_enum)
-+{
-+	if (code_enum->index >= ARRAY_SIZE(sun6i_mipi_csi2_mbus_codes))
-+		return -EINVAL;
-+
-+	code_enum->code = sun6i_mipi_csi2_mbus_codes[code_enum->index];
-+
-+	return 0;
-+}
-+
-+static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-+				   struct v4l2_subdev_pad_config *config,
-+				   struct v4l2_subdev_format *format)
-+{
-+	struct sun6i_mipi_csi2_video *video =
-+		sun6i_mipi_csi2_subdev_video(subdev);
-+	struct v4l2_mbus_framefmt *mbus_format = &format->format;
-+
-+	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-+		*mbus_format = *v4l2_subdev_get_try_format(subdev, config,
-+							   format->pad);
-+	else
-+		*mbus_format = video->mbus_format;
-+
-+	return 0;
-+}
-+
-+static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
-+				   struct v4l2_subdev_pad_config *config,
-+				   struct v4l2_subdev_format *format)
-+{
-+	struct sun6i_mipi_csi2_video *video =
-+		sun6i_mipi_csi2_subdev_video(subdev);
-+	struct v4l2_mbus_framefmt *mbus_format = &format->format;
-+
-+	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-+		*v4l2_subdev_get_try_format(subdev, config, format->pad) =
-+			*mbus_format;
-+	else
-+		video->mbus_format = *mbus_format;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_subdev_pad_ops = {
-+	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
-+	.get_fmt	= sun6i_mipi_csi2_get_fmt,
-+	.set_fmt	= sun6i_mipi_csi2_set_fmt,
-+};
-+
-+/* Subdev */
-+
-+static const struct v4l2_subdev_ops sun6i_mipi_csi2_subdev_ops = {
-+	.video		= &sun6i_mipi_csi2_subdev_video_ops,
-+	.pad		= &sun6i_mipi_csi2_subdev_pad_ops,
-+};
-+
-+/* Notifier */
-+
-+static int
-+sun6i_mipi_csi2_notifier_bound(struct v4l2_async_notifier *notifier,
-+			       struct v4l2_subdev *remote_subdev,
-+			       struct v4l2_async_subdev *remote_subdev_async)
-+{
-+	struct v4l2_subdev *subdev = notifier->sd;
-+	struct sun6i_mipi_csi2_video *video =
-+		sun6i_mipi_csi2_subdev_video(subdev);
-+	struct sun6i_mipi_csi2_dev *cdev = sun6i_mipi_csi2_video_dev(video);
-+	int source_pad;
-+	int ret;
-+
-+	source_pad = media_entity_get_fwnode_pad(&remote_subdev->entity,
-+						 remote_subdev->fwnode,
-+						 MEDIA_PAD_FL_SOURCE);
-+	if (source_pad < 0)
-+		return source_pad;
-+
-+	ret = media_create_pad_link(&remote_subdev->entity, source_pad,
-+				    &subdev->entity, 0,
-+				    MEDIA_LNK_FL_ENABLED |
-+				    MEDIA_LNK_FL_IMMUTABLE);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to create %s:%u -> %s:%u link\n",
-+			remote_subdev->entity.name, source_pad,
-+			subdev->entity.name, 0);
-+		return ret;
-+	}
-+
-+	video->remote_subdev = remote_subdev;
-+
-+	return 0;
-+}
-+
-+static const
-+struct v4l2_async_notifier_operations sun6i_mipi_csi2_notifier_ops = {
-+	.bound		= sun6i_mipi_csi2_notifier_bound,
-+};
-+
-+/* Media Entity */
-+
-+static const struct media_entity_operations sun6i_mipi_csi2_entity_ops = {
-+	.link_validate	= v4l2_subdev_link_validate,
-+};
-+
-+/* Base Driver */
-+
-+static int __maybe_unused sun6i_mipi_csi2_suspend(struct device *dev)
-+{
-+	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(cdev->clk_mod);
-+	clk_disable_unprepare(cdev->clk_bus);
-+	reset_control_assert(cdev->reset);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused sun6i_mipi_csi2_resume(struct device *dev)
-+{
-+	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = reset_control_deassert(cdev->reset);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to deassert reset\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(cdev->clk_bus);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to enable bus clock\n");
-+		goto error_reset;
-+	}
-+
-+	ret = clk_prepare_enable(cdev->clk_mod);
-+	if (ret) {
-+		dev_err(cdev->dev, "failed to enable module clock\n");
-+		goto error_clk_bus;
-+	}
-+
-+	return 0;
-+
-+error_clk_bus:
-+	clk_disable_unprepare(cdev->clk_bus);
-+
-+error_reset:
-+	reset_control_assert(cdev->reset);
-+
-+	return ret;
-+}
-+
-+static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
-+{
-+	struct sun6i_mipi_csi2_video *video = &cdev->video;
-+	struct v4l2_subdev *subdev = &video->subdev;
-+	struct v4l2_async_notifier *notifier = &video->notifier;
-+	struct fwnode_handle *handle;
-+	struct v4l2_fwnode_endpoint *endpoint;
-+	struct v4l2_async_subdev *subdev_async;
-+	int ret;
-+
-+	/* Subdev */
-+
-+	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-+	subdev->dev = cdev->dev;
-+	subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
-+	v4l2_set_subdevdata(subdev, cdev);
-+
-+	/* Entity */
-+
-+	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
-+
-+	/* Pads */
-+
+ 	ret = sun6i_video_link_validate_get_format(link->source, &source_fmt);
+ 	if (ret < 0)
+ 		return ret;
+@@ -603,9 +611,10 @@ int sun6i_video_init(struct sun6i_video *video, struct sun6i_csi *csi,
+ 	video->csi = csi;
+ 
+ 	/* Initialize the media entity... */
+-	video->pad.flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
 +	video->pads[0].flags = MEDIA_PAD_FL_SINK;
-+	video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
++	video->pads[1].flags = MEDIA_PAD_FL_SINK;
+ 	vdev->entity.ops = &sun6i_video_media_ops;
+-	ret = media_entity_pads_init(&vdev->entity, 1, &video->pad);
++	ret = media_entity_pads_init(&vdev->entity, 2, video->pads);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+index b9cd919c24ac..30d56d98d5e9 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+@@ -15,11 +15,16 @@ struct sun6i_csi;
+ 
+ struct sun6i_video {
+ 	struct video_device		vdev;
+-	struct media_pad		pad;
++	struct media_pad		pads[2];
+ 	struct sun6i_csi		*csi;
+ 
+ 	struct mutex			lock;
+ 
++	struct v4l2_fwnode_endpoint	parallel_endpoint;
++	struct v4l2_fwnode_endpoint	mipi_csi2_bridge_endpoint;
++	struct v4l2_fwnode_endpoint	*source_endpoint;
++	struct v4l2_subdev		*source_subdev;
 +
-+	ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
-+	if (ret)
-+		return ret;
-+
-+	/* Endpoint */
-+
-+	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
-+						 FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!handle) {
-+		ret = -ENODEV;
-+		goto error_media_entity;
-+	}
-+
-+	endpoint = &video->endpoint;
-+	endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
-+
-+	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
-+	fwnode_handle_put(handle);
-+	if (ret)
-+		goto error_media_entity;
-+
-+	/* Notifier */
-+
-+	v4l2_async_notifier_init(notifier);
-+
-+	subdev_async = &video->subdev_async;
-+	ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-+							   subdev_async);
-+	if (ret)
-+		goto error_media_entity;
-+
-+	video->notifier.ops = &sun6i_mipi_csi2_notifier_ops;
-+
-+	ret = v4l2_async_subdev_notifier_register(subdev, notifier);
-+	if (ret < 0)
-+		goto error_notifier;
-+
-+	/* Subdev */
-+
-+	ret = v4l2_async_register_subdev(subdev);
-+	if (ret < 0)
-+		goto error_notifier_registered;
-+
-+	/* Runtime PM */
-+
-+	pm_runtime_enable(cdev->dev);
-+	pm_runtime_set_suspended(cdev->dev);
-+
-+	return 0;
-+
-+error_notifier_registered:
-+	v4l2_async_notifier_unregister(notifier);
-+error_notifier:
-+	v4l2_async_notifier_cleanup(notifier);
-+error_media_entity:
-+	media_entity_cleanup(&subdev->entity);
-+
-+	return ret;
-+}
-+
-+static int sun6i_mipi_csi2_v4l2_teardown(struct sun6i_mipi_csi2_dev *cdev)
-+{
-+	struct sun6i_mipi_csi2_video *video = &cdev->video;
-+	struct v4l2_subdev *subdev = &video->subdev;
-+	struct v4l2_async_notifier *notifier = &video->notifier;
-+
-+	v4l2_async_unregister_subdev(subdev);
-+	v4l2_async_notifier_unregister(notifier);
-+	v4l2_async_notifier_cleanup(notifier);
-+	media_entity_cleanup(&subdev->entity);
-+	v4l2_device_unregister_subdev(subdev);
-+
-+	return 0;
-+}
-+
-+static const struct regmap_config sun6i_mipi_csi2_regmap_config = {
-+	.reg_bits       = 32,
-+	.reg_stride     = 4,
-+	.val_bits       = 32,
-+	.max_register	= 0x400,
-+};
-+
-+static int sun6i_mipi_csi2_probe(struct platform_device *pdev)
-+{
-+	struct sun6i_mipi_csi2_dev *cdev;
-+	struct resource *res;
-+	void __iomem *io_base;
-+	int ret;
-+
-+	cdev = devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
-+	if (!cdev)
-+		return -ENOMEM;
-+
-+	cdev->dev = &pdev->dev;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	io_base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(io_base))
-+		return PTR_ERR(io_base);
-+
-+	cdev->regmap = devm_regmap_init_mmio(&pdev->dev, io_base,
-+					     &sun6i_mipi_csi2_regmap_config);
-+	if (IS_ERR(cdev->regmap)) {
-+		dev_err(&pdev->dev, "failed to init register map\n");
-+		return PTR_ERR(cdev->regmap);
-+	}
-+
-+	cdev->clk_bus = devm_clk_get(&pdev->dev, "bus");
-+	if (IS_ERR(cdev->clk_bus)) {
-+		dev_err(&pdev->dev, "failed to acquire bus clock\n");
-+		return PTR_ERR(cdev->clk_bus);
-+	}
-+
-+	cdev->clk_mod = devm_clk_get(&pdev->dev, "mod");
-+	if (IS_ERR(cdev->clk_mod)) {
-+		dev_err(&pdev->dev, "failed to acquire mod clock\n");
-+		return PTR_ERR(cdev->clk_mod);
-+	}
-+
-+	cdev->reset = devm_reset_control_get_shared(&pdev->dev, NULL);
-+	if (IS_ERR(cdev->reset)) {
-+		dev_err(&pdev->dev, "failed to get reset controller\n");
-+		return PTR_ERR(cdev->reset);
-+	}
-+
-+	cdev->dphy = devm_phy_get(&pdev->dev, "dphy");
-+	if (IS_ERR(cdev->dphy)) {
-+		dev_err(&pdev->dev, "failed to get the MIPI D-PHY\n");
-+		return PTR_ERR(cdev->dphy);
-+	}
-+
-+	ret = phy_init(cdev->dphy);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to initialize the MIPI D-PHY\n");
-+		return ret;
-+	}
-+
-+	platform_set_drvdata(pdev, cdev);
-+
-+	ret = sun6i_mipi_csi2_v4l2_setup(cdev);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int sun6i_mipi_csi2_remove(struct platform_device *pdev)
-+{
-+	struct sun6i_mipi_csi2_dev *cdev = platform_get_drvdata(pdev);
-+
-+	phy_exit(cdev->dphy);
-+
-+	return sun6i_mipi_csi2_v4l2_teardown(cdev);
-+}
-+
-+static const struct dev_pm_ops sun6i_mipi_csi2_pm_ops = {
-+	SET_RUNTIME_PM_OPS(sun6i_mipi_csi2_suspend, sun6i_mipi_csi2_resume,
-+			   NULL)
-+};
-+
-+static const struct of_device_id sun6i_mipi_csi2_of_match[] = {
-+	{ .compatible = "allwinner,sun6i-a31-mipi-csi2" },
-+	{ .compatible = "allwinner,sun8i-v3s-mipi-csi2", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, sun6i_mipi_csi2_of_match);
-+
-+static struct platform_driver sun6i_mipi_csi2_platform_driver = {
-+	.probe = sun6i_mipi_csi2_probe,
-+	.remove = sun6i_mipi_csi2_remove,
-+	.driver = {
-+		.name = MODULE_NAME,
-+		.of_match_table = of_match_ptr(sun6i_mipi_csi2_of_match),
-+		.pm = &sun6i_mipi_csi2_pm_ops,
-+	},
-+};
-+module_platform_driver(sun6i_mipi_csi2_platform_driver);
-+
-+MODULE_DESCRIPTION("Allwinner A31 MIPI CSI-2 Controller Driver");
-+MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-new file mode 100644
-index 000000000000..b132ac8873b6
---- /dev/null
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-@@ -0,0 +1,117 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright 2020 Bootlin
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
-+
-+#ifndef __SUN6I_MIPI_CSI2_H__
-+#define __SUN6I_MIPI_CSI2_H__
-+
-+#include <linux/phy/phy.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define SUN6I_MIPI_CSI2_CTL_REG				0x0
-+#define SUN6I_MIPI_CSI2_CTL_RESET_N			BIT(31)
-+#define SUN6I_MIPI_CSI2_CTL_VERSION_EN			BIT(30)
-+#define SUN6I_MIPI_CSI2_CTL_UNPK_EN			BIT(1)
-+#define SUN6I_MIPI_CSI2_CTL_EN				BIT(0)
-+#define SUN6I_MIPI_CSI2_CFG_REG				0x4
-+#define SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(v)		((((v) - 1) << 8) & \
-+							 GENMASK(9, 8))
-+#define SUN6I_MIPI_CSI2_CFG_LANE_COUNT(v)		(((v) - 1) & GENMASK(1, 0))
-+#define SUN6I_MIPI_CSI2_VCDT_RX_REG			0x8
-+#define SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(ch, vc)		(((vc) & GENMASK(1, 0)) << \
-+							 ((ch) * 8 + 6))
-+#define SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(ch, t)		(((t) & GENMASK(5, 0)) << \
-+							 ((ch) * 8))
-+#define SUN6I_MIPI_CSI2_RX_PKT_NUM_REG			0xc
-+
-+#define SUN6I_MIPI_CSI2_VERSION_REG			0x3c
-+
-+#define SUN6I_MIPI_CSI2_CH_BASE				0x1000
-+#define SUN6I_MIPI_CSI2_CH_OFFSET			0x100
-+
-+#define SUN6I_MIPI_CSI2_CH_CFG_REG			0x40
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_REG			0x50
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_EOT_ERR		BIT(29)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_CHKSUM_ERR		BIT(28)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_ECC_WRN		BIT(27)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_ECC_ERR		BIT(26)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_LINE_SYNC_ERR		BIT(25)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_FRAME_SYNC_ERR	BIT(24)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_EMB_DATA		BIT(18)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_PF			BIT(17)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_PH_UPDATE		BIT(16)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_LINE_START_SYNC	BIT(11)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_LINE_END_SYNC	BIT(10)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_FRAME_START_SYNC	BIT(9)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_FRAME_END_SYNC	BIT(8)
-+#define SUN6I_MIPI_CSI2_CH_INT_EN_FIFO_OVER		BIT(0)
-+
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_REG			0x58
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_EOT_ERR		BIT(29)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_CHKSUM_ERR		BIT(28)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_ECC_WRN		BIT(27)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_ECC_ERR		BIT(26)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_LINE_SYNC_ERR		BIT(25)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_FRAME_SYNC_ERR	BIT(24)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_EMB_DATA		BIT(18)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_PF			BIT(17)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_PH_UPDATE		BIT(16)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_LINE_START_SYNC	BIT(11)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_LINE_END_SYNC		BIT(10)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_FRAME_START_SYNC	BIT(9)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_FRAME_END_SYNC	BIT(8)
-+#define SUN6I_MIPI_CSI2_CH_INT_PD_FIFO_OVER		BIT(0)
-+
-+#define SUN6I_MIPI_CSI2_CH_DT_TRIGGER_REG		0x60
-+#define SUN6I_MIPI_CSI2_CH_CUR_PH_REG			0x70
-+#define SUN6I_MIPI_CSI2_CH_ECC_REG			0x74
-+#define SUN6I_MIPI_CSI2_CH_CKS_REG			0x78
-+#define SUN6I_MIPI_CSI2_CH_FRAME_NUM_REG		0x7c
-+#define SUN6I_MIPI_CSI2_CH_LINE_NUM_REG			0x80
-+
-+#define SUN6I_MIPI_CSI2_CH_REG(reg, ch) \
-+	(SUN6I_MIPI_CSI2_CH_BASE + SUN6I_MIPI_CSI2_CH_OFFSET * (ch) + (reg))
-+
-+enum mipi_csi2_data_type {
-+	MIPI_CSI2_DATA_TYPE_RAW8	= 0x2a,
-+	MIPI_CSI2_DATA_TYPE_RAW10	= 0x2b,
-+	MIPI_CSI2_DATA_TYPE_RAW12	= 0x2c,
-+};
-+
-+struct sun6i_mipi_csi2_video {
-+	struct v4l2_fwnode_endpoint endpoint;
-+	struct v4l2_subdev subdev;
-+	struct media_pad pads[2];
-+
-+	struct v4l2_async_subdev subdev_async;
-+	struct v4l2_async_notifier notifier;
-+
-+	struct v4l2_subdev *remote_subdev;
-+
-+	struct v4l2_mbus_framefmt mbus_format;
-+};
-+
-+struct sun6i_mipi_csi2_dev {
-+	struct device *dev;
-+
-+	struct regmap *regmap;
-+	struct clk *clk_bus;
-+	struct clk *clk_mod;
-+	struct reset_control *reset;
-+	struct phy *dphy;
-+
-+	struct sun6i_mipi_csi2_video video;
-+};
-+
-+#define sun6i_mipi_csi2_subdev_video(subdev) \
-+	container_of(subdev, struct sun6i_mipi_csi2_video, subdev)
-+
-+#define sun6i_mipi_csi2_video_dev(video) \
-+	container_of(video, struct sun6i_mipi_csi2_dev, video)
-+
-+#endif /* __SUN6I_MIPI_CSI2_H__ */
+ 	struct vb2_queue		vb2_vidq;
+ 	spinlock_t			dma_queue_lock;
+ 	struct list_head		dma_queue;
 -- 
 2.29.2
 
