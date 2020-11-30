@@ -2,116 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7F6C64E8A
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0746CC71156
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:37:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68F2620825
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9657206C0
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:37:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VDg7bIf8"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="IKH4Udnt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727477AbgK3PfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 10:35:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58336 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727450AbgK3PfA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 10:35:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606750414;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FQatalQEFsFszop7DIO2Ob5g7uuYov1pLoszVHjjbgk=;
-        b=VDg7bIf8OZcLREUqCjj/cQyThH7bXhgILWBWYLszqdncDUsRyfazqWdVj2/zn2UqjNYsFH
-        SqzzJKlK/NWLCD4Rt2B3lHPN8iKCdRNm0pSDRTfTqe4G9jBryJs2r7XgfMCSaajkuewrka
-        fFjcPZKgc/yPVVI9Xz3/xXt7U4e+faQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-5J4J05ODOcqkm__noHraNA-1; Mon, 30 Nov 2020 10:33:30 -0500
-X-MC-Unique: 5J4J05ODOcqkm__noHraNA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726950AbgK3Ph0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 10:37:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43046 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727942AbgK3PhZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Nov 2020 10:37:25 -0500
+Received: from mail.kernel.org (ip5f5ad5b3.dynamic.kabel-deutschland.de [95.90.213.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85D097FE41;
-        Mon, 30 Nov 2020 15:33:26 +0000 (UTC)
-Received: from starship (unknown [10.35.206.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4989C5C233;
-        Mon, 30 Nov 2020 15:33:16 +0000 (UTC)
-Message-ID: <989974f32eab61187557239172c603857d4bd837.camel@redhat.com>
-Subject: Re: [PATCH 2/2] KVM: x86: introduce KVM_X86_QUIRK_TSC_HOST_ACCESS
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     Oliver Upton <oupton@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jim Mattson <jmattson@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-Date:   Mon, 30 Nov 2020 17:33:15 +0200
-In-Reply-To: <5e77e912-893b-0c8f-a9a6-b43eaee24ed3@redhat.com>
-References: <20201130133559.233242-1-mlevitsk@redhat.com>
-         <20201130133559.233242-3-mlevitsk@redhat.com>
-         <c093973e-c8da-4d09-11f2-61cc0918f55f@redhat.com>
-         <638a2919cf7c11c55108776beecafdd8e2da2995.camel@redhat.com>
-         <5e77e912-893b-0c8f-a9a6-b43eaee24ed3@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+        by mail.kernel.org (Postfix) with ESMTPSA id A4A1D20725;
+        Mon, 30 Nov 2020 15:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606750604;
+        bh=cGFpEya2RTXzvKQBts0/IZkgnBCknYI8EbpBJ7DFjoo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IKH4UdntAIwq3qOQArLosTo1DoT/E1vk+aPbkFRPKkYnZEMvP/MDv9I8PgCocFOki
+         rKgU9bRDPBAXVoTzzDNkN9gASMezHXrXeRz/RiIF1B5RSM2N+4r5cqYWsfFu+AMYNf
+         kifa60oKzxHe90YCYjzAb7zfnxvP6JQd/tjPNEa4=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kjlEI-00CjvR-GR; Mon, 30 Nov 2020 16:36:42 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 5/6] docs: admin-guide: add a features list
+Date:   Mon, 30 Nov 2020 16:36:34 +0100
+Message-Id: <f6c1e366fbc7ce1c9c94c7dc6c7852c6377cc0be.1606748711.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1606748711.git.mchehab+huawei@kernel.org>
+References: <cover.1606748711.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-11-30 at 15:15 +0100, Paolo Bonzini wrote:
-> On 30/11/20 15:11, Maxim Levitsky wrote:
-> > On Mon, 2020-11-30 at 14:54 +0100, Paolo Bonzini wrote:
-> > > On 30/11/20 14:35, Maxim Levitsky wrote:
-> > > > This quirk reflects the fact that we currently treat MSR_IA32_TSC
-> > > > and MSR_TSC_ADJUST access by the host (e.g qemu) in a way that is different
-> > > > compared to an access from the guest.
-> > > > 
-> > > > For host's MSR_IA32_TSC read we currently always return L1 TSC value, and for
-> > > > host's write we do the tsc synchronization.
-> > > > 
-> > > > For host's MSR_TSC_ADJUST write, we don't make the tsc 'jump' as we should
-> > > > for this msr.
-> > > > 
-> > > > When the hypervisor uses the new TSC GET/SET state ioctls, all of this is no
-> > > > longer needed, thus leave this enabled only with a quirk
-> > > > which the hypervisor can disable.
-> > > > 
-> > > > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > 
-> > > This needs to be covered by a variant of the existing selftests testcase
-> > > (running the same guest code, but different host code of course).
-> > Do you think that the test should go to the kernel's kvm unit tests,
-> > or to kvm-unit-tests project?
-> 
-> The latter already has x86_64/tsc_msrs_test.c (which I created in 
-> preparation for this exact change :)).
+Add a feature list matrix at the admin-guide.
 
-I'll prepare a test then for it!
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/features.rst | 3 +++
+ Documentation/admin-guide/index.rst    | 1 +
+ Documentation/conf.py                  | 2 +-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/features.rst
 
-Best regards,
-	Maxim Levitsky
-> 
-> Paolo
-> 
-
+diff --git a/Documentation/admin-guide/features.rst b/Documentation/admin-guide/features.rst
+new file mode 100644
+index 000000000000..8c167082a84f
+--- /dev/null
++++ b/Documentation/admin-guide/features.rst
+@@ -0,0 +1,3 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. kernel-feat:: $srctree/Documentation/features
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 4e0c4ae44acd..0245a8655b22 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -19,6 +19,7 @@ etc.
+    sysctl/index
+ 
+    abi
++   features
+ 
+ This section describes CPU vulnerabilities and their mitigations.
+ 
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index ed2b43ec7754..26b54386a477 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -39,7 +39,7 @@ needs_sphinx = '1.3'
+ extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include',
+               'kfigure', 'sphinx.ext.ifconfig', 'automarkup',
+               'maintainers_include', 'sphinx.ext.autosectionlabel',
+-              'kernel_abi']
++              'kernel_abi', 'kernel_feat']
+ 
+ #
+ # cdomain is badly broken in Sphinx 3+.  Leaving it out generates *most*
+-- 
+2.28.0
 
