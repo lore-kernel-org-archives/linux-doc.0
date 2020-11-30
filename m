@@ -2,134 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35891C64E90
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD73C8300F
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:51:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAD1320727
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:50:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE079206CA
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:51:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EqEeBGdI"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fVjb+sI3";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="w97QXJmy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728475AbgK3KuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 05:50:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41392 "EHLO
+        id S1728851AbgK3KvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 05:51:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727571AbgK3KuC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 05:50:02 -0500
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF965C0613D3
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:49:22 -0800 (PST)
-Received: by mail-io1-xd44.google.com with SMTP id i9so11258792ioo.2
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:49:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FrBQ+cllYh0Y6esR/SPkKcDu8fDsRwcNF9P9vUYZvL4=;
-        b=EqEeBGdID896KqQP2wGl3MacDZiftoQYvHOoa+q0ty3hiMysQXNvD+Cbzd5XWyH6oC
-         /R/jipmJirrS7xxuCq09QfhPWJ6BcZs6J5DXml/OSDTep21CZvCNfFppev46/gu0R/Dp
-         L8taqeCxff7s2jiuUfS1zwdg22lepLaEZGuQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FrBQ+cllYh0Y6esR/SPkKcDu8fDsRwcNF9P9vUYZvL4=;
-        b=n8xoUDm//FNL7jJpvID0bZZbfHB/BS08pCrnq/08+7IZaCILZJrnnc3d39L5dGmeyW
-         fsHCeGNnmF0t6QeTVXZMAHKBJ65Nb5e6JKXCpis29GZvfJQzWkwozd2YjyGK2Y5aJVFg
-         bvLXWbfaOsP8Q/lLFemKsQnofRqECRKnBfphoeYHavblzGeC61QBvxN1tc2TC+/TEDzj
-         QfLFKkg+6wiLFyjt8v/8jfGDHYlZU+VkAsV6AKP/MNhYsPMIvQRQZbS1J6dLaBuUqveT
-         MLGfmwAc12Kj7cdgzWuxG43+SeLqLIk6w1AMQPewZpCey22Q/vBTDztB2OB1YPrGRTNj
-         Esgg==
-X-Gm-Message-State: AOAM531D4fSlJVYg4rRT8iXjb90sLn8FThbY64Q9BKq/BHD8ka8ZZ33F
-        cZRpLNmPtnlyD9fR/ctTWBD/xBCdNLJziw==
-X-Google-Smtp-Source: ABdhPJxYcSwJYQRZw+WJrYntCW1Eaey5wOa0vf9VMAjC5PcaQ2xglOlRPNaY22WkFu7ybtCSldd86Q==
-X-Received: by 2002:a02:1007:: with SMTP id 7mr18802403jay.73.1606733361638;
-        Mon, 30 Nov 2020 02:49:21 -0800 (PST)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com. [209.85.166.43])
-        by smtp.gmail.com with ESMTPSA id h70sm5586066iof.31.2020.11.30.02.49.20
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Nov 2020 02:49:20 -0800 (PST)
-Received: by mail-io1-f43.google.com with SMTP id d8so10053524ioc.13
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:49:20 -0800 (PST)
-X-Received: by 2002:a02:c042:: with SMTP id u2mr12243455jam.32.1606733360204;
- Mon, 30 Nov 2020 02:49:20 -0800 (PST)
+        with ESMTP id S1728916AbgK3KtS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 05:49:18 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E40C0613D2;
+        Mon, 30 Nov 2020 02:48:38 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1606733316;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GyDTMLyFsHvgk6tCq0IoBNcW7U3alEedaxXe+RbbUq4=;
+        b=fVjb+sI3P+i4FMtiFgaH4kBUcZykYJ80ngiffhNwWNhq+qluo4tp+kSwimYyvZanBlxolq
+        9/71ZkN2Cm4o1IHmBn33RiEX2839V5XM9vpDE7rnKRmt9EFieEy7LfB19s+RqzNK6DoiUT
+        wXkOKRSayYYiodnkgkQRbNoXg1Yyr2XW7Sb4tClseE3TMw7u28e32E0/UKYejx+Qdm0gPv
+        3y/K/UBpaojU7/htz89T0mOvfxoEfcpdPPVEYIsqbi71DwU6Or0MQhSN4Bi6tkOhhhUySJ
+        B4i8iRBcyEpTyYdxG/Pf+nEEF4V3dIprnQm4NWuoWVmnkR0tn/yVubUTG1/3eQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1606733316;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GyDTMLyFsHvgk6tCq0IoBNcW7U3alEedaxXe+RbbUq4=;
+        b=w97QXJmyaQ8pnsP9h56uYRKUisYSGBgxmHiACJyaNA900behOAvaCqEQAbPywQAtk6p68V
+        pxrsKWrMhyMGKKBw==
+To:     Stefan =?utf-8?Q?B=C3=BChler?= 
+        <stefan.buehler@tik.uni-stuttgart.de>,
+        sean.v.kelley@linux.intel.com
+Cc:     bhelgaas@google.com, bp@alien8.de, corbet@lwn.net,
+        kar.hin.ong@ni.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        mingo@redhat.com, sassmann@kpanic.de, x86@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: boot interrupt quirk (also in 4.19.y) breaks serial ports (was: [PATCH v2 0/2] pci: Add boot interrupt quirk mechanism for Xeon chipsets)
+In-Reply-To: <7b54abab-fe38-4035-7c23-1f7456359c9e@tik.uni-stuttgart.de>
+References: <20200220192930.64820-1-sean.v.kelley@linux.intel.com> <b2da25c8-121a-b241-c028-68e49bab0081@tik.uni-stuttgart.de> <87zh35k5xa.fsf@nanos.tec.linutronix.de> <d512469f-de04-2f66-ca42-21ec3c5331ba@tik.uni-stuttgart.de> <87blfjk7go.fsf@nanos.tec.linutronix.de> <7b54abab-fe38-4035-7c23-1f7456359c9e@tik.uni-stuttgart.de>
+Date:   Mon, 30 Nov 2020 11:48:36 +0100
+Message-ID: <87r1obi0hn.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
-In-Reply-To: <20201130083410.GD32234@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 30 Nov 2020 11:49:09 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtE3TqOK0cbw0SJ3LfqCsM3B8AFjBomfj4hcftyHXYXLg@mail.gmail.com>
-Message-ID: <CANiDSCtE3TqOK0cbw0SJ3LfqCsM3B8AFjBomfj4hcftyHXYXLg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph
+Stefan,
 
-On Mon, Nov 30, 2020 at 9:34 AM Christoph Hellwig <hch@lst.de> wrote:
+On Fri, Nov 27 2020 at 10:17, Stefan B=C3=BChler wrote:
+> On 11/27/20 12:45 AM, Thomas Gleixner wrote:
+>> Can you please run this as root so the Capabilities are accessible?
 >
-> > +#ifndef CONFIG_DMA_NONCOHERENT
->
-> I think you need to drop this ifdef.  This code should work just fine
-> on noncoherent mips and sh platforms.
->
-> > +     uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-> > +                                              &uvc_urb->dma,
-> > +                                              gfp_flags | __GFP_NOWARN, 0);
-> > +     if (!uvc_urb->pages)
-> > +             return false;
-> > +
-> > +     uvc_urb->buffer = vmap(uvc_urb->pages,
-> > +                            PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
-> > +                            VM_DMA_COHERENT, PAGE_KERNEL);
-> > +     if (!uvc_urb->buffer) {
-> > +             dma_free_noncontiguous(dma_dev, stream->urb_size,
-> > +                                    uvc_urb->pages, uvc_urb->dma);
-> > +             return false;
-> > +     }
-> > +
-> > +     if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
-> > +                             PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
-> > +                             stream->urb_size, GFP_KERNEL)) {
-> > +             vunmap(uvc_urb->buffer);
-> > +             dma_free_noncontiguous(dma_dev, stream->urb_size,
-> > +                                    uvc_urb->pages, uvc_urb->dma);
-> > +             return false;
-> > +     }
-> > +
-> > +     return true;
-> > +}
->
-> I wonder if we should lift this into a helper.  On the one hand I had
-> proliferating struct scatterlist usage, on the other hand it is all over
-> the media and drm code anyway, and duplicating this doesn't help anyone.
->
-> Possibly including the fallback to the coherent allocating.
+> My bad, sorry. I did intend to run it as root, but should have checked
+> the output.  Again see attached file.
 
-Probably Sergey has best opinion of this than mine. I only had to look
-into one driver, he has been working with the vb2, which uses the API
-much more.
+No problem.
 
+> 05:00.0 PCI bridge: PLX Technology, Inc. PEX8112 x1 Lane PCI Express-to-P=
+CI Bridge (rev aa) (prog-if 00 [Normal decode])
+> 	Physical Slot: 1
+> 	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Step=
+ping- SERR+ FastB2B- DisINTx-
+> 	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dfast >TAbort- <TAbort=
+- <MAbort- >SERR- <PERR- INTx-
+> 	Latency: 0, Cache Line Size: 32 bytes
+> 	Interrupt: pin A routed to IRQ 16
+> 	NUMA node: 0
+> 	Bus: primary=3D05, secondary=3D06, subordinate=3D06, sec-latency=3D64
+> 	I/O behind bridge: 0000e000-0000efff
+> 	Memory behind bridge: fb400000-fb4fffff
+> 	Prefetchable memory behind bridge: fff00000-000fffff
+> 	Secondary status: 66MHz+ FastB2B- ParErr- DEVSEL=3Dmedium >TAbort- <TAbo=
+rt- <MAbort+ <SERR- <PERR-
+> 	BridgeCtl: Parity- SERR+ NoISA- VGA- MAbort- >Reset- FastB2B-
+> 		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+> 	Capabilities: [50] MSI: Enable- Count=3D1/1 Maskable- 64bit+
+> 		Address: 0000000000000000  Data: 0000
 
+So the bridge would support MSI, but obviously the devices on the PCI
+side do not.
 
--- 
-Ricardo Ribalda
+> 06:00.0 Serial controller: Oxford Semiconductor Ltd OX16PCI954 (Quad 1695=
+0 UART) function 0 (Uart) (prog-if 06 [16950])
+> 	Subsystem: Oxford Semiconductor Ltd OX16PCI954 (Quad 16950 UART) functio=
+n 0 (Uart)
+> 	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Step=
+ping- SERR+ FastB2B- DisINTx-
+> 	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=3Dmedium >TAbort- <TAbo=
+rt- <MAbort- >SERR- <PERR- INTx-
+> 	Interrupt: pin A routed to IRQ 16
+> 	NUMA node: 0
+> 	Region 0: I/O ports at e0e0 [size=3D32]
+> 	Region 1: Memory at fb407000 (32-bit, non-prefetchable) [size=3D4K]
+> 	Region 2: I/O ports at e0c0 [size=3D32]
+> 	Region 3: Memory at fb406000 (32-bit, non-prefetchable) [size=3D4K]
+> 	Capabilities: [40] Power Management version 1
+> 		Flags: PMEClk- DSI- D1- D2+ AuxCurrent=3D0mA PME(D0+,D1-,D2+,D3hot+,D3c=
+old-)
+> 		Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
+
+But that should still work because the boot interrupt quirk should not
+affect interrupts which are routed through the IOAPIC.
+
+Sean, any idea what's going on here?
+
+Thanks,
+
+        tglx
