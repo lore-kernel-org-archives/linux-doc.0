@@ -5,48 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B19C64E8A
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 08:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E917C83012
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 08:30:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1829B221EB
+	by mail.kernel.org (Postfix) with ESMTP id C60F920709
 	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 08:30:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xRjJ2apn"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="gE3dME+F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727535AbgK3IaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 03:30:14 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:32810 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725972AbgK3IaN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 03:30:13 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AU8SO42117847;
-        Mon, 30 Nov 2020 02:28:24 -0600
+        id S1725972AbgK3IaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 03:30:17 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56970 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727662AbgK3IaP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 03:30:15 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AU8SYRm008667;
+        Mon, 30 Nov 2020 02:28:34 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1606724904;
-        bh=um2hl1Bq2roKj2c9A6raYiZTuJdQqAJbr2VOZssIrNE=;
+        s=ti-com-17Q1; t=1606724914;
+        bh=h5CVmDm6zhA5LBmaGMR5Ram6bII69s04PXZ9eWvYC2Q=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=xRjJ2apnQf8XwmaHVEgEpqLN69hyqvHT1hiwlOYZP4yedkvat77yMd+zd4DHm9NAs
-         MD2gNdWJsjDxGj+pVGdA1fWvyPOy8E9X/rDppDBSZGb6Hfj2raydX0+3QJOBi30f4e
-         0Wp57RNfdzmlYVMFNkGkxKCmj04OH/hY4rsLBB5Q=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AU8SOle017186
+        b=gE3dME+F5v5BSQ9TJFDpYn35iHZ5hcagwWJr7Yo3TUBKx5HLUKnOFOwiHG5r+MiBQ
+         +zDN7ijNLpdjxpCbhUvomS6vWiPWPupvJZgZj4ZaXAxm1CEwr1ZLvh/BHFuSAYv+34
+         e7cvyZyzlz5OL2Wyp7aKrn8ZGN30vRuOfIIQutS8=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AU8SYSU039653
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 30 Nov 2020 02:28:24 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 30 Nov 2020 02:28:34 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 30
- Nov 2020 02:28:24 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 02:28:34 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 30 Nov 2020 02:28:23 -0600
+ Frontend Transport; Mon, 30 Nov 2020 02:28:34 -0600
 Received: from ula0132425.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AU8S9Ds057144;
-        Mon, 30 Nov 2020 02:28:20 -0600
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AU8S9Du057144;
+        Mon, 30 Nov 2020 02:28:30 -0600
 From:   Vignesh Raghavendra <vigneshr@ti.com>
 To:     "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -56,9 +55,9 @@ CC:     Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@nvidia.com>,
         <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH 2/4] net: ti: am65-cpsw-nuss: Add netdevice notifiers
-Date:   Mon, 30 Nov 2020 13:50:44 +0530
-Message-ID: <20201130082046.16292-3-vigneshr@ti.com>
+Subject: [PATCH 4/4] docs: networking: ti: Add driver doc for AM65 NUSS switch driver
+Date:   Mon, 30 Nov 2020 13:50:46 +0530
+Message-ID: <20201130082046.16292-5-vigneshr@ti.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201130082046.16292-1-vigneshr@ti.com>
 References: <20201130082046.16292-1-vigneshr@ti.com>
@@ -70,200 +69,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Register netdevice notifiers in order to receive notification when
-individual MAC ports are added to the HW bridge.
+J721e, J7200 and AM64 have multi port switches which can work in multi
+mac mode and in switch mode. Add documentation explaining how to use
+different modes.
+
+Borrowed from:
+Documentation/networking/device_drivers/ethernet/ti/cpsw_switchdev.rst
 
 Signed-off-by: Vignesh Raghavendra <vigneshr@ti.com>
 ---
- drivers/net/ethernet/ti/am65-cpsw-nuss.c | 130 ++++++++++++++++++++++-
- drivers/net/ethernet/ti/am65-cpsw-nuss.h |   4 +
- 2 files changed, 133 insertions(+), 1 deletion(-)
+ .../device_drivers/ethernet/index.rst         |   1 +
+ .../ethernet/ti/am65_nuss_cpsw_switchdev.rst  | 143 ++++++++++++++++++
+ 2 files changed, 144 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/ti/am65_nuss_cpsw_switchdev.rst
 
-diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-index a635f6be7979..a7e5a0489aec 100644
---- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-+++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-@@ -2023,6 +2023,126 @@ static void am65_cpsw_nuss_cleanup_ndev(struct am65_cpsw_common *common)
- 	}
- }
+diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
+index cbb75a1818c0..6b5dc203da2b 100644
+--- a/Documentation/networking/device_drivers/ethernet/index.rst
++++ b/Documentation/networking/device_drivers/ethernet/index.rst
+@@ -49,6 +49,7 @@ Contents:
+    stmicro/stmmac
+    ti/cpsw
+    ti/cpsw_switchdev
++   ti/am65_nuss_cpsw_switchdev
+    ti/tlan
+    toshiba/spider_net
  
-+static void am65_cpsw_port_offload_fwd_mark_update(struct am65_cpsw_common *common)
-+{
-+	int set_val = 0;
-+	int i;
+diff --git a/Documentation/networking/device_drivers/ethernet/ti/am65_nuss_cpsw_switchdev.rst b/Documentation/networking/device_drivers/ethernet/ti/am65_nuss_cpsw_switchdev.rst
+new file mode 100644
+index 000000000000..f24adfab6a1b
+--- /dev/null
++++ b/Documentation/networking/device_drivers/ethernet/ti/am65_nuss_cpsw_switchdev.rst
+@@ -0,0 +1,143 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	if (common->br_members == (GENMASK(common->port_num, 1) & ~common->disabled_ports_mask))
-+		set_val = 1;
++===================================================================
++Texas Instruments K3 AM65 CPSW NUSS switchdev based ethernet driver
++===================================================================
 +
-+	dev_dbg(common->dev, "set offload_fwd_mark %d\n", set_val);
++:Version: 1.0
 +
-+	for (i = 1; i <= common->port_num; i++) {
-+		struct am65_cpsw_port *port = am65_common_get_port(common, i);
-+		struct am65_cpsw_ndev_priv *priv = am65_ndev_to_priv(port->ndev);
++Port renaming
++=============
 +
-+		priv->offload_fwd_mark = set_val;
-+	}
-+}
++In order to rename via udev::
 +
-+bool am65_cpsw_port_dev_check(const struct net_device *ndev)
-+{
-+	if (ndev->netdev_ops == &am65_cpsw_nuss_netdev_ops) {
-+		struct am65_cpsw_common *common = am65_ndev_to_common(ndev);
++    ip -d link show dev sw0p1 | grep switchid
 +
-+		return !common->is_emac_mode;
-+	}
++    SUBSYSTEM=="net", ACTION=="add", ATTR{phys_switch_id}==<switchid>, \
++	    ATTR{phys_port_name}!="", NAME="sw0$attr{phys_port_name}"
 +
-+	return false;
-+}
 +
-+static int am65_cpsw_netdevice_port_link(struct net_device *ndev, struct net_device *br_ndev)
-+{
-+	struct am65_cpsw_common *common = am65_ndev_to_common(ndev);
-+	struct am65_cpsw_ndev_priv *priv = am65_ndev_to_priv(ndev);
++Multi mac mode
++==============
 +
-+	if (!common->br_members) {
-+		common->hw_bridge_dev = br_ndev;
-+	} else {
-+		/* This is adding the port to a second bridge, this is
-+		 * unsupported
-+		 */
-+		if (common->hw_bridge_dev != br_ndev)
-+			return -EOPNOTSUPP;
-+	}
++- The driver is operating in multi-mac mode by default, thus
++  working as N individual network interfaces.
 +
-+	common->br_members |= BIT(priv->port->port_id);
++Devlink configuration parameters
++================================
 +
-+	am65_cpsw_port_offload_fwd_mark_update(common);
++See Documentation/networking/devlink/am65-nuss-cpsw-switch.rst
 +
-+	return NOTIFY_DONE;
-+}
++Enabling "switch"
++=================
 +
-+static void am65_cpsw_netdevice_port_unlink(struct net_device *ndev)
-+{
-+	struct am65_cpsw_common *common = am65_ndev_to_common(ndev);
-+	struct am65_cpsw_ndev_priv *priv = am65_ndev_to_priv(ndev);
++The Switch mode can be enabled by configuring devlink driver parameter
++"switch_mode" to 1/true::
 +
-+	common->br_members &= ~BIT(priv->port->port_id);
++        devlink dev param set platform/c000000.ethernet \
++        name switch_mode value true cmode runtime
 +
-+	am65_cpsw_port_offload_fwd_mark_update(common);
++This can be done regardless of the state of Port's netdev devices - UP/DOWN, but
++Port's netdev devices have to be in UP before joining to the bridge to avoid
++overwriting of bridge configuration as CPSW switch driver completely reloads its
++configuration when first port changes its state to UP.
 +
-+	if (!common->br_members)
-+		common->hw_bridge_dev = NULL;
-+}
++When the both interfaces joined the bridge - CPSW switch driver will enable
++marking packets with offload_fwd_mark flag.
 +
-+/* netdev notifier */
-+static int am65_cpsw_netdevice_event(struct notifier_block *unused,
-+				     unsigned long event, void *ptr)
-+{
-+	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
-+	struct netdev_notifier_changeupper_info *info;
-+	int ret = NOTIFY_DONE;
++All configuration is implemented via switchdev API.
 +
-+	if (!am65_cpsw_port_dev_check(ndev))
-+		return NOTIFY_DONE;
++Bridge setup
++============
 +
-+	switch (event) {
-+	case NETDEV_CHANGEUPPER:
-+		info = ptr;
++::
 +
-+		if (netif_is_bridge_master(info->upper_dev)) {
-+			if (info->linking)
-+				ret = am65_cpsw_netdevice_port_link(ndev, info->upper_dev);
-+			else
-+				am65_cpsw_netdevice_port_unlink(ndev);
-+		}
-+		break;
-+	default:
-+		return NOTIFY_DONE;
-+	}
++        devlink dev param set platform/c000000.ethernet \
++        name switch_mode value true cmode runtime
 +
-+	return notifier_from_errno(ret);
-+}
++	ip link add name br0 type bridge
++	ip link set dev br0 type bridge ageing_time 1000
++	ip link set dev sw0p1 up
++	ip link set dev sw0p2 up
++	ip link set dev sw0p1 master br0
++	ip link set dev sw0p2 master br0
 +
-+static int am65_cpsw_register_notifiers(struct am65_cpsw_common *cpsw)
-+{
-+	int ret = 0;
++	[*] bridge vlan add dev br0 vid 1 pvid untagged self
 +
-+	if (AM65_CPSW_IS_CPSW2G(cpsw) ||
-+	    !IS_REACHABLE(CONFIG_TI_K3_AM65_CPSW_SWITCHDEV))
-+		return 0;
++	[*] if vlan_filtering=1. where default_pvid=1
 +
-+	cpsw->am65_cpsw_netdevice_nb.notifier_call = &am65_cpsw_netdevice_event;
-+	ret = register_netdevice_notifier(&cpsw->am65_cpsw_netdevice_nb);
-+	if (ret) {
-+		dev_err(cpsw->dev, "can't register netdevice notifier\n");
-+		return ret;
-+	}
++	Note. Steps [*] are mandatory.
 +
-+	return ret;
-+}
 +
-+static void am65_cpsw_unregister_notifiers(struct am65_cpsw_common *cpsw)
-+{
-+	if (AM65_CPSW_IS_CPSW2G(cpsw) ||
-+	    !IS_REACHABLE(CONFIG_TI_K3_AM65_CPSW_SWITCHDEV))
-+		return;
++On/off STP
++==========
 +
-+	unregister_netdevice_notifier(&cpsw->am65_cpsw_netdevice_nb);
-+}
++::
 +
- static const struct devlink_ops am65_cpsw_devlink_ops = {};
- 
- static void am65_cpsw_init_stp_ale_entry(struct am65_cpsw_common *cpsw)
-@@ -2366,17 +2486,24 @@ static int am65_cpsw_nuss_register_ndevs(struct am65_cpsw_common *common)
- 		}
- 	}
- 
--	ret = am65_cpsw_nuss_register_devlink(common);
-+	ret = am65_cpsw_register_notifiers(common);
- 	if (ret)
- 		goto err_cleanup_ndev;
- 
-+	ret = am65_cpsw_nuss_register_devlink(common);
-+	if (ret)
-+		goto clean_unregister_notifiers;
++	ip link set dev BRDEV type bridge stp_state 1/0
 +
- 	/* can't auto unregister ndev using devm_add_action() due to
- 	 * devres release sequence in DD core for DMA
- 	 */
- 
- 	return 0;
-+clean_unregister_notifiers:
-+	am65_cpsw_unregister_notifiers(common);
- err_cleanup_ndev:
- 	am65_cpsw_nuss_cleanup_ndev(common);
++VLAN configuration
++==================
 +
- 	return ret;
- }
- 
-@@ -2607,6 +2734,7 @@ static int am65_cpsw_nuss_remove(struct platform_device *pdev)
- 	}
- 
- 	am65_cpsw_unregister_devlink(common);
-+	am65_cpsw_unregister_notifiers(common);
- 
- 	/* must unregister ndevs here because DD release_driver routine calls
- 	 * dma_deconfigure(dev) before devres_release_all(dev)
-diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.h b/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-index 153181e894b2..2bd718f5307e 100644
---- a/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-+++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-@@ -135,6 +135,8 @@ struct am65_cpsw_common {
- 	u16			br_members;
- 	int			default_vlan;
- 	struct devlink *devlink;
-+	struct net_device *hw_bridge_dev;
-+	struct notifier_block am65_cpsw_netdevice_nb;
- 	unsigned char switch_id[MAX_PHYS_ITEM_ID_LEN];
- };
- 
-@@ -178,4 +180,6 @@ void am65_cpsw_nuss_set_p0_ptype(struct am65_cpsw_common *common);
- void am65_cpsw_nuss_remove_tx_chns(struct am65_cpsw_common *common);
- int am65_cpsw_nuss_update_tx_chns(struct am65_cpsw_common *common, int num_tx);
- 
-+bool am65_cpsw_port_dev_check(const struct net_device *dev);
++::
 +
- #endif /* AM65_CPSW_NUSS_H_ */
++  bridge vlan add dev br0 vid 1 pvid untagged self <---- add cpu port to VLAN 1
++
++Note. This step is mandatory for bridge/default_pvid.
++
++Add extra VLANs
++===============
++
++ 1. untagged::
++
++	bridge vlan add dev sw0p1 vid 100 pvid untagged master
++	bridge vlan add dev sw0p2 vid 100 pvid untagged master
++	bridge vlan add dev br0 vid 100 pvid untagged self <---- Add cpu port to VLAN100
++
++ 2. tagged::
++
++	bridge vlan add dev sw0p1 vid 100 master
++	bridge vlan add dev sw0p2 vid 100 master
++	bridge vlan add dev br0 vid 100 pvid tagged self <---- Add cpu port to VLAN100
++
++FDBs
++----
++
++FDBs are automatically added on the appropriate switch port upon detection
++
++Manually adding FDBs::
++
++    bridge fdb add aa:bb:cc:dd:ee:ff dev sw0p1 master vlan 100
++    bridge fdb add aa:bb:cc:dd:ee:fe dev sw0p2 master <---- Add on all VLANs
++
++MDBs
++----
++
++MDBs are automatically added on the appropriate switch port upon detection
++
++Manually adding MDBs::
++
++  bridge mdb add dev br0 port sw0p1 grp 239.1.1.1 permanent vid 100
++  bridge mdb add dev br0 port sw0p1 grp 239.1.1.1 permanent <---- Add on all VLANs
++
++Multicast flooding
++==================
++CPU port mcast_flooding is always on
++
++Turning flooding on/off on swithch ports:
++bridge link set dev sw0p1 mcast_flood on/off
++
++Access and Trunk port
++=====================
++
++::
++
++ bridge vlan add dev sw0p1 vid 100 pvid untagged master
++ bridge vlan add dev sw0p2 vid 100 master
++
++
++ bridge vlan add dev br0 vid 100 self
++ ip link add link br0 name br0.100 type vlan id 100
++
++Note. Setting PVID on Bridge device itself works only for
++default VLAN (default_pvid).
 -- 
 2.29.2
 
