@@ -2,115 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E7DC64E7B
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0CAC64E8A
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C962520709
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:35:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PLVnQjQG"
+	by mail.kernel.org (Postfix) with ESMTP id 819F920725
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727072AbgK3OfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 09:35:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40151 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726242AbgK3OfT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 09:35:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606746833;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HFkLXb2ck3BWjmucBaw+f/gpFhUWWzy0p9pSm1cDYgw=;
-        b=PLVnQjQGdbkw2Kf7AgFgp54saKynLvT7PNk+NK9JkppUTbwVNepI+/lnYAh4/jghPxjEeL
-        8BnH1GW9CWrMI3xeqlptc2tpCnmpvCeRGz+sQQ2Kbdlz2CV3dZK9u4g2L0aY9SaGYZ3WlE
-        4nsTyb8PPybZu2l6lzETjjSP42ZmfF0=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-72TJMuE6Nd2FSGT1VkweLQ-1; Mon, 30 Nov 2020 09:33:51 -0500
-X-MC-Unique: 72TJMuE6Nd2FSGT1VkweLQ-1
-Received: by mail-ed1-f72.google.com with SMTP id g1so6825834edk.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 06:33:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HFkLXb2ck3BWjmucBaw+f/gpFhUWWzy0p9pSm1cDYgw=;
-        b=RXYJwzplLINhXiEZP3eBGGiC+r/kvgatlOkXi63YjnoBkxSf34s1RTsEQHmHoHLOZ1
-         +Ts97V/fignpiYU/PGFstUPDCGh+UA6ujDjqtlAF8gC1dqF7OAlHnbWwkhIq8h6pP+Ab
-         hFToojt0nXqUeJJLcLYLZBx+QpD8z2chGMs/+rxqrpicnXIa4jqzDsXD2ccLVCAbpxu9
-         u3Sd6jfVM6qgZKgBq5GzL9efTTn2lPYcHCkQOJJMWzmYT0U2/L6lq2ZHWjh2rjnI/lqq
-         eFCaHi1OmHlztVZBL4SDdTsvK2wJoDnqv5pRE5Xz4YtmUakP65ytEDNSS/cm/mOh53BH
-         rvkg==
-X-Gm-Message-State: AOAM531ZDeGQQilc7W9EiGIkGPIKOA2eocQhGVzPN1ohUqG0vJwWxia5
-        j5IxupFlIqJCw2eYjCyr7kF6skrRf+0yWFE9a7eHd6k9vy+3D/U2e0EGIsmOy8l1M0q3J1NStCp
-        4rJqTYcy5Luuyxt3uhxQt
-X-Received: by 2002:a17:906:a218:: with SMTP id r24mr10440574ejy.372.1606746829959;
-        Mon, 30 Nov 2020 06:33:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsu+a/K74PyJGaUN13cu1VH4GJRzXEObx7Bgwg01gB5/PI6z+n0lfbvWmX0Rt/JHx2FjPRLQ==
-X-Received: by 2002:a17:906:a218:: with SMTP id r24mr10440470ejy.372.1606746828612;
-        Mon, 30 Nov 2020 06:33:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id w3sm9211804edt.84.2020.11.30.06.33.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Nov 2020 06:33:47 -0800 (PST)
-Subject: Re: [PATCH 1/2] KVM: x86: implement
- KVM_SET_TSC_PRECISE/KVM_GET_TSC_PRECISE
-To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-Cc:     Oliver Upton <oupton@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jim Mattson <jmattson@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-References: <20201130133559.233242-1-mlevitsk@redhat.com>
- <20201130133559.233242-2-mlevitsk@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <38602ef4-7ecf-a5fd-6db9-db86e8e974e4@redhat.com>
-Date:   Mon, 30 Nov 2020 15:33:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1727114AbgK3OwU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 09:52:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726885AbgK3OwT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 09:52:19 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B884EC0613D2;
+        Mon, 30 Nov 2020 06:51:39 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5DC2A2BA;
+        Mon, 30 Nov 2020 14:51:38 +0000 (UTC)
+Date:   Mon, 30 Nov 2020 07:51:37 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Christoph Hellwig <hch@lst.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
+Message-ID: <20201130075137.3b551bef@lwn.net>
+In-Reply-To: <20201124121109.GY4327@casper.infradead.org>
+References: <cover.1606137108.git.linux@leemhuis.info>
+        <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info>
+        <20201124091852.GB11695@lst.de>
+        <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info>
+        <20201124093658.GA13174@lst.de>
+        <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info>
+        <20201124121109.GY4327@casper.infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20201130133559.233242-2-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30/11/20 14:35, Maxim Levitsky wrote:
-> +		if (guest_cpuid_has(vcpu, X86_FEATURE_TSC_ADJUST)) {
-> +			tsc_state.tsc_adjust = vcpu->arch.ia32_tsc_adjust_msr;
-> +			tsc_state.flags |= KVM_TSC_STATE_TSC_ADJUST_VALID;
-> +		}
+On Tue, 24 Nov 2020 12:11:09 +0000
+Matthew Wilcox <willy@infradead.org> wrote:
 
-This is mostly useful for userspace that doesn't disable the quirk, right?
+> > That's why I came up with the thought "make the text available under more
+> > liberal license in addition to the GPLv2 is a good idea here". I considered
+> > MIT, but from what I see CC-BY 4.0 is a way better choice for documentation
+> > that is more known to authors.
+> > 
+> > And I hope others pick up the idea when they write new documentation for the
+> > kernel, so maybe sooner or later it's not unusual anymore.  
+> 
+> It's really tricky to make this work when, eg, including kernel-doc from
+> files which are unambiguously licensed under the GPL. 
 
-> +		kvm_get_walltime(&wall_nsec, &host_tsc);
-> +		diff = wall_nsec - tsc_state.nsec;
-> +
-> +		if (diff < 0 || tsc_state.nsec == 0)
-> +			diff = 0;
-> +
+As Thorsten points out, there are no such directives in this particular
+document.  I don't really see how any such could come to be introduced; we
+could add a comment at the top saying that none should be added if that
+would help.
 
-diff < 0 should be okay.  Also why the nsec==0 special case?  What about 
-using a flag instead?
+We could also, if we saw fit, take the position that anything that has
+been processed through the docs build is a derived product of the kernel
+and must be GPL-licensed - any dual-licensing would be stripped by that
+act.  That, too, should address this concern, I think.
 
-Paolo
+In general I'd rather see fewer licenses in Documentation/ than more.  But
+Thorsten has put a lot of effort into this work; if he wants to
+dual-license it in this way, my inclination is to accommodate him.  But
+that requires getting CC-BY-4.0 accepted into the LICENSES directory.
+(That said, I believe it should go into LICENSES/dual/ rather than
+preferred/).
 
+Thanks,
+
+jon
