@@ -2,466 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF27DC83016
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F430C63777
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:42:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EF3F206C0
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:38:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D5D720725
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 15:42:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRWg1GIg"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="VwQzQyaa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727243AbgK3PiH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 10:38:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727016AbgK3PiH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Nov 2020 10:38:07 -0500
-Received: from mail.kernel.org (ip5f5ad5b3.dynamic.kabel-deutschland.de [95.90.213.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E293208FE;
-        Mon, 30 Nov 2020 15:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606750605;
-        bh=0DZIgPt81ePJ9MlFFkPWiF0x1oIC/jHfOBLqtU2LcVQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TRWg1GIgqep5FzBHzkhpbCADpinxgS3ZjWHDVNibMKTRwXUJQmJyz7Cx5qxuqtlb0
-         C1IRZBGOAVGVeXjpV5tj7szk81cPRFjh/SC/zJkd+dJOYYH5AisFE3uHGXVbuxprSq
-         xv247OkjYg7f0ThknaQ0sapQBHmSRChC6tg3L3Jw=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kjlEI-00CjvU-Hk; Mon, 30 Nov 2020 16:36:42 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rich Felker <dalias@libc.org>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Will Deacon <will@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, openrisc@lists.librecores.org,
-        x86@kernel.org
-Subject: [PATCH 6/6] docs: archis: add a per-architecture features list
-Date:   Mon, 30 Nov 2020 16:36:35 +0100
-Message-Id: <9c39d4dd93e05c0008205527d2c3450912f029ed.1606748711.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1606748711.git.mchehab+huawei@kernel.org>
-References: <cover.1606748711.git.mchehab+huawei@kernel.org>
+        id S1726811AbgK3Pmc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 10:42:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726754AbgK3Pmc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 10:42:32 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F15C0613D2
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 07:41:51 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id s8so16775184wrw.10
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 07:41:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5uwbd32nMoGasvv4Rb1SYFn9FAHpSeMQI2GqF7/ClB8=;
+        b=VwQzQyaaaEAkhG0uP6JstBj0Ne46sEfpbP0AFJ3lWiA++4MlZwdX9VmPAP/xVurdUF
+         qX4WHN6t+fCPaRR5ufvVvHLQKuKNE081OxBIgwTEwj5VvwIYDSzQKKh5FsGvpPpWEmKw
+         0A++XINBdb/kUTZnGevAnk66MzpDarVS0veEA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5uwbd32nMoGasvv4Rb1SYFn9FAHpSeMQI2GqF7/ClB8=;
+        b=toJBNKZUw2z+LYMuUErnI5zAdJA5wG8G96sif5HqyzofYZQRpbiCLr4DC41o+F5JDh
+         KVUoWmm/A8ZlH9tVzQqJpPgruSwuXznb/heMoApByP40OiXDhH+gmrfbg3hwNUEEPL6l
+         +CbX6At9teMR19OCttynC/u+/uuidDl87IalI0vZJxy41NJ7GLKUbUbduoP7m0fObte7
+         rH3fE+kEnIcz6D+pjSOvBJORz34x/H02/T87fFu50GEYRvkWoA/B8PPdWy5CNc0kYRHb
+         yfoWxzbw6IPm3aqvZ0LtTkI/dHElaO0dqhQp8EbgSzkZ4TusBhpwO+puPmmvTtkyxNW5
+         DPDQ==
+X-Gm-Message-State: AOAM533jhwQkaVrm1ojdNXuBbppXysLh0lbSbmYOZhxqVlVwzyLrtBEn
+        1NUtSfiXO+hweiCXbvEZfoiQeBEJYWvGpw==
+X-Google-Smtp-Source: ABdhPJzbQ7wIr8vjKUp/Fu7xmk4z5hzYG4AZXWX3oC/JPVbzbr6768nAjbVpzfmu5NcRVdZ7xSbXYA==
+X-Received: by 2002:a5d:560e:: with SMTP id l14mr28887320wrv.191.1606750910237;
+        Mon, 30 Nov 2020 07:41:50 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id k11sm18921870wmj.42.2020.11.30.07.41.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 07:41:49 -0800 (PST)
+Date:   Mon, 30 Nov 2020 16:41:47 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Mikulas Patocka <mpatocka@redhat.com>
+Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-fbdev@vger.kernel.org, geert+renesas@glider.be,
+        corbet@lwn.net, daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org,
+        bernie@plugable.com, dri-devel@lists.freedesktop.org,
+        sam@ravnborg.org
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+Message-ID: <20201130154147.GT401619@phenom.ffwll.local>
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a feature list matrix for each architecture to their
-respective Kernel books.
+On Mon, Nov 30, 2020 at 09:31:15AM -0500, Mikulas Patocka wrote:
+> 
+> 
+> On Mon, 30 Nov 2020, Thomas Zimmermann wrote:
+> 
+> > Udlfb has been superseded by DRM's udl. The DRM driver is better by
+> > any means and actively maintained. Remove udlfb.
+> 
+> Hi
+> 
+> I am using udlfb and it's definitely better than the DRM driver. The DRM 
+> driver will crash the kernel if you unplug the device while Xorg is 
+> running. The framebuffer driver doesn't crash in this case. (I have a cat 
+> and the cat sometimes unplugs cables and I don't want to reboot the system 
+> because of it :-)
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/arm/features.rst      |  3 +++
- Documentation/arm/index.rst         |  2 ++
- Documentation/arm64/features.rst    |  3 +++
- Documentation/arm64/index.rst       |  2 ++
- Documentation/ia64/features.rst     |  3 +++
- Documentation/ia64/index.rst        |  2 ++
- Documentation/index.rst             |  2 +-
- Documentation/m68k/features.rst     |  3 +++
- Documentation/m68k/index.rst        |  2 ++
- Documentation/mips/features.rst     |  3 +++
- Documentation/mips/index.rst        |  2 ++
- Documentation/nios2/index.rst       | 12 ++++++++++++
- Documentation/openrisc/features.rst |  3 +++
- Documentation/openrisc/index.rst    |  2 ++
- Documentation/parisc/features.rst   |  3 +++
- Documentation/parisc/index.rst      |  2 ++
- Documentation/powerpc/features.rst  |  3 +++
- Documentation/powerpc/index.rst     |  2 ++
- Documentation/riscv/features.rst    |  3 +++
- Documentation/riscv/index.rst       |  2 ++
- Documentation/s390/features.rst     |  3 +++
- Documentation/s390/index.rst        |  2 ++
- Documentation/sh/features.rst       |  3 +++
- Documentation/sh/index.rst          |  2 ++
- Documentation/sparc/features.rst    |  3 +++
- Documentation/sparc/index.rst       |  2 ++
- Documentation/x86/features.rst      |  3 +++
- Documentation/x86/index.rst         |  1 +
- Documentation/xtensa/features.rst   |  3 +++
- Documentation/xtensa/index.rst      |  2 ++
- 30 files changed, 82 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/arm/features.rst
- create mode 100644 Documentation/arm64/features.rst
- create mode 100644 Documentation/ia64/features.rst
- create mode 100644 Documentation/m68k/features.rst
- create mode 100644 Documentation/mips/features.rst
- create mode 100644 Documentation/nios2/index.rst
- create mode 100644 Documentation/openrisc/features.rst
- create mode 100644 Documentation/parisc/features.rst
- create mode 100644 Documentation/powerpc/features.rst
- create mode 100644 Documentation/riscv/features.rst
- create mode 100644 Documentation/s390/features.rst
- create mode 100644 Documentation/sh/features.rst
- create mode 100644 Documentation/sparc/features.rst
- create mode 100644 Documentation/x86/features.rst
- create mode 100644 Documentation/xtensa/features.rst
+This should be a lot better in recent kernels, there's been tons of fixes
+for drm hotunplug. Might be there's still bugs in the drm/udl driver.
 
-diff --git a/Documentation/arm/features.rst b/Documentation/arm/features.rst
-new file mode 100644
-index 000000000000..7414ec03dd15
---- /dev/null
-+++ b/Documentation/arm/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features arm
-diff --git a/Documentation/arm/index.rst b/Documentation/arm/index.rst
-index 5fc072dd0c5e..a2e9e1bba7b9 100644
---- a/Documentation/arm/index.rst
-+++ b/Documentation/arm/index.rst
-@@ -23,6 +23,8 @@ ARM Architecture
-    vlocks
-    porting
- 
-+   features
-+
- SoC-specific documents
- ======================
- 
-diff --git a/Documentation/arm64/features.rst b/Documentation/arm64/features.rst
-new file mode 100644
-index 000000000000..dfa4cb3cd3ef
---- /dev/null
-+++ b/Documentation/arm64/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features arm64
-diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
-index 937634c49979..97d65ba12a35 100644
---- a/Documentation/arm64/index.rst
-+++ b/Documentation/arm64/index.rst
-@@ -24,6 +24,8 @@ ARM64 Architecture
-     tagged-address-abi
-     tagged-pointers
- 
-+    features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/ia64/features.rst b/Documentation/ia64/features.rst
-new file mode 100644
-index 000000000000..d7226fdcf5f8
---- /dev/null
-+++ b/Documentation/ia64/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features ia64
-diff --git a/Documentation/ia64/index.rst b/Documentation/ia64/index.rst
-index 4bdfe28067ee..761f2154dfa2 100644
---- a/Documentation/ia64/index.rst
-+++ b/Documentation/ia64/index.rst
-@@ -15,3 +15,5 @@ IA-64 Architecture
-    irq-redir
-    mca
-    serial
-+
-+   features
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 57719744774c..5888e8a7272f 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -160,7 +160,7 @@ implementation.
-    ia64/index
-    m68k/index
-    mips/index
--   nios2/nios2
-+   nios2/index
-    openrisc/index
-    parisc/index
-    powerpc/index
-diff --git a/Documentation/m68k/features.rst b/Documentation/m68k/features.rst
-new file mode 100644
-index 000000000000..5107a2119472
---- /dev/null
-+++ b/Documentation/m68k/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features m68k
-diff --git a/Documentation/m68k/index.rst b/Documentation/m68k/index.rst
-index b89cb6a86d9b..0f890dbb5fe2 100644
---- a/Documentation/m68k/index.rst
-+++ b/Documentation/m68k/index.rst
-@@ -10,6 +10,8 @@ m68k Architecture
-    kernel-options
-    buddha-driver
- 
-+   features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/mips/features.rst b/Documentation/mips/features.rst
-new file mode 100644
-index 000000000000..1973d729b29a
---- /dev/null
-+++ b/Documentation/mips/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features mips
-diff --git a/Documentation/mips/index.rst b/Documentation/mips/index.rst
-index 35cceea4e8bc..037f85a08fe3 100644
---- a/Documentation/mips/index.rst
-+++ b/Documentation/mips/index.rst
-@@ -11,6 +11,8 @@ MIPS-specific Documentation
-    booting
-    ingenic-tcu
- 
-+   features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/nios2/index.rst b/Documentation/nios2/index.rst
-new file mode 100644
-index 000000000000..4468fe1a1037
---- /dev/null
-+++ b/Documentation/nios2/index.rst
-@@ -0,0 +1,12 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Nios II Specific Documentation
-+==============================
-+
-+.. toctree::
-+   :maxdepth: 2
-+   :numbered:
-+
-+   nios2
-+   features
-diff --git a/Documentation/openrisc/features.rst b/Documentation/openrisc/features.rst
-new file mode 100644
-index 000000000000..3f7c40d219f2
---- /dev/null
-+++ b/Documentation/openrisc/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features openrisc
-diff --git a/Documentation/openrisc/index.rst b/Documentation/openrisc/index.rst
-index 748b3eea1707..6879f998b87a 100644
---- a/Documentation/openrisc/index.rst
-+++ b/Documentation/openrisc/index.rst
-@@ -10,6 +10,8 @@ OpenRISC Architecture
-    openrisc_port
-    todo
- 
-+   features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/parisc/features.rst b/Documentation/parisc/features.rst
-new file mode 100644
-index 000000000000..501d7c450037
---- /dev/null
-+++ b/Documentation/parisc/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features parisc
-diff --git a/Documentation/parisc/index.rst b/Documentation/parisc/index.rst
-index aa3ee0470425..240685751825 100644
---- a/Documentation/parisc/index.rst
-+++ b/Documentation/parisc/index.rst
-@@ -10,6 +10,8 @@ PA-RISC Architecture
-    debugging
-    registers
- 
-+   features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/powerpc/features.rst b/Documentation/powerpc/features.rst
-new file mode 100644
-index 000000000000..aeae73df86b0
---- /dev/null
-+++ b/Documentation/powerpc/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features powerpc
-diff --git a/Documentation/powerpc/index.rst b/Documentation/powerpc/index.rst
-index 6ec64b0d5257..bf5f1a2bdbdf 100644
---- a/Documentation/powerpc/index.rst
-+++ b/Documentation/powerpc/index.rst
-@@ -34,6 +34,8 @@ powerpc
-     vas-api
-     vcpudispatch_stats
- 
-+    features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/riscv/features.rst b/Documentation/riscv/features.rst
-new file mode 100644
-index 000000000000..c70ef6ac2368
---- /dev/null
-+++ b/Documentation/riscv/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features riscv
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index fa33bffd8992..6e6e39482502 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -9,6 +9,8 @@ RISC-V architecture
-     pmu
-     patch-acceptance
- 
-+    features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/s390/features.rst b/Documentation/s390/features.rst
-new file mode 100644
-index 000000000000..57c296a9d8f3
---- /dev/null
-+++ b/Documentation/s390/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features s390
-diff --git a/Documentation/s390/index.rst b/Documentation/s390/index.rst
-index cf71df5776b4..b10ca9192557 100644
---- a/Documentation/s390/index.rst
-+++ b/Documentation/s390/index.rst
-@@ -19,6 +19,8 @@ s390 Architecture
- 
-     text_files
- 
-+    features
-+
- .. only::  subproject and html
- 
-    Indices
-diff --git a/Documentation/sh/features.rst b/Documentation/sh/features.rst
-new file mode 100644
-index 000000000000..f722af3b6c99
---- /dev/null
-+++ b/Documentation/sh/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features sh
-diff --git a/Documentation/sh/index.rst b/Documentation/sh/index.rst
-index 7b9a79a28167..c64776738cf6 100644
---- a/Documentation/sh/index.rst
-+++ b/Documentation/sh/index.rst
-@@ -11,6 +11,8 @@ SuperH Interfaces Guide
-     new-machine
-     register-banks
- 
-+    features
-+
- Memory Management
- =================
- 
-diff --git a/Documentation/sparc/features.rst b/Documentation/sparc/features.rst
-new file mode 100644
-index 000000000000..c0c92468b0fe
---- /dev/null
-+++ b/Documentation/sparc/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features sparc
-diff --git a/Documentation/sparc/index.rst b/Documentation/sparc/index.rst
-index 71cff621f243..ae884224eec2 100644
---- a/Documentation/sparc/index.rst
-+++ b/Documentation/sparc/index.rst
-@@ -9,3 +9,5 @@ Sparc Architecture
-    adi
- 
-    oradax/oracle-dax
-+
-+   features
-diff --git a/Documentation/x86/features.rst b/Documentation/x86/features.rst
-new file mode 100644
-index 000000000000..b663f15053ce
---- /dev/null
-+++ b/Documentation/x86/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features x86
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index b224d12c880b..b4fcb6f258b2 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -33,3 +33,4 @@ x86-specific Documentation
-    i386/index
-    x86_64/index
-    sva
-+   features
-diff --git a/Documentation/xtensa/features.rst b/Documentation/xtensa/features.rst
-new file mode 100644
-index 000000000000..6b92c7bfa19d
---- /dev/null
-+++ b/Documentation/xtensa/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features xtensa
-diff --git a/Documentation/xtensa/index.rst b/Documentation/xtensa/index.rst
-index 52fa04eb39a3..69952446a9be 100644
---- a/Documentation/xtensa/index.rst
-+++ b/Documentation/xtensa/index.rst
-@@ -10,3 +10,5 @@ Xtensa Architecture
-    atomctl
-    booting
-    mmu
-+
-+   features
+> The framebuffer driver is faster, it keeps back buffer and updates only 
+> data that differ between the front and back buffer. The DRM driver doesn't 
+> have such optimization, it will update everything in a given rectangle - 
+> this increases USB traffic and makes video playback more jerky.
+> 
+> The framebuffer driver supports programs running full-screen directly on 
+> the framebuffer console, such as web browser "links -g", image viewer 
+> "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl", 
+> movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
+
+Hm this should in general work on drm drivers. Without that it's clear the
+switch-over isn't really ready yet.
+
+> If you seach for someone to maintain the framebuffer driver, I can do it.
+
+We're looking for people to port the missing features over to the drm
+drivers. The problem is that fbdev is full of security bugs, and we're
+fixing them by removing the features. So that's why there's some push to
+sunset at much as possible.
+-Daniel
+
+> 
+> Mikulas
+> 
+> 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > ---
+> >  CREDITS                      |    5 +
+> >  Documentation/fb/index.rst   |    1 -
+> >  Documentation/fb/udlfb.rst   |  162 ---
+> >  MAINTAINERS                  |    9 -
+> >  drivers/video/fbdev/Kconfig  |   17 +-
+> >  drivers/video/fbdev/Makefile |    1 -
+> >  drivers/video/fbdev/udlfb.c  | 1994 ----------------------------------
+> >  7 files changed, 6 insertions(+), 2183 deletions(-)
+> >  delete mode 100644 Documentation/fb/udlfb.rst
+> >  delete mode 100644 drivers/video/fbdev/udlfb.c
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
 -- 
-2.28.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
