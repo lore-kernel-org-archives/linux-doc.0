@@ -2,102 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03235C63777
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 16:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9519C64E7B
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 16:55:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB3EC206F9
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 16:39:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E5D920789
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 16:55:32 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ndxg+hCQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728724AbgK3QjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 11:39:21 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:33875 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728670AbgK3QjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 11:39:20 -0500
-Received: by mail-io1-f68.google.com with SMTP id d7so3577383iok.1;
-        Mon, 30 Nov 2020 08:38:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tFYu+zcPVaijJyMJm5EUKsYsvWv061fpjh0clpgn5vA=;
-        b=a6yEhklVNxGdEvn697Qn0gETYsfkQuW3OomXwYGuRQCRUJgDtZ5liBqrbJRQTAyQLs
-         Mepj9siQMWhmSnKFEdFN+gYOYuJvZGpoWPe9l4EWkOyPAIz5Z/+fdEMqQoWMKQMCgEgo
-         xtoQQ1L1iVayaET8dgPOKEbS/zco3uboRlTtY4cGdEYUpyAoP4/BsSQRJPNHjMH6nhG2
-         8RbVJfP/d7iazXTOoxA32pvhFythtoZmljasjnuZqjnQViQk5ZlVDePq9oMP80pXHvkX
-         lWLEKtz6lvKMmBIfobVCuA8Egbdr5vpVkaM36SFhHUq3NTCOJrCKFsY6DDzU2Xjcc+G7
-         Rqeg==
-X-Gm-Message-State: AOAM533d0ycgkU7GDp/bv1VN4U4FrfiP8MKSD/8/JTvtYwFiQlB/jIER
-        bNhSFiragOeSLJfLrYNyO38exiLY9Q==
-X-Google-Smtp-Source: ABdhPJwO8/AKHHQtotzeksDXX1wp3u3t+G5jA46XRQZErHhLBCCcrUV6i188c/xtoojwacdGbzMMXA==
-X-Received: by 2002:a6b:b514:: with SMTP id e20mr17078716iof.105.1606754313679;
-        Mon, 30 Nov 2020 08:38:33 -0800 (PST)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id u11sm8273653iol.51.2020.11.30.08.38.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 08:38:32 -0800 (PST)
-Received: (nullmailer pid 2592217 invoked by uid 1000);
-        Mon, 30 Nov 2020 16:38:29 -0000
-Date:   Mon, 30 Nov 2020 09:38:29 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Cc:     linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        robh+dt@kernel.org, davem@davemloft.net, ioana.ciornei@nxp.com,
-        Ionut-robert Aron <ionut-robert.aron@nxp.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, corbet@lwn.net, leoyang.li@nxp.com,
-        linux-arm-kernel@lists.infradead.org, kuba@kernel.org
-Subject: Re: [PATCH v4] dt-bindings: misc: convert fsl,qoriq-mc from txt to
- YAML
-Message-ID: <20201130163829.GA2590579@robh.at.kernel.org>
-References: <20201123090035.15734-1-laurentiu.tudor@nxp.com>
+        id S1728972AbgK3QzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 11:55:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33714 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727841AbgK3QzQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 30 Nov 2020 11:55:16 -0500
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A3C08207FF
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 16:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606755275;
+        bh=xKjPWiR+gY9KXoWm0aX1KhLNswrvDKRDlo9bp5YXtCk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Ndxg+hCQk/Sj/KPi4tI4cXPYaxWHRfFwCYYNoYYOB6hxuSmCMEP2NOpNxW1ZEzLKf
+         gzcrmfHMBHUpnErnTsSP54i292jiBs6L4M/k3GaaCqbLvszpgDr7ZKNX24FniqI+Hg
+         JgJy2iB0YA53q7hKOptl5/Qk1vCK0tmSLbfQp94o=
+Received: by mail-wm1-f54.google.com with SMTP id k10so12768097wmi.3
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 08:54:34 -0800 (PST)
+X-Gm-Message-State: AOAM531gQC/DxM12/yKH8exvFFEnpkNzUPLFZFsGN01tKY3sNIZjBRNq
+        or4OP/+jGjaGoReO4O02NKsDlMHiJhhYvF5cv7kjhg==
+X-Google-Smtp-Source: ABdhPJxvQRXAXTceQEJTk6eeenanqlUfupxFXmGtTKuBJRp7BePCnRp4Qgf0q/CJ2FQvEGbVK5BGZlC2FWzoi5XyQb0=
+X-Received: by 2002:a1c:1d85:: with SMTP id d127mr6905343wmd.49.1606755272947;
+ Mon, 30 Nov 2020 08:54:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201123090035.15734-1-laurentiu.tudor@nxp.com>
+References: <20201130133559.233242-1-mlevitsk@redhat.com>
+In-Reply-To: <20201130133559.233242-1-mlevitsk@redhat.com>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Mon, 30 Nov 2020 08:54:19 -0800
+X-Gmail-Original-Message-ID: <CALCETrVr2bM4yJTVpQULN+EYVQJuWGCvjX0SMFsCRy6BwqZc0w@mail.gmail.com>
+Message-ID: <CALCETrVr2bM4yJTVpQULN+EYVQJuWGCvjX0SMFsCRy6BwqZc0w@mail.gmail.com>
+Subject: Re: [PATCH 0/2] RFC: Precise TSC migration
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm list <kvm@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        open list <linux-kernel@vger.kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jim Mattson <jmattson@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 23 Nov 2020 11:00:35 +0200, Laurentiu Tudor wrote:
-> From: Ionut-robert Aron <ionut-robert.aron@nxp.com>
-> 
-> Convert fsl,qoriq-mc to YAML in order to automate the verification
-> process of dts files. In addition, update MAINTAINERS accordingly
-> and, while at it, add some missing files.
-> 
-> Signed-off-by: Ionut-robert Aron <ionut-robert.aron@nxp.com>
-> [laurentiu.tudor@nxp.com: update MINTAINERS, updates & fixes in schema]
-> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-> ---
-> Changes in v4:
->  - use $ref to point to fsl,qoriq-mc-dpmac binding
-> 
-> Changes in v3:
->  - dropped duplicated "fsl,qoriq-mc-dpmac" schema and replaced with
->    reference to it
->  - fixed a dt_binding_check warning
-> 
-> Changes in v2:
->  - fixed errors reported by yamllint
->  - dropped multiple unnecessary quotes
->  - used schema instead of text in description
->  - added constraints on dpmac reg property
-> 
->  .../devicetree/bindings/misc/fsl,qoriq-mc.txt | 196 ------------------
->  .../bindings/misc/fsl,qoriq-mc.yaml           | 186 +++++++++++++++++
->  .../ethernet/freescale/dpaa2/overview.rst     |   5 +-
->  MAINTAINERS                                   |   4 +-
->  4 files changed, 193 insertions(+), 198 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->  create mode 100644 Documentation/devicetree/bindings/misc/fsl,qoriq-mc.yaml
-> 
+On Mon, Nov 30, 2020 at 5:36 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+>
+> Hi!
+>
+> This is the first version of the work to make TSC migration more accurate,
+> as was defined by Paulo at:
+> https://www.spinics.net/lists/kvm/msg225525.html
+>
+> I have a few thoughts about the kvm masterclock synchronization,
+> which relate to the Paulo's proposal that I implemented.
+>
+> The idea of masterclock is that when the host TSC is synchronized
+> (or as kernel call it, stable), and the guest TSC is synchronized as well,
+> then we can base the kvmclock, on the same pair of
+> (host time in nsec, host tsc value), for all vCPUs.
+>
+> This makes the random error in calculation of this value invariant
+> across vCPUS, and allows the guest to do kvmclock calculation in userspace
+> (vDSO) since kvmclock parameters are vCPU invariant.
+>
+> To ensure that the guest tsc is synchronized we currently track host/guest tsc
+> writes, and enable the master clock only when roughly the same guest's TSC value
+> was written across all vCPUs.
+>
+> Recently this was disabled by Paulo and I agree with this, because I think
+> that we indeed should only make the guest TSC synchronized by default
+> (including new hotplugged vCPUs) and not do any tsc synchronization beyond that.
+> (Trying to guess when the guest syncs the TSC can cause more harm that good).
+>
+> Besides, Linux guests don't sync the TSC via IA32_TSC write,
+> but rather use IA32_TSC_ADJUST which currently doesn't participate
+> in the tsc sync heruistics.
+> And as far as I know, Linux guest is the primary (only?) user of the kvmclock.
+>
+> I *do think* however that we should redefine KVM_CLOCK_TSC_STABLE
+> in the documentation to state that it only guarantees invariance if the guest
+> doesn't mess with its own TSC.
+>
+> Also I think we should consider enabling the X86_FEATURE_TSC_RELIABLE
+> in the guest kernel, when kvm is detected to avoid the guest even from trying
+> to sync TSC on newly hotplugged vCPUs.
+>
+> (The guest doesn't end up touching TSC_ADJUST usually, but it still might
+> in some cases due to scheduling of guest vCPUs)
+>
+> (X86_FEATURE_TSC_RELIABLE short circuits tsc synchronization on CPU hotplug,
+> and TSC clocksource watchdog, and the later we might want to keep).
 
-As there's a dependency on fsl,qoriq-mc-dpmac, this needs to go via 
-netdev tree.
-
-Reviewed-by: Rob Herring <robh@kernel.org>
+If you're going to change the guest behavior to be more trusting of
+the host, I think
+the host should probably signal this to the guest using a new bit.
