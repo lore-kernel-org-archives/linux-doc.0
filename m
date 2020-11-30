@@ -2,93 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F09C63777
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 18:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C0F9C63777
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 18:40:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A0782074A
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 18:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C35BC20725
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 18:40:58 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LVYWZjM/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729618AbgK3SfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 13:35:24 -0500
-Received: from mga01.intel.com ([192.55.52.88]:62352 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728704AbgK3SfX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 30 Nov 2020 13:35:23 -0500
-IronPort-SDR: UTdE267KSYaxn8SJxWlVjn4DEvbhyY/FSyIB+6PRlgsMhdNpAnZI9bdUy8RANMU0YkahP6RYyj
- ZZWD49aavLWg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="190876622"
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
-   d="scan'208";a="190876622"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 10:34:42 -0800
-IronPort-SDR: 9dOX7jHwsdaXZ+0ublJbeehadYhgfNdrRIew/cg2EBrlxQ8Z8VCjMhjxmSSYjpqFnIOReAcFrd
- drhoHvA7exmA==
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; 
-   d="scan'208";a="345167847"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.122.22]) ([10.212.122.22])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 10:34:39 -0800
-Subject: Re: [PATCH v15 01/26] Documentation/x86: Add CET description
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Dave.Martin@arm.com, arnd@arndb.de, bp@alien8.de,
-        bsingharora@gmail.com, corbet@lwn.net, dave.hansen@linux.intel.com,
-        esyr@redhat.com, fweimer@redhat.com, gorcunov@gmail.com,
-        hjl.tools@gmail.com, hpa@zytor.com, jannh@google.com,
-        keescook@chromium.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
-        mike.kravetz@oracle.com, mingo@redhat.com, nadav.amit@gmail.com,
-        oleg@redhat.com, pavel@ucw.cz, pengfei.xu@intel.com,
-        peterz@infradead.org, ravi.v.shankar@intel.com,
-        rdunlap@infradead.org, tglx@linutronix.de,
-        vedvyas.shanbhogue@intel.com, weijiang.yang@intel.com,
-        x86@kernel.org, maskray@google.com, llozano@google.com,
-        clang-built-linux@googlegroups.com, erich.keane@intel.com
-References: <20201110162211.9207-2-yu-cheng.yu@intel.com>
- <20201130182641.29812-1-ndesaulniers@google.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <4fad528b-e467-f96d-b7fb-9484fd975886@intel.com>
-Date:   Mon, 30 Nov 2020 10:34:38 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1727952AbgK3Sk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 13:40:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56011 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727182AbgK3Sk6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 13:40:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606761572;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=j9ZQqaEJyTXtTPwKAIvc6yiwpWOFXj2Tjc6b0XQMCrc=;
+        b=LVYWZjM/T77R3I6YKlh68Dyco75VBRpWDQY76WQFeVLg+YknVeh8/jG0j/GrtgC9dqyJ44
+        lBkbSgn7Q8i00P7xheYsOHTYDwedqq5jAw2RaY7oqsYl27py52NTd4xnu45vu9tEC0xgAi
+        LI5jEM6wTOY5RreGzKbwseZiLhXQkbc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-DwSjZxLyOi6Zl2POdMrKqw-1; Mon, 30 Nov 2020 13:39:21 -0500
+X-MC-Unique: DwSjZxLyOi6Zl2POdMrKqw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6A8F180A08A;
+        Mon, 30 Nov 2020 18:39:19 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 82A965D9C0;
+        Mon, 30 Nov 2020 18:39:19 +0000 (UTC)
+Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 0AUIdIPn027142;
+        Mon, 30 Nov 2020 13:39:18 -0500
+Received: from localhost (mpatocka@localhost)
+        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 0AUIdH6j027138;
+        Mon, 30 Nov 2020 13:39:18 -0500
+X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
+Date:   Mon, 30 Nov 2020 13:39:17 -0500 (EST)
+From:   Mikulas Patocka <mpatocka@redhat.com>
+X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
+To:     Daniel Vetter <daniel@ffwll.ch>
+cc:     Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-fbdev@vger.kernel.org, geert+renesas@glider.be,
+        corbet@lwn.net, daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org,
+        bernie@plugable.com, dri-devel@lists.freedesktop.org,
+        sam@ravnborg.org
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+In-Reply-To: <20201130154147.GT401619@phenom.ffwll.local>
+Message-ID: <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20201130125200.10416-1-tzimmermann@suse.de> <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com> <20201130154147.GT401619@phenom.ffwll.local>
+User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <20201130182641.29812-1-ndesaulniers@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/30/2020 10:26 AM, Nick Desaulniers wrote:
-> (In response to https://lore.kernel.org/lkml/20201110162211.9207-2-yu-cheng.yu@intel.com/)
-> 
->> These need to be enabled to build a CET-enabled kernel, and Binutils v2.31
->> and GCC v8.1 or later are required to build a CET kernel.
-> 
-> What about LLVM? Surely CrOS might be of interest to ship this on (we ship the
-> equivalent for aarch64 on Android).
-> 
 
-I have not built with LLVM, but think it probably will work as well.  I 
-will test it.
 
->> An application's CET capability is marked in its ELF header and can be
->> verified from the following command output, in the NT_GNU_PROPERTY_TYPE_0
->> field:
->>
->>      readelf -n <application> | grep SHSTK
->>          properties: x86 feature: IBT, SHSTK
+On Mon, 30 Nov 2020, Daniel Vetter wrote:
+
+> On Mon, Nov 30, 2020 at 09:31:15AM -0500, Mikulas Patocka wrote:
+> > 
+> > The framebuffer driver supports programs running full-screen directly on 
+> > the framebuffer console, such as web browser "links -g", image viewer 
+> > "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl", 
+> > movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
 > 
-> Same for llvm-readelf.
-> 
+> Hm this should in general work on drm drivers. Without that it's clear the
+> switch-over isn't really ready yet.
 
-I will add that to the document.
+I fixed it with this patch two years ago: 
+https://lists.freedesktop.org/archives/dri-devel/2018-June/179023.html
 
-Thanks,
-Yu-cheng
+But the patch never went through and the fb_defio feature was removed in 
+the kernel 5.6 (commit d0c4fc5a4814e431c15272935c8dc973c18073aa).
+
+
+Without fb_defio, the only other possibility how to update the screen is 
+the ioctl DRM_IOCTL_MODE_DIRTYFB. But this ioctl requires master mode, so 
+user programs like "links -g" can't issue it.
+
+Mikulas
+
