@@ -2,114 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2AFC64E90
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:33:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E7DC64E7B
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:35:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6F9420719
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:33:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C962520709
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 14:35:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dU9r3IB+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PLVnQjQG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbgK3Ocw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 09:32:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43894 "EHLO
+        id S1727072AbgK3OfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 09:35:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40151 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727106AbgK3Ocv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 09:32:51 -0500
+        by vger.kernel.org with ESMTP id S1726242AbgK3OfT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 09:35:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606746685;
+        s=mimecast20190719; t=1606746833;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QQujhvvur/pM8ZJh3DSJTp6K0D4ASRltH6KQoBKkjWo=;
-        b=dU9r3IB+7zD55++aIpg65fNIP64ifln5y2OlIcxzBKpWwqhKdBNYEuP2ckoORQ/y417ckk
-        FDxF0m0DTxejTBsOkrxzY7GvyC0YoXHSE16re7I5lTg75l5SfBcjgmNb1j1+oIVN+mxeKf
-        MD9/jkjLxwQvGiOspan5J+4CgplRahs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-X7i9HG4-PO-SbxCKkvoMCA-1; Mon, 30 Nov 2020 09:31:21 -0500
-X-MC-Unique: X7i9HG4-PO-SbxCKkvoMCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEE768030A0;
-        Mon, 30 Nov 2020 14:31:18 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 1004060873;
-        Mon, 30 Nov 2020 14:31:18 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 0AUEVHHG001898;
-        Mon, 30 Nov 2020 09:31:17 -0500
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 0AUEVFpX001894;
-        Mon, 30 Nov 2020 09:31:15 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Mon, 30 Nov 2020 09:31:15 -0500 (EST)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-cc:     daniel.vetter@ffwll.ch, sam@ravnborg.org, geert+renesas@glider.be,
-        bernie@plugable.com, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-In-Reply-To: <20201130125200.10416-1-tzimmermann@suse.de>
-Message-ID: <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20201130125200.10416-1-tzimmermann@suse.de>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        bh=HFkLXb2ck3BWjmucBaw+f/gpFhUWWzy0p9pSm1cDYgw=;
+        b=PLVnQjQGdbkw2Kf7AgFgp54saKynLvT7PNk+NK9JkppUTbwVNepI+/lnYAh4/jghPxjEeL
+        8BnH1GW9CWrMI3xeqlptc2tpCnmpvCeRGz+sQQ2Kbdlz2CV3dZK9u4g2L0aY9SaGYZ3WlE
+        4nsTyb8PPybZu2l6lzETjjSP42ZmfF0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-72TJMuE6Nd2FSGT1VkweLQ-1; Mon, 30 Nov 2020 09:33:51 -0500
+X-MC-Unique: 72TJMuE6Nd2FSGT1VkweLQ-1
+Received: by mail-ed1-f72.google.com with SMTP id g1so6825834edk.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 06:33:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HFkLXb2ck3BWjmucBaw+f/gpFhUWWzy0p9pSm1cDYgw=;
+        b=RXYJwzplLINhXiEZP3eBGGiC+r/kvgatlOkXi63YjnoBkxSf34s1RTsEQHmHoHLOZ1
+         +Ts97V/fignpiYU/PGFstUPDCGh+UA6ujDjqtlAF8gC1dqF7OAlHnbWwkhIq8h6pP+Ab
+         hFToojt0nXqUeJJLcLYLZBx+QpD8z2chGMs/+rxqrpicnXIa4jqzDsXD2ccLVCAbpxu9
+         u3Sd6jfVM6qgZKgBq5GzL9efTTn2lPYcHCkQOJJMWzmYT0U2/L6lq2ZHWjh2rjnI/lqq
+         eFCaHi1OmHlztVZBL4SDdTsvK2wJoDnqv5pRE5Xz4YtmUakP65ytEDNSS/cm/mOh53BH
+         rvkg==
+X-Gm-Message-State: AOAM531ZDeGQQilc7W9EiGIkGPIKOA2eocQhGVzPN1ohUqG0vJwWxia5
+        j5IxupFlIqJCw2eYjCyr7kF6skrRf+0yWFE9a7eHd6k9vy+3D/U2e0EGIsmOy8l1M0q3J1NStCp
+        4rJqTYcy5Luuyxt3uhxQt
+X-Received: by 2002:a17:906:a218:: with SMTP id r24mr10440574ejy.372.1606746829959;
+        Mon, 30 Nov 2020 06:33:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxsu+a/K74PyJGaUN13cu1VH4GJRzXEObx7Bgwg01gB5/PI6z+n0lfbvWmX0Rt/JHx2FjPRLQ==
+X-Received: by 2002:a17:906:a218:: with SMTP id r24mr10440470ejy.372.1606746828612;
+        Mon, 30 Nov 2020 06:33:48 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id w3sm9211804edt.84.2020.11.30.06.33.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Nov 2020 06:33:47 -0800 (PST)
+Subject: Re: [PATCH 1/2] KVM: x86: implement
+ KVM_SET_TSC_PRECISE/KVM_GET_TSC_PRECISE
+To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+Cc:     Oliver Upton <oupton@google.com>, Ingo Molnar <mingo@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        open list <linux-kernel@vger.kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jim Mattson <jmattson@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>
+References: <20201130133559.233242-1-mlevitsk@redhat.com>
+ <20201130133559.233242-2-mlevitsk@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <38602ef4-7ecf-a5fd-6db9-db86e8e974e4@redhat.com>
+Date:   Mon, 30 Nov 2020 15:33:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201130133559.233242-2-mlevitsk@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 30/11/20 14:35, Maxim Levitsky wrote:
+> +		if (guest_cpuid_has(vcpu, X86_FEATURE_TSC_ADJUST)) {
+> +			tsc_state.tsc_adjust = vcpu->arch.ia32_tsc_adjust_msr;
+> +			tsc_state.flags |= KVM_TSC_STATE_TSC_ADJUST_VALID;
+> +		}
 
+This is mostly useful for userspace that doesn't disable the quirk, right?
 
-On Mon, 30 Nov 2020, Thomas Zimmermann wrote:
+> +		kvm_get_walltime(&wall_nsec, &host_tsc);
+> +		diff = wall_nsec - tsc_state.nsec;
+> +
+> +		if (diff < 0 || tsc_state.nsec == 0)
+> +			diff = 0;
+> +
 
-> Udlfb has been superseded by DRM's udl. The DRM driver is better by
-> any means and actively maintained. Remove udlfb.
+diff < 0 should be okay.  Also why the nsec==0 special case?  What about 
+using a flag instead?
 
-Hi
-
-I am using udlfb and it's definitely better than the DRM driver. The DRM 
-driver will crash the kernel if you unplug the device while Xorg is 
-running. The framebuffer driver doesn't crash in this case. (I have a cat 
-and the cat sometimes unplugs cables and I don't want to reboot the system 
-because of it :-)
-
-The framebuffer driver is faster, it keeps back buffer and updates only 
-data that differ between the front and back buffer. The DRM driver doesn't 
-have such optimization, it will update everything in a given rectangle - 
-this increases USB traffic and makes video playback more jerky.
-
-The framebuffer driver supports programs running full-screen directly on 
-the framebuffer console, such as web browser "links -g", image viewer 
-"fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl", 
-movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
-
-If you seach for someone to maintain the framebuffer driver, I can do it.
-
-Mikulas
-
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  CREDITS                      |    5 +
->  Documentation/fb/index.rst   |    1 -
->  Documentation/fb/udlfb.rst   |  162 ---
->  MAINTAINERS                  |    9 -
->  drivers/video/fbdev/Kconfig  |   17 +-
->  drivers/video/fbdev/Makefile |    1 -
->  drivers/video/fbdev/udlfb.c  | 1994 ----------------------------------
->  7 files changed, 6 insertions(+), 2183 deletions(-)
->  delete mode 100644 Documentation/fb/udlfb.rst
->  delete mode 100644 drivers/video/fbdev/udlfb.c
+Paolo
 
