@@ -2,99 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C9FC64E7B
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 19:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA6DC63777
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 19:58:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DC8220679
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 19:56:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Kngn4LeL"
+	by mail.kernel.org (Postfix) with ESMTP id BF7EF20679
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 19:58:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727942AbgK3T4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 14:56:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
+        id S2388253AbgK3T6j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 14:58:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726769AbgK3T4p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 14:56:45 -0500
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D134C0613D2
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 11:56:05 -0800 (PST)
-Received: by mail-pj1-x1049.google.com with SMTP id e21so251148pjh.5
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 11:56:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=DLtArDV8cKP0BeVklsVGWZ4r7522fWxRlpZkbLI2DME=;
-        b=Kngn4LeLTwq4qYdSAXMCdhjRvG2+hfAwezvYYxclNLH4UYmaXcHHHm/oDA7haEQqo5
-         cDgZ9CTL0bEBGcADB4JOqwDiXbdJifF4LwJgDbjttt2y9O+5miEIVUz2RYOGgeK4NbXj
-         AZHT/WuYNGIuZ+g8cSddgDUX/X/wdLKAeH5yE1Nh6rDk+ejhrEqeGQWhdv05kN+gQ9Uh
-         oOmj6zDFqIWJQpVkAoxeNann4anzRJS+12uX8GB2/354ozUtuLyoprqIvdEFHrYVQBXR
-         J0hiCEXvI45QzTD2c934ITS2t0agvN8pr8586/Tl43yb3ixwscsBmaJeFId+9Gzx78bV
-         bteQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=DLtArDV8cKP0BeVklsVGWZ4r7522fWxRlpZkbLI2DME=;
-        b=qJRJ+w57enxxxTyQrsPv6n6i1YKtzNEMISudLPUCxVGQqwXpmGBPHNC7F9hma6+lMf
-         SeW6rTov2n447szsoaVw4j/BLwrefpgQaJI3jwZXW8SkJM8h60fU3oIjde8W5W3+Bjf3
-         YC3GvFM/vd9cyqdJlnuziocUEIxwMaw0dJ9OAT/LLyXgiN/kOvfShClL2KPW+O2Aho/K
-         zSShwoAG88Ge7mzDW2KuT5Tv0EPgmEPnpZt9UA3Fbg6GMQnNJfBsDaz5Pw6MksrRXsNe
-         nHcygekBY0tm5YwzWHsZW/aKXylRnaDLcvGUbOz9rUTrX0+uGY4xLdhACnmYm9saSFsS
-         4WoQ==
-X-Gm-Message-State: AOAM532RTOfVxwsLvgjwHM1PJ5z83U/NsZHpAhN2y3AeGafoCJBvh5vw
-        fnlDkWI9KIWvge537H/BPPpRkTMjcsCve1YkYrs=
-X-Google-Smtp-Source: ABdhPJzB688RhMdWZtegBv6aVz52FbjVdJ0Q+QuBT876w4Q6KmkjclwwABgZ0Hd+nwZUsJGEaNoSrmQC9+tOAwhsDUU=
-Sender: "ndesaulniers via sendgmr" 
-        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
- (user=ndesaulniers job=sendgmr) by 2002:a17:90a:f28f:: with SMTP id
- fs15mr495886pjb.121.1606766164462; Mon, 30 Nov 2020 11:56:04 -0800 (PST)
-Date:   Mon, 30 Nov 2020 11:56:02 -0800
-In-Reply-To: <20201110162211.9207-6-yu-cheng.yu@intel.com>
-Message-Id: <20201130195602.331842-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20201110162211.9207-6-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: Re: [PATCH v15 05/26] x86/cet/shstk: Add Kconfig option for user-mode
- Shadow Stack
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     yu-cheng.yu@intel.com
-Cc:     Dave.Martin@arm.com, arnd@arndb.de, bp@alien8.de,
-        bsingharora@gmail.com, corbet@lwn.net, dave.hansen@linux.intel.com,
-        esyr@redhat.com, fweimer@redhat.com, gorcunov@gmail.com,
-        hjl.tools@gmail.com, hpa@zytor.com, jannh@google.com,
-        keescook@chromium.org, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
-        mike.kravetz@oracle.com, mingo@redhat.com, nadav.amit@gmail.com,
-        oleg@redhat.com, pavel@ucw.cz, pengfei.xu@intel.com,
-        peterz@infradead.org, ravi.v.shankar@intel.com,
-        rdunlap@infradead.org, tglx@linutronix.de,
-        vedvyas.shanbhogue@intel.com, weijiang.yang@intel.com,
-        x86@kernel.org, Sami Tolvanen <samitolvanen@google.com>,
-        Will Deacon <will@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S2388227AbgK3T6j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 14:58:39 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF42C0613D2;
+        Mon, 30 Nov 2020 11:57:59 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B56156E6;
+        Mon, 30 Nov 2020 19:57:58 +0000 (UTC)
+Date:   Mon, 30 Nov 2020 12:57:57 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH v2] docs: automarkup.py: Allow automatic cross-reference
+ inside C namespace
+Message-ID: <20201130125757.1eccdaa2@lwn.net>
+In-Reply-To: <20201117021107.214704-1-nfraprado@protonmail.com>
+References: <20201117021107.214704-1-nfraprado@protonmail.com>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In response to https://lore.kernel.org/lkml/20201110162211.9207-6-yu-cheng.yu@intel.com/.
+On Tue, 17 Nov 2020 02:12:01 +0000
+Nícolas F. R. A. Prado <nfraprado@protonmail.com> wrote:
 
-Hi Yu-cheng,
-This feature reminds me very much of
-ARCH_SUPPORTS_SHADOW_CALL_STACK/CC_HAVE_SHADOW_CALL_STACK implemented in
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5287569a790d2546a06db07e391bf84b8bd6cf51.
+> Sphinx 3.1 introduced namespaces for C cross-references. With this,
+> each C domain type/function declaration is put inside the namespace that
+> was active at the time of its declaration.
+> 
+> Add support for automatic cross-referencing inside C namespaces by
+> checking whether the corresponding source file had a C namespace Sphinx
+> directive, and if so, try cross-referencing inside of it before going to
+> the global scope.
+> 
+> This assumes there's only one namespace (if any) per rst file.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
+> ---
+> 
+> To those following from v1:
+> 
+> I ended up doing the simplest solution possible, which is to just directly read
+> the rst source corresponding to the doc page right before doing the automarkup.
+> It's not very efficient in the sense that the source is being read
+> twice (first by Sphinx, then by this), but it sidesteps the "data sharing
+> between processes" issue, so parallel_read_safe can be reenabled, and I didn't
+> notice any performance hit from this patch (as opposed to the big hit from v1).
+> Works with both Sphinx 2 and 3.
 
-Do you think it would be worthwhile to share the same config name between x86
-and aarch64?
+OK, I've (finally) applied this, thanks.  It does indeed seem to work.
+Still hoping for something more elegant someday...:)
 
-(Though, it seems on x86 there will be a distinction between kernel mode and
-user mode configs, if I understand correctly?)
+Thanks,
+
+jon
