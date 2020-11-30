@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4995C64E90
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF51AC71155
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BC4C20727
-	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:48:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65082207BC
+	for <linux-doc@archiver.kernel.org>; Mon, 30 Nov 2020 10:48:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mxZ+YVsh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H1mKBEVP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728504AbgK3KsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 05:48:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41096 "EHLO
+        id S1728801AbgK3KsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 05:48:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726955AbgK3KsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 05:48:18 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF573C0613CF
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:47:37 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id 3so20621854wmg.4
-        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:47:37 -0800 (PST)
+        with ESMTP id S1728780AbgK3KsW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 05:48:22 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56082C0613D4
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:47:42 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id i2so15504976wrs.4
+        for <linux-doc@vger.kernel.org>; Mon, 30 Nov 2020 02:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kEyLf8LFch+KdsSp/Rnz95CvSLqxxYSUroQ+WOd06N4=;
-        b=mxZ+YVshPN8IDgC+Xd8VJSuhvuW+B1Vq1vEOVvhr69IYB6IWocC1WMBCPpZXbtWMu+
-         c7toL4IxZDaEPMYXB6KuB1ZZHDPxgCxu/yMOhnV0L+cWMh1gK4hhLBZ3/rGsqxxIrR6y
-         qFEqeGNKNm1kApxx2viLIZDmnm5XkEF2f7jxk=
+        bh=2s3+1UMveM14Q86dSgKB6KclpUSu0GzbSCNzQALyOY0=;
+        b=H1mKBEVPaLY3R+ZSjHzAAaqf4DeLa+ptZ5vjlfE/q/dTLHxUrpgTR1ZPGj5g/D1Je5
+         EGbULNaeZEyHklZl1rk4dPNTZ9sGl29mKcxeBs7ZDL95f4hfRGbL3cyRDhm1z8q3bEIs
+         OKD6gVPKMd7VgPzRFGelnQPX4E/0BDNii78wg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kEyLf8LFch+KdsSp/Rnz95CvSLqxxYSUroQ+WOd06N4=;
-        b=mi3wlLClhX1zChKwZ4uY2OMEA6b79SCbj+lOdZMXCA1EHxHoZYUkzunLyN/RU4XtgH
-         q/59vQzTxAcvSfSERosuEsxDw89pIlmQzpY6bIM2rcqsRW+DKYlCYL+32oAnAkzSuLCf
-         WgKYuI1dfL5yGcbkDAU4I/MaAqfqrozJC5dd6aEtSPInzcKzPtAVlmvzE/h1vSbaSqCX
-         k5y4umkC+uczmDqA+d6SKRePcaJRmGGAZjHVagKQ0i5xDGzAhE/VtbCOW708QTwOSwqI
-         hFAnV1OXK3d0hm6nw30V2JU+jnHK4GIH0jAIWmJZbl3LnnGc5boK2NIzb+zWWMO8rIel
-         9nVw==
-X-Gm-Message-State: AOAM5307PIxF821kLNlPCubRyfW3GeF9c3sISVAuk4gPj4IXMxJaIWz/
-        N+22FhiPlpqCufrXjLInd8HOdA==
-X-Google-Smtp-Source: ABdhPJyNfDQBtBUjLYivTubWHNNG5AjYFEAOzzMzgG9ljqqSdjJuJrr5gIZKubHTvUAbSLegBzpGUA==
-X-Received: by 2002:a1c:2d84:: with SMTP id t126mr22263460wmt.132.1606733256754;
-        Mon, 30 Nov 2020 02:47:36 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2s3+1UMveM14Q86dSgKB6KclpUSu0GzbSCNzQALyOY0=;
+        b=Q8TB6uMwHst46Tpf8YV8Xp8AbWIScVbgLCxe17M5nglvfrRcb32SlOJxXyT9wXn35d
+         JB1pDvT05fLfJMXIZFaPxB/t/xlx7wy2rSlb4u42Hv/1QuDYWX96pEPWNRD9Bb8sTHc6
+         tRzs34yIB6rLOcZP/TsJbDwOTNwMXmJpIobikJmSyIMl3zqXwaEJVVcnIOmJ7W7gN63x
+         JBOX70Ym7Gw1h1egHNBP7FAB2jqDac3BoEhlGXPvNT1nIRx8uV9Ss8GKm+CyrWjGliMw
+         7wfs1ZmjMZf/2ElaPORwHz1F3NBW/riUwV4ZjWDnLA+PYSUjq1V8dIwtsd8/dhn9bjJw
+         u9TA==
+X-Gm-Message-State: AOAM530eOBcR8iGmBFz4sWGWOefrBnwRbubQRyiX0sPeGZTnAVmeahJo
+        U551FPJyV0FeRShR+TNuAJHapyHV300wpw==
+X-Google-Smtp-Source: ABdhPJx0ek4tBAFG54IQGA02EwOJJlz5jrePLwuaDz2z1+0T0hs95dsUf7Gt11gIVe9PAivP5dUHNQ==
+X-Received: by 2002:adf:fd03:: with SMTP id e3mr27585680wrr.303.1606733261092;
+        Mon, 30 Nov 2020 02:47:41 -0800 (PST)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id x9sm19719853wru.55.2020.11.30.02.47.35
+        by smtp.gmail.com with ESMTPSA id x9sm19719853wru.55.2020.11.30.02.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 02:47:36 -0800 (PST)
+        Mon, 30 Nov 2020 02:47:40 -0800 (PST)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Robin Murphy <robin.murphy@arm.com>,
@@ -67,10 +67,12 @@ To:     Marek Szyprowski <m.szyprowski@samsung.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Sergey Senozhatsky <senozhatsky@google.com>
-Subject: [PATCH v4 1/4] dma-mapping: remove the {alloc,free}_noncoherent methods
-Date:   Mon, 30 Nov 2020 11:47:27 +0100
-Message-Id: <20201130104730.27655-1-ribalda@chromium.org>
+Subject: [PATCH v4 2/4] WIP: add a dma_alloc_contiguous API
+Date:   Mon, 30 Nov 2020 11:47:28 +0100
+Message-Id: <20201130104730.27655-2-ribalda@chromium.org>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+In-Reply-To: <20201130104730.27655-1-ribalda@chromium.org>
+References: <20201130104730.27655-1-ribalda@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -79,134 +81,243 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Christoph Hellwig <hch@lst.de>
 
-It turns out allowing non-contigous allocations here was a rather bad
-idea, as we'll now need to define ways to get the pages for mmaping
-or dma_buf sharing.  Revert this change and stick to the original
-concept.  A different API for the use case of non-contigous allocations
-will be added back later.
+Add a new API that returns a virtually non-contigous array of pages
+and dma address.  This API is only implemented for dma-iommu and will
+not be implemented for non-iommu DMA API instances that have to allocate
+contiguous memory.  It is up to the caller to check if the API is
+available.
+
+The intent is that media drivers can use this API if either:
+
+ - no kernel mapping or only temporary kernel mappings are required.
+   That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
+ - a kernel mapping is required for cached and DMA mapped pages, but
+   the driver also needs the pages to e.g. map them to userspace.
+   In that sense it is a replacement for some aspects of the recently
+   removed and never fully implemented DMA_ATTR_NON_CONSISTENT
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/iommu/dma-iommu.c   | 30 ------------------------------
- include/linux/dma-map-ops.h |  5 -----
- kernel/dma/mapping.c        | 33 ++++++---------------------------
- 3 files changed, 6 insertions(+), 62 deletions(-)
+ drivers/iommu/dma-iommu.c   | 84 +++++++++++++++++++++----------------
+ include/linux/dma-map-ops.h |  4 ++
+ include/linux/dma-mapping.h |  5 +++
+ kernel/dma/mapping.c        | 35 ++++++++++++++++
+ 4 files changed, 91 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 0cbcd3fc3e7e..73249732afd3 100644
+index 73249732afd3..2e72fe1b9c3b 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -1054,34 +1054,6 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
- 	return cpu_addr;
+@@ -564,23 +564,12 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+ 	return pages;
  }
  
--#ifdef CONFIG_DMA_REMAP
--static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
--		dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
--{
--	if (!gfpflags_allow_blocking(gfp)) {
--		struct page *page;
--
--		page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
--		if (!page)
--			return NULL;
--		return page_address(page);
--	}
--
--	return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
--				     PAGE_KERNEL, 0);
--}
--
--static void iommu_dma_free_noncoherent(struct device *dev, size_t size,
--		void *cpu_addr, dma_addr_t handle, enum dma_data_direction dir)
--{
--	__iommu_dma_unmap(dev, handle, size);
--	__iommu_dma_free(dev, size, cpu_addr);
--}
--#else
--#define iommu_dma_alloc_noncoherent		NULL
--#define iommu_dma_free_noncoherent		NULL
--#endif /* CONFIG_DMA_REMAP */
--
- static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+-/**
+- * iommu_dma_alloc_remap - Allocate and map a buffer contiguous in IOVA space
+- * @dev: Device to allocate memory for. Must be a real device
+- *	 attached to an iommu_dma_domain
+- * @size: Size of buffer in bytes
+- * @dma_handle: Out argument for allocated DMA handle
+- * @gfp: Allocation flags
+- * @prot: pgprot_t to use for the remapped mapping
+- * @attrs: DMA attributes for this allocation
+- *
+- * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
++/*
++ * If size is less than PAGE_SIZE, then a full CPU page will be allocated,
+  * but an IOMMU which supports smaller pages might not map the whole thing.
+- *
+- * Return: Mapped virtual address, or NULL on failure.
+  */
+-static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+-		dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
++static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
++		size_t size, dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
  		unsigned long attrs)
-@@ -1152,8 +1124,6 @@ static const struct dma_map_ops iommu_dma_ops = {
+ {
+ 	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+@@ -592,7 +581,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 	struct page **pages;
+ 	struct sg_table sgt;
+ 	dma_addr_t iova;
+-	void *vaddr;
+ 
+ 	*dma_handle = DMA_MAPPING_ERROR;
+ 
+@@ -635,17 +623,10 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 			< size)
+ 		goto out_free_sg;
+ 
+-	vaddr = dma_common_pages_remap(pages, size, prot,
+-			__builtin_return_address(0));
+-	if (!vaddr)
+-		goto out_unmap;
+-
+ 	*dma_handle = iova;
+ 	sg_free_table(&sgt);
+-	return vaddr;
++	return pages;
+ 
+-out_unmap:
+-	__iommu_dma_unmap(dev, iova, size);
+ out_free_sg:
+ 	sg_free_table(&sgt);
+ out_free_iova:
+@@ -655,20 +636,45 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 	return NULL;
+ }
+ 
+-/**
+- * __iommu_dma_mmap - Map a buffer into provided user VMA
+- * @pages: Array representing buffer from __iommu_dma_alloc()
+- * @size: Size of buffer in bytes
+- * @vma: VMA describing requested userspace mapping
+- *
+- * Maps the pages of the buffer in @pages into @vma. The caller is responsible
+- * for verifying the correct size and protection of @vma beforehand.
+- */
+-static int __iommu_dma_mmap(struct page **pages, size_t size,
+-		struct vm_area_struct *vma)
++static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
++		unsigned long attrs)
+ {
+-	return vm_map_pages(vma, pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
++	struct page **pages;
++	void *vaddr;
++
++	pages = __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
++						prot, attrs);
++	if (!pages)
++		return NULL;
++	vaddr = dma_common_pages_remap(pages, size, prot,
++			__builtin_return_address(0));
++	if (!vaddr)
++		goto out_unmap;
++	return vaddr;
++
++out_unmap:
++	__iommu_dma_unmap(dev, *dma_handle, size);
++	__iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
++	return NULL;
++}
++
++#ifdef CONFIG_DMA_REMAP
++static struct page **iommu_dma_alloc_noncontiguous(struct device *dev,
++		size_t size, dma_addr_t *dma_handle, gfp_t gfp,
++		unsigned long attrs)
++{
++	return __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
++					       PAGE_KERNEL, attrs);
++}
++
++static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
++		struct page **pages, dma_addr_t dma_handle)
++{
++	__iommu_dma_unmap(dev, dma_handle, size);
++	__iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+ }
++#endif
+ 
+ static void iommu_dma_sync_single_for_cpu(struct device *dev,
+ 		dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
+@@ -1074,7 +1080,7 @@ static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		struct page **pages = dma_common_find_pages(cpu_addr);
+ 
+ 		if (pages)
+-			return __iommu_dma_mmap(pages, size, vma);
++			return vm_map_pages(vma, pages, nr_pages);
+ 		pfn = vmalloc_to_pfn(cpu_addr);
+ 	} else {
+ 		pfn = page_to_pfn(virt_to_page(cpu_addr));
+@@ -1124,6 +1130,10 @@ static const struct dma_map_ops iommu_dma_ops = {
  	.free			= iommu_dma_free,
  	.alloc_pages		= dma_common_alloc_pages,
  	.free_pages		= dma_common_free_pages,
--	.alloc_noncoherent	= iommu_dma_alloc_noncoherent,
--	.free_noncoherent	= iommu_dma_free_noncoherent,
++#ifdef CONFIG_DMA_REMAP
++	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
++	.free_noncontiguous	= iommu_dma_free_noncontiguous,
++#endif
  	.mmap			= iommu_dma_mmap,
  	.get_sgtable		= iommu_dma_get_sgtable,
  	.map_page		= iommu_dma_map_page,
 diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index a5f89fc4d6df..3d1f91464bcf 100644
+index 3d1f91464bcf..3cc313678d42 100644
 --- a/include/linux/dma-map-ops.h
 +++ b/include/linux/dma-map-ops.h
-@@ -22,11 +22,6 @@ struct dma_map_ops {
+@@ -22,6 +22,10 @@ struct dma_map_ops {
  			gfp_t gfp);
  	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
  			dma_addr_t dma_handle, enum dma_data_direction dir);
--	void *(*alloc_noncoherent)(struct device *dev, size_t size,
--			dma_addr_t *dma_handle, enum dma_data_direction dir,
--			gfp_t gfp);
--	void (*free_noncoherent)(struct device *dev, size_t size, void *vaddr,
--			dma_addr_t dma_handle, enum dma_data_direction dir);
++	struct page **(*alloc_noncontiguous)(struct device *dev, size_t size,
++			dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
++	void (*free_noncontiguous)(struct device *dev, size_t size,
++			struct page **pages, dma_addr_t dma_handle);
  	int (*mmap)(struct device *, struct vm_area_struct *,
  			void *, dma_addr_t, size_t, unsigned long attrs);
  
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 956151052d45..e1b4cb1d2e55 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -267,6 +267,11 @@ void *dma_alloc_noncoherent(struct device *dev, size_t size,
+ 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+ 		dma_addr_t dma_handle, enum dma_data_direction dir);
++bool dma_can_alloc_noncontiguous(struct device *dev);
++struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
++void dma_free_noncontiguous(struct device *dev, size_t size,
++		struct page **pages, dma_addr_t dma_handle);
+ 
+ static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
 diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 51bb8fa8eb89..d3032513c54b 100644
+index d3032513c54b..770c2f66512d 100644
 --- a/kernel/dma/mapping.c
 +++ b/kernel/dma/mapping.c
-@@ -514,40 +514,19 @@ EXPORT_SYMBOL_GPL(dma_free_pages);
- void *dma_alloc_noncoherent(struct device *dev, size_t size,
- 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
- {
--	const struct dma_map_ops *ops = get_dma_ops(dev);
--	void *vaddr;
--
--	if (!ops || !ops->alloc_noncoherent) {
--		struct page *page;
--
--		page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
--		if (!page)
--			return NULL;
--		return page_address(page);
--	}
-+	struct page *page;
- 
--	size = PAGE_ALIGN(size);
--	vaddr = ops->alloc_noncoherent(dev, size, dma_handle, dir, gfp);
--	if (vaddr)
--		debug_dma_map_page(dev, virt_to_page(vaddr), 0, size, dir,
--				   *dma_handle);
--	return vaddr;
-+	page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
-+	if (!page)
-+		return NULL;
-+	return page_address(page);
- }
- EXPORT_SYMBOL_GPL(dma_alloc_noncoherent);
- 
- void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
- 		dma_addr_t dma_handle, enum dma_data_direction dir)
- {
--	const struct dma_map_ops *ops = get_dma_ops(dev);
--
--	if (!ops || !ops->free_noncoherent) {
--		dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
--		return;
--	}
--
--	size = PAGE_ALIGN(size);
--	debug_dma_unmap_page(dev, dma_handle, size, dir);
--	ops->free_noncoherent(dev, size, vaddr, dma_handle, dir);
-+	dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
+@@ -530,6 +530,41 @@ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
  }
  EXPORT_SYMBOL_GPL(dma_free_noncoherent);
  
++bool dma_can_alloc_noncontiguous(struct device *dev)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	return ops && ops->free_noncontiguous;
++}
++EXPORT_SYMBOL_GPL(dma_can_alloc_noncontiguous);
++
++struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
++		return NULL;
++	if (attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES) {
++		dev_warn(dev, "invalid flags (0x%lx) for %s\n",
++			 attrs, __func__);
++		return NULL;
++	}
++	return ops->alloc_noncontiguous(dev, size, dma_handle, gfp, attrs);
++}
++EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
++
++void dma_free_noncontiguous(struct device *dev, size_t size,
++		struct page **pages, dma_addr_t dma_handle)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
++		return;
++	ops->free_noncontiguous(dev, size, pages, dma_handle);
++}
++EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
++
+ int dma_supported(struct device *dev, u64 mask)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
 -- 
 2.29.2.454.gaff20da3a2-goog
 
