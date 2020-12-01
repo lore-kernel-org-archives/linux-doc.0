@@ -4,47 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F82C83016
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF7CC64E7B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8019A2080A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45E4520770
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNXh4h8Y"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="S003ItLW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730696AbgLAMJ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 07:09:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39810 "EHLO mail.kernel.org"
+        id S1730737AbgLAMKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 07:10:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730381AbgLAMJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730400AbgLAMJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 1 Dec 2020 07:09:56 -0500
 Received: from mail.kernel.org (ip5f5ad5d9.dynamic.kabel-deutschland.de [95.90.213.217])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2867E2080A;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3CF742086A;
         Tue,  1 Dec 2020 12:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1606824555;
-        bh=PXD2xWkrST4pHPka0zn/K0x+7DjY8Pl/j9RxoYjRIFI=;
+        bh=oRye6swtD/z+kyXM882cKWB+jBPmKe+u2YnhzbFfk/g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iNXh4h8Y9SeKDuVhkgV3+5QH3c6Hc/h8/w4LQTKGNBhXJUtrWxq3KS9A6SFcs8cOI
-         OqX2WktS4EYf+nrUaSHsSV4GT0jzqsn5Lnei4HkTuPoIvwT/eVlIEVNFUXy6Zq73ku
-         fk7vfNSotYJFl95jCcYp5s8+IG9Fxl7ixYgTWmH8=
+        b=S003ItLWISCCMJ0GXaqjvGuAi6Rmj9VQHy8o5BmIX4VMQZYtue+Po4IMdBXg/0DxW
+         uCaMuNR8DdB0BdlZRNFfKbBvtuFptLdVWSKTgOgEU1QVB6QfYOShIxfxi+RmnvAta2
+         4idDrwEac0M7vtycHTua1ueAgEtV5JAul9lkYqkk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kk4T2-00DGcy-TR; Tue, 01 Dec 2020 13:09:12 +0100
+        id 1kk4T3-00DGd7-1y; Tue, 01 Dec 2020 13:09:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Davidlohr Bueso <dbueso@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v5 03/16] parport: fix a kernel-doc markup
-Date:   Tue,  1 Dec 2020 13:08:56 +0100
-Message-Id: <77c8069df24d47ff970caad5dc7f989a2270f5f2.1606823973.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v5 07/16] completion: drop init_completion define
+Date:   Tue,  1 Dec 2020 13:09:00 +0100
+Message-Id: <e657bfc533545c185b1c3c55926a449ead56a88b.1606823973.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606823973.git.mchehab+huawei@kernel.org>
 References: <cover.1606823973.git.mchehab+huawei@kernel.org>
@@ -55,189 +60,154 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel-doc markup inside share.c is actually for
-__parport_register_driver. The actual goal seems to be
-to document parport_register_driver().
+Changeset cd8084f91c02 ("locking/lockdep: Apply crossrelease to completions")
+added a CONFIG_LOCKDEP_COMPLETE (that was later renamed to
+CONFIG_LOCKDEP_COMPLETIONS).
 
-So, fix the existing markup and add a new one.
+Such changeset renamed the init_completion, and add a macro
+that would either run a modified version or the original code.
 
+However, such code reported too many false positives. So, it
+ended being dropped later on by
+changeset e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks").
+
+Yet, the define remained there as just:
+
+	 #define init_completion(x) __init_completion(x)
+
+Get rid of the define, and return __init_completion() function
+to its original name.
+
+Fixes: e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/parport/share.c |  2 +-
- include/linux/parport.h | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ include/linux/completion.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/parport/share.c b/drivers/parport/share.c
-index 7fec4fefe151..62f8407923d4 100644
---- a/drivers/parport/share.c
-+++ b/drivers/parport/share.c
-@@ -214,65 +214,65 @@ static void get_lowlevel_driver(void)
- 	request_module("parport_lowlevel");
- }
+diff --git a/include/linux/completion.h b/include/linux/completion.h
+index bf8e77001f18..51d9ab079629 100644
+--- a/include/linux/completion.h
++++ b/include/linux/completion.h
+@@ -1,117 +1,116 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #ifndef __LINUX_COMPLETION_H
+ #define __LINUX_COMPLETION_H
  
  /*
-  * iterates through all the devices connected to the bus and sends the device
-  * details to the match_port callback of the driver, so that the driver can
-  * know what are all the ports that are connected to the bus and choose the
-  * port to which it wants to register its device.
+  * (C) Copyright 2001 Linus Torvalds
+  *
+  * Atomic wait-for-completion handler data structures.
+  * See kernel/sched/completion.c for details.
   */
- static int port_check(struct device *dev, void *dev_drv)
- {
- 	struct parport_driver *drv = dev_drv;
  
- 	/* only send ports, do not send other devices connected to bus */
- 	if (is_parport(dev))
- 		drv->match_port(to_parport_dev(dev));
- 	return 0;
- }
+ #include <linux/swait.h>
  
  /*
-  * Iterates through all the devices connected to the bus and return 1
-  * if the device is a parallel port.
+  * struct completion - structure used to maintain state for a "completion"
+  *
+  * This is the opaque structure used to maintain the state for a "completion".
+  * Completions currently use a FIFO to queue threads that have to wait for
+  * the "completion" event.
+  *
+  * See also:  complete(), wait_for_completion() (and friends _timeout,
+  * _interruptible, _interruptible_timeout, and _killable), init_completion(),
+  * reinit_completion(), and macros DECLARE_COMPLETION(),
+  * DECLARE_COMPLETION_ONSTACK().
   */
+ struct completion {
+ 	unsigned int done;
+ 	struct swait_queue_head wait;
+ };
  
- static int port_detect(struct device *dev, void *dev_drv)
+-#define init_completion_map(x, m) __init_completion(x)
+-#define init_completion(x) __init_completion(x)
++#define init_completion_map(x, m) init_completion(x)
+ static inline void complete_acquire(struct completion *x) {}
+ static inline void complete_release(struct completion *x) {}
+ 
+ #define COMPLETION_INITIALIZER(work) \
+ 	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait) }
+ 
+ #define COMPLETION_INITIALIZER_ONSTACK_MAP(work, map) \
+ 	(*({ init_completion_map(&(work), &(map)); &(work); }))
+ 
+ #define COMPLETION_INITIALIZER_ONSTACK(work) \
+ 	(*({ init_completion(&work); &work; }))
+ 
+ /**
+  * DECLARE_COMPLETION - declare and initialize a completion structure
+  * @work:  identifier for the completion structure
+  *
+  * This macro declares and initializes a completion structure. Generally used
+  * for static declarations. You should use the _ONSTACK variant for automatic
+  * variables.
+  */
+ #define DECLARE_COMPLETION(work) \
+ 	struct completion work = COMPLETION_INITIALIZER(work)
+ 
+ /*
+  * Lockdep needs to run a non-constant initializer for on-stack
+  * completions - so we use the _ONSTACK() variant for those that
+  * are on the kernel stack:
+  */
+ /**
+  * DECLARE_COMPLETION_ONSTACK - declare and initialize a completion structure
+  * @work:  identifier for the completion structure
+  *
+  * This macro declares and initializes a completion structure on the kernel
+  * stack.
+  */
+ #ifdef CONFIG_LOCKDEP
+ # define DECLARE_COMPLETION_ONSTACK(work) \
+ 	struct completion work = COMPLETION_INITIALIZER_ONSTACK(work)
+ # define DECLARE_COMPLETION_ONSTACK_MAP(work, map) \
+ 	struct completion work = COMPLETION_INITIALIZER_ONSTACK_MAP(work, map)
+ #else
+ # define DECLARE_COMPLETION_ONSTACK(work) DECLARE_COMPLETION(work)
+ # define DECLARE_COMPLETION_ONSTACK_MAP(work, map) DECLARE_COMPLETION(work)
+ #endif
+ 
+ /**
+  * init_completion - Initialize a dynamically allocated completion
+  * @x:  pointer to completion structure that is to be initialized
+  *
+  * This inline function will initialize a dynamically created completion
+  * structure.
+  */
+-static inline void __init_completion(struct completion *x)
++static inline void init_completion(struct completion *x)
  {
- 	if (is_parport(dev))
- 		return 1;
- 	return 0;
+ 	x->done = 0;
+ 	init_swait_queue_head(&x->wait);
  }
  
  /**
-- *	parport_register_driver - register a parallel port device driver
-+ *	__parport_register_driver - register a parallel port device driver
-  *	@drv: structure describing the driver
-  *	@owner: owner module of drv
-  *	@mod_name: module name string
+  * reinit_completion - reinitialize a completion structure
+  * @x:  pointer to completion structure that is to be reinitialized
   *
-  *	This can be called by a parallel port device driver in order
-  *	to receive notifications about ports being found in the
-  *	system, as well as ports no longer available.
-  *
-  *	If devmodel is true then the new device model is used
-  *	for registration.
-  *
-  *	The @drv structure is allocated by the caller and must not be
-  *	deallocated until after calling parport_unregister_driver().
-  *
-  *	If using the non device model:
-  *	The driver's attach() function may block.  The port that
-  *	attach() is given will be valid for the duration of the
-  *	callback, but if the driver wants to take a copy of the
-  *	pointer it must call parport_get_port() to do so.  Calling
-  *	parport_register_device() on that port will do this for you.
-  *
-  *	The driver's detach() function may block.  The port that
-  *	detach() is given will be valid for the duration of the
-  *	callback, but if the driver wants to take a copy of the
-  *	pointer it must call parport_get_port() to do so.
-  *
-  *
-  *	Returns 0 on success. The non device model will always succeeds.
-  *	but the new device model can fail and will return the error code.
-  **/
- 
- int __parport_register_driver(struct parport_driver *drv, struct module *owner,
-diff --git a/include/linux/parport.h b/include/linux/parport.h
-index 1fb508c19e83..f981f794c850 100644
---- a/include/linux/parport.h
-+++ b/include/linux/parport.h
-@@ -268,64 +268,95 @@ struct parport_driver {
- 
- #define to_parport_driver(n) container_of(n, struct parport_driver, driver)
- 
- int parport_bus_init(void);
- void parport_bus_exit(void);
- 
- /* parport_register_port registers a new parallel port at the given
-    address (if one does not already exist) and returns a pointer to it.
-    This entails claiming the I/O region, IRQ and DMA.  NULL is returned
-    if initialisation fails. */
- struct parport *parport_register_port(unsigned long base, int irq, int dma,
- 				      struct parport_operations *ops);
- 
- /* Once a registered port is ready for high-level drivers to use, the
-    low-level driver that registered it should announce it.  This will
-    call the high-level drivers' attach() functions (after things like
-    determining the IEEE 1284.3 topology of the port and collecting
-    DeviceIDs). */
- void parport_announce_port (struct parport *port);
- 
- /* Unregister a port. */
- extern void parport_remove_port(struct parport *port);
- 
- /* Register a new high-level driver. */
- 
- int __must_check __parport_register_driver(struct parport_driver *,
- 					   struct module *,
- 					   const char *mod_name);
- /*
-  * parport_register_driver must be a macro so that KBUILD_MODNAME can
-  * be expanded
+  * This inline function should be used to reinitialize a completion structure so it can
+  * be reused. This is especially important after complete_all() is used.
   */
-+
-+/**
-+ *	parport_register_driver - register a parallel port device driver
-+ *	@driver: structure describing the driver
-+ *
-+ *	This can be called by a parallel port device driver in order
-+ *	to receive notifications about ports being found in the
-+ *	system, as well as ports no longer available.
-+ *
-+ *	If devmodel is true then the new device model is used
-+ *	for registration.
-+ *
-+ *	The @driver structure is allocated by the caller and must not be
-+ *	deallocated until after calling parport_unregister_driver().
-+ *
-+ *	If using the non device model:
-+ *	The driver's attach() function may block.  The port that
-+ *	attach() is given will be valid for the duration of the
-+ *	callback, but if the driver wants to take a copy of the
-+ *	pointer it must call parport_get_port() to do so.  Calling
-+ *	parport_register_device() on that port will do this for you.
-+ *
-+ *	The driver's detach() function may block.  The port that
-+ *	detach() is given will be valid for the duration of the
-+ *	callback, but if the driver wants to take a copy of the
-+ *	pointer it must call parport_get_port() to do so.
-+ *
-+ *
-+ *	Returns 0 on success. The non device model will always succeeds.
-+ *	but the new device model can fail and will return the error code.
-+ **/
- #define parport_register_driver(driver)             \
- 	__parport_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
+ static inline void reinit_completion(struct completion *x)
+ {
+ 	x->done = 0;
+ }
  
- /* Unregister a high-level driver. */
- extern void parport_unregister_driver (struct parport_driver *);
- void parport_unregister_driver(struct parport_driver *);
+ extern void wait_for_completion(struct completion *);
+ extern void wait_for_completion_io(struct completion *);
+ extern int wait_for_completion_interruptible(struct completion *x);
+ extern int wait_for_completion_killable(struct completion *x);
+ extern unsigned long wait_for_completion_timeout(struct completion *x,
+ 						   unsigned long timeout);
+ extern unsigned long wait_for_completion_io_timeout(struct completion *x,
+ 						    unsigned long timeout);
+ extern long wait_for_completion_interruptible_timeout(
+ 	struct completion *x, unsigned long timeout);
+ extern long wait_for_completion_killable_timeout(
+ 	struct completion *x, unsigned long timeout);
+ extern bool try_wait_for_completion(struct completion *x);
+ extern bool completion_done(struct completion *x);
  
- /* If parport_register_driver doesn't fit your needs, perhaps
-  * parport_find_xxx does. */
- extern struct parport *parport_find_number (int);
- extern struct parport *parport_find_base (unsigned long);
- 
- /* generic irq handler, if it suits your needs */
- extern irqreturn_t parport_irq_handler(int irq, void *dev_id);
- 
- /* Reference counting for ports. */
- extern struct parport *parport_get_port (struct parport *);
- extern void parport_put_port (struct parport *);
- void parport_del_port(struct parport *);
- 
- struct pardev_cb {
- 	int (*preempt)(void *);
- 	void (*wakeup)(void *);
- 	void *private;
- 	void (*irq_func)(void *);
- 	unsigned int flags;
- };
- 
- /*
-  * parport_register_dev_model declares that a device is connected to a
-  * port, and tells the kernel all it needs to know.
-  */
 -- 
 2.28.0
 
