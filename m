@@ -2,101 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFC1C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:02:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7940EC64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:03:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4A2E2086A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:02:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28F9D206A5
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:03:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fU4+RFcp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="B3+oM+PS"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="kePb5KVk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388073AbgLAOCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 09:02:08 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:55688 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387628AbgLAOCI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 09:02:08 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1606831286;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fH6vXaLD6JyknYN6wcvlAFebplSlI6lIoEByMQneE7k=;
-        b=fU4+RFcpBzVQQkeBKxd/Z/TsfI8RUL4LYY0e4bzgz3Pa1bkvofiWij5DmBKKl6FOMhDabI
-        kfVpDrLL3Jpgea5HXO+V16KwjaHZMHXJokQkhT6hHhkqSS8ceRCHEUBuYB4uqYL6yHO8/a
-        lmlI5DQmf/OcBfaw4Ivys0TzWPCs1Oif00okWbaXjln88J7mU5aa5OLQB0OTFiYH6d7b2M
-        neJHfQEwDf3DB5ZJgNIJgqNnU+tneurZwM2mDSLzDmUYfwIctWX9qI69H6NgmsoRPbYvbG
-        c4XKYpcf+lexocSv18EjARBjBL/m6Wek3pVTVqXNXJjOwJikyKLWsq1P3tI48Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1606831286;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fH6vXaLD6JyknYN6wcvlAFebplSlI6lIoEByMQneE7k=;
-        b=B3+oM+PSmOc0/ILm8QfBvak9HqhEGOT2w6vw/hq52ePbm/hmMA6AF8BmdcrH9ECvWuV36H
-        tnnUOfz5fw0lyKCQ==
-To:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
+        id S2391295AbgLAODr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 09:03:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47690 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388491AbgLAODr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Dec 2020 09:03:47 -0500
+Received: from coco.lan (ip5f5ad5d9.dynamic.kabel-deutschland.de [95.90.213.217])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 34329206A5;
+        Tue,  1 Dec 2020 14:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606831386;
+        bh=fN4NSS/2Z3e5ZDp6dT8LOOMaJ+kpvmyC/239xA9Oq1s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kePb5KVkqAS71FlmuATQK/WwMBod77n2IDiESe9VYDlwQ+Kk93lNPKZQz2HE8e8c6
+         FR0RJ4TJ0O2+VouNrgju7q5qrgPW4wnqZRDRKoO82YMXWwVi0kBAsfooq4x1lSTJPV
+         dSik+VGazyEbU0EjntWoaFbiK45G1/El4qfxOn9I=
+Date:   Tue, 1 Dec 2020 15:03:01 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jim Mattson <jmattson@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH 0/2] RFC: Precise TSC migration
-In-Reply-To: <20201130191643.GA18861@fuller.cnet>
-References: <20201130133559.233242-1-mlevitsk@redhat.com> <20201130191643.GA18861@fuller.cnet>
-Date:   Tue, 01 Dec 2020 15:01:26 +0100
-Message-ID: <874kl5hbgp.fsf@nanos.tec.linutronix.de>
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Davidlohr Bueso <dbueso@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 07/16] completion: drop init_completion define
+Message-ID: <20201201150249.56132775@coco.lan>
+In-Reply-To: <20201201125445.GW2414@hirez.programming.kicks-ass.net>
+References: <cover.1606823973.git.mchehab+huawei@kernel.org>
+        <e657bfc533545c185b1c3c55926a449ead56a88b.1606823973.git.mchehab+huawei@kernel.org>
+        <20201201125445.GW2414@hirez.programming.kicks-ass.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 30 2020 at 16:16, Marcelo Tosatti wrote:
-> Not really. The synchronization logic tries to sync TSCs during
-> BIOS boot (and CPU hotplug), because the TSC values are loaded
-> sequentially, say:
->
-> CPU		realtime	TSC val
-> vcpu0		0 usec		0
-> vcpu1		100 usec	0
-> vcpu2		200 usec	0
+Em Tue, 1 Dec 2020 13:54:45 +0100
+Peter Zijlstra <peterz@infradead.org> escreveu:
 
-That's nonsense, really.
+> On Tue, Dec 01, 2020 at 01:09:00PM +0100, Mauro Carvalho Chehab wrote:
+> > Changeset cd8084f91c02 ("locking/lockdep: Apply crossrelease to completions")
+> > added a CONFIG_LOCKDEP_COMPLETE (that was later renamed to
+> > CONFIG_LOCKDEP_COMPLETIONS).
+> > 
+> > Such changeset renamed the init_completion, and add a macro
+> > that would either run a modified version or the original code.
+> > 
+> > However, such code reported too many false positives. So, it
+> > ended being dropped later on by
+> > changeset e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks").
+> > 
+> > Yet, the define remained there as just:
+> > 
+> > 	 #define init_completion(x) __init_completion(x)
+> > 
+> > Get rid of the define, and return __init_completion() function
+> > to its original name.
+> > 
+> > Fixes: e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---  
+> 
+> Your patch is weird, did you add -C 1000 or something?
 
-> And we'd like to see all vcpus to read the same value at all times.
+Per a past review request, I used -U32 on this particular series, in order
+to be able to display the function name and the kernel-doc markup at
+the same time.
 
-Providing guests with a synchronized and stable TSC on a host with a
-synchronized and stable TSC is trivial.
-
-Write the _same_ TSC offset to _all_ vcpu control structs and be done
-with it. It's not rocket science.
-
-The guest TSC read is:
-
-    hostTSC + vcpu_offset
-
-So if the host TSC is synchronized then the guest TSCs are synchronized
-as well.
-
-If the host TSC is not synchronized, then don't even try.
+I'm enclosing the patch with -U3.
 
 Thanks,
+Mauro
 
-        tglx
+[PATCH] completion: drop init_completion define
+
+Changeset cd8084f91c02 ("locking/lockdep: Apply crossrelease to completions")
+added a CONFIG_LOCKDEP_COMPLETE (that was later renamed to
+CONFIG_LOCKDEP_COMPLETIONS).
+
+Such changeset renamed the init_completion, and add a macro
+that would either run a modified version or the original code.
+
+However, such code reported too many false positives. So, it
+ended being dropped later on by
+changeset e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks").
+
+Yet, the define remained there as just:
+
+	 #define init_completion(x) __init_completion(x)
+
+Get rid of the define, and return __init_completion() function
+to its original name.
+
+Fixes: e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks")
+
+diff --git a/include/linux/completion.h b/include/linux/completion.h
+index bf8e77001f18..51d9ab079629 100644
+--- a/include/linux/completion.h
++++ b/include/linux/completion.h
+@@ -28,8 +28,7 @@ struct completion {
+ 	struct swait_queue_head wait;
+ };
+ 
+-#define init_completion_map(x, m) __init_completion(x)
+-#define init_completion(x) __init_completion(x)
++#define init_completion_map(x, m) init_completion(x)
+ static inline void complete_acquire(struct completion *x) {}
+ static inline void complete_release(struct completion *x) {}
+ 
+@@ -82,7 +81,7 @@ static inline void complete_release(struct completion *x) {}
+  * This inline function will initialize a dynamically created completion
+  * structure.
+  */
+-static inline void __init_completion(struct completion *x)
++static inline void init_completion(struct completion *x)
+ {
+ 	x->done = 0;
+ 	init_swait_queue_head(&x->wait);
+
