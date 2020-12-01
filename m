@@ -2,805 +2,461 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFA7C83012
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA20C64E90
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:32:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD69A2084C
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E48C920857
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:32:38 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E8hNAyNi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730973AbgLAMVb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 07:21:31 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:46095 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726390AbgLAMVa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 07:21:30 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 1F8A958055B;
-        Tue,  1 Dec 2020 07:20:43 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 01 Dec 2020 07:20:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=xMkazwppNpf+eo0G/7VDvsioA8Q
-        u7LbmHSrB0Ky+Nh0=; b=ZNjBTI0JlwNXNJSrjsoF6MBLLZHcGNOPyw2HICXOMCr
-        xayhPvijI+A6JcFOYiKywoR0qq4KSzL8ieEuO7WTh2b1j+/zpcTn8P7vqkE5ymEP
-        pOvhPbCh1CLW2cjDWiUu/6922LXh8ZqqW2XmLoGzlwtp5IGMz7Qvqez54HNxqkAz
-        YTIM27emdEgr9uUsT6mUovoLyU3uPdUcNYBtmuR5NH1P1Vx+pifdAkcZ3MWwwUvs
-        o0yzMP4JS4lZuzTywd890iOGOwKab/RlITEsNvOnUQjJD0TRCnA6NDbhXXm/j+qZ
-        Lpd9y+RGTw9A/cOaWx1gZbxRt56h2e4h9NPwsNw8mWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xMkazw
-        ppNpf+eo0G/7VDvsioA8Qu7LbmHSrB0Ky+Nh0=; b=SspGVdhIju34NC+EFHZjQX
-        0nSrV8AYfplUxQeqaADnQ4vpgdIc7rG7jOFyajYv6EAlZBk3cVwfnwLnd1R9j0db
-        rLSHFgAyyejbGeCafhA33X59zbm3ncebLXiNP8/ktLZqmmJ3AeOyF0vYqgTdeLno
-        YlJBUnI177gQ1Q1sordcMuM8NMXJRFl0+ExkQhNSjgKooHT4Om0ULtxMkVEl89kK
-        9T0lbre6xUWR9lEkmtr3vUAxvdP+eDTAGrCpHfJdzZ6EauIkQ7554EhLcZwTS76A
-        yHgTq5h3hjl3ARj4pEu4GMljF+xdpcFUYviym91ayngSLffTNZaUrRrdJuIZbgZQ
-        ==
-X-ME-Sender: <xms:GDXGX5bb2M-KrVnupHgZKA0IfAOIPLJme9ZWh37-Ic7zK9TbodoMPA>
-    <xme:GDXGX3KTqVnKogJEzHca6fBc3KIagDPvM5qG64Vgz7HWSPqeurBCyybEpy2NJjnR3
-    vZ9EObfzBlpGfW48LA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddggedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GDXGX9sTeIPOD9hFnuA8Y1jsqrqwserCFznWyuyAyKlmQpb8gWf0RA>
-    <xmx:GDXGXzUL-ZpdJGHETUVBZsX2LCLVZHGbhMSVVIWhLLMfaHUuVP-hOg>
-    <xmx:GDXGXwgZhBRHWXQyACAeW0xwfHQrNHFCJMbXAJgmSmp-INiCoqA2LA>
-    <xmx:GzXGX6Lvyb__WEZYPwaHxdVd9M4J23z2tz98T2uD2kQMQI9QNjh2bw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F03CE1080067;
-        Tue,  1 Dec 2020 07:20:39 -0500 (EST)
-Date:   Tue, 1 Dec 2020 13:20:38 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
+        id S1726202AbgLAMcW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 07:32:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49549 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727374AbgLAMcW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 07:32:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606825854;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=q06eXl8odi6lEG1doHZ/FYy+PBYpK3IjolrV1d3xVQ0=;
+        b=E8hNAyNiGjVDzHsvPI509woJdf6w4VyeSKRMWcNjqWp6jGXZtn/fb/Src9ZaYHRaa41WDU
+        fHgnl0OJZRDK21Yz55ggjH17ABslD8dIVIeSkb4G+0/B7qeTT7nq6OnkUexgugs2gMP6v0
+        kf0W0P7VsnQ+OR6XudLABAtVYY2uUHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-4O5-xdxsNOiXXhcDfeeJwA-1; Tue, 01 Dec 2020 07:30:49 -0500
+X-MC-Unique: 4O5-xdxsNOiXXhcDfeeJwA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5393D192CC44;
+        Tue,  1 Dec 2020 12:30:47 +0000 (UTC)
+Received: from starship (unknown [10.35.206.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 245525D9DC;
+        Tue,  1 Dec 2020 12:30:40 +0000 (UTC)
+Message-ID: <9f6dd105036d712f5f94de95b4bd2fccb0b0a333.camel@redhat.com>
+Subject: Re: [PATCH 0/2] RFC: Precise TSC migration
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        open list <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v2 13/19] media: sunxi: Add support for the A31 MIPI
- CSI-2 controller
-Message-ID: <20201201122038.bxk3vu2w3mg43ayq@gilmour>
-References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
- <20201128142839.517949-14-paul.kocialkowski@bootlin.com>
+        Wanpeng Li <wanpengli@tencent.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jim Mattson <jmattson@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>
+Date:   Tue, 01 Dec 2020 14:30:39 +0200
+In-Reply-To: <20201130191643.GA18861@fuller.cnet>
+References: <20201130133559.233242-1-mlevitsk@redhat.com>
+         <20201130191643.GA18861@fuller.cnet>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xyg3j2piqrsy5z5r"
-Content-Disposition: inline
-In-Reply-To: <20201128142839.517949-14-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 2020-11-30 at 16:16 -0300, Marcelo Tosatti wrote:
+> Hi Maxim,
+> 
+> On Mon, Nov 30, 2020 at 03:35:57PM +0200, Maxim Levitsky wrote:
+> > Hi!
+> > 
+> > This is the first version of the work to make TSC migration more accurate,
+> > as was defined by Paulo at:
+> > https://www.spinics.net/lists/kvm/msg225525.html
+> 
+> Description from Oliver's patch:
+> 
+> "To date, VMMs have typically restored the guest's TSCs by value using
+> the KVM_SET_MSRS ioctl for each vCPU. However, restoring the TSCs by
+> value introduces some challenges with synchronization as the TSCs
+> continue to tick throughout the restoration process. As such, KVM has
+> some heuristics around TSC writes to infer whether or not the guest or
+> host is attempting to synchronize the TSCs."
+> 
+> Not really. The synchronization logic tries to sync TSCs during
+> BIOS boot (and CPU hotplug), because the TSC values are loaded
+> sequentially, say:
+> 
+> CPU		realtime	TSC val
+> vcpu0		0 usec		0
+> vcpu1		100 usec	0
+> vcpu2		200 usec	0
+> ...
+> 
+> And we'd like to see all vcpus to read the same value at all times.
+> 
+> Other than that, comment makes sense. The problem with live migration
+> is as follows:
+> 
+> We'd like the TSC value to be written, ideally, just before the first
+> VM-entry a vCPU (because at the moment the TSC_OFFSET has been written, 
+> the vcpus tsc is ticking, which will cause a visible forward jump
+> in vcpus tsc time).
+> 
+> Before the first VM-entry is the farthest point in time before guest
+> entry that one could do that.
+> 
+> The window (or forward jump) between KVM_SET_TSC and VM-entry was about
+> 100ms last time i checked (which results in a 100ms time jump forward), 
+> See QEMU's 6053a86fe7bd3d5b07b49dae6c05f2cd0d44e687.
+> 
+> Have we measured any improvement with this patchset?
 
---xyg3j2piqrsy5z5r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Its not about this window. 
+It is about time that passes between the point that we read the 
+TSC on source system (and we do it in qemu each time the VM is paused) 
+and the moment that we set the same TSC value on the target. 
+That time is unbounded.
 
-Hi,
+Also this patchset should decrease TSC skew that happens
+between restoring it on multiple vCPUs as well, since 
+KVM_SET_TSC_STATE doesn't have to happen at the same time,
+as it accounts for time passed on each vCPU.
 
-On Sat, Nov 28, 2020 at 03:28:33PM +0100, Paul Kocialkowski wrote:
-> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
-> found on Allwinner SoCs such as the A31 and V3/V3s.
->=20
-> It is a standalone block, connected to the CSI controller on one side
-> and to the MIPI D-PHY block on the other. It has a dedicated address
-> space, interrupt line and clock.
->=20
-> It is represented as a V4L2 subdev to the CSI controller and takes a
-> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
-> media controller API.
->=20
-> Only 8-bit and 10-bit Bayer formats are currently supported.
-> While up to 4 internal channels to the CSI controller exist, only one
-> is currently supported by this implementation.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/platform/sunxi/Kconfig          |   1 +
->  drivers/media/platform/sunxi/Makefile         |   1 +
->  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
->  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 591 ++++++++++++++++++
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
->  6 files changed, 726 insertions(+)
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mi=
-pi_csi2.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mi=
-pi_csi2.h
->=20
-> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platfor=
-m/sunxi/Kconfig
-> index 7151cc249afa..9684e07454ad 100644
-> --- a/drivers/media/platform/sunxi/Kconfig
-> +++ b/drivers/media/platform/sunxi/Kconfig
-> @@ -2,3 +2,4 @@
-> =20
->  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
->  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
-> +source "drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig"
-> diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platfo=
-rm/sunxi/Makefile
-> index fc537c9f5ca9..887a7cae8fca 100644
-> --- a/drivers/media/platform/sunxi/Makefile
-> +++ b/drivers/media/platform/sunxi/Makefile
-> @@ -2,5 +2,6 @@
-> =20
->  obj-y		+=3D sun4i-csi/
->  obj-y		+=3D sun6i-csi/
-> +obj-y		+=3D sun6i-mipi-csi2/
 
-I'm not sure we need a new folder here, it's only ever tied to sun6i-csi
-so it would make more sense to have it in the same folder.
+Speaking of kvmclock, somewhat offtopic since this is a different issue,
+I found out that qemu reads the kvmclock value on each pause, 
+and then 'restores' on unpause, using
+KVM_SET_CLOCK (this modifies the global kvmclock offset)
 
->  obj-y		+=3D sun8i-di/
->  obj-y		+=3D sun8i-rotate/
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drive=
-rs/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> new file mode 100644
-> index 000000000000..3260591ed5c0
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> @@ -0,0 +1,12 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_SUN6I_MIPI_CSI2
-> +	tristate "Allwinner A31 MIPI CSI-2 Controller Driver"
-> +	depends on VIDEO_V4L2 && COMMON_CLK
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	select PHY_SUN6I_MIPI_DPHY
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select REGMAP_MMIO
-> +	select V4L2_FWNODE
-> +	help
-> +	   Support for the Allwinner A31 MIPI CSI-2 Controller.
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile b/driv=
-ers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-> new file mode 100644
-> index 000000000000..14e4e03818b5
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +sun6i-mipi-csi2-y +=3D sun6i_mipi_csi2.o
-> +
-> +obj-$(CONFIG_VIDEO_SUN6I_MIPI_CSI2) +=3D sun6i-mipi-csi2.o
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> new file mode 100644
-> index 000000000000..a6567ef82fb4
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -0,0 +1,591 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2020 Bootlin
-> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +#include "sun6i_mipi_csi2.h"
-> +
-> +#define MODULE_NAME	"sun6i-mipi-csi2"
-> +
-> +static const u32 sun6i_mipi_csi2_mbus_codes[] =3D {
-> +	MEDIA_BUS_FMT_SBGGR8_1X8,
-> +	MEDIA_BUS_FMT_SGBRG8_1X8,
-> +	MEDIA_BUS_FMT_SGRBG8_1X8,
-> +	MEDIA_BUS_FMT_SRGGB8_1X8,
-> +	MEDIA_BUS_FMT_SBGGR10_1X10,
-> +	MEDIA_BUS_FMT_SGBRG10_1X10,
-> +	MEDIA_BUS_FMT_SGRBG10_1X10,
-> +	MEDIA_BUS_FMT_SRGGB10_1X10,
-> +};
-> +
-> +/* Video */
-> +
-> +static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
-> +{
-> +	struct sun6i_mipi_csi2_video *video =3D
-> +		sun6i_mipi_csi2_subdev_video(subdev);
-> +	struct sun6i_mipi_csi2_dev *cdev =3D sun6i_mipi_csi2_video_dev(video);
-> +	struct v4l2_subdev *remote_subdev =3D video->remote_subdev;
-> +	struct v4l2_fwnode_bus_mipi_csi2 *bus_mipi_csi2 =3D
-> +		&video->endpoint.bus.mipi_csi2;
-> +	union phy_configure_opts dphy_opts =3D { 0 };
-> +	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dphy;
-> +	struct regmap *regmap =3D cdev->regmap;
-> +	struct v4l2_ctrl *ctrl;
-> +	unsigned int lanes_count;
-> +	unsigned int bpp;
-> +	unsigned long pixel_rate;
-> +	u8 data_type =3D 0;
-> +	u32 version =3D 0;
-> +	/* Initialize to 0 to use both in disable label (ret !=3D 0) and off. */
-> +	int ret =3D 0;
-> +
-> +	if (!remote_subdev)
-> +		return -ENODEV;
-> +
-> +	if (!on) {
-> +		v4l2_subdev_call(remote_subdev, video, s_stream, 0);
-> +		goto disable;
-> +	}
-> +
-> +	switch (video->mbus_format.code) {
-> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		data_type =3D MIPI_CSI2_DATA_TYPE_RAW8;
-> +		bpp =3D 8;
-> +		break;
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +		data_type =3D MIPI_CSI2_DATA_TYPE_RAW10;
-> +		bpp =3D 10;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Sensor pixel rate */
-> +
-> +	ctrl =3D v4l2_ctrl_find(remote_subdev->ctrl_handler, V4L2_CID_PIXEL_RAT=
-E);
-> +	if (!ctrl) {
-> +		dev_err(cdev->dev,
-> +			"%s: no MIPI CSI-2 pixel rate from the sensor\n",
-> +			__func__);
-> +		return -ENODEV;
-> +	}
-> +
-> +	pixel_rate =3D (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
-> +	if (!pixel_rate) {
-> +		dev_err(cdev->dev,
-> +			"%s: zero MIPI CSI-2 pixel rate from the sensor\n",
-> +			__func__);
-> +		return -ENODEV;
-> +	}
-> +
-> +	/* Power management */
-> +
-> +	ret =3D pm_runtime_get_sync(cdev->dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(cdev->dev);
-> +		return ret;
-> +	}
-> +
-> +	/* D-PHY configuration */
-> +
-> +	lanes_count =3D bus_mipi_csi2->num_data_lanes;
-> +	phy_mipi_dphy_get_default_config(pixel_rate, bpp, lanes_count,
-> +					 dphy_cfg);
-> +
-> +	/*
-> +	 * Note that our hardware is using DDR, which is not taken in account by
-> +	 * phy_mipi_dphy_get_default_config when calculating hs_clk_rate from
-> +	 * the pixel rate, lanes count and bpp.
-> +	 *
-> +	 * The resulting clock rate is basically the symbol rate over the whole
-> +	 * link. The actual clock rate is calculated with division by two since
-> +	 * DDR samples both on rising and falling edges.
-> +	 */
-> +
-> +	dev_dbg(cdev->dev, "A31 MIPI CSI-2 config:\n");
-> +	dev_dbg(cdev->dev, "%ld pixels/s, %u bits/pixel, %lu Hz clock\n",
-> +		pixel_rate, bpp, dphy_cfg->hs_clk_rate / 2);
-> +
-> +	ret =3D phy_reset(cdev->dphy);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to reset MIPI D-PHY\n");
-> +		goto error_pm;
-> +	}
-> +
-> +	ret =3D phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
-> +			       PHY_MIPI_DPHY_SUBMODE_RX);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to set MIPI D-PHY mode\n");
-> +		goto error_pm;
-> +	}
-> +
-> +	ret =3D phy_configure(cdev->dphy, &dphy_opts);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to configure MIPI D-PHY\n");
-> +		goto error_pm;
-> +	}
-> +
-> +	ret =3D phy_power_on(cdev->dphy);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to power on MIPI D-PHY\n");
-> +		goto error_pm;
-> +	}
-> +
-> +	/* MIPI CSI-2 controller setup */
-> +
-> +	/*
-> +	 * The enable flow in the Allwinner BSP is a bit different: the enable
-> +	 * and reset bits are set together before starting the CSI controller.
-> +	 *
-> +	 * In mainline we enable the CSI controller first (due to subdev logic).
-> +	 * One reliable way to make this work is to deassert reset, configure
-> +	 * registers and enable the controller when everything's ready.
-> +	 *
-> +	 * However, setting the version enable bit and removing it afterwards
-> +	 * appears necessary for capture to work reliably, while replacing it
-> +	 * with a delay doesn't do the trick.
-> +	 */
-> +	regmap_write(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-> +		     SUN6I_MIPI_CSI2_CTL_RESET_N |
-> +		     SUN6I_MIPI_CSI2_CTL_VERSION_EN |
-> +		     SUN6I_MIPI_CSI2_CTL_UNPK_EN);
-> +
-> +	regmap_read(regmap, SUN6I_MIPI_CSI2_VERSION_REG, &version);
-> +
-> +	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-> +				   SUN6I_MIPI_CSI2_CTL_VERSION_EN, 0);
-> +
-> +	dev_dbg(cdev->dev, "A31 MIPI CSI-2 version: %04x\n", version);
-> +
-> +	regmap_write(regmap, SUN6I_MIPI_CSI2_CFG_REG,
-> +		     SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(1) |
-> +		     SUN6I_MIPI_CSI2_CFG_LANE_COUNT(lanes_count));
-> +
-> +	/*
-> +	 * Our MIPI CSI-2 controller has internal channels that can be
-> +	 * configured to match a specific MIPI CSI-2 virtual channel and/or
-> +	 * a specific data type. Each internal channel can be piped to an
-> +	 * internal channel of the CSI controller.
-> +	 *
-> +	 * We set virtual channel numbers to all channels to make sure that
-> +	 * virtual channel 0 goes to CSI channel 0 only.
-> +	 */
-> +	regmap_write(regmap, SUN6I_MIPI_CSI2_VCDT_RX_REG,
-> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(3, 3) |
-> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(2, 2) |
-> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(1, 1) |
-> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(0, 0) |
-> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(0, data_type));
-> +
-> +	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-> +			   SUN6I_MIPI_CSI2_CTL_EN, SUN6I_MIPI_CSI2_CTL_EN);
-> +
-> +	ret =3D v4l2_subdev_call(remote_subdev, video, s_stream, 1);
-> +	if (ret)
-> +		goto disable;
-> +
-> +	return 0;
-> +
-> +disable:
-> +	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
-> +			   SUN6I_MIPI_CSI2_CTL_EN, 0);
-> +
-> +	phy_power_off(cdev->dphy);
-> +
-> +error_pm:
-> +	pm_runtime_put(cdev->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops sun6i_mipi_csi2_subdev_video_o=
-ps =3D {
-> +	.s_stream	=3D sun6i_mipi_csi2_s_stream,
-> +};
-> +
-> +/* Pad */
-> +
-> +static int
-> +sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
-> +			       struct v4l2_subdev_pad_config *config,
-> +			       struct v4l2_subdev_mbus_code_enum *code_enum)
-> +{
-> +	if (code_enum->index >=3D ARRAY_SIZE(sun6i_mipi_csi2_mbus_codes))
-> +		return -EINVAL;
-> +
-> +	code_enum->code =3D sun6i_mipi_csi2_mbus_codes[code_enum->index];
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-> +				   struct v4l2_subdev_pad_config *config,
-> +				   struct v4l2_subdev_format *format)
-> +{
-> +	struct sun6i_mipi_csi2_video *video =3D
-> +		sun6i_mipi_csi2_subdev_video(subdev);
-> +	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> +
-> +	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> +		*mbus_format =3D *v4l2_subdev_get_try_format(subdev, config,
-> +							   format->pad);
-> +	else
-> +		*mbus_format =3D video->mbus_format;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
-> +				   struct v4l2_subdev_pad_config *config,
-> +				   struct v4l2_subdev_format *format)
-> +{
-> +	struct sun6i_mipi_csi2_video *video =3D
-> +		sun6i_mipi_csi2_subdev_video(subdev);
-> +	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> +
-> +	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> +		*v4l2_subdev_get_try_format(subdev, config, format->pad) =3D
-> +			*mbus_format;
-> +	else
-> +		video->mbus_format =3D *mbus_format;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_subdev_pad_ops =
-=3D {
-> +	.enum_mbus_code	=3D sun6i_mipi_csi2_enum_mbus_code,
-> +	.get_fmt	=3D sun6i_mipi_csi2_get_fmt,
-> +	.set_fmt	=3D sun6i_mipi_csi2_set_fmt,
-> +};
-> +
-> +/* Subdev */
-> +
-> +static const struct v4l2_subdev_ops sun6i_mipi_csi2_subdev_ops =3D {
-> +	.video		=3D &sun6i_mipi_csi2_subdev_video_ops,
-> +	.pad		=3D &sun6i_mipi_csi2_subdev_pad_ops,
-> +};
-> +
-> +/* Notifier */
-> +
-> +static int
-> +sun6i_mipi_csi2_notifier_bound(struct v4l2_async_notifier *notifier,
-> +			       struct v4l2_subdev *remote_subdev,
-> +			       struct v4l2_async_subdev *remote_subdev_async)
-> +{
-> +	struct v4l2_subdev *subdev =3D notifier->sd;
-> +	struct sun6i_mipi_csi2_video *video =3D
-> +		sun6i_mipi_csi2_subdev_video(subdev);
-> +	struct sun6i_mipi_csi2_dev *cdev =3D sun6i_mipi_csi2_video_dev(video);
-> +	int source_pad;
-> +	int ret;
-> +
-> +	source_pad =3D media_entity_get_fwnode_pad(&remote_subdev->entity,
-> +						 remote_subdev->fwnode,
-> +						 MEDIA_PAD_FL_SOURCE);
-> +	if (source_pad < 0)
-> +		return source_pad;
-> +
-> +	ret =3D media_create_pad_link(&remote_subdev->entity, source_pad,
-> +				    &subdev->entity, 0,
-> +				    MEDIA_LNK_FL_ENABLED |
-> +				    MEDIA_LNK_FL_IMMUTABLE);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to create %s:%u -> %s:%u link\n",
-> +			remote_subdev->entity.name, source_pad,
-> +			subdev->entity.name, 0);
-> +		return ret;
-> +	}
-> +
-> +	video->remote_subdev =3D remote_subdev;
-> +
-> +	return 0;
-> +}
-> +
-> +static const
-> +struct v4l2_async_notifier_operations sun6i_mipi_csi2_notifier_ops =3D {
-> +	.bound		=3D sun6i_mipi_csi2_notifier_bound,
-> +};
-> +
-> +/* Media Entity */
-> +
-> +static const struct media_entity_operations sun6i_mipi_csi2_entity_ops =
-=3D {
-> +	.link_validate	=3D v4l2_subdev_link_validate,
-> +};
-> +
-> +/* Base Driver */
-> +
-> +static int __maybe_unused sun6i_mipi_csi2_suspend(struct device *dev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev =3D dev_get_drvdata(dev);
-> +
-> +	clk_disable_unprepare(cdev->clk_mod);
-> +	clk_disable_unprepare(cdev->clk_bus);
-> +	reset_control_assert(cdev->reset);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused sun6i_mipi_csi2_resume(struct device *dev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev =3D dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret =3D reset_control_deassert(cdev->reset);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to deassert reset\n");
-> +		return ret;
-> +	}
-> +
-> +	ret =3D clk_prepare_enable(cdev->clk_bus);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to enable bus clock\n");
-> +		goto error_reset;
-> +	}
-> +
-> +	ret =3D clk_prepare_enable(cdev->clk_mod);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to enable module clock\n");
-> +		goto error_clk_bus;
-> +	}
-> +
-> +	return 0;
-> +
-> +error_clk_bus:
-> +	clk_disable_unprepare(cdev->clk_bus);
-> +
-> +error_reset:
-> +	reset_control_assert(cdev->reset);
-> +
-> +	return ret;
-> +}
+This means (and I tested it) that if guest uses kvmclock
+for time reference, it will not account for time passed in
+the paused state.
 
-I'm guessing you set the __maybe_unused attribute because you're using
-SET_RUNTIME_PM_OPS, but what would happen if runtime_pm isn't selected?
-It looks like you don't handle that case.
+> 
+> Then Paolo mentions (with >), i am replying as usual.
+> 
+> > Ok, after looking more at the code with Maxim I can confidently say that
+> > it's a total mess.  And a lot of the synchronization code is dead
+> > because 1) as far as we could see no guest synchronizes the TSC using
+> > MSR_IA32_TSC; 
+> 
+> Well, recent BIOS'es take care of synchronizing the TSC. So when Linux
+> boots, it does not have to synchronize TSC in software. 
 
-> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
-> +{
-> +	struct sun6i_mipi_csi2_video *video =3D &cdev->video;
-> +	struct v4l2_subdev *subdev =3D &video->subdev;
-> +	struct v4l2_async_notifier *notifier =3D &video->notifier;
-> +	struct fwnode_handle *handle;
-> +	struct v4l2_fwnode_endpoint *endpoint;
-> +	struct v4l2_async_subdev *subdev_async;
-> +	int ret;
-> +
-> +	/* Subdev */
-> +
-> +	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-> +	subdev->dev =3D cdev->dev;
-> +	subdev->flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
-> +	v4l2_set_subdevdata(subdev, cdev);
-> +
-> +	/* Entity */
-> +
-> +	subdev->entity.function =3D MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	subdev->entity.ops =3D &sun6i_mipi_csi2_entity_ops;
-> +
-> +	/* Pads */
-> +
-> +	video->pads[0].flags =3D MEDIA_PAD_FL_SINK;
-> +	video->pads[1].flags =3D MEDIA_PAD_FL_SOURCE;
-> +
-> +	ret =3D media_entity_pads_init(&subdev->entity, 2, video->pads);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Endpoint */
-> +
-> +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
-> +						 FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!handle) {
-> +		ret =3D -ENODEV;
-> +		goto error_media_entity;
-> +	}
-> +
-> +	endpoint =3D &video->endpoint;
-> +	endpoint->bus_type =3D V4L2_MBUS_CSI2_DPHY;
-> +
-> +	ret =3D v4l2_fwnode_endpoint_parse(handle, endpoint);
-> +	fwnode_handle_put(handle);
-> +	if (ret)
-> +		goto error_media_entity;
-> +
-> +	/* Notifier */
-> +
-> +	v4l2_async_notifier_init(notifier);
-> +
-> +	subdev_async =3D &video->subdev_async;
-> +	ret =3D v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> +							   subdev_async);
-> +	if (ret)
-> +		goto error_media_entity;
-> +
-> +	video->notifier.ops =3D &sun6i_mipi_csi2_notifier_ops;
-> +
-> +	ret =3D v4l2_async_subdev_notifier_register(subdev, notifier);
-> +	if (ret < 0)
-> +		goto error_notifier;
-> +
-> +	/* Subdev */
-> +
-> +	ret =3D v4l2_async_register_subdev(subdev);
-> +	if (ret < 0)
-> +		goto error_notifier_registered;
-> +
-> +	/* Runtime PM */
-> +
-> +	pm_runtime_enable(cdev->dev);
-> +	pm_runtime_set_suspended(cdev->dev);
-> +
-> +	return 0;
-> +
-> +error_notifier_registered:
-> +	v4l2_async_notifier_unregister(notifier);
-> +error_notifier:
-> +	v4l2_async_notifier_cleanup(notifier);
-> +error_media_entity:
-> +	media_entity_cleanup(&subdev->entity);
-> +
-> +	return ret;
-> +}
-> +
-> +static int sun6i_mipi_csi2_v4l2_teardown(struct sun6i_mipi_csi2_dev *cde=
-v)
-> +{
-> +	struct sun6i_mipi_csi2_video *video =3D &cdev->video;
-> +	struct v4l2_subdev *subdev =3D &video->subdev;
-> +	struct v4l2_async_notifier *notifier =3D &video->notifier;
-> +
-> +	v4l2_async_unregister_subdev(subdev);
-> +	v4l2_async_notifier_unregister(notifier);
-> +	v4l2_async_notifier_cleanup(notifier);
-> +	media_entity_cleanup(&subdev->entity);
-> +	v4l2_device_unregister_subdev(subdev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct regmap_config sun6i_mipi_csi2_regmap_config =3D {
-> +	.reg_bits       =3D 32,
-> +	.reg_stride     =3D 4,
-> +	.val_bits       =3D 32,
-> +	.max_register	=3D 0x400,
-> +};
-> +
-> +static int sun6i_mipi_csi2_probe(struct platform_device *pdev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev;
-> +	struct resource *res;
-> +	void __iomem *io_base;
-> +	int ret;
-> +
-> +	cdev =3D devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
-> +	if (!cdev)
-> +		return -ENOMEM;
-> +
-> +	cdev->dev =3D &pdev->dev;
-> +
-> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	io_base =3D devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(io_base))
-> +		return PTR_ERR(io_base);
-> +
-> +	cdev->regmap =3D devm_regmap_init_mmio(&pdev->dev, io_base,
-> +					     &sun6i_mipi_csi2_regmap_config);
-> +	if (IS_ERR(cdev->regmap)) {
-> +		dev_err(&pdev->dev, "failed to init register map\n");
-> +		return PTR_ERR(cdev->regmap);
-> +	}
-> +
-> +	cdev->clk_bus =3D devm_clk_get(&pdev->dev, "bus");
-> +	if (IS_ERR(cdev->clk_bus)) {
-> +		dev_err(&pdev->dev, "failed to acquire bus clock\n");
-> +		return PTR_ERR(cdev->clk_bus);
-> +	}
-> +
-> +	cdev->clk_mod =3D devm_clk_get(&pdev->dev, "mod");
-> +	if (IS_ERR(cdev->clk_mod)) {
-> +		dev_err(&pdev->dev, "failed to acquire mod clock\n");
-> +		return PTR_ERR(cdev->clk_mod);
-> +	}
-> +
-> +	cdev->reset =3D devm_reset_control_get_shared(&pdev->dev, NULL);
-> +	if (IS_ERR(cdev->reset)) {
-> +		dev_err(&pdev->dev, "failed to get reset controller\n");
-> +		return PTR_ERR(cdev->reset);
-> +	}
-> +
-> +	cdev->dphy =3D devm_phy_get(&pdev->dev, "dphy");
-> +	if (IS_ERR(cdev->dphy)) {
-> +		dev_err(&pdev->dev, "failed to get the MIPI D-PHY\n");
-> +		return PTR_ERR(cdev->dphy);
-> +	}
-> +
-> +	ret =3D phy_init(cdev->dphy);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "failed to initialize the MIPI D-PHY\n");
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, cdev);
-> +
-> +	ret =3D sun6i_mipi_csi2_v4l2_setup(cdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun6i_mipi_csi2_remove(struct platform_device *pdev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev =3D platform_get_drvdata(pdev);
-> +
-> +	phy_exit(cdev->dphy);
-> +
-> +	return sun6i_mipi_csi2_v4l2_teardown(cdev);
+Do you have an example of such BIOS? I tested OVMF which I compiled
+from git master a few weeks ago, and I also tested this with seabios 
+from qemu repo, and I have never seen writes to either TSC, or TSC_ADJUST
+from BIOS.
 
-This seem to be the only user and its content is pretty straightforward,
-so we shouldn't have a separate function here
+Or do you refer to the native BIOS on the host doing TSC synchronization?
 
-> +}
-> +
-> +static const struct dev_pm_ops sun6i_mipi_csi2_pm_ops =3D {
-> +	SET_RUNTIME_PM_OPS(sun6i_mipi_csi2_suspend, sun6i_mipi_csi2_resume,
-> +			   NULL)
-> +};
-> +
-> +static const struct of_device_id sun6i_mipi_csi2_of_match[] =3D {
-> +	{ .compatible =3D "allwinner,sun6i-a31-mipi-csi2" },
-> +	{ .compatible =3D "allwinner,sun8i-v3s-mipi-csi2", },
+> 
+> However, upon migration (and initialization), the KVM_SET_TSC's do 
+> not happen at exactly the same time (the MSRs for each vCPU are loaded
+> in sequence). The synchronization code in kvm_set_tsc() is for those cases.
 
-There's no need for the v3s compatible here, it will fallback to the a31
-one anyway.
+I agree with that, and this is one of the issues that KVM_SET_TSC_STATE
+is going to fix, since it accounts for it.
 
-Maxime
 
---xyg3j2piqrsy5z5r
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > and 2) writing to MSR_IA32_TSC_ADJUST does not trigger the
+> > synchronization code in kvm_write_tsc.
+> 
+> Not familiar how guests are using MSR_IA32_TSC_ADJUST (or Linux)...
+> Lets see:
+> 
+> 
+> /*
+>  * Freshly booted CPUs call into this:
+>  */
+> void check_tsc_sync_target(void)
+> {
+>         struct tsc_adjust *cur = this_cpu_ptr(&tsc_adjust);
+>         unsigned int cpu = smp_processor_id();
+>         cycles_t cur_max_warp, gbl_max_warp;
+>         int cpus = 2;
+> 
+>         /* Also aborts if there is no TSC. */
+>         if (unsynchronized_tsc())
+>                 return;
+> 
+>         /*
+>          * Store, verify and sanitize the TSC adjust register. If
+>          * successful skip the test.
+>          *
+>          * The test is also skipped when the TSC is marked reliable. This
+>          * is true for SoCs which have no fallback clocksource. On these
+>          * SoCs the TSC is frequency synchronized, but still the TSC ADJUST
+>          * register might have been wreckaged by the BIOS..
+>          */
+>         if (tsc_store_and_check_tsc_adjust(false) || tsc_clocksource_reliable) {
+>                 atomic_inc(&skip_test);
+>                 return;
+>         }
+> 
+> retry:
+> 
+> I'd force that synchronization path to be taken as a test-case.
 
------BEGIN PGP SIGNATURE-----
+Or even better as I suggested, we might tell the guest kernel
+to avoid this synchronization path when KVM is detected
+(regardless of invtsc flag)
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8Y1FgAKCRDj7w1vZxhR
-xbKgAQDhKjer8YZ3QwsRdd411yhbUrsioVOy/ZoAYW4ICDemsgEA58qGq9sgAJB1
-P9Hq5R02fk5eRxhVh+JBvYS8zLoHQgA=
-=Kixd
------END PGP SIGNATURE-----
+> 
+> 
+> > I have a few thoughts about the kvm masterclock synchronization,
+> > which relate to the Paulo's proposal that I implemented.
+> > 
+> > The idea of masterclock is that when the host TSC is synchronized
+> > (or as kernel call it, stable), and the guest TSC is synchronized as well,
+> > then we can base the kvmclock, on the same pair of
+> > (host time in nsec, host tsc value), for all vCPUs.
+> 
+> We _have_ to base. See the comment which starts with
+> 
+> "Assuming a stable TSC across physical CPUS, and a stable TSC"
+> 
+> at x86.c.
+> 
+> > This makes the random error in calculation of this value invariant
+> > across vCPUS, and allows the guest to do kvmclock calculation in userspace
+> > (vDSO) since kvmclock parameters are vCPU invariant.
+> 
+> Actually, without synchronized host TSCs (and the masterclock scheme,
+> with a single base read from a vCPU), kvmclock in kernel is buggy as
+> well:
+> 
+> u64 pvclock_clocksource_read(struct pvclock_vcpu_time_info *src)
+> {
+>         unsigned version;
+>         u64 ret;
+>         u64 last;
+>         u8 flags;
+> 
+>         do {
+>                 version = pvclock_read_begin(src);
+>                 ret = __pvclock_read_cycles(src, rdtsc_ordered());
+>                 flags = src->flags;
+>         } while (pvclock_read_retry(src, version));
+> 
+>         if (unlikely((flags & PVCLOCK_GUEST_STOPPED) != 0)) {
+>                 src->flags &= ~PVCLOCK_GUEST_STOPPED;
+>                 pvclock_touch_watchdogs();
+>         }
+> 
+>         if ((valid_flags & PVCLOCK_TSC_STABLE_BIT) &&
+>                 (flags & PVCLOCK_TSC_STABLE_BIT))
+>                 return ret;
+> 
+> The code that follows this (including cmpxchg) is a workaround for that 
+> bug.
 
---xyg3j2piqrsy5z5r--
+I understand that. I am not arguing that we shoudn't use the masterclock!
+I am just saying the facts about the condition when it works.
+
+> 
+> Workaround would require each vCPU to write to a "global clock", on
+> every clock read.
+> 
+> > To ensure that the guest tsc is synchronized we currently track host/guest tsc
+> > writes, and enable the master clock only when roughly the same guest's TSC value
+> > was written across all vCPUs.
+> 
+> Yes, because then you can do:
+> 
+> vcpu0				vcpu1
+> 
+> A = read TSC
+> 		... elapsed time ...
+> 
+> 				B = read TSC
+> 
+> 				delta = B - A
+> 
+> > Recently this was disabled by Paulo
+> 
+> What was disabled exactly?
+
+The running of tsc synchronization code when the _guest_ writes the TSC.
+
+Which changes two things:
+   1. If the guest de-synchronizes its TSC, we won't disable master clock.
+   2. If the guest writes similar TSC values on each vCPU we won't detect
+      this as synchronization attempt, replace this with exactly the same
+      value and finally re-enable the master clock.
+
+I argue that this change is OK, because Linux guests don't write to TSC at all,
+the virtual BIOSes seems not to write there either, and the only case in which
+the Linux guest tries to change its TSC is on CPU hotplug as you mention and 
+it uses TSC_ADJUST, that currently doesn't trigger TSC synchronization code in
+KVM anyway, so it is broken already.
+
+However I also argue that we should mention this in documentation just in case,
+and we might also want (also just in case) to make Linux guests avoid even trying to
+touch TSC_ADJUST register when running under KVM.
+
+To rehash my own words, the KVM_CLOCK_TSC_STABLE should be defined as:
+'kvmclock is vCPU invariant, as long as the guest doesn't mess with its TSC'.
+
+Having said all that, now that I know tsc sync code, and the
+reasons why it is there, I wouldn't be arguing about putting it back either.
+
+> 
+> > and I agree with this, because I think
+> > that we indeed should only make the guest TSC synchronized by default
+> > (including new hotplugged vCPUs) and not do any tsc synchronization beyond that.
+> > (Trying to guess when the guest syncs the TSC can cause more harm that good).
+> > 
+> > Besides, Linux guests don't sync the TSC via IA32_TSC write,
+> > but rather use IA32_TSC_ADJUST which currently doesn't participate
+> > in the tsc sync heruistics.
+> 
+> Linux should not try to sync the TSC with IA32_TSC_ADJUST. It expects
+> the BIOS to boot with synced TSCs.
+> 
+> So i wonder what is making it attempt TSC sync in the first place?
+
+CPU hotplug. And the guest doesn't really write to TSC_ADJUST 
+since it's measurement code doesn't detect any tsc warps. 
+ 
+I was just thinking that in theory since, this is a VM, and it can be 
+interrupted at any point, the measurement code should sometimes fall,
+and cause trouble.
+I didn't do much homework on this so I might be overreacting.
+ 
+As far as I see X86_FEATURE_TSC_RELIABLE was done mostly to support
+running under Hyper-V and VMWARE, and these should be prone to similar
+issues, supporting my theory.
+
+> 
+> (one might also want to have Linux's synchronization via IA32_TSC_ADJUST 
+> working, but it should not need to happen in the first place, as long as 
+> QEMU and KVM are behaving properly).
+> 
+> > And as far as I know, Linux guest is the primary (only?) user of the kvmclock.
+> 
+> Only AFAIK.
+> 
+> > I *do think* however that we should redefine KVM_CLOCK_TSC_STABLE
+> > in the documentation to state that it only guarantees invariance if the guest
+> > doesn't mess with its own TSC.
+> > 
+> > Also I think we should consider enabling the X86_FEATURE_TSC_RELIABLE
+> > in the guest kernel, when kvm is detected to avoid the guest even from trying
+> > to sync TSC on newly hotplugged vCPUs.
+> 
+> See 7539b174aef405d9d57db48c58390ba360c91312.
+
+I know about this, and I personally always use invtsc
+with my VMs.
+>  
+> 
+> Was hoping to make that (-cpu xxx,+invtsc) the default in QEMU once invariant TSC code
+> becomes stable. Should be tested enough by now?
+
+The issue is that Qemu blocks migration when invtsc is set, based on the
+fact that the target machine might have different TSC frequency and no
+support for TSC scaling.
+There was a long debate on this long ago.
+
+It is possible though to override this by specifying the exact frequency
+you want the guest TSC to run at, by using something like
+(tsc-frequency=3500000000)
+I haven't checked if libvirt does this or not.
+
+I do think that as long as the user uses modern CPUs (which have stable TSC
+and support TSC scaling), there is no reason to disable invtsc, and
+therefore no reason to use kvmclock.
+
+> 
+> > (The guest doesn't end up touching TSC_ADJUST usually, but it still might
+> > in some cases due to scheduling of guest vCPUs)
+> > 
+> > (X86_FEATURE_TSC_RELIABLE short circuits tsc synchronization on CPU hotplug,
+> > and TSC clocksource watchdog, and the later we might want to keep).
+> 
+> The latter we want to keep.
+> 
+> > For host TSC writes, just as Paulo proposed we can still do the tsc sync,
+> > unless the new code that I implemented is in use.
+> 
+> So Paolo's proposal is to
+> 
+> "- for live migration, userspace is expected to use the new
+> KVM_GET/SET_TSC_PRECISE (or whatever the name will be) to get/set a
+> (nanosecond, TSC, TSC_ADJUST) tuple."
+> 
+> Makes sense, so that no time between KVM_SET_TSC and
+> MSR_WRITE(TSC_ADJUST) elapses, which would cause the TSC to go out
+> of what is desired by the user.
+> 
+> Since you are proposing this new ioctl, perhaps its useful to also
+> reduce the 100ms jump? 
+
+Yep. As long as target and destantion clocks are synchronized,
+it should make it better.
+
+> 
+> "- for live migration, userspace is expected to use the new
+> KVM_GET/SET_TSC_PRECISE (or whatever the name will be) to get/set a
+> (nanosecond, TSC, TSC_ADJUST) tuple. This value will be written
+> to the guest before the first VM-entry"
+> 
+> Sounds like a good idea (to integrate the values in a tuple).
+> 
+> > Few more random notes:
+> > 
+> > I have a weird feeling about using 'nsec since 1 January 1970'.
+> > Common sense is telling me that a 64 bit value can hold about 580 years,
+> > but still I see that it is more common to use timespec which is a (sec,nsec) pair.
+> 
+>            struct timespec {
+>                time_t   tv_sec;        /* seconds */
+>                long     tv_nsec;       /* nanoseconds */
+>            };
+> 
+> > I feel that 'kvm_get_walltime' that I added is a bit of a hack.
+> > Some refactoring might improve things here.
+> 
+> Haven't read the patchset yet...
+> 
+> > For example making kvm_get_walltime_and_clockread work in non tsc case as well
+> > might make the code cleaner.
+> > 
+> > Patches to enable this feature in qemu are in process of being sent to
+> > qemu-devel mailing list.
+> > 
+> > Best regards,
+> >        Maxim Levitsky
+> > 
+> > Maxim Levitsky (2):
+> >   KVM: x86: implement KVM_SET_TSC_PRECISE/KVM_GET_TSC_PRECISE
+> >   KVM: x86: introduce KVM_X86_QUIRK_TSC_HOST_ACCESS
+> > 
+> >  Documentation/virt/kvm/api.rst  | 56 +++++++++++++++++++++
+> >  arch/x86/include/uapi/asm/kvm.h |  1 +
+> >  arch/x86/kvm/x86.c              | 88 +++++++++++++++++++++++++++++++--
+> >  include/uapi/linux/kvm.h        | 14 ++++++
+> >  4 files changed, 154 insertions(+), 5 deletions(-)
+> > 
+> > -- 
+> > 2.26.2
+> > 
+
+Best regards,
+	Maxim Levitsky
+
+
