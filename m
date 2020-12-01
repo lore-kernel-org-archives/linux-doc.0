@@ -2,89 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE99C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 19:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62115C71156
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 19:56:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41BC12151B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 19:44:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QyfQHzxc";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IV+1qwmc"
+	by mail.kernel.org (Postfix) with ESMTP id 2135321741
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 19:56:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392419AbgLATob (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 14:44:31 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:57580 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388204AbgLATob (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 14:44:31 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1606851829;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oZMSZJ9B+pz4ruoX5S7orWGoTaF0HgBc602QZCF7JU0=;
-        b=QyfQHzxckn7qkBjfSV1pVAqUbTsikduDPHWrdQAG4HTwq3CU87bm9fh86gPlw6fEmGjQRu
-        FsIWiMLLpu8hq2exqVwQAmoAX/A9ua6qeL+qEQurSj2OvookL6Bfwym7sj+lxqoxq8Fkyy
-        F22enYcGxORliy0GZB+lzqdE0V2En9mFxRrmdLXvh2gRd7d0+CB2vnghntpG9TiOp7kwfg
-        2xYQO2IGZp/p29qKcHwRwJEGDte9MrezEjaoJL72J7zA8Gmd3Nw+EJkLg4JUH05w/l04le
-        6TC0fOtF0Zkq9x9ETfEjMfGTXQgUv/lfOXL/WGRT37ZDof1+UXmE8zuC4J7Z2A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1606851829;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oZMSZJ9B+pz4ruoX5S7orWGoTaF0HgBc602QZCF7JU0=;
-        b=IV+1qwmcMVimGabIbOlbCXyCdVSW8AFP3DTZ8qkuiNlrV6sVb/EFXVJQPGl2uW/HuMh/2E
-        AMwe7s/QlMKY39AA==
-To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
+        id S2392449AbgLAT4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 14:56:30 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:39955 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388704AbgLAT42 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 14:56:28 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1kkBkR-003edd-JW; Tue, 01 Dec 2020 20:55:39 +0100
+Received: from p57bd9091.dip0.t-ipconnect.de ([87.189.144.145] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1kkBkQ-001scM-TR; Tue, 01 Dec 2020 20:55:39 +0100
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jim Mattson <jmattson@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 1/2] KVM: x86: implement KVM_SET_TSC_PRECISE/KVM_GET_TSC_PRECISE
-In-Reply-To: <20201130133559.233242-2-mlevitsk@redhat.com>
-References: <20201130133559.233242-1-mlevitsk@redhat.com> <20201130133559.233242-2-mlevitsk@redhat.com>
-Date:   Tue, 01 Dec 2020 20:43:49 +0100
-Message-ID: <87h7p5fh1m.fsf@nanos.tec.linutronix.de>
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org,
+        Jens Axboe <axboe@kernel.dk>
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+ <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+ <20201201102901.GF557259@kernel.org>
+ <e3d5d791-8e4f-afcc-944c-24f66f329bd7@physik.fu-berlin.de>
+ <20201201121033.GG557259@kernel.org>
+ <49a2022c-f106-55ec-9390-41307a056517@physik.fu-berlin.de>
+ <20201201135623.GA751215@kernel.org>
+ <4c752ff0-27a6-b9d7-ab81-8aac1a3b7b65@physik.fu-berlin.de>
+Message-ID: <ea5bae0e-9f27-355f-d841-cf8b362b0b70@physik.fu-berlin.de>
+Date:   Tue, 1 Dec 2020 20:55:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <4c752ff0-27a6-b9d7-ab81-8aac1a3b7b65@physik.fu-berlin.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.145
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 30 2020 at 15:35, Maxim Levitsky wrote:
-> +  struct kvm_tsc_info {
-> +	__u32 flags;
-> +	__u64 nsec;
-> +	__u64 tsc;
-> +	__u64 tsc_adjust;
-> +  };
-> +
-> +flags values for ``struct kvm_tsc_info``:
-> +
-> +``KVM_TSC_INFO_TSC_ADJUST_VALID``
-> +
-> +  ``tsc_adjust`` contains valid IA32_TSC_ADJUST value
+Hi Mike!
 
-Why exposing TSC_ADJUST at all? Just because?
+On 12/1/20 4:07 PM, John Paul Adrian Glaubitz wrote:
+> This fixes the issue for me.
+> 
+> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 
-Thanks,
+I just booted the kernel from the linux-mm branch and I can't get the hpsa driver
+to work anymore. Even if I compile it into the kernel, the driver is no longer
+loaded and hence I can't access the disks.
 
-        tglx
+Any idea what could be wrong?
+
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
