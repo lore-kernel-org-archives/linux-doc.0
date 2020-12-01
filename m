@@ -2,110 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7CF0C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 10:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DECBFC64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 10:39:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6319720857
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 10:29:56 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUadOkON"
+	by mail.kernel.org (Postfix) with ESMTP id 770DC20644
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 10:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728517AbgLAK34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 05:29:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37090 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726962AbgLAK3z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 05:29:55 -0500
-Received: from kernel.org (unknown [87.71.85.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 194602080A;
-        Tue,  1 Dec 2020 10:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606818554;
-        bh=Ws6dR/OG3AOU58f5wZaP5SOr5YFu6occCl/egAoMHKA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SUadOkONZm3yl4vUgx4ptuiDtfj+cJiQNuA5oHKmXZxvGWy0g8QkVsFClkrV67HlY
-         vRhIZcBu2BlL3N3eBSHPLP47jfJ1d1NpKcGqF/7pM3biCdU1ahEBnZj+ZAulT6sx2x
-         QaOaVP9R5iZI2YknaXdnDtAwtqchPwXSObLcS3RA=
-Date:   Tue, 1 Dec 2020 12:29:01 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
+        id S2388608AbgLAKio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 05:38:44 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53359 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730020AbgLAKio (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 05:38:44 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D6F35580612;
+        Tue,  1 Dec 2020 05:37:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 01 Dec 2020 05:37:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=dJ8x8jAF+EN65W8rz5a676aKHaM
+        W6X9PYkMXzzLt4c0=; b=AC7jsIO5A93hvm2W+ZtFmXGxbvQja4KaRIQmELdI59R
+        WRSDaZYvi5/N7fv8SfT14h64m0RrZC1UMFSVrmKbFn8J056K4Ye3BiDYy/asmBWw
+        KHSd9DeWzFp6qSb4h5rhQK5iaj/P4nKOs4TurEoll6MPZYyLCP3igM87pnQ7JCIe
+        qbZ8pPpmh0jnLtZ15rLY2IzJJsj60DN4l9hetMH1mkhrf7QAY9cSo27irpQGbGYa
+        BqkBj5WaVQiJy1vW+laG9q/ZlbEoCwxGMs+Pw5RSbviBCTEHF5bFLGvrlmjLGBm9
+        Q2KhzufBoN4j7XgWF7x7QFwzAfOF4ZTSiS/iP/NJP4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dJ8x8j
+        AF+EN65W8rz5a676aKHaMW6X9PYkMXzzLt4c0=; b=VzO9X1InHedAohX3LQmDBT
+        LM544c1GWJ8D/2/xtPXpB7wQUvNt7hieHgWPaOUFqLSRBxjGBF6LhI/LNx530CLi
+        oIe/IZGRazbiECBxcJjW6D407GdhYy7FrVOYzmXa6yfgu5ZbJvw9L2FxISvyfay3
+        EDh0bhmONRzk41u7cDyixSUeWfD5zJnzyUyW3qWaA3A11tttmZkSKHKvrGgw8q4E
+        fYRgW5kwww1Pvj60NXvo7mum3qdeOR4LlI++dBPk8Ye97vMfwfkq5xRViwPp+9df
+        fHCJeNJo1X59QBqdi+cLs083osi+1Nl0I7pmVkVeiuIva18M0nKkMLHgXZD+piAw
+        ==
+X-ME-Sender: <xms:Ah3GX-bHmRs_HYXGX5gb0lJ37ZcrTKJxtAJXkh3jx7KWPBntKXr4Ng>
+    <xme:Ah3GXxbdEO5V4q6I0KY1FucIA77JP2CkxNca-nQb54fBvaHc_WdU7HsPbUpJ-3p4U
+    PAZVgVa2wD9ukvxHQc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Ah3GX48-eF-Q3iknySKMaaL7KKZ515W8OEjdae9G4gncjM7UDEz3lg>
+    <xmx:Ah3GXwqJHqFh8s_UmGdq5FF_aIqhiwFGM1ICAma8ra_mhsmFKeECZA>
+    <xmx:Ah3GX5oZm0ZaiiFI44BVit7QaCUI66Yavxd1T5Wv39b3hpIlbQ81cg>
+    <xmx:BR3GX9CmHHN7jhptvS7H-J2QrflJnMm8l4IjZIJgim3jEwsj24lb_A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 054EC108005C;
+        Tue,  1 Dec 2020 05:37:54 -0500 (EST)
+Date:   Tue, 1 Dec 2020 11:37:53 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Tony Luck <tony.luck@intel.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
-Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
-Message-ID: <20201201102901.GF557259@kernel.org>
-References: <20201101170454.9567-1-rppt@kernel.org>
- <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
- <20201117062316.GB370813@kernel.org>
- <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: Re: [PATCH v2 01/19] docs: phy: Add a part about PHY mode and submode
+Message-ID: <20201201103753.klvoqrv7grboovgq@gilmour>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+ <20201128142839.517949-2-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="h4ge5f64arxtqfzl"
 Content-Disposition: inline
-In-Reply-To: <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+In-Reply-To: <20201128142839.517949-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Adrian,
 
-On Tue, Dec 01, 2020 at 10:10:56AM +0100, John Paul Adrian Glaubitz wrote:
-> Hi Mike!
-> 
-> On 11/17/20 7:23 AM, Mike Rapoport wrote:
-> >> Apologies for the late reply. Is this still relevant for testing?
-> >>
-> >> I have already successfully tested v1 of the patch set, shall I test v2?
-> > 
-> > There were minor differences only for m68k between the versions. I've
-> > verified them on ARAnyM but if you have a real machine a run there would
-> > be nice.
-> 
-> I have just built a fresh kernel from the tip of Linus' tree and it boots
-> fine on my RX-2600:
-> 
-> root@glendronach:~# uname -a
-> Linux glendronach 5.10.0-rc6 #6 SMP Tue Dec 1 04:52:49 CET 2020 ia64 GNU/Linux
-> root@glendronach:~#
-> 
-> No issues observed so far. Looking at the git log, it seems these changes haven't
-> been merged for 5.10 yet. I assume they will be coming with 5.11?
+--h4ge5f64arxtqfzl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These changes are in linux-mm tree (https://www.ozlabs.org/~akpm/mmotm/
-with a mirror at https://github.com/hnaz/linux-mm)
+On Sat, Nov 28, 2020 at 03:28:21PM +0100, Paul Kocialkowski wrote:
+> Besides giving pointers to the relevant functions for PHY mode and
+> submode configuration, this clarifies the need to set them before
+> powering on the PHY.
+>=20
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-I beleive they will be coming in 5.11.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-> Adrian
-> 
-> -- 
->  .''`.  John Paul Adrian Glaubitz
-> : :' :  Debian Developer - glaubitz@debian.org
-> `. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
->   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-> 
-> 
+Maxime
 
--- 
-Sincerely yours,
-Mike.
+--h4ge5f64arxtqfzl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8YdAQAKCRDj7w1vZxhR
+xSjSAP4lTrtYAZ2B8ltcBIkKXx8jrh9WOHUZmd/jTVBbrlpaAQEA/Mym782MhSQN
+oNoxZn8BKL4FeHuPgnid9BUa8QH5FQ4=
+=VneL
+-----END PGP SIGNATURE-----
+
+--h4ge5f64arxtqfzl--
