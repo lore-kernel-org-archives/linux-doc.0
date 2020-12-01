@@ -2,113 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C76C8301C
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 22:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1DFC71156
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 22:38:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E25C20671
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 22:37:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 761802087C
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 22:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgLAWhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 17:37:21 -0500
-Received: from mga01.intel.com ([192.55.52.88]:28888 "EHLO mga01.intel.com"
+        id S1727168AbgLAWig (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 17:38:36 -0500
+Received: from mga06.intel.com ([134.134.136.31]:7706 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727364AbgLAWhU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 17:37:20 -0500
-IronPort-SDR: NmKS38+hxB13afkY7qpMGkYkb0vuiArue2OrNlKjpweFJ5vS8+YTeMxaKE9Hgvc/QJbQuPtSbv
- c9GTv7defVIw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="191126641"
+        id S1727621AbgLAWig (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Dec 2020 17:38:36 -0500
+IronPort-SDR: LR9+n72nxtyjs1/Au+MfConEsNCZj7Moa0EDbDjNr2dk0B5yRJRczgin5X3O+yJ4c5lM9pA8MQ
+ T/OTPEPKYJhg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="234524379"
 X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="191126641"
+   d="scan'208";a="234524379"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:23 -0800
-IronPort-SDR: gGWS34BVjbVpM4Uca8QWpPqLLyH3hOV2FpuAteOqq+yvG+kmvBOlnGPfBBytF1SEuTL/OtAik5
- zNhntxWdRYwQ==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:14 -0800
+IronPort-SDR: 0W30nuzysnuSugL4LtU+P2ucDo1jFs4cuGlvxfJuG65HFzih5CZFSEyGJHKpFQgIBEpBIZd3Yl
+ ZkZzIrj8eEOA==
 X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="537714613"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.4.202]) ([10.209.4.202])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:20 -0800
-Subject: Re: [PATCH v15 03/26] x86/fpu/xstate: Introduce CET MSR XSAVES
- supervisor states
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-4-yu-cheng.yu@intel.com>
- <cfbd90a8-6996-fa7b-a41a-54ff540f419c@intel.com>
- <3b83517e-17d6-3b53-6dbf-8ad727707b16@intel.com>
- <705fdfec-25a4-60bc-868e-af515c731273@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <87f6309f-d5b4-a66f-99a1-d96a655290b6@intel.com>
-Date:   Tue, 1 Dec 2020 14:35:18 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
-MIME-Version: 1.0
-In-Reply-To: <705fdfec-25a4-60bc-868e-af515c731273@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+   d="scan'208";a="330196259"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 14:35:14 -0800
+Received: from mtg-dev (mtg-dev.jf.intel.com [10.54.74.10])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp.ostc.intel.com (Postfix) with ESMTPS id A81166363;
+        Tue,  1 Dec 2020 14:35:14 -0800 (PST)
+Received: from mgross by mtg-dev with local (Exim 4.90_1)
+        (envelope-from <mgross@linux.intel.com>)
+        id 1kkEEs-000H4X-HK; Tue, 01 Dec 2020 14:35:14 -0800
+From:   mgross@linux.intel.com
+To:     markgross@kernel.org, mgross@linux.intel.com, arnd@arndb.de,
+        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        leonard.crestez@nxp.com, palmerdabbelt@google.com,
+        paul.walmsley@sifive.com, peng.fan@nxp.com, robh+dt@kernel.org,
+        shawnguo@kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Srikanth Thokala <srikanth.thokala@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 06/22] misc: xlink-pcie: Add documentation for XLink PCIe driver
+Date:   Tue,  1 Dec 2020 14:34:55 -0800
+Message-Id: <20201201223511.65542-7-mgross@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201201223511.65542-1-mgross@linux.intel.com>
+References: <20201201223511.65542-1-mgross@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/1/2020 2:26 PM, Dave Hansen wrote:
-> On 11/30/20 3:16 PM, Yu, Yu-cheng wrote:
->>>
->>> Do we have any other spots in the kernel where we care about:
->>>
->>>      boot_cpu_has(X86_FEATURE_SHSTK) ||
->>>      boot_cpu_has(X86_FEATURE_IBT)
->>>
->>> ?  If so, we could also address this by declaring a software-defined
->>> X86_FEATURE_CET and then setting it if SHSTK||IBT is supported, then we
->>> just put that one feature in xsave_cpuid_features[].
->>>
->>
->> These features have different CPUIDs but are complementary parts.  I
->> don't know if someday there will be shadow-stack-only CPUs, but an
->> IBT-only CPU is weird.  What if the kernel checks that the CPU has both
->> features and presents only one feature flag (X86_FEATURE_CET), no
->> X86_FEATURE_SHSTK or X86_FEATURE_IBT?
-> 
-> Logically, that's probably fine.  But, X86_FEATURE_IBT/SHSTK are in a
-> non-scattered leaf, so we'll kinda define them whether we like it or
-> not.  We'd have to go out of our way to *not* define them.
-> 
+From: Srikanth Thokala <srikanth.thokala@intel.com>
 
-After more thoughts, I think it is better to just add X86_FEATURE_CET 
-and not more.  We cannot predict what is going to happen later.
-So, like what you suggested, X86_FEATURE_CET means (X86_FEATURE_SHSTK | 
-X86_FEATURE_IBT).
+Provide overview of XLink PCIe driver implementation
 
-Thanks,
-Yu-cheng
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Mark Gross <mgross@linux.intel.com>
+Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
+---
+ Documentation/vpu/index.rst      |  1 +
+ Documentation/vpu/xlink-pcie.rst | 91 ++++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 Documentation/vpu/xlink-pcie.rst
+
+diff --git a/Documentation/vpu/index.rst b/Documentation/vpu/index.rst
+index 7e290e048910..661cc700ee45 100644
+--- a/Documentation/vpu/index.rst
++++ b/Documentation/vpu/index.rst
+@@ -14,3 +14,4 @@ This documentation contains information for the Intel VPU stack.
+    :maxdepth: 2
+ 
+    vpu-stack-overview
++   xlink-pcie
+diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
+new file mode 100644
+index 000000000000..bc64b566989d
+--- /dev/null
++++ b/Documentation/vpu/xlink-pcie.rst
+@@ -0,0 +1,91 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++Kernel driver: xlink-pcie driver
++================================
++Supported chips:
++  * Intel Edge.AI Computer Vision platforms: Keem Bay
++    Suffix: Bay
++    Slave address: 6240
++    Datasheet: Publicly available at Intel
++
++Author: Srikanth Thokala Srikanth.Thokala@intel.com
++
++-------------
++Introduction:
++-------------
++The xlink-pcie driver in linux-5.4 provides transport layer implementation for
++the data transfers to support xlink protocol subsystem communication with the
++peer device. i.e, between remote host system and the local Keem Bay device.
++
++The Keem Bay device is an ARM based SOC that includes a vision processing
++unit (VPU) and deep learning, neural network core in the hardware.
++The xlink-pcie driver exports a functional device endpoint to the Keem Bay device
++and supports two-way communication with peer device.
++
++------------------------
++High-level architecture:
++------------------------
++Remote Host: IA CPU
++Local Host: ARM CPU (Keem Bay)::
++
++        +------------------------------------------------------------------------+
++        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
++        +==================================+=+===============================+===+
++        |  User App                        | | User App                      |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink UAPI                     | | XLink UAPI                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink Core                     | | XLink Core                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink PCIe                     | | XLink PCIe                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
++        +----------------------------------+-+-------------------------------+---+
++        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
++        +----------------------------------+-+-------------------------------+---+
++        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
++        +----------------------------------+-+-------------------------------+---+
++               ^                                             ^
++               |                                             |
++               |------------- PCIe x2 Link  -----------------|
++
++This XLink PCIe driver comprises of two variants:
++* Local Host driver
++
++  * Intended for ARM CPU
++  * It is based on PCI Endpoint Framework
++  * Driver path: {tree}/drivers/misc/xlink-pcie/local_host
++
++* Remote Host driver
++
++       * Intended for IA CPU
++       * It is a PCIe endpoint driver
++       * Driver path: {tree}/drivers/misc/xlink-pcie/remote_host
++
++XLink PCIe communication between local host and remote host is achieved through
++ring buffer management and MSI/Doorbell interrupts.
++
++The xlink-pcie driver subsystem registers Keem Bay device as an endpoint driver
++and provides standard linux pcie sysfs interface, # /sys/bus/pci/devices/xxxx:xx:xx.0/
++
++
++-------------------------
++XLink protocol subsystem:
++-------------------------
++xlink is an abstracted control and communication subsystem based on channel
++identification. It is intended to support VPU technology both at SoC level as
++well as at IP level, over multiple interfaces.
++
++- The xlink subsystem abstracts several types of communication channels
++  underneath, allowing the usage of different interfaces with the
++  same function call interface.
++- The Communication channels are full-duplex protocol channels allowing
++  concurrent bidirectional communication.
++- The xlink subsystem also supports control operations to VPU either
++  from standalone local system or from remote system based on communication
++  interface underneath.
++- The xlink subsystem supports following communication interfaces:
++    * USB CDC
++    * Gigabit Ethernet
++    * PCIe
++    * IPC
+-- 
+2.17.1
+
