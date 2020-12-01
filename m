@@ -2,109 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F951C83018
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E317C64E7B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:44:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA48520757
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:09:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0FF020757
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:44:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387669AbgLAOIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 09:08:34 -0500
-Received: from foss.arm.com ([217.140.110.172]:43596 "EHLO foss.arm.com"
+        id S2389611AbgLAOoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 09:44:04 -0500
+Received: from verein.lst.de ([213.95.11.211]:50131 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387443AbgLAOIc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 09:08:32 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2F0A30E;
-        Tue,  1 Dec 2020 06:07:46 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.30.155])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03C943F718;
-        Tue,  1 Dec 2020 06:07:42 -0800 (PST)
-Date:   Tue, 1 Dec 2020 14:07:34 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     Sudeep Holla <sudeep.holla@arm.com>, kvmarm@lists.cs.columbia.edu,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        id S2387963AbgLAOoD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Dec 2020 09:44:03 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 4CA9968AFE; Tue,  1 Dec 2020 15:43:16 +0100 (CET)
+Date:   Tue, 1 Dec 2020 15:43:14 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Christoph Hellwig <hch@lst.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel-team@android.com
-Subject: Re: [PATCH v3 06/23] kvm: arm64: Add kvm-arm.protected early kernel
- parameter
-Message-ID: <20201201140734.GA86881@C02TD0UTHF1T.local>
-References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155421.14901-7-dbrazdil@google.com>
- <20201127163254.zxdrszlveaxhluwn@bogus>
- <20201201131913.u7m2eifvtus74dra@google.com>
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
+Message-ID: <20201201144314.GA14256@lst.de>
+References: <cover.1606137108.git.linux@leemhuis.info> <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info> <20201124091852.GB11695@lst.de> <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info> <20201124093658.GA13174@lst.de> <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info> <20201124121109.GY4327@casper.infradead.org> <20201130075137.3b551bef@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201201131913.u7m2eifvtus74dra@google.com>
+In-Reply-To: <20201130075137.3b551bef@lwn.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 01:19:13PM +0000, David Brazdil wrote:
-> Hey Sudeep,
+On Mon, Nov 30, 2020 at 07:51:37AM -0700, Jonathan Corbet wrote:
+> We could also, if we saw fit, take the position that anything that has
+> been processed through the docs build is a derived product of the kernel
+> and must be GPL-licensed - any dual-licensing would be stripped by that
+> act.  That, too, should address this concern, I think.
 > 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 526d65d8573a..06c89975c29c 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -2259,6 +2259,11 @@
-> > >  			for all guests.
-> > >  			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
-> > >  
-> > > +	kvm-arm.protected=
-> > > +			[KVM,ARM] Allow spawning protected guests whose state
-> > > +			is kept private from the host. Only valid for non-VHE.
-> > > +			Default is 0 (disabled).
-> > > +
-> > 
-> > Sorry for being pedantic. Can we reword this to say valid for
-> > !CONFIG_ARM64_VHE ? I read this as valid only for non-VHE hardware, it may
-> > be just me, but if you agree please update so that it doesn't give remote
-> > idea that it is not valid on VHE enabled hardware.
-> > 
-> > I was trying to run this on the hardware and was trying to understand the
-> > details on how to do that.
-> 
-> I see what you're saying, but !CONFIG_ARM64_VHE isn't accurate either. The
-> option makes sense if:
->   1) all cores booted in EL2
->      == is_hyp_mode_available()
->   2) ID_AA64MMFR1_EL1.VH=0 or !CONFIG_ARM64_VHE
->      == !is_kernel_in_hyp_mode()
-> 
-> The former feels implied for KVM, the latter could be 'Valid if the kernel
-> is running in EL1'? WDYT?
+> In general I'd rather see fewer licenses in Documentation/ than more.  But
+> Thorsten has put a lot of effort into this work; if he wants to
+> dual-license it in this way, my inclination is to accommodate him.  But
+> that requires getting CC-BY-4.0 accepted into the LICENSES directory.
+> (That said, I believe it should go into LICENSES/dual/ rather than
+> preferred/).
 
-I reckon we can avoid the restriction if we instead add an early stub
-like with have for KASLR. That way we could parse the command line
-early, and if necessary re-initialize EL2 and drop to EL1 before the
-main kernel has to make any decisions about how to initialize things.
-That would allow us to have a more general kvm-arm.mode option where a
-single kernel Image could support:
-
-* "protected" mode on nVHE or VHE HW
-* "nvhe" mode on nVHE or VHE HW
-* "vhe" mode on VHE HW
-
-... defaulting to VHE/nVHE modes depending on HW support.
-
-That would also be somewhat future-proof if we have to add other
-variants of protected mode in future, as we could extend the mode option
-with parameters for each mode.
-
-Thanks,
-Mark.
+I agree with everything said above.
