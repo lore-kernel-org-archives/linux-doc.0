@@ -7,98 +7,128 @@ X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1FAC63777
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 01:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774BDC64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 03:37:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C27FE20857
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 01:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 183BF221FF
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 03:37:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V03DwfRj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xhga9YlK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729876AbgLABcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 30 Nov 2020 20:32:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
+        id S1727746AbgLADhm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 30 Nov 2020 22:37:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728932AbgLABcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 20:32:00 -0500
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D32C0613CF;
-        Mon, 30 Nov 2020 17:31:20 -0800 (PST)
-Received: by mail-io1-xd41.google.com with SMTP id q137so10302263iod.9;
-        Mon, 30 Nov 2020 17:31:19 -0800 (PST)
+        with ESMTP id S1727719AbgLADhl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 30 Nov 2020 22:37:41 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD22C0613D2;
+        Mon, 30 Nov 2020 19:37:01 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id t21so383244pjw.2;
+        Mon, 30 Nov 2020 19:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PNkZykPzEuXa80Om8oj9TxXw1OAZxq3GW7d+3ZFIn8c=;
-        b=V03DwfRjUq6E4DklFFWjRAyQQ98HY/hYfkKSvK4xXfo0oSvUhv7GWHdXQBrQyB8Utp
-         VtNhBKLS52L8xx/YRX625cfTwX0ac5/o0YxE3HyD4NiXFSAJknroMY9mko4TDQQyPZ9O
-         DnE2J4K7czWRuXXeU5W6vMrQqPDdoF9TdNjck5h41OpiOt065Al/CNyFjxDdf/uXSOmj
-         F+iT0OIwyx18lOe3X8syNJacutaJnLmnleHOdn1ZmndSTmaHf6TBFuFoJQPrbdcTKRfV
-         QV3BD7NLU4vOP/pYXykRBP+rPnGSffOdvhvQFuBzbuva3gFVfsuLftus+XkzpIGvXtgZ
-         xZTg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NL582lgLVSi6KvAu9Utf9CebPYU3CkLIdkP46F4/+EA=;
+        b=Xhga9YlKz842XlE+bb+SVEwobT1WQdwHoo7D7fOlF20D0+a3pLa7mD7wAMBsoNZD92
+         uuQtPfpMZeW+IlOssf8/rWOw+QKg4PspN2T5/kdsgqzAFOZ/HTDb+IXKvmETtlQE+uV2
+         lXobZ7ntNQW3D5X2jcCxlPBk3A7ivPUpAfZpczlDxl01oriyRBobJvB++T+NdzzoDFX7
+         veXQz8MvK4l4UMZubI5hihJlJiCZ99c5RCXeBsHjgSAWU3w/C3tTOv0G4Nrm+05jAcQ5
+         apm/NsHGqk7+d0Nsg27zQ1AjqTIesG3qtSe40lJruY1ZgMRjOr4KyeRX3RaEahrQ9fce
+         rjmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PNkZykPzEuXa80Om8oj9TxXw1OAZxq3GW7d+3ZFIn8c=;
-        b=mnjUQkNbPQpE65pYHpOf2wNXjK9XIfjA4Rr9+fi8ST8hsb9yNUxEoSpKwdGphqDuPt
-         +LVJ1Rg2UlZnFLN3XJjGTav/7X45b9q2IhPihQG6d6r21tMH8egQRuAvqHh+JPP/fgTq
-         IMH/sJ/l2DqMfkvcoTxH9UPhC4bHld4qQOKWB1xNq892larrI1ixW9yndYQQC8DZOepk
-         FkLSApemudJ75Iq0PNcX3NawZv+sxm1MUy+FoI53pk1QYuIVC6fWZwv3vrmZRTMrYckE
-         C/te/UfwEQBvefrsgaQOUIuGsiR1pg9HQLbep4SKH044nKeuXEzxefXjqJhWTsn0mDGi
-         bj2g==
-X-Gm-Message-State: AOAM5328kPUJ2S7oP9yCnONt2OFgIx9qSB1CYVR6YaBVCCzC+KfryhW8
-        +7SrgxoJqImwjoipkvHVnFJtpAturulMFCM9R2E=
-X-Google-Smtp-Source: ABdhPJzoJIB6tXp0JpwcWz8T5K9jHthVKvt7UWVqLfYxdQAL+gIR3fl6rsidxJhur1OUBb5mT1TWYM2PNpGt4iliaJE=
-X-Received: by 2002:a5d:8ad6:: with SMTP id e22mr528690iot.154.1606786279443;
- Mon, 30 Nov 2020 17:31:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20201120095517.19211-1-jiangshanlai@gmail.com>
- <20201126000549.GC450871@google.com> <0724aeb9-3466-5505-8f12-a5899144e68f@redhat.com>
- <CAJhGHyApvmQk4bxxK2rJKzyAShFSXyEb2W0qyFcVoUEcsMKs_w@mail.gmail.com> <X8Uux62rJdf2feJ2@google.com>
-In-Reply-To: <X8Uux62rJdf2feJ2@google.com>
-From:   Lai Jiangshan <jiangshanlai@gmail.com>
-Date:   Tue, 1 Dec 2020 09:31:08 +0800
-Message-ID: <CAJhGHyD=t3KiX1Tb_MbNOUVt6fXmVkBzax7DOmb-z5aPF3RuUw@mail.gmail.com>
-Subject: Re: [PATCH] kvm/x86/mmu: use the correct inherited permissions to get
- shadow page
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Lai Jiangshan <laijs@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NL582lgLVSi6KvAu9Utf9CebPYU3CkLIdkP46F4/+EA=;
+        b=jIjVGBf3PYgnL6Hg0bMlYUoZjhA8f2CuXIs0bw21VEJu7w1+evPnaD8xlXu+i09Jvn
+         gLSTlHBrmyyExNvAW6Z4SB82l/kQP5oCDD/N6onoIlRxqoPYbcSJO1MMsPKhjDYUyODD
+         FQ5wrEO4nPzT355inm/1rlJQ3ot+iHNH6solpppkBWSP82nsHkK7v14QYhIG5SEeUGao
+         QpxPjgQRP1sIfHZbV4PWQijLqEpjw6Wvx5H4pIbuEJt2SgQYY0NCPVM2Ciln7enSMBCk
+         8u6ALTiyuX5wFKru6xzSVOAvvKgytq8LVVU5MjBXkLfg0vXBb6UecGd6QWOYB0IzLoAl
+         pjcw==
+X-Gm-Message-State: AOAM533UJtQeOe8lev3DiApp2tmdygD2M1naXIzRDlwZQhdA8cKhDeEB
+        S0S/3HYxY4caN569L88+FSk=
+X-Google-Smtp-Source: ABdhPJzmYqh8DitkJm6pCCwff8gLw1CZT70pu7CE5gBkghmKUNChEaqVJDkSnRtWr2lmiD9MQutdvA==
+X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr600818pjt.221.1606793820977;
+        Mon, 30 Nov 2020 19:37:00 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
+        by smtp.gmail.com with ESMTPSA id w131sm489881pfd.14.2020.11.30.19.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 19:37:00 -0800 (PST)
+Date:   Tue, 1 Dec 2020 12:36:58 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
         Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Avi Kivity <avi@qumranet.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201201033658.GE3723071@google.com>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201130083410.GD32234@lst.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 1:41 AM Sean Christopherson <seanjc@google.com> wrote:
+On (20/11/30 09:34), Christoph Hellwig wrote:
+> 
+> > +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> > +						 &uvc_urb->dma,
+> > +						 gfp_flags | __GFP_NOWARN, 0);
+> > +	if (!uvc_urb->pages)
+> > +		return false;
+> > +
+> > +	uvc_urb->buffer = vmap(uvc_urb->pages,
+> > +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
+> > +			       VM_DMA_COHERENT, PAGE_KERNEL);
+> > +	if (!uvc_urb->buffer) {
+> > +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> > +				       uvc_urb->pages, uvc_urb->dma);
+> > +		return false;
+> > +	}
+> > +
+> > +	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
+> > +				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
+> > +				stream->urb_size, GFP_KERNEL)) {
+> > +		vunmap(uvc_urb->buffer);
+> > +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> > +				       uvc_urb->pages, uvc_urb->dma);
+> > +		return false;
+> > +	}
+> 
+> I wonder if we should lift this into a helper.  On the one hand I had
+> proliferating struct scatterlist usage, on the other hand it is all over
+> the media and drm code anyway, and duplicating this doesn't help anyone.
 
->
-> Hmm, yes, KVM would incorrectly handle this scenario.  But, the proposed patch
-> would not address the issue as KVM always maps non-leaf shadow pages with full
-> access permissions.
->
+Not that I have any sound experience in this area, but the helper
+probably won't hurt. Do you also plan to add vmap() to that helper
+or dma_alloc_noncontiguous()/sg_alloc_table_from_pages() only?
 
-Is it possible to exactly copy the access permissions from the guest
-for non-leaf
-shadow pages? Any protection from hypervisor (such as dirty track,
-rmap_write_protect)
-can only play on the leaf shadow ptes.
+	helper()
+	{
+		dma_alloc_noncontiguous();
+		sg_alloc_table_from_pages();
 
-> Can we have a testcase in kvm-unit-tests?  It's okay of course if it
-> only fails with ept=0.
+		if ((dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+			vmap();
+	}
 
-Yes, it may have a flaw with ept=0. I don't get what "It's okay of course"
-means. Is it related to kvm-unit-tests? Or no cloud provider uses
-ept=0?
+videobuf2-dma-contig still has to carry around two versions: one that
+deals with the noncontig pages and sgt (new API); and the current one.
+But if the helper will include fallback to coherent allocations then
+this may change, depending on the helper implementation.
+
+	-ss
