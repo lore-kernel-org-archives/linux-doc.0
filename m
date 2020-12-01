@@ -2,101 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA4AC64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7B5C64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 15:04:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 241FE2076C
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 14:59:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B0A120758
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 15:04:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel-dk.20150623.gappssmtp.com header.i=@kernel-dk.20150623.gappssmtp.com header.b="MuJqInQZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390426AbgLAO7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 09:59:33 -0500
-Received: from foss.arm.com ([217.140.110.172]:44412 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389972AbgLAO7d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 09:59:33 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6CCA30E;
-        Tue,  1 Dec 2020 06:58:47 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.30.155])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 444ED3F575;
-        Tue,  1 Dec 2020 06:58:43 -0800 (PST)
-Date:   Tue, 1 Dec 2020 14:58:40 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     Sudeep Holla <sudeep.holla@arm.com>, kvmarm@lists.cs.columbia.edu,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S2388695AbgLAPDx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 10:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391609AbgLAPDw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 10:03:52 -0500
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1B64C0617A6
+        for <linux-doc@vger.kernel.org>; Tue,  1 Dec 2020 07:03:06 -0800 (PST)
+Received: by mail-io1-xd42.google.com with SMTP id n14so1868947iom.10
+        for <linux-doc@vger.kernel.org>; Tue, 01 Dec 2020 07:03:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Og6g/lyCjIcL1kVP5tZ0QAgJA4aZEi6Vqr/nNvj+z/c=;
+        b=MuJqInQZV0OrkCoMCfzib+ByRspfryye7ScpvL1lLH2mX7NIsytrmRxolmgtJ9fehy
+         EbBP/aISbDHRpdOD5loNtEUerij2pZmUpMmUXabE4MTbgLqQTGiN1E8/2+XHluf6FGt7
+         RX2J4Jg/H1cUlGQdmuUFT6gfHB2UBbkhTCfAwzG5pdvDGhtrcqZz6tB4oxo19nKrQsOu
+         jKoANA3VnBqbkAYWC8rpsG34RztYl9VAjQzCZc2EVqsalbS9SdeVQE9rsjul3fuGnFXA
+         LEQIXyj9US4vZsCrqyALxiMfO2iSyFmFdxk7I7HJVNQcsSl4LlCsElbVCoxYnRqt17Jm
+         y6Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Og6g/lyCjIcL1kVP5tZ0QAgJA4aZEi6Vqr/nNvj+z/c=;
+        b=tIkl2ddgwgBXhceMmQDfVqwShA4HMHDkOadNVvrRujNJjn/v2kqCmgymv8LO2Fxd+z
+         2G0fwzISjhClGNYfnYYTcrDJjIawmM8ruV3Nh5/tGSCUzIgavj9JlTLIhW+FcgmqN5jL
+         IwVv9Sba6m0X5kXR2lMSZhH1++hrhNGmPMxLCUui9j10ianpKe3xjQ9YOsA0tBe3k4eN
+         NMqDpfaaDuaXmV2jjRfdl41abAyBwUzVuQc3oZc5REk56tFjBIxDk5Pz47GaxZcHCgjx
+         ySPDqTAI7lJuQrU/mhHE1JcgZdc/SSue7TXGcqaEUhAKFFO0Yo5NwRVXgooYGZ/jE61+
+         0hNA==
+X-Gm-Message-State: AOAM533NsyYw5X+K3BDVzjxnig9df0NbqsrJOpSV7Ws/LfCpuZmH+qMS
+        PxvCiW87KtQZsh9kAZr68LkoBg==
+X-Google-Smtp-Source: ABdhPJwnZnnT3CSvidMrOWY7WttjZ3ON/dA9qpMhE8X0d7c2GzTEq5bmfutQ1PBUEhW9MbRonHjKIw==
+X-Received: by 2002:a02:90c6:: with SMTP id c6mr2924306jag.3.1606834985798;
+        Tue, 01 Dec 2020 07:03:05 -0800 (PST)
+Received: from [192.168.1.30] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id h70sm35580iof.31.2020.12.01.07.03.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Dec 2020 07:03:04 -0800 (PST)
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+To:     Mike Rapoport <rppt@kernel.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, kernel-team@android.com
-Subject: Re: [PATCH v3 06/23] kvm: arm64: Add kvm-arm.protected early kernel
- parameter
-Message-ID: <20201201145840.GC86881@C02TD0UTHF1T.local>
-References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155421.14901-7-dbrazdil@google.com>
- <20201127163254.zxdrszlveaxhluwn@bogus>
- <20201201131913.u7m2eifvtus74dra@google.com>
- <20201201140734.GA86881@C02TD0UTHF1T.local>
- <20201201144349.bglz7yicc3peixe6@google.com>
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+ <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+ <20201201102901.GF557259@kernel.org>
+ <e3d5d791-8e4f-afcc-944c-24f66f329bd7@physik.fu-berlin.de>
+ <20201201121033.GG557259@kernel.org>
+ <49a2022c-f106-55ec-9390-41307a056517@physik.fu-berlin.de>
+ <20201201135623.GA751215@kernel.org>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <59351dbb-96cc-93b2-f2ec-b8968e935845@kernel.dk>
+Date:   Tue, 1 Dec 2020 08:03:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201201144349.bglz7yicc3peixe6@google.com>
+In-Reply-To: <20201201135623.GA751215@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 02:43:49PM +0000, David Brazdil wrote:
-> > > > be just me, but if you agree please update so that it doesn't give remote
-> > > > idea that it is not valid on VHE enabled hardware.
-> > > > 
-> > > > I was trying to run this on the hardware and was trying to understand the
-> > > > details on how to do that.
-> > > 
-> > > I see what you're saying, but !CONFIG_ARM64_VHE isn't accurate either. The
-> > > option makes sense if:
-> > >   1) all cores booted in EL2
-> > >      == is_hyp_mode_available()
-> > >   2) ID_AA64MMFR1_EL1.VH=0 or !CONFIG_ARM64_VHE
-> > >      == !is_kernel_in_hyp_mode()
-> > > 
-> > > The former feels implied for KVM, the latter could be 'Valid if the kernel
-> > > is running in EL1'? WDYT?
-> > 
-> > I reckon we can avoid the restriction if we instead add an early stub
-> > like with have for KASLR. That way we could parse the command line
-> > early, and if necessary re-initialize EL2 and drop to EL1 before the
-> > main kernel has to make any decisions about how to initialize things.
-> > That would allow us to have a more general kvm-arm.mode option where a
-> > single kernel Image could support:
-> > 
-> > * "protected" mode on nVHE or VHE HW
-> > * "nvhe" mode on nVHE or VHE HW
-> > * "vhe" mode on VHE HW
-> > 
-> > ... defaulting to VHE/nVHE modes depending on HW support.
-> > 
-> > That would also be somewhat future-proof if we have to add other
-> > variants of protected mode in future, as we could extend the mode option
-> > with parameters for each mode.
+On 12/1/20 6:56 AM, Mike Rapoport wrote:
+> (added Jens)
 > 
-> Agreed that 'mode' is a more future-proof flag and I would very much love to
-> have an option to force nVHE on VHE HW. I however expect that the early stub
-> would not be a trivial addition and would not want to get into that in this
-> series. Could we agree on 'protected' as the only supported value for the time
-> being?
+> On Tue, Dec 01, 2020 at 01:16:05PM +0100, John Paul Adrian Glaubitz wrote:
+>> Hi Mike!
+>>
+>> On 12/1/20 1:10 PM, Mike Rapoport wrote:
+>>> On Tue, Dec 01, 2020 at 12:35:09PM +0100, John Paul Adrian Glaubitz wrote:
+>>>> Hi Mike!
+>>>>
+>>>> On 12/1/20 11:29 AM, Mike Rapoport wrote: 
+>>>>> These changes are in linux-mm tree (https://www.ozlabs.org/~akpm/mmotm/
+>>>>> with a mirror at https://github.com/hnaz/linux-mm)
+>>>>>
+>>>>> I beleive they will be coming in 5.11.
+>>>>
+>>>> Just pulled from that tree and gave it a try, it actually fails to build:
+>>>>
+>>>>   LDS     arch/ia64/kernel/vmlinux.lds
+>>>>   AS      arch/ia64/kernel/entry.o
+>>>> arch/ia64/kernel/entry.S: Assembler messages:
+>>>> arch/ia64/kernel/entry.S:710: Error: Operand 2 of `and' should be a general register
+>>>> arch/ia64/kernel/entry.S:710: Error: qualifying predicate not followed by instruction
+>>>> arch/ia64/kernel/entry.S:848: Error: Operand 2 of `and' should be a general register
+>>>> arch/ia64/kernel/entry.S:848: Error: qualifying predicate not followed by instruction
+>>>>   GEN     usr/initramfs_data.cpio
+>>>> make[1]: *** [scripts/Makefile.build:364: arch/ia64/kernel/entry.o] Error 1
+>>>> make: *** [Makefile:1797: arch/ia64/kernel] Error 2
+>>>> make: *** Waiting for unfinished jobs....
+>>>>   CC      init/do_mounts_initrd.o
+>>>>   SHIPPED usr/initramfs_inc_data
+>>>>   AS      usr/initramfs_data.o
+>>>
+>>> Hmm, it was buidling fine with v5.10-rc2-mmotm-2020-11-07-21-40.
+>>> I'll try to see what could cause this.
+>>>
+>>> Do you build with defconfig or do you use a custom config?
+>>
+>> That's with "localmodconfig", see attached configuration file.
+> 
+> Thanks.
+> It seems that the recent addition of TIF_NOTIFY_SIGNAL to ia64 in
+> linux-next caused the issue. Can you please try the below patch?
 
-Sure, that works for me.
+That's a lot of typos in that patch... I wonder why the buildbot hasn't
+complained about this. Thanks for fixing this up! I'm going to fold this
+into the original to avoid the breakage.
 
-Thanks,
-Mark. 
+-- 
+Jens Axboe
+
