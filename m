@@ -4,46 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9626DC64E7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF8AC71155
 	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 209742084C
+	by mail.kernel.org (Postfix) with ESMTP id 5C41420770
 	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UoXWAr05"
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="La4DEh7B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726202AbgLAMJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730640AbgLAMJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 1 Dec 2020 07:09:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39818 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:39814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730389AbgLAMJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730387AbgLAMJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 1 Dec 2020 07:09:56 -0500
 Received: from mail.kernel.org (ip5f5ad5d9.dynamic.kabel-deutschland.de [95.90.213.217])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 34A572085B;
+        by mail.kernel.org (Postfix) with ESMTPSA id 29CD92084C;
         Tue,  1 Dec 2020 12:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1606824555;
-        bh=5j3bZfT+AahvAZyD2bTq7ZbhqOVp8pnzllSmo2XZ6sI=;
+        bh=7wlYHrSkc3UlyrB/zEVGZsYQuy7ZwlZrqJ7Cb0R2G+0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UoXWAr058HWX1h5ih5hkHzSgSxCPYXTKyaNyHhZYH4nO/nvYq0XTw9Ipq86OsIV3s
-         iz6jiZwxlcsrrmA+tO3+twKUdXF6gLC4zN9JgEh+Cj/3yW+yo9vjTouPkFQ20mDWBQ
-         OFlyUXD9FbWYiYyeX6d1AXZZOdLQ2898V/h4HFZ8=
+        b=La4DEh7BHQrstbHn7RBp8VLdFxh23zpDSAcwAwvWHxrXatbKLz58yA2uJYaG2ZUqk
+         l3pyBduLclFWDSaP1/4c1xX6YL66aVJEetKoUOXK+MFnNGt11XieRS/wd7CwR1bCPV
+         PVaaZW5cEwt3diOoxo5ppJL9amwt0s5Q6elsBsVU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kk4T3-00DGdD-49; Tue, 01 Dec 2020 13:09:13 +0100
+        id 1kk4T3-00DGd4-0W; Tue, 01 Dec 2020 13:09:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 09/16] connector: fix a kernel-doc markup
-Date:   Tue,  1 Dec 2020 13:09:02 +0100
-Message-Id: <783748cbcb7cc69ee3c79ab6669303c9c0a46295.1606823973.git.mchehab+huawei@kernel.org>
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 06/16] pstore/zone: fix a kernel-doc markup
+Date:   Tue,  1 Dec 2020 13:08:59 +0100
+Message-Id: <65cf891b754cdcbbb8911ceea10ab56e8a92449d.1606823973.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606823973.git.mchehab+huawei@kernel.org>
 References: <cover.1606823973.git.mchehab+huawei@kernel.org>
@@ -54,85 +57,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A function has a different name between their prototype
-and its kernel-doc markup.
+The documented struct is psz_head and not psz_buffer.
 
+Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/connector.h | 2 +-
+ fs/pstore/zone.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/connector.h b/include/linux/connector.h
-index cb732643471b..6bdb56662675 100644
---- a/include/linux/connector.h
-+++ b/include/linux/connector.h
-@@ -70,65 +70,65 @@ int cn_add_callback(struct cb_id *id, const char *name,
-  * cn_del_callback() - Unregisters new callback with connector core.
-  *
-  * @id:		unique connector's user identifier.
+diff --git a/fs/pstore/zone.c b/fs/pstore/zone.c
+index 3ce89216670c..46a1610c06fa 100644
+--- a/fs/pstore/zone.c
++++ b/fs/pstore/zone.c
+@@ -1,58 +1,58 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+  * Provide a pstore intermediate backend, organized into kernel memory
+  * allocated zones that are then mapped and flushed into a single
+  * contiguous region on a storage backend of some kind (block, mtd, etc).
   */
- void cn_del_callback(struct cb_id *id);
  
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/mount.h>
+ #include <linux/printk.h>
+ #include <linux/fs.h>
+ #include <linux/pstore_zone.h>
+ #include <linux/kdev_t.h>
+ #include <linux/device.h>
+ #include <linux/namei.h>
+ #include <linux/fcntl.h>
+ #include <linux/uio.h>
+ #include <linux/writeback.h>
+ #include "internal.h"
  
  /**
-  * cn_netlink_send_mult - Sends message to the specified groups.
+- * struct psz_head - header of zone to flush to storage
++ * struct psz_buffer - header of zone to flush to storage
   *
-  * @msg: 	message header(with attached data).
-  * @len:	Number of @msg to be sent.
-  * @portid:	destination port.
-  *		If non-zero the message will be sent to the given port,
-  *		which should be set to the original sender.
-  * @group:	destination group.
-  * 		If @portid and @group is zero, then appropriate group will
-  *		be searched through all registered connector users, and
-  *		message will be delivered to the group which was created
-  *		for user with the same ID as in @msg.
-  *		If @group is not zero, then message will be delivered
-  *		to the specified group.
-  * @gfp_mask:	GFP mask.
-  *
-  * It can be safely called from softirq context, but may silently
-  * fail under strong memory pressure.
-  *
-  * If there are no listeners for given group %-ESRCH can be returned.
+  * @sig: signature to indicate header (PSZ_SIG xor PSZONE-type value)
+  * @datalen: length of data in @data
+  * @start: offset into @data where the beginning of the stored bytes begin
+  * @data: zone data.
   */
- int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
+ struct psz_buffer {
+ #define PSZ_SIG (0x43474244) /* DBGC */
+ 	uint32_t sig;
+ 	atomic_t datalen;
+ 	atomic_t start;
+ 	uint8_t data[];
+ };
  
  /**
-- * cn_netlink_send_mult - Sends message to the specified groups.
-+ * cn_netlink_send - Sends message to the specified groups.
+  * struct psz_kmsg_header - kmsg dump-specific header to flush to storage
   *
-  * @msg:	message header(with attached data).
-  * @portid:	destination port.
-  *		If non-zero the message will be sent to the given port,
-  *		which should be set to the original sender.
-  * @group:	destination group.
-  * 		If @portid and @group is zero, then appropriate group will
-  *		be searched through all registered connector users, and
-  *		message will be delivered to the group which was created
-  *		for user with the same ID as in @msg.
-  *		If @group is not zero, then message will be delivered
-  *		to the specified group.
-  * @gfp_mask:	GFP mask.
+  * @magic: magic num for kmsg dump header
+  * @time: kmsg dump trigger time
+  * @compressed: whether conpressed
+  * @counter: kmsg dump counter
+  * @reason: the kmsg dump reason (e.g. oops, panic, etc)
+  * @data: pointer to log data
   *
-  * It can be safely called from softirq context, but may silently
-  * fail under strong memory pressure.
-  *
-  * If there are no listeners for given group %-ESRCH can be returned.
+  * This is a sub-header for a kmsg dump, trailing after &psz_buffer.
   */
- int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 group, gfp_t gfp_mask);
- 
- int cn_queue_add_callback(struct cn_queue_dev *dev, const char *name,
- 			  struct cb_id *id,
- 			  void (*callback)(struct cn_msg *, struct netlink_skb_parms *));
- void cn_queue_del_callback(struct cn_queue_dev *dev, struct cb_id *id);
- void cn_queue_release_callback(struct cn_callback_entry *);
- 
- struct cn_queue_dev *cn_queue_alloc_dev(const char *name, struct sock *);
- void cn_queue_free_dev(struct cn_queue_dev *dev);
- 
- int cn_cb_equal(struct cb_id *, struct cb_id *);
- 
+ struct psz_kmsg_header {
+ #define PSTORE_KMSG_HEADER_MAGIC 0x4dfc3ae5 /* Just a random number */
+ 	uint32_t magic;
+ 	struct timespec64 time;
+ 	bool compressed;
+ 	uint32_t counter;
 -- 
 2.28.0
 
