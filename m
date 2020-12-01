@@ -2,83 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14068C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 20:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 896C5C8301A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 20:46:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 988BE21741
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 20:11:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CEJ+cbUW"
+	by mail.kernel.org (Postfix) with ESMTP id 5C13920679
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 20:46:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729101AbgLAUKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 15:10:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41585 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727992AbgLAUKw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 15:10:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606853365;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=z9xBuIwvHlgEYVcinhRR/M3/VaorTrBcdWGpGOVdNeU=;
-        b=CEJ+cbUWyPqUH8iWkyuCTy2Zpn/ioLdZS4htguBzLtI/tXMkCNd4oADUo0W7xW8W7KDWWI
-        3FIn24pSs5V9XuIbImyEQa5s71H59Z1hyw2WBjKiOiQJnqdxA4Y4oWl4AeThTLGcE0WJaL
-        G3r5nOJJ4bWqzEFcofH2wgXsMlvHkVU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-iuFG615qMPK1Fc5-5Lrjvw-1; Tue, 01 Dec 2020 15:09:22 -0500
-X-MC-Unique: iuFG615qMPK1Fc5-5Lrjvw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E08A158220;
-        Tue,  1 Dec 2020 20:09:20 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C3077189A4;
-        Tue,  1 Dec 2020 20:09:19 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id 0B1K9JVF025796;
-        Tue, 1 Dec 2020 15:09:19 -0500
-Received: from localhost (mpatocka@localhost)
-        by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP id 0B1K9I7G025792;
-        Tue, 1 Dec 2020 15:09:18 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka owned process doing -bs
-Date:   Tue, 1 Dec 2020 15:09:18 -0500 (EST)
-From:   Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-cc:     daniel.vetter@ffwll.ch, sam@ravnborg.org, geert+renesas@glider.be,
-        bernie@plugable.com, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-In-Reply-To: <alpine.LRH.2.02.2012010500310.27495@file01.intranet.prod.int.rdu2.redhat.com>
-Message-ID: <alpine.LRH.2.02.2012011505060.25490@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20201130125200.10416-1-tzimmermann@suse.de> <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com> <336a41ef-1e49-6799-1bfd-06fb42419fb8@suse.de>
- <alpine.LRH.2.02.2012010500310.27495@file01.intranet.prod.int.rdu2.redhat.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+        id S1729974AbgLAUqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 15:46:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729183AbgLAUqe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 15:46:34 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAC0C0613D6;
+        Tue,  1 Dec 2020 12:45:45 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kkCWq-0002fK-AY; Tue, 01 Dec 2020 21:45:40 +0100
+To:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <cover.1606137108.git.linux@leemhuis.info>
+ <c07e51e153f453c83c77a75513ad3d5ec70ef1be.1606137108.git.linux@leemhuis.info>
+ <20201124091852.GB11695@lst.de>
+ <04eae024-811d-d11e-b8bd-52f0dd0e225f@leemhuis.info>
+ <20201124093658.GA13174@lst.de>
+ <e424e24f-08d3-0b83-3d5b-ac500c753792@leemhuis.info>
+ <20201124121109.GY4327@casper.infradead.org>
+ <20201130075137.3b551bef@lwn.net> <20201201144314.GA14256@lst.de>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 1/3] LICENSES: Add the CC-BY-4.0 license
+Message-ID: <8ef49ddf-e64f-d09b-9d31-9f64c89b6efb@leemhuis.info>
+Date:   Tue, 1 Dec 2020 21:45:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201201144314.GA14256@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1606855546;f0a041f6;
+X-HE-SMSGID: 1kkCWq-0002fK-AY
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Am 01.12.20 um 15:43 schrieb Christoph Hellwig:
+> On Mon, Nov 30, 2020 at 07:51:37AM -0700, Jonathan Corbet wrote:
+
+@Jonathan: thx for getting the ball rolling again!
+
+>> We could also, if we saw fit, take the position that anything that has
+>> been processed through the docs build is a derived product of the kernel
+>> and must be GPL-licensed -
+
+That position is totally fine for me (and in fact I think that's how 
+things are in that area anyway, but I'm no licensing expect).
+
+>> any dual-licensing would be stripped by that
+>> act.  That, too, should address this concern, I think.
+
+How to make this explicit? Right now the document I want to submit only 
+mentions the license in a comment near the top. From a quick test with 
+'make htmldocs' on f33 with sphinx-build 3.2.1 it seems comments are 
+stripped during processing, so the license won't be visible in the 
+processed document anyway. So I guess adding this as comment below the 
+SPDX tag should be enough:
+
+```
+
+Note: Only the contents of this rst file as found in the Linux kernel 
+sources are available under CC-BY-4.0, as processed versions might 
+contain content taken from files that use a more restrictive license.
+
+```
 
 
-On Tue, 1 Dec 2020, Mikulas Patocka wrote:
+Or should we add something like this to a top-level documentation file 
+to make it explicit for all of the documentation:
 
-> When I try to run Xorg (from Debian 9) with the kernel 5.10-rc6, it 
-> doesn't work at all, I get this crash:
+```
+The processed Linux kernel documentation can be distributed under GPL 
+v2.0; some of the files used to build the documentation are available 
+under other licenses, check the Documentation/ directory in the Linux 
+sources for details.
+```
 
-I tried to rux Xorg on another machine (with up-to-date Debian ports) and 
-it didn't crash on unplug.
+>> In general I'd rather see fewer licenses in Documentation/ than more.
 
-Mikulas
+Fully agreed, but I checked the existing licenses first and none of them 
+afaics came even close to what I'd prefer to see (maybe MIT does, but 
+I'm not really sure).
 
+>>  But
+>> Thorsten has put a lot of effort into this work; if he wants to
+>> dual-license it in this way, my inclination is to accommodate him.
+
+Thx for your support.
+
+>>  But
+>> that requires getting CC-BY-4.0 accepted into the LICENSES directory.
+>> (That said, I believe it should go into LICENSES/dual/ rather than
+>> preferred/).
+> I agree with everything said above.
+
+Fine with me also, but I guess I need a little help here. The files that 
+currently resist in that directory all contain this near the top:
+
+```
+Do NOT use. The Apache-2.0 is not GPL2 compatible. It may only be used 
+for dual-licensed files where the other license is GPL2 compatible. If 
+you end up using this it MUST be used together with a GPL2 compatible 
+license using "OR".
+```
+
+CC-BY-4.0 is GPL2 compatible afaik, so what do I write instead? 
+Something like this?
+
+```
+Do NOT use for code, but it's acceptable for content like artwork or 
+documentation. When using it for the latter, it's best to use it 
+together with a GPL2 compatible license using "OR", as processed 
+CC-BY-4.0 document might include content taken from more restrictive 
+licenses.
+```
+
+Do we need more? Something like this maybe: "That's also why you might 
+want to point that risk out in a comment near the SPDX tag." Or is that 
+too much?
+
+Ciao, Thorsten
