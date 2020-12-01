@@ -2,75 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A516C64E7A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 15:49:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFDA7C64E90
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 16:03:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E185B20870
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 15:49:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B43A22210
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 16:03:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=alien8.de header.i=@alien8.de header.b="iJYk51lY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729015AbgLAPtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 10:49:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59400 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726810AbgLAPtC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 10:49:02 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S2403998AbgLAQC6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 11:02:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388988AbgLAQC5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 11:02:57 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F526C0613D4;
+        Tue,  1 Dec 2020 08:02:17 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0e6a009ae7ed3e982f3c10.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:6a00:9ae7:ed3e:982f:3c10])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B5DE20870;
-        Tue,  1 Dec 2020 15:48:20 +0000 (UTC)
-Date:   Tue, 1 Dec 2020 10:48:18 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Chen Yu <yu.c.chen@intel.com>,
-        Chen Yu <yu.chen.surf@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] bootconfig: Make size and checksum fields le32
-Message-ID: <20201201104818.4ea357d8@gandalf.local.home>
-In-Reply-To: <160583933538.547349.272918354455492444.stgit@devnote2>
-References: <160583933538.547349.272918354455492444.stgit@devnote2>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CD9341EC04B9;
+        Tue,  1 Dec 2020 17:02:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1606838535;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=SxSydwEX7m96SIq00HrPmCp+mPAnCkJ48WYzsRg9t2w=;
+        b=iJYk51lYHndAR22VW5aqtG8DZmC26iF5UFfr3bh2BnR+sTzvvpV653bT3cxXBCWtbz76cL
+        LO93i127VhTlLn0X1nhsOK0o/4EWL74UjiUQZEJ08Ep3dbwkmbm9z1bt+iMe8HwDdUrv3W
+        e1BLblJOCST0k1xlGtguap+j53Mc8TY=
+Date:   Tue, 1 Dec 2020 17:02:12 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v15 05/26] x86/cet/shstk: Add Kconfig option for
+ user-mode Shadow Stack
+Message-ID: <20201201160212.GF22927@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-6-yu-cheng.yu@intel.com>
+ <20201127171012.GD13163@zn.tnic>
+ <98e1b159-bf32-5c67-455b-f798023770ef@intel.com>
+ <20201130181500.GH6019@zn.tnic>
+ <1db3d369-734e-9925-fa14-e799a19ac30c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1db3d369-734e-9925-fa14-e799a19ac30c@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 20 Nov 2020 11:28:55 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Mon, Nov 30, 2020 at 02:48:09PM -0800, Yu, Yu-cheng wrote:
+> Logically, enabling IBT without shadow stack does not make sense, but these
+> features have different CPUIDs, and CONFIG_X86_SHADOW_STACK_USER and
+> CONFIG_X86_BRANCH_TRACKING_USER can be selected separately.
+> 
+> Do we want to have only one selection for both features?  In other words, we
+> turn on both or neither.
 
-> Hello,
-> 
-> This is a series of patches to make the size and the checksum fields
-> in the footer le32 instead of u32.
-> 
-> In the thread for alignment series[1], Steve pointed that the current
-> footer format didn't specify the endianness thus it is hard to apply
-> the bootconfig for cross-build initrd if the target endianness is
-> different from the host machine.
-> 
-> I've proposed that the hexadecimal ASCII string in the previous series
-> [2] but Linus pointed that making it le32 was enough.
-> 
-> So this just make those fields le32.
-> 
-> Thank you,
-> 
-> [1] https://lore.kernel.org/lkml/20201118112249.30d20147@gandalf.local.home/
-> [2] https://lore.kernel.org/linux-doc/CAHk-=wi9RedSQoGF06dVs2mp7tBp4QoiW8+XZzNcDFJr3Zo5gg@mail.gmail.com/
-> 
-> ---
-> 
+Question is, do they need to be handled separately at all?
 
-I have this all tested. Is this something that should go into the current
--rc release, or wait for the next merge window?
+If not and IOW, I like dhansen's X86_FEATURE_CET synthetic feature
+suggestion.
 
--- Steve
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
