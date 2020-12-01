@@ -2,166 +2,403 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D77E7C64E7A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 18:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3296CC64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 18:57:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BF3E206E3
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 18:26:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE7D720643
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 18:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727914AbgLAS0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 13:26:16 -0500
-Received: from out02.mta.xmission.com ([166.70.13.232]:56504 "EHLO
-        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727278AbgLAS0Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 13:26:16 -0500
-X-Greylist: delayed 1435 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Dec 2020 13:26:16 EST
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out02.mta.xmission.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kk9xz-0034JV-Jl; Tue, 01 Dec 2020 11:01:31 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1kk9xy-00081x-2R; Tue, 01 Dec 2020 11:01:31 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     "Catangiu\, Adrian Costin" <acatan@amazon.com>
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Alexander Graf <graf@amazon.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Jann Horn <jannh@google.com>, Willy Tarreau <w@1wt.eu>,
-        "MacCarthaigh\, Colm" <colmmacc@amazon.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        Eric Biggers <ebiggers@kernel.org>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "Woodhouse\, David" <dwmw@amazon.co.uk>,
-        "bonzini\@gnu.org" <bonzini@gnu.org>,
-        "Singh\, Balbir" <sblbir@amazon.com>,
-        "Weiss\, Radu" <raduweis@amazon.com>,
-        "oridgar\@gmail.com" <oridgar@gmail.com>,
-        "ghammer\@redhat.com" <ghammer@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Qemu Developers <qemu-devel@nongnu.org>,
-        KVM list <kvm@vger.kernel.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Linux API <linux-api@vger.kernel.org>,
-        "mpe\@ellerman.id.au" <mpe@ellerman.id.au>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        "areber\@redhat.com" <areber@redhat.com>,
-        Pavel Emelyanov <ovzxemul@gmail.com>,
-        Andrey Vagin <avagin@gmail.com>,
-        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-        "gil\@azul.com" <gil@azul.com>,
-        "asmehra\@redhat.com" <asmehra@redhat.com>,
-        "dgunigun\@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun\@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
-        <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
-        <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
-        <20201119173800.GD8537@kernel.org>
-        <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
-        <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
-        <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com>
-Date:   Tue, 01 Dec 2020 12:00:58 -0600
-In-Reply-To: <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com> (Adrian Costin
-        Catangiu's message of "Fri, 27 Nov 2020 20:26:02 +0200")
-Message-ID: <87zh2xcso5.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S2392268AbgLAS5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 13:57:16 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:32993 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389587AbgLAS5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 13:57:15 -0500
+Received: by mail-pf1-f193.google.com with SMTP id q10so1728311pfn.0;
+        Tue, 01 Dec 2020 10:56:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YKCXY2j5oTNkajj8M5PivSrG0GtC7IKW6J3aPXWeG94=;
+        b=k3Ibw3AL57AM9QgMg1Npriz0O8XyQhHmaX7otGQAjDe86+EcZ4O15RRYnyN3s7XQAz
+         Pu21h6K8BI6vpggt2jUb3ExLXQSG95t3S+sHGOgGNGa0IIo0dhZ6s+WmR6a2EK1ig24S
+         hI0iq0pZIHzGDDgnkGGjhX/1BY0guyGtKJZzHcR5mOtV4BXqjjkm9ALh7Orf3fmFcPMy
+         sPx5yz9sIgb8xoc3X9GY4jtin2hcnhvs0dIIWqj/QAEcGhXyN5jOL/0xz75vpYx6RQ7r
+         RFFg7jypwLr51uJGqPoREYtfPKQSfRxJjNyjV+K0NW3ZnzxSoFSeSHrn9jn9PV2HSySz
+         8MXQ==
+X-Gm-Message-State: AOAM533MNBrLXWu6yXyAODf7UeTyJsKQetYLBCzNKfs8WNyWOQ1NUE2w
+        MR6+SMKp1s1rXcVoljSG800=
+X-Google-Smtp-Source: ABdhPJxP1CkhHrenopvT6IY8Nj6PYRan75NEpJq1la6SUHMkmn3ElsmhHeWnLNoCbXPM25k7vlWfbQ==
+X-Received: by 2002:a62:f901:0:b029:160:b5d:fc40 with SMTP id o1-20020a62f9010000b02901600b5dfc40mr3765983pfh.55.1606848993678;
+        Tue, 01 Dec 2020 10:56:33 -0800 (PST)
+Received: from localhost ([2601:647:5b00:1162:1ac0:17a6:4cc6:d1ef])
+        by smtp.gmail.com with ESMTPSA id y6sm300085pgg.80.2020.12.01.10.56.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Dec 2020 10:56:32 -0800 (PST)
+Date:   Tue, 1 Dec 2020 10:56:31 -0800
+From:   Moritz Fischer <mdf@kernel.org>
+To:     matthew.gerlach@linux.intel.com
+Cc:     "Wu, Hao" <hao.wu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mdf@kernel.org" <mdf@kernel.org>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: Re: [PATCH v3 2/2] fpga: dfl: look for vendor specific capability
+Message-ID: <X8aR36hGoV9SsPDw@archbook>
+References: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
+ <20201124155658.700976-3-matthew.gerlach@linux.intel.com>
+ <DM6PR11MB38191D8C5E27E6E04B8DAA1A85F70@DM6PR11MB3819.namprd11.prod.outlook.com>
+ <alpine.DEB.2.22.394.2011301614040.1050045@rhweight-WRK1>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1kk9xy-00081x-2R;;;mid=<87zh2xcso5.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/R0Vga3FxvQqhqZmu6jrIe/AwE1gt5KtU=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v3] drivers/virt: vmgenid: add vm generation id driver
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2011301614040.1050045@rhweight-WRK1>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Catangiu, Adrian Costin" <acatan@amazon.com> writes:
+Hi Matthew,
 
-> - Background
->
-> The VM Generation ID is a feature defined by Microsoft (paper:
-> http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-> multiple hypervisor vendors.
->
-> The feature is required in virtualized environments by apps that work
-> with local copies/caches of world-unique data such as random values,
-> uuids, monotonically increasing counters, etc.
-> Such apps can be negatively affected by VM snapshotting when the VM
-> is either cloned or returned to an earlier point in time.
+On Mon, Nov 30, 2020 at 04:45:20PM -0800, matthew.gerlach@linux.intel.com wrote:
+> 
+> 
+> On Sat, 28 Nov 2020, Wu, Hao wrote:
+> 
+> > > Subject: [PATCH v3 2/2] fpga: dfl: look for vendor specific capability
+> > 
+> > Maybe we can change the title a little bit, what about
+> > fpga: dfl-pci: locate DFLs by PCIe vendor specific capability
+> > 
+> > > 
+> > > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> > > 
+> > > A DFL may not begin at offset 0 of BAR 0.  A PCIe vendor
+> > > specific capability can be used to specify the start of a
+> > > number of DFLs.
+> > 
+> > A PCIe vendor specific extended capability is introduced by Intel to
+> > specify the start of a number of DFLs.
+> 
+> Your suggestion is more precise.
+> > 
+> > 
+> > > 
+> > > Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> > > ---
+> > > v3: Add text and ascii art to documentation.
+> > >     Ensure not to exceed PCIe config space in loop.
+> > > 
+> > > v2: Update documentation for clarity.
+> > >     Clean up  macro names.
+> > >     Use GENMASK.
+> > >     Removed spurious blank lines.
+> > >     Changed some calls from dev_info to dev_dbg.
+> > >     Specifically check for VSEC not found, -ENODEV.
+> > >     Ensure correct pci vendor id.
+> > >     Remove check for page alignment.
+> > >     Rename find_dfl_in_cfg to find_dfls_by_vsec.
+> > >     Initialize target memory of pci_read_config_dword to invalid values before
+> > > use.
+> > > ---
+> > >  Documentation/fpga/dfl.rst | 25 +++++++++++
+> > >  drivers/fpga/dfl-pci.c     | 91 +++++++++++++++++++++++++++++++++++++-
+> > >  2 files changed, 115 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> > > index 0404fe6ffc74..fa0da884a818 100644
+> > > --- a/Documentation/fpga/dfl.rst
+> > > +++ b/Documentation/fpga/dfl.rst
+> > > @@ -501,6 +501,31 @@ Developer only needs to provide a sub feature
+> > > driver with matched feature id.
+> > >  FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-
+> > > pr.c)
+> > >  could be a reference.
+> > > 
+> > > +Location of DFLs on a PCI Device
+> > > +===========================
+> > > +There are two ways of locating DFLs on a PCI Device.  The original
+> > 
+> > I found this new VSEC is only for PCIe device, correct? If so, let's make
+> > sure descriptions are accurate. E.g. default method for all devices
+> > and a new method for PCIe device.
+> 
+> Yes, the default method can be used with PCI and PCIe device, and the VSEC
+> approach is PCIe, only.  Documentation can be made more precise.
+> 
+> > 
+> > > +method assumed the start of the first DFL to offset 0 of bar 0.
+> > > +If the first node of the DFL is an FME, then further DFLs
+> > > +in the port(s) are specified in FME header registers.
+> > > +Alternatively, a vendor specific capability structure can be used to
+Maybe: a vendor specific extended capability (VSEC) ...
+> > > +specify the location of all the DFLs on the device, providing flexibility
+> > > +for the type of starting node in the DFL.  Intel has reserved the
+> > > +VSEC ID of 0x43 for this purpose.  The vendor specific
+> > > +data begins with a 4 byte vendor specific register for the number of DFLs
+> > > followed 4 byte
+> > > +Offset/BIR vendor specific registers for each DFL. Bits 2:0 of Offset/BIR
+> > > register
+> > 
+> > Do we have a defined register name here? or it's named as Offset/BIR register?
+> > Sounds a little wired, and I see you defined it as DFLS_RES?
+> 
+> The Offset/BIR terminology is also used in the MSI-X capability structure.
 
-How does this differ from /proc/sys/kernel/random/boot_id?
+Yeah, this intuitively made sense to me having worked with PCIe :)
+> 
+> > 
+> > > +indicates the BAR, and bits 31:3 form the 8 byte aligned offset where bits
+> > > 2:0 are
+> > > +zero.
+> > > +
+> > > +        +----------------------------+
+> > > +        |31     Number of DFLS      0|
+> > > +        +----------------------------+
+> > > +        |31     Offset     3|2 BIR  0|
+> > > +        +----------------------------+
+> > > +                      . . .
+> > > +        +----------------------------+
+> > > +        |31     Offset     3|2 BIR  0|
+> > > +        +----------------------------+
+> > > +
+> > 
+> > Maybe it's better to have register name and offset in above table.
+> > BTW: if there is some public link to related spec, that helps too.
+> 
+> I'll consider adding a register name and offset, but I am not sure it adds
+> much information.
 
-> The VM Generation ID is a simple concept meant to alleviate the issue
-> by providing a unique ID that changes each time the VM is restored
-> from a snapshot. The hw provided UUID value can be used to
-> differentiate between VMs or different generations of the same VM.
+I think this is fine together with textual description you have above.
+> 
+> > 
+> > > 
+> > >  Open discussion
+> > >  ===============
+> > > diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+> > > index b27fae045536..a58bf4299d6b 100644
+> > > --- a/drivers/fpga/dfl-pci.c
+> > > +++ b/drivers/fpga/dfl-pci.c
+> > > @@ -27,6 +27,14 @@
+> > >  #define DRV_VERSION	"0.8"
+> > >  #define DRV_NAME	"dfl-pci"
+> > > 
+> > > +#define PCI_VSEC_ID_INTEL_DFLS 0x43
+> > > +
+> > > +#define PCI_VNDR_DFLS_CNT 8
+> > > +#define PCI_VNDR_DFLS_RES 0x0c
+> > 
+> > They are both register offset? it's better to use the same style.
+> > 
+> > 0x8
+> > 0xc
+> > 
+> > Something like this.
+> 
+> Agrreed.
+> > 
+> > > +
+> > > +#define PCI_VNDR_DFLS_RES_BAR_MASK GENMASK(2, 0)
+> > > +#define PCI_VNDR_DFLS_RES_OFF_MASK GENMASK(31, 3)
+> > > +
+> > >  struct cci_drvdata {
+> > >  	struct dfl_fpga_cdev *cdev;	/* container device */
+> > >  };
+> > > @@ -119,6 +127,84 @@ static int *cci_pci_create_irq_table(struct pci_dev
+> > > *pcidev, unsigned int nvec)
+> > >  	return table;
+> > >  }
+> > > 
+> > > +static int find_dfls_by_vsec(struct pci_dev *pcidev, struct
+> > > dfl_fpga_enum_info *info)
+> > > +{
+> > > +	u32 bar, offset, vndr_hdr, dfl_cnt, dfl_res;
+> > > +	int dfl_res_off, i, voff = 0;
+> > > +	resource_size_t start, len;
+> > > +
+> > > +	if (pcidev->vendor != PCI_VENDOR_ID_INTEL)
+> > > +		return -ENODEV;
+> > 
+> > Check it later then other vendor can add their ones easily?
+> > 
+> > > +
+> > > +	while ((voff = pci_find_next_ext_capability(pcidev, voff,
+> > > PCI_EXT_CAP_ID_VNDR))) {
+> > > +		vndr_hdr = 0;
+> > 
+> > It seems it doesn't need this.
+> 
+> Initializing vndr_hdr = 0 ensures a failed pci_read_config_dword() failure
+> is handled properly.  I will remove the call and the debug information
+> anyway.
+> 
+>  >
+> > > +		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER,
+> > > &vndr_hdr);
+> > > +
+> > > +		dev_dbg(&pcidev->dev,
+> > > +			"vendor-specific capability id 0x%x, rev 0x%x len
+> > > 0x%x\n",
+> > > +			PCI_VNDR_HEADER_ID(vndr_hdr),
+> > > +			PCI_VNDR_HEADER_REV(vndr_hdr),
+> > > +			PCI_VNDR_HEADER_LEN(vndr_hdr));
+> > 
+> > Suggest remove this debug information.
+> > 
+> > > +
+> > > +		if (PCI_VNDR_HEADER_ID(vndr_hdr) ==
+> > > PCI_VSEC_ID_INTEL_DFLS)
+> > 
+> > How about
+> > 		if (vendor == intel && header_id == INTEL_DFLS)
+> > 			break;
+> Seems reasonable.
+> > 
+> > > +			break;
+> > > +	}
+> > > +
+> > > +	if (!voff) {
+> > > +		dev_dbg(&pcidev->dev, "%s no VSEC found\n", __func__);
+> > 
+> > No DFL VSEC found
+> > 
+> > There could be many different VSECs but no DFL ones.
+> 
+> Agreed.
+> > 
+> > > +		return -ENODEV;
+> > > +	}
+> > > +
+> > > +	dfl_cnt = 0;
+> > 
+> > Can be merged into the line which defines dfl_cnt? Or we can just
+> > remove this line.
+> 
+> This initialization ensures that a failure to the pci_read_config_dword
+> function below is handled properly.  It can be merged into the definition
+> line.
+> 
+> > 
+> > > +	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT,
+> > > &dfl_cnt);
+> > > +	dev_dbg(&pcidev->dev, "dfl_cnt %d\n", dfl_cnt);
+> > > +	for (i = 0; i < dfl_cnt; i++) {
+> > > +		dfl_res_off = voff + PCI_VNDR_DFLS_RES +
+> > > +				      (i * sizeof(dfl_res));
+> > 
+> > Above two line can be put into one line, it's < 80 length.
+> 
+> Agreed.
+> 
+> > 
+> > > +		if (dfl_res_off >= PCI_CFG_SPACE_EXP_SIZE) {
+> > > +			dev_err(&pcidev->dev, "%s offset too big for PCIe
+> > > config space\n",
+> > > +				__func__);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		dfl_res = GENMASK(31, 0);
+> > 
+> > do we really need this?
+> 
+> Again, the assignment is ensuring that a failure to the
+> pci_read_config_dword function is handled properly.
+> 
+> > 
+> > > +		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
+> > > +
+> > > +		dev_dbg(&pcidev->dev, "dfl_res 0x%x\n", dfl_res);
+> > 
+> > Can be read by lspci even without driver, so we may not really need this
+> > debug information here.
+> 
+> 
+> I suppose the call to dev_dbg can be removed.
+> 
+> > 
+> > > +
+> > > +		bar = dfl_res & PCI_VNDR_DFLS_RES_BAR_MASK;
+> > > +		if (bar >= PCI_STD_NUM_BARS) {
+> > > +			dev_err(&pcidev->dev, "%s bad bar number %d\n",
+> > > +				__func__, bar);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		len = pci_resource_len(pcidev, bar);
+> > > +		if (len == 0) {
+> > > +			dev_err(&pcidev->dev, "%s unmapped bar
+> > > number %d\n",
+> > > +				__func__, bar);
+> > > +			return -EINVAL;
+> > 
+> > can be covered by below case, as mentioned in previous patch.
+> Agreed, I forgot to remove it.
+> > 
+> > > +		}
+> > > +
+> > > +		offset = dfl_res & PCI_VNDR_DFLS_RES_OFF_MASK;
+> > > +		if (offset >= len) {
+> > > +			dev_err(&pcidev->dev, "%s bad offset %u >= %pa\n",
+> > > +				__func__, offset, &len);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		dev_dbg(&pcidev->dev, "%s BAR %d offset 0x%x\n",
+> > > __func__, bar, offset);
+> > > +
+> > > +		len -= offset;
+> > > +
+> > > +		start = pci_resource_start(pcidev, bar) + offset;
+> > > +
+> > > +		dfl_fpga_enum_info_add_dfl(info, start, len);
+> > 
+> > That means everytime, we pass [start, endofbar] region to dfl core
+> > for enumeration, if there are multiple DFLs in one bar, then each range
+> > ends at the same endofbar, it seems fine as enumeration can be done
+> > one by one, but ideally the best case is that this capability can provide
+> > end address or size too, right? It is possible that information can be
+> > added to the capability as well? then we don't have such limitation.
+> > 
+> > Hao
+> 
+> I am not sure having more than one DFL in a bar serves any purpose over a
+> single DFL.  Regardless, I think the consistency of just having Offset/BIR
+> in the VSEC is better than adding more infomation that has little or no
+> added value.
 
-Does the VM generation ID change in a running that effectively things it
-is running?
+Agreed. Can't you just link the DFLs in that case?
+> 
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int find_dfls_by_default(struct pci_dev *pcidev,
+> > >  				struct dfl_fpga_enum_info *info)
+> > >  {
+> > > @@ -220,7 +306,10 @@ static int cci_enumerate_feature_devs(struct
+> > > pci_dev *pcidev)
+> > >  			goto irq_free_exit;
+> > >  	}
+> > > 
+> > > -	ret = find_dfls_by_default(pcidev, info);
+> > > +	ret = find_dfls_by_vsec(pcidev, info);
+> > > +	if (ret == -ENODEV)
+> > > +		ret = find_dfls_by_default(pcidev, info);
+> > > +
+> > >  	if (ret)
+> > >  		goto irq_free_exit;
+> > > 
+> > > --
+> > > 2.25.2
+> > 
+> > 
 
-> - Problem
->
-> The VM Generation ID is exposed through an ACPI device by multiple
-> hypervisor vendors but neither the vendors or upstream Linux have no
-> default driver for it leaving users to fend for themselves.
->
-> Furthermore, simply finding out about a VM generation change is only
-> the starting point of a process to renew internal states of possibly
-> multiple applications across the system. This process could benefit
-> from a driver that provides an interface through which orchestration
-> can be easily done.
->
-> - Solution
->
-> This patch is a driver that exposes a monotonic incremental Virtual
-> Machine Generation u32 counter via a char-dev FS interface.
-
-Earlier it was a UUID now it is 32bit number?
-
-> The FS
-> interface provides sync and async VmGen counter updates notifications.
-> It also provides VmGen counter retrieval and confirmation mechanisms.
->
-> The generation counter and the interface through which it is exposed
-> are available even when there is no acpi device present.
->
-> When the device is present, the hw provided UUID is not exposed to
-> userspace, it is internally used by the driver to keep accounting for
-> the exposed VmGen counter. The counter starts from zero when the
-> driver is initialized and monotonically increments every time the hw
-> UUID changes (the VM generation changes).
-> On each hw UUID change, the new hypervisor-provided UUID is also fed
-> to the kernel RNG.
-
-Should this be a hotplug even rather than a new character device?
-
-Without plugging into udev and the rest of the hotplug infrastructure
-I suspect things will be missed.
-
-> If there is no acpi vmgenid device present, the generation changes are
-> not driven by hw vmgenid events but can be driven by software through
-> a dedicated driver ioctl.
->
-> This patch builds on top of Or Idgar <oridgar@gmail.com>'s proposal
-> https://lkml.org/lkml/2018/3/1/498
-
-
-Eric
+- Moritz
