@@ -7,147 +7,94 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274D2C64E7B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 08:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6715C64E7A
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 09:12:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 971A22085B
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 08:07:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82A16221FD
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 09:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbgLAIHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 03:07:52 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46730 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726120AbgLAIHw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 03:07:52 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 72398AD21;
-        Tue,  1 Dec 2020 08:07:09 +0000 (UTC)
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-To:     Mikulas Patocka <mpatocka@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-fbdev@vger.kernel.org, geert+renesas@glider.be,
-        corbet@lwn.net, daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org,
-        bernie@plugable.com, dri-devel@lists.freedesktop.org,
-        sam@ravnborg.org
-References: <20201130125200.10416-1-tzimmermann@suse.de>
- <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
- <20201130154147.GT401619@phenom.ffwll.local>
- <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
-Date:   Tue, 1 Dec 2020 09:07:08 +0100
+        id S2389578AbgLAJLt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 04:11:49 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42849 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389562AbgLAJLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 04:11:48 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1kk1gY-003MrK-Et; Tue, 01 Dec 2020 10:10:58 +0100
+Received: from p57bd9091.dip0.t-ipconnect.de ([87.189.144.145] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1kk1gX-000Ce2-UF; Tue, 01 Dec 2020 10:10:58 +0100
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+References: <20201101170454.9567-1-rppt@kernel.org>
+ <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+Date:   Tue, 1 Dec 2020 10:10:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="m0nXX7s2opZ6pPGdpseWFGDKjZHKL2cuI"
+In-Reply-To: <20201117062316.GB370813@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.145
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m0nXX7s2opZ6pPGdpseWFGDKjZHKL2cuI
-Content-Type: multipart/mixed; boundary="vbXNiItjELcPrKi8yrF0Zi8IoCE0p07NW";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Mikulas Patocka <mpatocka@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-fbdev@vger.kernel.org, geert+renesas@glider.be, corbet@lwn.net,
- daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org
-Message-ID: <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-References: <20201130125200.10416-1-tzimmermann@suse.de>
- <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
- <20201130154147.GT401619@phenom.ffwll.local>
- <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
-In-Reply-To: <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
+Hi Mike!
 
---vbXNiItjELcPrKi8yrF0Zi8IoCE0p07NW
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 30.11.20 um 19:39 schrieb Mikulas Patocka:
->=20
->=20
-> On Mon, 30 Nov 2020, Daniel Vetter wrote:
->=20
->> On Mon, Nov 30, 2020 at 09:31:15AM -0500, Mikulas Patocka wrote:
->>>
->>> The framebuffer driver supports programs running full-screen directly=
- on
->>> the framebuffer console, such as web browser "links -g", image viewer=
-
->>> "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl",=
-
->>> movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
+On 11/17/20 7:23 AM, Mike Rapoport wrote:
+>> Apologies for the late reply. Is this still relevant for testing?
 >>
->> Hm this should in general work on drm drivers. Without that it's clear=
- the
->> switch-over isn't really ready yet.
->=20
-> I fixed it with this patch two years ago:
-> https://lists.freedesktop.org/archives/dri-devel/2018-June/179023.html
->=20
-> But the patch never went through and the fb_defio feature was removed i=
-n
-> the kernel 5.6 (commit d0c4fc5a4814e431c15272935c8dc973c18073aa).
->=20
->=20
-> Without fb_defio, the only other possibility how to update the screen i=
-s
-> the ioctl DRM_IOCTL_MODE_DIRTYFB. But this ioctl requires master mode, =
-so
-> user programs like "links -g" can't issue it.
+>> I have already successfully tested v1 of the patch set, shall I test v2?
+> 
+> There were minor differences only for m68k between the versions. I've
+> verified them on ARAnyM but if you have a real machine a run there would
+> be nice.
 
-That's confusing. DIRTYFB is only for DRM.
+I have just built a fresh kernel from the tip of Linus' tree and it boots
+fine on my RX-2600:
 
-And why can links not run as DRM master mode? If it renders to the=20
-terminal, it should act like a composer. In that case it almost=20
-certainly wants master status.
+root@glendronach:~# uname -a
+Linux glendronach 5.10.0-rc6 #6 SMP Tue Dec 1 04:52:49 CET 2020 ia64 GNU/Linux
+root@glendronach:~#
 
-Best regards
-Thomas
+No issues observed so far. Looking at the git log, it seems these changes haven't
+been merged for 5.10 yet. I assume they will be coming with 5.11?
 
->=20
-> Mikulas
->=20
+Adrian
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
-
---vbXNiItjELcPrKi8yrF0Zi8IoCE0p07NW--
-
---m0nXX7s2opZ6pPGdpseWFGDKjZHKL2cuI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/F+awFAwAAAAAACgkQlh/E3EQov+DY
-bxAAnFIkL+UQXf+grnqvgtdwrOpkbY+Qq3tjYHo3YwzUhMNVBRIZLLg2O8fWtKtYlNXFV6K9FQso
-umaZoSfS0S8SldWnM8KoyZzFgpWGNJZuPVeLulMAPEHgDMMRzsLBOofFhS2T04KowRPq3RpKgtKK
-dwjuRQmnJArS3n3TQB4WyAfxpjNo/rkeWrk2MRJUPzVNSzMFgO4VLgFGFF5tcJ1+MEwKWvI1+QVb
-LiWhTwQugcxDI0kU6x0ud71/SrHog2mfK8Dm1kwbZyLV+PusC/Dkr3lXefLnULHcDF5+haohQFPs
-uSllb8H0TOhGT2VIisukXjf3yZoQ4wP+EIbIS5zXhO/BzyxvE/aeATzii9bmnv5dxqap4OSKoZpI
-uXhwPP4XRTdCwfMrEJgFodMgh0p+THhHYS75BhyyLmFogXpsWP+tx7db6x6qwOMNuK7YgwNJkVB7
-oNmvjwloZQ3pm0FlP9tG7peKj7ulW4PDPp9IYpaSCp2FF3PDXWeq5Bz3ahnhY6YXeG/OGMMYcfb+
-ydw/DWgD2TqfH/rvCCG6Ly6Pe3+Rw6lgjNZuWfwfw6qkf5Rn4PhOe7YtdgxvCdv6/+7gJhPSWyzf
-UyemQG86/QeGbXaXL0wp8dbBaGrd+GsFpWYZ4GYNw3IdAqF5c6TcQfRGgOtodhAFKMrxNkkxmKeI
-SY0=
-=B23t
------END PGP SIGNATURE-----
-
---m0nXX7s2opZ6pPGdpseWFGDKjZHKL2cuI--
