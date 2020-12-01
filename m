@@ -2,329 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1736C64E7A
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 11:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9626DC64E7B
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C15620770
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 11:59:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 209742084C
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Dec 2020 12:10:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=kernel.org header.i=@kernel.org header.b="UoXWAr05"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387394AbgLAL6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 06:58:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727072AbgLAL6m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 06:58:42 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 471EEC0613CF
-        for <linux-doc@vger.kernel.org>; Tue,  1 Dec 2020 03:58:02 -0800 (PST)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kk4IC-0002Km-Pb; Tue, 01 Dec 2020 12:58:00 +0100
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Amjad Ouled-Ameur <aouledameur@baylibre.com>,
-        kernel@pengutronix.de
-Subject: [PATCH v2] docs: add a reset controller chapter to the driver API docs
-Date:   Tue,  1 Dec 2020 12:57:54 +0100
-Message-Id: <20201201115754.1713-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        id S1726202AbgLAMJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 07:09:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730389AbgLAMJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Dec 2020 07:09:56 -0500
+Received: from mail.kernel.org (ip5f5ad5d9.dynamic.kabel-deutschland.de [95.90.213.217])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 34A572085B;
+        Tue,  1 Dec 2020 12:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606824555;
+        bh=5j3bZfT+AahvAZyD2bTq7ZbhqOVp8pnzllSmo2XZ6sI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UoXWAr058HWX1h5ih5hkHzSgSxCPYXTKyaNyHhZYH4nO/nvYq0XTw9Ipq86OsIV3s
+         iz6jiZwxlcsrrmA+tO3+twKUdXF6gLC4zN9JgEh+Cj/3yW+yo9vjTouPkFQ20mDWBQ
+         OFlyUXD9FbWYiYyeX6d1AXZZOdLQ2898V/h4HFZ8=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kk4T3-00DGdD-49; Tue, 01 Dec 2020 13:09:13 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 09/16] connector: fix a kernel-doc markup
+Date:   Tue,  1 Dec 2020 13:09:02 +0100
+Message-Id: <783748cbcb7cc69ee3c79ab6669303c9c0a46295.1606823973.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1606823973.git.mchehab+huawei@kernel.org>
+References: <cover.1606823973.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add initial reset controller API documentation. This is mostly intended
-to describe the concepts to users of the consumer API, and to tie the
-kerneldoc comments we already have into the driver API documentation.
+A function has a different name between their prototype
+and its kernel-doc markup.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Amjad Ouled-Ameur <aouledameur@baylibre.fr>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-Changes since v1 [1]:
-- Added a note that reset_control_status() does not accept reset control
-  array handles (Randy Dunlap)
+ include/linux/connector.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/lkml/20201117103306.17010-1-p.zabel@pengutronix.de/
----
- Documentation/driver-api/index.rst |   1 +
- Documentation/driver-api/reset.rst | 221 +++++++++++++++++++++++++++++
- MAINTAINERS                        |   1 +
- 3 files changed, 223 insertions(+)
- create mode 100644 Documentation/driver-api/reset.rst
-
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index f357f3eb400c..08c32952fce3 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -29,6 +29,7 @@ available subsections can be seen below.
-    infiniband
-    frame-buffer
-    regulator
-+   reset
-    iio/index
-    input
-    usb/index
-diff --git a/Documentation/driver-api/reset.rst b/Documentation/driver-api/reset.rst
-new file mode 100644
-index 000000000000..84e03d7039cc
---- /dev/null
-+++ b/Documentation/driver-api/reset.rst
-@@ -0,0 +1,221 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================
-+Reset controller API
-+====================
-+
-+Introduction
-+============
-+
-+Reset controllers are central units that control the reset signals to multiple
-+peripherals.
-+The reset controller API is split into two parts:
-+the `consumer driver interface <#consumer-driver-interface>`__ (`API reference
-+<#reset-consumer-api>`__), which allows peripheral drivers to request control
-+over their reset input signals, and the `reset controller driver interface
-+<#reset-controller-driver-interface>`__ (`API reference
-+<#reset-controller-driver-api>`__), which is used by drivers for reset
-+controller devices to register their reset controls to provide them to the
-+consumers.
-+
-+While some reset controller hardware units also implement system restart
-+functionality, restart handlers are out of scope for the reset controller API.
-+
-+Glossary
-+--------
-+
-+The reset controller API uses these terms with a specific meaning:
-+
-+Reset line
-+
-+    Physical reset line carrying a reset signal from a reset controller
-+    hardware unit to a peripheral module.
-+
-+Reset control
-+
-+    Control method that determines the state of one or multiple reset lines.
-+    Most commonly this is a single bit in reset controller register space that
-+    either allows direct control over the physical state of the reset line, or
-+    is self-clearing and can be used to trigger a predetermined pulse on the
-+    reset line.
-+    In more complicated reset controls, a single trigger action can launch a
-+    carefully timed sequence of pulses on multiple reset lines.
-+
-+Reset controller
-+
-+    A hardware module that provides a number of reset controls to control a
-+    number of reset lines.
-+
-+Reset consumer
-+
-+    Peripheral module or external IC that is put into reset by the signal on a
-+    reset line.
-+
-+Consumer driver interface
-+=========================
-+
-+This interface provides an API that is similar to the kernel clock framework.
-+Consumer drivers use get and put operations to acquire and release reset
-+controls.
-+Functions are provided to assert and deassert the controlled reset lines,
-+trigger reset pulses, or to query reset line status.
-+
-+When requesting reset controls, consumers can use symbolic names for their
-+reset inputs, which are mapped to an actual reset control on an existing reset
-+controller device by the core.
-+
-+A stub version of this API is provided when the reset controller framework is
-+not in use in order to minimize the need to use ifdefs.
-+
-+Shared and exclusive resets
-+---------------------------
-+
-+The reset controller API provides either reference counted deassertion and
-+assertion or direct, exclusive control.
-+The distinction between shared and exclusive reset controls is made at the time
-+the reset control is requested, either via devm_reset_control_get_shared() or
-+via devm_reset_control_get_exclusive().
-+This choice determines the behavior of the API calls made with the reset
-+control.
-+
-+Shared resets behave similarly to clocks in the kernel clock framework.
-+They provide reference counted deassertion, where only the first deassert,
-+which increments the deassertion reference count to one, and the last assert
-+which decrements the deassertion reference count back to zero, have a physical
-+effect on the reset line.
-+
-+Exclusive resets on the other hand guarantee direct control.
-+That is, an assert causes the reset line to be asserted immediately, and a
-+deassert causes the reset line to be deasserted immediately.
-+
-+Assertion and deassertion
-+-------------------------
-+
-+Consumer drivers use the reset_control_assert() and reset_control_deassert()
-+functions to assert and deassert reset lines.
-+For shared reset controls, calls to the two functions must be balanced.
-+
-+Note that since multiple consumers may be using a shared reset control, there
-+is no guarantee that calling reset_control_assert() on a shared reset control
-+will actually cause the reset line to be asserted.
-+Consumer drivers using shared reset controls should assume that the reset line
-+may be kept deasserted at all times.
-+The API only guarantees that the reset line can not be asserted as long as any
-+consumer has requested it to be deasserted.
-+
-+Triggering
-+----------
-+
-+Consumer drivers use reset_control_reset() to trigger a reset pulse on a
-+self-deasserting reset control.
-+In general, these resets can not be shared between multiple consumers, since
-+requesting a pulse from any consumer driver will reset all connected
-+peripherals.
-+
-+The reset controller API allows requesting self-deasserting reset controls as
-+shared, but for those only the first trigger request causes an actual pulse to
-+be issued on the reset line.
-+All further calls to this function have no effect until all consumers have
-+called reset_control_rearm().
-+For shared reset controls, calls to the two functions must be balanced.
-+This allows devices that only require an initial reset at any point before the
-+driver is probed or resumed to share a pulsed reset line.
-+
-+Querying
-+--------
-+
-+Only some reset controllers support querying the current status of a reset
-+line, via reset_control_status().
-+If supported, this function returns a positive non-zero value if the given
-+reset line is asserted.
-+The reset_control_status() function does not accept a
-+`reset control array <#reset-control-arrays>`__ handle as its input parameter.
-+
-+Optional resets
-+---------------
-+
-+Often peripherals require a reset line on some platforms but not on others.
-+For this, reset controls can be requested as optional using
-+devm_reset_control_get_optional_exclusive() or
-+devm_reset_control_get_optional_shared().
-+These functions return a NULL pointer instead of an error when the requested
-+reset control is not specified in the device tree.
-+Passing a NULL pointer to the reset_control functions causes them to return
-+quietly without an error.
-+
-+Reset control arrays
-+--------------------
-+
-+Some drivers need to assert a bunch of reset lines in no particular order.
-+devm_reset_control_array_get() returns an opaque reset control handle that can
-+be used to assert, deassert, or trigger all specified reset controls at once.
-+The reset control API does not guarantee the order in which the individual
-+controls therein are handled.
-+
-+Reset controller driver interface
-+=================================
-+
-+Drivers for reset controller modules provide the functionality necessary to
-+assert or deassert reset signals, to trigger a reset pulse on a reset line, or
-+to query its current state.
-+All functions are optional.
-+
-+Initialization
-+--------------
-+
-+Drivers fill a struct :c:type:`reset_controller_dev` and register it with
-+reset_controller_register() in their probe function.
-+The actual functionality is implemented in callback functions via a struct
-+:c:type:`reset_control_ops`.
-+
-+API reference
-+=============
-+
-+The reset controller API is documented here in two parts:
-+the `reset consumer API <#reset-consumer-api>`__ and the `reset controller
-+driver API <#reset-controller-driver-api>`__.
-+
-+Reset consumer API
-+------------------
-+
-+Reset consumers can control a reset line using an opaque reset control handle,
-+which can be obtained from devm_reset_control_get_exclusive() or
-+devm_reset_control_get_shared().
-+Given the reset control, consumers can call reset_control_assert() and
-+reset_control_deassert(), trigger a reset pulse using reset_control_reset(), or
-+query the reset line status using reset_control_status().
-+
-+.. kernel-doc:: include/linux/reset.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/reset/core.c
-+   :functions: reset_control_reset
-+               reset_control_assert
-+               reset_control_deassert
-+               reset_control_status
-+               reset_control_acquire
-+               reset_control_release
-+               reset_control_rearm
-+               reset_control_put
-+               of_reset_control_get_count
-+               of_reset_control_array_get
-+               devm_reset_control_array_get
-+               reset_control_get_count
-+
-+Reset controller driver API
-+---------------------------
-+
-+Reset controller drivers are supposed to implement the necessary functions in
-+a static constant structure :c:type:`reset_control_ops`, allocate and fill out
-+a struct :c:type:`reset_controller_dev`, and register it using
-+devm_reset_controller_register().
-+
-+.. kernel-doc:: include/linux/reset-controller.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/reset/core.c
-+   :functions: of_reset_simple_xlate
-+               reset_controller_register
-+               reset_controller_unregister
-+               devm_reset_controller_register
-+               reset_controller_add_lookup
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..678bd80a2e65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14948,6 +14948,7 @@ M:	Philipp Zabel <p.zabel@pengutronix.de>
- S:	Maintained
- T:	git git://git.pengutronix.de/git/pza/linux
- F:	Documentation/devicetree/bindings/reset/
-+F:	Documentation/driver-api/reset.rst
- F:	drivers/reset/
- F:	include/dt-bindings/reset/
- F:	include/linux/reset-controller.h
+diff --git a/include/linux/connector.h b/include/linux/connector.h
+index cb732643471b..6bdb56662675 100644
+--- a/include/linux/connector.h
++++ b/include/linux/connector.h
+@@ -70,65 +70,65 @@ int cn_add_callback(struct cb_id *id, const char *name,
+  * cn_del_callback() - Unregisters new callback with connector core.
+  *
+  * @id:		unique connector's user identifier.
+  */
+ void cn_del_callback(struct cb_id *id);
+ 
+ 
+ /**
+  * cn_netlink_send_mult - Sends message to the specified groups.
+  *
+  * @msg: 	message header(with attached data).
+  * @len:	Number of @msg to be sent.
+  * @portid:	destination port.
+  *		If non-zero the message will be sent to the given port,
+  *		which should be set to the original sender.
+  * @group:	destination group.
+  * 		If @portid and @group is zero, then appropriate group will
+  *		be searched through all registered connector users, and
+  *		message will be delivered to the group which was created
+  *		for user with the same ID as in @msg.
+  *		If @group is not zero, then message will be delivered
+  *		to the specified group.
+  * @gfp_mask:	GFP mask.
+  *
+  * It can be safely called from softirq context, but may silently
+  * fail under strong memory pressure.
+  *
+  * If there are no listeners for given group %-ESRCH can be returned.
+  */
+ int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
+ 
+ /**
+- * cn_netlink_send_mult - Sends message to the specified groups.
++ * cn_netlink_send - Sends message to the specified groups.
+  *
+  * @msg:	message header(with attached data).
+  * @portid:	destination port.
+  *		If non-zero the message will be sent to the given port,
+  *		which should be set to the original sender.
+  * @group:	destination group.
+  * 		If @portid and @group is zero, then appropriate group will
+  *		be searched through all registered connector users, and
+  *		message will be delivered to the group which was created
+  *		for user with the same ID as in @msg.
+  *		If @group is not zero, then message will be delivered
+  *		to the specified group.
+  * @gfp_mask:	GFP mask.
+  *
+  * It can be safely called from softirq context, but may silently
+  * fail under strong memory pressure.
+  *
+  * If there are no listeners for given group %-ESRCH can be returned.
+  */
+ int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 group, gfp_t gfp_mask);
+ 
+ int cn_queue_add_callback(struct cn_queue_dev *dev, const char *name,
+ 			  struct cb_id *id,
+ 			  void (*callback)(struct cn_msg *, struct netlink_skb_parms *));
+ void cn_queue_del_callback(struct cn_queue_dev *dev, struct cb_id *id);
+ void cn_queue_release_callback(struct cn_callback_entry *);
+ 
+ struct cn_queue_dev *cn_queue_alloc_dev(const char *name, struct sock *);
+ void cn_queue_free_dev(struct cn_queue_dev *dev);
+ 
+ int cn_cb_equal(struct cb_id *, struct cb_id *);
+ 
 -- 
-2.20.1
+2.28.0
 
