@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C892C71155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A278C64E7C
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E290D221FA
+	by mail.kernel.org (Postfix) with ESMTP id AFEC22224F
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387894AbgLBSnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 13:43:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53972 "EHLO
+        id S2389402AbgLBSnJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 13:43:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389409AbgLBSnO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:14 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52D48C094240
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:42:02 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id p8so5162791wrx.5
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:42:02 -0800 (PST)
+        with ESMTP id S2389369AbgLBSnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:07 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E39CC08E860
+        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:55 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id h21so11165582wmb.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6X5Tu43pgKNfdIYIj06Fr+JlpCFzZj/ZURHeuSR11Bw=;
-        b=IAmw5/Y6w/en7YUiVJqEzUbksV4/sxbgv4bnK+MzI6iH7OV6SdZNtRr7IEYZL2boJs
-         11rJ0wEO34CQVAzo02Vc1m1rTPe8chZU5zhwCjwmrbgxOieXaTiWJatxME0NjTCK+tIW
-         KQP07nH5PKznctiftFYr7s5fGiPHzmRDG9F78EGHbm5d6XAaffuWi4ZxiF9Jv27/TAya
-         /SyK9qECXiwUWdFlzgBP/LVZXOr9gOu2UiODgi1YZl6d2EmVVL8ajBezwoxJ3+f5QxoN
-         9xF5YFOYDA9SdlVcBWYS1x/NrGphTirebdIi98mz97lZLSx9zo/ExmCsthjnEdHnvp4T
-         DmPQ==
+        bh=FbhNL96u68QqM7Q1rkLQfNYMQNpyFncRvPJJEVMReqU=;
+        b=aFE7s/N+LJ2214UmKW0aNWOqdMUPnXoa+EPsqwgnoGGxb8gEhdDmTcErY0lO7VX/of
+         Pl4LzHwCPIYUm5h24H+uF+GVjDF8jfobBT3gBZqMIo6DJhMVbKU7Tear3xnCtVJhTA5Z
+         H8UdHSoYKkI3GbRtMA+e9t2FLeHRS1USlflwgf2iXaGNryzWx/cGxM/H1WIW7F0TzFQm
+         kUYSeVPW0o7VN8rQmnKCZzuQhKnOlQdi0fKh13kN7DNpfC847bpT3mlXKhcpfipcvWLM
+         zXmrrrlzQf8R9QP/5CcjD6TobUxbU4+VxaXnueeA5C4NZSfWnZQsKClVCGz391574KZb
+         MG+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6X5Tu43pgKNfdIYIj06Fr+JlpCFzZj/ZURHeuSR11Bw=;
-        b=TUZbTrBWwO6LIWeweMMsJXZrkJZPPdUB9yV5OBW4+b/WAbBY6ihqiBT5WpX4Z4nmkd
-         x3Tq6vVy5zD4o+6plA0ZtZGBOy0ZM1taH98OBh8NOe3i5I9A0Z2uLikrCmU+X1CXSdl+
-         MhtLHRRgaViu6tYlG+6PKPcdkXhADIWlUS3ad1uWk0cWVZ7RQhH2T+WfeGDdKMAqhcYf
-         88SITYjMl1uyWqpTQSr9UYXYUkDkEYIFR5akgxb3kFdjexfbAzjiCENBaEril08DLjEP
-         0w3SNNWL0s6wzOJlbNr9c4HZi10ga6jcoJxEBO3MgZeFj6YiBSLpXx0vODRL2bGp5Cs0
-         dLQQ==
-X-Gm-Message-State: AOAM533IQp4+HDCa8MqlmaAI6o11OUi6Sn+CyGzT+0TSOrVqiTVq6k8k
-        J7aFZS1NPkiQGzDhp/DRIZ/zwQ==
-X-Google-Smtp-Source: ABdhPJzPFxnIikpIDzOJVUvZ6LglTEeEOYbM++Awb1eYvwM5zMt7kfYo0dvt6rG0gZ8koyG/p8VLcQ==
-X-Received: by 2002:a5d:4087:: with SMTP id o7mr4938755wrp.27.1606934520868;
-        Wed, 02 Dec 2020 10:42:00 -0800 (PST)
+        bh=FbhNL96u68QqM7Q1rkLQfNYMQNpyFncRvPJJEVMReqU=;
+        b=fG4om8gvot1wpMRzJfgMggW70WemEIYlxvUUB0HeSGaeEIGjnJZzWaqib/Q16QQrX8
+         Jx3kAj8yZR8hXfk3+OZinnmSZ1lCNRcERwbsfvcV8y3VKobGXu3jj682DVpR2FuxrlPU
+         pg1cfHByeJ7cW7JyoEeRuuE/IfIRGSGpNMQNIwZ+pJIWkUd0KpjnIKzlIIMu+mlvymPi
+         2ZMVFPl6p1LKIi6QN/Rla17M5wRtu7C446oEJU3CkfnMKBXraANYG1p9sbRbtIq3lnVj
+         j/LizqIYQHI3fLV1bXKUk22pRtkqq975DzYYDTZ7V1Y7NZsA6P/HD73rUcV6gxus9QaD
+         RQlQ==
+X-Gm-Message-State: AOAM5319Owx0IYhlqzVqtqVhNSShHeyLs9PfO8x2Olt/+LzbLylMDdPp
+        dMZEwaZVDsMOJz3/JMS7/6a4fA==
+X-Google-Smtp-Source: ABdhPJzDonMAoe1/LUSeGrzjO/oX6VvyeXOfTR80+KWmzVofsLNtAQuxbUf5v7Ho6BG2owrCpnDifw==
+X-Received: by 2002:a05:600c:2306:: with SMTP id 6mr4532227wmo.53.1606934514097;
+        Wed, 02 Dec 2020 10:41:54 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id l16sm3085275wrx.5.2020.12.02.10.41.59
+        by smtp.gmail.com with ESMTPSA id z140sm573266wmc.30.2020.12.02.10.41.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 10:41:59 -0800 (PST)
+        Wed, 02 Dec 2020 10:41:52 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,9 +71,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v4 15/26] kvm: arm64: Add SMC handler in nVHE EL2
-Date:   Wed,  2 Dec 2020 18:41:11 +0000
-Message-Id: <20201202184122.26046-16-dbrazdil@google.com>
+Subject: [PATCH v4 12/26] kvm: arm64: Add .hyp.data..ro_after_init ELF section
+Date:   Wed,  2 Dec 2020 18:41:08 +0000
+Message-Id: <20201202184122.26046-13-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
 References: <20201202184122.26046-1-dbrazdil@google.com>
@@ -83,121 +83,97 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add handler of host SMCs in KVM nVHE trap handler. Forward all SMCs to
-EL3 and propagate the result back to EL1. This is done in preparation
-for validating host SMCs in KVM protected mode.
+Add rules for renaming the .data..ro_after_init ELF section in KVM nVHE
+object files to .hyp.data..ro_after_init, linking it into the kernel
+and mapping it in hyp at runtime.
 
-The implementation assumes that firmware uses SMCCC v1.2 or older. That
-means x0-x17 can be used both for arguments and results, other GPRs are
-preserved.
+The section is RW to the host, then mapped RO in hyp. The expectation is
+that the host populates the variables in the section and they are never
+changed by hyp afterwards.
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- arch/arm64/kvm/hyp/nvhe/host.S     | 38 ++++++++++++++++++++++++++++++
- arch/arm64/kvm/hyp/nvhe/hyp-main.c | 35 ++++++++++++++++++++++++---
- 2 files changed, 70 insertions(+), 3 deletions(-)
+ arch/arm64/include/asm/sections.h |  1 +
+ arch/arm64/kernel/vmlinux.lds.S   | 10 ++++++++++
+ arch/arm64/kvm/arm.c              |  8 ++++++++
+ arch/arm64/kvm/hyp/nvhe/hyp.lds.S |  1 +
+ 4 files changed, 20 insertions(+)
 
-diff --git a/arch/arm64/kvm/hyp/nvhe/host.S b/arch/arm64/kvm/hyp/nvhe/host.S
-index fe2740b224cf..2b56f0bdf874 100644
---- a/arch/arm64/kvm/hyp/nvhe/host.S
-+++ b/arch/arm64/kvm/hyp/nvhe/host.S
-@@ -180,3 +180,41 @@ SYM_CODE_START(__kvm_hyp_host_vector)
- 	invalid_host_el1_vect			// FIQ 32-bit EL1
- 	invalid_host_el1_vect			// Error 32-bit EL1
- SYM_CODE_END(__kvm_hyp_host_vector)
-+
-+/*
-+ * Forward SMC with arguments in struct kvm_cpu_context, and
-+ * store the result into the same struct. Assumes SMCCC 1.2 or older.
-+ *
-+ * x0: struct kvm_cpu_context*
-+ */
-+SYM_CODE_START(__kvm_hyp_host_forward_smc)
-+	/*
-+	 * Use x18 to keep the pointer to the host context because
-+	 * x18 is callee-saved in SMCCC but not in AAPCS64.
-+	 */
-+	mov	x18, x0
-+
-+	ldp	x0, x1,   [x18, #CPU_XREG_OFFSET(0)]
-+	ldp	x2, x3,   [x18, #CPU_XREG_OFFSET(2)]
-+	ldp	x4, x5,   [x18, #CPU_XREG_OFFSET(4)]
-+	ldp	x6, x7,   [x18, #CPU_XREG_OFFSET(6)]
-+	ldp	x8, x9,   [x18, #CPU_XREG_OFFSET(8)]
-+	ldp	x10, x11, [x18, #CPU_XREG_OFFSET(10)]
-+	ldp	x12, x13, [x18, #CPU_XREG_OFFSET(12)]
-+	ldp	x14, x15, [x18, #CPU_XREG_OFFSET(14)]
-+	ldp	x16, x17, [x18, #CPU_XREG_OFFSET(16)]
-+
-+	smc	#0
-+
-+	stp	x0, x1,   [x18, #CPU_XREG_OFFSET(0)]
-+	stp	x2, x3,   [x18, #CPU_XREG_OFFSET(2)]
-+	stp	x4, x5,   [x18, #CPU_XREG_OFFSET(4)]
-+	stp	x6, x7,   [x18, #CPU_XREG_OFFSET(6)]
-+	stp	x8, x9,   [x18, #CPU_XREG_OFFSET(8)]
-+	stp	x10, x11, [x18, #CPU_XREG_OFFSET(10)]
-+	stp	x12, x13, [x18, #CPU_XREG_OFFSET(12)]
-+	stp	x14, x15, [x18, #CPU_XREG_OFFSET(14)]
-+	stp	x16, x17, [x18, #CPU_XREG_OFFSET(16)]
-+
-+	ret
-+SYM_CODE_END(__kvm_hyp_host_forward_smc)
-diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-index a4f1cac714d7..f25680ede080 100644
---- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-+++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-@@ -18,6 +18,8 @@
+diff --git a/arch/arm64/include/asm/sections.h b/arch/arm64/include/asm/sections.h
+index 3994169985ef..8ff579361731 100644
+--- a/arch/arm64/include/asm/sections.h
++++ b/arch/arm64/include/asm/sections.h
+@@ -11,6 +11,7 @@ extern char __alt_instructions[], __alt_instructions_end[];
+ extern char __hibernate_exit_text_start[], __hibernate_exit_text_end[];
+ extern char __hyp_idmap_text_start[], __hyp_idmap_text_end[];
+ extern char __hyp_text_start[], __hyp_text_end[];
++extern char __hyp_data_ro_after_init_start[], __hyp_data_ro_after_init_end[];
+ extern char __idmap_text_start[], __idmap_text_end[];
+ extern char __initdata_begin[], __initdata_end[];
+ extern char __inittext_begin[], __inittext_end[];
+diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
+index 1bda604f4c70..4382b5d0645d 100644
+--- a/arch/arm64/kernel/vmlinux.lds.S
++++ b/arch/arm64/kernel/vmlinux.lds.S
+@@ -30,6 +30,13 @@ jiffies = jiffies_64;
+ 	*(__kvm_ex_table)					\
+ 	__stop___kvm_ex_table = .;
  
- DEFINE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
- 
-+void __kvm_hyp_host_forward_smc(struct kvm_cpu_context *host_ctxt);
-+
- static void handle___kvm_vcpu_run(struct kvm_cpu_context *host_ctxt)
- {
- 	DECLARE_REG(struct kvm_vcpu *, vcpu, host_ctxt, 1);
-@@ -152,12 +154,39 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
- 	cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
- }
- 
-+static void default_host_smc_handler(struct kvm_cpu_context *host_ctxt)
-+{
-+	__kvm_hyp_host_forward_smc(host_ctxt);
-+}
-+
-+static void skip_host_instruction(void)
-+{
-+	write_sysreg_el2(read_sysreg_el2(SYS_ELR) + 4, SYS_ELR);
-+}
-+
-+static void handle_host_smc(struct kvm_cpu_context *host_ctxt)
-+{
-+	default_host_smc_handler(host_ctxt);
-+
-+	/*
-+	 * Unlike HVC, the return address of an SMC is the instruction's PC.
-+	 * Move the return address past the instruction.
-+	 */
-+	skip_host_instruction();
-+}
-+
- void handle_trap(struct kvm_cpu_context *host_ctxt)
- {
- 	u64 esr = read_sysreg_el2(SYS_ESR);
- 
--	if (unlikely(ESR_ELx_EC(esr) != ESR_ELx_EC_HVC64))
-+	switch (ESR_ELx_EC(esr)) {
-+	case ESR_ELx_EC_HVC64:
-+		handle_host_hcall(host_ctxt);
-+		break;
-+	case ESR_ELx_EC_SMC64:
-+		handle_host_smc(host_ctxt);
-+		break;
-+	default:
- 		hyp_panic();
--
--	handle_host_hcall(host_ctxt);
++#define HYPERVISOR_DATA_SECTIONS				\
++	HYP_SECTION_NAME(.data..ro_after_init) : {		\
++		__hyp_data_ro_after_init_start = .;		\
++		*(HYP_SECTION_NAME(.data..ro_after_init))	\
++		__hyp_data_ro_after_init_end = .;		\
 +	}
++
+ #define HYPERVISOR_PERCPU_SECTION				\
+ 	. = ALIGN(PAGE_SIZE);					\
+ 	HYP_SECTION_NAME(.data..percpu) : {			\
+@@ -37,6 +44,7 @@ jiffies = jiffies_64;
+ 	}
+ #else /* CONFIG_KVM */
+ #define HYPERVISOR_EXTABLE
++#define HYPERVISOR_DATA_SECTIONS
+ #define HYPERVISOR_PERCPU_SECTION
+ #endif
+ 
+@@ -234,6 +242,8 @@ SECTIONS
+ 	_sdata = .;
+ 	RW_DATA(L1_CACHE_BYTES, PAGE_SIZE, THREAD_ALIGN)
+ 
++	HYPERVISOR_DATA_SECTIONS
++
+ 	/*
+ 	 * Data written with the MMU off but read with the MMU on requires
+ 	 * cache lines to be invalidated, discarding up to a Cache Writeback
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 6c8594378865..40857cbed3d1 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -1705,6 +1705,14 @@ static int init_hyp_mode(void)
+ 		goto out_err;
+ 	}
+ 
++	err = create_hyp_mappings(kvm_ksym_ref(__hyp_data_ro_after_init_start),
++				  kvm_ksym_ref(__hyp_data_ro_after_init_end),
++				  PAGE_HYP_RO);
++	if (err) {
++		kvm_err("Cannot map .hyp.data..ro_after_init section\n");
++		goto out_err;
++	}
++
+ 	err = create_hyp_mappings(kvm_ksym_ref(__start_rodata),
+ 				  kvm_ksym_ref(__end_rodata), PAGE_HYP_RO);
+ 	if (err) {
+diff --git a/arch/arm64/kvm/hyp/nvhe/hyp.lds.S b/arch/arm64/kvm/hyp/nvhe/hyp.lds.S
+index bb2d986ff696..5d76ff2ba63e 100644
+--- a/arch/arm64/kvm/hyp/nvhe/hyp.lds.S
++++ b/arch/arm64/kvm/hyp/nvhe/hyp.lds.S
+@@ -16,4 +16,5 @@ SECTIONS {
+ 	HYP_SECTION_NAME(.data..percpu) : {
+ 		PERCPU_INPUT(L1_CACHE_BYTES)
+ 	}
++	HYP_SECTION(.data..ro_after_init)
  }
 -- 
 2.29.2.454.gaff20da3a2-goog
