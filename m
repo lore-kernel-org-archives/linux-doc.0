@@ -2,100 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD2FC64E7A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 02:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFD8C83012
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:15:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E0FE221E2
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 02:05:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1264B2065E
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:15:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgLBCF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 21:05:27 -0500
-Received: from mga18.intel.com ([134.134.136.126]:12596 "EHLO mga18.intel.com"
+        id S2387534AbgLBHPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 02:15:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40852 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727941AbgLBCF1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 1 Dec 2020 21:05:27 -0500
-IronPort-SDR: wbn+5yo2l6S8Y75RZSo6elGDSmpAph7lldN6mldgsUoNZOvKqTSwcg1WpAj9c2eCyWJbfsYyqq
- s9K2sZ05RzbQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="160710050"
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="160710050"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 18:04:35 -0800
-IronPort-SDR: WRuwfisFSEEiOt8jq1p1m8Z0fSCjGEh3qBAHm+NTa4mbKgfnHv/rO7NxRHXeV2MUmx8gd6hlwB
- QFC0vFvY7w9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
-   d="scan'208";a="365073732"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.141])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2020 18:04:32 -0800
-Date:   Wed, 2 Dec 2020 10:00:03 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     matthew.gerlach@linux.intel.com, "Wu, Hao" <hao.wu@intel.com>,
-        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "trix@redhat.com" <trix@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Subject: Re: [PATCH v3 2/2] fpga: dfl: look for vendor specific capability
-Message-ID: <20201202020003.GB22103@yilunxu-OptiPlex-7050>
-References: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
- <20201124155658.700976-3-matthew.gerlach@linux.intel.com>
- <DM6PR11MB38191D8C5E27E6E04B8DAA1A85F70@DM6PR11MB3819.namprd11.prod.outlook.com>
- <alpine.DEB.2.22.394.2011301614040.1050045@rhweight-WRK1>
- <X8aR36hGoV9SsPDw@archbook>
+        id S1728105AbgLBHPU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Dec 2020 02:15:20 -0500
+Date:   Wed, 2 Dec 2020 09:14:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606893279;
+        bh=r9lBvNLf060yzQHPZcKoDIPwOZLCXF+OC0jER6EqYE8=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=wT49VF25j17+qMQAVEXVRjsH4L8jOTzl07zqrb3R6/MykEtip20Xt9J18zFMOaZ2v
+         UIE8Gqusz6j75TITTsJbOfI3E3FfrTzJ6BOWagH5bzy9BLdh+yt2jnejJgPuPHA9os
+         2VTy7RW8ddzE/3xCPSiM0eGtnB7iUkiaQi7so7e4=
+From:   Mike Rapoport <rppt@kernel.org>
+To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org,
+        Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+Message-ID: <20201202071427.GD751215@kernel.org>
+References: <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+ <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+ <20201201102901.GF557259@kernel.org>
+ <e3d5d791-8e4f-afcc-944c-24f66f329bd7@physik.fu-berlin.de>
+ <20201201121033.GG557259@kernel.org>
+ <49a2022c-f106-55ec-9390-41307a056517@physik.fu-berlin.de>
+ <20201201135623.GA751215@kernel.org>
+ <4c752ff0-27a6-b9d7-ab81-8aac1a3b7b65@physik.fu-berlin.de>
+ <ea5bae0e-9f27-355f-d841-cf8b362b0b70@physik.fu-berlin.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X8aR36hGoV9SsPDw@archbook>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <ea5bae0e-9f27-355f-d841-cf8b362b0b70@physik.fu-berlin.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > 
-> > > > +		}
-> > > > +
-> > > > +		offset = dfl_res & PCI_VNDR_DFLS_RES_OFF_MASK;
-> > > > +		if (offset >= len) {
-> > > > +			dev_err(&pcidev->dev, "%s bad offset %u >= %pa\n",
-> > > > +				__func__, offset, &len);
-> > > > +			return -EINVAL;
-> > > > +		}
-> > > > +
-> > > > +		dev_dbg(&pcidev->dev, "%s BAR %d offset 0x%x\n",
-> > > > __func__, bar, offset);
-> > > > +
-> > > > +		len -= offset;
-> > > > +
-> > > > +		start = pci_resource_start(pcidev, bar) + offset;
-> > > > +
-> > > > +		dfl_fpga_enum_info_add_dfl(info, start, len);
-> > > 
-> > > That means everytime, we pass [start, endofbar] region to dfl core
-> > > for enumeration, if there are multiple DFLs in one bar, then each range
-> > > ends at the same endofbar, it seems fine as enumeration can be done
-> > > one by one, but ideally the best case is that this capability can provide
-> > > end address or size too, right? It is possible that information can be
-> > > added to the capability as well? then we don't have such limitation.
-> > > 
-> > > Hao
-> > 
-> > I am not sure having more than one DFL in a bar serves any purpose over a
-> > single DFL.  Regardless, I think the consistency of just having Offset/BIR
-> > in the VSEC is better than adding more infomation that has little or no
-> > added value.
+Hi Adrian,
+
+On Tue, Dec 01, 2020 at 08:55:37PM +0100, John Paul Adrian Glaubitz wrote:
+> Hi Mike!
 > 
-> Agreed. Can't you just link the DFLs in that case?
+> On 12/1/20 4:07 PM, John Paul Adrian Glaubitz wrote:
+> > This fixes the issue for me.
+> > 
+> > Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> 
+> I just booted the kernel from the linux-mm branch and I can't get the hpsa driver
+> to work anymore. Even if I compile it into the kernel, the driver is no longer
+> loaded and hence I can't access the disks.
+> 
+> Any idea what could be wrong?
 
-I didn't see the value of more DFLs in one bar either. So I think we'd better
-document it.
+I know nearly nothing about SCSI, I can only suggest to enable all the
+debug options available and see if anything shows up :)
 
-Thanks,
-Yilun
+> Adrian
+> 
+> -- 
+>  .''`.  John Paul Adrian Glaubitz
+> : :' :  Debian Developer - glaubitz@debian.org
+> `. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+>   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
