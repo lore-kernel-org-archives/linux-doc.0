@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A45C8300F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E8AC83014
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:43:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3959921D7F
+	by mail.kernel.org (Postfix) with ESMTP id 661A2206D5
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387739AbgLBSmw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 13:42:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53948 "EHLO
+        id S1731017AbgLBSmz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 13:42:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731007AbgLBSmv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:42:51 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C27C061A4C
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:39 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id r3so5174181wrt.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:39 -0800 (PST)
+        with ESMTP id S1731006AbgLBSmy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:42:54 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEF4C061A04
+        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:33 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id 64so5115874wra.11
+        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cK6AK8VTndq2WNu92SDcRQLBfLwMiV+V214MHUEgg2w=;
-        b=Xf/f5iL7f+U7uWYo68hnex0nqviSfyrK8iju0quGui/JaXe3jHIb4ayRSem4PO/dq2
-         lJGlb+3oWwRKdmbaF5MTjSBGA1a/nZ3DnuYAFU0VXkg3XJeK83UY1px90mjbi3yXR1Mb
-         iM4vVVqC7wOJlGnKkNBM4fXDzNbk9nKHDjGpETmTOggyBJ43ISHXgf96DSwHeZ+e19Zg
-         qzN5AGHZoq4l2bC1PF4CKHiN+laTlUEI/0jdRvB/GCkrYMSfiNf9DuMdmu6iUyf28J74
-         kWyZuBuapoYx8SF7rQXnFicabHz3K+IUHtgj2IDCOGeZb28eFFDsBHNzY2NUKlGXgXVv
-         XqJg==
+        bh=g69TmuIpp+vIm9gRxx12Sh909+m1H1PrZL1qc3JkdQk=;
+        b=WYFmGcSaH/wz/SlleIW3Mcu5nmwmv1kNPSQebgDZz+0eL3IjEcwWqvN80s834KuWzR
+         RT3hly6g09zu5fWXVEkuV1YdbuzgldYW+V/8twi8l0yx8axbff8Ape8T/NR3v99S/UFx
+         UBu7/c8XKsJf4vxFX3puM6VjMfdo+TmAE6IxE4Ang8fcy12BxnfTtg1FdTdeE6rwEhoS
+         YanICjQ8vrCn3rOi1TLnMIhFRy3x7EV/7Dv4MoeSNLxZ2KVazRSH0LJ7mbdhEaezvCt5
+         1ytVx/ay9QHVAw3P76uQzTzAv86K6uXZ8g0VqxbV1fUq1XJEGMtJpcjaVOearI/QMSyk
+         P8Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cK6AK8VTndq2WNu92SDcRQLBfLwMiV+V214MHUEgg2w=;
-        b=MHimJPh2I4Qj2erjbFQuWBRsp7WkMsUpX55BRS8uBZBPJKXoRvdl9OTQZWYTDLF4Lq
-         Ep8xeA/zNPoMZnpCFkafP70bloPZ8FkZRNntnOaL3lCV0mBz80KndFOvyR/4APavYEgl
-         bkbknusLAV2zMBXyMfz7qKid9gQrthuPJ8ps7d0oNKPI7HCjYmGChCdlepwXNHTBZCZJ
-         qPUjcgLKQoIpBQUgp4ZTnnFsvj5CjEQHIC3iqwzxUiE1HkuWwlqvSTBqQ7yR2nVE1vyD
-         iVAg7dWrU8Uh+Ybdtbb8riVfcBUXNAWkbi6CK5XLa9XmsTCuc/JomtB0p3mcFZpOUpCD
-         9R8A==
-X-Gm-Message-State: AOAM530G64hgVcFLCel+IAxRW1u5Ra6/s7et28BNCHJAWUeobpwvLj+N
-        tcMtUvuCfKqRi7B2O46xzAvErQ==
-X-Google-Smtp-Source: ABdhPJyx6RaeHoVm3xBFk7dQ2A5SBfxrzx+C7n8O07sr+KP5yugR90H9p2be9APNazqd8m8Fn6a1ww==
-X-Received: by 2002:adf:dd81:: with SMTP id x1mr5122600wrl.163.1606934498348;
-        Wed, 02 Dec 2020 10:41:38 -0800 (PST)
+        bh=g69TmuIpp+vIm9gRxx12Sh909+m1H1PrZL1qc3JkdQk=;
+        b=oWWolQmA/FFtSVIto/Uvog5i8XwloE4xt90kY6R2YYzbJkH7x4+np5GXAiKK1odf3t
+         eQARg0Cy3CxxU31ApviPqF5fyDNvsKzuqyNNmayUEfpNE9oAObL7r+tQ0eKlZsuv68mX
+         MB7Corci4hwy3k5vEzfKI+IKPHlcz3WpxT8q6v3LtsOZZCq516KdhyP+IYIG45LyU3wm
+         ubTzJjtxr9XS/D7KphPAW2dQWNLitogYEqeRBwjAwPhoOkjJ5AB0xpDtWyCNw15EY01h
+         Rn/afUafTPVyyjP2je/IcFRxszOKoXdlIvUkKMSpVdVmYHZtbPaFKZdAdiQNNUCQQr+Q
+         iFHA==
+X-Gm-Message-State: AOAM5324ZhdV0+8wCSX/PIRq1/81p1216g3QicWXL1Zaa+1fPCNzrOwz
+        8BBRQNV8RcAJF2d6+ffoeXV+Mg==
+X-Google-Smtp-Source: ABdhPJxLt3JxRj6qOSsRATpU04zggeVJmgFS/y1Rt/TDhlt67MX8xTg5Vhhj21UyUIwOKHqvCPeRjQ==
+X-Received: by 2002:adf:dec1:: with SMTP id i1mr4974199wrn.129.1606934491590;
+        Wed, 02 Dec 2020 10:41:31 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id z21sm2967184wmk.20.2020.12.02.10.41.36
+        by smtp.gmail.com with ESMTPSA id k205sm3004907wmk.4.2020.12.02.10.41.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 10:41:37 -0800 (PST)
+        Wed, 02 Dec 2020 10:41:30 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,9 +71,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v4 05/26] psci: Replace psci_function_id array with a struct
-Date:   Wed,  2 Dec 2020 18:41:01 +0000
-Message-Id: <20201202184122.26046-6-dbrazdil@google.com>
+Subject: [PATCH v4 02/26] kvm: arm64: Add ARM64_KVM_PROTECTED_MODE CPU capability
+Date:   Wed,  2 Dec 2020 18:40:58 +0000
+Message-Id: <20201202184122.26046-3-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
 References: <20201202184122.26046-1-dbrazdil@google.com>
@@ -83,106 +83,138 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Small refactor that replaces array of v0.1 function IDs indexed by an
-enum of function-name constants with a struct of function IDs "indexed"
-by field names. This is done in preparation for exposing the IDs to
-other parts of the kernel. Exposing a struct avoids the need for
-bounds checking.
+Expose the boolean value whether the system is running with KVM in
+protected mode (nVHE + kernel param). CPU capability was selected over
+a global variable to allow use in alternatives.
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- drivers/firmware/psci/psci.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ arch/arm64/include/asm/cpucaps.h  |  3 ++-
+ arch/arm64/include/asm/kvm_host.h |  1 +
+ arch/arm64/include/asm/virt.h     |  8 ++++++++
+ arch/arm64/kernel/cpufeature.c    | 22 ++++++++++++++++++++++
+ arch/arm64/kvm/arm.c              |  9 ++++++++-
+ 5 files changed, 41 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
-index 13b9ed71b446..593fdd0e09a2 100644
---- a/drivers/firmware/psci/psci.c
-+++ b/drivers/firmware/psci/psci.c
-@@ -58,15 +58,14 @@ typedef unsigned long (psci_fn)(unsigned long, unsigned long,
- 				unsigned long, unsigned long);
- static psci_fn *invoke_psci_fn;
+diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+index 162539d4c8cd..42f850718d4b 100644
+--- a/arch/arm64/include/asm/cpucaps.h
++++ b/arch/arm64/include/asm/cpucaps.h
+@@ -66,7 +66,8 @@
+ #define ARM64_HAS_TLB_RANGE			56
+ #define ARM64_MTE				57
+ #define ARM64_WORKAROUND_1508412		58
++#define ARM64_KVM_PROTECTED_MODE		59
  
--enum psci_function {
--	PSCI_FN_CPU_SUSPEND,
--	PSCI_FN_CPU_ON,
--	PSCI_FN_CPU_OFF,
--	PSCI_FN_MIGRATE,
--	PSCI_FN_MAX,
-+struct psci_0_1_function_ids {
-+	u32 cpu_suspend;
-+	u32 cpu_on;
-+	u32 cpu_off;
-+	u32 migrate;
+-#define ARM64_NCAPS				59
++#define ARM64_NCAPS				60
+ 
+ #endif /* __ASM_CPUCAPS_H */
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index bca38ccade58..11beda85ee7e 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -58,6 +58,7 @@ enum kvm_mode {
+ 	KVM_MODE_DEFAULT,
+ 	KVM_MODE_PROTECTED,
  };
++enum kvm_mode kvm_get_mode(void);
  
--static u32 psci_function_id[PSCI_FN_MAX];
-+static struct psci_0_1_function_ids psci_0_1_function_ids;
+ DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
  
- #define PSCI_0_2_POWER_STATE_MASK		\
- 				(PSCI_0_2_POWER_STATE_ID_MASK | \
-@@ -178,7 +177,7 @@ static int __psci_cpu_suspend(u32 fn, u32 state, unsigned long entry_point)
- 
- static int psci_0_1_cpu_suspend(u32 state, unsigned long entry_point)
- {
--	return __psci_cpu_suspend(psci_function_id[PSCI_FN_CPU_SUSPEND],
-+	return __psci_cpu_suspend(psci_0_1_function_ids.cpu_suspend,
- 				  state, entry_point);
+diff --git a/arch/arm64/include/asm/virt.h b/arch/arm64/include/asm/virt.h
+index 6069be50baf9..eb81dcc220b6 100644
+--- a/arch/arm64/include/asm/virt.h
++++ b/arch/arm64/include/asm/virt.h
+@@ -97,6 +97,14 @@ static __always_inline bool has_vhe(void)
+ 		return cpus_have_final_cap(ARM64_HAS_VIRT_HOST_EXTN);
  }
  
-@@ -198,7 +197,7 @@ static int __psci_cpu_off(u32 fn, u32 state)
++static __always_inline bool is_protected_kvm_enabled(void)
++{
++	if (is_vhe_hyp_code())
++		return false;
++	else
++		return cpus_have_final_cap(ARM64_KVM_PROTECTED_MODE);
++}
++
+ #endif /* __ASSEMBLY__ */
  
- static int psci_0_1_cpu_off(u32 state)
- {
--	return __psci_cpu_off(psci_function_id[PSCI_FN_CPU_OFF], state);
-+	return __psci_cpu_off(psci_0_1_function_ids.cpu_off, state);
+ #endif /* ! __ASM__VIRT_H */
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 280b10762f6b..5f9e557fa1f7 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -74,6 +74,7 @@
+ #include <asm/cpufeature.h>
+ #include <asm/cpu_ops.h>
+ #include <asm/fpsimd.h>
++#include <asm/kvm_host.h>
+ #include <asm/mmu_context.h>
+ #include <asm/mte.h>
+ #include <asm/processor.h>
+@@ -1709,6 +1710,21 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
  }
+ #endif /* CONFIG_ARM64_MTE */
  
- static int psci_0_2_cpu_off(u32 state)
-@@ -216,7 +215,7 @@ static int __psci_cpu_on(u32 fn, unsigned long cpuid, unsigned long entry_point)
++#ifdef CONFIG_KVM
++static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, int __unused)
++{
++	if (kvm_get_mode() != KVM_MODE_PROTECTED)
++		return false;
++
++	if (is_kernel_in_hyp_mode()) {
++		pr_warn("Protected KVM not available with VHE\n");
++		return false;
++	}
++
++	return true;
++}
++#endif /* CONFIG_KVM */
++
+ /* Internal helper functions to match cpu capability type */
+ static bool
+ cpucap_late_cpu_optional(const struct arm64_cpu_capabilities *cap)
+@@ -1822,6 +1838,12 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 		.field_pos = ID_AA64PFR0_EL1_SHIFT,
+ 		.min_field_value = ID_AA64PFR0_EL1_32BIT_64BIT,
+ 	},
++	{
++		.desc = "Protected KVM",
++		.capability = ARM64_KVM_PROTECTED_MODE,
++		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
++		.matches = is_kvm_protected_mode,
++	},
+ #endif
+ 	{
+ 		.desc = "Kernel page table isolation (KPTI)",
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 01cf6ac5b2cb..d9e8d7dc7e11 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -1849,7 +1849,9 @@ int kvm_arch_init(void *opaque)
+ 	if (err)
+ 		goto out_hyp;
  
- static int psci_0_1_cpu_on(unsigned long cpuid, unsigned long entry_point)
- {
--	return __psci_cpu_on(psci_function_id[PSCI_FN_CPU_ON], cpuid, entry_point);
-+	return __psci_cpu_on(psci_0_1_function_ids.cpu_on, cpuid, entry_point);
+-	if (in_hyp_mode)
++	if (is_protected_kvm_enabled())
++		kvm_info("Protected nVHE mode initialized successfully\n");
++	else if (in_hyp_mode)
+ 		kvm_info("VHE mode initialized successfully\n");
+ 	else
+ 		kvm_info("Hyp mode initialized successfully\n");
+@@ -1884,6 +1886,11 @@ static int __init early_kvm_mode_cfg(char *arg)
  }
+ early_param("kvm-arm.mode", early_kvm_mode_cfg);
  
- static int psci_0_2_cpu_on(unsigned long cpuid, unsigned long entry_point)
-@@ -234,7 +233,7 @@ static int __psci_migrate(u32 fn, unsigned long cpuid)
- 
- static int psci_0_1_migrate(unsigned long cpuid)
++enum kvm_mode kvm_get_mode(void)
++{
++	return kvm_mode;
++}
++
+ static int arm_init(void)
  {
--	return __psci_migrate(psci_function_id[PSCI_FN_MIGRATE], cpuid);
-+	return __psci_migrate(psci_0_1_function_ids.migrate, cpuid);
- }
- 
- static int psci_0_2_migrate(unsigned long cpuid)
-@@ -548,22 +547,22 @@ static int __init psci_0_1_init(struct device_node *np)
- 	psci_ops.get_version = psci_0_1_get_version;
- 
- 	if (!of_property_read_u32(np, "cpu_suspend", &id)) {
--		psci_function_id[PSCI_FN_CPU_SUSPEND] = id;
-+		psci_0_1_function_ids.cpu_suspend = id;
- 		psci_ops.cpu_suspend = psci_0_1_cpu_suspend;
- 	}
- 
- 	if (!of_property_read_u32(np, "cpu_off", &id)) {
--		psci_function_id[PSCI_FN_CPU_OFF] = id;
-+		psci_0_1_function_ids.cpu_off = id;
- 		psci_ops.cpu_off = psci_0_1_cpu_off;
- 	}
- 
- 	if (!of_property_read_u32(np, "cpu_on", &id)) {
--		psci_function_id[PSCI_FN_CPU_ON] = id;
-+		psci_0_1_function_ids.cpu_on = id;
- 		psci_ops.cpu_on = psci_0_1_cpu_on;
- 	}
- 
- 	if (!of_property_read_u32(np, "migrate", &id)) {
--		psci_function_id[PSCI_FN_MIGRATE] = id;
-+		psci_0_1_function_ids.migrate = id;
- 		psci_ops.migrate = psci_0_1_migrate;
- 	}
- 
+ 	int rc = kvm_init(NULL, sizeof(struct kvm_vcpu), 0, THIS_MODULE);
 -- 
 2.29.2.454.gaff20da3a2-goog
 
