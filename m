@@ -2,164 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5056AC64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9146C71155
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:44:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEA252222C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:30:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5587322202
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729013AbgLBIaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 03:30:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43458 "EHLO
+        id S2387847AbgLBIoN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 03:44:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728972AbgLBIaG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 03:30:06 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7855C0613D4;
-        Wed,  2 Dec 2020 00:29:25 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id j205so2872241lfj.6;
-        Wed, 02 Dec 2020 00:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=biK7JJVrreau9v60BgcXO3v9ensQ2L5LMNNBA6JmLGw=;
-        b=vJsHOZE1VGNGGjXjAMFMN2aYZJwJR+ZOuokoECcXK5H/ZFVBbjSZGdLT57a+9H/CpW
-         IWrmh8mJ9xAHDaTGBDjDoO2lJs0ihc+dvgLh07ra1kVbsDNDVv6hLRg3Hq6yBJkIEGFH
-         Pd4bRalZQ/mJ91nkKmhULTLLPzWZvgVH4xByoIo82lBuS6WH9btpULOhvLgMHqOM/RWA
-         MFo1UyjRMWSEDA+htq4ftjm5Zq8cflN9VQEjAmu0ASQA15pOuK4Tt4gFVrlLLroOtmpt
-         wwyzp0wsSZD7WQi2PmnH2ZrJvjpom9090eexqyKynWWcanuC/lBp/cPi2bf/mqzA5Rn2
-         sMkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=biK7JJVrreau9v60BgcXO3v9ensQ2L5LMNNBA6JmLGw=;
-        b=MH37Fsm0PBPExsdxurvB6aXNzkP3Jn540d1HJn5vrU/vhoYyMuM+7PoMrbf0yNk1Md
-         QDVXEcXrCTKm0dKZ8jzjRZUC+N7rvdvmPVV2Mmt2x9uicL0iE49qnaJZ29QY96D7SFKD
-         dYoY0WV2UUvVWsvkAE3KHWsBIeDq4ven49eE/jjlm3Wv5IydWfsXdaSQbEbEOqqZs49u
-         Txj2V+9FwYu/AveRfdxq+AwODCiPNmAFAT0RYgg69yisI6t3TM8hSowdQdeWbZdwxW33
-         bXw13gWiwQROUMpnIdpFAqdIJBrIl3Aie0KcK28h1cADUvLGADL8PA/6m5c1FZ8BM3g6
-         Pb2g==
-X-Gm-Message-State: AOAM532oMpLRiYqvj0WVxa1V9PM6zVK/El9lYk3kjRPlZBHyVlyUb97G
-        Fsj8fZwYIIk2rdWW1+yezvw=
-X-Google-Smtp-Source: ABdhPJz4+SJ0A3xVoyju4k3W66QVlnXZ9Z0cwsNeOmZftsdzyArYcaYS75SUI9RkA6V2MLnCefXsvg==
-X-Received: by 2002:a19:c191:: with SMTP id r139mr783336lff.258.1606897764254;
-        Wed, 02 Dec 2020 00:29:24 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id y14sm269379ljy.29.2020.12.02.00.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 00:29:23 -0800 (PST)
-Date:   Wed, 2 Dec 2020 10:29:13 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Mikulas Patocka <mpatocka@redhat.com>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-fbdev@vger.kernel.org, geert+renesas@glider.be,
-        linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch, corbet@lwn.net,
-        bernie@plugable.com, dri-devel@lists.freedesktop.org,
-        sam@ravnborg.org
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-Message-ID: <20201202102913.56baa457@eldfell>
-In-Reply-To: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
-References: <20201130125200.10416-1-tzimmermann@suse.de>
-        <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
-        <20201130154147.GT401619@phenom.ffwll.local>
-        <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
-        <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
-        <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
-        <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S2387831AbgLBIoN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 03:44:13 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C60C0613CF;
+        Wed,  2 Dec 2020 00:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=qmSLHouQM2P7C/nzGPHzgkRWhU9yyeNULaubi1YcUK4=; b=BDv/pPxbI6MKX2RB0o+RosxH0Y
+        4OaXrTqdUhMYwcCaQ3Oc2jGg8ST3NrG/2c3N09dEs9RN6NEK4BelKnhNkjCIDt/b9dxc7ZIWueQJp
+        dkSQ6lhbVrH628gjNhgTrUVZvl39O8uWHe1G8tlF0KVfeMFKgmwfFiNKseD6gQFVPvZ/BSbPZATth
+        qu5vTEo5K7GZg4COBcUFaM+ThCFigi+BTR6w34SAnNX4eVixI+Wn0YhV24dP7dYZCURiDJv80Sr6S
+        waZY6NUGQOKnuB3nF9ALZWqw2cr6LwOW4NbQ+C0bP4qP5XC0ftkvYJQG/Bkd9adYDQ73zgA/qjOYQ
+        M/CLTQfw==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kkNjS-00076w-H8; Wed, 02 Dec 2020 08:43:26 +0000
+Date:   Wed, 2 Dec 2020 08:43:26 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Linux MM <linux-mm@kvack.org>, Will Deacon <will@kernel.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>, Meelis Roos <mroos@linux.ee>,
+        Russell King <linux@armlinux.org.uk>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Matt Turner <mattst88@gmail.com>,
+        arcml <linux-snps-arc@lists.infradead.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        alpha <linux-alpha@vger.kernel.org>,
+        Linux FS Devel <linux-fsdevel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
+Message-ID: <20201202084326.GA26573@infradead.org>
+References: <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
+ <20201117062316.GB370813@kernel.org>
+ <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
+ <20201201102901.GF557259@kernel.org>
+ <e3d5d791-8e4f-afcc-944c-24f66f329bd7@physik.fu-berlin.de>
+ <20201201121033.GG557259@kernel.org>
+ <49a2022c-f106-55ec-9390-41307a056517@physik.fu-berlin.de>
+ <20201201135623.GA751215@kernel.org>
+ <59351dbb-96cc-93b2-f2ec-b8968e935845@kernel.dk>
+ <CAMuHMdWRc8W7U0LKyH9u1hdMuN515PCZiTEJ12FrDaCx-eTdaQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Ub9bu0HMJ.BX_LoHkrBsRqE"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWRc8W7U0LKyH9u1hdMuN515PCZiTEJ12FrDaCx-eTdaQ@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/Ub9bu0HMJ.BX_LoHkrBsRqE
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Dec 01, 2020 at 04:33:01PM +0100, Geert Uytterhoeven wrote:
+> > That's a lot of typos in that patch... I wonder why the buildbot hasn't
+> > complained about this. Thanks for fixing this up! I'm going to fold this
+> > into the original to avoid the breakage.
+> 
+> Does lkp@intel.com do ia64 builds? Yes, it builds zx1_defconfig.
 
-On Wed, 2 Dec 2020 08:55:52 +0100
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
-
-> Hi
->=20
-> Am 01.12.20 um 12:20 schrieb Mikulas Patocka:
-> >=20
-> >=20
-> > On Tue, 1 Dec 2020, Thomas Zimmermann wrote:
-> >  =20
-
-...
-
-> >> And why can links not run as DRM master mode? If it renders to the ter=
-minal,
-> >> it should act like a composer. In that case it almost certainly wants =
-master
-> >> status.
-> >>
-> >> Best regards
-> >> Thomas =20
-> >=20
-> > How can a userspace program acquire master mode without being suid? =20
->=20
-> For my understanding, there's no easy solution to that. :/
-
-Hi,
-
-there are several ways, though whether they are "easy" depends on your
-mindset.
-
-The best thing is to connect to logind D-Bus API and ask that for
-session control, set up your session, and logind will open all input
-and DRM devices for you, and logind will even handle most of the
-complicated setup, DRM master and VT-switching for you.
-
-Or, if no-one else has the DRM device open and you open it, you
-automatically become DRM master. AFAIU, after recent kernel changes, it
-is even possible to use dropMaster and setMaster after this without
-being root, as long as you once in the file description lifetime had
-DRM master.
-
-Since this is about switching from fbdev to KMS API, you already have
-all the tricky, complicated, arcane code to deal with tty setup and
-VT-switching.
-
-However, doing all that patching to all apps you want to use is such an
-effort, that I'd ask if it would not be easier to just run a
-light-weight Wayland compositor and run your apps in Wayland mode. Of
-course, that requires choosing apps that run on Wayland to begin with,
-so maybe it's not for you.
-
-
-Thanks,
-pq
-
---Sig_/Ub9bu0HMJ.BX_LoHkrBsRqE
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/HUFkACgkQI1/ltBGq
-qqddsw/+KxYidO3CAHQE+G+VtuSREAtDTVDUxAGMOzOlIue7rYw8Ldf+YJnbQ/VT
-vH7ssslBy3mfYEjAPlYPQW2MbFAFjiFyIcJ/qk42QmOagrdBsFJBIK19tT7nJobb
-4E7MuLo2EYZNAyAaVg+qtRUFuZ/Cy5HedAVb9f8Nvka7exEXOW+UMaUPvTxz2ai5
-SQBvZXU6rgmudc1Yo1BRvBPBg1dRzixgS43jAMV3TnrJ4y9lASlpfntYjugsELln
-h0sA6RYgW7H6WsdiAwaRnMgq3UU4L1dM0QoOGViI9cM3tXgveQ++EYebRZ0dDd4B
-ByTp1fl+ULY0STvWRx02Beddz1b4FvpoU5p2WABCD6yDKzEzIlNwnNejFeDtMBME
-9FUBZoFPXSUuj1J/ol4dOW6zK4ua/8g2Fxmltvg4+MB0+LCZLR0N95gB9iyAtX8U
-bAzbrY2vHxxLVjrYXHY+pieTrhAku76CPlBtpZuKdlbJT0ZdEiz8FuHupSI8qm2C
-WFFzEXSIweA/6KX4W7j4WSP6cr8u/Uxy3Q6PExUkV7hBDy3mZqjDwiGnnB0uLKrn
-Z0GKiUt9ATq1B2XiSq40qs0xxroJgsRaeApI6AttFLQFxa4AumrWRWiAsqIxpbkB
-cekof+u1hUPt6UlKpuRE4fAW1ILO8I3ekb7oqcKiR64cCHGm96M=
-=L5KJ
------END PGP SIGNATURE-----
-
---Sig_/Ub9bu0HMJ.BX_LoHkrBsRqE--
+I've never got results.  Which is annoying, as debian doesn't ship an
+ia64 cross toolchain either, and I can't find any pre-built one that
+works for me.
