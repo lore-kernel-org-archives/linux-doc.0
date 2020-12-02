@@ -4,30 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5BDC64E8A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:18:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7155DC83016
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:28:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8424E22203
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:18:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26BD62222E
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726376AbgLBISV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 03:18:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54330 "EHLO mail.kernel.org"
+        id S2387803AbgLBI2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 03:28:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57820 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726148AbgLBISU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Dec 2020 03:18:20 -0500
+        id S1729039AbgLBI2A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Dec 2020 03:28:00 -0500
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts: kernel-doc: fix parsing function-like typedefs
-Date:   Wed,  2 Dec 2020 09:17:32 +0100
-Message-Id: <218ff56dcb8e73755005d3fb64586eb1841a276b.1606896997.git.mchehab+huawei@kernel.org>
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@alien8.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH 1/2] asm: sgx.h: fix a typo on a kernel-doc markup
+Date:   Wed,  2 Dec 2020 09:27:14 +0100
+Message-Id: <ca11a4540d981cbd5f026b6cbc8931aa55654e00.1606897462.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1606897462.git.mchehab+huawei@kernel.org>
+References: <cover.1606897462.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -35,47 +42,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6b80975c6308 ("scripts: kernel-doc: fix typedef parsing")
-added support for things like:
+As warned by kernel-doc:
+	arch/x86/include/uapi/asm/sgx.h:19: warning: expecting prototype for enum sgx_epage_flags. Prototype was for enum sgx_page_flags instead
 
-	typedef unsigned long foo();
+There is a typo at the kernel-doc markup:
 
-However, it caused a regression on this prototype:
+	sgx_epage_flags -> sgx_page_flags
 
-	typedef bool v4l2_check_dv_timings_fnc(const struct v4l2_dv_timings *t, void *handle);
-
-This is only noticed after adding a patch that checks if the
-kernel-doc identifier matches the typedef:
-
-	./scripts/kernel-doc -none $(git grep '^.. kernel-doc::' Documentation/ |cut -d ' ' -f 3|sort|uniq) 2>&1|grep expecting
-	include/media/v4l2-dv-timings.h:38: warning: expecting prototype for typedef v4l2_check_dv_timings_fnc. Prototype was for typedef nc instead
-
-The problem is that, with the new parsing logic, it is not
-checking for complete words at the type part.
-
-Fix it by adding a \b at the end of each type word at the
-regex.
-
-fixes: 6b80975c6308 ("scripts: kernel-doc: fix typedef parsing")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc | 2 +-
+ arch/x86/include/uapi/asm/sgx.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 919acae23fad..a9a92e623dbc 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1444,7 +1444,7 @@ sub dump_enum($$) {
-     }
- }
+diff --git a/arch/x86/include/uapi/asm/sgx.h b/arch/x86/include/uapi/asm/sgx.h
+index 791e45334a4a..9034f3007c4e 100644
+--- a/arch/x86/include/uapi/asm/sgx.h
++++ b/arch/x86/include/uapi/asm/sgx.h
+@@ -9,7 +9,7 @@
+ #include <linux/ioctl.h>
  
--my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
-+my $typedef_type = qr { ((?:\s+[\w\*]+\b){1,8})\s* }x;
- my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
- my $typedef_args = qr { \s*\((.*)\); }x;
- 
+ /**
+- * enum sgx_epage_flags - page control flags
++ * enum sgx_page_flags - page control flags
+  * %SGX_PAGE_MEASURE:	Measure the page contents with a sequence of
+  *			ENCLS[EEXTEND] operations.
+  */
 -- 
 2.28.0
-
 
