@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDE2DC83016
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A41C71156
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:42:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EF532224D
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D90DB21D7F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:42:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729166AbgLBSmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 13:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53832 "EHLO
+        id S1729154AbgLBSmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 13:42:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729160AbgLBSmL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:42:11 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1CAC0617A6
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:30 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id a3so11086474wmb.5
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:30 -0800 (PST)
+        with ESMTP id S1727431AbgLBSmt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:42:49 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B26C061A47
+        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:35 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id k14so5174511wrn.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qy+VUI9BXr6HazxoMIsIcdlYXr2Zkw6Es0halgF2Fhw=;
-        b=UAOOKMnPkO17JoHDZkxjQgAVO6zpGftV0wvNiSWjhlY7kOwOa1zo2h+ivb22qOwe+V
-         OUeZ1kaZ2iuLe85sH3vKir/PolrJozCc8f5BEnZclJqkMHEnPBBe5RIxS54Uily8MPnK
-         2Y1SjWE7pmPOCzK4bYInNyWMy9kenBr5/8ZdVX5elM6EWvAO1SdjrF2QGFKXUd9OqCb+
-         NtIQnngm0PfEs5d3IgcTf7LhfVPkIPloHQMtfhVabrq5N7Rf/Jb5NOWKYhZgULgWXKhE
-         BGxNfajR8eczlwMYDG1uEtwk+bce5hnubdI0gY+5v+YfNSeDCieQsZ2WmyKqfSlr+VD/
-         1/zA==
+        bh=JTPYqEMEJVYu7EDLdYK8M/9yDaVtcEHoKzFLwQ3C9WQ=;
+        b=G9nRp1NClO5ThaoHR0FfWTTV1jX37+O++dpEWQ5M8ktTDAMpJeJccyh4QbRtPHzrgj
+         3p0wDTK1oNkUPBZWEB48xqyd1DpiPlza78uG3UJmd0FRgJoXsvYEFC5/dJ6p1PDADnej
+         JzxUan8mUbqcytiT8Xsbq58HdA7MIJPBZrBTgotHo8Pn9CTEZK8UNEMPbhDMlXHR7m1s
+         PDfiRnDCZkEazv3nGY2YNAECEwG/U/mnyvg+RXProtzJE1N/fcd9LDxLtq4B8OclAb90
+         fHQNn4wIZufUltwam9z0S7haohHxuJjP1yQ/G1kC05DlOQE4unx7Y8oRzB8xond/u6h2
+         YkBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qy+VUI9BXr6HazxoMIsIcdlYXr2Zkw6Es0halgF2Fhw=;
-        b=NdNsEmOxHnuP3wUL6e5Mqv0xbu7pnzmvV2JsaGgG/alWJa80QslELC7XFvWnBzAvHn
-         2h2Jjdv/eNxek+CBDykKntN/BPHONTmoWf5T3fWtCpcXNsNp6rLlTyCOVvromPCs6Ofo
-         dVl532a+haQpD+KZJITs98gLP5Jm/3VD0nhaSHyp+CdI0g/VZ0dWYHFuahj5U2XiQlzU
-         xBNh0N8v9tX5HbqhFDg09nsuDlBeiwsueqxxxYuscAC2lWnnyUS0Qlda8ekfwfXjRdvd
-         syVFX7TF0sh+Bd6xVNgRh35bCJ+dyWt1qRED8RlNGdnAlUVsXUP855v/4wVxUIEGXTrk
-         ycwg==
-X-Gm-Message-State: AOAM532WIov23c1iIIpAttIAzf2mfxfcRcQZ8JyPntb3K3yOVvL79UWT
-        xexvxF4yu2asg+SyhLngBFv7HQ==
-X-Google-Smtp-Source: ABdhPJx5dw7ns+PEDpJmj41ddtOfdNs+k8f+Q+FRgiqp1pfkmjrl7qaCK6KSXenVzyoYRhNeR59CDw==
-X-Received: by 2002:a1c:b402:: with SMTP id d2mr4422934wmf.38.1606934489275;
-        Wed, 02 Dec 2020 10:41:29 -0800 (PST)
+        bh=JTPYqEMEJVYu7EDLdYK8M/9yDaVtcEHoKzFLwQ3C9WQ=;
+        b=j951bSzhflakMdI821bxrhEQyV2KFuEcub4rOx0UGUcBVfJuU7EqQ1vTFePpAvaHec
+         0/+DRfg+D7ZTZvI/Pee+OxgPLNiI096t1Z6+G82VxE7eTPNQTl9XYtiYL8p/DvhY7OG/
+         z0V2FuxDSy93NIwBMcaKTlDO4c0wtMu5xz5i3ajLjXiS1YJUraAqozjHTUSaJuhLZs6S
+         WwqmuSt02nTrxjfEXQIzWBpLOqumkNsp0PO4f0vvNVoN0Q8d5X/4KUCyR8eFBX9hlAZk
+         OsgljjACzuGg+qH3cpqPH9ciEqmw0L8CSRGTBpuiseZk4rb/NLHYvXcOd8CA66hW3M0V
+         bJzQ==
+X-Gm-Message-State: AOAM532ZwXfn8+YNuuXNnsrsVrEfGF9YSC6gnCj/ZwQ8hBmeqCZkKboo
+        PwssB/6Wbq2rGJrE1zwq9bVcrA==
+X-Google-Smtp-Source: ABdhPJziIgLZ0tc/W8uCPyhlwdgytrCa5jtp+4HLbEeMEMxZ9Y3AuJ3UEdaL+P3G5xYsvTsXBF1VmQ==
+X-Received: by 2002:a5d:4610:: with SMTP id t16mr5088666wrq.391.1606934493917;
+        Wed, 02 Dec 2020 10:41:33 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id o13sm2910262wmc.44.2020.12.02.10.41.27
+        by smtp.gmail.com with ESMTPSA id r21sm3315301wrc.16.2020.12.02.10.41.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 10:41:28 -0800 (PST)
+        Wed, 02 Dec 2020 10:41:32 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,9 +71,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v4 01/26] kvm: arm64: Add kvm-arm.mode early kernel parameter
-Date:   Wed,  2 Dec 2020 18:40:57 +0000
-Message-Id: <20201202184122.26046-2-dbrazdil@google.com>
+Subject: [PATCH v4 03/26] psci: Support psci_ops.get_version for v0.1
+Date:   Wed,  2 Dec 2020 18:40:59 +0000
+Message-Id: <20201202184122.26046-4-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
 References: <20201202184122.26046-1-dbrazdil@google.com>
@@ -83,101 +83,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an early parameter that allows users to select the mode of operation
-for KVM/arm64.
+KVM's host PSCI SMC filter needs to be aware of the PSCI version of the
+system but currently it is impossible to distinguish between v0.1 and
+PSCI disabled because both have get_version == NULL.
 
-For now, the only supported value is "protected". By passing this flag
-users opt into the hypervisor placing additional restrictions on the
-host kernel. These allow the hypervisor to spawn guests whose state is
-kept private from the host. Restrictions will include stage-2 address
-translation to prevent host from accessing guest memory, filtering its
-SMC calls, etc.
+Populate get_version for v0.1 with a function that returns a constant.
 
-Without this parameter, the default behaviour remains selecting VHE/nVHE
-based on hardware support and CONFIG_ARM64_VHE.
+psci_opt.get_version is currently unused so this has no effect on
+existing functionality.
 
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
- arch/arm64/include/asm/kvm_host.h               |  9 +++++++++
- arch/arm64/kvm/arm.c                            | 16 ++++++++++++++++
- 3 files changed, 35 insertions(+)
+ drivers/firmware/psci/psci.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 526d65d8573a..ee9f13776388 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2259,6 +2259,16 @@
- 			for all guests.
- 			Default is 1 (enabled) if in 64-bit or 32-bit PAE mode.
- 
-+	kvm-arm.mode=
-+			[KVM,ARM] Select one of KVM/arm64's modes of operation.
-+
-+			protected: nVHE-based mode with support for guests whose
-+				   state is kept private from the host.
-+				   Not valid if the kernel is running in EL2.
-+
-+			Defaults to VHE/nVHE based on hardware support and
-+			the value of CONFIG_ARM64_VHE.
-+
- 	kvm-arm.vgic_v3_group0_trap=
- 			[KVM,ARM] Trap guest accesses to GICv3 group-0
- 			system registers
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index 21ce5c420247..bca38ccade58 100644
---- a/arch/arm64/include/asm/kvm_host.h
-+++ b/arch/arm64/include/asm/kvm_host.h
-@@ -50,6 +50,15 @@
- #define KVM_DIRTY_LOG_MANUAL_CAPS   (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE | \
- 				     KVM_DIRTY_LOG_INITIALLY_SET)
- 
-+/*
-+ * Mode of operation configurable with kvm-arm.mode early param.
-+ * See Documentation/admin-guide/kernel-parameters.txt for more information.
-+ */
-+enum kvm_mode {
-+	KVM_MODE_DEFAULT,
-+	KVM_MODE_PROTECTED,
-+};
-+
- DECLARE_STATIC_KEY_FALSE(userspace_irqchip_in_use);
- 
- extern unsigned int kvm_sve_max_vl;
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index 7e86207fa2fc..01cf6ac5b2cb 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -45,6 +45,8 @@
- __asm__(".arch_extension	virt");
- #endif
- 
-+static enum kvm_mode kvm_mode = KVM_MODE_DEFAULT;
-+
- DECLARE_KVM_HYP_PER_CPU(unsigned long, kvm_hyp_vector);
- 
- static DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
-@@ -1868,6 +1870,20 @@ void kvm_arch_exit(void)
- 	kvm_perf_teardown();
+diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+index 00af99b6f97c..ace5b9ac676c 100644
+--- a/drivers/firmware/psci/psci.c
++++ b/drivers/firmware/psci/psci.c
+@@ -146,7 +146,12 @@ static int psci_to_linux_errno(int errno)
+ 	return -EINVAL;
  }
  
-+static int __init early_kvm_mode_cfg(char *arg)
+-static u32 psci_get_version(void)
++static u32 psci_0_1_get_version(void)
 +{
-+	if (!arg)
-+		return -EINVAL;
-+
-+	if (strcmp(arg, "protected") == 0) {
-+		kvm_mode = KVM_MODE_PROTECTED;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
++	return PSCI_VERSION(0, 1);
 +}
-+early_param("kvm-arm.mode", early_kvm_mode_cfg);
 +
- static int arm_init(void)
++static u32 psci_0_2_get_version(void)
  {
- 	int rc = kvm_init(NULL, sizeof(struct kvm_vcpu), 0, THIS_MODULE);
+ 	return invoke_psci_fn(PSCI_0_2_FN_PSCI_VERSION, 0, 0, 0);
+ }
+@@ -421,7 +426,7 @@ static void __init psci_init_smccc(void)
+ static void __init psci_0_2_set_functions(void)
+ {
+ 	pr_info("Using standard PSCI v0.2 function IDs\n");
+-	psci_ops.get_version = psci_get_version;
++	psci_ops.get_version = psci_0_2_get_version;
+ 
+ 	psci_function_id[PSCI_FN_CPU_SUSPEND] =
+ 					PSCI_FN_NATIVE(0_2, CPU_SUSPEND);
+@@ -450,7 +455,7 @@ static void __init psci_0_2_set_functions(void)
+  */
+ static int __init psci_probe(void)
+ {
+-	u32 ver = psci_get_version();
++	u32 ver = psci_0_2_get_version();
+ 
+ 	pr_info("PSCIv%d.%d detected in firmware.\n",
+ 			PSCI_VERSION_MAJOR(ver),
+@@ -514,6 +519,8 @@ static int __init psci_0_1_init(struct device_node *np)
+ 
+ 	pr_info("Using PSCI v0.1 Function IDs from DT\n");
+ 
++	psci_ops.get_version = psci_0_1_get_version;
++
+ 	if (!of_property_read_u32(np, "cpu_suspend", &id)) {
+ 		psci_function_id[PSCI_FN_CPU_SUSPEND] = id;
+ 		psci_ops.cpu_suspend = psci_cpu_suspend;
 -- 
 2.29.2.454.gaff20da3a2-goog
 
