@@ -2,88 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2A8C64E8A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 01:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD2FC64E7A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 02:05:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00EE22220B
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 01:24:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E0FE221E2
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 02:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbgLBBY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Dec 2020 20:24:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727154AbgLBBY6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Dec 2020 20:24:58 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FAD8C0613D4;
-        Tue,  1 Dec 2020 17:24:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=mD85UbhtyukYDJcTCzGhzPvfI1JWKEBbqyiuxqWmjGw=; b=wW1COTIsA6c+axy822mi9QdlfF
-        cWWPMIoSvtDDsLl0eBX5PttewLNjFppp2iBh3JdKRDRgHGVEHJh1TPwTkIMUM6VH5151CNiG+L45Q
-        7n0tqnJVwg2brfZr5hOo985THNkEaR+nR9ccJ19NviWnZB+MZ6T61wCTXOUnvMo/Dnr+wRQvcdsNO
-        HbJmcDJUJqGPNgFkjHQ8SN6Hn8utkt4EK7YduxsH0sDaZKc1WgvcEAgE48NtkqtZRCTN6PAfnC7ug
-        3sMVoYYMqnh7wvHrKqKc8ZzZMH0xxa+4D9xu+nAU1oKOaaiOkUNRu7zoNOswfh7zHYcl/chp/dFQX
-        HgozkMLg==;
-Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kkGsP-00015m-FB; Wed, 02 Dec 2020 01:24:15 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        David Howells <dhowells@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: mount_api: change kernel log wording
-Date:   Tue,  1 Dec 2020 17:24:09 -0800
-Message-Id: <20201202012409.19194-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S1727960AbgLBCF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Dec 2020 21:05:27 -0500
+Received: from mga18.intel.com ([134.134.136.126]:12596 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727941AbgLBCF1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 1 Dec 2020 21:05:27 -0500
+IronPort-SDR: wbn+5yo2l6S8Y75RZSo6elGDSmpAph7lldN6mldgsUoNZOvKqTSwcg1WpAj9c2eCyWJbfsYyqq
+ s9K2sZ05RzbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="160710050"
+X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
+   d="scan'208";a="160710050"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 18:04:35 -0800
+IronPort-SDR: WRuwfisFSEEiOt8jq1p1m8Z0fSCjGEh3qBAHm+NTa4mbKgfnHv/rO7NxRHXeV2MUmx8gd6hlwB
+ QFC0vFvY7w9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; 
+   d="scan'208";a="365073732"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.141])
+  by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2020 18:04:32 -0800
+Date:   Wed, 2 Dec 2020 10:00:03 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     Moritz Fischer <mdf@kernel.org>
+Cc:     matthew.gerlach@linux.intel.com, "Wu, Hao" <hao.wu@intel.com>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "trix@redhat.com" <trix@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: Re: [PATCH v3 2/2] fpga: dfl: look for vendor specific capability
+Message-ID: <20201202020003.GB22103@yilunxu-OptiPlex-7050>
+References: <20201124155658.700976-1-matthew.gerlach@linux.intel.com>
+ <20201124155658.700976-3-matthew.gerlach@linux.intel.com>
+ <DM6PR11MB38191D8C5E27E6E04B8DAA1A85F70@DM6PR11MB3819.namprd11.prod.outlook.com>
+ <alpine.DEB.2.22.394.2011301614040.1050045@rhweight-WRK1>
+ <X8aR36hGoV9SsPDw@archbook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X8aR36hGoV9SsPDw@archbook>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change wording to say that messages are logged to the kernel log
-buffer instead of to dmesg. dmesg is just one program that can
-print the kernel log buffer.
+> > > 
+> > > > +		}
+> > > > +
+> > > > +		offset = dfl_res & PCI_VNDR_DFLS_RES_OFF_MASK;
+> > > > +		if (offset >= len) {
+> > > > +			dev_err(&pcidev->dev, "%s bad offset %u >= %pa\n",
+> > > > +				__func__, offset, &len);
+> > > > +			return -EINVAL;
+> > > > +		}
+> > > > +
+> > > > +		dev_dbg(&pcidev->dev, "%s BAR %d offset 0x%x\n",
+> > > > __func__, bar, offset);
+> > > > +
+> > > > +		len -= offset;
+> > > > +
+> > > > +		start = pci_resource_start(pcidev, bar) + offset;
+> > > > +
+> > > > +		dfl_fpga_enum_info_add_dfl(info, start, len);
+> > > 
+> > > That means everytime, we pass [start, endofbar] region to dfl core
+> > > for enumeration, if there are multiple DFLs in one bar, then each range
+> > > ends at the same endofbar, it seems fine as enumeration can be done
+> > > one by one, but ideally the best case is that this capability can provide
+> > > end address or size too, right? It is possible that information can be
+> > > added to the capability as well? then we don't have such limitation.
+> > > 
+> > > Hao
+> > 
+> > I am not sure having more than one DFL in a bar serves any purpose over a
+> > single DFL.  Regardless, I think the consistency of just having Offset/BIR
+> > in the VSEC is better than adding more infomation that has little or no
+> > added value.
+> 
+> Agreed. Can't you just link the DFLs in that case?
 
-Fixes: 7d6ab823d646 ("vfs: Update mount API docs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/filesystems/mount_api.rst |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I didn't see the value of more DFLs in one bar either. So I think we'd better
+document it.
 
---- linux-next-20201201.orig/Documentation/filesystems/mount_api.rst
-+++ linux-next-20201201/Documentation/filesystems/mount_api.rst
-@@ -774,7 +774,7 @@ process the parameters it is given.
-      should just be set to lie inside the low-to-high range.
- 
-      If all is good, true is returned.  If the table is invalid, errors are
--     logged to dmesg and false is returned.
-+     logged to the kernel log buffer and false is returned.
- 
-    * ::
- 
-@@ -782,7 +782,7 @@ process the parameters it is given.
- 
-      This performs some validation checks on a parameter description.  It
-      returns true if the description is good and false if it is not.  It will
--     log errors to dmesg if validation fails.
-+     log errors to the kernel log buffer if validation fails.
- 
-    * ::
- 
+Thanks,
+Yilun
