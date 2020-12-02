@@ -2,108 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A12EFC64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C24C64E7C
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:47:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36CF021741
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:45:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8B0921D42
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:47:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727394AbgLBPpU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 10:45:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgLBPpU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 10:45:20 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC06C0613D4
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 07:44:39 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id 3so9263428wmg.4
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 07:44:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/UHxwpIgzVzreRL98GaE+Nf+yyIwRliZkCO7QwUCEgs=;
-        b=gp6qawBNxj20UMCB0qKbqw35Nh7dgu1epXjabfxPkvif2E6O8pV9qsix7Swhk16rgA
-         7U8GXJzUXnwfKVqYUjOLrtRQrSChgE7vZnpjBYWcRpilLM2szXRG69gSh5qpxe+GDMQ9
-         KDwdufKg3mdvIsTbFSBlskjEK0inIAModCfOxYOJpbqCX4Nt9eX7sJN2jICQ5ByfPXTx
-         629pV2SxxiGkQCnmoA6E0i5XXYqDAJ3dQVWYMse12jjHf8G5E/9mMCEcUCiMne2eCFIS
-         97aq1mVCe4qraq5zC1HtXSTmf47MvJ2/dkbIQdZ2PEPjc9OFMWBuVoSbVniM6Z9RX8/T
-         sOCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/UHxwpIgzVzreRL98GaE+Nf+yyIwRliZkCO7QwUCEgs=;
-        b=rHYF61Ie0BWjOtGxh04+wmndi5LlqxUuKnSwH6Ypcq6/r/8CEI5tGRQSDQChWfHZGW
-         WMwC2gSbV95KYuRLjwov5NSKwM7P8RRHJ+yFbvThcfklcBt8fMv6mVQ9i8fO172C6R3H
-         xcdw2n6FzjvUvUT1+NMzL8vKn9cUUpBj+4YnzSqX6kAoiHKipJtTFf2kaRkRF/A2fOZK
-         EOOyBPDAxlpifCBQQNK/2HJCDKyH0UJRjQexbtJ8Lv+wdta2+TUinq5XpfTPqMokam6u
-         BLwvmOgWi97guQoaWvSvOkJjWX1uF3o90DS4SChgGVw+fWDvGp2iKIykjHU00gAiI89o
-         nG5A==
-X-Gm-Message-State: AOAM533pYs/zPACMcRTnr+2RjxFGXBYJhVuNyahaCiHt/NBBB2+M/zlf
-        ra/FasYKjbUjkQEg3Riq8L3gOw==
-X-Google-Smtp-Source: ABdhPJzjZbg91HBzD7xhdNYxZfeVt0A22RkKuj4c+xnN4xgU/POWZiYJcdkezzLJU++VssNAnOmuew==
-X-Received: by 2002:a1c:ddd5:: with SMTP id u204mr3724239wmg.174.1606923878152;
-        Wed, 02 Dec 2020 07:44:38 -0800 (PST)
-Received: from google.com ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id y7sm2620731wrp.3.2020.12.02.07.44.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 07:44:37 -0800 (PST)
-Date:   Wed, 2 Dec 2020 15:44:35 +0000
-From:   David Brazdil <dbrazdil@google.com>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v3 03/23] arm64: Make cpu_logical_map() take unsigned int
-Message-ID: <20201202154435.qpr7ow53xra3xjkd@google.com>
-References: <20201126155421.14901-1-dbrazdil@google.com>
- <20201126155421.14901-4-dbrazdil@google.com>
- <20201126172838.GD38486@C02TD0UTHF1T.local>
+        id S2388030AbgLBPqw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 10:46:52 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:44481 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387985AbgLBPqv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 10:46:51 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 3DE115802E3;
+        Wed,  2 Dec 2020 10:46:05 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 02 Dec 2020 10:46:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=jRoUn1Nixmx8fV7/eiqUN6Tsxsg
+        78St+eJ4PgOBSguI=; b=TQt9wzTEpAomumtEVyYfhBOFAMhYofunpmo1MYB5ub2
+        mygYpWsC8enY2HvcSTrkSd4kho0hsgZbPDmWPkwBNTji/y5p7pGWgXwXoWLCQql6
+        cgS7v/2fedN8fj99I/JEF0BuO4XrMRKCPl86BVk3aPzAzT/CWhTKFK0ZXnWX2jQX
+        8CDdFM7OVTyvvwnS22/bH67qUYbh4efacDPeGvP+5QC6ZLCJINM9WwLLDzYg3zyQ
+        rr9FwWd3Uk0UT3yqzOq1u8CQxFA/PhonDE7b6HM/BAuOPjQkBAhDQzQYEQEF/Fiz
+        vlqPsFvOipJbglqukQLaGUndk9cqsglBAk9G8ipAy6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jRoUn1
+        Nixmx8fV7/eiqUN6Tsxsg78St+eJ4PgOBSguI=; b=S7b+9A+BK+bXFoLMxHcUCK
+        2ml/FqmbCjgSCQ9lUP16UtpeBuFflkv0aVlTfRQANUmf5sQmH9FrwnH2/XYvQGYl
+        j7j/+NwdtpOTU3FjR5rnRSuFTcQxVdrxZ0GtiafXh0XkRK2iLRtN5KgW3fe4fUGL
+        v6ZFrkkQ1aZe7beWfpnxnEb4ir4lvXvq4K9mwkInDtOw75DQ7tgqJ4t4Ly5GBNYP
+        SxEJt9WF/MysoAs+Gtk41hOvThUw82c4zhmTpShEQgqRzwKgEY+VJ5nvCz/Oxote
+        srw0OhNwnN704qXyqf51YnYxMqB2R2ki/77k/+qP/P+FQdlCH9a9GgfVkppWn4PQ
+        ==
+X-ME-Sender: <xms:urbHX7mweWR1qljBr_MExWUkdMRV0tmFycoSy-4iG7shpRNcYcPjkA>
+    <xme:urbHX-2QGL3MuSS6ysrC0KGAkvZclRLfNn08313yojQTwbmq2USutfe5ngPBYww0n
+    6zPMrrDN7J34lD9fqs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigedgkedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:urbHXxr7hq23eyK4HjadMXO7LlCY7uZVKhxqtnSUl-C0vBVuO3yI9Q>
+    <xmx:urbHXzmy7XQptpb2dVlgOp4l5d4xu9j9yP6iWT_47cXcDlUhVw4GJw>
+    <xmx:urbHX53cI05xHEVa_C_yRehMj6z3E2UgIWfHhH589jZvxQOIrflKaw>
+    <xmx:vbbHX482dsQIV9UiOVhgqRglb05zjpF5PLwLRAdB2fu23SuK7Wk7Ow>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 69B94240059;
+        Wed,  2 Dec 2020 10:46:02 -0500 (EST)
+Date:   Wed, 2 Dec 2020 16:46:01 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: Re: [PATCH v2 09/19] ARM: dts: sunxi: h3/h5: Add CSI controller port
+ for parallel input
+Message-ID: <20201202154601.ws7wrx6msrp3u4pd@gilmour>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+ <20201128142839.517949-10-paul.kocialkowski@bootlin.com>
+ <20201201121405.at4pwxon56ecwrx6@gilmour>
+ <X8escb4SZXEpiR0n@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="btrg2f6ei6hzo3fh"
 Content-Disposition: inline
-In-Reply-To: <20201126172838.GD38486@C02TD0UTHF1T.local>
+In-Reply-To: <X8escb4SZXEpiR0n@aptenodytes>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 05:28:38PM +0000, Mark Rutland wrote:
-> On Thu, Nov 26, 2020 at 03:54:01PM +0000, David Brazdil wrote:
-> > CPU index should never be negative. Change the signature of
-> > (set_)cpu_logical_map to take an unsigned int.
-> > 
-> > Signed-off-by: David Brazdil <dbrazdil@google.com>
-> 
-> Is there a function problem here, or is this just cleanup from
-> inspection?
-> 
-> Core code including the cpuhp_*() callbacks uses an int, so if there's a
-> strong justification to change this, it suggests there's some treewide
-> cleanup that should be done.
-> 
-> I don't have strong feelings on the matter, but I'd like to understand
-> the rationale.
 
-Yeah, it's a mess. Marc and I felt that using a uint was less error-prone wrt
-bounds checks. If this gets an int, it still works and only checking the upper
-bound is required. Does that make sense?
+--btrg2f6ei6hzo3fh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-David
+On Wed, Dec 02, 2020 at 04:02:09PM +0100, Paul Kocialkowski wrote:
+> Hi,
+>=20
+> On Tue 01 Dec 20, 13:14, Maxime Ripard wrote:
+> > On Sat, Nov 28, 2020 at 03:28:29PM +0100, Paul Kocialkowski wrote:
+> > > Since the CSI controller binding is getting a bit more complex due
+> > > to the addition of MIPI CSI-2 bridge support, make the ports node
+> > > explicit with the parallel port.
+> > >=20
+> > > This way, it's clear that the controller only supports parallel
+> > > interface input and there's no confusion about the port number.
+> > >=20
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/s=
+unxi-h3-h5.dtsi
+> > > index 9be13378d4df..02b698cace6a 100644
+> > > --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> > > +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> > > @@ -803,6 +803,15 @@ csi: camera@1cb0000 {
+> > >  			pinctrl-names =3D "default";
+> > >  			pinctrl-0 =3D <&csi_pins>;
+> > >  			status =3D "disabled";
+> > > +
+> > > +			ports {
+> > > +				#address-cells =3D <1>;
+> > > +				#size-cells =3D <0>;
+> > > +
+> > > +				csi_in_parallel: port@0 {
+> > > +					reg =3D <0>;
+> > > +				};
+> > > +			};
+> > >  		};
+> >=20
+> > This will create a DTC warning, since port@0 is the only node, and is
+> > equivalent to port
+>=20
+> I'm not seeing the warning when running dtbs_check.
 
+Some are silenced by the Linux build system. You can pass W=3D1 to your
+make command line enable all of them.
+
+> More generally, why is it a problem that there's only one node defined?
+>=20
+> One issue that I did see is that the port node doesn't have an endpoint
+> here, so I will remove the requirement to have an endpoint in the bindings
+> documentation to allow this kind of definition.
+
+We definitely want to have the endpoint required. If the CSI node is
+disabled, the error should be ignored by the dt-validate tool though
+
+Maxime
+
+--btrg2f6ei6hzo3fh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8e2uQAKCRDj7w1vZxhR
+xYE3AP4u/RvuwgGW7PW013WC31Z7iECgCdFpXbQBo4FZEKym5wEAuygTLOqYLNTZ
+3TelATfMdZXOAbQq9j+JnNSVltFQLAk=
+=/zNa
+-----END PGP SIGNATURE-----
+
+--btrg2f6ei6hzo3fh--
