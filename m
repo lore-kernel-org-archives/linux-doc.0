@@ -2,71 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7185FC64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA5BDC64E8A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:18:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1ACDC221FA
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:15:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8424E22203
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728930AbgLBIPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 03:15:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbgLBIPH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 03:15:07 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038BDC0613D4;
-        Wed,  2 Dec 2020 00:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=8oE2Yc7YE7u7dolscX1PToo/lXblCtSzMf78LGUfOfQ=; b=qPKBXqiw2fKPrKZd+2C9iasZ1c
-        JPqH87yU9Jrxb7qZ9gVoMW3uMVjFvKD5Pnn9Kwm+1BZLByPm9s5kDSFNgQrwVM4wu8CFi+WpSoEu/
-        M1yVeQN73H4TYYVG2kPNjTMWdw43WPR/lj5AmPU7RR4D0BypWcw8pZbAb8sFoL4rAgF7R1HpxNqqy
-        kwJr9Ju7bdg6irqdRtiRNcsyye7fEtH9XUFcpmJBckIFRbaRRSnZDgYL3/fAoCHWs6CH4uqDHJWzt
-        jzqwvR2vKGsjmikPxB/64W8/K8UZ+JlYdmNww7DIYKs7mMKB1g1irAqSQxGQINVRAm4tvMjmuFrIT
-        Dmc28XGA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kkNHK-0004ys-SM; Wed, 02 Dec 2020 08:14:23 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 624D63035D4;
-        Wed,  2 Dec 2020 09:14:22 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 5419F2C87A73C; Wed,  2 Dec 2020 09:14:22 +0100 (CET)
-Date:   Wed, 2 Dec 2020 09:14:22 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 15/16] refcount.h: fix a kernel-doc markup
-Message-ID: <20201202081422.GG3021@hirez.programming.kicks-ass.net>
-References: <cover.1606823973.git.mchehab+huawei@kernel.org>
- <afb9bb1e675bf5f72a34a55d780779d7d5916b4c.1606823973.git.mchehab+huawei@kernel.org>
+        id S1726376AbgLBISV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 03:18:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54330 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726148AbgLBISU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Dec 2020 03:18:20 -0500
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: kernel-doc: fix parsing function-like typedefs
+Date:   Wed,  2 Dec 2020 09:17:32 +0100
+Message-Id: <218ff56dcb8e73755005d3fb64586eb1841a276b.1606896997.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afb9bb1e675bf5f72a34a55d780779d7d5916b4c.1606823973.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 01:09:08PM +0100, Mauro Carvalho Chehab wrote:
-> The kernel-doc markup is wrong: it is asking the tool to document
-> struct refcount_struct, instead of documenting typedef refcount_t.
-> 
-> Fix it.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Changeset 6b80975c6308 ("scripts: kernel-doc: fix typedef parsing")
+added support for things like:
 
-Thanks!
+	typedef unsigned long foo();
+
+However, it caused a regression on this prototype:
+
+	typedef bool v4l2_check_dv_timings_fnc(const struct v4l2_dv_timings *t, void *handle);
+
+This is only noticed after adding a patch that checks if the
+kernel-doc identifier matches the typedef:
+
+	./scripts/kernel-doc -none $(git grep '^.. kernel-doc::' Documentation/ |cut -d ' ' -f 3|sort|uniq) 2>&1|grep expecting
+	include/media/v4l2-dv-timings.h:38: warning: expecting prototype for typedef v4l2_check_dv_timings_fnc. Prototype was for typedef nc instead
+
+The problem is that, with the new parsing logic, it is not
+checking for complete words at the type part.
+
+Fix it by adding a \b at the end of each type word at the
+regex.
+
+fixes: 6b80975c6308 ("scripts: kernel-doc: fix typedef parsing")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 919acae23fad..a9a92e623dbc 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1444,7 +1444,7 @@ sub dump_enum($$) {
+     }
+ }
+ 
+-my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
++my $typedef_type = qr { ((?:\s+[\w\*]+\b){1,8})\s* }x;
+ my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
+ my $typedef_args = qr { \s*\((.*)\); }x;
+ 
+-- 
+2.28.0
+
+
