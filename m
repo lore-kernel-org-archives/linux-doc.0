@@ -2,142 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED749C64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:35:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1EFAC64E8A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:42:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8224D21D7F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:35:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8601720B1F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 15:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727699AbgLBPff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 10:35:35 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:54393 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726113AbgLBPff (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 10:35:35 -0500
-X-Originating-IP: 90.43.98.209
-Received: from rope.localdomain (astlambert-651-1-83-209.w90-43.abo.wanadoo.fr [90.43.98.209])
-        (Authenticated sender: m@thi.eu.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id EAC6E240003;
-        Wed,  2 Dec 2020 15:34:48 +0000 (UTC)
-Received: by rope.localdomain (Postfix, from userid 1000)
-        id 4AD7B513EA; Wed,  2 Dec 2020 16:34:48 +0100 (CET)
-From:   Mathieu Chouquet-Stringer <me@mathieu.digital>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Mathieu Chouquet-Stringer <me@mathieu.digital>,
-        Stephen Kitt <steve@sk2.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Naoki Hayama <naoki.hayama@lineo.co.jp>,
-        Yue Hu <huyue2@yulong.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Update documentation to reflect what TAINT_CPU_OUT_OF_SPEC means nowadays
-Date:   Wed,  2 Dec 2020 16:32:43 +0100
-Message-Id: <20201202153244.709752-1-me@mathieu.digital>
-X-Mailer: git-send-email 2.28.0
+        id S2387396AbgLBPmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 10:42:05 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:47801 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728308AbgLBPmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 10:42:05 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 458EC580387;
+        Wed,  2 Dec 2020 10:40:58 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Wed, 02 Dec 2020 10:40:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=9Gmw2R9k0ECc5QddBoAVCGV1sXx
+        zmzO4YbJmiIaU4YY=; b=XTaU5h2f3WAixKnXCS97j2KVWpPWFVh0YhT+m4Nj3CM
+        d8fTiUZiwPxy0O5RDJhyFigFAz8sZz+tbotDWcC+lmTl53Ikj9hzxkoHOvZx4Hdg
+        FHl+5ybpwHd/CInVL1bT07psyo33xntHw9gOTFFJX3XlcgTC7hIttoxNqcv+uUeo
+        LZQPJSK/VNUNsS9C/ou1MotSZMMX0hGIUtSeitIqp/teQgRTE1jozqWsg2tNM+Vn
+        USR1udlNMb86zaufmPt12VFdaaCvyfDp4yC4U8VFzxXM7WpMW7JKENwMOH/bGpX3
+        WtGeRMbpE+ekTaVlvtl49Bm8G884l6R2RuIACX1pO4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9Gmw2R
+        9k0ECc5QddBoAVCGV1sXxzmzO4YbJmiIaU4YY=; b=GObBsEcZzgssNLZ33qx0AJ
+        GhlgBV+VE8PDXxHuIwxRZtWVbtBsMqOVYwL3HUiCeUs7vY8qYe7eEgG24NXTJrw5
+        eJgCZirNGC/0NxuBWDfYbSsxr1R9Xq00iLJEo3mFb51sjeL9PGDCc09ibc4NbLEd
+        0KooxPvuwHzHE0LxBpGNgx7SCw9X4xddpdRZbhog0DNe1o2WVVFV9AoU8bzzO1NL
+        UW3xSz6z9XM5YMvkD0pfQlzsIhp4ctFCnj2JwxMvQpMw4wAqOGvL5a3BMOQT1teW
+        JwGpgNnv8qyoHrp5w/jg0fLjmzY+6Be9L1HWOP9B78yeu9+bujjcrxCKZT4ofyvQ
+        ==
+X-ME-Sender: <xms:h7XHX6UQeHQEadhXHmWiua1blbeGIYoHmrlI6pKlv80Kx1hkp7LMPg>
+    <xme:h7XHX2lwJSwaWT89wtGtST6xjt8rJR0k4ZT9_TbTo--YaWK9DUy5suydVTxsCrBMk
+    anmTROWQ3BZ2g3drAE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigedgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:h7XHX-aKGxXIfGlJvn1_Dysw-33py4S0qYrfKro6R7oq7vEmSSYZww>
+    <xmx:h7XHXxU0cICtGIQXx-YSPouGHbBpvLURwrA__hpjab2MreoNnOw4Xw>
+    <xmx:h7XHX0nPMPTgDlfrW0B3kohd_CznI66BouVVJPEjF-NshJcMO-eEzw>
+    <xmx:irXHX6vQYPWX-0wHB404TnSZkkQOuwK3QpEq_uaXgxrSibT3kK1dOw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D6D14108005B;
+        Wed,  2 Dec 2020 10:40:54 -0500 (EST)
+Date:   Wed, 2 Dec 2020 16:40:53 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: Re: [PATCH v2 07/19] media: sun6i-csi: Add support for MIPI CSI-2
+ bridge input
+Message-ID: <20201202154053.3fcxiift2uyqnjvp@gilmour>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+ <20201128142839.517949-8-paul.kocialkowski@bootlin.com>
+ <20201201121241.cyafjhot45puusfc@gilmour>
+ <X8eiXxYw1iHKbdDV@aptenodytes>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="45hcbhhgcfnzxspi"
+Content-Disposition: inline
+In-Reply-To: <X8eiXxYw1iHKbdDV@aptenodytes>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-	Hello Jonathan,
 
-Here's a patch updating the meaning of TAINT_CPU_OUT_OF_SPEC after
-Borislav introduced changes in a7e1f67ed29f and upcoming patches in tip.
+--45hcbhhgcfnzxspi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-TAINT_CPU_OUT_OF_SPEC now means a bit more what it implies as the
-flag isn't set just because of a CPU misconfiguration or mismatch.
-Historically it was for SMP kernel oops on an officially SMP incapable
-processor but now it also covers CPUs whose MSRs have been incorrectly
-poked at from userspace, drivers being used on non supported
-architectures, broken firmware, mismatched CPUs, ...
+On Wed, Dec 02, 2020 at 03:19:11PM +0100, Paul Kocialkowski wrote:
+> Hi,
+>=20
+> On Tue 01 Dec 20, 13:12, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Sat, Nov 28, 2020 at 03:28:27PM +0100, Paul Kocialkowski wrote:
+> > > The A31 CSI controller supports a MIPI CSI-2 bridge input, which has
+> > > its own dedicated port in the fwnode graph.
+> > >=20
+> > > Support for this input is added with this change:
+> > > - two pads are defined for the media entity instead of one
+> > >   and only one needs to be connected at a time;
+> > > - the pads currently match the fwnode graph representation;
+> > > - links are created between our pads and the subdevs for each
+> > >   interface and are no longer immutable so that userspace can select
+> > >   which interface to use in case both are bound to a subdev;
+> > > - fwnode endpoints are parsed and stored for each interface;
+> > > - the active subdev (and fwnode endpoint) is retrieved when validating
+> > >   the media link at stream on time and cleared at stream off;
+> > > - an error is raised if both links are active at the same time;
+> > > - the MIPI interface bit is set if the MIPI CSI-2 bridge endpoint is
+> > >   active.
+> > >=20
+> > > In the future, the media entity representation might evolve to:
+> > > - distinguish the internal parallel bridge and data formatter;
+> > > - represent each of the 4 internal channels that can exist between
+> > >   the parallel bridge (for BT656 time-multiplex) and MIPI CSI-2
+> > >   (internal channels can be mapped to virtual channels);
+> > > - connect the controller's output to the ISP instead of its
+> > >   DMA engine.
+> > >=20
+> > > Finally note that the MIPI CSI-2 bridges should not be linked in
+> > > the fwnode graph unless they have a sensor subdev attached.
+> >=20
+> > I'll leave most of the review to Laurent and Sakari, but I'm not quite
+> > sure what you meant in the last paragraph. Did you mean that the
+> > MIPI-CSI controller in the Allwinner SoC should only be linked if it has
+> > a sensor attached, or did you mean that any MIPI-CSI2 bridge cannot be
+> > attached to the controller?
+>=20
+> So the use of plural was a mistake and your first understanding is the co=
+rrect
+> one: if the bridge is linked to the CSI controller in the OF graph but the
+> bridge doesn't have a sensor attached, the CSI controller driver will fail
+> to probe, as far as I could see.
 
-Update documentation and script to reflect that.
+I'm not sure it's reasonable to not link it in the DTSI then, we'll want
+to reduce as much the boilerplate from the board DTS as possible, and
+the MIPI-CSI controller is always there anyway. However, we should
+definitely have it disabled if there's no sensor, which should solve
+your probe issue
 
-Signed-off-by: Mathieu Chouquet-Stringer <me@mathieu.digital>
----
- Documentation/admin-guide/sysctl/kernel.rst   |  2 +-
- Documentation/admin-guide/tainted-kernels.rst | 23 +++++++++++++++----
- tools/debugging/kernel-chktaint               |  2 +-
- 3 files changed, 20 insertions(+), 7 deletions(-)
+Maxime
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index d4b32cc32bb7..edd89e2d3af7 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1336,7 +1336,7 @@ ORed together. The letters are seen in "Tainted" line of Oops reports.
- ======  =====  ==============================================================
-      1  `(P)`  proprietary module was loaded
-      2  `(F)`  module was force loaded
--     4  `(S)`  SMP kernel oops on an officially SMP incapable processor
-+     4  `(S)`  kernel running on an out of specification system
-      8  `(R)`  module was force unloaded
-     16  `(M)`  processor reported a Machine Check Exception (MCE)
-     32  `(B)`  bad page referenced or some unexpected page flags
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index f718a2eaf1f6..ceeed7b0798d 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -84,7 +84,7 @@ Bit  Log  Number  Reason that got the kernel tainted
- ===  ===  ======  ========================================================
-   0  G/P       1  proprietary module was loaded
-   1  _/F       2  module was force loaded
--  2  _/S       4  SMP kernel oops on an officially SMP incapable processor
-+  2  _/S       4  kernel running on an out of specification system
-   3  _/R       8  module was force unloaded
-   4  _/M      16  processor reported a Machine Check Exception (MCE)
-   5  _/B      32  bad page referenced or some unexpected page flags
-@@ -116,10 +116,23 @@ More detailed explanation for tainting
-  1)  ``F`` if any module was force loaded by ``insmod -f``, ``' '`` if all
-      modules were loaded normally.
- 
-- 2)  ``S`` if the oops occurred on an SMP kernel running on hardware that
--     hasn't been certified as safe to run multiprocessor.
--     Currently this occurs only on various Athlons that are not
--     SMP capable.
-+ 2)  ``S`` if the kernel is running on a processor or system that is out of
-+     specification: hardware has been put into an unsupported configuration,
-+     therefore proper execution cannot be guaranteed.
-+     Kernel will be tainted if, for example:
-+
-+     - on x86: PAE is forced through forcepae on intel CPUs (such as Pentium M)
-+       which do not report PAE but may have a functional implementation, an SMP
-+       kernel is running on non officially capable SMP Athlon CPUs, MSRs are
-+       being poked at from userspace.
-+     - on arm: kernel running on certain CPUs (such as Keystone 2) without
-+       having certain kernel features enabled.
-+     - on arm64: there are mismatched hardware features between CPUs, the
-+       bootloader has booted CPUs in different modes.
-+     - certain drivers are being used on non supported architectures (such as
-+       scsi/snic on something else than x86_64, scsi/ips on non
-+       x86/x86_64/itanium, have broken firmware settings for the
-+       irqchip/irq-gic on arm64 ...).
- 
-  3)  ``R`` if a module was force unloaded by ``rmmod -f``, ``' '`` if all
-      modules were unloaded normally.
-diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
-index 2240cb56e6e5..607b2b280945 100755
---- a/tools/debugging/kernel-chktaint
-+++ b/tools/debugging/kernel-chktaint
-@@ -72,7 +72,7 @@ if [ `expr $T % 2` -eq 0 ]; then
- 	addout " "
- else
- 	addout "S"
--	echo " * SMP kernel oops on an officially SMP incapable processor (#2)"
-+	echo " * kernel running on an out of specification system (#2)"
- fi
- 
- T=`expr $T / 2`
--- 
-2.28.0
+--45hcbhhgcfnzxspi
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8e1hQAKCRDj7w1vZxhR
+xUmfAQDrnEGoBdbQg8pcpjrHuleZtMVcXIe+BVlxHlRQPOZFXwEAjruXhWd67Q5L
+aw25nh4z4WBzD8T8dUj7t5A/R28hows=
+=crGk
+-----END PGP SIGNATURE-----
+
+--45hcbhhgcfnzxspi--
