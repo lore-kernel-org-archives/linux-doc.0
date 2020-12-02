@@ -2,80 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E70C64E8A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0B4C64E8A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:56:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34F1B2222A
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:52:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A2F320709
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728833AbgLBHwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 02:52:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47234 "EHLO mail.kernel.org"
+        id S1727003AbgLBH4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 02:56:35 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50358 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726148AbgLBHwQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Dec 2020 02:52:16 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH] media: vidtv: fix kernel-doc markups
-Date:   Wed,  2 Dec 2020 08:51:28 +0100
-Message-Id: <7d86a4c4aa112f87149ba4e247fcf8904153884c.1606895475.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.28.0
+        id S1726148AbgLBH4f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Dec 2020 02:56:35 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id B3654AC2D;
+        Wed,  2 Dec 2020 07:55:53 +0000 (UTC)
+To:     Mikulas Patocka <mpatocka@redhat.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
+        geert+renesas@glider.be, corbet@lwn.net, daniel.vetter@ffwll.ch,
+        linux-doc@vger.kernel.org, bernie@plugable.com,
+        dri-devel@lists.freedesktop.org, sam@ravnborg.org
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+ <20201130154147.GT401619@phenom.ffwll.local>
+ <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
+ <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
+ <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+Message-ID: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
+Date:   Wed, 2 Dec 2020 08:55:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="DyF5ErOOQxZapjJT3Ag8XB7gJoy8VMU4t"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some functions has a different name between their prototypes
-and the corresponding kernel-doc markups.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--DyF5ErOOQxZapjJT3Ag8XB7gJoy8VMU4t
+Content-Type: multipart/mixed; boundary="PCdFIN2iawhSKjj8GO2dskStC23JJYou5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ geert+renesas@glider.be, corbet@lwn.net, daniel.vetter@ffwll.ch,
+ linux-doc@vger.kernel.org, bernie@plugable.com,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Message-ID: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+ <20201130154147.GT401619@phenom.ffwll.local>
+ <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
+ <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
+ <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
+In-Reply-To: <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/test-drivers/vidtv/vidtv_psi.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--PCdFIN2iawhSKjj8GO2dskStC23JJYou5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-index 340c9fb8d583..6651cc91bda1 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_psi.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-@@ -420,7 +420,7 @@ void vidtv_psi_desc_assign(struct vidtv_psi_desc **to,
- 			   struct vidtv_psi_desc *desc);
- 
- /**
-- * vidtv_psi_pmt_desc_assign - Assigns a descriptor loop at some point in a PMT section.
-+ * vidtv_pmt_desc_assign - Assigns a descriptor loop at some point in a PMT section.
-  * @pmt: The PMT section that will contain the descriptor loop
-  * @to: Where in the PMT to assign this descriptor loop to
-  * @desc: The descriptor loop that will be assigned.
-@@ -434,7 +434,7 @@ void vidtv_pmt_desc_assign(struct vidtv_psi_table_pmt *pmt,
- 			   struct vidtv_psi_desc *desc);
- 
- /**
-- * vidtv_psi_sdt_desc_assign - Assigns a descriptor loop at some point in a SDT.
-+ * vidtv_sdt_desc_assign - Assigns a descriptor loop at some point in a SDT.
-  * @sdt: The SDT that will contain the descriptor loop
-  * @to: Where in the PMT to assign this descriptor loop to
-  * @desc: The descriptor loop that will be assigned.
-@@ -474,7 +474,7 @@ void vidtv_psi_pmt_stream_assign(struct vidtv_psi_table_pmt *pmt,
- struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc);
- 
- /**
-- * vidtv_psi_create_sec_for_each_pat_entry - Create a PMT section for each
-+ * vidtv_psi_pmt_create_sec_for_each_pat_entry - Create a PMT section for each
-  * program found in the PAT
-  * @pat: The PAT to look for programs.
-  * @pcr_pid: packet ID for the PCR to be used for the program described in this
--- 
-2.28.0
+Hi
 
+Am 01.12.20 um 12:20 schrieb Mikulas Patocka:
+>=20
+>=20
+> On Tue, 1 Dec 2020, Thomas Zimmermann wrote:
+>=20
+>> Hi
+>>
+>> Am 30.11.20 um 19:39 schrieb Mikulas Patocka:
+>>>
+>>>
+>>> On Mon, 30 Nov 2020, Daniel Vetter wrote:
+>>>
+>>>> On Mon, Nov 30, 2020 at 09:31:15AM -0500, Mikulas Patocka wrote:
+>>>>>
+>>>>> The framebuffer driver supports programs running full-screen direct=
+ly on
+>>>>> the framebuffer console, such as web browser "links -g", image view=
+er
+>>>>> "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl=
+",
+>>>>> movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
+>>>>
+>>>> Hm this should in general work on drm drivers. Without that it's cle=
+ar the
+>>>> switch-over isn't really ready yet.
+>>>
+>>> I fixed it with this patch two years ago:
+>>> https://lists.freedesktop.org/archives/dri-devel/2018-June/179023.htm=
+l
+>>>
+>>> But the patch never went through and the fb_defio feature was removed=
+ in
+>>> the kernel 5.6 (commit d0c4fc5a4814e431c15272935c8dc973c18073aa).
+>>>
+>>>
+>>> Without fb_defio, the only other possibility how to update the screen=
+ is
+>>> the ioctl DRM_IOCTL_MODE_DIRTYFB. But this ioctl requires master mode=
+, so
+>>> user programs like "links -g" can't issue it.
+>>
+>> That's confusing. DIRTYFB is only for DRM.
+>=20
+> Yes, you're right.
+>=20
+>> And why can links not run as DRM master mode? If it renders to the ter=
+minal,
+>> it should act like a composer. In that case it almost certainly wants =
+master
+>> status.
+>>
+>> Best regards
+>> Thomas
+>=20
+> How can a userspace program acquire master mode without being suid?
+
+For my understanding, there's no easy solution to that. :/
+
+I guess we (DRM devs) have to treat fbdev as the solution for use cases=20
+such as ours.
+
+For the unplug issue, I'll try to reproduce and fix it.
+
+For the performance problems, we might be able to squeeze a few more=20
+cycles out of it.
+
+Best regards
+Thomas
+
+>=20
+> Is there some "Hello World!" program that shows how to use DRM? I'm not=
+ an
+> expert in DRM, but if there were some tutorial+documentation, I could
+> consider porting "links" to it.
+>=20
+> Mikulas
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--PCdFIN2iawhSKjj8GO2dskStC23JJYou5--
+
+--DyF5ErOOQxZapjJT3Ag8XB7gJoy8VMU4t
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/HSIgFAwAAAAAACgkQlh/E3EQov+De
+rRAAuiguOHT9X8o4OXxwH/edemSGzFmzaNQmrA/4rW8QIuym1UdDLWsCuHA1lwJzRCPmHMeYnACK
+77jE/lKogeZtRMgfWh4UlN5o09oVZjRzHbX42vFxwgJBOu5cmB8bkKj20eC0JFZZ62evLT6SLla/
+eRWqv0OFjZXM6Q/Qv6a5DDoEa56slbdE56sadbex7lGWNQ3VdYy+fx19UhsDtbkaxY4XkWlkGFvH
+N5RtYgIPPOTGaCeVC5G3sTs9fymf1P4K7C9v3tNyFgQ+mBDGen80XAkpxzglH1TVc1ewidhZ/zmJ
+M4HppnegjC6xYIvpV3ATk1Ec9HeOn/3lsuYri42Xe2sPVIJPtu53z/a2ph3kp+zajdnYCGqS5FFX
+N/UE84LrSvrtBskNBO97RDKNaQ4v4JVVeRqZQ3UqD6saiZZenO1KMJYZNeJZewLBbZIcJK3V4I4K
+bMkcyKBLvZg7HNgXDLikLfhyB5FHyng2GXWC/NlzSDGqqQRagi80xX1V9YM0LRd9/SgPuBBYUGoa
+dQe1adAUP12eL3u69JB2b6sKEB3/dUPAsyQWAEsv0xplkBuTp5/AJh8iC61qmta6JQVJWqadBtR/
+ja5aymitqclPi5cm5cztVi+FRZyj5xr2TmtdMzOnlOupIO3ICCinOy7EB406QvmMXMdDHez9b44g
+vcE=
+=46Cv
+-----END PGP SIGNATURE-----
+
+--DyF5ErOOQxZapjJT3Ag8XB7gJoy8VMU4t--
