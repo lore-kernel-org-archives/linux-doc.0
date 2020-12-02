@@ -2,199 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C5F3C64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:02:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D16FC64E8A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:14:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CA8E22242
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF983221FA
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 08:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728874AbgLBICl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 03:02:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53128 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726493AbgLBICl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Dec 2020 03:02:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 53EA6ABD2;
-        Wed,  2 Dec 2020 08:01:59 +0000 (UTC)
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     Mikulas Patocka <mpatocka@redhat.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
-        geert+renesas@glider.be, corbet@lwn.net, daniel.vetter@ffwll.ch,
-        linux-doc@vger.kernel.org, bernie@plugable.com,
-        dri-devel@lists.freedesktop.org, sam@ravnborg.org
-References: <20201130125200.10416-1-tzimmermann@suse.de>
- <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
- <20201130154147.GT401619@phenom.ffwll.local>
- <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
- <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
- <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
- <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
-Message-ID: <d3dbe8bf-d5a3-dc6e-b98a-778d942ee7fa@suse.de>
-Date:   Wed, 2 Dec 2020 09:01:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1726898AbgLBIOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 03:14:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbgLBIOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 03:14:03 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D3BC0613CF;
+        Wed,  2 Dec 2020 00:13:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=goXv1X55FeNcthEXSTM2hTNgFnrwc8DRA9NRAxxJ9fY=; b=MWJQph8oF76dxZGMyk2WAci2tN
+        EgRW9hCKEAH405eSqlzCKoWkXKOIU0ug+Pj+sAAJpUOLOnhVMjlepNsVFqAuZydtOuu7hyvFSFyg6
+        LLQK2jrxyGM2OAewJos+4ITQ7YsuEGtTZEufSDgNGRfzZ0DTiGJpQt1tXOwFpg+7c4HSBF611bSaH
+        xbfZMOzCqC8KW2mdTj7voJNFC3EodSosa9/YqqGkVJXQwP7ieeCjpIrqIFhBtXh2fAYCIx8D5pzVR
+        VTxD+7Lcl2bk1qjqbz1zqpLG85bHEb0ke/lWo5+gghFX9JS6uVP7dRJGqqiITT2bKEm2Mw0cycdN2
+        0081ECBQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kkNG8-0004uk-S3; Wed, 02 Dec 2020 08:13:09 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 941303035D4;
+        Wed,  2 Dec 2020 09:13:07 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 5B8442C87A737; Wed,  2 Dec 2020 09:13:07 +0100 (CET)
+Date:   Wed, 2 Dec 2020 09:13:07 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Davidlohr Bueso <dbueso@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 07/16] completion: drop init_completion define
+Message-ID: <20201202081307.GE3021@hirez.programming.kicks-ass.net>
+References: <cover.1606823973.git.mchehab+huawei@kernel.org>
+ <e657bfc533545c185b1c3c55926a449ead56a88b.1606823973.git.mchehab+huawei@kernel.org>
+ <20201201125445.GW2414@hirez.programming.kicks-ass.net>
+ <20201201150249.56132775@coco.lan>
 MIME-Version: 1.0
-In-Reply-To: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4QEmHYAmn97ipMvLKAVzidpTp0CzotVig"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201150249.56132775@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4QEmHYAmn97ipMvLKAVzidpTp0CzotVig
-Content-Type: multipart/mixed; boundary="g2nXcqKmfiVdxBUkyf25Q6uypK25c8Smd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Mikulas Patocka <mpatocka@redhat.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
- geert+renesas@glider.be, corbet@lwn.net, daniel.vetter@ffwll.ch,
- linux-doc@vger.kernel.org, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org
-Message-ID: <d3dbe8bf-d5a3-dc6e-b98a-778d942ee7fa@suse.de>
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-References: <20201130125200.10416-1-tzimmermann@suse.de>
- <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
- <20201130154147.GT401619@phenom.ffwll.local>
- <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
- <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
- <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
- <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
-In-Reply-To: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
+On Tue, Dec 01, 2020 at 03:03:01PM +0100, Mauro Carvalho Chehab wrote:
 
---g2nXcqKmfiVdxBUkyf25Q6uypK25c8Smd
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> [PATCH] completion: drop init_completion define
+> 
+> Changeset cd8084f91c02 ("locking/lockdep: Apply crossrelease to completions")
+> added a CONFIG_LOCKDEP_COMPLETE (that was later renamed to
+> CONFIG_LOCKDEP_COMPLETIONS).
+> 
+> Such changeset renamed the init_completion, and add a macro
+> that would either run a modified version or the original code.
+> 
+> However, such code reported too many false positives. So, it
+> ended being dropped later on by
+> changeset e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks").
+> 
+> Yet, the define remained there as just:
+> 
+> 	 #define init_completion(x) __init_completion(x)
+> 
+> Get rid of the define, and return __init_completion() function
+> to its original name.
+> 
+> Fixes: e966eaeeb623 ("locking/lockdep: Remove the cross-release locking checks")
 
+Thanks! should show up in tip/locking/core soonish..
 
-
-Am 02.12.20 um 08:55 schrieb Thomas Zimmermann:
-> Hi
->=20
-> Am 01.12.20 um 12:20 schrieb Mikulas Patocka:
->>
->>
->> On Tue, 1 Dec 2020, Thomas Zimmermann wrote:
->>
->>> Hi
->>>
->>> Am 30.11.20 um 19:39 schrieb Mikulas Patocka:
->>>>
->>>>
->>>> On Mon, 30 Nov 2020, Daniel Vetter wrote:
->>>>
->>>>> On Mon, Nov 30, 2020 at 09:31:15AM -0500, Mikulas Patocka wrote:
->>>>>>
->>>>>> The framebuffer driver supports programs running full-screen=20
->>>>>> directly on
->>>>>> the framebuffer console, such as web browser "links -g", image vie=
-wer
->>>>>> "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sd=
-l",
->>>>>> movie player "mplayer -vo fbdev". The DRM driver doesn't run them.=
-
->>>>>
->>>>> Hm this should in general work on drm drivers. Without that it's=20
->>>>> clear the
->>>>> switch-over isn't really ready yet.
->>>>
->>>> I fixed it with this patch two years ago:
->>>> https://lists.freedesktop.org/archives/dri-devel/2018-June/179023.ht=
-ml
->>>>
->>>> But the patch never went through and the fb_defio feature was=20
->>>> removed in
->>>> the kernel 5.6 (commit d0c4fc5a4814e431c15272935c8dc973c18073aa).
->>>>
->>>>
->>>> Without fb_defio, the only other possibility how to update the=20
->>>> screen is
->>>> the ioctl DRM_IOCTL_MODE_DIRTYFB. But this ioctl requires master=20
->>>> mode, so
->>>> user programs like "links -g" can't issue it.
->>>
->>> That's confusing. DIRTYFB is only for DRM.
->>
->> Yes, you're right.
->>
->>> And why can links not run as DRM master mode? If it renders to the=20
->>> terminal,
->>> it should act like a composer. In that case it almost certainly wants=
-=20
->>> master
->>> status.
->>>
->>> Best regards
->>> Thomas
->>
->> How can a userspace program acquire master mode without being suid?
->=20
-> For my understanding, there's no easy solution to that. :/
->=20
-> I guess we (DRM devs) have to treat fbdev as the solution for use cases=
-=20
-> such as ours.
-
-s/ours/yours
-
->=20
-> For the unplug issue, I'll try to reproduce and fix it.
->=20
-> For the performance problems, we might be able to squeeze a few more=20
-> cycles out of it.
->=20
-> Best regards
-> Thomas
->=20
->>
->> Is there some "Hello World!" program that shows how to use DRM? I'm=20
->> not an
->> expert in DRM, but if there were some tutorial+documentation, I could
->> consider porting "links" to it.
->>
->> Mikulas
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---g2nXcqKmfiVdxBUkyf25Q6uypK25c8Smd--
-
---4QEmHYAmn97ipMvLKAVzidpTp0CzotVig
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/HSfYFAwAAAAAACgkQlh/E3EQov+A4
-pA/9GS90vDzxsEuokb7l3rmAoNSPBWVxht2CUEgFRopOrQZZOh2rB6tgE32ODTnwpXTsvw+b4ABb
-X3Nt0YCUAecSvDo0Vb2Tvf+dgidnT2HPtc8G6Lq7Y+QgYJTYmBq/xAxjbqjHoBLqMf2VBxCETyDl
-ARepztWJkNE1ZIa2nkwIQdJZPid4GU99BXVT/eRUZyY5L9gtMPdYNe0mmyHm1JSgjgTf58gN6Pae
-RCFK2lLY0rPmQH0vXj7Ery1kJFnB+/jBjSvVdJXhoqDuMJuaLf4e8otAc4KQqiLINgyTxAKFOk75
-VMa2L3uRFG3wU00b6OPeujEKa5FSgOeJk4aSiWvCFhX0eLLk9EJIhnziyJewP6ZgWonTbXwPRM4S
-a/IvZqnZmnf+a46nUel5UNca1xUW9EvSrkDUSVd5nUZYXPEnTk+fjpKvmE28YIgOJfRxb5jFVtWA
-revA/u6Ar5SHPpmazbcdzKYIyji8cAIoE/ASvKE5JZVgvyPzOfET0Fw/RmqWQc4OKBXLBtwbkULh
-N+siqkDxADGwiVvIyBB3WDyhFfM/jy3fh70jHAbo3FqHw8Qt3dluUu7P0mw1xrwE9sPTTSV9uoZE
-7TrPsyaeQL57GHO1An+TkFb79UwgDWqex/1xhqV+GDLmQFFTPlHRU+gQ9iA9rU/5xa6PtyVZfGId
-e4E=
-=mSnb
------END PGP SIGNATURE-----
-
---4QEmHYAmn97ipMvLKAVzidpTp0CzotVig--
+> diff --git a/include/linux/completion.h b/include/linux/completion.h
+> index bf8e77001f18..51d9ab079629 100644
+> --- a/include/linux/completion.h
+> +++ b/include/linux/completion.h
+> @@ -28,8 +28,7 @@ struct completion {
+>  	struct swait_queue_head wait;
+>  };
+>  
+> -#define init_completion_map(x, m) __init_completion(x)
+> -#define init_completion(x) __init_completion(x)
+> +#define init_completion_map(x, m) init_completion(x)
+>  static inline void complete_acquire(struct completion *x) {}
+>  static inline void complete_release(struct completion *x) {}
+>  
+> @@ -82,7 +81,7 @@ static inline void complete_release(struct completion *x) {}
+>   * This inline function will initialize a dynamically created completion
+>   * structure.
+>   */
+> -static inline void __init_completion(struct completion *x)
+> +static inline void init_completion(struct completion *x)
+>  {
+>  	x->done = 0;
+>  	init_swait_queue_head(&x->wait);
+> 
