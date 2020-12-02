@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF69C83026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07751C8301B
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A7C521D7F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1B7121D7F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389593AbgLBSn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 13:43:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54054 "EHLO
+        id S2389564AbgLBSn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 13:43:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389565AbgLBSn3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:29 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F530C061A56
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:51 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id e7so5159477wrv.6
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:50 -0800 (PST)
+        with ESMTP id S2389522AbgLBSnU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:20 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52FB0C0613D4
+        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:42:09 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id 3so11028660wmg.4
+        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y2XR1ngTwyxpwjENRmmRKJhts/5F/OilmxQWITQoZvQ=;
-        b=JzFgXAhlIEgLNkP4PvPB0wdamug+KFMjHLhHpHzd5kVnUCr3t8QDs9NimLkHc7C2o1
-         NHgnIE3t1mWj8BqptP+PMm6hDZaxCYbA61W91okeustzdOUbrpBE3haZ3EpLu+b4Um9B
-         C6HdAF8lpWpxP6zdmtUviuKmhFUj6Ywy3uhuUFdMiFzvCrXNeTUowX1pkb/61/PpdGYi
-         mi5ulgnhbOZUrzv04KMRwsqsomq3Hq2X00uDYDjoGUXUbr1uO87CLOBRPYMu5eGe3evA
-         0h9k5iIdnG+5R9qdoaXDx7ucCbBGaDZXX6pISlsr23VUmTinP+qIJEQmBhPC2xjZCh3e
-         gBZw==
+        bh=qcfRU1YbBQ04ItAE6mdwMxjNOIhFl6zoGdtG5ZWWz6Y=;
+        b=FHW7OMVvnhhhri9l5Ifx4Rrqhfsw/iXEfWL3Xv//E79ZdV/UcgaVz/W0r2HYbZvqeY
+         y2QPeIachgJaHG+rwCcgMXEco0yfQx0/re+sBTjr6jN3QPx9IhOX1g2yZimUEhTvMoB/
+         YR/6959KrrBVEVUmE+JaqtY45Jz6vNkVJSyz3+1p5vk6xN23TYB9XpSQ6p2AiooWt88K
+         LQ7b0Wm6T9rpwnxpjLpJSDo0mx7Ar0oSQOh22fxFpxsurRK+osX4w8raIkJoQ8iQkpKP
+         91ESox4eJ95E+WzqyGdvdpGOKHRFxTm9LL8IJqFyGSLj03VMBv6+sx3rJ2bd1jSyLpuW
+         stLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y2XR1ngTwyxpwjENRmmRKJhts/5F/OilmxQWITQoZvQ=;
-        b=nLDYa0bljRMWuMfR04IMRmHC8na718e2JLNh8dF7Fhoq0NcXSX7haSAjmiXJtmwjVM
-         xMSVIjevQaIGtvwUGiY/6JJLgJjpaCtv67iCw9CMDJNPgZNZoly8cE7/xTbtp3oYtZ6z
-         kBgI+TSnYedknGWMNr9+yr2ghOAJWxQ+W49rVZ9T5H1On2g4v8bhOfYadgTZKtDiNI04
-         0LaN75ewh2T++1ZHVIedG/MpIB2mn1lqCzmB4Jiqle1Pp13q7zyHwubd4gQdAKnMPzdF
-         4gmz/MGQY7ThU0gxt5TCY7UAn1laMNG9loxxrs/Mcpt5WMjPCAL3g/Rz/DhsREyImuQF
-         lfcw==
-X-Gm-Message-State: AOAM532xZnsp1ss+NmaYW59nTkcx+fA41cieX15lqZ184Q09vZ3mHzLk
-        YWUOo3DhowYJ22RuGATa56vGDg==
-X-Google-Smtp-Source: ABdhPJxmCviRUJKT+618pJo3OH+62/YOXf5UY9+1uIzxjn3ExQTbBk2XRMQ55+E62EXgsGkfOiqfVw==
-X-Received: by 2002:adf:fb06:: with SMTP id c6mr5064164wrr.117.1606934509539;
-        Wed, 02 Dec 2020 10:41:49 -0800 (PST)
+        bh=qcfRU1YbBQ04ItAE6mdwMxjNOIhFl6zoGdtG5ZWWz6Y=;
+        b=oAzyYZRASB5KjlUad+d/aWRJOFTFei8OQsK/WnF7xYCPGhZzgnVs4vm8sUrP6tgkrS
+         ALBEDFfyoxfQAiQKCZAaCV/Y+3QTq3YBrmAD0azkCZ+17Qh/iFDJVuVhrFxTrP2qhJKL
+         dX6QhrUqek8Fetk46uiutznFZ6Z91hI6U1OmEqs72KOIkUHwAIMM0/FmA/YmFnuBF2o5
+         0vYF/xfSytR7+W6q1DXgVjSVkG4ZLYqU+EvmAqXtA0m+NcInyT1xsx9nEWmyVlD+SyJe
+         gg9wOjRZlLHvzdsKqQOECtuIW9M08uiLEpdbrNg6adxIMSXE5MyDJCklCkWduLfqHXKt
+         ec2w==
+X-Gm-Message-State: AOAM532g6xMdnbfpDivaQ1nE5b8df+u6w5B+qgGGYf9EY8z8dX7QHSDM
+        g+3/MVFGsw9b++UpNTVghWm+IQ==
+X-Google-Smtp-Source: ABdhPJz/Y9ERJYjarEvm1qv0CECj56Dlnsv6FCiSdtWlW6kjM8WK1TRApQh5Lukq91apWPC5bp6dJg==
+X-Received: by 2002:a1c:bd87:: with SMTP id n129mr4533586wmf.32.1606934527867;
+        Wed, 02 Dec 2020 10:42:07 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id 90sm3102130wra.95.2020.12.02.10.41.48
+        by smtp.gmail.com with ESMTPSA id n128sm3160473wmb.46.2020.12.02.10.42.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 10:41:48 -0800 (PST)
+        Wed, 02 Dec 2020 10:42:06 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,9 +71,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v4 10/26] kvm: arm64: Move hyp-init params to a per-CPU struct
-Date:   Wed,  2 Dec 2020 18:41:06 +0000
-Message-Id: <20201202184122.26046-11-dbrazdil@google.com>
+Subject: [PATCH v4 18/26] kvm: arm64: Forward safe PSCI SMCs coming from host
+Date:   Wed,  2 Dec 2020 18:41:14 +0000
+Message-Id: <20201202184122.26046-19-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
 References: <20201202184122.26046-1-dbrazdil@google.com>
@@ -83,185 +83,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Once we start initializing KVM on newly booted cores before the rest of
-the kernel, parameters to __do_hyp_init will need to be provided by EL2
-rather than EL1. At that point it will not be possible to pass its three
-arguments directly because PSCI_CPU_ON only supports one context
-argument.
+Forward the following PSCI SMCs issued by host to EL3 as they do not
+require the hypervisor's intervention. This assumes that EL3 correctly
+implements the PSCI specification.
 
-Refactor __do_hyp_init to accept its parameters in a struct. This
-prepares the code for KVM booting cores as well as removes any limits on
-the number of __do_hyp_init arguments.
+Only function IDs implemented in Linux are included.
+
+Where both 32-bit and 64-bit variants exist, it is assumed that the host
+will always use the 64-bit variant.
+
+ * SMCs that only return information about the system
+   * PSCI_VERSION        - PSCI version implemented by EL3
+   * PSCI_FEATURES       - optional features supported by EL3
+   * AFFINITY_INFO       - power state of core/cluster
+   * MIGRATE_INFO_TYPE   - whether Trusted OS can be migrated
+   * MIGRATE_INFO_UP_CPU - resident core of Trusted OS
+ * operations which do not affect the hypervisor
+   * MIGRATE             - migrate Trusted OS to a different core
+   * SET_SUSPEND_MODE    - toggle OS-initiated mode
+ * system shutdown/reset
+   * SYSTEM_OFF
+   * SYSTEM_RESET
+   * SYSTEM_RESET2
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- arch/arm64/include/asm/kvm_asm.h   |  6 ++++++
- arch/arm64/include/asm/kvm_hyp.h   |  2 +-
- arch/arm64/kernel/asm-offsets.c    |  3 +++
- arch/arm64/kvm/arm.c               | 23 +++++++++++++----------
- arch/arm64/kvm/hyp/nvhe/hyp-init.S | 16 +++++++---------
- arch/arm64/kvm/hyp/nvhe/hyp-main.c |  2 ++
- 6 files changed, 32 insertions(+), 20 deletions(-)
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c | 42 +++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/kvm_asm.h b/arch/arm64/include/asm/kvm_asm.h
-index 531f9d04eefd..1a7b91534a16 100644
---- a/arch/arm64/include/asm/kvm_asm.h
-+++ b/arch/arm64/include/asm/kvm_asm.h
-@@ -148,6 +148,12 @@ extern void *__vhe_undefined_symbol;
+diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+index 70b42f433449..5ad56a875ffa 100644
+--- a/arch/arm64/kvm/hyp/nvhe/psci-relay.c
++++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+@@ -54,14 +54,50 @@ static bool is_psci_call(u64 func_id)
+ 	}
+ }
  
- #endif
- 
-+struct kvm_nvhe_init_params {
-+	unsigned long tpidr_el2;
-+	unsigned long stack_hyp_va;
-+	phys_addr_t pgd_pa;
-+};
++static unsigned long psci_call(unsigned long fn, unsigned long arg0,
++			       unsigned long arg1, unsigned long arg2)
++{
++	struct arm_smccc_res res;
 +
- /* Translate a kernel address @ptr into its equivalent linear mapping */
- #define kvm_ksym_ref(ptr)						\
- 	({								\
-diff --git a/arch/arm64/include/asm/kvm_hyp.h b/arch/arm64/include/asm/kvm_hyp.h
-index 6b664de5ec1f..cb25c15e3d8d 100644
---- a/arch/arm64/include/asm/kvm_hyp.h
-+++ b/arch/arm64/include/asm/kvm_hyp.h
-@@ -14,6 +14,7 @@
- 
- DECLARE_PER_CPU(struct kvm_cpu_context, kvm_hyp_ctxt);
- DECLARE_PER_CPU(unsigned long, kvm_hyp_vector);
-+DECLARE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
- 
- #define read_sysreg_elx(r,nvh,vh)					\
- 	({								\
-@@ -98,4 +99,3 @@ void __noreturn __hyp_do_panic(bool restore_host, u64 spsr, u64 elr, u64 par);
- #endif
- 
- #endif /* __ARM64_KVM_HYP_H__ */
--
-diff --git a/arch/arm64/kernel/asm-offsets.c b/arch/arm64/kernel/asm-offsets.c
-index 7d32fc959b1a..8d6272a01a00 100644
---- a/arch/arm64/kernel/asm-offsets.c
-+++ b/arch/arm64/kernel/asm-offsets.c
-@@ -110,6 +110,9 @@ int main(void)
-   DEFINE(CPU_APGAKEYLO_EL1,	offsetof(struct kvm_cpu_context, sys_regs[APGAKEYLO_EL1]));
-   DEFINE(HOST_CONTEXT_VCPU,	offsetof(struct kvm_cpu_context, __hyp_running_vcpu));
-   DEFINE(HOST_DATA_CONTEXT,	offsetof(struct kvm_host_data, host_ctxt));
-+  DEFINE(NVHE_INIT_TPIDR_EL2,	offsetof(struct kvm_nvhe_init_params, tpidr_el2));
-+  DEFINE(NVHE_INIT_STACK_HYP_VA,	offsetof(struct kvm_nvhe_init_params, stack_hyp_va));
-+  DEFINE(NVHE_INIT_PGD_PA,	offsetof(struct kvm_nvhe_init_params, pgd_pa));
- #endif
- #ifdef CONFIG_CPU_PM
-   DEFINE(CPU_CTX_SP,		offsetof(struct cpu_suspend_ctx, sp));
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index 9e5d0ea84822..93a408c00249 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -51,6 +51,7 @@ DECLARE_KVM_HYP_PER_CPU(unsigned long, kvm_hyp_vector);
- 
- static DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
- unsigned long kvm_arm_hyp_percpu_base[NR_CPUS];
-+DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
- 
- /* The VMID used in the VTTBR */
- static atomic64_t kvm_vmid_gen = ATOMIC64_INIT(1);
-@@ -1384,9 +1385,7 @@ static int kvm_init_vector_slots(void)
- 
- static void cpu_init_hyp_mode(void)
++	arm_smccc_1_1_smc(fn, arg0, arg1, arg2, &res);
++	return res.a0;
++}
++
++static unsigned long psci_forward(struct kvm_cpu_context *host_ctxt)
++{
++	return psci_call(cpu_reg(host_ctxt, 0), cpu_reg(host_ctxt, 1),
++			 cpu_reg(host_ctxt, 2), cpu_reg(host_ctxt, 3));
++}
++
++static __noreturn unsigned long psci_forward_noreturn(struct kvm_cpu_context *host_ctxt)
++{
++	psci_forward(host_ctxt);
++	hyp_panic(); /* unreachable */
++}
++
+ static unsigned long psci_0_1_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
  {
--	phys_addr_t pgd_ptr;
--	unsigned long hyp_stack_ptr;
--	unsigned long tpidr_el2;
-+	struct kvm_nvhe_init_params *params = this_cpu_ptr_nvhe_sym(kvm_init_params);
- 	struct arm_smccc_res res;
+-	return PSCI_RET_NOT_SUPPORTED;
++	if ((func_id == kvm_host_psci_0_1_function_ids.cpu_off) ||
++	    (func_id == kvm_host_psci_0_1_function_ids.migrate))
++		return psci_forward(host_ctxt);
++	else
++		return PSCI_RET_NOT_SUPPORTED;
+ }
  
- 	/* Switch from the HYP stub to our own HYP init vector */
-@@ -1397,12 +1396,17 @@ static void cpu_init_hyp_mode(void)
- 	 * kernel's mapping to the linear mapping, and store it in tpidr_el2
- 	 * so that we can use adr_l to access per-cpu variables in EL2.
- 	 */
--	tpidr_el2 = (unsigned long)this_cpu_ptr_nvhe_sym(__per_cpu_start) -
--		    (unsigned long)kvm_ksym_ref(CHOOSE_NVHE_SYM(__per_cpu_start));
-+	params->tpidr_el2 = (unsigned long)this_cpu_ptr_nvhe_sym(__per_cpu_start) -
-+			    (unsigned long)kvm_ksym_ref(CHOOSE_NVHE_SYM(__per_cpu_start));
- 
--	pgd_ptr = kvm_mmu_get_httbr();
--	hyp_stack_ptr = __this_cpu_read(kvm_arm_hyp_stack_page) + PAGE_SIZE;
--	hyp_stack_ptr = kern_hyp_va(hyp_stack_ptr);
-+	params->stack_hyp_va = kern_hyp_va(__this_cpu_read(kvm_arm_hyp_stack_page) + PAGE_SIZE);
-+	params->pgd_pa = kvm_mmu_get_httbr();
-+
-+	/*
-+	 * Flush the init params from the data cache because the struct will
-+	 * be read while the MMU is off.
-+	 */
-+	kvm_flush_dcache_to_poc(params, sizeof(*params));
- 
- 	/*
- 	 * Call initialization code, and switch to the full blown HYP code.
-@@ -1411,8 +1415,7 @@ static void cpu_init_hyp_mode(void)
- 	 * cpus_have_const_cap() wrapper.
- 	 */
- 	BUG_ON(!system_capabilities_finalized());
--	arm_smccc_1_1_hvc(KVM_HOST_SMCCC_FUNC(__kvm_hyp_init),
--			  pgd_ptr, tpidr_el2, hyp_stack_ptr, &res);
-+	arm_smccc_1_1_hvc(KVM_HOST_SMCCC_FUNC(__kvm_hyp_init), virt_to_phys(params), &res);
- 	WARN_ON(res.a0 != SMCCC_RET_SUCCESS);
- 
- 	/*
-diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-init.S b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-index 931a8c38f085..e712e317337c 100644
---- a/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-+++ b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
-@@ -47,9 +47,7 @@ __invalid:
- 
- 	/*
- 	 * x0: SMCCC function ID
--	 * x1: HYP pgd
--	 * x2: per-CPU offset
--	 * x3: HYP stack
-+	 * x1: struct kvm_nvhe_init_params PA
- 	 */
- __do_hyp_init:
- 	/* Check for a stub HVC call */
-@@ -70,10 +68,13 @@ __do_hyp_init:
- 	mov	x0, #SMCCC_RET_NOT_SUPPORTED
- 	eret
- 
--1:
--	/* Set tpidr_el2 for use by HYP to free a register */
--	msr	tpidr_el2, x2
-+1:	ldr	x0, [x1, #NVHE_INIT_TPIDR_EL2]
-+	msr	tpidr_el2, x0
- 
-+	ldr	x0, [x1, #NVHE_INIT_STACK_HYP_VA]
-+	mov	sp, x0
-+
-+	ldr	x1, [x1, #NVHE_INIT_PGD_PA]
- 	phys_to_ttbr x0, x1
- alternative_if ARM64_HAS_CNP
- 	orr	x0, x0, #TTBR_CNP_BIT
-@@ -133,9 +134,6 @@ alternative_else_nop_endif
- 	msr	sctlr_el2, x0
- 	isb
- 
--	/* Set the stack */
--	mov	sp, x3
--
- 	/* Set the host vector */
- 	ldr	x0, =__kvm_hyp_host_vector
- 	kimg_hyp_va x0, x1
-diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-index 82df7fc24760..a4f1cac714d7 100644
---- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-+++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-@@ -16,6 +16,8 @@
- #define DECLARE_REG(type, name, ctxt, reg)	\
- 				type name = (type)cpu_reg(ctxt, (reg))
- 
-+DEFINE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
-+
- static void handle___kvm_vcpu_run(struct kvm_cpu_context *host_ctxt)
+ static unsigned long psci_0_2_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
  {
- 	DECLARE_REG(struct kvm_vcpu *, vcpu, host_ctxt, 1);
+ 	switch (func_id) {
++	case PSCI_0_2_FN_PSCI_VERSION:
++	case PSCI_0_2_FN_CPU_OFF:
++	case PSCI_0_2_FN64_AFFINITY_INFO:
++	case PSCI_0_2_FN64_MIGRATE:
++	case PSCI_0_2_FN_MIGRATE_INFO_TYPE:
++	case PSCI_0_2_FN64_MIGRATE_INFO_UP_CPU:
++		return psci_forward(host_ctxt);
++	case PSCI_0_2_FN_SYSTEM_OFF:
++	case PSCI_0_2_FN_SYSTEM_RESET:
++		psci_forward_noreturn(host_ctxt);
++		unreachable();
+ 	default:
+ 		return PSCI_RET_NOT_SUPPORTED;
+ 	}
+@@ -70,6 +106,10 @@ static unsigned long psci_0_2_handler(u64 func_id, struct kvm_cpu_context *host_
+ static unsigned long psci_1_0_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
+ {
+ 	switch (func_id) {
++	case PSCI_1_0_FN_PSCI_FEATURES:
++	case PSCI_1_0_FN_SET_SUSPEND_MODE:
++	case PSCI_1_1_FN64_SYSTEM_RESET2:
++		return psci_forward(host_ctxt);
+ 	default:
+ 		return psci_0_2_handler(func_id, host_ctxt);
+ 	}
 -- 
 2.29.2.454.gaff20da3a2-goog
 
