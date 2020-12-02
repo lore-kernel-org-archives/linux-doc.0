@@ -2,100 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFD8C83012
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E70C64E8A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:52:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1264B2065E
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:15:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34F1B2222A
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 07:52:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387534AbgLBHPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 02:15:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40852 "EHLO mail.kernel.org"
+        id S1728833AbgLBHwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 02:52:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47234 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728105AbgLBHPU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Dec 2020 02:15:20 -0500
-Date:   Wed, 2 Dec 2020 09:14:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606893279;
-        bh=r9lBvNLf060yzQHPZcKoDIPwOZLCXF+OC0jER6EqYE8=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wT49VF25j17+qMQAVEXVRjsH4L8jOTzl07zqrb3R6/MykEtip20Xt9J18zFMOaZ2v
-         UIE8Gqusz6j75TITTsJbOfI3E3FfrTzJ6BOWagH5bzy9BLdh+yt2jnejJgPuPHA9os
-         2VTy7RW8ddzE/3xCPSiM0eGtnB7iUkiaQi7so7e4=
-From:   Mike Rapoport <rppt@kernel.org>
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Tony Luck <tony.luck@intel.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org,
-        Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH v2 00/13] arch, mm: deprecate DISCONTIGMEM
-Message-ID: <20201202071427.GD751215@kernel.org>
-References: <43c53597-6267-bdc2-a975-0aab5daa0d37@physik.fu-berlin.de>
- <20201117062316.GB370813@kernel.org>
- <a7d01146-77f9-d363-af99-af3aee3789b4@physik.fu-berlin.de>
- <20201201102901.GF557259@kernel.org>
- <e3d5d791-8e4f-afcc-944c-24f66f329bd7@physik.fu-berlin.de>
- <20201201121033.GG557259@kernel.org>
- <49a2022c-f106-55ec-9390-41307a056517@physik.fu-berlin.de>
- <20201201135623.GA751215@kernel.org>
- <4c752ff0-27a6-b9d7-ab81-8aac1a3b7b65@physik.fu-berlin.de>
- <ea5bae0e-9f27-355f-d841-cf8b362b0b70@physik.fu-berlin.de>
+        id S1726148AbgLBHwQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 2 Dec 2020 02:52:16 -0500
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: vidtv: fix kernel-doc markups
+Date:   Wed,  2 Dec 2020 08:51:28 +0100
+Message-Id: <7d86a4c4aa112f87149ba4e247fcf8904153884c.1606895475.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ea5bae0e-9f27-355f-d841-cf8b362b0b70@physik.fu-berlin.de>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Adrian,
+Some functions has a different name between their prototypes
+and the corresponding kernel-doc markups.
 
-On Tue, Dec 01, 2020 at 08:55:37PM +0100, John Paul Adrian Glaubitz wrote:
-> Hi Mike!
-> 
-> On 12/1/20 4:07 PM, John Paul Adrian Glaubitz wrote:
-> > This fixes the issue for me.
-> > 
-> > Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> 
-> I just booted the kernel from the linux-mm branch and I can't get the hpsa driver
-> to work anymore. Even if I compile it into the kernel, the driver is no longer
-> loaded and hence I can't access the disks.
-> 
-> Any idea what could be wrong?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/test-drivers/vidtv/vidtv_psi.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I know nearly nothing about SCSI, I can only suggest to enable all the
-debug options available and see if anything shows up :)
-
-> Adrian
-> 
-> -- 
->  .''`.  John Paul Adrian Glaubitz
-> : :' :  Debian Developer - glaubitz@debian.org
-> `. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
->   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-> 
-> 
-
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h b/drivers/media/test-drivers/vidtv/vidtv_psi.h
+index 340c9fb8d583..6651cc91bda1 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
+@@ -420,7 +420,7 @@ void vidtv_psi_desc_assign(struct vidtv_psi_desc **to,
+ 			   struct vidtv_psi_desc *desc);
+ 
+ /**
+- * vidtv_psi_pmt_desc_assign - Assigns a descriptor loop at some point in a PMT section.
++ * vidtv_pmt_desc_assign - Assigns a descriptor loop at some point in a PMT section.
+  * @pmt: The PMT section that will contain the descriptor loop
+  * @to: Where in the PMT to assign this descriptor loop to
+  * @desc: The descriptor loop that will be assigned.
+@@ -434,7 +434,7 @@ void vidtv_pmt_desc_assign(struct vidtv_psi_table_pmt *pmt,
+ 			   struct vidtv_psi_desc *desc);
+ 
+ /**
+- * vidtv_psi_sdt_desc_assign - Assigns a descriptor loop at some point in a SDT.
++ * vidtv_sdt_desc_assign - Assigns a descriptor loop at some point in a SDT.
+  * @sdt: The SDT that will contain the descriptor loop
+  * @to: Where in the PMT to assign this descriptor loop to
+  * @desc: The descriptor loop that will be assigned.
+@@ -474,7 +474,7 @@ void vidtv_psi_pmt_stream_assign(struct vidtv_psi_table_pmt *pmt,
+ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc);
+ 
+ /**
+- * vidtv_psi_create_sec_for_each_pat_entry - Create a PMT section for each
++ * vidtv_psi_pmt_create_sec_for_each_pat_entry - Create a PMT section for each
+  * program found in the PAT
+  * @pat: The PAT to look for programs.
+  * @pcr_pid: packet ID for the PCR to be used for the program described in this
 -- 
-Sincerely yours,
-Mike.
+2.28.0
+
