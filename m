@@ -2,145 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD9DC64E7C
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 10:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95485C71156
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 14:11:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C653221FA
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 10:21:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 435DC221FB
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 14:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727623AbgLBKVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 05:21:17 -0500
-Received: from mga17.intel.com ([192.55.52.151]:11190 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726999AbgLBKVR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 2 Dec 2020 05:21:17 -0500
-IronPort-SDR: /2VZTNvg07CkGomuxFZxitSx1EP3D86Ux18t87HJJTYGg7dVGludhkoUyajKpLqxtWI1t4Qa/+
- Q0MxU8nypzWw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="152821040"
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
-   d="scan'208";a="152821040"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 02:20:36 -0800
-IronPort-SDR: usmZG6ykcOge6j+qtpi+/AmT7L0AXlqzuqIbYqemdNdLlFUJlTiJl5ooTETocVtz/JPXYtBe2U
- Z7G8CvCkmxLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
-   d="scan'208";a="537934763"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.94]) ([10.237.72.94])
-  by fmsmga006.fm.intel.com with ESMTP; 02 Dec 2020 02:20:35 -0800
-Subject: Re: [PATCH] docs: ABI: sysfs-driver-ufs: Add DeepSleep power mode
-From:   Adrian Hunter <adrian.hunter@intel.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-References: <20201106153615.13033-1-adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <fc4a5df4-8913-474c-07c0-1daf71750e8a@intel.com>
-Date:   Wed, 2 Dec 2020 12:20:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1727460AbgLBOLH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 09:11:07 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:34248 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727060AbgLBOLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 09:11:07 -0500
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1606918224;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=laNf2sIhNkUADdBI8V7T00rnatL7Qu70dn5WJMC3hJc=;
+        b=a4kXOw7FMRylLzhob+Ac4Q/iPYMaMdC6mf8fdgtgBBeq/qg8xQ8wYYulUUwSpQLBxFXdrP
+        9mttzGnGsF5+hk+0gMXxPaxeJXZba3KZtCkSBEDWxWGYQErl1QHWHdZjwMeLPrYdHq9g0Z
+        0wPLkBG7zlqJACxx/4R8O6JwWvYf9He9bcE/MOO8d5FxgwEp5L312p96Qe3Sfbi9G7WbLP
+        27laX+uDEPO1pPhC3rS1hD3V/BqmTTotXE43wqGDRWP3c3BaV4O42sWtNmsr3tQBXauC+P
+        IQAVdM0qQ4QnZr6LFRSykfvMrcOfyIvfChAldIv7PIH4sP8z34qWIwRUeIyAFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1606918224;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=laNf2sIhNkUADdBI8V7T00rnatL7Qu70dn5WJMC3hJc=;
+        b=9ucGiQ79Elv+XOkf6KYA3tF5s/iuJcipu0ffPG+zXMIraMUbBvsq/1dJFB33xqKOwpYqkp
+        +8h8ooLmEFwcxgCg==
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 13/16] sched: fix kernel-doc markup
+In-Reply-To: <50cd6f460aeb872ebe518a8e9cfffda2df8bdb0a.1606823973.git.mchehab+huawei@kernel.org>
+References: <cover.1606823973.git.mchehab+huawei@kernel.org> <50cd6f460aeb872ebe518a8e9cfffda2df8bdb0a.1606823973.git.mchehab+huawei@kernel.org>
+Date:   Wed, 02 Dec 2020 15:10:24 +0100
+Message-ID: <87k0u0e1tb.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201106153615.13033-1-adrian.hunter@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/11/20 5:36 pm, Adrian Hunter wrote:
-> A patch for DeepSleep is in the scsi queue, but as per mkp:
-> 
-> 	I left out the sysfs ABI piece due to the conflicts.
-> 	I suggest you send that piece through the doc tree.
-> 
-> Ergo this patch.
-> 
-> Link: https://lore.kernel.org/r/yq1imaksb3g.fsf@ca-mkp.ca.oracle.com/
-> Signed-off-by: Adrian Hunter <adrian.hunter@intel.com>
+On Tue, Dec 01 2020 at 13:09, Mauro Carvalho Chehab wrote:
 
-Will anyone apply this?
+> Kernel-doc requires that a kernel-doc markup to be immediately
+> below the function prototype, as otherwise it will rename it.
 
-> ---
->  Documentation/ABI/testing/sysfs-driver-ufs | 34 +++++++++++++---------
->  1 file changed, 20 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-ufs b/Documentation/ABI/testing/sysfs-driver-ufs
-> index adc0d0e91607..e77fa784d6d8 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-ufs
-> +++ b/Documentation/ABI/testing/sysfs-driver-ufs
-> @@ -916,21 +916,24 @@ Date:		September 2014
->  Contact:	Subhash Jadavani <subhashj@codeaurora.org>
->  Description:	This entry could be used to set or show the UFS device
->  		runtime power management level. The current driver
-> -		implementation supports 6 levels with next target states:
-> +		implementation supports 7 levels with next target states:
->  
->  		==  ====================================================
-> -		0   an UFS device will stay active, an UIC link will
-> +		0   UFS device will stay active, UIC link will
->  		    stay active
-> -		1   an UFS device will stay active, an UIC link will
-> +		1   UFS device will stay active, UIC link will
->  		    hibernate
-> -		2   an UFS device will moved to sleep, an UIC link will
-> +		2   UFS device will be moved to sleep, UIC link will
->  		    stay active
-> -		3   an UFS device will moved to sleep, an UIC link will
-> +		3   UFS device will be moved to sleep, UIC link will
->  		    hibernate
-> -		4   an UFS device will be powered off, an UIC link will
-> +		4   UFS device will be powered off, UIC link will
->  		    hibernate
-> -		5   an UFS device will be powered off, an UIC link will
-> +		5   UFS device will be powered off, UIC link will
->  		    be powered off
-> +		6   UFS device will be moved to deep sleep, UIC link
-> +		will be powered off. Note, deep sleep might not be
-> +		supported in which case this value will not be accepted
->  		==  ====================================================
->  
->  What:		/sys/bus/platform/drivers/ufshcd/*/rpm_target_dev_state
-> @@ -954,21 +957,24 @@ Date:		September 2014
->  Contact:	Subhash Jadavani <subhashj@codeaurora.org>
->  Description:	This entry could be used to set or show the UFS device
->  		system power management level. The current driver
-> -		implementation supports 6 levels with next target states:
-> +		implementation supports 7 levels with next target states:
->  
->  		==  ====================================================
-> -		0   an UFS device will stay active, an UIC link will
-> +		0   UFS device will stay active, UIC link will
->  		    stay active
-> -		1   an UFS device will stay active, an UIC link will
-> +		1   UFS device will stay active, UIC link will
->  		    hibernate
-> -		2   an UFS device will moved to sleep, an UIC link will
-> +		2   UFS device will be moved to sleep, UIC link will
->  		    stay active
-> -		3   an UFS device will moved to sleep, an UIC link will
-> +		3   UFS device will be moved to sleep, UIC link will
->  		    hibernate
-> -		4   an UFS device will be powered off, an UIC link will
-> +		4   UFS device will be powered off, UIC link will
->  		    hibernate
-> -		5   an UFS device will be powered off, an UIC link will
-> +		5   UFS device will be powered off, UIC link will
->  		    be powered off
-> +		6   UFS device will be moved to deep sleep, UIC link
-> +		will be powered off. Note, deep sleep might not be
-> +		supported in which case this value will not be accepted
->  		==  ====================================================
->  
->  What:		/sys/bus/platform/drivers/ufshcd/*/spm_target_dev_state
-> 
-
+below?
