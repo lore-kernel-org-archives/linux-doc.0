@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07751C8301B
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71BBC83027
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1B7121D7F
+	by mail.kernel.org (Postfix) with ESMTP id 84962206D5
 	for <linux-doc@archiver.kernel.org>; Wed,  2 Dec 2020 18:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389564AbgLBSn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Dec 2020 13:43:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53932 "EHLO
+        id S2389627AbgLBSn6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Dec 2020 13:43:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389522AbgLBSnU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:20 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52FB0C0613D4
-        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:42:09 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id 3so11028660wmg.4
-        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:42:09 -0800 (PST)
+        with ESMTP id S2389564AbgLBSn3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Dec 2020 13:43:29 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57B2C061A55
+        for <linux-doc@vger.kernel.org>; Wed,  2 Dec 2020 10:41:48 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id a6so10140796wmc.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Dec 2020 10:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qcfRU1YbBQ04ItAE6mdwMxjNOIhFl6zoGdtG5ZWWz6Y=;
-        b=FHW7OMVvnhhhri9l5Ifx4Rrqhfsw/iXEfWL3Xv//E79ZdV/UcgaVz/W0r2HYbZvqeY
-         y2QPeIachgJaHG+rwCcgMXEco0yfQx0/re+sBTjr6jN3QPx9IhOX1g2yZimUEhTvMoB/
-         YR/6959KrrBVEVUmE+JaqtY45Jz6vNkVJSyz3+1p5vk6xN23TYB9XpSQ6p2AiooWt88K
-         LQ7b0Wm6T9rpwnxpjLpJSDo0mx7Ar0oSQOh22fxFpxsurRK+osX4w8raIkJoQ8iQkpKP
-         91ESox4eJ95E+WzqyGdvdpGOKHRFxTm9LL8IJqFyGSLj03VMBv6+sx3rJ2bd1jSyLpuW
-         stLA==
+        bh=pY9jRbioJhJf7MwxwtV14CQQVHe+rZSO6XuQoMfB3LY=;
+        b=NL0mNcnpizqXS1UX9W9Xx72wdHMsPuW8ohq6hfiQ1SgVzyFUmbVUVXO+UIp6cX3GXm
+         3RCq57FWsycLSju3jZUWCY5zUMAXA5v0bk+c/SHgZ+/DxvtNWejec3R7jeVgNTVOb2HP
+         bZ5FDOGmbS1J0e0Jdjsloi7TwnD2P14i6sFptC1oDSTb6TGcbtiIWyzIngfHvHg0nt67
+         r0zCYXyh+Hl9naVwqPp7J42lS4ZqCn+t8zbHpiCjyDpyOfMByZmYCs7dHw2V0ZQZar/0
+         cOrWwZ0Co16GFlvenZ9YCMR2+Dhj3+aApPouoNTu4ibFPYqp0AtKOFRF+GOJULHxAdVc
+         E+tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qcfRU1YbBQ04ItAE6mdwMxjNOIhFl6zoGdtG5ZWWz6Y=;
-        b=oAzyYZRASB5KjlUad+d/aWRJOFTFei8OQsK/WnF7xYCPGhZzgnVs4vm8sUrP6tgkrS
-         ALBEDFfyoxfQAiQKCZAaCV/Y+3QTq3YBrmAD0azkCZ+17Qh/iFDJVuVhrFxTrP2qhJKL
-         dX6QhrUqek8Fetk46uiutznFZ6Z91hI6U1OmEqs72KOIkUHwAIMM0/FmA/YmFnuBF2o5
-         0vYF/xfSytR7+W6q1DXgVjSVkG4ZLYqU+EvmAqXtA0m+NcInyT1xsx9nEWmyVlD+SyJe
-         gg9wOjRZlLHvzdsKqQOECtuIW9M08uiLEpdbrNg6adxIMSXE5MyDJCklCkWduLfqHXKt
-         ec2w==
-X-Gm-Message-State: AOAM532g6xMdnbfpDivaQ1nE5b8df+u6w5B+qgGGYf9EY8z8dX7QHSDM
-        g+3/MVFGsw9b++UpNTVghWm+IQ==
-X-Google-Smtp-Source: ABdhPJz/Y9ERJYjarEvm1qv0CECj56Dlnsv6FCiSdtWlW6kjM8WK1TRApQh5Lukq91apWPC5bp6dJg==
-X-Received: by 2002:a1c:bd87:: with SMTP id n129mr4533586wmf.32.1606934527867;
-        Wed, 02 Dec 2020 10:42:07 -0800 (PST)
+        bh=pY9jRbioJhJf7MwxwtV14CQQVHe+rZSO6XuQoMfB3LY=;
+        b=i2o5furrfIkcrEQ3vEGgCDa+fWJhYZcdozE9LdtfHQVYiGXFQZWQttER6eT/1bTqwK
+         mHM6OxVwB/v2kuC5Udb1QxblBiIYQaXr4B77VA1gcOeSb9kh9cJiiCb6fri4OW6kClKu
+         JLrmHNfHs2UbkncPu6L6pEIJ2IEbnbUmL9UIXQJdOtXZd0yrRI40I6cClkoRrtyR+zzf
+         e+yaA1X1bIMUYtGMqET6WLU2wZB9IjVh1pJYQv6acD6LqFi1UvL17F2YN6xeUUh0y8L7
+         xf+ryyyNCioJfcAfiwYSG1rvr6uZsbrwjv9cBB+mOz0iyPCQv6c24R4rvgEV2557qrt/
+         zBcw==
+X-Gm-Message-State: AOAM533Q4Ro46JbxKi14WNGP9ksS5HjKHOBvqV0ehCSXmVkN/j6aEk1S
+        DhnyAUxdOxEbR7HZjtl7P51FOg==
+X-Google-Smtp-Source: ABdhPJz89vM2fd/nDXaPHt9j0cPFTGj1oyMk3PstTs/+u86wCoX9DNGJNGbi4MtwwUU+yDdDBPf3FQ==
+X-Received: by 2002:a1c:328a:: with SMTP id y132mr4632122wmy.134.1606934507192;
+        Wed, 02 Dec 2020 10:41:47 -0800 (PST)
 Received: from localhost ([2a01:4b00:8523:2d03:5ddd:b7c5:e3c9:e87a])
-        by smtp.gmail.com with ESMTPSA id n128sm3160473wmb.46.2020.12.02.10.42.06
+        by smtp.gmail.com with ESMTPSA id n128sm3159374wmb.46.2020.12.02.10.41.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 10:42:06 -0800 (PST)
+        Wed, 02 Dec 2020 10:41:46 -0800 (PST)
 From:   David Brazdil <dbrazdil@google.com>
 To:     kvmarm@lists.cs.columbia.edu
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -71,9 +71,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel-team@android.com, David Brazdil <dbrazdil@google.com>
-Subject: [PATCH v4 18/26] kvm: arm64: Forward safe PSCI SMCs coming from host
-Date:   Wed,  2 Dec 2020 18:41:14 +0000
-Message-Id: <20201202184122.26046-19-dbrazdil@google.com>
+Subject: [PATCH v4 09/26] kvm: arm64: Remove vector_ptr param of hyp-init
+Date:   Wed,  2 Dec 2020 18:41:05 +0000
+Message-Id: <20201202184122.26046-10-dbrazdil@google.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
 References: <20201202184122.26046-1-dbrazdil@google.com>
@@ -83,101 +83,127 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Forward the following PSCI SMCs issued by host to EL3 as they do not
-require the hypervisor's intervention. This assumes that EL3 correctly
-implements the PSCI specification.
-
-Only function IDs implemented in Linux are included.
-
-Where both 32-bit and 64-bit variants exist, it is assumed that the host
-will always use the 64-bit variant.
-
- * SMCs that only return information about the system
-   * PSCI_VERSION        - PSCI version implemented by EL3
-   * PSCI_FEATURES       - optional features supported by EL3
-   * AFFINITY_INFO       - power state of core/cluster
-   * MIGRATE_INFO_TYPE   - whether Trusted OS can be migrated
-   * MIGRATE_INFO_UP_CPU - resident core of Trusted OS
- * operations which do not affect the hypervisor
-   * MIGRATE             - migrate Trusted OS to a different core
-   * SET_SUSPEND_MODE    - toggle OS-initiated mode
- * system shutdown/reset
-   * SYSTEM_OFF
-   * SYSTEM_RESET
-   * SYSTEM_RESET2
+KVM precomputes the hyp VA of __kvm_hyp_host_vector, essentially a
+constant (minus ASLR), before passing it to __kvm_hyp_init.
+Now that we have alternatives for converting kimg VA to hyp VA, replace
+this with computing the constant inside __kvm_hyp_init, thus removing
+the need for an argument.
 
 Signed-off-by: David Brazdil <dbrazdil@google.com>
 ---
- arch/arm64/kvm/hyp/nvhe/psci-relay.c | 42 +++++++++++++++++++++++++++-
- 1 file changed, 41 insertions(+), 1 deletion(-)
+ arch/arm64/include/asm/kvm_asm.h   |  2 --
+ arch/arm64/include/asm/kvm_mmu.h   | 24 ++++++++++++++++++++++++
+ arch/arm64/kvm/arm.c               |  4 +---
+ arch/arm64/kvm/hyp/nvhe/hyp-init.S |  9 ++++++---
+ 4 files changed, 31 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-index 70b42f433449..5ad56a875ffa 100644
---- a/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-+++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
-@@ -54,14 +54,50 @@ static bool is_psci_call(u64 func_id)
- 	}
- }
+diff --git a/arch/arm64/include/asm/kvm_asm.h b/arch/arm64/include/asm/kvm_asm.h
+index 4a6a77d8d13e..531f9d04eefd 100644
+--- a/arch/arm64/include/asm/kvm_asm.h
++++ b/arch/arm64/include/asm/kvm_asm.h
+@@ -163,10 +163,8 @@ struct kvm_vcpu;
+ struct kvm_s2_mmu;
  
-+static unsigned long psci_call(unsigned long fn, unsigned long arg0,
-+			       unsigned long arg1, unsigned long arg2)
-+{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_1_1_smc(fn, arg0, arg1, arg2, &res);
-+	return res.a0;
-+}
-+
-+static unsigned long psci_forward(struct kvm_cpu_context *host_ctxt)
-+{
-+	return psci_call(cpu_reg(host_ctxt, 0), cpu_reg(host_ctxt, 1),
-+			 cpu_reg(host_ctxt, 2), cpu_reg(host_ctxt, 3));
-+}
-+
-+static __noreturn unsigned long psci_forward_noreturn(struct kvm_cpu_context *host_ctxt)
-+{
-+	psci_forward(host_ctxt);
-+	hyp_panic(); /* unreachable */
-+}
-+
- static unsigned long psci_0_1_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
- {
--	return PSCI_RET_NOT_SUPPORTED;
-+	if ((func_id == kvm_host_psci_0_1_function_ids.cpu_off) ||
-+	    (func_id == kvm_host_psci_0_1_function_ids.migrate))
-+		return psci_forward(host_ctxt);
-+	else
-+		return PSCI_RET_NOT_SUPPORTED;
- }
+ DECLARE_KVM_NVHE_SYM(__kvm_hyp_init);
+-DECLARE_KVM_NVHE_SYM(__kvm_hyp_host_vector);
+ DECLARE_KVM_HYP_SYM(__kvm_hyp_vector);
+ #define __kvm_hyp_init		CHOOSE_NVHE_SYM(__kvm_hyp_init)
+-#define __kvm_hyp_host_vector	CHOOSE_NVHE_SYM(__kvm_hyp_host_vector)
+ #define __kvm_hyp_vector	CHOOSE_HYP_SYM(__kvm_hyp_vector)
  
- static unsigned long psci_0_2_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
+ extern unsigned long kvm_arm_hyp_percpu_base[NR_CPUS];
+diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
+index e298191a854d..e52d82aeadca 100644
+--- a/arch/arm64/include/asm/kvm_mmu.h
++++ b/arch/arm64/include/asm/kvm_mmu.h
+@@ -94,6 +94,30 @@ alternative_cb_end
+ 	sub	\reg, \reg, \tmp
+ .endm
+ 
++/*
++ * Convert a kernel image address to a hyp VA
++ * reg: kernel address to be converted in place
++ * tmp: temporary register
++ *
++ * The actual code generation takes place in kvm_get_kimage_voffset, and
++ * the instructions below are only there to reserve the space and
++ * perform the register allocation (kvm_update_kimg_phys_offset uses the
++ * specific registers encoded in the instructions).
++ */
++.macro kimg_hyp_va reg, tmp
++alternative_cb kvm_update_kimg_phys_offset
++	movz	\tmp, #0
++	movk	\tmp, #0, lsl #16
++	movk	\tmp, #0, lsl #32
++	movk	\tmp, #0, lsl #48
++alternative_cb_end
++
++	sub	\reg, \reg, \tmp
++	mov_q	\tmp, PAGE_OFFSET
++	orr	\reg, \reg, \tmp
++	kern_hyp_va \reg
++.endm
++
+ #else
+ 
+ #include <linux/pgtable.h>
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index d9e8d7dc7e11..9e5d0ea84822 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -1386,7 +1386,6 @@ static void cpu_init_hyp_mode(void)
  {
- 	switch (func_id) {
-+	case PSCI_0_2_FN_PSCI_VERSION:
-+	case PSCI_0_2_FN_CPU_OFF:
-+	case PSCI_0_2_FN64_AFFINITY_INFO:
-+	case PSCI_0_2_FN64_MIGRATE:
-+	case PSCI_0_2_FN_MIGRATE_INFO_TYPE:
-+	case PSCI_0_2_FN64_MIGRATE_INFO_UP_CPU:
-+		return psci_forward(host_ctxt);
-+	case PSCI_0_2_FN_SYSTEM_OFF:
-+	case PSCI_0_2_FN_SYSTEM_RESET:
-+		psci_forward_noreturn(host_ctxt);
-+		unreachable();
- 	default:
- 		return PSCI_RET_NOT_SUPPORTED;
- 	}
-@@ -70,6 +106,10 @@ static unsigned long psci_0_2_handler(u64 func_id, struct kvm_cpu_context *host_
- static unsigned long psci_1_0_handler(u64 func_id, struct kvm_cpu_context *host_ctxt)
- {
- 	switch (func_id) {
-+	case PSCI_1_0_FN_PSCI_FEATURES:
-+	case PSCI_1_0_FN_SET_SUSPEND_MODE:
-+	case PSCI_1_1_FN64_SYSTEM_RESET2:
-+		return psci_forward(host_ctxt);
- 	default:
- 		return psci_0_2_handler(func_id, host_ctxt);
- 	}
+ 	phys_addr_t pgd_ptr;
+ 	unsigned long hyp_stack_ptr;
+-	unsigned long vector_ptr;
+ 	unsigned long tpidr_el2;
+ 	struct arm_smccc_res res;
+ 
+@@ -1404,7 +1403,6 @@ static void cpu_init_hyp_mode(void)
+ 	pgd_ptr = kvm_mmu_get_httbr();
+ 	hyp_stack_ptr = __this_cpu_read(kvm_arm_hyp_stack_page) + PAGE_SIZE;
+ 	hyp_stack_ptr = kern_hyp_va(hyp_stack_ptr);
+-	vector_ptr = (unsigned long)kern_hyp_va(kvm_ksym_ref(__kvm_hyp_host_vector));
+ 
+ 	/*
+ 	 * Call initialization code, and switch to the full blown HYP code.
+@@ -1414,7 +1412,7 @@ static void cpu_init_hyp_mode(void)
+ 	 */
+ 	BUG_ON(!system_capabilities_finalized());
+ 	arm_smccc_1_1_hvc(KVM_HOST_SMCCC_FUNC(__kvm_hyp_init),
+-			  pgd_ptr, tpidr_el2, hyp_stack_ptr, vector_ptr, &res);
++			  pgd_ptr, tpidr_el2, hyp_stack_ptr, &res);
+ 	WARN_ON(res.a0 != SMCCC_RET_SUCCESS);
+ 
+ 	/*
+diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-init.S b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
+index b11a9d7db677..931a8c38f085 100644
+--- a/arch/arm64/kvm/hyp/nvhe/hyp-init.S
++++ b/arch/arm64/kvm/hyp/nvhe/hyp-init.S
+@@ -50,7 +50,6 @@ __invalid:
+ 	 * x1: HYP pgd
+ 	 * x2: per-CPU offset
+ 	 * x3: HYP stack
+-	 * x4: HYP vectors
+ 	 */
+ __do_hyp_init:
+ 	/* Check for a stub HVC call */
+@@ -134,9 +133,13 @@ alternative_else_nop_endif
+ 	msr	sctlr_el2, x0
+ 	isb
+ 
+-	/* Set the stack and new vectors */
++	/* Set the stack */
+ 	mov	sp, x3
+-	msr	vbar_el2, x4
++
++	/* Set the host vector */
++	ldr	x0, =__kvm_hyp_host_vector
++	kimg_hyp_va x0, x1
++	msr	vbar_el2, x0
+ 
+ 	/* Hello, World! */
+ 	mov	x0, #SMCCC_RET_SUCCESS
 -- 
 2.29.2.454.gaff20da3a2-goog
 
