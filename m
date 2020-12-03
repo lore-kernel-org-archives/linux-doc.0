@@ -2,133 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C95EC4361A
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 19:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 139D3C4361A
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 21:17:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B231D22203
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 19:24:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AADCD22225
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 21:17:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgLCTYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 14:24:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51014 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725981AbgLCTYK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Dec 2020 14:24:10 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A7E73221EC;
-        Thu,  3 Dec 2020 19:23:28 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=hot-poop.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1kkuCM-00Flnv-BO; Thu, 03 Dec 2020 19:23:26 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     kvmarm@lists.cs.columbia.edu, David Brazdil <dbrazdil@google.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
-        Tejun Heo <tj@kernel.org>, Dennis Zhou <dennis@kernel.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
-        Christoph Lameter <cl@linux.com>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v4 00/26] Opt-in always-on nVHE hypervisor
-Date:   Thu,  3 Dec 2020 19:23:19 +0000
-Message-Id: <160702322202.1501317.9696987088711766533.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201202184122.26046-1-dbrazdil@google.com>
-References: <20201202184122.26046-1-dbrazdil@google.com>
+        id S1726314AbgLCVQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 16:16:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726071AbgLCVQq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 16:16:46 -0500
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52F4C061A4F
+        for <linux-doc@vger.kernel.org>; Thu,  3 Dec 2020 13:16:05 -0800 (PST)
+Received: by mail-ot1-x344.google.com with SMTP id j21so3174505otp.8
+        for <linux-doc@vger.kernel.org>; Thu, 03 Dec 2020 13:16:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zE2K/CILOD7x/mQFo0Rz+6Lwz9iUEQy1K2ey3j7mIvY=;
+        b=RJvFpvNVdQHgoMCdGEJOrXTglxIdvZWaCGMEkkFNj5+/KVvxUKXNczdE5ARGh/r+X9
+         kRN9dZlFLDoQIULz9HzkGbo0WG33na8+2Az/iu3B5aSisUYemDodBckMjlQMW0Hul9u9
+         vDvOMQ7yewLVQhXF0RNF7q6iKv9e8vGalRbQg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zE2K/CILOD7x/mQFo0Rz+6Lwz9iUEQy1K2ey3j7mIvY=;
+        b=VLneepWeR7flqlRGuoXcvnLZrZ2ebR7vbdpjCB9nVa+opLHk7V2l39HrlvUv7DHePI
+         w8s7M3MWdyWdSi+fIhd1csnlOr75xtknzFjro2xDloj/2Y+XgkEYZ6L7TYeOOuMuyijY
+         Hpf5dMY8ANb33uAE5bXWxlmH4yH8/J8zRRjpAwrVDZYIs2cjAMuEH6UEoiPcv/6Td10k
+         t8rsl1tC2rdiH4Z9Yw/N/ccpsLED5WjEq0xWt17oW5KOuOASfa/jcJ11K57NkHcPj0JD
+         UQeVwTEGvAQ7meugPCC4AqH3Q+uN8e4P8n1ufZ9YL+beU0MhfztL/DJmewwn/i33rVH1
+         ADkQ==
+X-Gm-Message-State: AOAM533DbzhajF6lTYftl52iMFUj2LFciPuzg7klxk3pujF9YLRGFSRP
+        LpldES1BQkY+lpjQ22gNvOJbbE5jmjAAzDgND5aiwQ==
+X-Google-Smtp-Source: ABdhPJwja/l4kUHtGAIlv6RL6aUgPiP7VSPC3Nl7pi1/Z1gf00h+gOaHAH90utQ+YTf9v60rVzhn7EE9I/kZrwvwO/Q=
+X-Received: by 2002:a9d:23ca:: with SMTP id t68mr978736otb.281.1607030164448;
+ Thu, 03 Dec 2020 13:16:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: kvmarm@lists.cs.columbia.edu, dbrazdil@google.com, catalin.marinas@arm.com, lorenzo.pieralisi@arm.com, linux-kernel@vger.kernel.org, will@kernel.org, tj@kernel.org, dennis@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, kernel-team@android.com, linux-arm-kernel@lists.infradead.org, cl@linux.com, sudeep.holla@arm.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+References: <20201203191339.u5hfwy6ycrrzeb3z@adolin>
+In-Reply-To: <20201203191339.u5hfwy6ycrrzeb3z@adolin>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 3 Dec 2020 22:15:53 +0100
+Message-ID: <CAKMK7uFWb-4pGPMJyM7wwLkA-ayv1Axcs9+RNyM1q2SzwxHSBQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms: Add setup and testing information
+To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
+Cc:     Melissa Wen <melissa.srw@gmail.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Dave Airlie <airlied@linux.ie>,
+        Maxime Ripard <mripard@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2 Dec 2020 18:40:56 +0000, David Brazdil wrote:
-> As we progress towards being able to keep guest state private to the
-> host running nVHE hypervisor, this series allows the hypervisor to
-> install itself on newly booted CPUs before the host is allowed to run
-> on them.
-> 
-> All functionality described below is opt-in, guarded by an early param
-> 'kvm-arm.mode=protected'. Future patches specific to the new protected
-> mode should be hidden behind the same param.
-> 
-> [...]
+On Thu, Dec 3, 2020 at 8:13 PM Sumera Priyadarsini
+<sylphrenadin@gmail.com> wrote:
+>
+> Update the vkms documentation to contain steps to:
+>
+>  - setup the vkms driver
+>  - run tests using igt
+>
+> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+> ---
+>  Documentation/gpu/vkms.rst | 47 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
+>
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index 13bab1d93bb3..d6782174d23f 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -7,6 +7,53 @@
+>  .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
+>     :doc: vkms (Virtual Kernel Modesetting)
+>
+> +SETUP
 
-Applied to kvm-arm64/psci-relay, thanks!
+Absolute bikeshed, but we generally stick to titlecase for titles, so
+just "Setup" and "Testing with IGT".
+> +=====
+> +
+> +The VKMS driver can be setup with the following steps:
+> +
+> +To check if VKMS is loaded, run::
+> +
+> +  lsmod | grep vkms
+> +
+> +This should list the VKMS driver. If no output is obtained, then
+> +you need to enable and/or load the VKMS driver.
+> +Ensure that the VKMS driver has been set as a loadable module in your
+> +kernel config file. The following line should be present in the .config
+> +file in your kernel root::
+> +
+> +  CONFIG_DRM_VKMS=m
+> +
+> +Compile and build the kernel for the changes to get reflected.
+> +If your existing config already has VKMS available as a loadable module,
+> +then there is no need to build the kernel again.
+> +Now, to load the driver, use::
+> +
+> +  sudo modprobe vkms
+> +
+> +On running the lsmod command now, the VKMS driver will appear listed.
+> +You can also observe the driver being loaded in the dmesg logs.
+> +
+> +To disable the driver, use ::
+> +
+> +  sudo modprobe -r vkms
+> +
+> +TESTING WITH IGT
+> +================
+> +
+> +The IGT GPU Tools is a test suite used specifically for debugging and
+> +development of the DRM drivers.
+> +The IGT Tools can be installed from
+> +`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
+> +Once you have installed IGT, you can run tests using::
+> +
+> +  ./scripts/run-tests.sh -t <name of test>
+> +
+> +For example, to test the functionality of the igt_draw library,
+> +we can run the kms_draw_crc test::
+> +
+> +  ./scripts/run-tests.sh -t kms_draw_crc
 
-Note that although I pushed it to -next, I still need people to
-eyeball it and give it some Acks. The commit-IDs below will
-thus change as I apply tags, if any.
+If we run igt tests directly, there's an option to select the right
+device. This is important if you have more than one gpu driver
+(usually the case if you run this directly, but even on virtual
+machines there should usually be a drm driver around).  E.g. when I
+run a test directly:
 
-[01/26] KVM: arm64: Add kvm-arm.mode early kernel parameter
-        commit: 2d4b0ce5c9b62398522b4b078cfd2cc0fa3fb604
-[02/26] KVM: arm64: Add ARM64_KVM_PROTECTED_MODE CPU capability
-        commit: 44e88d43c442adcebebec5b9e23f260a03a25120
-[03/26] psci: Support psci_ops.get_version for v0.1
-        commit: 47e4000e4f6ea4496accf7e3e68c29f38ca4e179
-[04/26] psci: Split functions to v0.1 and v0.2+ variants
-        commit: 1fbb7db86fb5f1cd7a2c9ec9c477acb67ac986a7
-[05/26] psci: Replace psci_function_id array with a struct
-        commit: c801a91084f382ab8f9707bd33e6ccb7012e1e50
-[06/26] psci: Add accessor for psci_0_1_function_ids
-        commit: 26c9988c7330b2225ba39cae9de43b0bfff57e2a
-[07/26] arm64: Make cpu_logical_map() take unsigned int
-        commit: 2346f8b8ea0bb140d67ba6f06b67aec06e238dde
-[08/26] arm64: Extract parts of el2_setup into a macro
-        commit: 9c322020286c60fbdd97f6a8c41362be5f4f8bb9
-[09/26] KVM: arm64: Remove vector_ptr param of hyp-init
-        commit: 1db5bd14716029c8859551e9c38fe76818959b7b
-[10/26] KVM: arm64: Move hyp-init params to a per-CPU struct
-        commit: 4a836c1e69dbeb14f69d554e1fe36d2e619d94fc
-[11/26] KVM: arm64: Init MAIR/TCR_EL2 from params struct
-        commit: 5e664b8539c396dbceaccb6bef2a9ed48964906a
-[12/26] KVM: arm64: Add .hyp.data..ro_after_init ELF section
-        commit: 89f3705ca070900a127f181ce724aa6c1e9c9479
-[13/26] KVM: arm64: Support per_cpu_ptr in nVHE hyp code
-        commit: 2091f4271a400169d8fa8004bf743aa815c3c5d4
-[14/26] KVM: arm64: Create nVHE copy of cpu_logical_map
-        commit: 626aa81e14f9d723fe91fdb5c1030f73f929d0ad
-[15/26] KVM: arm64: Add SMC handler in nVHE EL2
-        commit: 0ec63d737071f483ab6fc63e2d9b59d0d4cc59fd
-[16/26] KVM: arm64: Bootstrap PSCI SMC handler in nVHE EL2
-        commit: 5988416e2234db36b80c510c1ae99a6de0c1431d
-[17/26] KVM: arm64: Add offset for hyp VA <-> PA conversion
-        commit: bf9dc203286ce42de948dbb0d3fdaea51e2ab37f
-[18/26] KVM: arm64: Forward safe PSCI SMCs coming from host
-        commit: 0e11d688605f1772098add3a755503688db2d06f
-[19/26] KVM: arm64: Extract __do_hyp_init into a helper function
-        commit: 294f71ad53625f75531dd43d775efc3507cd9b0a
-[20/26] KVM: arm64: Add function to enter host from KVM nVHE hyp code
-        commit: cb9773719fc405e8cc2041cd457fcd8655863a78
-[21/26] KVM: arm64: Intercept host's CPU_ON SMCs
-        commit: 6ed1b8bd3c623d4e0e4441a2a73dbda162e3ebe7
-[22/26] KVM: arm64: Intercept host's CPU_SUSPEND PSCI SMCs
-        commit: 5f51e7f65258cea36833c793625f4fb6d0e38426
-[23/26] KVM: arm64: Intercept host's SYSTEM_SUSPEND PSCI SMCs
-        commit: dfa751cfd54b3f9ac1d89050cf0ad6c6bc3a9dc5
-[24/26] KVM: arm64: Keep nVHE EL2 vector installed
-        commit: 0c8078f56aa99ab4350d9ae3dabd3504d2f11fbd
-[25/26] KVM: arm64: Trap host SMCs in protected mode
-        commit: 4e3e6c3acb741a9692e0b772e92368fee85dced8
-[26/26] KVM: arm64: Fix EL2 mode availability checks
-        commit: 5e7953174eb1966d4cdc70caf3708afc8c4dd5f9
+# tests/kms_flip --device drm:/dev/dri/card0
 
-Cheers,
+I'm not sure whether there's an option that's always going to select
+the vkms device. I'm also not sure you can pass these options to
+run-tests.sh, I kinda don't use that one myself ...
 
-	M.
+Aside from that looks all good to me.
+-Daniel
+
+> +
+>  TODO
+>  ====
+>
+> --
+> 2.25.1
+>
+
+
 -- 
-Without deviation from the norm, progress is not possible.
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
