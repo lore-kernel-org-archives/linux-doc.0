@@ -2,96 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A11C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 16:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC45C0007A
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 17:13:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35FE9207A5
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 16:23:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 267B0207A5
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 17:13:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436776AbgLCQXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 11:23:18 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:55826 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436766AbgLCQXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 11:23:18 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B3GM93X012653;
-        Thu, 3 Dec 2020 10:22:09 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1607012529;
-        bh=S3AFaUzJoub60vRRyYRzulKzsuGYCd0b4YS/6BXU4Dc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=hwn3l4YL0YRj6YxNfaNfh5x4GsJiSCeWKe3dY0HiyfLmlAnxmzk1vEIsL5lxONW+G
-         n95O7cNzNnq37qxWEQb9In92+gOcg0BF6gp0Os6UGEXQcbvHUyJOyh/Fx7v8ZMoKM0
-         llqiXQOwNhBzyZFxNySYLG/UGhdB5RsGoE7i1ouA=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B3GM8aR127125
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Dec 2020 10:22:08 -0600
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 3 Dec
- 2020 10:22:07 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 3 Dec 2020 10:22:07 -0600
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B3GM5r6078920;
-        Thu, 3 Dec 2020 10:22:06 -0600
-Subject: Re: [PATCH 1/4] net: ti: am65-cpsw-nuss: Add devlink support
-To:     Andrew Lunn <andrew@lunn.ch>, Vignesh Raghavendra <vigneshr@ti.com>
-CC:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@nvidia.com>,
-        <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>
-References: <20201130082046.16292-1-vigneshr@ti.com>
- <20201130082046.16292-2-vigneshr@ti.com> <20201130155044.GE2073444@lunn.ch>
- <cc7fe740-1002-f1b9-8136-e1ba60cf2541@ti.com>
- <20201203141838.GE2333853@lunn.ch>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <d4ab92c8-8b70-ce26-e47f-d5172c8fd4e7@ti.com>
-Date:   Thu, 3 Dec 2020 18:22:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726257AbgLCRN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 12:13:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47228 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2501929AbgLCRNY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 12:13:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607015518;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zaqAemO/Fsujg9r8lt/SFqF1ctdGuOQUqsO5lgI9LxY=;
+        b=eapRq1a/cEDgA0rlGekknwtGedJqPGEcwuF08WAje/e7/Q0c3mCr2p3nHuSAtCYk7tch61
+        vhOX38J70DdI2K/Wv6dDcdeCyaAqbTKitwotK8HCJQAhKsnLYRIYwpARxIw9e4JZ7ETzDm
+        LvrKY4WFdLnX03Mxtp+LYPVjFFyfvtg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-6I46_4btNSS0GSJXwwek_Q-1; Thu, 03 Dec 2020 12:11:55 -0500
+X-MC-Unique: 6I46_4btNSS0GSJXwwek_Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51CEC180A089;
+        Thu,  3 Dec 2020 17:11:27 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2475A6F963;
+        Thu,  3 Dec 2020 17:11:19 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK),
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        linux-kernel@vger.kernel.org (open list),
+        Ingo Molnar <mingo@redhat.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH v2 0/3] RFC: Precise TSC migration
+Date:   Thu,  3 Dec 2020 19:11:15 +0200
+Message-Id: <20201203171118.372391-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203141838.GE2333853@lunn.ch>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi!=0D
+=0D
+This is the second version of the work to make TSC migration more accurate,=
+=0D
+as was defined by Paulo at:=0D
+https://www.spinics.net/lists/kvm/msg225525.html=0D
+=0D
+I omitted most of the semi-offtopic points I raised related to TSC=0D
+in the previous RFC where we can continue the discussion.=0D
+=0D
+I do want to raise another thing that I almost forgot.=0D
+=0D
+On AMD systems, the Linux kernel will mark the guest tsc as=0D
+unstable unless invtsc is set which is set on recent AMD=0D
+hardware.=0D
+=0D
+Take a look at 'unsynchronized_tsc()' to verify this.=0D
+=0D
+This is another thing that IMHO should be fixed at least when=0D
+running under KVM.=0D
+=0D
+Note that I forgot to mention that=0D
+X86_FEATURE_TSC_RELIABLE also short-circuits this code,=0D
+thus giving another reason to enable it under KVM.=0D
+=0D
+Changes from V1:=0D
+=0D
+- added KVM_TSC_STATE_TIMESTAMP_VALID instead of testing ns =3D=3D 0=0D
+- allow diff < 0, because it is still better that capping it to 0=0D
+- updated tsc_msr_test unit test to cover this feature=0D
+- refactoring=0D
+=0D
+Patches to enable this feature in qemu are in the process of=0D
+being sent to qemu-devel mailing list.=0D
+=0D
+Best regards,=0D
+    Maxim Levitsky=0D
+=0D
+Maxim Levitsky (3):=0D
+  KVM: x86: implement KVM_{GET|SET}_TSC_STATE=0D
+  KVM: x86: introduce KVM_X86_QUIRK_TSC_HOST_ACCESS=0D
+  kvm/selftests: update tsc_msrs_test to cover=0D
+    KVM_X86_QUIRK_TSC_HOST_ACCESS=0D
+=0D
+ Documentation/virt/kvm/api.rst                | 65 +++++++++++++=0D
+ arch/x86/include/uapi/asm/kvm.h               |  1 +=0D
+ arch/x86/kvm/x86.c                            | 92 ++++++++++++++++++-=0D
+ include/uapi/linux/kvm.h                      | 15 +++=0D
+ .../selftests/kvm/x86_64/tsc_msrs_test.c      | 79 ++++++++++++++--=0D
+ 5 files changed, 237 insertions(+), 15 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
-
-On 03/12/2020 16:18, Andrew Lunn wrote:
->> We don't want to enable HW based switch support unless explicitly
->> asked by user.
-> 
-> This is the key point. Why? Does individual ports when passed through
-> the switch not work properly? Does it add extra latency/jitter?
-
-When switch mode is enabled the forwarding is enabled by default and can't be completely
-disabled, while in multi port mode every port and switch tables (ALE) configured so no packet
-leaking between ports is happen.
-The multi port is the requirement for us to have as default mode no mater to what upper interface
-ports are attached to LAG, LRE (HSR/PRP) or bridge.
-
-Switching between modes required significant Port and ALE reconfiguration there for
-technical decision made and implemented to use parameter for mode change (by using devlink).
-
-It also allows to keep user interface similar to what was implements for previous generation
-of TI CPSW (am3/4/5).
-
--- 
-Best regards,
-grygorii
