@@ -7,229 +7,76 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 098AAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 17:18:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C287C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 19:14:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B143F206B6
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 17:18:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 128A2206F6
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 19:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731503AbgLCRR6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 12:17:58 -0500
-Received: from mga17.intel.com ([192.55.52.151]:56029 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731416AbgLCRR6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Dec 2020 12:17:58 -0500
-IronPort-SDR: w2ivBGOykBHnyrJm4CM9XvRIzMptEl0OjhkailVuVfKS7cR7F+9Hg+dwIAYGPWMrAgabEx2R2m
- WHZyQQf35GMQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="153060637"
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
-   d="scan'208";a="153060637"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 09:14:36 -0800
-IronPort-SDR: 2U/PH/zWXUMraBvOVHZ0Jy+1vTrDlfXHV3+NJLPPKjtnV8VwxC7gV6AOkGQntccCXodJPWLSp2
- /IQC1sInZfrA==
-X-IronPort-AV: E=Sophos;i="5.78,390,1599548400"; 
-   d="scan'208";a="336032790"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.140])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 09:14:35 -0800
-From:   matthew.gerlach@linux.intel.com
-To:     linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mdf@kernel.org, hao.wu@intel.com, trix@redhat.com,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v4 2/2] fpga: dfl-pci: locate DFLs by PCIe vendor specific capability
-Date:   Thu,  3 Dec 2020 09:15:48 -0800
-Message-Id: <20201203171548.1538178-3-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201203171548.1538178-1-matthew.gerlach@linux.intel.com>
-References: <20201203171548.1538178-1-matthew.gerlach@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726620AbgLCTOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 14:14:21 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:47079 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726629AbgLCTOV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 14:14:21 -0500
+Received: from orion.localdomain ([95.118.71.13]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MRSZX-1kYaKc2hyn-00NQ2q; Thu, 03 Dec 2020 20:11:39 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, info@metux.net, mst@redhat.com,
+        jasowang@redhat.com, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH v2 1/2] drivers: gpio: put virtual gpio device into their own submenu
+Date:   Thu,  3 Dec 2020 20:11:34 +0100
+Message-Id: <20201203191135.21576-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:aD2+iVIcNpdQrY5wIXXIxV+rDmOoUKKtGmWxyejH/O01QJPlfrj
+ iIB0sjkq/sX52TijJKkNSNyPwjiEsDN9x2Xct60/y47lyMmIjEcUrejRHgOxS/zACxqwqAW
+ 87tm74VqQCuPrBriOEfU1hZ+wIB7nd17P9MQkkgHrAcZKsYGTv0t7FCBTN0FvogpzjN58df
+ jm7RFZwxj7eyUjZfUuVOw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vFKWEtG98l0=:OBqv3UErgUCfsvx7zfIhCR
+ CVtTjpJuaH3WIGsywghkvmCKrvGMX0p7T7ql07bCjayhSKaCXAXLnSV893ijZeXayKxajmrUP
+ Jx9yMK6ITOZwNGix9kfyLlrhnJdn/6m/DfJobcJfeSjFKlEvYjV7Zh51jtswjAjvclDpvO7XX
+ 1wzWrZTARq4n1RX/AC1T0Sz1cCjFXFjpo1wKipjjssUFS0KK5qNYodIwYTx4lGj1rX7FfLQgE
+ U8KhlGQCTjvsACSCVhpsXrKy2KHTuVN+/DRUV3IYuX9rkM/h00w1e1C2Kx3XhtEBvT5qswOnv
+ Yc1Jp11Ws70SpIA/5SMueO1zK7b/z/01RQXsu/f3MBV6iuF+4ky/w2WbiQMHMrL8b7bJHj8NV
+ is9SFUTvq4FiFUmzkZGO4ZNGl5JscX36WH0wLvZ+Omnbtv8Umb0hMl/ZK4iIF
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Since we already have a few virtual gpio devices, and more to come,
+this category deserves its own submenu.
 
-A PCIe vendor specific extended capability is introduced by Intel to
-specify the start of a number of DFLs.
-
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
-v4: Clarify PCI vs. PCIe in documentation
-    Various cleanup suggested by hao.wu@intel.com
-    Document and enforce specifying a single DFL per BAR
+ drivers/gpio/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-v3: Add text and ascii art to documentation.
-    Ensure not to exceed PCIe config space in loop.
-
-v2: Update documentation for clarity.
-    Clean up  macro names.
-    Use GENMASK.
-    Removed spurious blank lines.
-    Changed some calls from dev_info to dev_dbg.
-    Specifically check for VSEC not found, -ENODEV.
-    Ensure correct pci vendor id.
-    Remove check for page alignment.
-    Rename find_dfl_in_cfg to find_dfls_by_vsec.
-    Initialize target memory of pci_read_config_dword to invalid values before use.
----
- Documentation/fpga/dfl.rst | 27 ++++++++++++
- drivers/fpga/dfl-pci.c     | 87 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 113 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index 0404fe6ffc74..ea8cefc18bdb 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -501,6 +501,33 @@ Developer only needs to provide a sub feature driver with matched feature id.
- FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
- could be a reference.
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 5d4de5cd6759..01619eb58396 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -1590,6 +1590,8 @@ config GPIO_VIPERBOARD
  
-+Location of DFLs on a PCI Device
-+===========================
-+The original method for finding a DFL on a PCI device assumed the start of the
-+first DFL to offset 0 of bar 0.  If the first node of the DFL is an FME,
-+then further DFLs in the port(s) are specified in FME header registers.
-+Alternatively, a PCIe vendor specific capability structure can be used to
-+specify the location of all the DFLs on the device, providing flexibility
-+for the type of starting node in the DFL.  Intel has reserved the
-+VSEC ID of 0x43 for this purpose.  The vendor specific
-+data begins with a 4 byte vendor specific register for the number of DFLs followed 4 byte
-+Offset/BIR vendor specific registers for each DFL. Bits 2:0 of Offset/BIR register
-+indicates the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
-+zero.
-+
-+        +----------------------------+
-+        |31     Number of DFLS      0|
-+        +----------------------------+
-+        |31     Offset     3|2 BIR  0|
-+        +----------------------------+
-+                      . . .
-+        +----------------------------+
-+        |31     Offset     3|2 BIR  0|
-+        +----------------------------+
-+
-+Being able to specify more than one DFL per BAR has been considered, but it
-+was determined the use case did not provide value.  Specifying a single DFL
-+per BAR simplifies the implementation and allows for extra error checking.
+ endmenu
  
- Open discussion
- ===============
-diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index 5100695e27cd..04e47e266f26 100644
---- a/drivers/fpga/dfl-pci.c
-+++ b/drivers/fpga/dfl-pci.c
-@@ -27,6 +27,14 @@
- #define DRV_VERSION	"0.8"
- #define DRV_NAME	"dfl-pci"
++menu "Virtual GPIO devices"
++
+ config GPIO_AGGREGATOR
+ 	tristate "GPIO Aggregator"
+ 	help
+@@ -1613,4 +1615,6 @@ config GPIO_MOCKUP
+ 	  tools/testing/selftests/gpio/gpio-mockup.sh. Reference the usage in
+ 	  it.
  
-+#define PCI_VSEC_ID_INTEL_DFLS 0x43
++endmenu
 +
-+#define PCI_VNDR_DFLS_CNT 0x8
-+#define PCI_VNDR_DFLS_RES 0xc
-+
-+#define PCI_VNDR_DFLS_RES_BAR_MASK GENMASK(2, 0)
-+#define PCI_VNDR_DFLS_RES_OFF_MASK GENMASK(31, 3)
-+
- struct cci_drvdata {
- 	struct dfl_fpga_cdev *cdev;	/* container device */
- };
-@@ -119,6 +127,80 @@ static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
- 	return table;
- }
- 
-+static int find_dfls_by_vsec(struct pci_dev *pcidev, struct dfl_fpga_enum_info *info)
-+{
-+	u32 bir, offset, vndr_hdr, dfl_cnt, dfl_res;
-+	int dfl_res_off, i, bars, voff = 0;
-+	resource_size_t start, len;
-+
-+	while ((voff = pci_find_next_ext_capability(pcidev, voff, PCI_EXT_CAP_ID_VNDR))) {
-+		vndr_hdr = 0;
-+		pci_read_config_dword(pcidev, voff + PCI_VNDR_HEADER, &vndr_hdr);
-+
-+		if (PCI_VNDR_HEADER_ID(vndr_hdr) == PCI_VSEC_ID_INTEL_DFLS &&
-+		    pcidev->vendor == PCI_VENDOR_ID_INTEL)
-+			break;
-+	}
-+
-+	if (!voff) {
-+		dev_dbg(&pcidev->dev, "%s no DFL VSEC found\n", __func__);
-+		return -ENODEV;
-+	}
-+
-+	dfl_cnt = 0;
-+	pci_read_config_dword(pcidev, voff + PCI_VNDR_DFLS_CNT, &dfl_cnt);
-+	if (dfl_cnt > PCI_STD_NUM_BARS) {
-+		dev_err(&pcidev->dev, "%s too many DFLs %d > %d\n",
-+			__func__, dfl_cnt, PCI_STD_NUM_BARS);
-+		return -EINVAL;
-+	}
-+
-+	dfl_res_off = voff + PCI_VNDR_DFLS_RES;
-+	if (dfl_res_off + (dfl_cnt * sizeof(u32)) > PCI_CFG_SPACE_EXP_SIZE) {
-+		dev_err(&pcidev->dev, "%s DFL VSEC too big for PCIe config space\n",
-+			__func__);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0, bars = 0; i < dfl_cnt; i++, dfl_res_off += sizeof(u32)) {
-+		dfl_res = GENMASK(31, 0);
-+		pci_read_config_dword(pcidev, dfl_res_off, &dfl_res);
-+
-+		bir = dfl_res & PCI_VNDR_DFLS_RES_BAR_MASK;
-+		if (bir >= PCI_STD_NUM_BARS) {
-+			dev_err(&pcidev->dev, "%s bad bir number %d\n",
-+				__func__, bir);
-+			return -EINVAL;
-+		}
-+
-+		if (bars & BIT(bir)) {
-+			dev_err(&pcidev->dev, "%s DFL for BAR %d already specified\n",
-+				__func__, bir);
-+			return -EINVAL;
-+		}
-+
-+		bars |= BIT(bir);
-+
-+		len = pci_resource_len(pcidev, bir);
-+		offset = dfl_res & PCI_VNDR_DFLS_RES_OFF_MASK;
-+		if (offset >= len) {
-+			dev_err(&pcidev->dev, "%s bad offset %u >= %pa\n",
-+				__func__, offset, &len);
-+			return -EINVAL;
-+		}
-+
-+		dev_dbg(&pcidev->dev, "%s BAR %d offset 0x%x\n", __func__, bir, offset);
-+
-+		len -= offset;
-+
-+		start = pci_resource_start(pcidev, bir) + offset;
-+
-+		dfl_fpga_enum_info_add_dfl(info, start, len);
-+	}
-+
-+	return 0;
-+}
-+
- /* default method of finding dfls starting at offset 0 of bar 0 */
- static int find_dfls_by_default(struct pci_dev *pcidev,
- 				struct dfl_fpga_enum_info *info)
-@@ -220,7 +302,10 @@ static int cci_enumerate_feature_devs(struct pci_dev *pcidev)
- 			goto irq_free_exit;
- 	}
- 
--	ret = find_dfls_by_default(pcidev, info);
-+	ret = find_dfls_by_vsec(pcidev, info);
-+	if (ret == -ENODEV)
-+		ret = find_dfls_by_default(pcidev, info);
-+
- 	if (ret)
- 		goto irq_free_exit;
- 
+ endif
 -- 
-2.25.2
+2.11.0
 
