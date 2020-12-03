@@ -2,79 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA69DC63777
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 10:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DFBC71156
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 11:13:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E543208A9
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 10:56:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0042422241
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 11:13:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388594AbgLCK4B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 05:56:01 -0500
-Received: from foss.arm.com ([217.140.110.172]:37062 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387870AbgLCK4B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 3 Dec 2020 05:56:01 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFD0F113E;
-        Thu,  3 Dec 2020 02:55:15 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.0.87])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 129CC3F66B;
-        Thu,  3 Dec 2020 02:55:11 -0800 (PST)
-Date:   Thu, 3 Dec 2020 10:55:09 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Christoph Lameter <cl@linux.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v4 16/26] kvm: arm64: Bootstrap PSCI SMC handler in nVHE
- EL2
-Message-ID: <20201203105509.GD96754@C02TD0UTHF1T.local>
-References: <20201202184122.26046-1-dbrazdil@google.com>
- <20201202184122.26046-17-dbrazdil@google.com>
+        id S1727764AbgLCLN3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 06:13:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27593 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387757AbgLCLN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 06:13:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606993922;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Oj9Eb3KtE+2YyHKM1FeeyiYyawdfTwBxc5qATzsgyHM=;
+        b=hYl7TofntswluDUsxUvPeupzoqakfIdKTqb+Tk3vSILiQpZrVYI9aTX7TQ52Ap//C4IsIV
+        nGePjflOwu7Htjvdj62vtmwRjAnV2+IdqQ2IHch5WCHDc9Z83LIOGH6CsNcX9V8jWPxje/
+        nn004rKHgSeDWVd3rPsGpyHRzGw8fXI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-0Ehb4NofNIuuNpcntl7fgQ-1; Thu, 03 Dec 2020 06:11:59 -0500
+X-MC-Unique: 0Ehb4NofNIuuNpcntl7fgQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 802F780732C;
+        Thu,  3 Dec 2020 11:11:56 +0000 (UTC)
+Received: from starship (unknown [10.35.206.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6787A1A8A0;
+        Thu,  3 Dec 2020 11:11:49 +0000 (UTC)
+Message-ID: <cd1c80e6ed7367f8736a965c4100c333b79bbdcc.camel@redhat.com>
+Subject: Re: [PATCH 1/2] KVM: x86: implement
+ KVM_SET_TSC_PRECISE/KVM_GET_TSC_PRECISE
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Jim Mattson <jmattson@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>
+Date:   Thu, 03 Dec 2020 13:11:47 +0200
+In-Reply-To: <87h7p5fh1m.fsf@nanos.tec.linutronix.de>
+References: <20201130133559.233242-1-mlevitsk@redhat.com>
+         <20201130133559.233242-2-mlevitsk@redhat.com>
+         <87h7p5fh1m.fsf@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202184122.26046-17-dbrazdil@google.com>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 06:41:12PM +0000, David Brazdil wrote:
-> Add a handler of PSCI SMCs in nVHE hyp code. The handler is initialized
-> with the version used by the host's PSCI driver and the function IDs it
-> was configured with. If the SMC function ID matches one of the
-> configured PSCI calls (for v0.1) or falls into the PSCI function ID
-> range (for v0.2+), the SMC is handled by the PSCI handler. For now, all
-> SMCs return PSCI_RET_NOT_SUPPORTED.
+On Tue, 2020-12-01 at 20:43 +0100, Thomas Gleixner wrote:
+> On Mon, Nov 30 2020 at 15:35, Maxim Levitsky wrote:
+> > +  struct kvm_tsc_info {
+> > +	__u32 flags;
+> > +	__u64 nsec;
+> > +	__u64 tsc;
+> > +	__u64 tsc_adjust;
+> > +  };
+> > +
+> > +flags values for ``struct kvm_tsc_info``:
+> > +
+> > +``KVM_TSC_INFO_TSC_ADJUST_VALID``
+> > +
+> > +  ``tsc_adjust`` contains valid IA32_TSC_ADJUST value
 > 
-> Signed-off-by: David Brazdil <dbrazdil@google.com>
+> Why exposing TSC_ADJUST at all? Just because?
 
-> +static bool is_psci_0_1_call(u64 func_id)
-> +{
-> +	return (func_id == kvm_host_psci_0_1_function_ids.cpu_suspend) ||
-> +	       (func_id == kvm_host_psci_0_1_function_ids.cpu_on) ||
-> +	       (func_id == kvm_host_psci_0_1_function_ids.cpu_off) ||
-> +	       (func_id == kvm_host_psci_0_1_function_ids.migrate);
-> +}
+It's because we want to reduce the number of cases where
+KVM's msr/read write behavior differs between guest and host 
+(e.g qemu) writes.
+ 
+TSC and TSC_ADJUST are tied on architectural level, such as
+chang
+ing one, changes the other.
+ 
+However for the migration to work we must be able 
+to set each one separately.
 
-One minor thing, as I just spotted on an earlier patch: if FW doesn't
-implement one of these, the ID will be 0, so we might need to snapshot
-whether or not the function is enabled to stop spurious calls to FID 0.
+Currently, KVM does this by turning the host write to 
+TSC_ADJUST into a special case that bypasses
+the actual TSC adjustment, and just sets this MSR.
+ 
+The next patch in this series, will allow to disable
+this special behavior, making host TSC_ADJUST write
+work the same way as in guest.
 
-To be clear, that can be done in a follow-up if necessary.
+Therefore to still allow to set TSC_ADJUST and TSC independently
+after migration this ioctl will be used instead.
 
-Thanks,
-Mark.
+Best regards,
+	Maxim Levitsky
+
+> 
+> Thanks,
+> 
+>         tglx
+> 
+
+
