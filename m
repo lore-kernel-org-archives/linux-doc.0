@@ -2,129 +2,382 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D2FC63777
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 05:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 527C9C64E7B
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 08:37:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D9C12223C
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 05:02:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C630F221F7
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 08:37:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726075AbgLCFCc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 00:02:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36926 "EHLO
+        id S1727942AbgLCIgz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 03:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbgLCFCb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 00:02:31 -0500
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EA1C061A4D;
-        Wed,  2 Dec 2020 21:01:51 -0800 (PST)
-Received: by mail-oi1-x243.google.com with SMTP id p126so940922oif.7;
-        Wed, 02 Dec 2020 21:01:51 -0800 (PST)
+        with ESMTP id S1725912AbgLCIgu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 03:36:50 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAEAC061A4E
+        for <linux-doc@vger.kernel.org>; Thu,  3 Dec 2020 00:36:10 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id t8so801516pfg.8
+        for <linux-doc@vger.kernel.org>; Thu, 03 Dec 2020 00:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xhPmXGe2TmQ1T8FUkBkZbWfsA9sbZw6W4geuHUSY+s0=;
-        b=KWftkvGCjHdjjdSp83LlC5tIRRLWTWaNcqW5A5lhWAV2R0qrU5IOkq/a7O0kvfejlA
-         rr7ZJGNNSzBbet6dMF9iNpmDbJEBTEVWKYWIXBQ4L8y+ex7Wg4USV+e43JNhvPivy1zl
-         7hvAh3Uom+yPQPOPucVPPkMPBoemkGF17FytW+m2avdbGUCV3pGAXaPT6+IauOZ9OnsL
-         zsqxYdo58VObj5gnhBctQTpdJyz7TWWMKyM+RDNFbDMwHTWantQkT9EPcH8nVD/xnT+B
-         3gpbuuHCiRglD0DPa848kjp2G0YnRrHwxTBJ5a1zyV/0Jhp1XABiXB98YQwb8kl685rk
-         39bA==
+         :cc;
+        bh=kOo/JP7w8a+tgoHUgIOaYzS/sr1leDFaGYPFNCRqzdc=;
+        b=hnfEiCwzKSrCDZ/mrX6Aj3SmfOi+iCY21z97QalnrUIeokvXG4Lttuw2d/Wou7RmL8
+         c6Z0JXiTnWr6SIihH6Hly+63pPXEVzvJkdDXyj0d1gbtkMpHHDj1/GWZ5Q4CgJsZFVqM
+         dJt7sY1nGMr+vz73spyMe04d7xyfkM3sHX1KtHaWMeRBjSs7hcfJPrDaYqXOJ3VKQbhi
+         jhoj7/gWqp0bNAUBVOalMdy3mWIFAU8QzfrE2JBuk2dYFMBYg0jsIuf2Yr1cRkW7ljy/
+         4kELFhU3G+GkWBIuV+QEOS9pzgYUCqfYcFyzm1N//X20Zk42LjPiIqAPHWa44yIu1Hly
+         ADlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xhPmXGe2TmQ1T8FUkBkZbWfsA9sbZw6W4geuHUSY+s0=;
-        b=ZVbiIjKyZINKVBjGlRYjO4o+WGbGwWCtZBLpzKwv6deWWhx7Wer2RBfi4h5+nXTbkU
-         ZM2d5bfzCkriUsK2ZJ7AH0pXzQEd70t0EqGa+I01v6tFDXNTCDi/T2ThDXmIDkU+wlIQ
-         cLQCgh4AbpTO704K6ylDZFPjLeDvKe5yBL9q+3BrgP3Ri99rSo8kMmj8lDmjcZ1EOlUv
-         HJPTxSuUbjJC/h8YRYTXT3v++LM01c2SR/DPl7TJjjzYQUEM8xWna0Ap2hrE0iHXYiQn
-         YLuEcj5pgxGQBvpIr/g0L/S6rKGp2IBlW/0QeAWWJolAoy32pC6Tnqm7vRC7rsuHgE2c
-         V+hw==
-X-Gm-Message-State: AOAM533tmzUI/MzPN99T8OT2htGZjBQJ41PCvmIv1zz6qqcbMsxmtC/R
-        kT+JEANZYvUDUr4hg5rI9J9Eb/ydahWhwjI/0ss=
-X-Google-Smtp-Source: ABdhPJwdcKf0tkF3epFtOf2LnYfdbX0fkojq661TQO2vTSqo7wKalSEV2Rw1RKszQGPMi/nFn9EhXQr/KunOeaQQLog=
-X-Received: by 2002:a54:4608:: with SMTP id p8mr783202oip.5.1606971711182;
- Wed, 02 Dec 2020 21:01:51 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=kOo/JP7w8a+tgoHUgIOaYzS/sr1leDFaGYPFNCRqzdc=;
+        b=ldomlJKK5FsECOpXU8ggVXYNDSFxF018SQYX8MbsvNlIFgisxYZuLJrtY7RGEKLZDm
+         dnBO1F0pVFQMe2xUxCyywS7tsPFDmT8zKiEdCrYFZ0ZoCfFvf63lMAHSQbhXEz8WLesM
+         rnRPkCsnFTEc1QMte+5ouFXX7o1XlxVuhFc7O4huuRA36gjrYLnBfwhniYcOWGI7o/0o
+         MTRmLGl4PpedObKlCrTvH0MCNpsQ1gc55PhWrnEPu3FCnTCyoFTjqopCRnL8MXNSUIiN
+         5kJQ5dhm8v5qZSKdCm+qn37ZyVvlE/m+Ut5FYQZU2pkOaXw4w0kPQd4SRb1jUy0uqQwf
+         Xh0w==
+X-Gm-Message-State: AOAM532xL/P5WPWRtQqVbmWNkAURooL0SqaqAlxqHZCRbNKAQxiCIyvK
+        o7/Jp0gfApzBp5PPLjtxWOpAOwJUiYgkrLA9HCFq1g==
+X-Google-Smtp-Source: ABdhPJyqQsRZ/eaJtyHJC/eL3wSpmHtoNio2z10vFRpurSI+Kl+KXffrn/M5FoctqOn1qaam19/8jUcNPbXC/wZ5REI=
+X-Received: by 2002:a63:fe0c:: with SMTP id p12mr2143365pgh.31.1606984569926;
+ Thu, 03 Dec 2020 00:36:09 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1606897462.git.mchehab+huawei@kernel.org>
- <65bae21ebb9de534483b282fb091d4526cff0be8.1606897462.git.mchehab+huawei@kernel.org>
- <21d4e623-4250-454f-67ff-658da99cf26d@amd.com>
-In-Reply-To: <21d4e623-4250-454f-67ff-658da99cf26d@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 3 Dec 2020 00:01:39 -0500
-Message-ID: <CADnq5_Opbff_Nn=pq7dCd3TWY9Tqrh24GdBj-=pB1R3eYS7q+Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm: amdgpu: fix a kernel-doc markup
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mihir Bhogilal Patel <Mihir.Patel@amd.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        xinhui pan <xinhui.pan@amd.com>,
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+In-Reply-To: <20201130151838.11208-1-songmuchun@bytedance.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 3 Dec 2020 16:35:33 +0800
+Message-ID: <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
+Subject: Re: [PATCH v7 00/15] Free some vmemmap pages of hugetlb page
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
+        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
+        paulmck@kernel.org, viro@zeniv.linux.org.uk,
+        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
+        oneukum@suse.com, jroedel@suse.de,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        anshuman.khandual@arm.com, Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
         LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Dave Airlie <airlied@redhat.com>,
-        Nirmoy Das <nirmoy.aiemd@gmail.com>
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 2, 2020 at 3:45 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
+On Mon, Nov 30, 2020 at 11:19 PM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> Am 02.12.20 um 09:27 schrieb Mauro Carvalho Chehab:
-> > The function name at kernel-doc markup doesn't match the name
-> > of the function:
-> >
-> >       drivers/gpu/drm/amd/amdgpu/amdgpu_object.c:1534: warning: expecti=
-ng prototype for amdgpu_debugfs_print_bo_info(). Prototype was for amdgpu_b=
-o_print_info() instead
-> >
-> > Fix it.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Hi all,
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> This patch series will free some vmemmap pages(struct page structures)
+> associated with each hugetlbpage when preallocated to save memory.
+
+Hi Mike,
+
+What's your opinion on this version?  Any comments or suggestions?
+And hoping you or more people review the series. Thank you very
+much.
+
+>
+> In order to reduce the difficulty of the first version of code review.
+> From this version, we disable PMD/huge page mapping of vmemmap if this
+> feature was enabled. This accutualy eliminate a bunch of the complex code
+> doing page table manipulation. When this patch series is solid, we cam add
+> the code of vmemmap page table manipulation in the future.
+>
+> The struct page structures (page structs) are used to describe a physical
+> page frame. By default, there is a one-to-one mapping from a page frame to
+> it's corresponding page struct.
+>
+> The HugeTLB pages consist of multiple base page size pages and is supported
+> by many architectures. See hugetlbpage.rst in the Documentation directory
+> for more details. On the x86 architecture, HugeTLB pages of size 2MB and 1GB
+> are currently supported. Since the base page size on x86 is 4KB, a 2MB
+> HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
+> 4096 base pages. For each base page, there is a corresponding page struct.
+>
+> Within the HugeTLB subsystem, only the first 4 page structs are used to
+> contain unique information about a HugeTLB page. HUGETLB_CGROUP_MIN_ORDER
+> provides this upper limit. The only 'useful' information in the remaining
+> page structs is the compound_head field, and this field is the same for all
+> tail pages.
+>
+> By removing redundant page structs for HugeTLB pages, memory can returned to
+> the buddy allocator for other uses.
+>
+> When the system boot up, every 2M HugeTLB has 512 struct page structs which
+> size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+>
+>     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+>  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+>  |           |                     |     0     | -------------> |     0     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     1     | -------------> |     1     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     2     | -------------> |     2     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     3     | -------------> |     3     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     4     | -------------> |     4     |
+>  |    2MB    |                     +-----------+                +-----------+
+>  |           |                     |     5     | -------------> |     5     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     6     | -------------> |     6     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     7     | -------------> |     7     |
+>  |           |                     +-----------+                +-----------+
+>  |           |
+>  |           |
+>  |           |
+>  +-----------+
+>
+> The value of page->compound_head is the same for all tail pages. The first
+> page of page structs (page 0) associated with the HugeTLB page contains the 4
+> page structs necessary to describe the HugeTLB. The only use of the remaining
+> pages of page structs (page 1 to page 7) is to point to page->compound_head.
+> Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
+> will be used for each HugeTLB page. This will allow us to free the remaining
+> 6 pages to the buddy allocator.
+>
+> Here is how things look after remapping.
+>
+>     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+>  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+>  |           |                     |     0     | -------------> |     0     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     1     | -------------> |     1     |
+>  |           |                     +-----------+                +-----------+
+>  |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+>  |           |                     +-----------+                   | | | | |
+>  |           |                     |     3     | ------------------+ | | | |
+>  |           |                     +-----------+                     | | | |
+>  |           |                     |     4     | --------------------+ | | |
+>  |    2MB    |                     +-----------+                       | | |
+>  |           |                     |     5     | ----------------------+ | |
+>  |           |                     +-----------+                         | |
+>  |           |                     |     6     | ------------------------+ |
+>  |           |                     +-----------+                           |
+>  |           |                     |     7     | --------------------------+
+>  |           |                     +-----------+
+>  |           |
+>  |           |
+>  |           |
+>  +-----------+
+>
+> When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
+> vmemmap pages and restore the previous mapping relationship.
+>
+> Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
+> to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
+> pages.
+>
+> In this case, for the 1GB HugeTLB page, we can save 4088 pages(There are
+> 4096 pages for struct page structs, we reserve 2 pages for vmemmap and 8
+> pages for page tables. So we can save 4088 pages). This is a very substantial
+> gain. On our server, run some SPDK/QEMU applications which will use 1024GB
+> hugetlbpage. With this feature enabled, we can save ~16GB(1G hugepage)/~11GB
+> (2MB hugepage, the worst case is 10GB while the best is 12GB) memory.
+>
+> Because there are vmemmap page tables reconstruction on the freeing/allocating
+> path, it increases some overhead. Here are some overhead analysis.
+>
+> 1) Allocating 10240 2MB hugetlb pages.
+>
+>    a) With this patch series applied:
+>    # time echo 10240 > /proc/sys/vm/nr_hugepages
+>
+>    real     0m0.166s
+>    user     0m0.000s
+>    sys      0m0.166s
+>
+>    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+>
+>    @latency:
+>    [8K, 16K)           8360 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+>    [16K, 32K)          1868 |@@@@@@@@@@@                                         |
+>    [32K, 64K)            10 |                                                    |
+>    [64K, 128K)            2 |                                                    |
+>
+>    b) Without this patch series:
+>    # time echo 10240 > /proc/sys/vm/nr_hugepages
+>
+>    real     0m0.066s
+>    user     0m0.000s
+>    sys      0m0.066s
+>
+>    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+>
+>    @latency:
+>    [4K, 8K)           10176 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+>    [8K, 16K)             62 |                                                    |
+>    [16K, 32K)             2 |                                                    |
+>
+>    Summarize: this feature is about ~2x slower than before.
+>
+> 2) Freeing 10240 2MB hugetlb pages.
+>
+>    a) With this patch series applied:
+>    # time echo 0 > /proc/sys/vm/nr_hugepages
+>
+>    real     0m0.004s
+>    user     0m0.000s
+>    sys      0m0.002s
+>
+>    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+>
+>    @latency:
+>    [16K, 32K)         10240 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+>
+>    b) Without this patch series:
+>    # time echo 0 > /proc/sys/vm/nr_hugepages
+>
+>    real     0m0.077s
+>    user     0m0.001s
+>    sys      0m0.075s
+>
+>    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+>    Attaching 2 probes...
+>
+>    @latency:
+>    [4K, 8K)            9950 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+>    [8K, 16K)            287 |@                                                   |
+>    [16K, 32K)             3 |                                                    |
+>
+>    Summarize: The overhead of __free_hugepage is about ~2-4x slower than before.
+>               But according to the allocation test above, I think that here is
+>               also ~2x slower than before.
+>
+>               But why the 'real' time of patched is smaller than before? Because
+>               In this patch series, the freeing hugetlb is asynchronous(through
+>               kwoker).
+>
+> Although the overhead has increased, the overhead is not significant. Like Mike
+> said, "However, remember that the majority of use cases create hugetlb pages at
+> or shortly after boot time and add them to the pool. So, additional overhead is
+> at pool creation time. There is no change to 'normal run time' operations of
+> getting a page from or returning a page to the pool (think page fault/unmap)".
+>
+> Todo:
+>   1. Free all of the tail vmemmap pages
+>      Now for the 2MB HugrTLB page, we only free 6 vmemmap pages. we really can
+>      free 7 vmemmap pages. In this case, we can see 8 of the 512 struct page
+>      structures has beed set PG_head flag. If we can adjust compound_head()
+>      slightly and make compound_head() return the real head struct page when
+>      the parameter is the tail struct page but with PG_head flag set.
+>
+>      In order to make the code evolution route clearer. This feature can can be
+>      a separate patch after this patchset is solid.
+>   2. Support for other architectures (e.g. aarch64).
+>   3. Enable PMD/huge page mapping of vmemmap even if this feature was enabled.
+>
+> Changelog in v7:
+>   1. Rebase to linux-next 20201130
+>   2. Do not use basepage mapping for vmemmap when this feature is disabled.
+>      Thanks to Oscar and Barry.
+>   3. Rework some patchs.
+>      [PATCH v6 08/16] mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+>      [PATCH v6 10/16] mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb page
+>
+> Changelog in v6:
+>   1. Disable PMD/huge page mapping of vmemmap if this feature was enabled.
+>   2. Simplify the first version code.
+>
+> Changelog in v5:
+>   1. Rework somme comments and code in the [PATCH v4 04/21] and [PATCH v4 05/21].
+>      Thanks to Mike and Oscar's suggestions.
+>
+> Changelog in v4:
+>   1. Move all the vmemmap functions to hugetlb_vmemmap.c.
+>   2. Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we want to
+>      disable this feature, we should disable it by a boot/kernel command line.
+>   3. Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+>   4. Initialize page table lock for vmemmap through core_initcall mechanism.
+>
+>   Thanks for Mike and Oscar's suggestions.
+>
+> Changelog in v3:
+>   1. Rename some helps function name. Thanks Mike.
+>   2. Rework some code. Thanks Mike and Oscar.
+>   3. Remap the tail vmemmap page with PAGE_KERNEL_RO instead of
+>      PAGE_KERNEL. Thanks Matthew.
+>   4. Add some overhead analysis in the cover letter.
+>   5. Use vmemap pmd table lock instead of a hugetlb specific global lock.
+>
+> Changelog in v2:
+>   1. Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+>   2. Fix some typo and code style problems.
+>   3. Remove unused handle_vmemmap_fault().
+>   4. Merge some commits to one commit suggested by Mike.
+>
+> Muchun Song (15):
+>   mm/memory_hotplug: Move bootmem info registration API to
+>     bootmem_info.c
+>   mm/memory_hotplug: Move {get,put}_page_bootmem() to bootmem_info.c
+>   mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+>   mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+>   mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+>   mm/hugetlb: Disable freeing vmemmap if struct page size is not power
+>     of two
+>   x86/mm/64: Disable PMD page mapping of vmemmap
+>   mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+>   mm/hugetlb: Defer freeing of HugeTLB pages
+>   mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb
+>     page
+>   mm/hugetlb: Set the PageHWPoison to the raw error page
+>   mm/hugetlb: Flush work when dissolving hugetlb page
+>   mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+>   mm/hugetlb: Gather discrete indexes of tail page
+>   mm/hugetlb: Add BUILD_BUG_ON to catch invalid usage of tail struct
+>     page
+>
+>  Documentation/admin-guide/kernel-parameters.txt |   9 +
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+>  arch/x86/mm/init_64.c                           |  13 +-
+>  fs/Kconfig                                      |  14 +
+>  include/linux/bootmem_info.h                    |  64 +++++
+>  include/linux/hugetlb.h                         |  35 +++
+>  include/linux/hugetlb_cgroup.h                  |  15 +-
+>  include/linux/memory_hotplug.h                  |  27 --
+>  mm/Makefile                                     |   2 +
+>  mm/bootmem_info.c                               | 124 ++++++++
+>  mm/hugetlb.c                                    | 144 ++++++++--
+>  mm/hugetlb_vmemmap.c                            | 367 ++++++++++++++++++++++++
+>  mm/hugetlb_vmemmap.h                            |  79 +++++
+>  mm/memory_hotplug.c                             | 116 --------
+>  mm/sparse.c                                     |   1 +
+>  15 files changed, 834 insertions(+), 179 deletions(-)
+>  create mode 100644 include/linux/bootmem_info.h
+>  create mode 100644 mm/bootmem_info.c
+>  create mode 100644 mm/hugetlb_vmemmap.c
+>  create mode 100644 mm/hugetlb_vmemmap.h
+>
+> --
+> 2.11.0
 >
 
-Applied.  Thanks!
 
-Alex
-
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_object.c
-> > index c6c9723d3d8a..fd7a93c32235 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > @@ -1518,7 +1518,7 @@ uint32_t amdgpu_bo_get_preferred_pin_domain(struc=
-t amdgpu_device *adev,
-> >       } while (0)
-> >
-> >   /**
-> > - * amdgpu_debugfs_print_bo_info - print BO info in debugfs file
-> > + * amdgpu_bo_print_info - print BO info in debugfs file
-> >    *
-> >    * @id: Index or Id of the BO
-> >    * @bo: Requested BO for printing info
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+--
+Yours,
+Muchun
