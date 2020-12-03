@@ -2,206 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D665C64E7A
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 12:49:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC44C83018
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 13:32:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4708820709
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 12:49:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4621D206CA
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 13:32:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728830AbgLCMtd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 07:49:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33681 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730465AbgLCMtc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 07:49:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606999685;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jaqQCXmjfEcg2hzfVWiBAXfpRwQrLZM2x3fGQCZ1SLM=;
-        b=jMCwH7JgnJ3n6Q07lU319XD99IxU5djsCBf2WaFlKG4n/zLu9hZ5rweu5ASJQMKFkFruS9
-        uxU8/q4kSn/WYgVR1jkyQVhxRbPzaQiCmsEf99FkpCeE/s0BHcEhZlUmKJcv4Cgdmq6Akj
-        9XP8QmZnUsnlYI0OfvFAgJWuY5No3+s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-PkV3GKOJNBi8LM_DGUNDMA-1; Thu, 03 Dec 2020 07:48:03 -0500
-X-MC-Unique: PkV3GKOJNBi8LM_DGUNDMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S2437072AbgLCNcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 08:32:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51424 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437065AbgLCNcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 3 Dec 2020 08:32:03 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0DC256C33;
-        Thu,  3 Dec 2020 12:48:01 +0000 (UTC)
-Received: from starship (unknown [10.35.206.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E0788100164C;
-        Thu,  3 Dec 2020 12:47:55 +0000 (UTC)
-Message-ID: <2c5b2064e7b185d11544033b0bf797db76cf66d8.camel@redhat.com>
-Subject: Re: [PATCH 0/2] RFC: Precise TSC migration
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jim Mattson <jmattson@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-Date:   Thu, 03 Dec 2020 14:47:54 +0200
-In-Reply-To: <87lfehfhez.fsf@nanos.tec.linutronix.de>
-References: <20201130133559.233242-1-mlevitsk@redhat.com>
-         <87lfehfhez.fsf@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+        by mail.kernel.org (Postfix) with ESMTPSA id 91734207EA;
+        Thu,  3 Dec 2020 13:31:22 +0000 (UTC)
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1kkohb-00FfbD-86; Thu, 03 Dec 2020 13:31:20 +0000
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Date:   Thu, 03 Dec 2020 13:31:18 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     kvmarm@lists.cs.columbia.edu, Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter <cl@linux.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v4 15/26] kvm: arm64: Add SMC handler in nVHE EL2
+In-Reply-To: <20201202184122.26046-16-dbrazdil@google.com>
+References: <20201202184122.26046-1-dbrazdil@google.com>
+ <20201202184122.26046-16-dbrazdil@google.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <6370e564fa4d82bf6a5fb3bb545e01a3@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: dbrazdil@google.com, kvmarm@lists.cs.columbia.edu, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com, suzuki.poulose@arm.com, dennis@kernel.org, tj@kernel.org, cl@linux.com, mark.rutland@arm.com, lorenzo.pieralisi@arm.com, sudeep.holla@arm.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-12-01 at 20:35 +0100, Thomas Gleixner wrote:
-> On Mon, Nov 30 2020 at 15:35, Maxim Levitsky wrote:
-> > The idea of masterclock is that when the host TSC is synchronized
-> > (or as kernel call it, stable), and the guest TSC is synchronized as well,
-> > then we can base the kvmclock, on the same pair of
-> > (host time in nsec, host tsc value), for all vCPUs.
+On 2020-12-02 18:41, David Brazdil wrote:
+> Add handler of host SMCs in KVM nVHE trap handler. Forward all SMCs to
+> EL3 and propagate the result back to EL1. This is done in preparation
+> for validating host SMCs in KVM protected mode.
 > 
-> That's correct. All guest CPUs should see exactly the same TSC value,
-> i.e.
+> The implementation assumes that firmware uses SMCCC v1.2 or older. That
+> means x0-x17 can be used both for arguments and results, other GPRs are
+> preserved.
 > 
->         hostTSC + vcpu_offset
+> Signed-off-by: David Brazdil <dbrazdil@google.com>
+> ---
+>  arch/arm64/kvm/hyp/nvhe/host.S     | 38 ++++++++++++++++++++++++++++++
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 35 ++++++++++++++++++++++++---
+>  2 files changed, 70 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/hyp/nvhe/host.S 
+> b/arch/arm64/kvm/hyp/nvhe/host.S
+> index fe2740b224cf..2b56f0bdf874 100644
+> --- a/arch/arm64/kvm/hyp/nvhe/host.S
+> +++ b/arch/arm64/kvm/hyp/nvhe/host.S
+> @@ -180,3 +180,41 @@ SYM_CODE_START(__kvm_hyp_host_vector)
+>  	invalid_host_el1_vect			// FIQ 32-bit EL1
+>  	invalid_host_el1_vect			// Error 32-bit EL1
+>  SYM_CODE_END(__kvm_hyp_host_vector)
+> +
+> +/*
+> + * Forward SMC with arguments in struct kvm_cpu_context, and
+> + * store the result into the same struct. Assumes SMCCC 1.2 or older.
+> + *
+> + * x0: struct kvm_cpu_context*
+> + */
+> +SYM_CODE_START(__kvm_hyp_host_forward_smc)
+> +	/*
+> +	 * Use x18 to keep the pointer to the host context because
+> +	 * x18 is callee-saved in SMCCC but not in AAPCS64.
+> +	 */
+> +	mov	x18, x0
+> +
+> +	ldp	x0, x1,   [x18, #CPU_XREG_OFFSET(0)]
+> +	ldp	x2, x3,   [x18, #CPU_XREG_OFFSET(2)]
+> +	ldp	x4, x5,   [x18, #CPU_XREG_OFFSET(4)]
+> +	ldp	x6, x7,   [x18, #CPU_XREG_OFFSET(6)]
+> +	ldp	x8, x9,   [x18, #CPU_XREG_OFFSET(8)]
+> +	ldp	x10, x11, [x18, #CPU_XREG_OFFSET(10)]
+> +	ldp	x12, x13, [x18, #CPU_XREG_OFFSET(12)]
+> +	ldp	x14, x15, [x18, #CPU_XREG_OFFSET(14)]
+> +	ldp	x16, x17, [x18, #CPU_XREG_OFFSET(16)]
+> +
+> +	smc	#0
+> +
+> +	stp	x0, x1,   [x18, #CPU_XREG_OFFSET(0)]
+> +	stp	x2, x3,   [x18, #CPU_XREG_OFFSET(2)]
+> +	stp	x4, x5,   [x18, #CPU_XREG_OFFSET(4)]
+> +	stp	x6, x7,   [x18, #CPU_XREG_OFFSET(6)]
+> +	stp	x8, x9,   [x18, #CPU_XREG_OFFSET(8)]
+> +	stp	x10, x11, [x18, #CPU_XREG_OFFSET(10)]
+> +	stp	x12, x13, [x18, #CPU_XREG_OFFSET(12)]
+> +	stp	x14, x15, [x18, #CPU_XREG_OFFSET(14)]
+> +	stp	x16, x17, [x18, #CPU_XREG_OFFSET(16)]
+> +
+> +	ret
+> +SYM_CODE_END(__kvm_hyp_host_forward_smc)
+> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> index a4f1cac714d7..f25680ede080 100644
+> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> @@ -18,6 +18,8 @@
+> 
+>  DEFINE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
+> 
+> +void __kvm_hyp_host_forward_smc(struct kvm_cpu_context *host_ctxt);
+> +
+>  static void handle___kvm_vcpu_run(struct kvm_cpu_context *host_ctxt)
+>  {
+>  	DECLARE_REG(struct kvm_vcpu *, vcpu, host_ctxt, 1);
+> @@ -152,12 +154,39 @@ static void handle_host_hcall(struct
+> kvm_cpu_context *host_ctxt)
+>  	cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
+>  }
+> 
+> +static void default_host_smc_handler(struct kvm_cpu_context 
+> *host_ctxt)
+> +{
+> +	__kvm_hyp_host_forward_smc(host_ctxt);
+> +}
+> +
+> +static void skip_host_instruction(void)
+> +{
+> +	write_sysreg_el2(read_sysreg_el2(SYS_ELR) + 4, SYS_ELR);
+> +}
 
-This is roughly the case today, unless the guest messes up
-its own TSC, which it is allowed to do so.
- 
-And that brings me an idea: Why do we allow the guest
-to mess up with its TSC in the first place?
+Just for the sake of keeping things together, it'd be good to
+move this helper to include/hyp/adjust_pc.h. Nothing urgent though.
 
-Can't we just stop exposing the TSC_ADJUST to the guest,
-since it is an optional x86 feature?
- 
-In addition to that I also had read somewhere 
-that TSC writes aren't even guaranteed to work on some x86 systems
-(e.g that msr can be readonly, and that's why TSC_ADJUST was created)
-so I'll say we can go even further and just ignore
-writes to TSC from the guest as well.
+Thanks,
 
-Or if this is too much, we can just ignore this 
-since Linux doesn't touch the TSC anyway.
- 
-Best feature is no feature, you know.
-
-
-> 
-> > This makes the random error in calculation of this value invariant
-> > across vCPUS, and allows the guest to do kvmclock calculation in userspace
-> > (vDSO) since kvmclock parameters are vCPU invariant.
-> 
-> That's not the case today? OMG!
-
-We have the masterclock to avoid this, whose existence we trickle
-down to the guest via KVM_CLOCK_TSC_STABLE bit.
- 
-When master clock is not enabled (due to one of the reasons
-I mentioned in the RFC mail), this bit is not set,
-and the guest fails back to do system calls.
-
-> 
-> > To ensure that the guest tsc is synchronized we currently track host/guest tsc
-> > writes, and enable the master clock only when roughly the same guest's TSC value
-> > was written across all vCPUs.
-> 
-> The Linux kernel never writes the TSC. We've tried that ~15 years ago
-> and it was a total disaster.
-I can imagine this.
-
-> 
-> > Recently this was disabled by Paulo and I agree with this, because I think
-> > that we indeed should only make the guest TSC synchronized by default
-> > (including new hotplugged vCPUs) and not do any tsc synchronization beyond that.
-> > (Trying to guess when the guest syncs the TSC can cause more harm that good).
-> > 
-> > Besides, Linux guests don't sync the TSC via IA32_TSC write,
-> > but rather use IA32_TSC_ADJUST which currently doesn't participate
-> > in the tsc sync heruistics.
-> 
-> The kernel only writes TSC_ADJUST when it is advertised in CPUID and:
-> 
->     1) when the boot CPU detects a non-zero TSC_ADJUST value it writes
->        it to 0, except when running on SGI-UV
-> 
->     2) when a starting CPU has a different TSC_ADJUST value than the
->        first CPU which came up on the same socket.
-> 
->     3) When the first CPU of a different socket is starting and the TSC
->        synchronization check fails against a CPU on an already checked
->        socket then the kernel tries to adjust TSC_ADJUST to the point
->        that the synchronization check does not fail anymore.
-Since we do allow multi socket guests, I guess (3) can still fail
-due to scheduling noise and make the guest write TSC_ADJUST.
-
-> 
-> > And as far as I know, Linux guest is the primary (only?) user of the kvmclock.
-> > 
-> > I *do think* however that we should redefine KVM_CLOCK_TSC_STABLE
-> > in the documentation to state that it only guarantees invariance if the guest
-> > doesn't mess with its own TSC.
-> > 
-> > Also I think we should consider enabling the X86_FEATURE_TSC_RELIABLE
-> > in the guest kernel, when kvm is detected to avoid the guest even from trying
-> > to sync TSC on newly hotplugged vCPUs.
-> > 
-> > (The guest doesn't end up touching TSC_ADJUST usually, but it still might
-> > in some cases due to scheduling of guest vCPUs)
-> 
-> The only cases it would try to write are #3 above or because the
-> hypervisor or BIOS messed it up (#1, #2).
-> 
-> > (X86_FEATURE_TSC_RELIABLE short circuits tsc synchronization on CPU hotplug,
-> > and TSC clocksource watchdog, and the later we might want to keep).
-> 
-> Depends. If the host TSC is stable and synchronized, then you don't need
-> the TSC watchdog. We are slowly starting to trust the TSC to some extent
-> and phase out the watchdog for newer parts (hopefully).
-> 
-> If the host TSC really falls apart then it still can invalidate
-> KVM_CLOCK and force the guest to reevaluate the situation.
-> 
-> > Few more random notes:
-> > 
-> > I have a weird feeling about using 'nsec since 1 January 1970'.
-> > Common sense is telling me that a 64 bit value can hold about 580
-> > years,
-> 
-> which is plenty.
-I also think so, just wanted to hear your opinion on that.
-> 
-> > but still I see that it is more common to use timespec which is a
-> > (sec,nsec) pair.
-> 
-> timespecs are horrible.
-
-Best regards,
-	Maxim Levitsky
-
-> 
-> Thanks,
-> 
->         tglx
-> 
-
-
+         M.
+-- 
+Jazz is not dead. It just smells funny...
