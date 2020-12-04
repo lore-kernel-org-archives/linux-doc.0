@@ -2,90 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5811C4361B
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 08:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71009C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83626229C5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 08:50:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22DA522597
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726471AbgLDIuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Dec 2020 03:50:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727479AbgLDIuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Dec 2020 03:50:17 -0500
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A8A3C061A53
-        for <linux-doc@vger.kernel.org>; Fri,  4 Dec 2020 00:49:37 -0800 (PST)
-Received: by mail-lj1-x244.google.com with SMTP id 142so5666700ljj.10
-        for <linux-doc@vger.kernel.org>; Fri, 04 Dec 2020 00:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+M8zrbq6b1p8wlcXRVRPmBvCI2nb4z2DmdAj80G4yJY=;
-        b=WdmUpBTMYIcMJSRVU1JOBuE7mf8hr8esrydhOy1Gzs7dnJja0RYck18VDWqZXWf4IQ
-         6/QMs6QEHr70cEserUggAYNtEGvQSuz7OlFWn/h+jeLt9hg8tvwTCy7Osa+eu2fOHPAD
-         nzPdWZnUKff8WxA5zaUASm031d28dSHlU4KRf5mwuoJBCd709azWoydVuKvsTGFryQHC
-         /9GivUVguITQIGsbnrX5uXJvMnCR+MeMUZllGz/xa2dCFKBDqgznuz107Mn/3gr1aSXp
-         whVJs3HWyQN8GuSCMzWvm/5kkpB0wppQ3FrBCY4mZACUP2ocEj0MaCJ8bTqvux+gzOOG
-         D6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+M8zrbq6b1p8wlcXRVRPmBvCI2nb4z2DmdAj80G4yJY=;
-        b=OarrYVxVp36ykMyEpeq3B0xVAzsrBLXtjWibnNsO37p+oyYxt79uJKlo6lq67bhRf8
-         g5IrnhArsg0MWppP1KgikQoRUXOv8LY/GPnIUXSRem+L3WevZ7e6qJRhoR4g4pjwaGPZ
-         UqBLvEQvaJa1ESpEFEhSIrlLZf8g2Xz/T4Z6z6a1bWrdpEAcV7f2+lyd0A3gG+glpvqe
-         /niPB+oGXEXxJY0IgHIUKhkeCsSPyJ28ZdJwGoG0XtdmuZbHDxV9PemmLteAiIbDnkeI
-         5hoQWsjpXZGcoXTZtMbL5MfN6ouQtZG1ZBheaYPU4VBFkrG5R5PHG1/bZ+YwN4NOr7hJ
-         pAfg==
-X-Gm-Message-State: AOAM531hRbuWe4WX2y8o5kiKUaPiNyD5v8Dg7LWpmZHwm6AmEOM7t4A3
-        QfZ72lznbno5agOtTYW4WdunRDLHcPMlc/teAaWH5w==
-X-Google-Smtp-Source: ABdhPJxqn4nKKGnNWQ8ZGC/Q2XERh1TtexNG5hJfal8ZUnxdUO5LOaSCB57gt9jbaaXkbFoYOCBibJQ5/e5byYO5UGE=
-X-Received: by 2002:a05:651c:111:: with SMTP id a17mr2861001ljb.286.1607071775878;
- Fri, 04 Dec 2020 00:49:35 -0800 (PST)
+        id S1729564AbgLDJSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 04:18:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729563AbgLDJSn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Dec 2020 04:18:43 -0500
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: get_feat.pl: make complete table more coincise
+Date:   Fri,  4 Dec 2020 10:17:45 +0100
+Message-Id: <2fe5f94aa8e12279d36cfbf489b30d4482a9bebb.1607073431.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201203153642.594afd85@lwn.net>
+References: <20201203153642.594afd85@lwn.net>
 MIME-Version: 1.0
-References: <20201122092548.61979-1-gnurou@gmail.com>
-In-Reply-To: <20201122092548.61979-1-gnurou@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 4 Dec 2020 09:49:25 +0100
-Message-ID: <CACRpkdZzBxJMJknDL+bt8bGBSBCOO4mT3cbU+RDWL2W5Fpp5Zw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: fix typo and unclear legacy API section
-To:     Alexandre Courbot <gnurou@gmail.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 10:26 AM Alexandre Courbot <gnurou@gmail.com> wrote:
+Currently, there are too many white spaces at the tables,
+and the information is very sparsed on it.
 
-> The "Interacting With the Legacy GPIO Subsystem" of the documentation
-> was unclear at best, and even included a sentence that seems to say the
-> opposite of what it should say about the lifetime of the return value of
-> the conversion functions.
->
-> Try to clarify things a bit and hopefully make that section more
-> readable.
->
-> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+Make the format a lot more compact.
 
-Patch applied!
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_feat.pl | 107 +++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 81 insertions(+), 26 deletions(-)
 
-Thanks for fixing this up and thanks to Andy for coordinating with
-the fine folks over at StackOverflow. I added the BugLink and
-Andy's Reported-by.
+diff --git a/scripts/get_feat.pl b/scripts/get_feat.pl
+index 81d1b78d65c9..f3777f6d32bb 100755
+--- a/scripts/get_feat.pl
++++ b/scripts/get_feat.pl
+@@ -325,7 +325,9 @@ sub output_feature {
+ # Output all features for all architectures
+ #
+ 
+-sub matrix_lines($$) {
++sub matrix_lines($$$$) {
++	my $desc_size = shift;
++	my $status_size = shift;
+ 	my $partial = shift;
+ 	my $header = shift;
+ 	my $split;
+@@ -349,13 +351,9 @@ sub matrix_lines($$) {
+ 	print $split;
+ 	print $fill x $max_size_name;
+ 	print $split;
+-	print $fill x $max_size_kconfig;
+-	print $split;
+-	print $fill x $max_size_description;
++	print $fill x $desc_size;
+ 	print "+";
+-	print $ln_marker x $max_size_arch;
+-	print "+";
+-	print $ln_marker x $max_size_status;
++	print $ln_marker x $status_size;
+ 	print "+\n";
+ }
+ 
+@@ -366,6 +364,14 @@ sub output_matrix {
+ 	print "$title\n";
+ 	print "=" x length($title) . "\n\n";
+ 
++	my $desc_title = "$h_kconfig / $h_description";
++
++	my $desc_size = $max_size_kconfig + 4;
++	$desc_size = $max_size_description if ($max_size_description > $desc_size);
++	$desc_size = length($desc_title) if (length($desc_title) > $desc_size);
++
++	my $status_size = 60;
++
+ 	my $cur_subsys = "";
+ 	foreach my $name (sort {
+ 				($data{$a}->{subsys} cmp $data{$b}->{subsys}) or
+@@ -383,36 +389,85 @@ sub output_matrix {
+ 			print "$title\n";
+ 			print "=" x length($title) . "\n\n";
+ 
+-			matrix_lines(0, 0);
++
++			matrix_lines($desc_size, $status_size, 0, 0);
++
+ 			printf "|%-${max_size_name}s", $h_name;
+-			printf "|%-${max_size_kconfig}s", $h_kconfig;
+-			printf "|%-${max_size_description}s", $h_description;
++			printf "|%-${desc_size}s", $desc_title;
+ 
+-			printf "|%-${max_size_arch}s", $h_arch;
+-			printf "|%-${max_size_status}s|\n", $h_status;
+-
+-			matrix_lines(0, 1);
++			printf "|%-${status_size}s|\n", "Status per architecture";
++			matrix_lines($desc_size, $status_size, 0, 1);
+ 		}
+ 
+ 		my %arch_table = %{$data{$name}->{table}};
+-		my $first = 1;
+-		foreach my $arch (sort keys %arch_table) {
+-			if ($first) {
++		my $cur_status = "";
++
++		my @lines;
++		my $line = "";
++		foreach my $arch (sort {
++					($arch_table{$a} cmp $arch_table{$b}) or
++					("\L$a" cmp "\L$b")
++				       } keys %arch_table) {
++
++			my $status = $arch_table{$arch};
++
++			if ($status eq "---") {
++				$status = "Not compatible";
++			}
++
++			if ($status ne $cur_status) {
++				if ($line ne "") {
++					push @lines, $line;
++					$line = "";
++				}
++				$line = "- **" . $status . "**: " . $arch;
++			} elsif (length($line) + length ($arch) + 2 < $status_size) {
++				$line .= ", " . $arch;
++			} else {
++				push @lines, $line;
++				$line = "  " . $arch;
++			}
++			$cur_status = $status;
++		}
++		push @lines, $line if ($line ne "");
++
++		my $ln = 0;
++		for my $line(@lines) {
++			if (!$ln) {
+ 				printf "|%-${max_size_name}s", $name;
+-				printf "|%-${max_size_kconfig}s", $data{$name}->{kconfig};
+-				printf "|%-${max_size_description}s", $data{$name}->{description};
+-				$first = 0;
++				printf "|%-${desc_size}s", "``" . $data{$name}->{kconfig} . "``";
++			} elsif ($ln == 2) {
++				printf "|%-${max_size_name}s", "";
++				printf "|%-${desc_size}s", $data{$name}->{description};
+ 			} else {
+-				matrix_lines(1, 0);
++				printf "|%-${max_size_name}s", "";
++				printf "|%-${desc_size}s", "";
++			}
++
++			printf "|%-${status_size}s|\n", $line;
+ 
++			$ln++;
++		}
++
++		# Ensure that Kconfig and description will be printed
++		while ($ln < 2) {
++			if (!$ln) {
++				printf "|%-${max_size_name}s", $name;
++				printf "|%-${desc_size}s``", $data{$name}->{kconfig} . "``";
++			} elsif ($ln == 2) {
+ 				printf "|%-${max_size_name}s", "";
+-				printf "|%-${max_size_kconfig}s", "";
+-				printf "|%-${max_size_description}s", "";
++				printf "|%-${desc_size}s", $data{$name}->{description};
++			} else {
++				printf "|%-${max_size_name}s", "";
++				printf "|%-${desc_size}s", "";
+ 			}
+-			printf "|%-${max_size_arch}s", $arch;
+-			printf "|%-${max_size_status}s|\n", $arch_table{$arch};
++
++			printf "|%-${status_size}s|\n", "";
++
++			$ln++;
+ 		}
+-		matrix_lines(0, 0);
++
++		matrix_lines($desc_size, $status_size, 0, 0);
+ 	}
+ }
+ 
+-- 
+2.28.0
 
-Yours,
-Linus Walleij
