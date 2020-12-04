@@ -4,32 +4,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 087CBC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25AF6C1B087
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:36:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4700225AB
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:27:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E45D3229C6
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 09:36:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387430AbgLDJ1S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Dec 2020 04:27:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46226 "EHLO mail.kernel.org"
+        id S1729500AbgLDJgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 04:36:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47334 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725866AbgLDJ1R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Dec 2020 04:27:17 -0500
+        id S1725866AbgLDJga (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Dec 2020 04:36:30 -0500
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2] scripts: get_feat.pl: make complete table more coincise
-Date:   Fri,  4 Dec 2020 10:26:31 +0100
-Message-Id: <7c82a766867f2813a1e5c7b982b5e952e50b6c5e.1607073967.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3] scripts: get_feat.pl: make complete table more coincise
+Date:   Fri,  4 Dec 2020 10:35:44 +0100
+Message-Id: <47d1d76bf557716cb90d7382c31fe3d1ade65a2e.1607074458.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <2fe5f94aa8e12279d36cfbf489b30d4482a9bebb.1607073431.git.mchehab+huawei@kernel.org>
-References: <2fe5f94aa8e12279d36cfbf489b30d4482a9bebb.1607073431.git.mchehab+huawei@kernel.org>
+In-Reply-To: <7c82a766867f2813a1e5c7b982b5e952e50b6c5e.1607073967.git.mchehab+huawei@kernel.org>
+References: <7c82a766867f2813a1e5c7b982b5e952e50b6c5e.1607073967.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -45,11 +45,16 @@ Make the format a lot more compact.
 Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_feat.pl | 119 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 83 insertions(+), 36 deletions(-)
+
+- v3: cleanup the logic that ensures a minimal number of lines;
+- v2: cleanup the matrix_lines function to remove a now unused
+  parameter.
+
+ scripts/get_feat.pl | 105 ++++++++++++++++++++++++++++----------------
+ 1 file changed, 68 insertions(+), 37 deletions(-)
 
 diff --git a/scripts/get_feat.pl b/scripts/get_feat.pl
-index 81d1b78d65c9..2860abfdcd91 100755
+index 81d1b78d65c9..10bf23fbc9c5 100755
 --- a/scripts/get_feat.pl
 +++ b/scripts/get_feat.pl
 @@ -325,10 +325,10 @@ sub output_feature {
@@ -110,7 +115,7 @@ index 81d1b78d65c9..2860abfdcd91 100755
  	my $cur_subsys = "";
  	foreach my $name (sort {
  				($data{$a}->{subsys} cmp $data{$b}->{subsys}) or
-@@ -383,36 +381,85 @@ sub output_matrix {
+@@ -383,36 +381,69 @@ sub output_matrix {
  			print "$title\n";
  			print "=" x length($title) . "\n\n";
  
@@ -166,6 +171,9 @@ index 81d1b78d65c9..2860abfdcd91 100755
 +		}
 +		push @lines, $line if ($line ne "");
 +
++		# Ensure that description will be printed
++		push @lines, "" while (scalar(@lines) < 2);
++
 +		my $ln = 0;
 +		for my $line(@lines) {
 +			if (!$ln) {
@@ -179,42 +187,25 @@ index 81d1b78d65c9..2860abfdcd91 100755
 +				printf "|%-${desc_size}s", $data{$name}->{description};
  			} else {
 -				matrix_lines(1, 0);
-+				printf "|%-${max_size_name}s", "";
-+				printf "|%-${desc_size}s", "";
-+			}
-+
-+			printf "|%-${status_size}s|\n", $line;
- 
-+			$ln++;
-+		}
-+
-+		# Ensure that Kconfig and description will be printed
-+		while ($ln < 2) {
-+			if (!$ln) {
-+				printf "|%-${max_size_name}s", $name;
-+				printf "|%-${desc_size}s``", $data{$name}->{kconfig} . "``";
-+			} elsif ($ln == 2) {
+-
  				printf "|%-${max_size_name}s", "";
 -				printf "|%-${max_size_kconfig}s", "";
 -				printf "|%-${max_size_description}s", "";
-+				printf "|%-${desc_size}s", $data{$name}->{description};
-+			} else {
-+				printf "|%-${max_size_name}s", "";
 +				printf "|%-${desc_size}s", "";
  			}
 -			printf "|%-${max_size_arch}s", $arch;
 -			printf "|%-${max_size_status}s|\n", $arch_table{$arch};
 +
-+			printf "|%-${status_size}s|\n", "";
++			printf "|%-${status_size}s|\n", $line;
 +
 +			$ln++;
  		}
 -		matrix_lines(0, 0);
-+
 +		matrix_lines($desc_size, $status_size, 0);
  	}
  }
  
 -- 
 2.28.0
+
 
