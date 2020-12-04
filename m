@@ -2,125 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D88E4C4361A
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 03:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489F2C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 05:17:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 861C7221F5
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 03:41:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E748022581
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 05:17:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgLDDks (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 22:40:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbgLDDks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 22:40:48 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D16C061A51
-        for <linux-doc@vger.kernel.org>; Thu,  3 Dec 2020 19:40:08 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id b10so2778503pfo.4
-        for <linux-doc@vger.kernel.org>; Thu, 03 Dec 2020 19:40:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kP0kqVxYlLhlxakYbEWvE8pzB4Mj7yplj9IQfIP/Nqo=;
-        b=RXeno4fHs2hClfvDpmt84Kb0l0ffZ+tfCf4eGR4N2xKr5d+GEweCV3ikwwgvmK8Jz8
-         7yRlfUm9ZgJHUw0G7xO4JpRTa6nHUnxHGOP3ecvxLWNCVn2qfP0+4sEXxg+TQ6dzvNdB
-         8fFJclIAPEb3EGx/lzzZi/6MYFK1BUfwM3r0BthCHtK3IOfFmB7QRDuVsNQ+2GSAaMLj
-         Fx7lToXjBVngkeA49IgqF5XW44cP2AB3Llrt2EDOfpZX1pB/6wcSb6Q/s5a06s8rxYkP
-         f6HLsRbClLzTOVfJPPeTaEpznXSGk9wCHNM+A1LjcwaYFE4EheH05Ug+dHysIlihP4qm
-         fqUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kP0kqVxYlLhlxakYbEWvE8pzB4Mj7yplj9IQfIP/Nqo=;
-        b=eT9hIpeiC2Vn02NUECX/747c+gRLDGG31tlxboktRMQM9RSi4Iei1uKAcEmq+ZdzIx
-         LR7Qft1jr3yosa5LT5F3tEZgYvAu9G8zqOrm0TL12J2j32ZXI0v+lB65BAV4ZB+veGM4
-         7pjz3gGhQGXQbyJLbRq36KJvLKOcjqDwycn/2NvwDYUPZsAIgtJgdeJ2lWyWrClHB13v
-         n2kE+dhhcoRzQBypyfMsKX67FA90a9svMDMfX5I6GCQgXQFLPxq97S+ZS60pcYk98sdD
-         mZdRq4p8Oz6k8qtnpHoyzYf/uhusgk4FQB/WVe1KU3RoLCBAzQ0WVBwVjrI2wqD5Vd1p
-         DVJA==
-X-Gm-Message-State: AOAM532gXwhtWLlay3AHYKtxLQpaU1xnO/KD0bbGEKbD7obSHQhkkNL6
-        BtDq7ZLJQiic/orBueWp2Qfkje2L125mS3sVwiHmtw==
-X-Google-Smtp-Source: ABdhPJynCEO+aYzaCWwl98Gj7aTZquZAjP6gvBEF+xIuWOhnCtjsbj71ZJ7LyQ2PQpmasXLQiRg6kelKrNEq9MwhbLk=
-X-Received: by 2002:a63:1203:: with SMTP id h3mr2402111pgl.273.1607053207913;
- Thu, 03 Dec 2020 19:40:07 -0800 (PST)
+        id S1725372AbgLDFRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 00:17:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47726 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725300AbgLDFRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Dec 2020 00:17:31 -0500
+Date:   Fri, 4 Dec 2020 07:16:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607059009;
+        bh=MytoTQmK0FWpezBeB0/MIP6XIJc0eGXJUDMWPEVo7PA=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SuRTAIIUpLjq3GUyKoK3lRf2aP+PaQZ5/PHvW+PdJV9RBOUq4jqvEwmrkzGp23Mdc
+         eHU+vvWSnsIKri9zYinMa5cNfTq7O8qk25EG7K9tHw3MNzJSWMhy4BuJvYtAWx0msc
+         A9UW3vaU51sXDgVCz1Ez1SLfJqsEuk2sgqH6EOS58woJacVBUqlsqVrFI5mvfP6a4C
+         YIVa8iBrmGRX2zXFu2DiXu65vG5IUZExc0SCeKhrmoiQfnToOd3WOOdrfCX8/8WDUg
+         d7kzEaS/3nYG3eBiXmopNWZrEKe/FxTZT/2vZ+nfuQdH9kkAwpGMoyk9DRrXHv+Hwz
+         SB1T4+ZpRwx7Q==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
+Message-ID: <20201204051642.GA154469@kernel.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+ <20201105050736.GA702944@kernel.org>
+ <CAFA6WYPetvod-Wov2n_L5TL771j+-kt+_csyWYT-uM=haEKMZQ@mail.gmail.com>
+ <20201106145252.GA10434@kernel.org>
 MIME-Version: 1.0
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com> <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com>
-In-Reply-To: <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 4 Dec 2020 11:39:31 +0800
-Message-ID: <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v7 00/15] Free some vmemmap pages of
- hugetlb page
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
-        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
-        paulmck@kernel.org, viro@zeniv.linux.org.uk,
-        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
-        oneukum@suse.com, jroedel@suse.de,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        anshuman.khandual@arm.com, Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201106145252.GA10434@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 4, 2020 at 7:49 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 12/3/20 12:35 AM, Muchun Song wrote:
-> > On Mon, Nov 30, 2020 at 11:19 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> >>
-> >> Hi all,
-> >>
-> >> This patch series will free some vmemmap pages(struct page structures)
-> >> associated with each hugetlbpage when preallocated to save memory.
-> >
-> > Hi Mike,
-> >
-> > What's your opinion on this version?  Any comments or suggestions?
-> > And hoping you or more people review the series. Thank you very
-> > much.
->
-> Sorry Muchun, I have been busy with other things and have not looked at
-> this new version.  Should have some time soon.
+On Fri, Nov 06, 2020 at 04:52:52PM +0200, Jarkko Sakkinen wrote:
+> On Fri, Nov 06, 2020 at 03:02:41PM +0530, Sumit Garg wrote:
+> > On Thu, 5 Nov 2020 at 10:37, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > >
+> > > On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
+> > > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > > to seal and unseal trusted keys using hardware unique key. Also, this is
+> > > > an alternative in case platform doesn't possess a TPM device.
+> > > >
+> > > > This patch-set has been tested with OP-TEE based early TA which is already
+> > > > merged in upstream [1].
+> > >
+> > > Is the new RPI400 computer a platform that can be used for testing
+> > > patch sets like this? I've been looking for a while something ARM64
+> > > based with similar convenience as Intel NUC's, and on the surface
+> > > this new RPI product looks great for kernel testing purposes.
+> > 
+> > Here [1] is the list of supported versions of Raspberry Pi in OP-TEE.
+> > The easiest approach would be to pick up a supported version or else
+> > do an OP-TEE port for an unsupported one (which should involve minimal
+> > effort).
+> > 
+> > [1] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html#what-versions-of-raspberry-pi-will-work
+> > 
+> > -Sumit
+> 
+> If porting is doable, then I'll just order RPI 400, and test with QEMU
+> up until either I port OP-TEE myself or someone else does it.
+> 
+> For seldom ARM testing, RPI 400 is really convenient device with its
+> boxed form factor.
 
-Thanks very much.
+I'm now a proud owner of Raspberry Pi 400 home computer :-)
 
->
-> As previously mentioned, I feel qualified to review the hugetlb changes
-> and some other closely related changes.  However, this patch set is
-> touching quite a few areas and I do not feel qualified to make authoritative
-> statements about them all.  I too hope others will take a look.
+I also found instructions on how to boot a custom OS from a USB stick:
 
-Agree. I also hope others can take a look at other modules(e.g.
-sparse-vmemmap, memory-hotplug). Thanks for everyone's efforts
-on this.
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/msd.md
 
-> --
-> Mike Kravetz
+Also, my favorite build system BuildRoot has bunch of of the shelf
+configs:
 
+➜  buildroot-sgx (master) ✔ ls -1 configs | grep raspberry
+raspberrypi0_defconfig
+raspberrypi0w_defconfig
+raspberrypi2_defconfig
+raspberrypi3_64_defconfig
+raspberrypi3_defconfig
+raspberrypi3_qt5we_defconfig
+raspberrypi4_64_defconfig
+raspberrypi4_defconfig
+raspberrypi_defconfig
 
+I.e. I'm capable of compiling kernel and user space and boot it up
+with it.
 
--- 
-Yours,
-Muchun
+Further, I can select this compilation option:
+
+BR2_TARGET_OPTEE_OS:                                                                                                                                              │  
+                                                                                                                                                                     │  
+   OP-TEE OS provides the secure world boot image and the trust                                                                                                      │  
+   application development kit of the OP-TEE project. OP-TEE OS                                                                                                      │  
+   also provides generic trusted application one can embedded                                                                                                        │  
+   into its system.                                                                                                                                                  │  
+                                                                                                                                                                     │  
+   http://github.com/OP-TEE/optee_os       
+
+Is that what I want? If I put this all together and apply your patches,
+should the expectation be that I can use trusted keys?
+
+Please note that I had a few remarks about your patches (minor but need
+to be fixed), but this version is already solid enough for testing.
+
+/Jarkko
