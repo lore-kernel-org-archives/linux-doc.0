@@ -2,121 +2,274 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFE1C4361B
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 23:50:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68157C1B0E3
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 00:02:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D72122482
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Dec 2020 23:50:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42A07222B6
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 00:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388136AbgLCXuZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Dec 2020 18:50:25 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:51946 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388142AbgLCXuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 18:50:24 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3NTGIg175539;
-        Thu, 3 Dec 2020 23:48:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=Cqu3KSehMgp5GC1qcLE5nXes+mExlunWbJeDddKy1dI=;
- b=Qj+OW82lbGdB/QOBVDKQpK5t89U+g29d/oivBaqtOXx4PDZuIn5c/njHsVYxvgf4OoqW
- adzVM1RYDyMabKkkm+zq1HbYbfz6sPBEr88ra9501mSnKxNAVttnFFbzCzguTO6yJ2/Q
- Kukl4ri0WFV/dJXhH9UYAotKOyzyKWGILmxrHWwhzgsoCtCXUm2cYU6yOBsHIq7aIrFW
- gcQs+AKRrVlQ6eMFJg1sEXYuYgyDFCW7086Gq9h/lgQxZ/QtMd+j2V05blnsLprnKE/S
- xqeRI8RZx/t1jA3aNbK3QtxQUM1W5gfMNMOWomBvmbApqqPl2XEJiBLENVSxwcCw40lB RQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 353c2b8urx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 03 Dec 2020 23:48:51 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3NkdhD063885;
-        Thu, 3 Dec 2020 23:48:50 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 3540ax1d1r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 03 Dec 2020 23:48:50 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B3NmYSG029888;
-        Thu, 3 Dec 2020 23:48:35 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 03 Dec 2020 15:48:34 -0800
-Subject: Re: [PATCH v7 00/15] Free some vmemmap pages of hugetlb page
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
-        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
-        paulmck@kernel.org, viro@zeniv.linux.org.uk,
-        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
-        oneukum@suse.com, jroedel@suse.de,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        anshuman.khandual@arm.com, Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+        id S2388665AbgLDAC0 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Dec 2020 19:02:26 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2391 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388523AbgLDAC0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Dec 2020 19:02:26 -0500
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CnCXf671Nz50N9;
+        Fri,  4 Dec 2020 08:01:06 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 4 Dec 2020 08:01:41 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi761-chm.china.huawei.com (10.1.198.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Fri, 4 Dec 2020 08:01:41 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
+ Fri, 4 Dec 2020 08:01:41 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Muchun Song <songmuchun@bytedance.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "pawan.kumar.gupta@linux.intel.com" 
+        <pawan.kumar.gupta@linux.intel.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "oneukum@suse.com" <oneukum@suse.com>,
+        "anshuman.khandual@arm.com" <anshuman.khandual@arm.com>,
+        "jroedel@suse.de" <jroedel@suse.de>,
+        "almasrymina@google.com" <almasrymina@google.com>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "willy@infradead.org" <willy@infradead.org>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "mhocko@suse.com" <mhocko@suse.com>
+CC:     "duanxiongchun@bytedance.com" <duanxiongchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH v7 13/15] mm/hugetlb: Add a kernel parameter
+ hugetlb_free_vmemmap
+Thread-Topic: [PATCH v7 13/15] mm/hugetlb: Add a kernel parameter
+ hugetlb_free_vmemmap
+Thread-Index: AQHWxyyEW8/tZjAAjUGQxE1fk3rBGKnmEXCA
+Date:   Fri, 4 Dec 2020 00:01:41 +0000
+Message-ID: <a6cd4183b9bf4e72b649a271b4843f89@hisilicon.com>
 References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com>
-Date:   Thu, 3 Dec 2020 15:48:32 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+ <20201130151838.11208-14-songmuchun@bytedance.com>
+In-Reply-To: <20201130151838.11208-14-songmuchun@bytedance.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9824 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=2
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012030131
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9824 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 lowpriorityscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
- spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012030130
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.201.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/3/20 12:35 AM, Muchun Song wrote:
-> On Mon, Nov 30, 2020 at 11:19 PM Muchun Song <songmuchun@bytedance.com> wrote:
->>
->> Hi all,
->>
->> This patch series will free some vmemmap pages(struct page structures)
->> associated with each hugetlbpage when preallocated to save memory.
-> 
-> Hi Mike,
-> 
-> What's your opinion on this version?  Any comments or suggestions?
-> And hoping you or more people review the series. Thank you very
-> much.
 
-Sorry Muchun, I have been busy with other things and have not looked at
-this new version.  Should have some time soon.
 
-As previously mentioned, I feel qualified to review the hugetlb changes
-and some other closely related changes.  However, this patch set is
-touching quite a few areas and I do not feel qualified to make authoritative
-statements about them all.  I too hope others will take a look.
--- 
-Mike Kravetz
+> -----Original Message-----
+> From: Muchun Song [mailto:songmuchun@bytedance.com]
+> Sent: Tuesday, December 1, 2020 4:19 AM
+> To: corbet@lwn.net; mike.kravetz@oracle.com; tglx@linutronix.de;
+> mingo@redhat.com; bp@alien8.de; x86@kernel.org; hpa@zytor.com;
+> dave.hansen@linux.intel.com; luto@kernel.org; peterz@infradead.org;
+> viro@zeniv.linux.org.uk; akpm@linux-foundation.org; paulmck@kernel.org;
+> mchehab+huawei@kernel.org; pawan.kumar.gupta@linux.intel.com;
+> rdunlap@infradead.org; oneukum@suse.com; anshuman.khandual@arm.com;
+> jroedel@suse.de; almasrymina@google.com; rientjes@google.com;
+> willy@infradead.org; osalvador@suse.de; mhocko@suse.com; Song Bao Hua (Barry
+> Song) <song.bao.hua@hisilicon.com>
+> Cc: duanxiongchun@bytedance.com; linux-doc@vger.kernel.org;
+> linux-kernel@vger.kernel.org; linux-mm@kvack.org;
+> linux-fsdevel@vger.kernel.org; Muchun Song <songmuchun@bytedance.com>
+> Subject: [PATCH v7 13/15] mm/hugetlb: Add a kernel parameter
+> hugetlb_free_vmemmap
+> 
+> Add a kernel parameter hugetlb_free_vmemmap to disable the feature of
+> freeing unused vmemmap pages associated with each hugetlb page on boot.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+
+
+Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  9 +++++++++
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |  3 +++
+>  arch/x86/mm/init_64.c                           |  5 +++--
+>  include/linux/hugetlb.h                         | 19 +++++++++++++++++++
+>  mm/hugetlb_vmemmap.c                            | 18 +++++++++++++++++-
+>  5 files changed, 51 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+> b/Documentation/admin-guide/kernel-parameters.txt
+> index 3ae25630a223..9e6854f21d55 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1551,6 +1551,15 @@
+>  			Documentation/admin-guide/mm/hugetlbpage.rst.
+>  			Format: size[KMG]
+> 
+> +	hugetlb_free_vmemmap=
+> +			[KNL] When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set,
+> +			this controls freeing unused vmemmap pages associated
+> +			with each HugeTLB page.
+> +			Format: { on | off (default) }
+> +
+> +			on:  enable the feature
+> +			off: disable the feature
+> +
+>  	hung_task_panic=
+>  			[KNL] Should the hung task detector generate panics.
+>  			Format: 0 | 1
+> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst
+> b/Documentation/admin-guide/mm/hugetlbpage.rst
+> index f7b1c7462991..6a8b57f6d3b7 100644
+> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> @@ -145,6 +145,9 @@ default_hugepagesz
+> 
+>  	will all result in 256 2M huge pages being allocated.  Valid default
+>  	huge page size is architecture dependent.
+> +hugetlb_free_vmemmap
+> +	When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set, this enables freeing
+> +	unused vmemmap pages associated each HugeTLB page.
+> 
+>  When multiple huge page sizes are supported, ``/proc/sys/vm/nr_hugepages``
+>  indicates the current number of pre-allocated huge pages of the default size.
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 155cb06a6961..fcdc020904a8 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/gfp.h>
+>  #include <linux/kcore.h>
+>  #include <linux/bootmem_info.h>
+> +#include <linux/hugetlb.h>
+> 
+>  #include <asm/processor.h>
+>  #include <asm/bios_ebda.h>
+> @@ -1557,7 +1558,7 @@ int __meminit vmemmap_populate(unsigned long start,
+> unsigned long end, int node,
+>  {
+>  	int err;
+> 
+> -	if (IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP))
+> +	if (is_hugetlb_free_vmemmap_enabled())
+>  		err = vmemmap_populate_basepages(start, end, node, NULL);
+>  	else if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+>  		err = vmemmap_populate_basepages(start, end, node, NULL);
+> @@ -1613,7 +1614,7 @@ void register_page_bootmem_memmap(unsigned long
+> section_nr,
+>  		get_page_bootmem(section_nr, pud_page(*pud), MIX_SECTION_INFO);
+> 
+>  		if (!boot_cpu_has(X86_FEATURE_PSE) ||
+> -		    IS_ENABLED(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)) {
+> +		    is_hugetlb_free_vmemmap_enabled()) {
+>  			next = (addr + PAGE_SIZE) & PAGE_MASK;
+>  			pmd = pmd_offset(pud, addr);
+>  			if (pmd_none(*pmd))
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 4efeccb7192c..66d82ae7b712 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -773,6 +773,20 @@ static inline void huge_ptep_modify_prot_commit(struct
+> vm_area_struct *vma,
+>  }
+>  #endif
+> 
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +extern bool hugetlb_free_vmemmap_enabled;
+> +
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return hugetlb_free_vmemmap_enabled;
+> +}
+> +#else
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  #else	/* CONFIG_HUGETLB_PAGE */
+>  struct hstate {};
+> 
+> @@ -926,6 +940,11 @@ static inline void set_huge_swap_pte_at(struct mm_struct
+> *mm, unsigned long addr
+>  					pte_t *ptep, pte_t pte, unsigned long sz)
+>  {
+>  }
+> +
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return false;
+> +}
+>  #endif	/* CONFIG_HUGETLB_PAGE */
+> 
+>  static inline spinlock_t *huge_pte_lock(struct hstate *h,
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index a3714db7f400..ebc710d148e4 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -131,6 +131,21 @@ typedef void (*vmemmap_remap_pte_func_t)(struct page
+> *reuse, pte_t *pte,
+>  					 unsigned long start, unsigned long end,
+>  					 void *priv);
+> 
+> +bool hugetlb_free_vmemmap_enabled;
+> +
+> +static int __init early_hugetlb_free_vmemmap_param(char *buf)
+> +{
+> +	if (!buf)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(buf, "on"))
+> +		hugetlb_free_vmemmap_enabled = true;
+> +	else if (strcmp(buf, "off"))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("hugetlb_free_vmemmap", early_hugetlb_free_vmemmap_param);
+> 
+>  static inline unsigned int vmemmap_pages_per_hpage(struct hstate *h)
+>  {
+> @@ -325,7 +340,8 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+>  	unsigned int nr_pages = pages_per_huge_page(h);
+>  	unsigned int vmemmap_pages;
+> 
+> -	if (!is_power_of_2(sizeof(struct page))) {
+> +	if (!is_power_of_2(sizeof(struct page)) ||
+> +	    !hugetlb_free_vmemmap_enabled) {
+>  		pr_info("disable freeing vmemmap pages for %s\n", h->name);
+>  		return;
+>  	}
+> --
+> 2.11.0
+
+Thanks
+Barry
+
