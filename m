@@ -2,143 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 383CDC2BBCA
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2CAC4361A
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:44:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18FD4225AC
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:22:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F7A522581
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:44:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728431AbgLDGVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Dec 2020 01:21:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46704 "EHLO
+        id S1728363AbgLDGoh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 01:44:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727952AbgLDGVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Dec 2020 01:21:53 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2107C061A56;
-        Thu,  3 Dec 2020 22:20:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=FLeiyYcYndFk6Ks4B0qswcYUlqrq6gt+Fx7r0g+Y8ik=; b=zzLwHWxuX5I8GLqCIpWPnwFOpd
-        je0NB1McyN7WaOOs9mkpTX3KLVVGJ5HW6T6/xrUZOxAmyNRam9hknyhXquOsrwCLZktRK+uBxjlgp
-        fOVCCXaIThzM+T74eg+Hu7GdF/g3qa2/Y39d0JbgSV6lo5aCfDX+4cj16INypm/xbsXszCFZ1WKqh
-        wLuziDNc2RnAkjoVgq/JVDYYeNH1rzvX0VZFt2W1gw/JoRC43A0Lh4McEYhuzhb+07k/ePw3S94Yd
-        eeF5qA8BLswpWWp0MTYPork05/08eY7BbYOP5F42gwLOH7rG76XnH5Qhx54JJ7PrM4ZpQiVKKE4f2
-        dsDfpnNg==;
-Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kl4SZ-0002HZ-Gt; Fri, 04 Dec 2020 06:20:52 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
+        with ESMTP id S1727939AbgLDGoh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Dec 2020 01:44:37 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78BBAC061A4F;
+        Thu,  3 Dec 2020 22:43:57 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kl4op-0001Rq-EK; Fri, 04 Dec 2020 07:43:51 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 6/8] Documentation: HID: hid-sensor editing & corrections
-Date:   Thu,  3 Dec 2020 22:20:20 -0800
-Message-Id: <20201204062022.5095-7-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201204062022.5095-1-rdunlap@infradead.org>
-References: <20201204062022.5095-1-rdunlap@infradead.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] New documentation text describing how to report issues (aka "reporting-bugs rewritten")
+Date:   Fri,  4 Dec 2020 07:43:47 +0100
+Message-Id: <cover.1607063223.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1607064237;d850bb54;
+X-HE-SMSGID: 1kl4op-0001Rq-EK
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Do basic editing & correction to hid-sensor.rst:
-- use HID consistently instead of hid
-- drop a duplicate word
-- change article adjective an -> a
-- fix grammar & punctuation
-- spell out RW -> read-write
-- hyphenate multi-word adjectives
+This series adds a new and mostly finished document describing how to report
+issues with the Linux kernel to its developers. It is designed to be a lot more
+straight forward and yet more detailed than the current text about this
+(Documentation/admin-guide/reporting-bugs.rst). The new text still needs to be
+reviewed by more people and a few open issues will need discussion. To make
+these tasks easier, it was decided to add this document to the kernel sources in
+parallel to the existing text for now:
+https://lkml.kernel.org/r/20201118172958.5b014a44@lwn.net
+
+The first patch in the series adds the CC-BY-4.0 license to the
+LICENSES/preferred/ directory, as the main author wants to make it easy for
+others to use the new text as a base when writing about this topic in books or
+on websites. He for now went with for dual-licensing the text under GPL-2.0+ and
+CC-BY-4.0. We shouldn't lose much when people use the more liberal of the two,
+but gain one thing: it increases chances that texts about this topic are based
+on this one, which should make them more accurate and to our liking.
+
+The last patch in the series adds a note to
+Documentation/admin-guide/reporting-bugs.rst, declaring it obsolete and telling
+readers to head over to the new text, as discussed after the v2 submission.
+
+To see how the new text relates to the current reporting-bugs.rst document, see
+v2 of this patchset, which gradually replaced the old text with the new (which
+hasn't changed much since then):
+https://lore.kernel.org/lkml/cover.1605203187.git.linux@leemhuis.info/
+
+To see how the new text from v3 and v4 relates to the one from v2 or v1, compare
+these files with tools like meld or kdiff3:
+
+https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v4-wrapped.rst
+https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v3-wrapped.rst
+https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v2-wrapped.rst
+https://gitlab.com/knurd42/linux/-/raw/reporting-bugs/Documentation/admin-guide/reporting-bugs-v1-wrapped.rst
+
+The patch series is against docs-next and can also be found on gitlab:
+git://git@gitlab.com:knurd42/linux.git reporting-bugs-v4
+
+[1] https://lkml.kernel.org/r/20201118172958.5b014a44@lwn.net
+
+= Changes =
+
+v3 -> v4
+- move CC-BY-4.0 from LICENSES/preferred/ to LICENSES/dual/
+- add note to CC-BY-4.0 file explaining why it's best used together with GPL
+- add a note to as comment to the header of reporting-issues.rst, pointing out
+only the unprocessed version of this file is available under CC-BY-4.0.
+
+v2 -> v3
+- drop the RFC tag
+- add CC-BY-4.0 to LICENSES/preferred/
+- instead of adding the new text in small parts while gradually replacing the
+  old text simply dump the whole new text in a new file in one go
+- add a note at the top pointing out the text is not completely finished yet,
+  but ready for consumption
+- add a few notes to the text pointing to issues that need discussion or work;
+  this until now was done in the patch
+- let the automarkup extension handle links to Documentation/whatever instead of
+  using an explicit :ref:
+- leave scripts/ver_linux untouched
+- a handful of small improvements and fixes in the main text
+- add a patch that makes reporting-bugs.rst obsolete
+
+v1 -> v2
+- all over: a whole lot of spelling fixes and small improvements. Many thx to
+  suggestions from Randy Dunlap (many thx!).
+- use "ref:" to reference MAINTAINERs file
+- the licensing advice is now a rst comment near the top
+- reshuffle and rewrite some parts to make them more straight forward:
+ - The short guide (aka TL;DR)" (patch 2)
+ - Locate kernel area that causes the issue (patch 9)
+ - Install a fresh kernel for testing (patch 15)
+
+= Links =
+
+v3 submission:
+https://lore.kernel.org/lkml/cover.1606137108.git.linux@leemhuis.info/
+
+v2 submission:
+https://lore.kernel.org/lkml/cover.1605203187.git.linux@leemhuis.info/
+
+v1 submission:
+https://lore.kernel.org/lkml/cover.1601541165.git.linux@leemhuis.info/
+
+Current version of reporting-bugs.rst
+https://www.kernel.org/doc/html/latest/admin-guide/reporting-bugs.html
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/admin-guide/reporting-bugs.rst
+
+Commits to it and its predecessor:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/Documentation/admin-guide/reporting-bugs.rst
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/REPORTING-BUGS
+
+Thorsten Leemhuis (3):
+  LICENSES: Add the CC-BY-4.0 license
+  docs: Add a new text describing how to report bugs
+  docs: make reporting-bugs.rst obsolete
+
+ Documentation/admin-guide/README.rst          |    4 +-
+ Documentation/admin-guide/bug-bisect.rst      |    2 +-
+ Documentation/admin-guide/index.rst           |    3 +-
+ Documentation/admin-guide/reporting-bugs.rst  |    5 +
+ .../admin-guide/reporting-issues.rst          | 1631 +++++++++++++++++
+ Documentation/admin-guide/security-bugs.rst   |    2 +-
+ .../device_drivers/ethernet/3com/vortex.rst   |    4 +-
+ Documentation/process/howto.rst               |    9 +-
+ LICENSES/dual/CC-BY-4.0                       |  410 +++++
+ 9 files changed, 2058 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/admin-guide/reporting-issues.rst
+ create mode 100644 LICENSES/dual/CC-BY-4.0
 
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: linux-input@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/hid/hid-sensor.rst |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+base-commit: ac7711427014a84ba08353df2b77f115565216d8
+-- 
+2.28.0
 
---- linux-next-20201201.orig/Documentation/hid/hid-sensor.rst
-+++ linux-next-20201201/Documentation/hid/hid-sensor.rst
-@@ -48,12 +48,12 @@ for different sensors. For example an ac
- an ambient light sensor can send illumination data.
- So the implementation has two parts:
- 
--- Core hid driver
-+- Core HID driver
- - Individual sensor processing part (sensor drivers)
- 
- Core driver
- -----------
--The core driver registers (hid-sensor-hub) registers as a HID driver. It parses
-+The core driver (hid-sensor-hub) registers as a HID driver. It parses
- report descriptors and identifies all the sensors present. It adds an MFD device
- with name HID-SENSOR-xxxx (where xxxx is usage id from the specification).
- 
-@@ -95,14 +95,14 @@ Registration functions::
- 			u32 usage_id,
- 			struct hid_sensor_hub_callbacks *usage_callback):
- 
--Registers callbacks for an usage id. The callback functions are not allowed
-+Registers callbacks for a usage id. The callback functions are not allowed
- to sleep::
- 
- 
-   int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
- 			u32 usage_id):
- 
--Removes callbacks for an usage id.
-+Removes callbacks for a usage id.
- 
- 
- Parsing function::
-@@ -166,7 +166,7 @@ This allows some differentiating use cas
- Some common use cases are debug other sensors or to provide some events like
- keyboard attached/detached or lid open/close.
- 
--To allow application to utilize these sensors, here they are exported uses sysfs
-+To allow application to utilize these sensors, here they are exported using sysfs
- attribute groups, attributes and misc device interface.
- 
- An example of this representation on sysfs::
-@@ -207,9 +207,9 @@ An example of this representation on sys
-   │   │   │   ├── input-1-200202-units
-   │   │   │   ├── input-1-200202-value
- 
--Here there is a custom sensors with four fields, two feature and two inputs.
-+Here there is a custom sensor with four fields: two feature and two inputs.
- Each field is represented by a set of attributes. All fields except the "value"
--are read only. The value field is a RW field.
-+are read only. The value field is a read-write field.
- 
- Example::
- 
-@@ -237,6 +237,6 @@ These reports are pushed using misc devi
- 	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
- 	│   ├──  HID-SENSOR-2000e1.6.auto
- 
--Each reports can be of variable length preceded by a header. This header
--consist of a 32 bit usage id, 64 bit time stamp and 32 bit length field of raw
-+Each report can be of variable length preceded by a header. This header
-+consists of a 32-bit usage id, 64-bit time stamp and 32-bit length field of raw
- data.
