@@ -2,142 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489F2C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 05:17:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B02E3C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:21:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E748022581
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 05:17:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BFFC2253D
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 06:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725372AbgLDFRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Dec 2020 00:17:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47726 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725300AbgLDFRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 4 Dec 2020 00:17:31 -0500
-Date:   Fri, 4 Dec 2020 07:16:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607059009;
-        bh=MytoTQmK0FWpezBeB0/MIP6XIJc0eGXJUDMWPEVo7PA=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SuRTAIIUpLjq3GUyKoK3lRf2aP+PaQZ5/PHvW+PdJV9RBOUq4jqvEwmrkzGp23Mdc
-         eHU+vvWSnsIKri9zYinMa5cNfTq7O8qk25EG7K9tHw3MNzJSWMhy4BuJvYtAWx0msc
-         A9UW3vaU51sXDgVCz1Ez1SLfJqsEuk2sgqH6EOS58woJacVBUqlsqVrFI5mvfP6a4C
-         YIVa8iBrmGRX2zXFu2DiXu65vG5IUZExc0SCeKhrmoiQfnToOd3WOOdrfCX8/8WDUg
-         d7kzEaS/3nYG3eBiXmopNWZrEKe/FxTZT/2vZ+nfuQdH9kkAwpGMoyk9DRrXHv+Hwz
-         SB1T4+ZpRwx7Q==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
-Message-ID: <20201204051642.GA154469@kernel.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
- <20201105050736.GA702944@kernel.org>
- <CAFA6WYPetvod-Wov2n_L5TL771j+-kt+_csyWYT-uM=haEKMZQ@mail.gmail.com>
- <20201106145252.GA10434@kernel.org>
+        id S1726244AbgLDGVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 01:21:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725819AbgLDGVM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Dec 2020 01:21:12 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543F3C061A4F;
+        Thu,  3 Dec 2020 22:20:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=fgXm/QAA7Eu/vUF3KYHNBDk79AWBS+9/y2XhJwrc8oI=; b=adqeUg3D1GdG42zq/UAYkgzhs4
+        UnCqGFnejT70aau0EBTdgsSd1ddEjRk67AAxhcs/b01fBSJcbpZ5Db4za4F8wSlugFicfVcF5N3Il
+        eWmZCOzmN6pC1E46W8aQ+go8JeZypUdb/6RhJOu6PJDbbH0YS8p925Gntv+U04hUWD1ocW+je2Cir
+        Kn9IUeK6vW1JRCB2SCqR5rVFMAvn3xVzWc5AS6BmXfs/ucwDLrtzeUwPnFl/1qM2hM1cKUlg/QnMH
+        qE6ZBo0gmGQR02PeN71y10m5eiCRmTTY/ok32vlCYkV+4BT/I95A07GITG20r+PU68N2B7CKsZPLM
+        o3UKTiJg==;
+Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kl4SD-0002HZ-Fv; Fri, 04 Dec 2020 06:20:30 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 0/8] Documentation: HID: edit/correct all files
+Date:   Thu,  3 Dec 2020 22:20:14 -0800
+Message-Id: <20201204062022.5095-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201106145252.GA10434@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 06, 2020 at 04:52:52PM +0200, Jarkko Sakkinen wrote:
-> On Fri, Nov 06, 2020 at 03:02:41PM +0530, Sumit Garg wrote:
-> > On Thu, 5 Nov 2020 at 10:37, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >
-> > > On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
-> > > > Add support for TEE based trusted keys where TEE provides the functionality
-> > > > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > > > an alternative in case platform doesn't possess a TPM device.
-> > > >
-> > > > This patch-set has been tested with OP-TEE based early TA which is already
-> > > > merged in upstream [1].
-> > >
-> > > Is the new RPI400 computer a platform that can be used for testing
-> > > patch sets like this? I've been looking for a while something ARM64
-> > > based with similar convenience as Intel NUC's, and on the surface
-> > > this new RPI product looks great for kernel testing purposes.
-> > 
-> > Here [1] is the list of supported versions of Raspberry Pi in OP-TEE.
-> > The easiest approach would be to pick up a supported version or else
-> > do an OP-TEE port for an unsupported one (which should involve minimal
-> > effort).
-> > 
-> > [1] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html#what-versions-of-raspberry-pi-will-work
-> > 
-> > -Sumit
-> 
-> If porting is doable, then I'll just order RPI 400, and test with QEMU
-> up until either I port OP-TEE myself or someone else does it.
-> 
-> For seldom ARM testing, RPI 400 is really convenient device with its
-> boxed form factor.
+Make editing corrections to all files in Documentation/hid/.
 
-I'm now a proud owner of Raspberry Pi 400 home computer :-)
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: linux-iio@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 
-I also found instructions on how to boot a custom OS from a USB stick:
+ [PATCH 1/8] Documentation: HID: hid-alps editing & corrections
+ [PATCH 2/8] Documentation: HID: amd-sfh-hid editing & corrections
+ [PATCH 3/8] Documentation: HID: hiddev editing & corrections
+ [PATCH 4/8] Documentation: HID: intel-ish-hid editing & corrections
+ [PATCH 5/8] Documentation: HID: hidraw editing & corrections
+ [PATCH 6/8] Documentation: HID: hid-sensor editing & corrections
+ [PATCH 7/8] Documentation: HID: hid-transport editing & corrections
+ [PATCH 8/8] Documentation: HID: uhid editing & corrections
 
-https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/msd.md
-
-Also, my favorite build system BuildRoot has bunch of of the shelf
-configs:
-
-➜  buildroot-sgx (master) ✔ ls -1 configs | grep raspberry
-raspberrypi0_defconfig
-raspberrypi0w_defconfig
-raspberrypi2_defconfig
-raspberrypi3_64_defconfig
-raspberrypi3_defconfig
-raspberrypi3_qt5we_defconfig
-raspberrypi4_64_defconfig
-raspberrypi4_defconfig
-raspberrypi_defconfig
-
-I.e. I'm capable of compiling kernel and user space and boot it up
-with it.
-
-Further, I can select this compilation option:
-
-BR2_TARGET_OPTEE_OS:                                                                                                                                              │  
-                                                                                                                                                                     │  
-   OP-TEE OS provides the secure world boot image and the trust                                                                                                      │  
-   application development kit of the OP-TEE project. OP-TEE OS                                                                                                      │  
-   also provides generic trusted application one can embedded                                                                                                        │  
-   into its system.                                                                                                                                                  │  
-                                                                                                                                                                     │  
-   http://github.com/OP-TEE/optee_os       
-
-Is that what I want? If I put this all together and apply your patches,
-should the expectation be that I can use trusted keys?
-
-Please note that I had a few remarks about your patches (minor but need
-to be fixed), but this version is already solid enough for testing.
-
-/Jarkko
+ Documentation/hid/amd-sfh-hid.rst   |   16 ++---
+ Documentation/hid/hid-alps.rst      |    4 -
+ Documentation/hid/hid-sensor.rst    |   18 +++---
+ Documentation/hid/hid-transport.rst |   12 ++--
+ Documentation/hid/hiddev.rst        |   12 ++--
+ Documentation/hid/hidraw.rst        |    5 +
+ Documentation/hid/intel-ish-hid.rst |   74 +++++++++++++-------------
+ Documentation/hid/uhid.rst          |   34 +++++------
+ 8 files changed, 89 insertions(+), 86 deletions(-)
