@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 474FEC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 15:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C22FC4361B
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 15:33:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1205F22B43
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 15:33:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50BCC22BE9
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 15:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730350AbgLDPdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1730391AbgLDPdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Fri, 4 Dec 2020 10:33:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38588 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729124AbgLDPdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728708AbgLDPdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 4 Dec 2020 10:33:15 -0500
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
@@ -24,12 +24,12 @@ To:     "Jonathan Corbet" <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/3] improve get_feat.pl output when all features are displayed
-Date:   Fri,  4 Dec 2020 16:32:27 +0100
-Message-Id: <cover.1607095090.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 3/3] scripts: get_feat.pl: reduce table width for all features output
+Date:   Fri,  4 Dec 2020 16:32:30 +0100
+Message-Id: <9d39ac3fd51f1360aecc328c01558be88a1d6930.1607095090.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201203153642.594afd85@lwn.net>
-References: <20201203153642.594afd85@lwn.net>
+In-Reply-To: <cover.1607095090.git.mchehab+huawei@kernel.org>
+References: <cover.1607095090.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -37,42 +37,184 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jon,
+Auto-adjust the table columns width to better fit under
+terminals, by breaking the description on multiple lines
+and auto-estimating the minimal size for the
+per-architecture status.
 
-As requested, those patches improve the output of the script, when all features
-are displayed.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/get_feat.pl | 71 +++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 59 insertions(+), 12 deletions(-)
 
-The first patch was already posted as-is at v3.
-
-Patch 2 is optional. IMO, it makes more sense for the admin guide to show
-the architectures where the features are OK, then TODO, and finally the
-ones that are incompatible with the features. I already sent it together
-with a comment.
-
-Patch 3 is new: it tries to reduce the width of the table, in order for it
-to better fit on a terminal. With the patch, the number of columns were
-reduced, in order to better fit at console output. Before the patch, the
-output takes 281 lines with 158 columns (total size: 38.9 kB). 
-After the patch, displaying all features require 439 lines and 92 columns
-(total size: 37.6 kB).
-
-While not implemented, it shold be trivial to allow controlling the
-number of columns via command line (with a 2 line patch).
-
-I ended dropping such control basically because I was too lazy
-to add the helper for the two new command line parameters ;-)
-(and because it probably doesn't matter much sense for the
-user to control it  - I guess).
-
-Mauro Carvalho Chehab (3):
-  scripts: get_feat.pl: make complete table more coincise
-  scripts: get_feat.pl: change the group by order
-  scripts: get_feat.pl: reduce table width for all features output
-
- scripts/get_feat.pl | 160 ++++++++++++++++++++++++++++++++------------
- 1 file changed, 119 insertions(+), 41 deletions(-)
-
+diff --git a/scripts/get_feat.pl b/scripts/get_feat.pl
+index 3f73c8534059..457712355676 100755
+--- a/scripts/get_feat.pl
++++ b/scripts/get_feat.pl
+@@ -19,6 +19,11 @@ $basename =~ s,/[^/]+$,/,;
+ 
+ my $prefix=$basename . "../Documentation/features";
+ 
++# Used only at for full features output. The script will auto-adjust
++# such values for the minimal possible values
++my $status_size = 1;
++my $description_size = 1;
++
+ GetOptions(
+ 	"debug|d+" => \$debug,
+ 	"dir=s" => \$prefix,
+@@ -77,7 +82,10 @@ my $max_size_kconfig = length($h_kconfig);
+ my $max_size_description = length($h_description);
+ my $max_size_subsys = length($h_subsys);
+ my $max_size_status = length($h_status);
+-my $max_size_arch = length($h_arch);
++
++my $max_size_arch = 0;
++my $max_size_arch_with_header;
++my $max_description_word = 0;
+ 
+ sub parse_feat {
+ 	my $file = $File::Find::name;
+@@ -127,6 +135,13 @@ sub parse_feat {
+ 			if (length($description) > $max_size_description) {
+ 				$max_size_description = length($description);
+ 			}
++
++			foreach my $word (split /\s+/, $description) {
++				if (length($word) > $max_description_word) {
++					$max_description_word = length($word);
++				}
++			}
++
+ 			next;
+ 		}
+ 		next if (m/^\\s*$/);
+@@ -180,6 +195,8 @@ sub parse_feat {
+ 	$data{$name}->{description} = $description;
+ 	$data{$name}->{comments} = $comments;
+ 	$data{$name}->{table} = \%arch_table;
++
++	$max_size_arch_with_header = $max_size_arch + length($h_arch);
+ }
+ 
+ #
+@@ -296,7 +313,7 @@ sub output_feature {
+ 		print "$com\n\n";
+ 	}
+ 
+-	print "=" x $max_size_arch;
++	print "=" x $max_size_arch_with_header;
+ 	print "  ";
+ 	print "=" x $max_size_status;
+ 	print "\n";
+@@ -304,7 +321,7 @@ sub output_feature {
+ 	printf "%-${max_size_arch}s  ", $h_arch;
+ 	printf "%-${max_size_status}s", $h_status . "\n";
+ 
+-	print "=" x $max_size_arch;
++	print "=" x $max_size_arch_with_header;
+ 	print "  ";
+ 	print "=" x $max_size_status;
+ 	print "\n";
+@@ -315,7 +332,7 @@ sub output_feature {
+ 		printf "%-${max_size_status}s\n", $arch_table{$arch};
+ 	}
+ 
+-	print "=" x $max_size_arch;
++	print "=" x $max_size_arch_with_header;
+ 	print "  ";
+ 	print "=" x $max_size_status;
+ 	print "\n";
+@@ -351,6 +368,7 @@ sub matrix_lines($$$) {
+ 
+ sub output_matrix {
+ 	my $title = "Feature status on all architectures";
++	my $notcompat = "Not compatible";
+ 
+ 	print "=" x length($title) . "\n";
+ 	print "$title\n";
+@@ -359,10 +377,21 @@ sub output_matrix {
+ 	my $desc_title = "$h_kconfig / $h_description";
+ 
+ 	my $desc_size = $max_size_kconfig + 4;
+-	$desc_size = $max_size_description if ($max_size_description > $desc_size);
++	if (!$description_size) {
++		$desc_size = $max_size_description if ($max_size_description > $desc_size);
++	} else {
++		$desc_size = $description_size if ($description_size > $desc_size);
++	}
++	$desc_size = $max_description_word if ($max_description_word > $desc_size);
++
+ 	$desc_size = length($desc_title) if (length($desc_title) > $desc_size);
+ 
+-	my $status_size = 60;
++	$max_size_status = length($notcompat) if (length($notcompat) > $max_size_status);
++
++	# Ensure that the status will fit
++	my $min_status_size = $max_size_status + $max_size_arch + 6;
++	$status_size = $min_status_size if ($status_size < $min_status_size);
++
+ 
+ 	my $cur_subsys = "";
+ 	foreach my $name (sort {
+@@ -394,7 +423,7 @@ sub output_matrix {
+ 		my %arch_table = %{$data{$name}->{table}};
+ 		my $cur_status = "";
+ 
+-		my @lines;
++		my (@lines, @descs);
+ 		my $line = "";
+ 		foreach my $arch (sort {
+ 					($arch_table{$b} cmp $arch_table{$a}) or
+@@ -404,7 +433,7 @@ sub output_matrix {
+ 			my $status = $arch_table{$arch};
+ 
+ 			if ($status eq "---") {
+-				$status = "Not compatible";
++				$status = $notcompat;
+ 			}
+ 
+ 			if ($status ne $cur_status) {
+@@ -423,17 +452,35 @@ sub output_matrix {
+ 		}
+ 		push @lines, $line if ($line ne "");
+ 
+-		# Ensure that description will be printed
+-		push @lines, "" while (scalar(@lines) < 2);
++		my $description = $data{$name}->{description};
++		while (length($description) > $desc_size) {
++			my $d = substr $description, 0, $desc_size;
++
++			# Ensure that it will end on a space
++			# if it can't, it means that the size is too small
++			# Instead of aborting it, let's print what we have
++			if (!($d =~ s/^(.*)\s+.*/$1/)) {
++				$d = substr $d, 0, -1;
++				push @descs, "$d\\";
++				$description =~ s/^\Q$d\E//;
++			} else {
++				push @descs, $d;
++				$description =~ s/^\Q$d\E\s+//;
++			}
++		}
++		push @descs, $description;
++
++		# Ensure that the full description will be printed
++		push @lines, "" while (scalar(@lines) < 2 + scalar(@descs));
+ 
+ 		my $ln = 0;
+ 		for my $line(@lines) {
+ 			if (!$ln) {
+ 				printf "|%-${max_size_name}s", $name;
+ 				printf "|%-${desc_size}s", "``" . $data{$name}->{kconfig} . "``";
+-			} elsif ($ln == 2) {
++			} elsif ($ln >= 2 && scalar(@descs)) {
+ 				printf "|%-${max_size_name}s", "";
+-				printf "|%-${desc_size}s", $data{$name}->{description};
++				printf "|%-${desc_size}s", shift @descs;
+ 			} else {
+ 				printf "|%-${max_size_name}s", "";
+ 				printf "|%-${desc_size}s", "";
 -- 
 2.28.0
-
 
