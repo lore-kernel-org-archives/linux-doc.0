@@ -2,42 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A76FC4167B
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AB3C2BBCD
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9DBC22EBF
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14ED422E00
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 18:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728719AbgLESTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1728732AbgLESTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sat, 5 Dec 2020 13:19:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43212 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:46420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727787AbgLERyc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 5 Dec 2020 12:54:32 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5F6F92311C;
-        Sat,  5 Dec 2020 17:17:11 +0000 (UTC)
-Date:   Sat, 5 Dec 2020 17:17:08 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/8] Documentation: HID: hiddev editing & corrections
-Message-ID: <20201205171708.55251bb7@archlinux>
-In-Reply-To: <20201204062022.5095-4-rdunlap@infradead.org>
-References: <20201204062022.5095-1-rdunlap@infradead.org>
-        <20201204062022.5095-4-rdunlap@infradead.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728356AbgLESEg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 5 Dec 2020 13:04:36 -0500
+Date:   Sat, 5 Dec 2020 17:03:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607184234;
+        bh=j6/EpsPHQza8Klw86MQJoxgPG0CYgRR+DE263FUMw0U=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ldowca47whOC5chTBjM/tHnckWSi/4ecdFC7NmGXw03IrL/7lQD71dFwFDXkoh50n
+         9RvtyWMEZ1bxMdgzqkguHXll4ZUUIs5ILgTcKKyK7TppEkgHRHi0D8yKm7mBK2dP22
+         p0ylYeI2KyILMvJGcgiOmz0eOQ69I38rsa7AF/8cgj+4OZKwRCpgSoblLaULtLwBxR
+         3PgMARAl0PdAy8y/G4VeUPaDx51b+kYMUU+iOYF19gRb2dzRWvknkC1d+hp7zktx1Z
+         BrdGYk9Lb4kvjJW76YgKDgNwBrk0VMLnTGgZph8HvS7E3Hg1UAHR9rZYFBgMgH6zFj
+         hHSw878VHfZyQ==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] improve get_feat.pl output when all features are
+ displayed
+Message-ID: <20201205170350.19d91c51@coco.lan>
+In-Reply-To: <20201204144843.1ed3b988@lwn.net>
+References: <20201203153642.594afd85@lwn.net>
+        <cover.1607095090.git.mchehab+huawei@kernel.org>
+        <20201204144843.1ed3b988@lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -45,82 +49,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  3 Dec 2020 22:20:17 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Em Fri, 4 Dec 2020 14:48:43 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Do basic editing & correction to hiddev.rst:
-> - use HID instead of hid consistently
-
-One case inline, where I think the usage of hid-core
-might have been deliberate.
-
-> - add hyphenation of multi-word adjectives
-> - drop a duplicate word
-> - unhyphenate "a priori"
+> On Fri,  4 Dec 2020 16:32:27 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
+> > As requested, those patches improve the output of the script, when all features
+> > are displayed.
+> > 
+> > The first patch was already posted as-is at v3.
+> > 
+> > Patch 2 is optional. IMO, it makes more sense for the admin guide to show
+> > the architectures where the features are OK, then TODO, and finally the
+> > ones that are incompatible with the features. I already sent it together
+> > with a comment.
+> > 
+> > Patch 3 is new: it tries to reduce the width of the table, in order for it
+> > to better fit on a terminal. With the patch, the number of columns were
+> > reduced, in order to better fit at console output. Before the patch, the
+> > output takes 281 lines with 158 columns (total size: 38.9 kB). 
+> > After the patch, displaying all features require 439 lines and 92 columns
+> > (total size: 37.6 kB).  
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/hid/hiddev.rst |   12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> OK, this is much improved, thanks; applied.
+
+Anytime.
+
 > 
-> --- linux-next-20201201.orig/Documentation/hid/hiddev.rst
-> +++ linux-next-20201201/Documentation/hid/hiddev.rst
-> @@ -27,7 +27,7 @@ the following::
->                            --> hiddev.c ----> POWER / MONITOR CONTROL  
->  
->  In addition, other subsystems (apart from USB) can potentially feed
-> -events into the input subsystem, but these have no effect on the hid
-> +events into the input subsystem, but these have no effect on the HID
->  device interface.
->  
->  Using the HID Device Interface
-> @@ -72,8 +72,8 @@ The hiddev API uses a read() interface,
->  
->  HID devices exchange data with the host computer using data
->  bundles called "reports".  Each report is divided into "fields",
-> -each of which can have one or more "usages".  In the hid-core,
-> -each one of these usages has a single signed 32 bit value.
-> +each of which can have one or more "usages".  In the HID core,
+> The one last thing I would do is stick "valign=top" on all the table
+> entries, but we can leave the shed a different color for now :)
 
-Hmm. hid-core is (I think) kind of referring to the code in hid-core.c
-Whereas a Human Interface Device core (HID core) sounds like
-something different.  Not my doc though!
+I actually prefer myself valign=center on tables ;-)
 
-> +each one of these usages has a single signed 32-bit value.
->  
->  read():
->  -------
-> @@ -113,7 +113,7 @@ HIDIOCAPPLICATION
->    - (none)
->  
->  This ioctl call returns the HID application usage associated with the
-> -hid device. The third argument to ioctl() specifies which application
-> +HID device. The third argument to ioctl() specifies which application
->  index to get. This is useful when the device has more than one
->  application collection. If the index is invalid (greater or equal to
->  the number of application collections this device has) the ioctl
-> @@ -181,7 +181,7 @@ looked up by type (input, output or feat
->  must be filled in by the user. The ID can be absolute -- the actual
->  report id as reported by the device -- or relative --
->  HID_REPORT_ID_FIRST for the first report, and (HID_REPORT_ID_NEXT |
-> -report_id) for the next report after report_id. Without a-priori
-> +report_id) for the next report after report_id. Without a priori
->  information about report ids, the right way to use this ioctl is to
->  use the relative IDs above to enumerate the valid IDs. The ioctl
->  returns non-zero when there is no more next ID. The real report ID is
-> @@ -200,7 +200,7 @@ HIDIOCGUCODE
->    - struct hiddev_usage_ref (read/write)
->  
->  Returns the usage_code in a hiddev_usage_ref structure, given that
-> -given its report type, report id, field index, and index within the
-> +its report type, report id, field index, and index within the
->  field have already been filled into the structure.
->  
->  HIDIOCGUSAGE
+In any case, a change like that should be simple to do.
 
+either adjust:
+
+	Documentation/sphinx-static/theme_overrides.css
+
+to change it globally for all tables or create a "table_valign_top" CSS
+class on it, changing the script to add:
+
+	.. cssclass:: table_valign_top
+
+Before each table.
+
+Thanks,
+Mauro
