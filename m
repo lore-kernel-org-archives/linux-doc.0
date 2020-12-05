@@ -2,84 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B612C4361A
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 21:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5C4C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 01:19:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B489A22BE8
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Dec 2020 21:49:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7264A22D70
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 01:19:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgLDVtZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Dec 2020 16:49:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgLDVtZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Dec 2020 16:49:25 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D33C061A51;
-        Fri,  4 Dec 2020 13:48:45 -0800 (PST)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 98614380;
-        Fri,  4 Dec 2020 21:48:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 98614380
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607118524; bh=k2+DIdhwq28GwEjSlStCKGaU/e6fUD8OEo91hxeS9K4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Q1L5nwnnDx3hZncTResuCPFE8VN3zvIncAp3NUrAKqTnxj2FGsn4j3OULUUybbUtu
-         Iy4tPJp6E1zbH1lm/zPjOebniv9PZ7BdXFeMbresZMhbC8KNg1tdwxrYo29aRWaWk9
-         o0QhvjwQvyAcrUtcWC8X2HwC9A0xz6A6AbPRfEU7KnDVcGBqgfjSrlvuIjqlUAGHXO
-         Vp2zmVXStPYvnAL8WZFTUNzeLeBQLwpDA6jXlupw5iBcUwzKZ8JBwXit2RWnG8wvLN
-         QlZQzpcRfmHS0klkjgpADaDTN3uO76YC3h1BTaKiBuqT+vG4qOlEAdQ/Dav6vhQQcr
-         mvTR/uii4jszQ==
-Date:   Fri, 4 Dec 2020 14:48:43 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] improve get_feat.pl output when all features are
- displayed
-Message-ID: <20201204144843.1ed3b988@lwn.net>
-In-Reply-To: <cover.1607095090.git.mchehab+huawei@kernel.org>
-References: <20201203153642.594afd85@lwn.net>
-        <cover.1607095090.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        id S1726151AbgLEBTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Dec 2020 20:19:23 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113]:35416 "EHLO vps-vb.mhejs.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726133AbgLEBTX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 4 Dec 2020 20:19:23 -0500
+X-Greylist: delayed 1819 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 20:19:20 EST
+Received: from MUA
+        by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.93.0.4)
+        (envelope-from <mail@maciej.szmigiero.name>)
+        id 1klLkE-0003Bx-1N; Sat, 05 Dec 2020 01:48:14 +0100
+From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] KVM: mmu: Fix SPTE encoding of MMIO generation upper half
+Date:   Sat,  5 Dec 2020 01:48:08 +0100
+Message-Id: <156700708db2a5296c5ed7a8b9ac71f1e9765c85.1607129096.git.maciej.szmigiero@oracle.com>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  4 Dec 2020 16:32:27 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
 
-> As requested, those patches improve the output of the script, when all features
-> are displayed.
-> 
-> The first patch was already posted as-is at v3.
-> 
-> Patch 2 is optional. IMO, it makes more sense for the admin guide to show
-> the architectures where the features are OK, then TODO, and finally the
-> ones that are incompatible with the features. I already sent it together
-> with a comment.
-> 
-> Patch 3 is new: it tries to reduce the width of the table, in order for it
-> to better fit on a terminal. With the patch, the number of columns were
-> reduced, in order to better fit at console output. Before the patch, the
-> output takes 281 lines with 158 columns (total size: 38.9 kB). 
-> After the patch, displaying all features require 439 lines and 92 columns
-> (total size: 37.6 kB).
+Commit cae7ed3c2cb0 ("KVM: x86: Refactor the MMIO SPTE generation handling")
+cleaned up the computation of MMIO generation SPTE masks, however it
+introduced a bug how the upper part was encoded:
+SPTE bits 52-61 were supposed to contain bits 10-19 of the current
+generation number, however a missing shift encoded bits 1-10 there instead
+(mostly duplicating the lower part of the encoded generation number that
+then consisted of bits 1-9).
 
-OK, this is much improved, thanks; applied.
+In the meantime, the upper part was shrunk by one bit and moved by
+subsequent commits to become an upper half of the encoded generation number
+(bits 9-17 of bits 0-17 encoded in a SPTE).
 
-The one last thing I would do is stick "valign=top" on all the table
-entries, but we can leave the shed a different color for now :)
+In addition to the above, commit 56871d444bc4 ("KVM: x86: fix overlap between SPTE_MMIO_MASK and generation")
+has changed the SPTE bit range assigned to encode the generation number and
+the total number of bits encoded but did not update them in the comment
+attached to their defines, nor in the KVM MMU doc.
+Let's do it here, too, since it is too trivial thing to warrant a separate
+commit.
 
-Thanks,
+Fixes: cae7ed3c2cb0 ("KVM: x86: Refactor the MMIO SPTE generation handling")
+Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+---
+    The easiest way to reproduce the issue is to apply the patch
+    below to the existing code and observe how memslots generations
+    are mis-decoded from the SPTEs:
+    diff --git a/arch/x86/kvm/mmu/spte.c b/arch/x86/kvm/mmu/spte.c
+    --- a/arch/x86/kvm/mmu/spte.c
+    +++ b/arch/x86/kvm/mmu/spte.c
+    @@ -42,6 +42,9 @@ static u64 generation_mmio_spte_mask(u64 gen)
+    
+            mask = (gen << MMIO_SPTE_GEN_LOW_START) & MMIO_SPTE_GEN_LOW_MASK;
+            mask |= (gen << MMIO_SPTE_GEN_HIGH_START) & MMIO_SPTE_GEN_HIGH_MASK;
+    +
+    +       pr_notice("Gen %llx -> mask %llx\n", gen, mask);
+    +
+            return mask;
+     }
+    
+    diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
+    --- a/arch/x86/kvm/mmu/spte.h
+    +++ b/arch/x86/kvm/mmu/spte.h
+    @@ -230,6 +230,9 @@ static inline u64 get_mmio_spte_generation(u64 spte)
+    
+            gen = (spte & MMIO_SPTE_GEN_LOW_MASK) >> MMIO_SPTE_GEN_LOW_START;
+            gen |= (spte & MMIO_SPTE_GEN_HIGH_MASK) >> MMIO_SPTE_GEN_HIGH_START;
+    +
+    +       pr_notice("Mask %llx -> gen %llx\n", spte, gen);
+    +
+            return gen;
+     }
+    
+    diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+    --- a/virt/kvm/kvm_main.c
+    +++ b/virt/kvm/kvm_main.c
+    @@ -766,7 +766,7 @@ static struct kvm *kvm_create_vm(unsigned long type)
+                    if (!slots)
+                            goto out_err_no_arch_destroy_vm;
+                    /* Generations must be different for each address space. */
+    -               slots->generation = i;
+    +               slots->generation = i + 0x1234;
+                    rcu_assign_pointer(kvm->memslots[i], slots);
+            }
 
-jon
+ Documentation/virt/kvm/mmu.rst |  2 +-
+ arch/x86/kvm/mmu/spte.c        |  4 ++--
+ arch/x86/kvm/mmu/spte.h        | 10 ++++++----
+ 3 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/virt/kvm/mmu.rst b/Documentation/virt/kvm/mmu.rst
+index 1c030dbac7c4..5bfe28b0728e 100644
+--- a/Documentation/virt/kvm/mmu.rst
++++ b/Documentation/virt/kvm/mmu.rst
+@@ -455,7 +455,7 @@ If the generation number of the spte does not equal the global generation
+ number, it will ignore the cached MMIO information and handle the page
+ fault through the slow path.
+ 
+-Since only 19 bits are used to store generation-number on mmio spte, all
++Since only 18 bits are used to store generation-number on mmio spte, all
+ pages are zapped when there is an overflow.
+ 
+ Unfortunately, a single memory access might access kvm_memslots(kvm) multiple
+diff --git a/arch/x86/kvm/mmu/spte.c b/arch/x86/kvm/mmu/spte.c
+index fcac2cac78fe..c51ad544f25b 100644
+--- a/arch/x86/kvm/mmu/spte.c
++++ b/arch/x86/kvm/mmu/spte.c
+@@ -40,8 +40,8 @@ static u64 generation_mmio_spte_mask(u64 gen)
+ 	WARN_ON(gen & ~MMIO_SPTE_GEN_MASK);
+ 	BUILD_BUG_ON((MMIO_SPTE_GEN_HIGH_MASK | MMIO_SPTE_GEN_LOW_MASK) & SPTE_SPECIAL_MASK);
+ 
+-	mask = (gen << MMIO_SPTE_GEN_LOW_START) & MMIO_SPTE_GEN_LOW_MASK;
+-	mask |= (gen << MMIO_SPTE_GEN_HIGH_START) & MMIO_SPTE_GEN_HIGH_MASK;
++	mask = (gen << MMIO_SPTE_GEN_LOW_SHIFT) & MMIO_SPTE_GEN_LOW_MASK;
++	mask |= (gen << MMIO_SPTE_GEN_HIGH_SHIFT) & MMIO_SPTE_GEN_HIGH_MASK;
+ 	return mask;
+ }
+ 
+diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
+index 5c75a451c000..c4b70fe6b6ae 100644
+--- a/arch/x86/kvm/mmu/spte.h
++++ b/arch/x86/kvm/mmu/spte.h
+@@ -56,11 +56,11 @@
+ #define SPTE_MMU_WRITEABLE	(1ULL << (PT_FIRST_AVAIL_BITS_SHIFT + 1))
+ 
+ /*
+- * Due to limited space in PTEs, the MMIO generation is a 19 bit subset of
++ * Due to limited space in PTEs, the MMIO generation is a 18 bit subset of
+  * the memslots generation and is derived as follows:
+  *
+  * Bits 0-8 of the MMIO generation are propagated to spte bits 3-11
+- * Bits 9-18 of the MMIO generation are propagated to spte bits 52-61
++ * Bits 9-17 of the MMIO generation are propagated to spte bits 54-62
+  *
+  * The KVM_MEMSLOT_GEN_UPDATE_IN_PROGRESS flag is intentionally not included in
+  * the MMIO generation number, as doing so would require stealing a bit from
+@@ -73,11 +73,13 @@
+ 
+ #define MMIO_SPTE_GEN_LOW_START		3
+ #define MMIO_SPTE_GEN_LOW_END		11
++#define MMIO_SPTE_GEN_LOW_SHIFT	(MMIO_SPTE_GEN_LOW_START - 0)
+ #define MMIO_SPTE_GEN_LOW_MASK		GENMASK_ULL(MMIO_SPTE_GEN_LOW_END, \
+ 						    MMIO_SPTE_GEN_LOW_START)
+ 
+ #define MMIO_SPTE_GEN_HIGH_START	PT64_SECOND_AVAIL_BITS_SHIFT
+ #define MMIO_SPTE_GEN_HIGH_END		62
++#define MMIO_SPTE_GEN_HIGH_SHIFT	(MMIO_SPTE_GEN_HIGH_START - 9)
+ #define MMIO_SPTE_GEN_HIGH_MASK		GENMASK_ULL(MMIO_SPTE_GEN_HIGH_END, \
+ 						    MMIO_SPTE_GEN_HIGH_START)
+ 
+@@ -228,8 +230,8 @@ static inline u64 get_mmio_spte_generation(u64 spte)
+ {
+ 	u64 gen;
+ 
+-	gen = (spte & MMIO_SPTE_GEN_LOW_MASK) >> MMIO_SPTE_GEN_LOW_START;
+-	gen |= (spte & MMIO_SPTE_GEN_HIGH_MASK) >> MMIO_SPTE_GEN_HIGH_START;
++	gen = (spte & MMIO_SPTE_GEN_LOW_MASK) >> MMIO_SPTE_GEN_LOW_SHIFT;
++	gen |= (spte & MMIO_SPTE_GEN_HIGH_MASK) >> MMIO_SPTE_GEN_HIGH_SHIFT;
+ 	return gen;
+ }
+ 
