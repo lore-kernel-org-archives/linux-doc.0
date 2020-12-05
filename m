@@ -2,98 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E71AC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 05:03:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7226FC4361B
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 08:02:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF3B522D03
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 05:03:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28B3922D6D
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 08:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbgLEFCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Dec 2020 00:02:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgLEFCp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Dec 2020 00:02:45 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A86DC0613D1;
-        Fri,  4 Dec 2020 21:02:05 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id b5so499652pjl.0;
-        Fri, 04 Dec 2020 21:02:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=YCKTyFzGWQzeG8F5871ZshFHNgeYjCwjk1SIyTgC11I=;
-        b=eq16rucFzScxn8GzYn77vYCBpTykfUf+O4hYsPPoKBsUq5nFP6LmiN0yTE8HJFyEEU
-         yiItJGJaGDA6eaHyTUuu4t9ERnZzR+2cgDfqchbrvCi7urRz2zT5kM5M8aEsfoVDkg35
-         fuqL4mH7gjXpZpvNUpg3FzSXe8Ba/ootIGqcQNkQSWRqmSUpAknFF7TqB+TOum8hBOZK
-         sOk3JfqsjIRZDn13E3DHOa/gBBvDR6J1cQDm2oJt0vsHbI3b2ur9zL78jb4snJP5ow4v
-         qIeqLAE6nzsaVrQ1QHQ1Jb1UkR43/9AgLA4Vfm+YAEK4WXr0d0855FqpABkeREZRtLYh
-         rzxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YCKTyFzGWQzeG8F5871ZshFHNgeYjCwjk1SIyTgC11I=;
-        b=J0vXg1z2ptlhP6D1bL9AI2OFvM6B3OVVRAI9EjiO7VtgRV9jtLzgvnFwNXmhdeiXaN
-         /tqr/ZYM4gElthRkyZHUZnYJB/NOFHJzEkHA4/fEkcJyaPafCR3uP+xPl6UFQGsjJQQf
-         NODksA1OQnSPytAzstGCvQyAYXfGW8KOH7hyNVcnVeQ9QXqXlbZSvXLB6di0bItDj6FK
-         HZndxZ/VY4nO1ZTNGIRamlAL734N6VdyrXxUVDCRKUHPIgRAE59x6K6eD931+vjmkkYz
-         3SYf0CErz3ytYTbmiGFWEcueWyRwD/wLgW8YigccNTEPQMd1ENRXbkYtpSbFu2q6TQDt
-         Q6RA==
-X-Gm-Message-State: AOAM532HtMkP29fhO5qfWk5SPo437NdcNTdhSyRYo+2FotME3bFOs6Tp
-        6i4LI6ICz+/uBSrGF2ooFyY=
-X-Google-Smtp-Source: ABdhPJxgsN/0/42E6/xL2IvNL5t20vqK49omNAJMc6BVnqjO7aNbjhTA9Ag3+6LykIGWYlajB7Hkgg==
-X-Received: by 2002:a17:902:c215:b029:da:b079:b9a3 with SMTP id 21-20020a170902c215b02900dab079b9a3mr6763811pll.67.1607144524517;
-        Fri, 04 Dec 2020 21:02:04 -0800 (PST)
-Received: from localhost.localdomain.localdomain ([39.182.0.228])
-        by smtp.gmail.com with ESMTPSA id d8sm3596888pjv.3.2020.12.04.21.01.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 04 Dec 2020 21:02:03 -0800 (PST)
-From:   Mingzhe Yang <cainiao666999@gmail.com>
-To:     tglx@linutronix.de
-Cc:     mingo@redhat.com, bp@alien8.de, hpa@zytor.com, corbet@lwn.net,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, David.Laight@aculab.com,
-        Mingzhe Yang <cainiao666999@gmail.com>
-Subject: [PATCH] Documentation: x86: update the thread_info's position
-Date:   Sat,  5 Dec 2020 13:01:36 +0800
-Message-Id: <1607144496-10635-1-git-send-email-cainiao666999@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S1727242AbgLEICl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Dec 2020 03:02:41 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:55291 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726988AbgLEICl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Dec 2020 03:02:41 -0500
+Received: from [192.168.1.155] ([95.117.6.188]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MplHR-1kO9jt45Nt-00qBo5; Sat, 05 Dec 2020 08:59:57 +0100
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+To:     Jason Wang <jasowang@redhat.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, mst@redhat.com,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
+Date:   Sat, 5 Dec 2020 08:59:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:fmf8zmU7UovplPda5nl+RpiFSt1qDxdLkQdEMe1Op9Sb2CoIBur
+ LcsUsmJr84nPI4UGjlYMmGl0YroG1FRq6PZdswvQrQOSOIv8wPOvnyhMMqajWosPYS+bA4B
+ h+k6UFHJqdyg2fvtt2m+HSsZHV6msqa+8gzWkJ1pjGypWmiFAqSoZTVa4yHg5Fupd0KnZOn
+ W4HS2cW1UncG4c/YnFTJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xnKf40qLm5c=:ql0OiQ6eBB/iTqDKHMTrMY
+ NWqR5M+A8owYBTjmYsl4qqMniudtWHA9Zx9NH86N+h5RERCXItrOE32hLUs6NDOSn1H6AuvQv
+ g0028vq6yGuOCTDYG4y/LGr2wHjUhgB29HGjuTsAt93WCaj7fhroZzPqjWhRsL6gpzKwaDkKE
+ L+twFPGuHHOo6XD+FuNvhcT3fvKUjpMfcRsOPOFreXlW7HMECoayGA+02/xEvPNi7h2UuNVI/
+ DIra58ZTGv+knDmojnLsEsBMznTERhW9yfsLWPZuv6/qERyZG6XeDZwhuRq0y3Hi57bDm7RLJ
+ uzVEJnDKRhfoKuKuUEXQDmtDDXVljNBbrDueniX7ldFVy+ym31eppFJDsu9T53MH0230JWcU8
+ 3SYOZ83+s2H2Em6LUrHFmb1av5VpYEipmf2eB28AfjUrbzwfn8oMiXbYB9cMI
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Prior to kernel 4.9 the thread_info structure was at the bottom of
-the kernel stack. kernel 4.9 moved it into the task_struct.
+On 04.12.20 04:35, Jason Wang wrote:
 
-See commits c65eacb ("sched/core: Allow putting thread_info into
-task_struct"), 15f4eae ("x86: Move thread_info into task_struct")
-and 883d50f ("scripts/gdb: fix get_thread_info").
+>> --- a/drivers/gpio/Kconfig
+>> +++ b/drivers/gpio/Kconfig
+>> @@ -1615,6 +1615,15 @@ config GPIO_MOCKUP
+>>         tools/testing/selftests/gpio/gpio-mockup.sh. Reference the
+>> usage in
+>>         it.
+>>   +config GPIO_VIRTIO
+>> +    tristate "VirtIO GPIO support"
+>> +    depends on VIRTIO
+> 
+> 
+> Let's use select, since there's no prompt for VIRTIO and it doesn't have
+> any dependencies.
 
-Signed-off-by: Mingzhe Yang <cainiao666999@gmail.com>
----
- Documentation/x86/kernel-stacks.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+whoops, it's not that simple:
 
-diff --git a/Documentation/x86/kernel-stacks.rst b/Documentation/x86/kernel-stacks.rst
-index 6b0bcf0..e9097f3 100644
---- a/Documentation/x86/kernel-stacks.rst
-+++ b/Documentation/x86/kernel-stacks.rst
-@@ -15,7 +15,8 @@ Like all other architectures, x86_64 has a kernel stack for every
- active thread.  These thread stacks are THREAD_SIZE (2*PAGE_SIZE) big.
- These stacks contain useful data as long as a thread is alive or a
- zombie. While the thread is in user space the kernel stack is empty
--except for the thread_info structure at the bottom.
-+except for the thread_info structure at the bottom (since kernel 4.9,
-+the thread_info structure has been moved into task_struct).
- 
- In addition to the per thread stacks, there are specialized stacks
- associated with each CPU.  These stacks are only used while the kernel
+make: Entering directory '/home/nekrad/src/apu2-dev/pkg/kernel.apu2.git'
+make[1]: Entering directory
+'/home/nekrad/src/dk/DistroKit/platform-x86_64/build-target/linux-5.8.9-build'
+  GEN     Makefile
+drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by
+DRM_VIRTIO_GPU
+drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
+drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
+drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
+drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
+drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
+drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
+drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
+drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
+drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on
+DRM_KMS_HELPER
+
+Seems that we can only depend on or select some symbol - we run into
+huge trouble if thats mixed. Just changed DRM_VIRTIO_GPU to just select
+VIRIO instead of depending on it, and now it works.
+
+I've posted another patch for fixing drivers/gpu/drm/virtio/Kconfig
+to use 'select' instead of 'depends on'.
+
 -- 
-1.8.3.1
-
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
