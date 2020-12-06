@@ -2,93 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F59C4361A
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 20:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1960C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 07:08:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBFAB2311B
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Dec 2020 20:18:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 595EC230FB
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 07:08:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbgLEUSR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Dec 2020 15:18:17 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:47905 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725379AbgLEUSQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Dec 2020 15:18:16 -0500
-Received: from [192.168.1.155] ([95.117.6.188]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MbRwP-1k9pJD3wRl-00bwGo; Sat, 05 Dec 2020 21:15:31 +0100
-Subject: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
- drivers: gpio: add virtio-gpio guest driver
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mst@redhat.com, jasowang@redhat.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
-Date:   Sat, 5 Dec 2020 21:15:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725787AbgLFHHu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Dec 2020 02:07:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725772AbgLFHHu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 6 Dec 2020 02:07:50 -0500
+Date:   Sun, 6 Dec 2020 09:07:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607238429;
+        bh=frMp0i5OpTH7HSUYeC01Dasv3H7b3wML3u9DwCjWj3w=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bwMT/cW+KW6zqLO3YOCneaKPvDm56TNcQtB9kMsKrNH49p2tA6QkEpdod8LjgHEOM
+         GQBH/7BUBG4rL1nhbt0fTApg/ZBaPO7DZsXGJAsxCYTL7edTnEF7a65AbM3brxKGtH
+         G/wXtdHhkarYMJhplyFCDFQ77HQ50w7UeZNzDQKRu6xeB0/wC/XS+DLkWIm5eM8EMo
+         hXpaydi6gFWNL4q+I2rHsAwJWXnfycJXP4Dxfps6VB8+a/LDC7noWfknLcWqiMbfxg
+         /4KhkQUFjmQKoI5kMiCdUpZptE+HrWC+pLgwnVL+zADX4WvRXHfBpeliVI7fQiTX+1
+         kSJ7PskK8V6rA==
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+Message-ID: <20201206070705.GA686270@unreal>
+References: <20201203212640.663931-1-luzmaximilian@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203191135.21576-2-info@metux.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6Us/Eccm2b+8uFxw1F3t+QrfFkxImB2I2ty+Sf0QMFWg/I08C+0
- l/putPEzoIZdUH7OratR6bhG5Wy5rbrzir2gcr2T83PhcZL3s+tN+LfQ0QpaonL4C2Nu5/I
- baDn5qVWWroBU8pOeaRhpPy9tmeBMVkzlfmhLKOxlsZCYIiEIxKjJMl57Kc88zmH7OFxMy5
- x+dpS83a3PhirR79mANbQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TmIGK7FxUCU=:yAJyBYcomdQV3KBUpDYeoh
- 7Ge9qY1V8TDxnX8V6yve7wUof8n/FkUM9wClbl4yh6qUcL5r3mNwZRDoNPECQQjpoDTUHMytG
- rYjGRCAbBatBR7IYgg9wiBYMHqUMHlbwByVqAdq0Wwn7PxImKXp+bSiXl69HnKUwFkeZ/ZXqk
- h7QYanonsFRUq1z+CNJS2v0F5n2uJAOZL+4iqVYbpHSrq2O/IZHcrZ2uNiwnzBJ/1mQecCdlW
- +3AIO9ESFYwOJe+Z6nzDzhW1+/cKJsiNBhb9EaNDCxmetXm5oNpXhXtkKr0UsoGSrYe7hxNzM
- 3PmuVvz/ILrxFzD4ElD91NMu4TjHDRZjD/L29ni5LEktB3rSDvAHDnxTveECZjzMYejJ7H9/I
- miRi2KQ5May5m3yoPoMC9K+c0UhmWEUFlPN95YJidQg0YPEgQQTmIRibVZDLs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201203212640.663931-1-luzmaximilian@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03.12.20 20:11, Enrico Weigelt, metux IT consult wrote:
+On Thu, Dec 03, 2020 at 10:26:31PM +0100, Maximilian Luz wrote:
+> Hello,
+>
+> Here is version two of the Surface System Aggregator Module (SAM/SSAM)
+> driver series, adding initial support for the embedded controller on 5th
+> and later generation Microsoft Surface devices. Initial support includes
+> the ACPI interface to the controller, via which battery and thermal
+> information is provided on some of these devices.
+>
+> The previous version and cover letter detailing what this series is
+> about can be found at
+>
+>   https://lore.kernel.org/platform-driver-x86/20201115192143.21571-1-luzmaximilian@gmail.com/
+>
+> This patch-set can also be found at the following repository and
+> reference, if you prefer to look at a kernel tree instead of these
+> emails:
+>
+>   https://github.com/linux-surface/kernel tags/s/surface-aggregator/v2
+>
+> Thank you all for the feedback to v1, I hope I have addressed all
+> comments.
 
-Friends,
 
-I've still got a problem w/ signal/irq handling:
+I think that it is too far fetched to attempt and expose UAPI headers
+for some obscure char device that we are all know won't be around in
+a couple of years from now due to the nature of how this embedded world
+works.
 
-The virtio-gpio device/host can raise a signal on line state change.
-Kinda IRQ, but not actually running through real IRQs, instead by a
-message running though queue. (hmm, kida MSI ? :o).
+More on that, the whole purpose of proposed interface is to debug and
+not intended to be used by any user space code.
 
-I've tried allocating an IRQ range and calling generic_handle_irq(),
-but then I'm getting unhanled IRQ trap.
+Also the idea that you are creating new bus just for this device doesn't
+really sound right. I recommend you to take a look on auxiliary bus and
+use it or come with very strong justifications why it is not fit yet.
 
-My hope was some gpio lib function for calling in when an line state
-changes, that does all the magic (somebody listening on some gpio,
-or gpio used as interrupt source), but the only thing I could find
-was some helpers for gpio chips that have their own builtin
-interrupt controller (VIRTIO_GPIO_EV_HOST_LEVEL).
+I'm sorry to say, but this series is not ready to be merged yet.
 
-Somehow feels that's not quite what I'm looking for.
+NAK: Leon Romanovsky <leon@kernel.org>
 
-Could anybody please give me more insights ?
-
-
---mtx
-
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Thanks
