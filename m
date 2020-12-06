@@ -2,116 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DF5C1B0D9
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 11:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DFCC4361B
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:11:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 701A32256F
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 11:47:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57B102310E
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgLFLmm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Dec 2020 06:42:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41810 "EHLO mail.kernel.org"
+        id S1727842AbgLFNLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Dec 2020 08:11:40 -0500
+Received: from mga11.intel.com ([192.55.52.93]:39732 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728958AbgLFLmk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 6 Dec 2020 06:42:40 -0500
-Date:   Sun, 6 Dec 2020 13:41:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607254920;
-        bh=oK2tHJvsR7FkpksxiOu5pP3zU4wD5WM5i2YAFE0jUOc=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E3EMXSgLaNW2HpBJow79E7MmJleXSizShtNmtAAZm0iDwAxmPwB8lWqyTj4JCsyT4
-         NxQsnKFfWDUkODEXqkaGQ9hG9yVFPAFWNCXFlsyceF4UB97f8TiWhdlELpEcsYEzFB
-         hAhK9lUFT0JVonyjQVnzDN4rwu+jidoDbYSr+5TISi1z/3z8Qci6BGgkFyfH4/PFnB
-         EYi+ntUD/kxFbaWsGX1yGGzmXSqWR2jd/WhIQ8NWyZhba6BANR3jQ1DMb0xUoLFKUn
-         6i+1bWwMH16bH0pbKSjo//95FkaqiiGpp6DAsQMlYVZDPxmLOrHRc/BGUjNv1eYou9
-         P7Ck8CUTKfRUA==
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Dorian Stoll <dorian.stoll@tmsp.io>,
-        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
- Aggregator Module
-Message-ID: <20201206114153.GD693271@unreal>
-References: <20201203212640.663931-1-luzmaximilian@gmail.com>
- <20201206070705.GA686270@unreal>
- <052ecf4d-9e08-2c08-8a06-c30ba2b28d82@redhat.com>
- <20201206085631.GE210929@unreal>
- <f76b329a-b6f5-486d-b06a-452ec4c51979@redhat.com>
- <20201206103339.GB693271@unreal>
- <f2511463-3bb8-a640-7863-b206db136109@redhat.com>
+        id S1725767AbgLFNLj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 6 Dec 2020 08:11:39 -0500
+IronPort-SDR: QKDKgtsCPplZI3k++3k1BAcBNY4xVvGkOjvrUfCGIOTh6N4sLGnT2zHcJf2NpGd/f9uz1eLOWm
+ 9eXBlF4gi7QA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9826"; a="170075281"
+X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; 
+   d="scan'208";a="170075281"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2020 05:10:59 -0800
+IronPort-SDR: slcHwJiz/mitijhJdZ/Xd8ynlgp6fPnJIxNegCNPB/axnemz6ixn4MKXT2GUNTpqrWqTMfZ1C6
+ SXLTiZQyfFUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; 
+   d="scan'208";a="316745070"
+Received: from cvg-ubt08.iil.intel.com (HELO cvg-ubt08.me-corp.lan) ([10.185.176.12])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Dec 2020 05:10:52 -0800
+From:   Vladimir Kondratiev <vladimir.kondratiev@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Kars Mulder <kerneldev@karsmulder.nl>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Joe Perches <joe@perches.com>,
+        Rafael Aquini <aquini@redhat.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Michel Lespinasse <walken@google.com>,
+        Jann Horn <jannh@google.com>, chenqiwu <chenqiwu@xiaomi.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Christophe Leroy <christophe.leroy@c-s.fr>
+Cc:     Vladimir Kondratiev <vladimir.kondratiev@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] do_exit(): panic() when double fault detected
+Date:   Sun,  6 Dec 2020 15:10:36 +0200
+Message-Id: <20201206131036.3780898-1-vladimir.kondratiev@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2511463-3bb8-a640-7863-b206db136109@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 06, 2020 at 11:41:46AM +0100, Hans de Goede wrote:
-> Hi,
->
-> On 12/6/20 11:33 AM, Leon Romanovsky wrote:
-> > On Sun, Dec 06, 2020 at 11:04:06AM +0100, Hans de Goede wrote:
->
-> <snip>
->
-> >> But there is a difference between being careful and just nacking
-> >> it because no new UAPI may be added at all (also see GKH's response).
-> >
-> > I saw, the author misunderstood the Greg's comments.
->
-> Quoting from patch 8/9:
->
-> "
-> +==============================
-> +User-Space EC Interface (cdev)
-> +==============================
-> +
-> +The ``surface_aggregator_cdev`` module provides a misc-device for the SSAM
-> +controller to allow for a (more or less) direct connection from user-space to
-> +the SAM EC. It is intended to be used for development and debugging, and
-> +therefore should not be used or relied upon in any other way. Note that this
-> +module is not loaded automatically, but instead must be loaded manually.
-> "
->
-> If I'm not mistaken that seems to be pretty much what Greg asked for.
+Double fault detected in do_exit() is symptom of integrity
+compromised. For safety critical systems, it may be better to
+panic() in this case to minimize risk.
 
-Right, unless you forget the end of his request.
- "
-  The "joy" of creating a user api is that no matter how much you tell
-  people "do not depend on this", they will, so no matter the file being
-  in debugfs, or a misc device, you might be stuck with it for forever,
-  sorry.
- "
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@intel.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 5 +++++
+ include/linux/kernel.h                          | 1 +
+ kernel/exit.c                                   | 7 +++++++
+ kernel/sysctl.c                                 | 9 +++++++++
+ 4 files changed, 22 insertions(+)
 
-So I still think that exposing user api for a development and debug of device
-that has no future is wrong thing to do.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 44fde25bb221..6cb2a63c47f3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3521,6 +3521,11 @@
+ 			extra details on the taint flags that users can pick
+ 			to compose the bitmask to assign to panic_on_taint.
+ 
++	panic_on_double_fault
++			panic() when double fault detected in do_exit().
++			Useful on safety critical systems; double fault is
++			a symptom of kernel integrity compromised.
++
+ 	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+ 			on a WARN().
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 2f05e9128201..0d8822259a36 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -539,6 +539,7 @@ extern int sysctl_panic_on_rcu_stall;
+ extern int sysctl_panic_on_stackoverflow;
+ 
+ extern bool crash_kexec_post_notifiers;
++extern int panic_on_double_fault;
+ 
+ /*
+  * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 1f236ed375f8..e67ae43644f9 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -68,6 +68,9 @@
+ #include <asm/unistd.h>
+ #include <asm/mmu_context.h>
+ 
++int panic_on_double_fault __read_mostly;
++core_param(panic_on_double_fault, panic_on_double_fault, int, 0644);
++
+ static void __unhash_process(struct task_struct *p, bool group_dead)
+ {
+ 	nr_threads--;
+@@ -757,6 +760,10 @@ void __noreturn do_exit(long code)
+ 	 */
+ 	if (unlikely(tsk->flags & PF_EXITING)) {
+ 		pr_alert("Fixing recursive fault but reboot is needed!\n");
++		if (panic_on_double_fault)
++			panic("Double fault detected in %s[%d]\n",
++			      current->comm, task_pid_nr(current));
++
+ 		futex_exit_recursive(tsk);
+ 		set_current_state(TASK_UNINTERRUPTIBLE);
+ 		schedule();
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index afad085960b8..869a2ca41e8e 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -2600,6 +2600,15 @@ static struct ctl_table kern_table[] = {
+ 		.extra2		= &one_thousand,
+ 	},
+ #endif
++	{
++		.procname	= "panic_on_double_fault",
++		.data		= &panic_on_double_fault,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
+ 	{
+ 		.procname	= "panic_on_warn",
+ 		.data		= &panic_on_warn,
+-- 
+2.27.0
 
-Thanks
+---------------------------------------------------------------------
+Intel Israel (74) Limited
 
->
-> Regards,
->
-> Hans
->
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
