@@ -2,172 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DFCC4361B
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA103C1B0D8
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:28:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57B102310E
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:11:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1AB62310E
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Dec 2020 13:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbgLFNLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Dec 2020 08:11:40 -0500
-Received: from mga11.intel.com ([192.55.52.93]:39732 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725767AbgLFNLj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 6 Dec 2020 08:11:39 -0500
-IronPort-SDR: QKDKgtsCPplZI3k++3k1BAcBNY4xVvGkOjvrUfCGIOTh6N4sLGnT2zHcJf2NpGd/f9uz1eLOWm
- 9eXBlF4gi7QA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9826"; a="170075281"
-X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; 
-   d="scan'208";a="170075281"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2020 05:10:59 -0800
-IronPort-SDR: slcHwJiz/mitijhJdZ/Xd8ynlgp6fPnJIxNegCNPB/axnemz6ixn4MKXT2GUNTpqrWqTMfZ1C6
- SXLTiZQyfFUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; 
-   d="scan'208";a="316745070"
-Received: from cvg-ubt08.iil.intel.com (HELO cvg-ubt08.me-corp.lan) ([10.185.176.12])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Dec 2020 05:10:52 -0800
-From:   Vladimir Kondratiev <vladimir.kondratiev@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kars Mulder <kerneldev@karsmulder.nl>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Joe Perches <joe@perches.com>,
-        Rafael Aquini <aquini@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Michel Lespinasse <walken@google.com>,
-        Jann Horn <jannh@google.com>, chenqiwu <chenqiwu@xiaomi.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christophe Leroy <christophe.leroy@c-s.fr>
-Cc:     Vladimir Kondratiev <vladimir.kondratiev@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH] do_exit(): panic() when double fault detected
-Date:   Sun,  6 Dec 2020 15:10:36 +0200
-Message-Id: <20201206131036.3780898-1-vladimir.kondratiev@intel.com>
-X-Mailer: git-send-email 2.27.0
+        id S1727924AbgLFN2a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Dec 2020 08:28:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727395AbgLFN2a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Dec 2020 08:28:30 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52D22C0613D0;
+        Sun,  6 Dec 2020 05:27:49 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id c7so10791409edv.6;
+        Sun, 06 Dec 2020 05:27:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TX8ZeShGgHaH7NVBfvlqb8CJDdVpjgpiUwLryWJigPU=;
+        b=PxqIxiGf/ZKHE30eBHu+8w0S7+L2mgC/geHtt6JMOksj+HL/aaFI26Jdqmqvb/YVT8
+         6LAonUc6PYj6acRY3W193/IY6TZFNlgK5Kc6EfrpjbjHQP/s5rJnJG6r9ruHr/BU9Z4O
+         4I7ryU0npF+niCvbO+gXClmeRKcIM/GdQfqI6Jz52mm1WGWM1op4jCJ+RaPLC69LdrME
+         7B0oTVplQMxhG2eGLB3meffT8YpcvcsPOYUaZo0TDrNlrZd2ejPpTE79iDy9RBoaxwtG
+         9kXdlzmaRQX8IWUeJR1Wi9+7H37+WvSYc8G1HSrVtFk9DXI0gWPOz8I8Ms7Jb4+MHYAi
+         TbcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TX8ZeShGgHaH7NVBfvlqb8CJDdVpjgpiUwLryWJigPU=;
+        b=j4vNRm9Xce9qkpVrxGPVUDKpQ7vX0I7RJwA0Oz9Y0WJgQ8OuykiLCUHK7iSdFduUf/
+         CAnhFJVdBHBZz94PDqa5AOCxo2EBXA+xCSTmvSb0VnECOognszAbLOcF9qrLIFbzna/f
+         JYTS8wEFgTGrp2RkVsdc4+kTrfPuJESSCb8K7SavLIQwzRPZRupO7i0MR+jQWu/CL/Pj
+         gBd/1kBS2Lb9+74pAGzcMi1Aa1got/q8gSA2as1NGHxcQodRBpsNFx77ZQdw/xbZpGrh
+         nRmtnytB3imligSEwJWPetvcMhT1hZrMjTLiPAvbsFQBh736OPJwx1qynY57BuhtgZgJ
+         YaSw==
+X-Gm-Message-State: AOAM531fBW/Tr/Q8QMezTxYyQr/Ym0Wq3kTzT828iAyo92g5l8Je5Hdx
+        Y+5HTBcXFUaenfzHEyvqGZfMvn9y+MI=
+X-Google-Smtp-Source: ABdhPJy6tqkxhJ6dfhh8bpz8KNfRizOr9CtPRQFLDcIF9yImxjjbJweYDijcX9nT5rOz4csd1Ubrsg==
+X-Received: by 2002:aa7:dd17:: with SMTP id i23mr15634031edv.14.1607261267359;
+        Sun, 06 Dec 2020 05:27:47 -0800 (PST)
+Received: from [192.168.2.202] (pd9e5a241.dip0.t-ipconnect.de. [217.229.162.65])
+        by smtp.gmail.com with ESMTPSA id b14sm8597383edm.68.2020.12.06.05.27.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Dec 2020 05:27:46 -0800 (PST)
+Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+To:     Leon Romanovsky <leon@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201203212640.663931-1-luzmaximilian@gmail.com>
+ <20201206070705.GA686270@unreal>
+ <052ecf4d-9e08-2c08-8a06-c30ba2b28d82@redhat.com>
+ <1b4fe1fd-592d-4a88-b156-fbf6af2df428@www.fastmail.com>
+ <20201206090614.GA693271@unreal>
+ <a1db4b23-8159-924a-a99b-2fa4b0eb6fff@gmail.com>
+ <20201206113047.GC693271@unreal>
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+Message-ID: <250d58a8-1a10-b66f-7e47-3dbf218de545@gmail.com>
+Date:   Sun, 6 Dec 2020 14:27:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20201206113047.GC693271@unreal>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Double fault detected in do_exit() is symptom of integrity
-compromised. For safety critical systems, it may be better to
-panic() in this case to minimize risk.
 
-Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@intel.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 5 +++++
- include/linux/kernel.h                          | 1 +
- kernel/exit.c                                   | 7 +++++++
- kernel/sysctl.c                                 | 9 +++++++++
- 4 files changed, 22 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 44fde25bb221..6cb2a63c47f3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3521,6 +3521,11 @@
- 			extra details on the taint flags that users can pick
- 			to compose the bitmask to assign to panic_on_taint.
- 
-+	panic_on_double_fault
-+			panic() when double fault detected in do_exit().
-+			Useful on safety critical systems; double fault is
-+			a symptom of kernel integrity compromised.
-+
- 	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
- 			on a WARN().
- 
-diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 2f05e9128201..0d8822259a36 100644
---- a/include/linux/kernel.h
-+++ b/include/linux/kernel.h
-@@ -539,6 +539,7 @@ extern int sysctl_panic_on_rcu_stall;
- extern int sysctl_panic_on_stackoverflow;
- 
- extern bool crash_kexec_post_notifiers;
-+extern int panic_on_double_fault;
- 
- /*
-  * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 1f236ed375f8..e67ae43644f9 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -68,6 +68,9 @@
- #include <asm/unistd.h>
- #include <asm/mmu_context.h>
- 
-+int panic_on_double_fault __read_mostly;
-+core_param(panic_on_double_fault, panic_on_double_fault, int, 0644);
-+
- static void __unhash_process(struct task_struct *p, bool group_dead)
- {
- 	nr_threads--;
-@@ -757,6 +760,10 @@ void __noreturn do_exit(long code)
- 	 */
- 	if (unlikely(tsk->flags & PF_EXITING)) {
- 		pr_alert("Fixing recursive fault but reboot is needed!\n");
-+		if (panic_on_double_fault)
-+			panic("Double fault detected in %s[%d]\n",
-+			      current->comm, task_pid_nr(current));
-+
- 		futex_exit_recursive(tsk);
- 		set_current_state(TASK_UNINTERRUPTIBLE);
- 		schedule();
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index afad085960b8..869a2ca41e8e 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -2600,6 +2600,15 @@ static struct ctl_table kern_table[] = {
- 		.extra2		= &one_thousand,
- 	},
- #endif
-+	{
-+		.procname	= "panic_on_double_fault",
-+		.data		= &panic_on_double_fault,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
-+	},
- 	{
- 		.procname	= "panic_on_warn",
- 		.data		= &panic_on_warn,
--- 
-2.27.0
+On 12/6/20 12:30 PM, Leon Romanovsky wrote:
+> On Sun, Dec 06, 2020 at 11:33:40AM +0100, Maximilian Luz wrote:
+>> On 12/6/20 10:06 AM, Leon Romanovsky wrote:> On Sun, Dec 06, 2020 at 05:58:32PM +0900, Blaž Hrastnik wrote:
+>>>>>
+>>>>>> More on that, the whole purpose of proposed interface is to debug and
+>>>>>> not intended to be used by any user space code.
+>>>>>
+>>>>> The purpose is to provide raw access to the Surface Serial Hub protocol,
+>>>>> just like we provide raw access to USB devices and have hidraw devices.
+>>>>>
+>>>>> So this goes a litle beyond just debugging; and eventually the choice
+>>>>> may be made to implement some functionality with userspace drivers,
+>>>>> just like we do for some HID and USB devices.
+>>>>>
+>>>>> Still I agree with you that adding new userspace API is something which
+>>>>> needs to be considered carefully. So I will look at this closely when
+>>>>> reviewing this set.
+>>>>
+>>>> To add to that: this was previously a debugfs interface but was moved to misc after review on the initial RFC:
+>>>> https://lkml.org/lkml/2020/9/24/96
+>>>
+>>> There is a huge difference between the suggestion and final implementation.
+>>>
+>>> Greg suggested to add new debug module to the drivers/misc that will
+>>> open char device explicitly after user loaded that module to debug this
+>>> hub. However, the author added full blown char device as a first citizen
+>>> that has all not-break-user constrains.
+>>
+>> This module still needs to be loaded explicitly. And (I might be wrong
+>> about this) the "not-break-user constraints" hold as soon as I register
+>> a misc device at all, no?
+> 
+> I don't think so, files in drivers/misc/* don't have such strict policy.
 
----------------------------------------------------------------------
-Intel Israel (74) Limited
+Can I get a link to the documentation stating that or someone else
+confirming that?
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+Also I don't think it makes sense to have a platform/surface device in
+drivers/misc, after we've explicitly decided to move this code out of
+there. IIRC drivers/misc is not a place for misc-devices, but the
+directory for devices that don't have any good place elsewhere.
 
+>> than previously discussed with Greg and b) how the uapi header now
+>> introduces any not-break-user constraints that would not be there
+>> without it.
+> 
+> There is a huge difference between char device for the debug and
+> exposed UAPI header. The first requires from the user to build and
+> explicitly run it, while header allows to reliably build on top of
+> it various applications that we don't control. The not-break-rule
+> talks about the second.
+
+So it's okay to break stuff that's not explicitly in include/uapi/?
+Again, can I get someone to confirm that for me?
+
+As already said, I'm okay with moving the definitions from the header to
+the module itself (if there is a consensus on that, CC Greg, Hans),
+however both allow you to build user-space tools against the API. Case
+in point my python scripts, which don't use the header. Or any other
+non-C-based tool. So unless there's a rule that anything without a
+header in uapi is fair game, I fail to see your point.
+
+>> This interface is intended as a stable interface. That's something that
+>> I committed to as soon as I decided to implement this via a misc-device.
+>>
+>> Sure, I can move the definitions in the uapi header to the module
+>> itself, but I don't see any benefit in that. If someone really wants to
+>> use this interface, they can just as well copy the definitions from the
+>> module source itself. So why not be upfront about it and make life
+>> easier for everyone?
+> 
+> Because you are actually making life harder for everyone who cares about
+> UAPIs exposed by the Linux and they definitely different in numbers from
+> those who needs debug interface for the Microsoft Surface board.
+
+This point again depends on the interface not being stable. Unless, of
+course, you want me to remove the interface completely and just maintain
+it out of tree...
+
+I'm happy to be told otherwise by the authorities here, but from past
+conversations it seems that basically everything providing some sort of
+user-space access falls under the "don't break user-space" rule as soon
+as somebody uses it.
+
+Regards,
+Max
