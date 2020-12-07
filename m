@@ -2,124 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60828C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 15:48:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3108C2BB3F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 15:56:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C81323750
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 15:48:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C077023731
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 15:56:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbgLGPsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 10:48:19 -0500
-Received: from gproxy10-pub.mail.unifiedlayer.com ([69.89.20.226]:55537 "EHLO
-        gproxy10-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726101AbgLGPsQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 10:48:16 -0500
-Received: from cmgw14.unifiedlayer.com (unknown [10.9.0.14])
-        by gproxy10.mail.unifiedlayer.com (Postfix) with ESMTP id EE8301405A8
-        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 08:47:34 -0700 (MST)
-Received: from bh-25.webhostbox.net ([208.91.199.152])
-        by cmsmtp with ESMTP
-        id mIjekJBTvwNNlmIjekUOmy; Mon, 07 Dec 2020 08:47:34 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=MKJOZvRl c=1 sm=1 tr=0
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
- a=zTNgK-yGK50A:10:nop_rcvd_month_year
- a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=pGLkceISAAAA:8
- a=aUUhapolnoLvr2g7utAA:9 a=CjuIK1q_8ugA:10:nop_charset_2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gBytMmuiFgYWYPWFzExR31Z/H0j/t4BFhzTX+2b3O0k=; b=jhKdHOfWP5f1ooxEOCvPg/L6M9
-        zDnLo2Tp2pYHW3vL9En+osqEXvE2sU+93g6ktm527fISmpQ3KCO2nLimfPO08pwc/tuZ0qhib6ojp
-        YgyYxYeOj5KOBEdOvoOuTsgZogwf954K5cAWz94qus0idUkZH3LWK/w+HSW+jvyrdWGKNgO+eCpH8
-        8BSF0bUcWXJJtjy83uhIV86ASlXK0eJmBcwgL8qGibzI90MT6u8VmXqjq7TkNFiwnLYKIQqZglMhf
-        EuKpSEz87qAwfLEz5YKRisJqGkuuKZgRg+aM0l2BjMsV84k3zWE0PLgUPzsoWq/PnwnpdCrFsMqeR
-        fZ/2BEkQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:59828 helo=localhost)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <linux@roeck-us.net>)
-        id 1kmIjd-002qlk-VR; Mon, 07 Dec 2020 15:47:34 +0000
-Date:   Mon, 7 Dec 2020 07:47:33 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: pmbus: correct title underline length
-Message-ID: <20201207154733.GA42429@roeck-us.net>
-References: <20201207152658.32444-1-lukas.bulwahn@gmail.com>
+        id S1726162AbgLGP4Z convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 10:56:25 -0500
+Received: from mga12.intel.com ([192.55.52.136]:47689 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726487AbgLGP4Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 10:56:24 -0500
+IronPort-SDR: BqZuJ+0gvy0LLJPbP+ToRxpzPXXbmU+7AThOt5v3EmJjg12VaHV8OEwx0DrO7PfXkmBma9JNlT
+ a2a7oOJSJ0MA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9827"; a="152962714"
+X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
+   d="scan'208";a="152962714"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2020 07:55:44 -0800
+IronPort-SDR: JqljrY7NKgtBF5E9+6jS3K5H6TUX6VVLbAJrVYPKj7ydBZ2garzw5f3kDpSv91V8zX7vC5AqUz
+ GsC//KfhRBww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
+   d="scan'208";a="436832912"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2020 07:55:44 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 7 Dec 2020 07:55:43 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 7 Dec 2020 07:55:43 -0800
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.1713.004;
+ Mon, 7 Dec 2020 07:55:43 -0800
+From:   "Jiang, Dave" <dave.jiang@intel.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
+Subject: RE: [PATCH v8 16/18] NTB: tool: Enable the NTB/PCIe link on the local
+ or remote side of bridge
+Thread-Topic: [PATCH v8 16/18] NTB: tool: Enable the NTB/PCIe link on the
+ local or remote side of bridge
+Thread-Index: AQHWuEC9OnGPVEaiTUCW+4PBXB6hF6nr8fOg
+Date:   Mon, 7 Dec 2020 15:55:43 +0000
+Message-ID: <f39cf769993541e2a46bfe4d777ccf46@intel.com>
+References: <20201111153559.19050-1-kishon@ti.com>
+ <20201111153559.19050-17-kishon@ti.com>
+In-Reply-To: <20201111153559.19050-17-kishon@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.22.254.132]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201207152658.32444-1-lukas.bulwahn@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1kmIjd-002qlk-VR
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:59828
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 3
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 04:26:58PM +0100, Lukas Bulwahn wrote:
-> Commit b722d7b9e4da ("hwmon: (pmbus) Driver for Delta power supplies
-> Q54SJ108A2") provides new documentation for DELTA Q54SJ108A2NC* drivers,
-> but the title underline was too short.
-> 
-> make htmldocs warns:
-> 
->   Documentation/hwmon/q54sj108a2.rst:4: WARNING: Title underline too short.
-> 
-> Adjust the title underline to the correct length.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Applied.
 
-Thanks,
-Guenter
-
+> -----Original Message-----
+> From: Kishon Vijay Abraham I <kishon@ti.com>
+> Sent: Wednesday, November 11, 2020 8:36 AM
+> To: Bjorn Helgaas <bhelgaas@google.com>; Jonathan Corbet
+> <corbet@lwn.net>; Kishon Vijay Abraham I <kishon@ti.com>; Lorenzo
+> Pieralisi <lorenzo.pieralisi@arm.com>; Arnd Bergmann <arnd@arndb.de>;
+> Jon Mason <jdmason@kudzu.us>; Jiang, Dave <dave.jiang@intel.com>;
+> Allen Hubbe <allenbh@gmail.com>; Tom Joseph <tjoseph@cadence.com>;
+> Rob Herring <robh@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; linux-
+> pci@vger.kernel.org; linux-doc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-ntb@googlegroups.com
+> Subject: [PATCH v8 16/18] NTB: tool: Enable the NTB/PCIe link on the local or
+> remote side of bridge
+> 
+> Invoke ntb_link_enable() to enable the NTB/PCIe link on the local or remote
+> side of the bridge.
+> 
+> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
 > ---
-> applies on next-20201207 and the hwmon -next tree
+>  drivers/ntb/test/ntb_tool.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Guenter, Jean, please pick this minor doc fix on your -next tree.
+> diff --git a/drivers/ntb/test/ntb_tool.c b/drivers/ntb/test/ntb_tool.c index
+> b7bf3f863d79..8230ced503e3 100644
+> --- a/drivers/ntb/test/ntb_tool.c
+> +++ b/drivers/ntb/test/ntb_tool.c
+> @@ -1638,6 +1638,7 @@ static int tool_probe(struct ntb_client *self, struct
+> ntb_dev *ntb)
 > 
->  Documentation/hwmon/q54sj108a2.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  	tool_setup_dbgfs(tc);
 > 
-> diff --git a/Documentation/hwmon/q54sj108a2.rst b/Documentation/hwmon/q54sj108a2.rst
-> index fabce671985a..035312d25c34 100644
-> --- a/Documentation/hwmon/q54sj108a2.rst
-> +++ b/Documentation/hwmon/q54sj108a2.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0-or-later
->  
->  Kernel driver q54sj108a2
-> -=====================
-> +========================
->  
->  Supported chips:
->  
+> +	ntb_link_enable(ntb, NTB_SPEED_AUTO, NTB_WIDTH_AUTO);
+
+The tool expects the user to enable the link via debugfs according to documentation. Is this necessary?
+
+>  	return 0;
+> 
+>  err_clear_mws:
+> --
+> 2.17.1
+
