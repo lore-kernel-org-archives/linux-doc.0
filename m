@@ -2,129 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C39C4361B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6C7C0018C
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:55:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECA54238D7
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:46:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E4FD238D7
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbgLGTqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 14:46:46 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5877 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgLGTqq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 14:46:46 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fce867d0000>; Mon, 07 Dec 2020 11:46:05 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 7 Dec
- 2020 19:46:04 +0000
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Mon, 7 Dec 2020 19:46:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=INcbwn3LTpyRYJ5ifpuoX7tbhGjBRg2D0CywPD4vlBq2JCTcLOKo+zU6bKrXL0kCyCdL45BsZbspxVlgjPfh9uFX9RPg20xpailzeeLREbnt1K2V4DK6KNkfV/lVayRra0F7XT+3ONF0uECaKVyYjflbpwhK2c9K+sGd5+HCY+VDE3rDwMI429RMoZI2Ctedyqtuxjd7IG9ItXBJy3VUH31tmvpR31ReYjYixa8gSFCtYCZ7R4L/sEKR9yP2q9/+s8PkFRUXwCD7fLxqW9ibpMqOx5rmrSWy9JBA/34aWWZEBZYF+F0fH9/Si5z1gbdPrFChPjHFfPmtZLMcKazFJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9lg/42DcldbZG9mBToOsz7dSGb1mt3xyDZpRUGNgKdA=;
- b=CnEMcSkaPEuDxtgzwZrkycXYWbCnOYTqXjbsIoa05/cGdqQ0ZcyuOCgVQMA20pC++SYbWAmTmKWnvsO+3jnGFsWVdZJPV7gbWU0DbQjS0tFgXaRcIy9OKR2OprEiMgv+vu272qSqUpZfNiNGHQrpJGj51w23sV6vs+Jz5MCdn7f1uQLmyjZXumZNgPVivYteBVJ7pNrtJ6/AcjRB46XeN9J+bDBSF9VmVqlkcjOS9YY9UFtXGirNR6b+G3nDqWwMydPMGBq1GKlCO0+XnHAuJobgXPyKPlgEF5s4GFvAhbPOvaBltPRiooi+mLvb5zRet4b0Vs38fYpbWLjXbs5/VA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3739.namprd12.prod.outlook.com (2603:10b6:5:1c4::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Mon, 7 Dec
- 2020 19:46:03 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1ce9:3434:90fe:3433]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1ce9:3434:90fe:3433%3]) with mapi id 15.20.3632.023; Mon, 7 Dec 2020
- 19:46:03 +0000
-Date:   Mon, 7 Dec 2020 15:46:01 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        =?utf-8?B?SMOla29u?= Bugge <haakon.bugge@oracle.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
-        Divya Indi <divya.indi@oracle.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Gal Pressman <galpress@amazon.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
-        Moni Shoua <monis@mellanox.com>,
-        Parav Pandit <parav@mellanox.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        "Ursula Braun" <ubraun@linux.ibm.com>,
-        Xi Wang <wangxi11@huawei.com>,
-        Yamin Friedman <yaminf@mellanox.com>,
-        <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <target-devel@vger.kernel.org>
-Subject: Re: [PATCH v5 02/16] IB: fix kernel-doc markups
-Message-ID: <20201207194601.GB1773945@nvidia.com>
-References: <cover.1606823973.git.mchehab+huawei@kernel.org>
- <78b98c41a5a0f4c0106433d305b143028a4168b0.1606823973.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <78b98c41a5a0f4c0106433d305b143028a4168b0.1606823973.git.mchehab+huawei@kernel.org>
-X-ClientProxiedBy: BL1PR13CA0258.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::23) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S1726795AbgLGTyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 14:54:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbgLGTyw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 14:54:52 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00312C061749;
+        Mon,  7 Dec 2020 11:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=1b61RvH52vfjnAKlEJGNRv8bKm9R+jIRDMCUhpsedCo=; b=t6a9Qyx+keIz4kVcMBsxIsG4y2
+        xSGihNgl4eERBjSHOktovQU5G1BYHpw31g7SbPpq+CRaXPmCXYWTbKCKaOBMCbZQX68ZXb4Lc7IBK
+        XpWCacp85QfytgZlahv3+Q6lvmLYNXBqa5MYgzMRN7hHFzXNuUHzKmvnFtJQPQ3rVclS+82y7eGGJ
+        Dm4CiXSff4v5BVMnyt7QXTk+OTZNB7hafM0n8n2UNDgIw6E9JBGlVAkanvSITq83YSSvBascy3hd2
+        6YJE5yLxo+flQmkLEi5dc7JEk4uOtf86QdXkaEBuEHGTITOSt9MwpHPoBU3tJ6Nxkag6JGe7dJYs7
+        AxJm9SOg==;
+Received: from [2601:1c0:6280:3f0::1494]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmMaE-000486-Ac; Mon, 07 Dec 2020 19:54:06 +0000
+Subject: Re: [PATCH 16/22] xlink-ipc: Add xlink ipc driver
+To:     mgross@linux.intel.com, markgross@kernel.org, arnd@arndb.de,
+        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        leonard.crestez@nxp.com, palmerdabbelt@google.com,
+        paul.walmsley@sifive.com, peng.fan@nxp.com, robh+dt@kernel.org,
+        shawnguo@kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Seamus Kelly <seamus.kelly@intel.com>,
+        linux-doc@vger.kernel.org,
+        Ryan Carnaghi <ryan.r.carnaghi@intel.com>
+References: <20201201223511.65542-1-mgross@linux.intel.com>
+ <20201201223511.65542-17-mgross@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0177c5ba-58cc-cef6-9970-044d8655ea5d@infradead.org>
+Date:   Mon, 7 Dec 2020 11:53:58 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BL1PR13CA0258.namprd13.prod.outlook.com (2603:10b6:208:2ba::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.7 via Frontend Transport; Mon, 7 Dec 2020 19:46:02 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kmMSP-007RUz-5K; Mon, 07 Dec 2020 15:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1607370365; bh=9lg/42DcldbZG9mBToOsz7dSGb1mt3xyDZpRUGNgKdA=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=fk0Iq+PF7ZjSEtzHMMwR6YJe75J+ryn3hidtBgQkmWX0k7aQYU4TnZoj2rWklj+tU
-         zyFGvjb7YcaQxyx//1a57Zl9mTg8NvASeAS/hUqwQcSmKz35+JT2ZDahzrag5z3vPf
-         gaqZcnoF8BKdSFaO9GSOYKd3+8eK4RoCt/xK4Jwb2pfQxIQmM4az013pX8c6y13rq0
-         eP2nw85YI6iRhKf70du96XmQRSKOe/e08lgRFrrKSXW+GLA0QgZVe6U73ovN7X6VKI
-         7feVbPDtKClztluzZfgy2nkScxPYYowgsBcIHkInr+wIxDWNP7sEScNIF9CX+1W42J
-         mSwnF9dso0CzA==
+In-Reply-To: <20201201223511.65542-17-mgross@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 01:08:55PM +0100, Mauro Carvalho Chehab wrote:
-> Some functions have different names between their prototypes
-> and the kernel-doc markup.
+Ahoy--
+
+On 12/1/20 2:35 PM, mgross@linux.intel.com wrote:
+> From: Seamus Kelly <seamus.kelly@intel.com>
 > 
-> Others need to be fixed, as kernel-doc markups should use this format:
->         identifier - description
+> Add xLink driver, which interfaces the xLink Core driver with the Keem
+> Bay VPU IPC driver, thus enabling xLink to control and communicate with
+> the VPU IP present on the Intel Keem Bay SoC.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Specifically the driver enables xLink Core to:
+> 
+> * Boot / Reset the VPU IP
+> * Register to VPU IP event notifications (device connected, device
+>   disconnected, WDT event)
+> * Query the status of the VPU IP (OFF, BUSY, READY, ERROR, RECOVERY)
+> * Exchange data with the VPU IP, using the Keem Bay IPC mechanism
+>   - Including the ability to send 'volatile' data (i.e., small amount of
+>     data, up to 128-bytes that was not allocated in the CPU/VPU shared
+>     memory region)
+> 
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Mark Gross <mgross@linux.intel.com>
+> Signed-off-by: Seamus Kelly <seamus.kelly@intel.com>
+> Signed-off-by: Ryan Carnaghi <ryan.r.carnaghi@intel.com>
 > ---
->  drivers/infiniband/core/cm.c                         |  5 +++--
->  drivers/infiniband/core/cq.c                         |  4 ++--
->  drivers/infiniband/core/iwpm_util.h                  |  2 +-
->  drivers/infiniband/core/sa_query.c                   |  3 ++-
->  drivers/infiniband/core/verbs.c                      |  4 ++--
->  drivers/infiniband/sw/rdmavt/ah.c                    |  2 +-
->  drivers/infiniband/sw/rdmavt/mcast.c                 | 12 ++++++------
->  drivers/infiniband/sw/rdmavt/qp.c                    |  8 ++++----
->  drivers/infiniband/ulp/iser/iscsi_iser.c             |  2 +-
->  drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.h     |  2 +-
->  .../infiniband/ulp/opa_vnic/opa_vnic_vema_iface.c    |  2 +-
->  drivers/infiniband/ulp/srpt/ib_srpt.h                |  2 +-
->  include/rdma/ib_verbs.h                              | 11 +++++++++++
->  13 files changed, 36 insertions(+), 23 deletions(-)
+>  Documentation/vpu/index.rst        |   1 +
+>  Documentation/vpu/xlink-ipc.rst    |  50 ++
+>  MAINTAINERS                        |   6 +
+>  drivers/misc/Kconfig               |   1 +
+>  drivers/misc/Makefile              |   1 +
+>  drivers/misc/xlink-ipc/Kconfig     |   7 +
+>  drivers/misc/xlink-ipc/Makefile    |   4 +
+>  drivers/misc/xlink-ipc/xlink-ipc.c | 879 +++++++++++++++++++++++++++++
+>  include/linux/xlink-ipc.h          |  48 ++
+>  9 files changed, 997 insertions(+)
+>  create mode 100644 Documentation/vpu/xlink-ipc.rst
+>  create mode 100644 drivers/misc/xlink-ipc/Kconfig
+>  create mode 100644 drivers/misc/xlink-ipc/Makefile
+>  create mode 100644 drivers/misc/xlink-ipc/xlink-ipc.c
+>  create mode 100644 include/linux/xlink-ipc.h
 
-I've taken this to the RDMA tree, thanks
+> diff --git a/Documentation/vpu/xlink-ipc.rst b/Documentation/vpu/xlink-ipc.rst
+> new file mode 100644
+> index 000000000000..af583579e70d
+> --- /dev/null
+> +++ b/Documentation/vpu/xlink-ipc.rst
+> @@ -0,0 +1,50 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver: xLink IPC driver
+> +=================================
+> +Supported chips:
+> +
+> +* | Intel Edge.AI Computer Vision platforms: Keem Bay
+> +  | Suffix: Bay
+> +  | Datasheet: (not yet publicly available)
+> +
+> +------------
+> +Introduction
+> +------------
+> +
+> +The xLink IPC driver interfaces the xLink Core driver with the Keem Bay VPU IPC
+> +driver, thus enabling xLink to control and communicate with the VPU IP present
+> +on the Intel Keem Bay SoC.
+> +
+> +Specifically the driver enables xLink Core to:
+> +
+> +* Boot / Reset the VPU IP
+> +* Register to VPU IP event notifications (device connected, device disconnected,
+> +  WDT event)
+> +* Query the status of the VPU IP (OFF, BUSY, READY, ERROR, RECOVERY)
+> +* Exchange data with the VPU IP, using the Keem Bay IPC mechanism
+> +
+> +  * Including the ability to send 'volatile' data (i.e., small amount of data,
+> +    up to 128-bytes that was not allocated in the CPU/VPU shared memory region)
+> +
+> +Sending / Receiving 'volatile' data
+> +-----------------------------------
+> +
+> +Data to be exchanged with Keem Bay IPC needs to be allocated in the portion of
+> +DDR shared between the CPU and VPU.
+> +
+> +This can be impractical for small amount of data that user code can allocate
 
-Jason
+                                     amounts
+
+> +on the stack.
+> +
+> +To reduce the burden on user code, xLink Core provides special send / receive
+> +functions to send up to 128 bytes of 'volatile data', i.e., data that is not
+> +allocated in the shared memory and that might also disappear after the xLink
+> +API is called (e.g., because allocated on the stack).
+> +
+> +The xLink IPC driver implements support for transferring such 'volatile data'
+> +to the VPU using Keem Bay IPC. To this end, the driver reserved some memory in
+
+better:                                                   reserves
+
+> +the shared memory region.
+> +
+> +When volatile data is to be sent, xLink IPC allocates a buffer from the
+> +reserved memory region and copies the volatile data to the buffer. The buffer
+> +is then transferred to the VPU using Keem Bay IPC.
+
+> diff --git a/drivers/misc/xlink-ipc/Kconfig b/drivers/misc/xlink-ipc/Kconfig
+> new file mode 100644
+> index 000000000000..6aa2592fe9a3
+> --- /dev/null
+> +++ b/drivers/misc/xlink-ipc/Kconfig
+> @@ -0,0 +1,7 @@
+> +config XLINK_IPC
+> +	tristate "Support for XLINK IPC"
+> +	depends on KEEMBAY_VPU_IPC
+> +	help
+> +	  XLINK IPC enables the communication/control IPC Sub-System.
+> +
+> +	  Select M if you have an Intel SoC with a Vision Processing Unit (VPU)
+
+End that sentence with a '.', please.
+
+
+-- 
+~Randy
+
