@@ -2,150 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8046DC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:02:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B00AC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:12:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 471DA23888
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:02:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A7092388C
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:12:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725822AbgLGRBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 12:01:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38572 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726660AbgLGRBr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 12:01:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607360420;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SV/hIsDwJYVX6YU/tL2dTTOcKgpjOzj0CM+MQSPzMH4=;
-        b=Z+7a/0MlHxBHVH0COLB90oqmIMjEFn7WWEK6b/ThGDN6O1Bu2RaedaiwOmDlGB72b34bR4
-        +iI49IKQbQS8jwXh1B3QrTAZ4f19VCEia+00vywTewfT1HaR9rw3sOq7ncWQJY10smCLzK
-        WrpEGpA0K8N/8Lfxj+7CTMEP4ryi6DQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-18tooxLWMoi3xlNtL3C4cQ-1; Mon, 07 Dec 2020 12:00:17 -0500
-X-MC-Unique: 18tooxLWMoi3xlNtL3C4cQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C4BD100E421;
-        Mon,  7 Dec 2020 17:00:13 +0000 (UTC)
-Received: from starship (unknown [10.35.206.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DA79B60BD8;
-        Mon,  7 Dec 2020 17:00:02 +0000 (UTC)
-Message-ID: <636fecc20b0143128b484f159ff795ff65d05b82.camel@redhat.com>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Andy Lutomirski <luto@amacapital.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     kvm@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        id S1726239AbgLGRMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 12:12:24 -0500
+Received: from mga17.intel.com ([192.55.52.151]:53267 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725863AbgLGRMY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 12:12:24 -0500
+IronPort-SDR: 4WedHcgKxXjpH7+vFiWLGLLHvQtdjRbFfq/ff0xfQJvwW9Li6MPS6UOARPI//UxeLXMA1zEYnH
+ N/H9t/zY/2OQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="153548837"
+X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
+   d="scan'208";a="153548837"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2020 09:11:41 -0800
+IronPort-SDR: gU9g08IhB9QfbewodfyGKJL8AgbLIcT0M6qrKa1Z9jOWOFYTF2mvVDswR7gIVZyojuJ4MByAkr
+ BeEAFFkD6PMQ==
+X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
+   d="scan'208";a="436903607"
+Received: from nkanakap-mobl1.amr.corp.intel.com (HELO [10.251.12.188]) ([10.251.12.188])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2020 09:11:39 -0800
+Subject: Re: [PATCH v15 07/26] x86/mm: Remove _PAGE_DIRTY_HW from kernel RO
+ pages
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Date:   Mon, 07 Dec 2020 19:00:01 +0200
-In-Reply-To: <905DFDCE-71A5-4711-A31B-9FCFEA2CFC52@amacapital.net>
-References: <87a6up606r.fsf@nanos.tec.linutronix.de>
-         <905DFDCE-71A5-4711-A31B-9FCFEA2CFC52@amacapital.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Christoph Hellwig <hch@lst.de>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-8-yu-cheng.yu@intel.com>
+ <20201207163632.GE20489@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b2deed42-1252-62e1-0d82-beafb917d0ad@intel.com>
+Date:   Mon, 7 Dec 2020 09:11:38 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201207163632.GE20489@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-12-07 at 08:53 -0800, Andy Lutomirski wrote:
-> > On Dec 7, 2020, at 8:38 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
-> > 
-> > ﻿On Mon, Dec 07 2020 at 14:16, Maxim Levitsky wrote:
-> > > > On Sun, 2020-12-06 at 17:19 +0100, Thomas Gleixner wrote:
-> > > > From a timekeeping POV and the guests expectation of TSC this is
-> > > > fundamentally wrong:
-> > > > 
-> > > >      tscguest = scaled(hosttsc) + offset
-> > > > 
-> > > > The TSC has to be viewed systemwide and not per CPU. It's systemwide
-> > > > used for timekeeping and for that to work it has to be synchronized. 
-> > > > 
-> > > > Why would this be different on virt? Just because it's virt or what? 
-> > > > 
-> > > > Migration is a guest wide thing and you're not migrating single vCPUs.
-> > > > 
-> > > > This hackery just papers over he underlying design fail that KVM looks
-> > > > at the TSC per vCPU which is the root cause and that needs to be fixed.
-> > > 
-> > > I don't disagree with you.
-> > > As far as I know the main reasons that kvm tracks TSC per guest are
-> > > 
-> > > 1. cases when host tsc is not stable 
-> > > (hopefully rare now, and I don't mind making
-> > > the new API just refuse to work when this is detected, and revert to old way
-> > > of doing things).
-> > 
-> > That's a trainwreck to begin with and I really would just not support it
-> > for anything new which aims to be more precise and correct.  TSC has
-> > become pretty reliable over the years.
-> > 
-> > > 2. (theoretical) ability of the guest to introduce per core tsc offfset
-> > > by either using TSC_ADJUST (for which I got recently an idea to stop
-> > > advertising this feature to the guest), or writing TSC directly which
-> > > is allowed by Intel's PRM:
-> > 
-> > For anything halfways modern the write to TSC is reflected in TSC_ADJUST
-> > which means you get the precise offset.
-> > 
-> > The general principle still applies from a system POV.
-> > 
-> >     TSC base (systemwide view) - The sane case
-> > 
-> >     TSC CPU  = TSC base + TSC_ADJUST
-> > 
-> > The guest TSC base is a per guest constant offset to the host TSC.
-> > 
-> >     TSC guest base = TSC host base + guest base offset
-> > 
-> > If the guest want's this different per vCPU by writing to the MSR or to
-> > TSC_ADJUST then you still can have a per vCPU offset in TSC_ADJUST which
-> > is the offset to the TSC base of the guest.
+On 12/7/2020 8:36 AM, Borislav Petkov wrote:
+> On Tue, Nov 10, 2020 at 08:21:52AM -0800, Yu-cheng Yu wrote:
+>> Kernel read-only PTEs are setup as _PAGE_DIRTY_HW.  Since these become
+>> shadow stack PTEs, remove the dirty bit.
 > 
-> How about, if the guest wants to write TSC_ADJUST, it can turn off all paravirt features and keep both pieces?
+> This commit message is laconic to say the least. You need to start
+> explaining what you're doing because everytime I look at a patch of
+> yours, I'm always grepping the SDM and looking forward in the patchset,
+> trying to rhyme up what that is all about.
+> 
+> Like for this one. I had to fast-forward to the next patch where all
+> that is explained. But this is not how review works - each patch's
+> commit message needs to be understandable on its own because when
+> they land upstream, they're not in a patchset like here. And review
+> should be done in the order the patches are numbered - not by jumping
+> back'n'forth.
+> 
+> So please think of the readers of your patches when writing those commit
+> messages. Latter are *not* write-only and not unimportant.
+> 
+> And those readers haven't spent copious amounts of time on the
+> technology so being more verbose and explaining things is a Good
+> Thing(tm). Don't worry about explaining too much - better too much than
+> too little.
+> 
+> And last but not least, having understandable and properly written
+> commit messages increases the chances of your patches landing upstream
+> considerably.
+> 
+> Thx.
 > 
 
-This is one of the things I had in mind recently.
+Thanks for your feedback.  I will improve the commit logs.
 
-Even better, we can stop advertising TSC_ADJUST in CPUID to the guest 
-and forbid it from writing it at all.
-
-And if the guest insists and writes to the TSC itself, 
-then indeed let it keep both pieces (or invoke some failback code).
- 
-I have nothing against this solution.
-
-
-Best regards,
-	Maxim Levitsky
-
-
+--
+Yu-cheng
