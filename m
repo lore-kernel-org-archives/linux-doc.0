@@ -2,72 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C82A8C19437
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 08:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AA5C1B0E3
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:12:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EBA923108
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 08:57:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 413F4233ED
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbgLGI5J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 03:57:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36904 "EHLO mail.kernel.org"
+        id S1726705AbgLGJMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 04:12:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43742 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726083AbgLGI5J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Dec 2020 03:57:09 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726677AbgLGJMG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 04:12:06 -0500
+Date:   Mon, 7 Dec 2020 10:12:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607332289;
+        bh=pVcQnzFdOBdk2G2zSGbi6yAHzkwoQI7eBtrtT4e8Gk8=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tocgW9/ZyJWYiEYa4KssrRl5HhEvRADojlLiDNxdpZFIBoEFdowIeJ34n671JFHA3
+         fSB+Em92Tm4ThDbPeYos1NroDMEoxpzHGtvPqdHt7tqav59vBUKFFLRKTm9W/dX1d5
+         O9+qIzi4fMSld3PcefFR0YpVuw8EGUNwREUa6pnI=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        linux-kernel@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Stephen Rothwell" <sfr@canb.auug.org.au>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: nios2: add missing ReST file
-Date:   Mon,  7 Dec 2020 09:56:20 +0100
-Message-Id: <e51c4692c4420d28bca35f553a9a3f3d78404d99.1607331056.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201207185257.1198e407@canb.auug.org.au>
-References: <20201207185257.1198e407@canb.auug.org.au>
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+Message-ID: <X83yB9/RbosOIdbm@kroah.com>
+References: <20201203212640.663931-1-luzmaximilian@gmail.com>
+ <20201206070705.GA686270@unreal>
+ <9dd05a66-efb7-74d2-4f5b-347655b710be@gmail.com>
+ <aecfdbf2-32bf-1ee5-fe72-0c0923773507@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aecfdbf2-32bf-1ee5-fe72-0c0923773507@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-changeset ed13a92d0fde ("docs: archis: add a per-architecture features list")
-besides having a typo on its title, it was missing the feature file.
+On Mon, Dec 07, 2020 at 09:49:03AM +0100, Hans de Goede wrote:
+> Note if in the future you do see benefit in switching the auxiliary bus
+> I have no problems with that. But atm I don't really see any benefits of
+> doing so, so then we would just be switching over for the sake of switching
+> over which does not seem productive.
 
-Add it.
+I too do not see the benefit at this time to switch either.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: ed13a92d0fde ("docs: archis: add a per-architecture features list")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+thanks,
 
-Jon/Stephen,
-
-I ended forgetting to add this one to the patch I sent. Sorry for that!
-
-If not too late, feel free to fold this patch with the past one.
-
- Documentation/nios2/features.rst | 3 +++
- 1 file changed, 3 insertions(+)
- create mode 100644 Documentation/nios2/features.rst
-
-diff --git a/Documentation/nios2/features.rst b/Documentation/nios2/features.rst
-new file mode 100644
-index 000000000000..8449e63f69b2
---- /dev/null
-+++ b/Documentation/nios2/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. kernel-feat:: $srctree/Documentation/features nios2
--- 
-2.28.0
-
-
+greg k-h
