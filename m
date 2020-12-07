@@ -2,164 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3129EC4361B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E13F7C4361B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:54:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE13723331
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:24:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABD25235E4
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgLGNYk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 08:24:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgLGNYj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 08:24:39 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64AEDC0613D1
-        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 05:23:59 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id j13so7435298pjz.3
-        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 05:23:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ky+I9YkVzigjjr6stcndvMLpkjlk5/E6enUFznI0xXk=;
-        b=P34K7+7gmugd3RCndoxHSZmBwWjqQv3lr+RU3A27tiFeJKxAykWlrOPr07RB7o66zG
-         cYb/c/eE0KLWrs5GrSbXMMSKbdtAjZ2MRRWh5ndWSP1P4aLF8PBT9NgdHEjJqadOtjbH
-         eZaRFlCVVSeQZzDFFqim+bari+CRXDx07Hq3qbkzX5FakwrG/XFfrEgPyYJOjLU3rZ3m
-         HsvwSYCxIEIIWdbe3toyI98SqwSN5s57GVIcD29eU1kjLpNE92MUOgdQepdm9qph2i8X
-         9OstqP7zx0smn0/yY8wSD+6jUjWZFMJBR41NjBx9xvrjjLCOroYV+60llyFZxW8t7xuB
-         nPlw==
+        id S1725994AbgLGNx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 08:53:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55144 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726007AbgLGNx4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 08:53:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607349150;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=o2eDRpg2p3nscNNP24Y5Wwi2J4Ejtn5EoY7jP2IsnBU=;
+        b=VaC2wPUPfoOtKJOejV2/17oJbE9ONgxYsYyJheiR06SYcI3m1wXMEWYq6z53A1hQfhu+9b
+        ADrWDuk4JJwoC37kghqtAakbyQ9fdzX97kmXQeX8NvmYBQd8ePkYAeKhCfymEkTDxxeshP
+        Motd9gX8hCBdsXHQSnVwdh9NWu+NxE8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-9T7RpHgEMXm2FNAcT8M0bg-1; Mon, 07 Dec 2020 08:52:28 -0500
+X-MC-Unique: 9T7RpHgEMXm2FNAcT8M0bg-1
+Received: by mail-wr1-f69.google.com with SMTP id o4so1194249wrw.19
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 05:52:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ky+I9YkVzigjjr6stcndvMLpkjlk5/E6enUFznI0xXk=;
-        b=A0gQ5IUeXphvsH6lKtx9XLv9rqmBqzC96gfoH+igm1Kdfc8+BQW24jBx6jOR8o67lP
-         mN8XLGpd+0YItuovXDZQw2GWKCeSN9ghYAaxdcmqi+nRyCe05khtOkkGJiGkoZyFldxz
-         hrY6SSAm8+6Rm8i3/4HkxK+8fv0lCh3xXojW3aCp+7pYWkF/0kPnCgqlypUOg+993J/U
-         wJoiipqqQDOk7jXOqBqoJfEch2I/v8jWfWdBDKGqvpHKgf0wNJHfEkNLeF1F1fJHHGiN
-         EbcQ5aCdNoNWjem1+qQW0iQg//5ywDwEk+JlcOn4ISeM2vvDivPZV4MGz4tGiYskO8Qp
-         PI2Q==
-X-Gm-Message-State: AOAM5328aXdVi8pwbm8ABoJSMC9xWO36QMi9gvmGcSDyNiU6JGzdH+es
-        BxdF4GD0nqOi8qUS1FjmkOe/kdSYyrz7TzpXEw4DJg==
-X-Google-Smtp-Source: ABdhPJwusQET8H/ZtzbMlFRmNDIDtUwVD9D8y47cTahBIlck/QWVBQr9rJ+XFSKkdsByhbn0oiK+TQ4qvTtVAjvkk2k=
-X-Received: by 2002:a17:90a:c588:: with SMTP id l8mr16181556pjt.147.1607347438932;
- Mon, 07 Dec 2020 05:23:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=o2eDRpg2p3nscNNP24Y5Wwi2J4Ejtn5EoY7jP2IsnBU=;
+        b=sgNACC/EIIgQpYlf2bub5z5tnMY7bFU/4MqNnZcx4psFc8YC/ZeOIEHcIKyDk/zglV
+         WqQPSbUf28nX7vC/GhUvbPSiEU45DHYDPCOqghe8LHITND+HpRQZe35QAMsOu01TwUhw
+         DecWQRdyIA3HGMcykacJgw+1syy9Cy8GHMnj4xSXmiYozYg5caN2T+i94aXPCVZ1jZ4U
+         nUK2tKV456oH7PCak1I8XcfwxhK6EP7wlfdJHUwB+tednQOXoJRoV7jyNXKUxAiPQHQF
+         74588Wg6MJNeQWZmcGbmkQO0dxHxU4QtiZ0BOdxeKReq9M+NTrJarzlYdiCK2Ryyvzgw
+         aP2w==
+X-Gm-Message-State: AOAM530Co+B9E4IZTOuzJOzGbgE1FCaMAjJUSk5l1XB4OPQ6xwrhXuca
+        hmvATuxBbJcIBv3OfUMsymBVSa9wLJOBzIJwNBqQet41G7m14CLvrIWOKUiPnmX36vUJUpHUgdx
+        D9U/WCXtWyUk71hG2Cgav
+X-Received: by 2002:a5d:5689:: with SMTP id f9mr19985947wrv.181.1607349145790;
+        Mon, 07 Dec 2020 05:52:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxry8r99XfuZsd9xpT/D3HhTrDgujG2fkSVGb9ILMFpXGDKe10crdm3NpHJ20Ml9kS7Zd7JfA==
+X-Received: by 2002:a5d:5689:: with SMTP id f9mr19985923wrv.181.1607349145521;
+        Mon, 07 Dec 2020 05:52:25 -0800 (PST)
+Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
+        by smtp.gmail.com with ESMTPSA id h14sm13884316wrx.37.2020.12.07.05.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 05:52:24 -0800 (PST)
+Date:   Mon, 7 Dec 2020 08:52:20 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Jason Wang <jasowang@redhat.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org, stefanha@redhat.com,
+        msuchanek@suse.de
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+Message-ID: <20201206075131-mutt-send-email-mst@kernel.org>
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
+ <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
+ <20201205142218-mutt-send-email-mst@kernel.org>
+ <e69569b5-0c45-e072-5de4-81a4acecdae3@metux.net>
 MIME-Version: 1.0
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <20201130151838.11208-6-songmuchun@bytedance.com> <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
-In-Reply-To: <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 7 Dec 2020 21:23:22 +0800
-Message-ID: <CAMZfGtUBe32=wYfR9Nqnq5_Xvb8hHO5j14eyFkRwx5uaS0n=1Q@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v7 05/15] mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e69569b5-0c45-e072-5de4-81a4acecdae3@metux.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 7, 2020 at 8:39 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 30.11.20 16:18, Muchun Song wrote:
-> > In the later patch, we can use the free_vmemmap_page() to free the
-> > unused vmemmap pages and initialize a page for vmemmap page using
-> > via prepare_vmemmap_page().
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/linux/bootmem_info.h | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
-> > index 4ed6dee1adc9..239e3cc8f86c 100644
-> > --- a/include/linux/bootmem_info.h
-> > +++ b/include/linux/bootmem_info.h
-> > @@ -3,6 +3,7 @@
-> >  #define __LINUX_BOOTMEM_INFO_H
-> >
-> >  #include <linux/mmzone.h>
-> > +#include <linux/mm.h>
-> >
-> >  /*
-> >   * Types for free bootmem stored in page->lru.next. These have to be in
-> > @@ -22,6 +23,29 @@ void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
-> >  void get_page_bootmem(unsigned long info, struct page *page,
-> >                     unsigned long type);
-> >  void put_page_bootmem(struct page *page);
-> > +
-> > +static inline void free_vmemmap_page(struct page *page)
-> > +{
-> > +     VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
-> > +
-> > +     /* bootmem page has reserved flag in the reserve_bootmem_region */
-> > +     if (PageReserved(page)) {
-> > +             unsigned long magic = (unsigned long)page->freelist;
-> > +
-> > +             if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
-> > +                     put_page_bootmem(page);
-> > +             else
-> > +                     WARN_ON(1);
-> > +     }
-> > +}
-> > +
-> > +static inline void prepare_vmemmap_page(struct page *page)
-> > +{
-> > +     unsigned long section_nr = pfn_to_section_nr(page_to_pfn(page));
-> > +
-> > +     get_page_bootmem(section_nr, page, SECTION_INFO);
-> > +     mark_page_reserved(page);
-> > +}
->
-> Can you clarify in the description when exactly these functions are
-> called and on which type of pages?
-
-Will do.
-
->
-> Would indicating "bootmem" in the function names make it clearer what we
-> are dealing with?
->
-> E.g., any memory allocated via the memblock allocator and not via the
-> buddy will be makred reserved already in the memmap. It's unclear to me
-> why we need the mark_page_reserved() here - can you enlighten me? :)
-
-Very thanks for your suggestions.
-
->
-> --
-> Thanks,
->
-> David / dhildenb
->
+On Sat, Dec 05, 2020 at 09:05:16PM +0100, Enrico Weigelt, metux IT consult wrote:
+> On 05.12.20 20:32, Michael S. Tsirkin wrote:
+> 
+> Hi,
+> 
+> > It seems a bit of a mess, at this point I'm not entirely sure when
+> > should drivers select VIRTIO and when depend on it.
+> 
+> if VIRTIO just enables something that could be seen as library
+> functions, then select should be right, IMHO.
+> 
+> > The text near it says:
+> > 
+> > # SPDX-License-Identifier: GPL-2.0-only
+> > config VIRTIO
+> >         tristate
+> 
+> oh, wait, doesn't have an menu text, so we can't even explicitly enable
+> it (not shown in menu) - only implicitly. Which means that some other
+> option must select it, in order to become availe at all, and in order
+> to make others depending on it becoming available.
+> 
+> IMHO, therefore select is the correct approach.
+> 
+> 
+> >         help
+> >           This option is selected by any driver which implements the virtio
+> >           bus, such as CONFIG_VIRTIO_PCI, CONFIG_VIRTIO_MMIO, CONFIG_RPMSG
+> >           or CONFIG_S390_GUEST.
+> > 
+> > Which seems clear enough and would indicate drivers for devices *behind*
+> > the bus should not select VIRTIO and thus presumably should "depend on" it.
+> > This is violated in virtio console and virtio fs drivers.
+> 
+> See above: NAK. because it can't even be enabled directly (by the user).
+> If it wasn't meant otherwise, we'd have to add an menu text.
 
 
--- 
-Yours,
-Muchun
+The point is that user enables one of the bindings.
+That in turn enables drivers. If we merely select VIRTIO
+there's a chance user won't remember to select any bindings
+and will be surprised not to see any devices.
+
+
+
+> > For console it says:
+> > 
+> > commit 9f30eb29c514589e16f2999ea070598583d1f6ec
+> > Author: Michal Suchanek <msuchanek@suse.de>
+> > Date:   Mon Aug 31 18:58:50 2020 +0200
+> > 
+> >     char: virtio: Select VIRTIO from VIRTIO_CONSOLE.
+> >     
+> >     Make it possible to have virtio console built-in when
+> >     other virtio drivers are modular.
+> >     
+> >     Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> >     Reviewed-by: Amit Shah <amit@kernel.org>
+> >     Link: https://lore.kernel.org/r/20200831165850.26163-1-msuchanek@suse.de
+> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > 
+> > which seems kind of bogus - why do we care about allowing a builtin
+> > virtio console driver if the pci virtio bus driver is a module?
+> > There won't be any devices on the bus to attach to ...
+> 
+> When using other transports ?
+
+Any transport selects VIRTIO so if you enable that, you get
+VIRTIO and thus it's enough to depend on it.
+
+> In my current project, eg. I'm using mmio - my kernel has pci completely
+> disabled.
+> 
+> > I am inclined to fix console and virtio fs to depend on VIRTIO:
+> > select is harder to use correctly ...
+> 
+> I don't thinkt that would be good - instead everybody should just select
+> VIRTIO, never depend on it (maybe depend on VIRTIO_MENU instead)
+
+GPU depends on VIRTIO and on VIRTIO_MENU ... which seems even messier
+...
+
+> 
+> --mtx
+> 
+> -- 
+> ---
+> Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+> werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+> GPG/PGP-Schlüssel zu.
+> ---
+> Enrico Weigelt, metux IT consult
+> Free software and Linux embedded engineering
+> info@metux.net -- +49-151-27565287
+
