@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
 	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE2C7C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A99DCC2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F3A623A69
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:25:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C62323A77
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729623AbgLHOZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 09:25:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47970 "EHLO
+        id S1729818AbgLHOZQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 09:25:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32964 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729377AbgLHOZN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 09:25:13 -0500
+        by vger.kernel.org with ESMTP id S1729745AbgLHOZP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 09:25:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607437426;
+        s=mimecast20190719; t=1607437429;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=bfs7R36tArLHPO/+HIzcgL+lyVc7901iiK5/fepesp8=;
-        b=CnIth2N4YjhmDuSTHAHEnf7P0rGsrexygqGd4pSpi3UvIrXl1xSwDwbT1vwm5rBX7g1fVA
-        dxLvUI4cin34fm8hIHcF2Mcdeg0yQEHlaUvwSnvx8BnzUMFrgU71k+WPxUMIECI9LuXg6e
-        0cwZzRNa7A08ilKZdd7MCgzCCC4XSIE=
+        bh=yYABeUJ41wkb4dfuaHr9ztBYcxYNx2eYwG9YnsUg4D0=;
+        b=DY1k5prdr2tO6ZiSQ5QcLKWMULsoIp9Ta4A29tukZAEO8s/1hEVbkJfaajak2NJkmYwh4J
+        Gp/8uw3B3DZ4hqmq6HBGWvB7r/BOLzG7YVsdPVJDdF9+VveSG0oef6RwG4XPHi3BW8xu8p
+        SDxUmmYU0TB+Ji+NNykDSiF4u+b9AEk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-aHFPSlkaM7y4stEEN7OEgw-1; Tue, 08 Dec 2020 09:23:45 -0500
-X-MC-Unique: aHFPSlkaM7y4stEEN7OEgw-1
+ us-mta-591-ZkxIiaedPvS_iNIQaWCyTQ-1; Tue, 08 Dec 2020 09:23:45 -0500
+X-MC-Unique: ZkxIiaedPvS_iNIQaWCyTQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB78A107ACE3;
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F07DF180A089;
         Tue,  8 Dec 2020 14:23:42 +0000 (UTC)
 Received: from fuller.cnet (ovpn-112-8.gru2.redhat.com [10.97.112.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE3960BD8;
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DEAB620DE;
         Tue,  8 Dec 2020 14:23:42 +0000 (UTC)
 Received: by fuller.cnet (Postfix, from userid 1000)
-        id 8ACC04172ED9; Mon,  7 Dec 2020 20:34:23 -0300 (-03)
-Date:   Mon, 7 Dec 2020 20:34:23 -0300
+        id 4CA80416D862; Mon,  7 Dec 2020 20:16:56 -0300 (-03)
+Date:   Mon, 7 Dec 2020 20:16:56 -0300
 From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Jim Mattson <jmattson@google.com>,
@@ -54,6 +54,7 @@ Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Sean Christopherson <sean.j.christopherson@intel.com>,
         open list <linux-kernel@vger.kernel.org>,
         Ingo Molnar <mingo@redhat.com>,
@@ -63,63 +64,76 @@ Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
         Andrew Jones <drjones@redhat.com>,
         Oliver Upton <oupton@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201207233423.GE27492@fuller.cnet>
+Subject: Re: [PATCH v2 0/3] RFC: Precise TSC migration
+Message-ID: <20201207231656.GC27492@fuller.cnet>
 References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a6uq9abf.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <20201203171118.372391-1-mlevitsk@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 06, 2020 at 05:19:16PM +0100, Thomas Gleixner wrote:
-> On Thu, Dec 03 2020 at 19:11, Maxim Levitsky wrote:
-> > +	case KVM_SET_TSC_STATE: {
-> > +		struct kvm_tsc_state __user *user_tsc_state = argp;
-> > +		struct kvm_tsc_state tsc_state;
-> > +		u64 host_tsc, wall_nsec;
-> > +
-> > +		u64 new_guest_tsc, new_guest_tsc_offset;
-> > +
-> > +		r = -EFAULT;
-> > +		if (copy_from_user(&tsc_state, user_tsc_state, sizeof(tsc_state)))
-> > +			goto out;
-> > +
-> > +		kvm_get_walltime(&wall_nsec, &host_tsc);
-> > +		new_guest_tsc = tsc_state.tsc;
-> > +
-> > +		if (tsc_state.flags & KVM_TSC_STATE_TIMESTAMP_VALID) {
-> > +			s64 diff = wall_nsec - tsc_state.nsec;
-> > +			if (diff >= 0)
-> > +				new_guest_tsc += nsec_to_cycles(vcpu, diff);
-> > +			else
-> > +				new_guest_tsc -= nsec_to_cycles(vcpu, -diff);
-> > +		}
-> > +
-> > +		new_guest_tsc_offset = new_guest_tsc - kvm_scale_tsc(vcpu, host_tsc);
-> > +		kvm_vcpu_write_tsc_offset(vcpu, new_guest_tsc_offset);
+On Thu, Dec 03, 2020 at 07:11:15PM +0200, Maxim Levitsky wrote:
+> Hi!
 > 
-> >From a timekeeping POV and the guests expectation of TSC this is
-> fundamentally wrong:
-> 
->       tscguest = scaled(hosttsc) + offset
-> 
-> The TSC has to be viewed systemwide and not per CPU. It's systemwide
-> used for timekeeping and for that to work it has to be synchronized. 
-> 
-> Why would this be different on virt? Just because it's virt or what? 
-> 
-> Migration is a guest wide thing and you're not migrating single vCPUs.
-> 
-> This hackery just papers over he underlying design fail that KVM looks
-> at the TSC per vCPU which is the root cause and that needs to be fixed.
+> This is the second version of the work to make TSC migration more accurate,
+> as was defined by Paulo at:
+> https://www.spinics.net/lists/kvm/msg225525.html
 
-It already does it: The unified TSC offset is kept at kvm->arch.cur_tsc_offset.
+Maxim,
 
+Can you please make a description of what is the practical problem that is 
+being fixed, preferably with instructions on how to reproduce ?
+
+> I omitted most of the semi-offtopic points I raised related to TSC
+> in the previous RFC where we can continue the discussion.
+> 
+> I do want to raise another thing that I almost forgot.
+> 
+> On AMD systems, the Linux kernel will mark the guest tsc as
+> unstable unless invtsc is set which is set on recent AMD
+> hardware.
+> 
+> Take a look at 'unsynchronized_tsc()' to verify this.
+> 
+> This is another thing that IMHO should be fixed at least when
+> running under KVM.
+> 
+> Note that I forgot to mention that
+> X86_FEATURE_TSC_RELIABLE also short-circuits this code,
+> thus giving another reason to enable it under KVM.
+> 
+> Changes from V1:
+> 
+> - added KVM_TSC_STATE_TIMESTAMP_VALID instead of testing ns == 0
+> - allow diff < 0, because it is still better that capping it to 0
+> - updated tsc_msr_test unit test to cover this feature
+> - refactoring
+> 
+> Patches to enable this feature in qemu are in the process of
+> being sent to qemu-devel mailing list.
+> 
+> Best regards,
+>     Maxim Levitsky
+> 
+> Maxim Levitsky (3):
+>   KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+>   KVM: x86: introduce KVM_X86_QUIRK_TSC_HOST_ACCESS
+>   kvm/selftests: update tsc_msrs_test to cover
+>     KVM_X86_QUIRK_TSC_HOST_ACCESS
+> 
+>  Documentation/virt/kvm/api.rst                | 65 +++++++++++++
+>  arch/x86/include/uapi/asm/kvm.h               |  1 +
+>  arch/x86/kvm/x86.c                            | 92 ++++++++++++++++++-
+>  include/uapi/linux/kvm.h                      | 15 +++
+>  .../selftests/kvm/x86_64/tsc_msrs_test.c      | 79 ++++++++++++++--
+>  5 files changed, 237 insertions(+), 15 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
 
