@@ -2,97 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D99C9C1B087
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42DD5C0018C
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:56:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6472238D7
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:39:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22867238D7
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbgLGSjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 13:39:01 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40950 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725822AbgLGSjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Dec 2020 13:39:01 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 89856AD63;
-        Mon,  7 Dec 2020 18:38:19 +0000 (UTC)
-Date:   Mon, 7 Dec 2020 19:38:14 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
-        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
-        Thomas Gleixner <tglx@linutronix.de>,
-        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
-        paulmck@kernel.org, viro@zeniv.linux.org.uk,
-        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
-        oneukum@suse.com, jroedel@suse.de,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        Mina Almasry <almasrymina@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        anshuman.khandual@arm.com, Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v7 00/15] Free some vmemmap pages of
- hugetlb page
-Message-ID: <20201207183814.GA3786@localhost.localdomain>
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
- <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com>
- <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
+        id S1726484AbgLGS4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 13:56:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726482AbgLGS4p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 13:56:45 -0500
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88189C061749
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 10:55:59 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id 131so10958503pfb.9
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 10:55:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KtGdp/lwKq2VYARUSn9Vex8GHiah3So/M600I4rdU+k=;
+        b=y8VTp9ob9fYKSzfHkWUymZptoMnZAg/NWhWoUrlxY8pjbTg36T7Fdn2pVvvh9zWVaa
+         B87zFRzbc5t2R3rkosrvupXzz338IyKlSY3h6nO3hw2GSlHpQdfeFCFxtUhS5Em8PxAK
+         GskuFtlBmCwDw1vgOearEpEMLctI3/GBGMMkxS4uTHgTlQmXpFEiGHn6AAwbt+EO5Xpo
+         3asZytuj39HVI8357jpgKbjNw0RDymoX3VrjPjBcw6mvh9J8s4Dahu+rG1Q6cmQ+8YsP
+         4+x7YjvAxBKlP5PrmfwWH835KSJEkeNn4fEjBTBtYWVE8cRi+N6+9AUXb+oBqFMdGTEM
+         BcDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=KtGdp/lwKq2VYARUSn9Vex8GHiah3So/M600I4rdU+k=;
+        b=oOSu7AB+d717QNkeTexHklDzlRal49ljDkMVb/gQXPqVaUCeFW1rYubvjsWNWbiNYC
+         8oCoWVqKI4wDJXOBO8uCfALCwSy7A3TdEJSrRaIEL2ZslbVmieMjevqEtjKB13XVZeR+
+         nxQ/G3baQxVSwg+MLWWj4e7YxCwdLGb2JTmhBI4uR6rHOFbi+fl13R4ZX8iG/wlz4NU1
+         NWmhqnwFpbA8OuJkdRpI9WDNjzaoxdXhmuKKRjkkYftfaiU+SdQ8Jh5Ag5aZKeEAbQ4z
+         Zo2I3t2pOah5k2mN+yhyrRmab6cho839uVrpBUVAx39XdTcAjbkVRCS1/r/unW8sUstx
+         SFlg==
+X-Gm-Message-State: AOAM530ifGe55adsjqNv/N3tl3bxdKj2EgT//1tPDt4qw4+cCDWe7Gv3
+        gotAvmxGSfyJUf2K13dnLU6uBg==
+X-Google-Smtp-Source: ABdhPJzLmOMynfb1JI8F+/oNdCFJom0GbATVogv9ZDfkhxeT99YUXudSQ0OdVQFteOgVntZyE3iBvQ==
+X-Received: by 2002:a62:4dc2:0:b029:19d:b6f2:e7bb with SMTP id a185-20020a624dc20000b029019db6f2e7bbmr17129167pfb.74.1607367358874;
+        Mon, 07 Dec 2020 10:55:58 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id t36sm14214255pfg.55.2020.12.07.10.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 10:55:57 -0800 (PST)
+Date:   Mon, 07 Dec 2020 10:55:57 -0800 (PST)
+X-Google-Original-Date: Mon, 07 Dec 2020 10:55:56 PST (-0800)
+Subject:     Re: [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to userspace
+In-Reply-To: <20201204103336.GA7374@infradead.org>
+CC:     dm-devel@redhat.com, agk@redhat.com, snitzer@redhat.com,
+        corbet@lwn.net, song@kernel.org, shuah@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-raid@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kernel-team@android.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Message-ID: <mhng-97fc5874-29d0-4d9e-8c92-d3704a482f28@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 04, 2020 at 11:39:31AM +0800, Muchun Song wrote:
-> On Fri, Dec 4, 2020 at 7:49 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
-> > As previously mentioned, I feel qualified to review the hugetlb changes
-> > and some other closely related changes.  However, this patch set is
-> > touching quite a few areas and I do not feel qualified to make authoritative
-> > statements about them all.  I too hope others will take a look.
-> 
-> Agree. I also hope others can take a look at other modules(e.g.
-> sparse-vmemmap, memory-hotplug). Thanks for everyone's efforts
-> on this.
+On Fri, 04 Dec 2020 02:33:36 PST (-0800), Christoph Hellwig wrote:
+> What is the advantage over simply using nbd?
 
-I got sidetracked by some other stuff but I plan to continue reviewing
-this series.
+There's a short bit about that in the cover letter (and in some talks), but
+I'll expand on it here -- I suppose my most important question is "is this
+interesting enough to take upstream?", so there should be at least a bit of a
+description of what it actually enables:
 
-One thing that came to my mind is that if we do as David suggested in
-patch#4, and we move it towards the end to actually __enable__ this
-once all the infrastructure is there (unless hstate->nr_vmemmap_pages
-differs from 0 we should not be doing any work AFAIK), we could also
-move patch#6 to the end (right before the enablement), kill patch#7
-and only leave patch#13.
+I don't think there's any deep fundamental advantages to doing this as opposed
+to nbd/iscsi over localhost/unix (or by just writing a kernel implementation,
+for that matter), at least in terms of anything that was previously impossible
+now becoming possible.  There are a handful of things that are easier and/or
+faster, though.
 
-The reason for that (killing patch#7 and leaving patch#13 only)
-is that it does not make much sense to me to disable PMD-mapped vmemmap
-depending on the CONFIG_HUGETLB_xxxxx as that is enabled by default
-to replace that later by the boot kernel parameter.
-It looks more natural to me to disable it when we introduce the kernel
-boot parameter, before the actual enablement of the feature.
+dm-user looks a lot like NBD without the networking.  The major difference is
+which side initiates messages: in NBD the kernel initiates messages, while in
+dm-user userspace initiates messages (via a read that will block if there is no
+message, but presumably we'd want to add support for a non-blocking userspace
+implementations eventually).  The NBD approach certainly makes sense for a
+networked system, as one generally wants to have a single storage server
+handling multiple clients, but inverting that makes some things simpler in
+dm-user.  
 
-As I said, I plan to start the review again, but the order above would
-make more sense to me.
+One specific advantage of this change is that a dm-user target can be
+transitioned from one daemon to another without any IO errors: just spin up the
+second daemon, signal the first to stop requesting new messages, and let it
+exit.  We're using that mechanism to replace the daemon launched by early init
+(which runs before the security subsystem is up, as in our use case dm-user
+provides the root filesystem) with one that's properly sandboxed (which can
+only be launched after the root filesystem has come up).  There are ways around
+this (replacing the DM table, for example), but they don't fit it as cleanly.
 
-thanks
+Unless I'm missing something, NBD servers aren't capable of that style of
+transition: soft disconnects can only be initiated by the client (the kernel,
+in this case), which leaves no way for the server to transition while
+guaranteeing that no IOs error out.  It's usually possible to shoehorn this
+sort of direction reversing concept into network protocols, but it's also
+usually ugly (I'm thinking of IDLE, for example).  I didn't try to actually do
+it, but my guess would be that adding a way for the server to ask the client to
+stop sending messages until a new server shows up would be at least as much
+work as doing this.
 
--- 
-Oscar Salvador
-SUSE L3
+There are also a handful of possible performance advantages, but I haven't gone
+through the work to prove any of them out yet as performance isn't all that
+important for our first use case.  For example:
+
+* Cutting out the network stack is unlikely to hurt performance.  I'm not sure
+  if it will help performance, though.  I think if we really had workload where
+  the extra copy was likely to be an issue we'd want an explicit ring buffer,
+  but I have a theory that it would be possible to get very good performance out
+  of a stream-style API by using multiple channels and relying on io_uring to
+  plumb through multiple ops per channel.
+* There's a comment in the implementation about allowing userspace to insert
+  itself into user_map(), likely by uploading a BPF fragment.  There's a whole
+  class of interesting block devices that could be written in this fashion:
+  essentially you keep a cache on a regular block device that handles the common
+  cases by remapping BIOs and passing them along, relegating the more complicated
+  logic to fetch cache misses and watching some subset of the access stream where
+  necessary.
+
+  We have a use case like this in Android, where we opportunistically store
+  backups in a portion of the TRIM'd space on devices.  It's currently
+  implemented entirely in kernel by the dm-bow target, but IIUC that was deemed
+  too Android-specific to merge.  Assuming we could get good enough performance
+  we could move that logic to userspace, which lets us shrink our diff with
+  upstream.  It feels like some other interesting block devices could be
+  written in a similar fashion.
+
+All in all, I've found it a bit hard to figure out what sort of interest people
+have in dm-user: when I bring this up I seem to run into people who've done
+similar things before and are vaguely interested, but certainly nobody is
+chomping at the bit.  I'm sending it out in this early state to try and figure
+out if it's interesting enough to keep going.
