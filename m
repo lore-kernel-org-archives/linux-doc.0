@@ -2,203 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D53AC1B0E3
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7E5C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 14:23:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F7B6235F9
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25382235FC
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 14:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726653AbgLGNz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 08:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20588 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726685AbgLGNzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 08:55:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607349239;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=a53OP+sz/FZD7xQxfgASvprmIF0p8vj6RU1ckdy2paI=;
-        b=P0TTNfvwLKemBB+gUxehe1fgfMqUNgyiU2FJCQP5pYDzKJagdmVnCW/IpRN7Z8BeW9/ojm
-        MDWjuYMHdb27llB9lPUitfJVoSr6ZdxNjFVylRBqr/YO7MFYsha+JLhejDB2wkwjdFj6PO
-        0PYASCG5ClPFRDw+tUxXtRqavDDtNcs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-uTXOdWkdM96KrjNj_ngKxA-1; Mon, 07 Dec 2020 08:53:56 -0500
-X-MC-Unique: uTXOdWkdM96KrjNj_ngKxA-1
-Received: by mail-wm1-f70.google.com with SMTP id a134so4158624wmd.8
-        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 05:53:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=a53OP+sz/FZD7xQxfgASvprmIF0p8vj6RU1ckdy2paI=;
-        b=NS4BLBaANc9LYLbURkr/VGMcjRyWh4Klkdjldbt5lU9/AKxG8oMHvzqLMKVH2max+z
-         y/zrVDAs/iNspmJNcMwZabSMoT/dhmV9PC+pCWSjffz1ow2+TqJHuZxi+Ei2LlwPxqS5
-         NqWFBqgUXJS7xvKLbQsd+CGALfGkPPeWpvuiEyBXh238ug6OXdce+gNwzgMHt5/CmBN4
-         DDBYIJgW9ucm8MJnu+5ji9nF5ZTgmgXhT8hTAeI0EQbylf+XleWY3fxMkSWm4CPsmCSy
-         T+zokNRelBepPnu+3xufSbxT87Z8rS/rZfb4d81BHJKi4OmLedqAFuQdOXVAFw38JmmZ
-         Jd5Q==
-X-Gm-Message-State: AOAM533jcw6hoJAYBb38RsiTXUQNWSwDu1l6/+SBZLYM0W4bP1lBs4tf
-        Vw52m1qz2ogWVroNYv7KPsZ9TWj3uwEuG/tiMgpn2tJDvBO43zLFGT61W4iKK0c2aF7zFiEabMc
-        SgzY+b8L0gHJbh+dDzVOT
-X-Received: by 2002:a1c:7218:: with SMTP id n24mr18476343wmc.186.1607349233152;
-        Mon, 07 Dec 2020 05:53:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDMDoy/W2sgstBoP6oEPEFLzcmZHr+KtnYFjyMu7YeY3+NBrhAUVxzjo1UnbiGlW76bxVjFA==
-X-Received: by 2002:a1c:7218:: with SMTP id n24mr18476325wmc.186.1607349232936;
-        Mon, 07 Dec 2020 05:53:52 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
-        by smtp.gmail.com with ESMTPSA id m81sm13857942wmf.29.2020.12.07.05.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 05:53:52 -0800 (PST)
-Date:   Mon, 7 Dec 2020 08:53:49 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Jason Wang <jasowang@redhat.com>
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org, stefanha@redhat.com,
-        msuchanek@suse.de
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-Message-ID: <20201207085247-mutt-send-email-mst@kernel.org>
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
- <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
- <20201205142218-mutt-send-email-mst@kernel.org>
- <842519cc-94ca-3c11-ddd6-543e5a89c998@redhat.com>
+        id S1726512AbgLGOXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 09:23:18 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:26710 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726348AbgLGOXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 09:23:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1607350997; x=1638886997;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=0GRNZuNBzVueL1AQRPaaXEe0rCQ6tBu9bslLO0qaJ+M=;
+  b=Qn/RwALdT6BgIlsqUHGAghZM3EF+qnGjXWswKg4GXgqduihhFtXJ2VKQ
+   iq5zdIxgrpwrWptzIwUlnWxOB9FV1k17uOGIYP8WmJjv6j/Q+zHYR7/JX
+   8/acIYAD27C1SwB1Vbp7bUOhyU0iS7AJ8vR54xrIDaca3+zBc2jigWfeu
+   g=;
+X-IronPort-AV: E=Sophos;i="5.78,399,1599523200"; 
+   d="scan'208";a="67708703"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 07 Dec 2020 14:22:29 +0000
+Received: from EX13MTAUWC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id 491F1A1E8E;
+        Mon,  7 Dec 2020 14:22:18 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 7 Dec 2020 14:22:18 +0000
+Received: from freeip.amazon.com (10.43.160.229) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 7 Dec 2020 14:22:11 +0000
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+To:     Jann Horn <jannh@google.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>
+CC:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Eric Biggers <ebiggers@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Qemu Developers <qemu-devel@nongnu.org>,
+        KVM list <kvm@vger.kernel.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Linux API <linux-api@vger.kernel.org>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        "areber@redhat.com" <areber@redhat.com>,
+        Pavel Emelyanov <ovzxemul@gmail.com>,
+        Andrey Vagin <avagin@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
+ <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
+ <e4acbcdb-7ee4-5dfb-ffbf-19eb49cef9c6@amazon.com>
+ <CAG48ez2akv0pGSt084sNHtESbjJNXpx=Ko86JEsyZM24+5zLqw@mail.gmail.com>
+From:   Alexander Graf <graf@amazon.de>
+Message-ID: <113122dd-1600-4948-1faa-72ddf46c0439@amazon.de>
+Date:   Mon, 7 Dec 2020 15:22:06 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <842519cc-94ca-3c11-ddd6-543e5a89c998@redhat.com>
+In-Reply-To: <CAG48ez2akv0pGSt084sNHtESbjJNXpx=Ko86JEsyZM24+5zLqw@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.160.229]
+X-ClientProxiedBy: EX13D32UWB002.ant.amazon.com (10.43.161.139) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 11:12:50AM +0800, Jason Wang wrote:
-> 
-> On 2020/12/6 上午3:32, Michael S. Tsirkin wrote:
-> > On Sat, Dec 05, 2020 at 08:59:55AM +0100, Enrico Weigelt, metux IT consult wrote:
-> > > On 04.12.20 04:35, Jason Wang wrote:
-> > > 
-> > > > > --- a/drivers/gpio/Kconfig
-> > > > > +++ b/drivers/gpio/Kconfig
-> > > > > @@ -1615,6 +1615,15 @@ config GPIO_MOCKUP
-> > > > > Â Â Â Â Â Â Â  tools/testing/selftests/gpio/gpio-mockup.sh. Reference the
-> > > > > usage in
-> > > > > Â Â Â Â Â Â Â  it.
-> > > > > Â  +config GPIO_VIRTIO
-> > > > > +Â Â Â  tristate "VirtIO GPIO support"
-> > > > > +Â Â Â  depends on VIRTIO
-> > > > 
-> > > > Let's use select, since there's no prompt for VIRTIO and it doesn't have
-> > > > any dependencies.
-> > > whoops, it's not that simple:
-> > > 
-> > > make: Entering directory '/home/nekrad/src/apu2-dev/pkg/kernel.apu2.git'
-> > > make[1]: Entering directory
-> > > '/home/nekrad/src/dk/DistroKit/platform-x86_64/build-target/linux-5.8.9-build'
-> > >    GEN     Makefile
-> > > drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
-> > > drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by
-> > > DRM_VIRTIO_GPU
-> > > drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
-> > > drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
-> > > drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
-> > > drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
-> > > drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
-> > > drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
-> > > drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
-> > > drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
-> > > drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on
-> > > DRM_KMS_HELPER
-> > > 
-> > > Seems that we can only depend on or select some symbol - we run into
-> > > huge trouble if thats mixed. Just changed DRM_VIRTIO_GPU to just select
-> > > VIRIO instead of depending on it, and now it works.
-> > > 
-> > > I've posted another patch for fixing drivers/gpu/drm/virtio/Kconfig
-> > > to use 'select' instead of 'depends on'.
-> > It seems a bit of a mess, at this point I'm not entirely sure when
-> > should drivers select VIRTIO and when depend on it.
-> > 
-> > The text near it says:
-> > 
-> > # SPDX-License-Identifier: GPL-2.0-only
-> > config VIRTIO
-> >          tristate
-> >          help
-> >            This option is selected by any driver which implements the virtio
-> >            bus, such as CONFIG_VIRTIO_PCI, CONFIG_VIRTIO_MMIO, CONFIG_RPMSG
-> >            or CONFIG_S390_GUEST.
-> > 
-> > Which seems clear enough and would indicate drivers for devices *behind*
-> > the bus should not select VIRTIO and thus presumably should "depend on" it.
-> > This is violated in virtio console and virtio fs drivers.
-> > 
-> > For console it says:
-> > 
-> > commit 9f30eb29c514589e16f2999ea070598583d1f6ec
-> > Author: Michal Suchanek <msuchanek@suse.de>
-> > Date:   Mon Aug 31 18:58:50 2020 +0200
-> > 
-> >      char: virtio: Select VIRTIO from VIRTIO_CONSOLE.
-> >      Make it possible to have virtio console built-in when
-> >      other virtio drivers are modular.
-> >      Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> >      Reviewed-by: Amit Shah <amit@kernel.org>
-> >      Link: https://lore.kernel.org/r/20200831165850.26163-1-msuchanek@suse.de
-> >      Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > 
-> > which seems kind of bogus - why do we care about allowing a builtin
-> > virtio console driver if the pci virtio bus driver is a module?
-> > There won't be any devices on the bus to attach to ...
-> 
-> 
-> For testing like switching bus from pci to MMIO?
-
-
-Not sure I understand ... can you give an example?
-
-> 
-> > And for virtio fs it was like this from the beginning.
-> > 
-> > I am inclined to fix console and virtio fs to depend on VIRTIO:
-> > select is harder to use correctly ...
-> > 
-> > Jason?
-> 
-> 
-> I think it works, but we need a prompt for VIRTIO otherwise there's no way
-> to enable it.
-> 
-> Thanks
-
-That's even messier. No one needs VIRTIO core by itself - it's only used
-by transports and drivers.
-
-> 
-> > 
-> > 
-> > > -- 
-> > > ---
-> > > Hinweis: unverschlÃ¼sselte E-Mails kÃ¶nnen leicht abgehÃ¶rt und manipuliert
-> > > werden ! FÃ¼r eine vertrauliche Kommunikation senden Sie bitte ihren
-> > > GPG/PGP-SchlÃ¼ssel zu.
-> > > ---
-> > > Enrico Weigelt, metux IT consult
-> > > Free software and Linux embedded engineering
-> > > info@metux.net -- +49-151-27565287
+CgpPbiAyNy4xMS4yMCAyMToyMCwgSmFubiBIb3JuIHdyb3RlOgo+IAo+IE9uIEZyaSwgTm92IDI3
+LCAyMDIwIGF0IDg6MDQgUE0gQ2F0YW5naXUsIEFkcmlhbiBDb3N0aW4KPiA8YWNhdGFuQGFtYXpv
+bi5jb20+IHdyb3RlOgo+PiBPbiAyNy8xMS8yMDIwIDIwOjIyLCBKYW5uIEhvcm4gd3JvdGU6Cj4+
+PiBPbiBGcmksIE5vdiAyMCwgMjAyMCBhdCAxMToyOSBQTSBKYW5uIEhvcm4gPGphbm5oQGdvb2ds
+ZS5jb20+IHdyb3RlOgo+Pj4+IE9uIE1vbiwgTm92IDE2LCAyMDIwIGF0IDQ6MzUgUE0gQ2F0YW5n
+aXUsIEFkcmlhbiBDb3N0aW4KPj4+PiA8YWNhdGFuQGFtYXpvbi5jb20+IHdyb3RlOgo+Pj4+PiBU
+aGlzIHBhdGNoIGlzIGEgZHJpdmVyIHRoYXQgZXhwb3NlcyBhIG1vbm90b25pYyBpbmNyZW1lbnRh
+bCBWaXJ0dWFsCj4+Pj4+IE1hY2hpbmUgR2VuZXJhdGlvbiB1MzIgY291bnRlciB2aWEgYSBjaGFy
+LWRldiBGUyBpbnRlcmZhY2UgdGhhdAo+Pj4+PiBwcm92aWRlcyBzeW5jIGFuZCBhc3luYyBWbUdl
+biBjb3VudGVyIHVwZGF0ZXMgbm90aWZpY2F0aW9ucy4gSXQgYWxzbwo+Pj4+PiBwcm92aWRlcyBW
+bUdlbiBjb3VudGVyIHJldHJpZXZhbCBhbmQgY29uZmlybWF0aW9uIG1lY2hhbmlzbXMuCj4+Pj4+
+Cj4+Pj4+IFRoZSBodyBwcm92aWRlZCBVVUlEIGlzIG5vdCBleHBvc2VkIHRvIHVzZXJzcGFjZSwg
+aXQgaXMgaW50ZXJuYWxseQo+Pj4+PiB1c2VkIGJ5IHRoZSBkcml2ZXIgdG8ga2VlcCBhY2NvdW50
+aW5nIGZvciB0aGUgZXhwb3NlZCBWbUdlbiBjb3VudGVyLgo+Pj4+PiBUaGUgY291bnRlciBzdGFy
+dHMgZnJvbSB6ZXJvIHdoZW4gdGhlIGRyaXZlciBpcyBpbml0aWFsaXplZCBhbmQKPj4+Pj4gbW9u
+b3RvbmljYWxseSBpbmNyZW1lbnRzIGV2ZXJ5IHRpbWUgdGhlIGh3IFVVSUQgY2hhbmdlcyAodGhl
+IFZNCj4+Pj4+IGdlbmVyYXRpb24gY2hhbmdlcykuCj4+Pj4+Cj4+Pj4+IE9uIGVhY2ggaHcgVVVJ
+RCBjaGFuZ2UsIHRoZSBuZXcgaHlwZXJ2aXNvci1wcm92aWRlZCBVVUlEIGlzIGFsc28gZmVkCj4+
+Pj4+IHRvIHRoZSBrZXJuZWwgUk5HLgo+Pj4+IEFzIGZvciB2MToKPj4+Pgo+Pj4+IElzIHRoZXJl
+IGEgcmVhc29uYWJsZSB1c2VjYXNlIGZvciB0aGUgImNvbmZpcm1hdGlvbiIgbWVjaGFuaXNtPyBJ
+dAo+Pj4+IGRvZXNuJ3Qgc2VlbSB2ZXJ5IHVzZWZ1bCB0byBtZS4KPj4KPj4gSSB0aGluayBpdCBh
+ZGRzIHZhbHVlIGluIGNvbXBsZXggc2NlbmFyaW9zIHdpdGggbXVsdGlwbGUgdXNlcnMgb2YgdGhl
+Cj4+IG1lY2hhbmlzbSwgcG90ZW50aWFsbHkgYXQgdmFyeWluZyBsYXllcnMgb2YgdGhlIHN0YWNr
+LCBkaWZmZXJlbnQKPj4gcHJvY2Vzc2VzIGFuZC9vciBydW50aW1lIGxpYnJhcmllcy4KPj4KPj4g
+VGhlIGRyaXZlciBvZmZlcnMgYSBuYXR1cmFsIHBsYWNlIHRvIGhhbmRsZSBtaW5pbWFsIG9yY2hl
+c3RyYXRpb24KPj4gc3VwcG9ydCBhbmQgb2ZmZXIgdmlzaWJpbGl0eSBpbiBzeXN0ZW0td2lkZSBz
+dGF0dXMuCj4+Cj4+IEEgaGlnaC1sZXZlbCBzZXJ2aWNlIHRoYXQgdHJ1c3RzIGFsbCBzeXN0ZW0g
+Y29tcG9uZW50cyB0byBwcm9wZXJseSB1c2UKPj4gdGhlIGNvbmZpcm1hdGlvbiBtZWNoYW5pc20g
+Y2FuIGFjdHVhbGx5IGJsb2NrIGFuZCB3YWl0IHBhdGllbnRseSBmb3IgdGhlCj4+IHN5c3RlbSB0
+byBhZGp1c3QgdG8gdGhlIG5ldyB3b3JsZC4gRXZlbiBpZiBpdCBkb2Vzbid0IHRydXN0IGFsbAo+
+PiBjb21wb25lbnRzIGl0IGNhbiBzdGlsbCBkbyBhIGJlc3QtZWZmb3J0LCB0aW1lb3V0IGJsb2Nr
+Lgo+IAo+IFdoYXQgY29uY3JldGUgYWN0aW9uIHdvdWxkIHRoYXQgaGlnaC1sZXZlbCBzZXJ2aWNl
+IGJlIGFibGUgdG8gdGFrZQo+IGFmdGVyIHdhaXRpbmcgZm9yIHN1Y2ggYW4gZXZlbnQ/CgpGb3Ig
+dXMsIGl0IHdvdWxkIG9ubHkgYWxsb3cgaW5jb21pbmcgcmVxdWVzdHMgdG8gdGhlIHRhcmdldCBj
+b250YWluZXIgCmFmdGVyIHRoZSBjb250YWluZXIgaGFzIHN1Y2Nlc3NmdWxseSBhZGp1c3RlZC4K
+CllvdSBjYW4gdGhpbmsgb2Ygb3RoZXIgbW9kZWxzIHRvby4gWW91ciBjb250YWluZXIgb3JjaGVz
+dHJhdGlvbiBlbmdpbmUgCmNvdWxkIHByZXZlbnQgbmV0d29yayB0cmFmZmljIHRvIHJlYWNoIHRo
+ZSBjb250YWluZXIgYXBwbGljYXRpb25zIHVudGlsIAp0aGUgZnVsbCBjb250YWluZXIgaXMgYWRq
+dXN0ZWQgZm9yIGV4YW1wbGUuCgo+IE15IG1vZGVsIG9mIHRoZSB2bWdlbmlkIG1lY2hhbmlzbSBp
+cyB0aGF0IFJOR3MgYW5kIGNyeXB0b2dyYXBoaWMKPiBsaWJyYXJpZXMgdGhhdCB1c2UgaXQgbmVl
+ZCB0byBiZSBmdW5kYW1lbnRhbGx5IHdyaXR0ZW4gc3VjaCB0aGF0IGl0IGlzCj4gZ3VhcmFudGVl
+ZCB0aGF0IGEgVk0gZm9yayBjYW4gbm90IGNhdXNlIHRoZSBzYW1lIHJhbmRvbSBudW1iZXIgLwo+
+IGNvdW50ZXIgLyAuLi4gdG8gYmUgcmV1c2VkIGZvciB0d28gZGlmZmVyZW50IGNyeXB0b2dyYXBo
+aWMgb3BlcmF0aW9ucwo+IGluIGEgd2F5IHZpc2libGUgdG8gYW4gYXR0YWNrZXIuIFRoaXMgbWVh
+bnMgdGhhdCBlLmcuIFRMUyBsaWJyYXJpZXMKPiBuZWVkIHRvLCBiZXR3ZWVuIGFjY2VwdGluZyB1
+bmVuY3J5cHRlZCBpbnB1dCBhbmQgc2VuZGluZyBvdXQgZW5jcnlwdGVkCj4gZGF0YSwgY2hlY2sg
+d2hldGhlciB0aGUgdm1nZW5pZCBjaGFuZ2VkIHNpbmNlIHRoZSBjb25uZWN0aW9uIHdhcyBzZXQK
+PiB1cCwgYW5kIGlmIGEgdm1nZW5pZCBjaGFuZ2Ugb2NjdXJyZWQsIGtpbGwgdGhlIGNvbm5lY3Rp
+b24uCj4gCj4gQ2FuIHlvdSBnaXZlIGEgY29uY3JldGUgZXhhbXBsZSBvZiBhIHVzZWNhc2Ugd2hl
+cmUgdGhlIHZtZ2VuaWQKPiBtZWNoYW5pc20gaXMgdXNlZCBzZWN1cmVseSBhbmQgdGhlIGNvbmZp
+cm1hdGlvbiBtZWNoYW5pc20gaXMgbmVjZXNzYXJ5Cj4gYXMgcGFydCBvZiB0aGF0PwoKVGhlIG1h
+aW4gY3J1eCBoZXJlIGlzIHRoYXQgd2UgaGF2ZSAyIGZ1bmRhbWVudGFsIGFwcHJvYWNoZXM6Cgox
+KSBUcmFuc2FjdGlvbmFsCgpGb3IgYW4gUk5HLCB0aGUgbmF0dXJhbCBwbGFjZSB0byBhZGp1c3Qg
+eW91cnNlbGYgdG8gYSByZXN1bWVkIHNuYXBzaG90IAppcyBpbiB0aGUgcmFuZG9tIG51bWJlciBy
+ZXRyaWV2YWwuIFlvdSBqdXN0IGNoZWNrIGlmIHlvdXIgZ2VuZXJhdGlvbiBpcyAKc3RpbGwgaWRl
+bnRpY2FsIHdoZW4geW91IGZldGNoIHRoZSBuZXh0IHJhbmRvbSBudW1iZXIuCgpJZGVhbGx5LCB5
+b3UgYWxzbyBkbyB0aGUgc2FtZSBmb3IgYW55dGhpbmcgY29uc3VtaW5nIHN1Y2ggYSByYW5kb20g
+Cm51bWJlci4gU28gcmFuZG9tIG51bWJlciByZXRyaWV2YWwgd291bGQgbm8gbG9uZ2VyIGp1c3Qg
+cmV0dXJuICggbnVtYmVyIAopLCBidXQgaW5zdGVhZCAoIG51bWJlciwgZ2VuZXJhdGlvbiApLiBU
+aGF0IHdheSB5b3UgY291bGQgY2hlY2sgYXQgZXZlcnkgCmNvbnN1bWVyIHNpZGUgb2YgdGhlIHJh
+bmRvbSBudW1iZXIgdGhhdCBpdCdzIGFjdHVhbGx5IHN0aWxsIHJhbmRvbS4gVGhhdCAKd291bGQg
+bmVlZCB0byBjYXNjYWRlIGRvd24uCgpTbyBldmVyeSBrZXkgeW91IGRlcml2ZSBmcm9tIGEgcmFu
+ZG9tIG51bWJlciwgZXZlcnkgdXVpZCB5b3UgZ2VuZXJhdGUsIAp0aGV5IGFsbCB3b3VsZCBuZWVk
+IHRvIHN0b3JlIHRoZSBnZW5lcmF0aW9uIGFzIHdlbGwgYW5kIGNvbXBhcmUgaWYgdGhlIApjdXJy
+ZW50IGdlbmVyYXRpb24gaXMgc3RpbGwgdGhlIHNhbWUgYXMgd2hlbiB0aGV5IHdlcmUgZ2VuZXJh
+dGVkLiBUaGF0IAptZWFucyB5b3UgbmVlZCB0byBjb252ZXJ0IGV2ZXJ5IGRhdGEgYWNjZXNzIG1l
+dGhvZCB0byBhIGZ1bmN0aW9uIGNhbGwgCnRoYXQgY2hlY2tzIGlmIHRoZSB2YWx1ZSBpcyBzdGls
+bCBjb25zdW1hYmxlIGFuZCBpZiBub3QsIGFibGUgdG8gCnJlZ2VuZXJhdGUgaXQuIFRoZSBzYW1l
+IGFwcGxpZXMgZm9yIGdsb2JhbCB2YWx1ZXMsIHN1Y2ggYXMgYSBzeXN0ZW0gCmdsb2JhbCBVVUlE
+IHRoYXQgaXMgc2hhcmVkIGFtb25nIG11bHRpcGxlIHByb2Nlc3Nlcy4KCklmIHlvdSBzbG93bHkg
+bW92ZSBhd2F5IGZyb20gc3VwZXIgaW50ZWdyYXRlZCBlbnZpcm9ubWVudHMgbGlrZSBhIFRMUyAK
+bGlicmFyeSBhbmQgc3RhcnQgdGhpbmtpbmcgb2Ygc2FtYmEgc3lzdGVtIFVVSURzIG9yIFNTSCBo
+b3N0IGtleXMsIAp5b3UnbGwgcXVpY2tseSBzZWUgaG93IHRoYXQgYXBwcm9hY2ggcmVhY2hlcyBp
+dHMgbGltaXRzLgoKCjIpIEV2ZW50IGJhc2VkCgpMZXQncyB0YWtlIGEgbG9vayBhdCB0aGUgY29t
+cGxpY2F0ZWQgdGhpbmdzIHRvIGltcGxlbWVudCB3aXRoIHRoZSAKdHJhbnNhY3Rpb25hbCBhcHBy
+b2FjaDogc2FtYmEgc3lzdGVtIFVVSURzLCBTU0ggaG9zdCBrZXlzLCBnbG9iYWwgCnZhcmlhYmxl
+cyBpbiBhIHJhbmRvbSBKYXZhIGFwcGxpY2F0aW9uIHRoYXQgZ2V0IGluaXRpYWxpemVkIG9uIAph
+cHBsaWNhdGlvbiBzdGFydC4KCkFsbCBvZiB0aGVzZSBhcmUgdmVyeSBlYXN5IHRvIHJlc29sdmUg
+dGhyb3VnaCBhbiBldmVudCBiYXNlZCBtZWNoYW5pc20uIApCYXNlZCBvbiB0aGUgIm5ldyBnZW5l
+cmF0aW9uIiBldmVudCwgeW91IGNhbiBqdXN0IGdlbmVyYXRlIGEgbmV3IFVVSUQuIApPciBhIG5l
+dyBob3N0IGtleS4gQWxsIHlvdSB3b3VsZCBuZWVkIHRvIGtub3cgZm9yIHRoaXMgdG8gYmUgbm9u
+LXJhY3kgaXMgCnRoYXQgYmVmb3JlIHlvdSBhY3R1YWxseSB1c2UgdGhlIHRhcmdldCBzZXJ2aWNl
+cywgeW91IGtub3cgdGhleSBhcmUgCnNlbGYtYWRqdXN0ZWQuIEluIG1vc3QgY29udGFpbmVyIHdv
+cmtsb2FkcywgdGhhdCBjYW4gYmUgYWNoaWV2ZWQgYnkgbm90IApsZXR0aW5nIG5ldHdvcmsgdHJh
+ZmZpYyBnbyBpbiBiZWZvcmUgdGhlIGV2ZW50IGlzIGZ1bGx5IHByb2Nlc3NlZC4KCgpXaGF0IHRo
+aXMgcGF0Y2ggc2V0IGRvZXMgaXMgcHJvdmlkZSBib3RoOiBXZSBhbGxvdyB0aGUgdHJhbnNhY3Rp
+b25hbCAKYXBwcm9hY2ggdGhyb3VnaCBtbWFwKCkgb2YgYSBzaGFyZWQgcGFnZSB0byBiZSBpbXBs
+ZW1lbnRlZCBmb3Igc3RhY2tzIAp3aGVyZSB0aGF0J3MgZWFzaWVzdC4gWW91IGNhbiB1c2UgdGhh
+dCB3aGVuIHlvdXIgbG9naWMgaXMgcmVhbGlzdGljYWxseSAKY29udmVydGFibGUgdG8gdHJhbnNh
+Y3Rpb25hbC4gV2UgYWxzbyBhbGxvdyBmb3IgYW4gYXN5bmNocm9ub3VzIGV2ZW50LCAKd2hpY2gg
+Y2FuIGJlIHVzZWQgaW4gZW52aXJvbm1lbnRzIHdoZXJlIHRoZSB0cmFuc2FjdGlvbmFsIGFwcHJv
+YWNoIGlzIApoYXJkIGJlY2F1c2Ugb2YgZGVzaWduIGNvbnN0cmFpbnRzIChsYW5ndWFnZSwgQVBJ
+LCBzeXN0ZW0sIGV0Yy4pLgoKQ29tYmluaW5nIHRoZSB0d28sIHlvdSBnZXQgdGhlIGJlc3Qgb2Yg
+Ym90aCB3b3JsZHMgSU1ITy4KCj4gCj4+Pj4gSG93IGRvIHlvdSBlbnZpc2lvbiBpbnRlZ3JhdGlu
+ZyB0aGlzIHdpdGggbGlicmFyaWVzIHRoYXQgaGF2ZSB0byB3b3JrCj4+Pj4gaW4gcmVzdHJpY3Rp
+dmUgc2VjY29tcCBzYW5kYm94ZXM/IElmIHRoaXMgd2FzIGluIHRoZSB2RFNPLCB0aGF0IHdvdWxk
+Cj4+Pj4gYmUgbXVjaCBlYXNpZXIuCj4+Cj4+IFNpbmNlIHRoaXMgbWVjaGFuaXNtIHRhcmdldHMg
+YWxsIG9mIHVzZXJzcGFjZSBzdGFjaywgdGhlIHVzZWNhc2UgZ3JlYXRseQo+PiB2YXJ5LiBJIGRv
+dWJ0IHdlIGNhbiBoYXZlIGEgc2luZ2xlIHNpbHZlciBidWxsZXQgaW50ZXJmYWNlLgo+Pgo+PiBG
+b3IgZXhhbXBsZSwgdGhlIG1tYXAgaW50ZXJmYWNlIHRhcmdldHMgdXNlciBzcGFjZSBSTkdzLCB3
+aGVyZSBhcyBmYXN0Cj4+IGFuZCBhcyByYWNlIGZyZWUgYXMgcG9zc2libGUgaXMga2V5LiBCdXQg
+dGhlcmUgYWxzbyBoaWdoZXIgbGV2ZWwKPj4gYXBwbGljYXRpb25zIHRoYXQgZG9uJ3QgbWFuYWdl
+IHRoZWlyIG93biBtZW1vcnkgb3IgZG9uJ3QgaGF2ZSBhY2Nlc3MgdG8KPj4gbG93LWxldmVsIHBy
+aW1pdGl2ZXMgc28gdGhleSBjYW4ndCB1c2UgdGhlIG1tYXAgb3IgZXZlbiB2RFNPIGludGVyZmFj
+ZXMuCj4+IFRoYXQncyB3aGF0IHRoZSByZXN0IG9mIHRoZSBsb2dpYyBpcyB0aGVyZSBmb3IsIHRo
+ZSByZWFkK3BvbGwgaW50ZXJmYWNlCj4+IGFuZCBhbGwgb2YgdGhlIG9yY2hlc3RyYXRpb24gbG9n
+aWMuCj4gCj4gQXJlIHlvdSBzYXlpbmcgdGhhdCwgYmVjYXVzZSBwZW9wbGUgbWlnaHQgbm90IHdh
+bnQgdG8gd3JpdGUgcHJvcGVyCj4gYmluZGluZ3MgZm9yIHRoaXMgaW50ZXJmYWNlIHdoaWxlIGFs
+c28gYmVpbmcgdW53aWxsaW5nIHRvIHRha2UgdGhlCj4gcGVyZm9ybWFuY2UgaGl0IG9mIGNhbGxp
+bmcgcmVhZCgpIGluIGV2ZXJ5IHBsYWNlIHdoZXJlIHRoZXkgd291bGQgaGF2ZQo+IHRvIGRvIHNv
+IHRvIGJlIGZ1bGx5IGNvcnJlY3QsIHlvdSB3YW50IHRvIGJ1aWxkIGEgImJlc3QtZWZmb3J0Igo+
+IG1lY2hhbmlzbSB0aGF0IGlzIGRlbGliZXJhdGVseSBkZXNpZ25lZCB0byBhbGxvdyBzb21lIGNy
+eXB0b2dyYXBoaWMKPiBzdGF0ZSByZXVzZSBpbiBhIGxpbWl0ZWQgdGltZSB3aW5kb3c/CgpJIHNl
+cmlvdXNseSBob3BlIHRoYXQgZm9yIGNyeXB0bywgd2Ugd2lsbCBhbHdheXMoPykgYmUgYWJsZSB0
+byB1c2UgdGhlIAp0cmFuc2FjdGlvbmFsIGFwcHJvYWNoLiBBbmQgdGhlcmUgd2UgZG9uJ3QgZXZl
+biBoYXZlIHRvIHJlc29ydCB0byByZWFkKCkgCi0geW91IGNhbiBqdXN0IG1tYXAoKSB0aGUgZ2Vu
+ZXJhdGlvbiBJRC4KCldoYXQgdGhlIGV2ZW50IGJhc2VkIG1lY2hhbmlzbSBpcyB0aGVyZSBmb3Ig
+YXJlIHRoZSBvdGhlciBjYXNlcyB0aGF0IGFyZSAKbm90IGVhc2lseSBjb252ZXJ0ZWQgdG8gc3Vj
+aCBhbiBhcHByb2FjaC4gQXMgbGlicmFyeSBvd25lciwgeW91IGFsd2F5cyAKaGF2ZSB0aGUgY2hv
+aWNlLgoKVGhhdCBzYWlkLCBJIGRvbid0IHRoaW5rIHRoZSAiYmVzdC1lZmZvcnQiIG1lY2hhbmlz
+bSBpcyBhcyBiYWQgYXMgeW91IApkZXNjcmliZSBpdCBhYm92ZS4gSWYgeW91J3JlIHRoaW5raW5n
+IG9mIGEgbm9ybWFsIFZNIGltYWdlLCBpbWFnaW5lIApzeXN0ZW1kIHdvdWxkIGltcGxlbWVudCB2
+bWdlbmlkIHN1cHBvcnQuIEl0IGNvdWxkIGluc3RhbGwgYSBxdWljayBCUEYgCnByb2dyYW0gdGhh
+dCBqdXN0IGJsb2NrcyBhbGwgbmV0d29yayB0cmFmZmljIGFsdG9nZXRoZXIgZnJvbSB0aGUgVk0g
+CnVudGlsIGl0cyBnZW5pZCBpcyBmdWxseSBzeW5jaHJvbml6ZWQgYWNyb3NzIGFsbCBwcm9jZXNz
+ZXMuIElkZWFsbHksIGl0IAp3b3VsZCBldmVuIGJlIGFibGUgdG8ga2lsbCB1bmNvb3BlcmF0aXZl
+IHByb2Nlc3NlcyBldmVudHVhbGx5LCBzbyB0aGF0IAp5b3VyIHJlc3VtZWQgVk0gaXMgcmVhY2hh
+YmxlIGFmdGVyIGEgdGltZW91dC4KCj4+IExpa2UgeW91IGNvcnJlY3RseSBwb2ludCBvdXQsIHRo
+ZXJlIGFyZSBhbHNvIHNjZW5hcmlvcyBsaWtlIHRpZ2h0Cj4+IHNlY2NvbXAgamFpbHMgd2hlcmUg
+ZXZlbiB0aGUgRlMgaW50ZXJmYWNlcyBpcyBpbmFjY2Vzc2libGUuIEZvciBjYXNlcwo+PiBsaWtl
+IHRoaXMgYW5kIG90aGVycywgSSBiZWxpZXZlIHdlIHdpbGwgaGF2ZSB0byB3b3JrIGluY3JlbWVu
+dGFsbHkgdG8KPj4gYnVpbGQgdXAgdGhlIGludGVyZmFjZSBkaXZlcnNpdHkgdG8gY2F0ZXIgdG8g
+YWxsIHRoZSB1c2VyIHNjZW5hcmlvcwo+PiBkaXZlcnNpdHkuCj4gCj4gSXQgd291bGQgYmUgbXVj
+aCBuaWNlciBpZiB3ZSBjb3VsZCBoYXZlIG9uZSBzaW1wbGUgaW50ZXJmYWNlIHRoYXQgbGV0cwo+
+IGV2ZXJ5b25lIGNvcnJlY3RseSBkbyB3aGF0IHRoZXkgbmVlZCB0bywgdGhvdWdoLi4uCgpJIHdh
+bnQgYSBwb255IHRvbyA6KS4gV2UgbmVlZCB0byBkbyB3aGF0J3MgYmVzdCBmb3Igb3VyIHVzZXJz
+IGhlcmUuIEkgYW0gCm5vdCBjb252aW5jZWQgb25seSBvZmZlcmluZyBhIHRyYW5zYWN0aW9uIGJh
+c2VkIGludGVyZmFjZSBpcyBnb2luZyB0byAKZmluZCB0aGUgYWRvcHRpb24gd2UncmUgaG9waW5n
+IGZvci4gVGhhdCBtZWFucywgd2UnbGwgZW5kIHVwIGxlc3Mgc2VjdXJlIAp0aGFuIHdlIHdhbnQg
+dG8sIG5vdCBtb3JlLgoKCkFsZXgKCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55
+IEdtYkgKS3JhdXNlbnN0ci4gMzgKMTAxMTcgQmVybGluCkdlc2NoYWVmdHNmdWVocnVuZzogQ2hy
+aXN0aWFuIFNjaGxhZWdlciwgSm9uYXRoYW4gV2Vpc3MKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmlj
+aHQgQ2hhcmxvdHRlbmJ1cmcgdW50ZXIgSFJCIDE0OTE3MyBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6
+IERFIDI4OSAyMzcgODc5CgoK
 
