@@ -2,74 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AA5C1B0E3
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99818C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:34:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 413F4233ED
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:12:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FA4D2311A
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 09:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbgLGJMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 04:12:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43742 "EHLO mail.kernel.org"
+        id S1725772AbgLGJe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 04:34:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54526 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726677AbgLGJMG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Dec 2020 04:12:06 -0500
-Date:   Mon, 7 Dec 2020 10:12:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1607332289;
-        bh=pVcQnzFdOBdk2G2zSGbi6yAHzkwoQI7eBtrtT4e8Gk8=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tocgW9/ZyJWYiEYa4KssrRl5HhEvRADojlLiDNxdpZFIBoEFdowIeJ34n671JFHA3
-         fSB+Em92Tm4ThDbPeYos1NroDMEoxpzHGtvPqdHt7tqav59vBUKFFLRKTm9W/dX1d5
-         O9+qIzi4fMSld3PcefFR0YpVuw8EGUNwREUa6pnI=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        linux-kernel@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
-        Dorian Stoll <dorian.stoll@tmsp.io>,
-        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
- Aggregator Module
-Message-ID: <X83yB9/RbosOIdbm@kroah.com>
-References: <20201203212640.663931-1-luzmaximilian@gmail.com>
- <20201206070705.GA686270@unreal>
- <9dd05a66-efb7-74d2-4f5b-347655b710be@gmail.com>
- <aecfdbf2-32bf-1ee5-fe72-0c0923773507@redhat.com>
+        id S1725550AbgLGJe0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 04:34:26 -0500
+Date:   Mon, 7 Dec 2020 10:33:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607333625;
+        bh=XCxg2s6N94uHQMR78/Ss1aKun/U23rUI97jwBlZMlUE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YJ/PB3TNza9aUML1mkcoBNn+4ZECY4tbbSQcjZ/VlVQzSakLkDVuM47Ca3ZFb16aH
+         gQ7sHbe58ZuG1fBk3jJmuvRC/AtOs3R6oqXg+vN6BlYQEi7uBLku9d5X+XIjJLhZKU
+         Orx+Oh989U/WF0cHzq3HQb8fwizhMKGV+C/mWU9rnqBKLfzwhijfKFQnO2e6XmygXm
+         UsazLvpfmJaR85vRQxvFJEOWsFN2NOi8qy7FP95yqpZCEqNCghgn5YjKe8wlAHDVyt
+         e5UQSyBEm9vP06me0+AoQ2yzmx7kQ2yyXT0/61E4OGKjkD1Lim0+BBU9hNPeBW/k0W
+         Ka7h4/xdF2e2A==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] improve get_feat.pl output when all features are
+ displayed
+Message-ID: <20201207103340.78f003f5@coco.lan>
+In-Reply-To: <20201205170350.19d91c51@coco.lan>
+References: <20201203153642.594afd85@lwn.net>
+        <cover.1607095090.git.mchehab+huawei@kernel.org>
+        <20201204144843.1ed3b988@lwn.net>
+        <20201205170350.19d91c51@coco.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aecfdbf2-32bf-1ee5-fe72-0c0923773507@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 09:49:03AM +0100, Hans de Goede wrote:
-> Note if in the future you do see benefit in switching the auxiliary bus
-> I have no problems with that. But atm I don't really see any benefits of
-> doing so, so then we would just be switching over for the sake of switching
-> over which does not seem productive.
+Em Sat, 5 Dec 2020 17:03:50 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-I too do not see the benefit at this time to switch either.
+> Em Fri, 4 Dec 2020 14:48:43 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > On Fri,  4 Dec 2020 16:32:27 +0100
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >   
+> > > As requested, those patches improve the output of the script, when all features
+> > > are displayed.
+> > > 
+> > > The first patch was already posted as-is at v3.
+> > > 
+> > > Patch 2 is optional. IMO, it makes more sense for the admin guide to show
+> > > the architectures where the features are OK, then TODO, and finally the
+> > > ones that are incompatible with the features. I already sent it together
+> > > with a comment.
+> > > 
+> > > Patch 3 is new: it tries to reduce the width of the table, in order for it
+> > > to better fit on a terminal. With the patch, the number of columns were
+> > > reduced, in order to better fit at console output. Before the patch, the
+> > > output takes 281 lines with 158 columns (total size: 38.9 kB). 
+> > > After the patch, displaying all features require 439 lines and 92 columns
+> > > (total size: 37.6 kB).    
+> > 
+> > OK, this is much improved, thanks; applied.  
+> 
+> Anytime.
+> 
+> > 
+> > The one last thing I would do is stick "valign=top" on all the table
+> > entries, but we can leave the shed a different color for now :)  
+> 
+> I actually prefer myself valign=center on tables ;-)
+> 
+> In any case, a change like that should be simple to do.
+> 
+> either adjust:
+> 
+> 	Documentation/sphinx-static/theme_overrides.css
+> 
+> to change it globally for all tables or create a "table_valign_top" CSS
+> class on it, changing the script to add:
+> 
+> 	.. cssclass:: table_valign_top
+> 
+> Before each table.
 
-thanks,
+Btw, if you want to play with changing the table alignment, the
+enclosed patch changes the alignment to use valign=top for all
+tables (and not only for the feature ones).
 
-greg k-h
+Don't forget to remove the old theme before testing the
+patch with:
+
+	$ rm $(find Documentation/output/ -name theme_overrides.css)
+
+As sphinx (at least version 2.4.4) only writes it if the file
+doesn't exist.
+
+Thanks,
+Mauro
+
+[PATCH] docs: use top-alignment for table cells
+
+Change the table's default in order to align cells on the top,
+overriding the defaults found on Read the Docs Sphinx Theme.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/sphinx-static/theme_overrides.css b/Documentation/sphinx-static/theme_overrides.css
+index 459ec5b29d68..e850859e35a0 100644
+--- a/Documentation/sphinx-static/theme_overrides.css
++++ b/Documentation/sphinx-static/theme_overrides.css
+@@ -42,6 +42,11 @@ p {
+ 	font-size: 100%;
+ }
+ 
++/* use vertical alignment on tables */
++.rst-content table.docutils td, .rst-content table.field-list td, .wy-table td {
++    vertical-align: top;
++}
++
+ /* Interim: Code-blocks with line nos - lines and line numbers don't line up.
+  * see: https://github.com/rtfd/sphinx_rtd_theme/issues/419
+  */
+
+
