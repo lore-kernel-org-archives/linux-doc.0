@@ -2,155 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A9DFC2BBD5
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 12:18:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B43C4361B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 12:21:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68D0B2339F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 12:18:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF4B5233CE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 12:21:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbgLGMSJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 07:18:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36360 "EHLO
+        id S1727058AbgLGMVF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 07:21:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25520 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727154AbgLGMSJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 07:18:09 -0500
+        by vger.kernel.org with ESMTP id S1727055AbgLGMVF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 07:21:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607343402;
+        s=mimecast20190719; t=1607343579;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=N6oDFfyq47RyWju2nHjeojjMvm9K1GLJgiOLjWvGMww=;
-        b=FUOT34VDv70gB5Rd5orKEst2WG0n28GDvAUereSqQDPB0d9v3kYpmRlGPFW2Yg8Ojo2SPL
-        Mu/vh00ZkJCNiNPS7/ZE8SOU6cwhfnFXXmZMIj8w5FhkuqsYRJhvwIUMWvZn6mAvTKPEcW
-        v2365eRw2IfjseNGIOBAdJZ33V3xPWc=
+        bh=Itvlqd0kxvScpcIk5b9oFbJP3emazAwFYL5MTR3etUM=;
+        b=LlZiIGlu50Rhg+aqxUj1BLJW+i/QpbpW73vMrMimR4xj0j2VrBINDucg70rCGVFHOk6ecU
+        G/qtsogj+sGax3qeiku8828fbpa4sYCEeUWffnUQs5KkFiRZkXDqpv+Ib8ZwB//eDvejTy
+        ME94B5tfNSKQcfrGMswucAXxJesMO2I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-_HOXYd9OOjWvW5CDT30MqA-1; Mon, 07 Dec 2020 07:16:39 -0500
-X-MC-Unique: _HOXYd9OOjWvW5CDT30MqA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+ us-mta-541-rKIvg7AJOtuzNUgkU0omkw-1; Mon, 07 Dec 2020 07:19:35 -0500
+X-MC-Unique: rKIvg7AJOtuzNUgkU0omkw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2F0F800D62;
-        Mon,  7 Dec 2020 12:16:36 +0000 (UTC)
-Received: from starship (unknown [10.35.206.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D1B74620DE;
-        Mon,  7 Dec 2020 12:16:27 +0000 (UTC)
-Message-ID: <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org
-Cc:     "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Date:   Mon, 07 Dec 2020 14:16:26 +0200
-In-Reply-To: <87a6uq9abf.fsf@nanos.tec.linutronix.de>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
-         <20201203171118.372391-2-mlevitsk@redhat.com>
-         <87a6uq9abf.fsf@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A23B8107ACE4;
+        Mon,  7 Dec 2020 12:19:31 +0000 (UTC)
+Received: from [10.36.114.33] (ovpn-114-33.ams2.redhat.com [10.36.114.33])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3FFE35D6AB;
+        Mon,  7 Dec 2020 12:19:26 +0000 (UTC)
+Subject: Re: [PATCH v7 03/15] mm/hugetlb: Introduce a new config
+ HUGETLB_PAGE_FREE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <20201130151838.11208-4-songmuchun@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <2ec1d360-c8c8-eb7b-2afe-b75ee61cfcea@redhat.com>
+Date:   Mon, 7 Dec 2020 13:19:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201130151838.11208-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 2020-12-06 at 17:19 +0100, Thomas Gleixner wrote:
-> On Thu, Dec 03 2020 at 19:11, Maxim Levitsky wrote:
-> > +	case KVM_SET_TSC_STATE: {
-> > +		struct kvm_tsc_state __user *user_tsc_state = argp;
-> > +		struct kvm_tsc_state tsc_state;
-> > +		u64 host_tsc, wall_nsec;
-> > +
-> > +		u64 new_guest_tsc, new_guest_tsc_offset;
-> > +
-> > +		r = -EFAULT;
-> > +		if (copy_from_user(&tsc_state, user_tsc_state, sizeof(tsc_state)))
-> > +			goto out;
-> > +
-> > +		kvm_get_walltime(&wall_nsec, &host_tsc);
-> > +		new_guest_tsc = tsc_state.tsc;
-> > +
-> > +		if (tsc_state.flags & KVM_TSC_STATE_TIMESTAMP_VALID) {
-> > +			s64 diff = wall_nsec - tsc_state.nsec;
-> > +			if (diff >= 0)
-> > +				new_guest_tsc += nsec_to_cycles(vcpu, diff);
-> > +			else
-> > +				new_guest_tsc -= nsec_to_cycles(vcpu, -diff);
-> > +		}
-> > +
-> > +		new_guest_tsc_offset = new_guest_tsc - kvm_scale_tsc(vcpu, host_tsc);
-> > +		kvm_vcpu_write_tsc_offset(vcpu, new_guest_tsc_offset);
-> 
-> From a timekeeping POV and the guests expectation of TSC this is
-> fundamentally wrong:
-> 
->       tscguest = scaled(hosttsc) + offset
-> 
-> The TSC has to be viewed systemwide and not per CPU. It's systemwide
-> used for timekeeping and for that to work it has to be synchronized. 
-> 
-> Why would this be different on virt? Just because it's virt or what? 
-> 
-> Migration is a guest wide thing and you're not migrating single vCPUs.
-> 
-> This hackery just papers over he underlying design fail that KVM looks
-> at the TSC per vCPU which is the root cause and that needs to be fixed.
+On 30.11.20 16:18, Muchun Song wrote:
+> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+> whether to enable the feature of freeing unused vmemmap associated
+> with HugeTLB pages. And this is just for dependency check. Now only
+> support x86.
 
-I don't disagree with you.
-As far as I know the main reasons that kvm tracks TSC per guest are
-
-1. cases when host tsc is not stable 
-(hopefully rare now, and I don't mind making
-the new API just refuse to work when this is detected, and revert to old way
-of doing things).
-
-2. (theoretical) ability of the guest to introduce per core tsc offfset
-by either using TSC_ADJUST (for which I got recently an idea to stop
-advertising this feature to the guest), or writing TSC directly which
-is allowed by Intel's PRM:
-
-"The RDMSR and WRMSR instructions read and write the time-stamp counter, treating the time-stamp counter as an
-ordinary MSR (address 10H). In the Pentium 4, Intel Xeon, and P6 family processors, all 64-bits of the time-stamp
-counter are read using RDMSR (just as with RDTSC). When WRMSR is used to write the time-stamp counter on
-processors before family [0FH], models [03H, 04H]: only the low-order 32-bits of the time-stamp counter can be
-written (the high-order 32 bits are cleared to 0). For family [0FH], models [03H, 04H, 06H]; for family [06H]],
-model [0EH, 0FH]; for family [06H]], DisplayModel [17H, 1AH, 1CH, 1DH]: all 64 bits are writable."
-
-
-But other than that I don't mind making TSC offset global per VM thing.
-Paulo, what do you think about this?
-
-Best regards,
-	Maxim Levitsky
-
+x86 - i386 and x86-64? (I assume the latter only ;) )
 
 > 
-> Thanks,
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  arch/x86/mm/init_64.c |  2 +-
+>  fs/Kconfig            | 14 ++++++++++++++
+>  2 files changed, 15 insertions(+), 1 deletion(-)
 > 
->         tglx
-> 
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 0a45f062826e..0435bee2e172 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
+>  
+>  static void __init register_page_bootmem_info(void)
+>  {
+> -#ifdef CONFIG_NUMA
+> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+>  	int i;
+>  
 
+Why does this hunk belong into this patch? Looks like this should go
+into another patch.
+
+>  	for_each_online_node(i)
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index 976e8b9033c4..4961dd488444 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -245,6 +245,20 @@ config HUGETLBFS
+>  config HUGETLB_PAGE
+>  	def_bool HUGETLBFS
+>  
+> +config HUGETLB_PAGE_FREE_VMEMMAP
+> +	def_bool HUGETLB_PAGE
+> +	depends on X86
+> +	depends on SPARSEMEM_VMEMMAP
+> +	depends on HAVE_BOOTMEM_INFO_NODE
+> +	help
+> +	  When using HUGETLB_PAGE_FREE_VMEMMAP, the system can save up some
+> +	  memory from pre-allocated HugeTLB pages when they are not used.
+> +	  6 pages per 2MB HugeTLB page and 4094 per 1GB HugeTLB page.
+
+Calculations only apply to 4k base pages, no? (maybe generalize this a
+bit or mention 4k base pages - I'm pretty sure we'll see the "depends on
+X86" part fairly soon if this goes upstream)
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
