@@ -2,188 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6C7C0018C
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:55:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7685C4361B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 20:37:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E4FD238D7
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 19:55:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A79CD2368A
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 20:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbgLGTyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 14:54:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34520 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgLGTyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 14:54:52 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00312C061749;
-        Mon,  7 Dec 2020 11:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=1b61RvH52vfjnAKlEJGNRv8bKm9R+jIRDMCUhpsedCo=; b=t6a9Qyx+keIz4kVcMBsxIsG4y2
-        xSGihNgl4eERBjSHOktovQU5G1BYHpw31g7SbPpq+CRaXPmCXYWTbKCKaOBMCbZQX68ZXb4Lc7IBK
-        XpWCacp85QfytgZlahv3+Q6lvmLYNXBqa5MYgzMRN7hHFzXNuUHzKmvnFtJQPQ3rVclS+82y7eGGJ
-        Dm4CiXSff4v5BVMnyt7QXTk+OTZNB7hafM0n8n2UNDgIw6E9JBGlVAkanvSITq83YSSvBascy3hd2
-        6YJE5yLxo+flQmkLEi5dc7JEk4uOtf86QdXkaEBuEHGTITOSt9MwpHPoBU3tJ6Nxkag6JGe7dJYs7
-        AxJm9SOg==;
-Received: from [2601:1c0:6280:3f0::1494]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmMaE-000486-Ac; Mon, 07 Dec 2020 19:54:06 +0000
-Subject: Re: [PATCH 16/22] xlink-ipc: Add xlink ipc driver
-To:     mgross@linux.intel.com, markgross@kernel.org, arnd@arndb.de,
-        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        leonard.crestez@nxp.com, palmerdabbelt@google.com,
-        paul.walmsley@sifive.com, peng.fan@nxp.com, robh+dt@kernel.org,
-        shawnguo@kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Seamus Kelly <seamus.kelly@intel.com>,
-        linux-doc@vger.kernel.org,
-        Ryan Carnaghi <ryan.r.carnaghi@intel.com>
-References: <20201201223511.65542-1-mgross@linux.intel.com>
- <20201201223511.65542-17-mgross@linux.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0177c5ba-58cc-cef6-9970-044d8655ea5d@infradead.org>
-Date:   Mon, 7 Dec 2020 11:53:58 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726158AbgLGUhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 15:37:40 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:45839 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726092AbgLGUhk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 15:37:40 -0500
+Received: from [192.168.1.155] ([95.114.88.149]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1Mum6l-1jvEXL33ml-00rn89; Mon, 07 Dec 2020 21:34:56 +0100
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Jason Wang <jasowang@redhat.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org, stefanha@redhat.com,
+        msuchanek@suse.de
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
+ <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
+ <20201205142218-mutt-send-email-mst@kernel.org>
+ <e69569b5-0c45-e072-5de4-81a4acecdae3@metux.net>
+ <20201206075131-mutt-send-email-mst@kernel.org>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <dadc99c5-dd63-9b3e-aa00-c9dc0b622134@metux.net>
+Date:   Mon, 7 Dec 2020 21:34:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201201223511.65542-17-mgross@linux.intel.com>
+In-Reply-To: <20201206075131-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:hbxWK5NoTU1gQ95fGH3BMY4QAmnZBlvFnu9xed6dReXqGP9zoef
+ MckleM1vV7HliBSRZ6udkFDg4oyUKSNbZwul7Y66weAy+oon65LCWdmf+dxfK6r3WTQNoS4
+ h3/cDg6RD1w561g9mrzJSlidlzrboqRUVJhpHVuHlrVchpYU/bfHn/az49skSDmMNfUtWjr
+ zd0PBJPpX1GrxPAxwHQmw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:a1HG/QGb8tY=:0q0pD8h55NgouMf6dv3JD2
+ Cmx7N9LkvLMDbG6kymexPbp1HKRzx7Rorroj2ZlFUcC7DgJUW/cKzL/tB4CyNoE0tfadzvgWR
+ bKZcQEkxGiiiXDLxGxZN31wPYHCpJE3AnuMMRqhHMlRbsY7l9Gw4vYhc2Z5xyIVpb4d7TX8ar
+ lBAAh6lHX5wJL44SeNWREbvfTDEkT8JE0A7/FGxY0QMVapvLqU+tUnES7VA7OVAL/BMcBsZAR
+ mUfUnQC5YTSsKej0IiwPX5L7/EhgLUAoJufCr5ePB6QiYs0//YTjXBmuTkPRZ9iMf2WA5LiKE
+ EWc75DMdfsNl2sI5I1wAmNtpnkJ7Eh+BIiQNXpFYikpjA2IcRQDXbwBkOmf7j4zJPg4vp0ZmI
+ skM9M1UncysVw4xvpgNJA3M80NZgL50I41KvIF5I0T9ArXakC5fAvYc4NfJVv
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ahoy--
+On 07.12.20 14:52, Michael S. Tsirkin wrote:
 
-On 12/1/20 2:35 PM, mgross@linux.intel.com wrote:
-> From: Seamus Kelly <seamus.kelly@intel.com>
+>> See above: NAK. because it can't even be enabled directly (by the user).
+>> If it wasn't meant otherwise, we'd have to add an menu text.
 > 
-> Add xLink driver, which interfaces the xLink Core driver with the Keem
-> Bay VPU IPC driver, thus enabling xLink to control and communicate with
-> the VPU IP present on the Intel Keem Bay SoC.
+> The point is that user enables one of the bindings.
+> That in turn enables drivers. If we merely select VIRTIO
+> there's a chance user won't remember to select any bindings
+> and will be surprised not to see any devices.
+
+Not sure what you mean by "bindings" ... transports ?
+
+IMHO, transports and device drivers are entirely orthogonal. Both *use*
+the core, but I don't think they shall only show up, after the core was
+enabled explicitly. Any combination of transports is valid (having none
+at all, of course, isn't actually useful).
+
+>> When using other transports ?
 > 
-> Specifically the driver enables xLink Core to:
+> Any transport selects VIRTIO so if you enable that, you get
+> VIRTIO and thus it's enough to depend on it.
+
+The combination of 'select VIRTIO' and 'depends on VIRTIO' is what
+caused the recursive dependency. Chaning everything to 'select VIRTIO'
+fixed that.
+
+>> I don't thinkt that would be good - instead everybody should just select
+>> VIRTIO, never depend on it (maybe depend on VIRTIO_MENU instead)
 > 
-> * Boot / Reset the VPU IP
-> * Register to VPU IP event notifications (device connected, device
->   disconnected, WDT event)
-> * Query the status of the VPU IP (OFF, BUSY, READY, ERROR, RECOVERY)
-> * Exchange data with the VPU IP, using the Keem Bay IPC mechanism
->   - Including the ability to send 'volatile' data (i.e., small amount of
->     data, up to 128-bytes that was not allocated in the CPU/VPU shared
->     memory region)
-> 
-> Cc: linux-doc@vger.kernel.org
-> Reviewed-by: Mark Gross <mgross@linux.intel.com>
-> Signed-off-by: Seamus Kelly <seamus.kelly@intel.com>
-> Signed-off-by: Ryan Carnaghi <ryan.r.carnaghi@intel.com>
-> ---
->  Documentation/vpu/index.rst        |   1 +
->  Documentation/vpu/xlink-ipc.rst    |  50 ++
->  MAINTAINERS                        |   6 +
->  drivers/misc/Kconfig               |   1 +
->  drivers/misc/Makefile              |   1 +
->  drivers/misc/xlink-ipc/Kconfig     |   7 +
->  drivers/misc/xlink-ipc/Makefile    |   4 +
->  drivers/misc/xlink-ipc/xlink-ipc.c | 879 +++++++++++++++++++++++++++++
->  include/linux/xlink-ipc.h          |  48 ++
->  9 files changed, 997 insertions(+)
->  create mode 100644 Documentation/vpu/xlink-ipc.rst
->  create mode 100644 drivers/misc/xlink-ipc/Kconfig
->  create mode 100644 drivers/misc/xlink-ipc/Makefile
->  create mode 100644 drivers/misc/xlink-ipc/xlink-ipc.c
->  create mode 100644 include/linux/xlink-ipc.h
+> GPU depends on VIRTIO and on VIRTIO_MENU ... which seems even messier
+> ...
 
-> diff --git a/Documentation/vpu/xlink-ipc.rst b/Documentation/vpu/xlink-ipc.rst
-> new file mode 100644
-> index 000000000000..af583579e70d
-> --- /dev/null
-> +++ b/Documentation/vpu/xlink-ipc.rst
-> @@ -0,0 +1,50 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +Kernel driver: xLink IPC driver
-> +=================================
-> +Supported chips:
-> +
-> +* | Intel Edge.AI Computer Vision platforms: Keem Bay
-> +  | Suffix: Bay
-> +  | Datasheet: (not yet publicly available)
-> +
-> +------------
-> +Introduction
-> +------------
-> +
-> +The xLink IPC driver interfaces the xLink Core driver with the Keem Bay VPU IPC
-> +driver, thus enabling xLink to control and communicate with the VPU IP present
-> +on the Intel Keem Bay SoC.
-> +
-> +Specifically the driver enables xLink Core to:
-> +
-> +* Boot / Reset the VPU IP
-> +* Register to VPU IP event notifications (device connected, device disconnected,
-> +  WDT event)
-> +* Query the status of the VPU IP (OFF, BUSY, READY, ERROR, RECOVERY)
-> +* Exchange data with the VPU IP, using the Keem Bay IPC mechanism
-> +
-> +  * Including the ability to send 'volatile' data (i.e., small amount of data,
-> +    up to 128-bytes that was not allocated in the CPU/VPU shared memory region)
-> +
-> +Sending / Receiving 'volatile' data
-> +-----------------------------------
-> +
-> +Data to be exchanged with Keem Bay IPC needs to be allocated in the portion of
-> +DDR shared between the CPU and VPU.
-> +
-> +This can be impractical for small amount of data that user code can allocate
+See:
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2404871.html
 
-                                     amounts
 
-> +on the stack.
-> +
-> +To reduce the burden on user code, xLink Core provides special send / receive
-> +functions to send up to 128 bytes of 'volatile data', i.e., data that is not
-> +allocated in the shared memory and that might also disappear after the xLink
-> +API is called (e.g., because allocated on the stack).
-> +
-> +The xLink IPC driver implements support for transferring such 'volatile data'
-> +to the VPU using Keem Bay IPC. To this end, the driver reserved some memory in
-
-better:                                                   reserves
-
-> +the shared memory region.
-> +
-> +When volatile data is to be sent, xLink IPC allocates a buffer from the
-> +reserved memory region and copies the volatile data to the buffer. The buffer
-> +is then transferred to the VPU using Keem Bay IPC.
-
-> diff --git a/drivers/misc/xlink-ipc/Kconfig b/drivers/misc/xlink-ipc/Kconfig
-> new file mode 100644
-> index 000000000000..6aa2592fe9a3
-> --- /dev/null
-> +++ b/drivers/misc/xlink-ipc/Kconfig
-> @@ -0,0 +1,7 @@
-> +config XLINK_IPC
-> +	tristate "Support for XLINK IPC"
-> +	depends on KEEMBAY_VPU_IPC
-> +	help
-> +	  XLINK IPC enables the communication/control IPC Sub-System.
-> +
-> +	  Select M if you have an Intel SoC with a Vision Processing Unit (VPU)
-
-End that sentence with a '.', please.
-
+--mtx
 
 -- 
-~Randy
-
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
