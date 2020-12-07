@@ -2,203 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9C5C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 16:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FD8C1B0E3
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 16:37:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 402E023787
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 16:22:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94352238E8
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 16:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgLGQWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 11:22:00 -0500
-Received: from mga09.intel.com ([134.134.136.24]:45175 "EHLO mga09.intel.com"
+        id S1726485AbgLGQhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 11:37:19 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:55868 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725887AbgLGQWA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 7 Dec 2020 11:22:00 -0500
-IronPort-SDR: 9GgYIDLzIFh6ho9HOjYuP6ok3wvWqVDuJjTd8o8hKQtfoOTGKWBZrZpmcFGFIuxvTzal9Zryrx
- 3iEqygdyZUjQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9827"; a="173876012"
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
-   d="scan'208";a="173876012"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2020 08:20:13 -0800
-IronPort-SDR: GLrS16k9ZSgyMUmmIqRt/OuboMmhUDssZftBuPHS4JbytnwElwPGvpb4gz9NtxU26qwSYwJRBt
- KrKhds2u7Eig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; 
-   d="scan'208";a="407200993"
-Received: from cvg-ubt08.iil.intel.com (HELO [10.185.176.12]) ([10.185.176.12])
-  by orsmga001.jf.intel.com with ESMTP; 07 Dec 2020 08:19:57 -0800
-Subject: Re: [RFC PATCH v2] do_exit(): panic() recursion detected
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        id S1725781AbgLGQhS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 11:37:18 -0500
+Received: from zn.tnic (p200300ec2f0a38008a496889bd0f59a1.dip0.t-ipconnect.de [IPv6:2003:ec:2f0a:3800:8a49:6889:bd0f:59a1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 91A0E1EC0527;
+        Mon,  7 Dec 2020 17:36:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1607358996;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=upOLoLwKqFXpg52lafTFF50LNTA779rHuHh39h/2HSE=;
+        b=BXgePymDOQGSm5skSk0I0jU847LQ0R7y2mBf+jrhX06tw4BlOnsG0FtVoFz97jlrH2BiDs
+        ceX3eExwz2o2Kn84EvDSmbF8sgs4yle02DaZ9VMTM5/rk5+krbJ2Zm80dSFjcaAhtufVOb
+        dtAiZAApJA4k60I9lrp4zcsKKdCfHow=
+Date:   Mon, 7 Dec 2020 17:36:32 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Kars Mulder <kerneldev@karsmulder.nl>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Joe Perches <joe@perches.com>,
-        Rafael Aquini <aquini@redhat.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        Michel Lespinasse <walken@google.com>,
-        Jann Horn <jannh@google.com>, chenqiwu <chenqiwu@xiaomi.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20201207124433.4017265-1-vladimir.kondratiev@linux.intel.com>
- <da3fece2-664c-0ac3-2d22-3ce29bf1bfa8@linux.intel.com>
- <87pn3ly5u3.fsf@x220.int.ebiederm.org>
-From:   Vladimir Kondratiev <vladimir.kondratiev@linux.intel.com>
-Message-ID: <f6f1208a-12c4-77b8-2e1d-fb4a03a2211a@linux.intel.com>
-Date:   Mon, 7 Dec 2020 18:19:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v15 07/26] x86/mm: Remove _PAGE_DIRTY_HW from kernel RO
+ pages
+Message-ID: <20201207163632.GE20489@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-8-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <87pn3ly5u3.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201110162211.9207-8-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I see 2 paths how "bad things" can cause recursive do_exit - various 
-traps that go through die() and therefore covered by panic_on_oops; and 
-do_group_exit() as result of fatal signal.
+On Tue, Nov 10, 2020 at 08:21:52AM -0800, Yu-cheng Yu wrote:
+> Kernel read-only PTEs are setup as _PAGE_DIRTY_HW.  Since these become
+> shadow stack PTEs, remove the dirty bit.
 
-Provided one add "panic on coredump" functionality, path through 
-do_group_exit() covered as well.
+This commit message is laconic to say the least. You need to start
+explaining what you're doing because everytime I look at a patch of
+yours, I'm always grepping the SDM and looking forward in the patchset,
+trying to rhyme up what that is all about.
 
-Let's drop this patch.
+Like for this one. I had to fast-forward to the next patch where all
+that is explained. But this is not how review works - each patch's
+commit message needs to be understandable on its own because when
+they land upstream, they're not in a patchset like here. And review
+should be done in the order the patches are numbered - not by jumping
+back'n'forth.
 
-Thanks, Vladimir
+So please think of the readers of your patches when writing those commit
+messages. Latter are *not* write-only and not unimportant.
 
-On 12/7/20 5:49 PM, Eric W. Biederman wrote:
-> Vladimir Kondratiev <vladimir.kondratiev@linux.intel.com> writes:
-> 
->> Please ignore version 1 of the patch - it was sent from wrong mail address.
->>
->> To clarify the reason:
->>
->> Situation where do_exit() re-entered, discovered by static code analysis.
->> For safety critical system, it is better to panic() when minimal chance of
->> corruption detected. For this reason, we also panic on fatal signal delivery -
->> patch for this not submitted yet.
-> 
-> What did the static code analysis say?  What triggers the recursion.
-> 
-> What makes it safe to even call panic on this code path?  Is there
-> enough kernel stack?
-> 
-> My sense is that if this actually can happen and is a real concern,
-> and that it is safe to do something on this code path it is probably
-> better just to ooops.  That way if someone is trying to debug such
-> a recursion they will have a backtrace to work with.  Plus panic
-> on oops will work.
-> 
-> Eric
-> 
->>
->> On 12/7/20 2:44 PM, Vladimir Kondratiev wrote:
->>> Recursive do_exit() is symptom of compromised kernel integrity.
->>> For safety critical systems, it may be better to
->>> panic() in this case to minimize risk.
->>>
->>> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@linux.intel.com>
->>> Change-Id: I42f45900a08c4282c511b05e9e6061360d07db60
->>> ---
->>>    Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
->>>    include/linux/kernel.h                          | 1 +
->>>    kernel/exit.c                                   | 7 +++++++
->>>    kernel/sysctl.c                                 | 9 +++++++++
->>>    4 files changed, 23 insertions(+)
->>>
->>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>> index 44fde25bb221..6e12a6804557 100644
->>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>> @@ -3508,6 +3508,12 @@
->>>    			bit 4: print ftrace buffer
->>>    			bit 5: print all printk messages in buffer
->>>    +	panic_on_exit_recursion
->>> +			panic() when do_exit() recursion detected, rather then
->>> +			try to stay running whenever possible.
->>> +			Useful on safety critical systems; re-entry in do_exit
->>> +			is a symptom of compromised kernel integrity.
->>> +
->>>    	panic_on_taint=	Bitmask for conditionally calling panic() in add_taint()
->>>    			Format: <hex>[,nousertaint]
->>>    			Hexadecimal bitmask representing the set of TAINT flags
->>> diff --git a/include/linux/kernel.h b/include/linux/kernel.h
->>> index 2f05e9128201..5afb20534cb2 100644
->>> --- a/include/linux/kernel.h
->>> +++ b/include/linux/kernel.h
->>> @@ -539,6 +539,7 @@ extern int sysctl_panic_on_rcu_stall;
->>>    extern int sysctl_panic_on_stackoverflow;
->>>      extern bool crash_kexec_post_notifiers;
->>> +extern int panic_on_exit_recursion;
->>>      /*
->>>     * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
->>> diff --git a/kernel/exit.c b/kernel/exit.c
->>> index 1f236ed375f8..162799a8b539 100644
->>> --- a/kernel/exit.c
->>> +++ b/kernel/exit.c
->>> @@ -68,6 +68,9 @@
->>>    #include <asm/unistd.h>
->>>    #include <asm/mmu_context.h>
->>>    +int panic_on_exit_recursion __read_mostly;
->>> +core_param(panic_on_exit_recursion, panic_on_exit_recursion, int, 0644);
->>> +
->>>    static void __unhash_process(struct task_struct *p, bool group_dead)
->>>    {
->>>    	nr_threads--;
->>> @@ -757,6 +760,10 @@ void __noreturn do_exit(long code)
->>>    	 */
->>>    	if (unlikely(tsk->flags & PF_EXITING)) {
->>>    		pr_alert("Fixing recursive fault but reboot is needed!\n");
->>> +		if (panic_on_exit_recursion)
->>> +			panic("Recursive do_exit() detected in %s[%d]\n",
->>> +			      current->comm, task_pid_nr(current));
->>> +
->>>    		futex_exit_recursive(tsk);
->>>    		set_current_state(TASK_UNINTERRUPTIBLE);
->>>    		schedule();
->>> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
->>> index afad085960b8..bb397fba2c42 100644
->>> --- a/kernel/sysctl.c
->>> +++ b/kernel/sysctl.c
->>> @@ -2600,6 +2600,15 @@ static struct ctl_table kern_table[] = {
->>>    		.extra2		= &one_thousand,
->>>    	},
->>>    #endif
->>> +	{
->>> +		.procname	= "panic_on_exit_recursion",
->>> +		.data		= &panic_on_exit_recursion,
->>> +		.maxlen		= sizeof(int),
->>> +		.mode		= 0644,
->>> +		.proc_handler	= proc_dointvec_minmax,
->>> +		.extra1		= SYSCTL_ZERO,
->>> +		.extra2		= SYSCTL_ONE,
->>> +	},
->>>    	{
->>>    		.procname	= "panic_on_warn",
->>>    		.data		= &panic_on_warn,
->>>
+And those readers haven't spent copious amounts of time on the
+technology so being more verbose and explaining things is a Good
+Thing(tm). Don't worry about explaining too much - better too much than
+too little.
+
+And last but not least, having understandable and properly written
+commit messages increases the chances of your patches landing upstream
+considerably.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
