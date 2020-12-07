@@ -2,382 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5967C4361B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 03:50:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA1DC4167B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 06:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9480522C7E
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 03:50:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 264BD22A85
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 06:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgLGDui (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Dec 2020 22:50:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50969 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726817AbgLGDuh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Dec 2020 22:50:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607312949;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UAtUjz5a2aQCr+DW94a/DkJ+FddnQ5fghxolrmXkarA=;
-        b=Omjz9e6Xh3Ddt/1ShXcIjnLncOrAoAD2tJ+az7qoXA80b+celNoGfNGu7q9AjMjXtwL/tS
-        JGN9TT0O6AmFYLaEm0lCmXlEkhRR35PePy3YcOOsw8lgJrfaMgqsP3kU9xup6pYWrVU41G
-        p6tcoqhi+W4tKS6Ng5+StkWwA6QJGJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-pXbhSBVXOsKN31RmPaLm3Q-1; Sun, 06 Dec 2020 22:49:04 -0500
-X-MC-Unique: pXbhSBVXOsKN31RmPaLm3Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC5C651DB;
-        Mon,  7 Dec 2020 03:49:02 +0000 (UTC)
-Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CD4A55D9DC;
-        Mon,  7 Dec 2020 03:48:55 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mst@redhat.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
- <43f1ee89-89f3-95a3-58f1-7a0a12c2b92f@metux.net>
-From:   Jason Wang <jasowang@redhat.com>
-Message-ID: <37a9fbc6-d75f-f6cd-f052-0dd416594a84@redhat.com>
-Date:   Mon, 7 Dec 2020 11:48:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726046AbgLGGPz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 01:15:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725903AbgLGGPz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 01:15:55 -0500
+Date:   Mon, 7 Dec 2020 08:15:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607321712;
+        bh=18W2/qNjQeeSJU11G9TKV5zWfuwhmeK3qs24Pr4Dd+I=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CU8D+A5Oi/VE2TpOVyGjdsR7cBvAyEqDlSG5XIDrYpRnEhrDjUsiOFVPCobgLcnSL
+         /KeYmDb2mDIIOg5FBnhtr6RjYKOb+lqwSGHIPP9IXKM+qi5/7ZOBW5Qkxe7iWwqFbP
+         ZdNiYpC2gmGb+fXySlhGocAONT56UjwRFyGb10eZZ2MPKICSZ63m+7mVZFHZ4zN6hF
+         deGouFwFtn63IG+jpFE7PRORLWO+6nwBPnmujjSMI8+r/XzGpKDmb3S0TRQbZFauZ0
+         XocbQGA/HktgAyG4n43osfPur1gaV5Q3cJ8yddMEcsKoQSVgDZoHPDbVfjtWTm9Q4L
+         s4F8W40lBt7og==
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-kernel@vger.kernel.org, Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?Qmxhxb4=?= Hrastnik <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+Message-ID: <20201207061506.GE693271@unreal>
+References: <20201203212640.663931-1-luzmaximilian@gmail.com>
+ <20201206070705.GA686270@unreal>
+ <9dd05a66-efb7-74d2-4f5b-347655b710be@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <43f1ee89-89f3-95a3-58f1-7a0a12c2b92f@metux.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9dd05a66-efb7-74d2-4f5b-347655b710be@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 2020/12/4 下午5:36, Enrico Weigelt, metux IT consult wrote:
-> On 04.12.20 04:35, Jason Wang wrote:
+On Sun, Dec 06, 2020 at 04:58:52PM +0100, Maximilian Luz wrote:
+> On 12/6/20 8:07 AM, Leon Romanovsky wrote:
+> > On Thu, Dec 03, 2020 at 10:26:31PM +0100, Maximilian Luz wrote:
+> > > Hello,
+> > >
+> > > Here is version two of the Surface System Aggregator Module (SAM/SSAM)
+> > > driver series, adding initial support for the embedded controller on 5th
+> > > and later generation Microsoft Surface devices. Initial support includes
+> > > the ACPI interface to the controller, via which battery and thermal
+> > > information is provided on some of these devices.
+> > >
+> > > The previous version and cover letter detailing what this series is
+> > > about can be found at
+> > >
+> > >    https://lore.kernel.org/platform-driver-x86/20201115192143.21571-1-luzmaximilian@gmail.com/
+> > >
+> > > This patch-set can also be found at the following repository and
+> > > reference, if you prefer to look at a kernel tree instead of these
+> > > emails:
+> > >
+> > >    https://github.com/linux-surface/kernel tags/s/surface-aggregator/v2
+> > >
+> > > Thank you all for the feedback to v1, I hope I have addressed all
+> > > comments.
+> >
+> >
+> > I think that it is too far fetched to attempt and expose UAPI headers
+> > for some obscure char device that we are all know won't be around in
+> > a couple of years from now due to the nature of how this embedded world
+> > works.
+> >
+> > More on that, the whole purpose of proposed interface is to debug and
+> > not intended to be used by any user space code.
 >
-> Hi,
+> I believe this has already been extensively discussed. I want to focus
+> more on the part below in this response:
 >
->> Is the plan to keep this doc synced with the one in the virtio
->> specification?
-> Yes, of course. I'm still in progress of doing the beaurocratic stuff w/
-> virtio-tc folks (ID registration, ...) - yet have to see whether they
-> wanna add it to their spec documents ...
+> > Also the idea that you are creating new bus just for this device doesn't
+> > really sound right. I recommend you to take a look on auxiliary bus and
+> > use it or come with very strong justifications why it is not fit yet.
 >
-> BTW: if you feel, sometings not good w/ the current spec, please raise
-> your voice now.
-
-
-But, has the spec path posted?
-
-
+> I tend to agree that this is a valid concern to bring up, and adding a
+> new bus is not something that should be done lightly.
 >
->> I think it's better to use u8 ot uint8_t here.Git grep told me the
->> former is more popular under Documentation/.
-> thx, I'll fix that
+> Let's ignore that this has been merged into -next after I've submitted
+> this (and that I only recently became aware of this) for the time being.
+> If I would see a clear benefit, I would not hesitate to switch the
+> driver and subsystem over to this.
 >
->>> +- for version field currently only value 1 supported.
->>> +- the line names block holds a stream of zero-terminated strings,
->>> +  holding the individual line names.
->> I'm not sure but does this mean we don't have a fixed length of config
->> space? Need to check whether it can bring any trouble to
->> migration(compatibility).
-> Yes, it depends on how many gpio lines are present and how much space
-> their names take up.
+> What does concern me most, is the device/driver matching by string.
+> Right now, this subsystem matches those via a device UID. This UID is
+> directly tied to the EC functionality provided by the device. A bit of
+> background to this:
 >
-> A fixed size would either put unpleasent limits on the max number of
-> lines or waste a lot space when only few lines present.
+> Requests sent to the EC contain an address, so to say. This consists of
 >
-> Not that virtio-gpio is also meant for small embedded workloads running
-> under some hypervisor.
+>  - Target category (TC): Broad group of functionality, e.g. battery/AC,
+>    thermal, HID input, ..., i.e. a subsystem of sorts.
 >
->>> +- unspecified fields are reserved for future use and should be zero.
->>> +
->>> +------------------------
->>> +Virtqueues and messages:
->>> +------------------------
->>> +
->>> +- Queue #0: transmission from host to guest
->>> +- Queue #1: transmission from guest to host
->>
->> Virtio became more a popular in the area without virtualization. So I
->> think it's better to use "device/driver" instead of "host/guest" here.
-> Good point. But I'd prefer "cpu" instead of "driver" in that case.
+>  - Target ID (TID): Some major device, e.g. the dual batteries on the
+>    Surface Book 3 are addressed by target ID 1 and 2, some functionality
+>    is only available at 2 and some only at 1. May be related to physical
+>    parts of/locations on the device.
 >
->> Not a native speaker but event sounds like something driver read from
->> device. Looking at the below lists, most of them except for
->> VIRTIO_GPIO_EV_HOST_LEVEL looks more like a command.
-> okay, shall I name it "message" ?
-
-
-It might be better.
-
-
+>  - Instance ID (IID): A device instance, e.g. for thermal sensors each
+>    sensor is at TC=0x03 (thermal) and has a different instance ID.
 >
->> Another question is, what's the benefit of unifying the message format
->> of the two queues. E.g VIRTIO_GPIO_EV_HOST_LEVEL can only works fro rxq.
-> Simplicity. Those fields that aren't really relevant (eg. replies also
-> carry the line id), can just be ignored.
+> Those can be used to pretty much uniquely identify a sub-device on the
+> EC.
 >
->> Not familiar with GPIO but I wonder the value of a standalone
->> VIRTIO_GPIO_EV_GUEST_DIRECTION_INPUT/OUTPUT. Can we simply imply them in
->> SET/GET_VALUE?
-> Would introduce more complexity. Somewhere I'd have to fit in some extra
-> bit for differenciating between line state and line direction. The
-> direction tells whether the line currently acts as input or output. The
-> "value" (hmm, maybe I should rethink terminology here) is the current
-> line level (high/low or active/inactive).
-
-
-Ok.
-
-
+> Note the "pretty much". To truly make them unique we can add a function
+> ID (FN). With that, we can for example match for TC=0x03, TID=*, IID=*,
+> FN=0x00 to load a driver against all thermal sensors. And this is
+> basically the device UID that the subsystem uses for matching (modulo
+> domain for virtual devices, i.e. device hubs). Sure, we can use some
+> string, but that then leads to having to come up with creative names
+> once we need some driver specific data, e.g. in the battery driver [1]:
 >
->>> +----------------------
->>> +Data flow:
->>> +----------------------
->>> +
->>> +- all operations, except ``VIRTIO_GPIO_EV_HOST_LEVEL``, are
->>> guest-initiated
->>> +- host replies ``VIRTIO_GPIO_EV_HOST_LEVEL`` OR'ed to the ``type`` field
->>> +- ``VIRTIO_GPIO_EV_HOST_LEVEL`` is only sent asynchronically from
->>> host to guest
->>> +- in replies, a negative ``value`` field denotes an unix-style errno
->>> code
->>
->> Virtio is in a different scope, so we need to define the error code on
->> our own.
->>
->> E.g for virtio-net we define:
->>
->>
->> #define VIRTIO_NET_OK     0
->> #define VIRTIO_NET_ERR    1
-> hmm, so I'd need to define all the error codes that possibly could happen ?
-
-
-Yes, I think you need.
-
-
+>     const struct auxiliary_device_id my_auxiliary_id_table[] = {
+>         { .name = "surface_aggregator_registry.battery", .driver_data = x },
+>         { .name = "surface_aggregator_registry.battery_sb3", .driver_data = y },
+>         { },
+>     }
 >
->>>    +config GPIO_VIRTIO
->>> +    tristate "VirtIO GPIO support"
->>> +    depends on VIRTIO
->>
->> Let's use select, since there's no prompt for VIRTIO and it doesn't have
->> any dependencies.
-> Ok. I just was under the impression that subsystems and busses should
-> not be select'ed, but depends on (eg. some time ago tried that w/ gpio
-> subsys and failed).
+> Arguably, not _that_ big of a deal.
 >
->>> +    help
->>> +      Say Y here to enable guest support for virtio-based GPIOs.
->>> +
->>> +      These virtual GPIOs can be routed to real GPIOs or attached to
->>> +      simulators on the host (qemu).
->>
->> It's better to avoid talking host and qemu here for new virtio devices.
-> Ok, dropped that line.
+> What worries me more is that this will block any path of auto-detecting
+> devices on a more general/global level. Right now, we hard-code devices
+> because we haven't found any way to detect them via some EC query yet
+> [2] (FYI the node groups contain all devices that will eventually be
+> added to the bus, which are already 11 devices on the Surface Book 3
+> without taking missing thermal sensors into account; also they are
+> spread across a bunch of subsystems, so not just platform). That's of
+> course not an ideal solution and one that I hope we can eventually fix.
+> If we can auto-detect devices, it's very likely that we know or can
+> easily get to the device UID. A meaningful string is somewhat more
+> difficult.
 >
->>> +static int virtio_gpio_xmit(struct virtio_gpio_priv *priv, int type,
->>> +                int pin, int value, struct virtio_gpio_event *ev)
->>> +{
->>> +    struct scatterlist sg[1];
->>> +    int ret;
->>> +    unsigned long flags;
->>> +
->>> +    WARN_ON(!ev);
->>> +
->>> +    ev->type = type;
->>> +    ev->pin = pin;
->>> +    ev->value = value;
->>> +
->>> +    sg_init_table(sg, 1);
->>> +    sg_set_buf(&sg[0], ev, sizeof(struct virtio_gpio_event));
->>> +
->>> +    spin_lock_irqsave(&priv->vq_lock, flags);
->>> +    ret = virtqueue_add_outbuf(priv->vq_tx, sg, ARRAY_SIZE(sg),
->>> +                   priv, GFP_KERNEL);
->>> +    if (ret < 0) {
->>> +        dev_err(&priv->vdev->dev,
->>> +            "virtqueue_add_outbuf() failed: %d\n", ret);
->>> +        goto out;
->>
->> So except for the error log, the failure is silently ignored by the
->> caller. Is this intended?
-> ups, I've forgotten the error handling in the caller. fixed in v3.
+> This registry, which is loaded against a platform device that, from what
+> we can tell differentiates the models for some driver bindings by
+> Windows (that's speculation), is also the reason why we don't register
+> client devices directly under the main module, so instead of a nice
+> "surface_aggregator.<devicename>", you'll get
+> "surface_aggregator_registry.<devicename>". And it may not end there.
 >
->>> +static int virtio_gpio_req(struct virtio_gpio_priv *priv, int type,
->>> +               int pin, int value)
->>> +{
->>> +    struct virtio_gpio_event *ev
->>> +        = kzalloc(&priv->vdev->dev, sizeof(struct virtio_gpio_event),
->>> +              GFP_KERNEL);
->>> +
->>> +    if (!ev)
->>> +        return -ENOMEM;
->>> +
->>> +    clear_event(priv, type);
->>> +    virtio_gpio_xmit(priv, type, pin, value, ev);
->>> +    wait_event_interruptible(priv->waitq, check_event(priv, type));
->>
->> If I read the code correctly, this expects there will be at most a
->> single type of event that can be processed at the same time. E.g can
->> upper layer want to read from different lines in parallel? If yes, we
->> need to deal with that.
-> @Linus @Bartosz: can that happen or does gpio subsys already serialize
-> requests ?
+> Something that's currently not implemented is support for thermal
+> sensors on 7th generation devices. With thermal sensors, we can already
+> detect which sensors, i.e. which IIDs, are present. Naturally, that's
+> part of the EC-API for thermal devices (TC=0x03), so would warrant a
+> master driver that registers the individual sensor drivers (that's a
+> place where I'd argue that in a normal situation, the auxiliary bus
+> makes sense). So with the auxiliary bus we'd now end up with devices
+> with "surface_thermal.sensor" for the sensors as well as
+> "surface_aggregator_registry.<devicename>", both of type ssam_device
+> (which then would be a wrapper around auxiliary_device with UID stored
+> in that wrapper). Note that they need to be of type ssam_device (or
+> another wrapper around that) as they again need the reference to the
+> controller device, their UID for access, etc. With a proper bus, device,
+> and the UID for matching, we can just add the sensor devices to the bus
+> again, as they will have a meaningful and guaranteed unique UID.
 >
-> Initially, I tried to protect it by spinlock (so, only one request may
-> run at a time, other calls just wait until the first is finished), but
-> it crashed when gpio cdev registration calls into the driver (fetches
-> the status) while still in bootup.
+> From some reports I've seen it looks like thermal sensors may also be
+> available separately on TID=0x01 as well as TID=0x02 on some devices,
+> at which point I believe you'd need to introduce some IDA for ID
+> allocation to not cause a clash with IDs. At least if you separate the
+> base drivers for each TC, which I guess should be preferred due to
+> code-reuse. Then again they might use different event registries so you
+> may end up needing "surface_thermal.sensor_tc1" and
+> "surface_thermal.sensor_tc2" as device names to differentiate those
+> for driver loading. Or store the registry in software node properties
+> when registering the device.
 >
-> Don't recall the exact error anymore, but something like an
-> inconsistency in the spinlock calls.
+> I'm repeating myself here, but to me it looks cleaner to have a single
+> bus type as opposed to spreading the same base auxiliary device type
+> over several namespaces.
 >
-> Did I just use the wrong type of lock ?
-
-
-I'm not sure since I am not familiar with GPIO. But a question is, if at 
-most one request is allowed, I'm not sure virtio is the best choice here 
-since we don't even need a queue(virtqueue) here.
-
-
+> Which then leads me to the question of how a function like
+> "is_ssam_device()", i.e. a function testing if the device is of a given
+> type, would be implemented without enforcing and testing against some
+> part of the device name. Something that, again, doesn't look clean to
+> me. Although the use of such a function could probably avoided, but that
+> then feels like working around the auxiliary bus.
 >
->>> +static void virtio_gpio_data_rx(struct virtqueue *vq)
->>> +{
->>> +    struct virtio_gpio_priv *priv = vq->vdev->priv;
->>> +    void *data;
->>> +    unsigned int len;
->>> +    struct virtio_gpio_event *ev;
->>> +
->>> +    data = virtqueue_get_buf(priv->vq_rx, &len);
->>> +    if (!data || !len) {
->>> +        dev_warn(&vq->vdev->dev, "RX received no data ! %d\n", len);
->>> +        return;
->>> +    }
->>> +
->>> +    ev = data;
->>> +    WARN_ON(data != &priv->rcv_buf);
->>> +
->>> +    memcpy(&priv->last, &priv->rcv_buf, sizeof(struct
->>> virtio_gpio_event));
->>> +
->>> +    switch (ev->type) {
->>> +    case VIRTIO_GPIO_EV_HOST_LEVEL:
->>> +        virtio_gpio_signal(priv, ev->type, ev->pin, ev->value);
->>> +        break;
->>> +    default:
->>> +        wakeup_event(priv, ev->type & ~VIRTIO_GPIO_EV_REPLY);
->>
->> This looks suspicious, it looks to me what is done here is, consider we
->> want to do VIRTIO_GPIO_EV_GUEST_SET_VALUE
->>
->> 1) put the event in txq, wait
->> 2) the result is returned from rxq, wakeup
->>
->> It looks to me this is racy since the device should be able to process a
->> batch of descriptors and there's no guarantee that the descriptor is
->> processed in order from the virtio level.
-> Not sure whether we're on the same page, but:
->
-> VIRTIO_GPIO_EV_HOST_LEVEL is kinda interrupt - it tells cpu when the
-> input has changed level. We can receive this async event, it shouldn't
-> matter whether somebody else (another thread) is doing a regular call,
-> thus waiting for reply at the same time. The reply will be next in
-> queue.
->
-> What could go wrong here ?
+> Unfortunately, there are a couple more hypotheticals at play than I'd
+> like to have (making this not an easy decision), but it's a reverse
+> engineered driver so I guess that comes with the territory. All in all,
+> I believe it's possible to do this (i.e. use the auxiliary bus), but, to
+> me at least, the implementation using a discrete bus feels tidier and
+> more true to the hardware (or virtual hardware anyway) behind this. I'm
+> happy to hear any arguments against this though.
 
+I'm not so certain why you are so focused on the names and UIDs.
+The names are simply the aliases and needed to match between major
+device driver that is responsible for the discovery and triggering
+sub-driver with implementation.
 
-I think it's still about whether or not we need allow a batch of 
-requests via a queue. Consider you've submitted two request A and B, and 
-if B is done first, current code won't work. This is because, the reply 
-is transported via rxq buffers not just reuse the txq buffer if I read 
-the code correctly.
+Nothing prohibits from the logic: "if uid = 123; trigger "sensor""
 
+Different devices and separation between them (*_registry module)
+are expected to be in that main driver.
 
->
->
->> I wonder why not introduce two virtqueues:
->>
->> 1) command vq
->> 2) event vq
->>
->> All commands were sent via command vq and then device can write back to
->> the command buffer as other virtio device did. Then there's no worries
->> of batching or out of order completion.
-> I've been under the impression that queues only work in only one
-> direction. (at least that's what my web research was telling).
->
-> Could you please give an example how bi-directional transmission within
-> the same queue could look like ?
-
-
-You can check how virtio-blk did this in:
-
-https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html#x1-2500006
-
-
->
->>> +        break;
->>> +    }
->>> +    virtio_gpio_prepare_inbuf(priv);
->>
->> This assumes at most one event could be generated, is this how GPIO
->> device expect to behave? I think level could change several times.
-> Should I add more buffers ?
->
-> Maybe add one new buffer per request and one new per received async
-> signal ?
-
-
-It would be safe to fill the whole rxq and do the refill e.g when half 
-of the queue is used.
-
-
->
->>> +static int virtio_gpio_probe(struct virtio_device *vdev)
->>> +{
->>> +    struct virtio_gpio_priv *priv;
->>> +    struct virtio_gpio_config cf = {};
->>> +    char *name_buffer;
->>> +    const char **gpio_names = NULL;
->>> +    struct device *dev = &vdev->dev;
->>> +
->>> +    priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->>> +    if (!priv)
->>> +        return -ENOMEM;
->>
->> Is devres guaranteed to be enabled here?
-> How should it not ? Could virtio probing so early that even devm
-> isn't working yet ?
-
-
-I think you are right, I misread the patch.
+As an outcome of it, you will get: proper module autoload, device
+discover and power management.
 
 Thanks
 
-
 >
+> Regards,
+> Max
 >
-> --mtx
->
-
+> [1]: https://github.com/linux-surface/surface-aggregator-module/blob/61b9bb859c30a8e17654c3a06696feb2691438f7/module/src/clients/surface_battery.c#L1075-L1079
+> [2]: https://github.com/linux-surface/surface-aggregator-module/blob/61b9bb859c30a8e17654c3a06696feb2691438f7/module/src/clients/surface_aggregator_registry.c
