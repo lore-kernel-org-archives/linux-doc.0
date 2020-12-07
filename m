@@ -2,117 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 636DBC4361B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F646C4361B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:23:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38B38233A0
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:18:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C0EE23437
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 13:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbgLGNRr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 08:17:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51554 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726344AbgLGNRq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 08:17:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607346980;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=79CDQSAGopTcyYZWDZiCTCDAaMDLvT94+iPcW3Ja/gg=;
-        b=LvLi/A5dfoYuRJy3OAC9ysOWrhyr4fHfCqo32guSrmwZmFWor3q/a9dBulAxx8zMBNwoEG
-        vA/AUpZJiFSlwVgxNCu81KgnxCTrAqmtzHjLJhrj0lqtN9Me7peTiJbOQbB0l0lvCboBp0
-        0hORq99iT7V2NQD/YO6vcnG8d4M5wTQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-9Wz8oW0cNj-R6B2oKCrVDA-1; Mon, 07 Dec 2020 08:16:18 -0500
-X-MC-Unique: 9Wz8oW0cNj-R6B2oKCrVDA-1
-Received: by mail-ej1-f72.google.com with SMTP id u10so3849841ejy.18
-        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 05:16:18 -0800 (PST)
+        id S1726247AbgLGNXf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 08:23:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbgLGNXe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 08:23:34 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E8FC0613D2
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 05:22:54 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id t7so9927770pfh.7
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 05:22:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0to9OB/whgv3qi9ufsQ+EKxpPLl37hR48TuYHnONOzs=;
+        b=TthrRXTSO0r6XRrwG3mgwoHswcmwD0e5xJ0kpAYE36Qk4eW2ixqIQnJ2gD+ZhBuuV4
+         As1vKJEOjlV9/bdfYHKaQGaFV1pr51FxZQVryIP6rEhe9GUskhHasg+09ZD0kAuiGwzz
+         /5qQI6+2sBcah5HizF/kGLbyHPDn0bj2QyXxAsLqoN5ptTQf1sjZYEZKVRW3/dcYoYS2
+         60VtDaQbpT/WnbLR8s4qMmvIkMtz81cMXkbBDn6CF71YXFN/BMq6dlgMzppe7UAPoJTM
+         PdPvbIAOBcIFA1xlph+JEA+k94vtyOzo5aP9jWVjpGS3rnze/MtchkpOp6xgYhfLwsjv
+         BdjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=79CDQSAGopTcyYZWDZiCTCDAaMDLvT94+iPcW3Ja/gg=;
-        b=C+0qpU4Ex/bBd9bD5S2zfi3Hbp+iqAJSr56pj3AGLlB7vhca2BOZuA8wm0OTJ+ZYf5
-         pcss0y19FxpBfzh7r3xYtTBZhgqt9mWIit60TSSbpf1Ikx5X1hBMD30hBnXb5MjkK0wh
-         D0XCPDDx6DY6IW1EiTOCZdgbAcI6lBLyohgpyUmafFwxBwW+DDaqeWMyQN/ssIF1YI1L
-         rY4h8a0IuhCXcwTWkmKNCibdyPk04Gn/CLexkfGDWfsXupUUugrJZ6hlWCehDelA1zM7
-         ZzlOtZI8zsYoE2xxbWL7ITg1NJaGlU6Ox1LikDfWMMByro3zt3FkomO8Pu5n3a9xQxOn
-         AGbA==
-X-Gm-Message-State: AOAM5323tfSkMK4OHopdZgqe9kZhAFn57yo93NHqyj3vw0fpS0z+KgmZ
-        9UKQxWpW09CVMNi/CBlPIuH1N/adJHwiUxLKBN0xW05Kga65EpMqR+6W0R7WYm0pfZN6qwLP5FL
-        V2dJzxAS72ZJE5reh2WIU
-X-Received: by 2002:a50:ff0c:: with SMTP id a12mr19974975edu.79.1607346977395;
-        Mon, 07 Dec 2020 05:16:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwl7wJhrOzNS1+1ArDJ93sSPPCNdBbU63ASXPczoyfqdvj9aq9nJs+MSWplfTwlW8IubCCmHg==
-X-Received: by 2002:a50:ff0c:: with SMTP id a12mr19974957edu.79.1607346977230;
-        Mon, 07 Dec 2020 05:16:17 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id x20sm12357813ejv.66.2020.12.07.05.16.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 05:16:16 -0800 (PST)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-In-Reply-To: <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
- <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
-Date:   Mon, 07 Dec 2020 14:16:15 +0100
-Message-ID: <87im9dlpsw.fsf@vitty.brq.redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0to9OB/whgv3qi9ufsQ+EKxpPLl37hR48TuYHnONOzs=;
+        b=cUwEzPapKsUobXse3e18JFYixHNMia/8Fo+PIoRuoXxDlRl7dQr6JEhaFPDQPhQRU7
+         yhcIaGV4x3XlABQQLw+DBtmItRlm4THXpp5ROYnBN1SfyLoJovvUVHQsDvdOYq5Nnbpt
+         I8Q8SzPWi0vZYqNaEKOCGy6p4dcr/ofmT9S83Ar4cxiKORyzS/mV1O4NYj6XTUT3h2Kk
+         V5QzOpZz6qvz8jMPR6wWmZanJcA9k+nYmXXRjS0ClX298he0gG7wkevnCoe9T00DFw/a
+         4EiS7z5SHOGfsmFCKlVFjiQ9C+QMDaBg8bmE/CKe/LzYAuljiZ8bdOu9vNhTZqKiv5wM
+         eY5Q==
+X-Gm-Message-State: AOAM533RkDzkXRpHD6FXYISqft6gjIu/HC9bNbvTveZZG/2BLu0iS823
+        u7+YEdReaYbDLsrQjEfMgWDi8+r8809VMPeHL04ouw==
+X-Google-Smtp-Source: ABdhPJz1TKVgB8tDVH4DF5F75OY3VOXP48xOAa+s6tWfhnAlLp8FuLCfgyBvpB66zoppS+m0y+RKaMoCQpgm0vrtUqM=
+X-Received: by 2002:a17:902:76c8:b029:d9:d6c3:357d with SMTP id
+ j8-20020a17090276c8b02900d9d6c3357dmr16165559plt.34.1607347374167; Mon, 07
+ Dec 2020 05:22:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <20201130151838.11208-4-songmuchun@bytedance.com> <2ec1d360-c8c8-eb7b-2afe-b75ee61cfcea@redhat.com>
+ <CAMZfGtVnw8aJWceLM1UerkAZzcjkObb-ZrCE_Jj6w3EUR=UN3Q@mail.gmail.com> <ebff035a-a32b-cd7b-f4c1-332ddc1ceaa4@redhat.com>
+In-Reply-To: <ebff035a-a32b-cd7b-f4c1-332ddc1ceaa4@redhat.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 7 Dec 2020 21:22:17 +0800
+Message-ID: <CAMZfGtVoRYedj9wF2_EbEpP2WJrBo5qzt0XtnWSEF+Bb8QZOXQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v7 03/15] mm/hugetlb: Introduce a new
+ config HUGETLB_PAGE_FREE_VMEMMAP
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Maxim Levitsky <mlevitsk@redhat.com> writes:
+On Mon, Dec 7, 2020 at 8:47 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 07.12.20 13:42, Muchun Song wrote:
+> > On Mon, Dec 7, 2020 at 8:19 PM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 30.11.20 16:18, Muchun Song wrote:
+> >>> The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+> >>> whether to enable the feature of freeing unused vmemmap associated
+> >>> with HugeTLB pages. And this is just for dependency check. Now only
+> >>> support x86.
+> >>
+> >> x86 - i386 and x86-64? (I assume the latter only ;) )
+> >
+> > Yeah, you are right. Only the latter support SPARSEMEM_VMEMMAP.
+> >
+> >>
+> >>>
+> >>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> >>> ---
+> >>>  arch/x86/mm/init_64.c |  2 +-
+> >>>  fs/Kconfig            | 14 ++++++++++++++
+> >>>  2 files changed, 15 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> >>> index 0a45f062826e..0435bee2e172 100644
+> >>> --- a/arch/x86/mm/init_64.c
+> >>> +++ b/arch/x86/mm/init_64.c
+> >>> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
+> >>>
+> >>>  static void __init register_page_bootmem_info(void)
+> >>>  {
+> >>> -#ifdef CONFIG_NUMA
+> >>> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+> >>>       int i;
+> >>>
+> >>
+> >> Why does this hunk belong into this patch? Looks like this should go
+> >> into another patch.
+> >
+> > Of course can. But Mike suggests that it is better to use it when
+> > introducing a new config. Because this config depends on
+> > HAVE_BOOTMEM_INFO_NODE. And register_page_bootmem_info
+> > is aimed to register bootmem info. So maybe it is reasonable from
+> > this point of view. What is your opinion?
+> >
+>
+> Ah, I see. Maybe mention in the patch description, because the
+> "Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP" part left me
+> clueless. Stumbling over this change only left me rather clueless.
+
+OK, I will improve the commit log. Thanks.
 
 >
-> But other than that I don't mind making TSC offset global per VM thing.
-> Paulo, what do you think about this?
+> >>
+> >>>       for_each_online_node(i)
+> >>> diff --git a/fs/Kconfig b/fs/Kconfig
+> >>> index 976e8b9033c4..4961dd488444 100644
+> >>> --- a/fs/Kconfig
+> >>> +++ b/fs/Kconfig
+> >>> @@ -245,6 +245,20 @@ config HUGETLBFS
+> >>>  config HUGETLB_PAGE
+> >>>       def_bool HUGETLBFS
+> >>>
+> >>> +config HUGETLB_PAGE_FREE_VMEMMAP
+> >>> +     def_bool HUGETLB_PAGE
+> >>> +     depends on X86
+> >>> +     depends on SPARSEMEM_VMEMMAP
+> >>> +     depends on HAVE_BOOTMEM_INFO_NODE
+> >>> +     help
+> >>> +       When using HUGETLB_PAGE_FREE_VMEMMAP, the system can save up some
+> >>> +       memory from pre-allocated HugeTLB pages when they are not used.
+> >>> +       6 pages per 2MB HugeTLB page and 4094 per 1GB HugeTLB page.
+> >>
+> >> Calculations only apply to 4k base pages, no?
+> >
+> > No, if the base page is not 4k, we also can free 6 pages.
+> >
+> > For example:
+> >
+> > If the base page size is 64k, the PMD huge page size is 512MB. We also
+>
+> Note that 2MB huge pages on arm64 with 64k base pages are possible as
+> well. Also, I think powerpc always has 16MB huge pages, independent of
+> base page sizes.
+
+I see now. Now only support x86-64, you are right, I should point out the base
+page size. When supporting more architectures in the future. We can update
+the message here. :)
+
+Thanks.
+
+>
+>
+> --
+> Thanks,
+>
+> David / dhildenb
 >
 
-Not Paolo here but personally I'd very much prefer we go this route but
-unsynchronized TSCs are, unfortunately, still a thing: I was observing
-it on an AMD Epyc server just a couple years ago (cured with firmware
-update). We try to catch such situation in KVM instead of blowing up but
-this may still result in subtle bugs I believe. Maybe we would be better
-off killing all VMs in case TSC ever gets unsynced (by default).
-
-Another thing to this bucket is kvmclock which is currently per-cpu. If
-we forbid TSC to un-synchronize (he-he), there is no point in doing
-that. We can as well use e.g. Hyper-V TSC page method which is
-per-VM. Creating another PV clock in KVM may be a hard sell as all
-modern x86 CPUs support TSC scaling (in addition to TSC offsetting which
-is there for a long time) and when it's there we don't really need a PV
-clock to make migration possible.
 
 -- 
-Vitaly
-
+Yours,
+Muchun
