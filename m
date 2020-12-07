@@ -2,106 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17442C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A1A6C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6CE820449
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:33:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE8BE22838
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 17:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725887AbgLGRdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 12:33:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40638 "EHLO
+        id S1725863AbgLGRmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 12:42:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgLGRdp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 12:33:45 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB9AC061749;
-        Mon,  7 Dec 2020 09:33:04 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id g20so20692904ejb.1;
-        Mon, 07 Dec 2020 09:33:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7jKGCmRFpSDqWM5j4V8mDvoPe7sGMFu/bi/rHpaJIiY=;
-        b=dGcgH2D03mXSPltGOqajF1QUVQHPnz7K6EDNKuvfZsRVKw697VSl53N6im0f2dXp4i
-         xyug9wUP4EX0BPLnJrpGd8J3mkDJ1Sd8tYNXiDWzqD/ON8X3vEkpnZK+sTYFS30usnCV
-         PTDpeOW8d/4v1GfLMpxKXOgNJibqsngofmseqrfTZgjEQWvDP/oZUnOA2bqznqUXEPzq
-         U0UuSUBs3pqBqWzxndVXAxI+/YQFp24+Dgwd2Lj16cwH352H0XvpoPsmwy00WJmO8lco
-         kz7m1bCvOOlP/9JrjI+rSgQ2wPyw3mq5iTYTh1EoLztBhl244zFRi+mYqganI7sLHiXc
-         2klA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7jKGCmRFpSDqWM5j4V8mDvoPe7sGMFu/bi/rHpaJIiY=;
-        b=BQQdJp/ePyGJSqS3SXctUh+3f3zrfukV1DGtCj/jWCx9qFC7UqJx5YH+rDxDc/HOS9
-         QXDXUp0ToGIHHT2/6c0SoNJhBGyA4UtiuppJ7mdZAFFCUzDFdlLyPUaUXzxtX+7Mi5+h
-         030CgzJm0LOdc1Js4X83mVJijwbcCNDm6elG20M/l/GiUKKyrlU/VZYJw7tDkLHSOb8S
-         gApWzvHDGq82K/bHU5Z1HGjubuxXTmTUlfnTG7bZqpqauRUUiR2V60VFqDrK0HAJiBh3
-         N4SQ9NlOIEKQTvRr5lqgrGQjpkBb5ML2XxoOy7xCWuvvXYzaY3eSqwoJCN/36DSLiq6n
-         TXWQ==
-X-Gm-Message-State: AOAM5322TjYdO+zdHzwZukH0O27oFD9Mi7iI105/Tkdbnd7ppwO9RIDF
-        pnOaCPGh2MDRMh3s0OaNVlU=
-X-Google-Smtp-Source: ABdhPJzGvuAuROG9mIe9RzlBkxu/okyID7XBPoXX7N7jshfPtrLaLaFPCNi6otgxsh3H+1jiwL86Gg==
-X-Received: by 2002:a17:906:f0d0:: with SMTP id dk16mr6452455ejb.144.1607362383543;
-        Mon, 07 Dec 2020 09:33:03 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d4a:c600:a156:c2e7:428c:4f12])
-        by smtp.gmail.com with ESMTPSA id oq7sm3205832ejb.63.2020.12.07.09.33.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 09:33:02 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] RDMA/restrack: update kernel documentation for ib_create_named_qp()
-Date:   Mon,  7 Dec 2020 18:32:55 +0100
-Message-Id: <20201207173255.13355-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S1725804AbgLGRmY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 12:42:24 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B6DC061749;
+        Mon,  7 Dec 2020 09:41:43 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1607362901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L32qUYNVEpBe9pHXHARYKfmodEfeLdlaSl0E/tFjVbY=;
+        b=exKT3dqL8Az3jX6xDH5KYgocsTqh4E6l2rVscnGGw8gltDmUGbZ3D3ZQk5bhdBxjfXTa6U
+        7RArTzjQbzr2wMV22+0SRKQST2bcl551qSxw348hbuvSNGCkskqDqQsj07+Klr0+BBws/V
+        e5/mAKlSNDUOTvpmtoKZA5zQGkhYsVuIBuS+7aUkzlwUQLIPtT4cuqdTMTUO36HRMr6LvL
+        sSneVlZbR9KBfW39Dyqtykn6dQnc7Fh2r8Fv7BADk4iIeFvtRNKuFjDYHqcvOccnar3+Dc
+        bVMB17gzSRx0T9BpFiVKLBLUdAmH8OO45KTuppw64aNU2Ul1lShochFAN/OFRQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1607362901;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L32qUYNVEpBe9pHXHARYKfmodEfeLdlaSl0E/tFjVbY=;
+        b=Gzsj99alnWOe/KUs+jKp4LzquDn7Xo7eVyT96prRvS8wWKKUofOND0uezBo6rcQGjEoqZp
+        kOIaHBXdnbtGhuCg==
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kvm@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+In-Reply-To: <87im9dlpsw.fsf@vitty.brq.redhat.com>
+References: <20201203171118.372391-1-mlevitsk@redhat.com> <20201203171118.372391-2-mlevitsk@redhat.com> <87a6uq9abf.fsf@nanos.tec.linutronix.de> <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com> <87im9dlpsw.fsf@vitty.brq.redhat.com>
+Date:   Mon, 07 Dec 2020 18:41:41 +0100
+Message-ID: <875z5d5x9m.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 66f57b871efc ("RDMA/restrack: Support all QP types") extends
-ib_create_qp() to a named ib_create_named_qp(), which takes the caller's
-name as argument, but it did not add the new argument description to the
-function's kerneldoc.
+On Mon, Dec 07 2020 at 14:16, Vitaly Kuznetsov wrote:
+> Maxim Levitsky <mlevitsk@redhat.com> writes:
+>> But other than that I don't mind making TSC offset global per VM thing.
+>> Paulo, what do you think about this?
+>>
+>
+> Not Paolo here but personally I'd very much prefer we go this route but
+> unsynchronized TSCs are, unfortunately, still a thing: I was observing
+> it on an AMD Epyc server just a couple years ago (cured with firmware
+> update).
 
-make htmldocs warns:
+Right this happens still occasionally, but for quite some time this is
+100% firmware sillyness and not a fundamental property of the hardware
+anymore. Interestingly enough has the number of reports on Intel based
+systems vs. such wreckage as obvservable via TSC_ADJUST gone down after
+we added support for it and yelled prominently. I wish AMD would have
+that as well.
 
-  ./drivers/infiniband/core/verbs.c:1206: warning: Function parameter or
-  member 'caller' not described in 'ib_create_named_qp'
+> We try to catch such situation in KVM instead of blowing up but
+> this may still result in subtle bugs I believe. Maybe we would be better
+> off killing all VMs in case TSC ever gets unsynced (by default).
 
-Add a description for this new argument based on the description of the
-same argument in other related functions.
+I just ran a guest on an old machine with unsynchronized TSCs and was
+able to observe clock monotonic going backwards between two threads
+pinned on two vCPUs, which _is_ bad. Getting unsynced clocks reliably
+under control is extremly hard.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies on next-20201207
+> Another thing to this bucket is kvmclock which is currently per-cpu. If
+> we forbid TSC to un-synchronize (he-he), there is no point in doing
+> that. We can as well use e.g. Hyper-V TSC page method which is
+> per-VM. Creating another PV clock in KVM may be a hard sell as all
+> modern x86 CPUs support TSC scaling (in addition to TSC offsetting which
+> is there for a long time) and when it's there we don't really need a PV
+> clock to make migration possible.
 
-Doug, Jason, Leon, please pick this minor doc fix on your -next tree.
+That should be the long term goal.
 
- drivers/infiniband/core/verbs.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks,
 
-diff --git a/drivers/infiniband/core/verbs.c b/drivers/infiniband/core/verbs.c
-index 5d4c7c263665..57206fe1bad2 100644
---- a/drivers/infiniband/core/verbs.c
-+++ b/drivers/infiniband/core/verbs.c
-@@ -1197,6 +1197,7 @@ static struct ib_qp *create_xrc_qp_user(struct ib_qp *qp,
-  * @qp_init_attr: A list of initial attributes required to create the
-  *   QP.  If QP creation succeeds, then the attributes are updated to
-  *   the actual capabilities of the created QP.
-+ * @caller: caller's build-time module name
-  *
-  * NOTE: for user qp use ib_create_qp_user with valid udata!
-  */
--- 
-2.17.1
-
+        tglx
