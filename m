@@ -2,180 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C79FC4361B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:05:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99C9C1B087
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:39:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 126A8238D6
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:05:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6472238D7
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 18:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726156AbgLGSF2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 13:05:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725823AbgLGSF2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 13:05:28 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E8DC06179C
-        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 10:04:48 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id c12so3743091pfo.10
-        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 10:04:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=kbV3WSMn8Z3r9fdGwZbCofxQ8ZlQoCXfrnC4rA/3kXU=;
-        b=BvSGPkk1XV51HulmhP09dGtC50Mqu3r9NSlD6Rtp/fEgFbKCUYHJxoiQ/Lw026a8eV
-         8pkollCNLgLs0UCVhW4o6brcgbS7lvxuFZaOmJ+LJEDtCq8YuLMMQZrtArDfIaA4qRjK
-         1rYEF7M/0093Uw/TQm30akYxGr+J8KFgSt2kBgvDwZmhZx7l1TrKcKnw/BLb64ju6OEZ
-         7uNmPHrSbOS4KEe61x/bBDbhbX48C3Z5YfVlyWUBeqc96naM8cDULIA2yeOq4vSQjPXK
-         LnXlIyvD6dTz28bK9V8o5Ko8tRYCjDgrUKZ2yxSAi3weyMM2+TT4+dd//sg+88u0Yyhh
-         csoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=kbV3WSMn8Z3r9fdGwZbCofxQ8ZlQoCXfrnC4rA/3kXU=;
-        b=cJopB1JSc6i/e/SC5gbOE05L0y6pmuJCbQeLRPcy5YfHgOHMzzHheTy+JWIEPSpMcx
-         YdWfJvOYPEpgdSDt3Ktns0zXxIebyw6829pFYEax4hwsf7ejs+C+oD9kzWbj9jIs6ome
-         s3Avyef8x5AmXBFl9b7o9BnwJC6Qed1DyjgwQ5rCIDXW98sQ0VXZ++PGnHMkQYWrtfKt
-         GNpF0uK7FlozqoOxNCCC7MfsRlnwAIpzRfJuNLMATuRDll4UYKSQDwpBiREa2w0Sthb6
-         au6GI9sgXTkJp0U2kTe6crNaeCVimocpO6no+kbt5RYu6K9bUOwRserjCsW0v+bWIyFb
-         +BwA==
-X-Gm-Message-State: AOAM533QsLvY+vAI0JuqMcFPJEjB4A2XX5+b+5WIFKRh5rB217PNcLOW
-        r3Kbs3mBJ+yE/9pEuf4F8DC2rw==
-X-Google-Smtp-Source: ABdhPJwV3xytw1x+Of85bMOMEIGarLom/VlHMSxobmAAr7XDbFmck2N5F2W7tVz+G+34gQVIMGV2aQ==
-X-Received: by 2002:a62:1c88:0:b029:197:f6e4:bc2b with SMTP id c130-20020a621c880000b0290197f6e4bc2bmr17027674pfc.6.1607364287776;
-        Mon, 07 Dec 2020 10:04:47 -0800 (PST)
-Received: from ?IPv6:2601:646:c200:1ef2:4be:8206:69d7:62c1? ([2601:646:c200:1ef2:4be:8206:69d7:62c1])
-        by smtp.gmail.com with ESMTPSA id x1sm15247910pfj.95.2020.12.07.10.04.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Dec 2020 10:04:47 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Date:   Mon, 7 Dec 2020 10:04:45 -0800
-Message-Id: <885C1725-B479-47F6-B08D-A7181637A80A@amacapital.net>
-References: <636fecc20b0143128b484f159ff795ff65d05b82.camel@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-In-Reply-To: <636fecc20b0143128b484f159ff795ff65d05b82.camel@redhat.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-X-Mailer: iPhone Mail (18B121)
+        id S1725917AbgLGSjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 13:39:01 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40950 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725822AbgLGSjB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 7 Dec 2020 13:39:01 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 89856AD63;
+        Mon,  7 Dec 2020 18:38:19 +0000 (UTC)
+Date:   Mon, 7 Dec 2020 19:38:14 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
+        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
+        paulmck@kernel.org, viro@zeniv.linux.org.uk,
+        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
+        oneukum@suse.com, jroedel@suse.de,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        anshuman.khandual@arm.com, Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v7 00/15] Free some vmemmap pages of
+ hugetlb page
+Message-ID: <20201207183814.GA3786@localhost.localdomain>
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
+ <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com>
+ <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Dec 04, 2020 at 11:39:31AM +0800, Muchun Song wrote:
+> On Fri, Dec 4, 2020 at 7:49 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+> > As previously mentioned, I feel qualified to review the hugetlb changes
+> > and some other closely related changes.  However, this patch set is
+> > touching quite a few areas and I do not feel qualified to make authoritative
+> > statements about them all.  I too hope others will take a look.
+> 
+> Agree. I also hope others can take a look at other modules(e.g.
+> sparse-vmemmap, memory-hotplug). Thanks for everyone's efforts
+> on this.
 
-> On Dec 7, 2020, at 9:00 AM, Maxim Levitsky <mlevitsk@redhat.com> wrote:
->=20
-> =EF=BB=BFOn Mon, 2020-12-07 at 08:53 -0800, Andy Lutomirski wrote:
->>>> On Dec 7, 2020, at 8:38 AM, Thomas Gleixner <tglx@linutronix.de> wrote:=
+I got sidetracked by some other stuff but I plan to continue reviewing
+this series.
 
->>>=20
->>> =EF=BB=BFOn Mon, Dec 07 2020 at 14:16, Maxim Levitsky wrote:
->>>>> On Sun, 2020-12-06 at 17:19 +0100, Thomas Gleixner wrote:
->>>>> =46rom a timekeeping POV and the guests expectation of TSC this is
->>>>> fundamentally wrong:
->>>>>=20
->>>>>     tscguest =3D scaled(hosttsc) + offset
->>>>>=20
->>>>> The TSC has to be viewed systemwide and not per CPU. It's systemwide
->>>>> used for timekeeping and for that to work it has to be synchronized.=20=
+One thing that came to my mind is that if we do as David suggested in
+patch#4, and we move it towards the end to actually __enable__ this
+once all the infrastructure is there (unless hstate->nr_vmemmap_pages
+differs from 0 we should not be doing any work AFAIK), we could also
+move patch#6 to the end (right before the enablement), kill patch#7
+and only leave patch#13.
 
->>>>>=20
->>>>> Why would this be different on virt? Just because it's virt or what?=20=
+The reason for that (killing patch#7 and leaving patch#13 only)
+is that it does not make much sense to me to disable PMD-mapped vmemmap
+depending on the CONFIG_HUGETLB_xxxxx as that is enabled by default
+to replace that later by the boot kernel parameter.
+It looks more natural to me to disable it when we introduce the kernel
+boot parameter, before the actual enablement of the feature.
 
->>>>>=20
->>>>> Migration is a guest wide thing and you're not migrating single vCPUs.=
+As I said, I plan to start the review again, but the order above would
+make more sense to me.
 
->>>>>=20
->>>>> This hackery just papers over he underlying design fail that KVM looks=
+thanks
 
->>>>> at the TSC per vCPU which is the root cause and that needs to be fixed=
-.
->>>>=20
->>>> I don't disagree with you.
->>>> As far as I know the main reasons that kvm tracks TSC per guest are
->>>>=20
->>>> 1. cases when host tsc is not stable=20
->>>> (hopefully rare now, and I don't mind making
->>>> the new API just refuse to work when this is detected, and revert to ol=
-d way
->>>> of doing things).
->>>=20
->>> That's a trainwreck to begin with and I really would just not support it=
-
->>> for anything new which aims to be more precise and correct.  TSC has
->>> become pretty reliable over the years.
->>>=20
->>>> 2. (theoretical) ability of the guest to introduce per core tsc offfset=
-
->>>> by either using TSC_ADJUST (for which I got recently an idea to stop
->>>> advertising this feature to the guest), or writing TSC directly which
->>>> is allowed by Intel's PRM:
->>>=20
->>> For anything halfways modern the write to TSC is reflected in TSC_ADJUST=
-
->>> which means you get the precise offset.
->>>=20
->>> The general principle still applies from a system POV.
->>>=20
->>>    TSC base (systemwide view) - The sane case
->>>=20
->>>    TSC CPU  =3D TSC base + TSC_ADJUST
->>>=20
->>> The guest TSC base is a per guest constant offset to the host TSC.
->>>=20
->>>    TSC guest base =3D TSC host base + guest base offset
->>>=20
->>> If the guest want's this different per vCPU by writing to the MSR or to
->>> TSC_ADJUST then you still can have a per vCPU offset in TSC_ADJUST which=
-
->>> is the offset to the TSC base of the guest.
->>=20
->> How about, if the guest wants to write TSC_ADJUST, it can turn off all pa=
-ravirt features and keep both pieces?
->>=20
->=20
-> This is one of the things I had in mind recently.
->=20
-> Even better, we can stop advertising TSC_ADJUST in CPUID to the guest=20
-> and forbid it from writing it at all.
-
-Seems reasonable to me.
-
-It also seems okay for some MSRs to stop working after the guest enabled new=
- PV timekeeping.
-
-I do have a feature request, though: IMO it would be quite nifty if the new k=
-vmclock structure could also expose NTP corrections. In other words, if you c=
-ould expose enough info to calculate CLOCK_MONOTONIC_RAW, CLOCK_MONOTONIC, a=
-nd CLOCK_REALTIME, then we could have paravirt NTP.
-
-Bonus points if whatever you do for CLOCK_REALTIME also exposes leap seconds=
- in a race free way :). But I suppose that just exposing TAI and letting the=
- guest deal with the TAI - UTC offset itself would get the job done just fin=
-e.
+-- 
+Oscar Salvador
+SUSE L3
