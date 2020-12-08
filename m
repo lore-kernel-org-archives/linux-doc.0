@@ -2,341 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1,WEIRD_QUOTING autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A836CC0018C
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 23:04:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D80C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 00:16:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7213023A00
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Dec 2020 23:04:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FD8523A22
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 00:16:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728134AbgLGXEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 18:04:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35944 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725885AbgLGXEP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 18:04:15 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10D0C061749;
-        Mon,  7 Dec 2020 15:03:34 -0800 (PST)
+        id S1728594AbgLHAQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 19:16:19 -0500
+Received: from gproxy3-pub.mail.unifiedlayer.com ([69.89.30.42]:52868 "EHLO
+        gproxy3-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727330AbgLHAQS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 19:16:18 -0500
+Received: from CMGW (unknown [10.9.0.13])
+        by gproxy3.mail.unifiedlayer.com (Postfix) with ESMTP id 641DC400B2
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 17:15:34 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id mQfFkuxOSi1lMmQfGks5Px; Mon, 07 Dec 2020 17:15:34 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.2 cv=KcKiiUQD c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10 a=zTNgK-yGK50A:10
+ a=evQFzbml-YQA:10 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=sozttTNsAAAA:8
+ a=_jlGtV7tAAAA:8 a=wkPXI5Rq_EWXVTfHbnkA:9 a=CjuIK1q_8ugA:10
+ a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22 a=aeg5Gbbo78KNqacMgKqU:22
+ a=nlm17XC03S6CtCLSeiRr:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=q1rWMd+0bmuLKMjmUfpeFhBnzWtZkmB1pVE5t2ouoEQ=; b=MPuvzIQAkYZo6NKkowA47Hz/4i
-        uGOYEbJCp0j2GmVrI/DHQ+6CRRmfjG/DEiCujZF0qcueLhGm8c9la1qJQfKWHjsTlozAcKiz4CNnU
-        4a1qFs78PXt1/rlHT0VS9X51LDzJNELHwEdNyasUSfV2AX+P/ULj10FwXNC3ZIUOxqHcbl+KyRfOQ
-        5IRLWUtQLjm3weYn1wTd/t9Iye1MmaTEk9pJLP+4IZhM/52+V/wyIPWtPWsO0UCMPnKJtB9GYtrMX
-        7tdaaEhvgCx/b5jTlNoDc+ROh8F1oEXm+Pw2ghAUx4qYt+Km7r6GmADIjOBxUhpgkr2uSDh8OoO+L
-        kj3gP0Xg==;
-Received: from [2601:1c0:6280:3f0::1494]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmPXX-0000yz-9N; Mon, 07 Dec 2020 23:03:31 +0000
-Subject: Re: [PATCH v3] drivers: gpio: add virtio-gpio guest driver
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mst@redhat.com, jasowang@redhat.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-References: <20201207204838.21406-1-info@metux.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ff4357f3-93f1-cd86-a1da-01dcb144e52b@infradead.org>
-Date:   Mon, 7 Dec 2020 15:03:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=ncp9CpIxDmtSPeBusVYnYvkP37GO1Y0RnBZMGD5zCRU=; b=ABEQCIcaebv5FWBrXLeGAaii/A
+        5+zy3psNbMCq88Iu1L95JjnRyr5Rqo8YwNegpYiSaCHwg73xSfba9n/aztUIRseAPoYTocHCYTuU+
+        SRZgapo63xacABwuFNb37Tq6Yp4th5BUBsKZ5m8k/Pkh2lxeIVH5kxyNScUAolvJRuyuBkrGVtVrc
+        ms1uuAUW2wrGhhX4m02X0ZhTJ+u53svMW1fflKOC0CouXGI5ElONFeP920qLPWq6yFFKlEPl5jbtW
+        fN3jDuLy8255w467B7PkZI0vLqQpX/se3uHI7p0Jb5nhF1CXn4hIuEUybxWLP2KtM6ncvSZTg8F7S
+        2I95eVXg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:33510 helo=localhost)
+        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1kmQfF-001tGq-6q; Tue, 08 Dec 2020 00:15:33 +0000
+Date:   Mon, 7 Dec 2020 16:15:32 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kun Yi <kunyi@google.com>
+Subject: Re: [PATCH 1/4] dt-bindings: hwmon: convert TI INA2xx bindings to
+ dt-schema
+Message-ID: <20201208001532.GA59098@roeck-us.net>
+References: <20201117220807.208747-1-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201207204838.21406-1-info@metux.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201117220807.208747-1-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1kmQfF-001tGq-6q
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:33510
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 3
+X-Org:  HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/20 12:48 PM, Enrico Weigelt, metux IT consult wrote:
-> Introducing new GPIO driver for virtual GPIO devices via virtio.
-
-  Introduce
-
+On Tue, Nov 17, 2020 at 11:08:04PM +0100, Krzysztof Kozlowski wrote:
+> Convert the TI INA2xx bindings to dt-schema.
 > 
-> The driver allows routing GPIO control into VM guests, eg. brigding
-> virtual gpios to specific host gpios, or attaching simulators for
-> automatic application testing.
-> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-These ...
+Applied.
 
-> Changes v3:
->     * spec: fixed type names
->     * spec: replace "host"/"guest" by "device"/"cpu"
->     * spec: change terminology from "events" to "messages"
->     * driver: fixed missing can_sleep flag
->     * driver: select VIRTIO instead of depends on
->     * driver: drop references to qemu in Kconfig
->     * driver: fixed incomplete error handling and possible deadlock
->               in case of sending buf failed
->     * driver: dropped unneeded WARN_ON
->     * driver: fixed retval of virtio_gpio_xmit()
->     * driver: dynamically allocate virtio buffers
->     * driver: added locking on gpio operations
->     * driver: added irq_chip functions
-> 
-> Changes v2:
->     * uapi: fixed header license
->     * driver: sorted include's
->     * driver: fixed formatting
->     * driver: fixed unneeded devm allocation - plain kzalloc/kfree is enough
->     * driver: fixed missing devm_kzalloc fail check
->     * driver: use devm_kcalloc() for array allocation
->     * spec: added virtio-gpio protocol specification
+Thanks,
+Guenter
 
-... Vx change descriptions go after the following "---" line.
-I usually put them before the diffstat, with one blank line
-separating them.
-
-> 
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 > ---
->  Documentation/gpio/virtio-gpio.rst | 176 +++++++++++++++++
->  MAINTAINERS                        |   6 +
->  drivers/gpio/Kconfig               |   7 +
->  drivers/gpio/Makefile              |   1 +
->  drivers/gpio/gpio-virtio.c         | 381 +++++++++++++++++++++++++++++++++++++
->  include/uapi/linux/virtio_gpio.h   |  39 ++++
->  include/uapi/linux/virtio_ids.h    |   1 +
->  7 files changed, 611 insertions(+)
->  create mode 100644 Documentation/gpio/virtio-gpio.rst
->  create mode 100644 drivers/gpio/gpio-virtio.c
->  create mode 100644 include/uapi/linux/virtio_gpio.h
+>  .../devicetree/bindings/hwmon/ina2xx.txt      | 24 --------
+>  .../devicetree/bindings/hwmon/ti,ina2xx.yaml  | 55 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 56 insertions(+), 25 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/hwmon/ina2xx.txt
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
 > 
-> diff --git a/Documentation/gpio/virtio-gpio.rst b/Documentation/gpio/virtio-gpio.rst
+> diff --git a/Documentation/devicetree/bindings/hwmon/ina2xx.txt b/Documentation/devicetree/bindings/hwmon/ina2xx.txt
+> deleted file mode 100644
+> index 02af0d94e921..000000000000
+> --- a/Documentation/devicetree/bindings/hwmon/ina2xx.txt
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -ina2xx properties
+> -
+> -Required properties:
+> -- compatible: Must be one of the following:
+> -	- "ti,ina209" for ina209
+> -	- "ti,ina219" for ina219
+> -	- "ti,ina220" for ina220
+> -	- "ti,ina226" for ina226
+> -	- "ti,ina230" for ina230
+> -	- "ti,ina231" for ina231
+> -- reg: I2C address
+> -
+> -Optional properties:
+> -
+> -- shunt-resistor
+> -	Shunt resistor value in micro-Ohm
+> -
+> -Example:
+> -
+> -ina220@44 {
+> -	compatible = "ti,ina220";
+> -	reg = <0x44>;
+> -	shunt-resistor = <1000>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml b/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
 > new file mode 100644
-> index 000000000000..e7bf01ec1ce7
+> index 000000000000..6f0443322a36
 > --- /dev/null
-> +++ b/Documentation/gpio/virtio-gpio.rst
-> @@ -0,0 +1,176 @@
-> +"""""""""""""""""
-> +Virtio-GPIO protocol specification
-> +"""""""""""""""""
-> +...........
-> +Specification for virtio-based virtiual GPIO devices
-
-                                  virtual
-although it seems redundant.
-
-> +...........
+> +++ b/Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
 > +
-> ++------------
-> ++Version_ 1.0
-> ++------------
+> +$id: http://devicetree.org/schemas/hwmon/ti,ina2xx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +===================
-> +General
-> +===================
+> +title: Texas Instruments INA209 family of power/voltage monitors
 > +
-> +The virtio-gpio protocol provides access to general purpose IO devices
-> +to virtual machine guests. These virtualized GPIOs could be either provided
-
-   in  (?)
-
-> +by some simulator (eg. virtual HIL), routed to some external device or
-
-                     (e.g.
-
-> +routed to real GPIOs on the host (eg. virtualized embedded applications).
-
-                                    (e.g.
-
+> +maintainers:
+> +  - Krzysztof Kozlowski <krzk@kernel.org>
 > +
-> +Instead of simulating some existing real GPIO chip within an VMM, this
-
-                                                      within a
-and why not just "VM"?
-
-> +protocol provides an hardware independent interface between host and guest
-
-                     a hardware
-
-> +that solely relies on an active virtio connection (no matter which transport
-> +actually used), no other buses or additional platform driver logic required.
+> +description: |
+> +  The INA209 is a high-side current shunt and power monitor with
+> +  an I2C interface.
 > +
-> +===================
-> +Protocol layout
-> +===================
+> +  Datasheets:
+> +    https://www.ti.com/product/INA209
 > +
-> +----------------------
-> +Configuration space
-> +----------------------
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,ina209
+> +      - ti,ina219
+> +      - ti,ina220
+> +      - ti,ina226
+> +      - ti,ina230
+> +      - ti,ina231
 > +
-> ++--------+----------+-------------------------------+
-> +| Offset | Type     | Description                   |
-> ++========+==========+===============================+
-> +| 0x00   | u8       | version                       |
-> ++--------+----------+-------------------------------+
-> +| 0x02   | u16      | number of GPIO lines          |
-> ++--------+----------+-------------------------------+
-> +| 0x04   | u32      | size of gpio name block       |
-> ++--------+----------+-------------------------------+
-> +| 0x20   | char[32] | device name (0-terminated)    |
-> ++--------+----------+-------------------------------+
-> +| 0x40   | char[]   | line names block              |
-> ++--------+----------+-------------------------------+
+> +  reg:
+> +    maxItems: 1
 > +
-> +- for version field currently only value 1 supported.
-> +- the line names block holds a stream of zero-terminated strings,
-> +  holding the individual line names.
-> +- unspecified fields are reserved for future use and should be zero.
+> +  shunt-resistor:
+> +    description:
+> +      Shunt resistor value in micro-Ohm.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 > +
-> +------------------------
-> +Virtqueues and messages:
-> +------------------------
+> +required:
+> +  - compatible
+> +  - reg
 > +
-> +- Queue #0: transmission from device to cpu
-
-                                           CPU
-
-> +- Queue #1: transmission from cpu to device
-
-                                 CPU
-
+> +additionalProperties: false
 > +
-> +The queues transport messages of the struct virtio_gpio_msg:
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +Message format:
-> +---------------
-> +
-> ++--------+----------+---------------+
-> +| Offset | Type     | Description   |
-> ++========+==========+===============+
-> +| 0x00   | uint16   | event type    |
-> ++--------+----------+---------------+
-> +| 0x02   | uint16   | line id       |
-> ++--------+----------+---------------+
-> +| 0x04   | uint32   | value         |
-> ++--------+----------+---------------+
-> +
-> +Message types:
-> +--------------
-
-Do the Message types go into the "event type" field above?
-Please clarify.
-
-> +
-> ++-------+----------------------------------------+-----------------------------+
-> +| Code  | Symbol                                |                             |
-> ++=======+========================================+=============================+
-> +| 0x01  | VIRTIO_GPIO_MSG_GUEST_REQUEST          | request gpio line           |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x02  | VIRTIO_GPIO_MSG_GUEST_DIRECTION_INPUT  | set direction to input      |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x03  | VIRTIO_GPIO_MSG_GUEST_DIRECTION_OUTPUT | set direction to output     |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x04  | VIRTIO_GPIO_MSG_GUEST_GET_DIRECTION    | read current direction      |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x05  | VIRTIO_GPIO_MSG_GUEST_GET_VALUE        | read current level          |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x06  | VIRTIO_GPIO_MSG_GUEST_SET_VALUE        | set current (out) level     |
-> ++-------+---------------------------------------+-----------------------------+
-> +| 0x11  | VIRTIO_GPIO_MSG_HOST_LEVEL             | state changed (host->guest) |
-> ++-------+----------------+-----------------------+-----------------------------+
-> +
-> +----------------------
-> +Data flow:
-> +----------------------
-> +
-> +- all operations, except ``VIRTIO_GPIO_MSG_HOST_LEVEL``, are guest-initiated
-> +- host replies ``VIRTIO_GPIO_MSG_HOST_LEVEL`` OR'ed to the ``type`` field
-> +- ``VIRTIO_GPIO_MSG_HOST_LEVEL`` is only sent asynchronically from host to guest
-
-                                                 asynchronously
-
-> +- in replies, a negative ``value`` field denotes an unix-style errno code
-
-                                                    a Unix-style
-
-> +- valid direction values are:> +  * 0 = output
-> +  * 1 = input
-> +- valid line state values are:
-> +  * 0 = inactive
-> +  * 1 = active
-> +
-> +VIRTIO_GPIO_MSG_GUEST_REQUEST
-> +----------------------------
-> +
-> +- notify the host that given line# is going to be used
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: unused
-> +- reply:
-> +  * ``value`` field: errno code (0 = success)
-> +
-> +VIRTIO_GPIO_MSG_GUEST_DIRECTION_INPUT
-> +------------------------------------
-> +
-> +- set line line direction to input
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: unused
-> +- reply: value field holds errno
-> +  * ``value`` field: errno code (0 = success)
-> +
-> +VIRTIO_GPIO_MSG_GUEST_DIRECTION_OUTPUT
-> +-------------------------------------
-> +
-> +- set line direction to output and given line state
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: output state (0=inactive, 1=active)
-> +- reply:
-> +  * ``value`` field: holds errno
-> +
-> +VIRTIO_GPIO_MSG_GUEST_GET_DIRECTION
-> +----------------------------------
-> +
-> +- retrieve line direction
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: unused
-> +- reply:
-> +  * ``value`` field: direction (0=output, 1=input) or errno code
-> +
-> +VIRTIO_GPIO_MSG_GUEST_GET_VALUE
-> +------------------------------
-> +
-> +- retrieve line state value
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: unused
-> +- reply:
-> +  * ``value`` field: line state (0=inactive, 1=active) or errno code
-> +
-> +VIRTIO_GPIO_MSG_GUEST_SET_VALUE
-> +------------------------------
-> +
-> +- set line state value (output only)
-> +- request:
-> +  * ``line`` field: line number
-> +  * ``value`` field: line state (0=inactive, 1=active)
-> +- reply:
-> +  * ``value`` field: new line state or errno code
-> +
-> +VIRTIO_GPIO_MSG_HOST_LEVEL
-> +-------------------------
-> +
-> +- async notification from host to gues: line state changed
-
-                                     guest:
-
-> +- ``line`` field: line number
-> +- ``value`` field: new line state (0=inactive, 1=active)
-
-
--- 
-~Randy
-
+> +        power-sensor@44 {
+> +            compatible = "ti,ina220";
+> +            reg = <0x44>;
+> +            shunt-resistor = <1000>;
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0818a5b03832..e9ba2e555679 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8669,7 +8669,7 @@ INA209 HARDWARE MONITOR DRIVER
+>  M:	Guenter Roeck <linux@roeck-us.net>
+>  L:	linux-hwmon@vger.kernel.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/hwmon/ina2xx.txt
+> +F:	Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml
+>  F:	Documentation/hwmon/ina209.rst
+>  F:	drivers/hwmon/ina209.c
+>  
