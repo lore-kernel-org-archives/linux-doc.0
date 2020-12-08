@@ -2,137 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9581C1B0D9
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 08:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BD1C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:37:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C4D523A60
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 08:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7721B233EE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727550AbgLHIOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 03:14:35 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53597 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725927AbgLHIOf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 03:14:35 -0500
-Received: by mail-wm1-f65.google.com with SMTP id k10so1356787wmi.3;
-        Tue, 08 Dec 2020 00:14:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yve/ZADh457qg7/+Dy6j2VWCsLzLDQxW7IculdMabgw=;
-        b=iudvjKp0Hse5eTwK6AbgVcZTPmjckXRnu63DjMMwHkE4vjiKmLDLFeFRP8u5OXr8OF
-         7h+fIxpC3jS1AWDk1DGFaS9ssOJr60dQlsP6Y25npypaO01WuY4QmkP+ZLpMzI/UwnCb
-         VGJzB/LokT/DSsYUai7aQk1yUYvCDAkh9pYuPd8GW65Mkroin8RaT1IEyn5PeVhy+tS9
-         7J+uHw5IxR7NqOuTACaiFJUWCPxY3UQvPF4aC+ks3kR4QyY18H0ROTcZYq69PNq2eaOp
-         WUuC8JnUPsh1M1BxRFcv/33GqrZsvfCucjhLQGPSMzb5MqE9tKcL915kwezW5Z0smgDY
-         sGgg==
-X-Gm-Message-State: AOAM532EaeSFgjyiL/s99wnpqXAzTiKGD2P4VQnfClFd4X8MqI+qhE4J
-        XZoe6pLXo5R5y8JrccJeCPY=
-X-Google-Smtp-Source: ABdhPJzct0mSavW2Re8RCZYEbB9nX5jsRfbK4x1GZ/R7YI+2oplEjfaegPoKXVXSZoIbTskLyPV1SQ==
-X-Received: by 2002:a1c:e3c4:: with SMTP id a187mr2645626wmh.58.1607415232866;
-        Tue, 08 Dec 2020 00:13:52 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id z8sm2158130wmg.17.2020.12.08.00.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 00:13:51 -0800 (PST)
-Date:   Tue, 8 Dec 2020 09:13:50 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Rob Herring <robh@kernel.org>, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kun Yi <kunyi@google.com>
-Subject: Re: [PATCH 4/4] dt-bindings: hwmon: convert AD ADM1275 bindings to
- dt-schema
-Message-ID: <20201208081350.GA5088@kozik-lap>
-References: <20201117220807.208747-1-krzk@kernel.org>
- <20201117220807.208747-4-krzk@kernel.org>
- <20201207211259.GA832269@robh.at.kernel.org>
- <20201208001916.GA59429@roeck-us.net>
+        id S1727554AbgLHJg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:36:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727132AbgLHJg6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:36:58 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB08C061749;
+        Tue,  8 Dec 2020 01:36:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=rfxjMnKfa23WCYW/uF05Lo63iUpOoHmG+cW0xP/UtyU=; b=SSGKYnga74+cAFWbhRPcCOdcBP
+        JDqUwZsReurrIA9rgUdaHS+L9ewZyFAgZ7Fs5LCRZmTdJHjZT7Xo+U926ln6+dqOc6LWjAQEFBakC
+        FjNyhVCXMu9Ok5QpiThTlRsKU1MzVXRpL0I2WtN1Nkf5Rjda09Br44yQjhoUI9EN66z/Ct4dFLdq6
+        lvnxhAITpjvh6D2bASrQboKrnwAEKv+YK5L8aqOVKQe9b6RrzqMpo3K4cuedPIh+iFwVlSR4bWu0z
+        MR0xFyc2NjgwGDedU96N9Mc7+O8QACNWFQgkBIct7vFOuz8dWqGthwCAQmNbSukNAtz+LXT+YMDF0
+        84K1QaZA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmZPF-0001SM-Fi; Tue, 08 Dec 2020 09:35:37 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7037F3007CD;
+        Tue,  8 Dec 2020 10:35:35 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 55E43200C65DC; Tue,  8 Dec 2020 10:35:35 +0100 (CET)
+Date:   Tue, 8 Dec 2020 10:35:35 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Message-ID: <20201208093535.GS2414@hirez.programming.kicks-ass.net>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+ <20201203171118.372391-2-mlevitsk@redhat.com>
+ <87a6uq9abf.fsf@nanos.tec.linutronix.de>
+ <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
+ <87a6up606r.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201208001916.GA59429@roeck-us.net>
+In-Reply-To: <87a6up606r.fsf@nanos.tec.linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 04:19:16PM -0800, Guenter Roeck wrote:
-> On Mon, Dec 07, 2020 at 03:12:59PM -0600, Rob Herring wrote:
-> > On Tue, Nov 17, 2020 at 11:08:07PM +0100, Krzysztof Kozlowski wrote:
-> > > Convert the Analog Devices ADM1275 bindings to dt-schema.
-> > > 
-> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > > ---
-> > >  .../bindings/hwmon/adi,adm1275.yaml           | 58 +++++++++++++++++++
-> > >  .../devicetree/bindings/hwmon/adm1275.txt     | 25 --------
-> > >  Documentation/hwmon/adm1275.rst               |  2 +-
-> > >  3 files changed, 59 insertions(+), 26 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> > >  delete mode 100644 Documentation/devicetree/bindings/hwmon/adm1275.txt
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> > > new file mode 100644
-> > > index 000000000000..2cad28c499dc
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> > > @@ -0,0 +1,58 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +
-> > > +$id: http://devicetree.org/schemas/hwmon/adi,adm1275.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Analog Devices ADM1075/ADM127x/ADM129x digital power monitors
-> > > +
-> > > +maintainers:
-> > > +  - Krzysztof Kozlowski <krzk@kernel.org>
-> > > +
-> > > +description: |
-> > > +  The ADM1293 and ADM1294 are high accuracy integrated digital power monitors
-> > > +  that offer digital current, voltage, and power monitoring using an on-chip,
-> > > +  12-bit analog-to-digital converter (ADC), communicated through a PMBus
-> > > +  compliant I2C interface.
-> > > +
-> > > +  Datasheets:
-> > > +    https://www.analog.com/en/products/adm1294.html
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - adi,adm1075
-> > > +      - adi,adm1272
-> > > +      - adi,adm1275
-> > > +      - adi,adm1276
-> > > +      - adi,adm1278
-> > > +      - adi,adm1293
-> > > +      - adi,adm1294
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  shunt-resistor-micro-ohms:
-> > > +    description:
-> > > +      Shunt resistor value in micro-Ohm.
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > 
-> > Don't need a type if you have units. With that dropped,
-> > 
-> 
-> Sorry, I am not familiar with the terminology. Does that refer to
-> the '$ref' line ?
+On Mon, Dec 07, 2020 at 05:38:36PM +0100, Thomas Gleixner wrote:
+> For anything halfways modern the write to TSC is reflected in TSC_ADJUST
+> which means you get the precise offset.
 
-Yes, it's the $ref line which can be safely removed. The core dt-schema
-applies such $ref if the property name ends with '-micro-ohms'.
-
-Best regards,
-Krzysztof
-
+IIRC this is true for everything that has TSC_ADJUST.
