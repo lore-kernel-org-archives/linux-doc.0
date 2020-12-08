@@ -2,146 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	WEIRD_QUOTING autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE10EC4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:21:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C78C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:47:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 911D1205ED
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:21:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF12E2388B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:47:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgLHBVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 20:21:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
+        id S1727179AbgLHBr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 20:47:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbgLHBVt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 20:21:49 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F39C061794;
-        Mon,  7 Dec 2020 17:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=vXfBmV1WtpQrMd4/iEKqvXO0wvtb19cUUXMuUNVtQi4=; b=Rjq77hcRxkpyBdxp7o+bgrP+kA
-        qmjJgvrrF1pNpYJwCTCyhfePAXp/wWm0Pkcb/rp5IQ2dVh7XfivNR2zy/DJ0odUFEht4kfP0AqWk0
-        6um4Vrip3g+f4C2/F4gCj7mBfTG9BsHVQDgylUSAmTu8/UTyCKMKyJHHXWU94nWCCtu14BOXe0hMt
-        MNhseyweAsJyePULtVrFbONLqF2H96ys1T1axJl4x3EzSJADMtoNC2HMp8N5lCA2nywHr54Sh9tQR
-        ZRUqRZelOOWhInu3zWEJOEqUr5XH4mbGiB7c8xP9ZonpIY7BlUhf+6Qar+jbLgWOS97ZXbI0lQ5O3
-        efwRnr9g==;
-Received: from [2601:1c0:6280:3f0::1494]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmRgd-0007VO-4E; Tue, 08 Dec 2020 01:21:03 +0000
-Subject: Re: [PATCH v3] drivers: gpio: add virtio-gpio guest driver
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mst@redhat.com, jasowang@redhat.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-References: <20201207204838.21406-1-info@metux.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <3b550dcf-7e4d-39d2-bcaf-3f6cdb688da0@infradead.org>
-Date:   Mon, 7 Dec 2020 17:20:54 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        with ESMTP id S1725877AbgLHBrZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 20:47:25 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6416C061749
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 17:46:39 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id f9so11716992pfc.11
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 17:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=cDDiT2/fbCtDgoUoiOoWGl7ZXPm3o9da6nFh8mXI6bY=;
+        b=PUZrOtrULhDFxgf/Y28n4N01fRcozJWagyTMVZxEqYBy6F9YQvovkNr7qLjVAbeGRn
+         jbAT2Zt9Jt88adx1jIHALxH6yq0EJOldqFdbecfjqxE3tuVlDmaDokj7TBDFDK47zvh8
+         ECYcfYPG0mrhb+4kg7zynDhOSKTh2MvVxZMAWNi52emFwYz7WCyyJRDqMUDb15/TCRlS
+         l4Z4g2GHnc9cHYpctC0vNc5zAE5EKyzER0yAMtOUzckKF8/ec4HDxOyYN7yRzjuvhpQz
+         IwUwzG2ahTV20cjYnyOwi3obLcDe/uXv7i6MT+Mu/KLpzJFcuO43yWerBjNiJOu0FMKF
+         p+Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=cDDiT2/fbCtDgoUoiOoWGl7ZXPm3o9da6nFh8mXI6bY=;
+        b=NbU9G/uiGJteEfr1Hz350fpCCt2btYNerr1ovzfIah4AtdoGcR/BHYl4bvSpQ8/qQ6
+         gOfsFWIFEs3j1dQYMPZYnlNxbW9q6k365r5GqDTjmJ+4SGqjUpliD0ZWr4geEPtL36dK
+         fkkFMW4zOfAhggKa8LdGL2Otcw6QlgBeSagFidGXHZkxZSdIZ1PgcYoYqn0hHxLH4Rm2
+         XCemoRkTkzmOFcPs67Z8HD+Zige5gG5Efj6uUdSnNCWxjTo9vtV0ay19nLhsLMeLNI+7
+         Ypo7xMma1gRxer6G4nJhDXRV6JCb64fNlC940Ptm2YVtI6iTVTPHAEdJrQW/R6GagHU+
+         EFYw==
+X-Gm-Message-State: AOAM532B/vutpUDR2NgCN7R+NQ9E7RvAqfOgB3HJtol4g0ykpIpSUHcm
+        tqMDHHVZvr/I4xB+Olyd4Q==
+X-Google-Smtp-Source: ABdhPJwyu10Sstr3Ppz2XCkDNjW+ODffjC0WiND0bSWei0fMsmqvqJeRS5L6lwbkwSSAL1vk++69lg==
+X-Received: by 2002:a17:90a:db48:: with SMTP id u8mr1642744pjx.81.1607391999221;
+        Mon, 07 Dec 2020 17:46:39 -0800 (PST)
+Received: from JSYoo5B-Base.localdomain ([1.237.110.143])
+        by smtp.gmail.com with ESMTPSA id x10sm14489096pff.214.2020.12.07.17.46.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 17:46:38 -0800 (PST)
+From:   JaeSang Yoo <js.yoo.5b@gmail.com>
+X-Google-Original-From: JaeSang Yoo <jsyoo5b@gmail.com>
+Date:   Tue, 8 Dec 2020 10:46:28 +0900
+To:     corbet@lwn.net, jsyoo5b@gmail.com, mchehab+huawei@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.org,
+        markus.heiser@darmarit.de
+Subject: [PATCH] docs: update requirements to install six module
+Message-ID: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20201207204838.21406-1-info@metux.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/20 12:48 PM, Enrico Weigelt, metux IT consult wrote:
-> Introducing new GPIO driver for virtual GPIO devices via virtio.
-> 
+On the update of Sphinx version to 2.4.4, the "six" library won't be
+installed automatically. (which is required by kfigure.py)
 
-Oops, I missed one thing:
+Main reason of this issue were occurred by the requirements changed from
+the sphinx library. In Sphinx v1.7.9, six was listed on the
+install_requires, but it has been removed since 2.x
 
+The kfigure.py uses six library explicitly, adding six to
+requirements.txt seems reasonable
 
-> 
-> diff --git a/Documentation/gpio/virtio-gpio.rst b/Documentation/gpio/virtio-gpio.rst
-> new file mode 100644
-> index 000000000000..e7bf01ec1ce7
-> --- /dev/null
-> +++ b/Documentation/gpio/virtio-gpio.rst
-> @@ -0,0 +1,176 @@
-> +"""""""""""""""""
-> +Virtio-GPIO protocol specification
-> +"""""""""""""""""
+Signed-off-by: JaeSang Yoo <jsyoo5b@gmail.com>
+---
+ Documentation/sphinx/requirements.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-In Documentation/doc-guide/sphinx.rst, it says to please use the
-following heading adornments....
-and """""...""""" is not one of them.
-
-Neither is "..........".
-
-Also, only use an overline for the document title and not for
-lower level headings.
-
-Here are the expected heading adornments:
-
-  1. ``=`` with overline for document title::
-
-       ==============
-       Document title
-       ==============
-
-  2. ``=`` for chapters::
-
-       Chapters
-       ========
-
-  3. ``-`` for sections::
-
-       Section
-       -------
-
-  4. ``~`` for subsections::
-
-       Subsection
-       ~~~~~~~~~~
-
-
-> +...........
-> +Specification for virtio-based virtiual GPIO devices
-> +...........
-> +
-> ++------------
-> ++Version_ 1.0
-> ++------------
-> +
-> +===================
-> +General
-> +===================
-> +
-> +The virtio-gpio protocol provides access to general purpose IO devices
-> +to virtual machine guests. These virtualized GPIOs could be either provided
-> +by some simulator (eg. virtual HIL), routed to some external device or
-> +routed to real GPIOs on the host (eg. virtualized embedded applications).
-> +
-> +Instead of simulating some existing real GPIO chip within an VMM, this
-> +protocol provides an hardware independent interface between host and guest
-> +that solely relies on an active virtio connection (no matter which transport
-> +actually used), no other buses or additional platform driver logic required.
-> +
-> +===================
-> +Protocol layout
-> +===================
-> +
-> +----------------------
-> +Configuration space
-> +----------------------
-
-
-thanks.
+diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+index 489f6626de67..5030d346d23b 100644
+--- a/Documentation/sphinx/requirements.txt
++++ b/Documentation/sphinx/requirements.txt
+@@ -1,3 +1,4 @@
+ docutils
+ Sphinx==2.4.4
+ sphinx_rtd_theme
++six
 -- 
-~Randy
+2.25.1
 
