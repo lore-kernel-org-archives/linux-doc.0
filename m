@@ -2,194 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C99C2BB48
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:26:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39409C2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:26:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C391E23A79
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:26:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CE3423A79
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728466AbgLHUYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 15:24:34 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38397 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbgLHUYd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:24:33 -0500
-Received: by mail-ot1-f65.google.com with SMTP id b62so17027908otc.5;
-        Tue, 08 Dec 2020 12:24:17 -0800 (PST)
+        id S1726890AbgLHUZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 15:25:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728998AbgLHUZf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:25:35 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A41C0613D6
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 12:24:55 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id t4so17546002wrr.12
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 12:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=REHA7EmuVy2412k5JBZlHnXSXCITuu5RQOyBaXf28o8=;
+        b=DgXW4UZBGLPpi3lT4JKM6pKgI6mSt/dk7wglJitvXIYua+es3r0i9AvLN/NQeGaP5U
+         0o39PUgticPGXS/fYZNwS8crslfcVJzP5XqpbflzbNi1WIPQQkwrD8L+PyURTqOQpZXK
+         juYMowq4SdzpKYgYEWh9mjAqdMeSmT5AuzeomKp9OBkSwKn/nhgrCcRcloOpBNFyF+LS
+         F7QTMAtYzWvCBhMO17hlxIie6tINGAutTZqZ+iA69roa3OxdwFqTXq3aWTLNOU3Nf25h
+         h+HiI5SvMkOHNJE2debg9Vgm+45pfSNQ7dCEr+eKCAP0z5nl66gJpg6Khb1Qiev3/hZh
+         EtJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=QxevaX9hHJqThS0h+1tu93etIkBHDGFZ0rujAfMqWBU=;
-        b=ucJyqrCt0YhLl1QZMa6nmqnJgXy9B1GymUqqOFR+5A18GU0oTCghNSCjHeE8BmlbRv
-         7QjfwhrcHfKEn/15NironBRFIIO9/c9Lp51QXTn7XmAVFnfGkx3AuYC0OGCZ9rGMnEvG
-         yeq/LWEA+kzUw/ntPdGP7MlFrgR+kFvJ4gvTd82gmP4/5Wwh3FqKZiiBrkW8H+CsaXHQ
-         P543Oiwi3PM3DRTEhUWI8qJ+aJ+oWWZ5OxThJa01l6B9MFiUZ4NdR8aZjavsQ6s2i3VO
-         oV2Za0L0Tn4hUkRqNJRPDfj0fGzsQcGmsBQTpuNhJBGZ1P3R61FhXMy1BIcdHzXGKEA4
-         4H/g==
-X-Gm-Message-State: AOAM532XCEWf6BI7f1L9nJU/O74+KcU6T4qGugWloyFSOEkF+ojR7KfQ
-        D6jw3G9q4Jq4v2MN03pqpNIyRo0kFg==
-X-Google-Smtp-Source: ABdhPJzCUquUPkk4QcEOY3Zw0x6ce2Fw4YZ0IvyhJ84rgBYmuVMaX6uzvrqVOqNJYEjlVUOHQDs46g==
-X-Received: by 2002:a05:6830:1d8c:: with SMTP id y12mr17836523oti.34.1607457275947;
-        Tue, 08 Dec 2020 11:54:35 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n3sm3887074oif.42.2020.12.08.11.54.33
+        bh=REHA7EmuVy2412k5JBZlHnXSXCITuu5RQOyBaXf28o8=;
+        b=NfqZET/cy0UtElFMkXI0eMvWBDUvF5/lkhAPxteSiDviNH0FsFOmY+LQosNHCzuZLx
+         N4pv/onuF563xqDjE6ZA2QySY4HqftZ2kMbbFlgGQaSpOQCG91yKEB3a5xSkrJjoZFko
+         YYziHJ108oF7C6PCgf+7o31cTfp8ajEPH0qr+Xg4d1VW3WTSKLkZ1PGLPdOtKmTrVbhB
+         zX/bFiVaeXSW+wh8R5VtMINVEtmEBtfyRSrarBcziyEEArvXourpKX74zssEgJpMLlkr
+         yIJpHiQgtyoE8RxCpin4bs62cXj8RWKzE3g8mDStCYSgEUy0QEJz93ThMuVdX5o76tnQ
+         OD+A==
+X-Gm-Message-State: AOAM532daIs2xkF5JqF3bBPmblr3IS3oHmed8d2vV6RwSG659hxSd9RE
+        uEyCsE1WjnS1KaiplMsKsC0tgEI8YChHDA==
+X-Google-Smtp-Source: ABdhPJzMvjijXhKf6UwzlQgGLdXNiyElYjmteXjfB+clUMsCI8Qf7bumNkex70eiOtelbQWNt3aQ2A==
+X-Received: by 2002:a5d:51d2:: with SMTP id n18mr19894485wrv.92.1607454888755;
+        Tue, 08 Dec 2020 11:14:48 -0800 (PST)
+Received: from google.com ([2a01:4b00:8523:2d03:258e:cb26:cef:a620])
+        by smtp.gmail.com with ESMTPSA id i16sm2846391wrx.89.2020.12.08.11.14.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 11:54:34 -0800 (PST)
-Received: (nullmailer pid 2975909 invoked by uid 1000);
-        Tue, 08 Dec 2020 19:54:32 -0000
-Date:   Tue, 8 Dec 2020 13:54:32 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
-        Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v2 06/19] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <20201208195432.GA2973474@robh.at.kernel.org>
-References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
- <20201128142839.517949-7-paul.kocialkowski@bootlin.com>
- <20201201104321.rl3ujt5pjre6xlmm@gilmour>
- <X8ehzCjZJ3yC8YtJ@aptenodytes>
+        Tue, 08 Dec 2020 11:14:47 -0800 (PST)
+Date:   Tue, 8 Dec 2020 19:14:47 +0000
+From:   David Brazdil <dbrazdil@google.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     kvmarm@lists.cs.columbia.edu,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+        Tejun Heo <tj@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
+        Christoph Lameter <cl@linux.com>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH v4 00/26] Opt-in always-on nVHE hypervisor
+Message-ID: <20201208191447.47idqf7n2v3hvrdg@google.com>
+References: <20201202184122.26046-1-dbrazdil@google.com>
+ <160702322202.1501317.9696987088711766533.b4-ty@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X8ehzCjZJ3yC8YtJ@aptenodytes>
+In-Reply-To: <160702322202.1501317.9696987088711766533.b4-ty@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 03:16:44PM +0100, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Tue 01 Dec 20, 11:43, Maxime Ripard wrote:
-> > On Sat, Nov 28, 2020 at 03:28:26PM +0100, Paul Kocialkowski wrote:
-> > > The A31 CSI controller supports two distinct input interfaces:
-> > > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > > is often connected to a set of hardware pins while the MIPI CSI-2
-> > > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > > are distinguished as two different ports.
-> > > 
-> > > Note that only one of the two may be present on a controller instance.
-> > > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > > dedicated to parallel.
-> > > 
-> > > Update the binding with an explicit ports node that holds two distinct
-> > > port nodes: one for parallel input and one for MIPI CSI-2.
-> > > 
-> > > This is backward-compatible with the single-port approach that was
-> > > previously taken for representing the parallel interface port, which
-> > > stays enumerated as fwnode port 0. However, it is now marked as
-> > > deprecated and the multi-port approach should be preferred.
-> > > 
-> > > Note that additional ports may be added in the future, especially to
-> > > support feeding the CSI controller's output to the ISP.
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        | 86 ++++++++++++++++---
-> > >  1 file changed, 73 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > index 1fd9b5532a21..3bcee2d44f3c 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > @@ -43,6 +43,7 @@ properties:
-> > >    # See ./video-interfaces.txt for details
-> > >    port:
-> > >      type: object
-> > > +    deprecated: true
-> > 
-> > I'm not sure we want to deprecate it. There's some SoCs with the same
-> > controller but without the MIPI-CSI block where this would be completely
-> > valid
-> 
-> I think we'll need to deprecate it when adding support for the ISP anyway,
-> so I figured we might as well do it now. But I'm okay to postpone this for now.
-> 
-> > >      properties:
-> > >        endpoint:
-> > > @@ -67,6 +68,59 @@ properties:
-> > >  
-> > >      additionalProperties: false
-> > >  
-> > > +  ports:
-> > > +    type: object
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        type: object
-> > > +        description: Parallel input port, connect to a parallel sensor
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            type: object
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +
-> > > +              bus-width:
-> > > +                enum: [ 8, 10, 12, 16 ]
-> > > +
-> > > +              pclk-sample: true
-> > > +              hsync-active: true
-> > > +              vsync-active: true
-> > > +
-> > > +            required:
-> > > +              - bus-width
-> > > +              - remote-endpoint
-> > > +
-> > > +        required:
-> > > +          - endpoint
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +      port@1:
-> > > +        type: object
-> > > +        description: MIPI CSI-2 bridge input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 1
-> > > +
-> > > +          endpoint:
-> > > +            type: object
-> > > +
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +
-> > > +        additionalProperties: false
-> > 
-> > There's a schema for the OF-graph now, you'll want to use it.
-> 
-> I didn't know that, thanks for the tip! Will look into it.
+Hey Marc,
 
-There's about to be. Don't use what's in graph.yaml (in dt-schema) yet.
+On Thu, Dec 03, 2020 at 07:23:19PM +0000, Marc Zyngier wrote:
+> On Wed, 2 Dec 2020 18:40:56 +0000, David Brazdil wrote:
+> > As we progress towards being able to keep guest state private to the
+> > host running nVHE hypervisor, this series allows the hypervisor to
+> > install itself on newly booted CPUs before the host is allowed to run
+> > on them.
+> > 
+> > All functionality described below is opt-in, guarded by an early param
+> > 'kvm-arm.mode=protected'. Future patches specific to the new protected
+> > mode should be hidden behind the same param.
+> > 
+> > [...]
+> 
+> Applied to kvm-arm64/psci-relay, thanks!
+> 
+> Note that although I pushed it to -next, I still need people to
+> eyeball it and give it some Acks. The commit-IDs below will
+> thus change as I apply tags, if any.
+> 
 
-Rob
+I'm looking at -next and I think the merge with Mark Rutland's el2_setup
+refactor didn't go as planned.
+
+The `#ifdef CONFIG_ARM64_VHE` section needs to cover everything between
+init_el2 and init_el2_nvhe. Currently the code falls through into VHE init
+when CONFIG_ARM64_VHE is not set.
+
+Here's the snippet:
+
+SYM_INNER_LABEL(init_el2, SYM_L_LOCAL)
+#ifdef CONFIG_ARM64_VHE
+	/*
+	 * Check for VHE being present. x2 being non-zero indicates that we
+	 * do have VHE, and that the kernel is intended to run at EL2.
+	 */
+	mrs	x2, id_aa64mmfr1_el1
+	ubfx	x2, x2, #ID_AA64MMFR1_VHE_SHIFT, #4
+	cbz	x2, init_el2_nvhe
+#endif						// <--- THIS
+
+	<... initialize VHE ...>
+	msr	elr_el2, lr
+	mov	w0, #BOOT_CPU_MODE_EL2
+	eret
+						// <--- NEEDS TO MOVE HERE
+SYM_INNER_LABEL(init_el2_nvhe, SYM_L_LOCAL)
+	<... initialize nVHE ...>
+
+-David
+
