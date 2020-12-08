@@ -2,341 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3F4C2BB9A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 15:56:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C29C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 15:58:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83C1223AC4
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 15:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA65923AC2
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 15:58:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730004AbgLHP4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 10:56:44 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10850 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730224AbgLHP4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 10:56:43 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0B8FXQB9082451;
-        Tue, 8 Dec 2020 10:55:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=sgslLMZMuUiYSpTZavlRw+pWO63NAuMG+xEOhlbTbd4=;
- b=MJaprZ7qsJnz1TMqXS8jHqxzSCDwFAgTDq1WVHtnwWLZDuneeuq7cDqvVrqyFuPyViR/
- MAxyXMbi4tkjGThy9PmRxcZcxE57GsGjivEU/OvQ+V4qJBfFrfnj93gjgsxbPPJ7McAu
- h/fKyjeDDkc10+l/c/hPnHkpOEQIbyCOe42sPFON3zrG9tbHtHvaypOd21vsTlaP7BkL
- dJhKcEsFQkEGK0+hLiABiQEaCM24MTghsnW+flRRp6RDQqAg0b4B/7GRV6nFJccJGvS9
- X/VgSaFjrqiIcnODnNcTF/9jJszrsqdLld24QUbM6Q7igG3JE/+0h+hrCN+O34sXzPur cg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 35a5ufw61v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Dec 2020 10:55:34 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B8FXf4i083877;
-        Tue, 8 Dec 2020 10:55:33 -0500
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 35a5ufw5yw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Dec 2020 10:55:33 -0500
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B8FcOTW015905;
-        Tue, 8 Dec 2020 15:55:31 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma04fra.de.ibm.com with ESMTP id 3581u81w2n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 08 Dec 2020 15:55:31 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0B8FtS8025559390
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 8 Dec 2020 15:55:28 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8041252051;
-        Tue,  8 Dec 2020 15:55:28 +0000 (GMT)
-Received: from sig-9-65-221-14.ibm.com (unknown [9.65.221.14])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id EA9F552052;
-        Tue,  8 Dec 2020 15:55:23 +0000 (GMT)
-Message-ID: <f00c8c7dd1e184e139e6cb5aba2b4a1c5fc68363.camel@linux.ibm.com>
-Subject: Re: [PATCH v8 3/4] doc: trusted-encrypted: updates with TEE as a
- new trust source
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Sumit Garg <sumit.garg@linaro.org>,
-        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com,
-        Elaine Palmer <erpalmer@us.ibm.com>
-Cc:     dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org,
-        George Wilson <gcwilson@us.ibm.com>
-Date:   Tue, 08 Dec 2020 10:55:23 -0500
-In-Reply-To: <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
-         <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
+        id S1730261AbgLHP6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 10:58:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730157AbgLHP6I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 10:58:08 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C677EC061794
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 07:57:27 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id a9so24215172lfh.2
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 07:57:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2SicOyfmaMdL1MLfu2Q8psj0uudwpeekiTFOrfE68YM=;
+        b=YRFassPIPivsdrWyCZUyiZbiml2TvqvrbU0VPRIe1/q0G/zP/lt0GaRYZtDqBmDmEc
+         fYMTtEl7uyUxDFg3jC3lEUA2WxO8RYes6v8QLHqpIuReCNK1i2sWfWzBmMe2PhNAcIMG
+         nuOmmkJSgDOEh+N4toSqMFiHxygR6eaTla/Md9v/WUcwrvIBJAfj7hOutQ4EX22/N6UN
+         A6U/kp21oUwPVyb9Y6sAJm/DhdvOx3ttUGC2InUzGs85Tl87HejcAS14Y63xvUzFqTe4
+         m4qlYDvGM1Dw6rZmbgkp0UG/0AUvwjN+kOENBWHkTcagLtk6I5A3acHVccePxszTq4Rr
+         wRmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2SicOyfmaMdL1MLfu2Q8psj0uudwpeekiTFOrfE68YM=;
+        b=kkW20n8gw7PzseEBKE1JOEUYjQMckTwsFIlneL5OEs79f4xVZyuZ05ibjDAQKGzm4p
+         YKcqjoNsNmOJXWTSPlfn3FdQioSoTm644g6zM3j/XnT0fhO4KHSyzHvEzmLRj3sIcvlH
+         nmp8bSzIaQrKVqZHAFPKJ2+k0KqFiG7mybvy2jxM3M8/uwFHdRLDji8Nkst33bscpJCX
+         yEZiTnOP+WGzaYmdrv7W9bxh9rQq4SMAXP0h9fM713y6MYMTdSnnNC8jYf5I5oMiBBiG
+         Xw2qeqK01jcomlEc4BuUvIvF5tlgXDeV4PZFhEN0WbAlHl4XKpU7caGOwheH1phYp0CY
+         yEDw==
+X-Gm-Message-State: AOAM531wE1NIwBS7GGfcOTgiayp6Zv5UhMzDkV63mtjCDLGZfFzgH7iL
+        gkrry2aBnrk4BTbrJPfSG5k0T7VAaNvFPhhSc3OJ/g==
+X-Google-Smtp-Source: ABdhPJznTEFQo99cHYANLDIzcwxw/Imetpq4a8f4Twd+OxhdTKj8oogGWLy/HWJpHtIIPg4fD6QBBrkHl+rQFLoNnic=
+X-Received: by 2002:a19:418e:: with SMTP id o136mr10965512lfa.80.1607443045588;
+ Tue, 08 Dec 2020 07:57:25 -0800 (PST)
+MIME-Version: 1.0
+References: <20201203171118.372391-1-mlevitsk@redhat.com> <20201203171118.372391-2-mlevitsk@redhat.com>
+ <CAOQ_Qsj6THRPj2ta3PdOxUJeCj8KxPnLkWV8EGpvN_J=qUv74A@mail.gmail.com> <d3dd82950301517e47630cc86fa0e6dc84f63f90.camel@redhat.com>
+In-Reply-To: <d3dd82950301517e47630cc86fa0e6dc84f63f90.camel@redhat.com>
+From:   Oliver Upton <oupton@google.com>
+Date:   Tue, 8 Dec 2020 09:57:14 -0600
+Message-ID: <CAOQ_QshBUdSO_m9kAtSjx5Ti1Nn3RUC1bauGEorNWTajcLu=dw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm list <kvm@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2020-12-08_09:2020-12-08,2020-12-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012080096
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sumit, Jarkko,
+On Tue, Dec 8, 2020 at 5:13 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+>
+> On Mon, 2020-12-07 at 11:29 -0600, Oliver Upton wrote:
+> > On Thu, Dec 3, 2020 at 11:12 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+> > > These two new ioctls allow to more precisly capture and
+> > > restore guest's TSC state.
+> > >
+> > > Both ioctls are meant to be used to accurately migrate guest TSC
+> > > even when there is a significant downtime during the migration.
+> > >
+> > > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > ---
+> > >  Documentation/virt/kvm/api.rst | 65 ++++++++++++++++++++++++++++++
+> > >  arch/x86/kvm/x86.c             | 73 ++++++++++++++++++++++++++++++++++
+> > >  include/uapi/linux/kvm.h       | 15 +++++++
+> > >  3 files changed, 153 insertions(+)
+> > >
+> > > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > > index 70254eaa5229f..ebecfe4b414ce 100644
+> > > --- a/Documentation/virt/kvm/api.rst
+> > > +++ b/Documentation/virt/kvm/api.rst
+> > > @@ -4826,6 +4826,71 @@ If a vCPU is in running state while this ioctl is invoked, the vCPU may
+> > >  experience inconsistent filtering behavior on MSR accesses.
+> > >
+> > >
+> > > +4.127 KVM_GET_TSC_STATE
+> > > +----------------------------
+> > > +
+> > > +:Capability: KVM_CAP_PRECISE_TSC
+> > > +:Architectures: x86
+> > > +:Type: vcpu ioctl
+> > > +:Parameters: struct kvm_tsc_state
+> > > +:Returns: 0 on success, < 0 on error
+> > > +
+> > > +::
+> > > +
+> > > +  #define KVM_TSC_STATE_TIMESTAMP_VALID 1
+> > > +  #define KVM_TSC_STATE_TSC_ADJUST_VALID 2
+> > > +  struct kvm_tsc_state {
+> > > +       __u32 flags;
+> > > +       __u64 nsec;
+> > > +       __u64 tsc;
+> > > +       __u64 tsc_adjust;
+> > > +  };
+> > > +
+> > > +flags values for ``struct kvm_tsc_state``:
+> > > +
+> > > +``KVM_TSC_STATE_TIMESTAMP_VALID``
+> > > +
+> > > +  ``nsec`` contains nanoseconds from unix epoch.
+> > > +    Always set by KVM_GET_TSC_STATE, might be omitted in KVM_SET_TSC_STATE
+> > > +
+> > > +``KVM_TSC_STATE_TSC_ADJUST_VALID``
+> > > +
+> > > +  ``tsc_adjust`` contains valid IA32_TSC_ADJUST value
+> > > +
+> > > +
+> > > +This ioctl allows the user space to read the guest's IA32_TSC,IA32_TSC_ADJUST,
+> > > +and the current value of host's CLOCK_REALTIME clock in nanoseconds since unix
+> > > +epoch.
+> > > +
+> > > +
+> > > +4.128 KVM_SET_TSC_STATE
+> > > +----------------------------
+> > > +
+> > > +:Capability: KVM_CAP_PRECISE_TSC
+> > > +:Architectures: x86
+> > > +:Type: vcpu ioctl
+> > > +:Parameters: struct kvm_tsc_state
+> > > +:Returns: 0 on success, < 0 on error
+> > > +
+> > > +::
+> > > +
+> > > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
+> > > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
+> > > +
+> > > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
+> > > +KVM will adjust the guest TSC value by the time that passed since the moment
+> > > +CLOCK_REALTIME timestamp was saved in the struct and current value of
+> > > +CLOCK_REALTIME, and set the guest's TSC to the new value.
+> > > +
+> > > +Otherwise KVM will set the guest TSC value to the exact value as given
+> > > +in the struct.
+> > > +
+> > > +if KVM_TSC_STATE_TSC_ADJUST_VALID is set, and guest supports IA32_MSR_TSC_ADJUST,
+> > > +then its value will be set to the given value from the struct.
+> > > +
+> > > +It is assumed that either both ioctls will be run on the same machine,
+> > > +or that source and destination machines have synchronized clocks.
+> > > +
+> > >  5. The kvm_run structure
+> > >  ========================
+> > >
+> > > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > > index a3fdc16cfd6f3..9b8a2fe3a2398 100644
+> > > --- a/arch/x86/kvm/x86.c
+> > > +++ b/arch/x86/kvm/x86.c
+> > > @@ -2438,6 +2438,21 @@ static bool kvm_get_walltime_and_clockread(struct timespec64 *ts,
+> > >
+> > >         return gtod_is_based_on_tsc(do_realtime(ts, tsc_timestamp));
+> > >  }
+> > > +
+> > > +
+> > > +static void kvm_get_walltime(u64 *walltime_ns, u64 *host_tsc)
+> > > +{
+> > > +       struct timespec64 ts;
+> > > +
+> > > +       if (kvm_get_walltime_and_clockread(&ts, host_tsc)) {
+> > > +               *walltime_ns = timespec64_to_ns(&ts);
+> > > +               return;
+> > > +       }
+> > > +
+> > > +       *host_tsc = rdtsc();
+> > > +       *walltime_ns = ktime_get_real_ns();
+> > > +}
+> > > +
+> > >  #endif
+> > >
+> > >  /*
+> > > @@ -3757,6 +3772,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+> > >         case KVM_CAP_X86_USER_SPACE_MSR:
+> > >         case KVM_CAP_X86_MSR_FILTER:
+> > >         case KVM_CAP_ENFORCE_PV_FEATURE_CPUID:
+> > > +#ifdef CONFIG_X86_64
+> > > +       case KVM_CAP_PRECISE_TSC:
+> > > +#endif
+> > >                 r = 1;
+> > >                 break;
+> > >         case KVM_CAP_SYNC_REGS:
+> > > @@ -4999,6 +5017,61 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+> > >         case KVM_GET_SUPPORTED_HV_CPUID:
+> > >                 r = kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
+> > >                 break;
+> > > +#ifdef CONFIG_X86_64
+> > > +       case KVM_GET_TSC_STATE: {
+> > > +               struct kvm_tsc_state __user *user_tsc_state = argp;
+> > > +               u64 host_tsc;
+> > > +
+> > > +               struct kvm_tsc_state tsc_state = {
+> > > +                       .flags = KVM_TSC_STATE_TIMESTAMP_VALID
+> > > +               };
+> > > +
+> > > +               kvm_get_walltime(&tsc_state.nsec, &host_tsc);
+> > > +               tsc_state.tsc = kvm_read_l1_tsc(vcpu, host_tsc);
+> > > +
+> > > +               if (guest_cpuid_has(vcpu, X86_FEATURE_TSC_ADJUST)) {
+> > > +                       tsc_state.tsc_adjust = vcpu->arch.ia32_tsc_adjust_msr;
+> > > +                       tsc_state.flags |= KVM_TSC_STATE_TSC_ADJUST_VALID;
+> > > +               }
+> >
+> > [...]
+> >
+> > > +
+> > > +               r = -EFAULT;
+> > > +               if (copy_to_user(user_tsc_state, &tsc_state, sizeof(tsc_state)))
+> > > +                       goto out;
+> > > +               r = 0;
+> > > +               break;
+> > > +       }
+> > > +       case KVM_SET_TSC_STATE: {
+> > > +               struct kvm_tsc_state __user *user_tsc_state = argp;
+> > > +               struct kvm_tsc_state tsc_state;
+> > > +               u64 host_tsc, wall_nsec;
+> > > +
+> > > +               u64 new_guest_tsc, new_guest_tsc_offset;
+> > > +
+> > > +               r = -EFAULT;
+> > > +               if (copy_from_user(&tsc_state, user_tsc_state, sizeof(tsc_state)))
+> > > +                       goto out;
+> > > +
+> > > +               kvm_get_walltime(&wall_nsec, &host_tsc);
+> > > +               new_guest_tsc = tsc_state.tsc;
+> > > +
+> > > +               if (tsc_state.flags & KVM_TSC_STATE_TIMESTAMP_VALID) {
+> > > +                       s64 diff = wall_nsec - tsc_state.nsec;
+> > > +                       if (diff >= 0)
+> > > +                               new_guest_tsc += nsec_to_cycles(vcpu, diff);
+> > > +                       else
+> > > +                               new_guest_tsc -= nsec_to_cycles(vcpu, -diff);
+> > > +               }
+> > > +
+> > > +               new_guest_tsc_offset = new_guest_tsc - kvm_scale_tsc(vcpu, host_tsc);
+> > > +               kvm_vcpu_write_tsc_offset(vcpu, new_guest_tsc_offset);
+> >
+> > How would a VMM maintain the phase relationship between guest TSCs
+> > using these ioctls?
+>
+> By using the nanosecond timestamp.
+>
+> While I did made it optional in the V2 it was done for the sole sake of being
+> able to set TSC on (re)boot to 0 from qemu, and for cases when qemu migrates
+> from a VM where the feature is not enabled.
+> In this case the tsc is set to the given value exactly, just like you
+> can do today with KVM_SET_MSRS.
+> In all other cases the nanosecond timestamp will be given.
+>
+> When the userspace uses the nanosecond timestamp, the phase relationship
+> would not only be maintained but be exact, even if TSC reads were not
+> synchronized and even if their restore on the target wasn't synchronized as well.
+>
+> Here is an example:
+>
+> Let's assume that TSC on source/target is synchronized, and that the guest TSC
+> is synchronized as well.
 
-Re-posting Elaine Palmer's comments, inline below, trimmed and properly
-formatted.
+Can this assumption be reasonably made though?
 
-On Tue, 2020-11-03 at 21:31 +0530, Sumit Garg wrote:
-> Update documentation for Trusted and Encrypted Keys with TEE as a new
-> trust source. Following is brief description of updates:
-> 
-> - Add a section to demostrate a list of supported devices along with
->   their security properties/guarantees.
-> - Add a key generation section.
-> - Updates for usage section including differences specific to a trust
->   source.
-> 
-> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-> ---
->  Documentation/security/keys/trusted-encrypted.rst | 203 ++++++++++++++++++----
->  1 file changed, 171 insertions(+), 32 deletions(-)
-> 
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 1da879a..16042c8 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -6,30 +6,161 @@ Trusted and Encrypted Keys are two new key types added to the existing kernel
->  key ring service.  Both of these new types are variable length symmetric keys,
->  and in both cases all keys are created in the kernel, and user space sees,
->  stores, and loads only encrypted blobs.  Trusted Keys require the availability
-> -of a Trusted Platform Module (TPM) chip for greater security, while Encrypted
-> -Keys can be used on any system.  All user level blobs, are displayed and loaded
-> -in hex ascii for convenience, and are integrity verified.
-> +of a Trust Source for greater security, while Encrypted Keys can be used on any
-> +system. All user level blobs, are displayed and loaded in hex ascii for
-> +convenience, and are integrity verified.
->  
-> -Trusted Keys use a TPM both to generate and to seal the keys.  Keys are sealed
-> -under a 2048 bit RSA key in the TPM, and optionally sealed to specified PCR
-> -(integrity measurement) values, and only unsealed by the TPM, if PCRs and blob
-> -integrity verifications match.  A loaded Trusted Key can be updated with new
-> -(future) PCR values, so keys are easily migrated to new pcr values, such as
-> -when the kernel and initramfs are updated.  The same key can have many saved
-> -blobs under different PCR values, so multiple boots are easily supported.
->  
-> -TPM 1.2
-> --------
-> +Trust Source
-> +============
->  
-> -By default, trusted keys are sealed under the SRK, which has the default
-> -authorization value (20 zeros).  This can be set at takeownership time with the
-> -trouser's utility: "tpm_takeownership -u -z".
-> +Trust Source provides the source of security for the Trusted Keys, on which
-> +basis Trusted Keys establishes a Trust model with its user.
+NTP could very well step or scale CLOCK_REALTIME when we are in the
+middle of saving or restoring TSCs, which could possibly result in
+observable drift between vCPUs. Calculating elapsed time between
+save/restore once per VM would avoid this issue altogether.
 
-A trust source provides the source of security for the Trusted
-Keys.  Whether or not a trust source is sufficiently safe depends on
-the strength and correctness of its implementation, as well as the
-threat environment for a specific use case.  Since the kernel doesn't
-know what the environment is, and there is no metric of trust, it is
-dependent on the consumer of the Trusted Keys to determine if the trust
-source is sufficiently safe.
+> Let's call the guest TSC frequency F (guest TSC increments by F each second)
+>
+> We do KVM_GET_TSC_STATE on vcpu0 and receive (t0,tsc0).
+> We do KVM_GET_TSC_STATE on vcpu1 after 1 second passed (exaggerated)
+> and receive (t0 + 1s, tsc0 + F)
+>
+>
+> We do KVM_SET_TSC_STATE at t0 + 10s on vcpu0 after migration,
+> and vcpu0's guest tsc is set to tsc0 + F[(t0 + 10s) - t0] = tsc0 + 10*F
+>
+> We do KVM_SET_TSC_STATE at nsec0 + 12s on vcpu1 (also exaggerated)
+> and  get [tsc0+F] + F[(t0 + 12s) - (t0+1s)] = tsc0 + 12*F
+>
+> Since 2 seconds passed by, both vCPUs have now their TSC set to tsc0 + 12*F.
+>
+> I use kvm's own functions to read the CLOCK_REALTIME, which are done
+> in such a way that you first read host TSC once and then convert it to
+> nanoseconds by scaling/offsetting it as the kernel would, thus
+> there is no random error introduced here.
 
->  A Trust Source could
-> +differ from one system to another depending on its security requirements. It
-> +could be either an off-chip device or an on-chip device. Following section
-> +demostrates a list of supported devices along with their security properties/
-> +guarantees:
->  
-> -TPM 2.0
-> --------
-> +  *  Root of trust for storage
->  
-> -The user must first create a storage key and make it persistent, so the key is
-> -available after reboot. This can be done using the following commands.
-> +     (1) TPM (Trusted Platform Module: hardware device)
-> +
-> +         Rooted to Storage Root Key (SRK) which never leaves the TPM that
-> +         provides crypto operation to establish root of trust for storage.
-> +
-> +     (2) TEE (Trusted Execution Environment: OP-TEE based on Arm TrustZone)
-> +
-> +         Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
-> +         fuses and is accessible to TEE only.
-> +
-> +  *  Execution isolation
-> +
-> +     (1) TPM
-> +
-> +         Fixed set of operations running in isolated execution environment.
-> +
-> +     (2) TEE
-> +
-> +         Customizable set of operations running in isolated execution
-> +         environment verified via Secure/Trusted boot process.
-> +
-> +  * Optional binding to platform integrity state
-> +
-> +     (1) TPM
-> +
-> +         Keys can be optionally sealed to specified PCR (integrity measurement)
-> +         values, and only unsealed by the TPM, if PCRs and blob integrity
-> +         verifications match. A loaded Trusted Key can be updated with new
-> +         (future) PCR values, so keys are easily migrated to new PCR values,
-> +         such as when the kernel and initramfs are updated. The same key can
-> +         have many saved blobs under different PCR values, so multiple boots are
-> +         easily supported.
-> +
-> +     (2) TEE
-> +
-> +         Relies on Secure/Trusted boot process for platform integrity. It can
-> +         be extended with TEE based measured boot process.
-> +
-> +  *  On-chip versus off-chip
-> +
-> +     (1) TPM
-> +
-> +         Off-chip device connected via serial bus (like I2C, SPI etc.) exposing
-> +         physical access which represents an attack surface that can be
-> +         mitigated via tamper detection.
-> +
-> +     (2) TEE
-> +
-> +         On-chip functionality, immune to this attack surface.
-> +
-> +  *  Memory attacks (DRAM based like attaching a bus monitor etc.)
-> +
-> +     (1) TPM
-> +
-> +         Immune to these attacks as it doesn’t make use of system DRAM.
-> +
-> +     (2) TEE
-> +
-> +         An implementation based on TrustZone protected DRAM is susceptible to
-> +         such attacks. In order to mitigate these attacks one needs to rely on
-> +         on-chip secure RAM to store secrets or have the entire TEE
-> +         implementation based on on-chip secure RAM. An alternative mitigation
-> +         would be to use encrypted DRAM.
-> +
-> +  *  Side-channel attacks (cache, memory, CPU or time based)
-> +
-> +     (1) TPM
-> +
-> +         Immune to side-channel attacks as its resources are isolated from the
-> +         main OS.
-> +
-> +     (2) TEE
-> +
-> +         A careful implementation is required to mitigate against these attacks
-> +         for resources which are shared (eg. shared memory) with the main OS.
-> +         Cache and CPU based side-channel attacks can be mitigated via
-> +         invalidating caches and CPU registers during context switch to and from
-> +         the secure world.
-> +         To mitigate against time based attacks, one needs to have time
-> +         invariant implementations (like crypto algorithms etc.).
-> +
-> +  *  Resistance to physical attacks (power analysis, electromagnetic emanation,
-> +     probes etc.)
-> +
-> +     (1) TPM
-> +
-> +         Provides limited protection utilizing tamper resistance.
-> +
-> +     (2) TEE
-> +
-> +         Provides no protection by itself, relies on the underlying platform for
-> +         features such as tamper resistance.
-> +
+Agreed. In fact, my suggestion of yielding TSC offset controls to
+userspace falls short in this regard, since userspace can't make the
+same guarantee that the clockread was derived from its paired TSC
+value.
 
-Please add the following topics:
+> So except numerical errors,
+> (which are unavoidable anyway, and should be neglectable) this algorithm should
+> both keep the TSC in sync, and even keep its absolute time reference
+> as accurate as the clock synchronization between the host and the target is.
+>
+> (an offset between source and destination clocks will affect
+> all the TSCs in the same manner, as long as both
+> source and destination clocks are stable)
+>
+>
+> >
+> > For as bugged as the old way of doing things is (i.e. the magic
+> > handling of IA32_TSC), it was at least possible to keep guest TSCs in
+> > sync across a live migration so long as you satisfied the conditions
+> > where KVM decides to fudge the TSCs on your behalf. However, if we
+> > migrate the TSCs by value with an optional timestamp to account for
+> > elapsed time, it would appear that the guest TSC offset is likely to
+> > be inconsistent across vCPUs as the offset calculations above do not
+> > use a fixed host tsc timestamp across all vCPUs.
+>
+> >
+> > The reason I'd suggested yielding control of the tsc offset controls
+> > to userspace is that they're unaffected by such variations in per-vCPU
+> > calculations. Not only that, userspace can decide how it wants TSCs to
+> > be handled across a migration explicitly instead of relying on the
+> > above computation being done in the kernel.
+> >
+> > > +
+> > > +               if (tsc_state.flags & KVM_TSC_STATE_TSC_ADJUST_VALID)
+> > > +                       if (guest_cpuid_has(vcpu, X86_FEATURE_TSC_ADJUST))
+> > > +                               vcpu->arch.ia32_tsc_adjust_msr = tsc_state.tsc_adjust;
+> >
+> > How is this ioctl's handling of the TSC_ADJUST msr an improvement over
+> > KVM_{GET,SET}_MSRS like before? It seems orthogonal to the rest of the
+> > intended API as it isn't involved your computation above.
+>
+> It's more a refactoring thing. The goal is to avoid 'magic' handling
+> of host accesses in KVM_{GET,SET}_MSRS and instead make them
+> behave the same way as if the guest read that msr.
+> That can be useful for debug and such.
+>
+> The second patch adds a KVM quirk, which should be disabled
+> when the new API is used.
+>
+> When disabled, it makes it hard to use the KVM_{GET,SET}_MSRS
+> to set both TSC and TSC_ADJUST at the same time to given values,
+> since these msrs are tied to each other when guest writes them,
+> and the quirk disables the special (untied) write we had for host writes
+> to these msrs.
+>
+>
+> Think of these new ioctls as a way to saving and restoring
+> the internal TSC state, without bothering even to think what is inside.
+> Kind of like we save/restore the nested state.
 
-* Provisioning - the trust source's unique and verifiable cryptographic
-identity is provisioned during manufacturing
+I agree that the quirk is useful for the guest touching TSC and
+TSC_ADJUST, but host writes to the TSC_ADJUST MSR are unaffected by
+any sync issues. As such, it seems the existing plumbing for
+KVM_{GET,SET}_MSRS VMMs are using seems sufficient.
 
-(1) TPM
-
-The unique and verifiable cryptographic identity is the endorsement key
-(EK) or its primary seed.  A review of the generation of the EK and its
-accompanying certificate is part of the Common Criteria evaluation of
-the product's lifecycle processes (ALC_*).  See "TCG Protection Profile
-for PC Client Specific TPM 2" (
-https://trustedcomputinggroup.org/resource/pc-client-protection-profile-for-tpm-2-0/
-).
-
-(2) TEE
-
-A protection profile for TEEs does not yet exist.  Therefore, the
-provisioning process that generates the Hardware Unique Key is not
-evaluated by an independent third party and is highly dependent on the
-manufacturing environment.
-
-
-* Cryptography
-
-(1) TPM
-
-As part of the TPM's mandatory Common Criteria evaluation, the
-correctness of the TPM's implementation of cryptographic algorithms,
-the protection of keys, and the generation of random numbers, and other
-security-relevant functions must be documented, reviewed, and tested by
-an independent third party evaluation agency.  It must meet the
-requirements of FIPS 140-2, FIPS 140-3, or ISO/IEC 19790:2012. 
-
-(2) TEE
-
-Evaluations of cryptographic modules within TEEs are not required, but
-some are available for specific implementations within TEEs.
-
-
-* Interfaces and APIs
-
-(1) TPM
-
- TPMs have well-documented, standardized interfaces and APIs.
-
-(2) TEE
-
-Unless TEEs implement functionality such as a virtual TPM, they have
-custom interfaces and APIs. 
-
-
-* Threat model
-
-The strength and appropriateness of TPMs and TEEs for a given purpose
-must be assessed when using them to protect security-relevant data.
-
-> +
-> +Key Generation
-> +==============
-> +
-> +Trusted Keys
-> +------------
-> +
-> +New keys are created from trust source generated random numbers, and are
-> +encrypted/decrypted using trust source storage root key.
-
-New keys are created from random numbers generated in the trust source.
-They are encrypted/decrypted using a child key in the storage key
-hierarchy.  Encryption and decryption of the child key must be
-protected by a strong access control policy within the trust source.
-
-Thank you,
-
-Elaine (and Mimi)
-
+> Best regards,
+>         Maxim Levitsky
+>
+>
+> >
+> > > +               r = 0;
+> > > +               break;
+> > > +       }
+> > > +#endif
+> > >         default:
+> > >                 r = -EINVAL;
+> > >         }
+> > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > > index 886802b8ffba3..bf4c38fd58291 100644
+> > > --- a/include/uapi/linux/kvm.h
+> > > +++ b/include/uapi/linux/kvm.h
+> > > @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
+> > >  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+> > >  #define KVM_CAP_SYS_HYPERV_CPUID 191
+> > >  #define KVM_CAP_DIRTY_LOG_RING 192
+> > > +#define KVM_CAP_PRECISE_TSC 193
+> > >
+> > >  #ifdef KVM_CAP_IRQ_ROUTING
+> > >
+> > > @@ -1169,6 +1170,16 @@ struct kvm_clock_data {
+> > >         __u32 pad[9];
+> > >  };
+> > >
+> > > +
+> > > +#define KVM_TSC_STATE_TIMESTAMP_VALID 1
+> > > +#define KVM_TSC_STATE_TSC_ADJUST_VALID 2
+> > > +struct kvm_tsc_state {
+> > > +       __u32 flags;
+> > > +       __u64 nsec;
+> > > +       __u64 tsc;
+> > > +       __u64 tsc_adjust;
+> > > +};
+> > > +
+> > >  /* For KVM_CAP_SW_TLB */
+> > >
+> > >  #define KVM_MMU_FSL_BOOKE_NOHV         0
+> > > @@ -1563,6 +1574,10 @@ struct kvm_pv_cmd {
+> > >  /* Available with KVM_CAP_DIRTY_LOG_RING */
+> > >  #define KVM_RESET_DIRTY_RINGS          _IO(KVMIO, 0xc7)
+> > >
+> > > +/* Available with KVM_CAP_PRECISE_TSC*/
+> > > +#define KVM_SET_TSC_STATE          _IOW(KVMIO,  0xc8, struct kvm_tsc_state)
+> > > +#define KVM_GET_TSC_STATE          _IOR(KVMIO,  0xc9, struct kvm_tsc_state)
+> > > +
+> > >  /* Secure Encrypted Virtualization command */
+> > >  enum sev_cmd_id {
+> > >         /* Guest initialization commands */
+> > > --
+> > > 2.26.2
+> > >
+>
+>
