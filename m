@@ -2,207 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E58C1B0E3
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 11:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AF7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 12:35:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E931123A9A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 11:53:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFDB122242
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 12:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729189AbgLHLwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 06:52:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729187AbgLHLwy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 06:52:54 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14073C061794
-        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 03:52:08 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id d20so22545766lfe.11
-        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 03:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=p3UOlT4T7w2iGiGz4zhACGCaX1lqFN/iswpw5ZnkzrM=;
-        b=K1JWSFkTy6XixhuEVjqMYIhYotaaw0q/FmwnMPxBVqxc3uSIdIQNYkJEUr0zLiMovp
-         Y0J20mo1QFGat7zPDCW9WuyHBkQfBpKMyRvu00gjUJNlb2GAUa17YVVVPqW0lFr9YbDB
-         Rvn30VX44R4T4AkOP2Y2aXUToxPR5Yu1LUL+aHc3tePoKK7BUMW+UqcdeZwpyHa80wQh
-         PTjCv5cb2fOmKBNmTlci7Qko2+3OLqE0zyjN3v/J0afe3bNXScVJI5FqsyXg+g1lmvBr
-         SQTpwTUMlSpA8Z90euuAlNPXWkOlDB2idVQthpeMFDdcIpQ57mTKAFl8wy6LwcJqGkJu
-         Gdqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p3UOlT4T7w2iGiGz4zhACGCaX1lqFN/iswpw5ZnkzrM=;
-        b=KW/+A5dO0Tsc1BFLT3AzqpGR/ytM3zqCyP7b4x0U0wD4gArKdlhroQKnqT5yY1cfQx
-         vqlRqx/PCudJVR7CzZkaDCUzqd+J7GPT4Il1o8utC/Suj+8GO0Q+EmVyvdxaG4TdibyL
-         BM3KBA6dc/Itp3KL1uT5QJiRbqKIYg7zWeVwqP8E0kOxRvfCaFU1/ZF1cWU8Lhxxv95y
-         1DBOatM8syIa3xs9brGJgcrsaXHmEPHv4zNxq98D10xLLs7oFk7JCx+7hKkNvz3wdUc4
-         p5aqfidZiN1YZpE8JrCjkY6S0x1tY8LjKNv/r/u+M+tkvpG2TEPBm3yfHSKBsBvKiB5s
-         9xxQ==
-X-Gm-Message-State: AOAM5312Pf+lVLQs/lCJMU7U+MguEf+5ye/qeJJvOIPCSb2agEnUnMPR
-        MBOO8vMW6igmWhachlmT4Sjgxzb/D9JAovpjCaJaqw==
-X-Google-Smtp-Source: ABdhPJyvGNe6OrrMd86DoarSRS4TSHMXGop3JNtQfwGOmMDdmgDiMAbQn68Ss0Jc/C7WgtMqQw0ZJt2BEbCZMlIgDP0=
-X-Received: by 2002:a19:6144:: with SMTP id m4mr10079549lfk.546.1607428324986;
- Tue, 08 Dec 2020 03:52:04 -0800 (PST)
+        id S1726338AbgLHMfv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 07:35:51 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:44923 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbgLHMfv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 07:35:51 -0500
+Received: from [192.168.1.155] ([95.117.39.192]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M3lLh-1klmxl43L1-000rf6; Tue, 08 Dec 2020 13:33:07 +0100
+Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
+To:     =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+        "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Jason Wang <jasowang@redhat.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org, stefanha@redhat.com
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
+ <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
+ <20201205142218-mutt-send-email-mst@kernel.org>
+ <20201208101051.GC6564@kitsune.suse.cz>
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+Message-ID: <dcc41cf3-ab2d-656e-6fa3-73f231bde92d@metux.net>
+Date:   Tue, 8 Dec 2020 13:33:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
- <20201105050736.GA702944@kernel.org> <CAFA6WYPetvod-Wov2n_L5TL771j+-kt+_csyWYT-uM=haEKMZQ@mail.gmail.com>
- <20201106145252.GA10434@kernel.org> <20201204051642.GA154469@kernel.org>
-In-Reply-To: <20201204051642.GA154469@kernel.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 8 Dec 2020 17:21:53 +0530
-Message-ID: <CAFA6WYOxkAUxg05kKXAcu2F2YD97MXNSggYgL+uSG7wrBVKoMQ@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] Introduce TEE based Trusted Keys support
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201208101051.GC6564@kitsune.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2gJtNh4al/jz5b6j0FWhYwrU96FWym4vYQii+IyxLA7dtvUfT6j
+ aQ4QBpU8JKJUL26agzv4pu018C1ng9f3M/AaUOcypeeHDUDtvyKGkULf/R5tbPsfR3K41I5
+ r1M0Bx3FdsPt3POi5zVzjVgX/sNWG0gBfiseEyjQN+2EroOr7tbPfz+AQxm5JNdlyVDVXnh
+ KV7FYMCR+TLF4s8ZuE38g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ndMilS7teO8=:/uZ20rDlYDqOeFHndpr1cb
+ AOgzroYYCjupeD6v9mWfnDJfZJjekpD+ZJIEFRpbhAYgk2/n5JgOmO7ch70CwGQ1dUbRSYmeB
+ xT+THBee8CP5JD1InY8vmmIah4HlcP81FeIzh4jJJUPlvxypSPkVRMSzRVkySQA6YjsibsIhU
+ FW2eXlWtif2BgwZpTeBzCSwfXSkQRn17817gHXqeH2YhGat+GE0MT1LWbBFu64U4MI/1NN6nq
+ twC12fYfafB5T1j7D7JFuJqGR1LrRBjFVPB33rukvUxNNqeol2FZRLIgDta0Zrqa6QuTa40GM
+ Cy/cBD+UuuROzUY5cjEpGc56poFDtVwIb+g+kkIoTzWK+etFCgrgu8HCdSoaclVZCpOjOGRKe
+ BZM8uMCGhYkLWzKLhAbsD1vNrx6VfleGkkfnDFCeCQ0fO285UQkCSKkqSkP1s
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarkko,
+On 08.12.20 11:10, Michal Suchánek wrote:
 
-Apologies for the delay in my response as I was busy with other high
-priority work.
+Hi,
 
-On Fri, 4 Dec 2020 at 10:46, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
-> On Fri, Nov 06, 2020 at 04:52:52PM +0200, Jarkko Sakkinen wrote:
-> > On Fri, Nov 06, 2020 at 03:02:41PM +0530, Sumit Garg wrote:
-> > > On Thu, 5 Nov 2020 at 10:37, Jarkko Sakkinen <jarkko@kernel.org> wrot=
-e:
-> > > >
-> > > > On Tue, Nov 03, 2020 at 09:31:42PM +0530, Sumit Garg wrote:
-> > > > > Add support for TEE based trusted keys where TEE provides the fun=
-ctionality
-> > > > > to seal and unseal trusted keys using hardware unique key. Also, =
-this is
-> > > > > an alternative in case platform doesn't possess a TPM device.
-> > > > >
-> > > > > This patch-set has been tested with OP-TEE based early TA which i=
-s already
-> > > > > merged in upstream [1].
-> > > >
-> > > > Is the new RPI400 computer a platform that can be used for testing
-> > > > patch sets like this? I've been looking for a while something ARM64
-> > > > based with similar convenience as Intel NUC's, and on the surface
-> > > > this new RPI product looks great for kernel testing purposes.
-> > >
-> > > Here [1] is the list of supported versions of Raspberry Pi in OP-TEE.
-> > > The easiest approach would be to pick up a supported version or else
-> > > do an OP-TEE port for an unsupported one (which should involve minima=
-l
-> > > effort).
-> > >
-> > > [1] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html=
-#what-versions-of-raspberry-pi-will-work
-> > >
-> > > -Sumit
-> >
-> > If porting is doable, then I'll just order RPI 400, and test with QEMU
-> > up until either I port OP-TEE myself or someone else does it.
-> >
-> > For seldom ARM testing, RPI 400 is really convenient device with its
-> > boxed form factor.
->
-> I'm now a proud owner of Raspberry Pi 400 home computer :-)
->
-> I also found instructions on how to boot a custom OS from a USB stick:
->
-> https://www.raspberrypi.org/documentation/hardware/raspberrypi/bootmodes/=
-msd.md
->
-> Also, my favorite build system BuildRoot has bunch of of the shelf
-> configs:
->
-> =E2=9E=9C  buildroot-sgx (master) =E2=9C=94 ls -1 configs | grep raspberr=
-y
-> raspberrypi0_defconfig
-> raspberrypi0w_defconfig
-> raspberrypi2_defconfig
-> raspberrypi3_64_defconfig
-> raspberrypi3_defconfig
-> raspberrypi3_qt5we_defconfig
-> raspberrypi4_64_defconfig
-> raspberrypi4_defconfig
-> raspberrypi_defconfig
->
-> I.e. I'm capable of compiling kernel and user space and boot it up
-> with it.
->
-> Further, I can select this compilation option:
->
-> BR2_TARGET_OPTEE_OS:                                                     =
-                                                                           =
-              =E2=94=82
->                                                                          =
-                                                                           =
-                 =E2=94=82
->    OP-TEE OS provides the secure world boot image and the trust          =
-                                                                           =
-                 =E2=94=82
->    application development kit of the OP-TEE project. OP-TEE OS          =
-                                                                           =
-                 =E2=94=82
->    also provides generic trusted application one can embedded            =
-                                                                           =
-                 =E2=94=82
->    into its system.                                                      =
-                                                                           =
-                 =E2=94=82
->                                                                          =
-                                                                           =
-                 =E2=94=82
->    http://github.com/OP-TEE/optee_os
->
-> Is that what I want? If I put this all together and apply your patches,
-> should the expectation be that I can use trusted keys?
->
+> The console driver provides early console which should initialize
+> without any transport. I have not tested it actually works but the code
+> seems to be there to support this use case.
 
-Firstly you need to do an OP-TEE port for RPI 400 (refer here [1] for
-guidelines). And then in order to boot up OP-TEE on RPI 400, you can
-refer to Raspberry Pi 3 build instructions [2].
+What does it do if it hasn't got any transport yet ?
 
-[1] https://optee.readthedocs.io/en/latest/architecture/porting_guidelines.=
-html
-[2] https://optee.readthedocs.io/en/latest/building/devices/rpi3.html#build=
--instructions
+Just eat the bits or buffer everything, until it gets a transportport
+and sends out later ?
 
-> Please note that I had a few remarks about your patches (minor but need
-> to be fixed), but this version is already solid enough for testing.
->
+--mtx
 
-Sure, I will incorporate your remarks and Randy's documentation
-comments in the next version.
-
--Sumit
-
-> /Jarkko
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
