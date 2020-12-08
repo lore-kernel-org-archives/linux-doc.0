@@ -2,114 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77BB4C4361B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2AEC19437
 	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F5412388C
+	by mail.kernel.org (Postfix) with ESMTP id 96B442388C
 	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731128AbgLHUQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1731353AbgLHUQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 8 Dec 2020 15:16:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731152AbgLHUPM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:15:12 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EECC0613D6;
-        Tue,  8 Dec 2020 12:14:32 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0f08004da90e847a90bd48.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:800:4da9:e84:7a90:bd48])
+Received: from mail.kernel.org ([198.145.29.99]:33994 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731110AbgLHUN0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Dec 2020 15:13:26 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 433751EC053F;
-        Tue,  8 Dec 2020 19:47:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1607453247;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=N7zLgo+iGnV/6dQc9oAjeLX3V0c+bnEUyOPpx3AqhUE=;
-        b=qVpEjpAW6ERZtUChtOctB0atXOEQ9sLnL3RAG8ruZzpOCH41xOHx3EnwVn4iyhbQl9vBz4
-        HI/Yk9gZwrTzU7nxtY7YhtvWO9Sj8BsNle4GW/6iHTq6qVmAR4dqc+EmS78ViFZXu7SFiJ
-        JS2rHxlWADJXb4GziJW4KqDoA5cUXM0=
-Date:   Tue, 8 Dec 2020 19:47:27 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-Message-ID: <20201208184727.GF27920@zn.tnic>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-9-yu-cheng.yu@intel.com>
- <20201208175014.GD27920@zn.tnic>
- <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 1932923AFE;
+        Tue,  8 Dec 2020 20:12:45 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1kmjLm-00HAXe-TJ; Tue, 08 Dec 2020 20:12:43 +0000
+Date:   Tue, 08 Dec 2020 20:12:41 +0000
+Message-ID: <871rg05a6e.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     kvmarm@lists.cs.columbia.edu,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+        Tejun Heo <tj@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
+        Christoph Lameter <cl@linux.com>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH v4 00/26] Opt-in always-on nVHE hypervisor
+In-Reply-To: <20201208191447.47idqf7n2v3hvrdg@google.com>
+References: <20201202184122.26046-1-dbrazdil@google.com>
+        <160702322202.1501317.9696987088711766533.b4-ty@kernel.org>
+        <20201208191447.47idqf7n2v3hvrdg@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: dbrazdil@google.com, kvmarm@lists.cs.columbia.edu, catalin.marinas@arm.com, lorenzo.pieralisi@arm.com, linux-kernel@vger.kernel.org, will@kernel.org, tj@kernel.org, dennis@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, kernel-team@android.com, linux-arm-kernel@lists.infradead.org, cl@linux.com, sudeep.holla@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 10:25:15AM -0800, Yu, Yu-cheng wrote:
-> > Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
+On Tue, 08 Dec 2020 19:14:47 +0000,
+David Brazdil <dbrazdil@google.com> wrote:
 > 
-> The PTEs are the same for both (a) and (b), but come from different routes.
-
-Do not be afraid to go into detail and explain to me what those routes
-are please.
-
-> > > (e) A page where the processor observed a Write=1 PTE, started a write, set
-> > >      Dirty=1, but then observed a Write=0 PTE.
+> Hey Marc,
+> 
+> On Thu, Dec 03, 2020 at 07:23:19PM +0000, Marc Zyngier wrote:
+> > On Wed, 2 Dec 2020 18:40:56 +0000, David Brazdil wrote:
+> > > As we progress towards being able to keep guest state private to the
+> > > host running nVHE hypervisor, this series allows the hypervisor to
+> > > install itself on newly booted CPUs before the host is allowed to run
+> > > on them.
+> > > 
+> > > All functionality described below is opt-in, guarded by an early param
+> > > 'kvm-arm.mode=protected'. Future patches specific to the new protected
+> > > mode should be hidden behind the same param.
+> > > 
+> > > [...]
 > > 
-> > How does that happen? Something changed the PTE's W bit to 0 in-between?
+> > Applied to kvm-arm64/psci-relay, thanks!
+> > 
+> > Note that although I pushed it to -next, I still need people to
+> > eyeball it and give it some Acks. The commit-IDs below will
+> > thus change as I apply tags, if any.
+> > 
 > 
-> Yes.
-
-Also do not scare from going into detail and explaining what you mean
-here. Example?
-
-> > Does _PAGE_COW mean dirty too?
+> I'm looking at -next and I think the merge with Mark Rutland's el2_setup
+> refactor didn't go as planned.
 > 
-> Yes.  Basically [read-only & dirty] is created by software.  Now the
-> software uses a different bit.
+> The `#ifdef CONFIG_ARM64_VHE` section needs to cover everything between
+> init_el2 and init_el2_nvhe. Currently the code falls through into VHE init
+> when CONFIG_ARM64_VHE is not set.
 
-That convention:
+Oops, well spotted. I wasn't thinking straight.
 
-"[read-only & dirty] is created by software."
+I came up with a slightly different fix though, keeping the whole of
+the VHE code and instead restoring the "mov x2, xzr" we had before.
 
-needs some prominent writeup somewhere explaining what it is.
+I've pushed something out, do yell if you spot anything else.
 
-Thx.
+Thanks again,
+
+	M.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Without deviation from the norm, progress is not possible.
