@@ -2,213 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD27AC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE35C3527E
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84A9B23B52
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:26:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F6922388C
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:21:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730949AbgLHS0K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 13:26:10 -0500
-Received: from mga02.intel.com ([134.134.136.20]:29455 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730894AbgLHS0K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Dec 2020 13:26:10 -0500
-IronPort-SDR: /yg7CeF3YvlmAQnd/x01t6+NXRWrpogDAn9HQAxozVRZT4CkfnTv3k2FaxfHf7o4iwsfhbAMex
- r18DfVZEjBDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="160995662"
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
-   d="scan'208";a="160995662"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:29 -0800
-IronPort-SDR: MVXY+ufzzjWpRkO/fcrw7djp1AEmJjNq9PnlBlwIbD8V1ZktkEzklCAxWd0oBRp2C8pAxGfKhi
- xQw8ZyCXIxMA==
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
-   d="scan'208";a="317917122"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.139.184]) ([10.209.139.184])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:27 -0800
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1726241AbgLHUVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 15:21:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37842 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbgLHUVL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:21:11 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A324C061793;
+        Tue,  8 Dec 2020 12:20:31 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1607455499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NX+dI+aPvVmZ5UT6T3bLtK8/usUYcfZFeQOezcWF6Rk=;
+        b=Sctv5n3ThdqVixQDelXHXC/ev7xo7ehTkhbjfUrC7hycj0+zZ29XXZwuqwwUQWQpWRGg8N
+        LBtExKBXpkMXb339lKTamEs/1cp2PoSc8bE+PdPcUJ+SvpyRwR6+Kb+VcNNUXcdHWbKpJ5
+        SNgkFlINgd7vcLsxxcNIsMj0ySJ8UqCviWDeLByig7/g+MBrxQ7EHuQswizA0umGsTAmwg
+        ap8k3zOTSHcxn1poq/7KQVDAd573qazuVf2u+/+9gXmxjDzBXWAUHHhKtlYCi8Tp0Vhuvi
+        W6UlxzS4nAC4b8yil0PkOpg1KCrddZwHeH7rBtWrTOZjlB1/338G9OzDHIbj0A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1607455499;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NX+dI+aPvVmZ5UT6T3bLtK8/usUYcfZFeQOezcWF6Rk=;
+        b=wVYWw0bZ7SshnZxg3VzTml/7fZs5zRgfWibCjgLe16SxoTlPTl99hGujbncMlsWgu2+oIV
+        K/jrb432XCUI5WCQ==
+To:     Andy Lutomirski <luto@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-9-yu-cheng.yu@intel.com>
- <20201208175014.GD27920@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
-Date:   Tue, 8 Dec 2020 10:25:15 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+In-Reply-To: <CALCETrX7F3EgshyTfsNZy8R=NzyQNOY6JAULfiuOCxc1Fz8mPQ@mail.gmail.com>
+References: <636fecc20b0143128b484f159ff795ff65d05b82.camel@redhat.com> <885C1725-B479-47F6-B08D-A7181637A80A@amacapital.net> <20201207231127.GB27492@fuller.cnet> <CALCETrX7F3EgshyTfsNZy8R=NzyQNOY6JAULfiuOCxc1Fz8mPQ@mail.gmail.com>
+Date:   Tue, 08 Dec 2020 20:24:58 +0100
+Message-ID: <87h7ow2j91.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201208175014.GD27920@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/8/2020 9:50 AM, Borislav Petkov wrote:
-> On Tue, Nov 10, 2020 at 08:21:53AM -0800, Yu-cheng Yu wrote:
->> There is essentially no room left in the x86 hardware PTEs on some OSes
->> (not Linux).  That left the hardware architects looking for a way to
->> represent a new memory type (shadow stack) within the existing bits.
->> They chose to repurpose a lightly-used state: Write=0,Dirty=1.
-> 
-> It is not clear to me what the definition and semantics of that bit is.
-> 
-> +#define _PAGE_BIT_COW          _PAGE_BIT_SOFTW5 /* copy-on-write */
-> 
-> Is it set by hw or by sw and hw uses it to know it is a shadow stack
-> page, and so on.
-> 
-> I think you should lead with its definition.
+On Tue, Dec 08 2020 at 09:43, Andy Lutomirski wrote:
+> On Tue, Dec 8, 2020 at 6:23 AM Marcelo Tosatti <mtosatti@redhat.com> wrote:
+> It looks like it tries to accomplish the right goal, but in a rather
+> roundabout way.  The host knows how to convert from TSC to
+> CLOCK_REALTIME, and ptp_kvm.c exposes this data to the guest.  But,
+> rather than just making the guest use the same CLOCK_REALTIME data as
+> the host, ptp_kvm.c seems to expose information to usermode that a
+> user daemon could use to attempt (with some degree of error?) to use
+> to make the guest kernel track CLOCK_REALTIME.  This seems inefficient
+> and dubiously accurate.
+>
+> My feature request is for this to be fully automatic and completely
+> coherent.  I would like for a host user program and a guest user
+> program to be able to share memory, run concurrently, and use the
+> shared memory to exchange CLOCK_REALTIME values without ever observing
+> the clock going backwards.  This ought to be doable.  Ideally the
+> result should even be usable for Spanner-style synchronization
+> assuming the host clock is good enough.  Also, this whole thing should
+> work without needing to periodically wake the guest to remain
+> synchronized.  If the guest sleeps for two minutes (full nohz-idle, no
+> guest activity at all), the host makes a small REALTIME frequency
+> adjustment, and then the guest runs user code that reads
+> CLOCK_REALTIME, the guest clock should still be fully synchronized
+> with the host.  I don't think that ptp_kvm.c-style synchronization can
+> do this.
 
-Ok.
+One issue here is that guests might want to run their own NTP/PTP. One
+reason to do that is that some people prefer the leap second smearing
+NTP servers. 
 
-...
+> tglx etc, I think that doing this really really nicely might involve
+> promoting something like the current vDSO data structures to ABI -- a
+> straightforward-ish implementation would be for the KVM host to export
+> its vvar clock data to the guest and for the guest to use it, possibly
+> with an offset applied.  The offset could work a lot like timens works
+> today.
 
->> Write=0,Dirty=1 PTEs.  In places where we do create them, we need to find
->> an alternative way to represent them _without_ using the same hardware bit
->> combination.  Thus, enter _PAGE_COW.  This results in the following:
->>
->> (a) A modified, copy-on-write (COW) page: (R/O + _PAGE_COW)
->> (b) A R/O page that has been COW'ed: (R/O + _PAGE_COW)
-> 
-> Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
+Works nicely if the guest TSC is not scaled. But that means that on
+migration the raw TSC usage in the guest is borked because the new host
+might have a different TSC frequency.
 
-The PTEs are the same for both (a) and (b), but come from different routes.
+If you use TSC scaling then the conversion needs to take TSC scaling
+into account which needs some thought. And the guest would need to read
+the host conversion from 'vdso data' and the scaling from the next page
+(per guest) and then still has to support timens. Doable but adds extra
+overhead on every time read operation.
 
->>      The user page is in a R/O VMA, and get_user_pages() needs a writable
->>      copy.  The page fault handler creates a copy of the page and sets
->>      the new copy's PTE as R/O and _PAGE_COW.
->> (c) A shadow stack PTE: (R/O + _PAGE_DIRTY_HW)
-> 
-> So W=0, D=1 ?
+If you want to avoid that you are back to the point where you need to
+chase all guest data when the host NTP/PTP adjusts the host side.
+Chasing and updating all this stuff in the tick was the reason why I was
+fighting the idea of clock realtime in namespaces.
 
-Yes.
+Thanks,
 
->> (d) A shared shadow stack PTE: (R/O + _PAGE_COW)
->>      When a shadow stack page is being shared among processes (this happens
->>      at fork()), its PTE is cleared of _PAGE_DIRTY_HW, so the next shadow
->>      stack access causes a fault, and the page is duplicated and
->>      _PAGE_DIRTY_HW is set again.  This is the COW equivalent for shadow
->>      stack pages, even though it's copy-on-access rather than copy-on-write.
->> (e) A page where the processor observed a Write=1 PTE, started a write, set
->>      Dirty=1, but then observed a Write=0 PTE.
-> 
-> How does that happen? Something changed the PTE's W bit to 0 in-between?
-
-Yes.
-
-...
-
->> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
->> index b23697658b28..c88c7ccf0318 100644
->> --- a/arch/x86/include/asm/pgtable.h
->> +++ b/arch/x86/include/asm/pgtable.h
->> @@ -121,9 +121,9 @@ extern pmdval_t early_pmd_flags;
->>    * The following only work if pte_present() is true.
->>    * Undefined behaviour if not..
->>    */
->> -static inline int pte_dirty(pte_t pte)
->> +static inline bool pte_dirty(pte_t pte)
->>   {
->> -	return pte_flags(pte) & _PAGE_DIRTY_HW;
->> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
-> 
-> Why?
-> 
-> Does _PAGE_COW mean dirty too?
-
-Yes.  Basically [read-only & dirty] is created by software.  Now the 
-software uses a different bit.
-
->> @@ -343,6 +349,17 @@ static inline pte_t pte_mkold(pte_t pte)
->>   
->>   static inline pte_t pte_wrprotect(pte_t pte)
->>   {
->> +	/*
->> +	 * Blindly clearing _PAGE_RW might accidentally create
->> +	 * a shadow stack PTE (RW=0,Dirty=1).  Move the hardware
->> +	 * dirty value to the software bit.
->> +	 */
->> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->> +		pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
->> +			   _PAGE_BIT_DIRTY_HW << _PAGE_BIT_COW;
-> 
-> Let that line stick out. And that shifting is not grokkable at a quick
-> glance, at least not to me. Simplify?
-
-Ok.
-
->>   static inline pmd_t pmd_wrprotect(pmd_t pmd)
->>   {
->> +	/*
->> +	 * Blindly clearing _PAGE_RW might accidentally create
->> +	 * a shadow stack PMD (RW=0,Dirty=1).  Move the hardware
->> +	 * dirty value to the software bit.
-> 
-> This whole carefully sidestepping the possiblity of creating a shadow
-> stack pXd is kinda sucky...
-> 
->> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
->> index 7462a574fc93..5f764d8d9bae 100644
->> --- a/arch/x86/include/asm/pgtable_types.h
->> +++ b/arch/x86/include/asm/pgtable_types.h
->> @@ -23,7 +23,8 @@
->>   #define _PAGE_BIT_SOFTW2	10	/* " */
->>   #define _PAGE_BIT_SOFTW3	11	/* " */
->>   #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
->> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
->> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
->> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
->>   #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
->>   #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
->>   #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
->> @@ -36,6 +37,16 @@
->>   #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
->>   #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
->>   
->> +/*
->> + * This bit indicates a copy-on-write page, and is different from
->> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
->> + */
->> +#ifdef CONFIG_X86_64
-> 
-> CONFIG_X86_64 ? Do all x86 machines out there support CET?
-> 
-> If anything, CONFIG_X86_CET...
-
-Ok.
-
---
-Yu-cheng
+        tglx
