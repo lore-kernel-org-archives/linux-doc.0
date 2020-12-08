@@ -2,123 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB1CC19437
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 04:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A64BC4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 04:55:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5D7023A7E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 04:48:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 108B523A5E
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 04:55:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727307AbgLHEsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 23:48:01 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:35170 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727258AbgLHEsA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 23:48:00 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B84kqxV039474;
-        Mon, 7 Dec 2020 22:46:52 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1607402812;
-        bh=ab8TR71D8wvDMjyDs6nWrexGzGp6Fis30WChrKD0GJI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=I1KcsdWfGGYKukU1vhdrJMy3dUirqKSS8jiSFV+azOygxU/WmetaeoFr4QPN7fk2O
-         UxFK+NyVzyVyTqtyzzKkTiA5UZ3MYqpYSyGYUd55RbkWH+14VndD7BbKV2RBM8eASt
-         vb+sJt5xjkxsIKdGHs+vPyuQAw00hfK8AW8HWujc=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B84kqEQ098505
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 7 Dec 2020 22:46:52 -0600
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 7 Dec
- 2020 22:46:52 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 7 Dec 2020 22:46:52 -0600
-Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B84kkoW053051;
-        Mon, 7 Dec 2020 22:46:47 -0600
-Subject: Re: [PATCH v8 16/18] NTB: tool: Enable the NTB/PCIe link on the local
- or remote side of bridge
-To:     "Jiang, Dave" <dave.jiang@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>, Rob Herring <robh@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>
-References: <20201111153559.19050-1-kishon@ti.com>
- <20201111153559.19050-17-kishon@ti.com>
- <f39cf769993541e2a46bfe4d777ccf46@intel.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <6a493055-eef0-5722-e24b-449a11cf8a36@ti.com>
-Date:   Tue, 8 Dec 2020 10:16:46 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727815AbgLHEy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 23:54:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33654 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725917AbgLHEy4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 23:54:56 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26384C0613D6
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 20:54:16 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id k4so16269360edl.0
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 20:54:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8/HsXaIACwTyoNaST+7tlYLda7+69QnFbCYHF3SGybM=;
+        b=NHsKtZ9ZOwK+YAUpwafqbwPyEYnaQlamxFuqZ5sx2/0AONSSemfZtgg6vaRYU7xMnz
+         77hLn6qr8fZNf18KjA10NS1l9fT9uZjhO5l20wU8SjXk6PeV+cqAxSBJQCDlYwdIqnKx
+         YIKIJbr2H7A/xU0s4wwnhf/QpGitRIJ5AI3KM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8/HsXaIACwTyoNaST+7tlYLda7+69QnFbCYHF3SGybM=;
+        b=GN4Ve+60k7dRbnleIwK1zIyXDNMKjcljr23oUbRZmHt3YnmtOYFHIYDyaHSEdFZGxo
+         CPPixK9PHQ/qI1OP7YvuG/ShNpF1m4Dug9/qltr4zeG4s4DcuBT6HypwbtFplMbk9Nzh
+         8O6ISsM077HKUwUTz4y1RWSc8EUKzdnUwfBgCXK3PjyCGhO2LEJfO4NN7yHhg9lSPFaP
+         7JLJF/CHKYqqj59hFYn0WH9B0oIedeankg7xyThTK2zhW2ttwMLsxg/QuQF3pAeq4Ziu
+         0WlmGveiE7jSJ24AkG7+rvU9cCuvSDddE1avBA5HfriHZY7H6WRdqNQoaP56nOZIewGQ
+         vZRg==
+X-Gm-Message-State: AOAM531YgEsQsWVO1AGEGTAGNyFoVAQ6YYb4U1ynJWIjBJOIDOKxeiNR
+        +x5Gq2LL98UBjcuZa+8hcNlagwU1/HgACQ==
+X-Google-Smtp-Source: ABdhPJwkqc6KaHAN26ymTGInRyqoNocr1Owi7SyNrzB7E10mERwWm9wqfDjFx4LDnP/LadUaCRXgHA==
+X-Received: by 2002:a50:8004:: with SMTP id 4mr22900783eda.329.1607403254655;
+        Mon, 07 Dec 2020 20:54:14 -0800 (PST)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id rh2sm14420029ejb.68.2020.12.07.20.54.12
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Dec 2020 20:54:13 -0800 (PST)
+Received: by mail-wr1-f43.google.com with SMTP id a12so8104946wrv.8
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 20:54:12 -0800 (PST)
+X-Received: by 2002:adf:f881:: with SMTP id u1mr22668227wrp.103.1607403252411;
+ Mon, 07 Dec 2020 20:54:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <f39cf769993541e2a46bfe4d777ccf46@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
+ <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
+In-Reply-To: <20201201144916.GA14682@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 8 Dec 2020 13:54:00 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+Message-ID: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+Hi Christoph,
 
-On 07/12/20 9:25 pm, Jiang, Dave wrote:
-> 
-> 
->> -----Original Message-----
->> From: Kishon Vijay Abraham I <kishon@ti.com>
->> Sent: Wednesday, November 11, 2020 8:36 AM
->> To: Bjorn Helgaas <bhelgaas@google.com>; Jonathan Corbet
->> <corbet@lwn.net>; Kishon Vijay Abraham I <kishon@ti.com>; Lorenzo
->> Pieralisi <lorenzo.pieralisi@arm.com>; Arnd Bergmann <arnd@arndb.de>;
->> Jon Mason <jdmason@kudzu.us>; Jiang, Dave <dave.jiang@intel.com>;
->> Allen Hubbe <allenbh@gmail.com>; Tom Joseph <tjoseph@cadence.com>;
->> Rob Herring <robh@kernel.org>
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; linux-
->> pci@vger.kernel.org; linux-doc@vger.kernel.org; linux-
->> kernel@vger.kernel.org; linux-ntb@googlegroups.com
->> Subject: [PATCH v8 16/18] NTB: tool: Enable the NTB/PCIe link on the local or
->> remote side of bridge
->>
->> Invoke ntb_link_enable() to enable the NTB/PCIe link on the local or remote
->> side of the bridge.
->>
->> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
->> ---
->>  drivers/ntb/test/ntb_tool.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/ntb/test/ntb_tool.c b/drivers/ntb/test/ntb_tool.c index
->> b7bf3f863d79..8230ced503e3 100644
->> --- a/drivers/ntb/test/ntb_tool.c
->> +++ b/drivers/ntb/test/ntb_tool.c
->> @@ -1638,6 +1638,7 @@ static int tool_probe(struct ntb_client *self, struct
->> ntb_dev *ntb)
->>
->>  	tool_setup_dbgfs(tc);
->>
->> +	ntb_link_enable(ntb, NTB_SPEED_AUTO, NTB_WIDTH_AUTO);
-> 
-> The tool expects the user to enable the link via debugfs according to documentation. Is this necessary?
+On Tue, Dec 1, 2020 at 11:49 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Dec 01, 2020 at 12:36:58PM +0900, Sergey Senozhatsky wrote:
+> > Not that I have any sound experience in this area, but the helper
+> > probably won't hurt. Do you also plan to add vmap() to that helper
+> > or dma_alloc_noncontiguous()/sg_alloc_table_from_pages() only?
+>
+> Yes, I think adding the vmap is useful, and it probably makes sense
+> to do that unconditionally.  I'd also include the fallback to
+> dma_alloc_pages when the noncontig version isn't supported in the
+> helper.
 
-right, it can be enabled using debugfs. Will drop this patch.
+From the media perspective, it would be good to have the vmap
+optional, similarly to the DMA_ATTR_NO_KERNEL_MAPPING attribute for
+coherent allocations. Actually, in the media drivers, the need to have
+a kernel mapping of the DMA buffers corresponds to a minority of the
+drivers. Most of them only need to map them to the userspace.
 
-Thank You,
-Kishon
+Nevertheless, that minority actually happens to be quite widely used,
+e.g. the uvcvideo driver, so we can't go to the other extreme and just
+drop the vmap at all.
+
+In any case, Sergey is going to share a preliminary patch on how the
+current API would be used in the V4L2 videobuf2 framework. That should
+give us more input on how such a helper could look.
+
+Other than that, again, thanks a lot for helping with this.
+
+Best regards,
+Tomasz
