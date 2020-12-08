@@ -6,125 +6,110 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE35C3527E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77BB4C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F6922388C
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:21:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F5412388C
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:23:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726241AbgLHUVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 15:21:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37842 "EHLO
+        id S1731128AbgLHUQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 15:16:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbgLHUVL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:21:11 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A324C061793;
-        Tue,  8 Dec 2020 12:20:31 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1607455499;
+        with ESMTP id S1731152AbgLHUPM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:15:12 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EECC0613D6;
+        Tue,  8 Dec 2020 12:14:32 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0f08004da90e847a90bd48.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:800:4da9:e84:7a90:bd48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 433751EC053F;
+        Tue,  8 Dec 2020 19:47:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1607453247;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NX+dI+aPvVmZ5UT6T3bLtK8/usUYcfZFeQOezcWF6Rk=;
-        b=Sctv5n3ThdqVixQDelXHXC/ev7xo7ehTkhbjfUrC7hycj0+zZ29XXZwuqwwUQWQpWRGg8N
-        LBtExKBXpkMXb339lKTamEs/1cp2PoSc8bE+PdPcUJ+SvpyRwR6+Kb+VcNNUXcdHWbKpJ5
-        SNgkFlINgd7vcLsxxcNIsMj0ySJ8UqCviWDeLByig7/g+MBrxQ7EHuQswizA0umGsTAmwg
-        ap8k3zOTSHcxn1poq/7KQVDAd573qazuVf2u+/+9gXmxjDzBXWAUHHhKtlYCi8Tp0Vhuvi
-        W6UlxzS4nAC4b8yil0PkOpg1KCrddZwHeH7rBtWrTOZjlB1/338G9OzDHIbj0A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1607455499;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NX+dI+aPvVmZ5UT6T3bLtK8/usUYcfZFeQOezcWF6Rk=;
-        b=wVYWw0bZ7SshnZxg3VzTml/7fZs5zRgfWibCjgLe16SxoTlPTl99hGujbncMlsWgu2+oIV
-        K/jrb432XCUI5WCQ==
-To:     Andy Lutomirski <luto@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
-        kvm list <kvm@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=N7zLgo+iGnV/6dQc9oAjeLX3V0c+bnEUyOPpx3AqhUE=;
+        b=qVpEjpAW6ERZtUChtOctB0atXOEQ9sLnL3RAG8ruZzpOCH41xOHx3EnwVn4iyhbQl9vBz4
+        HI/Yk9gZwrTzU7nxtY7YhtvWO9Sj8BsNle4GW/6iHTq6qVmAR4dqc+EmS78ViFZXu7SFiJ
+        JS2rHxlWADJXb4GziJW4KqDoA5cUXM0=
+Date:   Tue, 8 Dec 2020 19:47:27 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list\:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-In-Reply-To: <CALCETrX7F3EgshyTfsNZy8R=NzyQNOY6JAULfiuOCxc1Fz8mPQ@mail.gmail.com>
-References: <636fecc20b0143128b484f159ff795ff65d05b82.camel@redhat.com> <885C1725-B479-47F6-B08D-A7181637A80A@amacapital.net> <20201207231127.GB27492@fuller.cnet> <CALCETrX7F3EgshyTfsNZy8R=NzyQNOY6JAULfiuOCxc1Fz8mPQ@mail.gmail.com>
-Date:   Tue, 08 Dec 2020 20:24:58 +0100
-Message-ID: <87h7ow2j91.fsf@nanos.tec.linutronix.de>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
+Message-ID: <20201208184727.GF27920@zn.tnic>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-9-yu-cheng.yu@intel.com>
+ <20201208175014.GD27920@zn.tnic>
+ <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 08 2020 at 09:43, Andy Lutomirski wrote:
-> On Tue, Dec 8, 2020 at 6:23 AM Marcelo Tosatti <mtosatti@redhat.com> wrote:
-> It looks like it tries to accomplish the right goal, but in a rather
-> roundabout way.  The host knows how to convert from TSC to
-> CLOCK_REALTIME, and ptp_kvm.c exposes this data to the guest.  But,
-> rather than just making the guest use the same CLOCK_REALTIME data as
-> the host, ptp_kvm.c seems to expose information to usermode that a
-> user daemon could use to attempt (with some degree of error?) to use
-> to make the guest kernel track CLOCK_REALTIME.  This seems inefficient
-> and dubiously accurate.
->
-> My feature request is for this to be fully automatic and completely
-> coherent.  I would like for a host user program and a guest user
-> program to be able to share memory, run concurrently, and use the
-> shared memory to exchange CLOCK_REALTIME values without ever observing
-> the clock going backwards.  This ought to be doable.  Ideally the
-> result should even be usable for Spanner-style synchronization
-> assuming the host clock is good enough.  Also, this whole thing should
-> work without needing to periodically wake the guest to remain
-> synchronized.  If the guest sleeps for two minutes (full nohz-idle, no
-> guest activity at all), the host makes a small REALTIME frequency
-> adjustment, and then the guest runs user code that reads
-> CLOCK_REALTIME, the guest clock should still be fully synchronized
-> with the host.  I don't think that ptp_kvm.c-style synchronization can
-> do this.
+On Tue, Dec 08, 2020 at 10:25:15AM -0800, Yu, Yu-cheng wrote:
+> > Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
+> 
+> The PTEs are the same for both (a) and (b), but come from different routes.
 
-One issue here is that guests might want to run their own NTP/PTP. One
-reason to do that is that some people prefer the leap second smearing
-NTP servers. 
+Do not be afraid to go into detail and explain to me what those routes
+are please.
 
-> tglx etc, I think that doing this really really nicely might involve
-> promoting something like the current vDSO data structures to ABI -- a
-> straightforward-ish implementation would be for the KVM host to export
-> its vvar clock data to the guest and for the guest to use it, possibly
-> with an offset applied.  The offset could work a lot like timens works
-> today.
+> > > (e) A page where the processor observed a Write=1 PTE, started a write, set
+> > >      Dirty=1, but then observed a Write=0 PTE.
+> > 
+> > How does that happen? Something changed the PTE's W bit to 0 in-between?
+> 
+> Yes.
 
-Works nicely if the guest TSC is not scaled. But that means that on
-migration the raw TSC usage in the guest is borked because the new host
-might have a different TSC frequency.
+Also do not scare from going into detail and explaining what you mean
+here. Example?
 
-If you use TSC scaling then the conversion needs to take TSC scaling
-into account which needs some thought. And the guest would need to read
-the host conversion from 'vdso data' and the scaling from the next page
-(per guest) and then still has to support timens. Doable but adds extra
-overhead on every time read operation.
+> > Does _PAGE_COW mean dirty too?
+> 
+> Yes.  Basically [read-only & dirty] is created by software.  Now the
+> software uses a different bit.
 
-If you want to avoid that you are back to the point where you need to
-chase all guest data when the host NTP/PTP adjusts the host side.
-Chasing and updating all this stuff in the tick was the reason why I was
-fighting the idea of clock realtime in namespaces.
+That convention:
 
-Thanks,
+"[read-only & dirty] is created by software."
 
-        tglx
+needs some prominent writeup somewhere explaining what it is.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
