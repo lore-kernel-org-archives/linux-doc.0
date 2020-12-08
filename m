@@ -2,88 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E57C8C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFECC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:59:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93B4823B3E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:55:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 352A123B44
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgLHRzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 12:55:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41308 "EHLO
+        id S1728914AbgLHR70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 12:59:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbgLHRzV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 12:55:21 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D5CC061749;
-        Tue,  8 Dec 2020 09:54:41 -0800 (PST)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3E7342AE;
-        Tue,  8 Dec 2020 17:54:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3E7342AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607450080; bh=vUPe5xnpjeq2RaLybVlar/PVL7nLlPiDhZ3QIs3m20A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GRjBzFPvR4kiKNQwFPmmxzQxrkIKDc8YNkpgRVUBRpFnNPj1VzA9PLr4bQRIgYuKE
-         nglo3wWpIWrxUfRm8hVM65ug3d/2JtDRi1a54rElPcZWlQRI9zeJXrx9B+mSRGV2CA
-         79URsdjyLhoe7OuSb2FsMas1epmkLbhnxH0DhGbYGHIt5ae5WDYzcEOfgP5yLnB+mt
-         x+N+/7S/qCEg3lpjZvfCrsfgrpfiPbsUSax6nxY+7VDtWsi2jpVUZE+zpJs9zTWLea
-         kzd4eO5Y1htxj1+ioRH51aUPDhvRhu8qfhkmWbXT6kZ0XpoacjzNOODrSzL5qfxFTR
-         C/mVTeuD8o49A==
-Date:   Tue, 8 Dec 2020 10:54:39 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mathieu Chouquet-Stringer <me@mathieu.digital>
+        with ESMTP id S1726810AbgLHR70 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 12:59:26 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44034C061749;
+        Tue,  8 Dec 2020 09:58:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=xpPrMtRvHw9uqYWab0h0BufwacaQTlL6o1POPE2Agm0=; b=ujqn2sNEqBW65hdKJbVwhyiG1I
+        q4h6IPSVJMUPyS8qmJfMk3lQTvdUQ/axMqLnNICqsLCh3A0jm7G1ifHG9cR3Fnsh0HhGPojPvl39k
+        VEoEAIS6jB/Ik5kgCUOspdU6i/lw2M5sWEvMVtApWv4YoTC/HjtWgLGR/T7UP/Z5x9swPOVQSnCOd
+        a+DFbupqke6wOcA6HjN+2ufyF2MqIkGP4Ic6ZhPUpaR5lDQyWUgKCtjp1wSLWZPOyDicUUYPwel6B
+        0kjRicsFxiqa7Rqrhr3nGXAB2PfMNCXELi13TMqybrAjLsIQr0JG9/IXRhxNOrWJn1DfcfSv+aOJm
+        x18Tfs8g==;
+Received: from [2601:1c0:6280:3f0::1494]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmhG3-0007v4-7W; Tue, 08 Dec 2020 17:58:39 +0000
+Subject: Re: [PATCH] Update documentation to reflect what
+ TAINT_CPU_OUT_OF_SPEC means nowadays
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>
 Cc:     Borislav Petkov <bp@alien8.de>, Stephen Kitt <steve@sk2.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Kees Cook <keescook@chromium.org>,
         "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
         Eric Biggers <ebiggers@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
         Qais Yousef <qais.yousef@arm.com>,
         Naoki Hayama <naoki.hayama@lineo.co.jp>,
         Yue Hu <huyue2@yulong.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Update documentation to reflect what
- TAINT_CPU_OUT_OF_SPEC means nowadays
-Message-ID: <20201208105439.23e2349b@lwn.net>
-In-Reply-To: <20201202153244.709752-1-me@mathieu.digital>
 References: <20201202153244.709752-1-me@mathieu.digital>
-Organization: LWN.net
+ <20201208105439.23e2349b@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <1254edd7-25ee-b73d-da2c-194d38ba7890@infradead.org>
+Date:   Tue, 8 Dec 2020 09:58:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201208105439.23e2349b@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed,  2 Dec 2020 16:32:43 +0100
-Mathieu Chouquet-Stringer <me@mathieu.digital> wrote:
-
-> 	Hello Jonathan,
+On 12/8/20 9:54 AM, Jonathan Corbet wrote:
+> On Wed,  2 Dec 2020 16:32:43 +0100
+> Mathieu Chouquet-Stringer <me@mathieu.digital> wrote:
 > 
-> Here's a patch updating the meaning of TAINT_CPU_OUT_OF_SPEC after
-> Borislav introduced changes in a7e1f67ed29f and upcoming patches in tip.
+>> 	Hello Jonathan,
+>>
+>> Here's a patch updating the meaning of TAINT_CPU_OUT_OF_SPEC after
+>> Borislav introduced changes in a7e1f67ed29f and upcoming patches in tip.
+>>
+>> TAINT_CPU_OUT_OF_SPEC now means a bit more what it implies as the
+>> flag isn't set just because of a CPU misconfiguration or mismatch.
+>> Historically it was for SMP kernel oops on an officially SMP incapable
+>> processor but now it also covers CPUs whose MSRs have been incorrectly
+>> poked at from userspace, drivers being used on non supported
+>> architectures, broken firmware, mismatched CPUs, ...
+>>
+>> Update documentation and script to reflect that.
+>>
+>> Signed-off-by: Mathieu Chouquet-Stringer <me@mathieu.digital>
 > 
-> TAINT_CPU_OUT_OF_SPEC now means a bit more what it implies as the
-> flag isn't set just because of a CPU misconfiguration or mismatch.
-> Historically it was for SMP kernel oops on an officially SMP incapable
-> processor but now it also covers CPUs whose MSRs have been incorrectly
-> poked at from userspace, drivers being used on non supported
-> architectures, broken firmware, mismatched CPUs, ...
-> 
-> Update documentation and script to reflect that.
-> 
-> Signed-off-by: Mathieu Chouquet-Stringer <me@mathieu.digital>
+> Hearing no objection, I've applied this.
 
-Hearing no objection, I've applied this.
 
-Thanks,
+Hm, I was glad to read this new info since my old testing laptop
+now tells me that it needs a microcode update.  :(
 
-jon
+
+-- 
+~Randy
+
