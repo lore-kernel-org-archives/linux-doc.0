@@ -2,98 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C78C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94BDC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 02:27:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF12E2388B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:47:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 864AB239EB
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 02:27:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727179AbgLHBr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 20:47:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33106 "EHLO
+        id S1727863AbgLHC12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 21:27:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725877AbgLHBrZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 20:47:25 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6416C061749
-        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 17:46:39 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id f9so11716992pfc.11
-        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 17:46:39 -0800 (PST)
+        with ESMTP id S1727842AbgLHC12 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 21:27:28 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269F0C061749
+        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 18:26:42 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id i3so8816203pfd.6
+        for <linux-doc@vger.kernel.org>; Mon, 07 Dec 2020 18:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=cDDiT2/fbCtDgoUoiOoWGl7ZXPm3o9da6nFh8mXI6bY=;
-        b=PUZrOtrULhDFxgf/Y28n4N01fRcozJWagyTMVZxEqYBy6F9YQvovkNr7qLjVAbeGRn
-         jbAT2Zt9Jt88adx1jIHALxH6yq0EJOldqFdbecfjqxE3tuVlDmaDokj7TBDFDK47zvh8
-         ECYcfYPG0mrhb+4kg7zynDhOSKTh2MvVxZMAWNi52emFwYz7WCyyJRDqMUDb15/TCRlS
-         l4Z4g2GHnc9cHYpctC0vNc5zAE5EKyzER0yAMtOUzckKF8/ec4HDxOyYN7yRzjuvhpQz
-         IwUwzG2ahTV20cjYnyOwi3obLcDe/uXv7i6MT+Mu/KLpzJFcuO43yWerBjNiJOu0FMKF
-         p+Ww==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8uyek9MkTmVFbzSBRjPGvZAHmGE/+Xxg4KtWWjpNIQM=;
+        b=YPa5oW5Hgi1GhmfO+I8COAhhJ1zpJhBu3US5LoUescGZWhMX6Y3lQW0U3KTjwmn293
+         fhctzsSt5F9cFgmK4rpOaoVzygUNv/wq0alLedG+kjPBThKbaDnIxgVVEnpKstL2f98S
+         VlE7DpOtpIrICE5enlkHBREoTYhqvZW+vCfyCwfzgJrqLOLOF1JWnCq+C8BGfgYcqC8V
+         kEAEiKYAvFcbyNPJnR9rVKS/Rt3z5c+UNoVCewMEvV1F4yVXI54ukFZmnOJG+6mRssyS
+         UFSxwr0DtKP8q2Rf8O+wrblQwBigLOhR1/8jOT2rwGyN6a+A4uvUsKcmFHBa1+C5ojzM
+         KX+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=cDDiT2/fbCtDgoUoiOoWGl7ZXPm3o9da6nFh8mXI6bY=;
-        b=NbU9G/uiGJteEfr1Hz350fpCCt2btYNerr1ovzfIah4AtdoGcR/BHYl4bvSpQ8/qQ6
-         gOfsFWIFEs3j1dQYMPZYnlNxbW9q6k365r5GqDTjmJ+4SGqjUpliD0ZWr4geEPtL36dK
-         fkkFMW4zOfAhggKa8LdGL2Otcw6QlgBeSagFidGXHZkxZSdIZ1PgcYoYqn0hHxLH4Rm2
-         XCemoRkTkzmOFcPs67Z8HD+Zige5gG5Efj6uUdSnNCWxjTo9vtV0ay19nLhsLMeLNI+7
-         Ypo7xMma1gRxer6G4nJhDXRV6JCb64fNlC940Ptm2YVtI6iTVTPHAEdJrQW/R6GagHU+
-         EFYw==
-X-Gm-Message-State: AOAM532B/vutpUDR2NgCN7R+NQ9E7RvAqfOgB3HJtol4g0ykpIpSUHcm
-        tqMDHHVZvr/I4xB+Olyd4Q==
-X-Google-Smtp-Source: ABdhPJwyu10Sstr3Ppz2XCkDNjW+ODffjC0WiND0bSWei0fMsmqvqJeRS5L6lwbkwSSAL1vk++69lg==
-X-Received: by 2002:a17:90a:db48:: with SMTP id u8mr1642744pjx.81.1607391999221;
-        Mon, 07 Dec 2020 17:46:39 -0800 (PST)
-Received: from JSYoo5B-Base.localdomain ([1.237.110.143])
-        by smtp.gmail.com with ESMTPSA id x10sm14489096pff.214.2020.12.07.17.46.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 17:46:38 -0800 (PST)
-From:   JaeSang Yoo <js.yoo.5b@gmail.com>
-X-Google-Original-From: JaeSang Yoo <jsyoo5b@gmail.com>
-Date:   Tue, 8 Dec 2020 10:46:28 +0900
-To:     corbet@lwn.net, jsyoo5b@gmail.com, mchehab+huawei@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.org,
-        markus.heiser@darmarit.de
-Subject: [PATCH] docs: update requirements to install six module
-Message-ID: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8uyek9MkTmVFbzSBRjPGvZAHmGE/+Xxg4KtWWjpNIQM=;
+        b=D4087zzLtHzu3NIhP1U1HGSamkPmtd+0jPE96BC/yHzeQt6FPWLOrW/aC78RE82vv4
+         UqztnzDm7DZUYOhnIBbaClAOyv/Xs8ItLaKzPicVZAQ2xb1iVxKJSs+XvU3odajlzAYN
+         zswiaybdzBbJS1HkBnjP6pD0lRIyysxPErqwMFLoHDkDWSJG3QCC5ic6supAHL8qaMaV
+         smbRc6N4wFIwLsfjft2tR5r1jzCGt10l+pLa+gjted3t1jLZvrVjyG+Dz5q9KTA7GX7t
+         JG1sn6Qop6mFWeMXHucYTTVp7QjVCJ83J1e48PLkEY8WVysW6TbgoPeqy+gO7rIvak2w
+         IxrQ==
+X-Gm-Message-State: AOAM533rYKa/bXz3HkI11Cx2dLxlmrohvDsKv8ZJhrGqeCl2DDNg2I74
+        w+NJdkNe2S4ZNNndHXTIYAVH1ba3H39xGm87J6neSA==
+X-Google-Smtp-Source: ABdhPJyCq3UF1fpgl0WcY/IWKImwVBiH+TUtaeJ0hWsOuC6cDWgqA4zTZpgtjMbTdH04swBbXun4cYCZlCpRJYe1Y4Q=
+X-Received: by 2002:a17:90a:ae14:: with SMTP id t20mr1867229pjq.13.1607394401606;
+ Mon, 07 Dec 2020 18:26:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <CAMZfGtWvLEytN5gBN+OqntrNXNd3eNRWrfnkeCozvARmpTNAXw@mail.gmail.com>
+ <600fd7e2-70b4-810f-8d12-62cba80af80d@oracle.com> <CAMZfGtX2mu1tyE_898mQeEpmP4Pd+rEKOHpYF=KN=5v4WExpig@mail.gmail.com>
+ <20201207183814.GA3786@localhost.localdomain>
+In-Reply-To: <20201207183814.GA3786@localhost.localdomain>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 8 Dec 2020 10:26:05 +0800
+Message-ID: <CAMZfGtVpTyUfpU7KXY8XZWxpguxLdZ=JmPAyHm4eipQ9o_Z6Bw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v7 00/15] Free some vmemmap pages of
+ hugetlb page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, dave.hansen@linux.intel.com,
+        hpa@zytor.com, x86@kernel.org, bp@alien8.de, mingo@redhat.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        pawan.kumar.gupta@linux.intel.com, mchehab+huawei@kernel.org,
+        paulmck@kernel.org, viro@zeniv.linux.org.uk,
+        Peter Zijlstra <peterz@infradead.org>, luto@kernel.org,
+        oneukum@suse.com, jroedel@suse.de,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Mina Almasry <almasrymina@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        anshuman.khandual@arm.com, Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On the update of Sphinx version to 2.4.4, the "six" library won't be
-installed automatically. (which is required by kfigure.py)
+On Tue, Dec 8, 2020 at 2:38 AM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Fri, Dec 04, 2020 at 11:39:31AM +0800, Muchun Song wrote:
+> > On Fri, Dec 4, 2020 at 7:49 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+> > > As previously mentioned, I feel qualified to review the hugetlb changes
+> > > and some other closely related changes.  However, this patch set is
+> > > touching quite a few areas and I do not feel qualified to make authoritative
+> > > statements about them all.  I too hope others will take a look.
+> >
+> > Agree. I also hope others can take a look at other modules(e.g.
+> > sparse-vmemmap, memory-hotplug). Thanks for everyone's efforts
+> > on this.
+>
+> I got sidetracked by some other stuff but I plan to continue reviewing
+> this series.
 
-Main reason of this issue were occurred by the requirements changed from
-the sphinx library. In Sphinx v1.7.9, six was listed on the
-install_requires, but it has been removed since 2.x
+Many thanks, Oscar.
 
-The kfigure.py uses six library explicitly, adding six to
-requirements.txt seems reasonable
+>
+> One thing that came to my mind is that if we do as David suggested in
+> patch#4, and we move it towards the end to actually __enable__ this
+> once all the infrastructure is there (unless hstate->nr_vmemmap_pages
+> differs from 0 we should not be doing any work AFAIK), we could also
+> move patch#6 to the end (right before the enablement), kill patch#7
+> and only leave patch#13.
+>
+> The reason for that (killing patch#7 and leaving patch#13 only)
+> is that it does not make much sense to me to disable PMD-mapped vmemmap
+> depending on the CONFIG_HUGETLB_xxxxx as that is enabled by default
+> to replace that later by the boot kernel parameter.
+> It looks more natural to me to disable it when we introduce the kernel
+> boot parameter, before the actual enablement of the feature.
 
-Signed-off-by: JaeSang Yoo <jsyoo5b@gmail.com>
----
- Documentation/sphinx/requirements.txt | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for your suggestions. I agree with you. :)
 
-diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-index 489f6626de67..5030d346d23b 100644
---- a/Documentation/sphinx/requirements.txt
-+++ b/Documentation/sphinx/requirements.txt
-@@ -1,3 +1,4 @@
- docutils
- Sphinx==2.4.4
- sphinx_rtd_theme
-+six
+>
+> As I said, I plan to start the review again, but the order above would
+> make more sense to me.
+>
+> thanks
+>
+> --
+> Oscar Salvador
+> SUSE L3
+
+
+
 -- 
-2.25.1
-
+Yours,
+Muchun
