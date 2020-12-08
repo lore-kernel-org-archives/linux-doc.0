@@ -2,129 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2F8C2BB9A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD27AC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:26:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EFB123B54
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:16:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84A9B23B52
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:26:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730849AbgLHSQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 13:16:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43841 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730937AbgLHSQM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 13:16:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607451286;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=M9T5kVr+CAbU/Pqq1HubTPf8M564HNxJMPku0hKIlCY=;
-        b=VT75sXUE4sYF08py/ua35cLvFjMlEUc9IDj8Svlvi9hgaa6OtyZqxPgn1YZPo13IhFMVej
-        +49p6cG6R15CQ9aUr4XhoCe3u0FCvkwlyh2GMauAHnxrX77IYE0XvDsDtcc7pyKaz9H5JS
-        YSZCLnB6D4D859HR7BcNLMpV9a9rnNY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-pdftyMXzODOmvHNI7kaGyA-1; Tue, 08 Dec 2020 13:14:42 -0500
-X-MC-Unique: pdftyMXzODOmvHNI7kaGyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D8B8804002;
-        Tue,  8 Dec 2020 18:14:40 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-8.gru2.redhat.com [10.97.112.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D5D160877;
-        Tue,  8 Dec 2020 18:14:39 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
-        id 51416405CBC7; Tue,  8 Dec 2020 15:11:07 -0300 (-03)
-Date:   Tue, 8 Dec 2020 15:11:07 -0300
-From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        id S1730949AbgLHS0K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 13:26:10 -0500
+Received: from mga02.intel.com ([134.134.136.20]:29455 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730894AbgLHS0K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Dec 2020 13:26:10 -0500
+IronPort-SDR: /yg7CeF3YvlmAQnd/x01t6+NXRWrpogDAn9HQAxozVRZT4CkfnTv3k2FaxfHf7o4iwsfhbAMex
+ r18DfVZEjBDw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="160995662"
+X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
+   d="scan'208";a="160995662"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:29 -0800
+IronPort-SDR: MVXY+ufzzjWpRkO/fcrw7djp1AEmJjNq9PnlBlwIbD8V1ZktkEzklCAxWd0oBRp2C8pAxGfKhi
+ xQw8ZyCXIxMA==
+X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
+   d="scan'208";a="317917122"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.139.184]) ([10.209.139.184])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 10:25:27 -0800
+Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201208181107.GA31442@fuller.cnet>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <20201207232920.GD27492@fuller.cnet>
- <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
- <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
+ <20201110162211.9207-9-yu-cheng.yu@intel.com>
+ <20201208175014.GD27920@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
+Date:   Tue, 8 Dec 2020 10:25:15 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201208175014.GD27920@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 05:02:07PM +0100, Thomas Gleixner wrote:
-> On Tue, Dec 08 2020 at 16:50, Maxim Levitsky wrote:
-> > On Mon, 2020-12-07 at 20:29 -0300, Marcelo Tosatti wrote:
-> >> > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
-> >> > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
-> >> > +
-> >> > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
-> >> > +KVM will adjust the guest TSC value by the time that passed since the moment
-> >> > +CLOCK_REALTIME timestamp was saved in the struct and current value of
-> >> > +CLOCK_REALTIME, and set the guest's TSC to the new value.
-> >> 
-> >> This introduces the wraparound bug in Linux timekeeping, doesnt it?
+On 12/8/2020 9:50 AM, Borislav Petkov wrote:
+> On Tue, Nov 10, 2020 at 08:21:53AM -0800, Yu-cheng Yu wrote:
+>> There is essentially no room left in the x86 hardware PTEs on some OSes
+>> (not Linux).  That left the hardware architects looking for a way to
+>> represent a new memory type (shadow stack) within the existing bits.
+>> They chose to repurpose a lightly-used state: Write=0,Dirty=1.
 > 
-> Which bug?
-
-max_cycles overflow. Sent a message to Maxim describing it.
-
+> It is not clear to me what the definition and semantics of that bit is.
 > 
-> > It does.
-> > Could you prepare a reproducer for this bug so I get a better idea about
-> > what are you talking about?
-> >
-> > I assume you need very long (like days worth) jump to trigger this bug
-> > and for such case we can either work around it in qemu / kernel 
-> > or fix it in the guest kernel and I strongly prefer the latter.
-> >
-> > Thomas, what do you think about it?
+> +#define _PAGE_BIT_COW          _PAGE_BIT_SOFTW5 /* copy-on-write */
 > 
-> For one I have no idea which bug you are talking about and if the bug is
-> caused by the VMM then why would you "fix" it in the guest kernel.
+> Is it set by hw or by sw and hw uses it to know it is a shadow stack
+> page, and so on.
+> 
+> I think you should lead with its definition.
 
-1) Stop guest, save TSC value of cpu-0 = V.
-2) Wait for some amount of time = W.
-3) Start guest, load TSC value with V+W.
+Ok.
 
-Can cause an overflow on Linux timekeeping.
+...
 
-> Aside of that I think I made it pretty clear what the right thing to do
-> is.
+>> Write=0,Dirty=1 PTEs.  In places where we do create them, we need to find
+>> an alternative way to represent them _without_ using the same hardware bit
+>> combination.  Thus, enter _PAGE_COW.  This results in the following:
+>>
+>> (a) A modified, copy-on-write (COW) page: (R/O + _PAGE_COW)
+>> (b) A R/O page that has been COW'ed: (R/O + _PAGE_COW)
+> 
+> Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
 
-Sure: the notion of a "unique TSC offset" already exists (it is detected
-by write TSC logic, and not explicit in the interface, though).
+The PTEs are the same for both (a) and (b), but come from different routes.
 
-But AFAIK it works pretty well.
+>>      The user page is in a R/O VMA, and get_user_pages() needs a writable
+>>      copy.  The page fault handler creates a copy of the page and sets
+>>      the new copy's PTE as R/O and _PAGE_COW.
+>> (c) A shadow stack PTE: (R/O + _PAGE_DIRTY_HW)
+> 
+> So W=0, D=1 ?
 
-Exposing a single TSC value on the interface level seems alright to
-me...
+Yes.
 
+>> (d) A shared shadow stack PTE: (R/O + _PAGE_COW)
+>>      When a shadow stack page is being shared among processes (this happens
+>>      at fork()), its PTE is cleared of _PAGE_DIRTY_HW, so the next shadow
+>>      stack access causes a fault, and the page is duplicated and
+>>      _PAGE_DIRTY_HW is set again.  This is the COW equivalent for shadow
+>>      stack pages, even though it's copy-on-access rather than copy-on-write.
+>> (e) A page where the processor observed a Write=1 PTE, started a write, set
+>>      Dirty=1, but then observed a Write=0 PTE.
+> 
+> How does that happen? Something changed the PTE's W bit to 0 in-between?
+
+Yes.
+
+...
+
+>> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+>> index b23697658b28..c88c7ccf0318 100644
+>> --- a/arch/x86/include/asm/pgtable.h
+>> +++ b/arch/x86/include/asm/pgtable.h
+>> @@ -121,9 +121,9 @@ extern pmdval_t early_pmd_flags;
+>>    * The following only work if pte_present() is true.
+>>    * Undefined behaviour if not..
+>>    */
+>> -static inline int pte_dirty(pte_t pte)
+>> +static inline bool pte_dirty(pte_t pte)
+>>   {
+>> -	return pte_flags(pte) & _PAGE_DIRTY_HW;
+>> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
+> 
+> Why?
+> 
+> Does _PAGE_COW mean dirty too?
+
+Yes.  Basically [read-only & dirty] is created by software.  Now the 
+software uses a different bit.
+
+>> @@ -343,6 +349,17 @@ static inline pte_t pte_mkold(pte_t pte)
+>>   
+>>   static inline pte_t pte_wrprotect(pte_t pte)
+>>   {
+>> +	/*
+>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>> +	 * a shadow stack PTE (RW=0,Dirty=1).  Move the hardware
+>> +	 * dirty value to the software bit.
+>> +	 */
+>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>> +		pte.pte |= (pte.pte & _PAGE_DIRTY_HW) >>
+>> +			   _PAGE_BIT_DIRTY_HW << _PAGE_BIT_COW;
+> 
+> Let that line stick out. And that shifting is not grokkable at a quick
+> glance, at least not to me. Simplify?
+
+Ok.
+
+>>   static inline pmd_t pmd_wrprotect(pmd_t pmd)
+>>   {
+>> +	/*
+>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>> +	 * a shadow stack PMD (RW=0,Dirty=1).  Move the hardware
+>> +	 * dirty value to the software bit.
+> 
+> This whole carefully sidestepping the possiblity of creating a shadow
+> stack pXd is kinda sucky...
+> 
+>> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+>> index 7462a574fc93..5f764d8d9bae 100644
+>> --- a/arch/x86/include/asm/pgtable_types.h
+>> +++ b/arch/x86/include/asm/pgtable_types.h
+>> @@ -23,7 +23,8 @@
+>>   #define _PAGE_BIT_SOFTW2	10	/* " */
+>>   #define _PAGE_BIT_SOFTW3	11	/* " */
+>>   #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+>> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+>> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+>> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+>>   #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+>>   #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+>>   #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+>> @@ -36,6 +37,16 @@
+>>   #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+>>   #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+>>   
+>> +/*
+>> + * This bit indicates a copy-on-write page, and is different from
+>> + * _PAGE_BIT_SOFT_DIRTY, which tracks which pages a task writes to.
+>> + */
+>> +#ifdef CONFIG_X86_64
+> 
+> CONFIG_X86_64 ? Do all x86 machines out there support CET?
+> 
+> If anything, CONFIG_X86_CET...
+
+Ok.
+
+--
+Yu-cheng
