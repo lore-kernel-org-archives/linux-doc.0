@@ -2,121 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA427C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89677C2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3EE823A82
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B02723A52
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727958AbgLHJjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:39:25 -0500
-Received: from mga01.intel.com ([192.55.52.88]:3517 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727831AbgLHJjY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Dec 2020 04:39:24 -0500
-IronPort-SDR: RJGCzVcAxNlQricLjz/DfdP+9ItWBjQ4wrobbJRprvRGrx6Laaip7Yanyb3ViB2JHe6VI87AF7
- xvzf09HF7KOw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="192145328"
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="192145328"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 01:37:37 -0800
-IronPort-SDR: ZLLqWybu4KNlwT0nEra2KW9AAi9SfnFfqpqzXJdn+3aobKyzkNBm4nS7myaqwoGh6IiPV0zit4
- L+35aKnD+L+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
-   d="scan'208";a="437320455"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 08 Dec 2020 01:37:35 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 08 Dec 2020 11:37:34 +0200
-Date:   Tue, 8 Dec 2020 11:37:34 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashant Malani <pmalani@chromium.org>
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        bleung@chromium.org, Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
-Message-ID: <20201208093734.GD680328@kuha.fi.intel.com>
-References: <20201203030846.51669-1-pmalani@chromium.org>
+        id S1728994AbgLHJju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:39:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728544AbgLHJju (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:39:50 -0500
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAF6C0611C5
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 01:38:56 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id t22so18399841ljk.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 01:38:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Df6CqLv6JOagx1Y8po8wBRxgE1D965nfEA75Zeqy5oU=;
+        b=hiBfGGso9wRtqNNhBBDBX1PZJI4bsFd8GYtW1arlG6wQ4COUeIZUEbdlyvCERMJMNo
+         G3mKLQX6l8yLU9kEnfD7DSvjlpMv/k/voYdOTNP7XWZPPJ/qSQk8mxqGTTh8jNzexWF+
+         IM8Az+l2VS7WmMT17YcIg6P/3wHd3R+VH1SSg9INsPTtt3qSUiUthy5zd7hakcqWkB+O
+         qSfwe3vWou5ZGLP9SOQvoHKDMgFZGQ1O3JUjz3sj++5TS4p8K381xHRqUXYIzwKWdgKO
+         FQZL/lFJPkZkG5N/3mq019RC7s6wgK9FMFx6XuoeVpbfGEDxYEjwM070MoklamNKuEIX
+         cY5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Df6CqLv6JOagx1Y8po8wBRxgE1D965nfEA75Zeqy5oU=;
+        b=AW7kpy2JZuTRaZYZ4Ju6WXMAg75Y6LyScS/ROfhHiUskD6Xgz7/i52cuQM8eCEixC1
+         rVScGkDNET37o56UIKkOJsox4RD5ASaOJa37UEZGrtpGuScLmUluXvgRzBwWJrOjcPne
+         K5PxTBVeLDdjYby23TNS2gLqtQKz8K4zwFmz+gtrgRMOBPRNeKQ1je246Y1W4TuODAR3
+         xERVpMQNzBMjHbQjyLBLOTUYvk7UPUrlqI9BK2nSYf7vrei1Dug1PCGOYZ12oERT/ydo
+         HFA5idUexxnCx7RVmETgAIMiDopmxjtMA5thlY5yEXum0FLkDetaBkSw8H9oZN3Hbd0y
+         G7zA==
+X-Gm-Message-State: AOAM5322I+LymDqttw1A31RYJjKZ2ofqewemwdxIFlY5+7W3LtQ0pQcG
+        RXnQCrNeC3z8giz5oCGur7tFif5TJJzxkT2xthEn7g==
+X-Google-Smtp-Source: ABdhPJxQWX+drL6yggghfNbiTL59lvfCIOzavoQ1GoTxnH37PaUwIwrN8fyjAkWeHJ5nGm3eQq7eo4VvW5wksxdLa68=
+X-Received: by 2002:a2e:910f:: with SMTP id m15mr10801861ljg.467.1607420334616;
+ Tue, 08 Dec 2020 01:38:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201203030846.51669-1-pmalani@chromium.org>
+References: <20201203191135.21576-1-info@metux.net> <20201203191135.21576-2-info@metux.net>
+ <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
+In-Reply-To: <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 8 Dec 2020 10:38:43 +0100
+Message-ID: <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
+Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
+ drivers: gpio: add virtio-gpio guest driver
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
-> Add the Type C bus for plug alternate modes which are being
-> registered via the Type C connector class. This ensures that udev events
-> get generated when plug alternate modes are registered (and not just for
-> partner/port alternate modes), even though the Type C bus doesn't link
-> plug alternate mode devices to alternate mode drivers.
+On Sat, Dec 5, 2020 at 9:15 PM Enrico Weigelt, metux IT consult
+<lkml@metux.net> wrote:
 
-I still don't understand how is the uevent related to the bus? If you
-check the device_add() function, on line 2917, kobject_uevent() is
-called unconditionally. The device does not need a bus for that event
-to be generated.
+> The virtio-gpio device/host can raise a signal on line state change.
+> Kinda IRQ, but not actually running through real IRQs, instead by a
+> message running though queue. (hmm, kida MSI ? :o).
+>
+> I've tried allocating an IRQ range and calling generic_handle_irq(),
+> but then I'm getting unhanled IRQ trap.
 
-Also, I don't understand how are the cable plug alt modes now
-prevented from being bind to the alt mode drivers?
+This is Bartosz territory, but the gpio-mockup.c driver will insert
+IRQs into the system, he went and added really core stuff
+into kernel/irq to make this happen. Notice that in Kconfig
+it does:
 
-> Update the Type C bus documentation to mention that there
-> are alternate mode devices for plugs as well.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  Documentation/driver-api/usb/typec_bus.rst | 6 +++---
->  drivers/usb/typec/class.c                  | 8 ++++++--
->  2 files changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
-> index 21c890ae17e5..7874d2f37d9f 100644
-> --- a/Documentation/driver-api/usb/typec_bus.rst
-> +++ b/Documentation/driver-api/usb/typec_bus.rst
-> @@ -15,9 +15,9 @@ modes by using the SVID and the mode number.
->  
->  :ref:`USB Type-C Connector Class <typec>` provides a device for every alternate
->  mode a port supports, and separate device for every alternate mode the partner
-> -supports. The drivers for the alternate modes are bound to the partner alternate
-> -mode devices, and the port alternate mode devices must be handled by the port
-> -drivers.
-> +or cable plug supports. The drivers for the alternate modes are bound to the
-> +partner alternate mode devices, and the port alternate mode devices must be
-> +handled by the port drivers.
->  
->  When a new partner alternate mode device is registered, it is linked to the
->  alternate mode device of the port that the partner is attached to, that has
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 35eec707cb51..74061a699f16 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -478,8 +478,12 @@ typec_register_altmode(struct device *parent,
->  	if (!is_port)
->  		typec_altmode_set_partner(alt);
->  
-> -	/* The partners are bind to drivers */
-> -	if (is_typec_partner(parent))
-> +	/*
-> +	 * The partners are bind to drivers.
-> +	 * Also set the bus field for plug alt modes so that the udev event occurs on device
-> +	 * registration.
-> +	 */
-> +	if (is_typec_partner(parent) || is_typec_plug(parent))
->  		alt->adev.dev.bus = &typec_bus;
->  
->  	ret = device_register(&alt->adev.dev);
-> -- 
-> 2.29.2.454.gaff20da3a2-goog
+select IRQ_SIM
 
-thanks,
+Then this is used:
+include/linux/irq_sim.h
 
--- 
-heikki
+This is intended for simulating IRQs and both GPIO and IIO use it.
+I think this inserts IRQs from debugfs and I have no idea how
+flexible that is.
+
+If it is suitable for what you want to do I don't know but it's
+virtio so...
+
+Yours,
+Linus Walleij
