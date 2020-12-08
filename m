@@ -2,98 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 479DEC1B0D9
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 650AEC4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:09:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0341623A9B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:49:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32B3123A31
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:09:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbgLHJtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:49:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50582 "EHLO
+        id S1729039AbgLHKJO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 05:09:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728028AbgLHJtN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:49:13 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C952C061749;
-        Tue,  8 Dec 2020 01:48:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7bcvgstjEVppk7+MPyrtpEwXq1xns69yzQtxAznXpyE=; b=SkHw+uYjKNb2aRytJV+52kzv2l
-        MvuPXaK9BuESM9VjTmzXK7/dz2iUL0/CKuWMcKZ6ylR9V4qTU7kKLJA5oLvopX9zlQZ4lr/4q0pxn
-        pJ5DFi/Q9r5l3f8IE+PuhxpAgDXnh+rvAvTG3y8cWw1EoGb8l8jrm8Naru/+2I2BcKHaoig27oXck
-        b5//ZGMl6IejdckF35Y9xfmYGwR5VzWAxWNuFGEd8GaLJUYm5QLsYd/K0V235dnZSO3q0PLZd8f0n
-        huBpRfNObPAfLG2WG+A+Ez5TyuQpzHN9KZtrerHlyJ8KCFiD1PqDgzYQIE1W6V457XeIvQmtI4iQr
-        +aaB37sA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmZbQ-0002Bc-38; Tue, 08 Dec 2020 09:48:12 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 91DA7304BAE;
-        Tue,  8 Dec 2020 10:48:09 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7B47720812B43; Tue,  8 Dec 2020 10:48:09 +0100 (CET)
-Date:   Tue, 8 Dec 2020 10:48:09 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201208094809.GT2414@hirez.programming.kicks-ass.net>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
- <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
- <87im9dlpsw.fsf@vitty.brq.redhat.com>
- <875z5d5x9m.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S1729038AbgLHKJO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 05:09:14 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03329C0613D6
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 02:08:33 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id a12so8832940wrv.8
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 02:08:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AZ1JoaEugH2kZjiM+1q8p4p22cxzbXAaz18ICTGEw5w=;
+        b=i8dF9UQdWs6QIpFpplKtGnT0gZMxooWKlGoQwA9Pl9IGUpXvDUntpDIWxBzAhlVS1G
+         VSf06k+DRZQ9MylRwjBygEtv0u8c0WIPa4EmRcGnuaN8/MsrwcmKV1BBeT/xFC+LhOz1
+         2ahcumv86T0qh7CJ9zR9ZNuLCrPMhokFUByDr0SZZGVTkA3fXFBtQ25SiRZstVoqET+B
+         5jR2XRO76aMCn5LBpgMH6DVgEZOuLeYjiyncb7nUFhdWi9gNieHrGwE1KEl6oX0J30TY
+         d/AF9zdhTEEpUbKePFmY6n30mQd9I89QNzZXNModfQwwp6yk2GuilYZvkro+HwL37V98
+         vOCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AZ1JoaEugH2kZjiM+1q8p4p22cxzbXAaz18ICTGEw5w=;
+        b=POs/f8OnSe68XcfA3Ub9FZltcl2aOrrV6TdqBrKXCEwhI3fZ4is58xYW1eRp73M4rz
+         bciLEM0rKrBZ1GHc6NDi2w5qpBPuaaFYVU8jLTxHqlkWeOqFTPW28BaTnPXSMWrGN0uJ
+         0WyDtHBIp08xu34BvZHmerNx9zhmQ91ktL+MZErVCee5ZRVSha9/y/GLz5n3sm9erj2Y
+         A+fPiLgxGg68sstvJnj4o7nT3sWJZKhaNLB48xuF/5vfajbOVKPANL6q0lp3roJqsXSF
+         plo+Zxz/cLKCQsHObRRnZBEIe0llBK7nY1ZpTnXs5bfRDvTUW0afgItZnLE1Wz/S9RGu
+         3t1w==
+X-Gm-Message-State: AOAM5313uuw40CSrYeIUJIBIe1uHPbNVWM4i2mUAJgzDVPntgqjIMyR5
+        OYTZTeG/k4wM/z+11QhIJscRPg==
+X-Google-Smtp-Source: ABdhPJx0/5YZtTz2GMggQZzAzXjM+OSm7kqbGZ6gvhOEG4D5YV1WkhrI2ITa8y8DL0W4HS9m5064iA==
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr24415607wrt.425.1607422112519;
+        Tue, 08 Dec 2020 02:08:32 -0800 (PST)
+Received: from google.com ([2a01:4b00:8523:2d03:258e:cb26:cef:a620])
+        by smtp.gmail.com with ESMTPSA id q73sm2667566wme.44.2020.12.08.02.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 02:08:31 -0800 (PST)
+Date:   Tue, 8 Dec 2020 10:08:30 +0000
+From:   David Brazdil <dbrazdil@google.com>
+To:     Qian Cai <qcai@redhat.com>
+Cc:     kvmarm@lists.cs.columbia.edu, Marc Zyngier <maz@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-arm-kernel@lists.infradead.org, Tejun Heo <tj@kernel.org>,
+        Dennis Zhou <dennis@kernel.org>,
+        Christoph Lameter <cl@linux.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 17/26] kvm: arm64: Add offset for hyp VA <-> PA
+ conversion
+Message-ID: <20201208100830.dhkkhzsqiy46euod@google.com>
+References: <20201202184122.26046-1-dbrazdil@google.com>
+ <20201202184122.26046-18-dbrazdil@google.com>
+ <1835d0c3d0f6024b7c6778d9d84f1120291eacad.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <875z5d5x9m.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <1835d0c3d0f6024b7c6778d9d84f1120291eacad.camel@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 06:41:41PM +0100, Thomas Gleixner wrote:
+Hi Qian,
 
-> Right this happens still occasionally, but for quite some time this is
-> 100% firmware sillyness and not a fundamental property of the hardware
-> anymore.
+> > +/*
+> > + * Store a hyp VA <-> PA offset into a hyp-owned variable.
+> > + */
+> > +static void init_hyp_physvirt_offset(void)
+> > +{
+> > +	extern s64 kvm_nvhe_sym(hyp_physvirt_offset);
+> > +	u64 kern_va, hyp_va;
+> > +
+> > +	/* Compute the offset from the hyp VA and PA of a random symbol. */
+> > +	kern_va = (u64)kvm_ksym_ref(__hyp_text_start);
+> > +	hyp_va = __early_kern_hyp_va(kern_va);
+> > +	CHOOSE_NVHE_SYM(hyp_physvirt_offset) = (s64)__pa(kern_va) - (s64)hyp_va;
+> 
+> The code here introduced a warning on TX2 from today's linux-next.
+> 
+> .config: https://cailca.coding.net/public/linux/mm/git/files/master/arm64.config
+> 
+> [   29.356963] CPU255: Booted secondary processor 0x0000011f03 [0x431f0af1]
+> [   29.358301] smp: Brought up 2 nodes, 256 CPUs
+> [   29.364962] SMP: Total of 256 processors activated.
+> [   29.364985] CPU features: detected: Privileged Access Never
+> [   29.365003] CPU features: detected: LSE atomic instructions
+> [   29.365023] CPU features: detected: CRC32 instructions
+> [   29.431660] CPU: All CPU(s) started at EL2
+> [   29.431685] ------------[ cut here ]------------
+> [   29.431713] virt_to_phys used for non-linear address: (____ptrval____) (__hyp_idmap_text_end+0x0/0x534)
+> [   29.431744] WARNING: CPU: 0 PID: 1 at arch/arm64/mm/physaddr.c:15 __virt_to_phys+0x80/0xc0
+> [   29.431759] Modules linked in:
+> [   29.431787] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.10.0-rc6-next-20201207+ #2
+> [   29.431804] pstate: 10400009 (nzcV daif +PAN -UAO -TCO BTYPE=--)
+> [   29.431819] pc : __virt_to_phys+0x80/0xc0
+> [   29.431834] lr : __virt_to_phys+0x80/0xc0
+> [   29.431848] sp : ffff000005fefc90
+> [   29.431862] x29: ffff000005fefc90 x28: ffff8000191c9010 
+> [   29.431891] x27: ffff000005f21228 x26: b14e19fe279ae3eb 
+> [   29.431920] x25: ffff8000191c9010 x24: ffff8000191c9000 
+> [   29.431948] x23: ffff8000191c9000 x22: 000f800011235acc 
+> [   29.431975] x21: 0000000000000001 x20: 000f800000000000 
+> [   29.432003] x19: ffff800011235acc x18: ffff6001cedcc336 
+> [   29.432031] x17: 0000000000001308 x16: 0000000000000002 
+> [   29.432058] x15: 0000000000000000 x14: 7261656e696c2d6e 
+> [   29.432086] x13: ffff600000bfdee7 x12: 1fffe00000bfdee6 
+> [   29.432113] x11: 1fffe00000bfdee6 x10: ffff600000bfdee6 
+> [   29.432141] x9 : ffff80001020a928 x8 : ffff000005fef737 
+> [   29.432169] x7 : 0000000000000001 x6 : ffff600000bfdee7 
+> [   29.432196] x5 : ffff600000bfdee7 x4 : 1fffe00000bfdedc 
+> [   29.432223] x3 : 1fffe00000be4009 x2 : ffff600000bfdf5c 
+> [   29.432251] x1 : 8fd448c3d76ca800 x0 : 0000000000000000 
+> [   29.432279] Call trace:
+> [   29.432294]  __virt_to_phys+0x80/0xc0
+> [   29.432312]  kvm_compute_layout+0x21c/0x264
+> init_hyp_physvirt_offset at arch/arm64/kvm/va_layout.c:47
+> (inlined by) kvm_compute_layout at arch/arm64/kvm/va_layout.c:82
+> [   29.432327]  smp_cpus_done+0x164/0x17c
+> [   29.432342]  smp_init+0xc4/0xd8
+> [   29.432358]  kernel_init_freeable+0x4ec/0x734
+> [   29.432375]  kernel_init+0x18/0x12c
+> [   29.432391]  ret_from_fork+0x10/0x1c
+> [   29.432405] irq event stamp: 490612
+> [   29.432424] hardirqs last  enabled at (490611): [<ffff800010207f60>] console_unlock+0x8e0/0xca0
+> [   29.432440] hardirqs last disabled at (490612): [<ffff800011212f44>] el1_dbg+0x24/0x50
+> [   29.432455] softirqs last  enabled at (487946): [<ffff800010010a98>] _stext+0xa98/0x113c
+> [   29.432473] softirqs last disabled at (487939): [<ffff8000100ec5e8>] irq_exit+0x500/0x5e0
+> [   29.432492] ---[ end trace 96247b4cbbdf9333 ]---
+> 
 
-Ever since Nehalem (2008) TSC is synchronized on <= 2 sockets, and any
-observed deviation is firmware fail. I don't remember exactly where 4
-socket and up got reliable.
+Thanks for the report, I've been able to reproduce with CONFIG_DEBUG_VIRTUAL=y
+and the kernel running in EL2. Doesn't pose any functional issues as the results
+of this are never used. I'll post a fix later today.
 
-(there's the physical hotplug case, but let's not make this complicated)
+David
 
-AMD has had Constant TSC since Barcelona which is roughly the same
-timeframe IIRC.
 
-So basically every TSC fail in the last decase is due to firmware being
-shit.
