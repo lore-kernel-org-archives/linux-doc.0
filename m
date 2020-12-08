@@ -2,125 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8301FC4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:14:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED2FC4167B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:43:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DC4123A6C
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:14:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A90C623A68
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:43:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725910AbgLHHOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 02:14:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbgLHHOE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 02:14:04 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6775EC061749;
-        Mon,  7 Dec 2020 23:13:24 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id m9so11383862pgb.4;
-        Mon, 07 Dec 2020 23:13:24 -0800 (PST)
+        id S1727702AbgLHHnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 02:43:22 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:59625 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727483AbgLHHnW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 02:43:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xWmdWORP2xSA8SF/fBBpyGpTlHNeOKrylAwBcpLi8AI=;
-        b=HWBopCdK/zYKNU9XaTrzy+MvtNpyCzBNPw+Hr87VL7ax98P0PaHHUB3zs5RMNX7zHk
-         4TrRqWtPDyjZXCoHrQ9UVGcxOAO8JgmPGuWGifb8DUnD4ZRhCNeyZy4+rK57tubOe5bJ
-         i0V5lBf891j+bWsiMGfTsYrwgmSt3efjd1iBNxQ06w8xK5G9Kmb3Q/hQ3TG+/mnXRBkD
-         tEbPtduFckcWYZ/PEqAGU5KAt0t0pEuZ5Hg7F1fg7ADzL0BW2ezb9lWesvuOefxrY6+z
-         Fi81gVrQVzuyYD+u/jNoPIBWqjwvjhlru/bwulBAWT8lUHF+bAeGj/a8cEK65NUd4NO6
-         hkhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xWmdWORP2xSA8SF/fBBpyGpTlHNeOKrylAwBcpLi8AI=;
-        b=gUHhc7jB/IwYVkwRV6USL/sIPy2d4Xo2e3XyIMhH8rlSvr5btsMcTucs3JDkilsNM6
-         Yur93tJnn8RVJ1ktNTQ12obhVNQ5oSooWgpu3qldw1KI26EBxb2lNLpdil4sqz1lhr2y
-         1auRRScNHllTZDz6cD6k7zHihE6a4H3ogUj7Y6PGHdHwk/lkF94OJLFmTIE3Zk1WbDBo
-         epJ1u6mNRMVM7DQLPK6WP12GWOc5UF069VSWHBFudA4JAJ1K5kFdNQi09OAzcdpSJ+dP
-         ebSPdL1TcysbmnXTBenwUwOWLYf5UKjtN4M3LTZz5n4Nr6jqyf6ps0zf4HlICVDHakrm
-         vwdg==
-X-Gm-Message-State: AOAM531ryoS1/JYnOEJLe+4HyIohX6li/2bwSabHxu+h84juqVx7aD7m
-        KCX3aQfm4VfXs7qaujwbCPTW3Ovwsxs=
-X-Google-Smtp-Source: ABdhPJwzvlkqPw8IlSOUgigm/jQwVrd9OMVHM0DBNKMKS8I45sshs8/gAeGFl1eTOVhtP+3DgSeZPg==
-X-Received: by 2002:a63:b554:: with SMTP id u20mr21681043pgo.249.1607411603843;
-        Mon, 07 Dec 2020 23:13:23 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
-        by smtp.gmail.com with ESMTPSA id b14sm15074971pgj.9.2020.12.07.23.13.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 23:13:22 -0800 (PST)
-Date:   Tue, 8 Dec 2020 16:13:20 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        ". Christoph Hellwig" <hch@lst.de>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20201208071320.GA1667627@google.com>
-References: <20201125221917.150463-1-ribalda@chromium.org>
- <20201130083410.GD32234@lst.de>
- <20201201033658.GE3723071@google.com>
- <20201201144916.GA14682@lst.de>
- <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1607413401; x=1638949401;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=5nAvOheFRPFgUtfiqscEViDDQqJQXvSdA1jrKPlN6VQ=;
+  b=mjj98C2/qWoijXbUL7qyAtiipAB96ZUOlbGkx6no5yVZdU6LTQiTZ/nK
+   MhLkQRJ4ozQJna0LI7OUwQhZkgvhGtC68wn9843M1H4h8XcghojgGcz++
+   Qgm4LdBsVTB39e2nIH83pXkeQBi7Dgu+JKmMKQjXZ226A/NpV7xDDakYm
+   M=;
+X-IronPort-AV: E=Sophos;i="5.78,401,1599523200"; 
+   d="scan'208";a="102504134"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 08 Dec 2020 07:42:34 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id A2109A1D31;
+        Tue,  8 Dec 2020 07:42:31 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.43) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 8 Dec 2020 07:42:13 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     Shakeel Butt <shakeelb@google.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v22 01/18] mm: Introduce Data Access MONitor (DAMON)
+Date:   Tue, 8 Dec 2020 08:41:59 +0100
+Message-ID: <20201208074159.25172-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201126115157.6888-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.43]
+X-ClientProxiedBy: EX13D13UWB002.ant.amazon.com (10.43.161.21) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On (20/12/08 13:54), Tomasz Figa wrote:
+On Thu, 26 Nov 2020 12:51:57 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+
+> Hi Shakeel,
 > 
-> In any case, Sergey is going to share a preliminary patch on how the
-> current API would be used in the V4L2 videobuf2 framework. That should
-> give us more input on how such a helper could look.
+> 
+> Thanks for the review! :D
+> 
+> On Wed, 25 Nov 2020 07:29:10 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+> 
+> > On Tue, Oct 20, 2020 at 2:01 AM SeongJae Park <sjpark@amazon.com> wrote:
+> > >
+> > > From: SeongJae Park <sjpark@amazon.de>
+> > >
+> > > DAMON is a data access monitoring framework for the Linux kernel.  The
+> > > core mechanisms of DAMON make it
+> > >
+> > >  - accurate (the monitoring output is useful enough for DRAM level
+> > >    performance-centric memory management; It might be inappropriate for
+> > >    CPU Cache levels, though),
+> > >  - light-weight (the monitoring overhead is normally low enough to be
+> > >    applied online), and
+> > >  - scalable (the upper-bound of the overhead is in constant range
+> > >    regardless of the size of target workloads).
+> > >
+> > > Using this framework, hence, we can easily write efficient kernel space
+> > > data access monitoring applications.  For example, the kernel's memory
+> > > management mechanisms can make advanced decisions using this.
+> > > Experimental data access aware optimization works that incurring high
+> > > access monitoring overhead could implemented again on top of this.
+> > >
+> > > Due to its simple and flexible interface, providing user space interface
+> > > would be also easy.  Then, user space users who have some special
+> > > workloads can write personalized applications for better understanding
+> > > and optimizations of their workloads and systems.
+> > >
+> > > That said, this commit is implementing only basic data structures and
+> > > simple manipulation functions of the structures.  The core mechanisms of
+> > > DAMON will be implemented by following commits.
+> > >
+> > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> > > Reviewed-by: Varad Gautam <vrd@amazon.de>
+> > 
+[...]
+> > I would suggest to separate
+> > the core (damon context) from the target related structs (target,
+> > region, addr range).
+> 
+> To be honest, I unsure if I'm fully understanding what specific change you want
+> to make.  So if I'm misunderstanding your point below, please let me know.
+> 
+> Seems like you are concerning for future support of special kind use cases that
+> don't need targets/regions/addresses, such as page granularity monitoring that
+> having interest in only if the pages accessed or not, rather than access
+> frequency.  In the context, your suggestion makes sense as the region
+> abstraction is only burden in the case, as I also mentioned in the cover
+> letter.  This could be done via idle pages tracking, but DAMON will be able to
+> do this faster by reducing the number of user-kernel context switches.
+> 
+> I once considered adding some change in the core part for efficient support of
+> such use cases, but resulted in believing that the best way for that is
+> implementing another primitive for the case and use it in a controlled way.
+> 
+> In a high level, it should disable the 'adaptive regions adjustment' feature
+> and define it's own targets structs other than the damon_target.  Then, your
+> implementation of the primitive callbacks should use your own targets.
+> 
+> In more detail, the 'adaptive regions adjustment' can be disabled by setting
+> the min_nr_regions and max_nr_regions of the damon_ctx with same value, say, 0.
+> Your own targets structs could be stored in 'damon_callback->private'.  Or, we
+> could add another 'private' field in damon_ctx for that.
+> 
+> I think this will work, but I also admit that this could look like a hairy
+> hack to someone.  Fundamentally, this is because the region based
+> overhead/accuracy handling is strongly coupled in the design.  So, I think what
+> you are really suggesting is making DAMON more general by default and
+> supporting the region based overhead/accuracy handling additionally.
+> 
+> If I'm understanding correctly, how about below like change?  Obviously this
+> should be cleaned up a lot, but I just want to quickly share my idea and
+> discuss.  Also note that it's based on the damon/next tree[1].
+> 
+> [1] https://github.com/sjp38/linux/tree/damon/next
+> 
+> +enum damon_type {
+> +       ARBITRARY_TARGETS,
+> +       ADAPTIVE_REGIONS,
+> +};
+> +
+> +struct damon_adaptive_regions_ctx {
+> +       unsigned long min_nr_regions;
+> +       unsigned long max_nr_regions;
+> +       struct list_head targets;
+> +       struct list_head schemes;
+> +};
+> +
+>  /**
+>   * struct damon_ctx - Represents a context for each monitoring.  This is the
+>   * main interface that allows users to set the attributes and get the results
+> @@ -243,8 +255,6 @@ struct damon_ctx {
+>         unsigned long sample_interval;
+>         unsigned long aggr_interval;
+>         unsigned long regions_update_interval;
+> -       unsigned long min_nr_regions;
+> -       unsigned long max_nr_regions;
+> 
+>         struct timespec64 last_aggregation;
+>         struct timespec64 last_regions_update;
+> @@ -253,11 +263,14 @@ struct damon_ctx {
+>         bool kdamond_stop;
+>         struct mutex kdamond_lock;
+> 
+> -       struct list_head targets_list;  /* 'damon_target' objects */
+> -       struct list_head schemes_list;  /* 'damos' objects */
+> -
+>         struct damon_primitive primitive;
+>         struct damon_callback callback;
+> +
+> +       enum damon_type type;
+> +       union {
+> +               struct damon_adaptive_regions_ctx arctx;
+> +               void *targets;
+> +       };
+>  };
+> 
+> The patchset will first introduce DAMON as only ARBITRARY_TARGETS (or, would
+> TINY be a better name?) type supporting form.  After that, following patch will
+> add ADAPTIVE_REGIONS type support.  Do you think I'm correctly understanding
+> your point and above suggestion makes sense?
 
-HUGE apologies for the previous screw up! I replied in the
-gmail web-interface and that did not work out as expected
-(at all, big times).
+In a private message, Shakeel confirmed I'm correnctly understanding his
+intention and asked next version.  I will post next version soon.
 
-I'm sorry about that!
 
-Take two, no html this time around.
-
----
-
-My current WIP (deep WIP) series can be found at [0]. The patch that adds new
-DMA API support is at the head of the series [1]. New DMA API requires us to
-have several internal videobuf2 API changes before we can proceed [2]: v4l2 and
-videobuf2 core do not pass enough information to the vb2 allocators now. Previously,
-if user space requests non-coherent allocation v4l2 would set queue dma_attr bit,
-videobuf2 core would pass queue->dma_attrs to vb2 allocator, which would 
-those dma_attrs for dma_alloc(). So everything was transparent (sort of). Since we
-don't have that dma_attr flag anymore, there is no way for v4l2 to pass the request
-information (coherent or non-coherent) to the vb2 allocator. Hence we need to rework
-the vb2 allocator API. I currently pass vb2 pointer, but we decided to rework it again
-and to pass dedicated VB2_ALLOC_FLAGS from the videobuf2 core to the 
-allocator. This is still in my private tree and not completely ready, will push those
-patches to github later.
-
-Another thing to notice is that the new API requires us to have two execution branches
-in allocators - one for the current API; and one for the new API (if it's supported and
-if user-space requested non-coherent allocation).
-
-[0] https://github.com/sergey-senozhatsky/linux-next-ss/commits/master
-[1] https://github.com/sergey-senozhatsky/linux-next-ss/commit/a45f48b483daee59594c62e4aaf01790aab960c8
-[2] https://github.com/sergey-senozhatsky/linux-next-ss/commit/b784145101c398da7fe9e2608b6001e58e05a9b5
-
-	-ss
+Thanks,
+SeongJae Park
