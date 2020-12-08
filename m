@@ -2,84 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BD1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA427C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7721B233EE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:37:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3EE823A82
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727554AbgLHJg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:36:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbgLHJg6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:36:58 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB08C061749;
-        Tue,  8 Dec 2020 01:36:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=rfxjMnKfa23WCYW/uF05Lo63iUpOoHmG+cW0xP/UtyU=; b=SSGKYnga74+cAFWbhRPcCOdcBP
-        JDqUwZsReurrIA9rgUdaHS+L9ewZyFAgZ7Fs5LCRZmTdJHjZT7Xo+U926ln6+dqOc6LWjAQEFBakC
-        FjNyhVCXMu9Ok5QpiThTlRsKU1MzVXRpL0I2WtN1Nkf5Rjda09Br44yQjhoUI9EN66z/Ct4dFLdq6
-        lvnxhAITpjvh6D2bASrQboKrnwAEKv+YK5L8aqOVKQe9b6RrzqMpo3K4cuedPIh+iFwVlSR4bWu0z
-        MR0xFyc2NjgwGDedU96N9Mc7+O8QACNWFQgkBIct7vFOuz8dWqGthwCAQmNbSukNAtz+LXT+YMDF0
-        84K1QaZA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmZPF-0001SM-Fi; Tue, 08 Dec 2020 09:35:37 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7037F3007CD;
-        Tue,  8 Dec 2020 10:35:35 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 55E43200C65DC; Tue,  8 Dec 2020 10:35:35 +0100 (CET)
-Date:   Tue, 8 Dec 2020 10:35:35 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201208093535.GS2414@hirez.programming.kicks-ass.net>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
- <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
- <87a6up606r.fsf@nanos.tec.linutronix.de>
+        id S1727958AbgLHJjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:39:25 -0500
+Received: from mga01.intel.com ([192.55.52.88]:3517 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727831AbgLHJjY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Dec 2020 04:39:24 -0500
+IronPort-SDR: RJGCzVcAxNlQricLjz/DfdP+9ItWBjQ4wrobbJRprvRGrx6Laaip7Yanyb3ViB2JHe6VI87AF7
+ xvzf09HF7KOw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9828"; a="192145328"
+X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
+   d="scan'208";a="192145328"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 01:37:37 -0800
+IronPort-SDR: ZLLqWybu4KNlwT0nEra2KW9AAi9SfnFfqpqzXJdn+3aobKyzkNBm4nS7myaqwoGh6IiPV0zit4
+ L+35aKnD+L+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,402,1599548400"; 
+   d="scan'208";a="437320455"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 08 Dec 2020 01:37:35 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 08 Dec 2020 11:37:34 +0200
+Date:   Tue, 8 Dec 2020 11:37:34 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+        bleung@chromium.org, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
+Message-ID: <20201208093734.GD680328@kuha.fi.intel.com>
+References: <20201203030846.51669-1-pmalani@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a6up606r.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <20201203030846.51669-1-pmalani@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 05:38:36PM +0100, Thomas Gleixner wrote:
-> For anything halfways modern the write to TSC is reflected in TSC_ADJUST
-> which means you get the precise offset.
+On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
+> Add the Type C bus for plug alternate modes which are being
+> registered via the Type C connector class. This ensures that udev events
+> get generated when plug alternate modes are registered (and not just for
+> partner/port alternate modes), even though the Type C bus doesn't link
+> plug alternate mode devices to alternate mode drivers.
 
-IIRC this is true for everything that has TSC_ADJUST.
+I still don't understand how is the uevent related to the bus? If you
+check the device_add() function, on line 2917, kobject_uevent() is
+called unconditionally. The device does not need a bus for that event
+to be generated.
+
+Also, I don't understand how are the cable plug alt modes now
+prevented from being bind to the alt mode drivers?
+
+> Update the Type C bus documentation to mention that there
+> are alternate mode devices for plugs as well.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  Documentation/driver-api/usb/typec_bus.rst | 6 +++---
+>  drivers/usb/typec/class.c                  | 8 ++++++--
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/usb/typec_bus.rst b/Documentation/driver-api/usb/typec_bus.rst
+> index 21c890ae17e5..7874d2f37d9f 100644
+> --- a/Documentation/driver-api/usb/typec_bus.rst
+> +++ b/Documentation/driver-api/usb/typec_bus.rst
+> @@ -15,9 +15,9 @@ modes by using the SVID and the mode number.
+>  
+>  :ref:`USB Type-C Connector Class <typec>` provides a device for every alternate
+>  mode a port supports, and separate device for every alternate mode the partner
+> -supports. The drivers for the alternate modes are bound to the partner alternate
+> -mode devices, and the port alternate mode devices must be handled by the port
+> -drivers.
+> +or cable plug supports. The drivers for the alternate modes are bound to the
+> +partner alternate mode devices, and the port alternate mode devices must be
+> +handled by the port drivers.
+>  
+>  When a new partner alternate mode device is registered, it is linked to the
+>  alternate mode device of the port that the partner is attached to, that has
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 35eec707cb51..74061a699f16 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -478,8 +478,12 @@ typec_register_altmode(struct device *parent,
+>  	if (!is_port)
+>  		typec_altmode_set_partner(alt);
+>  
+> -	/* The partners are bind to drivers */
+> -	if (is_typec_partner(parent))
+> +	/*
+> +	 * The partners are bind to drivers.
+> +	 * Also set the bus field for plug alt modes so that the udev event occurs on device
+> +	 * registration.
+> +	 */
+> +	if (is_typec_partner(parent) || is_typec_plug(parent))
+>  		alt->adev.dev.bus = &typec_bus;
+>  
+>  	ret = device_register(&alt->adev.dev);
+> -- 
+> 2.29.2.454.gaff20da3a2-goog
+
+thanks,
+
+-- 
+heikki
