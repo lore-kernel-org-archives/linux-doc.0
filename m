@@ -2,131 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03858C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C70D6C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:18:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3DE123A9C
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:11:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F8D023A84
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 10:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgLHKLe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 05:11:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60810 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727992AbgLHKLe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Dec 2020 05:11:34 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A2735AD12;
-        Tue,  8 Dec 2020 10:10:52 +0000 (UTC)
-Date:   Tue, 8 Dec 2020 11:10:51 +0100
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Jason Wang <jasowang@redhat.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org, stefanha@redhat.com
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-Message-ID: <20201208101051.GC6564@kitsune.suse.cz>
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
- <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
- <20201205142218-mutt-send-email-mst@kernel.org>
+        id S1729023AbgLHKSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 05:18:41 -0500
+Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:46996 "EHLO
+        9.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728966AbgLHKSl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 05:18:41 -0500
+X-Greylist: delayed 4189 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Dec 2020 05:18:40 EST
+Received: from player734.ha.ovh.net (unknown [10.108.54.119])
+        by mo177.mail-out.ovh.net (Postfix) with ESMTP id E601714A220
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 08:49:54 +0100 (CET)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player734.ha.ovh.net (Postfix) with ESMTPSA id 0AFE618C8C42C;
+        Tue,  8 Dec 2020 07:49:42 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-106R006381ab9e9-fc16-4135-a55f-45b014094f44,
+                    F7F8495E9FE719388847EB9DDB8A3A77E3CADC2E) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Guilherme G . Piccoli" <gpiccoli@canonical.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Eric Biggers <ebiggers@google.com>,
+        Qais Yousef <qais.yousef@arm.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Kitt <steve@sk2.org>
+Subject: [PATCH] docs: clean up sysctl/kernel: titles, version
+Date:   Tue,  8 Dec 2020 08:49:22 +0100
+Message-Id: <20201208074922.30359-1-steve@sk2.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201205142218-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 3468334663265963397
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepteegudfgleekieekteeggeetveefueefteeugfduieeitdfhhedtfeefkedvfeefnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello
+This cleans up a few titles with extra colons, and removes the
+reference to kernel 2.2. The docs don't yet cover *all* of 5.10 or
+5.11, but I think they're close enough. Most entries are documented,
+and have been checked against current kernels.
 
-On Sat, Dec 05, 2020 at 02:32:04PM -0500, Michael S. Tsirkin wrote:
-> On Sat, Dec 05, 2020 at 08:59:55AM +0100, Enrico Weigelt, metux IT consult wrote:
-> > On 04.12.20 04:35, Jason Wang wrote:
-> > 
-> > > 
-> > > Let's use select, since there's no prompt for VIRTIO and it doesn't have
-> > > any dependencies.
-> > 
-> > whoops, it's not that simple:
-> > 
-> > make: Entering directory '/home/nekrad/src/apu2-dev/pkg/kernel.apu2.git'
-> > make[1]: Entering directory
-> > '/home/nekrad/src/dk/DistroKit/platform-x86_64/build-target/linux-5.8.9-build'
-> >   GEN     Makefile
-> > drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
-> > drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by
-> > DRM_VIRTIO_GPU
-> > drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
-> > drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
-> > drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
-> > drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
-> > drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
-> > drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
-> > drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
-> > drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
-> > drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on
-> > DRM_KMS_HELPER
-> > 
-> > Seems that we can only depend on or select some symbol - we run into
-> > huge trouble if thats mixed. Just changed DRM_VIRTIO_GPU to just select
-> > VIRIO instead of depending on it, and now it works.
-> > 
-> > I've posted another patch for fixing drivers/gpu/drm/virtio/Kconfig
-> > to use 'select' instead of 'depends on'.
-> 
-> It seems a bit of a mess, at this point I'm not entirely sure when
-> should drivers select VIRTIO and when depend on it.
-> 
-> The text near it says:
-> 
-> # SPDX-License-Identifier: GPL-2.0-only
-> config VIRTIO
->         tristate
->         help
->           This option is selected by any driver which implements the virtio
->           bus, such as CONFIG_VIRTIO_PCI, CONFIG_VIRTIO_MMIO, CONFIG_RPMSG
->           or CONFIG_S390_GUEST.
-> 
-> Which seems clear enough and would indicate drivers for devices *behind*
-> the bus should not select VIRTIO and thus presumably should "depend on" it.
-> This is violated in virtio console and virtio fs drivers.
-> 
-> For console it says:
-> 
-> commit 9f30eb29c514589e16f2999ea070598583d1f6ec
-> Author: Michal Suchanek <msuchanek@suse.de>
-> Date:   Mon Aug 31 18:58:50 2020 +0200
-> 
->     char: virtio: Select VIRTIO from VIRTIO_CONSOLE.
->     
->     Make it possible to have virtio console built-in when
->     other virtio drivers are modular.
->     
->     Signed-off-by: Michal Suchanek <msuchanek@suse.de>
->     Reviewed-by: Amit Shah <amit@kernel.org>
->     Link: https://lore.kernel.org/r/20200831165850.26163-1-msuchanek@suse.de
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> which seems kind of bogus - why do we care about allowing a builtin
-> virtio console driver if the pci virtio bus driver is a module?
-> There won't be any devices on the bus to attach to ...
-The console driver provides early console which should initialize
-without any transport. I have not tested it actually works but the code
-seems to be there to support this use case.
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Thanks
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index d4b32cc32bb7..7d53146798c0 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -14,7 +14,7 @@ For general info and legal blurb, please look in :doc:`index`.
+ ------------------------------------------------------------------------------
+ 
+ This file contains documentation for the sysctl files in
+-``/proc/sys/kernel/`` and is valid for Linux kernel version 2.2.
++``/proc/sys/kernel/``.
+ 
+ The files in this directory can be used to tune and monitor
+ miscellaneous and general things in the operation of the Linux
+@@ -1095,8 +1095,8 @@ Enables/disables scheduler statistics. Enabling this feature
+ incurs a small amount of overhead in the scheduler but is
+ useful for debugging and performance tuning.
+ 
+-sched_util_clamp_min:
+-=====================
++sched_util_clamp_min
++====================
+ 
+ Max allowed *minimum* utilization.
+ 
+@@ -1106,8 +1106,8 @@ It means that any requested uclamp.min value cannot be greater than
+ sched_util_clamp_min, i.e., it is restricted to the range
+ [0:sched_util_clamp_min].
+ 
+-sched_util_clamp_max:
+-=====================
++sched_util_clamp_max
++====================
+ 
+ Max allowed *maximum* utilization.
+ 
+@@ -1117,8 +1117,8 @@ It means that any requested uclamp.max value cannot be greater than
+ sched_util_clamp_max, i.e., it is restricted to the range
+ [0:sched_util_clamp_max].
+ 
+-sched_util_clamp_min_rt_default:
+-================================
++sched_util_clamp_min_rt_default
++===============================
+ 
+ By default Linux is tuned for performance. Which means that RT tasks always run
+ at the highest frequency and most capable (highest capacity) CPU (in
 
-Michal
+base-commit: 0477e92881850d44910a7e94fc2c46f96faa131f
+-- 
+2.20.1
+
