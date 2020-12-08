@@ -2,161 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	WEIRD_QUOTING autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3702AC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 00:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE10EC4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:21:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB64923A04
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 00:19:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 911D1205ED
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 01:21:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727770AbgLHAT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Dec 2020 19:19:59 -0500
-Received: from gproxy3-pub.mail.unifiedlayer.com ([69.89.30.42]:47160 "EHLO
-        gproxy3-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726508AbgLHAT7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 19:19:59 -0500
-Received: from CMGW (unknown [10.9.0.13])
-        by gproxy3.mail.unifiedlayer.com (Postfix) with ESMTP id 7A994401E1
-        for <linux-doc@vger.kernel.org>; Mon,  7 Dec 2020 17:19:18 -0700 (MST)
-Received: from bh-25.webhostbox.net ([208.91.199.152])
-        by cmsmtp with ESMTP
-        id mQirkuyGmi1lMmQisks6Gk; Mon, 07 Dec 2020 17:19:18 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.2 cv=KcKiiUQD c=1 sm=1 tr=0
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10 a=zTNgK-yGK50A:10
- a=evQFzbml-YQA:10 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8 a=gAnH3GRIAAAA:8
- a=zGQ2m3odkreZA2kYg2QA:9 a=CjuIK1q_8ugA:10 a=Q7RPfSbWTOsA:10
- a=yllJabXkTJAA:10 a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
- a=oVHKYsEdi7-vN-J5QA_j:22
+        id S1726406AbgLHBVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Dec 2020 20:21:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57414 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725995AbgLHBVt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Dec 2020 20:21:49 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8F39C061794;
+        Mon,  7 Dec 2020 17:21:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4eNIuJvGf9dzYaNGC/fEaC3RxpCv7V0tT4GVf8YTdV0=; b=XJ8Kq5HMNlHErvgMuwlXTUkS69
-        m3iu1F1cTG5aIo3EoSlJ3bwP//scZ7kniKWdAz3DeBcUfYSeLuiobRESgWMuOaBLtXXqkXDGSt7Ej
-        gPeVOW4GQ1PWULKRif5T22Rog2OG5OJkiSiJ7Xt4OB/U3kF2kYSzoIyPQLteiwURckJgN/3RxNbeH
-        h2rlIxv6ssIIdbauWlfErc8LnTzm7UXHM0QdP4VaJd0Gjb3WzZrKehVNcCzcdTWCvYSBNQbCUryqZ
-        4752VQSaKGvPAKAhlmn7OkV0TmJgS2j3TXc2KjmAmxNQcU91qtAONZhg+JeZzqI1aNr9xezgqKlDr
-        krw/WQ1A==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:33534 helo=localhost)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <linux@roeck-us.net>)
-        id 1kmQir-001v7K-Ce; Tue, 08 Dec 2020 00:19:17 +0000
-Date:   Mon, 7 Dec 2020 16:19:16 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kun Yi <kunyi@google.com>
-Subject: Re: [PATCH 4/4] dt-bindings: hwmon: convert AD ADM1275 bindings to
- dt-schema
-Message-ID: <20201208001916.GA59429@roeck-us.net>
-References: <20201117220807.208747-1-krzk@kernel.org>
- <20201117220807.208747-4-krzk@kernel.org>
- <20201207211259.GA832269@robh.at.kernel.org>
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=vXfBmV1WtpQrMd4/iEKqvXO0wvtb19cUUXMuUNVtQi4=; b=Rjq77hcRxkpyBdxp7o+bgrP+kA
+        qmjJgvrrF1pNpYJwCTCyhfePAXp/wWm0Pkcb/rp5IQ2dVh7XfivNR2zy/DJ0odUFEht4kfP0AqWk0
+        6um4Vrip3g+f4C2/F4gCj7mBfTG9BsHVQDgylUSAmTu8/UTyCKMKyJHHXWU94nWCCtu14BOXe0hMt
+        MNhseyweAsJyePULtVrFbONLqF2H96ys1T1axJl4x3EzSJADMtoNC2HMp8N5lCA2nywHr54Sh9tQR
+        ZRUqRZelOOWhInu3zWEJOEqUr5XH4mbGiB7c8xP9ZonpIY7BlUhf+6Qar+jbLgWOS97ZXbI0lQ5O3
+        efwRnr9g==;
+Received: from [2601:1c0:6280:3f0::1494]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmRgd-0007VO-4E; Tue, 08 Dec 2020 01:21:03 +0000
+Subject: Re: [PATCH v3] drivers: gpio: add virtio-gpio guest driver
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, mst@redhat.com, jasowang@redhat.com,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+References: <20201207204838.21406-1-info@metux.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <3b550dcf-7e4d-39d2-bcaf-3f6cdb688da0@infradead.org>
+Date:   Mon, 7 Dec 2020 17:20:54 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201207211259.GA832269@robh.at.kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1kmQir-001v7K-Ce
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:33534
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 33
-X-Org:  HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+In-Reply-To: <20201207204838.21406-1-info@metux.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 07, 2020 at 03:12:59PM -0600, Rob Herring wrote:
-> On Tue, Nov 17, 2020 at 11:08:07PM +0100, Krzysztof Kozlowski wrote:
-> > Convert the Analog Devices ADM1275 bindings to dt-schema.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > ---
-> >  .../bindings/hwmon/adi,adm1275.yaml           | 58 +++++++++++++++++++
-> >  .../devicetree/bindings/hwmon/adm1275.txt     | 25 --------
-> >  Documentation/hwmon/adm1275.rst               |  2 +-
-> >  3 files changed, 59 insertions(+), 26 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/hwmon/adm1275.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> > new file mode 100644
-> > index 000000000000..2cad28c499dc
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml
-> > @@ -0,0 +1,58 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +
-> > +$id: http://devicetree.org/schemas/hwmon/adi,adm1275.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices ADM1075/ADM127x/ADM129x digital power monitors
-> > +
-> > +maintainers:
-> > +  - Krzysztof Kozlowski <krzk@kernel.org>
-> > +
-> > +description: |
-> > +  The ADM1293 and ADM1294 are high accuracy integrated digital power monitors
-> > +  that offer digital current, voltage, and power monitoring using an on-chip,
-> > +  12-bit analog-to-digital converter (ADC), communicated through a PMBus
-> > +  compliant I2C interface.
-> > +
-> > +  Datasheets:
-> > +    https://www.analog.com/en/products/adm1294.html
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - adi,adm1075
-> > +      - adi,adm1272
-> > +      - adi,adm1275
-> > +      - adi,adm1276
-> > +      - adi,adm1278
-> > +      - adi,adm1293
-> > +      - adi,adm1294
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  shunt-resistor-micro-ohms:
-> > +    description:
-> > +      Shunt resistor value in micro-Ohm.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Don't need a type if you have units. With that dropped,
+On 12/7/20 12:48 PM, Enrico Weigelt, metux IT consult wrote:
+> Introducing new GPIO driver for virtual GPIO devices via virtio.
 > 
 
-Sorry, I am not familiar with the terminology. Does that refer to
-the '$ref' line ?
+Oops, I missed one thing:
 
-Thanks,
-Guenter
+
+> 
+> diff --git a/Documentation/gpio/virtio-gpio.rst b/Documentation/gpio/virtio-gpio.rst
+> new file mode 100644
+> index 000000000000..e7bf01ec1ce7
+> --- /dev/null
+> +++ b/Documentation/gpio/virtio-gpio.rst
+> @@ -0,0 +1,176 @@
+> +"""""""""""""""""
+> +Virtio-GPIO protocol specification
+> +"""""""""""""""""
+
+
+In Documentation/doc-guide/sphinx.rst, it says to please use the
+following heading adornments....
+and """""...""""" is not one of them.
+
+Neither is "..........".
+
+Also, only use an overline for the document title and not for
+lower level headings.
+
+Here are the expected heading adornments:
+
+  1. ``=`` with overline for document title::
+
+       ==============
+       Document title
+       ==============
+
+  2. ``=`` for chapters::
+
+       Chapters
+       ========
+
+  3. ``-`` for sections::
+
+       Section
+       -------
+
+  4. ``~`` for subsections::
+
+       Subsection
+       ~~~~~~~~~~
+
+
+> +...........
+> +Specification for virtio-based virtiual GPIO devices
+> +...........
+> +
+> ++------------
+> ++Version_ 1.0
+> ++------------
+> +
+> +===================
+> +General
+> +===================
+> +
+> +The virtio-gpio protocol provides access to general purpose IO devices
+> +to virtual machine guests. These virtualized GPIOs could be either provided
+> +by some simulator (eg. virtual HIL), routed to some external device or
+> +routed to real GPIOs on the host (eg. virtualized embedded applications).
+> +
+> +Instead of simulating some existing real GPIO chip within an VMM, this
+> +protocol provides an hardware independent interface between host and guest
+> +that solely relies on an active virtio connection (no matter which transport
+> +actually used), no other buses or additional platform driver logic required.
+> +
+> +===================
+> +Protocol layout
+> +===================
+> +
+> +----------------------
+> +Configuration space
+> +----------------------
+
+
+thanks.
+-- 
+~Randy
+
