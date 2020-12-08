@@ -2,67 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590E5C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BAFAC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:34:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 224AF207A4
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:24:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA59623B44
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:34:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729374AbgLHRYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 12:24:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36488 "EHLO
+        id S1726889AbgLHReg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 12:34:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728510AbgLHRYM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 12:24:12 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73209C061749;
-        Tue,  8 Dec 2020 09:23:32 -0800 (PST)
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 28003300;
-        Tue,  8 Dec 2020 17:23:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 28003300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607448212; bh=6noqackd9jly2jr8MVHKDLefh3lAUeOcwzrsMdVHg4M=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=T3rhp7rrpN1+yEyU+vXPlmrcqMu9ftUEzrN2j/3mPky0j4AOhLUP9pD/LQaFdr/Xq
-         OKm5hdNWd4MdeK0iyxM1qOpcn3GhFi3x1jrOxcuZkeT2L7iODIcmYTTHx0RDom9+qi
-         qmYnibQiNqXm7M66Vz2aV10NlFodg3D4UIeXO853n7aGPuZQvHk+YFpb2N/cGO1jgi
-         +nLF0Rt51vIUIdHv2e0srtAd8XGM9oZ4EMhr0vCVAYVDKN4Bnw0SfHJW30XOjM9Xkv
-         b7jgV96sjgopGsrQMTttm2gZkMtpFVe4Ic4CV88srVo7AS02TYYELOClQaRVYqwVwS
-         3/Em/jwrh5gfQ==
-Date:   Tue, 8 Dec 2020 10:23:31 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Ben Widawsky <ben.widawsky@intel.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: Fix example in Nested structs/unions
-Message-ID: <20201208102331.5ccaf8ab@lwn.net>
-In-Reply-To: <20201207210027.1049346-1-ben.widawsky@intel.com>
-References: <20201207210027.1049346-1-ben.widawsky@intel.com>
-Organization: LWN.net
+        with ESMTP id S1727463AbgLHReg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 12:34:36 -0500
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E18C061794
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 09:33:55 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id d3so2695199wmb.4
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 09:33:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=prv6QXAjwXmx7X2n72Rz/QqUHHpEtIXIiLJUnnkHbR0=;
+        b=uXqAktZWSUW4BB2xkW70Q7Y0knpgm8Ya3oLIOqAeMxBdX54aZro6l5hGEy2/ScF132
+         B4SjN5eepkt1FLiQE+gKv+yD+8A0BJMTRqluag6GgEWseNrnd5oy7frSgWgbBKzZN3YS
+         UExoJ9ya1dr2M+wcvHfV5D/VDXcMvrNRViSjYDvslwVRFof4M0we9OhGSjTDU3qYEkEb
+         cPHh2qGP1VzyITFEQOLU/1TzrEoYiLxWW+sDzX4PYOCtptCHXTVEP+M9D/Unbbdc3OU9
+         H53L6HylG34y/iCr9QrcYx9B98atOECoJXVt16Ecdt2tZsI1ffQ6Rut6doKOioTiHWem
+         7VMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=prv6QXAjwXmx7X2n72Rz/QqUHHpEtIXIiLJUnnkHbR0=;
+        b=P/6xeoJJuNtDRG2xV/W/yhkcR3b0IqPX8Bb63HrpVP2YEe5ZOl+enjKOaeFvTWnnUn
+         uXtx49QXBmMnM6xMfk9e1PeJ3ezFORaevxxYygyLz+BixpSh8qwME3zp6rwhl69Eo4OJ
+         9T/+UWFuFaeX6GJMRpIP4/oOR3i7s8QzYW2kl3x/uc+Q8d+OXvQulueIrGriG69VOApK
+         9LyNNyA8AywqQzOGYLl9gmwcJtrGev1tT9ZVJHk1GoJdvKnAGXgW4tr56Cr/G/IHf3WZ
+         tC6Fzkhr9U5Vm/x0fDXKkKUrQbkjFJWPpkqqvOpEkqAaYnO8EIsGeqXXkYTi58TZdM05
+         M9Fg==
+X-Gm-Message-State: AOAM532an7jV+Nz3j51g7NSJa2dydkSFMBQ3PwC27EB17pFyS8kEryb+
+        tKqABe/Kn3TN7MqBqjJuMjufjEH726V+Mvd8Gb5w0A==
+X-Google-Smtp-Source: ABdhPJykbWJPG5N03i1GYewP/i/cBTHGqhNOfixMnBo6i2tP7QSuJaYZ1nvtJPsrNciqblBV72wkgDt1t7DOWW7riNI=
+X-Received: by 2002:a1c:7e87:: with SMTP id z129mr4741631wmc.176.1607448834084;
+ Tue, 08 Dec 2020 09:33:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20201203171118.372391-1-mlevitsk@redhat.com> <20201203171118.372391-2-mlevitsk@redhat.com>
+ <20201207232920.GD27492@fuller.cnet> <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
+ <87sg8g2sn4.fsf@nanos.tec.linutronix.de> <6f64558a029574444da417754786f711c2fec407.camel@redhat.com>
+In-Reply-To: <6f64558a029574444da417754786f711c2fec407.camel@redhat.com>
+From:   Andy Lutomirski <luto@amacapital.net>
+Date:   Tue, 8 Dec 2020 09:33:41 -0800
+Message-ID: <CALCETrWKSdro=0YkaamU-RXpa+2sPzBKct4SPi1SmgL2yS62AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  7 Dec 2020 13:00:27 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
+On Tue, Dec 8, 2020 at 8:26 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+>
+> On Tue, 2020-12-08 at 17:02 +0100, Thomas Gleixner wrote:
+> > On Tue, Dec 08 2020 at 16:50, Maxim Levitsky wrote:
+> > > On Mon, 2020-12-07 at 20:29 -0300, Marcelo Tosatti wrote:
+> > > > > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
+> > > > > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
+> > > > > +
+> > > > > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
+> > > > > +KVM will adjust the guest TSC value by the time that passed since the moment
+> > > > > +CLOCK_REALTIME timestamp was saved in the struct and current value of
+> > > > > +CLOCK_REALTIME, and set the guest's TSC to the new value.
+> > > >
+> > > > This introduces the wraparound bug in Linux timekeeping, doesnt it?
+> >
+> > Which bug?
+> >
+> > > It does.
+> > > Could you prepare a reproducer for this bug so I get a better idea about
+> > > what are you talking about?
+> > >
+> > > I assume you need very long (like days worth) jump to trigger this bug
+> > > and for such case we can either work around it in qemu / kernel
+> > > or fix it in the guest kernel and I strongly prefer the latter.
+> > >
+> > > Thomas, what do you think about it?
+> >
+> > For one I have no idea which bug you are talking about and if the bug is
+> > caused by the VMM then why would you "fix" it in the guest kernel.
+>
+> The "bug" is that if VMM moves a hardware time counter (tsc or anything else)
+> forward by large enough value in one go,
+> then the guest kernel will supposingly have an overflow in the time code.
+> I don't consider this to be a buggy VMM behavior, but rather a kernel
+> bug that should be fixed (if this bug actually exists)
+>
+> Purely in theory this can even happen on real hardware if for example SMM handler
+> blocks a CPU from running for a long duration, or hardware debugging
+> interface does, or some other hardware transparent sleep mechanism kicks in
+> and blocks a CPU from running.
+> (We do handle this gracefully for S3/S4)
 
-> Add missing ';' as well as fixes the indent for the first struct.
-> 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> ---
->  Documentation/doc-guide/kernel-doc.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-Applied, thanks.
-
-jon
+IIRC we introduced mul_u64_u32_shift() for roughly this reason,but we
+don't seem to be using it in the relevant code paths.  We should be
+able to use the same basic math with wider intermediates to allow very
+large intervals between updates.
