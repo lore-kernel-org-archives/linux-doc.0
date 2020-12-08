@@ -2,124 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E967C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 13:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE52C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:07:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AB8423AA9
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 13:36:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3E1B23A69
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 14:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729210AbgLHNgl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 08:36:41 -0500
-Received: from mail-02.mail-europe.com ([51.89.119.103]:58238 "EHLO
-        mail-02.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729185AbgLHNgk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 08:36:40 -0500
-Date:   Tue, 08 Dec 2020 13:35:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1607434515;
-        bh=Vrw+2+y13OInDneCYRDJSdbZRXAGFGkPu5XrP7lZRBQ=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=vO5tmDF2zv4rgc8iwoVaUYbGlTzgTPGCy0kNWFH45x/daNlsdfsgrfjeEJEsPT+p4
-         +qCFavjAPFdqaWT7EGXk+R2l7KpzscGsw1kJ0h0SGbtnJThL9JASSiUvn5xOdcw59s
-         jTg6KvEeO5gk5nOUVjs5TnnRvJcUyWgt3Szvt6sg=
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1729500AbgLHOHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 09:07:54 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:60269 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729462AbgLHOHy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 09:07:54 -0500
+Received: from [192.168.1.155] ([95.117.39.192]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mzhax-1jzus61WUL-00viD2; Tue, 08 Dec 2020 15:05:07 +0100
+Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
+ drivers: gpio: add virtio-gpio guest driver
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>, Tom Rix <trix@redhat.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        linux-kernel@vger.kernel.org
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: Re: [PATCH v2 08/39] scripts: get_abi.pl: prevent duplicated file names
-Message-ID: <20201208133424.yrdzbb3bzqqtygtm@ArchWay.local>
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        linux-riscv@lists.infradead.org
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
+ <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <51d3efb7-b7eb-83d7-673a-308dd51616d3@metux.net>
+Date:   Tue, 8 Dec 2020 15:04:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:G4pb0xE5H22ojPKBimkPJ8QHTZy9Ztkg67vq+dnwAqAyIP7Owjp
+ PtM4xLyYwEOsOB5Jeky7p0oHn4OV0smr3NYA6ZBFzuAz8Wj154fwdKeJAA7RKqTpXhphJ0A
+ KZ+KK0E+bN0KXeCyh8zH7Zs4RpyqkMmgg1F2DoLmutar7t2c9swfhYmzbPPLxZS31ACp14U
+ zhqcJNgYORsE2qZ0/AFTw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:a0Ff9jNvXYo=:mUVNahr6lKpBJFzi+wLba2
+ BTDIDBHKoHwdSkhKUdoqJmrbqtF3ZYCKFqGIgJUBJmegkGz/SOcu3pd2KOd4s2s3/QuXaNdk0
+ uguRGeRDIcNPst62WfMtiwo4Iw/Vunm5FNmfJFeatXDqWazimqqDCanpscLSdrblTa20JB1VW
+ c7kuVDEz155jDxAxRrlCHa4xGdgZYPY0yAQaS4Dv3uUFDVLnMUFpMkDRsUEKPq4noO6+ucdvE
+ SRzQXp3T1n3zUjTN8U0oP43qsyQntWyl1RTCSoXTQO9xSgs89oOoNRoJT2rv1BUKKBfwqnqmI
+ LpZWwaBmU/uSsj4PGpYC4o/F9bS7XDbzC7/lddp5AyIn8cCAKy4qL8gpxMSWZ9sTqpjvl4Hqq
+ 945/WLdlpTWKQh+Nbd0YlPUVBPRRhnU8HM133F3fS5h9vHMLhveOWfk66rqfG
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 08:40:27AM +0100, Mauro Carvalho Chehab wrote:
-> The same filename may exist on multiple directories within
-> ABI. Create separate entries at the internal database for
-> each of them.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  scripts/get_abi.pl | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->=20
-> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-> index e5a5588a8639..5612f019fae0 100755
-> --- a/scripts/get_abi.pl
-> +++ b/scripts/get_abi.pl
-> @@ -65,7 +65,10 @@ sub parse_abi {
->  =09my $name =3D $file;
->  =09$name =3D~ s,.*/,,;
-> =20
-> -=09my $nametag =3D "File $name";
-> +=09my $fn =3D $file;
-> +=09$fn =3D~ s,Documentation/ABI/,,;
-> +
-> +=09my $nametag =3D "File $fn";
->  =09$data{$nametag}->{what} =3D "File $name";
->  =09$data{$nametag}->{type} =3D "File";
->  =09$data{$nametag}->{file} =3D $name;
-> @@ -320,16 +323,18 @@ sub output_rest {
->  =09=09=09my $fileref =3D "abi_file_".$path;
-> =20
->  =09=09=09if ($type eq "File") {
-> -=09=09=09=09my $bar =3D $w;
-> -=09=09=09=09$bar =3D~ s/./-/g;
-> -
->  =09=09=09=09print ".. _$fileref:\n\n";
-> -=09=09=09=09print "$w\n$bar\n\n";
->  =09=09=09} else {
->  =09=09=09=09print "Defined on file :ref:`$f <$fileref>`\n\n";
->  =09=09=09}
->  =09=09}
-> =20
-> +=09=09if ($type eq "File") {
-> +=09=09=09my $bar =3D $w;
-> +=09=09=09$bar =3D~ s/./-/g;
-> +=09=09=09print "$w\n$bar\n\n";
-> +=09=09}
-> +
->  =09=09my $desc =3D "";
->  =09=09$desc =3D $data{$what}->{description} if (defined($data{$what}->{d=
-escription}));
->  =09=09$desc =3D~ s/\s+$/\n/;
-> --=20
-> 2.26.2
->=20
+On 08.12.20 10:38, Linus Walleij wrote:
 
-Hey Mauro,
+Hi,
 
-just a heads-up.
+> This is Bartosz territory, but the gpio-mockup.c driver will insert
+> IRQs into the system, he went and added really core stuff
+> into kernel/irq to make this happen. Notice that in Kconfig
+> it does:
+> 
+> select IRQ_SIM
+> 
+> Then this is used:
+> include/linux/irq_sim.h
+> 
+> This is intended for simulating IRQs and both GPIO and IIO use it.
+> I think this inserts IRQs from debugfs and I have no idea how
+> flexible that is.
 
-It seems the ABI page is showing the full file names as shown in [1], like =
-"File
-/srv/docbuild/lib/git/linux/stable/firewire-cdev", while only the file name
-would be enough, like "File firewire-cdev".
+Oh, thx.
 
-By reverting this patch I got exactly the intended behavior, but it seems y=
-ou
-were fixing other things with this, so perhaps just reverting is breaking
-something that I can't see.
+It seems to implement a pseudo-irqchip driver. I've already though about
+doing that, but didn't think its worth it, just for my driver alone.
+I've implemented a few irq handling cb's directly the driver. But since
+we already have it, I'll reconsider :)
 
-Could you look into what would be the right fix for this? :)
+BUT: this wasn't exactly my question :p
 
-Thanks,
-N=C3=ADcolas
+I've been looking for some more direct notification callback for gpio
+consumers: here the consumer would register itself as a listener on
+some gpio_desc and called back when something changes (with data what
+exactly changed, eg. "gpio #3 input switched to high").
 
-[1] https://www.kernel.org/doc/html/latest/admin-guide/abi.html
+Seems we currently just have the indirect path via interrupts.
 
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
