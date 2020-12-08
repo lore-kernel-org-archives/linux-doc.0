@@ -2,98 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF818C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8301FC4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:14:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6278323A6C
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DC4123A6C
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 07:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgLHHFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 02:05:23 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:54529 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725927AbgLHHFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 02:05:22 -0500
-Received: from [192.168.1.155] ([95.117.39.192]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N1gac-1k2W2w0CRk-0122tg; Tue, 08 Dec 2020 08:02:38 +0100
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-To:     Jason Wang <jasowang@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org, stefanha@redhat.com,
-        msuchanek@suse.de
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
- <96aca1e6-2d5a-deb1-2444-88f938c7a9de@metux.net>
- <20201205142218-mutt-send-email-mst@kernel.org>
- <842519cc-94ca-3c11-ddd6-543e5a89c998@redhat.com>
- <20201207085247-mutt-send-email-mst@kernel.org>
- <0a9c19bd-0d25-1035-57e3-b1f5f204c309@redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <500d0c68-0c6d-f5fb-665b-74aec6d59f99@metux.net>
-Date:   Tue, 8 Dec 2020 08:02:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725910AbgLHHOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 02:14:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbgLHHOE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 02:14:04 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6775EC061749;
+        Mon,  7 Dec 2020 23:13:24 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id m9so11383862pgb.4;
+        Mon, 07 Dec 2020 23:13:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xWmdWORP2xSA8SF/fBBpyGpTlHNeOKrylAwBcpLi8AI=;
+        b=HWBopCdK/zYKNU9XaTrzy+MvtNpyCzBNPw+Hr87VL7ax98P0PaHHUB3zs5RMNX7zHk
+         4TrRqWtPDyjZXCoHrQ9UVGcxOAO8JgmPGuWGifb8DUnD4ZRhCNeyZy4+rK57tubOe5bJ
+         i0V5lBf891j+bWsiMGfTsYrwgmSt3efjd1iBNxQ06w8xK5G9Kmb3Q/hQ3TG+/mnXRBkD
+         tEbPtduFckcWYZ/PEqAGU5KAt0t0pEuZ5Hg7F1fg7ADzL0BW2ezb9lWesvuOefxrY6+z
+         Fi81gVrQVzuyYD+u/jNoPIBWqjwvjhlru/bwulBAWT8lUHF+bAeGj/a8cEK65NUd4NO6
+         hkhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xWmdWORP2xSA8SF/fBBpyGpTlHNeOKrylAwBcpLi8AI=;
+        b=gUHhc7jB/IwYVkwRV6USL/sIPy2d4Xo2e3XyIMhH8rlSvr5btsMcTucs3JDkilsNM6
+         Yur93tJnn8RVJ1ktNTQ12obhVNQ5oSooWgpu3qldw1KI26EBxb2lNLpdil4sqz1lhr2y
+         1auRRScNHllTZDz6cD6k7zHihE6a4H3ogUj7Y6PGHdHwk/lkF94OJLFmTIE3Zk1WbDBo
+         epJ1u6mNRMVM7DQLPK6WP12GWOc5UF069VSWHBFudA4JAJ1K5kFdNQi09OAzcdpSJ+dP
+         ebSPdL1TcysbmnXTBenwUwOWLYf5UKjtN4M3LTZz5n4Nr6jqyf6ps0zf4HlICVDHakrm
+         vwdg==
+X-Gm-Message-State: AOAM531ryoS1/JYnOEJLe+4HyIohX6li/2bwSabHxu+h84juqVx7aD7m
+        KCX3aQfm4VfXs7qaujwbCPTW3Ovwsxs=
+X-Google-Smtp-Source: ABdhPJwzvlkqPw8IlSOUgigm/jQwVrd9OMVHM0DBNKMKS8I45sshs8/gAeGFl1eTOVhtP+3DgSeZPg==
+X-Received: by 2002:a63:b554:: with SMTP id u20mr21681043pgo.249.1607411603843;
+        Mon, 07 Dec 2020 23:13:23 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
+        by smtp.gmail.com with ESMTPSA id b14sm15074971pgj.9.2020.12.07.23.13.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 23:13:22 -0800 (PST)
+Date:   Tue, 8 Dec 2020 16:13:20 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        ". Christoph Hellwig" <hch@lst.de>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201208071320.GA1667627@google.com>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de>
+ <20201201033658.GE3723071@google.com>
+ <20201201144916.GA14682@lst.de>
+ <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <0a9c19bd-0d25-1035-57e3-b1f5f204c309@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yN/BLdqz0Vt6Gc78kBHQubmPRXCo+73gjuzZ/FFo2aygJNFdokw
- bIFudmapyFmrSTiIyDb+aUPLo4yjgmjzlZMHyY524wcRKwqJq6WUoQuYl0k5Pj+8yTyR84y
- vzIM/cQCfW0r7jZgN8QvC1Wc8KV3kJ84BqpcGGXAv4vtZ2kMN43JYtqtkbJ/w0CRh6eQyeu
- CxLLWsOi5p/z4+EPl66hw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J6pWCIG+eKA=:YbDwb0QlpqYTg8o6ISKAj2
- 2nx0ApszFX4DE52Hscm8BkPNFR0h/2Fr+oZcQFep2yDc08ctJ8p3fmYPuNV0jI70LoAD5gsmZ
- UxJi4zgWgNmSEvnNeoGRSVyAPJzxpqhOYJlqrEfs6XBgcCp4H31ur0WIKnKawxt5XmNQaEbyU
- Rd1swVS5bTy3atV1TPcwwydDrVdZEbmA90gVpyvuZVgeJqSAU/BNLajbH7aJTMgwe+L9AD1TU
- atTQxHBFZtuKkB6bOLxKMt0WimiYKuxTkIqGHJUnP832C47aTjMj9ATICWRI1Lt8a0McjrO0T
- 9tPJ17odptw/ER8zz/fYEcdCYQV1gkbJatZw3JfUkDE3zbSJphmhDX4SyLdWuI/DPlFWqZi+K
- 5tuNk+qVAyf10TKOHLGmyg6s05gRd1Kdo0Mt3jgjYDktLNgL9yI5eZAWfZ8U9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08.12.20 03:36, Jason Wang wrote:
-
-Hi,
-
-> So we endup with two solutions (without a prompt):
+On (20/12/08 13:54), Tomasz Figa wrote:
 > 
-> 1) using select, user may end up with driver without transport
+> In any case, Sergey is going to share a preliminary patch on how the
+> current API would be used in the V4L2 videobuf2 framework. That should
+> give us more input on how such a helper could look.
 
-IMHO not an entirely unusual situation in other places of the kernel,
-eg. one can enable USB devices, w/o having an usb host adapter enabled.
+HUGE apologies for the previous screw up! I replied in the
+gmail web-interface and that did not work out as expected
+(at all, big times).
 
-And even if some USB-HA driver is enabled, the actualy machine doesn't
-necessarily have the corresponding device.
+I'm sorry about that!
 
-> 2) using depends, user need to enable at least one transport
-> 
-> 2) looks a little bit better I admit.
+Take two, no html this time around.
 
-So, all virtio devices should depend on TRANSPORT_A || TRANSPORT_B ||
-TRANSPORT_C || ... ? (and also change all these places if another
-transport is added) ?
-
---mtx
-
--- 
 ---
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+
+My current WIP (deep WIP) series can be found at [0]. The patch that adds new
+DMA API support is at the head of the series [1]. New DMA API requires us to
+have several internal videobuf2 API changes before we can proceed [2]: v4l2 and
+videobuf2 core do not pass enough information to the vb2 allocators now. Previously,
+if user space requests non-coherent allocation v4l2 would set queue dma_attr bit,
+videobuf2 core would pass queue->dma_attrs to vb2 allocator, which would 
+those dma_attrs for dma_alloc(). So everything was transparent (sort of). Since we
+don't have that dma_attr flag anymore, there is no way for v4l2 to pass the request
+information (coherent or non-coherent) to the vb2 allocator. Hence we need to rework
+the vb2 allocator API. I currently pass vb2 pointer, but we decided to rework it again
+and to pass dedicated VB2_ALLOC_FLAGS from the videobuf2 core to the 
+allocator. This is still in my private tree and not completely ready, will push those
+patches to github later.
+
+Another thing to notice is that the new API requires us to have two execution branches
+in allocators - one for the current API; and one for the new API (if it's supported and
+if user-space requested non-coherent allocation).
+
+[0] https://github.com/sergey-senozhatsky/linux-next-ss/commits/master
+[1] https://github.com/sergey-senozhatsky/linux-next-ss/commit/a45f48b483daee59594c62e4aaf01790aab960c8
+[2] https://github.com/sergey-senozhatsky/linux-next-ss/commit/b784145101c398da7fe9e2608b6001e58e05a9b5
+
+	-ss
