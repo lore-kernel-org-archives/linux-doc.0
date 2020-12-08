@@ -2,127 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MIME_QP_LONG_LINE,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A04A8C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:32:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB481C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:34:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A69023AC8
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:32:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 804B7217A0
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 20:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730124AbgLHUcD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 15:32:03 -0500
-Received: from mga05.intel.com ([192.55.52.43]:9234 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726697AbgLHUcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Dec 2020 15:32:03 -0500
-IronPort-SDR: LzMBVq1Ey1fd9+7nnwuV7N7TpPXukRIUFX1KZZYRNs07xl2z6Mrf4c8o9wQYWclU4moncwkBQz
- HZQ1cJEVA6KQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="258665284"
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
-   d="scan'208";a="258665284"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 11:24:17 -0800
-IronPort-SDR: uTi/Mmkl/xKuBC/AXfiazJdiwWLlLG6xSH3fWQdFdTUbXRcuwFtEp5b5pUVtQ+yM50I5q+Vvf8
- X9TzX8nXSQNQ==
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; 
-   d="scan'208";a="317940844"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.139.184]) ([10.209.139.184])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 11:24:16 -0800
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1730296AbgLHUd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 15:33:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726338AbgLHUd6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 15:33:58 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43406C0617A7
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 12:32:51 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id o4so13252222pgj.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 12:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=X3jaTUl9GBo4a8qnhQEMvznUX5ksekBuFBQfWILQ+U8=;
+        b=MrliCpl8hL4cJC8PERAnNSwTdw6bXwTTXhAZ/M5/h7klwCksqQ6Ag35pmFF1pxUlTT
+         XQJ2QeciTt9iZFcybbCPAOWut3Mp8EWvFsTGWzCkPREPRSEXjTcA9xchQcRSUroN+CzI
+         STLPmTE4Xc+a36i7ap+UAK8ndr2qoM5aj8iRgtNJTv+tP+4ZPmBW2xu6Te336JZ4a2j2
+         R/JIVw0N8rxTDFu4L1TXxBTxtO3OKCOlmkdkzthu3wt3BV2FKt3XlanBn5ef8C49Pfir
+         HsVPP3dqRjfjkctYO0dzupgCnDP7/I4WqvNmoHHCqeUQrfK/uOodQ4oUU7C243b1Grn9
+         2naA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=X3jaTUl9GBo4a8qnhQEMvznUX5ksekBuFBQfWILQ+U8=;
+        b=SE2CV0C7YJXRMSDpTE5tCp/CsQJ72z/bTfQ3Xr4O+gnSg055xgyvcTDz1euIdICTot
+         bxP9H/Gcu1FgCAv5kyy7tJ0Hs3FK9FwV62gbYnsDaf4iFGQHlKjyMtRVAXP0yKl3tnFt
+         n4RD1240MLeFAZ4KnR1qRJVFhBODsbAVhucuaFxMXBTRYJzGA90VIVdgUL7jOvbLyOSq
+         Odud8eVIm0uCPq4P3vpWtDNkYcLol4PkM2NhY2e9PYNrDp+zETze78AHph3xi2NC9V4N
+         XXyaKmoR3SCo/Bvflq8WsLaX5EzX7hoQSRRAF3kj6JChSEvZQi2mNF+/ANkWGw+A2bTH
+         JaUg==
+X-Gm-Message-State: AOAM533p5A7uo/zwKrmZKbxb8Z1rYkZKXHmtE+av+InnLQKDA6kd76S8
+        UETzBzv0a1FWj4vIpu184Lba5w==
+X-Google-Smtp-Source: ABdhPJxYJCnYuntUM3RTj5G4uZ8JcqXRsmHjDtNdlCetqy79aa/LEq/fJzELfZLm7dPA5RZVrqzYYQ==
+X-Received: by 2002:a17:90b:a04:: with SMTP id gg4mr6017057pjb.8.1607459570651;
+        Tue, 08 Dec 2020 12:32:50 -0800 (PST)
+Received: from ?IPv6:2600:1010:b020:7dd:51f8:22c8:74de:21e0? ([2600:1010:b020:7dd:51f8:22c8:74de:21e0])
+        by smtp.gmail.com with ESMTPSA id a17sm15902499pga.56.2020.12.08.12.32.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Dec 2020 12:32:49 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Date:   Tue, 8 Dec 2020 12:32:48 -0800
+Message-Id: <301491B7-DEB6-41ED-B8FD-657B864696CF@amacapital.net>
+References: <87h7ow2j91.fsf@nanos.tec.linutronix.de>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-9-yu-cheng.yu@intel.com>
- <20201208175014.GD27920@zn.tnic>
- <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
- <20201208184727.GF27920@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <cddc2cc5-a04e-ce9c-6fdf-2e7a29346cf7@intel.com>
-Date:   Tue, 8 Dec 2020 11:24:16 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-MIME-Version: 1.0
-In-Reply-To: <20201208184727.GF27920@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+In-Reply-To: <87h7ow2j91.fsf@nanos.tec.linutronix.de>
+To:     Thomas Gleixner <tglx@linutronix.de>
+X-Mailer: iPhone Mail (18B121)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/8/2020 10:47 AM, Borislav Petkov wrote:
-> On Tue, Dec 08, 2020 at 10:25:15AM -0800, Yu, Yu-cheng wrote:
->>> Both are "R/O + _PAGE_COW". Where's the difference? The dirty bit?
->>
->> The PTEs are the same for both (a) and (b), but come from different routes.
-> 
-> Do not be afraid to go into detail and explain to me what those routes
-> are please.
 
-Case (a) is a normal writable data page that has gone through fork(). 
-So it has W=0, D=1.  But here, the software chooses not to use the D 
-bit, and instead, W=0, COW=1.
+> On Dec 8, 2020, at 11:25 AM, Thomas Gleixner <tglx@linutronix.de> wrote:
+>=20
+> =EF=BB=BFOn Tue, Dec 08 2020 at 09:43, Andy Lutomirski wrote:
+>> On Tue, Dec 8, 2020 at 6:23 AM Marcelo Tosatti <mtosatti@redhat.com> wrot=
+e:
+>> It looks like it tries to accomplish the right goal, but in a rather
+>> roundabout way.  The host knows how to convert from TSC to
+>> CLOCK_REALTIME, and ptp_kvm.c exposes this data to the guest.  But,
+>> rather than just making the guest use the same CLOCK_REALTIME data as
+>> the host, ptp_kvm.c seems to expose information to usermode that a
+>> user daemon could use to attempt (with some degree of error?) to use
+>> to make the guest kernel track CLOCK_REALTIME.  This seems inefficient
+>> and dubiously accurate.
+>>=20
+>> My feature request is for this to be fully automatic and completely
+>> coherent.  I would like for a host user program and a guest user
+>> program to be able to share memory, run concurrently, and use the
+>> shared memory to exchange CLOCK_REALTIME values without ever observing
+>> the clock going backwards.  This ought to be doable.  Ideally the
+>> result should even be usable for Spanner-style synchronization
+>> assuming the host clock is good enough.  Also, this whole thing should
+>> work without needing to periodically wake the guest to remain
+>> synchronized.  If the guest sleeps for two minutes (full nohz-idle, no
+>> guest activity at all), the host makes a small REALTIME frequency
+>> adjustment, and then the guest runs user code that reads
+>> CLOCK_REALTIME, the guest clock should still be fully synchronized
+>> with the host.  I don't think that ptp_kvm.c-style synchronization can
+>> do this.
+>=20
+> One issue here is that guests might want to run their own NTP/PTP. One
+> reason to do that is that some people prefer the leap second smearing
+> NTP servers.=20
 
-Case (b) is a normal read-only data page.  Since it is read-only, fork() 
-won't affect it.  In __get_user_pages(), a copy of the read-only page is 
-needed, and the page is duplicated.  The software sets COW=1 for the new 
-copy.
+I would hope that using this part would be optional on the guest=E2=80=99s p=
+art. Guests should be able to use just the CLOCK_MONOTONIC_RAW part or fanci=
+er stuff at their option.
 
->>>> (e) A page where the processor observed a Write=1 PTE, started a write, set
->>>>       Dirty=1, but then observed a Write=0 PTE.
->>>
->>> How does that happen? Something changed the PTE's W bit to 0 in-between?
->>
->> Yes.
-> 
-> Also do not scare from going into detail and explaining what you mean
-> here. Example?
+(Hmm, it would, in principle, be possible for a guest to use the host=E2=80=99=
+s TAI but still smear leap seconds. Even without virt, smearing could be a p=
+er-timens option.)
 
-Thread-A is writing to a writable page, and the page's PTE is becoming 
-W=1, D=1.  In the middle of it, Thread-B is changing the PTE to W=0.
+>=20
+>> tglx etc, I think that doing this really really nicely might involve
+>> promoting something like the current vDSO data structures to ABI -- a
+>> straightforward-ish implementation would be for the KVM host to export
+>> its vvar clock data to the guest and for the guest to use it, possibly
+>> with an offset applied.  The offset could work a lot like timens works
+>> today.
+>=20
+> Works nicely if the guest TSC is not scaled. But that means that on
+> migration the raw TSC usage in the guest is borked because the new host
+> might have a different TSC frequency.
+>=20
+> If you use TSC scaling then the conversion needs to take TSC scaling
+> into account which needs some thought. And the guest would need to read
+> the host conversion from 'vdso data' and the scaling from the next page
+> (per guest) and then still has to support timens. Doable but adds extra
+> overhead on every time read operation.
 
->>> Does _PAGE_COW mean dirty too?
->>
->> Yes.  Basically [read-only & dirty] is created by software.  Now the
->> software uses a different bit.
-> 
-> That convention:
-> 
-> "[read-only & dirty] is created by software."
-> 
-> needs some prominent writeup somewhere explaining what it is.
-> 
-> Thx.
-> 
+Is the issue that scaling would result in a different guest vs host frequenc=
+y?  Perhaps we could limit each physical machine to exactly two modes: unsca=
+led (use TSC ticks, convert in software) and scaled to nanoseconds (CLOCK_MO=
+NOTONIC_RAW is RDTSC + possible offset).  Then the host could produce its da=
+ta structures in exactly those two formats and export them as appropriate.=20=
 
-I will put these into the comments.
 
---
-Yu-cheng
+>=20
+> If you want to avoid that you are back to the point where you need to
+> chase all guest data when the host NTP/PTP adjusts the host side.
+> Chasing and updating all this stuff in the tick was the reason why I was
+> fighting the idea of clock realtime in namespaces.
+
+I think that, if we can arrange for a small, bounded number of pages generat=
+ed by the host, then this problem isn=E2=80=99t so bad.
+
+Hmm, leap second smearing is just a different linear mapping. I=E2=80=99m no=
+t sure how leap second smearing should interact with timens, but it seems to=
+ be that the host should be able to produce four data pages (scaled vs unsca=
+led and smeared vs unsmeared) and one per-guest/timens offset page (where of=
+fset applies to MONOTONIC and MONOTONIC_RAW only) and cover all bases.  Or d=
+o people actually want to offset their TAI and/or REALTIME, and what would t=
+hat even mean if the offset crosses a leap second?
+
+(I haven=E2=80=99t though about the interaction of any of this with ART.)
