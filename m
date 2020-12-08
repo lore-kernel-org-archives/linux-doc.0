@@ -2,106 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89677C2BB9A
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 479DEC1B0D9
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:49:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B02723A52
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:39:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0341623A9B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 09:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728994AbgLHJju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 04:39:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49130 "EHLO
+        id S1726441AbgLHJtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:49:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728544AbgLHJju (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:39:50 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAF6C0611C5
-        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 01:38:56 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id t22so18399841ljk.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 01:38:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Df6CqLv6JOagx1Y8po8wBRxgE1D965nfEA75Zeqy5oU=;
-        b=hiBfGGso9wRtqNNhBBDBX1PZJI4bsFd8GYtW1arlG6wQ4COUeIZUEbdlyvCERMJMNo
-         G3mKLQX6l8yLU9kEnfD7DSvjlpMv/k/voYdOTNP7XWZPPJ/qSQk8mxqGTTh8jNzexWF+
-         IM8Az+l2VS7WmMT17YcIg6P/3wHd3R+VH1SSg9INsPTtt3qSUiUthy5zd7hakcqWkB+O
-         qSfwe3vWou5ZGLP9SOQvoHKDMgFZGQ1O3JUjz3sj++5TS4p8K381xHRqUXYIzwKWdgKO
-         FQZL/lFJPkZkG5N/3mq019RC7s6wgK9FMFx6XuoeVpbfGEDxYEjwM070MoklamNKuEIX
-         cY5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Df6CqLv6JOagx1Y8po8wBRxgE1D965nfEA75Zeqy5oU=;
-        b=AW7kpy2JZuTRaZYZ4Ju6WXMAg75Y6LyScS/ROfhHiUskD6Xgz7/i52cuQM8eCEixC1
-         rVScGkDNET37o56UIKkOJsox4RD5ASaOJa37UEZGrtpGuScLmUluXvgRzBwWJrOjcPne
-         K5PxTBVeLDdjYby23TNS2gLqtQKz8K4zwFmz+gtrgRMOBPRNeKQ1je246Y1W4TuODAR3
-         xERVpMQNzBMjHbQjyLBLOTUYvk7UPUrlqI9BK2nSYf7vrei1Dug1PCGOYZ12oERT/ydo
-         HFA5idUexxnCx7RVmETgAIMiDopmxjtMA5thlY5yEXum0FLkDetaBkSw8H9oZN3Hbd0y
-         G7zA==
-X-Gm-Message-State: AOAM5322I+LymDqttw1A31RYJjKZ2ofqewemwdxIFlY5+7W3LtQ0pQcG
-        RXnQCrNeC3z8giz5oCGur7tFif5TJJzxkT2xthEn7g==
-X-Google-Smtp-Source: ABdhPJxQWX+drL6yggghfNbiTL59lvfCIOzavoQ1GoTxnH37PaUwIwrN8fyjAkWeHJ5nGm3eQq7eo4VvW5wksxdLa68=
-X-Received: by 2002:a2e:910f:: with SMTP id m15mr10801861ljg.467.1607420334616;
- Tue, 08 Dec 2020 01:38:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20201203191135.21576-1-info@metux.net> <20201203191135.21576-2-info@metux.net>
- <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
-In-Reply-To: <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Dec 2020 10:38:43 +0100
-Message-ID: <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
-Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
- drivers: gpio: add virtio-gpio guest driver
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        with ESMTP id S1728028AbgLHJtN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 04:49:13 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C952C061749;
+        Tue,  8 Dec 2020 01:48:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=7bcvgstjEVppk7+MPyrtpEwXq1xns69yzQtxAznXpyE=; b=SkHw+uYjKNb2aRytJV+52kzv2l
+        MvuPXaK9BuESM9VjTmzXK7/dz2iUL0/CKuWMcKZ6ylR9V4qTU7kKLJA5oLvopX9zlQZ4lr/4q0pxn
+        pJ5DFi/Q9r5l3f8IE+PuhxpAgDXnh+rvAvTG3y8cWw1EoGb8l8jrm8Naru/+2I2BcKHaoig27oXck
+        b5//ZGMl6IejdckF35Y9xfmYGwR5VzWAxWNuFGEd8GaLJUYm5QLsYd/K0V235dnZSO3q0PLZd8f0n
+        huBpRfNObPAfLG2WG+A+Ez5TyuQpzHN9KZtrerHlyJ8KCFiD1PqDgzYQIE1W6V457XeIvQmtI4iQr
+        +aaB37sA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kmZbQ-0002Bc-38; Tue, 08 Dec 2020 09:48:12 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 91DA7304BAE;
+        Tue,  8 Dec 2020 10:48:09 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7B47720812B43; Tue,  8 Dec 2020 10:48:09 +0100 (CET)
+Date:   Tue, 8 Dec 2020 10:48:09 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kvm@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Message-ID: <20201208094809.GT2414@hirez.programming.kicks-ass.net>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+ <20201203171118.372391-2-mlevitsk@redhat.com>
+ <87a6uq9abf.fsf@nanos.tec.linutronix.de>
+ <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
+ <87im9dlpsw.fsf@vitty.brq.redhat.com>
+ <875z5d5x9m.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875z5d5x9m.fsf@nanos.tec.linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Dec 5, 2020 at 9:15 PM Enrico Weigelt, metux IT consult
-<lkml@metux.net> wrote:
+On Mon, Dec 07, 2020 at 06:41:41PM +0100, Thomas Gleixner wrote:
 
-> The virtio-gpio device/host can raise a signal on line state change.
-> Kinda IRQ, but not actually running through real IRQs, instead by a
-> message running though queue. (hmm, kida MSI ? :o).
->
-> I've tried allocating an IRQ range and calling generic_handle_irq(),
-> but then I'm getting unhanled IRQ trap.
+> Right this happens still occasionally, but for quite some time this is
+> 100% firmware sillyness and not a fundamental property of the hardware
+> anymore.
 
-This is Bartosz territory, but the gpio-mockup.c driver will insert
-IRQs into the system, he went and added really core stuff
-into kernel/irq to make this happen. Notice that in Kconfig
-it does:
+Ever since Nehalem (2008) TSC is synchronized on <= 2 sockets, and any
+observed deviation is firmware fail. I don't remember exactly where 4
+socket and up got reliable.
 
-select IRQ_SIM
+(there's the physical hotplug case, but let's not make this complicated)
 
-Then this is used:
-include/linux/irq_sim.h
+AMD has had Constant TSC since Barcelona which is roughly the same
+timeframe IIRC.
 
-This is intended for simulating IRQs and both GPIO and IIO use it.
-I think this inserts IRQs from debugfs and I have no idea how
-flexible that is.
-
-If it is suitable for what you want to do I don't know but it's
-virtio so...
-
-Yours,
-Linus Walleij
+So basically every TSC fail in the last decase is due to firmware being
+shit.
