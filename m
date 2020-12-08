@@ -2,95 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFECC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C22C4167B
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 352A123B44
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 17:59:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B37A023B54
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Dec 2020 18:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728914AbgLHR70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 12:59:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbgLHR70 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 12:59:26 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44034C061749;
-        Tue,  8 Dec 2020 09:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=xpPrMtRvHw9uqYWab0h0BufwacaQTlL6o1POPE2Agm0=; b=ujqn2sNEqBW65hdKJbVwhyiG1I
-        q4h6IPSVJMUPyS8qmJfMk3lQTvdUQ/axMqLnNICqsLCh3A0jm7G1ifHG9cR3Fnsh0HhGPojPvl39k
-        VEoEAIS6jB/Ik5kgCUOspdU6i/lw2M5sWEvMVtApWv4YoTC/HjtWgLGR/T7UP/Z5x9swPOVQSnCOd
-        a+DFbupqke6wOcA6HjN+2ufyF2MqIkGP4Ic6ZhPUpaR5lDQyWUgKCtjp1wSLWZPOyDicUUYPwel6B
-        0kjRicsFxiqa7Rqrhr3nGXAB2PfMNCXELi13TMqybrAjLsIQr0JG9/IXRhxNOrWJn1DfcfSv+aOJm
-        x18Tfs8g==;
-Received: from [2601:1c0:6280:3f0::1494]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kmhG3-0007v4-7W; Tue, 08 Dec 2020 17:58:39 +0000
-Subject: Re: [PATCH] Update documentation to reflect what
- TAINT_CPU_OUT_OF_SPEC means nowadays
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Chouquet-Stringer <me@mathieu.digital>
-Cc:     Borislav Petkov <bp@alien8.de>, Stephen Kitt <steve@sk2.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Naoki Hayama <naoki.hayama@lineo.co.jp>,
-        Yue Hu <huyue2@yulong.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20201202153244.709752-1-me@mathieu.digital>
- <20201208105439.23e2349b@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1254edd7-25ee-b73d-da2c-194d38ba7890@infradead.org>
-Date:   Tue, 8 Dec 2020 09:58:32 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1730521AbgLHSQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 13:16:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46215 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730907AbgLHSQL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 13:16:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607451284;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cc5HeITMvRFmjbvT+QUgMVjYAa6x0iGdEVKJUwAnHSA=;
+        b=YBk8ulALOPoVya3919zXR5vLgN9/xYu3NjxiKKn06qnlnggTHgtt3VJGaAeZPhksYk+BAT
+        0Ich20aLSuOeC0xuqAGWMikecTKdc7CDFNMMoyzlr+TD5Y6E9W5GBkpFuQYSZ/Rxw8KFzW
+        8zYm9ZDu8sAKHszKbs9JuNiFc7lBqwM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-OwRjtUAMOq-LjE7rnn6KmQ-1; Tue, 08 Dec 2020 13:14:42 -0500
+X-MC-Unique: OwRjtUAMOq-LjE7rnn6KmQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F03E57051;
+        Tue,  8 Dec 2020 18:14:40 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-8.gru2.redhat.com [10.97.112.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A1F4D19C78;
+        Tue,  8 Dec 2020 18:14:39 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 6FD634097D83; Tue,  8 Dec 2020 15:12:32 -0300 (-03)
+Date:   Tue, 8 Dec 2020 15:12:32 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Message-ID: <20201208181232.GB31442@fuller.cnet>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+ <20201203171118.372391-2-mlevitsk@redhat.com>
+ <20201207232920.GD27492@fuller.cnet>
+ <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
+ <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
+ <6f64558a029574444da417754786f711c2fec407.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201208105439.23e2349b@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f64558a029574444da417754786f711c2fec407.camel@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/8/20 9:54 AM, Jonathan Corbet wrote:
-> On Wed,  2 Dec 2020 16:32:43 +0100
-> Mathieu Chouquet-Stringer <me@mathieu.digital> wrote:
+On Tue, Dec 08, 2020 at 06:25:13PM +0200, Maxim Levitsky wrote:
+> On Tue, 2020-12-08 at 17:02 +0100, Thomas Gleixner wrote:
+> > On Tue, Dec 08 2020 at 16:50, Maxim Levitsky wrote:
+> > > On Mon, 2020-12-07 at 20:29 -0300, Marcelo Tosatti wrote:
+> > > > > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
+> > > > > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
+> > > > > +
+> > > > > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
+> > > > > +KVM will adjust the guest TSC value by the time that passed since the moment
+> > > > > +CLOCK_REALTIME timestamp was saved in the struct and current value of
+> > > > > +CLOCK_REALTIME, and set the guest's TSC to the new value.
+> > > > 
+> > > > This introduces the wraparound bug in Linux timekeeping, doesnt it?
+> > 
+> > Which bug?
+> > 
+> > > It does.
+> > > Could you prepare a reproducer for this bug so I get a better idea about
+> > > what are you talking about?
+> > > 
+> > > I assume you need very long (like days worth) jump to trigger this bug
+> > > and for such case we can either work around it in qemu / kernel 
+> > > or fix it in the guest kernel and I strongly prefer the latter.
+> > > 
+> > > Thomas, what do you think about it?
+> > 
+> > For one I have no idea which bug you are talking about and if the bug is
+> > caused by the VMM then why would you "fix" it in the guest kernel.
 > 
->> 	Hello Jonathan,
->>
->> Here's a patch updating the meaning of TAINT_CPU_OUT_OF_SPEC after
->> Borislav introduced changes in a7e1f67ed29f and upcoming patches in tip.
->>
->> TAINT_CPU_OUT_OF_SPEC now means a bit more what it implies as the
->> flag isn't set just because of a CPU misconfiguration or mismatch.
->> Historically it was for SMP kernel oops on an officially SMP incapable
->> processor but now it also covers CPUs whose MSRs have been incorrectly
->> poked at from userspace, drivers being used on non supported
->> architectures, broken firmware, mismatched CPUs, ...
->>
->> Update documentation and script to reflect that.
->>
->> Signed-off-by: Mathieu Chouquet-Stringer <me@mathieu.digital>
+> The "bug" is that if VMM moves a hardware time counter (tsc or anything else) 
+> forward by large enough value in one go, 
+> then the guest kernel will supposingly have an overflow in the time code.
+> I don't consider this to be a buggy VMM behavior, but rather a kernel
+> bug that should be fixed (if this bug actually exists)
+
+It exists.
+
+> Purely in theory this can even happen on real hardware if for example SMM handler
+> blocks a CPU from running for a long duration, or hardware debugging
+> interface does, or some other hardware transparent sleep mechanism kicks in
+> and blocks a CPU from running.
+> (We do handle this gracefully for S3/S4)
 > 
-> Hearing no objection, I've applied this.
+> > 
+> > Aside of that I think I made it pretty clear what the right thing to do
+> > is.
+> 
+> This is orthogonal to this issue of the 'bug'. 
+> Here we are not talking about per-vcpu TSC offsets, something that I said 
+> that I do agree with you that it would be very nice to get rid of.
+>  
+> We are talking about the fact that TSC can jump forward by arbitrary large
+> value if the migration took arbitrary amount of time, which 
+> (assuming that the bug is real) can crash the guest kernel.
 
+QE reproduced it.
 
-Hm, I was glad to read this new info since my old testing laptop
-now tells me that it needs a microcode update.  :(
-
-
--- 
-~Randy
+> This will happen even if we use per VM global tsc offset.
+> 
+> So what do you think?
+> 
+> Best regards,
+> 	Maxim Levitsky
+> 
+> > 
+> > Thanks,
+> > 
+> >         tglx
+> > 
+> 
 
