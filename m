@@ -2,158 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAB7C4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 09:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C6F7C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 09:26:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03B36238EB
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 09:23:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FBE823B77
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 09:26:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729087AbgLIJXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 04:23:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45512 "EHLO
+        id S1729039AbgLIJ0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 04:26:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727339AbgLIJXJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 04:23:09 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62657C061793
-        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 01:22:29 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id x22so779928wmc.5
-        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 01:22:29 -0800 (PST)
+        with ESMTP id S1728613AbgLIJ0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 04:26:32 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27A2C061794
+        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 01:25:51 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id w5so45570pgj.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 01:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Mx+SSux44r2ybzN5uouGLt8Nyz1sei2BYkCtNp5/Q1U=;
-        b=BrjxDVk7vGKmI9PkGvFwQ3GU2hA8fRK99GdYe9yoQ15TohZrTt4oqHD6OJjC7O2Y29
-         Chb5nVLxZZJ763fumMNZyor5i0DCuYNiOyFihpca10BMIb1ohsXsz09u0P1vg/3Y4wru
-         /HosQ+j/nJKg+Kb+VfMQ6iRzO9Ksrxt4boRjpyTNIDUxJxpoaP7HSd/o8wqF6tKHpXWD
-         E9/XDzI1UQLDSZoCAoiupyT5JBoQJV5od2iZrHzUHJs78vFF3R+ebTCCmlvtW6+qeIJY
-         pc8bEy4zn9Rx1qyn/Mz6/xDVOGssQXFa05U5P1JqV/VRBQNo6n94KA9rzgGhjXo1uV4o
-         a5jg==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dXhJecn2ypVF83qY85JZPNhQKUDimjCGcH0BANuxqD8=;
+        b=btZEszo399nkRw0hQGx4M+kOmKh7hLcMACNMz9aihZjqLTbhaJ1SiNfiWEnnRwziq6
+         LQAMzNVQWBRegOB1UJ38wyODwmjFmq97Xg702dKnZ1hxSMRRvAJScqM314jD3c9D3+A5
+         28jwacShlzrw2crSNaf5KeYDHR1pph6kXdGCfAA/G24sWvdNLBGV5PLKcpqrqa9W1D2I
+         vLrwrLcE076E+cvCo1ZVvPycwMbJk+oupiVfBTocPAmtsSpj/oClwnPkYodzcfthEST/
+         qrfTPrSS6vkn4QNC0Fj9qlOHSWqnfjoKqu06jzvuSnNtE+3hhWXdk/3tjV28anSJqhGK
+         DnGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Mx+SSux44r2ybzN5uouGLt8Nyz1sei2BYkCtNp5/Q1U=;
-        b=NNsxvG1ZvcRUnYaxTtSVcP5ljDpC8ZqrtbuhcpMbCkFtF0eAodlFTItuJj1jZPAiZD
-         IiIwDbcXIdJjyp8/XLPZPSHmN4eYh+Pu36WAuXTqY5Amf2qwsh2PSV18sEvImsXiPOQ2
-         yaqeIsSLbQLvD18OTAq83PvuzdS0t88PocanWPVek9Rvi2uJSAd4S0l9zKrQ5vq422ha
-         HwBRct/P75tMdFn0NWvMZBvSkK4MbQGed1BksyPYdRw6QNoJMusNU30Ay/1i4QuXSbCU
-         wIqhwEWnupfdOSDwy4+489HhPtD0VVc/L46CamNDIblfIl9O9TTn1oSIIYyzYV9DmD8a
-         10cQ==
-X-Gm-Message-State: AOAM5311DU9fqRK6NHSL2Fyt3GOHMwr02dLxn27eaG6fy247KFtTS55a
-        NWAnslDgFhjIDpqfjBQzOoh7VQ==
-X-Google-Smtp-Source: ABdhPJxTlBVIxgjkiki4YjzApRPAYuKQcRCroZoMD5M27K7cz8VwDwS82eqt/XFzqMY5viPlsgQuUQ==
-X-Received: by 2002:a1c:40c:: with SMTP id 12mr1687015wme.40.1607505748074;
-        Wed, 09 Dec 2020 01:22:28 -0800 (PST)
-Received: from dell ([91.110.221.209])
-        by smtp.gmail.com with ESMTPSA id z8sm2247120wmg.17.2020.12.09.01.22.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 01:22:27 -0800 (PST)
-Date:   Wed, 9 Dec 2020 09:22:24 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Ion Badulescu <ionut@badula.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Adam Radford <aradford@gmail.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-ide@vger.kernel.org, dmaengine@vger.kernel.org,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        linux-parisc@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        linux-serial@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] PCI: Remove pci_try_set_mwi
-Message-ID: <20201209092224.GU4801@dell>
-References: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dXhJecn2ypVF83qY85JZPNhQKUDimjCGcH0BANuxqD8=;
+        b=k21oacGy8icLXOg1KmcoKc2Z4UQ9Ou7hljSZ+8IzOy+QmhCHCTqxcSkiD7HR6E8pJp
+         IyLHpZrY8Hl1zFSMW4ooHR4yfdEniHoMduInojJ/j2mDRUjxVb71O6VnKNw4Z5db4NTS
+         h00uePIzq2lOw4BPOmRRJ2SSuzv7jHo7WhFKy6sAG7dxZ/xBw7a44bsA4lXTH1MBVKLL
+         82o8n0rQ8G6yM9sNgcslZE+9lUt3AEg0HiCeRs9ltdWznGszbRwwZBVkZO1crlTGxuF6
+         qJ++LjE1qQjsIHhqMHsQEvzxNhfjVp9DrflX/6sTlaTXN34BiVzDVa4jMKP9ceO68uTj
+         HMXQ==
+X-Gm-Message-State: AOAM532lSAtRgHS70WGg9K3xfCocDyv106o7PvatRb5GCXki5Gmzd8Y0
+        Jd0B3A/bQLVwAMmapAd7IcStgkDTio5D5WgVJT7fdA==
+X-Google-Smtp-Source: ABdhPJwFLbBXb64wStSXcxtAKbqPsWO/Ku4ocEbgmI3UBNMsXCLDqKy1pLDkd8jG2nmEHH9Rn3i1dKvP2PftcKqDUlo=
+X-Received: by 2002:a63:1203:: with SMTP id h3mr1140479pgl.273.1607505951447;
+ Wed, 09 Dec 2020 01:25:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com>
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <20201130151838.11208-6-songmuchun@bytedance.com> <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
+ <CAMZfGtWepk0EXc_fCtS83gvhfKpMrXxP8k3oWwfhWKmPJ3jjwA@mail.gmail.com> <096ee806-b371-c22b-9066-8891935fbd5e@redhat.com>
+In-Reply-To: <096ee806-b371-c22b-9066-8891935fbd5e@redhat.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 9 Dec 2020 17:25:14 +0800
+Message-ID: <CAMZfGtU-zpPRkSikcYZUhKvWhpwZ+cspXNhoaok9e6MCE2pk-g@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v7 05/15] mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 09 Dec 2020, Heiner Kallweit wrote:
+On Wed, Dec 9, 2020 at 4:50 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 09.12.20 08:36, Muchun Song wrote:
+> > On Mon, Dec 7, 2020 at 8:39 PM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 30.11.20 16:18, Muchun Song wrote:
+> >>> In the later patch, we can use the free_vmemmap_page() to free the
+> >>> unused vmemmap pages and initialize a page for vmemmap page using
+> >>> via prepare_vmemmap_page().
+> >>>
+> >>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> >>> ---
+> >>>  include/linux/bootmem_info.h | 24 ++++++++++++++++++++++++
+> >>>  1 file changed, 24 insertions(+)
+> >>>
+> >>> diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
+> >>> index 4ed6dee1adc9..239e3cc8f86c 100644
+> >>> --- a/include/linux/bootmem_info.h
+> >>> +++ b/include/linux/bootmem_info.h
+> >>> @@ -3,6 +3,7 @@
+> >>>  #define __LINUX_BOOTMEM_INFO_H
+> >>>
+> >>>  #include <linux/mmzone.h>
+> >>> +#include <linux/mm.h>
+> >>>
+> >>>  /*
+> >>>   * Types for free bootmem stored in page->lru.next. These have to be in
+> >>> @@ -22,6 +23,29 @@ void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
+> >>>  void get_page_bootmem(unsigned long info, struct page *page,
+> >>>                     unsigned long type);
+> >>>  void put_page_bootmem(struct page *page);
+> >>> +
+> >>> +static inline void free_vmemmap_page(struct page *page)
+> >>> +{
+> >>> +     VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
+> >>> +
+> >>> +     /* bootmem page has reserved flag in the reserve_bootmem_region */
+> >>> +     if (PageReserved(page)) {
+> >>> +             unsigned long magic = (unsigned long)page->freelist;
+> >>> +
+> >>> +             if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
+> >>> +                     put_page_bootmem(page);
+> >>> +             else
+> >>> +                     WARN_ON(1);
+> >>> +     }
+> >>> +}
+> >>> +
+> >>> +static inline void prepare_vmemmap_page(struct page *page)
+> >>> +{
+> >>> +     unsigned long section_nr = pfn_to_section_nr(page_to_pfn(page));
+> >>> +
+> >>> +     get_page_bootmem(section_nr, page, SECTION_INFO);
+> >>> +     mark_page_reserved(page);
+> >>> +}
+> >>
+> >> Can you clarify in the description when exactly these functions are
+> >> called and on which type of pages?
+> >>
+> >> Would indicating "bootmem" in the function names make it clearer what we
+> >> are dealing with?
+> >>
+> >> E.g., any memory allocated via the memblock allocator and not via the
+> >> buddy will be makred reserved already in the memmap. It's unclear to me
+> >> why we need the mark_page_reserved() here - can you enlighten me? :)
+> >
+> > Sorry for ignoring this question. Because the vmemmap pages are allocated
+> > from the bootmem allocator which is marked as PG_reserved. For those bootmem
+> > pages, we should call put_page_bootmem for free. You can see that we
+> > clear the PG_reserved in the put_page_bootmem. In order to be consistent,
+> > the prepare_vmemmap_page also marks the page as PG_reserved.
+>
+> I don't think that really makes sense.
+>
+> After put_page_bootmem() put the last reference, it clears PG_reserved
+> and hands the page over to the buddy via free_reserved_page(). From that
+> point on, further get_page_bootmem() would be completely wrong and
+> dangerous.
+>
+> Both, put_page_bootmem() and get_page_bootmem() rely on the fact that
+> they are dealing with memblock allcoations - marked via PG_reserved. If
+> prepare_vmemmap_page() would be called on something that's *not* coming
+> from the memblock allocator, it would be completely broken - or am I
+> missing something?
+>
+> AFAIKT, there should rather be a BUG_ON(!PageReserved(page)) in
+> prepare_vmemmap_page() - or proper handling to deal with !memblock
+> allocations.
+>
 
-> pci_set_mwi() and pci_try_set_mwi() do exactly the same, just that the
-> former one is declared as __must_check. However also some callers of
-> pci_set_mwi() have a comment that it's an optional feature. I don't
-> think there's much sense in this separation and the use of
-> __must_check. Therefore remove pci_try_set_mwi() and remove the
-> __must_check attribute from pci_set_mwi().
-> I don't expect either function to be used in new code anyway.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> ---
-> patch applies on top of pci/misc for v5.11
-> ---
->  Documentation/PCI/pci.rst                     |  5 +----
->  drivers/ata/pata_cs5530.c                     |  2 +-
->  drivers/ata/sata_mv.c                         |  2 +-
->  drivers/dma/dw/pci.c                          |  2 +-
->  drivers/dma/hsu/pci.c                         |  2 +-
->  drivers/ide/cs5530.c                          |  2 +-
+I want to allocate some pages as the vmemmap when
+we free a HugeTLB page to the buddy allocator. So I use
+the prepare_vmemmap_page() to initialize the page (which
+allocated from buddy allocator) and make it as the vmemmap
+of the freed HugeTLB page.
 
->  drivers/mfd/intel-lpss-pci.c                  |  2 +-
+Any suggestions to deal with this case?
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+I have a solution to address this. When the pages allocated
+from the buddy as vmemmap pages,  we do not call
+prepare_vmemmap_page().
 
->  drivers/net/ethernet/adaptec/starfire.c       |  2 +-
->  drivers/net/ethernet/alacritech/slicoss.c     |  2 +-
->  drivers/net/ethernet/dec/tulip/tulip_core.c   |  5 +----
->  drivers/net/ethernet/sun/cassini.c            |  4 ++--
->  drivers/net/wireless/intersil/p54/p54pci.c    |  2 +-
->  .../intersil/prism54/islpci_hotplug.c         |  3 +--
->  .../wireless/realtek/rtl818x/rtl8180/dev.c    |  2 +-
->  drivers/pci/pci.c                             | 19 -------------------
->  drivers/scsi/3w-9xxx.c                        |  4 ++--
->  drivers/scsi/3w-sas.c                         |  4 ++--
->  drivers/scsi/csiostor/csio_init.c             |  2 +-
->  drivers/scsi/lpfc/lpfc_init.c                 |  2 +-
->  drivers/scsi/qla2xxx/qla_init.c               |  8 ++++----
->  drivers/scsi/qla2xxx/qla_mr.c                 |  2 +-
->  drivers/tty/serial/8250/8250_lpss.c           |  2 +-
->  drivers/usb/chipidea/ci_hdrc_pci.c            |  2 +-
->  drivers/usb/gadget/udc/amd5536udc_pci.c       |  2 +-
->  drivers/usb/gadget/udc/net2280.c              |  2 +-
->  drivers/usb/gadget/udc/pch_udc.c              |  2 +-
->  include/linux/pci.h                           |  5 ++---
->  27 files changed, 33 insertions(+), 60 deletions(-)
+When we free some vmemmap pages of a HugeTLB
+page, if the PG_reserved of the vmemmap page is set,
+we call free_vmemmap_page() to free it to buddy,
+otherwise call free_page(). What is your opinion?
+
+>
+> And as I said, indicating "bootmem" as part of the function names might
+> make it clearer that this is not for getting any vmemmap pages (esp.
+> allocated when hotplugging memory).
+
+Agree. I am doing that for the next version.
+
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
+
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Yours,
+Muchun
