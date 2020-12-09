@@ -2,191 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA24BC4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 04:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A5F0C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 05:20:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73A4223AFE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 04:10:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1486023B16
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 05:20:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726822AbgLIEJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 23:09:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35030 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726969AbgLIEJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 8 Dec 2020 23:09:51 -0500
-X-Gm-Message-State: AOAM532UAmPdSr+2kLjepPQ6l/NZssrSWiMcMM9iNQHTdjEefRHMLG0r
-        VcC9DxJvk1zKtFrPvFj9M4YX+tsGsJW5fMvkXmheGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607486950;
-        bh=oYWxHXQ62C0mJPCCULJOFjbEn8mPiFRGhNAfsRwo+mY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nT6twCQi9Jenx478cXei96dI33ctRSjanIgabjy6tuwS1rodO7suTwGCFFvXyOjWF
-         vIcSwkZDRyyeazR2HeuckJ8xfMTdLZvln1c81aTUcRusm1P2tN8z+QHzqZz/0SCFmD
-         x8KbI3Yj9wdPax8w4cjC5SP13srVUMTPJe7fkrJy1mJpbfsa8TudGdO2LHK0KNtvmh
-         wnA8Jk1otU2k7fXHa4PnJg5J8A1Tdt48FO3rt2EEONdw8XPIOsQgSWojoFdvWaQ48e
-         dStLK88l/Vv8im9IyrngHoMlDEjVn0ix38zWbSeXGusniPqbYK0Y2ThsYp4jkWpLhV
-         UDdQOhvVXJrXw==
-X-Google-Smtp-Source: ABdhPJyPreMEtl1P7lQQQDkaaodeKWAa7yzPM9UvV4cRoYUa/4FCUz55VfV8kjpchfi0VRMnuLRmsm2k3UBpYxyIZ1k=
-X-Received: by 2002:a5d:4a10:: with SMTP id m16mr403401wrq.18.1607486947915;
- Tue, 08 Dec 2020 20:09:07 -0800 (PST)
+        id S1726559AbgLIFT7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 00:19:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbgLIFT7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 00:19:59 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549FDC0613CF;
+        Tue,  8 Dec 2020 21:19:19 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kmrsg-0005wp-FX; Wed, 09 Dec 2020 06:19:14 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: reporting-issues: move 'outdated, need help' note to proper place
+Date:   Wed,  9 Dec 2020 06:19:14 +0100
+Message-Id: <d3894ba4a302beed661304cbcdc062c6dcfe3e58.1607489877.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <87h7ow2j91.fsf@nanos.tec.linutronix.de> <301491B7-DEB6-41ED-B8FD-657B864696CF@amacapital.net>
- <87v9db25me.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87v9db25me.fsf@nanos.tec.linutronix.de>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 8 Dec 2020 20:08:56 -0800
-X-Gmail-Original-Message-ID: <CALCETrXeXCvbxAuRuLwWoF3-zvjhzzjj46VZ3RfgUEhb0SeK6A@mail.gmail.com>
-Message-ID: <CALCETrXeXCvbxAuRuLwWoF3-zvjhzzjj46VZ3RfgUEhb0SeK6A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        kvm list <kvm@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1607491159;8cd44f12;
+X-HE-SMSGID: 1kmrsg-0005wp-FX
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 8, 2020 at 4:19 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> On Tue, Dec 08 2020 at 12:32, Andy Lutomirski wrote:
-> >> On Dec 8, 2020, at 11:25 AM, Thomas Gleixner <tglx@linutronix.de> wrot=
-e:
-> >> One issue here is that guests might want to run their own NTP/PTP. One
-> >> reason to do that is that some people prefer the leap second smearing
-> >> NTP servers.
-> >
-> > I would hope that using this part would be optional on the guest=E2=80=
-=99s
-> > part. Guests should be able to use just the CLOCK_MONOTONIC_RAW part
-> > or fancier stuff at their option.
-> >
-> > (Hmm, it would, in principle, be possible for a guest to use the
-> > host=E2=80=99s TAI but still smear leap seconds. Even without virt, sme=
-aring
-> > could be a per-timens option.)
->
-> No. Don't even think about it. Read the thread:
->
->   https://lore.kernel.org/r/20201030110229.43f0773b@jawa
->
-> all the way through the end and then come up with a real proposal which
-> solves all of the issues mentioned there.
+Move the 'this section is a placeholder for now and needs help by
+someone with domain knowledge' note one section upwards to the place
+where it belongs: the 'Decode failure messages' section.
 
-You're misunderstanding me, which is entirely reasonable, since my
-description was crap.  In particular, what I meant by smearing is not
-at all what's done today.  Let me try again.  The thing below is my
-proposal, not necessarily a description of exactly what happens now.
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+Brown paper bag fixup :-/
 
-(I read most of that thread, and I read most of this thread, and I've
-hacked on the time code, cursed at the KVM code, modified the KVM
-code, cursed at the KVM code some more, etc.  None of which is to say
-that I have a full understanding of every possible timekeeping nuance,
-but I'm pretty sure I can at least pretend to understand some of it.)
+---
+ .../admin-guide/reporting-issues.rst          | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-We have some time source that we can read (e.g. TSC).  Let's call it
-read_time().  It returns an integer (64-bits would be nice, but we'll
-take what we can get).  From the output of read_time(), Linux user
-programs, and the kernel itself (and guests perhaps, see below) would
-like to produce various outputs.  Each of them is protected by a
-seqlock that I'll omit in the descriptions below.  The operations
-below are all protected by a seqlock retry loop.  Also, when I say *
-below, I mean the usual calculation with a multiplication and a shift.
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 5cbb1b5f4a52..07879d01fe68 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -923,18 +923,6 @@ instead you can join.
+ Decode failure messages
+ -----------------------
+ 
+-    *If the failure includes a stack dump, like an Oops does, consider decoding
+-    it to find the offending line of code.*
+-
+-When the kernel detects an error, it will print a stack dump that allows to
+-identify the exact line of code where the issue happens. But that information
+-sometimes needs to get decoded to be readable, which is explained in
+-admin-guide/bug-hunting.rst.
+-
+-
+-Special care for regressions
+-----------------------------
+-
+ .. note::
+ 
+    FIXME: The text in this section is a placeholder for now and quite similar to
+@@ -953,6 +941,18 @@ Special care for regressions
+ 
+ ..
+ 
++    *If the failure includes a stack dump, like an Oops does, consider decoding
++    it to find the offending line of code.*
++
++When the kernel detects an error, it will print a stack dump that allows to
++identify the exact line of code where the issue happens. But that information
++sometimes needs to get decoded to be readable, which is explained in
++admin-guide/bug-hunting.rst.
++
++
++Special care for regressions
++----------------------------
++
+     *If your problem is a regression, try to narrow down when the issue was
+     introduced as much as possible.*
+ 
 
-All of these are only valid if t_start <=3D read_time() <=3D t_end and,
-and they all assume that read_time() hasn't wrapped and gotten into
-that interval again.  There is nothing at all we can do in software if
-we wrap like this.  t_end isn't necessarily something we compute
-explicitly --- it might just be the case that, if read_time() > t_end,
-our arithmetic overflows and we return garbage.  But t_end might be a
-real thing on architectures where vdso_cycles_ok() actually does
-something (sigh, x86).
+base-commit: 547f574fd9d5e3925d47fd44decbf6ab6df94b0e
+-- 
+2.29.2
 
-CLOCK_MONOTONIC_RAW: not affected by NTP, adjtimex, etc.
-return mult[monotonic_raw] * (read_time() - t_start) + offset[monotonic_raw=
-];
-
-CLOCK_MONOTONIC:  This is never affected by leap-second smearing.  If
-userspace tries to smear it in the new mode, userspace gets to keep
-all the pieces.
-return mult[monotonic] * (read_time() - t_start) + offset[monotonic];
-
-CLOCK_TAI:  This is not smeared.
-return mult[tai] * (read_time() - t_start) + offset[tai];
-
-CLOCK_SANE_REALTIME: This is not smeared either.
-return mult[sane_realtime] * (read_time() - t_start) + offset[sane_realtime=
-];
-
-And yes, we require that mult[monotonic] =3D=3D mult[tai] =3D=3D mult[sane_=
-realtime].
-
-CLOCK_SMEARED_REALTIME:
-return mult[smeared_realtime] * (read_time() - t_start) +
-offset[smeared_realtime]
-This is a leap-second-smeared variant of CLOCK_SANE_REALTIME.
-
-CLOCK_REALTIME: maps to CLOCK_SANE_REALTIME or CLOCK_SMEARED_REALTIME
-depending on user preference.  Doing this without an extra branch
-somewhere might take a bit of thought.
-
-If t > t_end, then we fall back to a syscall if we're in user mode and
-we fall back to hypercall or we just spin if we're in the kernel.  But
-see below.
-
-As far as I can tell, if the kernel were to do something utterly
-asinine like adding some arbitrary value to TSC_ADJUST on all CPUs,
-the kernel could do so correctly by taking the seqlock, making the
-change, updating everything, and releasing the seqlock.  This would be
-nuts, but it's more or less the same thing that happens when a VM
-migrates.  So I think a VM could migrate a guest without any
-particular magic, except that there's a potential race if the old and
-new systems happen to have close enough seqlock values that the guest
-might start reading on the old host, finish on the new host, see the
-same seqlock value, and end up with utter garbage.  One way to
-mitigate this would be, in paravirt mode, to have an extra per-guest
-page that contains a count of how many times the guest has migrated.
-
-Timens would work a lot like it does today, but the mechanism that
-tells the vdso code to use timens might need tweaking.
-
-I could easily be missing something that prevents this from working,
-but I'm not seeing any fundamental problems.
-
-If we want to get fancy, we can make a change that I've contemplated
-for a while -- we could make t_end explicit and have two copies of all
-these data structures.  The reader would use one copy if t < t_change
-and a different copy if t >=3D t_change.  This would allow NTP-like code
-in usermode to schedule a frequency shift to start at a specific time.
-With some care, it would also allow the timekeeping code to update the
-data structures without causing clock_gettime() to block while the
-timekeeping code is running on a different CPU.
-
-One other thing that might be worth noting: there's another thread
-about "vmgenid".  It's plausible that it's worth considering stopping
-the guest or perhaps interrupting all vCPUs to allow it to take some
-careful actions on migration for reasons that have nothing to do with
-timekeeping.
