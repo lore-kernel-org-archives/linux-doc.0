@@ -2,168 +2,300 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9DCC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2561C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 08579235F7
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:38:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 772EA23BC6
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbgLIHiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 02:38:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57532 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726137AbgLIHiB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 02:38:01 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9194C06179C
-        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 23:37:20 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id c12so451423pfo.10
-        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 23:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2cICHu+sOCwXeW6iw0ut0I4jknhG6qKw77uMPa9BrME=;
-        b=udn54ZQaXLxWJyckaeNBxPfVo2UljovZBUS+oRSUFvvUCAyH5HEeIGMwu2NU/lb6Vh
-         Q6TJj/Jr5mEPR/YkLf6/wG9KF1iuHRXQrZdHvAAugCwhnRDuOxCEvuLBxcRO3/KUwwOp
-         cvt33y8UczhgGRSTsjlH00EixjOW+95c8TRRRxqb0iHaW4IE/6s7Ubc3HSYXINQjDBd8
-         kEZE+uzp0wZoJHSd1eMKCSee7hBjQBjgWS8Q7X316n1wFK0m3VZUOdukYZbTusjQ8klh
-         1G+GmJynHKliOdBwA5VmiiGU/U7aJrCES/GeQzSvaDuZthhr2djQxFTylGUdDkqzBeM5
-         Pt/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2cICHu+sOCwXeW6iw0ut0I4jknhG6qKw77uMPa9BrME=;
-        b=otpCJ8nQLDfkFuPy7ybudj2EszciwWLc8Ou+ojhrl44GlYHImmBjYmUZze/8wzfdUK
-         6CTBlsvEU2Fm6eaLDM8Jqqb+Y6pvDSFLOveeYq2z9beHtt3ZKfMQepQw0vr8JtYJ4QyK
-         Q6M/QzkCa9ffShZxEa8t3PV0AOT2zf4dtZId9rAaWv8zUzq9601eXzRCDUZ1QoX9RLz0
-         VzD95nafPzh8wmf9TuZw48uCvwnQpQj7teEC7uL5a1N+q1pU0DVgUtl6inelqnoo5N/z
-         /qYIJ2z7tjhNwe9985cg4PowCjcdmP5lxU/pawqTJEBhZ4AtIq468QlBJqpZnmcMXeLv
-         4TUQ==
-X-Gm-Message-State: AOAM530uBcL9o2/Vjh+OYnN1eRJGWH7zRFf14arwMQQJpQ6+sBHivN0w
-        uSPkUZ0MP79OOYNNYWcI9hbMWS4YCisoOhM4sQocVw==
-X-Google-Smtp-Source: ABdhPJzwSm5U2W6VXMUOuUhmk30S9OwGGrhk3XSnR2IzvfloRQjzF8Ftb/J3yX+TKovQ3AU0/xle8qW2iaWTuakvWzw=
-X-Received: by 2002:a62:3103:0:b029:19b:d4e8:853c with SMTP id
- x3-20020a6231030000b029019bd4e8853cmr1181160pfx.59.1607499440381; Tue, 08 Dec
- 2020 23:37:20 -0800 (PST)
+        id S1728418AbgLIHww (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 02:52:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39790 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727953AbgLIHww (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 02:52:52 -0500
+X-Gm-Message-State: AOAM532CyUJejyv/56a4eKV6r93lkUDiwhRTc4MhYB3LH+X7WeahVDMt
+        h8PKLIYOiCWCJOw2ia7uSPtis2mWcD0BWpH4bwk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607500293;
+        bh=OEQSYtYb9NVegyVw846n4Oj+FsIUHUrywKo9JP+Mzxk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Sum/Mv9KTKsuXnyljn+CR2uqjs3V8AAGrxYc3UxzU6vr6fhlgw1vr1TyrYTW4cZpw
+         fesxqOqeu5BK0zYg+Jr+uSryZSZY0BAufyEXWeKSwy4pnnAEC+dlHaLBQKdaTs3bB4
+         AiWjIC3zRoqjsHOJDAFpLzowzZQJsqYXMiUCsCdOEc1UZIR09miqTy+pS4NndVwv+d
+         /dz1lphsikuxvwoZKakZEls5khqXPy2znmOpgzGUDV99kHZP+d5Wo3t9NV/g8dKV5S
+         fD7nq6ZspYmBHjqJNydTtypd1TfUKYscG0jt94l+cGjyGMwn8nnUpqP/cSxzGWS/0T
+         EGW5cD56jh7Jg==
+X-Google-Smtp-Source: ABdhPJxW0H5yIBMW0GtzKADzByU+brtAwQ+8wQSMZwDc6hliuCHMHu4QzBZWYSE5pcmAZ+nmWyAfPGd4XL5ysSRkLwg=
+X-Received: by 2002:aca:5ec2:: with SMTP id s185mr896367oib.33.1607500292653;
+ Tue, 08 Dec 2020 23:51:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <20201130151838.11208-6-songmuchun@bytedance.com> <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
-In-Reply-To: <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 9 Dec 2020 15:36:41 +0800
-Message-ID: <CAMZfGtWepk0EXc_fCtS83gvhfKpMrXxP8k3oWwfhWKmPJ3jjwA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v7 05/15] mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
+References: <20201204212847.13256-1-brijesh.singh@amd.com>
+In-Reply-To: <20201204212847.13256-1-brijesh.singh@amd.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Wed, 9 Dec 2020 08:51:21 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFkyJwZ4BGSU-4UB5VR1etJ6atb7YpWMTzzBuu9FQKagA@mail.gmail.com>
+Message-ID: <CAMj1kXFkyJwZ4BGSU-4UB5VR1etJ6atb7YpWMTzzBuu9FQKagA@mail.gmail.com>
+Subject: Re: [PATCH] KVM/SVM: add support for SEV attestation command
+To:     Brijesh Singh <brijesh.singh@amd.com>
+Cc:     kvm@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Tom Lendacky <Thomas.Lendacky@amd.com>,
         David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        John Allen <john.allen@amd.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 7, 2020 at 8:39 PM David Hildenbrand <david@redhat.com> wrote:
+On Fri, 4 Dec 2020 at 22:30, Brijesh Singh <brijesh.singh@amd.com> wrote:
 >
-> On 30.11.20 16:18, Muchun Song wrote:
-> > In the later patch, we can use the free_vmemmap_page() to free the
-> > unused vmemmap pages and initialize a page for vmemmap page using
-> > via prepare_vmemmap_page().
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/linux/bootmem_info.h | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
-> > index 4ed6dee1adc9..239e3cc8f86c 100644
-> > --- a/include/linux/bootmem_info.h
-> > +++ b/include/linux/bootmem_info.h
-> > @@ -3,6 +3,7 @@
-> >  #define __LINUX_BOOTMEM_INFO_H
-> >
-> >  #include <linux/mmzone.h>
-> > +#include <linux/mm.h>
-> >
-> >  /*
-> >   * Types for free bootmem stored in page->lru.next. These have to be in
-> > @@ -22,6 +23,29 @@ void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
-> >  void get_page_bootmem(unsigned long info, struct page *page,
-> >                     unsigned long type);
-> >  void put_page_bootmem(struct page *page);
-> > +
-> > +static inline void free_vmemmap_page(struct page *page)
-> > +{
-> > +     VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
-> > +
-> > +     /* bootmem page has reserved flag in the reserve_bootmem_region */
-> > +     if (PageReserved(page)) {
-> > +             unsigned long magic = (unsigned long)page->freelist;
-> > +
-> > +             if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
-> > +                     put_page_bootmem(page);
-> > +             else
-> > +                     WARN_ON(1);
-> > +     }
-> > +}
-> > +
-> > +static inline void prepare_vmemmap_page(struct page *page)
-> > +{
-> > +     unsigned long section_nr = pfn_to_section_nr(page_to_pfn(page));
-> > +
-> > +     get_page_bootmem(section_nr, page, SECTION_INFO);
-> > +     mark_page_reserved(page);
-> > +}
+> The SEV FW version >= 0.23 added a new command that can be used to query
+> the attestation report containing the SHA-256 digest of the guest memory
+> encrypted through the KVM_SEV_LAUNCH_UPDATE_{DATA, VMSA} commands and
+> sign the report with the Platform Endorsement Key (PEK).
 >
-> Can you clarify in the description when exactly these functions are
-> called and on which type of pages?
+> See the SEV FW API spec section 6.8 for more details.
 >
-> Would indicating "bootmem" in the function names make it clearer what we
-> are dealing with?
->
-> E.g., any memory allocated via the memblock allocator and not via the
-> buddy will be makred reserved already in the memmap. It's unclear to me
-> why we need the mark_page_reserved() here - can you enlighten me? :)
+> Note there already exist a command (KVM_SEV_LAUNCH_MEASURE) that can be
+> used to get the SHA-256 digest. The main difference between the
+> KVM_SEV_LAUNCH_MEASURE and KVM_SEV_ATTESTATION_REPORT is that the later
 
-Sorry for ignoring this question. Because the vmemmap pages are allocated
-from the bootmem allocator which is marked as PG_reserved. For those bootmem
-pages, we should call put_page_bootmem for free. You can see that we
-clear the PG_reserved in the put_page_bootmem. In order to be consistent,
-the prepare_vmemmap_page also marks the page as PG_reserved.
+latter
 
-Thanks.
-
+> can be called while the guest is running and the measurement value is
+> signed with PEK.
 >
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: John Allen <john.allen@amd.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: linux-crypto@vger.kernel.org
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  .../virt/kvm/amd-memory-encryption.rst        | 21 ++++++
+>  arch/x86/kvm/svm/sev.c                        | 71 +++++++++++++++++++
+>  drivers/crypto/ccp/sev-dev.c                  |  1 +
+>  include/linux/psp-sev.h                       | 17 +++++
+>  include/uapi/linux/kvm.h                      |  8 +++
+>  5 files changed, 118 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/amd-memory-encryption.rst b/Documentation/virt/kvm/amd-memory-encryption.rst
+> index 09a8f2a34e39..4c6685d0fddd 100644
+> --- a/Documentation/virt/kvm/amd-memory-encryption.rst
+> +++ b/Documentation/virt/kvm/amd-memory-encryption.rst
+> @@ -263,6 +263,27 @@ Returns: 0 on success, -negative on error
+>                  __u32 trans_len;
+>          };
+>
+> +10. KVM_SEV_GET_ATTESATION_REPORT
+
+KVM_SEV_GET_ATTESTATION_REPORT
+
+> +---------------------------------
+> +
+> +The KVM_SEV_GET_ATTESATION_REPORT command can be used by the hypervisor to query the attestation
+
+KVM_SEV_GET_ATTESTATION_REPORT
+
+> +report containing the SHA-256 digest of the guest memory and VMSA passed through the KVM_SEV_LAUNCH
+> +commands and signed with the PEK. The digest returned by the command should match the digest
+> +used by the guest owner with the KVM_SEV_LAUNCH_MEASURE.
+> +
+> +Parameters (in): struct kvm_sev_attestation
+> +
+> +Returns: 0 on success, -negative on error
+> +
+> +::
+> +
+> +        struct kvm_sev_attestation_report {
+> +                __u8 mnonce[16];        /* A random mnonce that will be placed in the report */
+> +
+> +                __u64 uaddr;            /* userspace address where the report should be copied */
+> +                __u32 len;
+> +        };
+> +
+>  References
+>  ==========
+>
+> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+> index 566f4d18185b..c4d3ee6be362 100644
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+> @@ -927,6 +927,74 @@ static int sev_launch_secret(struct kvm *kvm, struct kvm_sev_cmd *argp)
+>         return ret;
+>  }
+>
+> +static int sev_get_attestation_report(struct kvm *kvm, struct kvm_sev_cmd *argp)
+> +{
+> +       void __user *report = (void __user *)(uintptr_t)argp->data;
+> +       struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
+> +       struct sev_data_attestation_report *data;
+> +       struct kvm_sev_attestation_report params;
+> +       void __user *p;
+> +       void *blob = NULL;
+> +       int ret;
+> +
+> +       if (!sev_guest(kvm))
+> +               return -ENOTTY;
+> +
+> +       if (copy_from_user(&params, (void __user *)(uintptr_t)argp->data, sizeof(params)))
+> +               return -EFAULT;
+> +
+> +       data = kzalloc(sizeof(*data), GFP_KERNEL_ACCOUNT);
+> +       if (!data)
+> +               return -ENOMEM;
+> +
+> +       /* User wants to query the blob length */
+> +       if (!params.len)
+> +               goto cmd;
+> +
+> +       p = (void __user *)(uintptr_t)params.uaddr;
+> +       if (p) {
+> +               if (params.len > SEV_FW_BLOB_MAX_SIZE) {
+> +                       ret = -EINVAL;
+> +                       goto e_free;
+> +               }
+> +
+> +               ret = -ENOMEM;
+> +               blob = kmalloc(params.len, GFP_KERNEL);
+> +               if (!blob)
+> +                       goto e_free;
+> +
+> +               data->address = __psp_pa(blob);
+> +               data->len = params.len;
+> +               memcpy(data->mnonce, params.mnonce, sizeof(params.mnonce));
+> +       }
+> +cmd:
+> +       data->handle = sev->handle;
+> +       ret = sev_issue_cmd(kvm, SEV_CMD_ATTESTATION_REPORT, data, &argp->error);
+> +       /*
+> +        * If we query the session length, FW responded with expected data.
+> +        */
+> +       if (!params.len)
+> +               goto done;
+> +
+> +       if (ret)
+> +               goto e_free_blob;
+> +
+> +       if (blob) {
+> +               if (copy_to_user(p, blob, params.len))
+> +                       ret = -EFAULT;
+> +       }
+> +
+> +done:
+> +       params.len = data->len;
+> +       if (copy_to_user(report, &params, sizeof(params)))
+> +               ret = -EFAULT;
+> +e_free_blob:
+> +       kfree(blob);
+> +e_free:
+> +       kfree(data);
+> +       return ret;
+> +}
+> +
+>  int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
+>  {
+>         struct kvm_sev_cmd sev_cmd;
+> @@ -971,6 +1039,9 @@ int svm_mem_enc_op(struct kvm *kvm, void __user *argp)
+>         case KVM_SEV_LAUNCH_SECRET:
+>                 r = sev_launch_secret(kvm, &sev_cmd);
+>                 break;
+> +       case KVM_SEV_GET_ATTESTATION_REPORT:
+> +               r = sev_get_attestation_report(kvm, &sev_cmd);
+> +               break;
+>         default:
+>                 r = -EINVAL;
+>                 goto out;
+> diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
+> index 476113e12489..cb9b4c4e371e 100644
+> --- a/drivers/crypto/ccp/sev-dev.c
+> +++ b/drivers/crypto/ccp/sev-dev.c
+> @@ -128,6 +128,7 @@ static int sev_cmd_buffer_len(int cmd)
+>         case SEV_CMD_LAUNCH_UPDATE_SECRET:      return sizeof(struct sev_data_launch_secret);
+>         case SEV_CMD_DOWNLOAD_FIRMWARE:         return sizeof(struct sev_data_download_firmware);
+>         case SEV_CMD_GET_ID:                    return sizeof(struct sev_data_get_id);
+> +       case SEV_CMD_ATTESTATION_REPORT:        return sizeof(struct sev_data_attestation_report);
+>         default:                                return 0;
+>         }
+>
+> diff --git a/include/linux/psp-sev.h b/include/linux/psp-sev.h
+> index 49d155cd2dfe..b801ead1e2bb 100644
+> --- a/include/linux/psp-sev.h
+> +++ b/include/linux/psp-sev.h
+> @@ -66,6 +66,7 @@ enum sev_cmd {
+>         SEV_CMD_LAUNCH_MEASURE          = 0x033,
+>         SEV_CMD_LAUNCH_UPDATE_SECRET    = 0x034,
+>         SEV_CMD_LAUNCH_FINISH           = 0x035,
+> +       SEV_CMD_ATTESTATION_REPORT      = 0x036,
+>
+>         /* Guest migration commands (outgoing) */
+>         SEV_CMD_SEND_START              = 0x040,
+> @@ -483,6 +484,22 @@ struct sev_data_dbg {
+>         u32 len;                                /* In */
+>  } __packed;
+>
+> +/**
+> + * struct sev_data_attestation_report - SEV_ATTESTATION_REPORT command parameters
+> + *
+> + * @handle: handle of the VM
+> + * @mnonce: a random nonce that will be included in the report.
+> + * @address: physical address where the report will be copied.
+> + * @len: length of the physical buffer.
+> + */
+> +struct sev_data_attestation_report {
+> +       u32 handle;                             /* In */
+> +       u32 reserved;
+> +       u64 address;                            /* In */
+> +       u8 mnonce[16];                          /* In */
+> +       u32 len;                                /* In/Out */
+> +} __packed;
+> +
+>  #ifdef CONFIG_CRYPTO_DEV_SP_PSP
+>
+>  /**
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index ca41220b40b8..d3385f7f08a2 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1585,6 +1585,8 @@ enum sev_cmd_id {
+>         KVM_SEV_DBG_ENCRYPT,
+>         /* Guest certificates commands */
+>         KVM_SEV_CERT_EXPORT,
+> +       /* Attestation report */
+> +       KVM_SEV_GET_ATTESTATION_REPORT,
+>
+>         KVM_SEV_NR_MAX,
+>  };
+> @@ -1637,6 +1639,12 @@ struct kvm_sev_dbg {
+>         __u32 len;
+>  };
+>
+> +struct kvm_sev_attestation_report {
+> +       __u8 mnonce[16];
+> +       __u64 uaddr;
+> +       __u32 len;
+> +};
+> +
+>  #define KVM_DEV_ASSIGN_ENABLE_IOMMU    (1 << 0)
+>  #define KVM_DEV_ASSIGN_PCI_2_3         (1 << 1)
+>  #define KVM_DEV_ASSIGN_MASK_INTX       (1 << 2)
 > --
-> Thanks,
+> 2.17.1
 >
-> David / dhildenb
->
-
-
--- 
-Yours,
-Muchun
