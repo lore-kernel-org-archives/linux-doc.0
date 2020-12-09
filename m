@@ -2,126 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A024C2BB48
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:02:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BBBC4167B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:13:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ED8A233FD
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:02:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3772E206A4
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:13:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730369AbgLILB7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 06:01:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730267AbgLILBx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 06:01:53 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF3CAC061793;
-        Wed,  9 Dec 2020 03:01:12 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id f17so960985pge.6;
-        Wed, 09 Dec 2020 03:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MKsZH2+iAwgUh8UDFh2dZripOeDuPzMh57usXeoy0CY=;
-        b=PtobN+qkKZTUIm3Z46jtCxqfPZ5qOx/6dvovA1iYTJVDHmFO+a2rhs1758yYTQ+k4H
-         o+5J6j5AcNAMVeVpAp7vrMoSmL9KXngG20Ofzoa8DD8mtK+wyf/NJjewzF9hQAzLYLtI
-         6jblrmw8z2XCD01SDZV2iVGyQGwZjOwtsWcq617+ls42mGL8ToyUg5SD6LFXYUW2U6h3
-         U9LjeXul43ThJ2AMcEjBnViTOaJBQvRRg4jzV9bisZIWbW2Uza4DWd52hGGr6Rd9fNfk
-         jQhCZKyX4NjyrFTdnLHHi2jtUoUgnyNgsrm+7bZIwv6MRpisKQreDrwtfpcx3O+Un+PG
-         /rnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MKsZH2+iAwgUh8UDFh2dZripOeDuPzMh57usXeoy0CY=;
-        b=tiShoyIbXXM14gt+VqGDTvbTN0ybOMGh/KnUHQdnkqgapcrDzZNnNCnbx9hbXFg1uz
-         fNw5jSwSQzJNuvcyV4+RZM8nDvkOW8L0LVVVFb8opthLrCcew5upV5HnaoAKyWpQvjhq
-         HHk0AbMMNwUs8WPo5tEMofNwnJy8hKqHPRz8YULKGKsCP+AyT9JB8ZvxLm0PauZMykbI
-         PV/53LJaz3w2WjRtg34ofjxQXSUNRmUKEhix5vk4ddAy1c1iMpFEeVUvXXz3E3jAmMTC
-         +LVmfwnZD3wQ3J+hFjNNsCilX4x3xnHhg1FCQeLIRUFp9udAnkxBIvAIRwUdFpCJ+D9W
-         Aw8A==
-X-Gm-Message-State: AOAM532JbjzXP99PqudCrnGvLYAzjrRNB5R3u7EC23/9KatbdXM/jAo6
-        YjKSXwdNU4D82oO0dYIw62br/Q3XOEsP88KbTNU=
-X-Google-Smtp-Source: ABdhPJwjF1FoXl7fnHNaReES/WUirms9U5/ouIHB3iXXpgcsDfMHSybf0Zo8utSHuKkU9Lhpmt1u/VwzL8L8+w3d1qc=
-X-Received: by 2002:a63:b1e:: with SMTP id 30mr1440855pgl.203.1607511672453;
- Wed, 09 Dec 2020 03:01:12 -0800 (PST)
-MIME-Version: 1.0
-References: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com> <CAHp75VfBtRS=BA83Q4U9hJ14bO4wW_o44CKs=DBOtWnzqTXO3w@mail.gmail.com>
-In-Reply-To: <CAHp75VfBtRS=BA83Q4U9hJ14bO4wW_o44CKs=DBOtWnzqTXO3w@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 9 Dec 2020 13:02:01 +0200
-Message-ID: <CAHp75VezKrQAVf4ceJnHq5R8niwMqCme5N5dW0deyVYP3GjO8A@mail.gmail.com>
-Subject: Re: [PATCH] PCI: Remove pci_try_set_mwi
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Ion Badulescu <ionut@badula.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Adam Radford <aradford@gmail.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        James Smart <james.smart@broadcom.com>,
-        Dick Kennedy <dick.kennedy@broadcom.com>,
-        Nilesh Javali <njavali@marvell.com>,
-        GR-QLogic-Storage-Upstream@marvell.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
+        id S1730328AbgLILNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 06:13:18 -0500
+Received: from verein.lst.de ([213.95.11.211]:49749 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729807AbgLILNS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 06:13:18 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 51AA868AFE; Wed,  9 Dec 2020 12:12:35 +0100 (CET)
+Date:   Wed, 9 Dec 2020 12:12:35 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-ide@vger.kernel.org, dmaengine <dmaengine@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        linux-parisc@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201209111235.GA22806@lst.de>
+References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de> <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de> <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 12:59 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, Dec 9, 2020 at 10:35 AM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+On Tue, Dec 08, 2020 at 01:54:00PM +0900, Tomasz Figa wrote:
+> >From the media perspective, it would be good to have the vmap
+> optional, similarly to the DMA_ATTR_NO_KERNEL_MAPPING attribute for
+> coherent allocations. Actually, in the media drivers, the need to have
+> a kernel mapping of the DMA buffers corresponds to a minority of the
+> drivers. Most of them only need to map them to the userspace.
+> 
+> Nevertheless, that minority actually happens to be quite widely used,
+> e.g. the uvcvideo driver, so we can't go to the other extreme and just
+> drop the vmap at all.
 
-...
+My main problem is that the DMA_ATTR_NO_KERNEL_MAPPING makes a mess
+of an API.  I'd much rather have low-level API that returns the
+discontiguous allocations and another one that vmaps them rather
+than starting to overload arguments like in dma_alloc_attrs with
+DMA_ATTR_NO_KERNEL_MAPPING.
 
-> > -int pci_try_set_mwi(struct pci_dev *dev)
-> > -{
->
-> > -#ifdef PCI_DISABLE_MWI
-> > -       return 0;
-> > -#else
-> > -       return pci_set_mwi(dev);
-> > -#endif
->
-> This seems still valid case for PowerPC and SH.
+> 
+> In any case, Sergey is going to share a preliminary patch on how the
+> current API would be used in the V4L2 videobuf2 framework. That should
+> give us more input on how such a helper could look.
 
-I see that pci_set_mwi() also has the ifdeffery (I thought it's only
-here), so it's fine.
-
-> > -}
-> > -EXPORT_SYMBOL(pci_try_set_mwi);
-
--- 
-With Best Regards,
-Andy Shevchenko
+Awesome!
