@@ -5,33 +5,33 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C0BC4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D50C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:25:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 897E523440
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:25:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E9B3238A0
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:25:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388678AbgLIWYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 17:24:54 -0500
-Received: from mga18.intel.com ([134.134.136.126]:14580 "EHLO mga18.intel.com"
+        id S2388747AbgLIWZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 17:25:42 -0500
+Received: from mga18.intel.com ([134.134.136.126]:14575 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388669AbgLIWYs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 17:24:48 -0500
-IronPort-SDR: S68oc+yWNqG2VtqKsPxMqwRHH9/sZHt5mN2h3+32GcTL7YvhqdTgw/Rng0v8in/fDv7y3Bf2+V
- 6ftb7eJEh3gw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918070"
+        id S2388707AbgLIWZ0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 17:25:26 -0500
+IronPort-SDR: Exyf7hlssmYo8VlfCmaCAUdAG7GFkh8fv0/8B4Tgm9qwGk2gFDiib3imdTjB4LSoRpG+0qlgaz
+ jAil05s6fDRw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918103"
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="161918070"
+   d="scan'208";a="161918103"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:48 -0800
-IronPort-SDR: ysoGyV+27OEm8Ukjv2kp1DbUuv/wIRbGdjTMJpaE+OkZghM6MlzAB3S+eszlox2RTo0jes0qev
- L+dwtflm9cUA==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:51 -0800
+IronPort-SDR: TwQNV8zQIlzzmFsetrq7/85aKwohpUCW3U2UcIGMZiUjTDds3k7yVbRgiEHLchnZ1Q13wd1R0K
+ 3FE9PbWmzApA==
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="318543528"
+   d="scan'208";a="318543566"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:48 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:50 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -59,10 +59,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v16 07/26] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-Date:   Wed,  9 Dec 2020 14:23:01 -0800
-Message-Id: <20201209222320.1724-8-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v16 17/26] mm/mmap: Add shadow stack pages to memory accounting
+Date:   Wed,  9 Dec 2020 14:23:11 -0800
+Message-Id: <20201209222320.1724-18-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201209222320.1724-1-yu-cheng.yu@intel.com>
 References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
@@ -72,61 +72,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The x86 family of processors do not directly create read-only and Dirty
-PTEs.  These PTEs are created by software.  One such case is that kernel
-read-only pages are historically setup as Dirty.
-
-New processors that support Shadow Stack regard read-only and Dirty PTEs as
-shadow stack pages.  This results in ambiguity between shadow stack and
-kernel read-only pages.  To resolve this, removed Dirty from kernel read-
-only pages.
+Account shadow stack pages to stack memory.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- arch/x86/include/asm/pgtable_types.h | 6 +++---
- arch/x86/mm/pat/set_memory.c         | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ arch/x86/mm/pgtable.c   |  7 +++++++
+ include/linux/pgtable.h | 11 +++++++++++
+ mm/mmap.c               |  5 +++++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index 816b31c68550..1314bf7606b3 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -193,10 +193,10 @@ enum page_cache_mode {
- #define _KERNPG_TABLE		 (__PP|__RW|   0|___A|   0|___D|   0|   0| _ENC)
- #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
- #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
--#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
--#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
-+#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|   0|   0|___G)
-+#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|   0|   0|___G)
- #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
--#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
-+#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|   0|   0|___G)
- #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
- #define __PAGE_KERNEL_LARGE_EXEC (__PP|__RW|   0|___A|   0|___D|_PSE|___G)
- #define __PAGE_KERNEL_WP	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __WP)
-diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-index 40baa90e74f4..f104d3c30bda 100644
---- a/arch/x86/mm/pat/set_memory.c
-+++ b/arch/x86/mm/pat/set_memory.c
-@@ -1932,7 +1932,7 @@ int set_memory_nx(unsigned long addr, int numpages)
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index a9666b64bc05..68e98f70298b 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -893,3 +893,10 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
  
- int set_memory_ro(unsigned long addr, int numpages)
- {
--	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW), 0);
-+	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW | _PAGE_DIRTY), 0);
+ #endif /* CONFIG_X86_64 */
+ #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
++
++#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
++bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
++{
++	return (vm_flags & VM_SHSTK);
++}
++#endif
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index f62b96d74689..42066a2c8a7b 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1408,6 +1408,17 @@ static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma
+ #endif /* CONFIG_ARCH_MAYBE_MKWRITE */
+ #endif /* CONFIG_MMU */
+ 
++#ifdef CONFIG_MMU
++#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
++bool arch_shadow_stack_mapping(vm_flags_t vm_flags);
++#else
++static inline bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
++{
++	return false;
++}
++#endif /* CONFIG_ARCH_HAS_SHADOW_STACK */
++#endif /* CONFIG_MMU */
++
+ /*
+  * Architecture PAGE_KERNEL_* fallbacks
+  *
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 5c8b4485860d..c5e2c9569e41 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1720,6 +1720,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+ 	if (file && is_file_hugepages(file))
+ 		return 0;
+ 
++	if (arch_shadow_stack_mapping(vm_flags))
++		return 1;
++
+ 	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
  }
  
- int set_memory_rw(unsigned long addr, int numpages)
+@@ -3389,6 +3392,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
+ 		mm->stack_vm += npages;
+ 	else if (is_data_mapping(flags))
+ 		mm->data_vm += npages;
++	else if (arch_shadow_stack_mapping(flags))
++		mm->stack_vm += npages;
+ }
+ 
+ static vm_fault_t special_mapping_fault(struct vm_fault *vmf);
 -- 
 2.21.0
 
