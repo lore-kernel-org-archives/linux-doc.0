@@ -2,170 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C55C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:52:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21340C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:15:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E371022B47
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFF4023BDF
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730838AbgLIPwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 10:52:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729997AbgLIPwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 10:52:16 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD859C061793
-        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 07:51:35 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id t37so1428808pga.7
-        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 07:51:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4LZhGST1GCxC0x+dge/6O0xwr4iPxq7vR6B3gDXWbaY=;
-        b=TepoJq8ZxONsJtMIn6sV/S8fsWzxKVCUoerGn+0I6mFkm5HVZNIMAYNO+3zIUhLRq+
-         gIquAEoIULX5PQyVi8eVg73fQax0Cu05O2gLpE1i7tGThxb6wP1cCrCmY7gkuy24SVCm
-         w8SuZlGlCo+JVqrULBOWNKCkfwmhz5n2NBEyfJb/sjyZ+70HA+bn9xi4I8X0jUmzNyly
-         bnb2zGjKh6JHEdjYoQPSR721WutrvYUKF0NFgma3uclwa6wPLyHej7DktmkDZQ4YsgQY
-         VIbf6uuabOVmkfN4qwMxLu5F/AwnoRMqIVmL33LCj/c7Ae4LZovpR2+b5oEQSIrXURhj
-         L8Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4LZhGST1GCxC0x+dge/6O0xwr4iPxq7vR6B3gDXWbaY=;
-        b=eE/AsnAqcNhonmem5Jaeo9Jimhn0ynB+Mmdhl6D36FbnByIoad+xyIe6JYE7ypQ3Hm
-         CXDMbyxuAmpwRIAC6akuVmXpxkd6+aTWE1K6FxJIIG0m0bjCjEDcFWMsaopRfLDd2LP5
-         BGpidch8b/4TsTLyZm676ITK4VFPafP0fmb/KLNhgOwJ7GJdnbPlhuEjYUXbeKgEulmP
-         6VaGHBtU/E9mjpDBaXQIzDDCLQVlLdlOFHVTEg0FUU7jmFtit72K2JLrpFNcvQ4+ricu
-         CPEzgFKwE9N/FWbsYXnheRz0wxSb1XEWG7t55qxjaK1txpq1Xk9rV+ZSeUx1UxXvzDsa
-         1xeQ==
-X-Gm-Message-State: AOAM533fwVxlRQaOi2wtkRgmXQodbxtcvRk64iWzdR9N7uAHKK0jkFdt
-        ANja0n5KoZvH5D4Vf2GLVdPmVMOSb6uRvMga7qQkLA==
-X-Google-Smtp-Source: ABdhPJzjuEOybsjABCGyo7OEYfRyelLQEgnUPKXjPCn1BIBWRyGfHkwLg5OS7NCcIZzz6sMyj3H7XziomX6ZNhzeE6o=
-X-Received: by 2002:a63:c15:: with SMTP id b21mr2461280pgl.341.1607529095084;
- Wed, 09 Dec 2020 07:51:35 -0800 (PST)
+        id S1730133AbgLIQPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 11:15:45 -0500
+Received: from mga01.intel.com ([192.55.52.88]:42263 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730122AbgLIQPp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 11:15:45 -0500
+IronPort-SDR: qhAQ9V4Boh4uBpx0YNL/irxMbiGn8GKEFJ9ANBaBOI06RE4kF08V9z8M5jo0gmtm1+egbUz3b2
+ 35PQETpUp93g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="192405890"
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
+   d="scan'208";a="192405890"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 08:13:59 -0800
+IronPort-SDR: nDfX4tYjT8ZYFGG8XF2PmutHkMhsyiA+r1JGwdPpFqhYyDcKiGLPDtuMLvOl0vVQSBK0L05XKQ
+ uGzn7QomKmbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
+   d="scan'208";a="437847788"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 09 Dec 2020 08:13:56 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Dec 2020 18:13:56 +0200
+Date:   Wed, 9 Dec 2020 18:13:56 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
+Message-ID: <20201209161356.GI680328@kuha.fi.intel.com>
+References: <20201203030846.51669-1-pmalani@chromium.org>
+ <20201208093734.GD680328@kuha.fi.intel.com>
+ <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <20201130151838.11208-7-songmuchun@bytedance.com> <ba57ea7d-709b-bf36-d48a-cc72a26012cc@redhat.com>
- <CAMZfGtV5200NZXH9Z_Z9qXo5FCd9E6JOTXjQtzcF0xGi-gCuPg@mail.gmail.com>
- <4b8a9389-1704-4d8c-ec58-abd753814dd9@redhat.com> <a6d11bc6-033d-3a0b-94ce-cbd556120b6d@redhat.com>
- <CAMZfGtWfz8DcwKBLdf3j0x9Dt6ZvOd+MvjX6yXrAoKDeXxW95w@mail.gmail.com> <33779de1-7a7a-aa5c-e756-92925d4b097d@redhat.com>
-In-Reply-To: <33779de1-7a7a-aa5c-e756-92925d4b097d@redhat.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 9 Dec 2020 23:50:58 +0800
-Message-ID: <CAMZfGtX=BBOmj4c9FiL7u6DMJ8dd=FMHBvFMsjSFOH6TwNCHMQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v7 06/15] mm/hugetlb: Disable freeing
- vmemmap if struct page size is not power of two
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 11:48 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 09.12.20 16:13, Muchun Song wrote:
-> > On Wed, Dec 9, 2020 at 6:10 PM David Hildenbrand <david@redhat.com> wrote:
-> >>
-> >> On 09.12.20 11:06, David Hildenbrand wrote:
-> >>> On 09.12.20 11:03, Muchun Song wrote:
-> >>>> On Wed, Dec 9, 2020 at 5:57 PM David Hildenbrand <david@redhat.com> wrote:
-> >>>>>
-> >>>>> On 30.11.20 16:18, Muchun Song wrote:
-> >>>>>> We only can free the tail vmemmap pages of HugeTLB to the buddy allocator
-> >>>>>> when the size of struct page is a power of two.
-> >>>>>>
-> >>>>>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> >>>>>> ---
-> >>>>>>  mm/hugetlb_vmemmap.c | 5 +++++
-> >>>>>>  1 file changed, 5 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> >>>>>> index 51152e258f39..ad8fc61ea273 100644
-> >>>>>> --- a/mm/hugetlb_vmemmap.c
-> >>>>>> +++ b/mm/hugetlb_vmemmap.c
-> >>>>>> @@ -111,6 +111,11 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
-> >>>>>>       unsigned int nr_pages = pages_per_huge_page(h);
-> >>>>>>       unsigned int vmemmap_pages;
-> >>>>>>
-> >>>>>> +     if (!is_power_of_2(sizeof(struct page))) {
-> >>>>>> +             pr_info("disable freeing vmemmap pages for %s\n", h->name);
-> >>>>>
-> >>>>> I'd just drop that pr_info(). Users are able to observe that it's
-> >>>>> working (below), so they are able to identify that it's not working as well.
-> >>>>
-> >>>> The below is just a pr_debug. Do you suggest converting it to pr_info?
-> >>>
-> >>> Good question. I wonder if users really have to know in most cases.
-> >>> Maybe pr_debug() is good enough in environments where we want to debug
-> >>> why stuff is not working as expected.
-> >>>
-> >>
-> >> Oh, another thought, can we glue availability of
-> >> HUGETLB_PAGE_FREE_VMEMMAP (or a new define based on the config and the
-> >> size of a stuct page) to the size of struct page somehow?
-> >>
-> >> I mean, it's known at compile time that this will never work.
+On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
+> Hi Heikki,
+> 
+> Thanks a lot for looking at the patch.
+> 
+> On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
 > >
-> > I want to define a macro which indicates the size of the
-> > struct page. There is place (kernel/bounds.c) where can
-> > do similar things. When I added the following code in
-> > that file.
+> > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
+> > > Add the Type C bus for plug alternate modes which are being
+> > > registered via the Type C connector class. This ensures that udev events
+> > > get generated when plug alternate modes are registered (and not just for
+> > > partner/port alternate modes), even though the Type C bus doesn't link
+> > > plug alternate mode devices to alternate mode drivers.
 > >
-> >         DEFINE(STRUCT_PAGE_SIZE, sizeof(struct page));
-> >
-> > Then the compiler will output a message like:
-> >
->
-> Hm, from what I understand you cannot use sizeof() in #if etc. So it
-> might not be possible after all. At least the compiler should optimize
-> code like
->
-> if (!is_power_of_2(sizeof(struct page))) {
->         // either this
-> } else {
->         // or that
+> > I still don't understand how is the uevent related to the bus? If you
+> > check the device_add() function, on line 2917, kobject_uevent() is
+> > called unconditionally. The device does not need a bus for that event
+> > to be generated.
+> 
+> My initial thought process was to see what is the difference in the adev device
+> initialization between partner altmode and plug altmode (the only difference I saw in
+> typec_register_altmode() was regarding the bus field).
+> 
+> Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
+> so we don't know if it succeeded or not.
+> 
+> In the case of cable plug altmode, I see it fail with the following error[1]:
+> 
+> [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
+> 
+> I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
+> 
+> static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
+> {
+> 	struct kobj_type *ktype = get_ktype(kobj);
+> 
+> 	if (ktype == &device_ktype) {
+> 		struct device *dev = kobj_to_dev(kobj);
+> 		if (dev->bus)
+> 			return 1;
+> 		if (dev->class)
+> 			return 1;
+> 	}
+> 	return 0;
 > }
->
-> that can never be reached
+> 
+> So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
+> so this check likely returns 1 in that case.
 
-Got it. Thanks so much.
+OK. I understand the issue now. So I would say that the proper
+solution to this problem is to link the alt modes with the class
+instead of the bus. That is much smaller change IMO.
 
->
-> --
-> Thanks,
->
-> David / dhildenb
->
 
+thanks,
 
 -- 
-Yours,
-Muchun
+heikki
