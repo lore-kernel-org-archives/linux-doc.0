@@ -2,181 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08354C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F25C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:52:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2A5223BE0
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:39:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9244F23C32
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:52:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728141AbgLIQjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 11:39:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59240 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726227AbgLIQjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 11:39:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C964EAB63;
-        Wed,  9 Dec 2020 16:38:27 +0000 (UTC)
-Subject: Re: [PATCH v2] mm/page_owner: Record timestamp and pid
-To:     Georgi Djakov <georgi.djakov@linaro.org>,
-        akpm@linux-foundation.org, linux-mm@kvack.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lmark@codeaurora.org
-References: <20201209125153.10533-1-georgi.djakov@linaro.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <20f7fb50-5e21-3ad8-50cd-81b56c9e45b1@suse.cz>
-Date:   Wed, 9 Dec 2020 17:38:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-MIME-Version: 1.0
-In-Reply-To: <20201209125153.10533-1-georgi.djakov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1730867AbgLIQvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 11:51:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26846 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727156AbgLIQvf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 11:51:35 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0B9GWbLp073428;
+        Wed, 9 Dec 2020 11:50:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=Odsb8xyjIIIVuDCTk0SLDsR/3RdCoFAvh4mqCubQ+2A=;
+ b=sou2VVe58bYe8S9Xkbe77OrgSXLpzFqyoHcV1WfYtP4zZZ0WjphhwqtJOy0oiQw7krQr
+ EIWJzOIkE6p0zcdVpRRJjChuM5iWd+aMN4OJMCs3nBAXeW+SBwjx/l4HtdmDvusCJtQ+
+ gdf0L3OhNN1SL3kFRCvDK4O+COOLYf6bN260MytuXNWezpa7FNTAdm6SiP4JF2R5NIux
+ Xld2anv19DBl9Zbn6AaG01fSo1lyJEQoJspk6VR9zzlHakjbsWX/hH21fyn8BoBmelxW
+ +6LkLmyoVapnZ39qMZP7JnERgLOAz5o39m69oBFF0n6C2tkfJOnlIdTQHbQqklG1UNeo kA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 35b1gxhm0y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Dec 2020 11:50:31 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B9GWh8i074282;
+        Wed, 9 Dec 2020 11:50:30 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 35b1gxhkyy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Dec 2020 11:50:30 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B9Gmomc002346;
+        Wed, 9 Dec 2020 16:50:28 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma03fra.de.ibm.com with ESMTP id 3581u8q49p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Dec 2020 16:50:27 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0B9GoOJI47120874
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 9 Dec 2020 16:50:25 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D2A744C046;
+        Wed,  9 Dec 2020 16:50:24 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 248254C044;
+        Wed,  9 Dec 2020 16:50:20 +0000 (GMT)
+Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.20.48])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed,  9 Dec 2020 16:50:19 +0000 (GMT)
+Message-ID: <b2465d27f3683331019c5a9b6d0856304d992a0a.camel@linux.ibm.com>
+Subject: Re: [PATCH v8 3/4] doc: trusted-encrypted: updates with TEE as a
+ new trust source
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>, sumit.garg@linaro.org
+Cc:     Elaine Palmer <erpalmerny@gmail.com>,
+        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com,
+        dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
+        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org,
+        Kenneth Goldman <kgoldman@us.ibm.com>, gcwilson@linux.ibm.com,
+        zgu@us.ibm.com, stefanb@us.ibm.com, NAYNA JAIN1 <naynjain@ibm.com>
+Date:   Wed, 09 Dec 2020 11:50:19 -0500
+In-Reply-To: <20201208174906.GA58572@kernel.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+         <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
+         <81A6B61D-3811-4957-B270-52AE5FA6DE4F@gmail.com>
+         <20201204153037.GC4922@kernel.org>
+         <ba6cd934bf7460cf6e9fc101a759a63fdd4e6e9b.camel@linux.ibm.com>
+         <20201208174906.GA58572@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2020-12-09_13:2020-12-09,2020-12-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012090112
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/9/20 1:51 PM, Georgi Djakov wrote:
-> From: Liam Mark <lmark@codeaurora.org>
-> 
-> Collect the time for each allocation recorded in page owner so that
-> allocation "surges" can be measured.
-> 
-> Record the pid for each allocation recorded in page owner so that
-> the source of allocation "surges" can be better identified.
-> 
-> The above is very useful when doing memory analysis. On a crash for
-> example, we can get this information from kdump (or ramdump) and parse
-> it to figure out memory allocation problems.
+On Tue, 2020-12-08 at 19:49 +0200, Jarkko Sakkinen wrote:
+> On Tue, Dec 08, 2020 at 10:02:57AM -0500, Mimi Zohar wrote:
 
-Yes, I can imagine this to be useful.
+> > > Please also use a proper email client and split your paragraphs into
+> > > at most 80 character lines with new line characters when writing email.
+> > > I prefer to use 72 character line length so that there's some space
+> > > for longer email threads.
+> > 
+> > Sure, we'll re-post the suggested documentation changes/additions.
+> > 
+> > Mimi
+> 
+> So. Wouldn't it be a better idea to post a patch that Sumit could
+> squash to his (and add co-developed-by tag)?
 
-> Please note that on x86_64 this increases the size of struct page_owner
-> from 16 bytes to 32.
-
-That's the tradeoff, but it's not a functionality intended for production, so
-unless somebody says they need to enable page_owner for debugging and this
-increase prevents them from fitting into available memory, let's not complicate
-things with making this optional.
-
-> Signed-off-by: Liam Mark <lmark@codeaurora.org>
-> Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
-
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
-> ---
-> 
-> v2:
-> - Improve the commit message (Andrew and Vlastimil)
-> - Update page_owner.rst with more recent object size information (Andrew)
-> - Use pid_t for the pid (Andrew)
-> - Print the info also in __dump_page_owner() (Vlastimil)
-> 
-> v1: https://lore.kernel.org/r/20201112184106.733-1-georgi.djakov@linaro.org/
-> 
-> 
->  Documentation/vm/page_owner.rst | 12 ++++++------
->  mm/page_owner.c                 | 17 +++++++++++++----
->  2 files changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 02deac76673f..cf7c0c361621 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -41,17 +41,17 @@ size change due to this facility.
->  - Without page owner::
->  
->     text    data     bss     dec     hex filename
-> -   40662   1493     644   42799    a72f mm/page_alloc.o
-> +  48392    2333     644   51369    c8a9 mm/page_alloc.o
->  
->  - With page owner::
->  
->     text    data     bss     dec     hex filename
-> -   40892   1493     644   43029    a815 mm/page_alloc.o
-> -   1427      24       8    1459     5b3 mm/page_ext.o
-> -   2722      50       0    2772     ad4 mm/page_owner.o
-> +  48800    2445     644   51889    cab1 mm/page_alloc.o
-> +   6574     108      29    6711    1a37 mm/page_owner.o
-> +   1025       8       8    1041     411 mm/page_ext.o
->  
-> -Although, roughly, 4 KB code is added in total, page_alloc.o increase by
-> -230 bytes and only half of it is in hotpath. Building the kernel with
-> +Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-> +520 bytes and less than half of it is in hotpath. Building the kernel with
->  page owner and turning it on if needed would be great option to debug
->  kernel memory problem.
->  
-> diff --git a/mm/page_owner.c b/mm/page_owner.c
-> index b735a8eafcdb..af464bb7fbe7 100644
-> --- a/mm/page_owner.c
-> +++ b/mm/page_owner.c
-> @@ -10,6 +10,7 @@
->  #include <linux/migrate.h>
->  #include <linux/stackdepot.h>
->  #include <linux/seq_file.h>
-> +#include <linux/sched/clock.h>
->  
->  #include "internal.h"
->  
-> @@ -25,6 +26,8 @@ struct page_owner {
->  	gfp_t gfp_mask;
->  	depot_stack_handle_t handle;
->  	depot_stack_handle_t free_handle;
-> +	u64 ts_nsec;
-> +	pid_t pid;
->  };
->  
->  static bool page_owner_enabled = false;
-> @@ -172,6 +175,8 @@ static inline void __set_page_owner_handle(struct page *page,
->  		page_owner->order = order;
->  		page_owner->gfp_mask = gfp_mask;
->  		page_owner->last_migrate_reason = -1;
-> +		page_owner->pid = current->pid;
-> +		page_owner->ts_nsec = local_clock();
->  		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
->  		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
->  
-> @@ -236,6 +241,8 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
->  	new_page_owner->last_migrate_reason =
->  		old_page_owner->last_migrate_reason;
->  	new_page_owner->handle = old_page_owner->handle;
-> +	new_page_owner->pid = old_page_owner->pid;
-> +	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
->  
->  	/*
->  	 * We don't clear the bit on the oldpage as it's going to be freed
-> @@ -349,9 +356,10 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
->  		return -ENOMEM;
->  
->  	ret = snprintf(kbuf, count,
-> -			"Page allocated via order %u, mask %#x(%pGg)\n",
-> +			"Page allocated via order %u, mask %#x(%pGg), pid %d, ts %llu ns\n",
->  			page_owner->order, page_owner->gfp_mask,
-> -			&page_owner->gfp_mask);
-> +			&page_owner->gfp_mask, page_owner->pid,
-> +			page_owner->ts_nsec);
->  
->  	if (ret >= count)
->  		goto err;
-> @@ -427,8 +435,9 @@ void __dump_page_owner(struct page *page)
->  	else
->  		pr_alert("page_owner tracks the page as freed\n");
->  
-> -	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg)\n",
-> -		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask);
-> +	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg), pid %d, ts %llu\n",
-> +		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask,
-> +		 page_owner->pid, page_owner->ts_nsec);
->  
->  	handle = READ_ONCE(page_owner->handle);
->  	if (!handle) {
-> 
+I just posted it on Elaine's behalf.
+  
+Mimi
 
