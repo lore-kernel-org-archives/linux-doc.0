@@ -2,83 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A56C4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E249C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:34:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A0282343F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:23:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9DF423B79
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 11:34:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730665AbgLILVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 06:21:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727013AbgLILUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 06:20:07 -0500
-X-Gm-Message-State: AOAM532+D1hj72eNWbigRJ36XrBNtiQmRz5DI82g8Yf9iTfbpsBahqes
-        ErwYIaeDpOESo7af9GUCqOGwN8m9PPUD1sC8EYc=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607512766;
-        bh=U8CiCE+927eWk1WjnrHEeDDVKhi+XWJxlcOhS4QhpHE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CZbfYp5eMW4vCNbBV9SJiILwyOwti8/kZsAVsYvK2NDemL3iD6lIVzx6OIJEzAsWN
-         K7x05Wm2fieBTM1ho1osVEiUn4PDp5UA/CU+Z08ZXp4Zz0dKo11UaIjzG6QhQ0V8kk
-         PtKS7Mx+K8wZf/TTtpqjFwiyKbSmLsa5ATNjqokNb/UtL8Te498LaiXp/3Sv+J7B0+
-         fEyxHwC6s2/HAlh66Tv3eglhNIQdcjWYfLF610MdIfaY8OjsdW/JTUqSY3wvAtnGAl
-         7QogIuRU22jLlxkLW6zhhTRccEomhcXrCKo8BJhDFfjA3QRJ48x00BzLy2atC0/7rv
-         gm5xle3EZOSYA==
-X-Google-Smtp-Source: ABdhPJy+RZN5YZE70pJEXGADA4yibSdAI8aJxjowtgSH9QR1iHKhytI8wUUYsRy7Qa7sG+nxaBUGbjy4r0F/blrkE+c=
-X-Received: by 2002:a9d:6317:: with SMTP id q23mr1277831otk.251.1607512765731;
- Wed, 09 Dec 2020 03:19:25 -0800 (PST)
+        id S1729988AbgLILee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 06:34:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727970AbgLILee (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 06:34:34 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3AAC0613CF;
+        Wed,  9 Dec 2020 03:33:54 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id u4so766698plr.12;
+        Wed, 09 Dec 2020 03:33:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=nes0rcZuTwmOxtwOikKB2O8R1AmvIbu+0dxh8W69ZI4=;
+        b=G7cBFz8V5bYKV/tYPiKBAf7ZuEueNDSI9R2RSC0QmUtnucEhxcU7hhSDzkuND627RA
+         j9Us9+dJHv670BVlglnG6W88jVqDqj+oV0d3i7hRkVtOOEjlWlbHipTEBozyMRJWGx2X
+         SEUerN1AhgMR9uOVgHgG7UAGmfQozfpzQEi5JFnQLp8B69UgGZ5X0r64m1+HFwHnYeN5
+         yLZxtzpgCqrb4mzT7HezYZHW3u7NqQROhvI/q5V9Ah64t0Yot9rb7sFaZQ7yvo0sI3Fa
+         PGn9kSm8wAMtvoKlPUkltL3GxsZkLx00Ufp9WA2Tms7wwO2LlV4ZydaKriNUlhvv5pyk
+         9e5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=nes0rcZuTwmOxtwOikKB2O8R1AmvIbu+0dxh8W69ZI4=;
+        b=j3kRH3KNPvYE+CCUHzeU/9NfqQJosHg6M4OUNRplKyhrCZIgnujglUvH5+WwSsR+Gn
+         XhZsenbLYnTcRIVcGCeIxASmMIJo4IkxpIyXFqllP1CnFD2apQ6qNwj2utF4kAZMSP6x
+         UjPpZJINOkXsfC5ABf1/QrIrG84lcXsNPDnrOPirJOhmb3bp7qGj8c6ATLvvG1HA3N0+
+         3SEde+gm4TWlUIYFh613E0D6LMxsUtgZzFi/livU35Uuv+M3v2Mp37EFtmVWEI7GwBRi
+         QbW05Y/RumF3mJEwYd4vmycPY3B2pRK1F/DtT3088L7qiTRpwYx4yu8elMIFLS3IXl0n
+         +WhA==
+X-Gm-Message-State: AOAM530fQb+tBiBN1VTFZGh4KPteZaYXRTNWUbUVNKcEBiGhtzrYjQ54
+        4U6f0ELXDrpg7fFxYo+Xn3RtfaHOeTVUrnv+iBo=
+X-Google-Smtp-Source: ABdhPJwnF7pdFp+k9sJD0dR08jXoXLnuvwsQmdL87HSHQ3hPUJWW6G77aImei/0aYE74ufCDo/ZC6CHFgFRLgQkR99s=
+X-Received: by 2002:a17:902:ee11:b029:db:c0d6:581a with SMTP id
+ z17-20020a170902ee11b02900dbc0d6581amr1631361plb.54.1607513633716; Wed, 09
+ Dec 2020 03:33:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20201203191135.21576-1-info@metux.net> <20201203191135.21576-2-info@metux.net>
- <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net> <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
- <51d3efb7-b7eb-83d7-673a-308dd51616d3@metux.net> <CACRpkdbqVoT56H88hoZwDqV0kW_8XTaE5TkMQsg-RRrPqgF=cQ@mail.gmail.com>
-In-Reply-To: <CACRpkdbqVoT56H88hoZwDqV0kW_8XTaE5TkMQsg-RRrPqgF=cQ@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 9 Dec 2020 12:19:09 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1PRQGUXkjdSmqxXSONX_ZoCgsfx8hJBUdBUk14tyzErA@mail.gmail.com>
-Message-ID: <CAK8P3a1PRQGUXkjdSmqxXSONX_ZoCgsfx8hJBUdBUk14tyzErA@mail.gmail.com>
-Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
- drivers: gpio: add virtio-gpio guest driver
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Content-Type: text/plain; charset="UTF-8"
+References: <20201208203735.ukqrgjmlntbvxc7e@adolin> <20201209005408.GP401619@phenom.ffwll.local>
+In-Reply-To: <20201209005408.GP401619@phenom.ffwll.local>
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+Date:   Wed, 9 Dec 2020 17:03:42 +0530
+Message-ID: <CACAkLuqvHw898DBYo3TgaTr5_6Mr=p=CXaBzFo_7P8N5geOZyw@mail.gmail.com>
+Subject: Re: [PATCH V2] drm/vkms: Add setup and testing information
+To:     Sumera Priyadarsini <sylphrenadin@gmail.com>,
+        Melissa Wen <melissa.srw@gmail.com>, hamohammed.sa@gmail.com,
+        rodrigosiqueiramelo@gmail.com, David Airlie <airlied@linux.ie>,
+        mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+        tzimmermann@suse.de, corbet@lwn.net,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000001c25d105b6066f37"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 9:51 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Dec 8, 2020 at 3:07 PM Enrico Weigelt, metux IT consult <lkml@metux.net> wrote:
+--0000000000001c25d105b6066f37
+Content-Type: text/plain; charset="UTF-8"
 
-> What we need to understand is if your new usecase is an outlier
-> so it is simplest modeled by a "mock" irq_chip or we have to design
-> something new altogether like notifications on changes. I suspect
-> irq_chip would be best because all drivers using GPIOs for interrupts
-> are expecting interrupts, and it would be an enormous task to
-> change them all and really annoying to create a new mechanism
-> on the side.
+On Wed, Dec 9, 2020 at 6:24 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Dec 09, 2020 at 02:07:35AM +0530, Sumera Priyadarsini wrote:
+> > Update the vkms documentation to contain steps to:
+> >
+> >  - setup the vkms driver
+> >  - run tests using igt
+> >
+> > Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+> > ___
+> > Changes in v2:
+> >  - Change heading to title case (Daniel)
+> >  - Add examples to run tests directly (Daniel)
+> >  - Add examples to run subtests (Melissa)
+> > ---
+> >  Documentation/gpu/vkms.rst | 67 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 67 insertions(+)
+> >
+> > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> > index 13bab1d93bb3..d6739fbbe503 100644
+> > --- a/Documentation/gpu/vkms.rst
+> > +++ b/Documentation/gpu/vkms.rst
+> > @@ -7,6 +7,73 @@
+> >  .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
+> >     :doc: vkms (Virtual Kernel Modesetting)
+> >
+> > +Setup
+> > +=====
+> > +
+> > +The VKMS driver can be setup with the following steps:
+> > +
+> > +To check if VKMS is loaded, run::
+> > +
+> > +  lsmod | grep vkms
+> > +
+> > +This should list the VKMS driver. If no output is obtained, then
+> > +you need to enable and/or load the VKMS driver.
+> > +Ensure that the VKMS driver has been set as a loadable module in your
+> > +kernel config file. Do::
+> > +
+> > +  make nconfig
+> > +
+> > +  Go to `Device Drivers> Graphics support`
+> > +
+> > +  Enable `Virtual KMS (EXPERIMENTAL)`
+> > +
+> > +Compile and build the kernel for the changes to get reflected.
+> > +Now, to load the driver, use::
+> > +
+> > +  sudo modprobe vkms
+> > +
+> > +On running the lsmod command now, the VKMS driver will appear listed.
+> > +You can also observe the driver being loaded in the dmesg logs.
+> > +
+> > +To disable the driver, use ::
+> > +
+> > +  sudo modprobe -r vkms
+> > +
+> > +Testing With IGT
+> > +================
+> > +
+> > +The IGT GPU Tools is a test suite used specifically for debugging and
+> > +development of the DRM drivers.
+> > +The IGT Tools can be installed from
+> > +`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
+> > +
+> > +The tests need to be run without a compositor, so you need to switch to text
+> > +only mode. You can do this by::
+> > +
+> > +  sudo systemctl isolate multi-user.target
+> > +
+> > +To return to graphical mode, do::
+> > +
+> > +  sudo systemctl isolate graphical.target
+> > +
+> > +Once you are in text only mode, you can run tests using the --device switch
+> > +or IGT_DEVICE variable to specify the device filter for the driver we want
+> > +to test::
+> > +
+> > +  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
+> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
+> > +
+> > +For example, to test the functionality of the writeback library,
+> > +we can run the kms_writeback test::
+> > +
+> > +  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
+> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
+> > +
+> > +You can also run subtests if you do not want to run the entire test::
+> > +
+> > +  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>
+> Does IGT_DEVICE also work with run-tests.sh? Aside from my curious
+> question, patch looks good to me, thanks a lot.
 
-I would expect the platform abstraction to actually be close enough
-to a chained irqchip that it actually works: the notification should
-come in via vring_interrupt(), which is a normal interrupt handler
-that calls vq->vq.callback(), calling generic_handle_irq() (and
-possibly chained_irq_enter()/chained_irq_exit() around it) like the
-other gpio drivers do should just work here I think, and if it did
-not, then I would expect this to be just a bug in the driver rather
-than something missing in the gpio framework.
+Good catch, it does.
 
-       Arnd
+Melissa, IGT_FORCE_DRIVER also works. I think I was used test/kms_flip
+earlier instead of
+./build/test/kms_flip hence the fluke.
+
+Should I add these also to the docs, was wondering if it will get too
+confusing....
+
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> > +
+> >  TODO
+> >  ====
+> >
+> > --
+> > 2.25.1
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+--0000000000001c25d105b6066f37
+Content-Type: text/markdown; charset="US-ASCII"; name="withruntest.md"
+Content-Disposition: attachment; filename="withruntest.md"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kihc3ewc0>
+X-Attachment-Id: f_kihc3ewc0
+
+YHN1ZG8gSUdUX0RFVklDRT0ic3lzOi9zeXMvZGV2aWNlcy9wbGF0Zm9ybS92a21zIiAuL3Njcmlw
+dHMvcnVuLXRlc3RzLnNoIC10IGttc193cml0ZWJhY2tgCgpbOTQ0NS4zMTc5OTNdIFsxLzRdIGtt
+c193cml0ZWJhY2sgKHdyaXRlYmFjay1waXhlbC1mb3JtYXRzKQpbOTQ0NS42MjM0OTldIFsyLzRd
+IGttc193cml0ZWJhY2sgKHdyaXRlYmFjay1pbnZhbGlkLXBhcmFtZXRlcnMpCls5NDQ3LjA3NjI2
+M10gWzMvNF0ga21zX3dyaXRlYmFjayAod3JpdGViYWNrLWZiLWlkKQpbOTQ0Ny4zNzE0MDJdIFs0
+LzRdIGttc193cml0ZWJhY2sgKHdyaXRlYmFjay1jaGVjay1vdXRwdXQpCkRvbmUuCgoKCmBzdWRv
+IElHVF9ERVZJQ0U9InN5czovc3lzL2RldmljZXMvcGxhdGZvcm0vdmttcyIgLi9idWlsZC90ZXN0
+cy9rbXNfd3JpdGViYWNrYAoKSUdULVZlcnNpb246IDEuMjUtZ2MzNmY3OTczICh4ODZfNjQpIChM
+aW51eDogNS4xMC4wLXJjMmRybXN1bW8rIHg4Nl82NCkKU3RhcnRpbmcgc3VidGVzdDogd3JpdGVi
+YWNrLXBpeGVsLWZvcm1hdHMKU3VidGVzdCB3cml0ZWJhY2stcGl4ZWwtZm9ybWF0czogU1VDQ0VT
+UyAoMC4wMDBzKQpTdGFydGluZyBzdWJ0ZXN0OiB3cml0ZWJhY2staW52YWxpZC1wYXJhbWV0ZXJz
+ClN1YnRlc3Qgd3JpdGViYWNrLWludmFsaWQtcGFyYW1ldGVyczogU1VDQ0VTUyAoMC4wMDBzKQpT
+dGFydGluZyBzdWJ0ZXN0OiB3cml0ZWJhY2stZmItaWQKU3VidGVzdCB3cml0ZWJhY2stZmItaWQ6
+IFNVQ0NFU1MgKDAuMDE3cykKU3RhcnRpbmcgc3VidGVzdDogd3JpdGViYWNrLWNoZWNrLW91dHB1
+dApTdWJ0ZXN0IHdyaXRlYmFjay1jaGVjay1vdXRwdXQ6IFNVQ0NFU1MgKDAuMTI1cykKCmBzdWRv
+IElHVF9GT1JDRV9EUklWRVI9dmttcyBidWlsZC90ZXN0cy9rbXNfd3JpdGViYWNrYAoKSUdULVZl
+cnNpb246IDEuMjUtZ2MzNmY3OTczICh4ODZfNjQpIChMaW51eDogNS4xMC4wLXJjMmRybXN1bW8r
+IHg4Nl82NCkKU3RhcnRpbmcgc3VidGVzdDogd3JpdGViYWNrLXBpeGVsLWZvcm1hdHMKU3VidGVz
+dCB3cml0ZWJhY2stcGl4ZWwtZm9ybWF0czogU1VDQ0VTUyAoMC4wMDBzKQpTdGFydGluZyBzdWJ0
+ZXN0OiB3cml0ZWJhY2staW52YWxpZC1wYXJhbWV0ZXJzClN1YnRlc3Qgd3JpdGViYWNrLWludmFs
+aWQtcGFyYW1ldGVyczogU1VDQ0VTUyAoMC4wMDBzKQpTdGFydGluZyBzdWJ0ZXN0OiB3cml0ZWJh
+Y2stZmItaWQKU3VidGVzdCB3cml0ZWJhY2stZmItaWQ6IFNVQ0NFU1MgKDAuMDE3cykKU3RhcnRp
+bmcgc3VidGVzdDogd3JpdGViYWNrLWNoZWNrLW91dHB1dApTdWJ0ZXN0IHdyaXRlYmFjay1jaGVj
+ay1vdXRwdXQ6IFNVQ0NFU1MgKDAuMTI2cykK
+--0000000000001c25d105b6066f37--
