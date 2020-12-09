@@ -2,129 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA22BC4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 18:56:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AD1C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 19:06:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7445E20679
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 18:56:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D59A23A33
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 19:06:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387518AbgLISzv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 13:55:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57538 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387489AbgLISzo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 13:55:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607540057;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pAnzkkggIin7jYeCuo0D9ShCd/x0gLLXGM9tw9DfkJs=;
-        b=Y1n0MszPX8etkjVh0IlRVvX9JYU0U6YCd52y/2zd4/1A7WDRve9E1Gk5IO/yuWD+Nrmtqg
-        IudHFx610rWyxTTEB2EREYVp+MpTv3ozXjJmUDDnz1asxmcmvAytfkHeWgsmF2j6eojVOb
-        SVfDtjbiut1YgEGcGmG4uidY1cAKt8U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-wT7oHLPBMnq1hB-gpNuBBA-1; Wed, 09 Dec 2020 13:54:15 -0500
-X-MC-Unique: wT7oHLPBMnq1hB-gpNuBBA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BF20966E86;
-        Wed,  9 Dec 2020 18:53:46 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 19EEA63B8C;
-        Wed,  9 Dec 2020 18:53:44 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
-        id 7C35C48E58F2; Wed,  9 Dec 2020 13:34:34 -0300 (-03)
-Date:   Wed, 9 Dec 2020 13:34:34 -0300
-From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201209163434.GA22851@fuller.cnet>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <20201207232920.GD27492@fuller.cnet>
- <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
- <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
- <20201208181107.GA31442@fuller.cnet>
- <875z5c2db8.fsf@nanos.tec.linutronix.de>
+        id S1730039AbgLITFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 14:05:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387463AbgLITFk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 14:05:40 -0500
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B147EC061794;
+        Wed,  9 Dec 2020 11:05:00 -0800 (PST)
+Received: by mail-pj1-x1042.google.com with SMTP id fh13so1400588pjb.0;
+        Wed, 09 Dec 2020 11:05:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=/UsojO3YT4ojgGWZWe9AgdTF40UliX8euFAjdhHI+5E=;
+        b=D548r6tfjRjuqddyZqi6fpDGFfJXK5WSIO8Ho5JrZxdYuYRITJ+sRRWwNqN3IUalMq
+         rmtgctzQ3zUpEv7Wc38JbJfD9xNy64wqd6UkGHOa0nJ8qu4Nanz6oAllOcvWjOJ5/e1z
+         p8tRiEuqY6EGV+1AZaT78ZX/AHDess2iD6mo0PJa6wb36pcA5Zv2/gNZvLKxJYf5lHnn
+         c1Q+VZGJtercgP3c2Sl3bWSSzfwCEOExRjDsEXoHUqtmxhGQcbGcmYxXCa3LhxxJ117u
+         VUUmBiiOaCZUTdO29sNKlzdHIayKqtdIgd/i+txlYmADMT8RzpcwtYjtjstnyjzwdcOt
+         mbWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=/UsojO3YT4ojgGWZWe9AgdTF40UliX8euFAjdhHI+5E=;
+        b=PBQRNWOOPL7tgDFIAD9TZm9u9Z2sv3e+m2yI+aF/0QbvZ2JT+XDOK9YA84MloMECOL
+         BOy0C509o/PzaVGqIIm+VmyqTMh7Hr8HzQihBfl83CdsCyWJ4SRzXuc1gMB2Mjo+Tg+/
+         Q6l4ygslxyLPf2kAbeK4Xp63XvrMwlZuSUli8xCZS+LSA/gl+zQCjyRF2Nl+rCdF8FjQ
+         LWE61EVgL5E3+zp2R3Dm34NOsTl8/ac1Hgo3IAIbeClNdIBLqC6JiNzyPckAkLpwkDSo
+         DlqxCo1eqxTMF88BKLubepEq54UheEjDgHtu0C7lzP9NALkopYwoQYKL1UNqMvaXmlD4
+         d5mA==
+X-Gm-Message-State: AOAM5319NpxGxYKP0zkgzjEjtHdcmyorlf56CYqhlX49uF7Dhazi0VAU
+        m+OPcNDQ2Ki0YUUM6Wf6nME=
+X-Google-Smtp-Source: ABdhPJynKIt47cLvQOMnEdiyWNtUNdbLfIaDC7GfpGEwNNwF7mRz6z1XwWljvTc8ahnUQTGmtPnFjw==
+X-Received: by 2002:a17:902:b582:b029:d6:6008:264d with SMTP id a2-20020a170902b582b02900d66008264dmr3494207pls.80.1607540700315;
+        Wed, 09 Dec 2020 11:05:00 -0800 (PST)
+Received: from adolin ([49.207.194.238])
+        by smtp.gmail.com with ESMTPSA id g16sm3177829pfb.201.2020.12.09.11.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Dec 2020 11:04:59 -0800 (PST)
+Date:   Thu, 10 Dec 2020 00:34:53 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     melissa.srw@gmail.com
+Cc:     daniel@ffwll.ch, hamohammed.sa@gmail.com,
+        rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
+        mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+        tzimmermann@suse.de, corbet@lwn.net,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] drm/vkms: Add setup and testing information
+Message-ID: <20201209190453.c6kp5winikr55n3i@adolin>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <875z5c2db8.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 10:33:15PM +0100, Thomas Gleixner wrote:
-> On Tue, Dec 08 2020 at 15:11, Marcelo Tosatti wrote:
-> > On Tue, Dec 08, 2020 at 05:02:07PM +0100, Thomas Gleixner wrote:
-> >> On Tue, Dec 08 2020 at 16:50, Maxim Levitsky wrote:
-> >> > On Mon, 2020-12-07 at 20:29 -0300, Marcelo Tosatti wrote:
-> >> >> > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
-> >> >> > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
-> >> >> > +
-> >> >> > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
-> >> >> > +KVM will adjust the guest TSC value by the time that passed since the moment
-> >> >> > +CLOCK_REALTIME timestamp was saved in the struct and current value of
-> >> >> > +CLOCK_REALTIME, and set the guest's TSC to the new value.
-> >> >> 
-> >> >> This introduces the wraparound bug in Linux timekeeping, doesnt it?
-> >> 
-> >> Which bug?
-> >
-> > max_cycles overflow. Sent a message to Maxim describing it.
-> 
-> Truly helpful. Why the hell did you not talk to me when you ran into
-> that the first time?
+Update the vkms documentation to contain steps to:
 
-Because 
+ - setup the vkms driver
+ - run tests using igt
 
-1) Users wanted CLOCK_BOOTTIME to stop counting while the VM 
-is paused (so we wanted to stop guest clock when VM is paused anyway).
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+___
+Changes in v2:
+ - Change heading to title case (Daniel)
+ - Add examples to run tests directly (Daniel)
+ - Add examples to run subtests (Melissa)
 
-2) The solution to inject NMIs to the guest seemed overly
-complicated.
+Changes in v3:
+ - Add example using run-tests.sh script(Daniel)
+---
+ Documentation/gpu/vkms.rst | 70 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-> >> For one I have no idea which bug you are talking about and if the bug is
-> >> caused by the VMM then why would you "fix" it in the guest kernel.
-> >
-> > 1) Stop guest, save TSC value of cpu-0 = V.
-> > 2) Wait for some amount of time = W.
-> > 3) Start guest, load TSC value with V+W.
-> >
-> > Can cause an overflow on Linux timekeeping.
-> 
-> Yes, because you violate the basic assumption which Linux timekeeping
-> makes. See the other mail in this thread.
-> 
-> Thanks,
-> 
->         tglx
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index 13bab1d93bb3..9e030c74a82e 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -7,6 +7,76 @@
+ .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
+    :doc: vkms (Virtual Kernel Modesetting)
+ 
++Setup
++=====
++
++The VKMS driver can be setup with the following steps:
++
++To check if VKMS is loaded, run::
++
++  lsmod | grep vkms
++
++This should list the VKMS driver. If no output is obtained, then
++you need to enable and/or load the VKMS driver.
++Ensure that the VKMS driver has been set as a loadable module in your
++kernel config file. Do::
++
++  make nconfig
++
++  Go to `Device Drivers> Graphics support`
++
++  Enable `Virtual KMS (EXPERIMENTAL)`
++
++Compile and build the kernel for the changes to get reflected.
++Now, to load the driver, use::
++
++  sudo modprobe vkms
++
++On running the lsmod command now, the VKMS driver will appear listed.
++You can also observe the driver being loaded in the dmesg logs.
++
++To disable the driver, use ::
++
++  sudo modprobe -r vkms
++
++Testing With IGT
++================
++
++The IGT GPU Tools is a test suite used specifically for debugging and
++development of the DRM drivers.
++The IGT Tools can be installed from
++`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
++
++The tests need to be run without a compositor, so you need to switch to text
++only mode. You can do this by::
++
++  sudo systemctl isolate multi-user.target
++
++To return to graphical mode, do::
++
++  sudo systemctl isolate graphical.target
++
++Once you are in text only mode, you can run tests using the --device switch
++or IGT_DEVICE variable to specify the device filter for the driver we want
++to test. IGT_DEVICE can also be used with the run-test.sh script to run the
++tests for a specific driver::
++
++  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
++  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
++  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
++
++For example, to test the functionality of the writeback library,
++we can run the kms_writeback test::
++
++  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
++  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
++  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
++
++You can also run subtests if you do not want to run the entire test::
++
++  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
++  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
++
+ TODO
+ ====
+ 
+-- 
+2.25.1
 
