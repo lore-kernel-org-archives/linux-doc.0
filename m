@@ -2,146 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB61C4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 01:51:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA24BC4167B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 04:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A15BE23A1D
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 01:51:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73A4223AFE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 04:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbgLIBvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 20:51:32 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:47731 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725911AbgLIBv1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 20:51:27 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UI070Nv_1607478642;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UI070Nv_1607478642)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 09 Dec 2020 09:50:43 +0800
-Subject: Re: [PATCH v2] docs/zh_CN: Improve Cinese transolation quality.
-To:     Ran Wang <gxndwr@outlook.com>, Harry Wei <harryxiyou@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <db518c06-7618-4ed2-0e76-f0c894cb6b1d@linux.alibaba.com>
-Date:   Wed, 9 Dec 2020 09:50:42 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1726822AbgLIEJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 23:09:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35030 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726969AbgLIEJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 8 Dec 2020 23:09:51 -0500
+X-Gm-Message-State: AOAM532UAmPdSr+2kLjepPQ6l/NZssrSWiMcMM9iNQHTdjEefRHMLG0r
+        VcC9DxJvk1zKtFrPvFj9M4YX+tsGsJW5fMvkXmheGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607486950;
+        bh=oYWxHXQ62C0mJPCCULJOFjbEn8mPiFRGhNAfsRwo+mY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=nT6twCQi9Jenx478cXei96dI33ctRSjanIgabjy6tuwS1rodO7suTwGCFFvXyOjWF
+         vIcSwkZDRyyeazR2HeuckJ8xfMTdLZvln1c81aTUcRusm1P2tN8z+QHzqZz/0SCFmD
+         x8KbI3Yj9wdPax8w4cjC5SP13srVUMTPJe7fkrJy1mJpbfsa8TudGdO2LHK0KNtvmh
+         wnA8Jk1otU2k7fXHa4PnJg5J8A1Tdt48FO3rt2EEONdw8XPIOsQgSWojoFdvWaQ48e
+         dStLK88l/Vv8im9IyrngHoMlDEjVn0ix38zWbSeXGusniPqbYK0Y2ThsYp4jkWpLhV
+         UDdQOhvVXJrXw==
+X-Google-Smtp-Source: ABdhPJyPreMEtl1P7lQQQDkaaodeKWAa7yzPM9UvV4cRoYUa/4FCUz55VfV8kjpchfi0VRMnuLRmsm2k3UBpYxyIZ1k=
+X-Received: by 2002:a5d:4a10:: with SMTP id m16mr403401wrq.18.1607486947915;
+ Tue, 08 Dec 2020 20:09:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <87h7ow2j91.fsf@nanos.tec.linutronix.de> <301491B7-DEB6-41ED-B8FD-657B864696CF@amacapital.net>
+ <87v9db25me.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87v9db25me.fsf@nanos.tec.linutronix.de>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 8 Dec 2020 20:08:56 -0800
+X-Gmail-Original-Message-ID: <CALCETrXeXCvbxAuRuLwWoF3-zvjhzzjj46VZ3RfgUEhb0SeK6A@mail.gmail.com>
+Message-ID: <CALCETrXeXCvbxAuRuLwWoF3-zvjhzzjj46VZ3RfgUEhb0SeK6A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+On Tue, Dec 8, 2020 at 4:19 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> On Tue, Dec 08 2020 at 12:32, Andy Lutomirski wrote:
+> >> On Dec 8, 2020, at 11:25 AM, Thomas Gleixner <tglx@linutronix.de> wrot=
+e:
+> >> One issue here is that guests might want to run their own NTP/PTP. One
+> >> reason to do that is that some people prefer the leap second smearing
+> >> NTP servers.
+> >
+> > I would hope that using this part would be optional on the guest=E2=80=
+=99s
+> > part. Guests should be able to use just the CLOCK_MONOTONIC_RAW part
+> > or fancier stuff at their option.
+> >
+> > (Hmm, it would, in principle, be possible for a guest to use the
+> > host=E2=80=99s TAI but still smear leap seconds. Even without virt, sme=
+aring
+> > could be a per-timens option.)
+>
+> No. Don't even think about it. Read the thread:
+>
+>   https://lore.kernel.org/r/20201030110229.43f0773b@jawa
+>
+> all the way through the end and then come up with a real proposal which
+> solves all of the issues mentioned there.
 
+You're misunderstanding me, which is entirely reasonable, since my
+description was crap.  In particular, what I meant by smearing is not
+at all what's done today.  Let me try again.  The thing below is my
+proposal, not necessarily a description of exactly what happens now.
 
-在 2020/12/8 下午9:16, Ran Wang 写道:
-> Signed-off-by: Ran Wang <gxndwr@outlook.com>
-> ---
-> Change in v2:
->   - For 'cn_development_coding' part, change back to '是关于编码过程的'
-> 
->  .../translations/zh_CN/process/1.Intro.rst    | 61 ++++++++++---------
->  1 file changed, 32 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Documentation/translations/zh_CN/process/1.Intro.rst
-> index 10a15f3dc282..f05405d96c51 100644
-> --- a/Documentation/translations/zh_CN/process/1.Intro.rst
-> +++ b/Documentation/translations/zh_CN/process/1.Intro.rst
-> @@ -11,33 +11,35 @@
->  执行摘要
->  --------
->  
-> -本节的其余部分涵盖了内核开发过程的范围，以及开发人员及其雇主在这方面可能遇
-> -到的各种挫折。内核代码应该合并到正式的（“主线”）内核中有很多原因，包括对用
-> -户的自动可用性、多种形式的社区支持以及影响内核开发方向的能力。提供给Linux
-> -内核的代码必须在与GPL兼容的许可证下可用。
-> +本节的其余部分介绍了内核开发流程相关知识，其中包括开发者及其雇主在这方面可能遇
-> +到的各种问题。内核代码合并到官方的（“主线”）仓库会有很多好处，比如能在第一时
-> +间让用户获得更新，可以从社区得到多种形式的支持，以及能够以此影响内核未来发展方
-> +向。需要注意提供给Linux内核的代码必须是在与GPL兼容的许可证下使用。
->  
-> -:ref:`cn_development_process` 介绍了开发过程、内核发布周期和合并窗口的机制。
-> -涵盖了补丁开发、审查和合并周期中的各个阶段。有一些关于工具和邮件列表的讨论。
-> -鼓励希望开始内核开发的开发人员作为初始练习跟踪并修复bug。
-> +:ref:`cn_development_process` 介绍了内核开发流程、发布周期以及合并窗口期相关的
-> +机制。同时还讲解了补丁开发、审查和合并周期各个阶段要点。此外还包括一些关于工具
-> +和邮件列表的讨论。我们建议那些希望开始内核开发的开发者们以跟踪并修复bug作为初
-> +始练习。
->  
->  
-> -:ref:`cn_development_early_stage` 包括早期项目规划，重点是尽快让开发社区参与
-> +:ref:`cn_development_early_stage` 介绍项目早期的工作规划，重点是尽快让开发社区
-> +有机会参与到规划中
->  
-> -:ref:`cn_development_coding` 是关于编码过程的；讨论了其他开发人员遇到的几个
-> -陷阱。对补丁的一些要求已经涵盖，并且介绍了一些工具，这些工具有助于确保内核
-> -补丁是正确的。
-> +:ref:`cn_development_coding` 是关于编码过程的；讨论了一些其他开发者曾经走入到
-> +的误区。并介绍社区对补丁的要求，同时指导如何通过使用一些工具来帮助确保内核补
-> +丁的质量。
->  
-> -:ref:`cn_development_posting` 讨论发布补丁以供评审的过程。为了让开发社区
-> -认真对待，补丁必须正确格式化和描述，并且必须发送到正确的地方。遵循本节中的
-> -建议有助于确保为您的工作提供最好的接纳。
-> +:ref:`cn_development_posting` 介绍发布补丁以供评审的流程。补丁只有在符合特定的
-> +格式及正确描述，并且发送到正确的地方，开发社区才有可能对其认真审查。遵循本节中
-> +的建议有助于确保为您的工作成果提供最好的接纳。
->  
-> -:ref:`cn_development_followthrough` 介绍了发布补丁之后发生的事情；该工作
-> -在这一点上还远远没有完成。与审阅者一起工作是开发过程中的一个重要部分；本节
-> -提供了一些关于如何在这个重要阶段避免问题的提示。当补丁被合并到主线中时，
-> -开发人员要注意不要假定任务已经完成。
-> +:ref:`cn_development_followthrough` 介绍了提交补丁之后发生的事情；至此工作实际
-> +上还远未完成。与审阅者一起合作是开发过程中的重要部分；本节提供了一些关于如何在
-> +这个重要阶段避免出现问题的提示。此外，即使当补丁已经被合并到主线中，开发者也不
-> +能认为任务就此完成。
->  
->  :ref:`cn_development_advancedtopics` 介绍了两个“高级”主题：
-> -使用Git管理补丁和查看其他人发布的补丁。
-> +使用Git管理补丁和查看其他人提交的补丁。
->  
->  :ref:`cn_development_conclusion` 总结了有关内核开发的更多信息，附带有带有
->  指向资源的链接.
-> @@ -62,19 +64,20 @@ Linux最引人注目的特性之一是这些开发人员可以访问它；任何
->  内核开发周期可以涉及1000多个开发人员，他们为100多个不同的公司
->  （或者根本没有公司）工作。
->  
-> -与内核开发社区合作并不是特别困难。但是，尽管如此，许多潜在的贡献者在尝试做
-> -内核工作时遇到了困难。内核社区已经发展了自己独特的操作方式，使其能够在每天
-> -都要更改数千行代码的环境中顺利运行（并生成高质量的产品）。因此，Linux内核开发
-> +与内核开发社区合作并不是特别困难。但是，尽管如此，许多潜在的贡献者在尝试参与
-> +内核开发时遇到了困难。内核社区已经发展了自己独特的开发流程，使其能够在每天
-> +都要更改数千行代码的环境中顺利运转（并生成高质量的产品）。因此，Linux内核开发
->  过程与专有的开发方法有很大的不同也就不足为奇了。
->  
-> -对于新开发人员来说，内核的开发过程可能会让人感到奇怪和恐惧，但这个背后有充分的
-> -理由和坚实的经验。一个不了解内核社区的方式的开发人员（或者更糟的是，他们试图
-> -抛弃或规避内核社区的方式）会有一个令人沮丧的体验。开发社区, 在帮助那些试图学习
-> -的人的同时，没有时间帮助那些不愿意倾听或不关心开发过程的人。
-> +对于新开发者来说，内核的开发流程可能会让人感到陌生和望而生畏，但这个背后其实
-> +是有充分的理由和坚实的实际经验作支撑。一个不了解内核社区工作方式的开发者（或
-> +者更糟的是，如果他们试图抛弃或规避内核社区的方式）将会有一个令人沮丧的体验。
-> +毕竟开发社区在帮助那些试图学习的人的同时，没有时间帮助那些不愿意倾听或不关心
-> +开发流程的人。
->  
-> -希望阅读本文的人能够避免这种令人沮丧的经历。这里有很多材料，但阅读时所做的
-> -努力会在短时间内得到回报。开发社区总是需要能让内核变更好的开发人员；下面的
-> -文本应该帮助您或为您工作的人员加入我们的社区。
-> +希望大家能通过阅读本文来避免那些令人沮丧的经历。这里有很多材料，请相信阅读这
-> +些所付出的努力将会在短时间内得到回报。开发社区总是需要那些能让内核变更好的
-> +开发者；下面的文章应当能帮助您或为您工作的人加入我们的社区。
->  
->  致谢
->  ----
-> 
+(I read most of that thread, and I read most of this thread, and I've
+hacked on the time code, cursed at the KVM code, modified the KVM
+code, cursed at the KVM code some more, etc.  None of which is to say
+that I have a full understanding of every possible timekeeping nuance,
+but I'm pretty sure I can at least pretend to understand some of it.)
+
+We have some time source that we can read (e.g. TSC).  Let's call it
+read_time().  It returns an integer (64-bits would be nice, but we'll
+take what we can get).  From the output of read_time(), Linux user
+programs, and the kernel itself (and guests perhaps, see below) would
+like to produce various outputs.  Each of them is protected by a
+seqlock that I'll omit in the descriptions below.  The operations
+below are all protected by a seqlock retry loop.  Also, when I say *
+below, I mean the usual calculation with a multiplication and a shift.
+
+All of these are only valid if t_start <=3D read_time() <=3D t_end and,
+and they all assume that read_time() hasn't wrapped and gotten into
+that interval again.  There is nothing at all we can do in software if
+we wrap like this.  t_end isn't necessarily something we compute
+explicitly --- it might just be the case that, if read_time() > t_end,
+our arithmetic overflows and we return garbage.  But t_end might be a
+real thing on architectures where vdso_cycles_ok() actually does
+something (sigh, x86).
+
+CLOCK_MONOTONIC_RAW: not affected by NTP, adjtimex, etc.
+return mult[monotonic_raw] * (read_time() - t_start) + offset[monotonic_raw=
+];
+
+CLOCK_MONOTONIC:  This is never affected by leap-second smearing.  If
+userspace tries to smear it in the new mode, userspace gets to keep
+all the pieces.
+return mult[monotonic] * (read_time() - t_start) + offset[monotonic];
+
+CLOCK_TAI:  This is not smeared.
+return mult[tai] * (read_time() - t_start) + offset[tai];
+
+CLOCK_SANE_REALTIME: This is not smeared either.
+return mult[sane_realtime] * (read_time() - t_start) + offset[sane_realtime=
+];
+
+And yes, we require that mult[monotonic] =3D=3D mult[tai] =3D=3D mult[sane_=
+realtime].
+
+CLOCK_SMEARED_REALTIME:
+return mult[smeared_realtime] * (read_time() - t_start) +
+offset[smeared_realtime]
+This is a leap-second-smeared variant of CLOCK_SANE_REALTIME.
+
+CLOCK_REALTIME: maps to CLOCK_SANE_REALTIME or CLOCK_SMEARED_REALTIME
+depending on user preference.  Doing this without an extra branch
+somewhere might take a bit of thought.
+
+If t > t_end, then we fall back to a syscall if we're in user mode and
+we fall back to hypercall or we just spin if we're in the kernel.  But
+see below.
+
+As far as I can tell, if the kernel were to do something utterly
+asinine like adding some arbitrary value to TSC_ADJUST on all CPUs,
+the kernel could do so correctly by taking the seqlock, making the
+change, updating everything, and releasing the seqlock.  This would be
+nuts, but it's more or less the same thing that happens when a VM
+migrates.  So I think a VM could migrate a guest without any
+particular magic, except that there's a potential race if the old and
+new systems happen to have close enough seqlock values that the guest
+might start reading on the old host, finish on the new host, see the
+same seqlock value, and end up with utter garbage.  One way to
+mitigate this would be, in paravirt mode, to have an extra per-guest
+page that contains a count of how many times the guest has migrated.
+
+Timens would work a lot like it does today, but the mechanism that
+tells the vdso code to use timens might need tweaking.
+
+I could easily be missing something that prevents this from working,
+but I'm not seeing any fundamental problems.
+
+If we want to get fancy, we can make a change that I've contemplated
+for a while -- we could make t_end explicit and have two copies of all
+these data structures.  The reader would use one copy if t < t_change
+and a different copy if t >=3D t_change.  This would allow NTP-like code
+in usermode to schedule a frequency shift to start at a specific time.
+With some care, it would also allow the timekeeping code to update the
+data structures without causing clock_gettime() to block while the
+timekeeping code is running on a different CPU.
+
+One other thing that might be worth noting: there's another thread
+about "vmgenid".  It's plausible that it's worth considering stopping
+the guest or perhaps interrupting all vCPUs to allow it to take some
+careful actions on migration for reasons that have nothing to do with
+timekeeping.
