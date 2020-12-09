@@ -2,107 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71287C19425
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:40:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDFFC4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:55:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 506C923C85
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:40:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3757A23B99
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729351AbgLIUj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 15:39:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46082 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728508AbgLIUjU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 15:39:20 -0500
-X-Gm-Message-State: AOAM531bf7FqyU+G1r0+QRPNn5r+N6GGPsQjCork7EQrw+7LiU09Or1Q
-        zfLboIJKOT9iklMBouZqK14YMUvw1jLNlVBgvcI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607546320;
-        bh=Ha7lLzOpXQ1X99veTNG7S+85hi9hDdUnwFrOdFxJkFY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=m2wotAQGycNW3fNMRpvScONvUE+gNQJa/7UXeuv/E5/eArPXRVUCPnYQLNrImG/mi
-         EJQV7WMwocrOB73rk8fCLhZCKjNIIiR/bzljek61mxBTwLpxZP82Xn6jRhlnEUKATY
-         iEBAwk/CSGD9Xo47fY9oJGPZG78DcYthsCzyjY+hsWhf7D9e50RNKkGKje4//M6lnX
-         86DGjo+2ZTer6Q7yhGH0UvyBu2prkduSQAGOLKN5qBU3EyEyp7I4BzaQZcPiejMXMM
-         6hNi9fuj/ykVQO5y8Oy4vK4OaddGLZhWOG0zHrOv8NhJ1xIkzjm0yvECImZOpff6AX
-         yJ8H5FndHMpDA==
-X-Google-Smtp-Source: ABdhPJx9b5wUc4ET8rElWbclWiQSLM9K0iZJ/2Q/ZLrhCrcYkZDXsayj9l5KMwDCDCiFnl6/qW8E7Vk6lrA60XCvUYc=
-X-Received: by 2002:a9d:6317:: with SMTP id q23mr3381889otk.251.1607546319268;
- Wed, 09 Dec 2020 12:38:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20201203191135.21576-1-info@metux.net> <20201203191135.21576-2-info@metux.net>
- <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net> <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
- <51d3efb7-b7eb-83d7-673a-308dd51616d3@metux.net> <CACRpkdbqVoT56H88hoZwDqV0kW_8XTaE5TkMQsg-RRrPqgF=cQ@mail.gmail.com>
- <CAK8P3a1PRQGUXkjdSmqxXSONX_ZoCgsfx8hJBUdBUk14tyzErA@mail.gmail.com>
- <CACRpkdbNAeDsi9B14kbkAeoqX7NE_Ua_yOX1iNF75oNK0ELefQ@mail.gmail.com> <2827855a-dc4f-2e17-aca3-4b1b9f0d5084@ti.com>
-In-Reply-To: <2827855a-dc4f-2e17-aca3-4b1b9f0d5084@ti.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 9 Dec 2020 21:38:22 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a30=AcEZAZ2yNUgctj=4YM6FhS1ZXB4ts7a7WV=gBcatA@mail.gmail.com>
-Message-ID: <CAK8P3a30=AcEZAZ2yNUgctj=4YM6FhS1ZXB4ts7a7WV=gBcatA@mail.gmail.com>
-Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
- drivers: gpio: add virtio-gpio guest driver
-To:     Grygorii Strashko <grygorii.strashko@ti.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
+        id S1729345AbgLIUzG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 15:55:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726954AbgLIUzG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 15:55:06 -0500
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A01C0613D6
+        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 12:54:25 -0800 (PST)
+Received: by mail-qt1-x84a.google.com with SMTP id b11so2226937qtj.11
+        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 12:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=eyAf9tPh5kwa3NPR7RusvbbsQzwJzLjle+w/qgwIjD0=;
+        b=Xh+cDnP4DoT5owh0/0HIm4Z8CAhhPYD263reDQNel9C7pyR9gOBxcvWO1X4IndEzBo
+         7qit/pbm/xw+nUhXMQHMHo4ZOSnJURBK6g4JlEQGbr9TaCusAVM7X9Vfa0z/dW5DpIBI
+         rqMBWuvl00va7X5MtLz55B492M6+6mfoJ9Uk2Fi+pHbJskFwKGDDup9dcxmjXNO/LKVA
+         Rh03vIm2GpQtTy9xl6oJJ2JuYoFUe1sdme9kePmiHMD8hAAxZqjYYZUw2qS4/eUfb3Wv
+         pulYP0O+TmrLVyxcMzc6hGb24eBry7Icr/iCipBtYKBepUWMk7/TWkK7kFIar6lVMn3x
+         zrEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=eyAf9tPh5kwa3NPR7RusvbbsQzwJzLjle+w/qgwIjD0=;
+        b=O5jXJ+J+o+4BtE70jsKODS4xVb9rymWFCcIAKChcxqes7zrZfmahFAcLk67S3U0S4K
+         6G6CYEo8toquwq/yUGd85Ocx7nw5U0M/G1XKfBcU9y67Zgk7v4vQVVdH5yZyv1kCDZAG
+         AyJqIEMvAVMqVi6kFemGKsuirVJl3LVCodbMKOLBiygcs+IhK4t2bfeNUuCE8Ce4Ivv1
+         kCpT2Com/BvHwcjhmBZda5ceqRRD6+yUuO85QuJWQLUX+4C2F6lBU4OtIuEVWBEAh2l4
+         xLkIgfit7l3zNWVUyJxMYC9txXVZdQrv415HyEsLpeOYS37E4Df6UU/WRllkmnwuaqg2
+         59EA==
+X-Gm-Message-State: AOAM531qndiNqxhLtKzIWYMFc3aE6/Ihu1k+ytJGHa3+BPn5Sc4dtXxO
+        mXReLzHX5BzWjaDZydPC3+SxwoJLTgDj
+X-Google-Smtp-Source: ABdhPJyHiL9v7qyrY0Ac/3Fc8Zm/BX/g/QvBraZOuqkew4GB+ozMmGKuR5pYDHMyzGr7COsym2qO6fKRCDvy
+Sender: "vipinsh via sendgmr" <vipinsh@vipinsh.kir.corp.google.com>
+X-Received: from vipinsh.kir.corp.google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
+ (user=vipinsh job=sendgmr) by 2002:a0c:f74a:: with SMTP id
+ e10mr731582qvo.47.1607547264628; Wed, 09 Dec 2020 12:54:24 -0800 (PST)
+Date:   Wed,  9 Dec 2020 12:54:11 -0800
+Message-Id: <20201209205413.3391139-1-vipinsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
+Subject: [Patch v3 0/2] cgroup: KVM: New Encryption IDs cgroup controller
+From:   Vipin Sharma <vipinsh@google.com>
+To:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
+        tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net
+Cc:     joro@8bytes.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 9:22 PM Grygorii Strashko
-<grygorii.strashko@ti.com> wrote:
-> On 09/12/2020 14:53, Linus Walleij wrote:
-> > On Wed, Dec 9, 2020 at 12:19 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> >> On Wed, Dec 9, 2020 at 9:51 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> >>> On Tue, Dec 8, 2020 at 3:07 PM Enrico Weigelt, metux IT consult <lkml@metux.net> wrote:
-> >>
-> >>> What we need to understand is if your new usecase is an outlier
-> >>> so it is simplest modeled by a "mock" irq_chip or we have to design
-> >>> something new altogether like notifications on changes. I suspect
-> >>> irq_chip would be best because all drivers using GPIOs for interrupts
-> >>> are expecting interrupts, and it would be an enormous task to
-> >>> change them all and really annoying to create a new mechanism
-> >>> on the side.
-> >>
-> >> I would expect the platform abstraction to actually be close enough
-> >> to a chained irqchip that it actually works: the notification should
-> >> come in via vring_interrupt(), which is a normal interrupt handler
-> >> that calls vq->vq.callback(), calling generic_handle_irq() (and
-> >> possibly chained_irq_enter()/chained_irq_exit() around it) like the
-> >> other gpio drivers do should just work here I think, and if it did
-> >> not, then I would expect this to be just a bug in the driver rather
-> >> than something missing in the gpio framework.
-> >
-> > Performance/latency-wise that would also be strongly encouraged.
-> >
-> > Tglx isn't super-happy about the chained interrupts at times, as they
-> > can create really nasty bugs, but a pure IRQ in fastpath of some
-> > kinde is preferable and intuitive either way.
->
-> In my opinion the problem here is that proposed patch somehow describes Front end, but
-> says nothing about Backend and overall design.
->
-> What is expected to be virtualized? whole GPIO chip? or set of GPIOs from different GPIO chips?
-> Most often nobody want to give Guest access to the whole GPIO chip, so, most probably, smth. similar to
-> GPIO Aggregator will be needed.
+Hello,
 
-I would argue that it does not matter, the virtual GPIO chip could really
-be anything. Certain functions such as a gpio based keyboard require
-interrupts, so it sounds useful to make them work.
+This patch adds a new cgroup controller, Encryption IDs, to track and
+limit the usage of encryption IDs on a host.
 
-     Arnd
+AMD provides Secure Encrypted Virtualization (SEV) and SEV with
+Encrypted State (SEV-ES) to encrypt the guest OS's memory using limited
+number of Address Space Identifiers (ASIDs).
+
+This limited number of ASIDs creates issues like SEV ASID starvation and
+unoptimized scheduling in the cloud infrastucture.
+
+In the RFC patch v1, I provided only SEV cgroup controller but based
+on the feedback and discussion it became clear that this cgroup
+controller can be extended to be used by Intel's Trusted Domain
+Extension (TDX) and s390's protected virtualization Secure Execution IDs
+(SEID)
+
+This patch series provides a generic Encryption IDs controller with
+tracking support of the SEV ASIDs.
+
+Changes in v3:
+- Fixes a build error when CONFIG_CGROUP is disabled.
+
+Changes in v2:
+- Changed cgroup name from sev to encryption_ids.
+- Replaced SEV specific names in APIs and documentations with generic
+  encryption IDs.
+- Providing 3 cgroup files per encryption ID type. For example in SEV,
+  - encryption_ids.sev.stat (only in the root cgroup directory).
+  - encryption_ids.sev.max
+  - encryption_ids.sev.current
+
+Thanks
+Vipin Sharma
+
+[1] https://lore.kernel.org/lkml/20200922004024.3699923-1-vipinsh@google.com/#r
+[2] https://lore.kernel.org/lkml/20201208213531.2626955-1-vipinsh@google.com/
+
+ .../admin-guide/cgroup-v1/encryption_ids.rst  | 108 +++++
+ Documentation/admin-guide/cgroup-v2.rst       |  78 +++-
+ arch/x86/kvm/svm/sev.c                        |  28 +-
+ include/linux/cgroup_subsys.h                 |   4 +
+ include/linux/encryption_ids_cgroup.h         |  71 +++
+ include/linux/kvm_host.h                      |   4 +
+ init/Kconfig                                  |  14 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/encryption_ids.c                | 430 ++++++++++++++++++
+ 9 files changed, 729 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/admin-guide/cgroup-v1/encryption_ids.rst
+ create mode 100644 include/linux/encryption_ids_cgroup.h
+ create mode 100644 kernel/cgroup/encryption_ids.c
+
+-- 
+2.29.2.576.ga3fc446d84-goog
+
