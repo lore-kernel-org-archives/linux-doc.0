@@ -2,189 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7B58C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 00:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFB61C4167B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 01:51:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4D94238E2
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 00:55:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A15BE23A1D
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 01:51:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbgLIAyx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Dec 2020 19:54:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725791AbgLIAyx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 19:54:53 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EBD3C0613D6
-        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 16:54:12 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id a3so24685wmb.5
-        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 16:54:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=l5gzTC7AC2N1XraPt/fdhIFbZxuzybNPj/HRm5T2Z3w=;
-        b=ip3kTggH1oiJ0wlJxFia9JdGxaEVCC9zJudD3Jmy8dZGbiHuDlBmGaqpaqSbcIEW/c
-         5F8KBzJANmrqbj9I8gkfG+q81tlyVstdY0EI5gQh6XcZjkRF0X18MZBX1dlEDrB4Uu3A
-         sVRAViWMntuyTkWnhwrDXMFA1pk24Im5G09bg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=l5gzTC7AC2N1XraPt/fdhIFbZxuzybNPj/HRm5T2Z3w=;
-        b=SpgstOGKCEEijXsgvYGk4O0i/S5q0CTwtZr3wOAHKcWuV9ESIUYfGS3nTk2GcuNvru
-         ZuyLpotI71/5AbJ5uFe6I9rXyiM0GMPZtb4DtN5CbHuk8nwZ+Oe1pM9N3TlTuYid8lN+
-         QEdOwZnqaaPoOkEpUFe8g5n4h3seLC6e/wMcM07ev/7YC/3KALdzOOunyMU3kMWhy3lQ
-         n1odSMGP+YEID+OsctN2Eg2NCjjD+dsl6nLZVlMsWorAcRK/mUpFMhSvnRGDoKPzk/Bt
-         sshQxsytP8PgxAdGk58ejsMYkGq71oIjIIhzAvzgWcXWoCoj5tL9WwgwQnIHNQ5YPkzM
-         YPfw==
-X-Gm-Message-State: AOAM5305Zwsa61f+yVmBQDk5oJOFW0y7XZHozuTsD2EF4sSlU9WMx/+m
-        hbwGA5zlTHDtxpCunKiL+PuYdg==
-X-Google-Smtp-Source: ABdhPJxFrB0aU0ddMqvI3X+AydBtBa1ZHYEdU75BMNhwrUV7CXlexPc1d7/bVNAYhS6kHXte9/cuPg==
-X-Received: by 2002:a1c:e445:: with SMTP id b66mr36663wmh.187.1607475251414;
-        Tue, 08 Dec 2020 16:54:11 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id j15sm1048145wrr.85.2020.12.08.16.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 16:54:10 -0800 (PST)
-Date:   Wed, 9 Dec 2020 01:54:08 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Sumera Priyadarsini <sylphrenadin@gmail.com>
-Cc:     melissa.srw@gmail.com, daniel@ffwll.ch, hamohammed.sa@gmail.com,
-        rodrigosiqueiramelo@gmail.com, airlied@linux.ie,
-        mripard@kernel.org, maarten.lankhorst@linux.intel.com,
-        tzimmermann@suse.de, corbet@lwn.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        id S1726278AbgLIBvc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Dec 2020 20:51:32 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:47731 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725911AbgLIBv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Dec 2020 20:51:27 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UI070Nv_1607478642;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UI070Nv_1607478642)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 09 Dec 2020 09:50:43 +0800
+Subject: Re: [PATCH v2] docs/zh_CN: Improve Cinese transolation quality.
+To:     Ran Wang <gxndwr@outlook.com>, Harry Wei <harryxiyou@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] drm/vkms: Add setup and testing information
-Message-ID: <20201209005408.GP401619@phenom.ffwll.local>
-Mail-Followup-To: Sumera Priyadarsini <sylphrenadin@gmail.com>,
-        melissa.srw@gmail.com, hamohammed.sa@gmail.com,
-        rodrigosiqueiramelo@gmail.com, airlied@linux.ie, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
-        corbet@lwn.net, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201208203735.ukqrgjmlntbvxc7e@adolin>
+References: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <db518c06-7618-4ed2-0e76-f0c894cb6b1d@linux.alibaba.com>
+Date:   Wed, 9 Dec 2020 09:50:42 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201208203735.ukqrgjmlntbvxc7e@adolin>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 09, 2020 at 02:07:35AM +0530, Sumera Priyadarsini wrote:
-> Update the vkms documentation to contain steps to:
-> 
->  - setup the vkms driver
->  - run tests using igt
-> 
-> Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-> ___
-> Changes in v2:
->  - Change heading to title case (Daniel)
->  - Add examples to run tests directly (Daniel)
->  - Add examples to run subtests (Melissa)
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+
+
+在 2020/12/8 下午9:16, Ran Wang 写道:
+> Signed-off-by: Ran Wang <gxndwr@outlook.com>
 > ---
->  Documentation/gpu/vkms.rst | 67 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
+> Change in v2:
+>   - For 'cn_development_coding' part, change back to '是关于编码过程的'
 > 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 13bab1d93bb3..d6739fbbe503 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -7,6 +7,73 @@
->  .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
->     :doc: vkms (Virtual Kernel Modesetting)
->  
-> +Setup
-> +=====
-> +
-> +The VKMS driver can be setup with the following steps:
-> +
-> +To check if VKMS is loaded, run::
-> +
-> +  lsmod | grep vkms
-> +
-> +This should list the VKMS driver. If no output is obtained, then
-> +you need to enable and/or load the VKMS driver.
-> +Ensure that the VKMS driver has been set as a loadable module in your
-> +kernel config file. Do::
-> +
-> +  make nconfig
-> +
-> +  Go to `Device Drivers> Graphics support`
-> +
-> +  Enable `Virtual KMS (EXPERIMENTAL)`
-> +
-> +Compile and build the kernel for the changes to get reflected.
-> +Now, to load the driver, use::
-> +
-> +  sudo modprobe vkms
-> +
-> +On running the lsmod command now, the VKMS driver will appear listed.
-> +You can also observe the driver being loaded in the dmesg logs.
-> +
-> +To disable the driver, use ::
-> +
-> +  sudo modprobe -r vkms
-> +
-> +Testing With IGT
-> +================
-> +
-> +The IGT GPU Tools is a test suite used specifically for debugging and
-> +development of the DRM drivers.
-> +The IGT Tools can be installed from
-> +`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
-> +
-> +The tests need to be run without a compositor, so you need to switch to text
-> +only mode. You can do this by::
-> +
-> +  sudo systemctl isolate multi-user.target
-> +
-> +To return to graphical mode, do::
-> +
-> +  sudo systemctl isolate graphical.target
-> +
-> +Once you are in text only mode, you can run tests using the --device switch
-> +or IGT_DEVICE variable to specify the device filter for the driver we want
-> +to test::
-> +
-> +  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
-> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
-> +
-> +For example, to test the functionality of the writeback library,
-> +we can run the kms_writeback test::
-> +
-> +  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
-> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
-> +
-> +You can also run subtests if you do not want to run the entire test::
-> +
-> +  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
-
-Does IGT_DEVICE also work with run-tests.sh? Aside from my curious
-question, patch looks good to me, thanks a lot.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> +
->  TODO
->  ====
->  
-> -- 
-> 2.25.1
+>  .../translations/zh_CN/process/1.Intro.rst    | 61 ++++++++++---------
+>  1 file changed, 32 insertions(+), 29 deletions(-)
 > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Documentation/translations/zh_CN/process/1.Intro.rst
+> index 10a15f3dc282..f05405d96c51 100644
+> --- a/Documentation/translations/zh_CN/process/1.Intro.rst
+> +++ b/Documentation/translations/zh_CN/process/1.Intro.rst
+> @@ -11,33 +11,35 @@
+>  执行摘要
+>  --------
+>  
+> -本节的其余部分涵盖了内核开发过程的范围，以及开发人员及其雇主在这方面可能遇
+> -到的各种挫折。内核代码应该合并到正式的（“主线”）内核中有很多原因，包括对用
+> -户的自动可用性、多种形式的社区支持以及影响内核开发方向的能力。提供给Linux
+> -内核的代码必须在与GPL兼容的许可证下可用。
+> +本节的其余部分介绍了内核开发流程相关知识，其中包括开发者及其雇主在这方面可能遇
+> +到的各种问题。内核代码合并到官方的（“主线”）仓库会有很多好处，比如能在第一时
+> +间让用户获得更新，可以从社区得到多种形式的支持，以及能够以此影响内核未来发展方
+> +向。需要注意提供给Linux内核的代码必须是在与GPL兼容的许可证下使用。
+>  
+> -:ref:`cn_development_process` 介绍了开发过程、内核发布周期和合并窗口的机制。
+> -涵盖了补丁开发、审查和合并周期中的各个阶段。有一些关于工具和邮件列表的讨论。
+> -鼓励希望开始内核开发的开发人员作为初始练习跟踪并修复bug。
+> +:ref:`cn_development_process` 介绍了内核开发流程、发布周期以及合并窗口期相关的
+> +机制。同时还讲解了补丁开发、审查和合并周期各个阶段要点。此外还包括一些关于工具
+> +和邮件列表的讨论。我们建议那些希望开始内核开发的开发者们以跟踪并修复bug作为初
+> +始练习。
+>  
+>  
+> -:ref:`cn_development_early_stage` 包括早期项目规划，重点是尽快让开发社区参与
+> +:ref:`cn_development_early_stage` 介绍项目早期的工作规划，重点是尽快让开发社区
+> +有机会参与到规划中
+>  
+> -:ref:`cn_development_coding` 是关于编码过程的；讨论了其他开发人员遇到的几个
+> -陷阱。对补丁的一些要求已经涵盖，并且介绍了一些工具，这些工具有助于确保内核
+> -补丁是正确的。
+> +:ref:`cn_development_coding` 是关于编码过程的；讨论了一些其他开发者曾经走入到
+> +的误区。并介绍社区对补丁的要求，同时指导如何通过使用一些工具来帮助确保内核补
+> +丁的质量。
+>  
+> -:ref:`cn_development_posting` 讨论发布补丁以供评审的过程。为了让开发社区
+> -认真对待，补丁必须正确格式化和描述，并且必须发送到正确的地方。遵循本节中的
+> -建议有助于确保为您的工作提供最好的接纳。
+> +:ref:`cn_development_posting` 介绍发布补丁以供评审的流程。补丁只有在符合特定的
+> +格式及正确描述，并且发送到正确的地方，开发社区才有可能对其认真审查。遵循本节中
+> +的建议有助于确保为您的工作成果提供最好的接纳。
+>  
+> -:ref:`cn_development_followthrough` 介绍了发布补丁之后发生的事情；该工作
+> -在这一点上还远远没有完成。与审阅者一起工作是开发过程中的一个重要部分；本节
+> -提供了一些关于如何在这个重要阶段避免问题的提示。当补丁被合并到主线中时，
+> -开发人员要注意不要假定任务已经完成。
+> +:ref:`cn_development_followthrough` 介绍了提交补丁之后发生的事情；至此工作实际
+> +上还远未完成。与审阅者一起合作是开发过程中的重要部分；本节提供了一些关于如何在
+> +这个重要阶段避免出现问题的提示。此外，即使当补丁已经被合并到主线中，开发者也不
+> +能认为任务就此完成。
+>  
+>  :ref:`cn_development_advancedtopics` 介绍了两个“高级”主题：
+> -使用Git管理补丁和查看其他人发布的补丁。
+> +使用Git管理补丁和查看其他人提交的补丁。
+>  
+>  :ref:`cn_development_conclusion` 总结了有关内核开发的更多信息，附带有带有
+>  指向资源的链接.
+> @@ -62,19 +64,20 @@ Linux最引人注目的特性之一是这些开发人员可以访问它；任何
+>  内核开发周期可以涉及1000多个开发人员，他们为100多个不同的公司
+>  （或者根本没有公司）工作。
+>  
+> -与内核开发社区合作并不是特别困难。但是，尽管如此，许多潜在的贡献者在尝试做
+> -内核工作时遇到了困难。内核社区已经发展了自己独特的操作方式，使其能够在每天
+> -都要更改数千行代码的环境中顺利运行（并生成高质量的产品）。因此，Linux内核开发
+> +与内核开发社区合作并不是特别困难。但是，尽管如此，许多潜在的贡献者在尝试参与
+> +内核开发时遇到了困难。内核社区已经发展了自己独特的开发流程，使其能够在每天
+> +都要更改数千行代码的环境中顺利运转（并生成高质量的产品）。因此，Linux内核开发
+>  过程与专有的开发方法有很大的不同也就不足为奇了。
+>  
+> -对于新开发人员来说，内核的开发过程可能会让人感到奇怪和恐惧，但这个背后有充分的
+> -理由和坚实的经验。一个不了解内核社区的方式的开发人员（或者更糟的是，他们试图
+> -抛弃或规避内核社区的方式）会有一个令人沮丧的体验。开发社区, 在帮助那些试图学习
+> -的人的同时，没有时间帮助那些不愿意倾听或不关心开发过程的人。
+> +对于新开发者来说，内核的开发流程可能会让人感到陌生和望而生畏，但这个背后其实
+> +是有充分的理由和坚实的实际经验作支撑。一个不了解内核社区工作方式的开发者（或
+> +者更糟的是，如果他们试图抛弃或规避内核社区的方式）将会有一个令人沮丧的体验。
+> +毕竟开发社区在帮助那些试图学习的人的同时，没有时间帮助那些不愿意倾听或不关心
+> +开发流程的人。
+>  
+> -希望阅读本文的人能够避免这种令人沮丧的经历。这里有很多材料，但阅读时所做的
+> -努力会在短时间内得到回报。开发社区总是需要能让内核变更好的开发人员；下面的
+> -文本应该帮助您或为您工作的人员加入我们的社区。
+> +希望大家能通过阅读本文来避免那些令人沮丧的经历。这里有很多材料，请相信阅读这
+> +些所付出的努力将会在短时间内得到回报。开发社区总是需要那些能让内核变更好的
+> +开发者；下面的文章应当能帮助您或为您工作的人加入我们的社区。
+>  
+>  致谢
+>  ----
+> 
