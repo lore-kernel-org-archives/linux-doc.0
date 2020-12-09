@@ -2,1170 +2,580 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52EEAC4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 08:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5A9C4167B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 08:32:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 082A823B87
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 08:02:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64D7B23BC8
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 08:32:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbgLIIBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 03:01:49 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:54331 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728396AbgLIIAn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 03:00:43 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 0B97uaWZ009088;
-        Wed, 9 Dec 2020 15:56:36 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from TroyLee-PC.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Dec
- 2020 15:59:32 +0800
-From:   Troy Lee <troy_lee@aspeedtech.com>
-To:     <openbmc@lists.ozlabs.org>, Jean Delvare <jdelvare@suse.com>,
-        "Guenter Roeck" <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-CC:     <leetroy@gmail.com>, <troy_lee@aspeedtech.com>,
-        <ryan_chen@aspeedtech.com>, <chiawei_wang@aspeedtech.com>,
-        <billy_tsai@aspeedtech.com>
-Subject: [PATCH 4/4] hwmon: Support Aspeed AST2600 PWM/Fan tachometer
-Date:   Wed, 9 Dec 2020 15:59:20 +0800
-Message-ID: <20201209075921.26689-5-troy_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201209075921.26689-1-troy_lee@aspeedtech.com>
-References: <20201209075921.26689-1-troy_lee@aspeedtech.com>
+        id S1727162AbgLIIcX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 03:32:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbgLIIcR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 03:32:17 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350E7C0613CF;
+        Wed,  9 Dec 2020 00:31:37 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id g185so721811wmf.3;
+        Wed, 09 Dec 2020 00:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=Yin/lvafNfrcLqaekDN6nV9zXmfIqojLcKhttokVYOk=;
+        b=WpKUTpMQ/BA862kSSm29xuaH6ywOc8mbXprIIQ2ARAorRUAnUcigKghY6/xVUt8iSw
+         XJ6Mz3ushuap7j7SLuorSYo29tcVP3SWDn2B8vU+/oJD5fp1mS7VlOLB0jMnnUvMQq2n
+         N5pSqCGFd3kgJrKjd//rgYkn7Ab2XYXco2cDdcXNTLS17ruSBqJoAR6T4G8z8fAZsn6/
+         f1C5NqNZ6wLE1qsQHSxebupjDjofA+HzF+bTiA3Uk+AfftB2Sn1GoUiB+rlF9LGmA2OZ
+         +yDfs3JKCvHt6+Tdr+f+gHLmmyhXsAsFf5vijkc9O0XoSn/7jszXBX2pFTkAqsF86J46
+         ka1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Yin/lvafNfrcLqaekDN6nV9zXmfIqojLcKhttokVYOk=;
+        b=S07KmuRt9yf/L1GoT4saWWhpP0fVNZihBORaxEnxzhmKyBH8G8uLEx+3F6mhf27yVb
+         SzLUMNSxvy/3B8NwoJE3bD88ly26/aXhhqCzz0ckCgYMM0IkOM4BYqBXB0nCuYi7c2cm
+         07aUBAHNeFCoVVZ3qXQWnk98yU6U1wtj+slfU9du21GykNTWXjl6kqgV1X98sE1/scCx
+         zLdzF0w8BEUb2KNcABAdMV86+6tD9D7lkdwZTmcvWBTgx/eob+aKS6fRj6VeuqPFFhr2
+         0B1JGzl0yhQFGu3z0TSoBrRA7pAIBIUammvlDHLAuaw0O/44uJprgAKEPPI3HDZl3isz
+         S3lg==
+X-Gm-Message-State: AOAM531/UVIWXVtyy7ND4hHTuEGigNyv9Lj/rHa+iktItb+s8E9KSq4u
+        HvaBDSlXaMQL0U82zVq3/2+ew/M8p36rRQ==
+X-Google-Smtp-Source: ABdhPJzNqu2LkcRsYDSvWNm8nCuVmKSHiZ5YPYuoMaLRRi9gX45AifAoTehWwEWzbBKtTEDVWxhxtQ==
+X-Received: by 2002:a7b:cb0c:: with SMTP id u12mr1456219wmj.11.1607502695280;
+        Wed, 09 Dec 2020 00:31:35 -0800 (PST)
+Received: from ?IPv6:2003:ea:8f06:5500:dc43:c735:4625:9787? (p200300ea8f065500dc43c73546259787.dip0.t-ipconnect.de. [2003:ea:8f06:5500:dc43:c735:4625:9787])
+        by smtp.googlemail.com with ESMTPSA id z17sm1787291wrh.88.2020.12.09.00.31.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Dec 2020 00:31:34 -0800 (PST)
+From:   Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] PCI: Remove pci_try_set_mwi
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ion Badulescu <ionut@badula.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Adam Radford <aradford@gmail.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-ide@vger.kernel.org, dmaengine@vger.kernel.org,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        linux-parisc@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        linux-serial@vger.kernel.org,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
+Message-ID: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com>
+Date:   Wed, 9 Dec 2020 09:31:21 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0B97uaWZ009088
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Aspeed AST2600 PWM/Fan tacho driver. AST2600 has 16 PWM channel and
-16 FAN tacho channel.
+pci_set_mwi() and pci_try_set_mwi() do exactly the same, just that the
+former one is declared as __must_check. However also some callers of
+pci_set_mwi() have a comment that it's an optional feature. I don't
+think there's much sense in this separation and the use of
+__must_check. Therefore remove pci_try_set_mwi() and remove the
+__must_check attribute from pci_set_mwi().
+I don't expect either function to be used in new code anyway.
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/hwmon/Kconfig                |   10 +
- drivers/hwmon/Makefile               |    1 +
- drivers/hwmon/aspeed2600-pwm-tacho.c | 1053 ++++++++++++++++++++++++++
- 3 files changed, 1064 insertions(+)
- create mode 100644 drivers/hwmon/aspeed2600-pwm-tacho.c
+patch applies on top of pci/misc for v5.11
+---
+ Documentation/PCI/pci.rst                     |  5 +----
+ drivers/ata/pata_cs5530.c                     |  2 +-
+ drivers/ata/sata_mv.c                         |  2 +-
+ drivers/dma/dw/pci.c                          |  2 +-
+ drivers/dma/hsu/pci.c                         |  2 +-
+ drivers/ide/cs5530.c                          |  2 +-
+ drivers/mfd/intel-lpss-pci.c                  |  2 +-
+ drivers/net/ethernet/adaptec/starfire.c       |  2 +-
+ drivers/net/ethernet/alacritech/slicoss.c     |  2 +-
+ drivers/net/ethernet/dec/tulip/tulip_core.c   |  5 +----
+ drivers/net/ethernet/sun/cassini.c            |  4 ++--
+ drivers/net/wireless/intersil/p54/p54pci.c    |  2 +-
+ .../intersil/prism54/islpci_hotplug.c         |  3 +--
+ .../wireless/realtek/rtl818x/rtl8180/dev.c    |  2 +-
+ drivers/pci/pci.c                             | 19 -------------------
+ drivers/scsi/3w-9xxx.c                        |  4 ++--
+ drivers/scsi/3w-sas.c                         |  4 ++--
+ drivers/scsi/csiostor/csio_init.c             |  2 +-
+ drivers/scsi/lpfc/lpfc_init.c                 |  2 +-
+ drivers/scsi/qla2xxx/qla_init.c               |  8 ++++----
+ drivers/scsi/qla2xxx/qla_mr.c                 |  2 +-
+ drivers/tty/serial/8250/8250_lpss.c           |  2 +-
+ drivers/usb/chipidea/ci_hdrc_pci.c            |  2 +-
+ drivers/usb/gadget/udc/amd5536udc_pci.c       |  2 +-
+ drivers/usb/gadget/udc/net2280.c              |  2 +-
+ drivers/usb/gadget/udc/pch_udc.c              |  2 +-
+ include/linux/pci.h                           |  5 ++---
+ 27 files changed, 33 insertions(+), 60 deletions(-)
 
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 9aa89d7d4193..097c01430259 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -400,6 +400,16 @@ config SENSORS_ASPEED
- 	  This driver can also be built as a module. If so, the module
- 	  will be called aspeed_pwm_tacho.
+diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+index 814b40f83..120362cc9 100644
+--- a/Documentation/PCI/pci.rst
++++ b/Documentation/PCI/pci.rst
+@@ -226,10 +226,7 @@ If the PCI device can use the PCI Memory-Write-Invalidate transaction,
+ call pci_set_mwi().  This enables the PCI_COMMAND bit for Mem-Wr-Inval
+ and also ensures that the cache line size register is set correctly.
+ Check the return value of pci_set_mwi() as not all architectures
+-or chip-sets may support Memory-Write-Invalidate.  Alternatively,
+-if Mem-Wr-Inval would be nice to have but is not required, call
+-pci_try_set_mwi() to have the system do its best effort at enabling
+-Mem-Wr-Inval.
++or chip-sets may support Memory-Write-Invalidate.
  
-+config SENSORS_ASPEED2600_PWM_TACHO
-+        tristate "ASPEED AST2600 PWM and Fan Tachometer"
-+        depends on THERMAL || THERMAL=n
-+        help
-+          This driver provides support for ASPEED AST2600 PWM
-+          and Fan Tacho controllers.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called aspeed2600-pwm-tacho.
-+
- config SENSORS_ATXP1
- 	tristate "Attansic ATXP1 VID controller"
- 	depends on I2C
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index ae41ee71a71b..10be45768d36 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -52,6 +52,7 @@ obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
- obj-$(CONFIG_SENSORS_ASC7621)	+= asc7621.o
- obj-$(CONFIG_SENSORS_ASPEED)	+= aspeed-pwm-tacho.o
-+obj-$(CONFIG_SENSORS_ASPEED2600_PWM_TACHO)      += aspeed2600-pwm-tacho.o
- obj-$(CONFIG_SENSORS_ATXP1)	+= atxp1.o
- obj-$(CONFIG_SENSORS_AXI_FAN_CONTROL) += axi-fan-control.o
- obj-$(CONFIG_SENSORS_BT1_PVT)	+= bt1-pvt.o
-diff --git a/drivers/hwmon/aspeed2600-pwm-tacho.c b/drivers/hwmon/aspeed2600-pwm-tacho.c
-new file mode 100644
-index 000000000000..083eb3b253ff
---- /dev/null
-+++ b/drivers/hwmon/aspeed2600-pwm-tacho.c
-@@ -0,0 +1,1053 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) ASPEED Technology Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 or later as
-+ * published by the Free Software Foundation.
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/errno.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/delay.h>
-+#include <linux/hwmon.h>
-+#include <linux/hwmon-sysfs.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of_platform.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/sysfs.h>
-+#include <linux/reset.h>
-+#include <linux/regmap.h>
-+#include <linux/thermal.h>
-+/**********************************************************
-+ * PWM HW register offset define
-+ *********************************************************/
-+//PWM Control Register
-+#define ASPEED_PWM_CTRL_CH(ch)			((ch * 0x10) + 0x00)
-+//PWM Duty Cycle Register
-+#define ASPEED_PWM_DUTY_CYCLE_CH(ch)		((ch * 0x10) + 0x04)
-+//TACH Control Register
-+#define ASPEED_TACHO_CTRL_CH(ch)		((ch * 0x10) + 0x08)
-+//TACH Status Register
-+#define ASPEED_TACHO_STS_CH(x)			((x * 0x10) + 0x0C)
-+/**********************************************************
-+ * PWM register Bit field
-+ *********************************************************/
-+/*PWM_CTRL */
-+#define  PWM_LOAD_SEL_AS_WDT_BIT	(19)	//load selection as WDT
-+#define  PWM_DUTY_LOAD_AS_WDT_EN	BIT(18)	//enable PWM duty load as WDT
-+#define  PWM_DUTY_SYNC_DIS		BIT(17)	//disable PWM duty sync
-+#define	 PWM_CLK_ENABLE			BIT(16)	//enable PWM clock
-+#define  PWM_LEVEL_OUTPUT		BIT(15)	//output PWM level
-+#define  PWM_INVERSE			BIT(14) //inverse PWM pin
-+#define  PWM_OPEN_DRAIN_EN		BIT(13)	//enable open-drain
-+#define  PWM_PIN_EN			BIT(12) //enable PWM pin
-+#define  PWM_CLK_DIV_H_MASK		(0xf << 8) //PWM clock division H bit [3:0]
-+#define  PWM_CLK_DIV_L_MASK		(0xff)	//PWM clock division H bit [3:0]
-+/* [19] */
-+#define LOAD_SEL_FALLING 0
-+#define LOAD_SEL_RIGING  1
-+
-+/*PWM_DUTY_CYCLE */
-+#define  PWM_PERIOD_BIT					(24)	//pwm period bit [7:0]
-+#define  PWM_PERIOD_BIT_MASK			(0xff << 24)	//pwm period bit [7:0]
-+#define  PWM_RISING_FALLING_AS_WDT_BIT  (16)
-+#define  PWM_RISING_FALLING_AS_WDT_MASK (0xff << 16)	//pwm rising/falling point bit [7:0] as WDT
-+#define  PWM_RISING_FALLING_MASK		(0xffff)
-+#define  PWM_FALLING_POINT_BIT			(8)	//pwm falling point bit [7:0]
-+#define  PWM_RISING_POINT_BIT			(0)	//pwm rising point bit [7:0]
-+/* [31:24] */
-+#define  DEFAULT_PWM_PERIOD 0xff
-+
-+/*PWM_TACHO_CTRL */
-+#define  TACHO_IER						BIT(31)	//enable tacho interrupt
-+#define  TACHO_INVERS_LIMIT				BIT(30) //inverse tacho limit comparison
-+#define  TACHO_LOOPBACK					BIT(29) //tacho loopback
-+#define  TACHO_ENABLE					BIT(28)	//{enable tacho}
-+#define  TACHO_DEBOUNCE_MASK			(0x3 << 26) //{tacho de-bounce}
-+#define  TACHO_DEBOUNCE_BIT				(26) //{tacho de-bounce}
-+#define  TECHIO_EDGE_MASK				(0x3 << 24) //tacho edge}
-+#define  TECHIO_EDGE_BIT				(24) //tacho edge}
-+#define  TACHO_CLK_DIV_T_MASK			(0xf << 20)
-+#define  TACHO_CLK_DIV_BIT				(20)
-+#define  TACHO_THRESHOLD_MASK			(0xfffff)	//tacho threshold bit
-+/* [27:26] */
-+#define DEBOUNCE_3_CLK 0x00 /* 10b */
-+#define DEBOUNCE_2_CLK 0x01 /* 10b */
-+#define DEBOUNCE_1_CLK 0x02 /* 10b */
-+#define DEBOUNCE_0_CLK 0x03 /* 10b */
-+/* [25:24] */
-+#define F2F_EDGES 0x00 /* 10b */
-+#define R2R_EDGES 0x01 /* 10b */
-+#define BOTH_EDGES 0x02 /* 10b */
-+/* [23:20] */
-+/* Cover rpm range 5~5859375 */
-+#define  DEFAULT_TACHO_DIV 5
-+
-+/*PWM_TACHO_STS */
-+#define  TACHO_ISR			BIT(31)	//interrupt status and clear
-+#define  PWM_OUT			BIT(25)	//{pwm_out}
-+#define  PWM_OEN			BIT(24)	//{pwm_oeN}
-+#define  TACHO_DEB_INPUT	BIT(23)	//tacho deB input
-+#define  TACHO_RAW_INPUT	BIT(22) //tacho raw input}
-+#define  TACHO_VALUE_UPDATE	BIT(21)	//tacho value updated since the last read
-+#define  TACHO_FULL_MEASUREMENT	BIT(20) //{tacho full measurement}
-+#define  TACHO_VALUE_MASK	0xfffff	//tacho value bit [19:0]}
-+/**********************************************************
-+ * Software setting
-+ *********************************************************/
-+#define DEFAULT_TARGET_PWM_FREQ		25000
-+#define DEFAULT_FAN_PULSE_PR 2
-+#define MAX_CDEV_NAME_LEN 16
-+
-+struct aspeed_pwm_channel_params {
-+	int target_freq;
-+	int pwm_freq;
-+	int load_wdt_rising_falling_pt;
-+	int load_wdt_selection;		//0: rising , 1: falling
-+	int load_wdt_enable;
-+	int	duty_sync_enable;
-+	int invert_pin;
-+	u8	rising;
-+	u8	falling;
-+};
-+
-+static struct aspeed_pwm_channel_params default_pwm_params[] = {
-+	[0] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 1,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[1] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[2] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[3] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[4] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[5] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[6] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[7] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[8] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[9] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[10] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[11] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[12] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[13] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[14] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+	[15] = {
-+		.target_freq = 25000,
-+		.load_wdt_rising_falling_pt = 0x10,
-+		.load_wdt_selection = LOAD_SEL_FALLING,
-+		.load_wdt_enable = 0,
-+		.duty_sync_enable = 0,
-+		.invert_pin = 0,
-+		.rising = 0x00,
-+		.falling = 0x0a,
-+	},
-+};
-+
-+struct aspeed_tacho_channel_params {
-+	int limited_inverse;
-+	u16 threshold;
-+	u8	tacho_edge;
-+	u8	tacho_debounce;
-+	u8  pulse_pr;
-+	u32	divide;
-+};
-+
-+
-+static struct aspeed_tacho_channel_params default_tacho_params[] = {
-+	[0] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[1] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[2] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[3] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[4] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[5] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[6] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[7] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[8] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[9] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[10] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[11] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[12] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[13] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[14] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+	[15] = {
-+		.limited_inverse = 0,
-+		.threshold = 0,
-+		.tacho_edge = F2F_EDGES,
-+		.tacho_debounce = DEBOUNCE_3_CLK,
-+		.pulse_pr = DEFAULT_FAN_PULSE_PR,
-+		.divide = 8,
-+	},
-+};
-+
-+struct aspeed_pwm_tachometer_data {
-+	struct regmap *regmap;
-+	unsigned long clk_freq;
-+	struct reset_control *reset;
-+	bool pwm_present[16];
-+	bool fan_tach_present[16];
-+	struct aspeed_pwm_channel_params *pwm_channel;
-+	struct aspeed_tacho_channel_params *tacho_channel;
-+	/* for thermal */
-+	struct aspeed_cooling_device *cdev[8];
-+	/* for hwmon */
-+	const struct attribute_group *groups[3];
-+};
-+
-+struct aspeed_cooling_device {
-+	char name[16];
-+	struct aspeed_pwm_tachometer_data *priv;
-+	struct thermal_cooling_device *tcdev;
-+	int pwm_channel;
-+	u8 *cooling_levels;
-+	u8 max_state;
-+	u8 cur_state;
-+};
-+
-+static int regmap_aspeed_pwm_tachometer_reg_write(void *context, unsigned int reg,
-+					     unsigned int val)
-+{
-+	void __iomem *regs = (void __iomem *)context;
-+
-+	writel(val, regs + reg);
-+	return 0;
-+}
-+
-+static int regmap_aspeed_pwm_tachometer_reg_read(void *context, unsigned int reg,
-+					    unsigned int *val)
-+{
-+	void __iomem *regs = (void __iomem *)context;
-+
-+	*val = readl(regs + reg);
-+	return 0;
-+}
-+
-+static const struct regmap_config aspeed_pwm_tachometer_regmap_config = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.max_register = 0x100,
-+	.reg_write = regmap_aspeed_pwm_tachometer_reg_write,
-+	.reg_read = regmap_aspeed_pwm_tachometer_reg_read,
-+	.fast_io = true,
-+};
-+
-+static void aspeed_set_pwm_channel_enable(struct regmap *regmap, u8 pwm_channel,
-+				       bool enable)
-+{
-+	regmap_update_bits(regmap, ASPEED_PWM_CTRL_CH(pwm_channel),
-+			   (PWM_CLK_ENABLE | PWM_PIN_EN),
-+			   enable ? (PWM_CLK_ENABLE | PWM_PIN_EN) : 0);
-+}
-+
-+static void aspeed_set_fan_tach_ch_enable(struct aspeed_pwm_tachometer_data *priv, u8 fan_tach_ch,
-+					  bool enable, u32 tacho_div)
-+{
-+	u32 reg_value = 0;
-+
-+	if (enable) {
-+		/* divide = 2^(tacho_div*2) */
-+		priv->tacho_channel[fan_tach_ch].divide = 1 << (tacho_div << 1);
-+
-+		reg_value = TACHO_ENABLE |
-+				(priv->tacho_channel[fan_tach_ch].tacho_edge << TECHIO_EDGE_BIT) |
-+				(tacho_div << TACHO_CLK_DIV_BIT) |
-+				(priv->tacho_channel[fan_tach_ch].tacho_debounce << TACHO_DEBOUNCE_BIT);
-+
-+		if (priv->tacho_channel[fan_tach_ch].limited_inverse)
-+			reg_value |= TACHO_INVERS_LIMIT;
-+
-+		if (priv->tacho_channel[fan_tach_ch].threshold)
-+			reg_value |= (TACHO_IER | priv->tacho_channel[fan_tach_ch].threshold);
-+
-+		regmap_write(priv->regmap, ASPEED_TACHO_CTRL_CH(fan_tach_ch), reg_value);
-+	} else
-+		regmap_update_bits(priv->regmap, ASPEED_TACHO_CTRL_CH(fan_tach_ch),  TACHO_ENABLE, 0);
-+}
-+
-+/*
-+ * The PWM frequency = HCLK(200Mhz) / (clock division L bit *
-+ * clock division H bit * (period bit + 1))
-+ */
-+static void aspeed_set_pwm_channel_fan_ctrl(struct device *dev,
-+					    struct aspeed_pwm_tachometer_data *priv,
-+					    u8 index, u8 fan_ctrl)
-+{
-+	u32 duty_value,	ctrl_value;
-+	u32 div_h, div_l, cal_freq;
-+	u8 div_found;
-+
-+	if (fan_ctrl == 0) {
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, false);
-+	} else {
-+		cal_freq = priv->clk_freq / (DEFAULT_PWM_PERIOD + 1);
-+		//calculate for target frequence
-+		div_found = 0;
-+		for (div_h = 0; div_h < 0x10; div_h++) {
-+			for (div_l = 0; div_l < 0x100; div_l++) {
-+				dev_dbg(dev, "div h %x, l : %x , freq %ld \n", div_h, div_l,
-+						(cal_freq / (BIT(div_h) * (div_l + 1))));
-+				if ((cal_freq / (BIT(div_h) * (div_l + 1))) < priv->pwm_channel[index].target_freq) {
-+					div_found = 1;
-+					break;
-+				}
-+			}
-+			if (div_found)
-+				break;
-+		}
-+
-+		priv->pwm_channel[index].pwm_freq = cal_freq / (BIT(div_h) * (div_l + 1));
-+		dev_dbg(dev, "div h %x, l : %x pwm out clk %d \n", div_h, div_l,
-+				priv->pwm_channel[index].pwm_freq);
-+		dev_dbg(dev, "hclk %ld, target pwm freq %d, real pwm freq %d\n", priv->clk_freq,
-+				priv->pwm_channel[index].target_freq, priv->pwm_channel[index].pwm_freq);
-+
-+		ctrl_value = (div_h << 8) | div_l;
-+
-+		duty_value = (DEFAULT_PWM_PERIOD << PWM_PERIOD_BIT) |
-+					(0 << PWM_RISING_POINT_BIT) | (fan_ctrl << PWM_FALLING_POINT_BIT);
-+
-+		if (priv->pwm_channel[index].load_wdt_enable) {
-+			ctrl_value |= PWM_DUTY_LOAD_AS_WDT_EN;
-+			ctrl_value |= priv->pwm_channel[index].load_wdt_selection << PWM_LOAD_SEL_AS_WDT_BIT;
-+			duty_value |= (priv->pwm_channel[index].load_wdt_rising_falling_pt << PWM_RISING_FALLING_AS_WDT_BIT);
-+		}
-+
-+		regmap_write(priv->regmap, ASPEED_PWM_DUTY_CYCLE_CH(index), duty_value);
-+		regmap_write(priv->regmap, ASPEED_PWM_CTRL_CH(index), ctrl_value);
-+
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, true);
-+	}
-+}
-+
-+static int aspeed_get_fan_tach_ch_rpm(struct device *dev, struct aspeed_pwm_tachometer_data *priv,
-+				      u8 fan_tach_ch)
-+{
-+	u32 raw_data, tach_div, clk_source, val;
-+	int i, retries = 3;
-+
-+	for (i = 0; i < retries; i++) {
-+		regmap_read(priv->regmap, ASPEED_TACHO_STS_CH(fan_tach_ch), &val);
-+		if (TACHO_FULL_MEASUREMENT & val)
-+			break;
-+	}
-+
-+	raw_data = val & TACHO_VALUE_MASK;
-+	if (raw_data == 0xfffff)
-+		return 0;
-+
-+	raw_data += 1;
-+
-+	/*
-+	 * We need the mode to determine if the raw_data is double (from
-+	 * counting both edges).
-+	 */
-+	tach_div = raw_data * (priv->tacho_channel[fan_tach_ch].divide) * (priv->tacho_channel[fan_tach_ch].pulse_pr);
-+
-+	dev_dbg(dev, "clk %ld, raw_data %d , tach_div %d  \n", priv->clk_freq, raw_data, tach_div);
-+	clk_source = priv->clk_freq;
-+
-+	if (raw_data == 0)
-+		return 0;
-+
-+	return ((clk_source / tach_div) * 60);
-+
-+}
-+
-+static ssize_t set_pwm(struct device *dev, struct device_attribute *attr,
-+		       const char *buf, size_t count)
-+{
-+	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
-+	int index = sensor_attr->index;
-+	int ret;
-+	struct aspeed_pwm_tachometer_data *priv = dev_get_drvdata(dev);
-+	long fan_ctrl;
-+	u8 org_falling = priv->pwm_channel[index].falling;
-+
-+	ret = kstrtol(buf, 10, &fan_ctrl);
-+	if (ret != 0)
-+		return ret;
-+
-+	if (fan_ctrl < 0 || fan_ctrl > DEFAULT_PWM_PERIOD)
-+		return -EINVAL;
-+
-+	if (priv->pwm_channel[index].falling == fan_ctrl)
-+		return count;
-+
-+	priv->pwm_channel[index].falling = fan_ctrl;
-+
-+	if (fan_ctrl == 0)
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, false);
-+	else {
-+		if (fan_ctrl == DEFAULT_PWM_PERIOD)
-+			regmap_update_bits(priv->regmap,
-+					   ASPEED_PWM_DUTY_CYCLE_CH(index),
-+					   GENMASK(15, 0), 0);
-+		else
-+			regmap_update_bits(priv->regmap,
-+					   ASPEED_PWM_DUTY_CYCLE_CH(index),
-+					   GENMASK(15, 8),
-+					   (fan_ctrl << PWM_FALLING_POINT_BIT));
-+	}
-+
-+	if (org_falling == 0)
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, true);
-+
-+	return count;
-+}
-+
-+static ssize_t show_pwm(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
-+	int index = sensor_attr->index;
-+	struct aspeed_pwm_tachometer_data *priv = dev_get_drvdata(dev);
-+
-+	return sprintf(buf, "%u\n", priv->pwm_channel[index].falling);
-+}
-+
-+static ssize_t show_rpm(struct device *dev, struct device_attribute *attr,
-+			char *buf)
-+{
-+	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
-+	int index = sensor_attr->index;
-+	int rpm;
-+	struct aspeed_pwm_tachometer_data *priv = dev_get_drvdata(dev);
-+
-+	rpm = aspeed_get_fan_tach_ch_rpm(dev, priv, index);
-+	if (rpm < 0)
-+		return rpm;
-+
-+	return sprintf(buf, "%d\n", rpm);
-+}
-+
-+static umode_t pwm_is_visible(struct kobject *kobj,
-+			      struct attribute *a, int index)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct aspeed_pwm_tachometer_data *priv = dev_get_drvdata(dev);
-+
-+	if (!priv->pwm_present[index])
-+		return 0;
-+	return a->mode;
-+}
-+
-+static umode_t fan_dev_is_visible(struct kobject *kobj,
-+				  struct attribute *a, int index)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct aspeed_pwm_tachometer_data *priv = dev_get_drvdata(dev);
-+
-+	if (!priv->fan_tach_present[index])
-+		return 0;
-+	return a->mode;
-+}
-+
-+static SENSOR_DEVICE_ATTR(pwm0, 0644,
-+			show_pwm, set_pwm, 0);
-+static SENSOR_DEVICE_ATTR(pwm1, 0644,
-+			show_pwm, set_pwm, 1);
-+static SENSOR_DEVICE_ATTR(pwm2, 0644,
-+			show_pwm, set_pwm, 2);
-+static SENSOR_DEVICE_ATTR(pwm3, 0644,
-+			show_pwm, set_pwm, 3);
-+static SENSOR_DEVICE_ATTR(pwm4, 0644,
-+			show_pwm, set_pwm, 4);
-+static SENSOR_DEVICE_ATTR(pwm5, 0644,
-+			show_pwm, set_pwm, 5);
-+static SENSOR_DEVICE_ATTR(pwm6, 0644,
-+			show_pwm, set_pwm, 6);
-+static SENSOR_DEVICE_ATTR(pwm7, 0644,
-+			show_pwm, set_pwm, 7);
-+static SENSOR_DEVICE_ATTR(pwm8, 0644,
-+			show_pwm, set_pwm, 8);
-+static SENSOR_DEVICE_ATTR(pwm9, 0644,
-+			show_pwm, set_pwm, 9);
-+static SENSOR_DEVICE_ATTR(pwm10, 0644,
-+			show_pwm, set_pwm, 10);
-+static SENSOR_DEVICE_ATTR(pwm11, 0644,
-+			show_pwm, set_pwm, 11);
-+static SENSOR_DEVICE_ATTR(pwm12, 0644,
-+			show_pwm, set_pwm, 12);
-+static SENSOR_DEVICE_ATTR(pwm13, 0644,
-+			show_pwm, set_pwm, 13);
-+static SENSOR_DEVICE_ATTR(pwm14, 0644,
-+			show_pwm, set_pwm, 14);
-+static SENSOR_DEVICE_ATTR(pwm15, 0644,
-+			show_pwm, set_pwm, 15);
-+static struct attribute *pwm_dev_attrs[] = {
-+	&sensor_dev_attr_pwm0.dev_attr.attr,
-+	&sensor_dev_attr_pwm1.dev_attr.attr,
-+	&sensor_dev_attr_pwm2.dev_attr.attr,
-+	&sensor_dev_attr_pwm3.dev_attr.attr,
-+	&sensor_dev_attr_pwm4.dev_attr.attr,
-+	&sensor_dev_attr_pwm5.dev_attr.attr,
-+	&sensor_dev_attr_pwm6.dev_attr.attr,
-+	&sensor_dev_attr_pwm7.dev_attr.attr,
-+	&sensor_dev_attr_pwm8.dev_attr.attr,
-+	&sensor_dev_attr_pwm9.dev_attr.attr,
-+	&sensor_dev_attr_pwm10.dev_attr.attr,
-+	&sensor_dev_attr_pwm11.dev_attr.attr,
-+	&sensor_dev_attr_pwm12.dev_attr.attr,
-+	&sensor_dev_attr_pwm13.dev_attr.attr,
-+	&sensor_dev_attr_pwm14.dev_attr.attr,
-+	&sensor_dev_attr_pwm15.dev_attr.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group pwm_dev_group = {
-+	.attrs = pwm_dev_attrs,
-+	.is_visible = pwm_is_visible,
-+};
-+
-+static SENSOR_DEVICE_ATTR(fan0_input, 0444,
-+		show_rpm, NULL, 0);
-+static SENSOR_DEVICE_ATTR(fan1_input, 0444,
-+		show_rpm, NULL, 1);
-+static SENSOR_DEVICE_ATTR(fan2_input, 0444,
-+		show_rpm, NULL, 2);
-+static SENSOR_DEVICE_ATTR(fan3_input, 0444,
-+		show_rpm, NULL, 3);
-+static SENSOR_DEVICE_ATTR(fan4_input, 0444,
-+		show_rpm, NULL, 4);
-+static SENSOR_DEVICE_ATTR(fan5_input, 0444,
-+		show_rpm, NULL, 5);
-+static SENSOR_DEVICE_ATTR(fan6_input, 0444,
-+		show_rpm, NULL, 6);
-+static SENSOR_DEVICE_ATTR(fan7_input, 0444,
-+		show_rpm, NULL, 7);
-+static SENSOR_DEVICE_ATTR(fan8_input, 0444,
-+		show_rpm, NULL, 8);
-+static SENSOR_DEVICE_ATTR(fan9_input, 0444,
-+		show_rpm, NULL, 9);
-+static SENSOR_DEVICE_ATTR(fan10_input, 0444,
-+		show_rpm, NULL, 10);
-+static SENSOR_DEVICE_ATTR(fan11_input, 0444,
-+		show_rpm, NULL, 11);
-+static SENSOR_DEVICE_ATTR(fan12_input, 0444,
-+		show_rpm, NULL, 12);
-+static SENSOR_DEVICE_ATTR(fan13_input, 0444,
-+		show_rpm, NULL, 13);
-+static SENSOR_DEVICE_ATTR(fan14_input, 0444,
-+		show_rpm, NULL, 14);
-+static SENSOR_DEVICE_ATTR(fan15_input, 0444,
-+		show_rpm, NULL, 15);
-+static struct attribute *fan_dev_attrs[] = {
-+	&sensor_dev_attr_fan0_input.dev_attr.attr,
-+	&sensor_dev_attr_fan1_input.dev_attr.attr,
-+	&sensor_dev_attr_fan2_input.dev_attr.attr,
-+	&sensor_dev_attr_fan3_input.dev_attr.attr,
-+	&sensor_dev_attr_fan4_input.dev_attr.attr,
-+	&sensor_dev_attr_fan5_input.dev_attr.attr,
-+	&sensor_dev_attr_fan6_input.dev_attr.attr,
-+	&sensor_dev_attr_fan7_input.dev_attr.attr,
-+	&sensor_dev_attr_fan8_input.dev_attr.attr,
-+	&sensor_dev_attr_fan9_input.dev_attr.attr,
-+	&sensor_dev_attr_fan10_input.dev_attr.attr,
-+	&sensor_dev_attr_fan11_input.dev_attr.attr,
-+	&sensor_dev_attr_fan12_input.dev_attr.attr,
-+	&sensor_dev_attr_fan13_input.dev_attr.attr,
-+	&sensor_dev_attr_fan14_input.dev_attr.attr,
-+	&sensor_dev_attr_fan15_input.dev_attr.attr,
-+	NULL
-+};
-+
-+static const struct attribute_group fan_dev_group = {
-+	.attrs = fan_dev_attrs,
-+	.is_visible = fan_dev_is_visible,
-+};
-+
-+static void aspeed_create_pwm_channel(struct device *dev, struct aspeed_pwm_tachometer_data *priv,
-+				   u8 pwm_channel, u32 target_pwm_freq)
-+{
-+	priv->pwm_present[pwm_channel] = true;
-+	priv->pwm_channel[pwm_channel].target_freq = target_pwm_freq;
-+
-+	//use default
-+	aspeed_set_pwm_channel_fan_ctrl(dev,
-+					priv,
-+					pwm_channel,
-+					priv->pwm_channel[pwm_channel].falling);
-+}
-+
-+static void aspeed_create_fan_tach_channel(struct aspeed_pwm_tachometer_data *priv,
-+					   u8 *fan_tach_ch, int count,
-+					   u32 fan_pulse_pr, u32 tacho_div)
-+{
-+	u8 val, index;
-+
-+	for (val = 0; val < count; val++) {
-+		index = fan_tach_ch[val];
-+		priv->fan_tach_present[index] = true;
-+		priv->tacho_channel[index].pulse_pr = fan_pulse_pr;
-+		aspeed_set_fan_tach_ch_enable(priv, index, true, tacho_div);
-+	}
-+}
-+
-+static int
-+aspeed_pwm_cz_get_max_state(struct thermal_cooling_device *tcdev,
-+			    unsigned long *state)
-+{
-+	struct aspeed_cooling_device *cdev = tcdev->devdata;
-+
-+	*state = cdev->max_state;
-+
-+	return 0;
-+}
-+
-+static int
-+aspeed_pwm_cz_get_cur_state(struct thermal_cooling_device *tcdev,
-+			    unsigned long *state)
-+{
-+	struct aspeed_cooling_device *cdev = tcdev->devdata;
-+
-+	*state = cdev->cur_state;
-+
-+	return 0;
-+}
-+
-+static int
-+aspeed_pwm_cz_set_cur_state(struct thermal_cooling_device *tcdev,
-+			    unsigned long state)
-+{
-+	struct aspeed_cooling_device *cdev = tcdev->devdata;
-+
-+	if (state > cdev->max_state)
-+		return -EINVAL;
-+
-+	cdev->cur_state = state;
-+	cdev->priv->pwm_channel[cdev->pwm_channel].falling =
-+					cdev->cooling_levels[cdev->cur_state];
-+	aspeed_set_pwm_channel_fan_ctrl(&tcdev->device, cdev->priv, cdev->pwm_channel,
-+				     cdev->cooling_levels[cdev->cur_state]);
-+
-+	return 0;
-+}
-+
-+static const struct thermal_cooling_device_ops aspeed_pwm_cool_ops = {
-+	.get_max_state = aspeed_pwm_cz_get_max_state,
-+	.get_cur_state = aspeed_pwm_cz_get_cur_state,
-+	.set_cur_state = aspeed_pwm_cz_set_cur_state,
-+};
-+
-+static int aspeed_create_pwm_cooling(struct device *dev,
-+				     struct device_node *child,
-+				     struct aspeed_pwm_tachometer_data *priv,
-+				     u32 pwm_channel, u8 num_levels)
-+{
-+	int ret;
-+	struct aspeed_cooling_device *cdev;
-+
-+	cdev = devm_kzalloc(dev, sizeof(*cdev), GFP_KERNEL);
-+	if (!cdev)
-+		return -ENOMEM;
-+
-+	cdev->cooling_levels = devm_kzalloc(dev, num_levels, GFP_KERNEL);
-+	if (!cdev->cooling_levels)
-+		return -ENOMEM;
-+
-+	cdev->max_state = num_levels - 1;
-+	ret = of_property_read_u8_array(child, "cooling-levels",
-+					cdev->cooling_levels,
-+					num_levels);
-+	if (ret) {
-+		dev_err(dev, "Property 'cooling-levels' cannot be read.\n");
-+		return ret;
-+	}
-+	snprintf(cdev->name, MAX_CDEV_NAME_LEN, "%s%d", child->name, pwm_channel);
-+
-+	cdev->tcdev = thermal_of_cooling_device_register(child,
-+							 cdev->name,
-+							 cdev,
-+							 &aspeed_pwm_cool_ops);
-+	if (IS_ERR(cdev->tcdev))
-+		return PTR_ERR(cdev->tcdev);
-+
-+	cdev->priv = priv;
-+	cdev->pwm_channel = pwm_channel;
-+
-+	priv->cdev[pwm_channel] = cdev;
-+
-+	return 0;
-+}
-+
-+static int aspeed_pwm_create_fan(struct device *dev,
-+			     struct device_node *child,
-+			     struct aspeed_pwm_tachometer_data *priv)
-+{
-+	u8 *fan_tach_ch;
-+	u32 fan_pulse_pr;
-+	u32 tacho_div;
-+	u32 pwm_channel;
-+	u32 target_pwm_freq = 0;
-+	int ret, count;
-+
-+	ret = of_property_read_u32(child, "reg", &pwm_channel);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(child, "aspeed,pwm-freq", &target_pwm_freq);
-+	if (ret)
-+		target_pwm_freq = DEFAULT_TARGET_PWM_FREQ;
-+
-+	aspeed_create_pwm_channel(dev, priv, (u8)pwm_channel, target_pwm_freq);
-+
-+	ret = of_property_count_u8_elems(child, "cooling-levels");
-+	if (ret > 0) {
-+		if (IS_ENABLED(CONFIG_THERMAL)) {
-+			ret = aspeed_create_pwm_cooling(dev, child, priv, pwm_channel,
-+							ret);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	count = of_property_count_u8_elems(child, "aspeed,fan-tach-ch");
-+	if (count < 1)
-+		return -EINVAL;
-+
-+	fan_tach_ch = devm_kzalloc(dev, sizeof(*fan_tach_ch) * count,
-+				   GFP_KERNEL);
-+	if (!fan_tach_ch)
-+		return -ENOMEM;
-+	ret = of_property_read_u8_array(child, "aspeed,fan-tach-ch",
-+					fan_tach_ch, count);
-+	if (ret)
-+		return ret;
-+
-+	ret = of_property_read_u32(child, "aspeed,pulse-pr", &fan_pulse_pr);
-+	if (ret)
-+		fan_pulse_pr = DEFAULT_FAN_PULSE_PR;
-+
-+	ret = of_property_read_u32(child, "aspeed,tacho-div", &tacho_div);
-+	if (ret)
-+		tacho_div = DEFAULT_TACHO_DIV;
-+
-+	aspeed_create_fan_tach_channel(priv, fan_tach_ch, count, fan_pulse_pr, tacho_div);
-+
-+	return 0;
-+}
-+
-+static int aspeed_pwm_tachometer_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np, *child;
-+	struct aspeed_pwm_tachometer_data *priv;
-+	void __iomem *regs;
-+	struct resource *res;
-+	struct device *hwmon;
-+	struct clk *clk;
-+	int ret;
-+
-+	np = dev->of_node;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res)
-+		return -ENOENT;
-+	regs = devm_ioremap_resource(dev, res);
-+	if (IS_ERR(regs))
-+		return PTR_ERR(regs);
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->pwm_channel = default_pwm_params;
-+	priv->tacho_channel = default_tacho_params;
-+	priv->regmap = devm_regmap_init(dev, NULL, (__force void *)regs,
-+			&aspeed_pwm_tachometer_regmap_config);
-+	if (IS_ERR(priv->regmap))
-+		return PTR_ERR(priv->regmap);
-+
-+	clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(clk))
-+		return -ENODEV;
-+	priv->clk_freq = clk_get_rate(clk);
-+
-+	priv->reset = devm_reset_control_get(&pdev->dev, NULL);
-+	if (IS_ERR(priv->reset)) {
-+		dev_err(&pdev->dev, "can't get aspeed_pwm_tacho reset\n");
-+		return PTR_ERR(priv->reset);
-+	}
-+
-+	//scu init
-+	reset_control_assert(priv->reset);
-+	reset_control_deassert(priv->reset);
-+
-+	for_each_child_of_node(np, child) {
-+		ret = aspeed_pwm_create_fan(dev, child, priv);
-+		if (ret) {
-+			of_node_put(child);
-+			return ret;
-+		}
-+	}
-+
-+	priv->groups[0] = &pwm_dev_group;
-+	priv->groups[1] = &fan_dev_group;
-+	priv->groups[2] = NULL;
-+	dev_info(dev, "pwm tach probe done\n");
-+	hwmon = devm_hwmon_device_register_with_groups(dev,
-+						       "aspeed_pwm_tachometer",
-+						       priv, priv->groups);
-+
-+	return PTR_ERR_OR_ZERO(hwmon);
-+}
-+
-+static const struct of_device_id of_pwm_tachometer_match_table[] = {
-+	{ .compatible = "aspeed,ast2600-pwm-tachometer", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_pwm_tachometer_match_table);
-+
-+static struct platform_driver aspeed_pwm_tachometer_driver = {
-+	.probe		= aspeed_pwm_tachometer_probe,
-+	.driver		= {
-+		.name	= "aspeed_pwm_tachometer",
-+		.of_match_table = of_pwm_tachometer_match_table,
-+	},
-+};
-+
-+module_platform_driver(aspeed_pwm_tachometer_driver);
-+
-+MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
-+MODULE_DESCRIPTION("ASPEED PWM and Fan Tachometer device driver");
-+MODULE_LICENSE("GPL");
+ 
+ Request MMIO/IOP resources
+diff --git a/drivers/ata/pata_cs5530.c b/drivers/ata/pata_cs5530.c
+index ad75d02b6..8654b3ae1 100644
+--- a/drivers/ata/pata_cs5530.c
++++ b/drivers/ata/pata_cs5530.c
+@@ -214,7 +214,7 @@ static int cs5530_init_chip(void)
+ 	}
+ 
+ 	pci_set_master(cs5530_0);
+-	pci_try_set_mwi(cs5530_0);
++	pci_set_mwi(cs5530_0);
+ 
+ 	/*
+ 	 * Set PCI CacheLineSize to 16-bytes:
+diff --git a/drivers/ata/sata_mv.c b/drivers/ata/sata_mv.c
+index 664ef658a..ee37755ea 100644
+--- a/drivers/ata/sata_mv.c
++++ b/drivers/ata/sata_mv.c
+@@ -4432,7 +4432,7 @@ static int mv_pci_init_one(struct pci_dev *pdev,
+ 	mv_print_info(host);
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 	return ata_host_activate(host, pdev->irq, mv_interrupt, IRQF_SHARED,
+ 				 IS_GEN_I(hpriv) ? &mv5_sht : &mv6_sht);
+ }
+diff --git a/drivers/dma/dw/pci.c b/drivers/dma/dw/pci.c
+index 1142aa6f8..1c20b7485 100644
+--- a/drivers/dma/dw/pci.c
++++ b/drivers/dma/dw/pci.c
+@@ -30,7 +30,7 @@ static int dw_pci_probe(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+ 	if (ret)
+diff --git a/drivers/dma/hsu/pci.c b/drivers/dma/hsu/pci.c
+index 07cc7320a..420dd3706 100644
+--- a/drivers/dma/hsu/pci.c
++++ b/drivers/dma/hsu/pci.c
+@@ -73,7 +73,7 @@ static int hsu_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+ 	if (ret)
+diff --git a/drivers/ide/cs5530.c b/drivers/ide/cs5530.c
+index 5bb46e713..5d2c421ab 100644
+--- a/drivers/ide/cs5530.c
++++ b/drivers/ide/cs5530.c
+@@ -168,7 +168,7 @@ static int init_chipset_cs5530(struct pci_dev *dev)
+ 	 */
+ 
+ 	pci_set_master(cs5530_0);
+-	pci_try_set_mwi(cs5530_0);
++	pci_set_mwi(cs5530_0);
+ 
+ 	/*
+ 	 * Set PCI CacheLineSize to 16-bytes:
+diff --git a/drivers/mfd/intel-lpss-pci.c b/drivers/mfd/intel-lpss-pci.c
+index 2d7c588ef..a0c3be750 100644
+--- a/drivers/mfd/intel-lpss-pci.c
++++ b/drivers/mfd/intel-lpss-pci.c
+@@ -39,7 +39,7 @@ static int intel_lpss_pci_probe(struct pci_dev *pdev,
+ 
+ 	/* Probably it is enough to set this for iDMA capable devices only */
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	ret = intel_lpss_probe(&pdev->dev, info);
+ 	if (ret)
+diff --git a/drivers/net/ethernet/adaptec/starfire.c b/drivers/net/ethernet/adaptec/starfire.c
+index 555299737..1dbff34c4 100644
+--- a/drivers/net/ethernet/adaptec/starfire.c
++++ b/drivers/net/ethernet/adaptec/starfire.c
+@@ -679,7 +679,7 @@ static int starfire_init_one(struct pci_dev *pdev,
+ 	pci_set_master(pdev);
+ 
+ 	/* enable MWI -- it vastly improves Rx performance on sparc64 */
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ #ifdef ZEROCOPY
+ 	/* Starfire can do TCP/UDP checksumming */
+diff --git a/drivers/net/ethernet/alacritech/slicoss.c b/drivers/net/ethernet/alacritech/slicoss.c
+index 696517eae..544510f57 100644
+--- a/drivers/net/ethernet/alacritech/slicoss.c
++++ b/drivers/net/ethernet/alacritech/slicoss.c
+@@ -1749,7 +1749,7 @@ static int slic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	slic_configure_pci(pdev);
+ 
+diff --git a/drivers/net/ethernet/dec/tulip/tulip_core.c b/drivers/net/ethernet/dec/tulip/tulip_core.c
+index c1dcd6ca1..4f6debb24 100644
+--- a/drivers/net/ethernet/dec/tulip/tulip_core.c
++++ b/drivers/net/ethernet/dec/tulip/tulip_core.c
+@@ -1193,10 +1193,7 @@ static void tulip_mwi_config(struct pci_dev *pdev, struct net_device *dev)
+ 	/* if we have any cache line size at all, we can do MRM and MWI */
+ 	csr0 |= MRM | MWI;
+ 
+-	/* Enable MWI in the standard PCI command bit.
+-	 * Check for the case where MWI is desired but not available
+-	 */
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* read result from hardware (in case bit refused to enable) */
+ 	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+diff --git a/drivers/net/ethernet/sun/cassini.c b/drivers/net/ethernet/sun/cassini.c
+index 9ff894ba8..9a95ec989 100644
+--- a/drivers/net/ethernet/sun/cassini.c
++++ b/drivers/net/ethernet/sun/cassini.c
+@@ -4933,14 +4933,14 @@ static int cas_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	pci_cmd &= ~PCI_COMMAND_SERR;
+ 	pci_cmd |= PCI_COMMAND_PARITY;
+ 	pci_write_config_word(pdev, PCI_COMMAND, pci_cmd);
+-	if (pci_try_set_mwi(pdev))
++	if (pci_set_mwi(pdev))
+ 		pr_warn("Could not enable MWI for %s\n", pci_name(pdev));
+ 
+ 	cas_program_bridge(pdev);
+ 
+ 	/*
+ 	 * On some architectures, the default cache line size set
+-	 * by pci_try_set_mwi reduces perforamnce.  We have to increase
++	 * by pci_set_mwi reduces performance.  We have to increase
+ 	 * it for this case.  To start, we'll print some configuration
+ 	 * data.
+ 	 */
+diff --git a/drivers/net/wireless/intersil/p54/p54pci.c b/drivers/net/wireless/intersil/p54/p54pci.c
+index e97ee547b..c76326d1e 100644
+--- a/drivers/net/wireless/intersil/p54/p54pci.c
++++ b/drivers/net/wireless/intersil/p54/p54pci.c
+@@ -583,7 +583,7 @@ static int p54p_probe(struct pci_dev *pdev,
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	pci_write_config_byte(pdev, 0x40, 0);
+ 	pci_write_config_byte(pdev, 0x41, 0);
+diff --git a/drivers/net/wireless/intersil/prism54/islpci_hotplug.c b/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
+index 31a1e6132..e8087d9a5 100644
+--- a/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
++++ b/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
+@@ -153,8 +153,7 @@ prism54_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	DEBUG(SHOW_TRACING, "%s: pci_set_master(pdev)\n", DRV_NAME);
+ 	pci_set_master(pdev);
+ 
+-	/* enable MWI */
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* setup the network device interface and its structure */
+ 	if (!(ndev = islpci_setup(pdev))) {
+diff --git a/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c b/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
+index 2477e18c7..b259b0b58 100644
+--- a/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
++++ b/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
+@@ -1871,7 +1871,7 @@ static int rtl8180_probe(struct pci_dev *pdev,
+ 
+ 	if (priv->chip_family != RTL818X_CHIP_FAMILY_RTL8180) {
+ 		priv->band.n_bitrates = ARRAY_SIZE(rtl818x_rates);
+-		pci_try_set_mwi(pdev);
++		pci_set_mwi(pdev);
+ 	}
+ 
+ 	if (priv->chip_family != RTL818X_CHIP_FAMILY_RTL8180)
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 9a5500287..f0ab432d2 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4389,25 +4389,6 @@ int pcim_set_mwi(struct pci_dev *dev)
+ }
+ EXPORT_SYMBOL(pcim_set_mwi);
+ 
+-/**
+- * pci_try_set_mwi - enables memory-write-invalidate PCI transaction
+- * @dev: the PCI device for which MWI is enabled
+- *
+- * Enables the Memory-Write-Invalidate transaction in %PCI_COMMAND.
+- * Callers are not required to check the return value.
+- *
+- * RETURNS: An appropriate -ERRNO error value on error, or zero for success.
+- */
+-int pci_try_set_mwi(struct pci_dev *dev)
+-{
+-#ifdef PCI_DISABLE_MWI
+-	return 0;
+-#else
+-	return pci_set_mwi(dev);
+-#endif
+-}
+-EXPORT_SYMBOL(pci_try_set_mwi);
+-
+ /**
+  * pci_clear_mwi - disables Memory-Write-Invalidate for device dev
+  * @dev: the PCI device to disable
+diff --git a/drivers/scsi/3w-9xxx.c b/drivers/scsi/3w-9xxx.c
+index b4718a1b2..d869485e2 100644
+--- a/drivers/scsi/3w-9xxx.c
++++ b/drivers/scsi/3w-9xxx.c
+@@ -2018,7 +2018,7 @@ static int twa_probe(struct pci_dev *pdev, const struct pci_device_id *dev_id)
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (retval)
+@@ -2227,7 +2227,7 @@ static int __maybe_unused twa_resume(struct device *dev)
+ 
+ 	printk(KERN_WARNING "3w-9xxx: Resuming host %d.\n", tw_dev->host->host_no);
+ 
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (retval)
+diff --git a/drivers/scsi/3w-sas.c b/drivers/scsi/3w-sas.c
+index b8f1848ec..49ca153b8 100644
+--- a/drivers/scsi/3w-sas.c
++++ b/drivers/scsi/3w-sas.c
+@@ -1571,7 +1571,7 @@ static int twl_probe(struct pci_dev *pdev, const struct pci_device_id *dev_id)
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (retval)
+@@ -1790,7 +1790,7 @@ static int __maybe_unused twl_resume(struct device *dev)
+ 	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
+ 
+ 	printk(KERN_WARNING "3w-sas: Resuming host %d.\n", tw_dev->host->host_no);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (retval)
+diff --git a/drivers/scsi/csiostor/csio_init.c b/drivers/scsi/csiostor/csio_init.c
+index 390b07bf9..c20bf44c6 100644
+--- a/drivers/scsi/csiostor/csio_init.c
++++ b/drivers/scsi/csiostor/csio_init.c
+@@ -201,7 +201,7 @@ csio_pci_init(struct pci_dev *pdev, int *bars)
+ 		goto err_disable_device;
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	rv = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (rv)
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index ac67f420e..b4833c0f8 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -6119,7 +6119,7 @@ lpfc_enable_pci_dev(struct lpfc_hba *phba)
+ 		goto out_disable_device;
+ 	/* Set up device as PCI master and save state for EEH */
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 	pci_save_state(pdev);
+ 
+ 	/* PCIe EEH recovery on powerpc platforms needs fundamental reset */
+diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
+index 5626e9b69..76019dc2e 100644
+--- a/drivers/scsi/qla2xxx/qla_init.c
++++ b/drivers/scsi/qla2xxx/qla_init.c
+@@ -2356,7 +2356,7 @@ qla2100_pci_config(scsi_qla_host_t *vha)
+ 	struct device_reg_2xxx __iomem *reg = &ha->iobase->isp;
+ 
+ 	pci_set_master(ha->pdev);
+-	pci_try_set_mwi(ha->pdev);
++	pci_set_mwi(ha->pdev);
+ 
+ 	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+ 	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+@@ -2388,7 +2388,7 @@ qla2300_pci_config(scsi_qla_host_t *vha)
+ 	struct device_reg_2xxx __iomem *reg = &ha->iobase->isp;
+ 
+ 	pci_set_master(ha->pdev);
+-	pci_try_set_mwi(ha->pdev);
++	pci_set_mwi(ha->pdev);
+ 
+ 	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+ 	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+@@ -2469,7 +2469,7 @@ qla24xx_pci_config(scsi_qla_host_t *vha)
+ 	struct device_reg_24xx __iomem *reg = &ha->iobase->isp24;
+ 
+ 	pci_set_master(ha->pdev);
+-	pci_try_set_mwi(ha->pdev);
++	pci_set_mwi(ha->pdev);
+ 
+ 	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+ 	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+@@ -2511,7 +2511,7 @@ qla25xx_pci_config(scsi_qla_host_t *vha)
+ 	struct qla_hw_data *ha = vha->hw;
+ 
+ 	pci_set_master(ha->pdev);
+-	pci_try_set_mwi(ha->pdev);
++	pci_set_mwi(ha->pdev);
+ 
+ 	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+ 	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+diff --git a/drivers/scsi/qla2xxx/qla_mr.c b/drivers/scsi/qla2xxx/qla_mr.c
+index ca7306685..e9763d8e3 100644
+--- a/drivers/scsi/qla2xxx/qla_mr.c
++++ b/drivers/scsi/qla2xxx/qla_mr.c
+@@ -499,7 +499,7 @@ qlafx00_pci_config(scsi_qla_host_t *vha)
+ 	struct qla_hw_data *ha = vha->hw;
+ 
+ 	pci_set_master(ha->pdev);
+-	pci_try_set_mwi(ha->pdev);
++	pci_set_mwi(ha->pdev);
+ 
+ 	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+ 	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+diff --git a/drivers/tty/serial/8250/8250_lpss.c b/drivers/tty/serial/8250/8250_lpss.c
+index 4dee8a9e0..8acc1e5c9 100644
+--- a/drivers/tty/serial/8250/8250_lpss.c
++++ b/drivers/tty/serial/8250/8250_lpss.c
+@@ -193,7 +193,7 @@ static void qrk_serial_setup_dma(struct lpss8250 *lpss, struct uart_port *port)
+ 	if (ret)
+ 		return;
+ 
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* Special DMA address for UART */
+ 	dma->rx_dma_addr = 0xfffff000;
+diff --git a/drivers/usb/chipidea/ci_hdrc_pci.c b/drivers/usb/chipidea/ci_hdrc_pci.c
+index d63479e1a..d412fa910 100644
+--- a/drivers/usb/chipidea/ci_hdrc_pci.c
++++ b/drivers/usb/chipidea/ci_hdrc_pci.c
+@@ -78,7 +78,7 @@ static int ci_hdrc_pci_probe(struct pci_dev *pdev,
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* register a nop PHY */
+ 	ci->phy = usb_phy_generic_register();
+diff --git a/drivers/usb/gadget/udc/amd5536udc_pci.c b/drivers/usb/gadget/udc/amd5536udc_pci.c
+index 8d387e0e4..9630ce8d3 100644
+--- a/drivers/usb/gadget/udc/amd5536udc_pci.c
++++ b/drivers/usb/gadget/udc/amd5536udc_pci.c
+@@ -151,7 +151,7 @@ static int udc_pci_probe(
+ 	dev->chiprev = pdev->revision;
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* init dma pools */
+ 	if (use_dma) {
+diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+index fc9f99fe7..e15520698 100644
+--- a/drivers/usb/gadget/udc/net2280.c
++++ b/drivers/usb/gadget/udc/net2280.c
+@@ -3761,7 +3761,7 @@ static int net2280_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 			&dev->pci->pcimstctl);
+ 	/* erratum 0115 shouldn't appear: Linux inits PCI_LATENCY_TIMER */
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* ... also flushes any posted pci writes */
+ 	dev->chiprev = get_idx_reg(dev->regs, REG_CHIPREV) & 0xffff;
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index a3c1fc924..4a0484a0c 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -3100,7 +3100,7 @@ static int pch_udc_probe(struct pci_dev *pdev,
+ 	}
+ 
+ 	pci_set_master(pdev);
+-	pci_try_set_mwi(pdev);
++	pci_set_mwi(pdev);
+ 
+ 	/* device struct setup */
+ 	spin_lock_init(&dev->lock);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index de75f6a4d..c590f616d 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1191,9 +1191,8 @@ void pci_clear_master(struct pci_dev *dev);
+ 
+ int pci_set_pcie_reset_state(struct pci_dev *dev, enum pcie_reset_state state);
+ int pci_set_cacheline_size(struct pci_dev *dev);
+-int __must_check pci_set_mwi(struct pci_dev *dev);
+-int __must_check pcim_set_mwi(struct pci_dev *dev);
+-int pci_try_set_mwi(struct pci_dev *dev);
++int pci_set_mwi(struct pci_dev *dev);
++int pcim_set_mwi(struct pci_dev *dev);
+ void pci_clear_mwi(struct pci_dev *dev);
+ void pci_intx(struct pci_dev *dev, int enable);
+ bool pci_check_and_mask_intx(struct pci_dev *dev);
 -- 
-2.17.1
+2.29.2
 
