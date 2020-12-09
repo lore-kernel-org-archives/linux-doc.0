@@ -2,143 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40243C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:23:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08354C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:39:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E50623BE3
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2A5223BE0
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730007AbgLIQXo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 11:23:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728136AbgLIQXo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 11:23:44 -0500
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F734C0613D6
-        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 08:23:04 -0800 (PST)
-Received: by mail-qk1-x741.google.com with SMTP id m185so650942qkf.12
-        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 08:23:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uCi6vrOk+0dK3uRrPhD3eDKr6DKQAm8fgeutNqh1hhc=;
-        b=Yx2qDiuW5kA47vFukEUCo/5S8+R4PRBF89Of94p7BHWxls3kOX5wQY8qS/R4oOQMRa
-         6B0e1DM4WCHmrQ/Z/Su/PM7AubNl+V9yIiEUeqah8LP4v21OL7XJVI4UrfW0ZQrU5Lxn
-         zbTKV5nyhiJ249bOI69cI2EcqaI9jzzj2BbcU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uCi6vrOk+0dK3uRrPhD3eDKr6DKQAm8fgeutNqh1hhc=;
-        b=U1Kr+G/FdG6EsMBWzzZsEY9R7ZaIe1mzmF9t6DsuiavQ6UOtqCTnSS1bcBduiw+6UR
-         5ivRNHpinNeR5nvTz5zxQ9r1NtE9Brin2RHV5BgHJA4Plv6k/sBtchJwa15AOvhE6aEQ
-         g0ngIAhU/vVXrsl5xbOaMD3b6Q+CAQrWNbJZg1sMbJ1qfm3j3H+2qNRhqvStgL6djrAP
-         QQsAhGxIH9/Q+bmb0xW3CAmFbMoNRJZ5FcLvLBdl9tiLcjACJyq378zweHbZndMghPWw
-         EeGwxiAVppSr3ZT2wRudhjWf87MniMkLGW3Jn5V/paudZuc5G9BGA8rFyvV016u4ffED
-         Udgg==
-X-Gm-Message-State: AOAM531sdwUhq0D5mtrRA9vVwNGSTbWz3oRe9KQsNpz9agrSyOG5P6ED
-        45Th8d5HFsHACAmTyH9+XpPwjpBjdcopHGTay1d9ew==
-X-Google-Smtp-Source: ABdhPJy4ikAHHQ7c1iKgQEwtJ6vDo6LJtrL4AgnoSRi7GTCUJUTtzAIyBXpCuNR+jKddk6+jjC6lchi4B9RuWqbUnio=
-X-Received: by 2002:a37:4145:: with SMTP id o66mr1059144qka.4.1607530983476;
- Wed, 09 Dec 2020 08:23:03 -0800 (PST)
+        id S1728141AbgLIQjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 11:39:10 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59240 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726227AbgLIQjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 11:39:10 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C964EAB63;
+        Wed,  9 Dec 2020 16:38:27 +0000 (UTC)
+Subject: Re: [PATCH v2] mm/page_owner: Record timestamp and pid
+To:     Georgi Djakov <georgi.djakov@linaro.org>,
+        akpm@linux-foundation.org, linux-mm@kvack.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lmark@codeaurora.org
+References: <20201209125153.10533-1-georgi.djakov@linaro.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <20f7fb50-5e21-3ad8-50cd-81b56c9e45b1@suse.cz>
+Date:   Wed, 9 Dec 2020 17:38:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20201203030846.51669-1-pmalani@chromium.org> <20201208093734.GD680328@kuha.fi.intel.com>
- <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com> <20201209161356.GI680328@kuha.fi.intel.com>
-In-Reply-To: <20201209161356.GI680328@kuha.fi.intel.com>
-From:   Prashant Malani <pmalani@chromium.org>
-Date:   Wed, 9 Dec 2020 08:22:52 -0800
-Message-ID: <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201209125153.10533-1-georgi.djakov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Heikki,
+On 12/9/20 1:51 PM, Georgi Djakov wrote:
+> From: Liam Mark <lmark@codeaurora.org>
+> 
+> Collect the time for each allocation recorded in page owner so that
+> allocation "surges" can be measured.
+> 
+> Record the pid for each allocation recorded in page owner so that
+> the source of allocation "surges" can be better identified.
+> 
+> The above is very useful when doing memory analysis. On a crash for
+> example, we can get this information from kdump (or ramdump) and parse
+> it to figure out memory allocation problems.
 
-On Wed, Dec 9, 2020 at 8:14 AM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
-> > Hi Heikki,
-> >
-> > Thanks a lot for looking at the patch.
-> >
-> > On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
-> > >
-> > > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
-> > > > Add the Type C bus for plug alternate modes which are being
-> > > > registered via the Type C connector class. This ensures that udev events
-> > > > get generated when plug alternate modes are registered (and not just for
-> > > > partner/port alternate modes), even though the Type C bus doesn't link
-> > > > plug alternate mode devices to alternate mode drivers.
-> > >
-> > > I still don't understand how is the uevent related to the bus? If you
-> > > check the device_add() function, on line 2917, kobject_uevent() is
-> > > called unconditionally. The device does not need a bus for that event
-> > > to be generated.
-> >
-> > My initial thought process was to see what is the difference in the adev device
-> > initialization between partner altmode and plug altmode (the only difference I saw in
-> > typec_register_altmode() was regarding the bus field).
-> >
-> > Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
-> > so we don't know if it succeeded or not.
-> >
-> > In the case of cable plug altmode, I see it fail with the following error[1]:
-> >
-> > [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
-> >
-> > I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
-> >
-> > static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
-> > {
-> >       struct kobj_type *ktype = get_ktype(kobj);
-> >
-> >       if (ktype == &device_ktype) {
-> >               struct device *dev = kobj_to_dev(kobj);
-> >               if (dev->bus)
-> >                       return 1;
-> >               if (dev->class)
-> >                       return 1;
-> >       }
-> >       return 0;
-> > }
-> >
-> > So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
-> > so this check likely returns 1 in that case.
->
-> OK. I understand the issue now. So I would say that the proper
-> solution to this problem is to link the alt modes with the class
-> instead of the bus. That is much smaller change IMO.
+Yes, I can imagine this to be useful.
 
-Got it. Just to confirm that I understand correctly, do you mean:
-1. Only cable plug alt modes should be linked with the class instead of the bus.
+> Please note that on x86_64 this increases the size of struct page_owner
+> from 16 bytes to 32.
 
-<or>
+That's the tradeoff, but it's not a functionality intended for production, so
+unless somebody says they need to enable page_owner for debugging and this
+increase prevents them from fitting into available memory, let's not complicate
+things with making this optional.
 
-2. All alt modes (cable plug, partner, port) should be linked with the
-class instead of the bus
+> Signed-off-by: Liam Mark <lmark@codeaurora.org>
+> Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
 
-My initial interpretation is 1.) since the bus linkage would be
-necessary to match alt mode drivers to partner alt mode devices.
-But, my understanding of the bus code is limited so I could be wrong;
-could you kindly clarify?
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-Thanks,
+> ---
+> 
+> v2:
+> - Improve the commit message (Andrew and Vlastimil)
+> - Update page_owner.rst with more recent object size information (Andrew)
+> - Use pid_t for the pid (Andrew)
+> - Print the info also in __dump_page_owner() (Vlastimil)
+> 
+> v1: https://lore.kernel.org/r/20201112184106.733-1-georgi.djakov@linaro.org/
+> 
+> 
+>  Documentation/vm/page_owner.rst | 12 ++++++------
+>  mm/page_owner.c                 | 17 +++++++++++++----
+>  2 files changed, 19 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 02deac76673f..cf7c0c361621 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+> @@ -41,17 +41,17 @@ size change due to this facility.
+>  - Without page owner::
+>  
+>     text    data     bss     dec     hex filename
+> -   40662   1493     644   42799    a72f mm/page_alloc.o
+> +  48392    2333     644   51369    c8a9 mm/page_alloc.o
+>  
+>  - With page owner::
+>  
+>     text    data     bss     dec     hex filename
+> -   40892   1493     644   43029    a815 mm/page_alloc.o
+> -   1427      24       8    1459     5b3 mm/page_ext.o
+> -   2722      50       0    2772     ad4 mm/page_owner.o
+> +  48800    2445     644   51889    cab1 mm/page_alloc.o
+> +   6574     108      29    6711    1a37 mm/page_owner.o
+> +   1025       8       8    1041     411 mm/page_ext.o
+>  
+> -Although, roughly, 4 KB code is added in total, page_alloc.o increase by
+> -230 bytes and only half of it is in hotpath. Building the kernel with
+> +Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+> +520 bytes and less than half of it is in hotpath. Building the kernel with
+>  page owner and turning it on if needed would be great option to debug
+>  kernel memory problem.
+>  
+> diff --git a/mm/page_owner.c b/mm/page_owner.c
+> index b735a8eafcdb..af464bb7fbe7 100644
+> --- a/mm/page_owner.c
+> +++ b/mm/page_owner.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/migrate.h>
+>  #include <linux/stackdepot.h>
+>  #include <linux/seq_file.h>
+> +#include <linux/sched/clock.h>
+>  
+>  #include "internal.h"
+>  
+> @@ -25,6 +26,8 @@ struct page_owner {
+>  	gfp_t gfp_mask;
+>  	depot_stack_handle_t handle;
+>  	depot_stack_handle_t free_handle;
+> +	u64 ts_nsec;
+> +	pid_t pid;
+>  };
+>  
+>  static bool page_owner_enabled = false;
+> @@ -172,6 +175,8 @@ static inline void __set_page_owner_handle(struct page *page,
+>  		page_owner->order = order;
+>  		page_owner->gfp_mask = gfp_mask;
+>  		page_owner->last_migrate_reason = -1;
+> +		page_owner->pid = current->pid;
+> +		page_owner->ts_nsec = local_clock();
+>  		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
+>  		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+>  
+> @@ -236,6 +241,8 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+>  	new_page_owner->last_migrate_reason =
+>  		old_page_owner->last_migrate_reason;
+>  	new_page_owner->handle = old_page_owner->handle;
+> +	new_page_owner->pid = old_page_owner->pid;
+> +	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
+>  
+>  	/*
+>  	 * We don't clear the bit on the oldpage as it's going to be freed
+> @@ -349,9 +356,10 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+>  		return -ENOMEM;
+>  
+>  	ret = snprintf(kbuf, count,
+> -			"Page allocated via order %u, mask %#x(%pGg)\n",
+> +			"Page allocated via order %u, mask %#x(%pGg), pid %d, ts %llu ns\n",
+>  			page_owner->order, page_owner->gfp_mask,
+> -			&page_owner->gfp_mask);
+> +			&page_owner->gfp_mask, page_owner->pid,
+> +			page_owner->ts_nsec);
+>  
+>  	if (ret >= count)
+>  		goto err;
+> @@ -427,8 +435,9 @@ void __dump_page_owner(struct page *page)
+>  	else
+>  		pr_alert("page_owner tracks the page as freed\n");
+>  
+> -	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg)\n",
+> -		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask);
+> +	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg), pid %d, ts %llu\n",
+> +		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask,
+> +		 page_owner->pid, page_owner->ts_nsec);
+>  
+>  	handle = READ_ONCE(page_owner->handle);
+>  	if (!handle) {
+> 
 
--Prashant
