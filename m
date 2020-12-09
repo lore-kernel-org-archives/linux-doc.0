@@ -2,141 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2183C4167B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 17:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA22BC4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 18:56:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9AF4D23C91
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 17:17:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7445E20679
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 18:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730848AbgLIRRO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 12:17:14 -0500
-Received: from mga09.intel.com ([134.134.136.24]:45059 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730313AbgLIRRO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 12:17:14 -0500
-IronPort-SDR: y/vqRmtrvoIxDU4GVtZ49tl6G2vEtbc5hXXmB/C1UAF75/W/wL0muqkbHZL2Kn+RYNV2lPrONe
- 0PY2u5wCRR6g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="174257010"
-X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
-   d="scan'208";a="174257010"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 09:15:27 -0800
-IronPort-SDR: q7zIyuVIcEnae6mwQz9ohdlc4C19lujeNhJs+YXiBQyEnlH3Mg7MhKBmBnN2SRf4rxqh+ALpvr
- s48AF+/Vr5TQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
-   d="scan'208";a="437868841"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 09 Dec 2020 09:15:24 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Dec 2020 19:15:24 +0200
-Date:   Wed, 9 Dec 2020 19:15:24 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashant Malani <pmalani@chromium.org>
-Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>,
+        id S2387518AbgLISzv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 13:55:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57538 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387489AbgLISzo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 13:55:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607540057;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pAnzkkggIin7jYeCuo0D9ShCd/x0gLLXGM9tw9DfkJs=;
+        b=Y1n0MszPX8etkjVh0IlRVvX9JYU0U6YCd52y/2zd4/1A7WDRve9E1Gk5IO/yuWD+Nrmtqg
+        IudHFx610rWyxTTEB2EREYVp+MpTv3ozXjJmUDDnz1asxmcmvAytfkHeWgsmF2j6eojVOb
+        SVfDtjbiut1YgEGcGmG4uidY1cAKt8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-wT7oHLPBMnq1hB-gpNuBBA-1; Wed, 09 Dec 2020 13:54:15 -0500
+X-MC-Unique: wT7oHLPBMnq1hB-gpNuBBA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BF20966E86;
+        Wed,  9 Dec 2020 18:53:46 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 19EEA63B8C;
+        Wed,  9 Dec 2020 18:53:44 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 7C35C48E58F2; Wed,  9 Dec 2020 13:34:34 -0300 (-03)
+Date:   Wed, 9 Dec 2020 13:34:34 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
-Message-ID: <20201209171524.GK680328@kuha.fi.intel.com>
-References: <20201203030846.51669-1-pmalani@chromium.org>
- <20201208093734.GD680328@kuha.fi.intel.com>
- <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
- <20201209161356.GI680328@kuha.fi.intel.com>
- <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Message-ID: <20201209163434.GA22851@fuller.cnet>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+ <20201203171118.372391-2-mlevitsk@redhat.com>
+ <20201207232920.GD27492@fuller.cnet>
+ <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
+ <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
+ <20201208181107.GA31442@fuller.cnet>
+ <875z5c2db8.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
+In-Reply-To: <875z5c2db8.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Prashant,
-
-On Wed, Dec 09, 2020 at 08:22:52AM -0800, Prashant Malani wrote:
-> Hi Heikki,
-> 
-> On Wed, Dec 9, 2020 at 8:14 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
+On Tue, Dec 08, 2020 at 10:33:15PM +0100, Thomas Gleixner wrote:
+> On Tue, Dec 08 2020 at 15:11, Marcelo Tosatti wrote:
+> > On Tue, Dec 08, 2020 at 05:02:07PM +0100, Thomas Gleixner wrote:
+> >> On Tue, Dec 08 2020 at 16:50, Maxim Levitsky wrote:
+> >> > On Mon, 2020-12-07 at 20:29 -0300, Marcelo Tosatti wrote:
+> >> >> > +This ioctl allows to reconstruct the guest's IA32_TSC and TSC_ADJUST value
+> >> >> > +from the state obtained in the past by KVM_GET_TSC_STATE on the same vCPU.
+> >> >> > +
+> >> >> > +If 'KVM_TSC_STATE_TIMESTAMP_VALID' is set in flags,
+> >> >> > +KVM will adjust the guest TSC value by the time that passed since the moment
+> >> >> > +CLOCK_REALTIME timestamp was saved in the struct and current value of
+> >> >> > +CLOCK_REALTIME, and set the guest's TSC to the new value.
+> >> >> 
+> >> >> This introduces the wraparound bug in Linux timekeeping, doesnt it?
+> >> 
+> >> Which bug?
 > >
-> > On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
-> > > Hi Heikki,
-> > >
-> > > Thanks a lot for looking at the patch.
-> > >
-> > > On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
-> > > >
-> > > > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
-> > > > > Add the Type C bus for plug alternate modes which are being
-> > > > > registered via the Type C connector class. This ensures that udev events
-> > > > > get generated when plug alternate modes are registered (and not just for
-> > > > > partner/port alternate modes), even though the Type C bus doesn't link
-> > > > > plug alternate mode devices to alternate mode drivers.
-> > > >
-> > > > I still don't understand how is the uevent related to the bus? If you
-> > > > check the device_add() function, on line 2917, kobject_uevent() is
-> > > > called unconditionally. The device does not need a bus for that event
-> > > > to be generated.
-> > >
-> > > My initial thought process was to see what is the difference in the adev device
-> > > initialization between partner altmode and plug altmode (the only difference I saw in
-> > > typec_register_altmode() was regarding the bus field).
-> > >
-> > > Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
-> > > so we don't know if it succeeded or not.
-> > >
-> > > In the case of cable plug altmode, I see it fail with the following error[1]:
-> > >
-> > > [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
-> > >
-> > > I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
-> > >
-> > > static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
-> > > {
-> > >       struct kobj_type *ktype = get_ktype(kobj);
-> > >
-> > >       if (ktype == &device_ktype) {
-> > >               struct device *dev = kobj_to_dev(kobj);
-> > >               if (dev->bus)
-> > >                       return 1;
-> > >               if (dev->class)
-> > >                       return 1;
-> > >       }
-> > >       return 0;
-> > > }
-> > >
-> > > So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
-> > > so this check likely returns 1 in that case.
+> > max_cycles overflow. Sent a message to Maxim describing it.
+> 
+> Truly helpful. Why the hell did you not talk to me when you ran into
+> that the first time?
+
+Because 
+
+1) Users wanted CLOCK_BOOTTIME to stop counting while the VM 
+is paused (so we wanted to stop guest clock when VM is paused anyway).
+
+2) The solution to inject NMIs to the guest seemed overly
+complicated.
+
+> >> For one I have no idea which bug you are talking about and if the bug is
+> >> caused by the VMM then why would you "fix" it in the guest kernel.
 > >
-> > OK. I understand the issue now. So I would say that the proper
-> > solution to this problem is to link the alt modes with the class
-> > instead of the bus. That is much smaller change IMO.
+> > 1) Stop guest, save TSC value of cpu-0 = V.
+> > 2) Wait for some amount of time = W.
+> > 3) Start guest, load TSC value with V+W.
+> >
+> > Can cause an overflow on Linux timekeeping.
 > 
-> Got it. Just to confirm that I understand correctly, do you mean:
-> 1. Only cable plug alt modes should be linked with the class instead of the bus.
+> Yes, because you violate the basic assumption which Linux timekeeping
+> makes. See the other mail in this thread.
 > 
-> <or>
+> Thanks,
 > 
-> 2. All alt modes (cable plug, partner, port) should be linked with the
-> class instead of the bus
-> 
-> My initial interpretation is 1.) since the bus linkage would be
-> necessary to match alt mode drivers to partner alt mode devices.
-> But, my understanding of the bus code is limited so I could be wrong;
-> could you kindly clarify?
+>         tglx
 
-We don't need to care about the bus here. A device can be part of a
-bus and a class at the same time. I don't think there is any reason to
-limit the class to only plug alt modes, so let's just assign it to all
-of them.
-
-thanks,
-
--- 
-heikki
