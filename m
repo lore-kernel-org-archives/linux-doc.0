@@ -2,258 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F82C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC23C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 23:00:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AED6B23D20
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E16F23B6B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 23:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388597AbgLIWY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 17:24:29 -0500
-Received: from mga18.intel.com ([134.134.136.126]:14575 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388579AbgLIWY2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 17:24:28 -0500
-IronPort-SDR: W29K+S1q9XGB1XKk0FAHoYZORudZQxNwMf8u8TXe81cN/26NulvVcsQxCOvx9lMA0cvf3HkG/N
- ccpmksf6FgVg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918053"
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="161918053"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:47 -0800
-IronPort-SDR: fM0s9NYnyLtNqOEtHE4E6E+On1XQakNwFK7obEuee3NbyIdao3qJcA2TZsLOdPz7rGOPhpMo3/
- pCUZ7ArrTc/Q==
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="318543507"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:46 -0800
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v16 01/26] Documentation/x86: Add CET description
-Date:   Wed,  9 Dec 2020 14:22:55 -0800
-Message-Id: <20201209222320.1724-2-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201209222320.1724-1-yu-cheng.yu@intel.com>
-References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
+        id S1728338AbgLIXAX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 18:00:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbgLIXAW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 18:00:22 -0500
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58025C0613D6
+        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 14:59:42 -0800 (PST)
+Received: by mail-qk1-x744.google.com with SMTP id 143so3055370qke.10
+        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 14:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qGVpH46Y7Ns607Ym8+8VlXliCHyKOwhz1ihyoKRqkgA=;
+        b=JAf4R4DdRjm0G9P817PRtU4y28lwz4LVe/ebp1hiuMjKGYGdC3D4dk9e6uaGKIDhfr
+         kX5MP3muxV7N6NUoicnNC8n83neusTxe8kW+n+qdE9ZHzVGaKmWo7pJ3bzBZ9tkqznA8
+         rFj2Ou7Np6prwsc7wNFUDF0hJ19W9xS8EHg34=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qGVpH46Y7Ns607Ym8+8VlXliCHyKOwhz1ihyoKRqkgA=;
+        b=mt853oOeotdCpov05v/5BHdLcWFaUBE9B1d7OSAM0TAudTy9brdLrXDpWHt2SHF7lA
+         B/MoJS9eFoN//it0vZ3CUEGKa6PJJBSyvVoXWH6/gIF+5GxKBZTFW9nLhYKGO6p7J1XT
+         U5ogL+g34zwAwZ4FDu8++xSKi3x71xd3oB+RpWi6qDRPaRX7LL7rxWXAcANenn27VEfk
+         lHBBMDK08fVDINuEROqdG4Fb5JID4GKZ9IdXlhwSKjj+RDvvOz69t7gYKexMjDiAoYjC
+         Brd7jJluYgjPU54PafMhhrIM0m4pIqY1Mvttht4l51RCp5g/8DBXF/mwHZG+gGZ8sOQ6
+         ezMg==
+X-Gm-Message-State: AOAM530hCD2Ssz3iACa+JV2N72AjsNS72+2Q+rTwZxlGPP5G8xstd81w
+        LcbXivNp6j/KrLX+oQ0pmt0QuDIKP5OwXK6Z08dWYg==
+X-Google-Smtp-Source: ABdhPJyHxwWBajJb9vFDUnfaQR80KHMaN9kN3HFayyO1ax2QQlpRCsQji50AaT2tljlbbtpt6swwpryLzj6puHoyrW8=
+X-Received: by 2002:a37:744:: with SMTP id 65mr5224292qkh.71.1607554781012;
+ Wed, 09 Dec 2020 14:59:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201203030846.51669-1-pmalani@chromium.org> <20201208093734.GD680328@kuha.fi.intel.com>
+ <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
+ <20201209161356.GI680328@kuha.fi.intel.com> <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
+ <20201209171524.GK680328@kuha.fi.intel.com>
+In-Reply-To: <20201209171524.GK680328@kuha.fi.intel.com>
+From:   Prashant Malani <pmalani@chromium.org>
+Date:   Wed, 9 Dec 2020 14:59:29 -0800
+Message-ID: <CACeCKafc6A-O09LrTsYgBTbmwVV0y-tEevj_Ci188WmT=hkjxg@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
-document on Control-flow Enforcement Technology (CET).
+Hi Heikki,
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/x86/index.rst                   |   1 +
- Documentation/x86/intel_cet.rst               | 136 ++++++++++++++++++
- 3 files changed, 143 insertions(+)
- create mode 100644 Documentation/x86/intel_cet.rst
+On Wed, Dec 9, 2020 at 9:15 AM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi Prashant,
+>
+> On Wed, Dec 09, 2020 at 08:22:52AM -0800, Prashant Malani wrote:
+> > Hi Heikki,
+> >
+> > On Wed, Dec 9, 2020 at 8:14 AM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > >
+> > > On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
+> > > > Hi Heikki,
+> > > >
+> > > > Thanks a lot for looking at the patch.
+> > > >
+> > > > On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> > > > >
+> > > > > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
+> > > > > > Add the Type C bus for plug alternate modes which are being
+> > > > > > registered via the Type C connector class. This ensures that udev events
+> > > > > > get generated when plug alternate modes are registered (and not just for
+> > > > > > partner/port alternate modes), even though the Type C bus doesn't link
+> > > > > > plug alternate mode devices to alternate mode drivers.
+> > > > >
+> > > > > I still don't understand how is the uevent related to the bus? If you
+> > > > > check the device_add() function, on line 2917, kobject_uevent() is
+> > > > > called unconditionally. The device does not need a bus for that event
+> > > > > to be generated.
+> > > >
+> > > > My initial thought process was to see what is the difference in the adev device
+> > > > initialization between partner altmode and plug altmode (the only difference I saw in
+> > > > typec_register_altmode() was regarding the bus field).
+> > > >
+> > > > Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
+> > > > so we don't know if it succeeded or not.
+> > > >
+> > > > In the case of cable plug altmode, I see it fail with the following error[1]:
+> > > >
+> > > > [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
+> > > >
+> > > > I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
+> > > >
+> > > > static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
+> > > > {
+> > > >       struct kobj_type *ktype = get_ktype(kobj);
+> > > >
+> > > >       if (ktype == &device_ktype) {
+> > > >               struct device *dev = kobj_to_dev(kobj);
+> > > >               if (dev->bus)
+> > > >                       return 1;
+> > > >               if (dev->class)
+> > > >                       return 1;
+> > > >       }
+> > > >       return 0;
+> > > > }
+> > > >
+> > > > So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
+> > > > so this check likely returns 1 in that case.
+> > >
+> > > OK. I understand the issue now. So I would say that the proper
+> > > solution to this problem is to link the alt modes with the class
+> > > instead of the bus. That is much smaller change IMO.
+> >
+> > Got it. Just to confirm that I understand correctly, do you mean:
+> > 1. Only cable plug alt modes should be linked with the class instead of the bus.
+> >
+> > <or>
+> >
+> > 2. All alt modes (cable plug, partner, port) should be linked with the
+> > class instead of the bus
+> >
+> > My initial interpretation is 1.) since the bus linkage would be
+> > necessary to match alt mode drivers to partner alt mode devices.
+> > But, my understanding of the bus code is limited so I could be wrong;
+> > could you kindly clarify?
+>
+> We don't need to care about the bus here. A device can be part of a
+> bus and a class at the same time. I don't think there is any reason to
+> limit the class to only plug alt modes, so let's just assign it to all
+> of them.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 44fde25bb221..ac47921db6d8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3197,6 +3197,12 @@
- 			noexec=on: enable non-executable mappings (default)
- 			noexec=off: disable non-executable mappings
- 
-+	no_user_shstk	[X86-64] Disable Shadow Stack for user-mode
-+			applications
-+
-+	no_user_ibt	[X86-64] Disable Indirect Branch Tracking for user-mode
-+			applications
-+
- 	nosmap		[X86,PPC]
- 			Disable SMAP (Supervisor Mode Access Prevention)
- 			even if it is supported by processor.
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index b224d12c880b..e88dcea4300b 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -21,6 +21,7 @@ x86-specific Documentation
-    tlb
-    mtrr
-    pat
-+   intel_cet
-    intel-iommu
-    intel_txt
-    amd-memory-encryption
-diff --git a/Documentation/x86/intel_cet.rst b/Documentation/x86/intel_cet.rst
-new file mode 100644
-index 000000000000..c362b16f2858
---- /dev/null
-+++ b/Documentation/x86/intel_cet.rst
-@@ -0,0 +1,136 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Control-flow Enforcement Technology (CET)
-+=========================================
-+
-+[1] Overview
-+============
-+
-+Control-flow Enforcement Technology (CET) is an Intel processor feature
-+that provides protection against return/jump-oriented programming (ROP)
-+attacks.  It can be set up to protect both applications and the kernel.
-+Only user-mode protection is implemented in the 64-bit kernel, including
-+support for running legacy 32-bit applications.
-+
-+CET introduces Shadow Stack and Indirect Branch Tracking.  Shadow stack is
-+a secondary stack allocated from memory and cannot be directly modified by
-+applications.  When executing a CALL instruction, the processor pushes the
-+return address to both the normal stack and the shadow stack.  Upon
-+function return, the processor pops the shadow stack copy and compares it
-+to the normal stack copy.  If the two differ, the processor raises a
-+control-protection fault.  Indirect branch tracking verifies indirect
-+CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
-+opcodes.
-+
-+There is a Kconfig option:
-+
-+    X86_CET_USER.
-+
-+To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0.1
-+or later are required.  To build a CET-enabled application, GLIBC v2.28 or
-+later is also required.
-+
-+There are two command-line options for disabling CET features::
-+
-+    no_user_shstk - disables user shadow stack, and
-+    no_user_ibt   - disables user indirect branch tracking.
-+
-+At run time, /proc/cpuinfo shows CET features if the processor supports
-+CET.
-+
-+[2] Application Enabling
-+========================
-+
-+An application's CET capability is marked in its ELF header and can be
-+verified from readelf/llvm-readelf output:
-+
-+    readelf -n <application> | grep -a SHSTK
-+        properties: x86 feature: IBT, SHSTK
-+
-+If an application supports CET and is statically linked, it will run with
-+CET protection.  If the application needs any shared libraries, the loader
-+checks all dependencies and enables CET when all requirements are met.
-+
-+[3] Backward Compatibility
-+==========================
-+
-+GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
-+variable:
-+
-+GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-IBT
-+    Turn off SHSTK/IBT.
-+
-+GLIBC_TUNABLES=glibc.tune.x86_shstk=<on, permissive>
-+    This controls how dlopen() handles SHSTK legacy libraries::
-+
-+        on         - continue with SHSTK enabled;
-+        permissive - continue with SHSTK off.
-+
-+Details can be found in the GLIBC manual pages.
-+
-+[4] CET arch_prctl()'s
-+======================
-+
-+Several arch_prctl()'s have been added for CET:
-+
-+arch_prctl(ARCH_X86_CET_STATUS, u64 *addr)
-+    Return CET feature status.
-+
-+    The parameter 'addr' is a pointer to a user buffer.
-+    On returning to the caller, the kernel fills the following
-+    information::
-+
-+        *addr       = shadow stack/indirect branch tracking status
-+        *(addr + 1) = shadow stack base address
-+        *(addr + 2) = shadow stack size
-+
-+arch_prctl(ARCH_X86_CET_DISABLE, unsigned int features)
-+    Disable shadow stack and/or indirect branch tracking as specified in
-+    'features'.  Return -EPERM if CET is locked.
-+
-+arch_prctl(ARCH_X86_CET_LOCK)
-+    Lock in all CET features.  They cannot be turned off afterwards.
-+
-+Note:
-+  There is no CET-enabling arch_prctl function.  By design, CET is enabled
-+  automatically if the binary and the system can support it.
-+
-+[5] The implementation of the Shadow Stack
-+==========================================
-+
-+Shadow Stack size
-+-----------------
-+
-+A task's shadow stack is allocated from memory to a fixed size of
-+MIN(RLIMIT_STACK, 4 GB).  In other words, the shadow stack is allocated to
-+the maximum size of the normal stack, but capped to 4 GB.  However,
-+a compat-mode application's address space is smaller, each of its thread's
-+shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
-+
-+Signal
-+------
-+
-+The main program and its signal handlers use the same shadow stack.
-+Because the shadow stack stores only return addresses, a large shadow
-+stack covers the condition that both the program stack and the signal
-+alternate stack run out.
-+
-+The kernel creates a restore token for the shadow stack restoring address
-+and verifies that token when restoring from the signal handler.
-+
-+Fork
-+----
-+
-+The shadow stack's vma has VM_SHSTK flag set; its PTEs are required to be
-+read-only and dirty.  When a shadow stack PTE is not RO and dirty, a
-+shadow access triggers a page fault with the shadow stack access bit set
-+in the page fault error code.
-+
-+When a task forks a child, its shadow stack PTEs are copied and both the
-+parent's and the child's shadow stack PTEs are cleared of the dirty bit.
-+Upon the next shadow stack access, the resulting shadow stack page fault
-+is handled by page copy/re-use.
-+
-+When a pthread child is created, the kernel allocates a new shadow stack
-+for the new thread.
--- 
-2.21.0
+I had actually tried this earlier, but here we run into errors.
+If we always set the class, then "partner" altmode device creation
+fails ("port" altmode creation will likely also fail, but I haven't
+verified that)
 
+The issue is that if we set both "class" and "bus", the device_add()
+[1] code tries to create the "subsystem" symlink in the altmode
+device's sysfs entry twice.
+
+The first creation is in the call to device_add_class_symlinks()[2]
+which creates a "subsystem" file [3]. Note that if "class" is not set,
+this code doesn't execute.
+Next is the call to bus_add_device() [4] which again tries to create
+the "subsystem" symlink [5] and fails since it already exists; this
+leads to failure.
+
+There are 2 solutions I can see:
+1. Only set class for cable plug alt modes (which won't have a bus
+set). This will avoid the double "subsystem" sysfs file creation.
+2. Change the bus_add_device() code to:
+    a. use the _nowarn() option of the symlink create function which
+prevents the warn stack traces on -EEXIST error, and
+    b. check for -EEXIST return value and don't fail if so.
+
+2.) Sounds good to me, but I'm not sure if it's alright to continue if
+a "subsystem" symlink already exists.
+
+If 2.) is OK with you, I will upload a patch to implement it and make
+a series with that patch and this one.
+
+Best regards,
+
+-Prashant
+
+[1]: https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/core.c#L2884
+[2]: https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/core.c#L2955
+[3]: https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/core.c#L2722
+[4]: https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/core.c#L2961
+[5]: https://elixir.bootlin.com/linux/v5.10-rc7/source/drivers/base/bus.c#L471
