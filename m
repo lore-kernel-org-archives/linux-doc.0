@@ -2,122 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F25C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2183C4167B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 17:17:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9244F23C32
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 16:52:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AF4D23C91
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 17:17:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730867AbgLIQvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 11:51:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26846 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727156AbgLIQvf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 11:51:35 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0B9GWbLp073428;
-        Wed, 9 Dec 2020 11:50:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=Odsb8xyjIIIVuDCTk0SLDsR/3RdCoFAvh4mqCubQ+2A=;
- b=sou2VVe58bYe8S9Xkbe77OrgSXLpzFqyoHcV1WfYtP4zZZ0WjphhwqtJOy0oiQw7krQr
- EIWJzOIkE6p0zcdVpRRJjChuM5iWd+aMN4OJMCs3nBAXeW+SBwjx/l4HtdmDvusCJtQ+
- gdf0L3OhNN1SL3kFRCvDK4O+COOLYf6bN260MytuXNWezpa7FNTAdm6SiP4JF2R5NIux
- Xld2anv19DBl9Zbn6AaG01fSo1lyJEQoJspk6VR9zzlHakjbsWX/hH21fyn8BoBmelxW
- +6LkLmyoVapnZ39qMZP7JnERgLOAz5o39m69oBFF0n6C2tkfJOnlIdTQHbQqklG1UNeo kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 35b1gxhm0y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Dec 2020 11:50:31 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B9GWh8i074282;
-        Wed, 9 Dec 2020 11:50:30 -0500
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 35b1gxhkyy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Dec 2020 11:50:30 -0500
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B9Gmomc002346;
-        Wed, 9 Dec 2020 16:50:28 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma03fra.de.ibm.com with ESMTP id 3581u8q49p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Dec 2020 16:50:27 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0B9GoOJI47120874
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 9 Dec 2020 16:50:25 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D2A744C046;
-        Wed,  9 Dec 2020 16:50:24 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 248254C044;
-        Wed,  9 Dec 2020 16:50:20 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.160.20.48])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  9 Dec 2020 16:50:19 +0000 (GMT)
-Message-ID: <b2465d27f3683331019c5a9b6d0856304d992a0a.camel@linux.ibm.com>
-Subject: Re: [PATCH v8 3/4] doc: trusted-encrypted: updates with TEE as a
- new trust source
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>, sumit.garg@linaro.org
-Cc:     Elaine Palmer <erpalmerny@gmail.com>,
-        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com,
-        dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
-        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
-        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
-        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org,
-        Kenneth Goldman <kgoldman@us.ibm.com>, gcwilson@linux.ibm.com,
-        zgu@us.ibm.com, stefanb@us.ibm.com, NAYNA JAIN1 <naynjain@ibm.com>
-Date:   Wed, 09 Dec 2020 11:50:19 -0500
-In-Reply-To: <20201208174906.GA58572@kernel.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
-         <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
-         <81A6B61D-3811-4957-B270-52AE5FA6DE4F@gmail.com>
-         <20201204153037.GC4922@kernel.org>
-         <ba6cd934bf7460cf6e9fc101a759a63fdd4e6e9b.camel@linux.ibm.com>
-         <20201208174906.GA58572@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2020-12-09_13:2020-12-09,2020-12-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 phishscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012090112
+        id S1730848AbgLIRRO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 12:17:14 -0500
+Received: from mga09.intel.com ([134.134.136.24]:45059 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730313AbgLIRRO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 12:17:14 -0500
+IronPort-SDR: y/vqRmtrvoIxDU4GVtZ49tl6G2vEtbc5hXXmB/C1UAF75/W/wL0muqkbHZL2Kn+RYNV2lPrONe
+ 0PY2u5wCRR6g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="174257010"
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
+   d="scan'208";a="174257010"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 09:15:27 -0800
+IronPort-SDR: q7zIyuVIcEnae6mwQz9ohdlc4C19lujeNhJs+YXiBQyEnlH3Mg7MhKBmBnN2SRf4rxqh+ALpvr
+ s48AF+/Vr5TQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; 
+   d="scan'208";a="437868841"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 09 Dec 2020 09:15:24 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Dec 2020 19:15:24 +0200
+Date:   Wed, 9 Dec 2020 19:15:24 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benson Leung <bleung@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
+Message-ID: <20201209171524.GK680328@kuha.fi.intel.com>
+References: <20201203030846.51669-1-pmalani@chromium.org>
+ <20201208093734.GD680328@kuha.fi.intel.com>
+ <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
+ <20201209161356.GI680328@kuha.fi.intel.com>
+ <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-12-08 at 19:49 +0200, Jarkko Sakkinen wrote:
-> On Tue, Dec 08, 2020 at 10:02:57AM -0500, Mimi Zohar wrote:
+Hi Prashant,
 
-> > > Please also use a proper email client and split your paragraphs into
-> > > at most 80 character lines with new line characters when writing email.
-> > > I prefer to use 72 character line length so that there's some space
-> > > for longer email threads.
-> > 
-> > Sure, we'll re-post the suggested documentation changes/additions.
-> > 
-> > Mimi
+On Wed, Dec 09, 2020 at 08:22:52AM -0800, Prashant Malani wrote:
+> Hi Heikki,
 > 
-> So. Wouldn't it be a better idea to post a patch that Sumit could
-> squash to his (and add co-developed-by tag)?
+> On Wed, Dec 9, 2020 at 8:14 AM Heikki Krogerus
+> <heikki.krogerus@linux.intel.com> wrote:
+> >
+> > On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
+> > > Hi Heikki,
+> > >
+> > > Thanks a lot for looking at the patch.
+> > >
+> > > On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> > > >
+> > > > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
+> > > > > Add the Type C bus for plug alternate modes which are being
+> > > > > registered via the Type C connector class. This ensures that udev events
+> > > > > get generated when plug alternate modes are registered (and not just for
+> > > > > partner/port alternate modes), even though the Type C bus doesn't link
+> > > > > plug alternate mode devices to alternate mode drivers.
+> > > >
+> > > > I still don't understand how is the uevent related to the bus? If you
+> > > > check the device_add() function, on line 2917, kobject_uevent() is
+> > > > called unconditionally. The device does not need a bus for that event
+> > > > to be generated.
+> > >
+> > > My initial thought process was to see what is the difference in the adev device
+> > > initialization between partner altmode and plug altmode (the only difference I saw in
+> > > typec_register_altmode() was regarding the bus field).
+> > >
+> > > Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
+> > > so we don't know if it succeeded or not.
+> > >
+> > > In the case of cable plug altmode, I see it fail with the following error[1]:
+> > >
+> > > [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
+> > >
+> > > I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
+> > >
+> > > static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
+> > > {
+> > >       struct kobj_type *ktype = get_ktype(kobj);
+> > >
+> > >       if (ktype == &device_ktype) {
+> > >               struct device *dev = kobj_to_dev(kobj);
+> > >               if (dev->bus)
+> > >                       return 1;
+> > >               if (dev->class)
+> > >                       return 1;
+> > >       }
+> > >       return 0;
+> > > }
+> > >
+> > > So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
+> > > so this check likely returns 1 in that case.
+> >
+> > OK. I understand the issue now. So I would say that the proper
+> > solution to this problem is to link the alt modes with the class
+> > instead of the bus. That is much smaller change IMO.
+> 
+> Got it. Just to confirm that I understand correctly, do you mean:
+> 1. Only cable plug alt modes should be linked with the class instead of the bus.
+> 
+> <or>
+> 
+> 2. All alt modes (cable plug, partner, port) should be linked with the
+> class instead of the bus
+> 
+> My initial interpretation is 1.) since the bus linkage would be
+> necessary to match alt mode drivers to partner alt mode devices.
+> But, my understanding of the bus code is limited so I could be wrong;
+> could you kindly clarify?
 
-I just posted it on Elaine's behalf.
-  
-Mimi
+We don't need to care about the bus here. A device can be part of a
+bus and a class at the same time. I don't think there is any reason to
+limit the class to only plug alt modes, so let's just assign it to all
+of them.
 
+thanks,
+
+-- 
+heikki
