@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 609DAC1B0E3
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBD6C1B0E3
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:34:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DAA723D1F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:32:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C9E123D20
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 22:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388504AbgLIW30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 17:29:26 -0500
-Received: from mga01.intel.com ([192.55.52.88]:7773 "EHLO mga01.intel.com"
+        id S2388757AbgLIWZq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 17:25:46 -0500
+Received: from mga18.intel.com ([134.134.136.126]:14575 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388699AbgLIW3Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 9 Dec 2020 17:29:16 -0500
-IronPort-SDR: mpy0vBMjrtUgYTf3i+lA9/75C2qLn/ye1K6a3JkxxmTWdO45lTx6KmI5txzHYW005Iqhhtk2wK
- K8ocrgn98wUQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="192468353"
+        id S2388749AbgLIWZp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 9 Dec 2020 17:25:45 -0500
+IronPort-SDR: fB9mZ9Z8a2EhSbVGnBEZ2jlC0fLZFphOFJeFRRaQ9CYkvEyF0y0aZABmVAOSLk3hpyLpUZ0NgY
+ ZGlQSop7+zxA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161918121"
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="192468353"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:28:10 -0800
-IronPort-SDR: Q68EBq02wyhMX6tVMQGq6R1dG5qjEMZ0OYfHaX1NQOpCdtDXy0RPDX8mowHOa+7bBZPjkHkme4
- aXHH+VSnGGfQ==
+   d="scan'208";a="161918121"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:52 -0800
+IronPort-SDR: E6X+PJx5M9WG91KmDjr+bK1OWFTThgqyMJyA1PrYDsK0zQNgFVZOa5Clc1htRMy1tLKSOkuRDx
+ BXlcFaYEh+2A==
 X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; 
-   d="scan'208";a="364333612"
+   d="scan'208";a="318543586"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:28:10 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2020 14:23:52 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,42 +60,45 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v16 1/7] x86/cet/ibt: Update Kconfig for user-mode Indirect Branch Tracking
-Date:   Wed,  9 Dec 2020 14:27:46 -0800
-Message-Id: <20201209222752.2911-2-yu-cheng.yu@intel.com>
+Subject: [PATCH v16 22/26] binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND properties
+Date:   Wed,  9 Dec 2020 14:23:16 -0800
+Message-Id: <20201209222320.1724-23-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20201209222752.2911-1-yu-cheng.yu@intel.com>
-References: <20201209222752.2911-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20201209222320.1724-1-yu-cheng.yu@intel.com>
+References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Indirect branch tracking is a hardware security feature that verifies near
-indirect call/jump instructions arrive at intended targets, which are
-labeled by the compiler with ENDBR opcodes.  If such instructions reach
-unlabeled locations, the processor raises control-protection faults.
-
-Check the compiler is up-to-date at config time.
+An ELF file's .note.gnu.property indicates architecture features of the
+file.  Introduce feature definitions for Shadow Stack and Indirect Branch
+Tracking.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ include/uapi/linux/elf.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 264de177a721..d08c0eb563da 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1942,6 +1942,7 @@ config X86_CET_USER
- 	def_bool n
- 	depends on CPU_SUP_INTEL && X86_64
- 	depends on AS_WRUSS
-+	depends on $(cc-option,-fcf-protection)
- 	select ARCH_USES_HIGH_VMA_FLAGS
- 	select ARCH_HAS_SHADOW_STACK
- 	select ARCH_MAYBE_MKWRITE
+diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+index 30f68b42eeb5..7f0e46780a35 100644
+--- a/include/uapi/linux/elf.h
++++ b/include/uapi/linux/elf.h
+@@ -455,4 +455,13 @@ typedef struct elf64_note {
+ /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
+ #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
+ 
++/* .note.gnu.property types for x86: */
++#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
++
++/* Bits for GNU_PROPERTY_X86_FEATURE_1_AND */
++#define GNU_PROPERTY_X86_FEATURE_1_IBT		0x00000001
++#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	0x00000002
++#define GNU_PROPERTY_X86_FEATURE_1_INVAL ~(GNU_PROPERTY_X86_FEATURE_1_IBT | \
++					    GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++
+ #endif /* _UAPI_LINUX_ELF_H */
 -- 
 2.21.0
 
