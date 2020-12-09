@@ -2,49 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85639C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C55C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:52:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5098E22B47
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:51:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E371022B47
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 15:52:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729685AbgLIPuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 10:50:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57396 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729658AbgLIPuJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 10:50:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607528922;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FAsAkjC0ZKqfT8nIOeG7vx7V2m4q/wdL4+UBTIQYf7s=;
-        b=FziFlAmK6XZkalhobYFVEbjNC7YAdwga/RmZLWU0WRP4dLa30sFJZUyYdt5LSwa/VTKdC3
-        gRlI/pDqrQDbbvmQjzZH2ZPc1KWN+PgNZr7gM9VrzU75u38939VAh0lWKNuPS5hnJzank8
-        69TL7NZX7051rCAb7Yo2Yn2M0W1ThgI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-qPQfirWWMnaXvDC8Ww-bRQ-1; Wed, 09 Dec 2020 10:48:38 -0500
-X-MC-Unique: qPQfirWWMnaXvDC8Ww-bRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D4748049F8;
-        Wed,  9 Dec 2020 15:47:31 +0000 (UTC)
-Received: from [10.36.113.30] (ovpn-113-30.ams2.redhat.com [10.36.113.30])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 731295D9D3;
-        Wed,  9 Dec 2020 15:47:23 +0000 (UTC)
+        id S1730838AbgLIPwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 10:52:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729997AbgLIPwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 10:52:16 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD859C061793
+        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 07:51:35 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id t37so1428808pga.7
+        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 07:51:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4LZhGST1GCxC0x+dge/6O0xwr4iPxq7vR6B3gDXWbaY=;
+        b=TepoJq8ZxONsJtMIn6sV/S8fsWzxKVCUoerGn+0I6mFkm5HVZNIMAYNO+3zIUhLRq+
+         gIquAEoIULX5PQyVi8eVg73fQax0Cu05O2gLpE1i7tGThxb6wP1cCrCmY7gkuy24SVCm
+         w8SuZlGlCo+JVqrULBOWNKCkfwmhz5n2NBEyfJb/sjyZ+70HA+bn9xi4I8X0jUmzNyly
+         bnb2zGjKh6JHEdjYoQPSR721WutrvYUKF0NFgma3uclwa6wPLyHej7DktmkDZQ4YsgQY
+         VIbf6uuabOVmkfN4qwMxLu5F/AwnoRMqIVmL33LCj/c7Ae4LZovpR2+b5oEQSIrXURhj
+         L8Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4LZhGST1GCxC0x+dge/6O0xwr4iPxq7vR6B3gDXWbaY=;
+        b=eE/AsnAqcNhonmem5Jaeo9Jimhn0ynB+Mmdhl6D36FbnByIoad+xyIe6JYE7ypQ3Hm
+         CXDMbyxuAmpwRIAC6akuVmXpxkd6+aTWE1K6FxJIIG0m0bjCjEDcFWMsaopRfLDd2LP5
+         BGpidch8b/4TsTLyZm676ITK4VFPafP0fmb/KLNhgOwJ7GJdnbPlhuEjYUXbeKgEulmP
+         6VaGHBtU/E9mjpDBaXQIzDDCLQVlLdlOFHVTEg0FUU7jmFtit72K2JLrpFNcvQ4+ricu
+         CPEzgFKwE9N/FWbsYXnheRz0wxSb1XEWG7t55qxjaK1txpq1Xk9rV+ZSeUx1UxXvzDsa
+         1xeQ==
+X-Gm-Message-State: AOAM533fwVxlRQaOi2wtkRgmXQodbxtcvRk64iWzdR9N7uAHKK0jkFdt
+        ANja0n5KoZvH5D4Vf2GLVdPmVMOSb6uRvMga7qQkLA==
+X-Google-Smtp-Source: ABdhPJzjuEOybsjABCGyo7OEYfRyelLQEgnUPKXjPCn1BIBWRyGfHkwLg5OS7NCcIZzz6sMyj3H7XziomX6ZNhzeE6o=
+X-Received: by 2002:a63:c15:: with SMTP id b21mr2461280pgl.341.1607529095084;
+ Wed, 09 Dec 2020 07:51:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <20201130151838.11208-7-songmuchun@bytedance.com> <ba57ea7d-709b-bf36-d48a-cc72a26012cc@redhat.com>
+ <CAMZfGtV5200NZXH9Z_Z9qXo5FCd9E6JOTXjQtzcF0xGi-gCuPg@mail.gmail.com>
+ <4b8a9389-1704-4d8c-ec58-abd753814dd9@redhat.com> <a6d11bc6-033d-3a0b-94ce-cbd556120b6d@redhat.com>
+ <CAMZfGtWfz8DcwKBLdf3j0x9Dt6ZvOd+MvjX6yXrAoKDeXxW95w@mail.gmail.com> <33779de1-7a7a-aa5c-e756-92925d4b097d@redhat.com>
+In-Reply-To: <33779de1-7a7a-aa5c-e756-92925d4b097d@redhat.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 9 Dec 2020 23:50:58 +0800
+Message-ID: <CAMZfGtX=BBOmj4c9FiL7u6DMJ8dd=FMHBvFMsjSFOH6TwNCHMQ@mail.gmail.com>
 Subject: Re: [External] Re: [PATCH v7 06/15] mm/hugetlb: Disable freeing
  vmemmap if struct page size is not power of two
-To:     Muchun Song <songmuchun@bytedance.com>
+To:     David Hildenbrand <david@redhat.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -65,96 +84,88 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20201130151838.11208-1-songmuchun@bytedance.com>
- <20201130151838.11208-7-songmuchun@bytedance.com>
- <ba57ea7d-709b-bf36-d48a-cc72a26012cc@redhat.com>
- <CAMZfGtV5200NZXH9Z_Z9qXo5FCd9E6JOTXjQtzcF0xGi-gCuPg@mail.gmail.com>
- <4b8a9389-1704-4d8c-ec58-abd753814dd9@redhat.com>
- <a6d11bc6-033d-3a0b-94ce-cbd556120b6d@redhat.com>
- <CAMZfGtWfz8DcwKBLdf3j0x9Dt6ZvOd+MvjX6yXrAoKDeXxW95w@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <33779de1-7a7a-aa5c-e756-92925d4b097d@redhat.com>
-Date:   Wed, 9 Dec 2020 16:47:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAMZfGtWfz8DcwKBLdf3j0x9Dt6ZvOd+MvjX6yXrAoKDeXxW95w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09.12.20 16:13, Muchun Song wrote:
-> On Wed, Dec 9, 2020 at 6:10 PM David Hildenbrand <david@redhat.com> wrote:
->>
->> On 09.12.20 11:06, David Hildenbrand wrote:
->>> On 09.12.20 11:03, Muchun Song wrote:
->>>> On Wed, Dec 9, 2020 at 5:57 PM David Hildenbrand <david@redhat.com> wrote:
->>>>>
->>>>> On 30.11.20 16:18, Muchun Song wrote:
->>>>>> We only can free the tail vmemmap pages of HugeTLB to the buddy allocator
->>>>>> when the size of struct page is a power of two.
->>>>>>
->>>>>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->>>>>> ---
->>>>>>  mm/hugetlb_vmemmap.c | 5 +++++
->>>>>>  1 file changed, 5 insertions(+)
->>>>>>
->>>>>> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
->>>>>> index 51152e258f39..ad8fc61ea273 100644
->>>>>> --- a/mm/hugetlb_vmemmap.c
->>>>>> +++ b/mm/hugetlb_vmemmap.c
->>>>>> @@ -111,6 +111,11 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->>>>>>       unsigned int nr_pages = pages_per_huge_page(h);
->>>>>>       unsigned int vmemmap_pages;
->>>>>>
->>>>>> +     if (!is_power_of_2(sizeof(struct page))) {
->>>>>> +             pr_info("disable freeing vmemmap pages for %s\n", h->name);
->>>>>
->>>>> I'd just drop that pr_info(). Users are able to observe that it's
->>>>> working (below), so they are able to identify that it's not working as well.
->>>>
->>>> The below is just a pr_debug. Do you suggest converting it to pr_info?
->>>
->>> Good question. I wonder if users really have to know in most cases.
->>> Maybe pr_debug() is good enough in environments where we want to debug
->>> why stuff is not working as expected.
->>>
->>
->> Oh, another thought, can we glue availability of
->> HUGETLB_PAGE_FREE_VMEMMAP (or a new define based on the config and the
->> size of a stuct page) to the size of struct page somehow?
->>
->> I mean, it's known at compile time that this will never work.
-> 
-> I want to define a macro which indicates the size of the
-> struct page. There is place (kernel/bounds.c) where can
-> do similar things. When I added the following code in
-> that file.
-> 
->         DEFINE(STRUCT_PAGE_SIZE, sizeof(struct page));
-> 
-> Then the compiler will output a message like:
-> 
+On Wed, Dec 9, 2020 at 11:48 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 09.12.20 16:13, Muchun Song wrote:
+> > On Wed, Dec 9, 2020 at 6:10 PM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 09.12.20 11:06, David Hildenbrand wrote:
+> >>> On 09.12.20 11:03, Muchun Song wrote:
+> >>>> On Wed, Dec 9, 2020 at 5:57 PM David Hildenbrand <david@redhat.com> wrote:
+> >>>>>
+> >>>>> On 30.11.20 16:18, Muchun Song wrote:
+> >>>>>> We only can free the tail vmemmap pages of HugeTLB to the buddy allocator
+> >>>>>> when the size of struct page is a power of two.
+> >>>>>>
+> >>>>>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> >>>>>> ---
+> >>>>>>  mm/hugetlb_vmemmap.c | 5 +++++
+> >>>>>>  1 file changed, 5 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> >>>>>> index 51152e258f39..ad8fc61ea273 100644
+> >>>>>> --- a/mm/hugetlb_vmemmap.c
+> >>>>>> +++ b/mm/hugetlb_vmemmap.c
+> >>>>>> @@ -111,6 +111,11 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+> >>>>>>       unsigned int nr_pages = pages_per_huge_page(h);
+> >>>>>>       unsigned int vmemmap_pages;
+> >>>>>>
+> >>>>>> +     if (!is_power_of_2(sizeof(struct page))) {
+> >>>>>> +             pr_info("disable freeing vmemmap pages for %s\n", h->name);
+> >>>>>
+> >>>>> I'd just drop that pr_info(). Users are able to observe that it's
+> >>>>> working (below), so they are able to identify that it's not working as well.
+> >>>>
+> >>>> The below is just a pr_debug. Do you suggest converting it to pr_info?
+> >>>
+> >>> Good question. I wonder if users really have to know in most cases.
+> >>> Maybe pr_debug() is good enough in environments where we want to debug
+> >>> why stuff is not working as expected.
+> >>>
+> >>
+> >> Oh, another thought, can we glue availability of
+> >> HUGETLB_PAGE_FREE_VMEMMAP (or a new define based on the config and the
+> >> size of a stuct page) to the size of struct page somehow?
+> >>
+> >> I mean, it's known at compile time that this will never work.
+> >
+> > I want to define a macro which indicates the size of the
+> > struct page. There is place (kernel/bounds.c) where can
+> > do similar things. When I added the following code in
+> > that file.
+> >
+> >         DEFINE(STRUCT_PAGE_SIZE, sizeof(struct page));
+> >
+> > Then the compiler will output a message like:
+> >
+>
+> Hm, from what I understand you cannot use sizeof() in #if etc. So it
+> might not be possible after all. At least the compiler should optimize
+> code like
+>
+> if (!is_power_of_2(sizeof(struct page))) {
+>         // either this
+> } else {
+>         // or that
+> }
+>
+> that can never be reached
 
-Hm, from what I understand you cannot use sizeof() in #if etc. So it
-might not be possible after all. At least the compiler should optimize
-code like
+Got it. Thanks so much.
 
-if (!is_power_of_2(sizeof(struct page))) {
-	// either this
-} else {
-	// or that
-}
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
 
-that can never be reached
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Yours,
+Muchun
