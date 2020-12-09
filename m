@@ -2,239 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A412EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 19:42:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71485C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:25:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BD4123C91
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 19:42:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 303CD23C8F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 20:25:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387648AbgLIT3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 14:29:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727798AbgLIT3g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 14:29:36 -0500
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fac])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FD1C0613CF;
-        Wed,  9 Dec 2020 11:28:50 -0800 (PST)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4CrnCg1YRnzlhNdX;
-        Wed,  9 Dec 2020 20:28:47 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4CrnCd5wFvzlh8TL;
-        Wed,  9 Dec 2020 20:28:44 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        id S1733001AbgLIUYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 15:24:23 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:58502 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730039AbgLIUYX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 15:24:23 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B9KMYrS093383;
+        Wed, 9 Dec 2020 14:22:34 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1607545354;
+        bh=0YOr/KkSEFpTKDVBe5HkrfTXFveoPFaa5XWm7Svxg7A=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=nJBYIQZr0v6lufvH0ZaFAm1rXVXE8Y46IxZPkAIl62WLJ1VxUa2c66AtQB25EgYiV
+         nL/a9qPUfn/JWmUpXk432xiAzXPWCSW+BNipBHHz1h0qVhdb2zU6coRwYG5Sla+gst
+         JWg7Xk7Z6MfewE8yF3BpQi9dZr39egrZldmiauW0=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B9KMYbu010807
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 9 Dec 2020 14:22:34 -0600
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 9 Dec
+ 2020 14:22:34 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 9 Dec 2020 14:22:34 -0600
+Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B9KMTT1020549;
+        Wed, 9 Dec 2020 14:22:31 -0600
+Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
+ drivers: gpio: add virtio-gpio guest driver
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@kernel.org>
+CC:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v26 00/12] Landlock LSM
-Date:   Wed,  9 Dec 2020 20:28:27 +0100
-Message-Id: <20201209192839.1396820-1-mic@digikod.net>
-X-Mailer: git-send-email 2.29.2
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+References: <20201203191135.21576-1-info@metux.net>
+ <20201203191135.21576-2-info@metux.net>
+ <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
+ <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
+ <51d3efb7-b7eb-83d7-673a-308dd51616d3@metux.net>
+ <CACRpkdbqVoT56H88hoZwDqV0kW_8XTaE5TkMQsg-RRrPqgF=cQ@mail.gmail.com>
+ <CAK8P3a1PRQGUXkjdSmqxXSONX_ZoCgsfx8hJBUdBUk14tyzErA@mail.gmail.com>
+ <CACRpkdbNAeDsi9B14kbkAeoqX7NE_Ua_yOX1iNF75oNK0ELefQ@mail.gmail.com>
+From:   Grygorii Strashko <grygorii.strashko@ti.com>
+Message-ID: <2827855a-dc4f-2e17-aca3-4b1b9f0d5084@ti.com>
+Date:   Wed, 9 Dec 2020 22:22:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdbNAeDsi9B14kbkAeoqX7NE_Ua_yOX1iNF75oNK0ELefQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-This patch series adds new built-time checks, a new test, renames some
-variables and functions to improve readability, and shift syscall
-numbers to align with -next.
-
-The SLOC count is 1289 for security/landlock/ and 1791 for
-tools/testing/selftest/landlock/ .  Test coverage for security/landlock/
-is 94.1% of lines.  The code not covered only deals with internal kernel
-errors (e.g. memory allocation) and race conditions.
-
-The compiled documentation is available here:
-https://landlock.io/linux-doc/landlock-v26/userspace-api/landlock.html
-
-This series can be applied on top of v5.10-rc7 .  This can be tested
-with CONFIG_SECURITY_LANDLOCK, CONFIG_SAMPLE_LANDLOCK and by prepending
-"landlock," to CONFIG_LSM.  This patch series can be found in a Git
-repository here:
-https://github.com/landlock-lsm/linux/commits/landlock-v26
-I would really appreciate constructive comments on this patch series.
 
 
-# Landlock LSM
+On 09/12/2020 14:53, Linus Walleij wrote:
+> On Wed, Dec 9, 2020 at 12:19 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>> On Wed, Dec 9, 2020 at 9:51 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+>>> On Tue, Dec 8, 2020 at 3:07 PM Enrico Weigelt, metux IT consult <lkml@metux.net> wrote:
+>>
+>>> What we need to understand is if your new usecase is an outlier
+>>> so it is simplest modeled by a "mock" irq_chip or we have to design
+>>> something new altogether like notifications on changes. I suspect
+>>> irq_chip would be best because all drivers using GPIOs for interrupts
+>>> are expecting interrupts, and it would be an enormous task to
+>>> change them all and really annoying to create a new mechanism
+>>> on the side.
+>>
+>> I would expect the platform abstraction to actually be close enough
+>> to a chained irqchip that it actually works: the notification should
+>> come in via vring_interrupt(), which is a normal interrupt handler
+>> that calls vq->vq.callback(), calling generic_handle_irq() (and
+>> possibly chained_irq_enter()/chained_irq_exit() around it) like the
+>> other gpio drivers do should just work here I think, and if it did
+>> not, then I would expect this to be just a bug in the driver rather
+>> than something missing in the gpio framework.
+> 
+> Performance/latency-wise that would also be strongly encouraged.
+> 
+> Tglx isn't super-happy about the chained interrupts at times, as they
+> can create really nasty bugs, but a pure IRQ in fastpath of some
+> kinde is preferable and intuitive either way.
 
-The goal of Landlock is to enable to restrict ambient rights (e.g.
-global filesystem access) for a set of processes.  Because Landlock is a
-stackable LSM [1], it makes possible to create safe security sandboxes
-as new security layers in addition to the existing system-wide
-access-controls. This kind of sandbox is expected to help mitigate the
-security impact of bugs or unexpected/malicious behaviors in user-space
-applications. Landlock empowers any process, including unprivileged
-ones, to securely restrict themselves.
+In my opinion the problem here is that proposed patch somehow describes Front end, but
+says nothing about Backend and overall design.
 
-Landlock is inspired by seccomp-bpf but instead of filtering syscalls
-and their raw arguments, a Landlock rule can restrict the use of kernel
-objects like file hierarchies, according to the kernel semantic.
-Landlock also takes inspiration from other OS sandbox mechanisms: XNU
-Sandbox, FreeBSD Capsicum or OpenBSD Pledge/Unveil.
+What is expected to be virtualized? whole GPIO chip? or set of GPIOs from different GPIO chips?
+Most often nobody want to give Guest access to the whole GPIO chip, so, most probably, smth. similar to
+GPIO Aggregator will be needed.
 
-In this current form, Landlock misses some access-control features.
-This enables to minimize this patch series and ease review.  This series
-still addresses multiple use cases, especially with the combined use of
-seccomp-bpf: applications with built-in sandboxing, init systems,
-security sandbox tools and security-oriented APIs [2].
+How is situation going to be resolved that GPIO framework and IRQ framework are independent, but intersect, and
+GPIO controller drivers have no idea who and how requesting GPIO IRQ - threaded vs non-threaded vs oneshot.
+So, some information need to be transferred to Back end  - at minimum IRQ triggering type.
 
-Previous version:
-https://lore.kernel.org/lkml/20201201192322.213239-1-mic@digikod.net
-
-[1] https://lore.kernel.org/lkml/50db058a-7dde-441b-a7f9-f6837fe8b69f@schaufler-ca.com/
-[2] https://lore.kernel.org/lkml/f646e1c7-33cf-333f-070c-0a40ad0468cd@digikod.net/
-
-
-Casey Schaufler (1):
-  LSM: Infrastructure management of the superblock
-
-Mickaël Salaün (11):
-  landlock: Add object management
-  landlock: Add ruleset and domain management
-  landlock: Set up the security framework and manage credentials
-  landlock: Add ptrace restrictions
-  fs,security: Add sb_delete hook
-  landlock: Support filesystem access-control
-  landlock: Add syscall implementations
-  arch: Wire up Landlock syscalls
-  selftests/landlock: Add user space tests
-  samples/landlock: Add a sandbox manager example
-  landlock: Add user and kernel documentation
-
- Documentation/security/index.rst              |    1 +
- Documentation/security/landlock.rst           |   79 +
- Documentation/userspace-api/index.rst         |    1 +
- Documentation/userspace-api/landlock.rst      |  280 +++
- MAINTAINERS                                   |   13 +
- arch/Kconfig                                  |    7 +
- arch/alpha/kernel/syscalls/syscall.tbl        |    3 +
- arch/arm/tools/syscall.tbl                    |    3 +
- arch/arm64/include/asm/unistd.h               |    2 +-
- arch/arm64/include/asm/unistd32.h             |    6 +
- arch/ia64/kernel/syscalls/syscall.tbl         |    3 +
- arch/m68k/kernel/syscalls/syscall.tbl         |    3 +
- arch/microblaze/kernel/syscalls/syscall.tbl   |    3 +
- arch/mips/kernel/syscalls/syscall_n32.tbl     |    3 +
- arch/mips/kernel/syscalls/syscall_n64.tbl     |    3 +
- arch/mips/kernel/syscalls/syscall_o32.tbl     |    3 +
- arch/parisc/kernel/syscalls/syscall.tbl       |    3 +
- arch/powerpc/kernel/syscalls/syscall.tbl      |    3 +
- arch/s390/kernel/syscalls/syscall.tbl         |    3 +
- arch/sh/kernel/syscalls/syscall.tbl           |    3 +
- arch/sparc/kernel/syscalls/syscall.tbl        |    3 +
- arch/um/Kconfig                               |    1 +
- arch/x86/entry/syscalls/syscall_32.tbl        |    3 +
- arch/x86/entry/syscalls/syscall_64.tbl        |    3 +
- arch/xtensa/kernel/syscalls/syscall.tbl       |    3 +
- fs/super.c                                    |    1 +
- include/linux/lsm_hook_defs.h                 |    1 +
- include/linux/lsm_hooks.h                     |    3 +
- include/linux/security.h                      |    4 +
- include/linux/syscalls.h                      |    7 +
- include/uapi/asm-generic/unistd.h             |    8 +-
- include/uapi/linux/landlock.h                 |  128 ++
- kernel/sys_ni.c                               |    5 +
- samples/Kconfig                               |    7 +
- samples/Makefile                              |    1 +
- samples/landlock/.gitignore                   |    1 +
- samples/landlock/Makefile                     |   15 +
- samples/landlock/sandboxer.c                  |  233 +++
- security/Kconfig                              |   11 +-
- security/Makefile                             |    2 +
- security/landlock/Kconfig                     |   21 +
- security/landlock/Makefile                    |    4 +
- security/landlock/common.h                    |   20 +
- security/landlock/cred.c                      |   46 +
- security/landlock/cred.h                      |   58 +
- security/landlock/fs.c                        |  622 ++++++
- security/landlock/fs.h                        |   56 +
- security/landlock/limits.h                    |   21 +
- security/landlock/object.c                    |   67 +
- security/landlock/object.h                    |   91 +
- security/landlock/ptrace.c                    |  120 ++
- security/landlock/ptrace.h                    |   14 +
- security/landlock/ruleset.c                   |  466 +++++
- security/landlock/ruleset.h                   |  161 ++
- security/landlock/setup.c                     |   40 +
- security/landlock/setup.h                     |   18 +
- security/landlock/syscall.c                   |  427 ++++
- security/security.c                           |   51 +-
- security/selinux/hooks.c                      |   58 +-
- security/selinux/include/objsec.h             |    6 +
- security/selinux/ss/services.c                |    3 +-
- security/smack/smack.h                        |    6 +
- security/smack/smack_lsm.c                    |   35 +-
- tools/testing/selftests/Makefile              |    1 +
- tools/testing/selftests/landlock/.gitignore   |    2 +
- tools/testing/selftests/landlock/Makefile     |   24 +
- tools/testing/selftests/landlock/base_test.c  |  219 ++
- tools/testing/selftests/landlock/common.h     |  110 +
- tools/testing/selftests/landlock/config       |    5 +
- tools/testing/selftests/landlock/fs_test.c    | 1799 +++++++++++++++++
- .../testing/selftests/landlock/ptrace_test.c  |  314 +++
- tools/testing/selftests/landlock/true.c       |    5 +
- 72 files changed, 5678 insertions(+), 77 deletions(-)
- create mode 100644 Documentation/security/landlock.rst
- create mode 100644 Documentation/userspace-api/landlock.rst
- create mode 100644 include/uapi/linux/landlock.h
- create mode 100644 samples/landlock/.gitignore
- create mode 100644 samples/landlock/Makefile
- create mode 100644 samples/landlock/sandboxer.c
- create mode 100644 security/landlock/Kconfig
- create mode 100644 security/landlock/Makefile
- create mode 100644 security/landlock/common.h
- create mode 100644 security/landlock/cred.c
- create mode 100644 security/landlock/cred.h
- create mode 100644 security/landlock/fs.c
- create mode 100644 security/landlock/fs.h
- create mode 100644 security/landlock/limits.h
- create mode 100644 security/landlock/object.c
- create mode 100644 security/landlock/object.h
- create mode 100644 security/landlock/ptrace.c
- create mode 100644 security/landlock/ptrace.h
- create mode 100644 security/landlock/ruleset.c
- create mode 100644 security/landlock/ruleset.h
- create mode 100644 security/landlock/setup.c
- create mode 100644 security/landlock/setup.h
- create mode 100644 security/landlock/syscall.c
- create mode 100644 tools/testing/selftests/landlock/.gitignore
- create mode 100644 tools/testing/selftests/landlock/Makefile
- create mode 100644 tools/testing/selftests/landlock/base_test.c
- create mode 100644 tools/testing/selftests/landlock/common.h
- create mode 100644 tools/testing/selftests/landlock/config
- create mode 100644 tools/testing/selftests/landlock/fs_test.c
- create mode 100644 tools/testing/selftests/landlock/ptrace_test.c
- create mode 100644 tools/testing/selftests/landlock/true.c
-
-
-base-commit: 0477e92881850d44910a7e94fc2c46f96faa131f
+Overall, it might be better to start from pure gpio and leave GPIO IRQ aside.
 -- 
-2.29.2
-
+Best regards,
+grygorii
