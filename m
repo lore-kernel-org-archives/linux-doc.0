@@ -2,72 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99806C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 05:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9DCC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:38:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49E1A23B28
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 05:25:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08579235F7
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 07:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbgLIFZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 00:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
+        id S1727408AbgLIHiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 02:38:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726943AbgLIFZz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 00:25:55 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89CB2C0613D6;
-        Tue,  8 Dec 2020 21:25:15 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kmryS-00025T-Qr; Wed, 09 Dec 2020 06:25:12 +0100
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1607063223.git.linux@leemhuis.info>
- <20201208104445.0f82ae78@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v4 0/3] New documentation text describing how to report
- issues (aka "reporting-bugs rewritten")
-Message-ID: <578165ed-a62d-17df-32ba-188248639d12@leemhuis.info>
-Date:   Wed, 9 Dec 2020 06:25:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        with ESMTP id S1726137AbgLIHiB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 02:38:01 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9194C06179C
+        for <linux-doc@vger.kernel.org>; Tue,  8 Dec 2020 23:37:20 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id c12so451423pfo.10
+        for <linux-doc@vger.kernel.org>; Tue, 08 Dec 2020 23:37:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2cICHu+sOCwXeW6iw0ut0I4jknhG6qKw77uMPa9BrME=;
+        b=udn54ZQaXLxWJyckaeNBxPfVo2UljovZBUS+oRSUFvvUCAyH5HEeIGMwu2NU/lb6Vh
+         Q6TJj/Jr5mEPR/YkLf6/wG9KF1iuHRXQrZdHvAAugCwhnRDuOxCEvuLBxcRO3/KUwwOp
+         cvt33y8UczhgGRSTsjlH00EixjOW+95c8TRRRxqb0iHaW4IE/6s7Ubc3HSYXINQjDBd8
+         kEZE+uzp0wZoJHSd1eMKCSee7hBjQBjgWS8Q7X316n1wFK0m3VZUOdukYZbTusjQ8klh
+         1G+GmJynHKliOdBwA5VmiiGU/U7aJrCES/GeQzSvaDuZthhr2djQxFTylGUdDkqzBeM5
+         Pt/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2cICHu+sOCwXeW6iw0ut0I4jknhG6qKw77uMPa9BrME=;
+        b=otpCJ8nQLDfkFuPy7ybudj2EszciwWLc8Ou+ojhrl44GlYHImmBjYmUZze/8wzfdUK
+         6CTBlsvEU2Fm6eaLDM8Jqqb+Y6pvDSFLOveeYq2z9beHtt3ZKfMQepQw0vr8JtYJ4QyK
+         Q6M/QzkCa9ffShZxEa8t3PV0AOT2zf4dtZId9rAaWv8zUzq9601eXzRCDUZ1QoX9RLz0
+         VzD95nafPzh8wmf9TuZw48uCvwnQpQj7teEC7uL5a1N+q1pU0DVgUtl6inelqnoo5N/z
+         /qYIJ2z7tjhNwe9985cg4PowCjcdmP5lxU/pawqTJEBhZ4AtIq468QlBJqpZnmcMXeLv
+         4TUQ==
+X-Gm-Message-State: AOAM530uBcL9o2/Vjh+OYnN1eRJGWH7zRFf14arwMQQJpQ6+sBHivN0w
+        uSPkUZ0MP79OOYNNYWcI9hbMWS4YCisoOhM4sQocVw==
+X-Google-Smtp-Source: ABdhPJzwSm5U2W6VXMUOuUhmk30S9OwGGrhk3XSnR2IzvfloRQjzF8Ftb/J3yX+TKovQ3AU0/xle8qW2iaWTuakvWzw=
+X-Received: by 2002:a62:3103:0:b029:19b:d4e8:853c with SMTP id
+ x3-20020a6231030000b029019bd4e8853cmr1181160pfx.59.1607499440381; Tue, 08 Dec
+ 2020 23:37:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201208104445.0f82ae78@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1607491515;bbc4c3aa;
-X-HE-SMSGID: 1kmryS-00025T-Qr
+References: <20201130151838.11208-1-songmuchun@bytedance.com>
+ <20201130151838.11208-6-songmuchun@bytedance.com> <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
+In-Reply-To: <17abb7bb-de39-7580-b020-faec58032de9@redhat.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 9 Dec 2020 15:36:41 +0800
+Message-ID: <CAMZfGtWepk0EXc_fCtS83gvhfKpMrXxP8k3oWwfhWKmPJ3jjwA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v7 05/15] mm/bootmem_info: Introduce {free,prepare}_vmemmap_page()
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 08.12.20 um 18:44 schrieb Jonathan Corbet:
-> On Fri,  4 Dec 2020 07:43:47 +0100
-> Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> 
->> This series adds a new and mostly finished document describing how to report
->> issues with the Linux kernel to its developers.
-> OK, I have applied this series.
+On Mon, Dec 7, 2020 at 8:39 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 30.11.20 16:18, Muchun Song wrote:
+> > In the later patch, we can use the free_vmemmap_page() to free the
+> > unused vmemmap pages and initialize a page for vmemmap page using
+> > via prepare_vmemmap_page().
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  include/linux/bootmem_info.h | 24 ++++++++++++++++++++++++
+> >  1 file changed, 24 insertions(+)
+> >
+> > diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
+> > index 4ed6dee1adc9..239e3cc8f86c 100644
+> > --- a/include/linux/bootmem_info.h
+> > +++ b/include/linux/bootmem_info.h
+> > @@ -3,6 +3,7 @@
+> >  #define __LINUX_BOOTMEM_INFO_H
+> >
+> >  #include <linux/mmzone.h>
+> > +#include <linux/mm.h>
+> >
+> >  /*
+> >   * Types for free bootmem stored in page->lru.next. These have to be in
+> > @@ -22,6 +23,29 @@ void __init register_page_bootmem_info_node(struct pglist_data *pgdat);
+> >  void get_page_bootmem(unsigned long info, struct page *page,
+> >                     unsigned long type);
+> >  void put_page_bootmem(struct page *page);
+> > +
+> > +static inline void free_vmemmap_page(struct page *page)
+> > +{
+> > +     VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
+> > +
+> > +     /* bootmem page has reserved flag in the reserve_bootmem_region */
+> > +     if (PageReserved(page)) {
+> > +             unsigned long magic = (unsigned long)page->freelist;
+> > +
+> > +             if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
+> > +                     put_page_bootmem(page);
+> > +             else
+> > +                     WARN_ON(1);
+> > +     }
+> > +}
+> > +
+> > +static inline void prepare_vmemmap_page(struct page *page)
+> > +{
+> > +     unsigned long section_nr = pfn_to_section_nr(page_to_pfn(page));
+> > +
+> > +     get_page_bootmem(section_nr, page, SECTION_INFO);
+> > +     mark_page_reserved(page);
+> > +}
+>
+> Can you clarify in the description when exactly these functions are
+> called and on which type of pages?
+>
+> Would indicating "bootmem" in the function names make it clearer what we
+> are dealing with?
+>
+> E.g., any memory allocated via the memblock allocator and not via the
+> buddy will be makred reserved already in the memmap. It's unclear to me
+> why we need the mark_page_reserved() here - can you enlighten me? :)
 
-Great, many thx! When I sent the first rfc I had expected it would take 
-a lot longer to reach this point. But well, there is still a lot to do, 
-just that it will happen in-tree now. Will keep an eye on things and 
-work towards getting the remaining issues resolved.
+Sorry for ignoring this question. Because the vmemmap pages are allocated
+from the bootmem allocator which is marked as PG_reserved. For those bootmem
+pages, we should call put_page_bootmem for free. You can see that we
+clear the PG_reserved in the put_page_bootmem. In order to be consistent,
+the prepare_vmemmap_page also marks the page as PG_reserved.
 
-Side note: Just sent the first (brown paper bag) patch for the text[1], 
-as I messed up in one of the last few changes I did -- and obviously I 
-only noticed this stupid mistake after you merged it. :-/ Sorry for the 
-trouble.
+Thanks.
 
-Ciao, Thorsten
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
 
-https://lore.kernel.org/linux-doc/d3894ba4a302beed661304cbcdc062c6dcfe3e58.1607489877.git.linux@leemhuis.info/
+
+-- 
+Yours,
+Muchun
