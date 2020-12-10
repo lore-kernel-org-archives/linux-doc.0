@@ -2,207 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 930D3C2BB9A
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 16:32:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 160B8C4167B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 16:43:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 507C523DB3
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 16:32:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6ADE2388B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 16:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389221AbgLJQEu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 11:04:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387918AbgLJQEl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 11:04:41 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44270C0613D6
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 08:04:01 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id v14so5104285wml.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 08:04:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Hh8PxAhln6PiY96SsIvH4Jb4HnhnMqeMZCUSPG8j+s0=;
-        b=DLZ928rqaeb/lsTz6CetglcHdGdiZkSKcNbL+S0gXsaCg1O7UdHDnhC/o64G2rrVYd
-         K3heFF0KQl/eEspEWJJvlkIdqSFxbIeRzDTpk9PVoMOR24vo0uTw58xd71nL3srbmzv1
-         8TJOoxrvfbWu0J8wZGvX2E/JiRZTdgLa+jhq71FCJoDLykcycr246iElt6AiPtk6yLZ2
-         5KPwJ90ogvnpan9yngc2YYi6VIr1+OESuqABEZeVIXtiUU3fLkqGq1dbTmGC/B2cUD7x
-         s+YfUc5Kt1KAut4BzM/AVJJdR8UXi7j2vuXku9o2jBm5c+GCdiKuMfzfKqk+s5XeNRUh
-         C27A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Hh8PxAhln6PiY96SsIvH4Jb4HnhnMqeMZCUSPG8j+s0=;
-        b=SecvmZ0n7VyRC8qLEi5iRMf/yqzjWLfKidrxDFqiz2rDdaHDpkLDtUz9KlDh5T1KPg
-         AdmqzaxC7/ulKV9Zk+dOwxL2zmNEIHSlrMmZ6htv+BVnJ4KfnxNVdVp7u/sqyYE0mT3Z
-         rgYLca9tU6eEnvFEKd6qyNUMfNXoCFMUlL/pzFwS+oTN3FnumE4ya2QjZPRVed4xVvnL
-         eHKCenC4r0CX2h9XG5sYbB3tYy/6DLKYKsd5ZEYGDEeyJG/XCTHjX6jfI4NNItT64OdC
-         S4Wrhe1/v4mGD88azp23ZKd7jLUz6nzjxWC7zATYWSSoiMbOYf+HOTUyvOq++gU2EZuT
-         eHuA==
-X-Gm-Message-State: AOAM5301uscbF1g8G28QNPgkhvcStB9LM/ObDa5W8VJir2rsT1P3zoyD
-        +FvgEcHY03KKWMh1KNEqZ4X67g==
-X-Google-Smtp-Source: ABdhPJwlL+iccy5h+6abVXgzPBfF873S9rja/ooxjbuBYTgwfozKKRBiUTpSGG43GvEvWnRDaZvTIw==
-X-Received: by 2002:a1c:e10b:: with SMTP id y11mr9199667wmg.65.1607616239854;
-        Thu, 10 Dec 2020 08:03:59 -0800 (PST)
-Received: from localhost.localdomain ([212.45.67.2])
-        by smtp.googlemail.com with ESMTPSA id d17sm9274768wro.62.2020.12.10.08.03.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Dec 2020 08:03:59 -0800 (PST)
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-To:     akpm@linux-foundation.org
-Cc:     linux-mm@kvack.org, vbabka@suse.cz, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lmark@codeaurora.org, georgi.djakov@linaro.org
-Subject: [PATCH v3] mm/page_owner: Record timestamp and pid
-Date:   Thu, 10 Dec 2020 18:03:57 +0200
-Message-Id: <20201210160357.27779-1-georgi.djakov@linaro.org>
-X-Mailer: git-send-email 2.29.0
+        id S2392394AbgLJQmN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 11:42:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26653 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391875AbgLJQmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 11:42:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607618438;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=2N89GAWJh2oijgPtEoE6/Kndq4JEGomfZWV0U25Lc9I=;
+        b=Ux4n3MQu2Qn+QLjfNCABYRc6/JHIv9NE7dLEGjiJISq/ghZt5IfzHOPfGBbZs6XQnIO93m
+        76pZyDS/YLboXB+jfv6a7DyIduR4F9GXux5B5w9PVYv645IKH9/nOGB0W2nNMpqG6d1bJr
+        5DBtld3B+BvF/Ol8DUkPgwOUsBmEqUI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-q2wahnQyOFCzTISxvSExEQ-1; Thu, 10 Dec 2020 11:40:35 -0500
+X-MC-Unique: q2wahnQyOFCzTISxvSExEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08BA8107ACE4;
+        Thu, 10 Dec 2020 16:40:31 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-7.gru2.redhat.com [10.97.112.7])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C95319718;
+        Thu, 10 Dec 2020 16:40:30 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id CC8E441853FD; Thu, 10 Dec 2020 12:26:18 -0300 (-03)
+Date:   Thu, 10 Dec 2020 12:26:18 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Message-ID: <20201210152618.GB23951@fuller.cnet>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+ <20201203171118.372391-2-mlevitsk@redhat.com>
+ <20201207232920.GD27492@fuller.cnet>
+ <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
+ <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
+ <20201208181107.GA31442@fuller.cnet>
+ <875z5c2db8.fsf@nanos.tec.linutronix.de>
+ <20201209163434.GA22851@fuller.cnet>
+ <87r1nyzogg.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r1nyzogg.fsf@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Liam Mark <lmark@codeaurora.org>
+On Wed, Dec 09, 2020 at 09:58:23PM +0100, Thomas Gleixner wrote:
+> Marcelo,
+> 
+> On Wed, Dec 09 2020 at 13:34, Marcelo Tosatti wrote:
+> > On Tue, Dec 08, 2020 at 10:33:15PM +0100, Thomas Gleixner wrote:
+> >> On Tue, Dec 08 2020 at 15:11, Marcelo Tosatti wrote:
+> >> > max_cycles overflow. Sent a message to Maxim describing it.
+> >> 
+> >> Truly helpful. Why the hell did you not talk to me when you ran into
+> >> that the first time?
+> >
+> > Because 
+> >
+> > 1) Users wanted CLOCK_BOOTTIME to stop counting while the VM 
+> > is paused (so we wanted to stop guest clock when VM is paused anyway).
+> 
+> How is that supposed to work w/o the guest kernels help if you have to
+> keep clock realtime up to date? 
 
-Collect the time for each allocation recorded in page owner so that
-allocation "surges" can be measured.
+Upon VM resume, we notify NTP daemon in the guest to sync realtime
+clock.
+> 
+> > 2) The solution to inject NMIs to the guest seemed overly
+> > complicated.
+> 
+> Why do you need NMIs?
+> 
+> All you need is a way to communicate to the guest that it should prepare
+> for clock madness to happen. Whether that's an IPI or a bit in a
+> hyperpage which gets checked during the update of the guest timekeeping
+> does not matter at all.
+> 
+> But you certainly do not need an NMI because there is nothing useful you
+> can do within an NMI.
+> 
+> Thanks,
+> 
+>         tglx
 
-Record the pid for each allocation recorded in page owner so that the
-source of allocation "surges" can be better identified.
-
-The above is very useful when doing memory analysis.  On a crash for
-example, we can get this information from kdump (or ramdump) and parse it
-to figure out memory allocation problems.
-
-Please note that on x86_64 this increases the size of struct page_owner
-from 16 bytes to 32.
-
-Vlastimil: it's not a functionality intended for production, so unless
-somebody says they need to enable page_owner for debugging and this
-increase prevents them from fitting into available memory, let's not
-complicate things with making this optional.
-
-Signed-off-by: Liam Mark <lmark@codeaurora.org>
-Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-
-v3:
-- Fix the warnings in the documentation (reported in linux-next) and make
-  Sphinx happy:
-  Documentation/vm/page_owner.rst:44: WARNING: Literal block ends without a blank line; unexpected unindent.
-  Documentation/vm/page_owner.rst:49: WARNING: Literal block ends without a blank line; unexpected unindent.
-
-v2: https://lore.kernel.org/r/20201209125153.10533-1-georgi.djakov@linaro.org
-- Improve the commit message (Andrew and Vlastimil)
-- Update page_owner.rst with more recent object size information (Andrew)
-- Use pid_t for the pid (Andrew)
-- Print the info also in __dump_page_owner() (Vlastimil)
-
-v1: https://lore.kernel.org/r/20201112184106.733-1-georgi.djakov@linaro.org
-
- Documentation/vm/page_owner.rst | 12 ++++++------
- mm/page_owner.c                 | 17 +++++++++++++----
- 2 files changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 02deac76673f..4e67c2e9bbed 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -41,17 +41,17 @@ size change due to this facility.
- - Without page owner::
- 
-    text    data     bss     dec     hex filename
--   40662   1493     644   42799    a72f mm/page_alloc.o
-+   48392   2333     644   51369    c8a9 mm/page_alloc.o
- 
- - With page owner::
- 
-    text    data     bss     dec     hex filename
--   40892   1493     644   43029    a815 mm/page_alloc.o
--   1427      24       8    1459     5b3 mm/page_ext.o
--   2722      50       0    2772     ad4 mm/page_owner.o
-+   48800   2445     644   51889    cab1 mm/page_alloc.o
-+   6574     108      29    6711    1a37 mm/page_owner.o
-+   1025       8       8    1041     411 mm/page_ext.o
- 
--Although, roughly, 4 KB code is added in total, page_alloc.o increase by
--230 bytes and only half of it is in hotpath. Building the kernel with
-+Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-+520 bytes and less than half of it is in hotpath. Building the kernel with
- page owner and turning it on if needed would be great option to debug
- kernel memory problem.
- 
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index b735a8eafcdb..af464bb7fbe7 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -10,6 +10,7 @@
- #include <linux/migrate.h>
- #include <linux/stackdepot.h>
- #include <linux/seq_file.h>
-+#include <linux/sched/clock.h>
- 
- #include "internal.h"
- 
-@@ -25,6 +26,8 @@ struct page_owner {
- 	gfp_t gfp_mask;
- 	depot_stack_handle_t handle;
- 	depot_stack_handle_t free_handle;
-+	u64 ts_nsec;
-+	pid_t pid;
- };
- 
- static bool page_owner_enabled = false;
-@@ -172,6 +175,8 @@ static inline void __set_page_owner_handle(struct page *page,
- 		page_owner->order = order;
- 		page_owner->gfp_mask = gfp_mask;
- 		page_owner->last_migrate_reason = -1;
-+		page_owner->pid = current->pid;
-+		page_owner->ts_nsec = local_clock();
- 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
- 		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
- 
-@@ -236,6 +241,8 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
- 	new_page_owner->last_migrate_reason =
- 		old_page_owner->last_migrate_reason;
- 	new_page_owner->handle = old_page_owner->handle;
-+	new_page_owner->pid = old_page_owner->pid;
-+	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
- 
- 	/*
- 	 * We don't clear the bit on the oldpage as it's going to be freed
-@@ -349,9 +356,10 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
- 		return -ENOMEM;
- 
- 	ret = snprintf(kbuf, count,
--			"Page allocated via order %u, mask %#x(%pGg)\n",
-+			"Page allocated via order %u, mask %#x(%pGg), pid %d, ts %llu ns\n",
- 			page_owner->order, page_owner->gfp_mask,
--			&page_owner->gfp_mask);
-+			&page_owner->gfp_mask, page_owner->pid,
-+			page_owner->ts_nsec);
- 
- 	if (ret >= count)
- 		goto err;
-@@ -427,8 +435,9 @@ void __dump_page_owner(struct page *page)
- 	else
- 		pr_alert("page_owner tracks the page as freed\n");
- 
--	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg)\n",
--		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask);
-+	pr_alert("page last allocated via order %u, migratetype %s, gfp_mask %#x(%pGg), pid %d, ts %llu\n",
-+		 page_owner->order, migratetype_names[mt], gfp_mask, &gfp_mask,
-+		 page_owner->pid, page_owner->ts_nsec);
- 
- 	handle = READ_ONCE(page_owner->handle);
- 	if (!handle) {
