@@ -2,28 +2,27 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A882C1B0D9
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CEBC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:41:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E578123D56
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:40:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 932CC23D56
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:41:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727734AbgLJLj7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 06:39:59 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54458 "EHLO mx2.suse.de"
+        id S1732067AbgLJLlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 06:41:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38766 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725947AbgLJLj7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 06:39:59 -0500
+        id S1728423AbgLJLlF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 06:41:05 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A472DAE4A;
-        Thu, 10 Dec 2020 11:39:15 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Thu, 10 Dec 2020 11:25:02 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 913DCACC6;
+        Thu, 10 Dec 2020 11:40:21 +0000 (UTC)
+Date:   Thu, 10 Dec 2020 11:15:26 +0100
 From:   Oscar Salvador <osalvador@suse.de>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
@@ -38,60 +37,40 @@ Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v8 12/12] mm/hugetlb: Optimize the code with the help of
- the compiler
-In-Reply-To: <20201210035526.38938-13-songmuchun@bytedance.com>
+Subject: Re: [PATCH v8 10/12] mm/hugetlb: Introduce nr_free_vmemmap_pages in
+ the struct hstate
+Message-ID: <20201210101526.GA4525@localhost.localdomain>
 References: <20201210035526.38938-1-songmuchun@bytedance.com>
- <20201210035526.38938-13-songmuchun@bytedance.com>
-User-Agent: Roundcube Webmail
-Message-ID: <375d6bad6bb37e3626f71bfabc20b384@suse.de>
-X-Sender: osalvador@suse.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+ <20201210035526.38938-11-songmuchun@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210035526.38938-11-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-12-10 04:55, Muchun Song wrote:
-> We cannot optimize if a "struct page" crosses page boundaries. If
-> it is true, we can optimize the code with the help of a compiler.
-> When free_vmemmap_pages_per_hpage() returns zero, most functions are
-> optimized by the compiler.
+On Thu, Dec 10, 2020 at 11:55:24AM +0800, Muchun Song wrote:
+> +void __init hugetlb_vmemmap_init(struct hstate *h)
+> +{
+> +	unsigned int nr_pages = pages_per_huge_page(h);
+> +	unsigned int vmemmap_pages;
+> +
+> +	/* We cannot optimize if a "struct page" crosses page boundaries. */
+> +	if (!is_power_of_2(sizeof(struct page)))
+> +		return;
+> +
+> +	if (!hugetlb_free_vmemmap_enabled)
+> +		return;
 
-As I said earlier, I would squash this patch with patch#10 and
-remove the !is_power_of_2 check in hugetlb_vmemmap_init and leave
-only the check for the boot parameter.
-That should be enough.
-
->  static inline bool is_hugetlb_free_vmemmap_enabled(void)
->  {
-> -	return hugetlb_free_vmemmap_enabled;
-> +	return hugetlb_free_vmemmap_enabled &&
-> +	       is_power_of_2(sizeof(struct page));
-
-Why? hugetlb_free_vmemmap_enabled can only become true
-if the is_power_of_2 check succeeds in early_hugetlb_free_vmemmap_param.
-The "is_power_of_2" check here can go.
-
-> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> index 0a1c0d33a316..5f5e90c81cd2 100644
-> --- a/mm/hugetlb_vmemmap.h
-> +++ b/mm/hugetlb_vmemmap.h
-> @@ -21,7 +21,7 @@ void free_huge_page_vmemmap(struct hstate *h, struct
-> page *head);
->   */
->  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate 
-> *h)
->  {
-> -	return h->nr_free_vmemmap_pages;
-> +	return h->nr_free_vmemmap_pages && is_power_of_2(sizeof(struct 
-> page));
-
-If hugetlb_free_vmemmap_enabled is false, hugetlb_vmemmap_init() leaves
-h->nr_free_vmemmap_pages unset to 0, so no need for the is_power_of_2 
-check here.
-
+I think it would make sense to squash the last patch and this one.
+As per the last patch, if "struct page" is not power of 2,
+early_hugetlb_free_vmemmap_param() does not set
+hugetlb_free_vmemmap_enabled, so the "!is_power_of_2" check from above
+would become useless here.
+We know that in order for hugetlb_free_vmemmap_enabled to become true,
+the is_power_of_2 must have succeed early on when calling the early_
+function.
 
 -- 
 Oscar Salvador
