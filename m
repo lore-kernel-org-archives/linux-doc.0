@@ -2,123 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8CACC4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0158FC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:46:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FD1023AC4
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:45:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FE0823AC4
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:46:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732645AbgLJLoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 06:44:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40938 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729503AbgLJLoN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 06:44:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607600564;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KvmqrOo/0XzGZZg0O2HlL38Tea/AMllImc8/xdniceE=;
-        b=P6Msabsn7ulzqmTZQZbU7xJYWZup0ju97VDb0jIFQ8Um2bDsVHh2w8FDCK+e86S8wyxRsW
-        1H91lHuBTCuT1nk9RYdcBw4yI18N5jFuxLqYJWAFNucye4qBReJrm2EZadb9K7qiiKKmOW
-        AkrByAn59ISevZJUja9VHcP76pm6x74=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-wlUQsocnNlqeb1suLDa5mg-1; Thu, 10 Dec 2020 06:42:40 -0500
-X-MC-Unique: wlUQsocnNlqeb1suLDa5mg-1
-Received: by mail-ed1-f70.google.com with SMTP id i15so2313201edx.9
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 03:42:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KvmqrOo/0XzGZZg0O2HlL38Tea/AMllImc8/xdniceE=;
-        b=X0QfJmKC+ASb0+De+7c5tCUp2U12pD0jubdEUmH5ylHxwjRxROXIv2ByOJqdgYCMUu
-         4qa1fkauWsR2GoAvWitplBU3yNPntlJQV0N35XBpu90vCoPUjhKtGlMm20y27soWNULf
-         z7ypQ8cXEUCZVMEy6NSWo9pE1I49GkBIw43jg+beJqLpOrTNn3bE6xW0dYMqqUxgIoo5
-         J/maXpnfW2rM3dogDh+1U0zXu+Gz2v+fZ2i2bGkNpsy/iFChTWzP0p76hjk5iJuod7uw
-         GaIe4+CIG03fKljsXHGfIkn1kdQ/NWnlj7aCcnO5t+mJXdUEvBtZvmqsDOxr16x81X12
-         QWQA==
-X-Gm-Message-State: AOAM530O9fhLOUJDmJCJehrNlrL+OUl4H2BaeypEAj0ZkbWK0A2JS33n
-        q9zPXbNuVRgOy0bi9IELfaML1FJe8pEN7FPw953zmA4el8g+KgKCIvMo8yqayAD1+dvtsV0Gm7r
-        2WhcWUFgGrWZ8AHpTVZ0j
-X-Received: by 2002:aa7:d750:: with SMTP id a16mr6427687eds.252.1607600558893;
-        Thu, 10 Dec 2020 03:42:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDnncFNdeBtR5AbuscJDCn2dnIHlks3zjHEtzQPIlcl3+fqWIq6GSh1UXjMTCzrvAo0u6pJA==
-X-Received: by 2002:aa7:d750:: with SMTP id a16mr6427668eds.252.1607600558665;
-        Thu, 10 Dec 2020 03:42:38 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
-        by smtp.gmail.com with ESMTPSA id d14sm5110475edn.31.2020.12.10.03.42.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Dec 2020 03:42:37 -0800 (PST)
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm@vger.kernel.org
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
- <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
- <87im9dlpsw.fsf@vitty.brq.redhat.com>
- <875z5d5x9m.fsf@nanos.tec.linutronix.de>
-Message-ID: <b6e0656b-4e3f-cf47-5ec9-eead44b2f2e9@redhat.com>
-Date:   Thu, 10 Dec 2020 12:42:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1729222AbgLJLoD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 06:44:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43984 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727043AbgLJLnv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 06:43:51 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5C43FAD0E;
+        Thu, 10 Dec 2020 11:43:09 +0000 (UTC)
+Date:   Thu, 10 Dec 2020 10:18:12 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 00/12] Free some vmemmap pages of HugeTLB page
+Message-ID: <20201210091812.GA3613@localhost.localdomain>
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <875z5d5x9m.fsf@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210035526.38938-1-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/12/20 18:41, Thomas Gleixner wrote:
-> Right this happens still occasionally, but for quite some time this is
-> 100% firmware sillyness and not a fundamental property of the hardware
-> anymore.
+On Thu, Dec 10, 2020 at 11:55:14AM +0800, Muchun Song wrote:
+> Muchun Song (12):
+>   mm/memory_hotplug: Factor out bootmem core functions to bootmem_info.c
+>   mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+>   mm/bootmem_info: Introduce free_bootmem_page helper
+>   mm/hugetlb: Free the vmemmap pages associated with each HugeTLB page
+>   mm/hugetlb: Defer freeing of HugeTLB pages
+>   mm/hugetlb: Allocate the vmemmap pages associated with each HugeTLB
+>     page
+>   mm/hugetlb: Set the PageHWPoison to the raw error page
+>   mm/hugetlb: Flush work when dissolving hugetlb page
+>   mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+>   mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+>   mm/hugetlb: Gather discrete indexes of tail page
+>   mm/hugetlb: Optimize the code with the help of the compiler
 
-It's still a fundamental property of old hardware.  Last time I tried to 
-kill support for processors earlier than Core 2, I had to revert it. 
-That's older than Nehalem.
+Well, we went from 24 patches down to 12 patches.
+Not bad at all :-)
 
->> We try to catch such situation in KVM instead of blowing up but
->> this may still result in subtle bugs I believe. Maybe we would be better
->> off killing all VMs in case TSC ever gets unsynced (by default).
-> 
-> I just ran a guest on an old machine with unsynchronized TSCs and was
-> able to observe clock monotonic going backwards between two threads
-> pinned on two vCPUs, which _is_ bad. Getting unsynced clocks reliably
-> under control is extremly hard.
+I will have a look later
 
-Using kvmclock?  (Half serious: perhaps a good reason to have per-vCPU 
-offsets is to be able to test what happens with unsynchronized TSCs...).
+Thanks
 
-Paolo
 
+-- 
+Oscar Salvador
+SUSE L3
