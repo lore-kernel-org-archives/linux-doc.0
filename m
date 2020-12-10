@@ -2,96 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68113C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61385C1B0D9
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 21:28:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2556023DC4
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20F6623F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 21:28:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726844AbgLJUV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 15:21:28 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:58230 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390123AbgLJUV2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 15:21:28 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1607631646;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=D3gx9tD13PRnQ68uO/rN8uV1XzJuse8JvLydTkrM0tk=;
-        b=WrALyDckvkeuNaz+eI3yDgM9uYSMWTyVSVNx6RXFUVljR2IFqs4rRLYbwUTCaqCBcHEcGO
-        eEIuOOOJ+WvE2haTJWd38VMUsEbHZK4EdsqTLMHSnoZJ4lYI1UNdqA7IOFCVGLLCz3JPN4
-        d7rB4e/IQ8NXDOAfz46Jz2WYWuDTSRdNjb0qKEaECflRKVMQCaXkBwiQzFSSbSI+Y32V2N
-        rpFRwWPEZI2d0bMPj+yhue74HKpNzxYf1SYNXeAroAYCa1KfxXFVFPmigjIFds2DfZedam
-        OKPFXaDSQDmRJGBsS52xgGXJu9aJbQsrQKoG7g9srYv2cS2H2lgHB4jqA8VLbA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1607631646;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=D3gx9tD13PRnQ68uO/rN8uV1XzJuse8JvLydTkrM0tk=;
-        b=F7nNySYnHzOdMdxy6HIl8ySMogAvGhi8kpKyKtBfAF0v3BxJPZP0l5Oo3+V/Xw13N/6lE7
-        I6WyyeFvL5LWxYCA==
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list\:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-In-Reply-To: <20201210130131.GP2414@hirez.programming.kicks-ass.net>
-References: <20201203171118.372391-1-mlevitsk@redhat.com> <20201203171118.372391-2-mlevitsk@redhat.com> <87a6uq9abf.fsf@nanos.tec.linutronix.de> <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com> <87im9dlpsw.fsf@vitty.brq.redhat.com> <875z5d5x9m.fsf@nanos.tec.linutronix.de> <b6e0656b-4e3f-cf47-5ec9-eead44b2f2e9@redhat.com> <20201210121417.GN2414@hirez.programming.kicks-ass.net> <fe3e4637-b74b-864a-9d2f-c4f2d9450f2e@redhat.com> <20201210130131.GP2414@hirez.programming.kicks-ass.net>
-Date:   Thu, 10 Dec 2020 21:20:45 +0100
-Message-ID: <87blf1jtuq.fsf@nanos.tec.linutronix.de>
+        id S2404947AbgLJV2H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 16:28:07 -0500
+Received: from smtprelay0037.hostedemail.com ([216.40.44.37]:55902 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2404948AbgLJV15 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 16:27:57 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id C401C18039531;
+        Thu, 10 Dec 2020 21:27:06 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: scarf44_2c0eece273fb
+X-Filterd-Recvd-Size: 4928
+Received: from XPS-9350.home (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf14.hostedemail.com (Postfix) with ESMTPA;
+        Thu, 10 Dec 2020 21:27:05 +0000 (UTC)
+Message-ID: <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: make the line length warnings match the
+ coding style document
+From:   Joe Perches <joe@perches.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Christoph Hellwig <hch@lst.de>, apw@canonical.com,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 10 Dec 2020 13:27:03 -0800
+In-Reply-To: <20201210200930.GB7338@casper.infradead.org>
+References: <20201210082251.2717564-1-hch@lst.de>
+         <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
+         <20201210200930.GB7338@casper.infradead.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10 2020 at 14:01, Peter Zijlstra wrote:
-> On Thu, Dec 10, 2020 at 01:22:02PM +0100, Paolo Bonzini wrote:
->> On 10/12/20 13:14, Peter Zijlstra wrote:
->> > On Thu, Dec 10, 2020 at 12:42:36PM +0100, Paolo Bonzini wrote:
->> > > On 07/12/20 18:41, Thomas Gleixner wrote:
->> > > > Right this happens still occasionally, but for quite some time this is
->> > > > 100% firmware sillyness and not a fundamental property of the hardware
->> > > > anymore.
->> > > 
->> > > It's still a fundamental property of old hardware.  Last time I tried to
->> > > kill support for processors earlier than Core 2, I had to revert it. That's
->> > > older than Nehalem.
->> > 
->> > Core2 doesn't use TSC for timekeeping anyway. KVM shouldn't either.
->> 
->> On Core2, KVM guests pass TSC through kvmclock in order to get something
->> usable and not incredibly slow.
->
-> Which is incredibly wrong.
+On Thu, 2020-12-10 at 20:09 +0000, Matthew Wilcox wrote:
+> On Thu, Dec 10, 2020 at 12:05:04PM -0800, Joe Perches wrote:
+> > Also, given the ever increasing average identifier length, strict
+> > adherence to 80 columns is sometimes just not possible without silly
+> > visual gymnastics.  The kernel now has quite a lot of 30+ character
+> > length function names, constants, and structs.
+> 
+> maybe checkpatch should warn for identifiers that are 30+ characters
+> long?  address the problem at its source ..
 
-Core2 is really not something which should prevent making all of this
-correct and robust. That'd be not only wrong, that'd be outright insane.
+Hard to know when to warn as patches could just add uses of already
+existing names and emitting warnings for those would just be annoying.
 
-Thanks,
+Maybe something that tests long identifier additions of
+defines/functions/macros/structs but not their uses and maybe only
+then in patches and not files.
 
-        tglx
+Perhaps:
+---
+ scripts/checkpatch.pl | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 7b086d1cd6c2..8579be987fc0 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -54,6 +54,7 @@ my @ignore = ();
+ my $help = 0;
+ my $configuration_file = ".checkpatch.conf";
+ my $max_line_length = 100;
++my $max_identifier_length = 30;
+ my $ignore_perl_version = 0;
+ my $minimum_perl_version = 5.10.0;
+ my $min_conf_desc_length = 4;
+@@ -103,6 +104,8 @@ Options:
+   --max-line-length=n        set the maximum line length, (default $max_line_length)
+                              if exceeded, warn on patches
+                              requires --strict for use with --file
++  --max-identifier-length=n  set the maximum identifier length, (default $max_identifier_length)
++                             only used with patches, not output with --file
+   --min-conf-desc-length=n   set the min description length, if shorter, warn
+   --tab-size=n               set the number of spaces for tab (default $tabsize)
+   --root=PATH                PATH to the kernel tree root
+@@ -223,6 +226,7 @@ GetOptions(
+ 	'show-types!'	=> \$show_types,
+ 	'list-types!'	=> \$list_types,
+ 	'max-line-length=i' => \$max_line_length,
++	'max-identifier-length=i' => \$max_identifier_length,
+ 	'min-conf-desc-length=i' => \$min_conf_desc_length,
+ 	'tab-size=i'	=> \$tabsize,
+ 	'root=s'	=> \$root,
+@@ -2489,6 +2493,7 @@ sub process {
+ 	my $suppress_statement = 0;
+ 
+ 	my %signatures = ();
++	my %long_identifiers = ();
+ 
+ 	# Pre-scan the patch sanitizing the lines.
+ 	# Pre-scan the patch looking for any __setup documentation.
+@@ -3840,6 +3845,33 @@ sub process {
+ # check we are in a valid C source file if not then ignore this hunk
+ 		next if ($realfile !~ /\.(h|c)$/);
+ 
++# check for long identifiers in defines/macros/functions/structs/types/labels
++		if (!$file) {
++			while ($sline =~ /^\+.*\b(\w{$max_identifier_length,})\b/g) {
++				my $id = $1;
++				next if (exists($long_identifiers{$id}));
++				my $use = "";
++				if ($sline =~ /^\+\s*\#\s*define\s+$id(?!\()/) {
++					$use = "define";
++				} elsif ($sline =~ /^\+\s*\#\s*define\s+$id\(/) {
++					$use = "function-like macro";
++				} elsif ($sline =~ /^\+\s*(?!define)$Declare?$id\s*\(/) {
++					$use = "function";
++				} elsif ($sline =~ /^\+\s*(struct|union|enum)\s+$id\b/) {
++					$use = "$1";
++				} elsif ($sline =~ /^\+\s*$Declare$id\b/) {
++					$use = "declaration";
++				} elsif ($sline =~ /^\+\s*$id\s*:\s*$/) {
++					$use = "label";
++				}
++				if ($use ne "") {
++					$long_identifiers{$id} = $id;
++					WARN("LONG_IDENTIFIER",
++					     "$use '$id' is " . length($id) . " characters - avoid using identifiers with $max_identifier_length+ characters\n" . $herecurr);
++				}
++			}
++		}
++
+ # check for unusual line ending [ or (
+ 		if ($line =~ /^\+.*([\[\(])\s*$/) {
+ 			CHK("OPEN_ENDED_LINE",
+
