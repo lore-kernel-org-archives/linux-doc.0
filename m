@@ -2,64 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F16C4167B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA567C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:19:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83D9423A33
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:10:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91FD323D57
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 20:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390321AbgLJUKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 15:10:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390271AbgLJUKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 15:10:15 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE8CC0613CF;
-        Thu, 10 Dec 2020 12:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Sehsw6exza7TGUx9pa0H+ZJZe/39xW3MPwdPaMIB8IM=; b=iuwStN2Ub5o5LTf7qdabdW1yPY
-        oQYnwzh9TYsgfnkC62IkXtcIy388sPAoonMJ9zGsSvEfP97p/mamPVnPSQHF2kmh49+7z49GtgDwP
-        MYz+ID8/DV1b4s5MJK0WpURqCj21tg7LxCA1+A7BvrXHBf2pgM0scuCXDBPo2OIquogoj4XFxPsXg
-        7IpKpRi716nWeLQgysauiOaXtcj1zaehFVdSFoztMl+94vPvNvQFpVAdMRcRnOI9w7k4o9Qu7O6iQ
-        rUHacnCsnHs7W3GjKeO4PPoICDHhHVzSIx0fdzI5eUF1VHt+ofiOmoJ3ex2DUflxSnDqH6OIgZoKS
-        BfsNEhGA==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1knSFm-0001QR-AL; Thu, 10 Dec 2020 20:09:30 +0000
-Date:   Thu, 10 Dec 2020 20:09:30 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Christoph Hellwig <hch@lst.de>, apw@canonical.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH] checkpatch: make the line length warnings match the
- coding style document
-Message-ID: <20201210200930.GB7338@casper.infradead.org>
-References: <20201210082251.2717564-1-hch@lst.de>
- <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
+        id S2390068AbgLJUTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 15:19:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27022 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729713AbgLJO1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 09:27:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1607610380;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XemBX6GDiS8sIGiD/ca2Z1h8LOYV6Xo8hkAbb535R90=;
+        b=FEPw4x0DHkFxegi8SwOfnytBoco02qCe8tr3Mu/lPPbBdZVGK4r5ShEJEMz2HKjO3Hrebd
+        4zMwlqGJ0r7kKU1Gwt6/F+vuGDL0Aci46sEK6Wq0tsBmD30+AgxjhDbR5JQxR0R0htGC5B
+        728uh5OHpvwBdvOns8P8U3u3e/b1L00=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-0sU_Km6bOiuY1Rfj4BqIcA-1; Thu, 10 Dec 2020 09:26:18 -0500
+X-MC-Unique: 0sU_Km6bOiuY1Rfj4BqIcA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6FD1842146;
+        Thu, 10 Dec 2020 14:26:15 +0000 (UTC)
+Received: from starship (unknown [10.35.206.133])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3083636FA;
+        Thu, 10 Dec 2020 14:25:58 +0000 (UTC)
+Message-ID: <7846c5452644a3c029d27361759cb82c2b8d4f2e.camel@redhat.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oliver Upton <oupton@google.com>
+Cc:     kvm list <kvm@vger.kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date:   Thu, 10 Dec 2020 16:25:57 +0200
+In-Reply-To: <7c25e8c0-a7d4-8906-ae47-20714e6699fe@redhat.com>
+References: <20201203171118.372391-1-mlevitsk@redhat.com>
+         <20201203171118.372391-2-mlevitsk@redhat.com>
+         <CAOQ_Qsj6THRPj2ta3PdOxUJeCj8KxPnLkWV8EGpvN_J=qUv74A@mail.gmail.com>
+         <d3dd82950301517e47630cc86fa0e6dc84f63f90.camel@redhat.com>
+         <87lfe82quh.fsf@nanos.tec.linutronix.de>
+         <047afdde655350a6701803aa8ae739a8bd1c1c14.camel@redhat.com>
+         <7c25e8c0-a7d4-8906-ae47-20714e6699fe@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 12:05:04PM -0800, Joe Perches wrote:
-> Also, given the ever increasing average identifier length, strict
-> adherence to 80 columns is sometimes just not possible without silly
-> visual gymnastics.  The kernel now has quite a lot of 30+ character
-> length function names, constants, and structs.
+On Thu, 2020-12-10 at 12:48 +0100, Paolo Bonzini wrote:
+> On 08/12/20 18:08, Maxim Levitsky wrote:
+> > > Even if you support TSCADJUST and let the guest write to it does not
+> > > change the per guest offset at all. TSCADJUST is per [v]CPU and adds on
+> > > top:
+> > > 
+> > >      tscvcpu = tsc_host + guest_offset + TSC_ADJUST
+> > > 
+> > > Scaling is just orthogonal and does not change any of this.
+> > 
+> > I agree with this, and I think that this is what we will end up doing.
+> > Paulo, what do you think about this?
+> 
+> Yes, you can have a VM ioctl that saves/restores cur_tsc_nsec and 
+> cur_tsc_write.  The restore side would loop on all vcpus.
 
-maybe checkpatch should warn for identifiers that are 30+ characters
-long?  address the problem at its source ..
+Why would the restore need to run on all VCPUs though?
+
+The picture that I have in mind is that we we will restore the 
+cur_tsc_nsec/cur_tsc_write pair once per VM, and then restore the 
+TSC_ADJUST value on all vCPUs as if the guest wrote it (with the quirk disabled), 
+which will restore all the horrible things that the guest did to its TSC.
+
+Since TSC adjust is enabled by default, if the user disables it in the CPUID, 
+we might as well just disable the whole thing, 
+make TSC readonly or something similar.
+
+This way we don't need to worry about TSC writes as 
+those will be reflected in the TSC_ADJUST.
+
+> 
+> However, it is not so easy: 1) it would have to be usable only if 
+> KVM_X86_QUIRK_TSC_HOST_ACCESS is false, 2) it would fail if 
+> kvm->arch.nr_vcpus_matched_tsc == kvm->online_vcpus (which basically 
+> means that userspace didn't mess up the TSC configuration).  If not, it 
+> would return -EINVAL.
+
+Note though that we don't track the guest tsc/tsc_adjust writes anymore
+via the tsc sync code, and with the quirk disabled we don't track them
+even for the host writes, thus the (2) condition will always be true
+(the only call left to kvm_synchronize_tsc is in the kvm_arch_vcpu_postcreate)
+
+However I indeed see no reason to allow new per VM API when the masterclock is
+disabled, and therefore using cur_tsc_nsec/cur_tsc_write is reasonable.
+
+The cur_tsc_nsec should IMHO be converted to absolute time (CLOCK_REALTIME
+or similiar) or should the conversion be done in the userspace? 
+I don't know yet if I can convert between different POSIX clocks
+in race/error free manner. (e.g get the offset between them).
+
+
+> 
+> Also, while at it let's burn and pour salt on the support for 
+> KVM_SET_TSC_KHZ unless TSC scaling is supported, together with 
+> vcpu->tsc_catchup and all the "tolerance" crap that is in 
+> kvm_set_tsc_khz.  And initialize vcpu->arch.virtual_tsc_khz to 
+> kvm->arch.last_tsc_khz before calling kvm_synchronize_tsc.
+
+The tsc_catchup is enabled when host TSC is unstable, so that guest
+TSC at least roughtly follows real time (which host kernel gets
+by other means).
+
+We push the guest tsc forward roughtly each time VM entry from userspace
+happens:
+
+(On each kvm_arch_vcpu_load, we raise KVM_REQ_GLOBAL_CLOCK_UPDATE
+request which (with small delay) makes all vcpus go through 
+kvm_guest_time_update which pushes the guest tsc forward)
+
+However we also have the 'tsc_always_catchup' mode which is indeed 
+something I would like to remove.
+
+It is a poor man simulation of the TSC scaling which is enabled 
+when the host doesn't support TSC scaling, but we were asked 
+to run at frequency faster than host TSC frequency is.
+
+This way guest tsc runs slower than it should, but on each VM exit,
+we punt the guest tsc offset forward so on average the guest tsc
+doesn't lag behind.
+
+Unless backward compatibility is an issue, I have no objections
+to remove that code.
+
+The tolerance thing might be needed. On many systems 
+(including mine new 3970X), the hardware doesn't have means to report 
+the unscaled host TSC frequency, thus the kernel has to 
+measure it, and since the measurement is not 100% accurate, a slightly
+different value is used every time the host boots.
+
+Thus without a small tolerance, we will always have to use TSC scaling,
+while migrating even between two identical systems.
+I don't know if this is an issue.
+
+
+Best regards,
+	Maxim Levitsky
+
+
+> 
+> Paolo
+> 
+
+
