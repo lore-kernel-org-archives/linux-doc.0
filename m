@@ -2,149 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MIME_QP_LONG_LINE,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A887C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:21:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B29B6C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:24:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E631423117
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AE6023117
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:24:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391482AbgLJPRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 10:17:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39704 "EHLO
+        id S2391398AbgLJPXp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 10:23:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391481AbgLJPRE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 10:17:04 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26359C0617A6
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:16:13 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id e2so4494934pgi.5
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:16:13 -0800 (PST)
+        with ESMTP id S2391594AbgLJPXc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 10:23:32 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C58EC061794
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:22:52 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id t18so2944510plo.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:22:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=ZRkSD0Q57BhwAifo2zbWB1GnhkM5sfgv11URhPoKJvI=;
-        b=mJpQkx5DuKXjnzxJcDiFhvesmPZulAjLaZyoKF9b0TcBKkJgtMyY/yd7datmdIkf3l
-         wDyFPxdbU35gEQ/pEX3CVf0PLNHD2eMPUPFUYVRrn2aAiKBG5b1796tkaXQKWgVCZQd1
-         z84Pu6rbNn4kNAHICiftdvfPJkzsSHaGXacG4NCquX3Ys8X6xyUWE4ctOnyatv4lgTHE
-         P3W9mn4Zt634Fc/7D7abawqoJUNQxwdOQytnRqpFde6s6OVXX+KsoV5PKgKsYtrGNSlv
-         Vyv3O31DitJvejfpNLjH9qZa+FHgkXxeWPSv/APTrmBHzF3pB+tfnFqqlb2N8UsTN97b
-         yWWg==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YxwaAAILNdApGCqxRJD9MVfeDiL8SXyh6Su+yDRYLEY=;
+        b=QnoSqYI6BQegxydBg15IBI7iVTrqsyX2nwVstbgi36h5JjuBDHy6haihOTgQPZa+o/
+         1yxnr4OQ/AALgpYahJAXoZbt4JUutdj+fUCov7bCnyFyUbT7+c/THaDFLaDoTpb1QK61
+         jWHvckQX5gIYElzlGNzB0vaIB5NkfvvfbZjSeyeCLKHFEZkbo18BBUlj3klO4wNUIS/0
+         pAxMtBuBQTvqYGVruXyESkrojUQyhsFh8vxlzMqt6nSBw1QW6bZYhzaMPXVdBoIhz5gA
+         ePxLiKuZhjpYpKA2eZ+YpKlZT5tx/gScIM9Y3vrWiUkC6u8iaXwzp/IFfpL1pCaRl8wS
+         VlEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=ZRkSD0Q57BhwAifo2zbWB1GnhkM5sfgv11URhPoKJvI=;
-        b=GFAAwx8r1aJNyRZ+efn/LwfXhUzK3X/KFGFNqB7SEGioAx8mO3eHBZzag3AszwajL3
-         34z0TMP0T0/3SryOdNdkn1soV/osywRG+G5pDzjyYIHTn9db/P46p9p3NQ3GUQ/GG8xr
-         gghkkUtMNS53IrrsSkFvTl0puzUPaHrhUnRezm6jUXqjo0jKDvwir8/DBikGlWRep3Y8
-         vTg8njF662dsFHxt7ttGhjeYtt4ZLO7MpwOo2xMfexzEKNMdtD93sRpwu7rLsLLzBPRQ
-         2hIV59lvkehErR8ZbV0qbDE1kwSediTIvLUsbT8nuXZr+sRRASRWoppO0wZBrdtHj2gK
-         L90Q==
-X-Gm-Message-State: AOAM530ZIAF0t5qJDnX+V6g60AaA+G+1rQNaTUkF/ihcZWsm+Xj+XWvW
-        NTnPflyFskEVbOcQ7GUWsItlAA==
-X-Google-Smtp-Source: ABdhPJx46Ci6hjCq0tAYhUM/2n8+GZTDgJP0pxIYwMM2jhoQAngZlbEdM/F8U+CzdFsazwI5ydqLyA==
-X-Received: by 2002:a17:90a:e38c:: with SMTP id b12mr8266014pjz.177.1607613372534;
-        Thu, 10 Dec 2020 07:16:12 -0800 (PST)
-Received: from ?IPv6:2601:646:c200:1ef2:b5ad:66ae:88c:b76d? ([2601:646:c200:1ef2:b5ad:66ae:88c:b76d])
-        by smtp.gmail.com with ESMTPSA id 19sm7079080pfu.85.2020.12.10.07.16.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Dec 2020 07:16:11 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Date:   Thu, 10 Dec 2020 07:16:10 -0800
-Message-Id: <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
-References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-In-Reply-To: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-X-Mailer: iPhone Mail (18B121)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YxwaAAILNdApGCqxRJD9MVfeDiL8SXyh6Su+yDRYLEY=;
+        b=g44OA5QEQx5hrN/tnam0Iv+MSYrFoAkzCBdSx0flkGLiKYnjWE31w04EKlbax+mx5g
+         lIRctNCUy5Rcq3WLj8ieFk3JDug4Gmj/5I0hz6y8bKI2U4mCyKmGRV95VcLL7DGlbuX6
+         BNN6vpDNqhl0zDG5PjstAuyOa0u95trwZTIMre2InszeNsz7hMub/3B3s6TzXTUhgvn+
+         W8J1XsN5SVykILw9ePkQxim+qYSJSCjgvXWiYEZDjjMAiLnD2W753VpRXxdI9OQCSXOf
+         FzHu1Er9Wkmw6an7X+bGQmUDlulmrFnaqW/mR48z5ZmSvEPrNB99f8Y9C4lKQdfER8MG
+         mQOA==
+X-Gm-Message-State: AOAM5324ndknTgp2uzQ7sYkni/8goLWbBRP1ISuo+SpacC7ijsHSG+T+
+        M+ZNfci85jZcV+7J51/s/1ccfZVeUmjNOhZmlmfg9w==
+X-Google-Smtp-Source: ABdhPJzd1hC7caLHiFO1MtPobpcg3nJcwuDHdu6A/DYS21xLZ+5VYCN0bNhx+AKBnGVZ2k4x3VtNhB8mvu9qpHmTREA=
+X-Received: by 2002:a17:902:ed0d:b029:da:c83b:5f40 with SMTP id
+ b13-20020a170902ed0db02900dac83b5f40mr7004443pld.20.1607613772004; Thu, 10
+ Dec 2020 07:22:52 -0800 (PST)
+MIME-Version: 1.0
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
+ <20201210035526.38938-4-songmuchun@bytedance.com> <20201210141547.GA8538@localhost.localdomain>
+In-Reply-To: <20201210141547.GA8538@localhost.localdomain>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 10 Dec 2020 23:22:15 +0800
+Message-ID: <CAMZfGtW6yJPR2yUR0h11=QxY8G6V8oZAnArYh4SQPn370cBLpQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v8 03/12] mm/bootmem_info: Introduce
+ free_bootmem_page helper
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Dec 10, 2020 at 10:16 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Thu, Dec 10, 2020 at 11:55:17AM +0800, Muchun Song wrote:
+> > Any memory allocated via the memblock allocator and not via the buddy
+> > will be makred reserved already in the memmap. For those pages, we can
+>          marked
+
+Thanks.
+
+> > call free_bootmem_page() to free it to buddy allocator.
+> >
+> > Becasue we wan to free some vmemmap pages of the HugeTLB to the buddy
+> Because     want
+> > allocator, we can use this helper to do that in the later patchs.
+>                                                            patches
+>
+
+Thanks.
+
+> To be honest, I think if would be best to introduce this along with
+> patch#4, so we get to see where it gets used.
+>
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  include/linux/bootmem_info.h | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
+> > index 4ed6dee1adc9..20a8b0df0c39 100644
+> > --- a/include/linux/bootmem_info.h
+> > +++ b/include/linux/bootmem_info.h
+> > @@ -3,6 +3,7 @@
+> >  #define __LINUX_BOOTMEM_INFO_H
+> >
+> >  #include <linux/mmzone.h>
+> > +#include <linux/mm.h>
+>
+> <linux/mm.h> already includes <linux/mmzone.h>
+
+Yeah. Can remove this.
+
+>
+> > +static inline void free_bootmem_page(struct page *page)
+> > +{
+> > +     unsigned long magic = (unsigned long)page->freelist;
+> > +
+> > +     /* bootmem page has reserved flag in the reserve_bootmem_region */
+> reserve_bootmem_region sets the reserved flag on bootmem pages?
+
+Right.
+
+>
+> > +     VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
+>
+> We do check for PageReserved in patch#4 before calling in here.
+> Do we need yet another check here? IOW, do we need to be this paranoid?
+
+Yeah, do not need to check again. We can remove it.
+
+>
+> > +     if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
+> > +             put_page_bootmem(page);
+> > +     else
+> > +             WARN_ON(1);
+>
+> Lately, some people have been complaining about using WARN_ON as some
+> systems come with panic_on_warn set.
+>
+> I would say that in this case it does not matter much as if the vmemmap
+> pages are not either SECTION_INFO or MIX_SECTION_INFO it means that a
+> larger corruption happened elsewhere.
+>
+> But I think I would align the checks here.
+> It does not make sense to me to only scream under DEBUG_VM if page's
+> refcount differs from 2, and have a WARN_ON if the page we are trying
+> to free was not used for the memmap array.
+> Both things imply a corruption, so I would set the checks under the same
+> configurations.
+
+Do you suggest changing them all to VM_DEBUG_ON?
+
+>
+> --
+> Oscar Salvador
+> SUSE L3
 
 
-> On Dec 10, 2020, at 6:52 AM, Maxim Levitsky <mlevitsk@redhat.com> wrote:
->=20
-> =EF=BB=BFOn Thu, 2020-12-10 at 12:48 +0100, Paolo Bonzini wrote:
->>> On 08/12/20 22:20, Thomas Gleixner wrote:
->>> So now life migration comes a long time after timekeeping had set the
->>> limits and just because it's virt it expects that everything works and i=
-t
->>> just can ignore these limits.
->>>=20
->>> TBH. That's not any different than SMM or hard/firmware taking the
->>> machine out for lunch. It's exactly the same: It's broken.
->>=20
->> I agree.  If *live* migration stops the VM for 200 seconds, it's broken.
->>=20
->> Sure, there's the case of snapshotting the VM over the weekend.  My=20
->> favorite solution would be to just put it in S3 before doing that.  *Do=20=
 
->> what bare metal does* and you can't go that wrong.
->=20
-> Note though that qemu has a couple of issues with s3, and it is disabled=20=
-
-> by default in libvirt.=20
-> I would be very happy to work on improving this if there is a need for tha=
-t.
-
-There=E2=80=99s also the case where someone has a VM running on a laptop and=
- someone closes the lid. The host QEMU might not have a chance to convince t=
-he guest to enter S3.
-
->=20
->=20
->>=20
->> In general it's userspace policy whether to keep the TSC value the same=20=
-
->> across live migration.  There's pros and cons to both approaches, so KVM=20=
-
->> should provide the functionality to keep the TSC running (which the=20
->> guest will see as a very long, but not extreme SMI), and this is what=20
->> this series does.  Maxim will change it to operate per-VM.  Thanks=20
->> Thomas, Oliver and everyone else for the input.
->=20
-> I agree with that.
->=20
-> I still think though that we should have a discussion on feasibility
-> of making the kernel time code deal with large *forward* tsc jumps=20
-> without crashing.
->=20
-> If that is indeed hard to do, or will cause performance issues,
-> then I agree that we might indeed inform the guest of time jumps instead.
->=20
-
-Tglx, even without fancy shared host/guest timekeeping, count the guest kern=
-el manage to update its timekeeping if the host sent the guest an interrupt o=
-r NMI on all CPUs synchronously on resume?
-
-Alternatively, if we had the explicit =E2=80=9Cmax TSC value that makes sens=
-e right now=E2=80=9D in the timekeeping data, the guest would reliably notic=
-e the large jump and could at least do something intelligent about it instea=
-d of overflowing its internal calculation.=
+-- 
+Yours,
+Muchun
