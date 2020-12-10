@@ -2,78 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MIME_QP_LONG_LINE,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49221C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:03:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A887C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CB112310C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:03:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E631423117
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 15:21:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387930AbgLJPC6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 10:02:58 -0500
-Received: from ms.lwn.net ([45.79.88.28]:35604 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391678AbgLJOt1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 09:49:27 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1CD882DC;
-        Thu, 10 Dec 2020 14:48:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1CD882DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607611726; bh=sC0Gf4Xe3WsWr5Sn8762hoEqMXZBZPx8IRseLLdaRe4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eGD8bPi3IZvW78p9sLQ/CMQfPnevkvjLq7lYzPj+vyFMORZvDyyHZ9s36nIct9qQ2
-         B2N1zDNil8y/Ubw4Yx0P1l3Ks7osVAqYoERF60MSzPgUcyZ0HAcnjrHiu9dBixVJXP
-         KrNj40SDABGRMk0ITi1sbQHz4LdjowhcQmpWQ8M5a6ectgriy9/LvWiUwwpgdnecSV
-         ncIz50MhXMzHALLSJFULC/AQTf32tv1hfsqp45HfaoS+LDXOfEQqgI/tW7y4KsGIa/
-         DvFMw9fpKiU7SQKYsPMVNurzqnsXFfzMWuHQZaRacR8uqiffU974G6P2RYmNdTI08S
-         IixhD3V9a0h6A==
-Date:   Thu, 10 Dec 2020 07:48:45 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/13] docs: conf.py: fix sphinx version detection for
- margin set
-Message-ID: <20201210074845.4eb67f22@lwn.net>
-In-Reply-To: <0e610cbb57e85864b23d2b8fffa65c6b137daaac.1607597287.git.mchehab+huawei@kernel.org>
-References: <cover.1607597287.git.mchehab+huawei@kernel.org>
-        <0e610cbb57e85864b23d2b8fffa65c6b137daaac.1607597287.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S2391482AbgLJPRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 10:17:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39704 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391481AbgLJPRE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 10:17:04 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26359C0617A6
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:16:13 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id e2so4494934pgi.5
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 07:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=ZRkSD0Q57BhwAifo2zbWB1GnhkM5sfgv11URhPoKJvI=;
+        b=mJpQkx5DuKXjnzxJcDiFhvesmPZulAjLaZyoKF9b0TcBKkJgtMyY/yd7datmdIkf3l
+         wDyFPxdbU35gEQ/pEX3CVf0PLNHD2eMPUPFUYVRrn2aAiKBG5b1796tkaXQKWgVCZQd1
+         z84Pu6rbNn4kNAHICiftdvfPJkzsSHaGXacG4NCquX3Ys8X6xyUWE4ctOnyatv4lgTHE
+         P3W9mn4Zt634Fc/7D7abawqoJUNQxwdOQytnRqpFde6s6OVXX+KsoV5PKgKsYtrGNSlv
+         Vyv3O31DitJvejfpNLjH9qZa+FHgkXxeWPSv/APTrmBHzF3pB+tfnFqqlb2N8UsTN97b
+         yWWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=ZRkSD0Q57BhwAifo2zbWB1GnhkM5sfgv11URhPoKJvI=;
+        b=GFAAwx8r1aJNyRZ+efn/LwfXhUzK3X/KFGFNqB7SEGioAx8mO3eHBZzag3AszwajL3
+         34z0TMP0T0/3SryOdNdkn1soV/osywRG+G5pDzjyYIHTn9db/P46p9p3NQ3GUQ/GG8xr
+         gghkkUtMNS53IrrsSkFvTl0puzUPaHrhUnRezm6jUXqjo0jKDvwir8/DBikGlWRep3Y8
+         vTg8njF662dsFHxt7ttGhjeYtt4ZLO7MpwOo2xMfexzEKNMdtD93sRpwu7rLsLLzBPRQ
+         2hIV59lvkehErR8ZbV0qbDE1kwSediTIvLUsbT8nuXZr+sRRASRWoppO0wZBrdtHj2gK
+         L90Q==
+X-Gm-Message-State: AOAM530ZIAF0t5qJDnX+V6g60AaA+G+1rQNaTUkF/ihcZWsm+Xj+XWvW
+        NTnPflyFskEVbOcQ7GUWsItlAA==
+X-Google-Smtp-Source: ABdhPJx46Ci6hjCq0tAYhUM/2n8+GZTDgJP0pxIYwMM2jhoQAngZlbEdM/F8U+CzdFsazwI5ydqLyA==
+X-Received: by 2002:a17:90a:e38c:: with SMTP id b12mr8266014pjz.177.1607613372534;
+        Thu, 10 Dec 2020 07:16:12 -0800 (PST)
+Received: from ?IPv6:2601:646:c200:1ef2:b5ad:66ae:88c:b76d? ([2601:646:c200:1ef2:b5ad:66ae:88c:b76d])
+        by smtp.gmail.com with ESMTPSA id 19sm7079080pfu.85.2020.12.10.07.16.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Dec 2020 07:16:11 -0800 (PST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+Date:   Thu, 10 Dec 2020 07:16:10 -0800
+Message-Id: <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
+References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+In-Reply-To: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com>
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+X-Mailer: iPhone Mail (18B121)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Dec 2020 11:55:40 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> The PDF generator has a logic to detect the proper way to
-> setup the page margins. By default, the page has about
-> 14.8 cm, which is too short to display some tables and literal
-> blocks. So, previous patches changed it to be around 17.5 cm,
-> but the logic only works with Sphinx version 1.x.x.
-> 
-> Fix it.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Acked-by: Jonathan Corbet <corbet@lwn.net>
+> On Dec 10, 2020, at 6:52 AM, Maxim Levitsky <mlevitsk@redhat.com> wrote:
+>=20
+> =EF=BB=BFOn Thu, 2020-12-10 at 12:48 +0100, Paolo Bonzini wrote:
+>>> On 08/12/20 22:20, Thomas Gleixner wrote:
+>>> So now life migration comes a long time after timekeeping had set the
+>>> limits and just because it's virt it expects that everything works and i=
+t
+>>> just can ignore these limits.
+>>>=20
+>>> TBH. That's not any different than SMM or hard/firmware taking the
+>>> machine out for lunch. It's exactly the same: It's broken.
+>>=20
+>> I agree.  If *live* migration stops the VM for 200 seconds, it's broken.
+>>=20
+>> Sure, there's the case of snapshotting the VM over the weekend.  My=20
+>> favorite solution would be to just put it in S3 before doing that.  *Do=20=
 
-Feel free to route this one with the rest of the set.
+>> what bare metal does* and you can't go that wrong.
+>=20
+> Note though that qemu has a couple of issues with s3, and it is disabled=20=
 
-Someday it might be nice to isolate all of the latex stuff into
-conf-latex.py or some such so most of us don't have to look at it..:)
+> by default in libvirt.=20
+> I would be very happy to work on improving this if there is a need for tha=
+t.
 
-Thanks,
+There=E2=80=99s also the case where someone has a VM running on a laptop and=
+ someone closes the lid. The host QEMU might not have a chance to convince t=
+he guest to enter S3.
 
-jon
+>=20
+>=20
+>>=20
+>> In general it's userspace policy whether to keep the TSC value the same=20=
+
+>> across live migration.  There's pros and cons to both approaches, so KVM=20=
+
+>> should provide the functionality to keep the TSC running (which the=20
+>> guest will see as a very long, but not extreme SMI), and this is what=20
+>> this series does.  Maxim will change it to operate per-VM.  Thanks=20
+>> Thomas, Oliver and everyone else for the input.
+>=20
+> I agree with that.
+>=20
+> I still think though that we should have a discussion on feasibility
+> of making the kernel time code deal with large *forward* tsc jumps=20
+> without crashing.
+>=20
+> If that is indeed hard to do, or will cause performance issues,
+> then I agree that we might indeed inform the guest of time jumps instead.
+>=20
+
+Tglx, even without fancy shared host/guest timekeeping, count the guest kern=
+el manage to update its timekeeping if the host sent the guest an interrupt o=
+r NMI on all CPUs synchronously on resume?
+
+Alternatively, if we had the explicit =E2=80=9Cmax TSC value that makes sens=
+e right now=E2=80=9D in the timekeeping data, the guest would reliably notic=
+e the large jump and could at least do something intelligent about it instea=
+d of overflowing its internal calculation.=
