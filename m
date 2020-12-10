@@ -2,75 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D83C2BBCA
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D06EAC3526A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44D4123BA7
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:04:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7E212332A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbgLJXDS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 18:03:18 -0500
-Received: from ms.lwn.net ([45.79.88.28]:55636 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726018AbgLJXCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 18:02:47 -0500
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 453F82DC;
-        Thu, 10 Dec 2020 23:02:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 453F82DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607641326; bh=f186HpL5h6WRko7zs98ZnxC+LlTnCDnh4fbiQUDuvBc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=abUrowtlbjPUZM/AfVgb4dgZAyzBovjjnmaCPSfeYQ7PIPsKiIM8UjROpT749b2GB
-         8zyclJJ/TsdqsJFOkfQCbilWm7I3tEmhtAJz2fDqMdEM0n80JaHiRUUqo3nRoVC4HN
-         1JGOFI4/osjFrhiBcllFP93zrzSuHzMTms/a3xi3lT5MOpaqNSZHgj11TxyeYwc9pE
-         vvWHN8BLDuzhEFk/xO9dRvGE2FCJJSC3eTm9jWpwwThAQHF9hGS/cVDWVjal2ePrJB
-         DOjjZBnMBs/J9DzvyjsT8djub+zNItLVLLlqqPfe/r6KQKPxjLkVbqUp0ejzui/ELn
-         WwxkDpGJiIZZQ==
-Date:   Thu, 10 Dec 2020 16:02:05 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     JaeSang Yoo <js.yoo.5b@gmail.com>
-Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.org, markus.heiser@darmarit.de
-Subject: Re: [PATCH] docs: update requirements to install six module
-Message-ID: <20201210160205.56bb9060@lwn.net>
-In-Reply-To: <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
-References: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
-        <20201209172903.7990f71b@lwn.net>
-        <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
-Organization: LWN.net
+        id S2394163AbgLJWbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 17:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405146AbgLJW3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 17:29:00 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277ACC0613CF;
+        Thu, 10 Dec 2020 14:28:20 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1607639295;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5JXJwtEkjhQ2j1nMo0rZ0tKIkox0eioh2DmsOZzS29k=;
+        b=K5XohMhBOgVh/+BhSecz9sGmDkaKhH1kIY4hAnFw8WZsbemLNcOLwUcZyuRRs76h2IKwGP
+        nXPwMApeFnAdIbshcAUreyO+LOaPo4bqxOZIKYIHwQpJMaKkiD8zR+/QNf8cZLwFo8rXQH
+        EGoU2UF1CuRZuWKrzxnbb1krHN5w0LLJURFOS9QELofDgOUNhDst12fWxFvDITFqTGGqbf
+        TD2BXjf1rcUT7B83dUk7JN3fTMu1wO5dDjeLGhPgoiCXpuFe1x8XMty6UGRpnShs34m1g1
+        OACbDwSQjbRPDrnCd+pf7erHCVnS8hwUszf2BlUfKVRp4AhOLDX9IK8FNNBLMg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1607639295;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=5JXJwtEkjhQ2j1nMo0rZ0tKIkox0eioh2DmsOZzS29k=;
+        b=wosRE4ov71xbZGCc2alIw/KDqCUomK8F5wQDNSFm0uS5ZC0uucMj4H4Y3r2oE/i/eVxQXv
+        rpSewJInNFfbbtCA==
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+In-Reply-To: <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
+References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com> <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net> <87360djqve.fsf@nanos.tec.linutronix.de> <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
+Date:   Thu, 10 Dec 2020 23:28:14 +0100
+Message-ID: <87v9d9i9dt.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Dec 2020 12:39:42 +0900
-JaeSang Yoo <js.yoo.5b@gmail.com> wrote:
+On Thu, Dec 10 2020 at 14:01, Andy Lutomirski wrote:
+> On Thu, Dec 10, 2020 at 1:25 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>> I'm still convinced that a notification about 'we take a nap' will be
+>> more robust, less complex and more trivial to backport.
+>
+> What do you have in mind?  Suppose the host kernel sends the guest an
+> interrupt on all vCPUs saying "I'm about to take a nap".  What happens
+> if the guest is busy with IRQs off for a little bit?  Does the host
+> guarantee the guest a certain about of time to try to get the
+> interrupt delivered before allowing the host to enter S3?  How about
+> if the host wants to reboot for a security fix -- how long is a guest
+> allowed to delay the process?
+>
+> I'm sure this can all be made to work 99% of time, but I'm a bit
+> concerned about that last 1%.
 
-> While I was surveying the Sphinx library, it requires Python version
-> 3.5 as a minimum.
-> You can figure it out in the setup.py of Sphinx library source:
-> https://github.com/sphinx-doc/sphinx/blob/72ad5f2a/setup.py#L13-L15
+Seriously?
 
-That, of course, applies to current Sphinx releases. We have people
-building with older releases, though, which still work with Python 2.
+If the guest has interrupts disabled for ages, i.e. it went for out for
+lunch on its own, then surely the hypervisor can just pull the plug and
+wreckage it. It's like you hit the reset button or pull the powerplug of
+the machine which is not responding anymore.
 
-> I assume this would be a certain reason to leave Python 2 behind. The
-> Sphinx check script recommends using virtualenv. How do you think
-> about leaving Python 2 compatibility issue in this documentation
-> script range?
+Reboot waits already today for guests to shut down/hibernate/supsend or
+whatever they are supposed to do. systemd sits there and waits for
+minutes until it decides to kill them. Just crash a guest kernel and
+forget to reset or force power off the guest before you reboot the
+host. Twiddle thumbs for a while and watch the incomprehensible time
+display.
 
-I'm sorry, I don't quite understand your question.
+If your security fix reboot is so urgent that it can't wait then just
+pull the plug and be done with it, i.e. kill the guest which makes it
+start from a known state which is a gazillion times better than bringing
+it into a state which it can't handle anymore.
+
+Again, that's not any different than hitting the reset button on the
+host or pulling and reinserting the host powerplug which you would do
+anyway in an emergency case.
+
+Can we please focus on real problems instead of making up new ones?
+
+Correctness of time is a real problem despite the believe of virt folks
+that it can be ignored or duct taped to death.
 
 Thanks,
 
-jon
+        tglx
