@@ -2,138 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D974C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:35:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958BAC4167B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 14:18:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6B8D22D06
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:34:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5224F23D57
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 14:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389361AbgLJNeJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 08:34:09 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:46146 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728925AbgLJNeJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 08:34:09 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BADWMo0069011;
-        Thu, 10 Dec 2020 07:32:22 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1607607142;
-        bh=JHpOR1kUHxtPaKlXFx+C7LrcNp8Gm/RDnhA8hMFAgg8=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=GPdRtkF9AvlLw0wgUNk/srZkBu3Y0K7BmILEkuCDUVeh8kicElCIfaxcEMJlhXUaB
-         eJIGd76HFFNBlbFLN1cGcaXZDyViSLqgUC1xPs1dkMQILvZf0aCGJECwoy9JiM6tUr
-         IyPrbq+GUGxWdBEDN+EtnUxv+gtVWJjJp+QSeMp4=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BADWMOw001270
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 10 Dec 2020 07:32:22 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 10
- Dec 2020 07:32:21 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 10 Dec 2020 07:32:21 -0600
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BADWFuO013329;
-        Thu, 10 Dec 2020 07:32:17 -0600
-Subject: Re: Howto listen to/handle gpio state changes ? Re: [PATCH v2 2/2]
- drivers: gpio: add virtio-gpio guest driver
-To:     Arnd Bergmann <arnd@kernel.org>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <0080d492-2f07-d1c6-d18c-73d4204a5d40@metux.net>
- <CACRpkdb4R4yHcUV2KbGEC_RkU+QmH6Xg7X+qee8sEa9TURGr8A@mail.gmail.com>
- <51d3efb7-b7eb-83d7-673a-308dd51616d3@metux.net>
- <CACRpkdbqVoT56H88hoZwDqV0kW_8XTaE5TkMQsg-RRrPqgF=cQ@mail.gmail.com>
- <CAK8P3a1PRQGUXkjdSmqxXSONX_ZoCgsfx8hJBUdBUk14tyzErA@mail.gmail.com>
- <CACRpkdbNAeDsi9B14kbkAeoqX7NE_Ua_yOX1iNF75oNK0ELefQ@mail.gmail.com>
- <2827855a-dc4f-2e17-aca3-4b1b9f0d5084@ti.com>
- <CAK8P3a30=AcEZAZ2yNUgctj=4YM6FhS1ZXB4ts7a7WV=gBcatA@mail.gmail.com>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <3e16d597-d1f6-f054-4523-a7a00c945618@ti.com>
-Date:   Thu, 10 Dec 2020 15:32:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2389659AbgLJORA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 09:17:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35140 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389607AbgLJOQu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 09:16:50 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 2CC44AE95;
+        Thu, 10 Dec 2020 14:16:04 +0000 (UTC)
+Date:   Thu, 10 Dec 2020 15:15:47 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 03/12] mm/bootmem_info: Introduce free_bootmem_page
+ helper
+Message-ID: <20201210141547.GA8538@localhost.localdomain>
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
+ <20201210035526.38938-4-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a30=AcEZAZ2yNUgctj=4YM6FhS1ZXB4ts7a7WV=gBcatA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210035526.38938-4-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 09/12/2020 22:38, Arnd Bergmann wrote:
-> On Wed, Dec 9, 2020 at 9:22 PM Grygorii Strashko
-> <grygorii.strashko@ti.com> wrote:
->> On 09/12/2020 14:53, Linus Walleij wrote:
->>> On Wed, Dec 9, 2020 at 12:19 PM Arnd Bergmann <arnd@kernel.org> wrote:
->>>> On Wed, Dec 9, 2020 at 9:51 AM Linus Walleij <linus.walleij@linaro.org> wrote:
->>>>> On Tue, Dec 8, 2020 at 3:07 PM Enrico Weigelt, metux IT consult <lkml@metux.net> wrote:
->>>>
->>>>> What we need to understand is if your new usecase is an outlier
->>>>> so it is simplest modeled by a "mock" irq_chip or we have to design
->>>>> something new altogether like notifications on changes. I suspect
->>>>> irq_chip would be best because all drivers using GPIOs for interrupts
->>>>> are expecting interrupts, and it would be an enormous task to
->>>>> change them all and really annoying to create a new mechanism
->>>>> on the side.
->>>>
->>>> I would expect the platform abstraction to actually be close enough
->>>> to a chained irqchip that it actually works: the notification should
->>>> come in via vring_interrupt(), which is a normal interrupt handler
->>>> that calls vq->vq.callback(), calling generic_handle_irq() (and
->>>> possibly chained_irq_enter()/chained_irq_exit() around it) like the
->>>> other gpio drivers do should just work here I think, and if it did
->>>> not, then I would expect this to be just a bug in the driver rather
->>>> than something missing in the gpio framework.
->>>
->>> Performance/latency-wise that would also be strongly encouraged.
->>>
->>> Tglx isn't super-happy about the chained interrupts at times, as they
->>> can create really nasty bugs, but a pure IRQ in fastpath of some
->>> kinde is preferable and intuitive either way.
->>
->> In my opinion the problem here is that proposed patch somehow describes Front end, but
->> says nothing about Backend and overall design.
->>
->> What is expected to be virtualized? whole GPIO chip? or set of GPIOs from different GPIO chips?
->> Most often nobody want to give Guest access to the whole GPIO chip, so, most probably, smth. similar to
->> GPIO Aggregator will be needed.
+On Thu, Dec 10, 2020 at 11:55:17AM +0800, Muchun Song wrote:
+> Any memory allocated via the memblock allocator and not via the buddy
+> will be makred reserved already in the memmap. For those pages, we can
+         marked
+> call free_bootmem_page() to free it to buddy allocator.
 > 
-> I would argue that it does not matter, the virtual GPIO chip could really
-> be anything. Certain functions such as a gpio based keyboard require
-> interrupts, so it sounds useful to make them work.
+> Becasue we wan to free some vmemmap pages of the HugeTLB to the buddy
+Because     want
+> allocator, we can use this helper to do that in the later patchs.
+                                                           patches
 
-Agree, and my point was not to discard IRQ support, but solve problem step by step.
-And existing Back end, in any form, may just help to understand virtio-gpio protocol spec and
-identify missed pieces.
+To be honest, I think if would be best to introduce this along with
+patch#4, so we get to see where it gets used.
 
-For example, should 'Configuration space' specify if IRQs are supported on not?
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  include/linux/bootmem_info.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/include/linux/bootmem_info.h b/include/linux/bootmem_info.h
+> index 4ed6dee1adc9..20a8b0df0c39 100644
+> --- a/include/linux/bootmem_info.h
+> +++ b/include/linux/bootmem_info.h
+> @@ -3,6 +3,7 @@
+>  #define __LINUX_BOOTMEM_INFO_H
+>  
+>  #include <linux/mmzone.h>
+> +#include <linux/mm.h>
+
+<linux/mm.h> already includes <linux/mmzone.h>
+
+> +static inline void free_bootmem_page(struct page *page)
+> +{
+> +	unsigned long magic = (unsigned long)page->freelist;
+> +
+> +	/* bootmem page has reserved flag in the reserve_bootmem_region */
+reserve_bootmem_region sets the reserved flag on bootmem pages?
+
+> +	VM_WARN_ON(!PageReserved(page) || page_ref_count(page) != 2);
+
+We do check for PageReserved in patch#4 before calling in here.
+Do we need yet another check here? IOW, do we need to be this paranoid?
+
+> +	if (magic == SECTION_INFO || magic == MIX_SECTION_INFO)
+> +		put_page_bootmem(page);
+> +	else
+> +		WARN_ON(1);
+
+Lately, some people have been complaining about using WARN_ON as some
+systems come with panic_on_warn set.
+
+I would say that in this case it does not matter much as if the vmemmap
+pages are not either SECTION_INFO or MIX_SECTION_INFO it means that a
+larger corruption happened elsewhere.
+
+But I think I would align the checks here.
+It does not make sense to me to only scream under DEBUG_VM if page's
+refcount differs from 2, and have a WARN_ON if the page we are trying
+to free was not used for the memmap array.
+Both things imply a corruption, so I would set the checks under the same
+configurations.
 
 -- 
-Best regards,
-grygorii
+Oscar Salvador
+SUSE L3
