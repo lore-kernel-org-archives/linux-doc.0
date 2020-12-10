@@ -2,114 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A006C0018C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 17:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB5AC0018C
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DD9F23DE3
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 17:48:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 428E623770
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392876AbgLJRmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 12:42:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
+        id S1732206AbgLJSBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 13:01:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391065AbgLJRmm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 12:42:42 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FECAC0613CF;
-        Thu, 10 Dec 2020 09:42:02 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0d4100e4701ee3c8ed8bc5.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:4100:e470:1ee3:c8ed:8bc5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 125411EC054C;
-        Thu, 10 Dec 2020 18:42:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1607622121;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=DMxIl+sUswXky4hhx8cQNgi4k4soKTP3TjDz/GFCjaw=;
-        b=iNEHVi15kmRdMHYS4OMEd1JmZaUshnKRI5nbl3emQfzm4SnYizyFXY93PnbbSOvoLSYBQV
-        tWyfO3QpKd1baUIDBU1XePAbFK9WwLEWIw0dkN8xvaUtOrrcF5wgzsX1knpxXSRHRO79Ws
-        Ef3HwocPJpikX283wWeE1yYoYmvMiHQ=
-Date:   Thu, 10 Dec 2020 18:41:55 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v15 08/26] x86/mm: Introduce _PAGE_COW
-Message-ID: <20201210174155.GD26529@zn.tnic>
-References: <20201110162211.9207-1-yu-cheng.yu@intel.com>
- <20201110162211.9207-9-yu-cheng.yu@intel.com>
- <20201208175014.GD27920@zn.tnic>
- <218503f6-eec1-94b0-8404-6f92c55799e3@intel.com>
- <20201208184727.GF27920@zn.tnic>
- <cddc2cc5-a04e-ce9c-6fdf-2e7a29346cf7@intel.com>
+        with ESMTP id S2389344AbgLJSAi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 13:00:38 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5099DC0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 09:59:58 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id m19so9548605lfb.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 09:59:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kSOS9gHQJjTmsLc8VDbsSjiQ/RzzRfDOewkmFTUJ9nA=;
+        b=Kxt/6OhE59pWJyW2ZQr+9XDZkp9Lg5lk3YGJO2hJ/iMzIxwVGXbRe6+uZji2XV3W/6
+         eaZlazRL4VCSMtd5bCHaSiHFvhZFJBDxSs6SSiruVbIZYzcIAnUiMaAhfFENp10Ys8rs
+         LjFaiY0iC6HeaQFkJ4mf7nA/zu3dmnvoamfeeJa+RcsInZBTN5wLmSVgw1rzUasRBvfi
+         eUzcIJimD7Juvsz0GA8cIAsVJ9sz982+E2YR0g58eknOW6uIW4OR4RdzfsvvoX0Wd57B
+         e69CJZtwFwqhXCTquurJTyEvnFGG7ok6Th2zMcMS51lKz76lCTzrHi2cXfd/6WtCyGGJ
+         v8NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kSOS9gHQJjTmsLc8VDbsSjiQ/RzzRfDOewkmFTUJ9nA=;
+        b=QM/UM78KFii7SpjIqDkEh1jqVpobax+vZJZbFP/ABqNPU2oYlLFbyjycUYFd1dYy8D
+         L5daIjowHWwtGgSCslTHZpSdhwEvi5e8ppnX//h4jSGUc3G5XD1eA1rQRtQDSGI+hUYy
+         VTiLshi0E0CmmjkVVppBXljwSMedqch/+HqtNYTYxFYxIPlnt/uOUmMyr4zIGONWoDmB
+         ryT7ZY+Y3A5D4v0UaKV95ZF4JLnyUr2U8HSon9CMQZx0Iz7Iy63PPEh8k4mUJHLad2Eg
+         6y9P6ycZOQpaX0vfeh5/Y+wdU05F5KLeQYO2X3UxfJV/eSsc6ojSHHadqIs6Zkl83fXl
+         Q6lQ==
+X-Gm-Message-State: AOAM533s/DPHPMlWqgUdPZtbb4bFeZa6VNr1M90xJJ1xbKkcxDfYZPlD
+        Nq8mgtLJm9qWqUxdRLolHBkUvawvNxHZ/W5FbG1hfg==
+X-Google-Smtp-Source: ABdhPJyC+V/aSG0layoljUptKcm8GaCP6ReUaXdlOAMHzGjDdVVWdZ/1X7eeSfQThNFvCdMJG0M4dBbsRPsBSBWk3Yg=
+X-Received: by 2002:ac2:4c8e:: with SMTP id d14mr2983701lfl.411.1607623196388;
+ Thu, 10 Dec 2020 09:59:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cddc2cc5-a04e-ce9c-6fdf-2e7a29346cf7@intel.com>
+References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com> <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
+In-Reply-To: <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
+From:   Oliver Upton <oupton@google.com>
+Date:   Thu, 10 Dec 2020 11:59:44 -0600
+Message-ID: <CAOQ_QshW0UvwSS3TUCK5PxkLQhHTqDNXNeMxwVDyf+DXc23fXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Andy Lutomirski <luto@amacapital.net>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 11:24:16AM -0800, Yu, Yu-cheng wrote:
-> Case (a) is a normal writable data page that has gone through fork(). So it
+On Thu, Dec 10, 2020 at 9:16 AM Andy Lutomirski <luto@amacapital.net> wrote=
+:
+>
+>
+>
+> > On Dec 10, 2020, at 6:52 AM, Maxim Levitsky <mlevitsk@redhat.com> wrote=
+:
+> >
+> > =EF=BB=BFOn Thu, 2020-12-10 at 12:48 +0100, Paolo Bonzini wrote:
+> >>> On 08/12/20 22:20, Thomas Gleixner wrote:
+> >>> So now life migration comes a long time after timekeeping had set the
+> >>> limits and just because it's virt it expects that everything works an=
+d it
+> >>> just can ignore these limits.
+> >>>
+> >>> TBH. That's not any different than SMM or hard/firmware taking the
+> >>> machine out for lunch. It's exactly the same: It's broken.
+> >>
+> >> I agree.  If *live* migration stops the VM for 200 seconds, it's broke=
+n.
+> >>
+> >> Sure, there's the case of snapshotting the VM over the weekend.  My
+> >> favorite solution would be to just put it in S3 before doing that.  *D=
+o
+> >> what bare metal does* and you can't go that wrong.
+> >
+> > Note though that qemu has a couple of issues with s3, and it is disable=
+d
+> > by default in libvirt.
+> > I would be very happy to work on improving this if there is a need for =
+that.
+>
+> There=E2=80=99s also the case where someone has a VM running on a laptop =
+and someone closes the lid. The host QEMU might not have a chance to convin=
+ce the guest to enter S3.
+>
+> >
+> >
+> >>
+> >> In general it's userspace policy whether to keep the TSC value the sam=
+e
+> >> across live migration.  There's pros and cons to both approaches, so K=
+VM
+> >> should provide the functionality to keep the TSC running (which the
+> >> guest will see as a very long, but not extreme SMI), and this is what
+> >> this series does.  Maxim will change it to operate per-VM.  Thanks
+> >> Thomas, Oliver and everyone else for the input.
 
-Writable?
+So, to be clear, this per-VM ioctl will work something like the following:
 
-> has W=0, D=1.  But here, the software chooses not to use the D bit, and
+static u64 kvm_read_tsc_base(struct kvm *kvm, u64 host_tsc)
+{
+        return kvm_scale_tsc(kvm, host_tsc) + kvm->host_tsc_offset;
+}
 
-But it has W=0. So not writable?
+case KVM_GET_TSC_BASE:
+        struct kvm_tsc_base base =3D {
+                .flags =3D KVM_TSC_BASE_TIMESTAMP_VALID;
+        };
+        u64 host_tsc;
 
-> instead, W=0, COW=1.
+        kvm_get_walltime(&base.nsec, &host_tsc);
+        base.tsc =3D kvm_read_tsc_base(kvm, host_tsc);
 
-So the "new" way of denoting that the page is modified is COW=1
-*when* on CET hw. The D=1 bit is still used on the rest thus the two
-_PAGE_DIRTY_BITS.
+        copy_to_user(...);
 
-Am I close?
+[...]
 
-> Case (b) is a normal read-only data page.  Since it is read-only, fork()
-> won't affect it.  In __get_user_pages(), a copy of the read-only page is
-> needed, and the page is duplicated.  The software sets COW=1 for the new
-> copy.
+case KVM_SET_TSC_BASE:
+        struct kvm_tsc_base base;
+        u64 host_tsc, nsec;
+        s64 delta =3D 0;
 
-That makes more sense.
+        copy_from_user(...);
 
-> Thread-A is writing to a writable page, and the page's PTE is becoming W=1,
-> D=1.  In the middle of it, Thread-B is changing the PTE to W=0.
+        kvm_get_walltime(&nsec, &host_tsc);
+        delta +=3D base.tsc - kvm_read_tsc_base(kvm, host_tsc);
 
-Yah, add that to the explanation pls.
+        if (base.flags & KVM_TSC_BASE_TIMESTAMP_VALID) {
+                u64 delta_nsec =3D nsec - base.nsec;
 
--- 
-Regards/Gruss,
-    Boris.
+                if (delta_nsec > 0)
+                        delta +=3D nsec_to_cycles(kvm, diff);
+                else
+                        delta -=3D nsec_to_cycles(kvm, -diff);
+        }
 
-https://people.kernel.org/tglx/notes-about-netiquette
+        kvm->host_tsc_offset +=3D delta;
+        /* plumb host_tsc_offset through to each vcpu */
+
+However, I don't believe we can assume the guest's TSCs to be synchronized,
+even if sane guests will never touch them. In this case, I think a per-vCPU
+ioctl is still warranted, allowing userspace to get at the guest CPU adjust
+component of Thomas' equation below (paraphrased):
+
+        TSC guest CPU =3D host tsc base + guest base offset + guest CPU adj=
+ust
+
+Alternatively, a write from userspace to the guest's IA32_TSC_ADJUST with
+KVM_X86_QUIRK_TSC_HOST_ACCESS could have the same effect, but that seems to=
+ be
+problematic for a couple reasons. First, depending on the guest's CPUID the
+TSC_ADJUST MSR may not even be available, meaning that the guest could've u=
+sed
+IA32_TSC to adjust the TSC (eww). Second, userspace replaying writes to IA3=
+2_TSC
+(in the case IA32_TSC_ADJUST doesn't exist for the guest) seems _very_
+unlikely to work given all the magic handling that KVM does for
+writes to it.
+
+Is this roughly where we are or have I entirely missed the mark? :-)
+
+--
+Thanks,
+Oliver
+
+> >
+> > I agree with that.
+> >
+> > I still think though that we should have a discussion on feasibility
+> > of making the kernel time code deal with large *forward* tsc jumps
+> > without crashing.
+> >
+> > If that is indeed hard to do, or will cause performance issues,
+> > then I agree that we might indeed inform the guest of time jumps instea=
+d.
+> >
+>
+> Tglx, even without fancy shared host/guest timekeeping, count the guest k=
+ernel manage to update its timekeeping if the host sent the guest an interr=
+upt or NMI on all CPUs synchronously on resume?
+>
+> Alternatively, if we had the explicit =E2=80=9Cmax TSC value that makes s=
+ense right now=E2=80=9D in the timekeeping data, the guest would reliably n=
+otice the large jump and could at least do something intelligent about it i=
+nstead of overflowing its internal calculation.
