@@ -2,197 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 130B5C4361B
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 23:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E72F7C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 00:26:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4AE523B77
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Dec 2020 23:48:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEB3A22B2E
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 00:26:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728499AbgLIXsK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 18:48:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38042 "EHLO
+        id S1726475AbgLJA0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 19:26:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728147AbgLIXsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 18:48:10 -0500
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E11E7C061793
-        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 15:47:29 -0800 (PST)
-Received: by mail-qt1-x844.google.com with SMTP id z20so2411500qtq.3
-        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 15:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fEDy9e6MULAxxvc3gfaoOMf7yXixV4MmveX5QoBc0M0=;
-        b=TFpdJEn84BFYinB2Dg6QobxTWrhtFD+bYMceAur0R4opoz8o8WgG73WauK9wx1G+6a
-         35hVLIt17CA2FOx3rKigWTYiGtllriycdvLS1XDI/dsYNZiKT6tW1pIJEPGZnUcWdJOC
-         gIBodtPVt2Ih/WvntEzQ/EwHLlJ0s36catgNg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fEDy9e6MULAxxvc3gfaoOMf7yXixV4MmveX5QoBc0M0=;
-        b=lxj0eOTv0JbCrsEB2VQZCu54gZ8DWfcz7nOLf+jQV6Lb7BbdTg2nzPrwma1YY5UdOa
-         Z1fp3azRrz2JVYziahsNYtlYgY9dbxZMpFlFwY7SIs3aiT3pFQC7JWh8tgsFfQrzJ+H1
-         3XZi3x1Dbmyp+UNXWQ1VnwhHeRqDO5UBDd6NTJANSRcsuzobLEyjVBjy5aqbJuBhrnZW
-         HgkNjfanMAnSrOv3Ar0pF+42SawQv3i4zRB0lKfAkPRxSmxJTsukUJUrSp/NSr7+UP2m
-         iWpKuEe4o57YRFw51pBFM9TYKoFadJdHtIO1Tzt708UFdlp5Sa9Bs8RykcHaFwW3pACI
-         waOQ==
-X-Gm-Message-State: AOAM532uypCFUfZgL9D1W1e7NwUzkr8t4qiKTZbuxLDz44+uPZwvyvsM
-        PI85NT0q3Fl/jgSesvIoJz78QqCKPsunTndkVKhCNw==
-X-Google-Smtp-Source: ABdhPJxvdtamgd/uVbuavrschkjTLxHSU+w2IYkR1tiOmF5Uv9v/Nb/UT0aOJkSqCn1q19FiNmI0A7p3JjMlem1ui90=
-X-Received: by 2002:ac8:594c:: with SMTP id 12mr6032953qtz.224.1607557648904;
- Wed, 09 Dec 2020 15:47:28 -0800 (PST)
+        with ESMTP id S1726519AbgLJA0K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 19:26:10 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 599B4C0613CF;
+        Wed,  9 Dec 2020 16:25:29 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 10C6C301;
+        Thu, 10 Dec 2020 00:25:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 10C6C301
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1607559929; bh=ywdfegw7XoJZkcDSTZUNSp0egIOABJ7DZRdiRiF1mog=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WpoAYVFDIe90jTqfTKJ+QZIsIIo7C7AXNbDFpeDM0D3lm14dr6GMhRxSw8cYUHMCe
+         UPTvDXuzXYWzoG7veDSaU84rE8/pr7cUJwTMhFYTXKqnuDV77qBNeCoa6u72VYH8KA
+         drqbeyRvJIt5CFNujoB+h95CzwXaUNUXGTGxqYWX4EHKv3HT06dOVCCj8dc6Suy1HN
+         hTE/xxNtigJ1nPkc/qQ94q8HnUKHnDETYkb5PG4Dy8DbMaESR8vBBt7K8U+HFF15Hn
+         Wo4GfnMMI4uX7VUSnSHsdni6Wv+FNLdLRYAZ34g0bkB6w/G0yKAxjTvpK/mCuSRXrF
+         DxSBoxDmWdHWA==
+Date:   Wed, 9 Dec 2020 17:25:27 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: reporting-issues: move 'outdated, need help' note
+ to proper place
+Message-ID: <20201209172527.3fb293f5@lwn.net>
+In-Reply-To: <d3894ba4a302beed661304cbcdc062c6dcfe3e58.1607489877.git.linux@leemhuis.info>
+References: <d3894ba4a302beed661304cbcdc062c6dcfe3e58.1607489877.git.linux@leemhuis.info>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20201203030846.51669-1-pmalani@chromium.org> <20201208093734.GD680328@kuha.fi.intel.com>
- <CACeCKaehg=HTuQNLtQaJZWvTnOFYM9b1BWfM+WX_ebiZ-_i8JQ@mail.gmail.com>
- <20201209161356.GI680328@kuha.fi.intel.com> <CACeCKacdcGi_6VW7F9agN+bgRH7gAXLDxK7DngE=fPkYT-CWNQ@mail.gmail.com>
- <20201209171524.GK680328@kuha.fi.intel.com> <CACeCKafc6A-O09LrTsYgBTbmwVV0y-tEevj_Ci188WmT=hkjxg@mail.gmail.com>
-In-Reply-To: <CACeCKafc6A-O09LrTsYgBTbmwVV0y-tEevj_Ci188WmT=hkjxg@mail.gmail.com>
-From:   Prashant Malani <pmalani@chromium.org>
-Date:   Wed, 9 Dec 2020 15:47:17 -0800
-Message-ID: <CACeCKafbAOQdthkafd-QQizQ=1vy4e+4KeGHfLs7JnmgSrVv6Q@mail.gmail.com>
-Subject: Re: [PATCH] usb: typec: Add bus type for plug alt modes
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benson Leung <bleung@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 2:59 PM Prashant Malani <pmalani@chromium.org> wrote:
->
-> Hi Heikki,
->
-> On Wed, Dec 9, 2020 at 9:15 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > Hi Prashant,
-> >
-> > On Wed, Dec 09, 2020 at 08:22:52AM -0800, Prashant Malani wrote:
-> > > Hi Heikki,
-> > >
-> > > On Wed, Dec 9, 2020 at 8:14 AM Heikki Krogerus
-> > > <heikki.krogerus@linux.intel.com> wrote:
-> > > >
-> > > > On Tue, Dec 08, 2020 at 03:45:19PM -0800, Prashant Malani wrote:
-> > > > > Hi Heikki,
-> > > > >
-> > > > > Thanks a lot for looking at the patch.
-> > > > >
-> > > > > On Tue, Dec 8, 2020 at 1:37 AM Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
-> > > > > >
-> > > > > > On Wed, Dec 02, 2020 at 07:08:47PM -0800, Prashant Malani wrote:
-> > > > > > > Add the Type C bus for plug alternate modes which are being
-> > > > > > > registered via the Type C connector class. This ensures that udev events
-> > > > > > > get generated when plug alternate modes are registered (and not just for
-> > > > > > > partner/port alternate modes), even though the Type C bus doesn't link
-> > > > > > > plug alternate mode devices to alternate mode drivers.
-> > > > > >
-> > > > > > I still don't understand how is the uevent related to the bus? If you
-> > > > > > check the device_add() function, on line 2917, kobject_uevent() is
-> > > > > > called unconditionally. The device does not need a bus for that event
-> > > > > > to be generated.
-> > > > >
-> > > > > My initial thought process was to see what is the difference in the adev device
-> > > > > initialization between partner altmode and plug altmode (the only difference I saw in
-> > > > > typec_register_altmode() was regarding the bus field).
-> > > > >
-> > > > > Yes, kobject_uevent() is called unconditionally, but it's return value isn't checked,
-> > > > > so we don't know if it succeeded or not.
-> > > > >
-> > > > > In the case of cable plug altmode, I see it fail with the following error[1]:
-> > > > >
-> > > > > [  114.431409] kobject: 'port1-plug0.0' (000000004ad42956): kobject_uevent_env: filter function caused the event to drop!
-> > > > >
-> > > > > I think the filter function which is called is this one: drivers/base/core.c: dev_uevent_filter() [2]
-> > > > >
-> > > > > static int dev_uevent_filter(struct kset *kset, struct kobject *kobj)
-> > > > > {
-> > > > >       struct kobj_type *ktype = get_ktype(kobj);
-> > > > >
-> > > > >       if (ktype == &device_ktype) {
-> > > > >               struct device *dev = kobj_to_dev(kobj);
-> > > > >               if (dev->bus)
-> > > > >                       return 1;
-> > > > >               if (dev->class)
-> > > > >                       return 1;
-> > > > >       }
-> > > > >       return 0;
-> > > > > }
-> > > > >
-> > > > > So, both the "if (dev->bus)" and "if (dev->class)" checks are failing here. In the case of partner alt modes, bus is set by the class.c code
-> > > > > so this check likely returns 1 in that case.
-> > > >
-> > > > OK. I understand the issue now. So I would say that the proper
-> > > > solution to this problem is to link the alt modes with the class
-> > > > instead of the bus. That is much smaller change IMO.
-> > >
-> > > Got it. Just to confirm that I understand correctly, do you mean:
-> > > 1. Only cable plug alt modes should be linked with the class instead of the bus.
-> > >
-> > > <or>
-> > >
-> > > 2. All alt modes (cable plug, partner, port) should be linked with the
-> > > class instead of the bus
-> > >
-> > > My initial interpretation is 1.) since the bus linkage would be
-> > > necessary to match alt mode drivers to partner alt mode devices.
-> > > But, my understanding of the bus code is limited so I could be wrong;
-> > > could you kindly clarify?
-> >
-> > We don't need to care about the bus here. A device can be part of a
-> > bus and a class at the same time. I don't think there is any reason to
-> > limit the class to only plug alt modes, so let's just assign it to all
-> > of them.
->
-> I had actually tried this earlier, but here we run into errors.
-> If we always set the class, then "partner" altmode device creation
-> fails ("port" altmode creation will likely also fail, but I haven't
-> verified that)
->
-> The issue is that if we set both "class" and "bus", the device_add()
-> [1] code tries to create the "subsystem" symlink in the altmode
-> device's sysfs entry twice.
->
-> The first creation is in the call to device_add_class_symlinks()[2]
-> which creates a "subsystem" file [3]. Note that if "class" is not set,
-> this code doesn't execute.
-> Next is the call to bus_add_device() [4] which again tries to create
-> the "subsystem" symlink [5] and fails since it already exists; this
-> leads to failure.
->
-> There are 2 solutions I can see:
-> 1. Only set class for cable plug alt modes (which won't have a bus
-> set). This will avoid the double "subsystem" sysfs file creation.
-> 2. Change the bus_add_device() code to:
->     a. use the _nowarn() option of the symlink create function which
-> prevents the warn stack traces on -EEXIST error, and
->     b. check for -EEXIST return value and don't fail if so.
->
-> 2.) Sounds good to me, but I'm not sure if it's alright to continue if
-> a "subsystem" symlink already exists.
+On Wed,  9 Dec 2020 06:19:14 +0100
+Thorsten Leemhuis <linux@leemhuis.info> wrote:
 
-It looks like the "subsystem" name depends on the bus_type.name  and
-class.name (for bus and class respectively).
-So it is possible the two symlinks will not point to the same location
-(For example, the class for typec is "typec_mux"
-but the bus is simply "typec").
+> Move the 'this section is a placeholder for now and needs help by
+> someone with domain knowledge' note one section upwards to the place
+> where it belongs: the 'Decode failure messages' section.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+> Brown paper bag fixup :-/
 
-Given this, it sounds like option 1.) might be better, but I'll defer
-to your suggestions.
+Hey, if it's the only one we're in fine shape :)
 
+Applied, thanks.
 
-Best regards,
-
--Prashant
+jon
