@@ -2,221 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB5AC0018C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB3ADC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 428E623770
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DA5E23770
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 18:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732206AbgLJSBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 13:01:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
+        id S2392565AbgLJR4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 12:56:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389344AbgLJSAi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 13:00:38 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5099DC0613CF
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 09:59:58 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id m19so9548605lfb.1
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 09:59:58 -0800 (PST)
+        with ESMTP id S2392977AbgLJR4C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 12:56:02 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7DBC0613CF;
+        Thu, 10 Dec 2020 09:55:22 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id e2so4913929pgi.5;
+        Thu, 10 Dec 2020 09:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kSOS9gHQJjTmsLc8VDbsSjiQ/RzzRfDOewkmFTUJ9nA=;
-        b=Kxt/6OhE59pWJyW2ZQr+9XDZkp9Lg5lk3YGJO2hJ/iMzIxwVGXbRe6+uZji2XV3W/6
-         eaZlazRL4VCSMtd5bCHaSiHFvhZFJBDxSs6SSiruVbIZYzcIAnUiMaAhfFENp10Ys8rs
-         LjFaiY0iC6HeaQFkJ4mf7nA/zu3dmnvoamfeeJa+RcsInZBTN5wLmSVgw1rzUasRBvfi
-         eUzcIJimD7Juvsz0GA8cIAsVJ9sz982+E2YR0g58eknOW6uIW4OR4RdzfsvvoX0Wd57B
-         e69CJZtwFwqhXCTquurJTyEvnFGG7ok6Th2zMcMS51lKz76lCTzrHi2cXfd/6WtCyGGJ
-         v8NA==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hrVQ7SVyCoaV1mjAfYlqW3Uy9TiAxEzQ/B4ofiIVHhQ=;
+        b=W8nZhFPOpQyWe0xWfiZWqiCgkc2gW68guoHYsVDHeAyMCEgyPRCRgLtKy6YZ8BILgE
+         wo05WAGEinVfSYssL1rP5IdDgxg1kDUsJnNkKVd73x1vTIGEyy4XtfSiJCToV4iw3TGh
+         g/7dljAlpKdU4KO8DE46IamX0ajc8IMABUru42Sd3kgtKbn22J9jHQZPzTf34c1qR8mi
+         T6WFAe4nkKCi4JT77gegip2CrxptUdbiWEZdzIehDXE+ftNwWU4SBSWtyOHFjxiaBHH0
+         gU7cYg7qDXoehvpkIDHtGWSg9o6GRJ62qydXw/ARodQUtwQtif8kTxWtjA41MCw8SzKd
+         axrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kSOS9gHQJjTmsLc8VDbsSjiQ/RzzRfDOewkmFTUJ9nA=;
-        b=QM/UM78KFii7SpjIqDkEh1jqVpobax+vZJZbFP/ABqNPU2oYlLFbyjycUYFd1dYy8D
-         L5daIjowHWwtGgSCslTHZpSdhwEvi5e8ppnX//h4jSGUc3G5XD1eA1rQRtQDSGI+hUYy
-         VTiLshi0E0CmmjkVVppBXljwSMedqch/+HqtNYTYxFYxIPlnt/uOUmMyr4zIGONWoDmB
-         ryT7ZY+Y3A5D4v0UaKV95ZF4JLnyUr2U8HSon9CMQZx0Iz7Iy63PPEh8k4mUJHLad2Eg
-         6y9P6ycZOQpaX0vfeh5/Y+wdU05F5KLeQYO2X3UxfJV/eSsc6ojSHHadqIs6Zkl83fXl
-         Q6lQ==
-X-Gm-Message-State: AOAM533s/DPHPMlWqgUdPZtbb4bFeZa6VNr1M90xJJ1xbKkcxDfYZPlD
-        Nq8mgtLJm9qWqUxdRLolHBkUvawvNxHZ/W5FbG1hfg==
-X-Google-Smtp-Source: ABdhPJyC+V/aSG0layoljUptKcm8GaCP6ReUaXdlOAMHzGjDdVVWdZ/1X7eeSfQThNFvCdMJG0M4dBbsRPsBSBWk3Yg=
-X-Received: by 2002:ac2:4c8e:: with SMTP id d14mr2983701lfl.411.1607623196388;
- Thu, 10 Dec 2020 09:59:56 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hrVQ7SVyCoaV1mjAfYlqW3Uy9TiAxEzQ/B4ofiIVHhQ=;
+        b=nAhCM3yoWw42veSxi3asbHkHx5/hYQFxHk6PiPZE0tWKY+AA9Gx07sXdDG/0ILcZxU
+         CEYgHKFih04RtSdSwZEdE/DGUJkcDFwTiTVhCg3NWvLPBEOjCpkkKnmfb5qITbQIktgK
+         LPof8rzXpeD8JrYfUmSjtXCM3fSK5lRuzh0MXjI6bzpyhH+YTFJ+nbSSDctIWck+ZgEb
+         h8IQt+cabPkQtYNG0jBEXE5bzqkfLheojoK85ZPkNqaXiDpNNfIvKFzthhES6jXRe9QQ
+         e4kMBsLHBUGTP8AJTiqRyhJWDdmmqsPpT4WzwMMIHyv04RWaIEVFQK426RCDXdlY8j4A
+         11eA==
+X-Gm-Message-State: AOAM5304Gz78gGfOTE/P6t82Q0xQ8te4ASkn/3Ei2Vn3LvqjeRQrCgGv
+        4oijNe43m3CWKYlc4/sLWuogEUiuz2A=
+X-Google-Smtp-Source: ABdhPJx/k5t3uIeCLO/BipkM+UFAvT+G5JAF7k94zNJ+MieGAcyrddPn8g/0JEGNm7Ng6/he+OTrBA==
+X-Received: by 2002:a63:b910:: with SMTP id z16mr7690969pge.358.1607622921713;
+        Thu, 10 Dec 2020 09:55:21 -0800 (PST)
+Received: from [10.230.29.166] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id p15sm6969707pgl.19.2020.12.10.09.55.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Dec 2020 09:55:21 -0800 (PST)
+Subject: Re: [PATCH] net/netconsole: Support VLAN for netconsole
+To:     Libing Zhou <libing.zhou@nokia-sbell.com>, davem@davemloft.net,
+        mingo@redhat.com, Vladimir Oltean <olteanv@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20201210100742.8874-1-libing.zhou@nokia-sbell.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <40a77a26-9944-245e-cb16-6690221efbd0@gmail.com>
+Date:   Thu, 10 Dec 2020 09:55:16 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com> <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
-In-Reply-To: <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net>
-From:   Oliver Upton <oupton@google.com>
-Date:   Thu, 10 Dec 2020 11:59:44 -0600
-Message-ID: <CAOQ_QshW0UvwSS3TUCK5PxkLQhHTqDNXNeMxwVDyf+DXc23fXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-To:     Andy Lutomirski <luto@amacapital.net>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        kvm list <kvm@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201210100742.8874-1-libing.zhou@nokia-sbell.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 9:16 AM Andy Lutomirski <luto@amacapital.net> wrote=
-:
->
->
->
-> > On Dec 10, 2020, at 6:52 AM, Maxim Levitsky <mlevitsk@redhat.com> wrote=
-:
-> >
-> > =EF=BB=BFOn Thu, 2020-12-10 at 12:48 +0100, Paolo Bonzini wrote:
-> >>> On 08/12/20 22:20, Thomas Gleixner wrote:
-> >>> So now life migration comes a long time after timekeeping had set the
-> >>> limits and just because it's virt it expects that everything works an=
-d it
-> >>> just can ignore these limits.
-> >>>
-> >>> TBH. That's not any different than SMM or hard/firmware taking the
-> >>> machine out for lunch. It's exactly the same: It's broken.
-> >>
-> >> I agree.  If *live* migration stops the VM for 200 seconds, it's broke=
-n.
-> >>
-> >> Sure, there's the case of snapshotting the VM over the weekend.  My
-> >> favorite solution would be to just put it in S3 before doing that.  *D=
-o
-> >> what bare metal does* and you can't go that wrong.
-> >
-> > Note though that qemu has a couple of issues with s3, and it is disable=
-d
-> > by default in libvirt.
-> > I would be very happy to work on improving this if there is a need for =
-that.
->
-> There=E2=80=99s also the case where someone has a VM running on a laptop =
-and someone closes the lid. The host QEMU might not have a chance to convin=
-ce the guest to enter S3.
->
-> >
-> >
-> >>
-> >> In general it's userspace policy whether to keep the TSC value the sam=
-e
-> >> across live migration.  There's pros and cons to both approaches, so K=
-VM
-> >> should provide the functionality to keep the TSC running (which the
-> >> guest will see as a very long, but not extreme SMI), and this is what
-> >> this series does.  Maxim will change it to operate per-VM.  Thanks
-> >> Thomas, Oliver and everyone else for the input.
 
-So, to be clear, this per-VM ioctl will work something like the following:
 
-static u64 kvm_read_tsc_base(struct kvm *kvm, u64 host_tsc)
-{
-        return kvm_scale_tsc(kvm, host_tsc) + kvm->host_tsc_offset;
-}
+On 12/10/2020 2:07 AM, Libing Zhou wrote:
+> During kernel startup phase, current netconsole doesn’t support VLAN
+> since there is no VLAN interface setup already.
+> 
+> This patch provides VLAN ID and PCP as optional boot/module parameters
+> to support VLAN environment, thus kernel startup log can be retrieved
+> via VLAN.
+> 
+> Signed-off-by: Libing Zhou <libing.zhou@nokia-sbell.com>
+> ---
+>  Documentation/networking/netconsole.rst | 10 ++++-
+>  drivers/net/netconsole.c                |  3 +-
+>  include/linux/netpoll.h                 |  3 ++
+>  net/core/netpoll.c                      | 58 ++++++++++++++++++++++++-
+>  4 files changed, 70 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+> index 1f5c4a04027c..a08387fcc3f0 100644
+> --- a/Documentation/networking/netconsole.rst
+> +++ b/Documentation/networking/netconsole.rst
+> @@ -13,6 +13,8 @@ IPv6 support by Cong Wang <xiyou.wangcong@gmail.com>, Jan 1 2013
+>  
+>  Extended console support by Tejun Heo <tj@kernel.org>, May 1 2015
+>  
+> +VLAN support by Libing Zhou <libing.zhou@nokia-sbell.com>, Dec 8 2020
+> +
+>  Please send bug reports to Matt Mackall <mpm@selenic.com>
+>  Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
+>  
+> @@ -34,7 +36,7 @@ Sender and receiver configuration:
+>  It takes a string configuration parameter "netconsole" in the
+>  following format::
+>  
+> - netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
+> + netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr][-V<vid:pcp>]
+>  
+>     where
+>  	+             if present, enable extended console support
+> @@ -44,11 +46,17 @@ following format::
+>  	tgt-port      port for logging agent (6666)
+>  	tgt-ip        IP address for logging agent
+>  	tgt-macaddr   ethernet MAC address for logging agent (broadcast)
+> +	-V            if present, enable VLAN support
+> +	vid:pcp       VLAN identifier and priority code point
+>  
+>  Examples::
+>  
+>   linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
+>  
+> +or using VLAN::
+> +
+> + linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc-V100:1
+> +
+>  or::
+>  
+>   insmod netconsole netconsole=@/,@10.0.0.2/
+> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+> index 92001f7af380..f0690cd6a744 100644
+> --- a/drivers/net/netconsole.c
+> +++ b/drivers/net/netconsole.c
+> @@ -36,7 +36,6 @@
+>  #include <linux/inet.h>
+>  #include <linux/configfs.h>
+>  #include <linux/etherdevice.h>
+> -
+>  MODULE_AUTHOR("Maintainer: Matt Mackall <mpm@selenic.com>");
+>  MODULE_DESCRIPTION("Console driver for network interfaces");
+>  MODULE_LICENSE("GPL");
+> @@ -46,7 +45,7 @@ MODULE_LICENSE("GPL");
+>  
+>  static char config[MAX_PARAM_LENGTH];
+>  module_param_string(netconsole, config, MAX_PARAM_LENGTH, 0);
+> -MODULE_PARM_DESC(netconsole, " netconsole=[src-port]@[src-ip]/[dev],[tgt-port]@<tgt-ip>/[tgt-macaddr]");
+> +MODULE_PARM_DESC(netconsole, " netconsole=[src-port]@[src-ip]/[dev],[tgt-port]@<tgt-ip>/[tgt-macaddr][-V<vid:pcp>]");
+>  
+>  static bool oops_only = false;
+>  module_param(oops_only, bool, 0600);
+> diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
+> index e6a2d72e0dc7..8ab3f25cadae 100644
+> --- a/include/linux/netpoll.h
+> +++ b/include/linux/netpoll.h
+> @@ -31,6 +31,9 @@ struct netpoll {
+>  	bool ipv6;
+>  	u16 local_port, remote_port;
+>  	u8 remote_mac[ETH_ALEN];
+> +	bool vlan_present;
+> +	u16 vlan_id;
+> +	u8 pcp;
+>  };
+>  
+>  struct netpoll_info {
+> diff --git a/net/core/netpoll.c b/net/core/netpoll.c
+> index 2338753e936b..077a7aec51ae 100644
+> --- a/net/core/netpoll.c
+> +++ b/net/core/netpoll.c
+> @@ -478,6 +478,14 @@ void netpoll_send_udp(struct netpoll *np, const char *msg, int len)
+>  
+>  	skb->dev = np->dev;
+>  
+> +	if (np->vlan_present) {
+> +		skb->vlan_proto = htons(ETH_P_8021Q);
+> +
+> +		/* htons for tci is done in __vlan_insert_inner_tag, not here */
+> +		skb->vlan_tci = (np->pcp << VLAN_PRIO_SHIFT) + (np->vlan_id & VLAN_VID_MASK);
+> +		skb->vlan_present = 1;
+> +	}
 
-case KVM_GET_TSC_BASE:
-        struct kvm_tsc_base base =3D {
-                .flags =3D KVM_TSC_BASE_TIMESTAMP_VALID;
-        };
-        u64 host_tsc;
+This does not seem to be the way to go around this, I would rather
+specifying eth0.<VID> on the netconsole parameters and automatically
+create a VLAN interface from that which would ensure that everything
+works properly and that the VLAN interface is linked to its lower device
+properly.
 
-        kvm_get_walltime(&base.nsec, &host_tsc);
-        base.tsc =3D kvm_read_tsc_base(kvm, host_tsc);
-
-        copy_to_user(...);
-
-[...]
-
-case KVM_SET_TSC_BASE:
-        struct kvm_tsc_base base;
-        u64 host_tsc, nsec;
-        s64 delta =3D 0;
-
-        copy_from_user(...);
-
-        kvm_get_walltime(&nsec, &host_tsc);
-        delta +=3D base.tsc - kvm_read_tsc_base(kvm, host_tsc);
-
-        if (base.flags & KVM_TSC_BASE_TIMESTAMP_VALID) {
-                u64 delta_nsec =3D nsec - base.nsec;
-
-                if (delta_nsec > 0)
-                        delta +=3D nsec_to_cycles(kvm, diff);
-                else
-                        delta -=3D nsec_to_cycles(kvm, -diff);
-        }
-
-        kvm->host_tsc_offset +=3D delta;
-        /* plumb host_tsc_offset through to each vcpu */
-
-However, I don't believe we can assume the guest's TSCs to be synchronized,
-even if sane guests will never touch them. In this case, I think a per-vCPU
-ioctl is still warranted, allowing userspace to get at the guest CPU adjust
-component of Thomas' equation below (paraphrased):
-
-        TSC guest CPU =3D host tsc base + guest base offset + guest CPU adj=
-ust
-
-Alternatively, a write from userspace to the guest's IA32_TSC_ADJUST with
-KVM_X86_QUIRK_TSC_HOST_ACCESS could have the same effect, but that seems to=
- be
-problematic for a couple reasons. First, depending on the guest's CPUID the
-TSC_ADJUST MSR may not even be available, meaning that the guest could've u=
-sed
-IA32_TSC to adjust the TSC (eww). Second, userspace replaying writes to IA3=
-2_TSC
-(in the case IA32_TSC_ADJUST doesn't exist for the guest) seems _very_
-unlikely to work given all the magic handling that KVM does for
-writes to it.
-
-Is this roughly where we are or have I entirely missed the mark? :-)
-
---
-Thanks,
-Oliver
-
-> >
-> > I agree with that.
-> >
-> > I still think though that we should have a discussion on feasibility
-> > of making the kernel time code deal with large *forward* tsc jumps
-> > without crashing.
-> >
-> > If that is indeed hard to do, or will cause performance issues,
-> > then I agree that we might indeed inform the guest of time jumps instea=
-d.
-> >
->
-> Tglx, even without fancy shared host/guest timekeeping, count the guest k=
-ernel manage to update its timekeeping if the host sent the guest an interr=
-upt or NMI on all CPUs synchronously on resume?
->
-> Alternatively, if we had the explicit =E2=80=9Cmax TSC value that makes s=
-ense right now=E2=80=9D in the timekeeping data, the guest would reliably n=
-otice the large jump and could at least do something intelligent about it i=
-nstead of overflowing its internal calculation.
+If you prefer your current syntax, that is probably fine, too but you
+should consider registering a VLAN device when you parse appropriate
+options.
+-- 
+Florian
