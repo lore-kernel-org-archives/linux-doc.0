@@ -2,89 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57045C3526D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EF2C3526F
 	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E37E2332A
+	by mail.kernel.org (Postfix) with ESMTP id 5990323BA7
 	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394159AbgLJWbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2394155AbgLJWbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 10 Dec 2020 17:31:21 -0500
-Received: from mout.gmx.net ([212.227.15.19]:47963 "EHLO mout.gmx.net"
+Received: from mail.kernel.org ([198.145.29.99]:60080 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405131AbgLJW0c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 17:26:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1607639100;
-        bh=7URLmzolxMREC32enWTWWnTNWyOm+MhitVxzu34SbmM=;
-        h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
-        b=YcINTNOWlxyDM4+JQ92XShZwnd2pltN4jg5R9udv19HTqz3UXenin8rdXpRzPv8cz
-         eKrUmblpHrRYwiavZOj9PqWJxpuUaNzcrDtUGrOdKmrcANkz+Nvuu41RX35k/pCT2L
-         FBFml5jsYmg0NVAWGM9uGf1BpxPn2yyTr3NbfJIA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.123.51] ([62.143.246.89]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N2V4P-1k8TPt1MRL-013yGM; Thu, 10
- Dec 2020 22:49:10 +0100
-To:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Ivan Hu <ivan.hu@canonical.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [RFC] Documentation for /dev/efi_test
-Message-ID: <0d27217e-15c4-32e5-0dc3-47b94116ad64@gmx.de>
-Date:   Thu, 10 Dec 2020 22:49:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        id S2405115AbgLJWY2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 17:24:28 -0500
+X-Gm-Message-State: AOAM532o1DgyNBuNjxw6NMqEX9/l2ClYivot7BWKX0HFVtXAqRcxESgI
+        jl6BM5WFWaV/LK3FAdgvb5z4rUJeTuWSGyF1tv4ljA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607637686;
+        bh=4yt8h1Q+CPGGcT2IO75cM/fN5M+tD+08bKTLE18FGBc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TxPIBpbH8QXy+otm71zMxmjrY7REouAV6AjwLUenqLtoG6TWyGNwC/h2Zh0lBJLVh
+         kd5DS/hMH+LEwZug8sGnNXD5kLJCuEBjJu0Yhhaxy3ZJxwPnn2ShjYTBcsKB1FT1Ns
+         xaBYNh9i3xBnGXpOvVc/8JvDGcoRNamLFi3OYwJBCawIcaZFSd8fQT+sHme7yGyNST
+         S6dGNCGSgfdLszOzEAJVt2UxR3DIRlxYlkf/QjSJ/bYAAsuqa3XiJOQeKVW3tcoC5/
+         Z3Ohqt36y+knqp7ygVjCM5ceqSYaZz7LLH9U5uvfbHVSN4s0lS9z4up2jHBY5khZiD
+         Mh0AgAuUE4bJQ==
+X-Google-Smtp-Source: ABdhPJzF2a9E+mCWo9M4tLmMpSz+6JMPjrTXsFPQMg/z71zkpXbGLbBH1iCVRxG8tDVwZozqBfsoJUXetLw8AUPWzi8=
+X-Received: by 2002:adf:e98c:: with SMTP id h12mr10402629wrm.75.1607637683968;
+ Thu, 10 Dec 2020 14:01:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3AYM8Zp5TeY/xXUAv7fSWLEpWs5F99r66xB8IbuxRZ4gmka9n4Q
- YQe0zGfghVLNHbTgGtD7796lS3fCf7QgcB1tMSqg7EIETsMaYW6ZbUQ9VoOwAnLbVTg82ny
- cb7ShiZ6aR238dVMSFFdkIFu0Hi/239swWN1HbeTirKGKLgMFQOFKMDJn3iZDeCRRoI0TmD
- 0u2u3A84pkfm1NptXHYFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ycO+UZuZ0IE=:VbPnMlOzETVqKaj/LMTnc4
- lH4BplfygMmmo+S0IOjiPhV1Pv3wMJTMJO2E2S5RQRZGZkYYYFD8HTD4LIxAsOHTVpgmsqoiK
- VA3qau4GHcYnxz0ydl+DgUGFcyyCvIuraGK1IzROFzCOHlMlBAAFnN8ckNGPKXwQrOTSn7hor
- cIWTgUf9ISi0v4lbcV69xj4L2UP9CoYNWyYWFXhppjWd5DMAMlK8nlYaQVK2mgCvi6ge3z06h
- S+FdFjKqU7AYmiq7ow60vvfQBrzBH7a9T6xyTO9/4uwy6K9K9D/FjpO2t6nb0///Crn9D1b2R
- rYblX5i0o7EWXZlXFiHqCplFoPhqwuHRI8VKqcFDOK4m4bkMMFc/k+M/imP2fUnoaDEkKvr7Z
- 4KozzgVjErJSJb12z5wCizAJIF2J+bz4vMLDxsK8/3Psxj4dBithB0nTFOwwm5WKB7YaAYy5a
- Q699WKfEjhZ8Hi7zce4wIB+pfW1hjr/zigVDajN2dSH1I5xF5inJG4wWBu3yuZUlbnG35BMOc
- HkfQc2KvK0cgSHfhNaseByHokpk//E8wqX3KIw1n5t3sEK1E9XzvoPDS9Efzp7byLv4TwPmn7
- IjKdrw75n8W6wZOGsxrdjGRm+32jABVi4FcUSLKoBCsoShWrpCyVKAveMy7V3GhFtU2j3jop3
- mXkgWLBZTj60m3jVlGmp/qIX1PtZIbiGhR0jLhJgMmXrF5CYep7N2bwg6zPn46TxdjacpwQpo
- srDx+H4ukP3P4jItRmvpMXVnG8dEvFJz1/XjhsMp28D5rDOOvIgqWMGlfuIb0+LpWdcZpaUW2
- nw+b7JyA43ThTxtu01MHiKax7EU6ti6gScdiChagnLzXc9+uMB5TA50sVXLrpu4OcM7KVhM0O
- lHUenSIhtBf3OPAPFSRQ==
+References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com>
+ <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net> <87360djqve.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87360djqve.fsf@nanos.tec.linutronix.de>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Thu, 10 Dec 2020 14:01:12 -0800
+X-Gmail-Original-Message-ID: <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
+Message-ID: <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Ard, hello Jonathan,
+On Thu, Dec 10, 2020 at 1:25 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> Andy,
+>
 
-to test UEFI runtime services we have CONFIG_EFI_TEST which provides
-/dev/efi_test and a bunch of IOCTLs for excercising the runtime services
-(cf. drivers/firmware/efi/test/efi_test.h).
+>
+> I'm still convinced that a notification about 'we take a nap' will be
+> more robust, less complex and more trivial to backport.
 
-Currently there is no user documentation for this ABI.
+What do you have in mind?  Suppose the host kernel sends the guest an
+interrupt on all vCPUs saying "I'm about to take a nap".  What happens
+if the guest is busy with IRQs off for a little bit?  Does the host
+guarantee the guest a certain about of time to try to get the
+interrupt delivered before allowing the host to enter S3?  How about
+if the host wants to reboot for a security fix -- how long is a guest
+allowed to delay the process?
 
-Where should the documentation for the ABI be put in the documentation
-tree? Is this Documentation/ABI/stable/?
+I'm sure this can all be made to work 99% of time, but I'm a bit
+concerned about that last 1%.
 
-Can includes be referenced in Documentation/ABI/stable/ files using
-reStructured text notation?
-
-I am hesitant to put the description into the man-pages project as this
-ABI is meant for testing only.
-
-Best regards
-
-Heinrich
-
-
+--Andy
