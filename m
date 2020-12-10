@@ -2,71 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C35C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5035CC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:13:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44EA723CD4
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:05:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0B0023D98
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 11:13:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732568AbgLJK4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 05:56:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56182 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389164AbgLJK4g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 05:56:36 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/13] docs: conf.py: fix sphinx version detection for margin set
-Date:   Thu, 10 Dec 2020 11:55:40 +0100
-Message-Id: <0e610cbb57e85864b23d2b8fffa65c6b137daaac.1607597287.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1607597287.git.mchehab+huawei@kernel.org>
-References: <cover.1607597287.git.mchehab+huawei@kernel.org>
+        id S2389324AbgLJLM5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 06:12:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389130AbgLJLMh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 06:12:37 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D56C0613CF
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 03:11:57 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id o4so3930880pgj.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 03:11:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=toUTo+ySXpS7pwb/7sjwWZ96dVr2pgQN6Yp4zKtbI18=;
+        b=gsElE5i/SESaaJBRBBM6Fq1YbgbvDrPLr8lSX+3J3tHCBRX4mt6Yx40XqMH1+TRhu0
+         USTJmHCrsOdAO91tQ1jFeR0glBUhTMydCVEXLhrrjDEOLrfUJxvkXfhxgNCILQ/93NOB
+         egUHBpYxVyTIiFxYBn8me3XEJ9C7muGEJbFn8fpEv4MTlySEQ2nvAE/Plkf2nNv0tmN/
+         /fZBZ5H8yOrwF1HY7NOm73CJo0yreVKeDLGlMS3uWRfAq6J7l6rTxYyBWOIpRPv0VyR/
+         Tm0SEDpS5c/qET4+mWxFJZPPQa5AmX0+5+4eSVVe8/jRYQkflcxYJH7Zh6CYF7S7f+M/
+         seYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=toUTo+ySXpS7pwb/7sjwWZ96dVr2pgQN6Yp4zKtbI18=;
+        b=TpHzma6RQBkS5Cm4/eZG9wATubG7L/gF0op6GhEzqna0yge4Zg9OBhqWAm+7k4vvFF
+         CHc3QeDB+htu1MmYapaZds0vqRIUKvzp7MVX8HNbXb4M0UApGEzEaGbXsQ2rt2pBbn+7
+         1j3TyGVCSLfSJ+xr0uR117Y+1FVMVk9PdDNzNsqbBk4iC5Zwol+2CcpV+JT19iDWvvwb
+         20B9xMr6svet8WiBz1dh9CHRvFch6BMolJHpveiJm2vj96CsIlZbE4ZSB4/FPZG/oZeW
+         w3PnA9ww5PsLM1skeq0GU1iv09SRc0lBKUdxrUT6bp6e3lB47VInv3YI2dHHnRTCUevS
+         RdUw==
+X-Gm-Message-State: AOAM531wJBStIIdZ9uAaELRJPJwpWRYpymGt/DUAHF0rsALtyg1vx6/B
+        KFfByGy0L5nzcBs/+QoaY5HmMGyNA6vhW5TKJW6M9Q==
+X-Google-Smtp-Source: ABdhPJw7AOn+643GfwIOTgmZBys/IqTqxKhs72rJGIyik1pe/QrVTeSUw+qQTfJQoJioQPBqgw5RxLU9GRgMc0xFADo=
+X-Received: by 2002:a63:cd14:: with SMTP id i20mr6177612pgg.31.1607598716845;
+ Thu, 10 Dec 2020 03:11:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20201210035526.38938-1-songmuchun@bytedance.com> <20201210035526.38938-8-songmuchun@bytedance.com>
+In-Reply-To: <20201210035526.38938-8-songmuchun@bytedance.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 10 Dec 2020 19:11:19 +0800
+Message-ID: <CAMZfGtUrmkm7N5r+vBjhiKNFksNG+eTKvTQL9FLcnj_3JHm5mA@mail.gmail.com>
+Subject: Re: [PATCH v8 07/12] mm/hugetlb: Set the PageHWPoison to the raw
+ error page
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>
+Cc:     Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The PDF generator has a logic to detect the proper way to
-setup the page margins. By default, the page has about
-14.8 cm, which is too short to display some tables and literal
-blocks. So, previous patches changed it to be around 17.5 cm,
-but the logic only works with Sphinx version 1.x.x.
+On Thu, Dec 10, 2020 at 11:58 AM Muchun Song <songmuchun@bytedance.com> wrote:
+>
+> Because we reuse the first tail vmemmap page frame and remap it
+> with read-only, we cannot set the PageHWPosion on a tail page.
+> So we can use the head[4].mapping to record the real error page
+                              ^^^
+                             private
 
-Fix it.
+A typo. Will update the next version. Thanks.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/conf.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> index and set the raw error page PageHWPoison later.
+>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  mm/hugetlb.c | 52 ++++++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 44 insertions(+), 8 deletions(-)
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 542e6cb81321..06157df08d8e 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1347,6 +1347,47 @@ static inline void __update_and_free_page(struct hstate *h, struct page *page)
+>                 schedule_work(&hpage_update_work);
+>  }
+>
+> +static inline void subpage_hwpoison_deliver(struct hstate *h, struct page *head)
+> +{
+> +       struct page *page = head;
+> +
+> +       if (!free_vmemmap_pages_per_hpage(h))
+> +               return;
+> +
+> +       if (PageHWPoison(head))
+> +               page = head + page_private(head + 4);
+> +
+> +       /*
+> +        * Move PageHWPoison flag from head page to the raw error page,
+> +        * which makes any subpages rather than the error page reusable.
+> +        */
+> +       if (page != head) {
+> +               SetPageHWPoison(page);
+> +               ClearPageHWPoison(head);
+> +       }
+> +}
+> +
+> +static inline void set_subpage_hwpoison(struct hstate *h, struct page *head,
+> +                                       struct page *page)
+> +{
+> +       if (!PageHWPoison(head))
+> +               return;
+> +
+> +       if (free_vmemmap_pages_per_hpage(h)) {
+> +               set_page_private(head + 4, page - head);
+> +               return;
+> +       }
+> +
+> +       /*
+> +        * Move PageHWPoison flag from head page to the raw error page,
+> +        * which makes any subpages rather than the error page reusable.
+> +        */
+> +       if (page != head) {
+> +               SetPageHWPoison(page);
+> +               ClearPageHWPoison(head);
+> +       }
+> +}
+> +
+>  static void update_and_free_page(struct hstate *h, struct page *page)
+>  {
+>         if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
+> @@ -1363,6 +1404,7 @@ static void __free_hugepage(struct hstate *h, struct page *page)
+>         int i;
+>
+>         alloc_huge_page_vmemmap(h, page);
+> +       subpage_hwpoison_deliver(h, page);
+>
+>         for (i = 0; i < pages_per_huge_page(h); i++) {
+>                 page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
+> @@ -1840,14 +1882,8 @@ int dissolve_free_huge_page(struct page *page)
+>                 int nid = page_to_nid(head);
+>                 if (h->free_huge_pages - h->resv_huge_pages == 0)
+>                         goto out;
+> -               /*
+> -                * Move PageHWPoison flag from head page to the raw error page,
+> -                * which makes any subpages rather than the error page reusable.
+> -                */
+> -               if (PageHWPoison(head) && page != head) {
+> -                       SetPageHWPoison(page);
+> -                       ClearPageHWPoison(head);
+> -               }
+> +
+> +               set_subpage_hwpoison(h, head, page);
+>                 list_del(&head->lru);
+>                 h->free_huge_pages--;
+>                 h->free_huge_pages_node[nid]--;
+> --
+> 2.11.0
+>
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index ed2b43ec7754..66e121df59cd 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -375,9 +375,10 @@ if cjk_cmd.find("Noto Sans CJK SC") >= 0:
- if major == 1 and minor > 3:
-     latex_elements['preamble']  += '\\renewcommand*{\\DUrole}[2]{ #2 }\n'
- 
-+# Set page margins
- if major == 1 and minor <= 4:
-     latex_elements['preamble']  += '\\usepackage[margin=0.5in, top=1in, bottom=1in]{geometry}'
--elif major == 1 and (minor > 5 or (minor == 5 and patch >= 3)):
-+elif (major == 1 and (minor > 5 or (minor == 5 and patch >= 3))) or (major > 1):
-     latex_elements['sphinxsetup'] = 'hmargin=0.5in, vmargin=1in'
-     latex_elements['preamble']  += '\\fvset{fontsize=auto}\n'
- 
+
 -- 
-2.29.2
-
+Yours,
+Muchun
