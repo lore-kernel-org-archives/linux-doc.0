@@ -2,82 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A265BC0018C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 03:40:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F5BBC2BB40
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 03:45:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F95423A7C
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 03:40:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D285523A6C
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 03:45:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729393AbgLJDjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Dec 2020 22:39:44 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:45015 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729136AbgLJDjh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 22:39:37 -0500
-Received: by mail-pf1-f194.google.com with SMTP id f9so2736386pfc.11;
-        Wed, 09 Dec 2020 19:39:22 -0800 (PST)
+        id S1731294AbgLJDp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Dec 2020 22:45:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731260AbgLJDpT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Dec 2020 22:45:19 -0500
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E07C0613CF
+        for <linux-doc@vger.kernel.org>; Wed,  9 Dec 2020 19:44:38 -0800 (PST)
+Received: by mail-qt1-x841.google.com with SMTP id z9so2771529qtn.4
+        for <linux-doc@vger.kernel.org>; Wed, 09 Dec 2020 19:44:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6DUkYPbW0IN3lTsbZs8Uo7hHVX/7SDc2/qPX9m0gHOs=;
+        b=mgMtqKvuzXyZqBcjm+2cJshYiEqIxJXcjHgPp25DIgAZnq+dvYQDiPACAeRsbCr7Ok
+         QiBRZ2Jqi7zso6AGv0bHSI3mC73ASY5ZXJFzoYoR7Dk1vF2bqOotOpoP6cWYeVE5WalH
+         FREzONqAyFZckNzGLdMmXFNhrK0mvTPPvloHbkZaqBqjgptBjgBwidbPVdmdmlf8CzoB
+         i54/L0gL+ZvZpC+h9j4yM+3jOlxpEcPdJbUOXdVzx2hyhahkWzWtM73o1QYrRdpCMIku
+         sMHuQhUj4O2oyP7dCPWNvDU/QziD6jKelJmqFQmgFAfp1zSq4d1G0hoaHVZKLhwZvde6
+         4khw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vl3B7XtbEhQjt2nq8MXPBFdyJIVZUFP3ezbjFEmRzg8=;
-        b=ecgffhcT4fpoyypTmpgIoOigMAIhaRhOriXOhdIrvGb8Mw5BVHA5CyMSA1evXFHITX
-         OqvmdPUKlfx+RoYkE4GPvc8N/LOWhspeAfhsJCsvlykZht/qrivh/L6DSul6txih2nf1
-         LBnOcv/fGgWpBUb7OEEX83z27uoUaxymB5ZtfrRaGIph1CYFU3b4M5VifhYoXb83yDJO
-         q2u68quyjHa/0NcFFeFaSP75Ppu+BJjJsc2/HPACmOGf8U0QgvRCb5Xu/+1CD2EFNwC8
-         3Qcvx5MnDc5sGP0hT2KVhxcFY94o9M0Oh271O3ny84gtlU/StPZ38WdQAFQQ6yDayyMs
-         Da0g==
-X-Gm-Message-State: AOAM5330b1FF6d+5nY9AcaXe39uzye+JAnJ88zIgoBb1zOLm/atWedVh
-        Fy8+hCcwCmVfNSpylPYp/FQ=
-X-Google-Smtp-Source: ABdhPJyk5LMpvJBOnoJv/cjrpAyasLKu4LBxr7jKQq4OCERkzn7Dwo1S3bQcoGiBB3763Qi0ahgwYw==
-X-Received: by 2002:a63:fe41:: with SMTP id x1mr4835088pgj.254.1607571536653;
-        Wed, 09 Dec 2020 19:38:56 -0800 (PST)
-Received: from [192.168.3.217] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
-        by smtp.gmail.com with ESMTPSA id b4sm3743505pju.33.2020.12.09.19.38.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Dec 2020 19:38:55 -0800 (PST)
-Subject: Re: [dm-devel] [PATCH v1 0/5] dm: dm-user: New target that proxies
- BIOs to userspace
-To:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     snitzer@redhat.com, corbet@lwn.net, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-raid@vger.kernel.org, song@kernel.org, dm-devel@redhat.com,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org, agk@redhat.com,
-        Josef Bacik <josef@toxicpanda.com>,
-        Mike Christie <michael.christie@oracle.com>
-References: <mhng-97fc5874-29d0-4d9e-8c92-d3704a482f28@palmerdabbelt-glaptop1>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <6fb5be2d-c6ca-c21b-dddf-9b314973dcfe@acm.org>
-Date:   Wed, 9 Dec 2020 19:38:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6DUkYPbW0IN3lTsbZs8Uo7hHVX/7SDc2/qPX9m0gHOs=;
+        b=oSnD7hxjFh6N5o3A4uwZSXGadrsy8dPWi1AuId1+Bp2G7funJlFEpuTyYE25GZG/Ex
+         8CB/yuL3SRlALSLA6GO15j2rSZa4ZId4eGwFiqhpUyeJ2gc6JxqATqrNgbHQMte/wQOa
+         9h7Yy5NCNturzpz+cZWtHJyJ7BW6UDi72eeyLwNPB+FreNNaWcc6YJ2yMCol9uyoVT8Y
+         rX04HeiJdZhfeIdZXXB3iaYMWC3GKlCbYi5CBF0RMo0Y7PjfYxId/DwV1ZgRKJ6naoK7
+         rC0lEG3ZSldbhTk7MV0mro6fBn0j10mlLujXCVOGY3ilszVmRDmCjNcXwBhyWKCaPqn7
+         ssSA==
+X-Gm-Message-State: AOAM531S9UTp1GSoV9YeVjGj4pf0qVg0bDdaa08OHou6i8e/BOhATupJ
+        oKuXfgEllKoxMC9AMLKkEvpAKQ6s5bZZPq/yiQ==
+X-Google-Smtp-Source: ABdhPJyemRVjVACAUJoERFJbH5lG6R2s1G8VjrXHoL4eXyHF+ClXQnKT06oLqhperDLgQulQMKMcdlnQs/QTIhpp5dk=
+X-Received: by 2002:ac8:44a1:: with SMTP id a1mr6897969qto.186.1607571877892;
+ Wed, 09 Dec 2020 19:44:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <mhng-97fc5874-29d0-4d9e-8c92-d3704a482f28@palmerdabbelt-glaptop1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20201208014628.GA1361@JSYoo5B-Base.localdomain> <20201209172903.7990f71b@lwn.net>
+In-Reply-To: <20201209172903.7990f71b@lwn.net>
+From:   JaeSang Yoo <js.yoo.5b@gmail.com>
+Date:   Thu, 10 Dec 2020 12:39:42 +0900
+Message-ID: <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
+Subject: Re: [PATCH] docs: update requirements to install six module
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.org, markus.heiser@darmarit.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/20 10:55 AM, Palmer Dabbelt wrote:
-> All in all, I've found it a bit hard to figure out what sort of interest
-> people
-> have in dm-user: when I bring this up I seem to run into people who've done
-> similar things before and are vaguely interested, but certainly nobody is
-> chomping at the bit.  I'm sending it out in this early state to try and
-> figure
-> out if it's interesting enough to keep going.
+On Thu, Dec 10, 2020 at 9:29 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue, 8 Dec 2020 10:46:28 +0900
+> JaeSang Yoo <js.yoo.5b@gmail.com> wrote:
+>
+> > On the update of Sphinx version to 2.4.4, the "six" library won't be
+> > installed automatically. (which is required by kfigure.py)
+> >
+> > Main reason of this issue were occurred by the requirements changed from
+> > the sphinx library. In Sphinx v1.7.9, six was listed on the
+> > install_requires, but it has been removed since 2.x
+> >
+> > The kfigure.py uses six library explicitly, adding six to
+> > requirements.txt seems reasonable
+> >
+> > Signed-off-by: JaeSang Yoo <jsyoo5b@gmail.com>
+> > ---
+> >  Documentation/sphinx/requirements.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+> > index 489f6626de67..5030d346d23b 100644
+> > --- a/Documentation/sphinx/requirements.txt
+> > +++ b/Documentation/sphinx/requirements.txt
+> > @@ -1,3 +1,4 @@
+> >  docutils
+> >  Sphinx==2.4.4
+> >  sphinx_rtd_theme
+> > +six
+>
+> Sigh...what we really need to do is to leave Python 2 behind.  Until then,
+> though, we need to install "six".  Patch applied, thanks.
 
-Cc-ing Josef and Mike since their nbd contributions make me wonder
-whether this new driver could be useful to their use cases?
+While I was surveying the Sphinx library, it requires Python version
+3.5 as a minimum.
+You can figure it out in the setup.py of Sphinx library source:
+https://github.com/sphinx-doc/sphinx/blob/72ad5f2a/setup.py#L13-L15
 
-Thanks,
-
-Bart.
+I assume this would be a certain reason to leave Python 2 behind. The
+Sphinx check script recommends using virtualenv. How do you think
+about leaving Python 2 compatibility issue in this documentation
+script range?
+> jon
