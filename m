@@ -2,83 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F930C1B0D9
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 10:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A753EC4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 10:29:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 593AF23609
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 10:14:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64C6323D69
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 10:29:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728199AbgLJKKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 05:10:43 -0500
-Received: from smtp.h3c.com ([60.191.123.50]:32274 "EHLO h3cspam02-ex.h3c.com"
+        id S1730284AbgLJK3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 05:29:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52868 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726313AbgLJKKc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 05:10:32 -0500
-X-Greylist: delayed 1811 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Dec 2020 05:10:21 EST
-Received: from h3cspam02-ex.h3c.com (localhost [127.0.0.2] (may be forged))
-        by h3cspam02-ex.h3c.com with ESMTP id 0BA8WQD7033519;
-        Thu, 10 Dec 2020 16:32:26 +0800 (GMT-8)
-        (envelope-from xi.fengfei@h3c.com)
-Received: from DAG2EX05-BASE.srv.huawei-3com.com ([10.8.0.68])
-        by h3cspam02-ex.h3c.com with ESMTP id 0BA8W0Mm032694;
-        Thu, 10 Dec 2020 16:32:00 +0800 (GMT-8)
-        (envelope-from xi.fengfei@h3c.com)
-Received: from localhost.localdomain (10.99.212.201) by
- DAG2EX05-BASE.srv.huawei-3com.com (10.8.0.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 10 Dec 2020 16:32:03 +0800
-From:   Fengfei Xi <xi.fengfei@h3c.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Fengfei Xi <xi.fengfei@h3c.com>
-Subject: [PATCH] docs: admin-guide: Fix default value of max_map_count in sysctl/vm.rst
-Date:   Thu, 10 Dec 2020 16:21:34 +0800
-Message-ID: <20201210082134.36957-1-xi.fengfei@h3c.com>
-X-Mailer: git-send-email 2.17.1
+        id S1725988AbgLJK3e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 05:29:34 -0500
+Date:   Thu, 10 Dec 2020 11:30:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607596133;
+        bh=NOlYB6gWlOdhNT+lTIb0YEj6TcISa/ub3wn3vWVEtbI=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W/hNtwb4Cvp7YAvD4fjYfG8+02skCrsmdplJz2tPlnYuQ7QbupdZltryuQ6QAzzEs
+         UBLGVhyQPhZ3lqYuxa9F15bTK7gIWNMvc+dQisPTR7fB0IY6MJB8xwanBnRIjdQp98
+         DvYwG+xVcmyDlT9AZaQmyWeNNGQ+jho7nW2xr5qg=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     John Wang <wangzhiqiang.bj@bytedance.com>
+Cc:     Lotus Xu <xuxiaohan@bytedance.com>,
+        =?utf-8?B?6YOB6Zu3?= <yulei.sh@bytedance.com>,
+        Oskar Senft <osk@google.com>,
+        Yong Li <yong.b.li@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH 1/3] misc: aspeed: Add Aspeed UART routing
+ control driver.
+Message-ID: <X9H4r3XZynGtSDw0@kroah.com>
+References: <20201210092853.303-1-wangzhiqiang.bj@bytedance.com>
+ <X9HtwHo8s6e2UsAT@kroah.com>
+ <CAH0XSJt3=XJ_gQb2rTvbUcbyow2k7E4jfuKGKAKdi+nwdfauVw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.99.212.201]
-X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
- DAG2EX05-BASE.srv.huawei-3com.com (10.8.0.68)
-X-DNSRBL: 
-X-MAIL: h3cspam02-ex.h3c.com 0BA8W0Mm032694
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAH0XSJt3=XJ_gQb2rTvbUcbyow2k7E4jfuKGKAKdi+nwdfauVw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since the default value of sysctl_max_map_count is defined as
-DEFAULT_MAX_MAP_COUNT from mm/util.c
+On Thu, Dec 10, 2020 at 06:06:59PM +0800, John Wang wrote:
+> On Thu, Dec 10, 2020 at 5:42 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Dec 10, 2020 at 05:28:53PM +0800, John Wang wrote:
+> > > From: Oskar Senft <osk@google.com>
+> > >
+> > > This driver adds sysfs files that allow the BMC userspace to configure
+> > > how UARTs and physical serial I/O ports are routed.
+> > >
+> > > Tested: Checked correct behavior (both read & write) on TYAN S7106
+> > > board by manually changing routing settings and confirming that bits
+> > > flow as expected. Tested for UART1 and UART3 as this board doesn't have
+> > > the other UARTs wired up in a testable way.
+> > >
+> > > Signed-off-by: Oskar Senft <osk@google.com>
+> > > Signed-off-by: Yong Li <yong.b.li@linux.intel.com>
+> > > Signed-off-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+> > > Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
+> > > ---
+> > >  .../stable/sysfs-driver-aspeed-uart-routing   |  14 +
+> > >  .../misc-devices/aspeed-uart-routing.txt      |  49 +++
+> > >  drivers/misc/Kconfig                          |   6 +
+> > >  drivers/misc/Makefile                         |   1 +
+> > >  drivers/misc/aspeed-uart-routing.c            | 383 ++++++++++++++++++
+> > >  5 files changed, 453 insertions(+)
+> > >  create mode 100644 Documentation/ABI/stable/sysfs-driver-aspeed-uart-routing
+> > >  create mode 100644 Documentation/misc-devices/aspeed-uart-routing.txt
+> > >  create mode 100644 drivers/misc/aspeed-uart-routing.c
+> > >
+> > > diff --git a/Documentation/ABI/stable/sysfs-driver-aspeed-uart-routing b/Documentation/ABI/stable/sysfs-driver-aspeed-uart-routing
+> > > new file mode 100644
+> > > index 000000000000..5068737d9c12
+> > > --- /dev/null
+> > > +++ b/Documentation/ABI/stable/sysfs-driver-aspeed-uart-routing
+> > > @@ -0,0 +1,14 @@
+> > > +What:                /sys/bus/platform/drivers/aspeed-uart-routing/*/io*
+> > > +Date:                August 2018
+> > > +Contact:     Oskar Senft <osk@google.com>
+> > > +Description: Configures the input source for the specific physical
+> > > +             serial I/O port.
+> > > +Users:               OpenBMC.  Proposed changes should be mailed to
+> > > +             openbmc@lists.ozlabs.org
+> > > +
+> > > +What:                /sys/bus/platform/drivers/aspeed-uart-routing/*/uart*
+> > > +Date:                August 2018
+> > > +Contact:     Oskar Senft <osk@google.com>
+> > > +Description: Configures the input source for the specific UART.
+> > > +Users:               OpenBMC.  Proposed changes should be mailed to
+> > > +             openbmc@lists.ozlabs.org
+> > > diff --git a/Documentation/misc-devices/aspeed-uart-routing.txt b/Documentation/misc-devices/aspeed-uart-routing.txt
+> > > new file mode 100644
+> > > index 000000000000..cf1c2a466875
+> > > --- /dev/null
+> > > +++ b/Documentation/misc-devices/aspeed-uart-routing.txt
+> > > @@ -0,0 +1,49 @@
+> > > +Kernel driver aspeed-uart-routing
+> > > +=================================
+> > > +
+> > > +Supported chips:
+> > > +ASPEED AST2500/AST2600
+> > > +
+> > > +Author:
+> > > +Google LLC
+> > > +
+> > > +Description
+> > > +-----------
+> > > +
+> > > +The Aspeed AST2500/AST2600 allows to dynamically route the inputs for the
+> > > +built-in UARTS and physical serial I/O ports.
+> > > +
+> > > +This allows, for example, to connect the output of UART to another UART.
+> > > +This can be used to enable host<->BMC communication via UARTs, e.g. to allow
+> > > +access to the host's serial console.
+> > > +
+> > > +This driver is for the BMC side. The sysfs files allow the BMC userspace
+> > > +which owns the system configuration policy, to configure how UARTs and
+> > > +physical serial I/O ports are routed.
+> > > +
+> > > +The driver provides the following files in sysfs:
+> > > +uart1                Configure the input signal to UART1.
+> > > +uart2                Configure the input signal to UART2.
+> > > +uart3                Configure the input signal to UART3.
+> > > +uart4                Configure the input signal to UART4.
+> > > +uart5                Configure the input signal to UART5.
+> > > +io1          Configure the input signal to physical serial port 1.
+> > > +io2          Configure the input signal to physical serial port 2.
+> > > +io3          Configure the input signal to physical serial port 3.
+> > > +io4          Configure the input signal to physical serial port 4.
+> > > +io5          Configure the input signal to physical serial port 5.
+> > > +
+> > > +When read, each file shows the list of available options with the currently
+> > > +selected option marked by square brackets "[]". The list of available options
+> > > +depends on the selected file.
+> > > +
+> > > +Example:
+> > > +$ cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
+> > > +[io1] io2 io3 io4 uart2 uart3 uart4 io6
+> > > +
+> > > +In this case, UART1 gets its input signal from IO1 (physical serial port 1).
+> > > +
+> > > +$ echo -n "uart3" \
+> > > +  >/sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
+> > > +$ cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
+> > > +io1 io2 io3 io4 uart2 [uart3] uart4 io6
+> >
+> > Are you sure there are no other ways to configure this type of thing,
+> > than to a driver-specific sysfs file?
+> 
+> I think this is good. but what's your suggestion?
 
-    int sysctl_max_map_count __read_mostly = DEFAULT_MAX_MAP_COUNT;
+I do not know, but isn't this normally handled in a dts file?  Why must
+it be done "on the fly" like this?
 
-DEFAULT_MAX_MAP_COUNT is defined as 65530 (65535-5) in include/linux/mm.h
+> If I use a driver-specific sysfs and modify the code based on the
+> comments, is this a good direction to go?
 
-    #define MAPCOUNT_ELF_CORE_MARGIN        (5)
-    #define DEFAULT_MAX_MAP_COUNT   (USHRT_MAX - MAPCOUNT_ELF_CORE_MARGIN)
+That's what you are trying to do here, and is why I am objecting to it
+:)
 
-Signed-off-by: Fengfei Xi <xi.fengfei@h3c.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks,
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index f455fa00c..834c3fc74 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -428,7 +428,7 @@ While most applications need less than a thousand maps, certain
- programs, particularly malloc debuggers, may consume lots of them,
- e.g., up to one or two maps per allocation.
- 
--The default value is 65536.
-+The default value is 65530.
- 
- 
- memory_failure_early_kill:
--- 
-2.17.1
-
+greg k-h
