@@ -2,47 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB05EC2BB48
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D83C2BBCA
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:04:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A30AC23BA7
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:00:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44D4123BA7
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:04:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730820AbgLJXAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 18:00:06 -0500
-Received: from ms.lwn.net ([45.79.88.28]:55464 "EHLO ms.lwn.net"
+        id S1726448AbgLJXDS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 18:03:18 -0500
+Received: from ms.lwn.net ([45.79.88.28]:55636 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727879AbgLJW7u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 10 Dec 2020 17:59:50 -0500
+        id S1726018AbgLJXCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 18:02:47 -0500
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9F61E2DC;
-        Thu, 10 Dec 2020 22:59:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F61E2DC
+        by ms.lwn.net (Postfix) with ESMTPSA id 453F82DC;
+        Thu, 10 Dec 2020 23:02:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 453F82DC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607641140; bh=ORWqG6BdsICXD7FaiPh2+TxXNl7jfqY1sG2tNye5gd8=;
+        t=1607641326; bh=f186HpL5h6WRko7zs98ZnxC+LlTnCDnh4fbiQUDuvBc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cRE2MGslb3QcF/UbZXZAXPdIOa4LHgawtrMpUsZtGvonRytzIU4BpL7x2411MToGB
-         M7BpgJO5qjIrJeXqwE82IGkBWeiwk8B1cOUmPCTKClyfa9WAlqCygStsvfidTVOlJE
-         wZ19Jy8vWZ6VXjOkfm19DRWKinxz54ZRvh2nVgKWu2yHRhvdbK4xrkNLzhYczov9Su
-         JeJXSCRsuicLXQsJstxr4b3qPyqMQk19jJUMWsLKj9lshHupwwO4DVwJMBO/7alCZj
-         trl1VkFE3osHr70mwU7pR8vXHNAwJ8nrF/XL9XTwcK9DAa1juTd5dQs4CVLUjMYycd
-         rVgeakeX4QV0w==
-Date:   Thu, 10 Dec 2020 15:58:59 -0700
+        b=abUrowtlbjPUZM/AfVgb4dgZAyzBovjjnmaCPSfeYQ7PIPsKiIM8UjROpT749b2GB
+         8zyclJJ/TsdqsJFOkfQCbilWm7I3tEmhtAJz2fDqMdEM0n80JaHiRUUqo3nRoVC4HN
+         1JGOFI4/osjFrhiBcllFP93zrzSuHzMTms/a3xi3lT5MOpaqNSZHgj11TxyeYwc9pE
+         vvWHN8BLDuzhEFk/xO9dRvGE2FCJJSC3eTm9jWpwwThAQHF9hGS/cVDWVjal2ePrJB
+         DOjjZBnMBs/J9DzvyjsT8djub+zNItLVLLlqqPfe/r6KQKPxjLkVbqUp0ejzui/ELn
+         WwxkDpGJiIZZQ==
+Date:   Thu, 10 Dec 2020 16:02:05 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc:     Ard Biesheuvel <ardb@kernel.org>, Ivan Hu <ivan.hu@canonical.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>
-Subject: Re: [RFC] Documentation for /dev/efi_test
-Message-ID: <20201210155859.5c3babee@lwn.net>
-In-Reply-To: <0d27217e-15c4-32e5-0dc3-47b94116ad64@gmx.de>
-References: <0d27217e-15c4-32e5-0dc3-47b94116ad64@gmx.de>
+To:     JaeSang Yoo <js.yoo.5b@gmail.com>
+Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.org, markus.heiser@darmarit.de
+Subject: Re: [PATCH] docs: update requirements to install six module
+Message-ID: <20201210160205.56bb9060@lwn.net>
+In-Reply-To: <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
+References: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
+        <20201209172903.7990f71b@lwn.net>
+        <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,24 +53,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 10 Dec 2020 22:49:09 +0100
-Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+On Thu, 10 Dec 2020 12:39:42 +0900
+JaeSang Yoo <js.yoo.5b@gmail.com> wrote:
 
-> to test UEFI runtime services we have CONFIG_EFI_TEST which provides
-> /dev/efi_test and a bunch of IOCTLs for excercising the runtime services
-> (cf. drivers/firmware/efi/test/efi_test.h).
-> 
-> Currently there is no user documentation for this ABI.
-> 
-> Where should the documentation for the ABI be put in the documentation
-> tree? Is this Documentation/ABI/stable/?
+> While I was surveying the Sphinx library, it requires Python version
+> 3.5 as a minimum.
+> You can figure it out in the setup.py of Sphinx library source:
+> https://github.com/sphinx-doc/sphinx/blob/72ad5f2a/setup.py#L13-L15
 
-To date, nobody has documented ioctl() interfaces under Documentation/ABI;
-this probably isn't the time to start.  The best way to document it might
-be to put your testing code in the tools/testing directory.  You could
-also add something to the userspace-api manual as well, but that might
-increase your chances of being committed to maintaining that interface
-forever...
+That, of course, applies to current Sphinx releases. We have people
+building with older releases, though, which still work with Python 2.
+
+> I assume this would be a certain reason to leave Python 2 behind. The
+> Sphinx check script recommends using virtualenv. How do you think
+> about leaving Python 2 compatibility issue in this documentation
+> script range?
+
+I'm sorry, I don't quite understand your question.
 
 Thanks,
 
