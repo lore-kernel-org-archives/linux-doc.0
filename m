@@ -2,120 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D06EAC3526A
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57045C3526D
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7E212332A
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E37E2332A
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 23:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394163AbgLJWbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 17:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405146AbgLJW3A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 17:29:00 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277ACC0613CF;
-        Thu, 10 Dec 2020 14:28:20 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1607639295;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5JXJwtEkjhQ2j1nMo0rZ0tKIkox0eioh2DmsOZzS29k=;
-        b=K5XohMhBOgVh/+BhSecz9sGmDkaKhH1kIY4hAnFw8WZsbemLNcOLwUcZyuRRs76h2IKwGP
-        nXPwMApeFnAdIbshcAUreyO+LOaPo4bqxOZIKYIHwQpJMaKkiD8zR+/QNf8cZLwFo8rXQH
-        EGoU2UF1CuRZuWKrzxnbb1krHN5w0LLJURFOS9QELofDgOUNhDst12fWxFvDITFqTGGqbf
-        TD2BXjf1rcUT7B83dUk7JN3fTMu1wO5dDjeLGhPgoiCXpuFe1x8XMty6UGRpnShs34m1g1
-        OACbDwSQjbRPDrnCd+pf7erHCVnS8hwUszf2BlUfKVRp4AhOLDX9IK8FNNBLMg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1607639295;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5JXJwtEkjhQ2j1nMo0rZ0tKIkox0eioh2DmsOZzS29k=;
-        b=wosRE4ov71xbZGCc2alIw/KDqCUomK8F5wQDNSFm0uS5ZC0uucMj4H4Y3r2oE/i/eVxQXv
-        rpSewJInNFfbbtCA==
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        kvm list <kvm@vger.kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list\:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-In-Reply-To: <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
-References: <9389c1198da174bcc9483d6ebf535405aa8bdb45.camel@redhat.com> <E4F263BE-6CAA-4152-8818-187D34D8D0FD@amacapital.net> <87360djqve.fsf@nanos.tec.linutronix.de> <CALCETrXXH5GoaSZwSPy-JFxJ6iMMCj0A=yFFPuyutBh+1imCsQ@mail.gmail.com>
-Date:   Thu, 10 Dec 2020 23:28:14 +0100
-Message-ID: <87v9d9i9dt.fsf@nanos.tec.linutronix.de>
+        id S2394159AbgLJWbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 17:31:21 -0500
+Received: from mout.gmx.net ([212.227.15.19]:47963 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405131AbgLJW0c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 17:26:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1607639100;
+        bh=7URLmzolxMREC32enWTWWnTNWyOm+MhitVxzu34SbmM=;
+        h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
+        b=YcINTNOWlxyDM4+JQ92XShZwnd2pltN4jg5R9udv19HTqz3UXenin8rdXpRzPv8cz
+         eKrUmblpHrRYwiavZOj9PqWJxpuUaNzcrDtUGrOdKmrcANkz+Nvuu41RX35k/pCT2L
+         FBFml5jsYmg0NVAWGM9uGf1BpxPn2yyTr3NbfJIA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.123.51] ([62.143.246.89]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N2V4P-1k8TPt1MRL-013yGM; Thu, 10
+ Dec 2020 22:49:10 +0100
+To:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Ivan Hu <ivan.hu@canonical.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>
+From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: [RFC] Documentation for /dev/efi_test
+Message-ID: <0d27217e-15c4-32e5-0dc3-47b94116ad64@gmx.de>
+Date:   Thu, 10 Dec 2020 22:49:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3AYM8Zp5TeY/xXUAv7fSWLEpWs5F99r66xB8IbuxRZ4gmka9n4Q
+ YQe0zGfghVLNHbTgGtD7796lS3fCf7QgcB1tMSqg7EIETsMaYW6ZbUQ9VoOwAnLbVTg82ny
+ cb7ShiZ6aR238dVMSFFdkIFu0Hi/239swWN1HbeTirKGKLgMFQOFKMDJn3iZDeCRRoI0TmD
+ 0u2u3A84pkfm1NptXHYFw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ycO+UZuZ0IE=:VbPnMlOzETVqKaj/LMTnc4
+ lH4BplfygMmmo+S0IOjiPhV1Pv3wMJTMJO2E2S5RQRZGZkYYYFD8HTD4LIxAsOHTVpgmsqoiK
+ VA3qau4GHcYnxz0ydl+DgUGFcyyCvIuraGK1IzROFzCOHlMlBAAFnN8ckNGPKXwQrOTSn7hor
+ cIWTgUf9ISi0v4lbcV69xj4L2UP9CoYNWyYWFXhppjWd5DMAMlK8nlYaQVK2mgCvi6ge3z06h
+ S+FdFjKqU7AYmiq7ow60vvfQBrzBH7a9T6xyTO9/4uwy6K9K9D/FjpO2t6nb0///Crn9D1b2R
+ rYblX5i0o7EWXZlXFiHqCplFoPhqwuHRI8VKqcFDOK4m4bkMMFc/k+M/imP2fUnoaDEkKvr7Z
+ 4KozzgVjErJSJb12z5wCizAJIF2J+bz4vMLDxsK8/3Psxj4dBithB0nTFOwwm5WKB7YaAYy5a
+ Q699WKfEjhZ8Hi7zce4wIB+pfW1hjr/zigVDajN2dSH1I5xF5inJG4wWBu3yuZUlbnG35BMOc
+ HkfQc2KvK0cgSHfhNaseByHokpk//E8wqX3KIw1n5t3sEK1E9XzvoPDS9Efzp7byLv4TwPmn7
+ IjKdrw75n8W6wZOGsxrdjGRm+32jABVi4FcUSLKoBCsoShWrpCyVKAveMy7V3GhFtU2j3jop3
+ mXkgWLBZTj60m3jVlGmp/qIX1PtZIbiGhR0jLhJgMmXrF5CYep7N2bwg6zPn46TxdjacpwQpo
+ srDx+H4ukP3P4jItRmvpMXVnG8dEvFJz1/XjhsMp28D5rDOOvIgqWMGlfuIb0+LpWdcZpaUW2
+ nw+b7JyA43ThTxtu01MHiKax7EU6ti6gScdiChagnLzXc9+uMB5TA50sVXLrpu4OcM7KVhM0O
+ lHUenSIhtBf3OPAPFSRQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10 2020 at 14:01, Andy Lutomirski wrote:
-> On Thu, Dec 10, 2020 at 1:25 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->> I'm still convinced that a notification about 'we take a nap' will be
->> more robust, less complex and more trivial to backport.
->
-> What do you have in mind?  Suppose the host kernel sends the guest an
-> interrupt on all vCPUs saying "I'm about to take a nap".  What happens
-> if the guest is busy with IRQs off for a little bit?  Does the host
-> guarantee the guest a certain about of time to try to get the
-> interrupt delivered before allowing the host to enter S3?  How about
-> if the host wants to reboot for a security fix -- how long is a guest
-> allowed to delay the process?
->
-> I'm sure this can all be made to work 99% of time, but I'm a bit
-> concerned about that last 1%.
+Hello Ard, hello Jonathan,
 
-Seriously?
+to test UEFI runtime services we have CONFIG_EFI_TEST which provides
+/dev/efi_test and a bunch of IOCTLs for excercising the runtime services
+(cf. drivers/firmware/efi/test/efi_test.h).
 
-If the guest has interrupts disabled for ages, i.e. it went for out for
-lunch on its own, then surely the hypervisor can just pull the plug and
-wreckage it. It's like you hit the reset button or pull the powerplug of
-the machine which is not responding anymore.
+Currently there is no user documentation for this ABI.
 
-Reboot waits already today for guests to shut down/hibernate/supsend or
-whatever they are supposed to do. systemd sits there and waits for
-minutes until it decides to kill them. Just crash a guest kernel and
-forget to reset or force power off the guest before you reboot the
-host. Twiddle thumbs for a while and watch the incomprehensible time
-display.
+Where should the documentation for the ABI be put in the documentation
+tree? Is this Documentation/ABI/stable/?
 
-If your security fix reboot is so urgent that it can't wait then just
-pull the plug and be done with it, i.e. kill the guest which makes it
-start from a known state which is a gazillion times better than bringing
-it into a state which it can't handle anymore.
+Can includes be referenced in Documentation/ABI/stable/ files using
+reStructured text notation?
 
-Again, that's not any different than hitting the reset button on the
-host or pulling and reinserting the host powerplug which you would do
-anyway in an emergency case.
+I am hesitant to put the description into the man-pages project as this
+ABI is meant for testing only.
 
-Can we please focus on real problems instead of making up new ones?
+Best regards
 
-Correctness of time is a real problem despite the believe of virt folks
-that it can be ignored or duct taped to death.
+Heinrich
 
-Thanks,
 
-        tglx
