@@ -2,101 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE233C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5C7C0018C
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:17:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 883FB23D57
-	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:02:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71ADB23E1E
+	for <linux-doc@archiver.kernel.org>; Thu, 10 Dec 2020 13:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387551AbgLJNCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 08:02:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387506AbgLJNCt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 08:02:49 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94BFC0613CF;
-        Thu, 10 Dec 2020 05:02:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=8DNWVeAUd7OvyCVtE5PeUeZEuJerl3ZR6gz0ZKvmpyo=; b=QoPx6KFRU+xS+RaJr2y1Qphzjb
-        s+yXByA3V4D2JJjPNrqJEj1y++RZMQ2QrVSvDnGQqtmx8Lo3LdXjBPtz6vEngpYhMZ98DjG9GIJ9N
-        vXErudo8loKA59o3aKxKOwrOiETZnptD4jkclkS27O9+TI1oA9mUX0LhghbGIG1XS6WdyaqIC019R
-        eJRa7Pn/tHHTPljQtMtEZc+TQJWcFm0Ef/WN0X2mlbE2Ut6pZQmyaSKeiAdBskXfwa2uDiHcEnJuN
-        GdkBDPHqdcZlK7QNdKtrpU1zccUIpK/CQWvIM06IHs+Ak9gYHhzEXczcug14IEm8h+EtHPNMYGynU
-        jDQ0bHzQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1knLZd-0004f1-BZ; Thu, 10 Dec 2020 13:01:33 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A3D693007CD;
-        Thu, 10 Dec 2020 14:01:31 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8C5B7209B20CB; Thu, 10 Dec 2020 14:01:31 +0100 (CET)
-Date:   Thu, 10 Dec 2020 14:01:31 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201210130131.GP2414@hirez.programming.kicks-ass.net>
-References: <20201203171118.372391-1-mlevitsk@redhat.com>
- <20201203171118.372391-2-mlevitsk@redhat.com>
- <87a6uq9abf.fsf@nanos.tec.linutronix.de>
- <1dbbeefc7c76c259b55582468ccd3aab35a6de60.camel@redhat.com>
- <87im9dlpsw.fsf@vitty.brq.redhat.com>
- <875z5d5x9m.fsf@nanos.tec.linutronix.de>
- <b6e0656b-4e3f-cf47-5ec9-eead44b2f2e9@redhat.com>
- <20201210121417.GN2414@hirez.programming.kicks-ass.net>
- <fe3e4637-b74b-864a-9d2f-c4f2d9450f2e@redhat.com>
+        id S1732921AbgLJNRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 08:17:02 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35618 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726439AbgLJNQy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 10 Dec 2020 08:16:54 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 17C02AB91;
+        Thu, 10 Dec 2020 13:16:13 +0000 (UTC)
+Date:   Thu, 10 Dec 2020 14:16:08 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v8 12/12] mm/hugetlb: Optimize the code
+ with the help of the compiler
+Message-ID: <20201210131608.GA7811@localhost.localdomain>
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
+ <20201210035526.38938-13-songmuchun@bytedance.com>
+ <375d6bad6bb37e3626f71bfabc20b384@suse.de>
+ <CAMZfGtUQOXmuRumv48MYGCYh_JZn4bMPPz8HW2ExgTPCfFMMnw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fe3e4637-b74b-864a-9d2f-c4f2d9450f2e@redhat.com>
+In-Reply-To: <CAMZfGtUQOXmuRumv48MYGCYh_JZn4bMPPz8HW2ExgTPCfFMMnw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 01:22:02PM +0100, Paolo Bonzini wrote:
-> On 10/12/20 13:14, Peter Zijlstra wrote:
-> > On Thu, Dec 10, 2020 at 12:42:36PM +0100, Paolo Bonzini wrote:
-> > > On 07/12/20 18:41, Thomas Gleixner wrote:
-> > > > Right this happens still occasionally, but for quite some time this is
-> > > > 100% firmware sillyness and not a fundamental property of the hardware
-> > > > anymore.
-> > > 
-> > > It's still a fundamental property of old hardware.  Last time I tried to
-> > > kill support for processors earlier than Core 2, I had to revert it. That's
-> > > older than Nehalem.
-> > 
-> > Core2 doesn't use TSC for timekeeping anyway. KVM shouldn't either.
+On Thu, Dec 10, 2020 at 08:14:18PM +0800, Muchun Song wrote:
+> Yeah, you are right. But if we do this check can make the code simple.
 > 
-> On Core2, KVM guests pass TSC through kvmclock in order to get something
-> usable and not incredibly slow.
+> For example, here is a code snippet.
+> 
+> void func(void)
+> {
+>         if (free_vmemmap_pages_per_hpage())
+>                 return;
+>         /* Do something */
+> }
+> 
+> With this patch, the func will be optimized to null when is_power_of_2
+> returns false.
+> 
+> void func(void)
+> {
+> }
+> 
+> Without this patch, the compiler cannot do this optimization.
 
-Which is incredibly wrong.
+Ok, I misread the changelog.
+
+So, then is_hugetlb_free_vmemmap_enabled, free_huge_page_vmemmap, 
+free_vmemmap_pages_per_hpage and hugetlb_vmemmap_init are optimized
+out, right?
+
+-- 
+Oscar Salvador
+SUSE L3
