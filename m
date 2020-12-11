@@ -2,106 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E706AC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14B3C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:37:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2AB322B47
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:30:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6607523EF2
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:37:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394507AbgLKUYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 15:24:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42926 "EHLO
+        id S2389421AbgLKUmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 15:42:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394467AbgLKUYh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 15:24:37 -0500
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA82EC061793
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 12:23:56 -0800 (PST)
-Received: by mail-qt1-x842.google.com with SMTP id a6so7414334qtw.6
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 12:23:56 -0800 (PST)
+        with ESMTP id S2389030AbgLKUmP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 15:42:15 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1149BC0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 12:41:35 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id jx16so14115021ejb.10
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 12:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ELqdRXlB+MjwvvNKBuEm7rQwzLSIQMH5YM/Dpnj0Am0=;
-        b=BxCjNUzeRilpLNFa++B1NsYrYbCN9twqCH3qY3QELZYysTlTjgXGfyhr447n9wmYfO
-         5aaPIRP7vqa3uynlTB2ZW9HaNgMq/linzUslEIxqMf8IhIwA7rXgncZ7ENiyoJu2c1w0
-         K8Q+HjqPk4VjfOvFV0RfQcgntEggt9NeEYdn9EH96zhyjMygI3vlV+9PWsTyIHCWJj4j
-         n4I+4Rq6P4/92l064bPU7e+VARtuNHVCE8dt8Biwr3NZtrCka9wwZ5EhrzePVhMqSbg9
-         CtvRX98LxYchtQNkYXxces3ryzg325UrqmKpOz+2+N+/RQ1uuB9YcH/b6WRZYqSYcCFI
-         dx4Q==
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E6ZVINXPsdzUvTi8y4F5dCQAcZ1z+AuX7onsYghdXXU=;
+        b=QWWiLxi3n5qfdFyONIr2q2ssLsNW2+Y/Fm1gJOa6KJ7O8TwqDxIC5alcqwk19dNRU1
+         PR3OJwLyy5Jl5QhBlZHCjStP2IOafpHAz3NLC8JC9kPe7FpNLPfNUCDlYPIiXTISHk/6
+         RVXF0IoaSYhxySEwGA8a9hR7gkHaIBXb5cajEi8huBPeKDeLIjiPB/lPsn4vYoO8833X
+         2fTjd4tRTNVBdPAItaDY7n8FmYGNK1mCyevS45WNvav8qR0fI5a8Hirkg3gHPlFy6puK
+         X3++oIucgL1it8TgHK8uRisl6iSIAIBh+gx/ewyDkrAbZwOt91TUqQd+wmIvPOxitsXT
+         FX7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ELqdRXlB+MjwvvNKBuEm7rQwzLSIQMH5YM/Dpnj0Am0=;
-        b=ISMdLjJddJKijUHR/8AqRpGme5CVBMu+OPhVfIcboPhSvs37GSzNNV3TAuP8ZM19bt
-         fOZHTl/9AacBbuU6e3AaYC2uO4RVMFQm5aW774+VVF0BGTmSxZQGcWtxV3UPPhySN7GV
-         rwoCzsdMl2os6R20e0523NRzBRJ+HC+DG0r9/oV0dKqrx05wteyv7j9EssZG78c3bIs3
-         8w/x9U5w+NTC/GTjPNTGQq2UDCWta60O2qiAqfu+xdXX2ZYeFC4gDWUuT543OV0S99sX
-         TiZxsVxGzT2hDh+KpN0yF7/zmjnr/uIzX563coKxZlRejfuIxQepwdDtMxkN5L9BvHeD
-         /p0A==
-X-Gm-Message-State: AOAM531ESQXhJ/W9KsJBoGdEpJgof8HwcY2hjVS5XrO+CW5vwgXPOIPi
-        jPUAZyt8ijZO+u07ftgUcfNyHw==
-X-Google-Smtp-Source: ABdhPJy9rue36Wb0wJHhBUETw/119DrBaQGbguszUb9eoNfHAzOrBGwR8fu58hiomMY5ZuNPWOmxWw==
-X-Received: by 2002:ac8:3ac5:: with SMTP id x63mr17550095qte.376.1607718235945;
-        Fri, 11 Dec 2020 12:23:55 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id 187sm8409820qki.38.2020.12.11.12.23.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 12:23:55 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1knoxG-009L1i-FW; Fri, 11 Dec 2020 16:23:54 -0400
-Date:   Fri, 11 Dec 2020 16:23:54 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
-        david@redhat.com, osalvador@suse.de, dan.j.williams@intel.com,
-        sashal@kernel.org, tyhicks@linux.microsoft.com,
-        iamjoonsoo.kim@lge.com, mike.kravetz@oracle.com,
-        rostedt@goodmis.org, mingo@redhat.com, peterz@infradead.org,
-        mgorman@suse.de, willy@infradead.org, rientjes@google.com,
-        jhubbard@nvidia.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
-Message-ID: <20201211202354.GA2225686@ziepe.ca>
-References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-6-pasha.tatashin@soleen.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E6ZVINXPsdzUvTi8y4F5dCQAcZ1z+AuX7onsYghdXXU=;
+        b=NX5ClUIsYUJmHmkL08sPy52+hOhxG2jRWlslQLoR6z5CmQ2sZkqD953giPb+vr+i6q
+         2ZN/y0TDdKrfzYKcVDjUCRlPNayS33YD0btqibAUK6ShDgEocbzQGZZvLy+qTWWvXgoa
+         AwUCNmAiBYCXjFrfh+hMzqOLt8jKC7TlYkyamGGG5YHArz7Dod+2lR1Xh8AT2ZSmlu+7
+         FuR/5pbOgW3isGX8kmXZlk3UQ6xsTMPaedj5b2eUCgajoU9K/FypvD68/uYWCQ3ISzzf
+         EDOgNNuMB1XhyASrTJ8eVkYYkoKVDr5Ke7QzUbPXayY0Mp38aL+USKonuzLocm7lpLTT
+         MEQQ==
+X-Gm-Message-State: AOAM53080XS1u5zLSH0v555kuH2oEGQ15diPYOYitv0Ep/gj2etl+n1v
+        Ey35R+GKPyoZJAHItF4Sz4YOIKt97+vZqtu5byjydQ==
+X-Google-Smtp-Source: ABdhPJwhZ3hcnDKpQaKtFRHwNLn5KQ58koBxmqgOXsc76EHMbiiKHOf39MDRAkuqekpT9xaF9RD78X1VcWZej0Q1Mww=
+X-Received: by 2002:a17:906:5213:: with SMTP id g19mr8813843ejm.383.1607719293747;
+ Fri, 11 Dec 2020 12:41:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201211202140.396852-6-pasha.tatashin@soleen.com>
+References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
+ <20201211202140.396852-6-pasha.tatashin@soleen.com> <20201211202354.GA2225686@ziepe.ca>
+In-Reply-To: <20201211202354.GA2225686@ziepe.ca>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Fri, 11 Dec 2020 15:40:57 -0500
+Message-ID: <CA+CK2bDPR8vH+H6cqBn=RTXRCp5kv3ExNPD8DHB09vVWLc3YmA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 03:21:39PM -0500, Pavel Tatashin wrote:
-> @@ -1593,7 +1592,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
->  				}
->  
->  				if (!isolate_lru_page(head)) {
-> -					list_add_tail(&head->lru, &cma_page_list);
-> +					list_add_tail(&head->lru, &movable_page_list);
->  					mod_node_page_state(page_pgdat(head),
->  							    NR_ISOLATED_ANON +
->  							    page_is_file_lru(head),
-> @@ -1605,7 +1604,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
->  		i += step;
->  	}
->  
-> -	if (!list_empty(&cma_page_list)) {
-> +	if (!list_empty(&movable_page_list)) {
+On Fri, Dec 11, 2020 at 3:23 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Fri, Dec 11, 2020 at 03:21:39PM -0500, Pavel Tatashin wrote:
+> > @@ -1593,7 +1592,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+> >                               }
+> >
+> >                               if (!isolate_lru_page(head)) {
+> > -                                     list_add_tail(&head->lru, &cma_page_list);
+> > +                                     list_add_tail(&head->lru, &movable_page_list);
+> >                                       mod_node_page_state(page_pgdat(head),
+> >                                                           NR_ISOLATED_ANON +
+> >                                                           page_is_file_lru(head),
+> > @@ -1605,7 +1604,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+> >               i += step;
+> >       }
+> >
+> > -     if (!list_empty(&cma_page_list)) {
+> > +     if (!list_empty(&movable_page_list)) {
+>
+> You didn't answer my earlier question, is it OK that ZONE_MOVABLE
+> pages leak out here if ioslate_lru_page() fails but the
+> moval_page_list is empty?
+>
+> I think the answer is no, right?
+In my opinion it is OK. We are doing our best to not pin movable
+pages, but if isolate_lru_page() fails because pages are currently
+locked by someone else, we will end up long-term pinning them.
+See comment in this patch:
++        * 1. Pinned pages: (long-term) pinning of movable pages is avoided
++        *    when pages are pinned and faulted, but it is still possible that
++        *    address space already has pages in ZONE_MOVABLE at the time when
++        *    pages are pinned (i.e. user has touches that memory before
++        *    pinning). In such case we try to migrate them to a different zone,
++        *    but if migration fails the pages can still end-up pinned in
++        *    ZONE_MOVABLE. In such case, memory offlining might retry a long
++        *    time and will only succeed once user application unpins pages.
 
-You didn't answer my earlier question, is it OK that ZONE_MOVABLE
-pages leak out here if ioslate_lru_page() fails but the
-moval_page_list is empty? 
 
-I think the answer is no, right?
-
-Jason
+>
+> Jason
