@@ -2,119 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCFFC4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:07:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549E0C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:33:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85E1023E54
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:07:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07F5723E55
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:33:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388094AbgLKCHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 21:07:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
+        id S2391300AbgLKCce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 21:32:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388039AbgLKCG5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 21:06:57 -0500
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F23C0613D3
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 18:06:17 -0800 (PST)
-Received: by mail-oi1-x244.google.com with SMTP id f132so8133592oib.12
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 18:06:17 -0800 (PST)
+        with ESMTP id S2391165AbgLKCcY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 21:32:24 -0500
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E1DC0613CF;
+        Thu, 10 Dec 2020 18:31:43 -0800 (PST)
+Received: by mail-qk1-x743.google.com with SMTP id z11so7162807qkj.7;
+        Thu, 10 Dec 2020 18:31:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
-        b=e2yI+Iplee0/vctTdk8XUsTgKJ7vxYwhrkV2a5JcjCHSrCc2JRRAb64vCVfsV7yo78
-         B0ZNIum9QeuLW3JNwUuaZG2g3bxfLuTUkStSp4GcrnHR6b8aD2Qmu4beiT2tlp1Xk2uj
-         i85VZRIc2PPfL0mUEg+9jE+n36rrkc2HX6ZuTgjxVFN0X4I11Z8HwAa/kA9GZWqcHwBk
-         l77av4ppjbBvFERMzXJyIApvE62pju92vDXmohXXDF5Vqi+KkqV8HH8t8qdhWjlxmMJS
-         D8KLMcTacHU/v/6HJSMsAdX8qKruqZqekPjW2AfUob9e1Imxo4+qvUVHofsCjxYLg1PQ
-         9mEQ==
+        bh=EeBE0q+ErDzzvoGT97HzZPFWnthYhh5V7M5ilZcCsbk=;
+        b=Du/BFUZWIiV9QL9SLfwiNk/AcgiLYD23ezmHJCJ2GK/qX553KoC+/Uf6EzhR1Yqw0G
+         wvR0KUDHEqgi1rekJ53m3hKY7xXF+lw9BVwPMc+4XMhWAwQ8vkrpEv5HVbXaMD2Qesd2
+         G6CHOSmyP19f2EuKLase/8kzypAqf8cS6i9akAMQXHkVXk8HkfEkk6vd+31133nYPgG9
+         B7PHwPENAnkxJBUfH2v/xnOsZ1Ya+EfZTgPGtlEydZSe+xamKxhX8aZ4PSrvIhT6No/t
+         74lkI/yVPEd+SocUw3GUgomgNBL69lZyvmIPV+/RwGfYE2Bl4yTg4Bz8xNVEmgyJwwQB
+         brew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
-        b=RAW6fQfArXXrASpX7S8WKA+PQe1fynMK1zHJGdLKN657MEz7Ka9+hzC10+O8asAove
-         X+vtaVk9hNAer87fZpfjKpsPiZQuEMUP3/XjcHPR2znAcyP8IflyQdexI0rC/T90Fnmm
-         jb2pVsJHiETOPNhH7sIRuddyJUsxCe0OQuAIs1RH253tlGsXvClrjIRSBT24bzeeTmBb
-         kIU3BQF+p/AFgqXEnHuF/bJfX8N1WmhiBxhtZwls82u29Y0rxNt43dc9llXA0duvk12l
-         XnMbnrhjQuoPZpC8Jf8szGZpPisgZAjd5oXF47jcVBubsYwVe+WfD5KE/51XrbRfhdax
-         iz9Q==
-X-Gm-Message-State: AOAM530ia6K+zyT4rUKAa3Obhi9HPpHlKw7uUIgYBrJEg+K6pyABQnsH
-        IY4OeHfAOygLH8mI4NP0XcvnzrEVO9xYAUmZpJEXzA==
-X-Google-Smtp-Source: ABdhPJzs0/lE6TSq5HnlKNF+j99NifDWVBECFpzx5ngO00Z+i5z0ERHOjWxD76IkEiusio5CVOYgPLUR+7AXcIsYuE0=
-X-Received: by 2002:aca:5e03:: with SMTP id s3mr7651344oib.125.1607652376343;
- Thu, 10 Dec 2020 18:06:16 -0800 (PST)
+        bh=EeBE0q+ErDzzvoGT97HzZPFWnthYhh5V7M5ilZcCsbk=;
+        b=RPwyW8PR991ggeakceYmaiesfsI1XzOOcTcqiVSPAYcTQsVtsGEdYcQfIjmXRJIy8v
+         GQSi8LrIT/Cj02QirUd6QQkldsAdpP3Bg6ezcWm/I/v4m85ESLUVYkJVslZjgGDMKzRN
+         Hx8CL3+/PAyCBIMg2zPOjSjDb0qbSTqko5Au4NqDqBsey51qKS+uECQaOrqk9W5nKxd/
+         3vc899491PJVKkijJyWOBt9qmIXfuXbczC8T5ZKOrALp0aPBGsz7H+R+dmiNd6C3OIML
+         dLVe3R5v0OdNLE3Wo1/KRYRkILTpSrNOXo4Uv+px3swNjZWB9B7iqRmrAtRh81qx8TWf
+         si+Q==
+X-Gm-Message-State: AOAM5323jnt87HzQpDj8miycYD/qs+dU46YDpHU680tI4pzDN2K+jpoj
+        ya4Yl4aZunhgEDm3fbkLMTvcPvx22etdV+BVvVVNW5bUKCtwng==
+X-Google-Smtp-Source: ABdhPJxM9PzPaAMuDWF/f7hOuuVq3yPBdtl+Y6lFsJ2A+LYREf34G/MGnb3UMg/S0vlPucFwIc5OTk+Reg4tW708LYw=
+X-Received: by 2002:a37:a7d1:: with SMTP id q200mr12770176qke.283.1607653903024;
+ Thu, 10 Dec 2020 18:31:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210092853.303-1-wangzhiqiang.bj@bytedance.com>
- <X9HtwHo8s6e2UsAT@kroah.com> <CAH0XSJt3=XJ_gQb2rTvbUcbyow2k7E4jfuKGKAKdi+nwdfauVw@mail.gmail.com>
- <X9H4r3XZynGtSDw0@kroah.com> <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
-In-Reply-To: <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
-From:   Lei Yu <yulei.sh@bytedance.com>
-Date:   Fri, 11 Dec 2020 10:06:05 +0800
-Message-ID: <CAGm54UFJt2PHJThigVYLrgKqBz7rNF-vWYFJ5wykBx+GPjzihw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH 1/3] misc: aspeed: Add Aspeed UART routing
- control driver.
-To:     Oskar Senft <osk@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Wang <wangzhiqiang.bj@bytedance.com>,
-        Lotus Xu <xuxiaohan@bytedance.com>,
-        Yong Li <yong.b.li@linux.intel.com>,
-        Vernon Mauery <vernon.mauery@linux.intel.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20201210160357.27779-1-georgi.djakov@linaro.org>
+In-Reply-To: <20201210160357.27779-1-georgi.djakov@linaro.org>
+From:   Joonsoo Kim <js1304@gmail.com>
+Date:   Fri, 11 Dec 2020 11:31:32 +0900
+Message-ID: <CAAmzW4My=Abdv+GAe-nOdM0kbFFc28oQBxAM-hWfDLpj1AocdA@mail.gmail.com>
+Subject: Re: [PATCH v3] mm/page_owner: Record timestamp and pid
+To:     Georgi Djakov <georgi.djakov@linaro.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Vlastimil Babka <vbabka@suse.cz>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        lmark@codeaurora.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 8:33 PM Oskar Senft <osk@google.com> wrote:
+2020=EB=85=84 12=EC=9B=94 11=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 1:04, =
+Georgi Djakov <georgi.djakov@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
 >
-> The purpose of this driver is to allow manipulation of the UART routing a=
-t runtime. Setting the routing in the DTS would obviously not allow that.
+> From: Liam Mark <lmark@codeaurora.org>
 >
-> From what I remember, I used am existing unrelated driver as template. Ap=
-ologies for using the wrong APIs - I literally just followed what I had see=
-n elsewhere.
+> Collect the time for each allocation recorded in page owner so that
+> allocation "surges" can be measured.
 >
-> Since posting this driver, we found that while it solved our initial use =
-case, that use case has evolved. We're now using Aspeed's VUART where bytes=
- are routed "manually" (i.e. copied between devices) rather than in hardwar=
-e. So I don't need this driver anymore.
+> Record the pid for each allocation recorded in page owner so that the
+> source of allocation "surges" can be better identified.
 >
-> If it's still useful to anyone, please take ownership and modify it as ne=
-eded to be able to submit it. I'm still happy to keep an eye on it and help=
- explain its purpose.
+> The above is very useful when doing memory analysis.  On a crash for
+> example, we can get this information from kdump (or ramdump) and parse it
+> to figure out memory allocation problems.
 >
+> Please note that on x86_64 this increases the size of struct page_owner
+> from 16 bytes to 32.
+>
+> Vlastimil: it's not a functionality intended for production, so unless
+> somebody says they need to enable page_owner for debugging and this
+> increase prevents them from fitting into available memory, let's not
+> complicate things with making this optional.
+>
+> Signed-off-by: Liam Mark <lmark@codeaurora.org>
+> Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Jonathan Corbet <corbet@lwn.net>
 
-The driver is useful for our system, and it's used in intel-openbmc as well=
-.
-We (John and I work for the same employer) have the chance to use
-Andrew Jefery's ["bmc-misc" driver][1] to configure the various
-registers in dts to setup the UART routing, but that driver was not
-accepted by upstream.
+Acked-by: Joonsoo Kim <iamjoonsoo.kim@lge.com>
 
-So we end up sending this patch here for upstream's comment.
-If it's considered not a good option, we will have to keep it downstream.
+This is useful. Our company already has an in-house patch to store
+pid since a few years ago.
 
-[1] https://lore.kernel.org/openbmc/20180711053122.30773-1-andrew@aj.id.au/
-
---=20
-BRs,
-Lei YU
+Thanks.
