@@ -2,116 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E48C35273
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 01:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCFFC4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:07:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E13123DE5
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 01:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85E1023E54
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 02:07:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394742AbgLKBV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 20:21:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36524 "EHLO
+        id S2388094AbgLKCHY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 21:07:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404940AbgLKBVN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 20:21:13 -0500
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50581C0613D6
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 17:20:33 -0800 (PST)
-Received: by mail-qt1-x843.google.com with SMTP id b9so5365500qtr.2
-        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 17:20:33 -0800 (PST)
+        with ESMTP id S2388039AbgLKCG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 21:06:57 -0500
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F23C0613D3
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 18:06:17 -0800 (PST)
+Received: by mail-oi1-x244.google.com with SMTP id f132so8133592oib.12
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 18:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e5KxQxi//rfxoPE/5ektxxgnhqEbVJ6umnyWfi6v968=;
-        b=oJH929LBreUektQbPNpNBqLSkFRAmuI5XNBMhAjSH/lneoeeQGdAnDTMnjlCqxnV+j
-         R4pMmGCV2RUNpvVXb1wvUX4vU7/BC/TYejtCDImuungPaHrBzkYSzuFFrox/NbtC5Pln
-         ZN71W1oLYni5V5JvQfaHOoKX7WYRZjYX/fHkiF4EFbOuKdb5AFZg/BAEyoAOp1ISS/Wk
-         IjYOX71nvYu8CGtnI1MnHLLp1M6yaFbcCSp+Hqxmt1BgY3lDe6IwOl2MZcPvdIZh9F2Z
-         6ipFMp1I9lguPAzNazOLnfVLIAGIQOSzz5JscZ88zDVRW7H8eYYgLqQJtEqUeLuMIRTk
-         HMog==
+         :cc:content-transfer-encoding;
+        bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
+        b=e2yI+Iplee0/vctTdk8XUsTgKJ7vxYwhrkV2a5JcjCHSrCc2JRRAb64vCVfsV7yo78
+         B0ZNIum9QeuLW3JNwUuaZG2g3bxfLuTUkStSp4GcrnHR6b8aD2Qmu4beiT2tlp1Xk2uj
+         i85VZRIc2PPfL0mUEg+9jE+n36rrkc2HX6ZuTgjxVFN0X4I11Z8HwAa/kA9GZWqcHwBk
+         l77av4ppjbBvFERMzXJyIApvE62pju92vDXmohXXDF5Vqi+KkqV8HH8t8qdhWjlxmMJS
+         D8KLMcTacHU/v/6HJSMsAdX8qKruqZqekPjW2AfUob9e1Imxo4+qvUVHofsCjxYLg1PQ
+         9mEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e5KxQxi//rfxoPE/5ektxxgnhqEbVJ6umnyWfi6v968=;
-        b=NeXySrbqxnM2AoZFOa/5+wDKSIVRI1YCVfqs6fbcEXpPviNMzxTcMDGUYqtiz4fX19
-         Sfa9xGbuQA/gdlsRwO1VGB/90gEc5qVvWXRjY3o+HQ81/XbzSfHXoWE2pxeLcucc7733
-         yjFxyu+PKmva65S8L3CnvfuAU7KqJ1p0W2MCLvBliqm4cwoVkEDGyAWgKJYLHfNhOgcm
-         UvUH05/0JaQzt8wTOgs8WZb6Svo7h0evTfX3EXyahyW3d6vDbOMsaChad1l97XCCGJhe
-         9S8sc+yPRkHf3B1qnq6ItovEPR6i4YZ+BxGzh8QkzAy8Z8e/aA7xOGbJKhQ1vhM749GB
-         qeIA==
-X-Gm-Message-State: AOAM531LhMnDff/eU4b1YddW+5qpBoym7X84+V9bSobSRDcNPLDllUp1
-        7zROkKQyiA2ZyYymUxlmjLcprBSt4uC+Q1hyTg==
-X-Google-Smtp-Source: ABdhPJxfi9xhysruzyJ9ZCOKmiLYZsGg1Kybp2bj/mx4L4EsVwJpCwLHrAXxi7f40NrQEOosUtMvk0mJJhUaQZPSipo=
-X-Received: by 2002:ac8:598d:: with SMTP id e13mr12560166qte.313.1607649632441;
- Thu, 10 Dec 2020 17:20:32 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
+        b=RAW6fQfArXXrASpX7S8WKA+PQe1fynMK1zHJGdLKN657MEz7Ka9+hzC10+O8asAove
+         X+vtaVk9hNAer87fZpfjKpsPiZQuEMUP3/XjcHPR2znAcyP8IflyQdexI0rC/T90Fnmm
+         jb2pVsJHiETOPNhH7sIRuddyJUsxCe0OQuAIs1RH253tlGsXvClrjIRSBT24bzeeTmBb
+         kIU3BQF+p/AFgqXEnHuF/bJfX8N1WmhiBxhtZwls82u29Y0rxNt43dc9llXA0duvk12l
+         XnMbnrhjQuoPZpC8Jf8szGZpPisgZAjd5oXF47jcVBubsYwVe+WfD5KE/51XrbRfhdax
+         iz9Q==
+X-Gm-Message-State: AOAM530ia6K+zyT4rUKAa3Obhi9HPpHlKw7uUIgYBrJEg+K6pyABQnsH
+        IY4OeHfAOygLH8mI4NP0XcvnzrEVO9xYAUmZpJEXzA==
+X-Google-Smtp-Source: ABdhPJzs0/lE6TSq5HnlKNF+j99NifDWVBECFpzx5ngO00Z+i5z0ERHOjWxD76IkEiusio5CVOYgPLUR+7AXcIsYuE0=
+X-Received: by 2002:aca:5e03:: with SMTP id s3mr7651344oib.125.1607652376343;
+ Thu, 10 Dec 2020 18:06:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
- <20201209172903.7990f71b@lwn.net> <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
- <20201210160205.56bb9060@lwn.net>
-In-Reply-To: <20201210160205.56bb9060@lwn.net>
-From:   JaeSang Yoo <js.yoo.5b@gmail.com>
-Date:   Fri, 11 Dec 2020 10:15:36 +0900
-Message-ID: <CAHdLnN2pV6yq0iU7T2FiP8Q6i_kRZpMkVgPU_LCaR0uzdS5Qaw@mail.gmail.com>
-Subject: Re: [PATCH] docs: update requirements to install six module
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.org, markus.heiser@darmarit.de
+References: <20201210092853.303-1-wangzhiqiang.bj@bytedance.com>
+ <X9HtwHo8s6e2UsAT@kroah.com> <CAH0XSJt3=XJ_gQb2rTvbUcbyow2k7E4jfuKGKAKdi+nwdfauVw@mail.gmail.com>
+ <X9H4r3XZynGtSDw0@kroah.com> <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
+In-Reply-To: <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
+From:   Lei Yu <yulei.sh@bytedance.com>
+Date:   Fri, 11 Dec 2020 10:06:05 +0800
+Message-ID: <CAGm54UFJt2PHJThigVYLrgKqBz7rNF-vWYFJ5wykBx+GPjzihw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH 1/3] misc: aspeed: Add Aspeed UART routing
+ control driver.
+To:     Oskar Senft <osk@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        John Wang <wangzhiqiang.bj@bytedance.com>,
+        Lotus Xu <xuxiaohan@bytedance.com>,
+        Yong Li <yong.b.li@linux.intel.com>,
+        Vernon Mauery <vernon.mauery@linux.intel.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 8:02 AM Jonathan Corbet <corbet@lwn.net> wrote:
+On Thu, Dec 10, 2020 at 8:33 PM Oskar Senft <osk@google.com> wrote:
 >
-> On Thu, 10 Dec 2020 12:39:42 +0900
-> JaeSang Yoo <js.yoo.5b@gmail.com> wrote:
+> The purpose of this driver is to allow manipulation of the UART routing a=
+t runtime. Setting the routing in the DTS would obviously not allow that.
 >
-> > While I was surveying the Sphinx library, it requires Python version
-> > 3.5 as a minimum.
-> > You can figure it out in the setup.py of Sphinx library source:
-> > https://github.com/sphinx-doc/sphinx/blob/72ad5f2a/setup.py#L13-L15
+> From what I remember, I used am existing unrelated driver as template. Ap=
+ologies for using the wrong APIs - I literally just followed what I had see=
+n elsewhere.
 >
-> That, of course, applies to current Sphinx releases. We have people
-> building with older releases, though, which still work with Python 2.
+> Since posting this driver, we found that while it solved our initial use =
+case, that use case has evolved. We're now using Aspeed's VUART where bytes=
+ are routed "manually" (i.e. copied between devices) rather than in hardwar=
+e. So I don't need this driver anymore.
 >
-Is this meaning that some people are using older Sphinx?
-Then, there's no chance to leave from Python2.
-By the way, the previous linked commit ID is tagged as v2.4.4
-which is selected in requirements.txt
-
-> > I assume this would be a certain reason to leave Python 2 behind. The
-> > Sphinx check script recommends using virtualenv. How do you think
-> > about leaving Python 2 compatibility issue in this documentation
-> > script range?
+> If it's still useful to anyone, please take ownership and modify it as ne=
+eded to be able to submit it. I'm still happy to keep an eye on it and help=
+ explain its purpose.
 >
-> I'm sorry, I don't quite understand your question.
-Sorry for my poor English writings.
 
-I thought most users are using virtualenv. As you know that virtualenv will
-help using the specific version of Python libraries and the Python
-interpreter's version.
+The driver is useful for our system, and it's used in intel-openbmc as well=
+.
+We (John and I work for the same employer) have the chance to use
+Andrew Jefery's ["bmc-misc" driver][1] to configure the various
+registers in dts to setup the UART routing, but that driver was not
+accepted by upstream.
 
-I'll try to describe what I tried to say.
-1. The Sphinx check script recommends using virtualenv for preparing
-    Sphinx document generation environment.
-2. By the virtualenv, we can isolate the Python libraries and the
-interpreter's version.
-    (for the Sphinx documentation build)
-3. When all the people are using the virtualenv, It will install Sphinx v2.4.4,
-    which doesn't support Python2.
-4. The Sphinx installation will fail for Python2 users.
-    And it could lead to "no need to consider Python2 compatibility"
+So we end up sending this patch here for upstream's comment.
+If it's considered not a good option, we will have to keep it downstream.
 
-But as you told me above, Step 3 seems false. Still, we need to
-consider Python2.
+[1] https://lore.kernel.org/openbmc/20180711053122.30773-1-andrew@aj.id.au/
 
-Thanks,
-JaeSang
+--=20
+BRs,
+Lei YU
