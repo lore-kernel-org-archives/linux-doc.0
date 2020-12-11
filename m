@@ -2,143 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE2E4C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 00:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E48C35273
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 01:23:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CF9C2312A
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 00:30:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E13123DE5
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 01:23:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393606AbgLKA3M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 19:29:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28597 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393103AbgLKA3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 19:29:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607646458;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=smSusb6V6UpqcgwJnIn5HTzBcj5wuKKaCTquGzVm8wA=;
-        b=AG06PKhsVgS6RkQgk0Ey2XiA6kscOKzqC1jU06IgO14t4VfFtov8EeJoC3du8Tu3QXSDI+
-        M9DgTlwkHO4DFurDlbCEMdq0ZPwJO73ShfptWKEuOPeG9Gkvgy0BJNeuhufnftbSe0bUOE
-        6MJrK3FXTMrQE7rXTH9Ru4eyVtqm/IU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-01-RlXyYP0eRgWNEySdgJA-1; Thu, 10 Dec 2020 19:27:37 -0500
-X-MC-Unique: 01-RlXyYP0eRgWNEySdgJA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70D00180A086;
-        Fri, 11 Dec 2020 00:27:34 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-7.gru2.redhat.com [10.97.112.7])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id DB44A100239F;
-        Fri, 11 Dec 2020 00:27:32 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
-        id BFCF94172EDF; Thu, 10 Dec 2020 21:27:03 -0300 (-03)
-Date:   Thu, 10 Dec 2020 21:27:03 -0300
-From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-Message-ID: <20201211002703.GA47016@fuller.cnet>
-References: <20201203171118.372391-2-mlevitsk@redhat.com>
- <20201207232920.GD27492@fuller.cnet>
- <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
- <87sg8g2sn4.fsf@nanos.tec.linutronix.de>
- <20201208181107.GA31442@fuller.cnet>
- <875z5c2db8.fsf@nanos.tec.linutronix.de>
- <20201209163434.GA22851@fuller.cnet>
- <87r1nyzogg.fsf@nanos.tec.linutronix.de>
- <20201210152618.GB23951@fuller.cnet>
- <87zh2lib8l.fsf@nanos.tec.linutronix.de>
+        id S2394742AbgLKBV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 10 Dec 2020 20:21:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404940AbgLKBVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 20:21:13 -0500
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50581C0613D6
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 17:20:33 -0800 (PST)
+Received: by mail-qt1-x843.google.com with SMTP id b9so5365500qtr.2
+        for <linux-doc@vger.kernel.org>; Thu, 10 Dec 2020 17:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e5KxQxi//rfxoPE/5ektxxgnhqEbVJ6umnyWfi6v968=;
+        b=oJH929LBreUektQbPNpNBqLSkFRAmuI5XNBMhAjSH/lneoeeQGdAnDTMnjlCqxnV+j
+         R4pMmGCV2RUNpvVXb1wvUX4vU7/BC/TYejtCDImuungPaHrBzkYSzuFFrox/NbtC5Pln
+         ZN71W1oLYni5V5JvQfaHOoKX7WYRZjYX/fHkiF4EFbOuKdb5AFZg/BAEyoAOp1ISS/Wk
+         IjYOX71nvYu8CGtnI1MnHLLp1M6yaFbcCSp+Hqxmt1BgY3lDe6IwOl2MZcPvdIZh9F2Z
+         6ipFMp1I9lguPAzNazOLnfVLIAGIQOSzz5JscZ88zDVRW7H8eYYgLqQJtEqUeLuMIRTk
+         HMog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e5KxQxi//rfxoPE/5ektxxgnhqEbVJ6umnyWfi6v968=;
+        b=NeXySrbqxnM2AoZFOa/5+wDKSIVRI1YCVfqs6fbcEXpPviNMzxTcMDGUYqtiz4fX19
+         Sfa9xGbuQA/gdlsRwO1VGB/90gEc5qVvWXRjY3o+HQ81/XbzSfHXoWE2pxeLcucc7733
+         yjFxyu+PKmva65S8L3CnvfuAU7KqJ1p0W2MCLvBliqm4cwoVkEDGyAWgKJYLHfNhOgcm
+         UvUH05/0JaQzt8wTOgs8WZb6Svo7h0evTfX3EXyahyW3d6vDbOMsaChad1l97XCCGJhe
+         9S8sc+yPRkHf3B1qnq6ItovEPR6i4YZ+BxGzh8QkzAy8Z8e/aA7xOGbJKhQ1vhM749GB
+         qeIA==
+X-Gm-Message-State: AOAM531LhMnDff/eU4b1YddW+5qpBoym7X84+V9bSobSRDcNPLDllUp1
+        7zROkKQyiA2ZyYymUxlmjLcprBSt4uC+Q1hyTg==
+X-Google-Smtp-Source: ABdhPJxfi9xhysruzyJ9ZCOKmiLYZsGg1Kybp2bj/mx4L4EsVwJpCwLHrAXxi7f40NrQEOosUtMvk0mJJhUaQZPSipo=
+X-Received: by 2002:ac8:598d:: with SMTP id e13mr12560166qte.313.1607649632441;
+ Thu, 10 Dec 2020 17:20:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zh2lib8l.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20201208014628.GA1361@JSYoo5B-Base.localdomain>
+ <20201209172903.7990f71b@lwn.net> <CAHdLnN2b5viH--nuqEERePQd47inF9cYqFLaThd3VVAvz5u76g@mail.gmail.com>
+ <20201210160205.56bb9060@lwn.net>
+In-Reply-To: <20201210160205.56bb9060@lwn.net>
+From:   JaeSang Yoo <js.yoo.5b@gmail.com>
+Date:   Fri, 11 Dec 2020 10:15:36 +0900
+Message-ID: <CAHdLnN2pV6yq0iU7T2FiP8Q6i_kRZpMkVgPU_LCaR0uzdS5Qaw@mail.gmail.com>
+Subject: Re: [PATCH] docs: update requirements to install six module
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.org, markus.heiser@darmarit.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 10:48:10PM +0100, Thomas Gleixner wrote:
-> On Thu, Dec 10 2020 at 12:26, Marcelo Tosatti wrote:
-> > On Wed, Dec 09, 2020 at 09:58:23PM +0100, Thomas Gleixner wrote:
-> >> Marcelo,
-> >> 
-> >> On Wed, Dec 09 2020 at 13:34, Marcelo Tosatti wrote:
-> >> > On Tue, Dec 08, 2020 at 10:33:15PM +0100, Thomas Gleixner wrote:
-> >> >> On Tue, Dec 08 2020 at 15:11, Marcelo Tosatti wrote:
-> >> >> > max_cycles overflow. Sent a message to Maxim describing it.
-> >> >> 
-> >> >> Truly helpful. Why the hell did you not talk to me when you ran into
-> >> >> that the first time?
-> >> >
-> >> > Because 
-> >> >
-> >> > 1) Users wanted CLOCK_BOOTTIME to stop counting while the VM 
-> >> > is paused (so we wanted to stop guest clock when VM is paused anyway).
-> >> 
-> >> How is that supposed to work w/o the guest kernels help if you have to
-> >> keep clock realtime up to date? 
-> >
-> > Upon VM resume, we notify NTP daemon in the guest to sync realtime
-> > clock.
-> 
-> Brilliant. What happens if there is no NTP daemon? What happens if the
-> NTP daemon is not part of the virt orchestration magic and cannot be
-> notified, then it will notice the time jump after the next update
-> interval.
-> 
-> What about correctness?
-> 
-> ALL CLOCK_* stop and resume when the VM is resumed at the point where
-> they stopped.
-> 
-> So up to the point where NTP catches up and corrects clock realtime and
-> TAI other processes can observe that time jumped in the outside world,
-> e.g. via a network packet or whatever, but there is no reason why time
-> should have jumped outside vs. the local one.
-> 
-> You really all live in a seperate universe creating your own rules how
-> things which other people work hard on to get it correct can be screwed
-> over.
+On Fri, Dec 11, 2020 at 8:02 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Thu, 10 Dec 2020 12:39:42 +0900
+> JaeSang Yoo <js.yoo.5b@gmail.com> wrote:
+>
+> > While I was surveying the Sphinx library, it requires Python version
+> > 3.5 as a minimum.
+> > You can figure it out in the setup.py of Sphinx library source:
+> > https://github.com/sphinx-doc/sphinx/blob/72ad5f2a/setup.py#L13-L15
+>
+> That, of course, applies to current Sphinx releases. We have people
+> building with older releases, though, which still work with Python 2.
+>
+Is this meaning that some people are using older Sphinx?
+Then, there's no chance to leave from Python2.
+By the way, the previous linked commit ID is tagged as v2.4.4
+which is selected in requirements.txt
 
-	1. T = read timestamp.
-	2. migrate (VM stops for a certain period).
-	3. use timestamp T.
+> > I assume this would be a certain reason to leave Python 2 behind. The
+> > Sphinx check script recommends using virtualenv. How do you think
+> > about leaving Python 2 compatibility issue in this documentation
+> > script range?
+>
+> I'm sorry, I don't quite understand your question.
+Sorry for my poor English writings.
 
-> Of course this all is nowhere documented in detail. At least a quick
-> search with about 10 different keyword combinations revealed absolutely
-> nothing.
-> 
-> This features first, correctness later frenzy is insane and it better
-> stops now before you pile even more crap on the existing steaming pile
-> of insanities.
+I thought most users are using virtualenv. As you know that virtualenv will
+help using the specific version of Python libraries and the Python
+interpreter's version.
 
-Sure.
+I'll try to describe what I tried to say.
+1. The Sphinx check script recommends using virtualenv for preparing
+    Sphinx document generation environment.
+2. By the virtualenv, we can isolate the Python libraries and the
+interpreter's version.
+    (for the Sphinx documentation build)
+3. When all the people are using the virtualenv, It will install Sphinx v2.4.4,
+    which doesn't support Python2.
+4. The Sphinx installation will fail for Python2 users.
+    And it could lead to "no need to consider Python2 compatibility"
 
+But as you told me above, Step 3 seems false. Still, we need to
+consider Python2.
+
+Thanks,
+JaeSang
