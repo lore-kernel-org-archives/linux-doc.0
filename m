@@ -2,210 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E6C1C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:51:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 617D0C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:58:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E44223B85
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:51:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D2DA23BCD
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 21:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394479AbgLKVFw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 16:05:52 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:37518 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392579AbgLKVFl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 16:05:41 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1607720693;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0fiMhIgezjMm4j4B451ig1YSH6sP5DgP4ssfWySwTGs=;
-        b=AQYRNJvcxXd/HlimRdNjo1jnET0BBogqtVB+Ri+UcW9mLEHO290gRs/+90RaLXritQJb2i
-        CODTbdo6SmBCi63OMkXnOeeSd6Ws1yDR9yzDddkR8t/LP9l/LrQ4eZdQbDRveb3SSL5aKZ
-        066p2LnvLEsWNLyOe8sbOqVESUlrFFr5ku8/BNydTbz3w03wsxadl/EE4B/8tC8lNDQK8y
-        8i8H3Q+qOVu9x95DBC9Gp2kUoNiFFchFz9UsxlV2K2vCIzKWSIQWz0MPjea6aJzZGUP4Aj
-        gtoARwkvi5g5dT/9gWudhqt23Y5P6qjwjW5+42mKJkZUDRZGfzljBwounMc6XA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1607720693;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0fiMhIgezjMm4j4B451ig1YSH6sP5DgP4ssfWySwTGs=;
-        b=7iQ5hCbTFwAguKL6g6/ZBi2aTwaGL2TT/9TwwH+bT3LyWirf3PdhADoyPYz5c4Tpsay7uw
-        r0JJjUFQ04wBM6AA==
-To:     Marcelo Tosatti <mtosatti@redhat.com>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list\:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-In-Reply-To: <20201211141822.GA67764@fuller.cnet>
-References: <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com> <87sg8g2sn4.fsf@nanos.tec.linutronix.de> <20201208181107.GA31442@fuller.cnet> <875z5c2db8.fsf@nanos.tec.linutronix.de> <20201209163434.GA22851@fuller.cnet> <87r1nyzogg.fsf@nanos.tec.linutronix.de> <20201210152618.GB23951@fuller.cnet> <87zh2lib8l.fsf@nanos.tec.linutronix.de> <20201211002703.GA47016@fuller.cnet> <87v9d8h3lx.fsf@nanos.tec.linutronix.de> <20201211141822.GA67764@fuller.cnet>
-Date:   Fri, 11 Dec 2020 22:04:52 +0100
-Message-ID: <87k0togikr.fsf@nanos.tec.linutronix.de>
+        id S2393878AbgLKVKk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 16:10:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395123AbgLKVKT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 16:10:19 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C37FC0613D3
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 13:09:39 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id u19so10826507edx.2
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 13:09:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ao7xOAmYaX/ywGJg0iG/Mh6Kx1f1ZcL87diFd+Y1lgA=;
+        b=aAfGSlEUgcDLpXRNkXIwp3DHZUaleYjADDcGxmniPbgCxhcNtqJwGP/McXAsdM/BAJ
+         m9xejVVYuVGT+X0oCTQc5OkBSfq4uYXO1r0vnIGX6iznyDLybhsStAqQ8nE+VTYvT41/
+         Q4AzJl/Rj5EBBtSby6Bvg346cED2t0FBYmJ1URTPm8E51HEVUW0ZlkLZ5mCMQ2HSZucZ
+         nEm1DGQ0qOiATOM2Oc5DpmESg938oYmpTdtoJ8KTNWhi2qVmXaFEWcaFR8F4hLAn+D81
+         B7LILJrvJvcZF/0nUbkByJepMPWl2TJXBXZ0L76aSvoQ0s31nM2o5dO4av6j9PkDHbjK
+         YybQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ao7xOAmYaX/ywGJg0iG/Mh6Kx1f1ZcL87diFd+Y1lgA=;
+        b=qauJp19NZ9GbIZz0mOfttk81P4CkBeqm5vqQ72nmrmpkxKSZT3rDce4269iLsEZ4id
+         tEa2Q0HCIfuMfUeSk82M7hIVsNgLM/S82zXRIvdFazbX97L651TZUtMJI8YUuUXdD/Pg
+         8BCHfiaEUQw+5uAsS/xNcn1/EGkOHACk1L9RfFKQLPn/1t2noILHwwR/2DWC0BHqWQ9h
+         388nvPIp6ZbqDDVUFpAt364T1SHbFZoIfW7cdXDH0T72gAJxDLs311w6QNqjwJuVC97f
+         a119FV8KN6rcvP/7RPm3beYK9c0lJ2CZ2Yn+JjxRSXoIF12EwBPkFhA2bYS6U7L03av8
+         zbCw==
+X-Gm-Message-State: AOAM532gD0MB9hcmGaUEj0H/hsr3+vtewgW0YdSYjd1gRZyMp93wgByi
+        PjWfcp6HVqKv0PRGxbbx9zBXfgNva46Y9pM7TIe6fg==
+X-Google-Smtp-Source: ABdhPJwlIqvueU3MoneKnbIXloAwNr6Ag2h5LtdJXzZ0BBDjWxTCUfq7+QMT89nt5UYSontzpxc+l3g5STb19Q+QkAU=
+X-Received: by 2002:a50:f404:: with SMTP id r4mr975568edm.62.1607720978232;
+ Fri, 11 Dec 2020 13:09:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
+ <20201211202140.396852-6-pasha.tatashin@soleen.com> <20201211202354.GA2225686@ziepe.ca>
+ <CA+CK2bDPR8vH+H6cqBn=RTXRCp5kv3ExNPD8DHB09vVWLc3YmA@mail.gmail.com> <20201211204600.GD5487@ziepe.ca>
+In-Reply-To: <20201211204600.GD5487@ziepe.ca>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Fri, 11 Dec 2020 16:09:02 -0500
+Message-ID: <CA+CK2bC6u4wnHX53ZhfPtQBLTDbD3t4V9Zuhj=HwD3gEyL4Puw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11 2020 at 11:18, Marcelo Tosatti wrote:
-> On Fri, Dec 11, 2020 at 02:30:34PM +0100, Thomas Gleixner wrote:
-> Unless you notify applications to invalidate their time reads,
-> i can't see a way to fix this.
-
-This is just wrong. Suspend/resume handles that fine and the system is
-guaranteed to come back with time which is very close to the reality.
-
-And for suspend/resume everything from kernel to userspace can have a
-notification before suspend and post resume. So applications or those
-parts of the kernel which are e.g. time sensitive can prepare upfront
-for the disruption and mop up on resume.
-
-> Therefore if you use VM migration in the first place, a certain amount of
-> timestamp accuracy error must be tolerated.
-
-That's just because it was never designed in the right way. And you
-simply declared that all applications have to deal with that.
-
-Again, where is this documented? VMs are subject to migration whether
-the customer who pays for it wants it or not. None of the virt tool docs
-mentions that pausing a VM for a long time makes timekeeping go
-south.
-
-I still have no sensible explanation WHY time should not advance accross
-a migration. All you told me is that customers complained. Which
-customers? The ones running the hosts or the ones paying for the VM?
-
-It's all just decided by some folks to "fix" a problem with the pause/
-migration mechanism they designed instead of fixing the design fail.
-
->> How can you even assume that this is correct?
+On Fri, Dec 11, 2020 at 3:46 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> As noted above, even without a window of unsynchronized time (due to
-> delay for NTP to sync time), time reads can be stale.
-
-So with suspend/resume we have:
-
-app:
-   t = clock_gettime()
-        <---------------- tsuspend
-        <-----------------tresume
-        So t is now behind reality by tresume - tsuspend
-
-  packet -> check timestamp .... ooops recheck
-  t = clock_gettime()
-  and t and timestamp are in the same ballpark again
-
-Now with your thing:
-
-app:
-   t = clock_gettime()
-        <---------------- tpause
-        <-----------------tresume
-        So t is now behind reality by tresume - tpause
-
-  packet -> check timestamp .... ooops recheck
-  t = clock_gettime()
-  and t and timestamp are still apart by ~ (tresume - tpause)
-
-this persists until NTP kicks in, if and only if NTP is running.
-
-Can you spot the difference?
-
->> It is exactly the same problem as we had many years ago with hardware
->> clocks suddenly stopping to tick which caused quite some stuff to go
->> belly up.
+> On Fri, Dec 11, 2020 at 03:40:57PM -0500, Pavel Tatashin wrote:
+> > On Fri, Dec 11, 2020 at 3:23 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Fri, Dec 11, 2020 at 03:21:39PM -0500, Pavel Tatashin wrote:
+> > > > @@ -1593,7 +1592,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+> > > >                               }
+> > > >
+> > > >                               if (!isolate_lru_page(head)) {
+> > > > -                                     list_add_tail(&head->lru, &cma_page_list);
+> > > > +                                     list_add_tail(&head->lru, &movable_page_list);
+> > > >                                       mod_node_page_state(page_pgdat(head),
+> > > >                                                           NR_ISOLATED_ANON +
+> > > >                                                           page_is_file_lru(head),
+> > > > @@ -1605,7 +1604,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+> > > >               i += step;
+> > > >       }
+> > > >
+> > > > -     if (!list_empty(&cma_page_list)) {
+> > > > +     if (!list_empty(&movable_page_list)) {
+> > >
+> > > You didn't answer my earlier question, is it OK that ZONE_MOVABLE
+> > > pages leak out here if ioslate_lru_page() fails but the
+> > > moval_page_list is empty?
+> > >
+> > > I think the answer is no, right?
+> > In my opinion it is OK. We are doing our best to not pin movable
+> > pages, but if isolate_lru_page() fails because pages are currently
+> > locked by someone else, we will end up long-term pinning them.
+> > See comment in this patch:
+> > +        * 1. Pinned pages: (long-term) pinning of movable pages is avoided
+> > +        *    when pages are pinned and faulted, but it is still possible that
+> > +        *    address space already has pages in ZONE_MOVABLE at the time when
+> > +        *    pages are pinned (i.e. user has touches that memory before
+> > +        *    pinning). In such case we try to migrate them to a different zone,
+> > +        *    but if migration fails the pages can still end-up pinned in
+> > +        *    ZONE_MOVABLE. In such case, memory offlining might retry a long
+> > +        *    time and will only succeed once user application unpins pages.
 >
-> Customers complained when it was 5 seconds off, now its 0.1ms (and
-> people seem happy).
-
-And because customers complained you decided to create a scenario which
-is completely different to all other scenarios and from a time keeping
-POV not making any sense at all.
-
->> In a proper suspend/resume scenario CLOCK_REALTIME/TAI are advanced
->> (with a certain degree of accuracy) to compensate for the sleep time, so
->> the other end of a communication is at least in the same ballpark, but
->> not 50 seconds off.
+> It is not "retry a long time" it is "might never complete" because
+> userspace will hold the DMA pin indefinitely.
 >
-> Its 100ms off with migration, and can be reduced further (customers
-> complained about 5 seconds but seem happy with 0.1ms).
+> Confused what the point of all this is then ??
+>
+> I thought to goal here is to make memory unplug reliable, if you leave
+> a hole like this then any hostile userspace can block it forever.
 
-What is 100ms? Guaranteed maximum migration time?
+You are right, I used a wording from the previous comment, and it
+should be made clear that pin may be forever. Without these patches it
+is guaranteed that hot-remove will fail if there are pinned pages as
+ZONE_MOVABLE is actually the first to be searched. Now, it will fail
+only due to exceptions listed in ZONE_MOVABLE comment:
 
-CLOCK_REALTIME and CLOCK_TAI are off by the time the VM is paused and
-this state persists up to the point where NTP corrects it with a time
-jump.
+1. pin + migration/isolation failure
+2. memblock allocation due to limited amount of space for kernelcore
+3. memory holes
+4. hwpoison
+5. Unmovable PG_offline pages (? need to study why this is a scenario).
 
-So if migration takes 5 seconds then CLOCK_REALTIME is not off by 100ms
-it's off by 5 seconds.
+Do you think we should unconditionally unpin pages, and return error
+when isolation/migration fails?
 
-CLOCK_MONOTONIC/BOOTTIME might be off by 100ms between pause and resume.
+Pasha
 
-> OK, makes sense, then reducing the 0.1ms window even further
-> is a useful thing to do. What would be an acceptable 
-> CLOCK_REALTIME accuracy error, on migration?
-
-Can you please explain how you can achive 0.1ms accuracy when migration
-time is more than that and guest TSC is just restored to the value at
-which it was stopped?
-
-Then ALL clocks including CLOCK_REALTIME and CLOCK_TAI continue from the
-point at which they were stopped. Ergo:
-
-      t(CLOCK_REALTIME) = t(REALITY) - t(STOPPED)
-
-CLOCK_REALTIME and CLOCK_TAI are global clocks and they have rules which
-have to be respected in order to make stuff work.
-
-CLOCK_MONOTONIC and CLOCK_BOOTTIME are local to a system (host, guests).
-So manipulating them is a completely different story albeit the kernel
-has explicit guarantees for the relationship between CLOCK_MONOTONIC,
-CLOCK_BOOTTIME and CLOCK_REALTIME/TAI
-
-If you could guarantee t(STOPPED) < 100ms and therefore
-
-   t(REALITY) - t(CLOCK_REALTIME) < 100ms
-
-under _all_ circumstances then we would not even have that discussion.
-
-Even < 1000ms might be acceptable. That's the margin of error which is
-also happening accross bare metal suspend/resume in the case that the
-sleep time has to be read from the RTC when TSC stops accross suspend.
-
-But suspend/resume is still substantially different because everything
-from kernel to userspace can have a notification before suspend. So
-applications or those parts of the kernel which are e.g. time sensitive
-can prepare upfront for the disruption. In your case, not at all. They
-just have to cope with the fallout. Brilliant.
-
-Your design or the lack of it just decides that everything has to cope
-with what you decided is the right thing to do and for how long it
-takes.
-
-Yes it "works" by some definition of works, but that does not mean it
-works correctly.
-
-Thanks,
-
-        tglx
+>
+> Jason
