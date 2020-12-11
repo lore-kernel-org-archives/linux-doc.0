@@ -2,117 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9706BC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9C3C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 00:03:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41AC4206A3
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:59:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AADF221F5
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 00:03:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407233AbgLKXuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 18:50:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407239AbgLKXus (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 18:50:48 -0500
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB71C0613CF
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:50:07 -0800 (PST)
-Received: by mail-qk1-x744.google.com with SMTP id d14so9569376qkc.13
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:50:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HrpGpeVouHWBAWlwrnZQ4b3o3PuUhfDT7U1jbXkeBu0=;
-        b=GkXTizU3ycac1nelpZF2sNwUDnkJz+uMtcieEL8oScb/rVsKe9rafWpqBC7NOxOPn4
-         f4bbSpVGMC2pK+wSiXWHy3ydET3zlc7CsmT9WXsaxYTWGKWOtBmsJiFY/4s86W0SDS59
-         GeEuQdfKrA3twfw40/pfwcJR/neFN5aGRZVppTKKoxZnCxMua4Lnd9mCkqyQkNQJH6B3
-         TxNb3EcXzodCmFq8AmRiIXZTgOncSfUI0GsMML3F+KF90CPFhhY5+rMKX31FpbnHyNry
-         9AKN/hy8qVJY4/JcrIbXDI+BvczTI11Evh7DMHoe7XtKHBa9J9HFBgZqVdipReMAWcaJ
-         CQnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HrpGpeVouHWBAWlwrnZQ4b3o3PuUhfDT7U1jbXkeBu0=;
-        b=ehGFC0mDgk8ohejKiU+wM3xsv+EjDbGHK+mBVgrQDDV3EoG+//ILHtyLB5J6uOYEXM
-         CHhBywPARtFUGEk0XZbMnHgOLD33TnkMU33bTw6Yfl8NJcbSMv9Bq4XlKKwTjzAonbeN
-         66aR5Bsg1f2OviAkGl9z0Y3Yxn2x1UHTjL+HgJ2F6WYU4bnArnHfa9aErGvAtOHBiS0O
-         KhxTdiqsM69NkJMf0RMl0+Q7UrZhmETZzlKtoMtGgK19s9RWjZrd05V6AJUeJcli+QMe
-         qrX6FZwaov3s0CKMfQswH2Jvw0zWUF8dGgw/OXVp4kiGs53BehKTIR5ON7AW0YNQb1c6
-         lf2g==
-X-Gm-Message-State: AOAM532s3xtxJ9ChEWFuxwlfIuPF7VQozFQtuQg7hxc7IL3DCYlPz0ey
-        5tZkWybv8HKfKnryXCQkCPXlFA==
-X-Google-Smtp-Source: ABdhPJwRik/cgYcUX4O4YYOW6YknrDcIWCPIuQc0ZZLz/iLsSfNxZJmy3774/8jUzLnYsn9Z5QZpag==
-X-Received: by 2002:a37:c92:: with SMTP id 140mr18588142qkm.152.1607730607157;
-        Fri, 11 Dec 2020 15:50:07 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id v204sm8719490qka.4.2020.12.11.15.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 15:50:06 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1knsAn-009OHS-Jq; Fri, 11 Dec 2020 19:50:05 -0400
-Date:   Fri, 11 Dec 2020 19:50:05 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Pavel Tatashin <pasha.tatashin@soleen.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
-Message-ID: <20201211235005.GE5487@ziepe.ca>
-References: <CA+CK2bCc9gk3Yy+ueaZVJs90MFE3fqukLsdb5R2kTUH4tWRbkA@mail.gmail.com>
- <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+        id S1728288AbgLKXzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 18:55:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52758 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404293AbgLKXzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Dec 2020 18:55:21 -0500
+Date:   Sat, 12 Dec 2020 00:54:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607730881;
+        bh=SCz8bzPsELDUq0lGSB7IHwi2nUf6eCFNm8SUjmyOLOI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ZEHV91Um2wvOW33SMCUsi/9yIfdGDU2ugjj4kQyE0l1pnHF7WaR1ez/vGMvlRgJ5U
+         LPn2ZHoZoSy951pnGE/4G9Rm6bCvVm/ebLXFcxHfWdjVjW/8/xG1hLQyNwWY5Ij0Da
+         TIlEnlVIK7bsecL32JA/kUUv7nr1+8vehp6qPReUnWkSio5fgBAWHvGCRvp/WbKY61
+         viCkMcHkeJvxHU7i2XIuZoqhOXJTLNYu7LoSMxKaXk22mOnN9lnijwJ0cW7h/WC9zo
+         J4kg+jZVQQ2NeeODD88csRTTjIc+u3JzP/c2ORoBKaXEJrJuEN4Vaf6vNLD00mbuzR
+         TE5gTw5Hm1rRA==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
+Message-ID: <20201212005435.0e1a0871@coco.lan>
+In-Reply-To: <20201211134859.5ab8e0c2@lwn.net>
+References: <20201210172938.3b3086b6@coco.lan>
+        <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
+        <20201211134859.5ab8e0c2@lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 10:53:00PM +0100, David Hildenbrand wrote:
+Em Fri, 11 Dec 2020 13:48:59 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> > When check_and_migrate_movable_pages() is called, the pages are
-> > already pinned. If some of those pages are in movable zone, and we
-> > fail to migrate or isolate them what should we do: proceed, and
-> > keep it as exception of when movable zone can actually have pinned
-> > pages or unpin all pages in the array, and return an error, or
-> > unpin only pages in movable zone, and return an error?
+> On Fri, 11 Dec 2020 09:33:32 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> I guess revert what we did (unpin) and return an error. The
-> interesting question is what can make migration/isolation fail
+> > Add an experimental PDF builder using rst2pdf
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> > 
+> > Please notice that 18 documents (of a total of 71) won't build with 
+> > rst2pdf. There's an opened issue about that at:
+> > 
+> >     https://github.com/rst2pdf/rst2pdf/issues/958
+> > 
+> > v2: usage of SPHINXDIRS was fixed.
+> > 
+> > 
+> >  Documentation/Makefile                     |  5 +++++
+> >  Documentation/conf.py                      | 21 +++++++++++++++------
+> >  Documentation/sphinx/load_config.py        | 12 ++++++++++++
+> >  Documentation/userspace-api/media/Makefile |  1 +
+> >  Makefile                                   |  4 ++--
+> >  5 files changed, 35 insertions(+), 8 deletions(-)  
 > 
-> a) out of memory: smells like a zone setup issue. Failures are acceptable I guess.
+> So I would dearly love to have rst2pdf working.
+> 
+> I applied this, then tried to see what would happen if I ran a build
+> without having rst2pdf installed:
+> 
+> > 1108 meer kernel: make htmldocs
+> >   SPHINX  htmldocs --> file:///stuff/k/git/kernel/Documentation/output
+> > make[2]: Nothing to be done for 'html'.
+> > WARNING: The kernel documentation build process
+> >         support for Sphinx v3.0 and above is brand new. Be prepared for
+> >         possible issues in the generated output.
+> >         enabling CJK for LaTeX builder
+> > 
+> > Extension error:
+> > Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
+> > make[1]: *** [Documentation/Makefile:91: htmldocs] Error 2
+> > make: *** [Makefile:1663: htmldocs] Error 2  
+> 
+> Methinks it's perhaps not quite ready for linux-next yet :)
 
-Out of memory is reasonable..
- 
-> b) short term pinnings: process dying - not relevant I guess. Other cases? (Fork?)
+Well, I haven't test this.
 
-Concurrent with non-longterm GUP users are less reasonable, fork is
-not reasonable, etc..
+I'm not an usual python programmer, so, don't know much about its 
+specifics... Yet, I would be expecting that something like this:
 
-Racing with another GUP in another thread is also not reasonable, so
-failing to isolate can't be a failure
+	try:
+	    extensions.append("rst2pdf.pdfbuilder")
+	except:
+	    sys.stderr.write('rst2pdf extension not available.\n')
+	
 
-Jasnon
+Would avoid it to crash, if the extension is not available.
+Silly me :-)
+
+Still, I suspect that it should not be hard to modify the above to
+avoid the crash. 
+
+I shouldn't be doing much development those days, as I'm taking
+some vacations, after sending media stuff for 5.11. 
+
+So, if you have a better idea about how to optionally probe an
+extension, feel free to modify my patch.
+
+
+> With rst2pdf installed I get a bunch of zero-length files, as promised.
+> Pretty much none of the larger "books" make it through.  
+
+Yeah. I guess one of the issues is with tables that don't fit into
+a single page.
+
+Yet, devicetree book is empty. That sounds really weird, as there are
+few files on it, and I didn't see anything uncommon on the rst files.
+
+> It's a start,
+> though.  I'll happily apply this as a step forward once it doesn't break
+> the docs build if rst2pdf is missing.
+
+Sounds like a plan.
+
+Thanks,
+Mauro
