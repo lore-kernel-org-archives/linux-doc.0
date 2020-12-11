@@ -2,179 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2569C4167B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 10:55:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D64C2BB9A
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 11:34:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9139D23F5C
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 10:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36E0E23D5A
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 11:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393495AbgLKKyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 05:54:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59551 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393762AbgLKKyY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 05:54:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607683977;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=s9EPJ7Qq439cY6gaz05/+mPgjwbl998XBfiZOOYsa7I=;
-        b=KFjvNcK6/mPXxpxnmfbapaFgEGD8q3TDj/TC0B4vCSTBVZ9NI25bfHZuTfXXKxy4fkfSEh
-        Kl1hj7p3PUhuUD/arcMmDRSbQ7A8WpBxjmtnQ5c9LrVMMUUTMTIK9vIOJPUbYO73jLgwYw
-        GnXE87q/Af7/q+MORcuvAFZNaCb93Q8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-42CnbkglOfGoTkf431jg2g-1; Fri, 11 Dec 2020 05:52:56 -0500
-X-MC-Unique: 42CnbkglOfGoTkf431jg2g-1
-Received: by mail-wm1-f71.google.com with SMTP id k128so3107070wme.7
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 02:52:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=s9EPJ7Qq439cY6gaz05/+mPgjwbl998XBfiZOOYsa7I=;
-        b=nXop0QhLG9AWFKCcq9jE1PTtfzrz2wYrEGJUWB6eI6ykCPkl5FSSrceYeXLwtdlWCS
-         4Uvfk6/eblniFu1vtyXuPIG5wFkZqQLmWUCThdcKm+9FGO1vSlq6Pm7+jsXmKQ327XYr
-         SH7yawUB6sN4XzOsWoASWIT3L9ictM+Ljb5bW7dtqNIyxlUKdDUGynNb6zL3mRyQnsO1
-         HQ8R5nzELDc/hp9FD/9KmAtd6cnpnwnEEjL+eA/L8yEuc9kmn9O48KDEGxDfN2EqMp5n
-         3yxeU+Y6z0dZj8QVZzkPGTrOJCzBuCZ+Z78XZqeRX0uT41/S3uRdvdVtjKMC17FzQ5UL
-         G7PQ==
-X-Gm-Message-State: AOAM533IdbMasmH7rGP7AAxrGVmhYciCd8pmWkc3gJDvZMllI/Wgdw5O
-        6rAM8FUxVj+qVdphWF8Lgcpr/CifaqmEMPuSPSesNTUcaf/IsmlW2+Rmz7Ido/atoQrFRvW7ROb
-        GgLyAz22AbVWWticZzuYq
-X-Received: by 2002:adf:ef06:: with SMTP id e6mr6809742wro.231.1607683974826;
-        Fri, 11 Dec 2020 02:52:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFcKb0mOOclCNzhWxkpp/5Sl0tFKIUVIZ6wIxiklr6aH4W3vgHxKbQ3rU80awumj0x9sInUQ==
-X-Received: by 2002:adf:ef06:: with SMTP id e6mr6809722wro.231.1607683974584;
-        Fri, 11 Dec 2020 02:52:54 -0800 (PST)
-Received: from [192.168.3.114] (p4ff23c7c.dip0.t-ipconnect.de. [79.242.60.124])
-        by smtp.gmail.com with ESMTPSA id m81sm14926760wmf.29.2020.12.11.02.52.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Dec 2020 02:52:53 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
+        id S2388328AbgLKLdz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 06:33:55 -0500
+Received: from mga06.intel.com ([134.134.136.31]:52740 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391060AbgLKLdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Dec 2020 06:33:49 -0500
+IronPort-SDR: MI4V0kcGBonKH93xbf53zoSbesfDet9EXFVyleeSSKofQnS34Aa4LPZ3LEe2BEjMD8Z5/9lUC+
+ Nme4D72B+/ww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="236012440"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="236012440"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 03:33:06 -0800
+IronPort-SDR: RMW2Ki7emK7l8an+qXvRupYs81QsytOeYL+kwKXoe+tyPTgdInZAjLEK/FfJGkLulkLN7+I4yr
+ kxS+GKoUI/TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="379659955"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Dec 2020 03:33:06 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 11 Dec 2020 03:33:06 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Fri, 11 Dec 2020 03:33:06 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Fri, 11 Dec 2020 03:33:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hy243l54/fOR6aLY7diBVIbEiDeuHNblYQmX8Yxk1UAzsJ7Qe+8O4mFuK2Li8f8xIRE4D73pPOeXKRjXtsWDopjFinyZ4vQsfQon1te1TgrhHDPidwixRN8XsLCSHFcUn6ayYGSZLZBqECbPvw4M5STPmqj4QtuVHnKKxDfkCD7RXdpmjW4N0PTzk/p8gik2pO/zNtHYIfiOwBAYI0kqli/7k+xapLl1y5iWcinjfbzmsh6G/OYiigsPhiLW6PdPIAPNsDQspffsjI8y364xCwunri4kWEcb8TK2+Kb0BUbl+GeT5E7x8Dqvh2dKONA5BHo9AqmRVpBrejc8way0ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r27SalNXtKVNRwiv/D/8S1Ghvfbz+NQZEPhIAoo728s=;
+ b=Q0nM17Yq37sxBNrzb6mkuuW7jK1LUpidqu8x+oAo1VQTUNJJxj7A/VOri5xSQb7NKV+T1sEjjFvCsRZETk6gjRBcRVs3W8li+yhCi4QOnnFmYtLTMUb6W1Foq0Jh6VgBVBKnHAnMDuG1xDdK5foJtJ8lLCcSP2w41SA6H49ERW3/Ii/lCPP2Pjm4/un9j1wpvPhC0q3VcsR8cGwOVq+dO3IK8NgPjA4J3mJyyqoKzkQJ0bnxZoo6e9eZLKMnDDM11QjeaXRba7yesCNSsOGSBKuHTSr3wDfubEFkYOfzT4qKG3i04i0N3iLxexTPUFGYOliS4wX55eWxhoqXz9LMvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r27SalNXtKVNRwiv/D/8S1Ghvfbz+NQZEPhIAoo728s=;
+ b=YbXPegtxZYGiHWGpL3FThm8Be+HDzTMrd9ESGfjAwBGSx/1U12d3secAkMKZOEoeiKrJdzyAL85Xn9YK6/v2robOo1Fw7aBKB6mvZDwgfBH5hRydJPuDNkrbNoqioe6cE+fZiAdQ8USrNNlwZJJAOyB8sYdOu3bpJ7N9hfheyEw=
+Received: from BYAPR11MB3783.namprd11.prod.outlook.com (2603:10b6:a03:f5::12)
+ by BYAPR11MB3045.namprd11.prod.outlook.com (2603:10b6:a03:88::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Fri, 11 Dec
+ 2020 11:33:02 +0000
+Received: from BYAPR11MB3783.namprd11.prod.outlook.com
+ ([fe80::2c85:a097:7a95:4387]) by BYAPR11MB3783.namprd11.prod.outlook.com
+ ([fe80::2c85:a097:7a95:4387%5]) with mapi id 15.20.3654.015; Fri, 11 Dec 2020
+ 11:33:02 +0000
+From:   "Kelly, Seamus" <seamus.kelly@intel.com>
+To:     Joe Perches <joe@perches.com>,
+        "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>, "bp@suse.de" <bp@suse.de>,
+        "damien.lemoal@wdc.com" <damien.lemoal@wdc.com>,
+        "dragan.cvetic@xilinx.com" <dragan.cvetic@xilinx.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "leonard.crestez@nxp.com" <leonard.crestez@nxp.com>,
+        "palmerdabbelt@google.com" <palmerdabbelt@google.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "peng.fan@nxp.com" <peng.fan@nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Ryan Carnaghi <ryan.r.carnaghi@intel.com>
+Subject: RE: [PATCH 16/22] xlink-ipc: Add xlink ipc driver
+Thread-Topic: [PATCH 16/22] xlink-ipc: Add xlink ipc driver
+Thread-Index: AQHWyDJBAHRzyzcAgEmZdZQ/FXOFKKnq8huAgAbgG5A=
+Date:   Fri, 11 Dec 2020 11:33:02 +0000
+Message-ID: <BYAPR11MB37839DDCA13DC55E594F5D108ACA0@BYAPR11MB3783.namprd11.prod.outlook.com>
+References: <20201201223511.65542-1-mgross@linux.intel.com>
+         <20201201223511.65542-17-mgross@linux.intel.com>
+ <d33f6b90d50feb6c05bd45ffdedf3fb6d5ceb5ee.camel@perches.com>
+In-Reply-To: <d33f6b90d50feb6c05bd45ffdedf3fb6d5ceb5ee.camel@perches.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: perches.com; dkim=none (message not signed)
+ header.d=none;perches.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [89.125.2.213]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3fbabe34-74ef-4575-a4aa-08d89dc8853a
+x-ms-traffictypediagnostic: BYAPR11MB3045:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB3045514CF2B5B11B401C28C58ACA0@BYAPR11MB3045.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: q7VmRYyq+//a0itNTEx9+WxLwCYhwWGALb/ivZQkjBvJmTJoPlpEs4Z12lkn4dZQJ1vP28x4BciyzmZG5a/I+ISbjFBi5rGoLTrtMNgR+gotEdoeq/whIAkJWA7OfOrfJl1CmNIlFngd7EGYBxiiEJLPMWl7IVKVmF/9mElAEFiXIadR9V4j8jNb4wesF3w+icLoFEkurdb3osuZ/b+WI8UoM1thcSZ9nsSgPORwopz4vWGJdq4uCwRVcb8dYZCtHUMdkJ5+Y5w3FAdb9AoA7plWXSpx5jKqIC8OvPNjtsZ9Ptox6bLlOcUj6qncLtHva8uU7BlG03SYe3gkCMLuEl/4ryo2q7pAmKOEpoRO9IxAsYfnuJaO9EvclEAARBTx
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3783.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(366004)(376002)(8936002)(6506007)(2906002)(9686003)(64756008)(66946007)(7696005)(71200400001)(54906003)(5660300002)(508600001)(76116006)(66556008)(86362001)(66446008)(52536014)(33656002)(186003)(53546011)(26005)(921005)(7416002)(4326008)(66476007)(110136005)(8676002)(55016002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?2cq256szXK5gF1L7G35gbFosFMzE1CbDQ/v3wLJpG9jZMCSjq4zOAboBrDYU?=
+ =?us-ascii?Q?+T0H7B3nGiXElg1xUgRe/oIaW4OEH/2PgUDFZdHuVNiw5yjiA+7jmlXXmarP?=
+ =?us-ascii?Q?MultdTq48hwtrXeeuzoxfvFPqAUWsZNgBuXRGIvzRBNozy9RFgpEDYK29Z0A?=
+ =?us-ascii?Q?cP3NKMVSkOS6TIhnB0Fuay5eLo/JAifb/iogM6wH3fxHLmk6GLn4ERF7p7Fo?=
+ =?us-ascii?Q?hBdgBJOVJtVER0dgmYKkJoyJ7XN4BaX7TQg9fAmLzMf7tOkyZ935LXbltbrq?=
+ =?us-ascii?Q?SiinCXOFXmlJ9UK+6VQwsEsB6Kt5Y8WMsWjpgTu82eBOeYpseP/8Y53MRJ3K?=
+ =?us-ascii?Q?crRgIt/ah5FYgtbUq8wyEu5ENkNAitjMuZMcJbkyHC4w5jsjDy7uaHvNiTej?=
+ =?us-ascii?Q?JiH6Qeb6b+J7qJbdO8rMZs+BlWQajymjxXr28N2xPnBeXq5NcWRqeLIMz7sZ?=
+ =?us-ascii?Q?Guk4u84Qb3olNaJOp7zGKwpZjJFnJqWs+TOy98BlbPg11jWfpHFBYZjKpaKg?=
+ =?us-ascii?Q?I1myKqNhKwYgGVGXgIv2GMhGpGx4zL3IbuhsmlwH4hSe5MblWkcR+N/r/K48?=
+ =?us-ascii?Q?VzuYTDXDwC5rY9PDtZxSFBaRGARyWRVbhrJ5Es44lXGQCQBdwo4GfFw5zDAq?=
+ =?us-ascii?Q?/OUjbtxX53j+nqAfOS72wmJx06oaFB+ELSATe0et1v0iGUwiDcFS/kOxzhnE?=
+ =?us-ascii?Q?kE+GczP+se4weBbiLOppFqqeGDPOrrQ8RFaAg7vAwRTPCjRJaFz9jnz2KX84?=
+ =?us-ascii?Q?m20YpJByPOjy3XCml8nAlEFn/wjOK3mwkiKsIQS0Y+Lqozdtq+Cpaw92HiZ4?=
+ =?us-ascii?Q?kPBPX5jtcCfwL0Yb1O36uGNFWpjvDlPUbQUjHSgNLyqTNMZ65JtreiaWb2nx?=
+ =?us-ascii?Q?4VGV9CAaZe+Y2i0wFhkKA2Z6h5Z26prTQWbN+n78Ad/gYB5vqokYIBnyRW9u?=
+ =?us-ascii?Q?8IgMIJChLwmIjUZThyTGMnSS+zWMZlqfCgxiNjqqzKs=3D?=
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3783.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fbabe34-74ef-4575-a4aa-08d89dc8853a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2020 11:33:02.5199
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jrcMit2HeEydqTv+beBI/PGt5zC5AyLKybrpdlShhId6mZfGFWYc3M9fwipIT5XrZXNleIP76yorhWRJsOaSmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3045
+X-OriginatorOrg: intel.com
 Content-Transfer-Encoding: quoted-printable
-From:   David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v8 06/12] mm/hugetlb: Allocate the vmemmap pages associated with each HugeTLB page
-Date:   Fri, 11 Dec 2020 11:52:52 +0100
-Message-Id: <58B0C89E-DD34-4D59-83A4-5DAAF0D617AE@redhat.com>
-References: <20201211093517.GA22210@linux>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-In-Reply-To: <20201211093517.GA22210@linux>
-To:     Oscar Salvador <osalvador@suse.de>
-X-Mailer: iPhone Mail (18B92)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-> Am 11.12.2020 um 10:35 schrieb Oscar Salvador <osalvador@suse.de>:
->=20
-> =EF=BB=BFOn Thu, Dec 10, 2020 at 11:55:20AM +0800, Muchun Song wrote:
->> When we free a HugeTLB page to the buddy allocator, we should allocate th=
-e
->> vmemmap pages associated with it. We can do that in the __free_hugepage()=
+From: Joe Perches <joe@perches.com> =
 
-> "vmemmap pages that describe the range" would look better to me, but it is=
- ok.
->=20
->> +#define GFP_VMEMMAP_PAGE        \
->> +    (GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH | __GFP_NOWARN)
->>=20
->> #ifndef VMEMMAP_HPAGE_SHIFT
->> #define VMEMMAP_HPAGE_SHIFT        HPAGE_SHIFT
->> @@ -197,6 +200,11 @@
->>    (__boundary - 1 < (end) - 1) ? __boundary : (end);         \
->> })
->>=20
->> +typedef void (*vmemmap_remap_pte_func_t)(struct page *reuse, pte_t *pte,=
+Sent: Monday, December 7, 2020 2:33 AM
+To: mgross@linux.intel.com; markgross@kernel.org; arnd@arndb.de; bp@suse.de=
+; damien.lemoal@wdc.com; dragan.cvetic@xilinx.com; gregkh@linuxfoundation.o=
+rg; corbet@lwn.net; leonard.crestez@nxp.com; palmerdabbelt@google.com; paul=
+.walmsley@sifive.com; peng.fan@nxp.com; robh+dt@kernel.org; shawnguo@kernel=
+.org
+Cc: linux-kernel@vger.kernel.org; Kelly, Seamus <seamus.kelly@intel.com>; l=
+inux-doc@vger.kernel.org; Ryan Carnaghi <ryan.r.carnaghi@intel.com>
+Subject: Re: [PATCH 16/22] xlink-ipc: Add xlink ipc driver
 
->> +                     unsigned long start, unsigned long end,
->> +                     void *priv);
->=20
-> Any reason to not have defined GFP_VMEMMAP_PAGE and the new typedef into
-> hugetlb_vmemmap.h?
->=20
->=20
->> +static void vmemmap_restore_pte_range(struct page *reuse, pte_t *pte,
->> +                      unsigned long start, unsigned long end,
->> +                      void *priv)
->> +{
->> +    pgprot_t pgprot =3D PAGE_KERNEL;
->> +    void *from =3D page_to_virt(reuse);
->> +    unsigned long addr;
->> +    struct list_head *pages =3D priv;
-> [...]
->> +
->> +        /*
->> +         * Make sure that any data that writes to the @to is made
->> +         * visible to the physical page.
->> +         */
->> +        flush_kernel_vmap_range(to, PAGE_SIZE);
->=20
-> Correct me if I am wrong, but flush_kernel_vmap_range is a NOOP under arch=
-es which
-> do not have ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE.
-> Since we only enable support for x86_64, and x86_64 is one of those arches=
-,
-> could we remove this, and introduced later on in case we enable this featu=
-re
-> on an arch that needs it?
->=20
-> I am not sure if you need to flush the range somehow, as you did in
-> vmemmap_remap_range.
->=20
->> +retry:
->> +        page =3D alloc_page(GFP_VMEMMAP_PAGE);
->> +        if (unlikely(!page)) {
->> +            msleep(100);
->> +            /*
->> +             * We should retry infinitely, because we cannot
->> +             * handle allocation failures. Once we allocate
->> +             * vmemmap pages successfully, then we can free
->> +             * a HugeTLB page.
->> +             */
->> +            goto retry;
->=20
-> I think this is the trickiest part.
-> With 2MB HugeTLB pages we only need 6 pages, but with 1GB, the number of p=
-ages
-> we need to allocate increases significantly (4088 pages IIRC).
-> And you are using __GFP_HIGH, which will allow us to use more memory (by
-> cutting down the watermark), but it might lead to putting the system
-> on its knees wrt. memory.
-> And yes, I know that once we allocate the 4088 pages, 1GB gets freed, but
-> still.
+On Tue, 2020-12-01 at 14:35 -0800, mgross@linux.intel.com wrote:
+> From: Seamus Kelly <seamus.kelly@intel.com>
+> =
 
-Similar to memory hotplug, no? I don=E2=80=98t think this is really an issue=
- that cannot be mitigated. Yeah, we might want to tweak allocation flags.
+> Add xLink driver, which interfaces the xLink Core driver with the Keem =
 
->=20
-> I would like to hear Michal's thoughts on this one, but I wonder if it mak=
-es
-> sense to not let 1GB-HugeTLB pages be freed.
->=20
-> --=20
-> Oscar Salvador
-> SUSE L3
->=20
+> Bay VPU IPC driver, thus enabling xLink to control and communicate =
+
+> with the VPU IP present on the Intel Keem Bay SoC.
+
+Trivial style comments:
+
+> diff --git a/drivers/misc/xlink-ipc/xlink-ipc.c =
+
+> b/drivers/misc/xlink-ipc/xlink-ipc.c
+
+[]
+
+> +/*
+> + * xlink_reserved_memory_init() - Initialize reserved memory for the dev=
+ice.
+> + *
+> + * @xlink_dev:	[in] The xlink ipc device the reserved memory is allocate=
+d to.
+> + *
+> + * Return: 0 on success, negative error code otherwise.
+> + */
+> +static int xlink_reserved_memory_init(struct xlink_ipc_dev =
+
+> +*xlink_dev) {
+> +	struct device *dev =3D &xlink_dev->pdev->dev;
+> +
+> +	xlink_dev->local_xlink_mem.dev =3D init_xlink_reserved_mem_dev(dev,
+> +								     "xlink_local_reserved",
+> +								     LOCAL_XLINK_IPC_BUFFER_IDX);
+> +	if (!xlink_dev->local_xlink_mem.dev)
+> +		return -ENOMEM;
+
+This sort of code, with a repeated struct dereference, generally reads bett=
+er using a temporary and is also less prone to typo use.
+
+	struct device *dev =3D &xlink_dev->pdev->dev;
+	struct xlink_buf_mem *lxm =3D &xlink_dev->local_xlink_mem;
+
+	lxm->dev =3D init_xlink_reserved_mem_dev(dev, "xlink_local_reserved",
+					       LOCAL_XLINK_IPC_BUFFER_IDX);
+	if (!lxm->dev)
+		return -ENOMEM;
+
+> +	xlink_dev->local_xlink_mem.size =3D get_xlink_reserved_mem_size(dev,
+> +								      LOCAL_XLINK_IPC_BUFFER_IDX);
+
+	lxm->size =3D get_xlink_reserved_mem_size(dev, LOCAL_XLINK_IPC_BUFFER_IDX);
+
+etc...
+
+[Kelly, Seamus] Thank you!  will do.
+
+
+
+--------------------------------------------------------------
+Intel Research and Development Ireland Limited
+Registered in Ireland
+Registered Office: Collinstown Industrial Park, Leixlip, County Kildare
+Registered Number: 308263
+
+
+This e-mail and any attachments may contain confidential material for the s=
+ole
+use of the intended recipient(s). Any review or distribution by others is
+strictly prohibited. If you are not the intended recipient, please contact =
+the
+sender and delete all copies.
 
