@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EBF7C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 17:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07378C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 17:05:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3805A23A7C
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 17:04:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA78923EB3
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 17:05:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404932AbgLKP6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 10:58:34 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:45585 "EHLO
+        id S2404841AbgLKP6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 10:58:33 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:56125 "EHLO
         relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393835AbgLKP6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 10:58:16 -0500
+        with ESMTP id S2393800AbgLKP6K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 10:58:10 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id F3A4D60012;
-        Fri, 11 Dec 2020 15:57:30 +0000 (UTC)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 79AA360003;
+        Fri, 11 Dec 2020 15:57:25 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -46,107 +46,260 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com,
-        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
-        <kevin.lhopital@bootlin.com>
-Subject: [PATCH v3 05/15] media: sun6i-csi: Only configure the interface data width for parallel
-Date:   Fri, 11 Dec 2020 16:56:58 +0100
-Message-Id: <20201211155708.154710-6-paul.kocialkowski@bootlin.com>
+        kevin.lhopital@hotmail.com
+Subject: [PATCH v3 03/15] phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI CSI-2
+Date:   Fri, 11 Dec 2020 16:56:56 +0100
+Message-Id: <20201211155708.154710-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211155708.154710-1-paul.kocialkowski@bootlin.com>
 References: <20201211155708.154710-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bits related to the interface data width are only applicable to the
-parallel interface and are irrelevant when the CSI controller is taking
-input from the MIPI CSI-2 controller.
+The Allwinner A31 D-PHY supports both Rx and Tx modes. While the latter
+is already supported and used for MIPI DSI this adds support for the
+former, to be used with MIPI CSI-2.
 
-In prevision of adding support for this case, set these bits
-conditionally so there is no ambiguity. The conditional block is
-moved around before the interlaced conditional block for nicer code
-symmetry (conditional blocks first) while at it.
+This implementation is inspired by Allwinner's V3s Linux SDK
+implementation, which was used as a documentation base.
 
-Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++--------
- 1 file changed, 25 insertions(+), 17 deletions(-)
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 164 +++++++++++++++++++-
+ 1 file changed, 160 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 531a4cccd14a..f1150de94e98 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
- 	unsigned char bus_width;
- 	u32 flags;
- 	u32 cfg;
-+	bool input_parallel = false;
- 	bool input_interlaced = false;
+diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+index 1fa761ba6cbb..0389b6b670d6 100644
+--- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
++++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+@@ -24,6 +24,14 @@
+ #define SUN6I_DPHY_TX_CTL_REG		0x04
+ #define SUN6I_DPHY_TX_CTL_HS_TX_CLK_CONT	BIT(28)
  
-+	if (endpoint->bus_type == V4L2_MBUS_PARALLEL ||
-+	    endpoint->bus_type == V4L2_MBUS_BT656)
-+		input_parallel = true;
++#define SUN6I_DPHY_RX_CTL_REG		0x08
++#define SUN6I_DPHY_RX_CTL_EN_DBC	BIT(31)
++#define SUN6I_DPHY_RX_CTL_RX_CLK_FORCE	BIT(24)
++#define SUN6I_DPHY_RX_CTL_RX_D3_FORCE	BIT(23)
++#define SUN6I_DPHY_RX_CTL_RX_D2_FORCE	BIT(22)
++#define SUN6I_DPHY_RX_CTL_RX_D1_FORCE	BIT(21)
++#define SUN6I_DPHY_RX_CTL_RX_D0_FORCE	BIT(20)
 +
- 	if (csi->config.field == V4L2_FIELD_INTERLACED
- 	    || csi->config.field == V4L2_FIELD_INTERLACED_TB
- 	    || csi->config.field == V4L2_FIELD_INTERLACED_BT)
-@@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
- 		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
- 		 CSI_IF_CFG_SRC_TYPE_MASK);
+ #define SUN6I_DPHY_TX_TIME0_REG		0x10
+ #define SUN6I_DPHY_TX_TIME0_HS_TRAIL(n)		(((n) & 0xff) << 24)
+ #define SUN6I_DPHY_TX_TIME0_HS_PREPARE(n)	(((n) & 0xff) << 16)
+@@ -44,12 +52,29 @@
+ #define SUN6I_DPHY_TX_TIME4_HS_TX_ANA1(n)	(((n) & 0xff) << 8)
+ #define SUN6I_DPHY_TX_TIME4_HS_TX_ANA0(n)	((n) & 0xff)
  
-+	if (input_parallel) {
-+		switch (bus_width) {
-+		case 8:
-+			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-+			break;
-+		case 10:
-+			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-+			break;
-+		case 12:
-+			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-+			break;
-+		case 16: /* No need to configure DATA_WIDTH for 16bit */
-+			break;
-+		default:
-+			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
-+				 bus_width);
-+			break;
-+		}
-+	}
++#define SUN6I_DPHY_RX_TIME0_REG		0x30
++#define SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(n)	(((n) & 0xff) << 24)
++#define SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(n)	(((n) & 0xff) << 16)
++#define SUN6I_DPHY_RX_TIME0_LP_RX(n)		(((n) & 0xff) << 8)
 +
- 	if (input_interlaced)
- 		cfg |= CSI_IF_CFG_SRC_TYPE_INTERLACED;
- 	else
-@@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
- 		break;
- 	}
++#define SUN6I_DPHY_RX_TIME1_REG		0x34
++#define SUN6I_DPHY_RX_TIME1_RX_DLY(n)		(((n) & 0xfff) << 20)
++#define SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(n)	((n) & 0xfffff)
++
++#define SUN6I_DPHY_RX_TIME2_REG		0x38
++#define SUN6I_DPHY_RX_TIME2_HS_RX_ANA1(n)	(((n) & 0xff) << 8)
++#define SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(n)	((n) & 0xff)
++
++#define SUN6I_DPHY_RX_TIME3_REG		0x40
++#define SUN6I_DPHY_RX_TIME3_LPRST_DLY(n)	(((n) & 0xffff) << 16)
++
+ #define SUN6I_DPHY_ANA0_REG		0x4c
+ #define SUN6I_DPHY_ANA0_REG_PWS			BIT(31)
+ #define SUN6I_DPHY_ANA0_REG_DMPC		BIT(28)
+ #define SUN6I_DPHY_ANA0_REG_DMPD(n)		(((n) & 0xf) << 24)
+ #define SUN6I_DPHY_ANA0_REG_SLV(n)		(((n) & 7) << 12)
+ #define SUN6I_DPHY_ANA0_REG_DEN(n)		(((n) & 0xf) << 8)
++#define SUN6I_DPHY_ANA0_REG_SFB(n)		(((n) & 3) << 2)
  
--	switch (bus_width) {
--	case 8:
--		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
--		break;
--	case 10:
--		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
--		break;
--	case 12:
--		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
--		break;
--	case 16: /* No need to configure DATA_WIDTH for 16bit */
--		break;
--	default:
--		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
--		break;
--	}
--
- 	regmap_write(sdev->regmap, CSI_IF_CFG_REG, cfg);
+ #define SUN6I_DPHY_ANA1_REG		0x50
+ #define SUN6I_DPHY_ANA1_REG_VTTMODE		BIT(31)
+@@ -92,6 +117,8 @@ struct sun6i_dphy {
+ 
+ 	struct phy				*phy;
+ 	struct phy_configure_opts_mipi_dphy	config;
++
++	int					submode;
+ };
+ 
+ static int sun6i_dphy_init(struct phy *phy)
+@@ -105,6 +132,18 @@ static int sun6i_dphy_init(struct phy *phy)
+ 	return 0;
  }
  
++static int sun6i_dphy_set_mode(struct phy *phy, enum phy_mode mode, int submode)
++{
++	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
++
++	if (mode != PHY_MODE_MIPI_DPHY)
++		return -EINVAL;
++
++	dphy->submode = submode;
++
++	return 0;
++}
++
+ static int sun6i_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
+ {
+ 	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
+@@ -119,9 +158,8 @@ static int sun6i_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
+ 	return 0;
+ }
+ 
+-static int sun6i_dphy_power_on(struct phy *phy)
++static int sun6i_dphy_tx_power_on(struct sun6i_dphy *dphy)
+ {
+-	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
+ 	u8 lanes_mask = GENMASK(dphy->config.lanes - 1, 0);
+ 
+ 	regmap_write(dphy->regs, SUN6I_DPHY_TX_CTL_REG,
+@@ -211,12 +249,129 @@ static int sun6i_dphy_power_on(struct phy *phy)
+ 	return 0;
+ }
+ 
++static int sun6i_dphy_rx_power_on(struct sun6i_dphy *dphy)
++{
++	/* Physical clock rate is actually half of symbol rate with DDR. */
++	unsigned long mipi_symbol_rate = dphy->config.hs_clk_rate;
++	unsigned long dphy_clk_rate;
++	unsigned int rx_dly;
++	unsigned int lprst_dly;
++	u32 value;
++
++	dphy_clk_rate = clk_get_rate(dphy->mod_clk);
++	if (!dphy_clk_rate)
++		return -EINVAL;
++
++	/* Hardcoded timing parameters from the Allwinner BSP. */
++	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME0_REG,
++		     SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(255) |
++		     SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(255) |
++		     SUN6I_DPHY_RX_TIME0_LP_RX(255));
++
++	/*
++	 * Formula from the Allwinner BSP, with hardcoded coefficients
++	 * (probably internal divider/multiplier).
++	 */
++	rx_dly = 8 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate / 8));
++
++	/*
++	 * The Allwinner BSP has an alternative formula for LP_RX_ULPS_WP:
++	 * lp_ulps_wp_cnt = lp_ulps_wp_ms * lp_clk / 1000
++	 * but does not use it and hardcodes 255 instead.
++	 */
++	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME1_REG,
++		     SUN6I_DPHY_RX_TIME1_RX_DLY(rx_dly) |
++		     SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(255));
++
++	/* HS_RX_ANA0 value is hardcoded in the Allwinner BSP. */
++	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME2_REG,
++		     SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(4));
++
++	/*
++	 * Formula from the Allwinner BSP, with hardcoded coefficients
++	 * (probably internal divider/multiplier).
++	 */
++	lprst_dly = 4 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate / 2));
++
++	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME3_REG,
++		     SUN6I_DPHY_RX_TIME3_LPRST_DLY(lprst_dly));
++
++	/* Analog parameters are hardcoded in the Allwinner BSP. */
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
++		     SUN6I_DPHY_ANA0_REG_PWS |
++		     SUN6I_DPHY_ANA0_REG_SLV(7) |
++		     SUN6I_DPHY_ANA0_REG_SFB(2));
++
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG,
++		     SUN6I_DPHY_ANA1_REG_SVTT(4));
++
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG,
++		     SUN6I_DPHY_ANA4_REG_DMPLVC |
++		     SUN6I_DPHY_ANA4_REG_DMPLVD(1));
++
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG,
++		     SUN6I_DPHY_ANA2_REG_ENIB);
++
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG,
++		     SUN6I_DPHY_ANA3_EN_LDOR |
++		     SUN6I_DPHY_ANA3_EN_LDOC |
++		     SUN6I_DPHY_ANA3_EN_LDOD);
++
++	/*
++	 * Delay comes from the Allwinner BSP, likely for internal regulator
++	 * ramp-up.
++	 */
++	udelay(3);
++
++	value = SUN6I_DPHY_RX_CTL_EN_DBC | SUN6I_DPHY_RX_CTL_RX_CLK_FORCE;
++
++	/*
++	 * Rx data lane force-enable bits are used as regular RX enable by the
++	 * Allwinner BSP.
++	 */
++	if (dphy->config.lanes >= 1)
++		value |= SUN6I_DPHY_RX_CTL_RX_D0_FORCE;
++	if (dphy->config.lanes >= 2)
++		value |= SUN6I_DPHY_RX_CTL_RX_D1_FORCE;
++	if (dphy->config.lanes >= 3)
++		value |= SUN6I_DPHY_RX_CTL_RX_D2_FORCE;
++	if (dphy->config.lanes == 4)
++		value |= SUN6I_DPHY_RX_CTL_RX_D3_FORCE;
++
++	regmap_write(dphy->regs, SUN6I_DPHY_RX_CTL_REG, value);
++
++	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
++		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
++		     SUN6I_DPHY_GCTL_EN);
++
++	return 0;
++}
++
++static int sun6i_dphy_power_on(struct phy *phy)
++{
++	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
++
++	switch (dphy->submode) {
++	case PHY_MIPI_DPHY_SUBMODE_TX:
++		return sun6i_dphy_tx_power_on(dphy);
++	case PHY_MIPI_DPHY_SUBMODE_RX:
++		return sun6i_dphy_rx_power_on(dphy);
++	default:
++		return -EINVAL;
++	}
++}
++
+ static int sun6i_dphy_power_off(struct phy *phy)
+ {
+ 	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
+ 
+-	regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA1_REG,
+-			   SUN6I_DPHY_ANA1_REG_VTTMODE, 0);
++	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG, 0);
++
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG, 0);
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG, 0);
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG, 0);
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG, 0);
++	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG, 0);
+ 
+ 	return 0;
+ }
+@@ -234,6 +389,7 @@ static int sun6i_dphy_exit(struct phy *phy)
+ 
+ 
+ static const struct phy_ops sun6i_dphy_ops = {
++	.set_mode	= sun6i_dphy_set_mode,
+ 	.configure	= sun6i_dphy_configure,
+ 	.power_on	= sun6i_dphy_power_on,
+ 	.power_off	= sun6i_dphy_power_off,
 -- 
 2.29.2
 
