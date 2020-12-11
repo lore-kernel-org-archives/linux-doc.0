@@ -2,116 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 332A4C2BB40
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DA8C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 16:29:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E79B523EB1
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8622923E21
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 16:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391842AbgLKNjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 08:39:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23858 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388882AbgLKNjA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 08:39:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607693853;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gV4c090IqWI5tEA2buwHKvS0/NqK9RSA3GoSyg8aYNs=;
-        b=OiUUxPY+wcGk+yzt0L4ugFC+v2m++H9GRMMkvGbVxp9qysvngOwUf8jw0pdnp8X6NVKIK6
-        kzGOJ61vRoTa0BYRo+YCAXzsOGXetHBUAOScCUnalkD6m3xHM+OsnqgzDNyBQdOsD1DHcj
-        AaMUpBRnX62Wo2Mf/dexmSc1ARjdaUE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-kWf4h77dMMuBzKwkxfl17g-1; Fri, 11 Dec 2020 08:37:31 -0500
-X-MC-Unique: kWf4h77dMMuBzKwkxfl17g-1
-Received: by mail-wr1-f71.google.com with SMTP id v1so3326726wri.16
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 05:37:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gV4c090IqWI5tEA2buwHKvS0/NqK9RSA3GoSyg8aYNs=;
-        b=lEJciTlMyUfaRIynPy8j/CYNBI4G9VMDahCiIhyan2/rQaULfdoYFVUEyrHJYWLZE5
-         21IrCo/qhG/hyApKsFxbJqFJV5JpMdMDiilFh9pQhJTNWIWKseZGVXMzTxSvOGulkTS0
-         sZBvyXlhn5ISIYIGbYdUFHd4sUHYRtq7v8gUtqcZzwSrPZcX7V8aAoNzab8KtvpHT+hb
-         qPm5jUaecqH7pw9tlnKWPM+kPgYw6vvQI4MYZC7/o/E9aY+tJp7/tD0E9FP/oDcXv6aJ
-         Ms17FMqQ+7QTmrQpfpUbONO9BpvduBx2HrbQm174k6jADr5sOcQiPVfbJxo7r1MRYyM1
-         yrHw==
-X-Gm-Message-State: AOAM531w1KtMvhNSSocOUb3rY9Cr9CIBqO4h/W6Oooy3mbgPNKmX9eZF
-        G3Ufee+sG2Y84dkYm9jgpkmKhRxv2PTf4fR8d/Su6cp7MeB4/p7bGi3ugsIaLVkM9HPyR31XroA
-        wm8uyuebIOvhASBzGbjX27+ncPeq8Ueu2dcTEWyqyw28rLLTizZIz2pTL8lvsIjVLjotpnK3M
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr13783268wrl.85.1607693850282;
-        Fri, 11 Dec 2020 05:37:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJ6/HzWkhgIrtQKABfYostveB3IDy4vSX+reQk78mBEui3U7TXREPtLi7Hnr4bOSkxry96bA==
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr13783217wrl.85.1607693850018;
-        Fri, 11 Dec 2020 05:37:30 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id z64sm13966730wme.10.2020.12.11.05.37.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Dec 2020 05:37:28 -0800 (PST)
-Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
-To:     Marcelo Tosatti <mtosatti@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Jones <drjones@redhat.com>,
-        Oliver Upton <oupton@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20201203171118.372391-2-mlevitsk@redhat.com>
- <20201207232920.GD27492@fuller.cnet>
- <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com>
- <87sg8g2sn4.fsf@nanos.tec.linutronix.de> <20201208181107.GA31442@fuller.cnet>
- <875z5c2db8.fsf@nanos.tec.linutronix.de> <20201209163434.GA22851@fuller.cnet>
- <87r1nyzogg.fsf@nanos.tec.linutronix.de> <20201210152618.GB23951@fuller.cnet>
- <87zh2lib8l.fsf@nanos.tec.linutronix.de> <20201211002703.GA47016@fuller.cnet>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ec926c2c-985a-2e3d-1ba0-b35ce55a19c4@redhat.com>
-Date:   Fri, 11 Dec 2020 14:37:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201211002703.GA47016@fuller.cnet>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1728095AbgLKPbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 10:31:53 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55800 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2392580AbgLKPbY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 10:31:24 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0BBF1lBh032965;
+        Fri, 11 Dec 2020 10:29:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=dE77lBifutitPgjNq+uJQtv07f69I9KMEub6+IAdnRE=;
+ b=pbBH/5aHPByyVd73OZfxHOGPzCGuoL3RAF6Tw3fy/0I72vTWENfSuNhDocYek2jJhnmI
+ VkeYSZc31BgQaVDMk1Td2oPtU9+go5C7RXyA0xddPNxPT85qV0kl57plxBxBesGTfIqS
+ sz7lVH8Cj4sqyXF4DexvatUl4BovS2VRGrlM/Ys/Xh2+80gesrZlMjpJ2eQYUXEJwK4w
+ o2mzKLmz87j8xfHx4NZARdpD8rVKj72K9+H3QtpyRtveGPWU9l8qGQbH/hpoif10JVHX
+ NIXXqs9Q3M4KiwRcC75Us9Y6Bk0+SijmcJUnhQ13QCky6Tp5iLdi8m4LkSAQ/i3J9AtY /g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 35catw9ahq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Dec 2020 10:29:18 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BBF2fWP038032;
+        Fri, 11 Dec 2020 10:29:18 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 35catw9afx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Dec 2020 10:29:18 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BBFSfN8006184;
+        Fri, 11 Dec 2020 15:29:15 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+        by ppma06ams.nl.ibm.com with ESMTP id 3581fhq6wa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Dec 2020 15:29:15 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0BBFTCGL16646498
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 11 Dec 2020 15:29:12 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1B4E24C052;
+        Fri, 11 Dec 2020 15:29:12 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C991C4C046;
+        Fri, 11 Dec 2020 15:29:06 +0000 (GMT)
+Received: from sig-9-65-201-46.ibm.com (unknown [9.65.201.46])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 11 Dec 2020 15:29:06 +0000 (GMT)
+Message-ID: <16a279eaf2c209345044c3b4e1e57e2878798940.camel@linux.ibm.com>
+Subject: Re: [PATCH v8 3/4] doc: trusted-encrypted: updates with TEE as a
+ new trust source
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     sumit.garg@linaro.org, Elaine Palmer <erpalmerny@gmail.com>,
+        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com,
+        dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
+        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org,
+        Kenneth Goldman <kgoldman@us.ibm.com>, gcwilson@linux.ibm.com,
+        zgu@us.ibm.com, stefanb@us.ibm.com, NAYNA JAIN1 <naynjain@ibm.com>,
+        Zohargshu Gu <zgu@us.ibm.com>
+Date:   Fri, 11 Dec 2020 10:29:05 -0500
+In-Reply-To: <20201211103627.GB12091@kernel.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+         <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
+         <81A6B61D-3811-4957-B270-52AE5FA6DE4F@gmail.com>
+         <20201204153037.GC4922@kernel.org>
+         <ba6cd934bf7460cf6e9fc101a759a63fdd4e6e9b.camel@linux.ibm.com>
+         <20201208174906.GA58572@kernel.org>
+         <b2465d27f3683331019c5a9b6d0856304d992a0a.camel@linux.ibm.com>
+         <20201211103627.GB12091@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-12.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2020-12-11_02:2020-12-11,2020-12-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012110095
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/12/20 01:27, Marcelo Tosatti wrote:
-> This features first, correctness later frenzy is insane and it better
-> stops now before you pile even more crap on the existing steaming pile
-> of insanities.
+On Fri, 2020-12-11 at 12:36 +0200, Jarkko Sakkinen wrote:
+> On Wed, Dec 09, 2020 at 11:50:19AM -0500, Mimi Zohar wrote:
+> > On Tue, 2020-12-08 at 19:49 +0200, Jarkko Sakkinen wrote:
+> > > On Tue, Dec 08, 2020 at 10:02:57AM -0500, Mimi Zohar wrote:
+> > 
+> > > > > Please also use a proper email client and split your paragraphs into
+> > > > > at most 80 character lines with new line characters when writing email.
+> > > > > I prefer to use 72 character line length so that there's some space
+> > > > > for longer email threads.
+> > > > 
+> > > > Sure, we'll re-post the suggested documentation changes/additions.
+> > > > 
+> > > 
+> > > So. Wouldn't it be a better idea to post a patch that Sumit could
+> > > squash to his (and add co-developed-by tag)?
+> > 
+> > I just posted it on Elaine's behalf.
+> >   
+> 
+> I responded. It's good that this feedback came as I think the whole
+> thing does not have the correct label for it.
 
-FWIW I agree, in fact I wish I knew exactly where to start simplifying 
-it; the timekeeping code in KVM is perhaps the last remaining bastion 
-where I'm afraid just to look at it.
+Every HW is going to want to add "trusted keys" support.   We've seen
+this with Udit Agarwal's "secure keys" proposal for NXP CAAM crypto HW
+accelerator.  If we go down this route to extend "trusted keys" to
+support specific implementations like this one, I strongly recommend
+requiring an accompaying high-level threat model.  This is similar to
+how new LSMs need to comply with Documentation/security/lsm-
+development.rst.
 
-At least I know there's a couple of features that IMHO are completely 
-useless, and that's even before you reach the ones that might "only" be 
-obsolete.  So perhaps that's where to start, together with the messiest 
-userspace interfaces.
+Based on Elaine's work with OCP, an example of a high-level threat
+model is "Common Security Threats v1.0” (
+https://www.opencompute.org/documents/common-security-threats-notes-1-pdf
+ ).
 
-Paolo
+thanks,
+
+Mimi
 
