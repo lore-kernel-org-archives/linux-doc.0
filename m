@@ -2,127 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67595C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 09:37:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E2F0C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 10:38:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AB8123F34
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 09:37:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB4E623F59
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 10:38:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393633AbgLKJgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 04:36:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37926 "EHLO mx2.suse.de"
+        id S2392134AbgLKKhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 05:37:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48324 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405660AbgLKJgL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Dec 2020 04:36:11 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 24555AC10;
-        Fri, 11 Dec 2020 09:35:28 +0000 (UTC)
-Date:   Fri, 11 Dec 2020 10:35:23 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v8 06/12] mm/hugetlb: Allocate the vmemmap pages
- associated with each HugeTLB page
-Message-ID: <20201211093517.GA22210@linux>
-References: <20201210035526.38938-1-songmuchun@bytedance.com>
- <20201210035526.38938-7-songmuchun@bytedance.com>
+        id S2391516AbgLKKhR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Dec 2020 05:37:17 -0500
+Date:   Fri, 11 Dec 2020 12:36:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607682996;
+        bh=BRZS5nXnwYhgoP19iUYWZOQLdrsuQXTKNWUg3UCsC1E=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IVCFcShfylaXBFX5PnCG5paBrp/6eCQ9IMvAY/s1AjaZ82EGXq/MwWbqR3I4//rUM
+         dm2NojWfPzzA8AFjS5TvuOIKmpzW0x/akYuWEF/X0d4nq6gJDyxSagwE3hBOgPLdJB
+         /RXS8FFvET7SyYLOfd/2is712MTtZt/jqvxFFnntt1jHmPOFrB+yV3wRJVnGL7yugJ
+         1U61cNlgew06kq3PtnKTW0Jwk/3UKswf628fy2rM0sVc2rnUvtLw8XPjR7/SzYj5Es
+         FMS9XnANIIyBLa8YoUvuNTNUjnnCnVjQbGXnDwvoHI2gLnq4PUaIeOwlC6d3Vx3oZt
+         hscL/O2IrOQ2A==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Mimi Zohar <zohar@linux.ibm.com>
+Cc:     sumit.garg@linaro.org, Elaine Palmer <erpalmerny@gmail.com>,
+        jarkko.sakkinen@linux.intel.com, jejb@linux.ibm.com,
+        dhowells@redhat.com, jens.wiklander@linaro.org, corbet@lwn.net,
+        jmorris@namei.org, serge@hallyn.com, casey@schaufler-ca.com,
+        janne.karhunen@gmail.com, daniel.thompson@linaro.org,
+        Markus.Wamser@mixed-mode.de, lhinds@redhat.com,
+        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        op-tee@lists.trustedfirmware.org,
+        Kenneth Goldman <kgoldman@us.ibm.com>, gcwilson@linux.ibm.com,
+        zgu@us.ibm.com, stefanb@us.ibm.com, NAYNA JAIN1 <naynjain@ibm.com>
+Subject: Re: [PATCH v8 3/4] doc: trusted-encrypted: updates with TEE as a new
+ trust source
+Message-ID: <20201211103627.GB12091@kernel.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+ <1604419306-26105-4-git-send-email-sumit.garg@linaro.org>
+ <81A6B61D-3811-4957-B270-52AE5FA6DE4F@gmail.com>
+ <20201204153037.GC4922@kernel.org>
+ <ba6cd934bf7460cf6e9fc101a759a63fdd4e6e9b.camel@linux.ibm.com>
+ <20201208174906.GA58572@kernel.org>
+ <b2465d27f3683331019c5a9b6d0856304d992a0a.camel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201210035526.38938-7-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <b2465d27f3683331019c5a9b6d0856304d992a0a.camel@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 11:55:20AM +0800, Muchun Song wrote:
-> When we free a HugeTLB page to the buddy allocator, we should allocate the
-> vmemmap pages associated with it. We can do that in the __free_hugepage()
-"vmemmap pages that describe the range" would look better to me, but it is ok.
+On Wed, Dec 09, 2020 at 11:50:19AM -0500, Mimi Zohar wrote:
+> On Tue, 2020-12-08 at 19:49 +0200, Jarkko Sakkinen wrote:
+> > On Tue, Dec 08, 2020 at 10:02:57AM -0500, Mimi Zohar wrote:
+> 
+> > > > Please also use a proper email client and split your paragraphs into
+> > > > at most 80 character lines with new line characters when writing email.
+> > > > I prefer to use 72 character line length so that there's some space
+> > > > for longer email threads.
+> > > 
+> > > Sure, we'll re-post the suggested documentation changes/additions.
+> > > 
+> > > Mimi
+> > 
+> > So. Wouldn't it be a better idea to post a patch that Sumit could
+> > squash to his (and add co-developed-by tag)?
+> 
+> I just posted it on Elaine's behalf.
+>   
+> Mimi
 
-> +#define GFP_VMEMMAP_PAGE		\
-> +	(GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH | __GFP_NOWARN)
->  
->  #ifndef VMEMMAP_HPAGE_SHIFT
->  #define VMEMMAP_HPAGE_SHIFT		HPAGE_SHIFT
-> @@ -197,6 +200,11 @@
->  	(__boundary - 1 < (end) - 1) ? __boundary : (end);		 \
->  })
->  
-> +typedef void (*vmemmap_remap_pte_func_t)(struct page *reuse, pte_t *pte,
-> +					 unsigned long start, unsigned long end,
-> +					 void *priv);
+I responded. It's good that this feedback came as I think the whole
+thing does not have the correct label for it.
 
-Any reason to not have defined GFP_VMEMMAP_PAGE and the new typedef into
-hugetlb_vmemmap.h?
-
-  
-> +static void vmemmap_restore_pte_range(struct page *reuse, pte_t *pte,
-> +				      unsigned long start, unsigned long end,
-> +				      void *priv)
-> +{
-> +	pgprot_t pgprot = PAGE_KERNEL;
-> +	void *from = page_to_virt(reuse);
-> +	unsigned long addr;
-> +	struct list_head *pages = priv;
-[...]
-> +
-> +		/*
-> +		 * Make sure that any data that writes to the @to is made
-> +		 * visible to the physical page.
-> +		 */
-> +		flush_kernel_vmap_range(to, PAGE_SIZE);
-
-Correct me if I am wrong, but flush_kernel_vmap_range is a NOOP under arches which
-do not have ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE.
-Since we only enable support for x86_64, and x86_64 is one of those arches,
-could we remove this, and introduced later on in case we enable this feature
-on an arch that needs it?
-
-I am not sure if you need to flush the range somehow, as you did in
-vmemmap_remap_range.
-
-> +retry:
-> +		page = alloc_page(GFP_VMEMMAP_PAGE);
-> +		if (unlikely(!page)) {
-> +			msleep(100);
-> +			/*
-> +			 * We should retry infinitely, because we cannot
-> +			 * handle allocation failures. Once we allocate
-> +			 * vmemmap pages successfully, then we can free
-> +			 * a HugeTLB page.
-> +			 */
-> +			goto retry;
-
-I think this is the trickiest part.
-With 2MB HugeTLB pages we only need 6 pages, but with 1GB, the number of pages
-we need to allocate increases significantly (4088 pages IIRC).
-And you are using __GFP_HIGH, which will allow us to use more memory (by
-cutting down the watermark), but it might lead to putting the system
-on its knees wrt. memory.
-And yes, I know that once we allocate the 4088 pages, 1GB gets freed, but
-still.
-
-I would like to hear Michal's thoughts on this one, but I wonder if it makes
-sense to not let 1GB-HugeTLB pages be freed.
-
--- 
-Oscar Salvador
-SUSE L3
+/Jarkko
