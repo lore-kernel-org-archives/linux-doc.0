@@ -2,150 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05452C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:09:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5152AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:40:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8BC922D06
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:09:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 135A723359
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406762AbgLKWPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 17:15:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406749AbgLKWPZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Dec 2020 17:15:25 -0500
-X-Gm-Message-State: AOAM53012CdKCwN+uHsZkaFLGbua/6V5wJWNgB32nsUvcmUizS8LZBPm
-        Kj2lIajGr1Ll3UtbMUyDacN5bp08xtCdIchxKiH/7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607724882;
-        bh=70LTUMehFh83IHad/vkXff9wd8DJwarU76xfxtWTpbY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jPAdTjcAVpZyDFTaPihJOsnveXonsw5iOC6B7KbDZDjzqZNwbm7CsmLDH3yR0AMID
-         SNfPGfnjQ3iWvMryER3GLaa8smv8iVvQy2GhAyVriM92szYovmcCUtjEsGsqB+wLEu
-         7R/8evzBvMtqXX/2o39B34SfiJoMfQ9d2yPn0icWzRf3+6zFxZ2pNb/c6qokJB+How
-         9HXBSycFcdAQzwnvNh3IDX4+qV7Qgi8aIYQK+QaOB/Jj0HXGnIYfXkI3qp+mFM3IOV
-         v2A5PmGBQtslguW0eYDMFhwLH/Gqey8aJRD7LMfwaHCIDkWMKrpYuCoQlC3FRomXfL
-         wiJq08Nve+OvA==
-X-Google-Smtp-Source: ABdhPJwyiUgo4QSzbgQvODMi2EdGDgMycwa95HkgOC2v3m4y50nPJcH7R/4+bPCwIYyM+uNouuOpofy5wtqF2/93N+Q=
-X-Received: by 2002:a5d:4905:: with SMTP id x5mr825454wrq.75.1607724880704;
- Fri, 11 Dec 2020 14:14:40 -0800 (PST)
+        id S2394128AbgLKXCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 18:02:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394147AbgLKXBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 18:01:51 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CFBC0613D6
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:01:10 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id d17so14535810ejy.9
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:01:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GFKYVdHrtwiwhpkA9Do2VXDD8m9+meK8R9Kfm6AFeIA=;
+        b=G2L4nkG+2a86HWG47Xy/ZeS/JPagQ4S1iIDkdkmNZpGdbylfdMtdumDUhfYLrN36a6
+         r9FcBfGlLA7oNgYPSWV1452G0gLBfHfX9R/E5/r9UdnLW8lnvQ9LqoFZS0YtcXAwMTIX
+         gW/an9znixcgNfMIT+JAL8lkvMRONvK7hFpqDrxZFOfOTLhQoEt41+mGqIIqueIZOVkf
+         +2Emj+V3RHlGGQ8M73ZLp4PsvMdlvnmx8o3rxEp/h/EkVuvAKo1vK/N/tIALBi1PsdR/
+         0Oc78b1RKA5d6ZjtGsNlOeTt8MfSltcvsCZvL9Ufh4LISbNNGeOZBvy/dNtQL1IyQsJe
+         4oaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GFKYVdHrtwiwhpkA9Do2VXDD8m9+meK8R9Kfm6AFeIA=;
+        b=bhSxVFPndIeisu4RwhbpkAzC9X3AkSzQYRuLx9gvFqVLEhGPqVA4ucy67nHDYTmpG6
+         1yEbEYo3JKKDOB+v/MttSL+VC/x38Sf1jD0b3RC2j7YqUu10lRYRmFGWFDnsHWHXFYsb
+         hk7D256T8CPAaeTJGGY+wNk438xfExAbboIhDjwWonEwnD9O4jFU7nUM/hYSvSCLnQb+
+         Mlb2x7sN4QddMXdRxxK0cq86WomZDiW8vjPhgK7CN3U8WHNEhsEzAIMDnK48/X89l9+C
+         xXT7HP/gTiyx14yTunSlepkXmQ5JckoY32tMCgRXQKEGgcK8/77RUyZOtdfyfwC8Z0el
+         ZTHg==
+X-Gm-Message-State: AOAM532C50j1lOHQS22JwvXgZe5i8/ehqX1FgDJmvS+VCHub56whVjtK
+        sRx2VnJZzRWSXkYPvRjLIt54kGLZtqreOXcHdkLHBA==
+X-Google-Smtp-Source: ABdhPJyqbqsuDfUDja0QJ+RweV4KYLSy8rVso6oP4CDyyGfCYOb553/fgMxzadNtHa9ok0zws+8ygrJLM02XhpZm984=
+X-Received: by 2002:a17:906:fb9b:: with SMTP id lr27mr13275461ejb.175.1607727669571;
+ Fri, 11 Dec 2020 15:01:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20201106232908.364581-6-ira.weiny@intel.com> <20201124060956.1405768-1-ira.weiny@intel.com>
-In-Reply-To: <20201124060956.1405768-1-ira.weiny@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Fri, 11 Dec 2020 14:14:28 -0800
-X-Gmail-Original-Message-ID: <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
-Message-ID: <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
-Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
-To:     Weiny Ira <ira.weiny@intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+References: <CA+CK2bCc9gk3Yy+ueaZVJs90MFE3fqukLsdb5R2kTUH4tWRbkA@mail.gmail.com>
+ <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+In-Reply-To: <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Fri, 11 Dec 2020 18:00:33 -0500
+Message-ID: <CA+CK2bAok_0Q+AovxVYqtsObVbbxr+ZZcTgP76uxEvDy-uJWsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
+> I guess revert what we did (unpin) and return an error. The interesting question is what can make migration/isolation fail
+
+OK. I will make the necessary changes. Let's handle errors properly.
+Whatever the cause for the error, we will know it when it happens, and
+when error is returned. I think I will add a 10-time retry instead of
+the infinite retry that we currently have. The 10-times retry we
+currently have during the hot-remove path.
+
 >
-> From: Ira Weiny <ira.weiny@intel.com>
+> a) out of memory: smells like a zone setup issue. Failures are acceptable I guess.
 >
-> Currently struct irqentry_state_t only contains a single bool value
-> which makes passing it by value is reasonable.  However, future patches
-> add information to this struct.  This includes the PKRS thread state,
-> included in this series, as well as information to store kmap reference
-> tracking and PKS global state outside this series.  In total, we
-> anticipate 2 new 32 bit fields and an integer field to be added to the
-> struct beyond the existing bool value.
+> b) short term pinnings: process dying - not relevant I guess. Other cases? (Fork?)
 >
-> Adding information to irqentry_state_t makes passing by value less
-> efficient.  Therefore, change the entry/exit calls to pass irq_state by
-> reference in preparation for the changes which follow.
+> c) ?
 >
-> While at it, make the code easier to follow by changing all the usage
-> sites to consistently use the variable name 'irq_state'.
-
-After contemplating this for a bit, I think this isn't really the
-right approach.  It *works*, but we've mostly just created a bit of an
-unfortunate situation.  Our stack, on a (possibly nested) entry looks
-like:
-
-previous frame (or empty if we came from usermode)
----
-SS
-RSP
-FLAGS
-CS
-RIP
-rest of pt_regs
-
-C frame
-
-irqentry_state_t (maybe -- the compiler is within its rights to play
-almost arbitrary games here)
-
-more C stuff
-
-
-So what we've accomplished is having two distinct arch register
-regions, one called pt_regs and the other stuck in irqentry_state_t.
-This is annoying because it means that, if we want to access this
-thing without passing a pointer around or access it at all from outer
-frames, we need to do something terrible with the unwinder, and we
-don't want to go there.
-
-So I propose a somewhat different solution: lay out the stack like this.
-
-SS
-RSP
-FLAGS
-CS
-RIP
-rest of pt_regs
-PKS
-^^^^^^^^ extended_pt_regs points here
-
-C frame
-more C stuff
-...
-
-IOW we have:
-
-struct extended_pt_regs {
-  bool rcu_whatever;
-  other generic fields here;
-  struct arch_extended_pt_regs arch_regs;
-  struct pt_regs regs;
-};
-
-and arch_extended_pt_regs has unsigned long pks;
-
-and instead of passing a pointer to irqentry_state_t to the generic
-entry/exit code, we just pass a pt_regs pointer.  And we have a little
-accessor like:
-
-struct extended_pt_regs *extended_regs(struct pt_regs *) { return
-container_of(...); }
-
-And we tell eBPF that extended_pt_regs is NOT ABI, and we will change
-it whenever we feel like just to keep you on your toes, thank you very
-much.
-
-Does this seem reasonable?  You get to drop patch 7 and instead modify
-the show_regs() stuff to just display one extra register.
+> Once we clarified that, we actually know how likely it will be to return an error (and making vfio pinnings fail etc).
