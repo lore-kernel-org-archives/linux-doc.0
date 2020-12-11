@@ -2,176 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D37B6C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 03:27:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BF7C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 08:35:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 992D623E54
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 03:27:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 422E323EB4
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 08:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387865AbgLKD1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 10 Dec 2020 22:27:04 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40456 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395060AbgLKD04 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 10 Dec 2020 22:26:56 -0500
-Received: by mail-ot1-f68.google.com with SMTP id j12so7053412ota.7;
-        Thu, 10 Dec 2020 19:26:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FQJ0xYZsg9VuDPNWynmVTQgQAdgxX+zz3aAN9OxOmEM=;
-        b=d/f4UNFeg0HHbmHPFOpSsLhZ9EWrx8IATokW+ttdpaInc0tihLkboJyMoWdypXYVQ0
-         e1oQQzpvWFcIehMgATMxRFx3jmP21mQlO/tjE8Itgf21AJ+09B1Xlp0hkP4SUTZ2yfdK
-         q24kNiN/cBNxqqsBzFDA4OHVRU398RLpds7y1NeDzbguj6cK+foFdpOuIyHRXQWdpwtz
-         WsrJCF7GW1x8tEVEbOjAPhYwaKdKIUlpMgo4y3i78RNBetsLKHri1ybEjybBJpS0e18d
-         LM/QD66ukI/Kq6ssr7Tx1pkc3uIcsrpkJfBUZu8k1Ek1Msl3ZBK0mzEEGvECNcxt9E0x
-         73NQ==
-X-Gm-Message-State: AOAM531WnLt9PsoIFBA7vepOA7QiGBUJcI5csXNY8H8mndYS4gZI8XWH
-        n56wo/mBI8Ma4IdziSgjEA==
-X-Google-Smtp-Source: ABdhPJzKUGBasM7BAwLTxygGxXIuMZ4ml/wcGxyjJSYLcS6Bmb5p1q1zlC+Ak1f0+07k0olzZmbmgg==
-X-Received: by 2002:a9d:3a2:: with SMTP id f31mr8646104otf.216.1607657175132;
-        Thu, 10 Dec 2020 19:26:15 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id x66sm1498750oig.56.2020.12.10.19.26.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 19:26:14 -0800 (PST)
-Received: (nullmailer pid 3574126 invoked by uid 1000);
-        Fri, 11 Dec 2020 03:26:12 -0000
-Date:   Thu, 10 Dec 2020 21:26:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Troy Lee <troy_lee@aspeedtech.com>
-Cc:     openbmc@lists.ozlabs.org, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        leetroy@gmail.com, ryan_chen@aspeedtech.com,
-        chiawei_wang@aspeedtech.com, billy_tsai@aspeedtech.com
-Subject: Re: [PATCH 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
-Message-ID: <20201211032612.GA3565720@robh.at.kernel.org>
-References: <20201209075921.26689-1-troy_lee@aspeedtech.com>
- <20201209075921.26689-2-troy_lee@aspeedtech.com>
+        id S2391122AbgLKIeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 03:34:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34638 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391068AbgLKIeT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Dec 2020 03:34:19 -0500
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
+Date:   Fri, 11 Dec 2020 09:33:32 +0100
+Message-Id: <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201210172938.3b3086b6@coco.lan>
+References: <20201210172938.3b3086b6@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201209075921.26689-2-troy_lee@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 09, 2020 at 03:59:17PM +0800, Troy Lee wrote:
-> For supporting a new AST2600 PWM/Fan hwmon driver, we add a new binding.
-> 
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> ---
->  .../bindings/hwmon/aspeed2600-pwm-tacho.txt   | 69 +++++++++++++++++++
+Add an experimental PDF builder using rst2pdf
 
-Bindings are in DT schema format now.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt b/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> new file mode 100644
-> index 000000000000..61b11914352f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> @@ -0,0 +1,69 @@
-> +ASPEED AST2600 PWM and Fan Tacho controller device driver
-> +
-> +The ASPEED PWM controller can support upto 16 PWM outputs. The ASPEED Fan Tacho
-> +controller can support upto 16 Fan tachometer inputs.
-> +
-> +There can be upto 16 fans supported. Each fan can have one PWM output and
-> +one Fan tach inputs.
-> +
-> +Required properties for pwm-tacho node:
-> +- #address-cells : should be 1.
-> +
-> +- #size-cells : should be 0.
-> +
-> +- #cooling-cells: should be 2.
-> +
-> +- reg : address and length of the register set for the device.
-> +
-> +- pinctrl-names : a pinctrl state named "default" must be defined.
-> +
-> +- pinctrl-0 : phandle referencing pin configuration of the PWM ports.
-> +
-> +- compatible : should be "aspeed,ast2600-pwm-tachometer".
-> +
-> +- clocks : phandle to clock provider with the clock number in the second cell
-> +
-> +- resets : phandle to reset controller with the reset number in the second cell
-> +
-> +fan subnode format:
-> +===================
-> +Under fan subnode there can upto 16 child nodes, with each child node
-> +representing a fan. There are 16 fans each fan can have one PWM port and one
-> +Fan tach inputs.
-> +For PWM port can be configured cooling-levels to create cooling device.
-> +Cooling device could be bound to a thermal zone for the thermal control.
-> +
-> +Required properties for each child node:
-> +- reg : should specify PWM source port.
-> +	integer value in the range 0x00 to 0x0f with 0x00 indicating PWM port 0
-> +	and 0x0f indicating PWM port F.
-> +
-> +- cooling-levels: PWM duty cycle values in a range from 0 to 255
-> +                  which correspond to thermal cooling states.
-> +
-> +- aspeed,fan-tach-ch : should specify the Fan tach input channel.
-> +                integer value in the range 0 through 15, with 0 indicating
-> +		Fan tach channel 0 and 15 indicating Fan tach channel 15.
-> +		Atleast one Fan tach input channel is required.
+Please notice that 18 documents (of a total of 71) won't build with 
+rst2pdf. There's an opened issue about that at:
 
-Already has 'fan-tach-ch' in npcm750-pwm-fan.txt.
+    https://github.com/rst2pdf/rst2pdf/issues/958
 
-> +
-> +- aspeed,target-pwm : Specify the frequency of PWM. The value range from 24 to
-> +		      780000. Default value will be set to 25000.
-> +
-> +- aspeed,pulse-pr : Specify tacho pulse per revolution of the fan. A general
-> +		    parameter of pulse-pr is 2.
+v2: usage of SPHINXDIRS was fixed.
 
-Already have 'pulses-per-revolution' property in pwm-fan.txt. Use that.
 
-Really, all these should be in a common fan schema that you reference.
+ Documentation/Makefile                     |  5 +++++
+ Documentation/conf.py                      | 21 +++++++++++++++------
+ Documentation/sphinx/load_config.py        | 12 ++++++++++++
+ Documentation/userspace-api/media/Makefile |  1 +
+ Makefile                                   |  4 ++--
+ 5 files changed, 35 insertions(+), 8 deletions(-)
 
-> +
-> +Examples:
-> +
-> +&pwm_tacho {
-> +	status = "okay";
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 61a7310b49e0..c3c8fb10f94e 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -115,6 +115,10 @@ pdfdocs: latexdocs
+ 
+ endif # HAVE_PDFLATEX
+ 
++rst2pdf:
++	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
++
+ epubdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+@@ -140,6 +144,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  pdfdocs         - PDF'
++	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+ 	@echo  '  linkcheckdocs   - check for broken external links'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 66e121df59cd..6f2788aac81e 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
+ else:
+     extensions.append("sphinx.ext.pngmath")
+ 
++# Enable experimental rst2pdf, if available
++try:
++    extensions.append("rst2pdf.pdfbuilder")
++except:
++    sys.stderr.write('rst2pdf extension not available.\n')
++
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+ 
+@@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace(".tex", "")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
+ 
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+index eeb394b39e2c..8266afd438aa 100644
+--- a/Documentation/sphinx/load_config.py
++++ b/Documentation/sphinx/load_config.py
+@@ -43,6 +43,18 @@ def loadConfig(namespace):
+ 
+             namespace['latex_documents'] = new_latex_docs
+ 
++            new_pdf_docs = []
++            pdf_documents = namespace['pdf_documents']
++
++            for l in pdf_documents:
++                if l[0].find(dir + '/') == 0:
++                    has = True
++                    fn = l[0][len(dir) + 1:]
++                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
++                    break
++
++            namespace['pdf_documents'] = new_pdf_docs
++
+         # If there is an extra conf.py file, load it
+         if os.path.isfile(config_file):
+             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 81a4a1a53bce..8c6b3ac4ecb0 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
+ 
+diff --git a/Makefile b/Makefile
+index 43ecedeb3f02..db4043578eec 100644
+--- a/Makefile
++++ b/Makefile
+@@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
+ 			 cscope gtags TAGS tags help% %docs check% coccicheck \
+ 			 $(version_h) headers headers_% archheaders archscripts \
+ 			 %asm-generic kernelversion %src-pkg dt_binding_check \
+-			 outputmakefile
++			 outputmakefile rst2pdf
+ no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
+ single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
+ 
+@@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
+ 
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+-DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
++DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
+ 	       linkcheckdocs dochelp refcheckdocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS):
+-- 
+2.29.2
 
-Don't show status in examples.
 
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_tach0_default>;
-> +
-> +	fan@0 {
-> +		reg = <0x00>;
-> +		aspeed,target-pwm = <25000>;
-> +		cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-> +		aspeed,pulse-pr = <2>;
-> +	};
-> +};
-> -- 
-> 2.17.1
-> 
