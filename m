@@ -2,140 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9C3C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 00:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA91C1B0E3
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:00:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AADF221F5
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 00:03:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1E3023A33
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728288AbgLKXzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 18:55:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52758 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404293AbgLKXzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Dec 2020 18:55:21 -0500
-Date:   Sat, 12 Dec 2020 00:54:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607730881;
-        bh=SCz8bzPsELDUq0lGSB7IHwi2nUf6eCFNm8SUjmyOLOI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZEHV91Um2wvOW33SMCUsi/9yIfdGDU2ugjj4kQyE0l1pnHF7WaR1ez/vGMvlRgJ5U
-         LPn2ZHoZoSy951pnGE/4G9Rm6bCvVm/ebLXFcxHfWdjVjW/8/xG1hLQyNwWY5Ij0Da
-         TIlEnlVIK7bsecL32JA/kUUv7nr1+8vehp6qPReUnWkSio5fgBAWHvGCRvp/WbKY61
-         viCkMcHkeJvxHU7i2XIuZoqhOXJTLNYu7LoSMxKaXk22mOnN9lnijwJ0cW7h/WC9zo
-         J4kg+jZVQQ2NeeODD88csRTTjIc+u3JzP/c2ORoBKaXEJrJuEN4Vaf6vNLD00mbuzR
-         TE5gTw5Hm1rRA==
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201212005435.0e1a0871@coco.lan>
-In-Reply-To: <20201211134859.5ab8e0c2@lwn.net>
-References: <20201210172938.3b3086b6@coco.lan>
-        <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-        <20201211134859.5ab8e0c2@lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726723AbgLKOKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 09:10:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390375AbgLKOKA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 09:10:00 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485BCC061794
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 06:09:20 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id u4so4623322plr.12
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 06:09:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SJUsAyZid8ZpUCO1A6kJYtQfMdu1p6LphB094f0w3bg=;
+        b=Aj8ew0Hu3yHmTNKkdhjZ+X6b43SrHaczF4qZhuusrFL6cDfM/7VhTojRP/QDHzTBgT
+         iDuj+C/tHmdYwmm3ovc+i3N17HKVh7cYSnCelcgWY6O35mMi2Hu2VjqHvqEp96zhjev4
+         bZF/f0upjqsusL81IM5qMfVkpPR8mmnU4STGZxHf6Lw68FsEjUq+PRoTZ1HtyxQysEyG
+         fsawhedIjAPMW9279hsd3DFuGCQ+oKgIdwYrTdcM3PcFdVjVktEb/zZXpIwfIbkWAYOh
+         ErnmdqTBkSBXpel99roVOLdClBLUeF3AUteTb4o7wLJdhlLKA+6IYVvPF3py6NLkTwBB
+         5WEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SJUsAyZid8ZpUCO1A6kJYtQfMdu1p6LphB094f0w3bg=;
+        b=DOwiOfhcosSE2t/llOAm9PSan0FE9sBadNz4uPm/LOaHlv1GA4vjtqvwzjqkwSofXp
+         8Ew9pLpUKVGXJU41RV65FbBAbkHpVl+mbIFfppfEt0cs4T/1u226FgYFTQmz1M9RhVZL
+         Bso0NFcwNRn914OGAqf10BMlw4Px6NFltb2Vp/ZM/XsTceZNgNbxLx3uwm2rq9Bj6M0L
+         tvRTS84i9uss5mP8nB2lr5yVr9rVma5AoSLX5NRwIpaKfBanKmLQXwvAdT8aJ4uV5qy0
+         envqvcTsJaOqJ9ArZwfBdB2sIaBIyxqIR9d5jyAjM/Ht1iSOyEOZxoGStNRkb8lOD0tp
+         AIvw==
+X-Gm-Message-State: AOAM530Y4d4ptkQHTptxp1kXHjyxUCylS6Pzv9fgY+grb+BaYyv1fnfw
+        xt5zEPDgHkQehsyvLfI3zc/J9qS3oHkrpqaf5S90lA==
+X-Google-Smtp-Source: ABdhPJwrLNBJOldmJmyWaGlf9L4YnEd4a4zJ98KF8M3D+Gy0rq+4D6xov12z8j4f0zvZiLabKSGqTiyYXwKPUSSjrQM=
+X-Received: by 2002:a17:902:76c8:b029:d9:d6c3:357d with SMTP id
+ j8-20020a17090276c8b02900d9d6c3357dmr11055737plt.34.1607695759816; Fri, 11
+ Dec 2020 06:09:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
+ <20201210035526.38938-8-songmuchun@bytedance.com> <20201211133624.GA27050@linux>
+In-Reply-To: <20201211133624.GA27050@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 11 Dec 2020 22:08:43 +0800
+Message-ID: <CAMZfGtXFtzJBifOrB2XdCrpazGP5MDuU3mp1Uag+TGLE3w49yw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v8 07/12] mm/hugetlb: Set the PageHWPoison
+ to the raw error page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 11 Dec 2020 13:48:59 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Fri, Dec 11, 2020 at 9:36 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Thu, Dec 10, 2020 at 11:55:21AM +0800, Muchun Song wrote:
+> > +static inline void subpage_hwpoison_deliver(struct hstate *h, struct page *head)
+> > +{
+> > +     struct page *page = head;
+> > +
+> > +     if (!free_vmemmap_pages_per_hpage(h))
+> > +             return;
+> > +
+> > +     if (PageHWPoison(head))
+> > +             page = head + page_private(head + 4);
+> > +
+> > +     /*
+> > +      * Move PageHWPoison flag from head page to the raw error page,
+> > +      * which makes any subpages rather than the error page reusable.
+> > +      */
+> > +     if (page != head) {
+> > +             SetPageHWPoison(page);
+> > +             ClearPageHWPoison(head);
+> > +     }
+> > +}
+>
+> I would make the names coherent.
+> I am not definitely goot at names, but something like:
+> hwpoison_subpage_{foo,bar} looks better.
 
-> On Fri, 11 Dec 2020 09:33:32 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Add an experimental PDF builder using rst2pdf
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> > 
-> > Please notice that 18 documents (of a total of 71) won't build with 
-> > rst2pdf. There's an opened issue about that at:
-> > 
-> >     https://github.com/rst2pdf/rst2pdf/issues/958
-> > 
-> > v2: usage of SPHINXDIRS was fixed.
-> > 
-> > 
-> >  Documentation/Makefile                     |  5 +++++
-> >  Documentation/conf.py                      | 21 +++++++++++++++------
-> >  Documentation/sphinx/load_config.py        | 12 ++++++++++++
-> >  Documentation/userspace-api/media/Makefile |  1 +
-> >  Makefile                                   |  4 ++--
-> >  5 files changed, 35 insertions(+), 8 deletions(-)  
-> 
-> So I would dearly love to have rst2pdf working.
-> 
-> I applied this, then tried to see what would happen if I ran a build
-> without having rst2pdf installed:
-> 
-> > 1108 meer kernel: make htmldocs
-> >   SPHINX  htmldocs --> file:///stuff/k/git/kernel/Documentation/output
-> > make[2]: Nothing to be done for 'html'.
-> > WARNING: The kernel documentation build process
-> >         support for Sphinx v3.0 and above is brand new. Be prepared for
-> >         possible issues in the generated output.
-> >         enabling CJK for LaTeX builder
-> > 
-> > Extension error:
-> > Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
-> > make[1]: *** [Documentation/Makefile:91: htmldocs] Error 2
-> > make: *** [Makefile:1663: htmldocs] Error 2  
-> 
-> Methinks it's perhaps not quite ready for linux-next yet :)
+It's better than mine. Thank you.
 
-Well, I haven't test this.
+>
+> Also, could not subpage_hwpoison_deliver be rewritten like:
+>
+>   static inline void subpage_hwpoison_deliver(struct hstate *h, struct page *head)
+>   {
+>        struct page *page;
+>
+>        if (!PageHWPoison(head) || !free_vmemmap_pages_per_hpage(h))
+>                return;
+>
+>        page = head + page_private(head + 4);
+>        /*
+>         * Move PageHWPoison flag from head page to the raw error page,
+>         * which makes any subpages rather than the error page reusable.
+>         */
+>        if (page != head) {
+>                SetPageHWPoison(page);
+>                ClearPageHWPoison(head);
+>        }
+>   }
+>
+> I think it is better code-wise.
 
-I'm not an usual python programmer, so, don't know much about its 
-specifics... Yet, I would be expecting that something like this:
+Will do. Thank you.
 
-	try:
-	    extensions.append("rst2pdf.pdfbuilder")
-	except:
-	    sys.stderr.write('rst2pdf extension not available.\n')
-	
+>
+> > +      * Move PageHWPoison flag from head page to the raw error page,
+> > +      * which makes any subpages rather than the error page reusable.
+> > +      */
+> > +     if (page != head) {
+> > +             SetPageHWPoison(page);
+> > +             ClearPageHWPoison(head);
+> > +     }
+>
+> I would put this in an else-if above:
+>
+>         if (free_vmemmap_pages_per_hpage(h)) {
+>                 set_page_private(head + 4, page - head);
+>                 return;
+>         } else if (page != head) {
+>                 SetPageHWPoison(page);
+>                 ClearPageHWPoison(head);
+>         }
+>
+> or will we lose the optimization in case free_vmemmap_pages_per_hpage gets compiled out?
+>
 
-Would avoid it to crash, if the extension is not available.
-Silly me :-)
+Either is OK. The compiler will help us optimize the code when
+free_vmemmap_pages_per_hpage always returns false.
 
-Still, I suspect that it should not be hard to modify the above to
-avoid the crash. 
+Thanks for your suggestions. :-)
 
-I shouldn't be doing much development those days, as I'm taking
-some vacations, after sending media stuff for 5.11. 
-
-So, if you have a better idea about how to optionally probe an
-extension, feel free to modify my patch.
+>
+> --
+> Oscar Salvador
+> SUSE L3
 
 
-> With rst2pdf installed I get a bunch of zero-length files, as promised.
-> Pretty much none of the larger "books" make it through.  
 
-Yeah. I guess one of the issues is with tables that don't fit into
-a single page.
-
-Yet, devicetree book is empty. That sounds really weird, as there are
-few files on it, and I didn't see anything uncommon on the rst files.
-
-> It's a start,
-> though.  I'll happily apply this as a step forward once it doesn't break
-> the docs build if rst2pdf is missing.
-
-Sounds like a plan.
-
-Thanks,
-Mauro
+-- 
+Yours,
+Muchun
