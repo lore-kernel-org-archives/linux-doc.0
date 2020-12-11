@@ -6,60 +6,61 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5152AC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9706BC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:59:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 135A723359
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:40:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41AC4206A3
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 23:59:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394128AbgLKXCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 18:02:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38968 "EHLO
+        id S2407233AbgLKXuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 18:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394147AbgLKXBv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 18:01:51 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0CFBC0613D6
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:01:10 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id d17so14535810ejy.9
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:01:10 -0800 (PST)
+        with ESMTP id S2407239AbgLKXus (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 18:50:48 -0500
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB71C0613CF
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:50:07 -0800 (PST)
+Received: by mail-qk1-x744.google.com with SMTP id d14so9569376qkc.13
+        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 15:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GFKYVdHrtwiwhpkA9Do2VXDD8m9+meK8R9Kfm6AFeIA=;
-        b=G2L4nkG+2a86HWG47Xy/ZeS/JPagQ4S1iIDkdkmNZpGdbylfdMtdumDUhfYLrN36a6
-         r9FcBfGlLA7oNgYPSWV1452G0gLBfHfX9R/E5/r9UdnLW8lnvQ9LqoFZS0YtcXAwMTIX
-         gW/an9znixcgNfMIT+JAL8lkvMRONvK7hFpqDrxZFOfOTLhQoEt41+mGqIIqueIZOVkf
-         +2Emj+V3RHlGGQ8M73ZLp4PsvMdlvnmx8o3rxEp/h/EkVuvAKo1vK/N/tIALBi1PsdR/
-         0Oc78b1RKA5d6ZjtGsNlOeTt8MfSltcvsCZvL9Ufh4LISbNNGeOZBvy/dNtQL1IyQsJe
-         4oaw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HrpGpeVouHWBAWlwrnZQ4b3o3PuUhfDT7U1jbXkeBu0=;
+        b=GkXTizU3ycac1nelpZF2sNwUDnkJz+uMtcieEL8oScb/rVsKe9rafWpqBC7NOxOPn4
+         f4bbSpVGMC2pK+wSiXWHy3ydET3zlc7CsmT9WXsaxYTWGKWOtBmsJiFY/4s86W0SDS59
+         GeEuQdfKrA3twfw40/pfwcJR/neFN5aGRZVppTKKoxZnCxMua4Lnd9mCkqyQkNQJH6B3
+         TxNb3EcXzodCmFq8AmRiIXZTgOncSfUI0GsMML3F+KF90CPFhhY5+rMKX31FpbnHyNry
+         9AKN/hy8qVJY4/JcrIbXDI+BvczTI11Evh7DMHoe7XtKHBa9J9HFBgZqVdipReMAWcaJ
+         CQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GFKYVdHrtwiwhpkA9Do2VXDD8m9+meK8R9Kfm6AFeIA=;
-        b=bhSxVFPndIeisu4RwhbpkAzC9X3AkSzQYRuLx9gvFqVLEhGPqVA4ucy67nHDYTmpG6
-         1yEbEYo3JKKDOB+v/MttSL+VC/x38Sf1jD0b3RC2j7YqUu10lRYRmFGWFDnsHWHXFYsb
-         hk7D256T8CPAaeTJGGY+wNk438xfExAbboIhDjwWonEwnD9O4jFU7nUM/hYSvSCLnQb+
-         Mlb2x7sN4QddMXdRxxK0cq86WomZDiW8vjPhgK7CN3U8WHNEhsEzAIMDnK48/X89l9+C
-         xXT7HP/gTiyx14yTunSlepkXmQ5JckoY32tMCgRXQKEGgcK8/77RUyZOtdfyfwC8Z0el
-         ZTHg==
-X-Gm-Message-State: AOAM532C50j1lOHQS22JwvXgZe5i8/ehqX1FgDJmvS+VCHub56whVjtK
-        sRx2VnJZzRWSXkYPvRjLIt54kGLZtqreOXcHdkLHBA==
-X-Google-Smtp-Source: ABdhPJyqbqsuDfUDja0QJ+RweV4KYLSy8rVso6oP4CDyyGfCYOb553/fgMxzadNtHa9ok0zws+8ygrJLM02XhpZm984=
-X-Received: by 2002:a17:906:fb9b:: with SMTP id lr27mr13275461ejb.175.1607727669571;
- Fri, 11 Dec 2020 15:01:09 -0800 (PST)
-MIME-Version: 1.0
-References: <CA+CK2bCc9gk3Yy+ueaZVJs90MFE3fqukLsdb5R2kTUH4tWRbkA@mail.gmail.com>
- <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
-In-Reply-To: <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Fri, 11 Dec 2020 18:00:33 -0500
-Message-ID: <CA+CK2bAok_0Q+AovxVYqtsObVbbxr+ZZcTgP76uxEvDy-uJWsQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HrpGpeVouHWBAWlwrnZQ4b3o3PuUhfDT7U1jbXkeBu0=;
+        b=ehGFC0mDgk8ohejKiU+wM3xsv+EjDbGHK+mBVgrQDDV3EoG+//ILHtyLB5J6uOYEXM
+         CHhBywPARtFUGEk0XZbMnHgOLD33TnkMU33bTw6Yfl8NJcbSMv9Bq4XlKKwTjzAonbeN
+         66aR5Bsg1f2OviAkGl9z0Y3Yxn2x1UHTjL+HgJ2F6WYU4bnArnHfa9aErGvAtOHBiS0O
+         KhxTdiqsM69NkJMf0RMl0+Q7UrZhmETZzlKtoMtGgK19s9RWjZrd05V6AJUeJcli+QMe
+         qrX6FZwaov3s0CKMfQswH2Jvw0zWUF8dGgw/OXVp4kiGs53BehKTIR5ON7AW0YNQb1c6
+         lf2g==
+X-Gm-Message-State: AOAM532s3xtxJ9ChEWFuxwlfIuPF7VQozFQtuQg7hxc7IL3DCYlPz0ey
+        5tZkWybv8HKfKnryXCQkCPXlFA==
+X-Google-Smtp-Source: ABdhPJwRik/cgYcUX4O4YYOW6YknrDcIWCPIuQc0ZZLz/iLsSfNxZJmy3774/8jUzLnYsn9Z5QZpag==
+X-Received: by 2002:a37:c92:: with SMTP id 140mr18588142qkm.152.1607730607157;
+        Fri, 11 Dec 2020 15:50:07 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id v204sm8719490qka.4.2020.12.11.15.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Dec 2020 15:50:06 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1knsAn-009OHS-Jq; Fri, 11 Dec 2020 19:50:05 -0400
+Date:   Fri, 11 Dec 2020 19:50:05 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
 To:     David Hildenbrand <david@redhat.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+Cc:     Pavel Tatashin <pasha.tatashin@soleen.com>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -78,24 +79,40 @@ Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
         David Rientjes <rientjes@google.com>,
         John Hubbard <jhubbard@nvidia.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+Message-ID: <20201211235005.GE5487@ziepe.ca>
+References: <CA+CK2bCc9gk3Yy+ueaZVJs90MFE3fqukLsdb5R2kTUH4tWRbkA@mail.gmail.com>
+ <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> I guess revert what we did (unpin) and return an error. The interesting question is what can make migration/isolation fail
+On Fri, Dec 11, 2020 at 10:53:00PM +0100, David Hildenbrand wrote:
 
-OK. I will make the necessary changes. Let's handle errors properly.
-Whatever the cause for the error, we will know it when it happens, and
-when error is returned. I think I will add a 10-time retry instead of
-the infinite retry that we currently have. The 10-times retry we
-currently have during the hot-remove path.
-
->
+> > When check_and_migrate_movable_pages() is called, the pages are
+> > already pinned. If some of those pages are in movable zone, and we
+> > fail to migrate or isolate them what should we do: proceed, and
+> > keep it as exception of when movable zone can actually have pinned
+> > pages or unpin all pages in the array, and return an error, or
+> > unpin only pages in movable zone, and return an error?
+> 
+> I guess revert what we did (unpin) and return an error. The
+> interesting question is what can make migration/isolation fail
+> 
 > a) out of memory: smells like a zone setup issue. Failures are acceptable I guess.
->
+
+Out of memory is reasonable..
+ 
 > b) short term pinnings: process dying - not relevant I guess. Other cases? (Fork?)
->
-> c) ?
->
-> Once we clarified that, we actually know how likely it will be to return an error (and making vfio pinnings fail etc).
+
+Concurrent with non-longterm GUP users are less reasonable, fork is
+not reasonable, etc..
+
+Racing with another GUP in another thread is also not reasonable, so
+failing to isolate can't be a failure
+
+Jasnon
