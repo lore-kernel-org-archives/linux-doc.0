@@ -2,185 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BF7C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 08:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67595C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 09:37:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 422E323EB4
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 08:35:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AB8123F34
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 09:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391122AbgLKIeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 03:34:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34638 "EHLO mail.kernel.org"
+        id S2393633AbgLKJgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 04:36:31 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37926 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391068AbgLKIeT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Dec 2020 03:34:19 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Date:   Fri, 11 Dec 2020 09:33:32 +0100
-Message-Id: <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201210172938.3b3086b6@coco.lan>
-References: <20201210172938.3b3086b6@coco.lan>
+        id S2405660AbgLKJgL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 11 Dec 2020 04:36:11 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 24555AC10;
+        Fri, 11 Dec 2020 09:35:28 +0000 (UTC)
+Date:   Fri, 11 Dec 2020 10:35:23 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 06/12] mm/hugetlb: Allocate the vmemmap pages
+ associated with each HugeTLB page
+Message-ID: <20201211093517.GA22210@linux>
+References: <20201210035526.38938-1-songmuchun@bytedance.com>
+ <20201210035526.38938-7-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210035526.38938-7-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an experimental PDF builder using rst2pdf
+On Thu, Dec 10, 2020 at 11:55:20AM +0800, Muchun Song wrote:
+> When we free a HugeTLB page to the buddy allocator, we should allocate the
+> vmemmap pages associated with it. We can do that in the __free_hugepage()
+"vmemmap pages that describe the range" would look better to me, but it is ok.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+> +#define GFP_VMEMMAP_PAGE		\
+> +	(GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH | __GFP_NOWARN)
+>  
+>  #ifndef VMEMMAP_HPAGE_SHIFT
+>  #define VMEMMAP_HPAGE_SHIFT		HPAGE_SHIFT
+> @@ -197,6 +200,11 @@
+>  	(__boundary - 1 < (end) - 1) ? __boundary : (end);		 \
+>  })
+>  
+> +typedef void (*vmemmap_remap_pte_func_t)(struct page *reuse, pte_t *pte,
+> +					 unsigned long start, unsigned long end,
+> +					 void *priv);
 
-Please notice that 18 documents (of a total of 71) won't build with 
-rst2pdf. There's an opened issue about that at:
+Any reason to not have defined GFP_VMEMMAP_PAGE and the new typedef into
+hugetlb_vmemmap.h?
 
-    https://github.com/rst2pdf/rst2pdf/issues/958
+  
+> +static void vmemmap_restore_pte_range(struct page *reuse, pte_t *pte,
+> +				      unsigned long start, unsigned long end,
+> +				      void *priv)
+> +{
+> +	pgprot_t pgprot = PAGE_KERNEL;
+> +	void *from = page_to_virt(reuse);
+> +	unsigned long addr;
+> +	struct list_head *pages = priv;
+[...]
+> +
+> +		/*
+> +		 * Make sure that any data that writes to the @to is made
+> +		 * visible to the physical page.
+> +		 */
+> +		flush_kernel_vmap_range(to, PAGE_SIZE);
 
-v2: usage of SPHINXDIRS was fixed.
+Correct me if I am wrong, but flush_kernel_vmap_range is a NOOP under arches which
+do not have ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE.
+Since we only enable support for x86_64, and x86_64 is one of those arches,
+could we remove this, and introduced later on in case we enable this feature
+on an arch that needs it?
 
+I am not sure if you need to flush the range somehow, as you did in
+vmemmap_remap_range.
 
- Documentation/Makefile                     |  5 +++++
- Documentation/conf.py                      | 21 +++++++++++++++------
- Documentation/sphinx/load_config.py        | 12 ++++++++++++
- Documentation/userspace-api/media/Makefile |  1 +
- Makefile                                   |  4 ++--
- 5 files changed, 35 insertions(+), 8 deletions(-)
+> +retry:
+> +		page = alloc_page(GFP_VMEMMAP_PAGE);
+> +		if (unlikely(!page)) {
+> +			msleep(100);
+> +			/*
+> +			 * We should retry infinitely, because we cannot
+> +			 * handle allocation failures. Once we allocate
+> +			 * vmemmap pages successfully, then we can free
+> +			 * a HugeTLB page.
+> +			 */
+> +			goto retry;
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 61a7310b49e0..c3c8fb10f94e 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -115,6 +115,10 @@ pdfdocs: latexdocs
- 
- endif # HAVE_PDFLATEX
- 
-+rst2pdf:
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
-+
- epubdocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
-@@ -140,6 +144,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
-+	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
- 	@echo  '  epubdocs        - EPUB'
- 	@echo  '  xmldocs         - XML'
- 	@echo  '  linkcheckdocs   - check for broken external links'
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 66e121df59cd..6f2788aac81e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
- else:
-     extensions.append("sphinx.ext.pngmath")
- 
-+# Enable experimental rst2pdf, if available
-+try:
-+    extensions.append("rst2pdf.pdfbuilder")
-+except:
-+    sys.stderr.write('rst2pdf extension not available.\n')
-+
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
- 
-@@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
- #
- # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
- #
--# FIXME: Do not add the index file here; the result will be too big. Adding
--# multiple PDF files here actually tries to get the cross-referencing right
--# *between* PDF files.
--pdf_documents = [
--    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
--]
-+
-+# Add all LaTeX files to PDF documents as well
-+pdf_documents = []
-+for l in latex_documents:
-+    doc = l[0]
-+    fn = l[1].replace(".tex", "")
-+    name = l[2]
-+    authors = l[3]
-+    pdf_documents.append((doc, fn, name, authors))
- 
- # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
- # the Docs). In a normal build, these are supplied from the Makefile via command
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index eeb394b39e2c..8266afd438aa 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -43,6 +43,18 @@ def loadConfig(namespace):
- 
-             namespace['latex_documents'] = new_latex_docs
- 
-+            new_pdf_docs = []
-+            pdf_documents = namespace['pdf_documents']
-+
-+            for l in pdf_documents:
-+                if l[0].find(dir + '/') == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
-+                    break
-+
-+            namespace['pdf_documents'] = new_pdf_docs
-+
-         # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 81a4a1a53bce..8c6b3ac4ecb0 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
- html: all
- epub: all
- xml: all
-+pdf: all
- latex: $(IMGPDF) all
- linkcheck:
- 
-diff --git a/Makefile b/Makefile
-index 43ecedeb3f02..db4043578eec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile
-+			 outputmakefile rst2pdf
- no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
- single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
- 
-@@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
- 
- # Documentation targets
- # ---------------------------------------------------------------------------
--DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-+DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
- 	       linkcheckdocs dochelp refcheckdocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
+I think this is the trickiest part.
+With 2MB HugeTLB pages we only need 6 pages, but with 1GB, the number of pages
+we need to allocate increases significantly (4088 pages IIRC).
+And you are using __GFP_HIGH, which will allow us to use more memory (by
+cutting down the watermark), but it might lead to putting the system
+on its knees wrt. memory.
+And yes, I know that once we allocate the 4088 pages, 1GB gets freed, but
+still.
+
+I would like to hear Michal's thoughts on this one, but I wonder if it makes
+sense to not let 1GB-HugeTLB pages be freed.
+
 -- 
-2.29.2
-
-
+Oscar Salvador
+SUSE L3
