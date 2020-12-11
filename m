@@ -2,183 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC892C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48192C2BB40
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:32:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C4BD23DE3
-	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:03:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1020123BF0
+	for <linux-doc@archiver.kernel.org>; Fri, 11 Dec 2020 13:32:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436560AbgLKNDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 08:03:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59456 "EHLO
+        id S2394178AbgLKNbU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 08:31:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436549AbgLKNC6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 08:02:58 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6681C0613D3
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 05:02:17 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id b5so2312845pjl.0
-        for <linux-doc@vger.kernel.org>; Fri, 11 Dec 2020 05:02:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1D/vNhY1Kjir7/4yg4dLbO4XK686OPxm5jp3OAIgbr8=;
-        b=AWawLQUCOwrBbZjG6DCx/CFU1PMdE3Nz/CbFeHJOjYhctFibE5w8pITqDlux9YqPap
-         HMEvI1eBfhOAZB3WkdP800zq4y4ptAbHO0d70OA23/FSfrEarsZFNNva6VWU9EG8qYFJ
-         Bbm5DSlBBXltUxw44fQ2IXKNo+8i+vEfUR6yDLIcGzZCS9YD3PCAxM2IZrtllDVX+9iC
-         kE4S3+p4fLSiAiXortmEjfRzR8lp5zawK0GSKJe5beoajfRlrT2Kv9x+HKrttc3n7sHc
-         aK+up31FuwNld0+2j7B4qxhfEvIbdNWKlMkLop7Y3pxYWb4PQFQJ1KN8dySgu3/ciGu5
-         zyHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1D/vNhY1Kjir7/4yg4dLbO4XK686OPxm5jp3OAIgbr8=;
-        b=JiTBYNpG+78Oeawd/aGvQL6BszWrh97JpDYUDdEiOCQMJJLX2MZ+5H9XP86Hi2GWnJ
-         oGXce67jjpjL5jf5xmwwWHFvxPp4r8Gysq5MwZ9O8i6++E9FdUpdt4jKUT3u/cjhd7DW
-         vAdC+2FmaNBo8Zd9oiJOsCEXMDVOkrddsqzz2JavukYG7AMgdIA6s7sjiQwAntT3Z2UI
-         id/u85bF8extXOZkFUoURai/metHHHduuO1E1R1djlV4nQcpFKk4rsjsA6sR3c0OpoRE
-         yOeUaWcK+PX9qGlcoQe6DJqZEwy6HG2qqc4ssNtv9sgDY9+auYmnl47aZWq27HHGwwZa
-         MaIA==
-X-Gm-Message-State: AOAM532TkJZXKHash1Bn/BhofxDViQv2DDCyBbtiAyxBmvNMyT8TH48O
-        UDw/dwAB9gF96Bg9v8Wu+A3D+PVd5L8KMvA/G0BPlyUvWApSzd9o
-X-Google-Smtp-Source: ABdhPJyrkHW1jJ+y4/0xKMaA/QItNsnKqbDwvPlm6ZAwyXs/lLyssO3a2x19vc3Yn8Q2Bv7j1M8leRQeebyI6fqjGK4=
-X-Received: by 2002:a17:902:76c8:b029:d9:d6c3:357d with SMTP id
- j8-20020a17090276c8b02900d9d6c3357dmr10794766plt.34.1607691736785; Fri, 11
- Dec 2020 05:02:16 -0800 (PST)
+        with ESMTP id S2393521AbgLKNbQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 08:31:16 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3246FC0613CF;
+        Fri, 11 Dec 2020 05:30:36 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1607693434;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vPs+PXjGVHxlOB/Nvchr1edaRAyM1X+O6QVeZcxHz34=;
+        b=3MTDNYN7cIuhRhHt2eUJgMlAQzexhjLVGow1jvZps2MmDM1h8FFmjfFTu4VeRqE2HPQx/v
+        oLcsvEbjdF3roZDfgWgaEWQ1un6T97YP5Zhjg+S9rveXU0ixrEcZ/jvGtZaG41pdwDL1J5
+        chogprmkOqU7XIKuYHBp5YOFPlt9VEUT92lPuvrM+VmQXI9t0iX6d4NOkbPDWTGZ8kQAul
+        gsN3VU2Cpa6nO9IbFC1V3YI0zCufWfcGWZw8pvfCkbMIiSFxaz/4SXKygRQdCXnq6raK/t
+        k9V2063qDuPcdS7JZ9cDOkfeHQD2HWRc6e4EJyDJL192Yef5R5fJ6ocqk7hoNg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1607693434;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vPs+PXjGVHxlOB/Nvchr1edaRAyM1X+O6QVeZcxHz34=;
+        b=um+pwlsgKjHt5srVyxPU5j7MMAhBot9S4ux0OggFrgjXX4Pgs4iBir3DISdYhOj8HUFUdS
+        WaaNGcqU/DjnkYDQ==
+To:     Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer\:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+In-Reply-To: <20201211002703.GA47016@fuller.cnet>
+References: <20201203171118.372391-2-mlevitsk@redhat.com> <20201207232920.GD27492@fuller.cnet> <05aaabedd4aac7d3bce81d338988108885a19d29.camel@redhat.com> <87sg8g2sn4.fsf@nanos.tec.linutronix.de> <20201208181107.GA31442@fuller.cnet> <875z5c2db8.fsf@nanos.tec.linutronix.de> <20201209163434.GA22851@fuller.cnet> <87r1nyzogg.fsf@nanos.tec.linutronix.de> <20201210152618.GB23951@fuller.cnet> <87zh2lib8l.fsf@nanos.tec.linutronix.de> <20201211002703.GA47016@fuller.cnet>
+Date:   Fri, 11 Dec 2020 14:30:34 +0100
+Message-ID: <87v9d8h3lx.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <20201210035526.38938-1-songmuchun@bytedance.com>
- <20201210035526.38938-7-songmuchun@bytedance.com> <20201211093517.GA22210@linux>
-In-Reply-To: <20201211093517.GA22210@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 11 Dec 2020 21:01:40 +0800
-Message-ID: <CAMZfGtX4EF+4V+XQvDdiLXq0L8Q5p7aacK+T0sCc-Kddvg52fA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v8 06/12] mm/hugetlb: Allocate the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 5:35 PM Oscar Salvador <osalvador@suse.de> wrote:
+On Thu, Dec 10 2020 at 21:27, Marcelo Tosatti wrote:
+> On Thu, Dec 10, 2020 at 10:48:10PM +0100, Thomas Gleixner wrote:
+>> You really all live in a seperate universe creating your own rules how
+>> things which other people work hard on to get it correct can be screwed
+>> over.
 >
-> On Thu, Dec 10, 2020 at 11:55:20AM +0800, Muchun Song wrote:
-> > When we free a HugeTLB page to the buddy allocator, we should allocate the
-> > vmemmap pages associated with it. We can do that in the __free_hugepage()
-> "vmemmap pages that describe the range" would look better to me, but it is ok.
+> 	1. T = read timestamp.
+> 	2. migrate (VM stops for a certain period).
+> 	3. use timestamp T.
 
-Thanks.
+This is exactly the problem. Time stops at pause and continues where it
+stopped on resume.
 
+But CLOCK_REALTIME and CLOCK_TAI advanced in reality. So up to the point
+where NTP fixes this - if there is NTP at all - the guest CLOCK_REALTIME
+and CLOCK_TAI are off by tpause.
+
+Now the application gets a packet from the outside world with a
+CLOCK_REALTIME timestamp which is suddenly ahead of the value it reads
+from clock_gettime(CLOCK_REALTIME) by tpause. So what is it supposed to
+do with that? Make stupid assumptions that the other end screwed up
+timekeeping, throw an error that the system it is running on screwed up
+timekeeping? And a second later when NTP catched up it gets the next
+surprise because the systems CLOCK_REALTIME jumped forward unexpectedly
+or if there is no NTP it's confused forever.
+
+How can you even assume that this is correct?
+
+It is exactly the same problem as we had many years ago with hardware
+clocks suddenly stopping to tick which caused quite some stuff to go
+belly up.
+
+In a proper suspend/resume scenario CLOCK_REALTIME/TAI are advanced
+(with a certain degree of accuracy) to compensate for the sleep time, so
+the other end of a communication is at least in the same ballpark, but
+not 50 seconds off.
+
+>> This features first, correctness later frenzy is insane and it better
+>> stops now before you pile even more crap on the existing steaming pile
+>> of insanities.
 >
-> > +#define GFP_VMEMMAP_PAGE             \
-> > +     (GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_HIGH | __GFP_NOWARN)
-> >
-> >  #ifndef VMEMMAP_HPAGE_SHIFT
-> >  #define VMEMMAP_HPAGE_SHIFT          HPAGE_SHIFT
-> > @@ -197,6 +200,11 @@
-> >       (__boundary - 1 < (end) - 1) ? __boundary : (end);               \
-> >  })
-> >
-> > +typedef void (*vmemmap_remap_pte_func_t)(struct page *reuse, pte_t *pte,
-> > +                                      unsigned long start, unsigned long end,
-> > +                                      void *priv);
->
-> Any reason to not have defined GFP_VMEMMAP_PAGE and the new typedef into
-> hugetlb_vmemmap.h?
+> Sure.
 
-Because they can only be used in this hugetlb_vmemmap.c.
+I wish that would be true. OS people - you should know that - are
+fighting forever with hardware people over feature madness and the
+attitude of 'we can fix that in software' which turns often enough out
+to be wrong.
 
->
->
-> > +static void vmemmap_restore_pte_range(struct page *reuse, pte_t *pte,
-> > +                                   unsigned long start, unsigned long end,
-> > +                                   void *priv)
-> > +{
-> > +     pgprot_t pgprot = PAGE_KERNEL;
-> > +     void *from = page_to_virt(reuse);
-> > +     unsigned long addr;
-> > +     struct list_head *pages = priv;
-> [...]
-> > +
-> > +             /*
-> > +              * Make sure that any data that writes to the @to is made
-> > +              * visible to the physical page.
-> > +              */
-> > +             flush_kernel_vmap_range(to, PAGE_SIZE);
->
-> Correct me if I am wrong, but flush_kernel_vmap_range is a NOOP under arches which
-> do not have ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE.
-> Since we only enable support for x86_64, and x86_64 is one of those arches,
-> could we remove this, and introduced later on in case we enable this feature
-> on an arch that needs it?
+Now sadly enough people who suffered from that madness work on
+virtualization and instead of trying to avoid the same problem they go
+off and make it even worse.
 
-OK. Will remove.
+It's the same problem again as with hardware people. Not talking to the
+other people _before_ making uninformed assumptions and decisions.
 
->
-> I am not sure if you need to flush the range somehow, as you did in
-> vmemmap_remap_range.
->
-> > +retry:
-> > +             page = alloc_page(GFP_VMEMMAP_PAGE);
-> > +             if (unlikely(!page)) {
-> > +                     msleep(100);
-> > +                     /*
-> > +                      * We should retry infinitely, because we cannot
-> > +                      * handle allocation failures. Once we allocate
-> > +                      * vmemmap pages successfully, then we can free
-> > +                      * a HugeTLB page.
-> > +                      */
-> > +                     goto retry;
->
-> I think this is the trickiest part.
-> With 2MB HugeTLB pages we only need 6 pages, but with 1GB, the number of pages
-> we need to allocate increases significantly (4088 pages IIRC).
-> And you are using __GFP_HIGH, which will allow us to use more memory (by
-> cutting down the watermark), but it might lead to putting the system
-> on its knees wrt. memory.
-> And yes, I know that once we allocate the 4088 pages, 1GB gets freed, but
-> still.
+We did it that way because big customer asked for it is not a
+justification for inflicting this on everybody else and thereby
+violating correctness. Works for me and my big customer is not a proof
+of correctness either.
 
-Yeah, it is a problem. How about removing __GFP_HIGH only for
-1GB HugeTLB page?
+It's another proof that this industry just "works" by chance.
 
->
-> I would like to hear Michal's thoughts on this one, but I wonder if it makes
-> sense to not let 1GB-HugeTLB pages be freed.
->
-> --
-> Oscar Salvador
-> SUSE L3
+Thanks,
 
-
-
--- 
-Yours,
-Muchun
+        tglx
