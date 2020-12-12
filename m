@@ -2,101 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F033C54F58
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E5BC54F9D
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BC032343E
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 266CF2343E
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 01:01:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394868AbgLLAEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 11 Dec 2020 19:04:43 -0500
-Received: from ms.lwn.net ([45.79.88.28]:48070 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393137AbgLLAEc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 11 Dec 2020 19:04:32 -0500
-X-Greylist: delayed 11692 seconds by postgrey-1.27 at vger.kernel.org; Fri, 11 Dec 2020 19:04:32 EST
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B39E67C0;
-        Sat, 12 Dec 2020 00:03:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B39E67C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607731432; bh=o++ZPZqcqfuEVZJsJirVpVOijN/mx4tZnsSRtY15qIk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qBh0TvjL2YDOaZBh9ywPwJCPKqhfTLFImC/0QxbXsfldcSbB/waTdnk2GRSV7JqWC
-         6Sz1G8nL8rGZMDCI1aE6iEjsM6rdnmfkPojETyrSKina6bX00opP9MqIGIsUHXl2gj
-         MgWv+LzF913n+ZzFPJ+f+mRA6SmPZESH8iKSrGyv02Ew2TxlXh91/6x0PE3OM8Q0f+
-         W2iiM+WgTqRdMiihOq/V6x0WfvEbfEo3VGnyYqD+UFkn+v+Jwu+PpqRGOiu0wWJ953
-         Qj/9UrT+WXrLzJBBbRAlTFftCl9v13x+x3bKKlWWIPufSRHuFGDeGG55oLsTp1mLlr
-         PF0Hkf3Nb9Q5w==
-Date:   Fri, 11 Dec 2020 17:03:50 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201211170350.4f27ad8d@lwn.net>
-In-Reply-To: <20201212005435.0e1a0871@coco.lan>
-References: <20201210172938.3b3086b6@coco.lan>
-        <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-        <20201211134859.5ab8e0c2@lwn.net>
-        <20201212005435.0e1a0871@coco.lan>
-Organization: LWN.net
+        id S2437516AbgLLAI1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 11 Dec 2020 19:08:27 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2087 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437470AbgLLAH6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 11 Dec 2020 19:07:58 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fd409b60000>; Fri, 11 Dec 2020 16:07:18 -0800
+Received: from [10.2.58.108] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 12 Dec
+ 2020 00:07:09 +0000
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
+        David Hildenbrand <david@redhat.com>
+CC:     Jason Gunthorpe <jgg@ziepe.ca>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        "Oscar Salvador" <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Sasha Levin" <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        "Joonsoo Kim" <iamjoonsoo.kim@lge.com>, <mike.kravetz@oracle.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
+References: <CA+CK2bCc9gk3Yy+ueaZVJs90MFE3fqukLsdb5R2kTUH4tWRbkA@mail.gmail.com>
+ <447A41F3-EB94-4DA4-8B98-038B127774A5@redhat.com>
+ <CA+CK2bAok_0Q+AovxVYqtsObVbbxr+ZZcTgP76uxEvDy-uJWsQ@mail.gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <9c201f8c-6266-ed03-e419-12edd8148fdb@nvidia.com>
+Date:   Fri, 11 Dec 2020 16:07:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bAok_0Q+AovxVYqtsObVbbxr+ZZcTgP76uxEvDy-uJWsQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607731638; bh=GE26nCzQ9HfpnpJ/4kq8ZcBVZOfOrwVSu+Matl1W4V0=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=hnjxYUKJZY/IWx8fOrko9qKAIHQ0lvPgjIe708zMbhQ6DNTfpnzpmlWTt4TFi+OqI
+         /RbazPTJrJQWAAKMicUsQipszn5aj1fjHGUnAvfxMbW4D+7GDZbmvKuV4Q5EV9ne8Z
+         krbF7LtVNO9bHbo77xY4AH77SzliappiRIxnAfwp77lpA0axIpo2+8uEYQyatuvCwC
+         SAf0PNLh0OHqGujN6DbP1boYVxOKfwNWRBhYHRze9xE5sarVU1w91K/FCOfklEMyYh
+         YAklh8SSjyngvzKoyizVo/TD1Jlct4F3UcWXvXSFCJ2Zkai9VEDXpFz9eVEFVzkzIp
+         4wjv2KxnqmZcw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 12 Dec 2020 00:54:35 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> I'm not an usual python programmer, so, don't know much about its 
-> specifics... Yet, I would be expecting that something like this:
+On 12/11/20 3:00 PM, Pavel Tatashin wrote:
+>> I guess revert what we did (unpin) and return an error. The interesting question is what can make migration/isolation fail
 > 
-> 	try:
-> 	    extensions.append("rst2pdf.pdfbuilder")
-> 	except:
-> 	    sys.stderr.write('rst2pdf extension not available.\n')
-> 	
-> 
-> Would avoid it to crash, if the extension is not available.
-> Silly me :-)
+> OK. I will make the necessary changes. Let's handle errors properly.
+> Whatever the cause for the error, we will know it when it happens, and
+> when error is returned. I think I will add a 10-time retry instead of
+> the infinite retry that we currently have. The 10-times retry we
+> currently have during the hot-remove path.
 
-No, that's not going to do it, for a couple of reasons.  First being that
-all it's doing is appending a string to a list, which pretty much always
-succeeds.  The attempt to actually import the module happens later.
+It occurs to me that maybe the pre-existing infinite loop shouldn't be
+there at all? Would it be better to let the callers retry? Obviously that
+would be a separate patch and I'm not sure it's safe to make that change,
+but the current loop seems buried maybe too far down.
 
-...and you won't catch that either because it isn't actually throwing an
-exception, it's just noting the problem and giving up.
+Thoughts, anyone?
 
-The right solution is probably something like this:
-
-	try:
-	    import rst2pdf
-	    extensions.append('rst2pdf.pdfbuilder')
-	except ModuleNotFoundError:
-	    pass # no rst2pdf for you
-
-This is totally untested, of course.
-
-[Incidentally, a blank "except:" clause like the one you had is, in my
-experience, a bad idea.  That will catch *anything*, leading to hiding all
-kinds of bugs.  Not that I've ever committed such a faux pas and suffered
-the consequences myself...no...never...honest...]
-
-I'll mess with this a bit more later.
-
-Thanks,
-
-jon
+thanks,
+-- 
+John Hubbard
+NVIDIA
