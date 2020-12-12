@@ -2,204 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD4BC4361B
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 14:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B8BC4361B
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 16:03:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51B5322BEA
-	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 14:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B045F22AAF
+	for <linux-doc@archiver.kernel.org>; Sat, 12 Dec 2020 16:03:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439172AbgLLOef (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 12 Dec 2020 09:34:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725550AbgLLOef (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Dec 2020 09:34:35 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D974BC0613CF;
-        Sat, 12 Dec 2020 06:33:54 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id cm17so12467862edb.4;
-        Sat, 12 Dec 2020 06:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1ysjGHJCqoELjN/o6Ll5rueoAoZM1cNxe2y7UCTlF04=;
-        b=Zq3fEMjuP+QSEG9N3Rq4e6l4DAgKjPnXThIeusTrtO/97+iN+MdCPT6pwLYWYtxj/R
-         eG8vD2aGGvR4UIYUnRClKWHV46GcEafNUK1yWRWJq8Wu0wRDJAfwz7YXlmvSo74tjOBj
-         mw7HWKHG5SnqCQNxAiQQlDlRtsGbSthXMIRTUXUvkJC+Lz4KoA4jcLNqcLYGOpqudUlK
-         Zyt1xtJi9XjES6yaYSw+sQpvMyDSRTPmLTEaApu8YJfLuKw1rRoC3QDSowh1/4d9SoHB
-         tsPDz5NDqT2LaFjIqQtKnIrmgc5Ba+SxpJlM1GBrw2nEI9qjCrNE+iYtfJcY6XRL/6sv
-         tLQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1ysjGHJCqoELjN/o6Ll5rueoAoZM1cNxe2y7UCTlF04=;
-        b=Y6GPF8jqrYR+xHpUNyO4WHgqWZwR5MQDNsRh+wN1lQas72gyYuhMWEDSzIA+TbA/my
-         4uu84KAXJ5eLisfRLlZoYfS01HwYjTJojaTN0Yo5FDb9dVuCmwNx3V+aMyO2TJf1huxK
-         DQTb1yFK/fnvSJzk78JbJ0/9lQ05scek9dxiYEVc25QcX0/ZwGHx1yGxqkjwo7f0LSK9
-         YywH7zphTWIgUJ+/Bpjf/GOcfqnMx46x27AisIC2fEaPAwCLdTVGEZkOy02MuTr3mkBa
-         FhFs+k7kIVh6CKHux5QSckM0fHqQcL62O+Kz0ktFGlcGySGU/FPRAkctOHeToazxIVU9
-         R97w==
-X-Gm-Message-State: AOAM532wTgQV9iLan3+M+3o8HfqZqC6uNJuLDkH9cvfEyzyPQ6awwRij
-        saO3RKR7H0qXtJnjQRwX+0tKHZflhNs=
-X-Google-Smtp-Source: ABdhPJxju1FAqC1ECfSi/xZzBI6E40EMjNXndwx+1PEi1Btip7tA16tNh/ggXyWZJX0dZStSDv5ziw==
-X-Received: by 2002:a50:9310:: with SMTP id m16mr16960068eda.94.1607783633428;
-        Sat, 12 Dec 2020 06:33:53 -0800 (PST)
-Received: from skbuf ([188.25.2.120])
-        by smtp.gmail.com with ESMTPSA id x15sm10894384edj.91.2020.12.12.06.33.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Dec 2020 06:33:52 -0800 (PST)
-Date:   Sat, 12 Dec 2020 16:33:51 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Libing Zhou <libing.zhou@nokia-sbell.com>, davem@davemloft.net,
-        mingo@redhat.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net/netconsole: Support VLAN for netconsole
-Message-ID: <20201212143351.qzpadffnirht76yh@skbuf>
-References: <20201210100742.8874-1-libing.zhou@nokia-sbell.com>
- <40a77a26-9944-245e-cb16-6690221efbd0@gmail.com>
+        id S2439319AbgLLQCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 12 Dec 2020 11:02:39 -0500
+Received: from gproxy6-pub.mail.unifiedlayer.com ([67.222.39.168]:38817 "EHLO
+        gproxy6-pub.mail.unifiedlayer.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2439313AbgLLQC2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 12 Dec 2020 11:02:28 -0500
+Received: from cmgw15.unifiedlayer.com (unknown [10.9.0.15])
+        by gproxy6.mail.unifiedlayer.com (Postfix) with ESMTP id 5D2611E067D
+        for <linux-doc@vger.kernel.org>; Sat, 12 Dec 2020 09:01:47 -0700 (MST)
+Received: from bh-25.webhostbox.net ([208.91.199.152])
+        by cmsmtp with ESMTP
+        id o7L8kjb0Lh41lo7L9kkvCy; Sat, 12 Dec 2020 09:01:47 -0700
+X-Authority-Reason: nr=8
+X-Authority-Analysis: v=2.3 cv=dtv19Wo4 c=1 sm=1 tr=0
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
+ a=zTNgK-yGK50A:10:nop_rcvd_month_year
+ a=evQFzbml-YQA:10:endurance_base64_authed_username_1 a=VnNF1IyMAAAA:8
+ a=7-WUKsc9rpLG36axMwoA:9 a=CjuIK1q_8ugA:10:nop_charset_2
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+        :Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+        :Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=SONiYC+w5Ngr25MwYgor37vfyb+DMYhcD3u4dlHLhcY=; b=GX0cdE617m4Hnhp5Yacu1K/NtF
+        5yOaFooNMpuV5fj37e3ruItbQReDMItGbRjFL9bI7CWNykP4Nduws7r2jgyQF7hp8gfgUwy61JCsJ
+        +L0IKzS+3fLBrTbpfhBmAD2TLHmjrpUjp0KR2hL8jtij4+LhT/9JDapJWbIJYR1t2l2vEa86aHKQc
+        evukwK21/adlcL+kCNIavOaIRmcBALWTq+lqLJgWxUow5VMkmHCXe22f/u6ec2xDMTEfspJGwz2SP
+        nLYakoJqT4JEgQ4anDolg70aYTtdI2/23EQy2pUZYISRXvfct+HL8rpUImbBx9cWclngC+ZLhNTnK
+        RlTkr9RQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:50062 helo=localhost)
+        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <linux@roeck-us.net>)
+        id 1ko7L6-002phO-Vt; Sat, 12 Dec 2020 16:01:45 +0000
+Date:   Sat, 12 Dec 2020 08:01:44 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matt Turner <mattst88@gmail.com>, Meelis Roos <mroos@linux.ee>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Tony Luck <tony.luck@intel.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mm@kvack.org, linux-snps-arc@lists.infradead.org
+Subject: Re: [PATCH 07/13] ia64: make SPARSEMEM default and disable
+ DISCONTIGMEM
+Message-ID: <20201212160144.GA174701@roeck-us.net>
+References: <20201027112955.14157-1-rppt@kernel.org>
+ <20201027112955.14157-8-rppt@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <40a77a26-9944-245e-cb16-6690221efbd0@gmail.com>
+In-Reply-To: <20201027112955.14157-8-rppt@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1ko7L6-002phO-Vt
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:50062
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 7
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 09:55:16AM -0800, Florian Fainelli wrote:
+On Tue, Oct 27, 2020 at 01:29:49PM +0200, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
+> SPARSEMEM memory model suitable for systems with large holes in their
+> phyiscal memory layout. With SPARSEMEM_VMEMMAP enabled it provides
+> pfn_to_page() and page_to_pfn() as fast as FLATMEM.
 > 
-> On 12/10/2020 2:07 AM, Libing Zhou wrote:
-> > During kernel startup phase, current netconsole doesn’t support VLAN
-> > since there is no VLAN interface setup already.
-> > 
-> > This patch provides VLAN ID and PCP as optional boot/module parameters
-> > to support VLAN environment, thus kernel startup log can be retrieved
-> > via VLAN.
-> > 
-> > Signed-off-by: Libing Zhou <libing.zhou@nokia-sbell.com>
-> > ---
-> >  Documentation/networking/netconsole.rst | 10 ++++-
-> >  drivers/net/netconsole.c                |  3 +-
-> >  include/linux/netpoll.h                 |  3 ++
-> >  net/core/netpoll.c                      | 58 ++++++++++++++++++++++++-
-> >  4 files changed, 70 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-> > index 1f5c4a04027c..a08387fcc3f0 100644
-> > --- a/Documentation/networking/netconsole.rst
-> > +++ b/Documentation/networking/netconsole.rst
-> > @@ -13,6 +13,8 @@ IPv6 support by Cong Wang <xiyou.wangcong@gmail.com>, Jan 1 2013
-> >  
-> >  Extended console support by Tejun Heo <tj@kernel.org>, May 1 2015
-> >  
-> > +VLAN support by Libing Zhou <libing.zhou@nokia-sbell.com>, Dec 8 2020
-> > +
-> >  Please send bug reports to Matt Mackall <mpm@selenic.com>
-> >  Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
-> >  
-> > @@ -34,7 +36,7 @@ Sender and receiver configuration:
-> >  It takes a string configuration parameter "netconsole" in the
-> >  following format::
-> >  
-> > - netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
-> > + netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr][-V<vid:pcp>]
-> >  
-> >     where
-> >  	+             if present, enable extended console support
-> > @@ -44,11 +46,17 @@ following format::
-> >  	tgt-port      port for logging agent (6666)
-> >  	tgt-ip        IP address for logging agent
-> >  	tgt-macaddr   ethernet MAC address for logging agent (broadcast)
-> > +	-V            if present, enable VLAN support
-> > +	vid:pcp       VLAN identifier and priority code point
-> >  
-> >  Examples::
-> >  
-> >   linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
-> >  
-> > +or using VLAN::
-> > +
-> > + linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc-V100:1
-> > +
-> >  or::
-> >  
-> >   insmod netconsole netconsole=@/,@10.0.0.2/
-> > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> > index 92001f7af380..f0690cd6a744 100644
-> > --- a/drivers/net/netconsole.c
-> > +++ b/drivers/net/netconsole.c
-> > @@ -36,7 +36,6 @@
-> >  #include <linux/inet.h>
-> >  #include <linux/configfs.h>
-> >  #include <linux/etherdevice.h>
-> > -
-> >  MODULE_AUTHOR("Maintainer: Matt Mackall <mpm@selenic.com>");
-> >  MODULE_DESCRIPTION("Console driver for network interfaces");
-> >  MODULE_LICENSE("GPL");
-> > @@ -46,7 +45,7 @@ MODULE_LICENSE("GPL");
-> >  
-> >  static char config[MAX_PARAM_LENGTH];
-> >  module_param_string(netconsole, config, MAX_PARAM_LENGTH, 0);
-> > -MODULE_PARM_DESC(netconsole, " netconsole=[src-port]@[src-ip]/[dev],[tgt-port]@<tgt-ip>/[tgt-macaddr]");
-> > +MODULE_PARM_DESC(netconsole, " netconsole=[src-port]@[src-ip]/[dev],[tgt-port]@<tgt-ip>/[tgt-macaddr][-V<vid:pcp>]");
-> >  
-> >  static bool oops_only = false;
-> >  module_param(oops_only, bool, 0600);
-> > diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-> > index e6a2d72e0dc7..8ab3f25cadae 100644
-> > --- a/include/linux/netpoll.h
-> > +++ b/include/linux/netpoll.h
-> > @@ -31,6 +31,9 @@ struct netpoll {
-> >  	bool ipv6;
-> >  	u16 local_port, remote_port;
-> >  	u8 remote_mac[ETH_ALEN];
-> > +	bool vlan_present;
-> > +	u16 vlan_id;
-> > +	u8 pcp;
-> >  };
-> >  
-> >  struct netpoll_info {
-> > diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-> > index 2338753e936b..077a7aec51ae 100644
-> > --- a/net/core/netpoll.c
-> > +++ b/net/core/netpoll.c
-> > @@ -478,6 +478,14 @@ void netpoll_send_udp(struct netpoll *np, const char *msg, int len)
-> >  
-> >  	skb->dev = np->dev;
-> >  
-> > +	if (np->vlan_present) {
-> > +		skb->vlan_proto = htons(ETH_P_8021Q);
-> > +
-> > +		/* htons for tci is done in __vlan_insert_inner_tag, not here */
-> > +		skb->vlan_tci = (np->pcp << VLAN_PRIO_SHIFT) + (np->vlan_id & VLAN_VID_MASK);
-> > +		skb->vlan_present = 1;
-> > +	}
+> Make it the default memory model for IA-64 and disable DISCONTIGMEM which
+> is considered obsolete for quite some time.
 > 
-> This does not seem to be the way to go around this, I would rather
-> specifying eth0.<VID> on the netconsole parameters and automatically
-> create a VLAN interface from that which would ensure that everything
-> works properly and that the VLAN interface is linked to its lower device
-> properly.
-> 
-> If you prefer your current syntax, that is probably fine, too but you
-> should consider registering a VLAN device when you parse appropriate
-> options.
-> -- 
-> Florian
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 
-I don't have a strong opinion, considering that I have not actually
-tried this. I do tend to agree with Florian about registering an 8021q
-interface, as long as there aren't any other complications associated
-with it. As for the syntax, I am not sure if "eth0.<VID>" is universal
-enough to make an ABI out of it.
+This patch results in 
+
+include/linux/mmzone.h:1156:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+ 1156 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
+
+when building ia64:defconfig.
+
+Also, PAGE_SHIFT is not defined, though I don't know if that is related.
+
+Reverting the patch fixes the problem for me.
+
+Guenter
+
+---
+bisect log:
+
+# bad: [3cc2bd440f2171f093b3a8480a4b54d8c270ed38] Add linux-next specific files for 20201211
+# good: [0477e92881850d44910a7e94fc2c46f96faa131f] Linux 5.10-rc7
+git bisect start 'HEAD' 'v5.10-rc7'
+# good: [0a701401d4e29d9e73f0f3cc02179fc6c9191646] Merge remote-tracking branch 'crypto/master'
+git bisect good 0a701401d4e29d9e73f0f3cc02179fc6c9191646
+# good: [6fd39ad603b113e9c68180b9138084710c036e34] Merge remote-tracking branch 'spi/for-next'
+git bisect good 6fd39ad603b113e9c68180b9138084710c036e34
+# good: [c96b2eec436e87b8c673213b203559bed9e551b9] Merge remote-tracking branch 'vfio/next'
+git bisect good c96b2eec436e87b8c673213b203559bed9e551b9
+# good: [4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b] Merge remote-tracking branch 'gpio/for-next'
+git bisect good 4f2e7f6a2ce4e621b77e59c8763549fa8bee7b4b
+# good: [5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2] swiotlb.h: add "inline" to swiotlb_adjust_size
+git bisect good 5ee06b21caaeb37a1ff5143e8ce91b376fe73dc2
+# bad: [46aa09d885ce303efd6444def783ec575a5b57ee] mm, page_poison: remove CONFIG_PAGE_POISONING_ZERO
+git bisect bad 46aa09d885ce303efd6444def783ec575a5b57ee
+# good: [3b77356d530bfd93e2450c063718292aa435eede] mm: mmap_lock: add tracepoints around lock acquisition
+git bisect good 3b77356d530bfd93e2450c063718292aa435eede
+# bad: [e0287fb91c006d12bed9e6fbfc7fe661ad7f9647] mm,hwpoison: disable pcplists before grabbing a refcount
+git bisect bad e0287fb91c006d12bed9e6fbfc7fe661ad7f9647
+# bad: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
+git bisect bad 94d171d065be406a2407f0d723afe14c05526283
+# good: [7499e1e91e18a285274e9b761ba2abf21e4343fa] mm/vmalloc: use free_vm_area() if an allocation fails
+git bisect good 7499e1e91e18a285274e9b761ba2abf21e4343fa
+# good: [eba50fff503fa6d6e20679509a1a960c3e003d22] lib/test_kasan.c: add workqueue test case
+git bisect good eba50fff503fa6d6e20679509a1a960c3e003d22
+# good: [e343d6ff702aaae6181448a38ff85cf201b011ba] ia64: remove 'ifdef CONFIG_ZONE_DMA32' statements
+git bisect good e343d6ff702aaae6181448a38ff85cf201b011ba
+# good: [a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c] ia64: split virtual map initialization out of paging_init()
+git bisect good a0bfb938ae29239a3f13f6a6a4ef41c3c7f0c84c
+# good: [0e791e5138cde9b96d34ba68136fd26bb97f81e5] ia64: forbid using VIRTUAL_MEM_MAP with FLATMEM
+git bisect good 0e791e5138cde9b96d34ba68136fd26bb97f81e5
+# first bad commit: [94d171d065be406a2407f0d723afe14c05526283] ia64: make SPARSEMEM default and disable DISCONTIGMEM
