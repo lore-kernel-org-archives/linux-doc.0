@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F239CC4361B
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87AEC4167B
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB2BD2313B
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:50:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C09002336D
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437367AbgLMPuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 13 Dec 2020 10:50:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34096 "EHLO
+        id S2406507AbgLMPvq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 13 Dec 2020 10:51:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437306AbgLMPsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Dec 2020 10:48:45 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72629C061794
-        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:48:05 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id l23so5143829pjg.1
-        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:48:05 -0800 (PST)
+        with ESMTP id S2437201AbgLMPr5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Dec 2020 10:47:57 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF404C061248
+        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:47:12 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id k65so464559pgk.0
+        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:47:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8NPGizKXhIw6LYHXB/g9S8tO1PI1jnab/kHwdu+D4Ug=;
-        b=oPhLptY/qqtVKcudr08x3sHl/beeopjU2TvjrXHJdbdVPPdS0MzXzYtLXXVwG0Kq9T
-         LBT6BWP2ta14GXxYp9tksWuJeAS6qn8SpJY6r47m4sdbVKSIoNgUnqC28+KRfhvgKzEh
-         rHf6XfhSkWrc68sLAIaVZLFfxWgZgB72Nj/z8hfBYNIXbuuIa+S/Q/pvITtnuZtVnEDK
-         TFUj9PXtBxk4BkbUr2lzrE+//C5cLsozVE4abh8MKeo0enW/Mn00E07+Y9fL+wNaGikY
-         JeGvaAfrOQgZ77NQUeCvXlv8TZTtitHBy8BVJVTBoWOQx2l8K82DhTAZbOUksv7sGT0i
-         57CQ==
+        bh=/UY5+OXSNu8UfWeK3zWQcCdNSo4BtWiu6jtKlnHjBTk=;
+        b=LpAJVwR/AtggCqh/HXEik7Fba5T4Y6khxFO9MSPDtvERvZGNkivS9ssxSzNXB68M6D
+         LFzC4Rp9m6K1zYfnvXonVSXPgrAGyxd6aQDgtrkcL/ceiM3zLlP/HfkIUAQl1+jexRgK
+         JtN+fW1/mVS9pn+8N/7lY8FOmwlnU90l3QIe0/i9Hs6bI2PlyYPmLOd0GAbBtIE1Inia
+         hhBBLFqYc+SyDJroyrqnSgdYKb9uW7rxq5iZo890nyI0gpQ+ugjwdwMr7D67HOPMmSP0
+         cwKveCzzJy1w6jZS8moYumSCwE26oSvlz4g+otowjL+AhCC/2k/1Dw55i78lLVRYhHLz
+         ykZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8NPGizKXhIw6LYHXB/g9S8tO1PI1jnab/kHwdu+D4Ug=;
-        b=SIa5n51WHDsswqRc/KJewNKZpphrCtYTyQaQ9FwxJ0w4tuwmsFKDebyQRUgi99Lh5E
-         ZLN2sujGodcg3QlCS7S3fBx44+cmqkmvr9eEwRFhIdKZWOryMaRyIb5siI93I+4ZyHqx
-         RcuY8ZR88Og2zbjo8yligzjyFByZSBPvv7HMD9Dh1Fn+fCclbIG5Ax34tgWDLkrV6KIP
-         UGwO9KQs7X2SqCgnEGL/PVDtufA9iTPNvDTYs6imbsIksxKfxhVah4YFRLlJ7ppRNnpN
-         VcbBjkGxSrAQqCcJmoy6Aucd4HwETLaQP0KLOULWlZdRbTylh/iyCERoBiqGXEm3NCMQ
-         o6bw==
-X-Gm-Message-State: AOAM532MQGR+F2f/oAIanCyVHaGvlN0GCUrj93Py9vG0Ze88+Pnt0KiH
-        olfCHgzc03sB1JMfK1wLxYOCxA==
-X-Google-Smtp-Source: ABdhPJzpr/Z/RxuagpBkxf5dniRoM/fCaPYTeqJPB/w+ZQSOkCMu4OPhrK8dBKr4Mu4cgwEFvFE4oA==
-X-Received: by 2002:a17:90b:4a81:: with SMTP id lp1mr22041651pjb.55.1607874485011;
-        Sun, 13 Dec 2020 07:48:05 -0800 (PST)
+        bh=/UY5+OXSNu8UfWeK3zWQcCdNSo4BtWiu6jtKlnHjBTk=;
+        b=Q8Mq2q7V2+sudCiCRcw1Q4oHEYQOMOdoUpi9ke1RXWFEuVsmUantsJIXIhIKMJPAHG
+         1aBIEl0R37p1dcqFYqtDPLPNz+i9f86jWSNw38jpi3LoyuSYUUCm7W/r97CqTltYe71h
+         kyUz7+xjW1+lMgG0YWnBWQ16GzLAJq45n3B7eEnAt7YKYuzN73mHVrSOvGx6WDiQP4CU
+         UPOwlQ8bYEoIs3fnBi1HmbhSW8/sK/bJuKv9voHox3BqaxML2V15yFeo6vXOkEOTozma
+         HJJGwgJwtZHFWl8uvtvO92nCMtjB3ZKDxu9paB3fqiDblbNBnxGeBc1xe/BsUWM6QTRn
+         AuxQ==
+X-Gm-Message-State: AOAM531Ow+YZ0WTuCPpCLAwQwSocF453BoGwVTXC+/fuaYmRgLmVEXjY
+        EUdZP/FZMiq3evjITTqBOB3D3A==
+X-Google-Smtp-Source: ABdhPJx6ttNBb9hxOAX4RE8YcdzTHLfEAk2T0tGCYa/oYq7cwR27rBr9hx1rfU4gzkFNS8XHcpWfRw==
+X-Received: by 2002:aa7:9055:0:b029:19e:4bf4:c6bc with SMTP id n21-20020aa790550000b029019e4bf4c6bcmr20125543pfo.58.1607874432387;
+        Sun, 13 Dec 2020 07:47:12 -0800 (PST)
 Received: from localhost.bytedance.net ([103.136.221.66])
-        by smtp.gmail.com with ESMTPSA id e24sm13113753pjt.16.2020.12.13.07.47.55
+        by smtp.gmail.com with ESMTPSA id e24sm13113753pjt.16.2020.12.13.07.47.02
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Dec 2020 07:48:04 -0800 (PST)
+        Sun, 13 Dec 2020 07:47:11 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -70,9 +70,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v9 10/11] mm/hugetlb: Gather discrete indexes of tail page
-Date:   Sun, 13 Dec 2020 23:45:33 +0800
-Message-Id: <20201213154534.54826-11-songmuchun@bytedance.com>
+Subject: [PATCH v9 05/11] mm/hugetlb: Allocate the vmemmap pages associated with each HugeTLB page
+Date:   Sun, 13 Dec 2020 23:45:28 +0800
+Message-Id: <20201213154534.54826-6-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201213154534.54826-1-songmuchun@bytedance.com>
 References: <20201213154534.54826-1-songmuchun@bytedance.com>
@@ -82,177 +82,190 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For HugeTLB page, there are more metadata to save in the struct page.
-But the head struct page cannot meet our needs, so we have to abuse
-other tail struct page to store the metadata. In order to avoid
-conflicts caused by subsequent use of more tail struct pages, we can
-gather these discrete indexes of tail struct page. In this case, it
-will be easier to add a new tail page index later.
-
-There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-page structs can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP, so
-add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
+When we free a HugeTLB page to the buddy allocator, we should allocate the
+vmemmap pages associated with it. We can do that in the __free_hugepage()
+before freeing it to buddy.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- include/linux/hugetlb.h        | 13 +++++++++++++
- include/linux/hugetlb_cgroup.h | 15 +++++++++------
- mm/hugetlb.c                   | 16 ++++++++--------
- mm/hugetlb_vmemmap.c           |  8 ++++++++
- 4 files changed, 38 insertions(+), 14 deletions(-)
+ include/linux/mm.h   |  1 +
+ mm/hugetlb.c         |  2 ++
+ mm/hugetlb_vmemmap.c | 11 +++++++++
+ mm/hugetlb_vmemmap.h |  5 ++++
+ mm/sparse-vmemmap.c  | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 5 files changed, 87 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 66d82ae7b712..7295f6b3d55e 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -28,6 +28,19 @@ typedef struct { unsigned long pd; } hugepd_t;
- #include <linux/shm.h>
- #include <asm/tlbflush.h>
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ab02e405a979..5b8dc36e4d20 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3006,6 +3006,7 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+ #endif
  
-+enum {
-+	SUBPAGE_INDEX_ACTIVE = 1,	/* reuse page flags of PG_private */
-+	SUBPAGE_INDEX_TEMPORARY,	/* reuse page->mapping */
-+#ifdef CONFIG_CGROUP_HUGETLB
-+	SUBPAGE_INDEX_CGROUP = SUBPAGE_INDEX_TEMPORARY,/* reuse page->private */
-+	SUBPAGE_INDEX_CGROUP_RSVD,	/* reuse page->private */
-+#endif
-+#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-+	SUBPAGE_INDEX_HWPOISON,		/* reuse page->private */
-+#endif
-+	NR_USED_SUBPAGE,
-+};
-+
- struct hugepage_subpool {
- 	spinlock_t lock;
- 	long count;
-diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.h
-index 2ad6e92f124a..3d3c1c49efe4 100644
---- a/include/linux/hugetlb_cgroup.h
-+++ b/include/linux/hugetlb_cgroup.h
-@@ -24,8 +24,9 @@ struct file_region;
- /*
-  * Minimum page order trackable by hugetlb cgroup.
-  * At least 4 pages are necessary for all the tracking information.
-- * The second tail page (hpage[2]) is the fault usage cgroup.
-- * The third tail page (hpage[3]) is the reservation usage cgroup.
-+ * The second tail page (hpage[SUBPAGE_INDEX_CGROUP]) is the fault
-+ * usage cgroup. The third tail page (hpage[SUBPAGE_INDEX_CGROUP_RSVD])
-+ * is the reservation usage cgroup.
-  */
- #define HUGETLB_CGROUP_MIN_ORDER	2
+ void vmemmap_remap_reuse(unsigned long start, unsigned long size);
++void vmemmap_remap_restore(unsigned long start, unsigned long size);
  
-@@ -66,9 +67,9 @@ __hugetlb_cgroup_from_page(struct page *page, bool rsvd)
- 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
- 		return NULL;
- 	if (rsvd)
--		return (struct hugetlb_cgroup *)page[3].private;
-+		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP_RSVD);
- 	else
--		return (struct hugetlb_cgroup *)page[2].private;
-+		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP);
- }
- 
- static inline struct hugetlb_cgroup *hugetlb_cgroup_from_page(struct page *page)
-@@ -90,9 +91,11 @@ static inline int __set_hugetlb_cgroup(struct page *page,
- 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
- 		return -1;
- 	if (rsvd)
--		page[3].private = (unsigned long)h_cg;
-+		set_page_private(page + SUBPAGE_INDEX_CGROUP_RSVD,
-+				 (unsigned long)h_cg);
- 	else
--		page[2].private = (unsigned long)h_cg;
-+		set_page_private(page + SUBPAGE_INDEX_CGROUP,
-+				 (unsigned long)h_cg);
- 	return 0;
- }
- 
+ void *sparse_buffer_alloc(unsigned long size);
+ struct page * __populate_section_memmap(unsigned long pfn,
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 2b45235a70e9..0e8f13184de0 100644
+index 0ff9b90e524f..542e6cb81321 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -1360,7 +1360,7 @@ static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
- 	if (!PageHWPoison(head) || !free_vmemmap_pages_per_hpage(h))
- 		return;
- 
--	page = head + page_private(head + 4);
-+	page = head + page_private(head + SUBPAGE_INDEX_HWPOISON);
- 
- 	/*
- 	 * Move PageHWPoison flag from head page to the raw error page,
-@@ -1379,7 +1379,7 @@ static inline void hwpoison_subpage_set(struct hstate *h, struct page *head,
- 		return;
- 
- 	if (free_vmemmap_pages_per_hpage(h)) {
--		set_page_private(head + 4, page - head);
-+		set_page_private(head + SUBPAGE_INDEX_HWPOISON, page - head);
- 	} else if (page != head) {
- 		/*
- 		 * Move PageHWPoison flag from head page to the raw error page,
-@@ -1456,20 +1456,20 @@ struct hstate *size_to_hstate(unsigned long size)
- bool page_huge_active(struct page *page)
+@@ -1362,6 +1362,8 @@ static void __free_hugepage(struct hstate *h, struct page *page)
  {
- 	VM_BUG_ON_PAGE(!PageHuge(page), page);
--	return PageHead(page) && PagePrivate(&page[1]);
-+	return PageHead(page) && PagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
- }
+ 	int i;
  
- /* never called for tail page */
- static void set_page_huge_active(struct page *page)
- {
- 	VM_BUG_ON_PAGE(!PageHeadHuge(page), page);
--	SetPagePrivate(&page[1]);
-+	SetPagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
- }
- 
- static void clear_page_huge_active(struct page *page)
- {
- 	VM_BUG_ON_PAGE(!PageHeadHuge(page), page);
--	ClearPagePrivate(&page[1]);
-+	ClearPagePrivate(&page[SUBPAGE_INDEX_ACTIVE]);
- }
- 
- /*
-@@ -1481,17 +1481,17 @@ static inline bool PageHugeTemporary(struct page *page)
- 	if (!PageHuge(page))
- 		return false;
- 
--	return (unsigned long)page[2].mapping == -1U;
-+	return (unsigned long)page[SUBPAGE_INDEX_TEMPORARY].mapping == -1U;
- }
- 
- static inline void SetPageHugeTemporary(struct page *page)
- {
--	page[2].mapping = (void *)-1U;
-+	page[SUBPAGE_INDEX_TEMPORARY].mapping = (void *)-1U;
- }
- 
- static inline void ClearPageHugeTemporary(struct page *page)
- {
--	page[2].mapping = NULL;
-+	page[SUBPAGE_INDEX_TEMPORARY].mapping = NULL;
- }
- 
- static void __free_huge_page(struct page *page)
++	alloc_huge_page_vmemmap(h, page);
++
+ 	for (i = 0; i < pages_per_huge_page(h); i++) {
+ 		page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
+ 				1 << PG_referenced | 1 << PG_dirty |
 diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index d3b4c39f67c0..bbcefd5fb7d1 100644
+index 6d4e77a2b6c7..02201c2e3dfa 100644
 --- a/mm/hugetlb_vmemmap.c
 +++ b/mm/hugetlb_vmemmap.c
-@@ -232,6 +232,14 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	unsigned int nr_pages = pages_per_huge_page(h);
- 	unsigned int vmemmap_pages;
+@@ -185,6 +185,17 @@ static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
+ 	return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
+ }
  
-+	/*
-+	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-+	 * page structs can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP, so
-+	 * add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-+	 */
-+	BUILD_BUG_ON(NR_USED_SUBPAGE >=
-+		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
++void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
++{
++	unsigned long vmemmap_addr = (unsigned long)head;
 +
- 	if (!hugetlb_free_vmemmap_enabled)
- 		return;
++	if (!free_vmemmap_pages_per_hpage(h))
++		return;
++
++	vmemmap_remap_restore(vmemmap_addr + RESERVE_VMEMMAP_SIZE,
++			      free_vmemmap_pages_size_per_hpage(h));
++}
++
+ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+ {
+ 	unsigned long vmemmap_addr = (unsigned long)head;
+diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+index 01f8637adbe0..b2c8d2f11d48 100644
+--- a/mm/hugetlb_vmemmap.h
++++ b/mm/hugetlb_vmemmap.h
+@@ -11,6 +11,7 @@
+ #include <linux/hugetlb.h>
  
+ #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
++void alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
+ void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+ 
+ /*
+@@ -25,6 +26,10 @@ static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
+ 	return 0;
+ }
+ #else
++static inline void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
++{
++}
++
+ static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+ {
+ }
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index 78c527617e8d..ffcf092c92ed 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -29,6 +29,7 @@
+ #include <linux/sched.h>
+ #include <linux/pgtable.h>
+ #include <linux/bootmem_info.h>
++#include <linux/delay.h>
+ 
+ #include <asm/dma.h>
+ #include <asm/pgalloc.h>
+@@ -39,7 +40,8 @@
+  *
+  * @rmap_pte:		called for each non-empty PTE (lowest-level) entry.
+  * @reuse:		the page which is reused for the tail vmemmap pages.
+- * @vmemmap_pages:	the list head of the vmemmap pages that can be freed.
++ * @vmemmap_pages:	the list head of the vmemmap pages that can be freed
++ *			or is mapped from.
+  */
+ struct vmemmap_rmap_walk {
+ 	void (*rmap_pte)(pte_t *pte, unsigned long addr,
+@@ -54,6 +56,9 @@ struct vmemmap_rmap_walk {
+  */
+ #define VMEMMAP_TAIL_PAGE_REUSE		-1
+ 
++/* The gfp mask of allocating vmemmap page */
++#define GFP_VMEMMAP_PAGE	(GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_NOWARN)
++
+ static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
+ 			      unsigned long end, struct vmemmap_rmap_walk *walk)
+ {
+@@ -200,6 +205,68 @@ void vmemmap_remap_reuse(unsigned long start, unsigned long size)
+ 	free_vmemmap_page_list(&vmemmap_pages);
+ }
+ 
++static void vmemmap_remap_restore_pte(pte_t *pte, unsigned long addr,
++				      struct vmemmap_rmap_walk *walk)
++{
++	pgprot_t pgprot = PAGE_KERNEL;
++	struct page *page;
++	void *to;
++
++	BUG_ON(pte_page(*pte) != walk->reuse);
++
++	page = list_first_entry(walk->vmemmap_pages, struct page, lru);
++	list_del(&page->lru);
++	to = page_to_virt(page);
++	copy_page(to, page_to_virt(walk->reuse));
++
++	set_pte_at(&init_mm, addr, pte, mk_pte(page, pgprot));
++}
++
++static void alloc_vmemmap_page_list(struct list_head *list,
++				    unsigned long nr_pages)
++{
++	while (nr_pages--) {
++		struct page *page;
++
++retry:
++		page = alloc_page(GFP_VMEMMAP_PAGE);
++		if (unlikely(!page)) {
++			msleep(100);
++			/*
++			 * We should retry infinitely, because we cannot
++			 * handle allocation failures. Once we allocate
++			 * vmemmap pages successfully, then we can free
++			 * a HugeTLB page.
++			 */
++			goto retry;
++		}
++		list_add_tail(&page->lru, list);
++	}
++}
++
++/**
++ * vmemmap_remap_restore - remap the vmemmap virtual address range
++ *                         [start, start + size) to the page respectively
++ *                         which from the @vmemmap_pages
++ * @start:	start address of the vmemmap virtual address range
++ * @end:	size of the vmemmap virtual address range
++ */
++void vmemmap_remap_restore(unsigned long start, unsigned long size)
++{
++	LIST_HEAD(vmemmap_pages);
++	unsigned long end = start + size;
++
++	struct vmemmap_rmap_walk walk = {
++		.rmap_pte	= vmemmap_remap_restore_pte,
++		.vmemmap_pages	= &vmemmap_pages,
++	};
++
++	might_sleep();
++
++	alloc_vmemmap_page_list(&vmemmap_pages, size >> PAGE_SHIFT);
++	vmemmap_remap_range(start, end, &walk);
++}
++
+ /*
+  * Allocate a block of memory to be used to back the virtual memory map
+  * or to back the page tables that are used to create the mapping.
 -- 
 2.11.0
 
