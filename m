@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42012C4361B
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E248C4361B
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CA322333C
-	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A2B42313B
+	for <linux-doc@archiver.kernel.org>; Sun, 13 Dec 2020 15:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437167AbgLMPrx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2437132AbgLMPrx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 13 Dec 2020 10:47:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33944 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437052AbgLMPrw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Dec 2020 10:47:52 -0500
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CD9C0613D6
-        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:47:02 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id 131so10422419pfb.9
-        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:47:02 -0800 (PST)
+        with ESMTP id S2406480AbgLMPrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 13 Dec 2020 10:47:40 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6189FC0617A6
+        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:46:41 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id f14so4867695pju.4
+        for <linux-doc@vger.kernel.org>; Sun, 13 Dec 2020 07:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JzVjZqxZV7qnxps+XwTtc4y07Zkwq00cj3VktTcKlD8=;
-        b=17mJ8xTPcqAavz6MM0pAp760eQvu1eOoW7F90e/v4d0+No+R9P9OubAYsCbNcLEVhi
-         4F0PXmlUXQFrHZ9DUsY9oNcKkrUtmWslkjdROemZ8jxKIB3hQNMxHC8Mv8x+h5ZhPvxL
-         Adxo2ov7TO6cwdxhIwXM0qqP1p0Q6Rotkex5ZSXtGG91+2tmsRdIvOz054gGerKyvbIj
-         zH6QlfqKm1N3wu0FuKGDww9JNOPgPJia8daKsll0Z/Eq1PC2lxqOfbs9hTHFlFo9ONzl
-         X/3K/NXu8SIIM6/85FW17Zvms5Ahn2mUr4mVNX4RBRxzkpc/YaZNHnOCgnLlkaiA/K7U
-         tACA==
+        bh=0qsAVJu/9vqouKcThrGhG8OM4QgmEtPOs8IzBVJC9Eg=;
+        b=bcCqwkwnJlHPPNe4wEpW5hjoTWMM+1oRkxutnuCbTtrmGvuy15sSG1xKY2/ayuRD36
+         QfiyN5tXQ8iGvdNERtKYMTDpzmQa/ldlrTr4OW1Fzf2LmtD4UrcFyR2u02xJX7cnHClz
+         pfwOe1qOqFY3zrBEbJqfghpMX5rA1zGA9Wa/5aSEKIG/7kFgGF1WPwVR2mcI6D88NidF
+         Ta+hwRMvhCv4dk6a/h1VI/xRv91DG7oK0kT7ENQ9et5wWTxBtQze/pnnwKulTz2/xulH
+         Vumpi3lNg4/0RCY7rfLqcgd/5vMzFVnS+yNY6sANV2Aww7az8eiWjw67kkA35YRdqZW9
+         fQVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JzVjZqxZV7qnxps+XwTtc4y07Zkwq00cj3VktTcKlD8=;
-        b=eLMB3HHikBmXxK/wAPTQAghqNPUJrk07MNLeovrSIFzZ+AiwlSlQaRIeL4lDjqJVwv
-         OUJkQL0oxjmqyhSvfb6SkWJPt9RnS58GV2ZKhUlbmLdMZopcMB9QLxvzRnB3Gk6cBbvp
-         vdfwRv/LyNiHjO27kjIN6uSlJe4PpaIbb4lYr4KCX02tK3WMkzWNyN4Wp42kPK/FbyGS
-         prqocUyKBKsADEe8d2f7gz9SQp++NAXcXwb6SD+Vd6Awl+WI6v7lhApZBbtaHCxD60Uv
-         Ps0Bef/hBlkQiBgDzJ3i/AFOSEjfncoZjRhoaK1q43dNXxBqu59JPnszH4G6ARSlI+Ib
-         awdA==
-X-Gm-Message-State: AOAM532ZnFixyNlqzX//Q0OadzRDvoRNRJwK6F+jox5oXHemblUtu5vo
-        krWuCvp/lbscYHZ94t3ZTTRX7Q==
-X-Google-Smtp-Source: ABdhPJwTdVq1N13ImJdxPVfax9bptCqn2O3MF5sosHV3Bj6TaA1ng4gLRWLVQ+rMi1MnmyQiDitiNw==
-X-Received: by 2002:a63:6e0d:: with SMTP id j13mr20805782pgc.236.1607874421951;
-        Sun, 13 Dec 2020 07:47:01 -0800 (PST)
+        bh=0qsAVJu/9vqouKcThrGhG8OM4QgmEtPOs8IzBVJC9Eg=;
+        b=ShinCl5J4maVR3/sUV1a/0X/ll6Cp4iA7Q5Fc1NkYsJgK+bitb1baXkjyVFWZlt3Vr
+         EOlY9fLK21bGd1VJJDIN5JUnKWoOpIQkFQKNk5MgTdyaLS1N+qcJTUOdg5UdR8WMoCnk
+         RS1iqGTkLLgNBgSENytArXLpmPNjy7DuoZhAYXqjCMselHEWm9YrGWBk/rPqqmJgrq/e
+         hmweRqULdWdGSzBf0VOl7/ERAx3O7Ib0yGVE5RlJyNVPi/1Lx9bJoFOn/aNR7jj3MPmJ
+         opcOlUYgP6pd1jIlTCzHWzEFq1pOEbTc1/7WCklCSwMXVFBf3qKc87fP/9h8ZGx65NXk
+         oulA==
+X-Gm-Message-State: AOAM5339VUy4EqxuRnFJ3Y+UOP6iPt/3g3skDUqNG3Tu8Tc6YN91v4si
+        WAFUVolNeHmfH5VmBltL0BmXFw==
+X-Google-Smtp-Source: ABdhPJwPhF1kEZCNrZ52wXqgSJ5X0GJE2c5s27DHWYT+jpGXu3QnSrBZF6KISGYeD2zuJBx1zYnGaw==
+X-Received: by 2002:a17:902:c395:b029:da:9aca:c972 with SMTP id g21-20020a170902c395b02900da9acac972mr19420371plg.32.1607874400964;
+        Sun, 13 Dec 2020 07:46:40 -0800 (PST)
 Received: from localhost.bytedance.net ([103.136.221.66])
-        by smtp.gmail.com with ESMTPSA id e24sm13113753pjt.16.2020.12.13.07.46.51
+        by smtp.gmail.com with ESMTPSA id e24sm13113753pjt.16.2020.12.13.07.46.31
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Dec 2020 07:47:01 -0800 (PST)
+        Sun, 13 Dec 2020 07:46:40 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -70,9 +70,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v9 04/11] mm/hugetlb: Defer freeing of HugeTLB pages
-Date:   Sun, 13 Dec 2020 23:45:27 +0800
-Message-Id: <20201213154534.54826-5-songmuchun@bytedance.com>
+Subject: [PATCH v9 02/11] mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+Date:   Sun, 13 Dec 2020 23:45:25 +0800
+Message-Id: <20201213154534.54826-3-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20201213154534.54826-1-songmuchun@bytedance.com>
 References: <20201213154534.54826-1-songmuchun@bytedance.com>
@@ -82,177 +82,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the subsequent patch, we will allocate the vmemmap pages when free
-HugeTLB pages. But update_and_free_page() is called from a non-task
-context(and hold hugetlb_lock), so we can defer the actual freeing in
-a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+The purpose of introducing HUGETLB_PAGE_FREE_VMEMMAP is to configure
+whether to enable the feature of freeing unused vmemmap associated with
+HugeTLB pages. And this is just for dependency check. Now only support
+x86-64.
+
+Because this config depends on HAVE_BOOTMEM_INFO_NODE. And the function
+of the register_page_bootmem_info() is aimed to register bootmem info.
+So we should register bootmem info when this config is enabled.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/hugetlb.c         | 77 ++++++++++++++++++++++++++++++++++++++++++++++++----
- mm/hugetlb_vmemmap.c | 12 --------
- mm/hugetlb_vmemmap.h | 17 ++++++++++++
- 3 files changed, 88 insertions(+), 18 deletions(-)
+ arch/x86/mm/init_64.c |  2 +-
+ fs/Kconfig            | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 140135fc8113..0ff9b90e524f 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1292,15 +1292,76 @@ static inline void destroy_compound_gigantic_page(struct page *page,
- 						unsigned int order) { }
- #endif
+diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+index 0a45f062826e..0435bee2e172 100644
+--- a/arch/x86/mm/init_64.c
++++ b/arch/x86/mm/init_64.c
+@@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
  
--static void update_and_free_page(struct hstate *h, struct page *page)
-+static void __free_hugepage(struct hstate *h, struct page *page);
-+
-+/*
-+ * As update_and_free_page() is be called from a non-task context(and hold
-+ * hugetlb_lock), we can defer the actual freeing in a workqueue to prevent
-+ * use GFP_ATOMIC to allocate a lot of vmemmap pages.
-+ *
-+ * update_hpage_vmemmap_workfn() locklessly retrieves the linked list of
-+ * pages to be freed and frees them one-by-one. As the page->mapping pointer
-+ * is going to be cleared in update_hpage_vmemmap_workfn() anyway, it is
-+ * reused as the llist_node structure of a lockless linked list of huge
-+ * pages to be freed.
-+ */
-+static LLIST_HEAD(hpage_update_freelist);
-+
-+static void update_hpage_vmemmap_workfn(struct work_struct *work)
+ static void __init register_page_bootmem_info(void)
  {
--	int i;
-+	struct llist_node *node;
-+	struct page *page;
-+
-+	node = llist_del_all(&hpage_update_freelist);
+-#ifdef CONFIG_NUMA
++#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+ 	int i;
  
-+	while (node) {
-+		page = container_of((struct address_space **)node,
-+				     struct page, mapping);
-+		node = node->next;
-+		page->mapping = NULL;
-+		__free_hugepage(page_hstate(page), page);
-+
-+		cond_resched();
-+	}
-+}
-+static DECLARE_WORK(hpage_update_work, update_hpage_vmemmap_workfn);
-+
-+static inline void __update_and_free_page(struct hstate *h, struct page *page)
-+{
-+	/* No need to allocate vmemmap pages */
-+	if (!free_vmemmap_pages_per_hpage(h)) {
-+		__free_hugepage(h, page);
-+		return;
-+	}
-+
-+	/*
-+	 * Defer freeing to avoid using GFP_ATOMIC to allocate vmemmap
-+	 * pages.
-+	 *
-+	 * Only call schedule_work() if hpage_update_freelist is previously
-+	 * empty. Otherwise, schedule_work() had been called but the workfn
-+	 * hasn't retrieved the list yet.
-+	 */
-+	if (llist_add((struct llist_node *)&page->mapping,
-+		      &hpage_update_freelist))
-+		schedule_work(&hpage_update_work);
-+}
-+
-+static void update_and_free_page(struct hstate *h, struct page *page)
-+{
- 	if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
- 		return;
+ 	for_each_online_node(i)
+diff --git a/fs/Kconfig b/fs/Kconfig
+index 976e8b9033c4..4c3a9c614983 100644
+--- a/fs/Kconfig
++++ b/fs/Kconfig
+@@ -245,6 +245,21 @@ config HUGETLBFS
+ config HUGETLB_PAGE
+ 	def_bool HUGETLBFS
  
- 	h->nr_huge_pages--;
- 	h->nr_huge_pages_node[page_to_nid(page)]--;
++config HUGETLB_PAGE_FREE_VMEMMAP
++	def_bool HUGETLB_PAGE
++	depends on X86_64
++	depends on SPARSEMEM_VMEMMAP
++	depends on HAVE_BOOTMEM_INFO_NODE
++	help
++	  When using HUGETLB_PAGE_FREE_VMEMMAP, the system can save up some
++	  memory from pre-allocated HugeTLB pages when they are not used.
++	  6 pages per HugeTLB page of the pmd level mapping and (PAGE_SIZE - 2)
++	  pages per HugeTLB page of the pud level mapping.
 +
-+	__update_and_free_page(h, page);
-+}
++	  When the pages are going to be used or freed up, the vmemmap array
++	  representing that range needs to be remapped again and the pages
++	  we discarded earlier need to be rellocated again.
 +
-+static void __free_hugepage(struct hstate *h, struct page *page)
-+{
-+	int i;
-+
- 	for (i = 0; i < pages_per_huge_page(h); i++) {
- 		page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
- 				1 << PG_referenced | 1 << PG_dirty |
-@@ -1313,13 +1374,17 @@ static void update_and_free_page(struct hstate *h, struct page *page)
- 	set_page_refcounted(page);
- 	if (hstate_is_gigantic(h)) {
- 		/*
--		 * Temporarily drop the hugetlb_lock, because
--		 * we might block in free_gigantic_page().
-+		 * Temporarily drop the hugetlb_lock only when this type of
-+		 * HugeTLB page does not support vmemmap optimization (which
-+		 * contex do not hold the hugetlb_lock), because we might block
-+		 * in free_gigantic_page().
- 		 */
--		spin_unlock(&hugetlb_lock);
-+		if (!free_vmemmap_pages_per_hpage(h))
-+			spin_unlock(&hugetlb_lock);
- 		destroy_compound_gigantic_page(page, huge_page_order(h));
- 		free_gigantic_page(page, huge_page_order(h));
--		spin_lock(&hugetlb_lock);
-+		if (!free_vmemmap_pages_per_hpage(h))
-+			spin_lock(&hugetlb_lock);
- 	} else {
- 		__free_pages(page, huge_page_order(h));
- 	}
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 5a714bd60d6b..6d4e77a2b6c7 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -180,18 +180,6 @@
- #define RESERVE_VMEMMAP_NR		2U
- #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+ config MEMFD_CREATE
+ 	def_bool TMPFS || HUGETLBFS
  
--/*
-- * How many vmemmap pages associated with a HugeTLB page that can be freed
-- * to the buddy allocator.
-- *
-- * Todo: Returns zero for now, which means the feature is disabled. We will
-- * enable it once all the infrastructure is there.
-- */
--static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
--{
--	return 0;
--}
--
- static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
- {
- 	return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index 6923f03534d5..01f8637adbe0 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -12,9 +12,26 @@
- 
- #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
- void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-+
-+/*
-+ * How many vmemmap pages associated with a HugeTLB page that can be freed
-+ * to the buddy allocator.
-+ *
-+ * Todo: Returns zero for now, which means the feature is disabled. We will
-+ * enable it once all the infrastructure is there.
-+ */
-+static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
-+{
-+	return 0;
-+}
- #else
- static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- }
-+
-+static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
-+{
-+	return 0;
-+}
- #endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
- #endif /* _LINUX_HUGETLB_VMEMMAP_H */
 -- 
 2.11.0
 
