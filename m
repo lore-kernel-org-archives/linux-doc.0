@@ -5,33 +5,33 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2501FC4361B
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:04:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B5FBC4361B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:10:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7FB222B40
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:04:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B049922B47
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408047AbgLNOEZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Dec 2020 09:04:25 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56586 "EHLO mx2.suse.de"
+        id S1732202AbgLNOKA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Dec 2020 09:10:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60132 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731840AbgLNOEZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Dec 2020 09:04:25 -0500
+        id S1731394AbgLNOKA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Dec 2020 09:10:00 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1607954619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1607954953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=HQdxKLHG4KjlshDHSNjNPPhYXulApwPDLbssolkNoJc=;
-        b=L9W6oCEnlei941fAO1yaDiBi6ShMzHnjLWPYxRNiO8oW6mgu9B+R/YTld8mjdQ8fkNR9id
-        4lA2Ww+eln8GMpgkgtQnTSspzwujFVpahvAxsfhxjSDa+hoARP92giv+dgs+h1Bd9LAQKj
-        Bd9eQerASJ3qrOz4Veqr3i70vvChixc=
+        bh=n3x7DoQ25WP73SRWg/ewj9P5+TrBA+9Q9ozY3c1IcPk=;
+        b=fPUpDWb8rsrb2Sf3QLqdbSlhcGRj+hatXpxJ6Zs659T5oXlnzIKZq2VIwz6V0tt0pf0gVO
+        6G1JG6Re2Vtlh4Ktuexpv+DI7gzrk+/xwp2Jz9jgzraG/Ft6tSY9f/1ixBBkdqn3rNAIcy
+        Dc37+u6wRUBp1Caq0GPh4taWppyvCI0=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id DF3A1AEA2;
-        Mon, 14 Dec 2020 14:03:38 +0000 (UTC)
-Date:   Mon, 14 Dec 2020 15:03:37 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 31C72AC10;
+        Mon, 14 Dec 2020 14:09:13 +0000 (UTC)
+Date:   Mon, 14 Dec 2020 15:09:12 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Pavel Tatashin <pasha.tatashin@soleen.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -42,60 +42,134 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] mm cma: rename PF_MEMALLOC_NOCMA to
- PF_MEMALLOC_PIN
-Message-ID: <20201214140337.GD32193@dhcp22.suse.cz>
+Subject: Re: [PATCH v3 3/6] mm: apply per-task gfp constraints in fast path
+Message-ID: <20201214140912.GE32193@dhcp22.suse.cz>
 References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-3-pasha.tatashin@soleen.com>
+ <20201211202140.396852-4-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211202140.396852-3-pasha.tatashin@soleen.com>
+In-Reply-To: <20201211202140.396852-4-pasha.tatashin@soleen.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 11-12-20 15:21:36, Pavel Tatashin wrote:
-> PF_MEMALLOC_NOCMA is used ot guarantee that the allocator will not return
-> pages that might belong to CMA region. This is currently used for long
-> term gup to make sure that such pins are not going to be done on any CMA
-> pages.
+On Fri 11-12-20 15:21:37, Pavel Tatashin wrote:
+> Function current_gfp_context() is called after fast path. However, soon we
+> will add more constraints which will also limit zones based on context.
+> Move this call into fast path, and apply the correct constraints for all
+> allocations.
 > 
-> When PF_MEMALLOC_NOCMA has been introduced we haven't realized that it is
-> focusing on CMA pages too much and that there is larger class of pages that
-> need the same treatment. MOVABLE zone cannot contain any long term pins as
-> well so it makes sense to reuse and redefine this flag for that usecase as
-> well. Rename the flag to PF_MEMALLOC_PIN which defines an allocation
-> context which can only get pages suitable for long-term pins.
+> Also update .reclaim_idx based on value returned by current_gfp_context()
+> because it soon will modify the allowed zones.
 > 
-> Also re-name:
-> memalloc_nocma_save()/memalloc_nocma_restore
-> to
-> memalloc_pin_save()/memalloc_pin_restore()
-> and make the new functions common.
+> Note:
+> With this patch we will do one extra current->flags load during fast path,
+> but we already load current->flags in fast-path:
 > 
+> __alloc_pages_nodemask()
+>  prepare_alloc_pages()
+>   current_alloc_flags(gfp_mask, *alloc_flags);
+> 
+> Later, when we add the zone constrain logic to current_gfp_context() we
+> will be able to remove current->flags load from current_alloc_flags, and
+> therefore return fast-path to the current performance level.
+> 
+> Suggested-by: Michal Hocko <mhocko@kernel.org>
 > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  mm/page_alloc.c | 15 ++++++++-------
+>  mm/vmscan.c     | 10 ++++++----
+>  2 files changed, 14 insertions(+), 11 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index ec05396a597b..c2dea9ad0e98 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -4976,6 +4976,13 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
+>  	}
+>  
+>  	gfp_mask &= gfp_allowed_mask;
+> +	/*
+> +	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+> +	 * resp. GFP_NOIO which has to be inherited for all allocation requests
+> +	 * from a particular context which has been marked by
+> +	 * memalloc_no{fs,io}_{save,restore}.
+> +	 */
+> +	gfp_mask = current_gfp_context(gfp_mask);
+>  	alloc_mask = gfp_mask;
+>  	if (!prepare_alloc_pages(gfp_mask, order, preferred_nid, nodemask, &ac, &alloc_mask, &alloc_flags))
+>  		return NULL;
+> @@ -4991,13 +4998,7 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
+>  	if (likely(page))
+>  		goto out;
+>  
+> -	/*
+> -	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+> -	 * resp. GFP_NOIO which has to be inherited for all allocation requests
+> -	 * from a particular context which has been marked by
+> -	 * memalloc_no{fs,io}_{save,restore}.
+> -	 */
+> -	alloc_mask = current_gfp_context(gfp_mask);
+> +	alloc_mask = gfp_mask;
+>  	ac.spread_dirty_pages = false;
+>  
+>  	/*
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+Ack to this.
 
-with one comment below
-[...]
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1576,7 +1576,7 @@ extern struct pid *cad_pid;
->  #define PF_SWAPWRITE		0x00800000	/* Allowed to write to swap */
->  #define PF_NO_SETAFFINITY	0x04000000	/* Userland is not allowed to meddle with cpus_mask */
->  #define PF_MCE_EARLY		0x08000000      /* Early kill for mce process policy */
-> -#define PF_MEMALLOC_NOCMA	0x10000000	/* All allocation request will have _GFP_MOVABLE cleared */
-> +#define PF_MEMALLOC_PIN		0x10000000	/* All allocation request will have _GFP_MOVABLE cleared */
+But I do not really understand this. All allocation contexts should have
+a proper gfp mask so why do we have to call current_gfp_context here?
+In fact moving the current_gfp_context in the allocator path should have
+made all this games unnecessary. Memcg reclaim path might need some
+careful check because gfp mask is used more creative there but the
+general reclaim paths should be ok.
 
-This comment is not really helpeful. I would go with
-/* Allocation context constrained to zones which allow long term
- * pinning.
- */
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 469016222cdb..d9546f5897f4 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3234,11 +3234,12 @@ static bool throttle_direct_reclaim(gfp_t gfp_mask, struct zonelist *zonelist,
+>  unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
+>  				gfp_t gfp_mask, nodemask_t *nodemask)
+>  {
+> +	gfp_t current_gfp_mask = current_gfp_context(gfp_mask);
+>  	unsigned long nr_reclaimed;
+>  	struct scan_control sc = {
+>  		.nr_to_reclaim = SWAP_CLUSTER_MAX,
+> -		.gfp_mask = current_gfp_context(gfp_mask),
+> -		.reclaim_idx = gfp_zone(gfp_mask),
+> +		.gfp_mask = current_gfp_mask,
+> +		.reclaim_idx = gfp_zone(current_gfp_mask),
+>  		.order = order,
+>  		.nodemask = nodemask,
+>  		.priority = DEF_PRIORITY,
+> @@ -4158,17 +4159,18 @@ static int __node_reclaim(struct pglist_data *pgdat, gfp_t gfp_mask, unsigned in
+>  {
+>  	/* Minimum pages needed in order to stay on node */
+>  	const unsigned long nr_pages = 1 << order;
+> +	gfp_t current_gfp_mask = current_gfp_context(gfp_mask);
+>  	struct task_struct *p = current;
+>  	unsigned int noreclaim_flag;
+>  	struct scan_control sc = {
+>  		.nr_to_reclaim = max(nr_pages, SWAP_CLUSTER_MAX),
+> -		.gfp_mask = current_gfp_context(gfp_mask),
+> +		.gfp_mask = current_gfp_mask,
+>  		.order = order,
+>  		.priority = NODE_RECLAIM_PRIORITY,
+>  		.may_writepage = !!(node_reclaim_mode & RECLAIM_WRITE),
+>  		.may_unmap = !!(node_reclaim_mode & RECLAIM_UNMAP),
+>  		.may_swap = 1,
+> -		.reclaim_idx = gfp_zone(gfp_mask),
+> +		.reclaim_idx = gfp_zone(current_gfp_mask),
 
-Something similar would be useful for memalloc_pin* functions as well.
+Again, why do we need this when the gfp_mask 
+>  	};
+>  
+>  	trace_mm_vmscan_node_reclaim_begin(pgdat->node_id, order,
+> -- 
+> 2.25.1
+
 -- 
 Michal Hocko
 SUSE Labs
