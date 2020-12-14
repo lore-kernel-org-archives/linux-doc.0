@@ -2,184 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0119CC4361B
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 11:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48299C2BB48
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 13:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B82E222CB2
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 11:47:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D900222795
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 13:37:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407761AbgLNLrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Dec 2020 06:47:13 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:55697 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2438494AbgLNLrE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Dec 2020 06:47:04 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 287AE5804E5;
-        Mon, 14 Dec 2020 06:35:11 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 14 Dec 2020 06:35:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=7YLscnmdLB07H4eSAb1EiY9Lhzk
-        Ym3A9190ioXjO2zM=; b=hyIN9wLS+hee293EsD3dSQLdBNpo9iSj+7a/QNpirgs
-        xcRd4HXbJitSxqoYAtaVcU8L4+IbiHxrm74HX2r0dYrn0gAd+3Ouy0q+07SQ7yBA
-        68mOut23yOReAWK0ch6309nw70Vv2MRbykwEMLz5GqPn7OwY1KcUkbQwRB1viNXj
-        7zbChZd5tBgv6qc7eEz2B4ChBbIV+lx+Iu6dD0j/DBKvFw7HpjGapNUbcOF19o8t
-        BbaRUDzSM4CfuvBLpLoELwQbyqhQmMIZGpfvlJXVH80+TZ0C4MfZ+3HMsetZBbEv
-        98vtjzBGm9txya0oRci6gixlKnxmDrX5qAgCmrkqz1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7YLscn
-        mdLB07H4eSAb1EiY9LhzkYm3A9190ioXjO2zM=; b=IQyw/uWOYWxd5+popsimjd
-        Ep/V/lVb29Ngy1OGH3FFcSfI9ylZA84reFV+9ixBT7/DZUPpX0MoK9kHQKPr4xje
-        UxkTSIG5myVPwS6MTv4rQE/XRtzn7GFypU1VOAUzejDsgk4dtuUcy+QX5WtYy+LI
-        nZaFeH6GsnJFR4BlD/jSnYJvqwJiCxeMFOxM7cYoWsGQmnY8u80oGZxQ2QyVcUdc
-        YOMfeXhgo99hnc8IWbrnJ9jrFjiTawSFXxWn2reSURJlag88vKVW1tigOzlCVhEE
-        nyFcB4xnWhYsLBdhVVaAbVgy7iGd1fXZmxEz6M3zx7Vkt677+MfLWxJ91eGlQdxQ
-        ==
-X-ME-Sender: <xms:7k3XX1YPLKB1NAnhcxNCgkWEjb-n8_49gs84Or6TWTJ8O7wOKNebdg>
-    <xme:7k3XX8bnx8csD2PiQ8DDnUjXDEog3XvuG1EO4QgIWdsIMo5VbUMWpl5sb7p9tn6YS
-    ODhP1hdxlACrg0X6g4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekkedgvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
-    ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekle
-    drieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7k3XX3_rQQCKSfhFS1gL6Z1FHY54wPZBu4MMgYEPm1mSmi5AkeycOA>
-    <xmx:7k3XXzrLnNXa7swSD-C0H0w1flt3Vy-GlhQQBsgDXtJRSxMJkoO9Aw>
-    <xmx:7k3XXwpoFLS2mF77X5-llnuILMGZtvKDEGLAmg0tmkLfOYKe6yTZUQ>
-    <xmx:703XXwB-D6FRIbLGIMu4_hhcVRxIjpqM0baPwf9mwND61z5WyNfiyg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 88CEC108005B;
-        Mon, 14 Dec 2020 06:35:10 -0500 (EST)
-Date:   Mon, 14 Dec 2020 12:35:09 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v3 08/15] dt-bindings: media: Add A31 MIPI CSI-2 bindings
- documentation
-Message-ID: <20201214113509.gkzf42rtag5b4mcn@gilmour>
-References: <20201211155708.154710-1-paul.kocialkowski@bootlin.com>
- <20201211155708.154710-9-paul.kocialkowski@bootlin.com>
+        id S2439976AbgLNNg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Dec 2020 08:36:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439629AbgLNNgq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Dec 2020 08:36:46 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634E4C0613D6
+        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 05:36:06 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id z11so15482275qkj.7
+        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 05:36:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=aSX7SZ34+utf+RIxSxOaDvrohcjpjOIx1rXwhtSGUWk=;
+        b=Q2T0WIutJ+KnkQ+kPpVS+ZXIFPM3+uqjlwRi8rGHuCOgdnFgixHZ19jaapgZQZc4dv
+         mM5s7muH4dPGs7c+Mc561ekdxd1Lcl4wPLt61CbpAcNC+ysA1jsmE5jOHS3oFjn2yHQQ
+         6qrOfyeWdRRgxddLFOXs9tUa4ktfbX9cceFJWY5Am+H4E039f51JACknkU694TI1ctST
+         xWzDMsQ/nkTd3OAsHN0sWnMXSdKwkRv0dIPmu3YiyP6cTqRbNogWF/SmmM7Nb1vPQpG5
+         jquwiq7zL6pY1whY6t/ZEpaDoM9GTK7YTs6eiRgLqiPNLERLMeUDP1CZDOA0Nu5x95ZH
+         lrlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=aSX7SZ34+utf+RIxSxOaDvrohcjpjOIx1rXwhtSGUWk=;
+        b=eoWCi8dwmTF+TRaXCzPCRU9tfzEnpFGuzAjaPb50Pen9LDzKSeH8S3EPBjZIamUKvD
+         t26Gm+rmeuIZY0o4kxpBxaL0ToBjtfsqh7k/YodsDInQvCEg6l1hQVQ74fiV6PyFnNnq
+         lmWXuyZqib28Vexkqaa158TLwB1wt5A0URkipslW7AHf1FEx5qkEBxKJXVUKs8i1Go1e
+         TC7vrWJTz7opX3pwAjnco2kQwxNOcC/G/T0pXZ3QFU0+ZdOwAov4NUM7xHsgglv3Q3X0
+         8dmGE1pKpQvFyF8v4yUvmDwZ3jNT4hRgpGn11D5DrS1p+F8pdJ/raoz+UqacvMKVdIaw
+         zYZw==
+X-Gm-Message-State: AOAM530qPzIarNC5JObas9tEtx4ZW118d5r47pc9kbSo0ZrCP3FVlSDK
+        tX3fw5NpHOuOGtc9mdIYL1AxiA==
+X-Google-Smtp-Source: ABdhPJwX7KgX9z0LpyhrKrmdAXAQlfWjO4BubE1fX04pxg+mf4spVzTLz9Tp6Y4EKzZ14AjqLFu/vg==
+X-Received: by 2002:a05:620a:95d:: with SMTP id w29mr31337314qkw.147.1607952965645;
+        Mon, 14 Dec 2020 05:36:05 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id i17sm1366425qtg.77.2020.12.14.05.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Dec 2020 05:36:04 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1koo1D-00AHmi-4n; Mon, 14 Dec 2020 09:36:03 -0400
+Date:   Mon, 14 Dec 2020 09:36:03 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Pavel Tatashin <pasha.tatashin@soleen.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+Message-ID: <20201214133603.GF5487@ziepe.ca>
+References: <20201211235005.GE5487@ziepe.ca>
+ <2D10D596-3159-483C-81B4-CD187806ED46@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xr5od2srzjhkveva"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201211155708.154710-9-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2D10D596-3159-483C-81B4-CD187806ED46@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Dec 12, 2020 at 08:29:11AM +0100, David Hildenbrand wrote:
 
---xr5od2srzjhkveva
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > Racing with another GUP in another thread is also not reasonable, so
+> > failing to isolate can't be a failure
+> 
+> Having VMs with multiple vfio containers is certainly realistic, and
+> optimizing in user space to do vfio mappings concurrently doesn‘t
+> sound too crazy to me. But I haven‘t checked if vfio common code
+> already handles such concurrency.
 
-On Fri, Dec 11, 2020 at 04:57:01PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the A31 MIPI CSI-2
-> controller.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 149 ++++++++++++++++++
->  1 file changed, 149 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
-6i-a31-mipi-csi2.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..4d0bab541da1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-cs=
-i2.yaml
-> @@ -0,0 +1,149 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.y=
-aml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun6i-a31-mipi-csi2
-> +      - items:
-> +          - const: allwinner,sun8i-v3s-mipi-csi2
-> +          - const: allwinner,sun6i-a31-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +
-> +  phys:
-> +    items:
-> +      - description: MIPI D-PHY
+There is a lot more out there than vfio.. RDMA already does concurrent
+pin_user_pages in real apps
 
-This should be written as
-
-phys:
-  description: ...
-
-Maxime
-
---xr5od2srzjhkveva
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9dN7QAKCRDj7w1vZxhR
-xa/4AP4qKCMRkGVqlSFOB4YcEHRswHol+VlXlfGrq/lGFp1dQwEA8n97QlZQEEVj
-E1GKI8U0SUu2bgpKb3Wu8JLaYGw1KAY=
-=gA8y
------END PGP SIGNATURE-----
-
---xr5od2srzjhkveva--
+Jason
