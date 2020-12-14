@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3442C4361B
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3206CC4361B
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:20:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70E2622B51
-	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:18:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F076E22CB1
+	for <linux-doc@archiver.kernel.org>; Mon, 14 Dec 2020 14:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439133AbgLNOSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Dec 2020 09:18:06 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37890 "EHLO mx2.suse.de"
+        id S2440051AbgLNOUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 14 Dec 2020 09:20:43 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40690 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439156AbgLNOSD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 14 Dec 2020 09:18:03 -0500
+        id S2440043AbgLNOUe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 14 Dec 2020 09:20:34 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1607955437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1607955588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=/aaX1gWpPQn3qcwwnBwjlwFxHCcIQKKOnugT2MXEnQY=;
-        b=JnWU55ELyZ1I/pYFi0DUWGkuuIomcSV7Ud/2hlzpn/6AsXg4hGG78gZPiDej8YkJ22gHUY
-        P7TILbaB5pfqzoHXn4fAyYz5RrPJvrAI2JZEhQ1IzLCP+N98sgfIWovkV8iNzfmlFQ8PuG
-        GOll1wMpJGgvxZ4aSC90SuOe695TgDM=
+        bh=YFr8Ms8n+yMf7TCzVCFHWfW+5sl9l5Yvwxnekv/jl7Y=;
+        b=WnpWdyxmNE4MGmYVbWl7dKtXCjSK0mK70qY9mJLamnHb+5QT/+TYnnXvZnI2Av4IXZt4cu
+        E81FE2DyBCKbCtfh+wy8TxCwWtqjF4nA10rhncFEWiwlFFB7TbBjQOuYiCooK0mQWt5AfN
+        7tfZBVX/MKPmmpsIFZHcMpx3e7AuFE8=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CBA21AC10;
-        Mon, 14 Dec 2020 14:17:16 +0000 (UTC)
-Date:   Mon, 14 Dec 2020 15:17:15 +0100
+        by mx2.suse.de (Postfix) with ESMTP id D4570AC10;
+        Mon, 14 Dec 2020 14:19:47 +0000 (UTC)
+Date:   Mon, 14 Dec 2020 15:19:46 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Pavel Tatashin <pasha.tatashin@soleen.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -42,45 +42,43 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] mm: honor PF_MEMALLOC_PIN for all movable pages
-Message-ID: <20201214141715.GF32193@dhcp22.suse.cz>
+Subject: Re: [PATCH v3 5/6] mm/gup: migrate pinned pages out of movable zone
+Message-ID: <20201214141946.GG32193@dhcp22.suse.cz>
 References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-5-pasha.tatashin@soleen.com>
+ <20201211202140.396852-6-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211202140.396852-5-pasha.tatashin@soleen.com>
+In-Reply-To: <20201211202140.396852-6-pasha.tatashin@soleen.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 11-12-20 15:21:38, Pavel Tatashin wrote:
+On Fri 11-12-20 15:21:39, Pavel Tatashin wrote:
 [...]
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index c2dea9ad0e98..4d8e7f801c66 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -3802,16 +3802,12 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
->  	return alloc_flags;
->  }
->  
-> -static inline unsigned int current_alloc_flags(gfp_t gfp_mask,
-> -					unsigned int alloc_flags)
-> +static inline unsigned int cma_alloc_flags(gfp_t gfp_mask,
-> +					   unsigned int alloc_flags)
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index b593316bff3d..25c0c13ba4b1 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -386,9 +386,14 @@ enum zone_type {
+>  	 * likely to succeed, and to locally limit unmovable allocations - e.g.,
+>  	 * to increase the number of THP/huge pages. Notable special cases are:
+>  	 *
+> -	 * 1. Pinned pages: (long-term) pinning of movable pages might
+> -	 *    essentially turn such pages unmovable. Memory offlining might
+> -	 *    retry a long time.
+> +	 * 1. Pinned pages: (long-term) pinning of movable pages is avoided
+> +	 *    when pages are pinned and faulted, but it is still possible that
+> +	 *    address space already has pages in ZONE_MOVABLE at the time when
+> +	 *    pages are pinned (i.e. user has touches that memory before
+> +	 *    pinning). In such case we try to migrate them to a different zone,
+> +	 *    but if migration fails the pages can still end-up pinned in
+> +	 *    ZONE_MOVABLE. In such case, memory offlining might retry a long
+> +	 *    time and will only succeed once user application unpins pages.
 
-Do you have any strong reason to rename? Even though the current
-implementation only does something for cma I do not think this is all
-that important. The naming nicely fits with current_gfp_context so I
-would stick with it.
-
-Other than that the patch looks reasonable. I would just add a comment
-explaining that current_alloc_flags should be called _after_
-current_gfp_context because that one might change the gfp_mask.
-
-With that addressed, feel free to add
-Acked-by: Michal Hocko <mhocko@suse.com>
-
+I do agree with others in the thread. This is not really helping out the
+current situation much. You should simply fail the pin rather than
+pretend all is just fine.
 -- 
 Michal Hocko
 SUSE Labs
