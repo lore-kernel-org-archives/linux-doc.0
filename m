@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA973C2BB9A
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:26:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA55C4361B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:28:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5792E2228A
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:26:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 896122229C
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgLOI0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 03:26:19 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41744 "EHLO mx2.suse.de"
+        id S1726820AbgLOI2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 03:28:36 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43338 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726217AbgLOI0N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Dec 2020 03:26:13 -0500
+        id S1726771AbgLOI2f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Dec 2020 03:28:35 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1608020725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1608020869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=1TNK/lVDl1GoAySvXZqTqRJer4+ab+0COZr0xkYRhJo=;
-        b=Yfl8ZaOr/8CH3TmHkGxKWBL32jv4Ay/iX5yt1AX2Lnad+FQsBWC6P+dHPyHZKE3G+7eLyZ
-        3MSYiZ6RahCBkG+al79V9luYQ+kF9cNtmJaavuZ6Cnfz6jZfr3b5Qmr6iBdAkFmYvQORfq
-        HRt8iwyvv2lmg9+pJqG92OymMBYaRAY=
+        bh=BcRdGe+BwGu/P3zGHntuQl4s/cuwIdbN+JJKDivcwsQ=;
+        b=ohfCrHHgr2quArA8JO/yaH5tWvtHs2Q3srZkxnSQgMo48bWJHDBsV4sl+7x0dsQVvSJncz
+        NcfvPc7q0OMQKQOqgg8+bHPdyfXQgmhA5NpGAJ+TYiEV+xceNyQrEJI7eJv5nKmyokN2PH
+        0y+JLdG0ud3+p17jlhJ9WWGTPpdTag0=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 88FD3AC7F;
-        Tue, 15 Dec 2020 08:25:25 +0000 (UTC)
-Date:   Tue, 15 Dec 2020 09:25:24 +0100
+        by mx2.suse.de (Postfix) with ESMTP id CA69AAC7F;
+        Tue, 15 Dec 2020 08:27:48 +0000 (UTC)
+Date:   Tue, 15 Dec 2020 09:27:48 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Pavel Tatashin <pasha.tatashin@soleen.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
@@ -51,89 +51,54 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         David Rientjes <rientjes@google.com>,
         John Hubbard <jhubbard@nvidia.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 3/6] mm: apply per-task gfp constraints in fast path
-Message-ID: <20201215082524.GK32193@dhcp22.suse.cz>
+Subject: Re: [PATCH v3 4/6] mm: honor PF_MEMALLOC_PIN for all movable pages
+Message-ID: <20201215082748.GL32193@dhcp22.suse.cz>
 References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-4-pasha.tatashin@soleen.com>
- <20201214140912.GE32193@dhcp22.suse.cz>
- <CA+CK2bA9u_ZUosha0JvW6ezs-h95UBHZztoFojMyFbC791ximw@mail.gmail.com>
+ <20201211202140.396852-5-pasha.tatashin@soleen.com>
+ <20201214141715.GF32193@dhcp22.suse.cz>
+ <CA+CK2bCWkPDw-Aif6iXHq15Dpa+50hmrcAk_LpMCMk30zY5aFw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+CK2bA9u_ZUosha0JvW6ezs-h95UBHZztoFojMyFbC791ximw@mail.gmail.com>
+In-Reply-To: <CA+CK2bCWkPDw-Aif6iXHq15Dpa+50hmrcAk_LpMCMk30zY5aFw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 15-12-20 00:20:39, Pavel Tatashin wrote:
-> > Ack to this.
-> 
-> Thank you.
-> 
+On Tue 15-12-20 00:24:30, Pavel Tatashin wrote:
+> On Mon, Dec 14, 2020 at 9:17 AM Michal Hocko <mhocko@suse.com> wrote:
 > >
-> > But I do not really understand this. All allocation contexts should have
-> > a proper gfp mask so why do we have to call current_gfp_context here?
-> > In fact moving the current_gfp_context in the allocator path should have
-> > made all this games unnecessary. Memcg reclaim path might need some
-> > careful check because gfp mask is used more creative there but the
-> > general reclaim paths should be ok.
-> >
-> > > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> >
-> > Again, why do we need this when the gfp_mask
-> > >       };
+> > On Fri 11-12-20 15:21:38, Pavel Tatashin wrote:
+> > [...]
+> > > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > > index c2dea9ad0e98..4d8e7f801c66 100644
+> > > --- a/mm/page_alloc.c
+> > > +++ b/mm/page_alloc.c
+> > > @@ -3802,16 +3802,12 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
+> > >       return alloc_flags;
+> > >  }
 > > >
-> --
+> > > -static inline unsigned int current_alloc_flags(gfp_t gfp_mask,
+> > > -                                     unsigned int alloc_flags)
+> > > +static inline unsigned int cma_alloc_flags(gfp_t gfp_mask,
+> > > +                                        unsigned int alloc_flags)
+> >
+> > Do you have any strong reason to rename? Even though the current
 > 
-> Hi Michal,
+> Yes :)
 > 
-> Beside from __alloc_pages_nodemask(), the current_gfp_context() is
-> called from the following six functions:
+> > implementation only does something for cma I do not think this is all
+> > that important. The naming nicely fits with current_gfp_context so I
+> > would stick with it.
 > 
-> try_to_free_pages()
-> try_to_free_mem_cgroup_pages()
-> __node_reclaim()
-> __need_fs_reclaim()
-> alloc_contig_range()
-> pcpu_alloc()
-> 
-> As I understand, the idea is that because the allocator now honors
-> gfp_context values for all paths, the call can be removed from some of
-> the above functions. I think you are correct. But, at least from a
-> quick glance, this is not obvious, and is not the case for all of the
-> above functions.
-> 
-> For example:
-> 
-> alloc_contig_range()
->   __alloc_contig_migrate_range
->    isolate_migratepages_range
->      isolate_migratepages_block
->         /*
->          * Only allow to migrate anonymous pages in GFP_NOFS context
->          * because those do not depend on fs locks.
->          */
->        if (!(cc->gfp_mask & __GFP_FS) && page_mapping(page))
->           goto isolate_fail;
-> 
-> If we remove current_gfp_context() from alloc_contig_range(), the
-> cc->gfp_mask will not be updated with proper __GFP_FS flag.
+> I am renaming because current->flags is removed from this function,
+> therefore keeping the name
+> becomes misleading. This function only addresses cma flag check
+> without looking at the thread local state now.
 
-I do not think I was proposing to drop current_gfp_context from
-alloc_contig_range. ACR needs some work to be properly scoped gfp mask
-aware. This should be addressed but I do not think think the code
-works properly now so I wouldn't lose sleep over it in this series. At
-least __alloc_contig_migrate_range should follow the gfp mask given to
-alloc_contig_range.
-
-> I have studied some other paths, and they are also convoluted.
-> Therefore, I am worried about performing this optimization in this
-> series.
-
-Dropping current_gfp_context from the reclaim context should be done in
-a separate patch. I didn't mean to push for this here. All I meant was
-to simply not touch gfp/zone_idx in the reclaim path. The changelog
-should call out that the page allocator always provides proper gfp mask.
+Fair enough. I still dislike cma being called out explicitly because
+that is slightly misleading as well. gpf_to_alloc_flags would be more
+explicit I believe. But I do not want to bikeshed this to death.
 
 -- 
 Michal Hocko
