@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB147C4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 12:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACA3C2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 12:02:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9116A222BB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 12:00:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20001223D6
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 12:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728596AbgLOL63 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 06:58:29 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:2027 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728444AbgLOL61 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 06:58:27 -0500
+        id S1729007AbgLOMBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 07:01:18 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:16725 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728990AbgLOMBI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 07:01:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608033506; x=1639569506;
+  t=1608033668; x=1639569668;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=8iWqDRqn6hFNTl54/ldlnAbz7CQs7dyENk/0p0BsffE=;
-  b=kpuVW3rwCF+y3XkL6iHyVf0df2HGgA1kiYOIxI/3mblYsg/IJdFd1n8f
-   DCp+avYKalYhwgEaxuK0G0hT18yUgg649xpeReJQH/Po7eainBbvXxn/U
-   tQlyza8+T0uB9LN4lb9cnrFcXPCAroam03/Cv/U0j/FEiPUgMfmXrU3Om
-   g=;
+  bh=1xFslFCUcScxof7HCp6JTCPqHgi+69nWilxMkQg9pxA=;
+  b=YWkTiygja90EVNKxVDfetHPW0J+v1HKKLcxSAh9OAU1fBdq3tmI7FdGE
+   lNOLmpFmx7V5Xl6D0C/v3C+QjHWW/+cNroD1xz+rA3WdKoPJu7owGNJT5
+   uuE2C8U/s3Y4alHIO7v3fnmFrBJ63vhS2BxW7Ezs4vZG6M6gWkmlqDf0o
+   k=;
 X-IronPort-AV: E=Sophos;i="5.78,420,1599523200"; 
-   d="scan'208";a="96129235"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 15 Dec 2020 11:57:43 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com (Postfix) with ESMTPS id CDC92A1E3A;
-        Tue, 15 Dec 2020 11:57:30 +0000 (UTC)
+   d="scan'208";a="72726983"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-a70de69e.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 15 Dec 2020 12:00:52 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1e-a70de69e.us-east-1.amazon.com (Postfix) with ESMTPS id E3291A1CFD;
+        Tue, 15 Dec 2020 12:00:38 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.252) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 15 Dec 2020 11:57:13 +0000
+ id 15.0.1497.2; Tue, 15 Dec 2020 12:00:21 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,9 +60,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v23 04/15] mm/idle_page_tracking: Make PG_idle reusable
-Date:   Tue, 15 Dec 2020 12:54:37 +0100
-Message-ID: <20201215115448.25633-5-sjpark@amazon.com>
+Subject: [PATCH v23 10/15] mm/damon/dbgfs: Support multiple contexts
+Date:   Tue, 15 Dec 2020 12:54:43 +0100
+Message-ID: <20201215115448.25633-11-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201215115448.25633-1-sjpark@amazon.com>
 References: <20201215115448.25633-1-sjpark@amazon.com>
@@ -77,190 +77,284 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
-Tracking and the reclaim logic concurrently work while don't interfere
-each other.  That is, when they need to clear the Accessed bit, they set
-PG_young to represent the previous state of the bit, respectively.  And
-when they need to read the bit, if the bit is cleared, they further read
-the PG_young to know whether the other has cleared the bit meanwhile or
-not.
+In some use cases, users would want to run multiple monitoring context.
+For example, if a user wants a high precision monitoring and dedicating
+multiple CPUs for the job is ok, because DAMON creates one monitoring
+thread per one context, the user can split the monitoring target regions
+into multiple small regions and create one context for each region.  Or,
+someone might want to simultaneously monitor different address spaces,
+e.g., both virtual address space and physical address space.
 
-We could add another page flag and extend the mechanism to use the flag
-if we need to add another concurrent PTE Accessed bit user subsystem.
-However, the space is limited.  Meanwhile, if the new subsystem is
-mutually exclusive with IDLE_PAGE_TRACKING or interfering with it is not
-a real problem, it would be ok to simply reuse the PG_idle flag.
-However, it's impossible because the flags are dependent on
-IDLE_PAGE_TRACKING.
+The DAMON's API allows such usage, but 'damon-dbgfs' does not.
+Therefore, only kernel space DAMON users can do multiple contexts
+monitoring.
 
-To allow such reuse of the flags, this commit separates the PG_young and
-PG_idle flag logic from IDLE_PAGE_TRACKING and introduces new kernel
-config, 'PAGE_IDLE_FLAG'.  Hence, a new subsystem would be able to reuse
-PG_idle without depending on IDLE_PAGE_TRACKING.
-
-In the next commit, DAMON's reference implementation of the virtual
-memory address space monitoring primitives will use it.
+This commit allows the user space DAMON users to use multiple contexts
+monitoring by introducing two new 'damon-dbgfs' debugfs files,
+'mk_context' and 'rm_context'.  Users can create a new monitoring
+context by writing the desired name of the new context to 'mk_context'.
+Then, a new directory with the name and having the files for setting of
+the context ('attrs', 'target_ids' and 'record') will be created under
+the debugfs directory.  Writing the name of the context to remove to
+'rm_context' will remove the related context and directory.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- include/linux/page-flags.h     |  4 ++--
- include/linux/page_ext.h       |  2 +-
- include/linux/page_idle.h      |  6 +++---
- include/trace/events/mmflags.h |  2 +-
- mm/Kconfig                     |  8 ++++++++
- mm/page_ext.c                  | 12 +++++++++++-
- mm/page_idle.c                 | 10 ----------
- 7 files changed, 26 insertions(+), 18 deletions(-)
+ mm/damon/dbgfs.c | 213 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 211 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 4f6ba9379112..0f010fc7f1c4 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -132,7 +132,7 @@ enum pageflags {
- #ifdef CONFIG_MEMORY_FAILURE
- 	PG_hwpoison,		/* hardware poisoned page. Don't touch */
- #endif
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- 	PG_young,
- 	PG_idle,
- #endif
-@@ -437,7 +437,7 @@ PAGEFLAG_FALSE(HWPoison)
- #define __PG_HWPOISON 0
- #endif
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index a1512d3e5afe..46186b057e1a 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -29,6 +29,7 @@ struct dbgfs_recorder {
+ static struct damon_ctx **dbgfs_ctxs;
+ static int dbgfs_nr_ctxs;
+ static struct dentry **dbgfs_dirs;
++static DEFINE_MUTEX(damon_dbgfs_lock);
  
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- TESTPAGEFLAG(Young, young, PF_ANY)
- SETPAGEFLAG(Young, young, PF_ANY)
- TESTCLEARFLAG(Young, young, PF_ANY)
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index cfce186f0c4e..c9cbc9756011 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -19,7 +19,7 @@ struct page_ext_operations {
- enum page_ext_flags {
- 	PAGE_EXT_OWNER,
- 	PAGE_EXT_OWNER_ALLOCATED,
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	PAGE_EXT_YOUNG,
- 	PAGE_EXT_IDLE,
- #endif
-diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
-index 1e894d34bdce..d8a6aecf99cb 100644
---- a/include/linux/page_idle.h
-+++ b/include/linux/page_idle.h
-@@ -6,7 +6,7 @@
- #include <linux/page-flags.h>
- #include <linux/page_ext.h>
- 
--#ifdef CONFIG_IDLE_PAGE_TRACKING
-+#ifdef CONFIG_PAGE_IDLE_FLAG
- 
- #ifdef CONFIG_64BIT
- static inline bool page_is_young(struct page *page)
-@@ -106,7 +106,7 @@ static inline void clear_page_idle(struct page *page)
- }
- #endif /* CONFIG_64BIT */
- 
--#else /* !CONFIG_IDLE_PAGE_TRACKING */
-+#else /* !CONFIG_PAGE_IDLE_FLAG */
- 
- static inline bool page_is_young(struct page *page)
- {
-@@ -135,6 +135,6 @@ static inline void clear_page_idle(struct page *page)
- {
+ /*
+  * Returns non-empty string on success, negarive error code otherwise.
+@@ -474,6 +475,13 @@ static void dbgfs_write_record_header(struct damon_ctx *ctx)
+ 	dbgfs_write_rbuf(ctx, &recfmt_ver, sizeof(recfmt_ver));
  }
  
--#endif /* CONFIG_IDLE_PAGE_TRACKING */
-+#endif /* CONFIG_PAGE_IDLE_FLAG */
- 
- #endif /* _LINUX_MM_PAGE_IDLE_H */
-diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
-index 67018d367b9f..ebee94c397a6 100644
---- a/include/trace/events/mmflags.h
-+++ b/include/trace/events/mmflags.h
-@@ -73,7 +73,7 @@
- #define IF_HAVE_PG_HWPOISON(flag,string)
- #endif
- 
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
- #define IF_HAVE_PG_IDLE(flag,string) ,{1UL << flag, string}
- #else
- #define IF_HAVE_PG_IDLE(flag,string)
-diff --git a/mm/Kconfig b/mm/Kconfig
-index b97f2e8ab83f..500c885eb9f1 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -749,10 +749,18 @@ config DEFERRED_STRUCT_PAGE_INIT
- 	  lifetime of the system until these kthreads finish the
- 	  initialisation.
- 
-+config PAGE_IDLE_FLAG
-+	bool "Add PG_idle and PG_young flags"
-+	help
-+	  This feature adds PG_idle and PG_young flags in 'struct page'.  PTE
-+	  Accessed bit writers can set the state of the bit in the flags to let
-+	  other PTE Accessed bit readers don't disturbed.
-+
- config IDLE_PAGE_TRACKING
- 	bool "Enable idle page tracking"
- 	depends on SYSFS && MMU
- 	select PAGE_EXTENSION if !64BIT
-+	select PAGE_IDLE_FLAG
- 	help
- 	  This feature allows to estimate the amount of user pages that have
- 	  not been touched during a given period of time. This information can
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index a3616f7a0e9e..f9a6ff65ac0a 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -58,11 +58,21 @@
-  * can utilize this callback to initialize the state of it correctly.
-  */
- 
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
-+static bool need_page_idle(void)
++static void dbgfs_free_recorder(struct dbgfs_recorder *recorder)
 +{
-+	return true;
++	kfree(recorder->rbuf);
++	kfree(recorder->rfile_path);
++	kfree(recorder);
 +}
-+struct page_ext_operations page_idle_ops = {
-+	.need = need_page_idle,
-+};
-+#endif
 +
- static struct page_ext_operations *page_ext_ops[] = {
- #ifdef CONFIG_PAGE_OWNER
- 	&page_owner_ops,
- #endif
--#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
-+#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	&page_idle_ops,
- #endif
- };
-diff --git a/mm/page_idle.c b/mm/page_idle.c
-index 057c61df12db..144fb4ed961d 100644
---- a/mm/page_idle.c
-+++ b/mm/page_idle.c
-@@ -211,16 +211,6 @@ static const struct attribute_group page_idle_attr_group = {
- 	.name = "page_idle",
- };
- 
--#ifndef CONFIG_64BIT
--static bool need_page_idle(void)
--{
--	return true;
--}
--struct page_ext_operations page_idle_ops = {
--	.need = need_page_idle,
--};
--#endif
--
- static int __init page_idle_init(void)
+ static unsigned int nr_damon_targets(struct damon_ctx *ctx)
  {
- 	int err;
+ 	struct damon_target *t;
+@@ -556,6 +564,195 @@ static struct damon_ctx *dbgfs_new_ctx(void)
+ 	return ctx;
+ }
+ 
++static void dbgfs_destroy_ctx(struct damon_ctx *ctx)
++{
++	dbgfs_free_recorder(ctx->callback.private);
++	damon_destroy_ctx(ctx);
++}
++
++/*
++ * Make a context of @name and create a debugfs directory for it.
++ *
++ * This function should be called while holding damon_dbgfs_lock.
++ *
++ * Returns 0 on success, negative error code otherwise.
++ */
++static int dbgfs_mk_context(char *name)
++{
++	struct dentry *root, **new_dirs, *new_dir;
++	struct damon_ctx **new_ctxs, *new_ctx;
++	int err;
++
++	if (damon_nr_running_ctxs())
++		return -EBUSY;
++
++	new_ctxs = krealloc(dbgfs_ctxs, sizeof(*dbgfs_ctxs) *
++			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
++	if (!new_ctxs)
++		return -ENOMEM;
++
++	new_dirs = krealloc(dbgfs_dirs, sizeof(*dbgfs_dirs) *
++			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
++	if (!new_dirs) {
++		kfree(new_ctxs);
++		return -ENOMEM;
++	}
++
++	dbgfs_ctxs = new_ctxs;
++	dbgfs_dirs = new_dirs;
++
++	root = dbgfs_dirs[0];
++	if (!root)
++		return -ENOENT;
++
++	new_dir = debugfs_create_dir(name, root);
++	if (IS_ERR(new_dir))
++		return PTR_ERR(new_dir);
++	dbgfs_dirs[dbgfs_nr_ctxs] = new_dir;
++
++	new_ctx = dbgfs_new_ctx();
++	if (!new_ctx) {
++		debugfs_remove(new_dir);
++		dbgfs_dirs[dbgfs_nr_ctxs] = NULL;
++		return -ENOMEM;
++	}
++	dbgfs_ctxs[dbgfs_nr_ctxs] = new_ctx;
++
++	err = dbgfs_fill_ctx_dir(dbgfs_dirs[dbgfs_nr_ctxs],
++			dbgfs_ctxs[dbgfs_nr_ctxs]);
++	if (err)
++		return err;
++
++	dbgfs_nr_ctxs++;
++	return 0;
++}
++
++static ssize_t dbgfs_mk_context_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	char *kbuf;
++	char *ctx_name;
++	ssize_t ret = count;
++	int err;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++	ctx_name = kmalloc(count + 1, GFP_KERNEL);
++	if (!ctx_name) {
++		kfree(kbuf);
++		return -ENOMEM;
++	}
++
++	/* Trim white space */
++	if (sscanf(kbuf, "%s", ctx_name) != 1) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	mutex_lock(&damon_dbgfs_lock);
++	err = dbgfs_mk_context(ctx_name);
++	if (err)
++		ret = err;
++	mutex_unlock(&damon_dbgfs_lock);
++
++out:
++	kfree(kbuf);
++	kfree(ctx_name);
++	return ret;
++}
++
++/*
++ * Remove a context of @name and its debugfs directory.
++ *
++ * This function should be called while holding damon_dbgfs_lock.
++ *
++ * Return 0 on success, negative error code otherwise.
++ */
++static int dbgfs_rm_context(char *name)
++{
++	struct dentry *root, *dir, **new_dirs;
++	struct damon_ctx **new_ctxs;
++	int i, j;
++
++	if (damon_nr_running_ctxs())
++		return -EBUSY;
++
++	root = dbgfs_dirs[0];
++	if (!root)
++		return -ENOENT;
++
++	dir = debugfs_lookup(name, root);
++	if (!dir)
++		return -ENOENT;
++
++	new_dirs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
++			GFP_KERNEL);
++	if (!new_dirs)
++		return -ENOMEM;
++
++	new_ctxs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
++			GFP_KERNEL);
++	if (!new_ctxs) {
++		kfree(new_dirs);
++		return -ENOMEM;
++	}
++
++	for (i = 0, j = 0; i < dbgfs_nr_ctxs; i++) {
++		if (dbgfs_dirs[i] == dir) {
++			debugfs_remove(dbgfs_dirs[i]);
++			dbgfs_destroy_ctx(dbgfs_ctxs[i]);
++			continue;
++		}
++		new_dirs[j] = dbgfs_dirs[i];
++		new_ctxs[j++] = dbgfs_ctxs[i];
++	}
++
++	kfree(dbgfs_dirs);
++	kfree(dbgfs_ctxs);
++
++	dbgfs_dirs = new_dirs;
++	dbgfs_ctxs = new_ctxs;
++	dbgfs_nr_ctxs--;
++
++	return 0;
++}
++
++static ssize_t dbgfs_rm_context_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	char *kbuf;
++	ssize_t ret = count;
++	int err;
++	char *ctx_name;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++	ctx_name = kmalloc(count + 1, GFP_KERNEL);
++	if (!ctx_name) {
++		kfree(kbuf);
++		return -ENOMEM;
++	}
++
++	/* Trim white space */
++	if (sscanf(kbuf, "%s", ctx_name) != 1) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	mutex_lock(&damon_dbgfs_lock);
++	err = dbgfs_rm_context(ctx_name);
++	if (err)
++		ret = err;
++	mutex_unlock(&damon_dbgfs_lock);
++
++out:
++	kfree(kbuf);
++	kfree(ctx_name);
++	return ret;
++}
++
+ static ssize_t dbgfs_monitor_on_read(struct file *file,
+ 		char __user *buf, size_t count, loff_t *ppos)
+ {
+@@ -598,6 +795,16 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
+ 	return ret;
+ }
+ 
++static const struct file_operations mk_contexts_fops = {
++	.owner = THIS_MODULE,
++	.write = dbgfs_mk_context_write,
++};
++
++static const struct file_operations rm_contexts_fops = {
++	.owner = THIS_MODULE,
++	.write = dbgfs_rm_context_write,
++};
++
+ static const struct file_operations monitor_on_fops = {
+ 	.owner = THIS_MODULE,
+ 	.read = dbgfs_monitor_on_read,
+@@ -607,8 +814,10 @@ static const struct file_operations monitor_on_fops = {
+ static int __init __damon_dbgfs_init(void)
+ {
+ 	struct dentry *dbgfs_root;
+-	const char * const file_names[] = {"monitor_on"};
+-	const struct file_operations *fops[] = {&monitor_on_fops};
++	const char * const file_names[] = {"mk_contexts", "rm_contexts",
++		"monitor_on"};
++	const struct file_operations *fops[] = {&mk_contexts_fops,
++		&rm_contexts_fops, &monitor_on_fops};
+ 	int i;
+ 
+ 	dbgfs_root = debugfs_create_dir("damon", NULL);
 -- 
 2.17.1
 
