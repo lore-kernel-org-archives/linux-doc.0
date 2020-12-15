@@ -2,710 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0074EC4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774B8C4361B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:52:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A603F22582
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35D03225AB
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:52:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725968AbgLOQgi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 11:36:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45453 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725878AbgLOQgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 11:36:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1608050110;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XMu5qAATsB6a+wngWhSRuFy6gX+2mNvLnzWa4e2OaYA=;
-        b=RE2/WHas1iHD8ElwZhepqHKZVvXAAAm6iWVfNr3Z7gYcC3/p4e77ffHH8SAJUVEQBqbWbA
-        aNZD04XmdNAZ6MTzxN1rSpK/aoztgAcmyK8TUgU0L3xnn7NprJb4Q8rfIesSk/YsjsSVyX
-        06Bgcgy2yLwvWTDjK5LZ6uEzYZPlq7w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-uZf8IBMqOvmRc-ymkTGsUw-1; Tue, 15 Dec 2020 11:35:07 -0500
-X-MC-Unique: uZf8IBMqOvmRc-ymkTGsUw-1
-Received: by mail-ed1-f69.google.com with SMTP id g25so10246211edu.4
-        for <linux-doc@vger.kernel.org>; Tue, 15 Dec 2020 08:35:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XMu5qAATsB6a+wngWhSRuFy6gX+2mNvLnzWa4e2OaYA=;
-        b=WZ9PCrKXI3Mc04dTZcs/lHt3QOZKGTzRz9YDCDlmHYuBTb0PIlbbr7xd3q5IFu19/0
-         AyOhXiqgGoNJ/ZEwl5zQZ9Bm2a0rmNtX1iWgRzrhK9QVIiFDsSwQNYCe+F9xDW4cjEEP
-         6FLKjWdiN1xMNCXRBq5kM6OlCkKzvWY70VmsklApvpVUyimX8ZLiGavihIo9LUtEVknS
-         VbMdI1p8e4s5Z1QPmlgnHd00yUMa3WicPYA6ZQUszPcbVSV6PlNkFjpucaAYOhVvQvQs
-         YHh2i8knXSVwZSg/1xlURLpI4A0T/DvSIG20HXoCPDwTPIE8c1G1NOVwRRSZMJ57ZqHu
-         pILg==
-X-Gm-Message-State: AOAM532Ag/qkRMFvrz5yFSzJR8vY+t+sXK/yKcDd1FFEe0uItJtcfwRR
-        THK961TOmegXsf0jkrDodAc6taBoBrLWuJO7JtBshuAvdDaIwSmRqT4KeuS4YAteVkD6Ft3vcfs
-        1Sxc0+7IhpeX6CR5tbIBNYDNkTd3grrqyPWIEA0++Qy+llBURMivDTYc8y38Kz5xKNirjIcBC
-X-Received: by 2002:aa7:dacf:: with SMTP id x15mr29901368eds.134.1608050105712;
-        Tue, 15 Dec 2020 08:35:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9xMqqDLVAAW/3QCr1FaQn0jXKYChaN//6kkIkPsqu0Gzio7ni2F5bVMtnNFdoWQGh4yROxg==
-X-Received: by 2002:aa7:dacf:: with SMTP id x15mr29901291eds.134.1608050105141;
-        Tue, 15 Dec 2020 08:35:05 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id f17sm18526884edv.5.2020.12.15.08.35.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 08:35:04 -0800 (PST)
-Subject: Re: [PATCH v2 8/9] platform/surface: Add Surface Aggregator
- user-space interface
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Mark Gross <mgross@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
-        Dorian Stoll <dorian.stoll@tmsp.io>,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20201203212640.663931-1-luzmaximilian@gmail.com>
- <20201203212640.663931-9-luzmaximilian@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <13b24eb0-e60f-e1d6-fcea-a19f62c40b4f@redhat.com>
-Date:   Tue, 15 Dec 2020 17:35:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1727335AbgLOQw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 11:52:56 -0500
+Received: from guitar.tcltek.co.il ([192.115.133.116]:39043 "EHLO
+        mx.tkos.co.il" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730884AbgLOQwx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Dec 2020 11:52:53 -0500
+Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx.tkos.co.il (Postfix) with ESMTPS id 44194440A8D;
+        Tue, 15 Dec 2020 18:52:09 +0200 (IST)
+From:   Baruch Siach <baruch@tkos.co.il>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        =?UTF-8?q?Ulisses=20Alonso=20Camar=C3=B3?= <uaca@alumni.uv.es>,
+        Baruch Siach <baruch@tkos.co.il>
+Subject: [PATCH net 2/2] docs: networking: packet_mmap: don't mention PACKET_MMAP
+Date:   Tue, 15 Dec 2020 18:51:17 +0200
+Message-Id: <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
+References: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
 MIME-Version: 1.0
-In-Reply-To: <20201203212640.663931-9-luzmaximilian@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Before commit 889b8f964f2f ("packet: Kill CONFIG_PACKET_MMAP.") there
+used to be a CONFIG_PACKET_MMAP config symbol that depended on
+CONFIG_PACKET. The text still refers to PACKET_MMAP as the name of this
+feature, implying that it can be disabled. Another naming variant is
+"Packet MMAP".
 
-On 12/3/20 10:26 PM, Maximilian Luz wrote:
-> Add a misc-device providing user-space access to the Surface Aggregator
-> EC, mainly intended for debugging, testing, and reverse-engineering.
-> This interface gives user-space applications the ability to send
-> requests to the EC and receive the corresponding responses.
-> 
-> The device-file is managed by a pseudo platform-device and corresponding
-> driver to avoid dependence on the dedicated bus, allowing it to be
-> loaded in a minimal configuration.
-> 
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+Use "PACKET mmap()" everywhere to unify the terminology. Rephrase the
+text the implied mmap() feature disable option.
 
-1 review comment inline:
+Also, drop reference to broken link to information for pre 2.6.5
+kernels.
 
-> ---
-> 
-> Changes in v1 (from RFC):
->  - add copyright lines
->  - change SPDX identifier to GPL-2.0+ (was GPL-2.0-or-later)
->  - move from debugfs to proper misc-device
->  - move interface definitions to uapi header
->  - remove versioning
->  - allocate platform device dynamically
->  - prioritize EFAULT error in IOCTL return
->  - use ENOTTY error for unknown IOCTLs
->  - fix IOCTL compatibility for 32-bit user-space on 64-bit kernels
->  - mark request struct as __attribute__((__packed__))
->  - address issues when driver is unbound while file still open
-> 
-> Changes in v2:
->  - add ioctl-number.rst entry
->  - improve documentation
->  - spell check comments and strings, fix typos
->  - unify comment style
->  - run checkpatch --strict, fix warnings and style issues
-> 
-> ---
->  .../surface_aggregator/clients/cdev.rst       |  85 +++++
->  .../surface_aggregator/clients/index.rst      |  12 +-
->  .../userspace-api/ioctl/ioctl-number.rst      |   2 +
->  MAINTAINERS                                   |   2 +
->  drivers/platform/surface/Kconfig              |  17 +
->  drivers/platform/surface/Makefile             |   1 +
->  .../surface/surface_aggregator_cdev.c         | 299 ++++++++++++++++++
->  include/uapi/linux/surface_aggregator/cdev.h  |  58 ++++
->  8 files changed, 475 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/driver-api/surface_aggregator/clients/cdev.rst
->  create mode 100644 drivers/platform/surface/surface_aggregator_cdev.c
->  create mode 100644 include/uapi/linux/surface_aggregator/cdev.h
-> 
-> diff --git a/Documentation/driver-api/surface_aggregator/clients/cdev.rst b/Documentation/driver-api/surface_aggregator/clients/cdev.rst
-> new file mode 100644
-> index 000000000000..f30e77def838
-> --- /dev/null
-> +++ b/Documentation/driver-api/surface_aggregator/clients/cdev.rst
-> @@ -0,0 +1,85 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +.. |u8| replace:: :c:type:`u8 <u8>`
-> +.. |u16| replace:: :c:type:`u16 <u16>`
-> +.. |ssam_cdev_request| replace:: :c:type:`struct ssam_cdev_request <ssam_cdev_request>`
-> +.. |ssam_request_flags| replace:: :c:type:`enum ssam_request_flags <ssam_request_flags>`
-> +
-> +==============================
-> +User-Space EC Interface (cdev)
-> +==============================
-> +
-> +The ``surface_aggregator_cdev`` module provides a misc-device for the SSAM
-> +controller to allow for a (more or less) direct connection from user-space to
-> +the SAM EC. It is intended to be used for development and debugging, and
-> +therefore should not be used or relied upon in any other way. Note that this
-> +module is not loaded automatically, but instead must be loaded manually.
-> +
-> +The provided interface is accessible through the ``/dev/surface/aggregator``
-> +device-file. All functionality of this interface is provided via IOCTLs.
-> +These IOCTLs and their respective input/output parameter structs are defined in
-> +``include/uapi/linux/surface_aggregator/cdev.h``.
-> +
-> +
-> +Controller IOCTLs
-> +=================
-> +
-> +The following IOCTLs are provided:
-> +
-> +.. flat-table:: Controller IOCTLs
-> +   :widths: 1 1 1 1 4
-> +   :header-rows: 1
-> +
-> +   * - Type
-> +     - Number
-> +     - Direction
-> +     - Name
-> +     - Description
-> +
-> +   * - ``0xA5``
-> +     - ``1``
-> +     - ``WR``
-> +     - ``REQUEST``
-> +     - Perform synchronous SAM request.
-> +
-> +
-> +``REQUEST``
-> +-----------
-> +
-> +Defined as ``_IOWR(0xA5, 1, struct ssam_cdev_request)``.
-> +
-> +Executes a synchronous SAM request. The request specification is passed in
-> +as argument of type |ssam_cdev_request|, which is then written to/modified
-> +by the IOCTL to return status and result of the request.
-> +
-> +Request payload data must be allocated separately and is passed in via the
-> +``payload.data`` and ``payload.length`` members. If a response is required,
-> +the response buffer must be allocated by the caller and passed in via the
-> +``response.data`` member. The ``response.length`` member must be set to the
-> +capacity of this buffer, or if no response is required, zero. Upon
-> +completion of the request, the call will write the response to the response
-> +buffer (if its capacity allows it) and overwrite the length field with the
-> +actual size of the response, in bytes.
-> +
-> +Additionally, if the request has a response, this must be indicated via the
-> +request flags, as is done with in-kernel requests. Request flags can be set
-> +via the ``flags`` member and the values correspond to the values found in
-> +|ssam_request_flags|.
-> +
-> +Finally, the status of the request itself is returned in the ``status``
-> +member (a negative errno value indicating failure). Note that failure
-> +indication of the IOCTL is separated from failure indication of the request:
-> +The IOCTL returns a negative status code if anything failed during setup of
-> +the request (``-EFAULT``) or if the provided argument or any of its fields
-> +are invalid (``-EINVAL``). In this case, the status value of the request
-> +argument may be set, providing more detail on what went wrong (e.g.
-> +``-ENOMEM`` for out-of-memory), but this value may also be zero. The IOCTL
-> +will return with a zero status code in case the request has been set up,
-> +submitted, and completed (i.e. handed back to user-space) successfully from
-> +inside the IOCTL, but the request ``status`` member may still be negative in
-> +case the actual execution of the request failed after it has been submitted.
-> +
-> +A full definition of the argument struct is provided below:
-> +
-> +.. kernel-doc:: include/uapi/linux/surface_aggregator/cdev.h
-> +   :functions: ssam_cdev_request
-> diff --git a/Documentation/driver-api/surface_aggregator/clients/index.rst b/Documentation/driver-api/surface_aggregator/clients/index.rst
-> index 31e026d96102..ab260ec82cfb 100644
-> --- a/Documentation/driver-api/surface_aggregator/clients/index.rst
-> +++ b/Documentation/driver-api/surface_aggregator/clients/index.rst
-> @@ -7,4 +7,14 @@ Client Driver Documentation
->  This is the documentation for client drivers themselves. Refer to
->  :doc:`../client` for documentation on how to write client drivers.
-> 
-> -.. Place documentation for individual client drivers here.
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   cdev
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 55a2d9b2ce33..a98895da62b3 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -323,6 +323,8 @@ Code  Seq#    Include File                                           Comments
->                                                                       <mailto:tlewis@mindspring.com>
->  0xA3  90-9F  linux/dtlk.h
->  0xA4  00-1F  uapi/linux/tee.h                                        Generic TEE subsystem
-> +0xA5  01     linux/surface_aggregator/cdev.h                         Microsoft Surface Platform System Aggregator
-> +                                                                     <mailto:luzmaximilian@gmail.com>
->  0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->  0xAB  00-1F  linux/nbd.h
->  0xAC  00-1F  linux/raw.h
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ff5d60875cec..f5a788f445a4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11699,7 +11699,9 @@ W:	https://github.com/linux-surface/surface-aggregator-module
->  C:	irc://chat.freenode.net/##linux-surface
->  F:	Documentation/driver-api/surface_aggregator/
->  F:	drivers/platform/surface/aggregator/
-> +F:	drivers/platform/surface/surface_aggregator_cdev.c
->  F:	include/linux/surface_aggregator/
-> +F:	include/uapi/linux/surface_aggregator/
-> 
->  MICROTEK X6 SCANNER
->  M:	Oliver Neukum <oliver@neukum.org>
-> diff --git a/drivers/platform/surface/Kconfig b/drivers/platform/surface/Kconfig
-> index 5af22f5141ff..cecad7a0cb7b 100644
-> --- a/drivers/platform/surface/Kconfig
-> +++ b/drivers/platform/surface/Kconfig
-> @@ -40,6 +40,23 @@ config SURFACE_3_POWER_OPREGION
->  	  This driver provides support for ACPI operation
->  	  region of the Surface 3 battery platform driver.
-> 
-> +config SURFACE_AGGREGATOR_CDEV
-> +	tristate "Surface System Aggregator Module User-Space Interface"
-> +	depends on SURFACE_AGGREGATOR
-> +	help
-> +	  Provides a misc-device interface to the Surface System Aggregator
-> +	  Module (SSAM) controller.
-> +
-> +	  This option provides a module (called surface_aggregator_cdev), that,
-> +	  when loaded, will add a client device (and its respective driver) to
-> +	  the SSAM controller. Said client device manages a misc-device
-> +	  interface (/dev/surface/aggregator), which can be used by user-space
-> +	  tools to directly communicate with the SSAM EC by sending requests and
-> +	  receiving the corresponding responses.
-> +
-> +	  The provided interface is intended for debugging and development only,
-> +	  and should not be used otherwise.
-> +
->  config SURFACE_GPE
->  	tristate "Surface GPE/Lid Support Driver"
->  	depends on ACPI
-> diff --git a/drivers/platform/surface/Makefile b/drivers/platform/surface/Makefile
-> index 034134fe0264..161f0ad05795 100644
-> --- a/drivers/platform/surface/Makefile
-> +++ b/drivers/platform/surface/Makefile
-> @@ -8,5 +8,6 @@ obj-$(CONFIG_SURFACE3_WMI)		+= surface3-wmi.o
->  obj-$(CONFIG_SURFACE_3_BUTTON)		+= surface3_button.o
->  obj-$(CONFIG_SURFACE_3_POWER_OPREGION)	+= surface3_power.o
->  obj-$(CONFIG_SURFACE_AGGREGATOR)	+= aggregator/
-> +obj-$(CONFIG_SURFACE_AGGREGATOR_CDEV)	+= surface_aggregator_cdev.o
->  obj-$(CONFIG_SURFACE_GPE)		+= surface_gpe.o
->  obj-$(CONFIG_SURFACE_PRO3_BUTTON)	+= surfacepro3_button.o
-> diff --git a/drivers/platform/surface/surface_aggregator_cdev.c b/drivers/platform/surface/surface_aggregator_cdev.c
-> new file mode 100644
-> index 000000000000..40c30627f33a
-> --- /dev/null
-> +++ b/drivers/platform/surface/surface_aggregator_cdev.c
-> @@ -0,0 +1,299 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Provides user-space access to the SSAM EC via the /dev/surface/aggregator
-> + * misc device. Intended for debugging and development.
-> + *
-> + * Copyright (C) 2020 Maximilian Luz <luzmaximilian@gmail.com>
-> + */
-> +
-> +#include <linux/fs.h>
-> +#include <linux/kernel.h>
-> +#include <linux/kref.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/rwsem.h>
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-> +
-> +#include <linux/surface_aggregator/cdev.h>
-> +#include <linux/surface_aggregator/controller.h>
-> +
-> +#define SSAM_CDEV_DEVICE_NAME	"surface_aggregator_cdev"
-> +
-> +struct ssam_cdev {
-> +	struct kref kref;
-> +	struct rw_semaphore lock;
-> +	struct ssam_controller *ctrl;
-> +	struct miscdevice mdev;
-> +};
-> +
-> +static void __ssam_cdev_release(struct kref *kref)
-> +{
-> +	kfree(container_of(kref, struct ssam_cdev, kref));
-> +}
-> +
-> +static struct ssam_cdev *ssam_cdev_get(struct ssam_cdev *cdev)
-> +{
-> +	if (cdev)
-> +		kref_get(&cdev->kref);
-> +
-> +	return cdev;
-> +}
-> +
-> +static void ssam_cdev_put(struct ssam_cdev *cdev)
-> +{
-> +	if (cdev)
-> +		kref_put(&cdev->kref, __ssam_cdev_release);
-> +}
-> +
-> +static int ssam_cdev_device_open(struct inode *inode, struct file *filp)
-> +{
-> +	struct miscdevice *mdev = filp->private_data;
-> +	struct ssam_cdev *cdev = container_of(mdev, struct ssam_cdev, mdev);
-> +
-> +	filp->private_data = ssam_cdev_get(cdev);
-> +	return stream_open(inode, filp);
-> +}
-> +
-> +static int ssam_cdev_device_release(struct inode *inode, struct file *filp)
-> +{
-> +	ssam_cdev_put(filp->private_data);
-> +	return 0;
-> +}
-> +
-> +static long ssam_cdev_request(struct ssam_cdev *cdev, unsigned long arg)
-> +{
-> +	struct ssam_cdev_request __user *r;
-> +	struct ssam_cdev_request rqst;
-> +	struct ssam_request spec;
-> +	struct ssam_response rsp;
-> +	const void __user *plddata;
-> +	void __user *rspdata;
-> +	int status = 0, ret = 0, tmp;
-> +
-> +	r = (struct ssam_cdev_request __user *)arg;
-> +	ret = copy_struct_from_user(&rqst, sizeof(rqst), r, sizeof(*r));
-> +	if (ret)
-> +		goto out;
-> +
-> +	plddata = u64_to_user_ptr(rqst.payload.data);
-> +	rspdata = u64_to_user_ptr(rqst.response.data);
-> +
-> +	/* Setup basic request fields. */
-> +	spec.target_category = rqst.target_category;
-> +	spec.target_id = rqst.target_id;
-> +	spec.command_id = rqst.command_id;
-> +	spec.instance_id = rqst.instance_id;
-> +	spec.flags = rqst.flags;
-> +	spec.length = rqst.payload.length;
-> +	spec.payload = NULL;
-> +
-> +	rsp.capacity = rqst.response.length;
-> +	rsp.length = 0;
-> +	rsp.pointer = NULL;
-> +
-> +	/* Get request payload from user-space. */
-> +	if (spec.length) {
-> +		if (!plddata) {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		spec.payload = kzalloc(spec.length, GFP_KERNEL);
-> +		if (!spec.payload) {
-> +			status = -ENOMEM;
-> +			ret = -EFAULT;
-> +			goto out;
-> +		}
-> +
-> +		if (copy_from_user((void *)spec.payload, plddata, spec.length)) {
-> +			ret = -EFAULT;
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	/* Allocate response buffer. */
-> +	if (rsp.capacity) {
-> +		if (!rspdata) {
-> +			ret = -EINVAL;
-> +			goto out;
-> +		}
-> +
-> +		rsp.pointer = kzalloc(rsp.capacity, GFP_KERNEL);
-> +		if (!rsp.pointer) {
-> +			status = -ENOMEM;
-> +			ret = -EFAULT;
+Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+---
+ Documentation/networking/packet_mmap.rst | 73 ++++++++++++------------
+ 1 file changed, 36 insertions(+), 37 deletions(-)
 
-This is weird, -EFAULT should only be used if a SEGFAULT
-would have been raised if the code was running in
-userspace rather then in kernelspace, IOW if userspace
-has provided an invalid pointer (or a too small buffer,
-causing the pointer to become invalid at some point in
-the buffer).
-
-IMHO you should simply do ret = -ENOMEM here.
-
-Otherwise this looks good to me.
-
-Regards,
-
-Hans
-
-
-
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	/* Perform request. */
-> +	status = ssam_request_sync(cdev->ctrl, &spec, &rsp);
-> +	if (status)
-> +		goto out;
-> +
-> +	/* Copy response to user-space. */
-> +	if (rsp.length && copy_to_user(rspdata, rsp.pointer, rsp.length))
-> +		ret = -EFAULT;
-> +
-> +out:
-> +	/* Always try to set response-length and status. */
-> +	tmp = put_user(rsp.length, &r->response.length);
-> +	if (tmp)
-> +		ret = tmp;
-> +
-> +	tmp = put_user(status, &r->status);
-> +	if (tmp)
-> +		ret = tmp;
-> +
-> +	/* Cleanup. */
-> +	kfree(spec.payload);
-> +	kfree(rsp.pointer);
-> +
-> +	return ret;
-> +}
-> +
-> +static long __ssam_cdev_device_ioctl(struct ssam_cdev *cdev, unsigned int cmd,
-> +				     unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case SSAM_CDEV_REQUEST:
-> +		return ssam_cdev_request(cdev, arg);
-> +
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +}
-> +
-> +static long ssam_cdev_device_ioctl(struct file *file, unsigned int cmd,
-> +				   unsigned long arg)
-> +{
-> +	struct ssam_cdev *cdev = file->private_data;
-> +	long status;
-> +
-> +	/* Ensure that controller is valid for as long as we need it. */
-> +	if (down_read_killable(&cdev->lock))
-> +		return -ERESTARTSYS;
-> +
-> +	if (!cdev->ctrl) {
-> +		up_read(&cdev->lock);
-> +		return -ENODEV;
-> +	}
-> +
-> +	status = __ssam_cdev_device_ioctl(cdev, cmd, arg);
-> +
-> +	up_read(&cdev->lock);
-> +	return status;
-> +}
-> +
-> +static const struct file_operations ssam_controller_fops = {
-> +	.owner          = THIS_MODULE,
-> +	.open           = ssam_cdev_device_open,
-> +	.release        = ssam_cdev_device_release,
-> +	.unlocked_ioctl = ssam_cdev_device_ioctl,
-> +	.compat_ioctl   = ssam_cdev_device_ioctl,
-> +	.llseek         = noop_llseek,
-> +};
-> +
-> +static int ssam_dbg_device_probe(struct platform_device *pdev)
-> +{
-> +	struct ssam_controller *ctrl;
-> +	struct ssam_cdev *cdev;
-> +	int status;
-> +
-> +	ctrl = ssam_client_bind(&pdev->dev);
-> +	if (IS_ERR(ctrl))
-> +		return PTR_ERR(ctrl) == -ENODEV ? -EPROBE_DEFER : PTR_ERR(ctrl);
-> +
-> +	cdev = kzalloc(sizeof(*cdev), GFP_KERNEL);
-> +	if (!cdev)
-> +		return -ENOMEM;
-> +
-> +	kref_init(&cdev->kref);
-> +	init_rwsem(&cdev->lock);
-> +	cdev->ctrl = ctrl;
-> +
-> +	cdev->mdev.parent   = &pdev->dev;
-> +	cdev->mdev.minor    = MISC_DYNAMIC_MINOR;
-> +	cdev->mdev.name     = "surface_aggregator";
-> +	cdev->mdev.nodename = "surface/aggregator";
-> +	cdev->mdev.fops     = &ssam_controller_fops;
-> +
-> +	status = misc_register(&cdev->mdev);
-> +	if (status) {
-> +		kfree(cdev);
-> +		return status;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, cdev);
-> +	return 0;
-> +}
-> +
-> +static int ssam_dbg_device_remove(struct platform_device *pdev)
-> +{
-> +	struct ssam_cdev *cdev = platform_get_drvdata(pdev);
-> +
-> +	misc_deregister(&cdev->mdev);
-> +
-> +	/*
-> +	 * The controller is only guaranteed to be valid for as long as the
-> +	 * driver is bound. Remove controller so that any lingering open files
-> +	 * cannot access it any more after we're gone.
-> +	 */
-> +	down_write(&cdev->lock);
-> +	cdev->ctrl = NULL;
-> +	up_write(&cdev->lock);
-> +
-> +	ssam_cdev_put(cdev);
-> +	return 0;
-> +}
-> +
-> +static struct platform_device *ssam_cdev_device;
-> +
-> +static struct platform_driver ssam_cdev_driver = {
-> +	.probe = ssam_dbg_device_probe,
-> +	.remove = ssam_dbg_device_remove,
-> +	.driver = {
-> +		.name = SSAM_CDEV_DEVICE_NAME,
-> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> +	},
-> +};
-> +
-> +static int __init ssam_debug_init(void)
-> +{
-> +	int status;
-> +
-> +	ssam_cdev_device = platform_device_alloc(SSAM_CDEV_DEVICE_NAME,
-> +						 PLATFORM_DEVID_NONE);
-> +	if (!ssam_cdev_device)
-> +		return -ENOMEM;
-> +
-> +	status = platform_device_add(ssam_cdev_device);
-> +	if (status)
-> +		goto err_device;
-> +
-> +	status = platform_driver_register(&ssam_cdev_driver);
-> +	if (status)
-> +		goto err_driver;
-> +
-> +	return 0;
-> +
-> +err_driver:
-> +	platform_device_del(ssam_cdev_device);
-> +err_device:
-> +	platform_device_put(ssam_cdev_device);
-> +	return status;
-> +}
-> +module_init(ssam_debug_init);
-> +
-> +static void __exit ssam_debug_exit(void)
-> +{
-> +	platform_driver_unregister(&ssam_cdev_driver);
-> +	platform_device_unregister(ssam_cdev_device);
-> +}
-> +module_exit(ssam_debug_exit);
-> +
-> +MODULE_AUTHOR("Maximilian Luz <luzmaximilian@gmail.com>");
-> +MODULE_DESCRIPTION("User-space interface for Surface System Aggregator Module");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/uapi/linux/surface_aggregator/cdev.h b/include/uapi/linux/surface_aggregator/cdev.h
-> new file mode 100644
-> index 000000000000..1a8bc0249f8e
-> --- /dev/null
-> +++ b/include/uapi/linux/surface_aggregator/cdev.h
-> @@ -0,0 +1,58 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +/*
-> + * Surface System Aggregator Module (SSAM) user-space EC interface.
-> + *
-> + * Definitions, structs, and IOCTLs for the /dev/surface/aggregator misc
-> + * device. This device provides direct user-space access to the SSAM EC.
-> + * Intended for debugging and development.
-> + *
-> + * Copyright (C) 2020 Maximilian Luz <luzmaximilian@gmail.com>
-> + */
-> +
-> +#ifndef _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H
-> +#define _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H
-> +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
-> +
-> +/**
-> + * struct ssam_cdev_request - Controller request IOCTL argument.
-> + * @target_category: Target category of the SAM request.
-> + * @target_id:       Target ID of the SAM request.
-> + * @command_id:      Command ID of the SAM request.
-> + * @instance_id:     Instance ID of the SAM request.
-> + * @flags:           SAM Request flags.
-> + * @status:          Request status (output).
-> + * @payload:         Request payload (input data).
-> + * @payload.data:    Pointer to request payload data.
-> + * @payload.length:  Length of request payload data (in bytes).
-> + * @response:        Request response (output data).
-> + * @response.data:   Pointer to response buffer.
-> + * @response.length: On input: Capacity of response buffer (in bytes).
-> + *                   On output: Length of request response (number of bytes
-> + *                   in the buffer that are actually used).
-> + */
-> +struct ssam_cdev_request {
-> +	__u8 target_category;
-> +	__u8 target_id;
-> +	__u8 command_id;
-> +	__u8 instance_id;
-> +	__u16 flags;
-> +	__s16 status;
-> +
-> +	struct {
-> +		__u64 data;
-> +		__u16 length;
-> +		__u8 __pad[6];
-> +	} payload;
-> +
-> +	struct {
-> +		__u64 data;
-> +		__u16 length;
-> +		__u8 __pad[6];
-> +	} response;
-> +} __attribute__((__packed__));
-> +
-> +#define SSAM_CDEV_REQUEST	_IOWR(0xA5, 1, struct ssam_cdev_request)
-> +
-> +#endif /* _UAPI_LINUX_SURFACE_AGGREGATOR_CDEV_H */
-> --
-> 2.29.2
-> 
+diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
+index f3646c80b019..19c660f597e9 100644
+--- a/Documentation/networking/packet_mmap.rst
++++ b/Documentation/networking/packet_mmap.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-===========
+-Packet MMAP
+-===========
++=============
++PACKET mmap()
++=============
+ 
+ Abstract
+ ========
+@@ -22,23 +22,23 @@ Please send your comments to
+     - Ulisses Alonso Camaró <uaca@i.hate.spam.alumni.uv.es>
+     - Johann Baudy
+ 
+-Why use PACKET_MMAP
+-===================
++Why use PACKET mmap()
++=====================
+ 
+-In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process is very
+-inefficient. It uses very limited buffers and requires one system call to
+-capture each packet, it requires two if you want to get packet's timestamp
+-(like libpcap always does).
++In Linux 2.4/2.6/3.x non mmap() PACKET capture process is very inefficient. It
++uses very limited buffers and requires one system call to capture each packet,
++it requires two if you want to get packet's timestamp (like libpcap always
++does).
+ 
+-In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a size
+-configurable circular buffer mapped in user space that can be used to either
+-send or receive packets. This way reading packets just needs to wait for them,
+-most of the time there is no need to issue a single system call. Concerning
+-transmission, multiple packets can be sent through one system call to get the
+-highest bandwidth. By using a shared buffer between the kernel and the user
+-also has the benefit of minimizing packet copies.
++In the other hand PACKET mmap() is very efficient. PACKET mmap() provides a
++size configurable circular buffer mapped in user space that can be used to
++either send or receive packets. This way reading packets just needs to wait for
++them, most of the time there is no need to issue a single system call.
++Concerning transmission, multiple packets can be sent through one system call
++to get the highest bandwidth. By using a shared buffer between the kernel and
++the user also has the benefit of minimizing packet copies.
+ 
+-It's fine to use PACKET_MMAP to improve the performance of the capture and
++It's fine to use PACKET mmap() to improve the performance of the capture and
+ transmission process, but it isn't everything. At least, if you are capturing
+ at high speeds (this is relative to the cpu speed), you should check if the
+ device driver of your network interface card supports some sort of interrupt
+@@ -54,13 +54,13 @@ From the user standpoint, you should use the higher level libpcap library, which
+ is a de facto standard, portable across nearly all operating systems
+ including Win32.
+ 
+-Packet MMAP support was integrated into libpcap around the time of version 1.3.0;
+-TPACKET_V3 support was added in version 1.5.0
++PACKET mmap() support was integrated into libpcap around the time of version
++1.3.0; TPACKET_V3 support was added in version 1.5.0.
+ 
+ How to use mmap() directly to improve capture process
+ =====================================================
+ 
+-From the system calls stand point, the use of PACKET_MMAP involves
++From the system calls stand point, the use of PACKET mmap() involves
+ the following process::
+ 
+ 
+@@ -78,7 +78,7 @@ the following process::
+ 
+ 
+ socket creation and destruction is straight forward, and is done
+-the same way with or without PACKET_MMAP::
++the same way with or without PACKET mmap()::
+ 
+  int fd = socket(PF_PACKET, mode, htons(ETH_P_ALL));
+ 
+@@ -91,12 +91,12 @@ by the kernel.
+ The destruction of the socket and all associated resources
+ is done by a simple call to close(fd).
+ 
+-Similarly as without PACKET_MMAP, it is possible to use one socket
++Similarly as without PACKET mmap(), it is possible to use one socket
+ for capture and transmission. This can be done by mapping the
+ allocated RX and TX buffer ring with a single mmap() call.
+ See "Mapping and use of the circular buffer (ring)".
+ 
+-Next I will describe PACKET_MMAP settings and its constraints,
++Next I will describe PACKET mmap() settings and its constraints,
+ also the mapping of the circular buffer in the user process and
+ the use of this buffer.
+ 
+@@ -183,10 +183,10 @@ can set tp_net (with SOCK_DGRAM) or tp_mac (with SOCK_RAW). In order
+ to make this work it must be enabled previously with setsockopt()
+ and the PACKET_TX_HAS_OFF option.
+ 
+-PACKET_MMAP settings
+-====================
++PACKET mmap() settings
++======================
+ 
+-To setup PACKET_MMAP from user level code is done with a call like
++To setup PACKET mmap() from user level code is done with a call like
+ 
+  - Capture process::
+ 
+@@ -247,13 +247,12 @@ be spawned across two blocks, so there are some details you have to take into
+ account when choosing the frame_size. See "Mapping and use of the circular
+ buffer (ring)".
+ 
+-PACKET_MMAP setting constraints
+-===============================
++PACKET mmap() setting constraints
++=================================
+ 
+ In kernel versions prior to 2.4.26 (for the 2.4 branch) and 2.6.5 (2.6 branch),
+-the PACKET_MMAP buffer could hold only 32768 frames in a 32 bit architecture or
+-16384 in a 64 bit architecture. For information on these kernel versions
+-see http://pusa.uv.es/~ulisses/packet_mmap/packet_mmap.pre-2.4.26_2.6.5.txt
++the PACKET mmap() buffer could hold only 32768 frames in a 32 bit architecture
++or 16384 in a 64 bit architecture.
+ 
+ Block size limit
+ ----------------
+@@ -285,7 +284,7 @@ system call.
+ Block number limit
+ ------------------
+ 
+-To understand the constraints of PACKET_MMAP, we have to see the structure
++To understand the constraints of PACKET mmap(), we have to see the structure
+ used to hold the pointers to each block.
+ 
+ Currently, this structure is a dynamically allocated vector with kmalloc
+@@ -315,8 +314,8 @@ pointers to blocks is::
+ 
+      131072/4 = 32768 blocks
+ 
+-PACKET_MMAP buffer size calculator
+-==================================
++PACKET mmap() buffer size calculator
++====================================
+ 
+ Definitions:
+ 
+@@ -372,9 +371,9 @@ Other constraints
+ 
+ If you check the source code you will see that what I draw here as a frame
+ is not only the link level frame. At the beginning of each frame there is a
+-header called struct tpacket_hdr used in PACKET_MMAP to hold link level's frame
+-meta information like timestamp. So what we draw here a frame it's really
+-the following (from include/linux/if_packet.h)::
++header called struct tpacket_hdr used in PACKET mmap() to hold link level's
++frame meta information like timestamp. So what we draw here a frame it's
++really the following (from include/linux/if_packet.h)::
+ 
+  /*
+    Frame structure:
+-- 
+2.29.2
 
