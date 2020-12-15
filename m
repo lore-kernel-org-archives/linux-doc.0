@@ -2,64 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC4AC4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 05:26:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA973C2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:26:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9801B222B6
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 05:26:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5792E2228A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 08:26:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgLOF0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 00:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgLOFZs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 00:25:48 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A85C0617A6
-        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 21:25:07 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id jx16so25814892ejb.10
-        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 21:25:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MScTYxoSfPHDqz2+BVl+z1OvhQSJGBAoa571MEAuHI4=;
-        b=PqgXMNZceI4SB6cXF6KAwobxmAq2mWRYSmt1J7X2On2p9iERZ9EHp0wSCUHmr46nsA
-         SiCwHB16rEaVFSz5S2cNai9io+ir85igzuvOeQxyzjrpDIJyYqM0edHmhXroY3ugrf5U
-         vG+K6XMPNKiGltpjDNsd/fv+34ukFW87xPush957W4n8LPg+NRTkXlBKEFrh7RDL3ELg
-         +NrHsEN0yhForooPRicwb0+rf2zyzDHoKPiRphHpvnYLVXlHvKXCabrv89+aqbKRIm7h
-         ppofgZKJxBzXzrqZtg2ol62BAXZhibT3/fhVl7ar7++OuCr2CNrYzxhRDTMLjFZ7y4i5
-         wn9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MScTYxoSfPHDqz2+BVl+z1OvhQSJGBAoa571MEAuHI4=;
-        b=hYJNSlRui+cuOcTNjTK2350QhsmGIJ56+TmkTrGcQ9x/VYPz+4agF9P3Prw5zbehdy
-         7p+dqWsIst1rWSkHIEgnt3KSYUjcNSjSxBCxntLiFw/8Lq9aek10DvmJQR2+zCUKpsdi
-         fhAwZzbEqTV3xRxNw17dbJYmLoLJVeVpGb6emCClYJGFEpWFdnupuIIn75MK6pgDy3xy
-         2dAgfuWpNu5ufNcMrIRov/ZpR/B2xZ4msPpfb4gM3kS28q1yXc5ikTShBk1ETV2eP3FE
-         cygjUwre03S8Rj774s+At+QQIhQy/k5Olnh+zmdR6/fsVRpGELAJo73zl85GDPQ5Gdjv
-         qdNw==
-X-Gm-Message-State: AOAM531Z6+4UCmysgXtv4Bwyelpcore6tZ5DIOY2w9t5KpYCzGaj7qsh
-        bHqswPcHKob6yLyT7vFxEjmGsRDVDdNJ817WUNn/Zg==
-X-Google-Smtp-Source: ABdhPJzSf89CWG1p4ITg2ctL0KI5p4iXHWylwwTq4hUdYg2dZW8IXnq3qsDC1bdRJLlKyGL3SSbqnjripuO24mHQCKA=
-X-Received: by 2002:a17:906:4a4f:: with SMTP id a15mr25977973ejv.541.1608009906509;
- Mon, 14 Dec 2020 21:25:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-5-pasha.tatashin@soleen.com> <20201214141715.GF32193@dhcp22.suse.cz>
-In-Reply-To: <20201214141715.GF32193@dhcp22.suse.cz>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Tue, 15 Dec 2020 00:24:30 -0500
-Message-ID: <CA+CK2bCWkPDw-Aif6iXHq15Dpa+50hmrcAk_LpMCMk30zY5aFw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] mm: honor PF_MEMALLOC_PIN for all movable pages
-To:     Michal Hocko <mhocko@suse.com>
+        id S1727022AbgLOI0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 03:26:19 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41744 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726217AbgLOI0N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Dec 2020 03:26:13 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1608020725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1TNK/lVDl1GoAySvXZqTqRJer4+ab+0COZr0xkYRhJo=;
+        b=Yfl8ZaOr/8CH3TmHkGxKWBL32jv4Ay/iX5yt1AX2Lnad+FQsBWC6P+dHPyHZKE3G+7eLyZ
+        3MSYiZ6RahCBkG+al79V9luYQ+kF9cNtmJaavuZ6Cnfz6jZfr3b5Qmr6iBdAkFmYvQORfq
+        HRt8iwyvv2lmg9+pJqG92OymMBYaRAY=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 88FD3AC7F;
+        Tue, 15 Dec 2020 08:25:25 +0000 (UTC)
+Date:   Tue, 15 Dec 2020 09:25:24 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>,
@@ -77,51 +51,90 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         David Rientjes <rientjes@google.com>,
         John Hubbard <jhubbard@nvidia.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 3/6] mm: apply per-task gfp constraints in fast path
+Message-ID: <20201215082524.GK32193@dhcp22.suse.cz>
+References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
+ <20201211202140.396852-4-pasha.tatashin@soleen.com>
+ <20201214140912.GE32193@dhcp22.suse.cz>
+ <CA+CK2bA9u_ZUosha0JvW6ezs-h95UBHZztoFojMyFbC791ximw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bA9u_ZUosha0JvW6ezs-h95UBHZztoFojMyFbC791ximw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 14, 2020 at 9:17 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 11-12-20 15:21:38, Pavel Tatashin wrote:
-> [...]
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index c2dea9ad0e98..4d8e7f801c66 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -3802,16 +3802,12 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
-> >       return alloc_flags;
-> >  }
+On Tue 15-12-20 00:20:39, Pavel Tatashin wrote:
+> > Ack to this.
+> 
+> Thank you.
+> 
 > >
-> > -static inline unsigned int current_alloc_flags(gfp_t gfp_mask,
-> > -                                     unsigned int alloc_flags)
-> > +static inline unsigned int cma_alloc_flags(gfp_t gfp_mask,
-> > +                                        unsigned int alloc_flags)
->
-> Do you have any strong reason to rename? Even though the current
+> > But I do not really understand this. All allocation contexts should have
+> > a proper gfp mask so why do we have to call current_gfp_context here?
+> > In fact moving the current_gfp_context in the allocator path should have
+> > made all this games unnecessary. Memcg reclaim path might need some
+> > careful check because gfp mask is used more creative there but the
+> > general reclaim paths should be ok.
+> >
+> > > diff --git a/mm/vmscan.c b/mm/vmscan.c
+> >
+> > Again, why do we need this when the gfp_mask
+> > >       };
+> > >
+> --
+> 
+> Hi Michal,
+> 
+> Beside from __alloc_pages_nodemask(), the current_gfp_context() is
+> called from the following six functions:
+> 
+> try_to_free_pages()
+> try_to_free_mem_cgroup_pages()
+> __node_reclaim()
+> __need_fs_reclaim()
+> alloc_contig_range()
+> pcpu_alloc()
+> 
+> As I understand, the idea is that because the allocator now honors
+> gfp_context values for all paths, the call can be removed from some of
+> the above functions. I think you are correct. But, at least from a
+> quick glance, this is not obvious, and is not the case for all of the
+> above functions.
+> 
+> For example:
+> 
+> alloc_contig_range()
+>   __alloc_contig_migrate_range
+>    isolate_migratepages_range
+>      isolate_migratepages_block
+>         /*
+>          * Only allow to migrate anonymous pages in GFP_NOFS context
+>          * because those do not depend on fs locks.
+>          */
+>        if (!(cc->gfp_mask & __GFP_FS) && page_mapping(page))
+>           goto isolate_fail;
+> 
+> If we remove current_gfp_context() from alloc_contig_range(), the
+> cc->gfp_mask will not be updated with proper __GFP_FS flag.
 
-Yes :)
+I do not think I was proposing to drop current_gfp_context from
+alloc_contig_range. ACR needs some work to be properly scoped gfp mask
+aware. This should be addressed but I do not think think the code
+works properly now so I wouldn't lose sleep over it in this series. At
+least __alloc_contig_migrate_range should follow the gfp mask given to
+alloc_contig_range.
 
-> implementation only does something for cma I do not think this is all
-> that important. The naming nicely fits with current_gfp_context so I
-> would stick with it.
+> I have studied some other paths, and they are also convoluted.
+> Therefore, I am worried about performing this optimization in this
+> series.
 
-I am renaming because current->flags is removed from this function,
-therefore keeping the name
-becomes misleading. This function only addresses cma flag check
-without looking at the thread local state now.
+Dropping current_gfp_context from the reclaim context should be done in
+a separate patch. I didn't mean to push for this here. All I meant was
+to simply not touch gfp/zone_idx in the reclaim path. The changelog
+should call out that the page allocator always provides proper gfp mask.
 
->
-> Other than that the patch looks reasonable. I would just add a comment
-> explaining that current_alloc_flags should be called _after_
-> current_gfp_context because that one might change the gfp_mask.
-
-Thanks, I will add it.
-
->
-> With that addressed, feel free to add
-> Acked-by: Michal Hocko <mhocko@suse.com>
-
-Thank you,
-Pasha
+-- 
+Michal Hocko
+SUSE Labs
