@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA1AC4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 04:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE89C4361B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 05:23:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60EF720795
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 04:39:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C57422287
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 05:23:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgLOEjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 14 Dec 2020 23:39:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36084 "EHLO
+        id S1725843AbgLOFXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 00:23:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725949AbgLOEjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 14 Dec 2020 23:39:13 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E58C06179C
-        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 20:38:32 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id qw4so25699705ejb.12
-        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 20:38:32 -0800 (PST)
+        with ESMTP id S1726215AbgLOFV5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 00:21:57 -0500
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBECC0617B0
+        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 21:21:17 -0800 (PST)
+Received: by mail-ed1-x544.google.com with SMTP id c7so19628666edv.6
+        for <linux-doc@vger.kernel.org>; Mon, 14 Dec 2020 21:21:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bjas04zq4quJPDf/2Zl8W/3PIeOhXPZgNazOTkbLsjU=;
-        b=GDNB/aCqhln43599Pj7A2uVQlX4OYo4k0I9Dp6EdhU8h/suX8Kcgr94s0vG5G4AsnS
-         GyqJ6Jxg0aq0K3BNSs6krIkxfxVrixOORoACeUCI0EeUYuHdU/0KkaODusnGRhJaz6uM
-         20EelORVe4K3b2B4XpT9vDqWkOylgP3IDNynB6isAOyS/BabSgEvuguS2d/zehk4KuDB
-         pn6kpGKURU0c2xhX5BvLAc5xBp763QXa/l92BxeuvqdssCpgI6CwVq/H1yl18AdhYgsN
-         OVkoWDZlyGX6whsYCfE8VOjfBcmyW2wRLZmsFb85XgqutAuXwV/jSLrIE65UNJ2g0UOE
-         Gtig==
+        bh=DtoFrDGyRzomOBINo4k6/LLWjzIuvMntHICBSDufujU=;
+        b=JccyEeDCqJGvzrnf2MTHV8vENXCE6EcEbKHITxFkBO6S45+kn+osTIpTjWRM3JtZzb
+         vPNNdbh5S1JVM6LI9b4DAi1HSURysZF24us8TaPcZPi4KFLMvmggU5+OyCQKe8XTQsAc
+         33BL/38GifT8ctNK9/YkhL2cd4BcyB0koGRZHwFnm8E6zJWZ2ODFlYlUqZxwvLxgedwT
+         PJKUgrfIFKkNGGBF7KS7nYRoNQznH13b87lhRhv3fJymmBExXI74BqviWJOlMg02DfSB
+         mqjs+rdiet8J7N3eIxlNMVG7tLXZZIZGnLNjjC7+UaB3cYlooKmKrAG1qCFKu2x4n5U+
+         Nwvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bjas04zq4quJPDf/2Zl8W/3PIeOhXPZgNazOTkbLsjU=;
-        b=WrTfpoIjcsY4XjJoC/y3avgAf+uep+cbpp4fAiB0x4agnjOc2Fi1+IVgd59I09eKNs
-         JDHWegslBfWNZWsinR+j794VYUnqNXhsGUJwLUI8TgMZcpOyTx/C3qOYLQv56sFL5nSQ
-         GOM1wRui6euCcbDvU1+Y6qqPvGVAOuOhIc+b2R7dntfBfyMJ5r6eELvbBNfTnhveawR7
-         d+Dmi/q5szrgZC2u3wnf6fDsE0yEaD8+ZsxrRbp/3xVC0vOKnwCbKIoEgH014H+T/UC9
-         gDZd769gyonaPO8vdjydzK5mUrx2ad+0kwt47vjv/1aQX7Dg3CgAhcaPDxJhJ2IXnisu
-         6pXw==
-X-Gm-Message-State: AOAM530ZvFIDd/hQb8JjeIiP9sAwPAMNWx+h+lXc2S65tLOqdcq8nh5s
-        rM8N4KU1gN86LE2q/C/+Ja7H6iRHfkT8Yhf/ZvWTxA==
-X-Google-Smtp-Source: ABdhPJxmmg2xBh9Z1x6jNfKkt61RWp5JGX1NTncLKP19jmRPohZ5nawq5vIMNeMZ2XyD8PMP5v+IraZ8V0c8PmC1A+A=
-X-Received: by 2002:a17:906:fb9b:: with SMTP id lr27mr25823947ejb.175.1608007111384;
- Mon, 14 Dec 2020 20:38:31 -0800 (PST)
+        bh=DtoFrDGyRzomOBINo4k6/LLWjzIuvMntHICBSDufujU=;
+        b=sRLFqQH4qUftLC12WR39pABvyXAJU3AHSho9BF0UbRBgbCVwGC7U2+zDNeJPJCQIkW
+         f+GuJ50LnCMJEdQg9HHldJsT3GJb2C4cmps1uOh0XSfDeh5VDyt+3AixdRl4YLDq9Nni
+         eO+j0FBwXhBemoNQPyekDkEEpN3zU4vT5eK+V63/IZhOjUMEh4Fc2YsihGV+XFYqaMRA
+         MEf4T1jWrYpwQ7foX4EGQofA662L0qlZWySQx2ilkFYVvnxaBe7/cEz9yh/jBrb4A2UC
+         PJBDEtk94DIztrEPAtAUNPHuJlZwBdjxMtBWaDmxYd9EdsLtrR1Enf3VLyz2BQrVowQJ
+         xb4A==
+X-Gm-Message-State: AOAM5326tKzIP9ixOTZaixnOG0Tr945ypxX0Pz7NxaMbNWyp0XUimS+n
+        EEjvmamd3085QvDrWik4kjvlqQoAAd9uUpXG+y9aUA==
+X-Google-Smtp-Source: ABdhPJymYnD0yKSOBXxwE4d162v7Rhh7achqxetqFLI95KAw3f9XowfmwGq2H2/sTiKf/Lsn8U2gqBc4k8RGnx9uCRI=
+X-Received: by 2002:a05:6402:95c:: with SMTP id h28mr853886edz.26.1608009675762;
+ Mon, 14 Dec 2020 21:21:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20201211202140.396852-1-pasha.tatashin@soleen.com>
- <20201211202140.396852-3-pasha.tatashin@soleen.com> <20201214140337.GD32193@dhcp22.suse.cz>
-In-Reply-To: <20201214140337.GD32193@dhcp22.suse.cz>
+ <20201211202140.396852-4-pasha.tatashin@soleen.com> <20201214140912.GE32193@dhcp22.suse.cz>
+In-Reply-To: <20201214140912.GE32193@dhcp22.suse.cz>
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Mon, 14 Dec 2020 23:37:55 -0500
-Message-ID: <CA+CK2bBM1s=MxOcNR3pmO1rwKfrbA4=ObLYszUuU8Cz3N30OJA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] mm cma: rename PF_MEMALLOC_NOCMA to PF_MEMALLOC_PIN
+Date:   Tue, 15 Dec 2020 00:20:39 -0500
+Message-ID: <CA+CK2bA9u_ZUosha0JvW6ezs-h95UBHZztoFojMyFbC791ximw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] mm: apply per-task gfp constraints in fast path
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -82,55 +82,58 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 14, 2020 at 9:03 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 11-12-20 15:21:36, Pavel Tatashin wrote:
-> > PF_MEMALLOC_NOCMA is used ot guarantee that the allocator will not return
-> > pages that might belong to CMA region. This is currently used for long
-> > term gup to make sure that such pins are not going to be done on any CMA
-> > pages.
-> >
-> > When PF_MEMALLOC_NOCMA has been introduced we haven't realized that it is
-> > focusing on CMA pages too much and that there is larger class of pages that
-> > need the same treatment. MOVABLE zone cannot contain any long term pins as
-> > well so it makes sense to reuse and redefine this flag for that usecase as
-> > well. Rename the flag to PF_MEMALLOC_PIN which defines an allocation
-> > context which can only get pages suitable for long-term pins.
-> >
-> > Also re-name:
-> > memalloc_nocma_save()/memalloc_nocma_restore
-> > to
-> > memalloc_pin_save()/memalloc_pin_restore()
-> > and make the new functions common.
-> >
-> > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> > Reviewed-by: John Hubbard <jhubbard@nvidia.com>
->
-> Acked-by: Michal Hocko <mhocko@suse.com>
+> Ack to this.
 
 Thank you.
 
 >
-> with one comment below
-> [...]
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -1576,7 +1576,7 @@ extern struct pid *cad_pid;
-> >  #define PF_SWAPWRITE         0x00800000      /* Allowed to write to swap */
-> >  #define PF_NO_SETAFFINITY    0x04000000      /* Userland is not allowed to meddle with cpus_mask */
-> >  #define PF_MCE_EARLY         0x08000000      /* Early kill for mce process policy */
-> > -#define PF_MEMALLOC_NOCMA    0x10000000      /* All allocation request will have _GFP_MOVABLE cleared */
-> > +#define PF_MEMALLOC_PIN              0x10000000      /* All allocation request will have _GFP_MOVABLE cleared */
+> But I do not really understand this. All allocation contexts should have
+> a proper gfp mask so why do we have to call current_gfp_context here?
+> In fact moving the current_gfp_context in the allocator path should have
+> made all this games unnecessary. Memcg reclaim path might need some
+> careful check because gfp mask is used more creative there but the
+> general reclaim paths should be ok.
 >
-> This comment is not really helpeful. I would go with
-> /* Allocation context constrained to zones which allow long term
->  * pinning.
->  */
+> > diff --git a/mm/vmscan.c b/mm/vmscan.c
 >
-> Something similar would be useful for memalloc_pin* functions as well.
+> Again, why do we need this when the gfp_mask
+> >       };
+> >
+--
 
-I will add it.
+Hi Michal,
 
-> --
-> Michal Hocko
-> SUSE Labs
+Beside from __alloc_pages_nodemask(), the current_gfp_context() is
+called from the following six functions:
+
+try_to_free_pages()
+try_to_free_mem_cgroup_pages()
+__node_reclaim()
+__need_fs_reclaim()
+alloc_contig_range()
+pcpu_alloc()
+
+As I understand, the idea is that because the allocator now honors
+gfp_context values for all paths, the call can be removed from some of
+the above functions. I think you are correct. But, at least from a
+quick glance, this is not obvious, and is not the case for all of the
+above functions.
+
+For example:
+
+alloc_contig_range()
+  __alloc_contig_migrate_range
+   isolate_migratepages_range
+     isolate_migratepages_block
+        /*
+         * Only allow to migrate anonymous pages in GFP_NOFS context
+         * because those do not depend on fs locks.
+         */
+       if (!(cc->gfp_mask & __GFP_FS) && page_mapping(page))
+          goto isolate_fail;
+
+If we remove current_gfp_context() from alloc_contig_range(), the
+cc->gfp_mask will not be updated with proper __GFP_FS flag.
+I have studied some other paths, and they are also convoluted.
+Therefore, I am worried about performing this optimization in this
+series.
