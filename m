@@ -2,65 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD53C4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53B25C2BB9A
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4C5E225AB
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:53:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 023E42251E
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 16:56:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730487AbgLOQw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 11:52:57 -0500
-Received: from guitar.tcltek.co.il ([192.115.133.116]:39042 "EHLO
-        mx.tkos.co.il" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731090AbgLOQwx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 15 Dec 2020 11:52:53 -0500
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx.tkos.co.il (Postfix) with ESMTPS id E4FAE4409C2;
-        Tue, 15 Dec 2020 18:52:08 +0200 (IST)
-From:   Baruch Siach <baruch@tkos.co.il>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        =?UTF-8?q?Ulisses=20Alonso=20Camar=C3=B3?= <uaca@alumni.uv.es>,
-        Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH net 1/2] docs: networking: packet_mmap: fix formatting for C macros
-Date:   Tue, 15 Dec 2020 18:51:16 +0200
-Message-Id: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
-X-Mailer: git-send-email 2.29.2
+        id S1729932AbgLOQ4P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 11:56:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728878AbgLOQ4J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 15 Dec 2020 11:56:09 -0500
+X-Gm-Message-State: AOAM5321IbEKWA/yo8jtG9IiANn0y125mZBwBuC/o33dPGvrOG9umRIt
+        jb63n20Kt3t5x+cytX42Ad5qpU6yxZy7mljhM/9EEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608051328;
+        bh=wxgX7rhYWEdaXnSJ6bJp8xImT47Xo70cIxCVXhRWJMk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bKx5sHyUxlKUO5O1VSKvYl+KlaKh1xk5TM0+wfneX+9+TIBF2Ie4C+vqt8p2kpB3X
+         CK624/Y76U1sBgrmcfi9FCN5fcukZN45Lozelv3Ea3HzoxndJlYYC5+FfQulzZuYrN
+         Pvj8RGFxAewuiKi2Wg7CczDgRFskM9e+OZWs/SX0PoGuSI0wPr+kvIVzKZ4UoU2BcC
+         nTdolSOetdQAWReQbNu/yqGiSiJ/Q73LRR/2qzl8i57W/cmJxFNNCI/vQRq92AKEgc
+         ZtCO8fqfbsYDLZpZ7/FWmhc94qBXM4EIVTO/xtLEhZSwreSN1H61I3dOjCj25I7bKK
+         rUViwgN8UvXhA==
+X-Google-Smtp-Source: ABdhPJw+VfdnYClq2C1NfMWCzjVSwytcRYUNwbuO86jDcwu7QTrd/YpYWhMAV2WfVcfj0qIb+FX0haGZwRfdhSVCd1Y=
+X-Received: by 2002:a5d:4905:: with SMTP id x5mr19403633wrq.75.1608051326140;
+ Tue, 15 Dec 2020 08:55:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <875z5c2db8.fsf@nanos.tec.linutronix.de> <20201209163434.GA22851@fuller.cnet>
+ <87r1nyzogg.fsf@nanos.tec.linutronix.de> <20201210152618.GB23951@fuller.cnet>
+ <87zh2lib8l.fsf@nanos.tec.linutronix.de> <20201211002703.GA47016@fuller.cnet>
+ <87v9d8h3lx.fsf@nanos.tec.linutronix.de> <20201211141822.GA67764@fuller.cnet>
+ <87k0togikr.fsf@nanos.tec.linutronix.de> <d9063c37-a965-d5cf-e923-c0c9f6ddc044@redhat.com>
+ <20201215105927.GA3321@fuller.cnet>
+In-Reply-To: <20201215105927.GA3321@fuller.cnet>
+From:   Andy Lutomirski <luto@kernel.org>
+Date:   Tue, 15 Dec 2020 08:55:15 -0800
+X-Gmail-Original-Message-ID: <CALCETrWSnMm-mfC5LjzsFLk6Tt_40Udrif-Kh34TTj6fp_8ZLw@mail.gmail.com>
+Message-ID: <CALCETrWSnMm-mfC5LjzsFLk6Tt_40Udrif-Kh34TTj6fp_8ZLw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] KVM: x86: implement KVM_{GET|SET}_TSC_STATE
+To:     Marcelo Tosatti <mtosatti@redhat.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        kvm list <kvm@vger.kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Sean Christopherson <sean.j.christopherson@intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>, Borislav Petkov <bp@alien8.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andrew Jones <drjones@redhat.com>,
+        Oliver Upton <oupton@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The citation of macro definitions should appear in a code block.
+On Tue, Dec 15, 2020 at 3:35 AM Marcelo Tosatti <mtosatti@redhat.com> wrote:
+>
+> On Fri, Dec 11, 2020 at 10:59:59PM +0100, Paolo Bonzini wrote:
+> > On 11/12/20 22:04, Thomas Gleixner wrote:
+> > > > Its 100ms off with migration, and can be reduced further (customers
+> > > > complained about 5 seconds but seem happy with 0.1ms).
+> > > What is 100ms? Guaranteed maximum migration time?
+> >
+> > I suppose it's the length between the time from KVM_GET_CLOCK and
+> > KVM_GET_MSR(IA32_TSC) to KVM_SET_CLOCK and KVM_SET_MSR(IA32_TSC).  But the
+> > VM is paused for much longer, the sequence for the non-live part of the
+> > migration (aka brownout) is as follows:
+> >
+> >     pause
+> >     finish sending RAM            receive RAM               ~1 sec
+> >     send paused-VM state          finish receiving RAM     \
+> >                                   receive paused-VM state   ) 0.1 sec
+> >                                   restart                  /
+> >
+> > The nanosecond and TSC times are sent as part of the paused-VM state at the
+> > very end of the live migration process.
+> >
+> > So it's still true that the time advances during live migration brownout;
+> > 0.1 seconds is just the final part of the live migration process.  But for
+> > _live_ migration there is no need to design things according to "people are
+> > happy if their clock is off by 0.1 seconds only".
+>
+> Agree. What would be a good way to fix this?
+>
 
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- Documentation/networking/packet_mmap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
-index 6c009ceb1183..f3646c80b019 100644
---- a/Documentation/networking/packet_mmap.rst
-+++ b/Documentation/networking/packet_mmap.rst
-@@ -437,7 +437,7 @@ and the following flags apply:
- Capture process
- ^^^^^^^^^^^^^^^
- 
--     from include/linux/if_packet.h
-+From include/linux/if_packet.h::
- 
-      #define TP_STATUS_COPY          (1 << 1)
-      #define TP_STATUS_LOSING        (1 << 2)
--- 
-2.29.2
-
+Could you implement the Hyper-V clock interface?  It's much, much
+simpler than the kvmclock interface.  It has the downside that
+CLOCK_BOOTTIME won't do what you want, but I'm not really convinced
+that's a problem, and you could come up with a minimal extension to
+fix that.
