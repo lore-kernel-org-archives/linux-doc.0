@@ -2,182 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B117C4361B
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 09:26:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D36C2BB48
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 09:43:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AACA22258
-	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 09:26:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8FB32246B
+	for <linux-doc@archiver.kernel.org>; Tue, 15 Dec 2020 09:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728218AbgLOJ07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 04:26:59 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:22551 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726777AbgLOJ06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 04:26:58 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 0BF9MoOT076087;
-        Tue, 15 Dec 2020 17:22:50 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 15 Dec
- 2020 17:26:06 +0800
-Date:   Tue, 15 Dec 2020 17:25:46 +0800
-From:   Troy Lee <troy_lee@aspeedtech.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
+        id S1727621AbgLOJmz convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 15 Dec 2020 04:42:55 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:59360 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726803AbgLOJjb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 04:39:31 -0500
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-17-jpEXzE1ONrSs8CdvF1T67g-1; Tue, 15 Dec 2020 09:37:52 +0000
+X-MC-Unique: jpEXzE1ONrSs8CdvF1T67g-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 15 Dec 2020 09:37:53 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 15 Dec 2020 09:37:53 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Pavel Begunkov' <asml.silence@gmail.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+CC:     Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Ming Lei <ming.lei@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "leetroy@gmail.com" <leetroy@gmail.com>,
-        "Ryan Chen" <ryan_chen@aspeedtech.com>,
-        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
-        Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
-Message-ID: <20201215092545.GA24903@aspeedtech.com>
-References: <20201209075921.26689-1-troy_lee@aspeedtech.com>
- <20201209075921.26689-2-troy_lee@aspeedtech.com>
- <20201211032612.GA3565720@robh.at.kernel.org>
+        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v1 2/6] iov_iter: optimise bvec iov_iter_advance()
+Thread-Topic: [PATCH v1 2/6] iov_iter: optimise bvec iov_iter_advance()
+Thread-Index: AQHW0njgRO60UNrAz0qHNwIRx20dYqn35EKA
+Date:   Tue, 15 Dec 2020 09:37:53 +0000
+Message-ID: <262132648a8f4e7a9d1c79003ea74b3f@AcuMS.aculab.com>
+References: <cover.1607976425.git.asml.silence@gmail.com>
+ <5c9c22dbeecad883ca29b31896c262a8d2a77132.1607976425.git.asml.silence@gmail.com>
+In-Reply-To: <5c9c22dbeecad883ca29b31896c262a8d2a77132.1607976425.git.asml.silence@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20201211032612.GA3565720@robh.at.kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0BF9MoOT076087
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 12/11/2020 11:26, Rob Herring wrote:
-> On Wed, Dec 09, 2020 at 03:59:17PM +0800, Troy Lee wrote:
-> > For supporting a new AST2600 PWM/Fan hwmon driver, we add a new binding.
-> > 
-> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> > ---
-> >  .../bindings/hwmon/aspeed2600-pwm-tacho.txt   | 69 +++++++++++++++++++
+From: Pavel Begunkov
+> Sent: 15 December 2020 00:20
 > 
-> Bindings are in DT schema format now.
+> iov_iter_advance() is heavily used, but implemented through generic
+> iteration. As bvecs have a specifically crafted advance() function, i.e.
+> bvec_iter_advance(), which is faster and slimmer, use it instead.
 > 
-I'll submit a new binding with DT schema.
+> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> ---
+>  lib/iov_iter.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+> index 1635111c5bd2..5b186dc2c9ea 100644
+> --- a/lib/iov_iter.c
+> +++ b/lib/iov_iter.c
+> @@ -1067,6 +1067,21 @@ static void pipe_advance(struct iov_iter *i, size_t size)
+>  	pipe_truncate(i);
+>  }
+> 
+> +static void iov_iter_bvec_advance(struct iov_iter *i, size_t size)
+> +{
+> +	struct bvec_iter bi;
+> +
+> +	bi.bi_size = i->count;
+> +	bi.bi_bvec_done = i->iov_offset;
+> +	bi.bi_idx = 0;
+> +	bvec_iter_advance(i->bvec, &bi, size);
+> +
+> +	i->bvec += bi.bi_idx;
+> +	i->nr_segs -= bi.bi_idx;
+> +	i->count = bi.bi_size;
+> +	i->iov_offset = bi.bi_bvec_done;
+> +}
+> +
+>  void iov_iter_advance(struct iov_iter *i, size_t size)
+>  {
+>  	if (unlikely(iov_iter_is_pipe(i))) {
+> @@ -1077,6 +1092,10 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
+>  		i->count -= size;
+>  		return;
+>  	}
+> +	if (iov_iter_is_bvec(i)) {
+> +		iov_iter_bvec_advance(i, size);
+> +		return;
+> +	}
+>  	iterate_and_advance(i, size, v, 0, 0, 0)
+>  }
 
-> >  1 file changed, 69 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt b/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> > new file mode 100644
-> > index 000000000000..61b11914352f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/aspeed2600-pwm-tacho.txt
-> > @@ -0,0 +1,69 @@
-> > +ASPEED AST2600 PWM and Fan Tacho controller device driver
-> > +
-> > +The ASPEED PWM controller can support upto 16 PWM outputs. The ASPEED Fan Tacho
-> > +controller can support upto 16 Fan tachometer inputs.
-> > +
-> > +There can be upto 16 fans supported. Each fan can have one PWM output and
-> > +one Fan tach inputs.
-> > +
-> > +Required properties for pwm-tacho node:
-> > +- #address-cells : should be 1.
-> > +
-> > +- #size-cells : should be 0.
-> > +
-> > +- #cooling-cells: should be 2.
-> > +
-> > +- reg : address and length of the register set for the device.
-> > +
-> > +- pinctrl-names : a pinctrl state named "default" must be defined.
-> > +
-> > +- pinctrl-0 : phandle referencing pin configuration of the PWM ports.
-> > +
-> > +- compatible : should be "aspeed,ast2600-pwm-tachometer".
-> > +
-> > +- clocks : phandle to clock provider with the clock number in the second cell
-> > +
-> > +- resets : phandle to reset controller with the reset number in the second cell
-> > +
-> > +fan subnode format:
-> > +===================
-> > +Under fan subnode there can upto 16 child nodes, with each child node
-> > +representing a fan. There are 16 fans each fan can have one PWM port and one
-> > +Fan tach inputs.
-> > +For PWM port can be configured cooling-levels to create cooling device.
-> > +Cooling device could be bound to a thermal zone for the thermal control.
-> > +
-> > +Required properties for each child node:
-> > +- reg : should specify PWM source port.
-> > +	integer value in the range 0x00 to 0x0f with 0x00 indicating PWM port 0
-> > +	and 0x0f indicating PWM port F.
-> > +
-> > +- cooling-levels: PWM duty cycle values in a range from 0 to 255
-> > +                  which correspond to thermal cooling states.
-> > +
-> > +- aspeed,fan-tach-ch : should specify the Fan tach input channel.
-> > +                integer value in the range 0 through 15, with 0 indicating
-> > +		Fan tach channel 0 and 15 indicating Fan tach channel 15.
-> > +		Atleast one Fan tach input channel is required.
-> 
-> Already has 'fan-tach-ch' in npcm750-pwm-fan.txt.
-> 
-OK.
+This seems to add yet another comparison before what is probably
+the common case on an IOVEC (ie normal userspace buffer).
 
-> > +
-> > +- aspeed,target-pwm : Specify the frequency of PWM. The value range from 24 to
-> > +		      780000. Default value will be set to 25000.
-> > +
-> > +- aspeed,pulse-pr : Specify tacho pulse per revolution of the fan. A general
-> > +		    parameter of pulse-pr is 2.
-> 
-> Already have 'pulses-per-revolution' property in pwm-fan.txt. Use that.
-> 
-OK.
+Can't the call to bver_iter_advance be dropped into the 'advance'
+path for BVEC's inside iterate_and_advance?
 
-> Really, all these should be in a common fan schema that you reference.
-> 
-Are you suggesting that I should also update these properties into
-pwm-fan.txt with a separeated patch, perhaps?
+iterate_and_advance itself has three 'unlikely' conditional tests
+that may be mis-predicted taken before the 'likely' path.
+One is for DISCARD which is checked twice on the object I just
+looked at - the test in iov_iter_advance() is pointless.
 
-> > +
-> > +Examples:
-> > +
-> > +&pwm_tacho {
-> > +	status = "okay";
-> 
-> Don't show status in examples.
-> 
-Understood, it will be removed in v2.
+	David
 
-> > +	pinctrl-names = "default";
-> > +	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_tach0_default>;
-> > +
-> > +	fan@0 {
-> > +		reg = <0x00>;
-> > +		aspeed,target-pwm = <25000>;
-> > +		cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
-> > +		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-> > +		aspeed,pulse-pr = <2>;
-> > +	};
-> > +};
-> > -- 
-> > 2.17.1
-> > 
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
