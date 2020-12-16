@@ -5,40 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1CCC0018C
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32EA1C2BBCA
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A4BC2311B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D26A12312E
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgLPJqq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 04:46:46 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:44755 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgLPJqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:46:45 -0500
+        id S1726219AbgLPJra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 04:47:30 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:27501 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbgLPJra (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:47:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608112005; x=1639648005;
+  t=1608112048; x=1639648048;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=SUQT16FeXJgUgtw4aF8cUXAdkk10Wp5q3gpjNNGwgdo=;
-  b=rlCsFYIuIci2ZW7X0PmZ8goqe2ifqYHkqLCUiYIgHZG4EvIlY87fotWM
-   NDWNiHciA96qfC0kma41ECWMYezF12uAsVKrkrLAfNFshYIeB/K1MFyvJ
-   vh3tpuMKFsf8Im755hnuTyBJLBvdV4gRzNkyHY1ny6fLiMvlpa91V+PnD
-   I=;
+  bh=VIt0QPHvmvqG4Kch/PM9e/Zwtiyux2gOnoeb9rYl0nc=;
+  b=sdGurWGzN5wogpKkm/IO04WG1n23BKkD2C3Co0x9Gv9NhLM/GQSSH5ND
+   eCYwgbH/o4iwR1dHfjyPUPiEb6W1sHQNNZ3i/r/uHFwZ17MHbIa8J2gKV
+   lo/S9L5F0RY+utSFn5u8mRQCjHlhupRb1Gj24rkLAcA/eQbQK4XyjYIym
+   M=;
 X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
-   d="scan'208";a="96475241"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 16 Dec 2020 09:45:57 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com (Postfix) with ESMTPS id 50515C1D11;
-        Wed, 16 Dec 2020 09:45:53 +0000 (UTC)
+   d="scan'208";a="69704117"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 16 Dec 2020 09:46:45 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS id 069A0A07ED;
+        Wed, 16 Dec 2020 09:46:41 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.31) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Dec 2020 09:44:58 +0000
+ id 15.0.1497.2; Wed, 16 Dec 2020 09:46:23 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,9 +61,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC v10 07/13] mm/damon: Implement primitives for physical address space monitoring
-Date:   Wed, 16 Dec 2020 10:42:15 +0100
-Message-ID: <20201216094221.11898-8-sjpark@amazon.com>
+Subject: [RFC v10 10/13] tools/damon/record: Support NUMA specific recording
+Date:   Wed, 16 Dec 2020 10:42:18 +0100
+Message-ID: <20201216094221.11898-11-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
 References: <20201216094221.11898-1-sjpark@amazon.com>
@@ -77,306 +78,225 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit implements the primitives for the basic access monitoring of
-the physical memory address space.  By using this, users can easily
-monitor the accesses to the physical memory.
-
-Internally, it uses the PTE Accessed bit, as similar to that of the
-virtual memory support.  Also, it supports only user memory pages, as
-idle page tracking also does, for the same reason.  If the monitoring
-target physical memory address range contains non-user memory pages,
-access check of the pages will do nothing but simply treat the pages as
-not accessed.
-
-Users who want to use other access check primitives and/or monitor the
-non-user memory regions could implement and use their own callbacks.
+This commit updates the DAMON user space tool (damo-record) for NUMA
+specific physical memory monitoring.  With this change, users can
+monitor accesses to physical memory of specific NUMA node.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- include/linux/damon.h |  10 ++
- mm/damon/Kconfig      |   9 ++
- mm/damon/Makefile     |   1 +
- mm/damon/paddr.c      | 222 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 242 insertions(+)
- create mode 100644 mm/damon/paddr.c
+ tools/damon/_paddr_layout.py | 147 +++++++++++++++++++++++++++++++++++
+ tools/damon/record.py        |  18 ++++-
+ 2 files changed, 164 insertions(+), 1 deletion(-)
+ create mode 100644 tools/damon/_paddr_layout.py
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index ed7e86207e53..ea2fd054b2ef 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -376,4 +376,14 @@ void damon_va_set_primitives(struct damon_ctx *ctx);
- 
- #endif	/* CONFIG_DAMON_VADDR */
- 
-+#ifdef CONFIG_DAMON_PADDR
-+
-+/* Monitoring primitives for the physical memory address space */
-+void damon_pa_prepare_access_checks(struct damon_ctx *ctx);
-+unsigned int damon_pa_check_accesses(struct damon_ctx *ctx);
-+bool damon_pa_target_valid(void *t);
-+void damon_pa_set_primitives(struct damon_ctx *ctx);
-+
-+#endif	/* CONFIG_DAMON_PADDR */
-+
- #endif	/* _DAMON_H */
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index 455995152697..89c06ac8c9eb 100644
---- a/mm/damon/Kconfig
-+++ b/mm/damon/Kconfig
-@@ -33,6 +33,15 @@ config DAMON_VADDR
- 	  This builds the default data access monitoring primitives for DAMON
- 	  that works for virtual address spaces.
- 
-+config DAMON_PADDR
-+	bool "Data access monitoring primitives for the physical address space"
-+	depends on DAMON && MMU
-+	select PAGE_EXTENSION if !64BIT
-+	select PAGE_IDLE_FLAG
-+	help
-+	  This builds the default data access monitoring primitives for DAMON
-+	  that works for physical address spaces.
-+
- config DAMON_VADDR_KUNIT_TEST
- 	bool "Test for DAMON primitives" if !KUNIT_ALL_TESTS
- 	depends on DAMON_VADDR && KUNIT=y
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 99b1bfe01ff5..8d9b0df79702 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -2,4 +2,5 @@
- 
- obj-$(CONFIG_DAMON)		:= core.o
- obj-$(CONFIG_DAMON_VADDR)	+= prmtv-common.o vaddr.o
-+obj-$(CONFIG_DAMON_PADDR)	+= prmtv-common.o paddr.o
- obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
-diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+diff --git a/tools/damon/_paddr_layout.py b/tools/damon/_paddr_layout.py
 new file mode 100644
-index 000000000000..b120f672cc57
+index 000000000000..561c2b6729f6
 --- /dev/null
-+++ b/mm/damon/paddr.c
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DAMON Primitives for The Physical Address Space
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
++++ b/tools/damon/_paddr_layout.py
+@@ -0,0 +1,147 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
 +
-+#define pr_fmt(fmt) "damon-pa: " fmt
++import os
 +
-+#include <linux/rmap.h>
++class PaddrRange:
++    start = None
++    end = None
++    nid = None
++    state = None
++    name = None
 +
-+#include "prmtv-common.h"
++    def __init__(self, start, end, nid, state, name):
++        self.start = start
++        self.end = end
++        self.nid = nid
++        self.state = state
++        self.name = name
 +
-+/*
-+ * This has no implementations for 'init_target_regions()' and
-+ * 'update_target_regions()'.  Users should set the initial regions and update
-+ * regions by themselves in the 'before_start' and 'after_aggregation'
-+ * callbacks, respectively.  Or, they can implement and use their own version
-+ * of the primitives.
-+ */
++    def interleaved(self, prange):
++        if self.end <= prange.start:
++            return None
++        if prange.end <= self.start:
++            return None
++        return [max(self.start, prange.start), min(self.end, prange.end)]
 +
-+/*
-+ * Get a page by pfn if it is in the LRU list.  Otherwise, returns NULL.
-+ *
-+ * The body of this function is stollen from the 'page_idle_get_page()'.  We
-+ * steal rather than reuse it because the code is quite simple.
-+ */
-+static struct page *damon_pa_get_page(unsigned long pfn)
-+{
-+	struct page *page = pfn_to_online_page(pfn);
-+	pg_data_t *pgdat;
++    def __str__(self):
++        return '%x-%x, nid %s, state %s, name %s' % (self.start, self.end,
++                self.nid, self.state, self.name)
 +
-+	if (!page || !PageLRU(page) ||
-+	    !get_page_unless_zero(page))
-+		return NULL;
++class MemBlock:
++    nid = None
++    index = None
++    state = None
 +
-+	pgdat = page_pgdat(page);
-+	spin_lock_irq(&pgdat->lru_lock);
-+	if (unlikely(!PageLRU(page))) {
-+		put_page(page);
-+		page = NULL;
-+	}
-+	spin_unlock_irq(&pgdat->lru_lock);
-+	return page;
-+}
++    def __init__(self, nid, index, state):
++        self.nid = nid
++        self.index = index
++        self.state = state
 +
-+static bool __damon_pa_mkold(struct page *page, struct vm_area_struct *vma,
-+		unsigned long addr, void *arg)
-+{
-+	damon_va_mkold(vma->vm_mm, addr);
-+	return true;
-+}
++    def __str__(self):
++        return '%d (%s)' % (self.index, self.state)
 +
-+static void damon_pa_mkold(unsigned long paddr)
-+{
-+	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
-+	struct rmap_walk_control rwc = {
-+		.rmap_one = __damon_pa_mkold,
-+		.anon_lock = page_lock_anon_vma_read,
-+	};
-+	bool need_lock;
++    def __repr__(self):
++        return self.__str__()
 +
-+	if (!page)
-+		return;
++def readfile(file_path):
++    with open(file_path, 'r') as f:
++        return f.read()
 +
-+	if (!page_mapped(page) || !page_rmapping(page)) {
-+		set_page_idle(page);
-+		put_page(page);
-+		return;
-+	}
++def collapse_ranges(ranges):
++    ranges = sorted(ranges, key=lambda x: x.start)
++    merged = []
++    for r in ranges:
++        if not merged:
++            merged.append(r)
++            continue
++        last = merged[-1]
++        if last.end != r.start or last.nid != r.nid or last.state != r.state:
++            merged.append(r)
++        else:
++            last.end = r.end
++    return merged
 +
-+	need_lock = !PageAnon(page) || PageKsm(page);
-+	if (need_lock && !trylock_page(page)) {
-+		put_page(page);
-+		return;
-+	}
++def memblocks_to_ranges(blocks, block_size):
++    ranges = []
++    for b in blocks:
++        ranges.append(PaddrRange(b.index * block_size,
++            (b.index + 1) * block_size, b.nid, b.state, None))
 +
-+	rmap_walk(page, &rwc);
++    return collapse_ranges(ranges)
 +
-+	if (need_lock)
-+		unlock_page(page);
-+	put_page(page);
-+}
++def memblock_ranges():
++    SYSFS='/sys/devices/system/node'
++    sz_block = int(readfile('/sys/devices/system/memory/block_size_bytes'), 16)
++    sys_nodes = [x for x in os.listdir(SYSFS) if x.startswith('node')]
 +
-+static void __damon_pa_prepare_access_check(struct damon_ctx *ctx,
-+					    struct damon_region *r)
-+{
-+	r->sampling_addr = damon_rand(r->ar.start, r->ar.end);
++    blocks = []
++    for sys_node in sys_nodes:
++        nid = int(sys_node[4:])
 +
-+	damon_pa_mkold(r->sampling_addr);
-+}
++        sys_node_files = os.listdir(os.path.join(SYSFS, sys_node))
++        for f in sys_node_files:
++            if not f.startswith('memory'):
++                continue
++            index = int(f[6:])
++            sys_state = os.path.join(SYSFS, sys_node, f, 'state')
++            state = readfile(sys_state).strip()
 +
-+void damon_pa_prepare_access_checks(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct damon_region *r;
++            blocks.append(MemBlock(nid, index, state))
 +
-+	damon_for_each_target(t, ctx) {
-+		damon_for_each_region(r, t)
-+			__damon_pa_prepare_access_check(ctx, r);
-+	}
-+}
++    return memblocks_to_ranges(blocks, sz_block)
 +
-+struct damon_pa_access_chk_result {
-+	unsigned long page_sz;
-+	bool accessed;
-+};
++def iomem_ranges():
++    ranges = []
 +
-+static bool damon_pa_accessed(struct page *page, struct vm_area_struct *vma,
-+		unsigned long addr, void *arg)
-+{
-+	struct damon_pa_access_chk_result *result = arg;
++    with open('/proc/iomem', 'r') as f:
++        # example of the line: '100000000-42b201fff : System RAM'
++        for line in f:
++            fields = line.split(':')
++            if len(fields) < 2:
++                continue
++            name = ':'.join(fields[1:]).strip()
++            addrs = fields[0].split('-')
++            if len(addrs) != 2:
++                continue
++            start = int(addrs[0], 16)
++            end = int(addrs[1], 16) + 1
++            ranges.append(PaddrRange(start, end, None, None, name))
 +
-+	result->accessed = damon_va_young(vma->vm_mm, addr, &result->page_sz);
++    return ranges
 +
-+	/* If accessed, stop walking */
-+	return !result->accessed;
-+}
++def integrate(memblock_parsed, iomem_parsed):
++    merged = []
 +
-+static bool damon_pa_young(unsigned long paddr, unsigned long *page_sz)
-+{
-+	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
-+	struct damon_pa_access_chk_result result = {
-+		.page_sz = PAGE_SIZE,
-+		.accessed = false,
-+	};
-+	struct rmap_walk_control rwc = {
-+		.arg = &result,
-+		.rmap_one = damon_pa_accessed,
-+		.anon_lock = page_lock_anon_vma_read,
-+	};
-+	bool need_lock;
++    for r in iomem_parsed:
++        for r2 in memblock_parsed:
++            if r2.start <= r.start and r.end <= r2.end:
++                r.nid = r2.nid
++                r.state = r2.state
++                merged.append(r)
++            elif r2.start <= r.start and r.start < r2.end and r2.end < r.end:
++                sub = PaddrRange(r2.end, r.end, None, None, r.name)
++                iomem_parsed.append(sub)
++                r.end = r2.end
++                r.nid = r2.nid
++                r.state = r2.state
++                merged.append(r)
++    merged = sorted(merged, key=lambda x: x.start)
++    return merged
 +
-+	if (!page)
-+		return false;
++def paddr_ranges():
++    return integrate(memblock_ranges(), iomem_ranges())
 +
-+	if (!page_mapped(page) || !page_rmapping(page)) {
-+		if (page_is_idle(page))
-+			result.accessed = false;
-+		else
-+			result.accessed = true;
-+		put_page(page);
-+		goto out;
-+	}
++def pr_ranges(ranges):
++    print('#%12s %13s\tnode\tstate\tresource\tsize' % ('start', 'end'))
++    for r in ranges:
++        print('%13d %13d\t%s\t%s\t%s\t%d' % (r.start, r.end, r.nid,
++            r.state, r.name, r.end - r.start))
 +
-+	need_lock = !PageAnon(page) || PageKsm(page);
-+	if (need_lock && !trylock_page(page)) {
-+		put_page(page);
-+		return NULL;
-+	}
++def main():
++    ranges = paddr_ranges()
 +
-+	rmap_walk(page, &rwc);
++    pr_ranges(ranges)
 +
-+	if (need_lock)
-+		unlock_page(page);
-+	put_page(page);
++if __name__ == '__main__':
++    main()
+diff --git a/tools/damon/record.py b/tools/damon/record.py
+index 6fd0b59c73e0..e9d6bfc70ead 100644
+--- a/tools/damon/record.py
++++ b/tools/damon/record.py
+@@ -12,6 +12,7 @@ import subprocess
+ import time
+ 
+ import _damon
++import _paddr_layout
+ 
+ def pidfd_open(pid):
+     import ctypes
+@@ -98,6 +99,8 @@ def set_argparser(parser):
+             help='use pidfd type target id')
+     parser.add_argument('-l', '--rbuf', metavar='<len>', type=int,
+             default=1024*1024, help='length of record result buffer')
++    parser.add_argument('--numa_node', metavar='<node id>', type=int,
++            help='if target is \'paddr\', limit it to the numa node')
+     parser.add_argument('-o', '--out', metavar='<file path>', type=str,
+             default='damon.data', help='output file path')
+ 
+@@ -124,6 +127,15 @@ def default_paddr_region():
+                 ret = [start, end]
+     return ret
+ 
++def paddr_region_of(numa_node):
++    regions = []
++    paddr_ranges = _paddr_layout.paddr_ranges()
++    for r in paddr_ranges:
++        if r.nid == numa_node and r.name == 'System RAM':
++            regions.append([r.start, r.end])
 +
-+out:
-+	*page_sz = result.page_sz;
-+	return result.accessed;
-+}
++    return regions
 +
-+/*
-+ * Check whether the region was accessed after the last preparation
-+ *
-+ * mm	'mm_struct' for the given virtual address space
-+ * r	the region of physical address space that needs to be checked
-+ */
-+static void __damon_pa_check_access(struct damon_ctx *ctx,
-+				    struct damon_region *r)
-+{
-+	static unsigned long last_addr;
-+	static unsigned long last_page_sz = PAGE_SIZE;
-+	static bool last_accessed;
-+
-+	/* If the region is in the last checked page, reuse the result */
-+	if (ALIGN_DOWN(last_addr, last_page_sz) ==
-+				ALIGN_DOWN(r->sampling_addr, last_page_sz)) {
-+		if (last_accessed)
-+			r->nr_accesses++;
-+		return;
-+	}
-+
-+	last_accessed = damon_pa_young(r->sampling_addr, &last_page_sz);
-+	if (last_accessed)
-+		r->nr_accesses++;
-+
-+	last_addr = r->sampling_addr;
-+}
-+
-+unsigned int damon_pa_check_accesses(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct damon_region *r;
-+	unsigned int max_nr_accesses = 0;
-+
-+	damon_for_each_target(t, ctx) {
-+		damon_for_each_region(r, t) {
-+			__damon_pa_check_access(ctx, r);
-+			max_nr_accesses = max(r->nr_accesses, max_nr_accesses);
-+		}
-+	}
-+
-+	return max_nr_accesses;
-+}
-+
-+bool damon_pa_target_valid(void *t)
-+{
-+	return true;
-+}
-+
-+void damon_pa_set_primitives(struct damon_ctx *ctx)
-+{
-+	ctx->primitive.init_target_regions = NULL;
-+	ctx->primitive.update_target_regions = NULL;
-+	ctx->primitive.prepare_access_checks = damon_pa_prepare_access_checks;
-+	ctx->primitive.check_accesses = damon_pa_check_accesses;
-+	ctx->primitive.reset_aggregated = NULL;
-+	ctx->primitive.target_valid = damon_pa_target_valid;
-+	ctx->primitive.cleanup = NULL;
-+	ctx->primitive.apply_scheme = NULL;
-+}
+ def main(args=None):
+     global orig_attrs
+     if not args:
+@@ -142,12 +154,16 @@ def main(args=None):
+     pidfd = args.pidfd
+     new_attrs = _damon.cmd_args_to_attrs(args)
+     init_regions = _damon.cmd_args_to_init_regions(args)
++    numa_node = args.numa_node
+     target = args.target
+ 
+     target_fields = target.split()
+     if target == 'paddr':   # physical memory address space
+         if not init_regions:
+-            init_regions = [default_paddr_region()]
++            if numa_node:
++                init_regions = paddr_region_of(numa_node)
++            else:
++                init_regions = [default_paddr_region()]
+         do_record(target, False, init_regions, new_attrs, orig_attrs, pidfd)
+     elif not subprocess.call('which %s &> /dev/null' % target_fields[0],
+             shell=True, executable='/bin/bash'):
 -- 
 2.17.1
 
