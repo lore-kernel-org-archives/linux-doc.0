@@ -5,41 +5,40 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32EA1C2BBCA
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B84FC0018C
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:48:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D26A12312E
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDBC723124
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbgLPJra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 04:47:30 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:27501 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbgLPJra (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:47:30 -0500
+        id S1726235AbgLPJs1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 04:48:27 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:20180 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgLPJs1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:48:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608112048; x=1639648048;
+  t=1608112106; x=1639648106;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=VIt0QPHvmvqG4Kch/PM9e/Zwtiyux2gOnoeb9rYl0nc=;
-  b=sdGurWGzN5wogpKkm/IO04WG1n23BKkD2C3Co0x9Gv9NhLM/GQSSH5ND
-   eCYwgbH/o4iwR1dHfjyPUPiEb6W1sHQNNZ3i/r/uHFwZ17MHbIa8J2gKV
-   lo/S9L5F0RY+utSFn5u8mRQCjHlhupRb1Gj24rkLAcA/eQbQK4XyjYIym
-   M=;
+  bh=OfAxiI1TGWAm938TQnf2Mv9tv9ZVjwG7ArzBDalULAM=;
+  b=MnHFZ8OUvK3NEZpXj/k1Xd4IEFpCwdUZeL2jH7tgX0jo4bOxoz7WWwDW
+   KA7Sv2fBcdXbR5CELDPwiGw3Ei3J0dhtI6djFIZ3fbKM+kH0Y7EpmVy9Y
+   9xPuqQOoB3CSG32wwSO6H+jgNMv8FQmc3eaeg+UngL8cXHm2taue9ESU8
+   4=;
 X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
-   d="scan'208";a="69704117"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 16 Dec 2020 09:46:45 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS id 069A0A07ED;
-        Wed, 16 Dec 2020 09:46:41 +0000 (UTC)
+   d="scan'208";a="71565777"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-41350382.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 16 Dec 2020 09:47:43 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-41350382.us-west-2.amazon.com (Postfix) with ESMTPS id A18FAC28E8;
+        Wed, 16 Dec 2020 09:47:39 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.31) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Dec 2020 09:46:23 +0000
+ id 15.0.1497.2; Wed, 16 Dec 2020 09:47:21 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -61,9 +60,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC v10 10/13] tools/damon/record: Support NUMA specific recording
-Date:   Wed, 16 Dec 2020 10:42:18 +0100
-Message-ID: <20201216094221.11898-11-sjpark@amazon.com>
+Subject: [RFC v10 12/13] mm/damon/paddr: Separate commonly usable functions
+Date:   Wed, 16 Dec 2020 10:42:20 +0100
+Message-ID: <20201216094221.11898-13-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
 References: <20201216094221.11898-1-sjpark@amazon.com>
@@ -78,225 +77,306 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit updates the DAMON user space tool (damo-record) for NUMA
-specific physical memory monitoring.  With this change, users can
-monitor accesses to physical memory of specific NUMA node.
+This commit moves functions in the default physical address space
+monitoring primitives that commonly usable from other use cases like
+page granularity idleness monitoring to prmtv-common.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- tools/damon/_paddr_layout.py | 147 +++++++++++++++++++++++++++++++++++
- tools/damon/record.py        |  18 ++++-
- 2 files changed, 164 insertions(+), 1 deletion(-)
- create mode 100644 tools/damon/_paddr_layout.py
+ mm/damon/paddr.c        | 122 ----------------------------------------
+ mm/damon/prmtv-common.c | 122 ++++++++++++++++++++++++++++++++++++++++
+ mm/damon/prmtv-common.h |   4 ++
+ 3 files changed, 126 insertions(+), 122 deletions(-)
 
-diff --git a/tools/damon/_paddr_layout.py b/tools/damon/_paddr_layout.py
-new file mode 100644
-index 000000000000..561c2b6729f6
---- /dev/null
-+++ b/tools/damon/_paddr_layout.py
-@@ -0,0 +1,147 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import os
-+
-+class PaddrRange:
-+    start = None
-+    end = None
-+    nid = None
-+    state = None
-+    name = None
-+
-+    def __init__(self, start, end, nid, state, name):
-+        self.start = start
-+        self.end = end
-+        self.nid = nid
-+        self.state = state
-+        self.name = name
-+
-+    def interleaved(self, prange):
-+        if self.end <= prange.start:
-+            return None
-+        if prange.end <= self.start:
-+            return None
-+        return [max(self.start, prange.start), min(self.end, prange.end)]
-+
-+    def __str__(self):
-+        return '%x-%x, nid %s, state %s, name %s' % (self.start, self.end,
-+                self.nid, self.state, self.name)
-+
-+class MemBlock:
-+    nid = None
-+    index = None
-+    state = None
-+
-+    def __init__(self, nid, index, state):
-+        self.nid = nid
-+        self.index = index
-+        self.state = state
-+
-+    def __str__(self):
-+        return '%d (%s)' % (self.index, self.state)
-+
-+    def __repr__(self):
-+        return self.__str__()
-+
-+def readfile(file_path):
-+    with open(file_path, 'r') as f:
-+        return f.read()
-+
-+def collapse_ranges(ranges):
-+    ranges = sorted(ranges, key=lambda x: x.start)
-+    merged = []
-+    for r in ranges:
-+        if not merged:
-+            merged.append(r)
-+            continue
-+        last = merged[-1]
-+        if last.end != r.start or last.nid != r.nid or last.state != r.state:
-+            merged.append(r)
-+        else:
-+            last.end = r.end
-+    return merged
-+
-+def memblocks_to_ranges(blocks, block_size):
-+    ranges = []
-+    for b in blocks:
-+        ranges.append(PaddrRange(b.index * block_size,
-+            (b.index + 1) * block_size, b.nid, b.state, None))
-+
-+    return collapse_ranges(ranges)
-+
-+def memblock_ranges():
-+    SYSFS='/sys/devices/system/node'
-+    sz_block = int(readfile('/sys/devices/system/memory/block_size_bytes'), 16)
-+    sys_nodes = [x for x in os.listdir(SYSFS) if x.startswith('node')]
-+
-+    blocks = []
-+    for sys_node in sys_nodes:
-+        nid = int(sys_node[4:])
-+
-+        sys_node_files = os.listdir(os.path.join(SYSFS, sys_node))
-+        for f in sys_node_files:
-+            if not f.startswith('memory'):
-+                continue
-+            index = int(f[6:])
-+            sys_state = os.path.join(SYSFS, sys_node, f, 'state')
-+            state = readfile(sys_state).strip()
-+
-+            blocks.append(MemBlock(nid, index, state))
-+
-+    return memblocks_to_ranges(blocks, sz_block)
-+
-+def iomem_ranges():
-+    ranges = []
-+
-+    with open('/proc/iomem', 'r') as f:
-+        # example of the line: '100000000-42b201fff : System RAM'
-+        for line in f:
-+            fields = line.split(':')
-+            if len(fields) < 2:
-+                continue
-+            name = ':'.join(fields[1:]).strip()
-+            addrs = fields[0].split('-')
-+            if len(addrs) != 2:
-+                continue
-+            start = int(addrs[0], 16)
-+            end = int(addrs[1], 16) + 1
-+            ranges.append(PaddrRange(start, end, None, None, name))
-+
-+    return ranges
-+
-+def integrate(memblock_parsed, iomem_parsed):
-+    merged = []
-+
-+    for r in iomem_parsed:
-+        for r2 in memblock_parsed:
-+            if r2.start <= r.start and r.end <= r2.end:
-+                r.nid = r2.nid
-+                r.state = r2.state
-+                merged.append(r)
-+            elif r2.start <= r.start and r.start < r2.end and r2.end < r.end:
-+                sub = PaddrRange(r2.end, r.end, None, None, r.name)
-+                iomem_parsed.append(sub)
-+                r.end = r2.end
-+                r.nid = r2.nid
-+                r.state = r2.state
-+                merged.append(r)
-+    merged = sorted(merged, key=lambda x: x.start)
-+    return merged
-+
-+def paddr_ranges():
-+    return integrate(memblock_ranges(), iomem_ranges())
-+
-+def pr_ranges(ranges):
-+    print('#%12s %13s\tnode\tstate\tresource\tsize' % ('start', 'end'))
-+    for r in ranges:
-+        print('%13d %13d\t%s\t%s\t%s\t%d' % (r.start, r.end, r.nid,
-+            r.state, r.name, r.end - r.start))
-+
-+def main():
-+    ranges = paddr_ranges()
-+
-+    pr_ranges(ranges)
-+
-+if __name__ == '__main__':
-+    main()
-diff --git a/tools/damon/record.py b/tools/damon/record.py
-index 6fd0b59c73e0..e9d6bfc70ead 100644
---- a/tools/damon/record.py
-+++ b/tools/damon/record.py
-@@ -12,6 +12,7 @@ import subprocess
- import time
+diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
+index b120f672cc57..143ddc0e5917 100644
+--- a/mm/damon/paddr.c
++++ b/mm/damon/paddr.c
+@@ -19,69 +19,6 @@
+  * of the primitives.
+  */
  
- import _damon
-+import _paddr_layout
+-/*
+- * Get a page by pfn if it is in the LRU list.  Otherwise, returns NULL.
+- *
+- * The body of this function is stollen from the 'page_idle_get_page()'.  We
+- * steal rather than reuse it because the code is quite simple.
+- */
+-static struct page *damon_pa_get_page(unsigned long pfn)
+-{
+-	struct page *page = pfn_to_online_page(pfn);
+-	pg_data_t *pgdat;
+-
+-	if (!page || !PageLRU(page) ||
+-	    !get_page_unless_zero(page))
+-		return NULL;
+-
+-	pgdat = page_pgdat(page);
+-	spin_lock_irq(&pgdat->lru_lock);
+-	if (unlikely(!PageLRU(page))) {
+-		put_page(page);
+-		page = NULL;
+-	}
+-	spin_unlock_irq(&pgdat->lru_lock);
+-	return page;
+-}
+-
+-static bool __damon_pa_mkold(struct page *page, struct vm_area_struct *vma,
+-		unsigned long addr, void *arg)
+-{
+-	damon_va_mkold(vma->vm_mm, addr);
+-	return true;
+-}
+-
+-static void damon_pa_mkold(unsigned long paddr)
+-{
+-	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
+-	struct rmap_walk_control rwc = {
+-		.rmap_one = __damon_pa_mkold,
+-		.anon_lock = page_lock_anon_vma_read,
+-	};
+-	bool need_lock;
+-
+-	if (!page)
+-		return;
+-
+-	if (!page_mapped(page) || !page_rmapping(page)) {
+-		set_page_idle(page);
+-		put_page(page);
+-		return;
+-	}
+-
+-	need_lock = !PageAnon(page) || PageKsm(page);
+-	if (need_lock && !trylock_page(page)) {
+-		put_page(page);
+-		return;
+-	}
+-
+-	rmap_walk(page, &rwc);
+-
+-	if (need_lock)
+-		unlock_page(page);
+-	put_page(page);
+-}
+-
+ static void __damon_pa_prepare_access_check(struct damon_ctx *ctx,
+ 					    struct damon_region *r)
+ {
+@@ -101,65 +38,6 @@ void damon_pa_prepare_access_checks(struct damon_ctx *ctx)
+ 	}
+ }
  
- def pidfd_open(pid):
-     import ctypes
-@@ -98,6 +99,8 @@ def set_argparser(parser):
-             help='use pidfd type target id')
-     parser.add_argument('-l', '--rbuf', metavar='<len>', type=int,
-             default=1024*1024, help='length of record result buffer')
-+    parser.add_argument('--numa_node', metavar='<node id>', type=int,
-+            help='if target is \'paddr\', limit it to the numa node')
-     parser.add_argument('-o', '--out', metavar='<file path>', type=str,
-             default='damon.data', help='output file path')
+-struct damon_pa_access_chk_result {
+-	unsigned long page_sz;
+-	bool accessed;
+-};
+-
+-static bool damon_pa_accessed(struct page *page, struct vm_area_struct *vma,
+-		unsigned long addr, void *arg)
+-{
+-	struct damon_pa_access_chk_result *result = arg;
+-
+-	result->accessed = damon_va_young(vma->vm_mm, addr, &result->page_sz);
+-
+-	/* If accessed, stop walking */
+-	return !result->accessed;
+-}
+-
+-static bool damon_pa_young(unsigned long paddr, unsigned long *page_sz)
+-{
+-	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
+-	struct damon_pa_access_chk_result result = {
+-		.page_sz = PAGE_SIZE,
+-		.accessed = false,
+-	};
+-	struct rmap_walk_control rwc = {
+-		.arg = &result,
+-		.rmap_one = damon_pa_accessed,
+-		.anon_lock = page_lock_anon_vma_read,
+-	};
+-	bool need_lock;
+-
+-	if (!page)
+-		return false;
+-
+-	if (!page_mapped(page) || !page_rmapping(page)) {
+-		if (page_is_idle(page))
+-			result.accessed = false;
+-		else
+-			result.accessed = true;
+-		put_page(page);
+-		goto out;
+-	}
+-
+-	need_lock = !PageAnon(page) || PageKsm(page);
+-	if (need_lock && !trylock_page(page)) {
+-		put_page(page);
+-		return NULL;
+-	}
+-
+-	rmap_walk(page, &rwc);
+-
+-	if (need_lock)
+-		unlock_page(page);
+-	put_page(page);
+-
+-out:
+-	*page_sz = result.page_sz;
+-	return result.accessed;
+-}
+-
+ /*
+  * Check whether the region was accessed after the last preparation
+  *
+diff --git a/mm/damon/prmtv-common.c b/mm/damon/prmtv-common.c
+index 6cdb96cbc9ef..6c2e760e086c 100644
+--- a/mm/damon/prmtv-common.c
++++ b/mm/damon/prmtv-common.c
+@@ -102,3 +102,125 @@ bool damon_va_young(struct mm_struct *mm, unsigned long addr,
  
-@@ -124,6 +127,15 @@ def default_paddr_region():
-                 ret = [start, end]
-     return ret
- 
-+def paddr_region_of(numa_node):
-+    regions = []
-+    paddr_ranges = _paddr_layout.paddr_ranges()
-+    for r in paddr_ranges:
-+        if r.nid == numa_node and r.name == 'System RAM':
-+            regions.append([r.start, r.end])
+ 	return young;
+ }
 +
-+    return regions
++/*
++ * Get a page by pfn if it is in the LRU list.  Otherwise, returns NULL.
++ *
++ * The body of this function is stollen from the 'page_idle_get_page()'.  We
++ * steal rather than reuse it because the code is quite simple.
++ */
++static struct page *damon_pa_get_page(unsigned long pfn)
++{
++	struct page *page = pfn_to_online_page(pfn);
++	pg_data_t *pgdat;
 +
- def main(args=None):
-     global orig_attrs
-     if not args:
-@@ -142,12 +154,16 @@ def main(args=None):
-     pidfd = args.pidfd
-     new_attrs = _damon.cmd_args_to_attrs(args)
-     init_regions = _damon.cmd_args_to_init_regions(args)
-+    numa_node = args.numa_node
-     target = args.target
++	if (!page || !PageLRU(page) ||
++	    !get_page_unless_zero(page))
++		return NULL;
++
++	pgdat = page_pgdat(page);
++	spin_lock_irq(&pgdat->lru_lock);
++	if (unlikely(!PageLRU(page))) {
++		put_page(page);
++		page = NULL;
++	}
++	spin_unlock_irq(&pgdat->lru_lock);
++	return page;
++}
++
++static bool __damon_pa_mkold(struct page *page, struct vm_area_struct *vma,
++		unsigned long addr, void *arg)
++{
++	damon_va_mkold(vma->vm_mm, addr);
++	return true;
++}
++
++void damon_pa_mkold(unsigned long paddr)
++{
++	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
++	struct rmap_walk_control rwc = {
++		.rmap_one = __damon_pa_mkold,
++		.anon_lock = page_lock_anon_vma_read,
++	};
++	bool need_lock;
++
++	if (!page)
++		return;
++
++	if (!page_mapped(page) || !page_rmapping(page)) {
++		set_page_idle(page);
++		put_page(page);
++		return;
++	}
++
++	need_lock = !PageAnon(page) || PageKsm(page);
++	if (need_lock && !trylock_page(page)) {
++		put_page(page);
++		return;
++	}
++
++	rmap_walk(page, &rwc);
++
++	if (need_lock)
++		unlock_page(page);
++	put_page(page);
++}
++
++struct damon_pa_access_chk_result {
++	unsigned long page_sz;
++	bool accessed;
++};
++
++static bool damon_pa_accessed(struct page *page, struct vm_area_struct *vma,
++		unsigned long addr, void *arg)
++{
++	struct damon_pa_access_chk_result *result = arg;
++
++	result->accessed = damon_va_young(vma->vm_mm, addr, &result->page_sz);
++
++	/* If accessed, stop walking */
++	return !result->accessed;
++}
++
++bool damon_pa_young(unsigned long paddr, unsigned long *page_sz)
++{
++	struct page *page = damon_pa_get_page(PHYS_PFN(paddr));
++	struct damon_pa_access_chk_result result = {
++		.page_sz = PAGE_SIZE,
++		.accessed = false,
++	};
++	struct rmap_walk_control rwc = {
++		.arg = &result,
++		.rmap_one = damon_pa_accessed,
++		.anon_lock = page_lock_anon_vma_read,
++	};
++	bool need_lock;
++
++	if (!page)
++		return false;
++
++	if (!page_mapped(page) || !page_rmapping(page)) {
++		if (page_is_idle(page))
++			result.accessed = false;
++		else
++			result.accessed = true;
++		put_page(page);
++		goto out;
++	}
++
++	need_lock = !PageAnon(page) || PageKsm(page);
++	if (need_lock && !trylock_page(page)) {
++		put_page(page);
++		return NULL;
++	}
++
++	rmap_walk(page, &rwc);
++
++	if (need_lock)
++		unlock_page(page);
++	put_page(page);
++
++out:
++	*page_sz = result.page_sz;
++	return result.accessed;
++}
+diff --git a/mm/damon/prmtv-common.h b/mm/damon/prmtv-common.h
+index a66a6139b4fc..fbe9452bd040 100644
+--- a/mm/damon/prmtv-common.h
++++ b/mm/damon/prmtv-common.h
+@@ -10,6 +10,7 @@
+ #include <linux/mmu_notifier.h>
+ #include <linux/page_idle.h>
+ #include <linux/random.h>
++#include <linux/rmap.h>
+ #include <linux/sched/mm.h>
+ #include <linux/slab.h>
  
-     target_fields = target.split()
-     if target == 'paddr':   # physical memory address space
-         if not init_regions:
--            init_regions = [default_paddr_region()]
-+            if numa_node:
-+                init_regions = paddr_region_of(numa_node)
-+            else:
-+                init_regions = [default_paddr_region()]
-         do_record(target, False, init_regions, new_attrs, orig_attrs, pidfd)
-     elif not subprocess.call('which %s &> /dev/null' % target_fields[0],
-             shell=True, executable='/bin/bash'):
+@@ -19,3 +20,6 @@
+ void damon_va_mkold(struct mm_struct *mm, unsigned long addr);
+ bool damon_va_young(struct mm_struct *mm, unsigned long addr,
+ 			unsigned long *page_sz);
++
++void damon_pa_mkold(unsigned long paddr);
++bool damon_pa_young(unsigned long paddr, unsigned long *page_sz);
 -- 
 2.17.1
 
