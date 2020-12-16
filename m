@@ -5,41 +5,40 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 548D9C2BBCD
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 08:47:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28BB7C4361B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0631D23357
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 08:47:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D920D2311A
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgLPIrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 03:47:55 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:32468 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726155AbgLPIrz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 03:47:55 -0500
+        id S1725877AbgLPJoH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 04:44:07 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:15709 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbgLPJoH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:44:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608108473; x=1639644473;
+  t=1608111846; x=1639647846;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=XEjhfcWOE6sCpVcYRXwQLFfPVP/yv/3hCxGv89889MM=;
-  b=De5km9mMjCj3dP5GYZlYy4r6rDaZZvzqB+wBntmAfBCpOoGB1OVFmqA2
-   4NiWZiGqpmH6viBuNxy7OU0G398IOKTeMkq8KeIr43DLNKEEK+3gGD6Fd
-   wXfS4tbDRwTI4fl4Xup0zdV4EvZTZBEgpjUuk9WiA7W9qtlMmUOapxztG
+  bh=6T3WVe6Az0tu/tWkPM96Y026XUAvJ40yYSLrebOuGng=;
+  b=ZPf46Z2dMR9/fNStaWKBQz8Lf4Fn7PAD7pLVVEs8aQRUuRsyEnM/OVOU
+   7w6CkFiEq9BmeAiSnImN/Zhq8iuZ08GN4U9Jal7YsGUgwN8LDNc/OLGFZ
+   m5weCBZoJtulIyDohSTrhFKZ/zvNnX9S5edm3ULEvbaK+7B3l53I8NHDl
    A=;
 X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
-   d="scan'208";a="103481231"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1e-a70de69e.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 16 Dec 2020 08:47:09 +0000
+   d="scan'208";a="71565066"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 16 Dec 2020 09:43:18 +0000
 Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1e-a70de69e.us-east-1.amazon.com (Postfix) with ESMTPS id 75544A1EE6;
-        Wed, 16 Dec 2020 08:46:57 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.102) by
+        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id C4B5AA1F1D;
+        Wed, 16 Dec 2020 09:43:15 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.31) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Dec 2020 08:46:41 +0000
+ id 15.0.1497.2; Wed, 16 Dec 2020 09:42:59 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -61,16 +60,16 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC v15.1 8/8] Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
-Date:   Wed, 16 Dec 2020 09:44:04 +0100
-Message-ID: <20201216084404.23183-9-sjpark@amazon.com>
+Subject: [RFC v10 01/13] damon/dbgfs: Allow users to set initial monitoring target regions
+Date:   Wed, 16 Dec 2020 10:42:09 +0100
+Message-ID: <20201216094221.11898-2-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201216084404.23183-1-sjpark@amazon.com>
-References: <20201216084404.23183-1-sjpark@amazon.com>
+In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
+References: <20201216094221.11898-1-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.102]
-X-ClientProxiedBy: EX13D22UWB003.ant.amazon.com (10.43.161.76) To
+X-Originating-IP: [10.43.161.31]
+X-ClientProxiedBy: EX13D16UWB001.ant.amazon.com (10.43.161.17) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -78,244 +77,207 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit add description of DAMON-based operation schemes in the
-DAMON documents.
+Some 'damon-dbgfs' users would want to monitor only a part of the entire
+virtual memory address space.  The framework users in the kernel space
+could use '->init_target_regions' callback or even set the regions
+inside the context struct as they want, but 'damon-dbgfs' users cannot.
+
+For the reason, this commit introduces a new debugfs file,
+'init_region'.  'damon-dbgfs' users can specify which initial monitoring
+target address regions they want by writing special input to the file.
+The input should describe each region in each line in below form:
+
+    <pid> <start address> <end address>
+
+Note that the regions will be updated to cover entire memory mapped
+regions after 'regions update interval'.  If you want the regions to not
+be updated after the initial setting, you could set the interval as a
+very long time, say, a few decades.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- Documentation/admin-guide/mm/damon/guide.rst |  41 ++++++-
- Documentation/admin-guide/mm/damon/start.rst |  11 ++
- Documentation/admin-guide/mm/damon/usage.rst | 109 ++++++++++++++++++-
- Documentation/vm/damon/index.rst             |   1 -
- 4 files changed, 156 insertions(+), 6 deletions(-)
+ mm/damon/dbgfs.c | 154 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 151 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/guide.rst b/Documentation/admin-guide/mm/damon/guide.rst
-index c51fb843efaa..1f9aa2ebbdb6 100644
---- a/Documentation/admin-guide/mm/damon/guide.rst
-+++ b/Documentation/admin-guide/mm/damon/guide.rst
-@@ -53,6 +53,11 @@ heats``.  If it shows a simple pattern consists of a small number of memory
- regions having high contrast of access temperature, you could consider manual
- `Program Modification`_.
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index 06295c986dc3..2f1ec6ebd9f0 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -492,6 +492,147 @@ static ssize_t dbgfs_target_ids_write(struct file *file,
+ 	return ret;
+ }
  
-+If the access pattern is very frequently changing so that you cannot figure out
-+what is the performance important region using your human eye, `Automated
-+DAMON-based Memory Operations`_ might help the case owing to its machine-level
-+microscope view.
++static ssize_t sprint_init_regions(struct damon_ctx *c, char *buf, ssize_t len)
++{
++	struct damon_target *t;
++	struct damon_region *r;
++	int written = 0;
++	int rc;
 +
- If you still want to absorb more benefits, you should develop `Personalized
- DAMON Application`_ for your special case.
++	damon_for_each_target(t, c) {
++		damon_for_each_region(r, t) {
++			rc = scnprintf(&buf[written], len - written,
++					"%lu %lu %lu\n",
++					t->id, r->ar.start, r->ar.end);
++			if (!rc)
++				return -ENOMEM;
++			written += rc;
++		}
++	}
++	return written;
++}
++
++static ssize_t dbgfs_init_regions_read(struct file *file, char __user *buf,
++		size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	char *kbuf;
++	ssize_t len;
++
++	kbuf = kmalloc(count, GFP_KERNEL);
++	if (!kbuf)
++		return -ENOMEM;
++
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond) {
++		mutex_unlock(&ctx->kdamond_lock);
++		return -EBUSY;
++	}
++
++	len = sprint_init_regions(ctx, kbuf, count);
++	mutex_unlock(&ctx->kdamond_lock);
++	if (len < 0)
++		goto out;
++	len = simple_read_from_buffer(buf, count, ppos, kbuf, len);
++
++out:
++	kfree(kbuf);
++	return len;
++}
++
++static int add_init_region(struct damon_ctx *c,
++			 unsigned long target_id, struct damon_addr_range *ar)
++{
++	struct damon_target *t;
++	struct damon_region *r, *prev;
++	int rc = -EINVAL;
++
++	if (ar->start >= ar->end)
++		return -EINVAL;
++
++	damon_for_each_target(t, c) {
++		if (t->id == target_id) {
++			r = damon_new_region(ar->start, ar->end);
++			if (!r)
++				return -ENOMEM;
++			damon_add_region(r, t);
++			if (damon_nr_regions(t) > 1) {
++				prev = damon_prev_region(r);
++				if (prev->ar.end > r->ar.start) {
++					damon_destroy_region(r);
++					return -EINVAL;
++				}
++			}
++			rc = 0;
++		}
++	}
++	return rc;
++}
++
++static int set_init_regions(struct damon_ctx *c, const char *str, ssize_t len)
++{
++	struct damon_target *t;
++	struct damon_region *r, *next;
++	int pos = 0, parsed, ret;
++	unsigned long target_id;
++	struct damon_addr_range ar;
++	int err;
++
++	damon_for_each_target(t, c) {
++		damon_for_each_region_safe(r, next, t)
++			damon_destroy_region(r);
++	}
++
++	while (pos < len) {
++		ret = sscanf(&str[pos], "%lu %lu %lu%n",
++				&target_id, &ar.start, &ar.end, &parsed);
++		if (ret != 3)
++			break;
++		err = add_init_region(c, target_id, &ar);
++		if (err)
++			goto fail;
++		pos += parsed;
++	}
++
++	return 0;
++
++fail:
++	damon_for_each_target(t, c) {
++		damon_for_each_region_safe(r, next, t)
++			damon_destroy_region(r);
++	}
++	return err;
++}
++
++static ssize_t dbgfs_init_regions_write(struct file *file,
++					  const char __user *buf, size_t count,
++					  loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	char *kbuf;
++	ssize_t ret = count;
++	int err;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond) {
++		ret = -EBUSY;
++		goto unlock_out;
++	}
++
++	err = set_init_regions(ctx, kbuf, ret);
++	if (err)
++		ret = err;
++
++unlock_out:
++	mutex_unlock(&ctx->kdamond_lock);
++	kfree(kbuf);
++	return ret;
++}
++
+ static ssize_t dbgfs_kdamond_pid_read(struct file *file,
+ 		char __user *buf, size_t count, loff_t *ppos)
+ {
+@@ -553,6 +694,13 @@ static const struct file_operations target_ids_fops = {
+ 	.write = dbgfs_target_ids_write,
+ };
  
-@@ -120,6 +125,36 @@ shows the visualized access patterns of streamcluster workload in PARSEC3
- benchmark suite.  We can easily identify the 100 MiB sized hot object.
++static const struct file_operations init_regions_fops = {
++	.owner = THIS_MODULE,
++	.open = damon_dbgfs_open,
++	.read = dbgfs_init_regions_read,
++	.write = dbgfs_init_regions_write,
++};
++
+ static const struct file_operations kdamond_pid_fops = {
+ 	.owner = THIS_MODULE,
+ 	.open = damon_dbgfs_open,
+@@ -562,9 +710,9 @@ static const struct file_operations kdamond_pid_fops = {
+ static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
+ {
+ 	const char * const file_names[] = {"attrs", "record", "schemes",
+-		"target_ids", "kdamond_pid"};
+-	const struct file_operations *fops[] = {&attrs_fops,
+-		&record_fops, &schemes_fops, &target_ids_fops,
++		"target_ids", "init_regions", "kdamond_pid"};
++	const struct file_operations *fops[] = {&attrs_fops, &record_fops,
++		&schemes_fops, &target_ids_fops, &init_regions_fops,
+ 		&kdamond_pid_fops};
+ 	int i;
  
- 
-+Automated DAMON-based Memory Operations
-+---------------------------------------
-+
-+Though `Manual Program Optimization` works well in many cases and DAMON can
-+help it, modifying the source code is not a good option in many cases.  First
-+of all, the source code could be too old or unavailable.  And, many workloads
-+will have complex data access patterns that even hard to distinguish hot memory
-+objects and cold memory objects with the human eye.  Finding the mapping from
-+the visualized access pattern to the source code and injecting the hinting
-+system calls inside the code will also be quite challenging.
-+
-+By using DAMON-based operation schemes (DAMOS) via ``damo schemes``, you will
-+be able to easily optimize your workload in such a case.  Our example schemes
-+called 'efficient THP' and 'proactive reclamation' achieved significant speedup
-+and memory space saves against 25 realistic workloads [2]_.
-+
-+That said, note that you need careful tune of the schemes (e.g., target region
-+size and age) and monitoring attributes for the successful use of this
-+approach.  Because the optimal values of the parameters will be dependent on
-+each system and workload, misconfiguring the parameters could result in worse
-+memory management.
-+
-+For the tuning, you could measure the performance metrics such as IPC, TLB
-+misses, and swap in/out events and adjusts the parameters based on their
-+changes.  The total number and the total size of the regions that each scheme
-+is applied, which are provided via the debugfs interface and the programming
-+interface can also be useful.  Writing a program automating this optimal
-+parameter could be an option.
-+
-+
- Personalized DAMON Application
- ------------------------------
- 
-@@ -146,9 +181,9 @@ Referencing previously done successful practices could help you getting the
- sense for this kind of optimizations.  There is an academic paper [1]_
- reporting the visualized access pattern and manual `Program
- Modification`_ results for a number of realistic workloads.  You can also get
--the visualized access patterns [3]_ [4]_ [5]_ and automated DAMON-based memory
--operations results for other realistic workloads that collected with latest
--version of DAMON [2]_ .
-+the visualized access patterns [3]_ [4]_ [5]_ and
-+`Automated DAMON-based Memory Operations`_ results for other realistic
-+workloads that collected with latest version of DAMON [2]_ .
- 
- .. [1] https://dl.acm.org/doi/10.1145/3366626.3368125
- .. [2] https://damonitor.github.io/test/result/perf/latest/html/
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index deed2ea2321e..35cf4e4ca6aa 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -90,6 +90,17 @@ image files. ::
- You can show the images in a web page [1]_ .  Those made with other realistic
- workloads are also available [2]_ [3]_ [4]_.
- 
-+
-+Data Access Pattern Aware Memory Management
-+===========================================
-+
-+Below three commands make every memory region of size >=4K that doesn't
-+accessed for >=60 seconds in your workload to be swapped out. ::
-+
-+    $ echo "#min-size max-size min-acc max-acc min-age max-age action" > scheme
-+    $ echo "4K        max      0       0       60s     max     pageout" >> scheme
-+    $ damo schemes -c my_thp_scheme <pid of your workload>
-+
- .. [1] https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/start.html#visualizing-recorded-patterns
- .. [2] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
- .. [3] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index a6606d27a559..96278227f925 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -219,11 +219,70 @@ Similar to that of ``heats --heatmap``, it also supports 'gnuplot' based simple
- visualization of the distribution via ``--plot`` option.
- 
- 
-+DAMON-based Operation Schemes
-+-----------------------------
-+
-+The ``schemes`` subcommand allows users to do DAMON-based memory management
-+optimizations in a few seconds.  Similar to ``record``, it receives monitoring
-+attributes and target.  However, in addition to those, ``schemes`` receives
-+data access pattern-based memory operation schemes, which describes what memory
-+operation action should be applied to memory regions showing specific data
-+access pattern.  Then, it starts the data access monitoring and automatically
-+applies the schemes to the targets.
-+
-+The operation schemes should be saved in a text file in below format and passed
-+to ``schemes`` subcommand via ``--schemes`` option. ::
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+The format also supports comments, several units for size and age of regions,
-+and human readable action names.  Currently supported operation actions are
-+``willneed``, ``cold``, ``pageout``, ``hugepage`` and ``nohugepage``.  Each of
-+the actions works same to the madvise() system call hints having the name.
-+Please also note that the range is inclusive (closed interval), and ``0`` for
-+max values means infinite. Below example schemes are possible. ::
-+
-+    # format is:
-+    # <min/max size> <min/max frequency (0-100)> <min/max age> <action>
-+    #
-+    # B/K/M/G/T for Bytes/KiB/MiB/GiB/TiB
-+    # us/ms/s/m/h/d for micro-seconds/milli-seconds/seconds/minutes/hours/days
-+    # 'min/max' for possible min/max value.
-+
-+    # if a region keeps a high access frequency for >=100ms, put the region on
-+    # the head of the LRU list (call madvise() with MADV_WILLNEED).
-+    min    max      80      max     100ms   max willneed
-+
-+    # if a region keeps a low access frequency for >=200ms and <=one hour, put
-+    # the region on the tail of the LRU list (call madvise() with MADV_COLD).
-+    min     max     10      20      200ms   1h  cold
-+
-+    # if a region keeps a very low access frequency for >=60 seconds, swap out
-+    # the region immediately (call madvise() with MADV_PAGEOUT).
-+    min     max     0       10      60s     max pageout
-+
-+    # if a region of a size >=2MiB keeps a very high access frequency for
-+    # >=100ms, let the region to use huge pages (call madvise() with
-+    # MADV_HUGEPAGE).
-+    2M      max     90      100     100ms   max hugepage
-+
-+    # If a regions of a size >=2MiB keeps small access frequency for >=100ms,
-+    # avoid the region using huge pages (call madvise() with MADV_NOHUGEPAGE).
-+    2M      max     0       25      100ms   max nohugepage
-+
-+For example, you can make a running process named 'foo' to use huge pages for
-+memory regions keeping 2MB or larger size and having very high access frequency
-+for at least 100 milliseconds using below commands::
-+
-+    $ echo "2M max    90 max    100ms max    hugepage" > my_thp_scheme
-+    $ ./damo schemes --schemes my_thp_scheme `pidof foo`
-+
-+
- debugfs Interface
- =================
- 
--DAMON exports four files, ``attrs``, ``target_ids``, ``record``, and
--``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
-+DAMON exports five files, ``attrs``, ``target_ids``, ``record``, ``schemes``
-+and ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
- 
- 
- Attributes
-@@ -280,6 +339,52 @@ saved in ``/damon.data``. ::
- The recording can be disabled by setting the buffer size zero.
- 
- 
-+Schemes
-+-------
-+
-+For usual DAMON-based data access aware memory management optimizations, users
-+would simply want the system to apply a memory management action to a memory
-+region of a specific size having a specific access frequency for a specific
-+time.  DAMON receives such formalized operation schemes from the user and
-+applies those to the target processes.  It also counts the total number and
-+size of regions that each scheme is applied.  This statistics can be used for
-+online analysis or tuning of the schemes.
-+
-+Users can get and set the schemes by reading from and writing to ``schemes``
-+debugfs file.  Reading the file also shows the statistics of each scheme.  To
-+the file, each of the schemes should be represented in each line in below form:
-+
-+    min-size max-size min-acc max-acc min-age max-age action
-+
-+Note that the ranges are closed interval.  Bytes for the size of regions
-+(``min-size`` and ``max-size``), number of monitored accesses per aggregate
-+interval for access frequency (``min-acc`` and ``max-acc``), number of
-+aggregate intervals for the age of regions (``min-age`` and ``max-age``), and a
-+predefined integer for memory management actions should be used.  The supported
-+numbers and their meanings are as below.
-+
-+ - 0: Call ``madvise()`` for the region with ``MADV_WILLNEED``
-+ - 1: Call ``madvise()`` for the region with ``MADV_COLD``
-+ - 2: Call ``madvise()`` for the region with ``MADV_PAGEOUT``
-+ - 3: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``
-+ - 4: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``
-+ - 5: Do nothing but count the statistics
-+
-+You can disable schemes by simply writing an empty string to the file.  For
-+example, below commands applies a scheme saying "If a memory region of size in
-+[4KiB, 8KiB] is showing accesses per aggregate interval in [0, 5] for aggregate
-+interval in [10, 20], page out the region", check the entered scheme again, and
-+finally remove the scheme. ::
-+
-+    # cd <debugfs>/damon
-+    # echo "4096 8192    0 5    10 20    2" > schemes
-+    # cat schemes
-+    4096 8192 0 5 10 20 2 0 0
-+    # echo > schemes
-+
-+The last two integers in the 4th line of above example is the total number and
-+the total size of the regions that the scheme is applied.
-+
- Turning On/Off
- --------------
- 
-diff --git a/Documentation/vm/damon/index.rst b/Documentation/vm/damon/index.rst
-index 17dca3c12aad..69aec1287aaf 100644
---- a/Documentation/vm/damon/index.rst
-+++ b/Documentation/vm/damon/index.rst
-@@ -28,4 +28,3 @@ workloads and systems.
-    design
-    eval
-    api
--   plans
 -- 
 2.17.1
 
