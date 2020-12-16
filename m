@@ -5,40 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0531C0018C
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8920C2BBD4
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A87123124
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:46:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C6DD23123
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgLPJpy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 04:45:54 -0500
-Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:59058 "EHLO
-        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726155AbgLPJpx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:45:53 -0500
+        id S1726207AbgLPJqv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 04:46:51 -0500
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:29251 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726146AbgLPJqu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:46:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608111952; x=1639647952;
+  t=1608112010; x=1639648010;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=Lj6+I9XWmZiqjVkd1Bor2fLoWLXqVAIP/n4Y2agFqYw=;
-  b=atRK9mOnWORakP4Go+AYUzvczOZW1Pb5cTR//Wb858Tcet/YyKuMHTfQ
-   D2Y1V9hvoYXaZ2k97fGQAoarzXfMSkfWvYw7z+cMSsAQaQkKXNlrC+0Bq
-   oB45eCOOtl8/8ULiGUrN8wKL+V5/9NRGo33U0apJUOJIhRKMQ1O65g0a6
-   8=;
+  bh=kg6Pid/S3uyECtsR9/ZQNoRBSFk6tXHhc71xqlOp1H8=;
+  b=kS9th3P7ImUHvUuqq8xssvdUPYc4hCv00xtY9kaSZbI8ah8C05P287E7
+   HNNJxWfmdchnlpaoJMFR8J96vDoTpSLQwWzUpwtxWvvl4sxIJ/IWdiMkR
+   1Mni1fT+Zygpf+eROmv3sxs5tOqybHqMAviRCTHVrfFlfIgDoLEieuYSb
+   U=;
 X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
-   d="scan'208";a="69443702"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 16 Dec 2020 09:45:07 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS id DF141A1EBF;
-        Wed, 16 Dec 2020 09:44:55 +0000 (UTC)
+   d="scan'208";a="103495486"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 16 Dec 2020 09:46:09 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 62653A1BCB;
+        Wed, 16 Dec 2020 09:46:05 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.31) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Dec 2020 09:44:36 +0000
+ id 15.0.1497.2; Wed, 16 Dec 2020 09:45:48 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,9 +61,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC v10 06/13] mm/damon/vaddr: Separate commonly usable functions
-Date:   Wed, 16 Dec 2020 10:42:14 +0100
-Message-ID: <20201216094221.11898-7-sjpark@amazon.com>
+Subject: [RFC v10 09/13] tools/damon/record: Support physical memory monitoring
+Date:   Wed, 16 Dec 2020 10:42:17 +0100
+Message-ID: <20201216094221.11898-10-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
 References: <20201216094221.11898-1-sjpark@amazon.com>
@@ -77,309 +78,78 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit moves functions in the default virtual address spaces
-monitoring primitives that commonly usable from other address spaces
-like physical address space into a header file.  Those will be reused by
-the physical address space monitoring primitives in the following
-commit.
+This commit allows users to record the data accesses on physical memory
+address space by passing 'paddr' as target to 'damo-record'.  If the
+init regions are given, the regions will be monitored.  Else, it will
+monitor biggest conitguous 'System RAM' region in '/proc/iomem' and
+monitor the region.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/Makefile       |   2 +-
- mm/damon/prmtv-common.c | 104 ++++++++++++++++++++++++++++++++++++++
- mm/damon/prmtv-common.h |  21 ++++++++
- mm/damon/vaddr.c        | 108 +---------------------------------------
- 4 files changed, 128 insertions(+), 107 deletions(-)
- create mode 100644 mm/damon/prmtv-common.c
- create mode 100644 mm/damon/prmtv-common.h
+ tools/damon/_damon.py |  2 ++
+ tools/damon/record.py | 29 ++++++++++++++++++++++++++++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index fed4be3bace3..99b1bfe01ff5 100644
---- a/mm/damon/Makefile
-+++ b/mm/damon/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
+diff --git a/tools/damon/_damon.py b/tools/damon/_damon.py
+index a22ec3777c16..6ff278117e84 100644
+--- a/tools/damon/_damon.py
++++ b/tools/damon/_damon.py
+@@ -27,6 +27,8 @@ def set_target(tid, init_regions=[]):
+     if not os.path.exists(debugfs_init_regions):
+         return 0
  
- obj-$(CONFIG_DAMON)		:= core.o
--obj-$(CONFIG_DAMON_VADDR)	+= vaddr.o
-+obj-$(CONFIG_DAMON_VADDR)	+= prmtv-common.o vaddr.o
- obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
-diff --git a/mm/damon/prmtv-common.c b/mm/damon/prmtv-common.c
-new file mode 100644
-index 000000000000..6cdb96cbc9ef
---- /dev/null
-+++ b/mm/damon/prmtv-common.c
-@@ -0,0 +1,104 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Common Primitives for Data Access Monitoring
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#include "prmtv-common.h"
-+
-+static void damon_ptep_mkold(pte_t *pte, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+	bool referenced = false;
-+	struct page *page = pte_page(*pte);
-+
-+	if (pte_young(*pte)) {
-+		referenced = true;
-+		*pte = pte_mkold(*pte);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr, addr + PAGE_SIZE))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+}
-+
-+static void damon_pmdp_mkold(pmd_t *pmd, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	bool referenced = false;
-+	struct page *page = pmd_page(*pmd);
-+
-+	if (pmd_young(*pmd)) {
-+		referenced = true;
-+		*pmd = pmd_mkold(*pmd);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr,
-+				addr + ((1UL) << HPAGE_PMD_SHIFT)))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+}
-+
-+void damon_va_mkold(struct mm_struct *mm, unsigned long addr)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+
-+	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return;
-+
-+	if (pte) {
-+		damon_ptep_mkold(pte, mm, addr);
-+		pte_unmap_unlock(pte, ptl);
-+	} else {
-+		damon_pmdp_mkold(pmd, mm, addr);
-+		spin_unlock(ptl);
-+	}
-+}
-+
-+bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-+			unsigned long *page_sz)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+	bool young = false;
-+
-+	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return false;
-+
-+	*page_sz = PAGE_SIZE;
-+	if (pte) {
-+		young = pte_young(*pte);
-+		if (!young)
-+			young = !page_is_idle(pte_page(*pte));
-+		pte_unmap_unlock(pte, ptl);
-+		return young;
-+	}
-+
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	young = pmd_young(*pmd);
-+	if (!young)
-+		young = !page_is_idle(pmd_page(*pmd));
-+	spin_unlock(ptl);
-+	*page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-+#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+	return young;
-+}
-diff --git a/mm/damon/prmtv-common.h b/mm/damon/prmtv-common.h
-new file mode 100644
-index 000000000000..a66a6139b4fc
---- /dev/null
-+++ b/mm/damon/prmtv-common.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Common Primitives for Data Access Monitoring
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#include <linux/damon.h>
-+#include <linux/mm.h>
-+#include <linux/mmu_notifier.h>
-+#include <linux/page_idle.h>
-+#include <linux/random.h>
-+#include <linux/sched/mm.h>
-+#include <linux/slab.h>
-+
-+/* Get a random number in [l, r) */
-+#define damon_rand(l, r) (l + prandom_u32_max(r - l))
-+
-+void damon_va_mkold(struct mm_struct *mm, unsigned long addr);
-+bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-+			unsigned long *page_sz);
-diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-index 2075f07f728b..915b12329c6e 100644
---- a/mm/damon/vaddr.c
-+++ b/mm/damon/vaddr.c
-@@ -8,22 +8,14 @@
- #define pr_fmt(fmt) "damon-va: " fmt
++    if tid == 'paddr':
++        tid = 42
+     string = ' '.join(['%s %d %d' % (tid, r[0], r[1]) for r in init_regions])
+     return subprocess.call('echo "%s" > %s' % (string, debugfs_init_regions),
+             shell=True, executable='/bin/bash')
+diff --git a/tools/damon/record.py b/tools/damon/record.py
+index 11fd54001472..6fd0b59c73e0 100644
+--- a/tools/damon/record.py
++++ b/tools/damon/record.py
+@@ -101,6 +101,29 @@ def set_argparser(parser):
+     parser.add_argument('-o', '--out', metavar='<file path>', type=str,
+             default='damon.data', help='output file path')
  
- #include <asm-generic/mman-common.h>
--#include <linux/damon.h>
--#include <linux/mm.h>
--#include <linux/mmu_notifier.h>
--#include <linux/page_idle.h>
--#include <linux/random.h>
--#include <linux/sched/mm.h>
--#include <linux/slab.h>
++def default_paddr_region():
++    "Largest System RAM region becomes the default"
++    ret = []
++    with open('/proc/iomem', 'r') as f:
++        # example of the line: '100000000-42b201fff : System RAM'
++        for line in f:
++            fields = line.split(':')
++            if len(fields) != 2:
++                continue
++            name = fields[1].strip()
++            if name != 'System RAM':
++                continue
++            addrs = fields[0].split('-')
++            if len(addrs) != 2:
++                continue
++            start = int(addrs[0], 16)
++            end = int(addrs[1], 16)
 +
-+#include "prmtv-common.h"
++            sz_region = end - start
++            if not ret or sz_region > (ret[1] - ret[0]):
++                ret = [start, end]
++    return ret
++
+ def main(args=None):
+     global orig_attrs
+     if not args:
+@@ -122,7 +145,11 @@ def main(args=None):
+     target = args.target
  
- #ifdef CONFIG_DAMON_VADDR_KUNIT_TEST
- #undef DAMON_MIN_REGION
- #define DAMON_MIN_REGION 1
- #endif
- 
--/* Get a random number in [l, r) */
--#define damon_rand(l, r) (l + prandom_u32_max(r - l))
--
- /*
-  * 't->id' should be the pointer to the relevant 'struct pid' having reference
-  * count.  Caller must put the returned task, unless it is NULL.
-@@ -370,71 +362,6 @@ void damon_va_update_regions(struct damon_ctx *ctx)
- 	}
- }
- 
--static void damon_ptep_mkold(pte_t *pte, struct mm_struct *mm,
--			     unsigned long addr)
--{
--	bool referenced = false;
--	struct page *page = pte_page(*pte);
--
--	if (pte_young(*pte)) {
--		referenced = true;
--		*pte = pte_mkold(*pte);
--	}
--
--#ifdef CONFIG_MMU_NOTIFIER
--	if (mmu_notifier_clear_young(mm, addr, addr + PAGE_SIZE))
--		referenced = true;
--#endif /* CONFIG_MMU_NOTIFIER */
--
--	if (referenced)
--		set_page_young(page);
--
--	set_page_idle(page);
--}
--
--static void damon_pmdp_mkold(pmd_t *pmd, struct mm_struct *mm,
--			     unsigned long addr)
--{
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	bool referenced = false;
--	struct page *page = pmd_page(*pmd);
--
--	if (pmd_young(*pmd)) {
--		referenced = true;
--		*pmd = pmd_mkold(*pmd);
--	}
--
--#ifdef CONFIG_MMU_NOTIFIER
--	if (mmu_notifier_clear_young(mm, addr,
--				addr + ((1UL) << HPAGE_PMD_SHIFT)))
--		referenced = true;
--#endif /* CONFIG_MMU_NOTIFIER */
--
--	if (referenced)
--		set_page_young(page);
--
--	set_page_idle(page);
--#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
--}
--
--static void damon_va_mkold(struct mm_struct *mm, unsigned long addr)
--{
--	pte_t *pte = NULL;
--	pmd_t *pmd = NULL;
--	spinlock_t *ptl;
--
--	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
--		return;
--
--	if (pte) {
--		damon_ptep_mkold(pte, mm, addr);
--		pte_unmap_unlock(pte, ptl);
--	} else {
--		damon_pmdp_mkold(pmd, mm, addr);
--		spin_unlock(ptl);
--	}
--}
--
- /*
-  * Functions for the access checking of the regions
-  */
-@@ -463,37 +390,6 @@ void damon_va_prepare_access_checks(struct damon_ctx *ctx)
- 	}
- }
- 
--static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
--			unsigned long *page_sz)
--{
--	pte_t *pte = NULL;
--	pmd_t *pmd = NULL;
--	spinlock_t *ptl;
--	bool young = false;
--
--	if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
--		return false;
--
--	*page_sz = PAGE_SIZE;
--	if (pte) {
--		young = pte_young(*pte);
--		if (!young)
--			young = !page_is_idle(pte_page(*pte));
--		pte_unmap_unlock(pte, ptl);
--		return young;
--	}
--
--#ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	young = pmd_young(*pmd);
--	if (!young)
--		young = !page_is_idle(pmd_page(*pmd));
--	spin_unlock(ptl);
--	*page_sz = ((1UL) << HPAGE_PMD_SHIFT);
--#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
--
--	return young;
--}
--
- /*
-  * Check whether the region was accessed after the last preparation
-  *
+     target_fields = target.split()
+-    if not subprocess.call('which %s &> /dev/null' % target_fields[0],
++    if target == 'paddr':   # physical memory address space
++        if not init_regions:
++            init_regions = [default_paddr_region()]
++        do_record(target, False, init_regions, new_attrs, orig_attrs, pidfd)
++    elif not subprocess.call('which %s &> /dev/null' % target_fields[0],
+             shell=True, executable='/bin/bash'):
+         do_record(target, True, init_regions, new_attrs, orig_attrs, pidfd)
+     else:
 -- 
 2.17.1
 
