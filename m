@@ -2,63 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D266DC4361B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 22:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B07D3C0018C
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 22:26:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A047320721
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 22:21:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E78B23602
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 22:26:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727780AbgLPWVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 17:21:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727626AbgLPWVE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 17:21:04 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69574C061794;
-        Wed, 16 Dec 2020 14:20:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Mq/E/K9xrIl07CGLouqL6o2wn8vEoUKM/zgEdi6AGmI=; b=kOAxWX3fArJU/3IZI/hpUGepX6
-        XiZu8EHruyL0KnNFLxv/WmQMjfuNSEs3VP2J7YvehJhm1bp9lweJCFcWIhslNpB49S6rEMX6Da9a4
-        zftSWJ9uTSPsUkQH0c7Xtzv2pLhBF7aCcktAj/w6sQKBIfTzflG/DwMg+eUXAnTv5XbwuMYs70lBg
-        SM5hly2nN1NUiyZHFMg3BoyuK9LSDqujfvSEHvu974kpZgmqfQsw1ROyi9VHQaeqEuARPV8ys6aYm
-        oIrDc3gQXwNAgJ42HGqB13jhOL8OuTq5ulPdt7dHIwHnIgpfwvc/FvWHrQYRbcCxyoBG1OXShjebQ
-        85D6ulkg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kpf9e-0004AV-Lk; Wed, 16 Dec 2020 22:20:18 +0000
-Date:   Wed, 16 Dec 2020 22:20:18 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Oliver Graute <oliver.graute@gmail.com>
-Cc:     konstantin@linuxfoundation.org, corbet@lwn.net,
-        miguel.ojeda.sandonis@gmail.com, grandmaster@al2klimov.de,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: PGP pathfinder service is no longer maintained
-Message-ID: <20201216222018.GA15600@casper.infradead.org>
-References: <20201216220110.GA12262@ripley>
+        id S1730215AbgLPW0f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 17:26:35 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35848 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730213AbgLPW0e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Dec 2020 17:26:34 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5D02FAC90;
+        Wed, 16 Dec 2020 22:25:53 +0000 (UTC)
+Date:   Wed, 16 Dec 2020 23:25:49 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v9 03/11] mm/hugetlb: Free the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <20201216222549.GC3207@localhost.localdomain>
+References: <20201213154534.54826-1-songmuchun@bytedance.com>
+ <20201213154534.54826-4-songmuchun@bytedance.com>
+ <5936a766-505a-eab0-42a6-59aab2585880@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201216220110.GA12262@ripley>
+In-Reply-To: <5936a766-505a-eab0-42a6-59aab2585880@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 11:01:10PM +0100, Oliver Graute wrote:
-> Hello,
+On Wed, Dec 16, 2020 at 02:08:30PM -0800, Mike Kravetz wrote:
+> > + * vmemmap_rmap_walk - walk vmemmap page table
 > 
-> Unfortunately the site https://pgp.cs.uu.nl/ is not maintained anymore
-> and the "Finding paths to Linus" link in the Kernel Maintainer PGP guide
-> is dead. Is there any alternative sites to find a way through the web of
-> trust?
+> I am not sure if 'rmap' should be part of these names.  rmap today is mostly
+> about reverse mapping lookup.  Did you use rmap for 'remap', or because this
+> code is patterned after the page table walking rmap code?  Just think the
+> naming could cause some confusion.
 
-Several.  Konstantin has a local one: https://github.com/mricon/wotmate
-and if you want a web service, I like this one:
-https://the.earth.li/~noodles/pathfind.html
+I also had the same feeling about the 'rmap' usage.
+
+> > +
+> > +static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
+> > +			      unsigned long end, struct vmemmap_rmap_walk *walk)
+> > +{
+> > +	pte_t *pte;
+> > +
+> > +	pte = pte_offset_kernel(pmd, addr);
+> > +	do {
+> > +		BUG_ON(pte_none(*pte));
+> > +
+> > +		if (!walk->reuse)
+> > +			walk->reuse = pte_page(pte[VMEMMAP_TAIL_PAGE_REUSE]);
+> 
+> It may be just me, but I don't like the pte[-1] here.  It certainly does work
+> as designed because we want to remap all pages in the range to the page before
+> the range (at offset -1).  But, we do not really validate this 'reuse' page.
+> There is the BUG_ON(pte_none(*pte)) as a sanity check, but we do nothing similar
+> for pte[-1].  Based on the usage for HugeTLB pages, we can be confident that
+> pte[-1] is actually a pte.  In discussions with Oscar, you mentioned another
+> possible use for these routines.
+
+Without giving it much of a thought, I guess we could duplicate the
+BUG_ON for the pte outside the loop, and add a new one for pte[-1].
+Also, since walk->reuse seems to not change once it is set, we can take
+it outside the loop? e.g:
+
+	pte *pte;
+
+	pte = pte_offset_kernel(pmd, addr);
+	BUG_ON(pte_none(*pte));
+	BUG_ON(pte_none(pte[VMEMMAP_TAIL_PAGE_REUSE]));
+	walk->reuse = pte_page(pte[VMEMMAP_TAIL_PAGE_REUSE]);
+	do {
+		....
+	} while...
+
+Or I am not sure whether we want to keep it inside the loop in case
+future cases change walk->reuse during the operation.
+But to be honest, I do not think it is realistic of all future possible
+uses of this, so I would rather keep it simple for now.
+
+-- 
+Oscar Salvador
+SUSE L3
