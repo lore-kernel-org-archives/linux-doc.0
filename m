@@ -2,161 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF1BC4361B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 03:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C37DC4361B
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 08:45:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55D4C230FA
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 03:54:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 335C2208DB
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 08:45:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725765AbgLPDyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 15 Dec 2020 22:54:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725274AbgLPDyH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 15 Dec 2020 22:54:07 -0500
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19C12C0613D6
-        for <linux-doc@vger.kernel.org>; Tue, 15 Dec 2020 19:53:27 -0800 (PST)
-Received: by mail-pf1-x444.google.com with SMTP id t22so6370013pfl.3
-        for <linux-doc@vger.kernel.org>; Tue, 15 Dec 2020 19:53:27 -0800 (PST)
+        id S1726010AbgLPIpj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 03:45:39 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:14929 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbgLPIpj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 03:45:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=au0l4ODmUzLyBniSivZ0fFaGBE1KkNQntC4U8UGGvjw=;
-        b=HitdVFCAOtsQCu8zvH8qmYCPYzX3PeWE6fktkqoxytKqigp9RNcBtKks+keo8Yodhe
-         7n2W+zAZoxAU4Tv95vdUIkIlQdX026OWKMsoJ3ppouGncBTXSDspdPZOCIrOikVZDyU8
-         4jRAVH5o5rPy3FMNBjZjWHRGTxZN/ZhutryDrs7J7hZvQTTx+0V1XZ/YuUyYYG6J5l3Z
-         sBGcqxKFdhI1BPQlkPIA3xbuPw8Ei4eAmwXNRW3dpQrUt/nhnSQVAG49+VgbfX5v0xQp
-         ehKe8JCYXykuOj/3p2DI8pyPmKR7kJdfjaGrJ+tUNMC+pSiHLi+oNmry3uWmDnXCrC9X
-         vjAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=au0l4ODmUzLyBniSivZ0fFaGBE1KkNQntC4U8UGGvjw=;
-        b=QQ0BB2aNmWFZAvG8r/LYI8XyZMb2xNYNcY+3jivAxQZvgQWCM51xENBeHHKealO/ju
-         9uLj7cuKxkWfVAYmC0+d+XM3H3HQK9ITIZlia69m19HNgb3Tq76NArCN80sWB2tWu6gx
-         neeen4czZ6IDwURrunkNG482yjv5hWBvCrqNe085s3VCqwxepa2EgD8O8oR+0o+DbrsV
-         BTMwthj+pLK4zpDBFZlHNaJEOojZvejUHc7EOrUdummAT70HMBkWgt+WA1pql0/1YIPm
-         s7Nt/0UaYKNVB0xsFX5mtwrybcaDSvHwQQKmEV4sL7idg9k/0Ynw1uq7phItMXfdJUzl
-         dsPA==
-X-Gm-Message-State: AOAM532Wgt3rUIy9fzYh4/oLgg8jjTdyRWom3Jfkgi436oCnH4hHij4v
-        QrSSMJiFB7rlfV4CujFAvgphtb3ECrNVMzH4pXdXOw==
-X-Google-Smtp-Source: ABdhPJxhomQrUSLQh8uMb9UuwA9CmbPbyO9SWshT6Q/hiYWWgqBvJj56FQvMJ2tmDKyx4NK5BlBrXhKdVumTZXHNy/0=
-X-Received: by 2002:aa7:979d:0:b029:1a4:3b76:a559 with SMTP id
- o29-20020aa7979d0000b02901a43b76a559mr15688095pfp.49.1608090806411; Tue, 15
- Dec 2020 19:53:26 -0800 (PST)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1608108337; x=1639644337;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=jGd3IHZtvo+hUqdl34pPlfX1XZZIx6RKYvIrj+lPFqo=;
+  b=bf7ufSnb2czjQyJrr9Vp7eaXMRT95jdFs9HceXLnixDCpjXFgwt+zBeI
+   LZLPueJkPWjQyD4w753wQuLcUEKbvcejl1lio3GHmaptW/sdKl80R3VpA
+   dXARlE7bGR2R0Voa+tBQtbh6JGDShkEeo0Mo2WUsyUUBfy8CWWmWKEWY8
+   k=;
+X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
+   d="scan'208";a="71552743"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-16425a8d.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 16 Dec 2020 08:44:49 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1d-16425a8d.us-east-1.amazon.com (Postfix) with ESMTPS id 58FF1101080;
+        Wed, 16 Dec 2020 08:44:37 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.102) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 16 Dec 2020 08:44:20 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC v15.1 0/8] Implement Data Access Monitoring-based Memory Operation Schemes
+Date:   Wed, 16 Dec 2020 09:43:56 +0100
+Message-ID: <20201216084404.23183-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20201213154534.54826-1-songmuchun@bytedance.com>
- <20201213154534.54826-3-songmuchun@bytedance.com> <7cfe44aa-3753-82d9-6630-194f1532e186@oracle.com>
- <e9abb112-7654-6157-6782-9ccb4a9cd87e@oracle.com>
-In-Reply-To: <e9abb112-7654-6157-6782-9ccb4a9cd87e@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 16 Dec 2020 11:52:50 +0800
-Message-ID: <CAMZfGtU9c3DmZzrGxh2oo-GMjamP5VFLerZf_FCCx7A8KO6NQA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v9 02/11] mm/hugetlb: Introduce a new
- config HUGETLB_PAGE_FREE_VMEMMAP
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.102]
+X-ClientProxiedBy: EX13D22UWB003.ant.amazon.com (10.43.161.76) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 11:45 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 12/15/20 5:03 PM, Mike Kravetz wrote:
-> > On 12/13/20 7:45 AM, Muchun Song wrote:
-> >> diff --git a/fs/Kconfig b/fs/Kconfig
-> >> index 976e8b9033c4..4c3a9c614983 100644
-> >> --- a/fs/Kconfig
-> >> +++ b/fs/Kconfig
-> >> @@ -245,6 +245,21 @@ config HUGETLBFS
-> >>  config HUGETLB_PAGE
-> >>      def_bool HUGETLBFS
-> >>
-> >> +config HUGETLB_PAGE_FREE_VMEMMAP
-> >> +    def_bool HUGETLB_PAGE
-> >> +    depends on X86_64
-> >> +    depends on SPARSEMEM_VMEMMAP
-> >> +    depends on HAVE_BOOTMEM_INFO_NODE
-> >> +    help
-> >> +      When using HUGETLB_PAGE_FREE_VMEMMAP, the system can save up some
-> >> +      memory from pre-allocated HugeTLB pages when they are not used.
-> >> +      6 pages per HugeTLB page of the pmd level mapping and (PAGE_SIZE - 2)
-> >> +      pages per HugeTLB page of the pud level mapping.
-> >> +
-> >> +      When the pages are going to be used or freed up, the vmemmap array
-> >> +      representing that range needs to be remapped again and the pages
-> >> +      we discarded earlier need to be rellocated again.
-> >
-> > I see the previous discussion with David about wording here.  How about
-> > leaving the functionality description general, and provide a specific
-> > example for x86_64?  As mentioned we can always update when new arch support
-> > is added.  Suggested text?
-> >
-> >       The option HUGETLB_PAGE_FREE_VMEMMAP allows for the freeing of
-> >       some vmemmap pages associated with pre-allocated HugeTLB pages.
-> >       For example, on X86_64 6 vmemmap pages of size 4KB each can be
-> >       saved for each 2MB HugeTLB page.  4094 vmemmap pages of size 4KB
-> >       each can be saved for each 1GB HugeTLB page.
-> >
-> >       When a HugeTLB page is allocated or freed, the vmemmap array
-> >       representing the range associated with the page will need to be
-> >       remapped.  When a page is allocated, vmemmap pages are freed
-> >       after remapping.  When a page is freed, previously discarded
-> >       vmemmap pages must be allocated before before remapping.
->
-> Sorry, I am slowly coming up to speed with discussions when I was away.
->
-> It appears vmemmap is not being mapped with huge pages if the boot option
-> hugetlb_free_vmemmap is on.   Is that correct?
+From: SeongJae Park <sjpark@amazon.de>
 
-Right.
+NOTE: This is only an RFC for future features of DAMON patchset[1], which is
+not merged in the mainline yet.  The aim of this RFC is to show how DAMON would
+be evolved once it is merged in.  So, if you have some interest in this RFC,
+please consider reviewing the DAMON patchset, either.
 
->
-> If that is correct, we should document the trade off of increased page
-> table pages needed to map vmemmap vs the savings from freeing struct page
-> pages.  If a user/sysadmin only uses a small number of hugetlb pages (as
-> a percentage of system memory) they could end up using more memory with
-> hugetlb_free_vmemmap on as opposed to off.  Perhaps, it should be part of
-> the documentation for hugetlb_free_vmemmap?  If this is true, and people
+Changes from Previous Version
+=============================
 
-Right, it is better to document it around hugetlb_free_vmemmap.
-This should be a part of pathe #8. Thanks.
+Only below minor changes made on v15 of this patchset.  Therefore I'm setting
+the version number to v15.1 rather than v16.
 
+- Rebase on v5.10 + DAMON v23[1]
+- Drop the dependency on Minchan's out-of-tree patch (It's merged in v5.10)
 
-> think this should be documented, I can try to come up with something.
->
-> --
-> Mike Kravetz
+Introduction
+============
 
+DAMON[1] can be used as a primitive for data access aware memory management
+optimizations.  For that, users who want such optimizations should run DAMON,
+read the monitoring results, analyze it, plan a new memory management scheme,
+and apply the new scheme by themselves.  Such efforts will be inevitable for
+some complicated optimizations.
 
+However, in many other cases, the users would simply want the system to apply a
+memory management action to a memory region of a specific size having a
+specific access frequency for a specific time.  For example, "page out a memory
+region larger than 100 MiB keeping only rare accesses more than 2 minutes", or
+"Do not use THP for a memory region larger than 2 MiB rarely accessed for more
+than 1 seconds".
+
+This RFC patchset makes DAMON to handle such data access monitoring-based
+Operation Schemes (DAMOS).  With this change, users can do the data access
+aware optimizations by simply specifying their schemes.
+
+[1] https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 24
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v23 DAMON patchset is applied.
+
+DAMON is lightweight.  It increases system memory usage by 0.42% and slows
+target workloads down by 0.39%.
+
+DAMON is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, 'ethp', removes 81.45% of
+THP memory overheads while preserving 50.09% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 91.45% of residential sets and 22.91% of system memory footprint while
+incurring only 2.43% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimental THP optimization and proactive reclamation are not
+for production but only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in this patchset for detailed evaluation setup and
+results.
+
+[1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damos
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Tree
+==============================
+
+The patches are based on the v5.10 plus v23 DAMON patchset[1].  You can also
+clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b damos/rfc/v15.1
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damos/rfc/v15.1
+
+There are a couple of trees for entire DAMON patchset series that future
+features are included.  The first one[3] contains the changes for latest
+release, while the other one[4] contains the changes for next release.
+
+[1] https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-mm/20200302193630.68771-2-minchan@kernel.org/
+[3] https://github.com/sjp38/linux/tree/damon/master
+[4] https://github.com/sjp38/linux/tree/damon/next
+
+Sequence Of Patches
+===================
+
+The 1st patch accounts age of each region.  The 2nd patch implements the
+core of the DAMON-based operation schemes feature.  The 3rd patch makes
+the default monitoring primitives for virtual address spaces to support the
+schemes.  From this point, the kernel space users can use DAMOS.  The 4th patch
+exports the feature to the user space via the debugfs interface.  The 5th patch
+implements schemes statistics feature for easier tuning of the schemes and
+runtime access pattern analysis.  The 6th patch adds selftests for these
+changes, and the 7th patch adds human friendly schemes support to the user
+space tool for DAMON.  Finally, the 8th patch documents this new feature.
+
+Patch History
+=============
+
+Changes from RFC v15
+(https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/)
+- Rebase on v5.10 + DAMON v23[1]
+- Drop the dependency on Minchan's out-of-tree patch (It's merged in v5.10)
+
+Changes from RFC v14
+(https://lore.kernel.org/linux-mm/20200804142430.15384-1-sjpark@amazon.com/)
+- s/snprintf()/scnprintf() (Marco Elver)
+- Place three parts of DAMON (core, primitives, and dbgfs) in different files
+
+Changes from RFC v13
+(https://lore.kernel.org/linux-mm/20200707093805.4775-1-sjpark@amazon.com/)
+- Drop loadable module support
+- Use dedicated valid action checker function
+- Rebase on v5.8 plus v19 DAMON
+
+Changes from RFC v12
+(https://lore.kernel.org/linux-mm/20200616073828.16509-1-sjpark@amazon.com/)
+ - Wordsmith the document, comment, commit messages
+ - Support a scheme of max access count 0
+ - Use 'unsigned long' for (min|max)_sz_region
+
+Changes from RFC v11
+(https://lore.kernel.org/linux-mm/20200609065320.12941-1-sjpark@amazon.com/)
+ - Refine the commit messages (David Hildenbrand)
+ - Clean up debugfs code
+
+Changes from RFC v10
+(https://lore.kernel.org/linux-mm/20200603071138.8152-1-sjpark@amazon.com/)
+ - Fix the wrong error handling for schemes debugfs file
+ - Handle the schemes stats from the user space tool
+ - Remove the schemes implementation plan from the document
+
+Changes from RFC v9
+(https://lore.kernel.org/linux-mm/20200526075702.27339-1-sjpark@amazon.com/)
+ - Rebase on v5.7
+ - Fix wrong comments and documents for schemes apply conditions
+
+Changes from RFC v8
+(https://lore.kernel.org/linux-mm/20200512115343.27699-1-sjpark@amazon.com/)
+ - Rewrite the document (Stefan Nuernberger)
+ - Make 'damon_for_each_*' argument order consistent (Leonard Foerster)
+ - Implement statistics for schemes
+ - Avoid races between debugfs readers and writers
+ - Reset age for only significant access frequency changes
+ - Add kernel-doc comments in damon.h
+
+Please refer to RFC v8 for previous history
+
+SeongJae Park (8):
+  mm/damon/core: Account age of target regions
+  mm/damon/core: Implement DAMON-based Operation Schemes (DAMOS)
+  mm/damon/vaddr: Support DAMON-based Operation Schemes
+  mm/damon/dbgfs: Support DAMON-based Operation Schemes
+  mm/damon/schemes: Implement statistics feature
+  selftests/damon: Add 'schemes' debugfs tests
+  tools/damon: Support more human friendly 'schemes' control
+  Docs/admin-guide/mm/damon: Document DAMON-based Operation Schemes
+
+ Documentation/admin-guide/mm/damon/guide.rst  |  41 ++++-
+ Documentation/admin-guide/mm/damon/start.rst  |  11 ++
+ Documentation/admin-guide/mm/damon/usage.rst  | 109 ++++++++++-
+ Documentation/vm/damon/index.rst              |   1 -
+ include/linux/damon.h                         |  92 +++++++++-
+ mm/damon/core.c                               | 125 +++++++++++++
+ mm/damon/dbgfs.c                              | 170 +++++++++++++++++-
+ mm/damon/vaddr.c                              |  58 ++++++
+ tools/damon/_convert_damos.py                 | 141 +++++++++++++++
+ tools/damon/_damon.py                         |  28 ++-
+ tools/damon/damo                              |   7 +
+ tools/damon/schemes.py                        | 110 ++++++++++++
+ .../testing/selftests/damon/debugfs_attrs.sh  |  29 +++
+ 13 files changed, 903 insertions(+), 19 deletions(-)
+ create mode 100755 tools/damon/_convert_damos.py
+ create mode 100644 tools/damon/schemes.py
 
 -- 
-Yours,
-Muchun
+2.17.1
+
