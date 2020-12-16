@@ -4,41 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9D6C2BBCF
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20802C2BBCA
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14AD723123
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C351123123
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 09:44:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgLPJoK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 04:44:10 -0500
-Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:44112 "EHLO
-        smtp-fw-9103.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725889AbgLPJoJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:44:09 -0500
+        id S1726057AbgLPJog (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 04:44:36 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:57876 "EHLO
+        smtp-fw-2101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbgLPJog (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 04:44:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608111848; x=1639647848;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=pJSYaBeSyknY70hlOO0x4rCmApA6A+LRe7dtLJZK0og=;
-  b=mAyOAa1XY5XtqtYxDZdAvm4xr3KRU1Mc+Rx/QDVmxQKNi/tm7zrgWArS
-   iXkD3q2dJIawpIj+GzQCaK1XfkO0S08XSlZIdG3rHkRMp7bY/jS9rIgvn
-   7yPM84WVCj+55tRGTajNggCdm25J16NRxZsxDyLJSh0TKaZp5+31w8A8F
+  t=1608111875; x=1639647875;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=eFQ5FjEXjCcRqP315OtcZTEl8DRR0ETd5Jfrqerv8aI=;
+  b=rO+OnLqvu9yZUUyA0VSScTUAoFdHw3SZBQPILdQRPOWGxBeEEcOw8J6c
+   gJ1nghlFWeZ0M7S28LgS2/UZa2ez31E0u/9kZQT/cQrCztLq5Iw0w+iQz
+   yun7Wpl4FqKW1nawtMARYQU206SuIX4R2WTXw3VvsQmZSIBRdQpOGeMKI
    w=;
 X-IronPort-AV: E=Sophos;i="5.78,424,1599523200"; 
-   d="scan'208";a="903545393"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-67b371d8.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9103.sea19.amazon.com with ESMTP; 16 Dec 2020 09:43:08 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-67b371d8.us-east-1.amazon.com (Postfix) with ESMTPS id 5FBE4A1E17;
-        Wed, 16 Dec 2020 09:42:55 +0000 (UTC)
+   d="scan'208";a="69443516"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP; 16 Dec 2020 09:43:47 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id BAF54A1DCA;
+        Wed, 16 Dec 2020 09:43:34 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.31) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 16 Dec 2020 09:42:38 +0000
+ id 15.0.1497.2; Wed, 16 Dec 2020 09:43:18 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,10 +61,12 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [RFC v10 00/13] DAMON: Support Physical Memory Address Space and Page-granularity Idleness Monitoring
-Date:   Wed, 16 Dec 2020 10:42:08 +0100
-Message-ID: <20201216094221.11898-1-sjpark@amazon.com>
+Subject: [RFC v10 02/13] tools/damon: Support init target regions specification
+Date:   Wed, 16 Dec 2020 10:42:10 +0100
+Message-ID: <20201216094221.11898-3-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201216094221.11898-1-sjpark@amazon.com>
+References: <20201216094221.11898-1-sjpark@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.43.161.31]
@@ -75,173 +78,207 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-NOTE: This is only an RFC for future features of DAMON patchset[1], which is
-not merged in the mainline yet.  The aim of this RFC is to show how DAMON would
-be evolved once it is merged in.  So, if you have some interest in this RFC,
-please consider reviewing the DAMON patchset, either.
+This commit updates the damon user space tool to support the initial
+monitoring target regions specification.
 
-Changes from Previous Version
-=============================
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ tools/damon/_damon.py  | 39 +++++++++++++++++++++++++++++++++++++++
+ tools/damon/record.py  | 12 +++++++-----
+ tools/damon/schemes.py | 12 +++++++-----
+ 3 files changed, 53 insertions(+), 10 deletions(-)
 
-- Rebase on v5.10 + DAMON v23[1] + DAMOS v15.1[2]
-- Implement primitives for page granularity idleness monitoring
-
-Introduction
-============
-
-DAMON[1] programming interface users can extend DAMON for any address space by
-configuring the address-space specific low level primitives with appropriate
-ones.  However, because only the implementation for the virtual address spaces
-is available now, the users should implement their own for other address
-spaces.  Worse yet, the user space users who are using the debugfs interface of
-'damon-dbgfs' module or the DAMON user space tool, cannot implement their own.
-Therefore, this patchset implements reference implementation of the low level
-primitives for two other common use cases.
-
-First common use case is the physical memory address space monitoring.  This
-patchset, hence, implements monitoring primitives for the physical address
-space.  Further, this patchset links the implementation to the debugfs
-interface and the user space tool for the user space users.
-
-Another common use case is page-granularity idleness monitoring.  This is
-already available via 'Idle Page Tracking', but it requires frequent
-kernel-user context change.  DAMON can efficiently support the usecase via its
-arbitrary type monitoring target feature.  This patchset, therefore, provides
-yet another implementation of the monitoring primitives for the use case.
-Nonetheless, this version of the patchset doesn't provide user space friendly
-interface for that.  It would be included in a future version of this patchset.
-
-Note that the primitives support only the online user memory, as same to the
-Idle Page Tracking.
-
-Baseline and Complete Git Trees
-===============================
-
-The patches are based on the v5.10 linux kernel plus DAMON v23 patchset[1] and
-DAMOS RFC v15.1 patchset[2].  You can also clone the complete git tree:
-
-    $ git clone git://github.com/sjp38/linux -b cdamon/rfc/v10
-
-The web is also available:
-https://github.com/sjp38/linux/releases/tag/cdamon/rfc/v10
-
-[1] https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/
-[2] https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/
-
-Sequence of Patches
-===================
-
-The sequence of patches is as follow.
-
-The first 5 patches allow the user space users manually set the monitoring
-regions.  The 1st and 2nd patches implements the features in the 'damon-dbgfs'
-and the user space tool, respectively.  Following two patches update
-unittests (the 3rd patch) and selftests (the 4th patch) for the new feature.
-Finally, the 5th patch documents this new feature.
-
-Following 5 patches implement the physical memory monitoring.  The 6th patch
-makes some primitive functions for the virtual address spaces primitive
-reusable.  The 7th patch implements the physical address space monitoring
-primitive using it.  The 8th and the 9th patches links the primitives to the
-'damon-dbgfs' and the user space tool, respectively.  The 10th patch further
-implement a handy NUMA specific memory monitoring feature on the user space
-tool.  The 11th patch documents this new features.
-
-The 12th patch again separates some functions of the physical address space
-primitives to reusable, and the 13th patch implements the page granularity
-idleness monitoring primitives using those.
-
-Patch History
-=============
-
-Changes from RFC v9
-(https://lore.kernel.org/linux-mm/20201007071409.12174-1-sjpark@amazon.com/)
-- Rebase on v5.10 + DAMON v23[1] + DAMOS v15.1[2]
-- Implement primitives for page granularity idleness monitoring
-
-Changes from RFC v8
-(https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/)
-- s/snprintf()/scnprintf() (Marco Elver)
-- Place three parts of DAMON (core, primitives, and dbgfs) in different files
-
-Changes from RFC v7
-(https://lore.kernel.org/linux-mm/20200818072501.30396-1-sjpark@amazon.com/)
-- Add missed 'put_page()' calls
-- Support unmapped LRU pages
-
-Changes from RFC v6
-(https://lore.kernel.org/linux-mm/20200805065951.18221-1-sjpark@amazon.com/)
-- Use 42 as the fake target id for paddr instead of -1
-- Fix typo
-
-Changes from RFC v5
-(https://lore.kernel.org/linux-mm/20200707144540.21216-1-sjpark@amazon.com/)
-- Support nested iomem sections (Du Fan)
-- Rebase on v5.8
-
-Changes from RFC v4
-(https://lore.kernel.org/linux-mm/20200616140813.17863-1-sjpark@amazon.com/)
- - Support NUMA specific physical memory monitoring
-
-Changes from RFC v3
-(https://lore.kernel.org/linux-mm/20200609141941.19184-1-sjpark@amazon.com/)
- - Export rmap functions
- - Reorganize for physical memory monitoring support only
- - Clean up debugfs code
-
-Changes from RFC v2
-(https://lore.kernel.org/linux-mm/20200603141135.10575-1-sjpark@amazon.com/)
- - Support the physical memory monitoring with the user space tool
- - Use 'pfn_to_online_page()' (David Hildenbrand)
- - Document more detail on random 'pfn' and its safeness (David Hildenbrand)
-
-Changes from RFC v1
-(https://lore.kernel.org/linux-mm/20200409094232.29680-1-sjpark@amazon.com/)
- - Provide the reference primitive implementations for the physical memory
- - Connect the extensions with the debugfs interface
-
-SeongJae Park (13):
-  damon/dbgfs: Allow users to set initial monitoring target regions
-  tools/damon: Support init target regions specification
-  damon/dbgfs-test: Add a unit test case for 'init_regions'
-  selftests/damon/_chk_record: Do not check number of gaps
-  Docs/admin-guide/mm/damon: Document 'init_regions' feature
-  mm/damon/vaddr: Separate commonly usable functions
-  mm/damon: Implement primitives for physical address space monitoring
-  damon/dbgfs: Support physical memory monitoring
-  tools/damon/record: Support physical memory monitoring
-  tools/damon/record: Support NUMA specific recording
-  Docs/DAMON: Document physical memory monitoring support
-  mm/damon/paddr: Separate commonly usable functions
-  mm/damon: Implement primitives for page granularity idleness
-    monitoring
-
- Documentation/admin-guide/mm/damon/usage.rst |  77 ++++++-
- Documentation/vm/damon/design.rst            |  29 ++-
- Documentation/vm/damon/faq.rst               |   5 +-
- include/linux/damon.h                        |  37 +++
- include/trace/events/damon.h                 |  19 ++
- mm/damon/Kconfig                             |  20 +-
- mm/damon/Makefile                            |   4 +-
- mm/damon/dbgfs-test.h                        |  55 +++++
- mm/damon/dbgfs.c                             | 163 ++++++++++++-
- mm/damon/paddr.c                             |  98 ++++++++
- mm/damon/pgidle.c                            |  69 ++++++
- mm/damon/prmtv-common.c                      | 226 +++++++++++++++++++
- mm/damon/prmtv-common.h                      |  25 ++
- mm/damon/vaddr.c                             | 108 +--------
- tools/damon/_damon.py                        |  41 ++++
- tools/damon/_paddr_layout.py                 | 147 ++++++++++++
- tools/damon/record.py                        |  57 ++++-
- tools/damon/schemes.py                       |  12 +-
- tools/testing/selftests/damon/_chk_record.py |   6 -
- 19 files changed, 1049 insertions(+), 149 deletions(-)
- create mode 100644 mm/damon/paddr.c
- create mode 100644 mm/damon/pgidle.c
- create mode 100644 mm/damon/prmtv-common.c
- create mode 100644 mm/damon/prmtv-common.h
- create mode 100644 tools/damon/_paddr_layout.py
-
+diff --git a/tools/damon/_damon.py b/tools/damon/_damon.py
+index a4f6c03c23e4..a22ec3777c16 100644
+--- a/tools/damon/_damon.py
++++ b/tools/damon/_damon.py
+@@ -12,12 +12,25 @@ debugfs_attrs = None
+ debugfs_record = None
+ debugfs_schemes = None
+ debugfs_target_ids = None
++debugfs_init_regions = None
+ debugfs_monitor_on = None
+ 
+ def set_target_id(tid):
+     with open(debugfs_target_ids, 'w') as f:
+         f.write('%s\n' % tid)
+ 
++def set_target(tid, init_regions=[]):
++    rc = set_target_id(tid)
++    if rc:
++        return rc
++
++    if not os.path.exists(debugfs_init_regions):
++        return 0
++
++    string = ' '.join(['%s %d %d' % (tid, r[0], r[1]) for r in init_regions])
++    return subprocess.call('echo "%s" > %s' % (string, debugfs_init_regions),
++            shell=True, executable='/bin/bash')
++
+ def turn_damon(on_off):
+     return subprocess.call("echo %s > %s" % (on_off, debugfs_monitor_on),
+             shell=True, executable="/bin/bash")
+@@ -97,6 +110,7 @@ def chk_update_debugfs(debugfs):
+     global debugfs_record
+     global debugfs_schemes
+     global debugfs_target_ids
++    global debugfs_init_regions
+     global debugfs_monitor_on
+ 
+     debugfs_damon = os.path.join(debugfs, 'damon')
+@@ -104,6 +118,7 @@ def chk_update_debugfs(debugfs):
+     debugfs_record = os.path.join(debugfs_damon, 'record')
+     debugfs_schemes = os.path.join(debugfs_damon, 'schemes')
+     debugfs_target_ids = os.path.join(debugfs_damon, 'target_ids')
++    debugfs_init_regions = os.path.join(debugfs_damon, 'init_regions')
+     debugfs_monitor_on = os.path.join(debugfs_damon, 'monitor_on')
+ 
+     if not os.path.isdir(debugfs_damon):
+@@ -131,6 +146,26 @@ def cmd_args_to_attrs(args):
+     return Attrs(sample_interval, aggr_interval, regions_update_interval,
+             min_nr_regions, max_nr_regions, rbuf_len, rfile_path, schemes)
+ 
++def cmd_args_to_init_regions(args):
++    regions = []
++    for arg in args.regions.split():
++        addrs = arg.split('-')
++        try:
++            if len(addrs) != 2:
++                raise Exception('two addresses not given')
++            start = int(addrs[0])
++            end = int(addrs[1])
++            if start >= end:
++                raise Exception('start >= end')
++            if regions and regions[-1][1] > start:
++                raise Exception('regions overlap')
++        except Exception as e:
++            print('Wrong \'--regions\' argument (%s)' % e)
++            exit(1)
++
++        regions.append([start, end])
++    return regions
++
+ def set_attrs_argparser(parser):
+     parser.add_argument('-d', '--debugfs', metavar='<debugfs>', type=str,
+             default='/sys/kernel/debug', help='debugfs mounted path')
+@@ -144,3 +179,7 @@ def set_attrs_argparser(parser):
+             default=10, help='minimal number of regions')
+     parser.add_argument('-m', '--maxr', metavar='<# regions>', type=int,
+             default=1000, help='maximum number of regions')
++
++def set_init_regions_argparser(parser):
++    parser.add_argument('-r', '--regions', metavar='"<start>-<end> ..."',
++            type=str, default='', help='monitoring target address regions')
+diff --git a/tools/damon/record.py b/tools/damon/record.py
+index 6d1cbe593b94..11fd54001472 100644
+--- a/tools/damon/record.py
++++ b/tools/damon/record.py
+@@ -24,7 +24,7 @@ def pidfd_open(pid):
+ 
+     return syscall(NR_pidfd_open, pid, 0)
+ 
+-def do_record(target, is_target_cmd, attrs, old_attrs, pidfd):
++def do_record(target, is_target_cmd, init_regions, attrs, old_attrs, pidfd):
+     if os.path.isfile(attrs.rfile_path):
+         os.rename(attrs.rfile_path, attrs.rfile_path + '.old')
+ 
+@@ -48,8 +48,8 @@ def do_record(target, is_target_cmd, attrs, old_attrs, pidfd):
+         # only for reference of the pidfd usage.
+         target = 'pidfd %s' % fd
+ 
+-    if _damon.set_target_id(target):
+-        print('target id setting (%s) failed' % target)
++    if _damon.set_target(target, init_regions):
++        print('target setting (%s, %s) failed' % (target, init_regions))
+         cleanup_exit(old_attrs, -2)
+     if _damon.turn_damon('on'):
+         print('could not turn on damon' % target)
+@@ -91,6 +91,7 @@ def chk_permission():
+ 
+ def set_argparser(parser):
+     _damon.set_attrs_argparser(parser)
++    _damon.set_init_regions_argparser(parser)
+     parser.add_argument('target', type=str, metavar='<target>',
+             help='the target command or the pid to record')
+     parser.add_argument('--pidfd', action='store_true',
+@@ -117,19 +118,20 @@ def main(args=None):
+     args.schemes = ''
+     pidfd = args.pidfd
+     new_attrs = _damon.cmd_args_to_attrs(args)
++    init_regions = _damon.cmd_args_to_init_regions(args)
+     target = args.target
+ 
+     target_fields = target.split()
+     if not subprocess.call('which %s &> /dev/null' % target_fields[0],
+             shell=True, executable='/bin/bash'):
+-        do_record(target, True, new_attrs, orig_attrs, pidfd)
++        do_record(target, True, init_regions, new_attrs, orig_attrs, pidfd)
+     else:
+         try:
+             pid = int(target)
+         except:
+             print('target \'%s\' is neither a command, nor a pid' % target)
+             exit(1)
+-        do_record(target, False, new_attrs, orig_attrs, pidfd)
++        do_record(target, False, init_regions, new_attrs, orig_attrs, pidfd)
+ 
+ if __name__ == '__main__':
+     main()
+diff --git a/tools/damon/schemes.py b/tools/damon/schemes.py
+index 9095835f6133..cfec89854a08 100644
+--- a/tools/damon/schemes.py
++++ b/tools/damon/schemes.py
+@@ -14,7 +14,7 @@ import time
+ import _convert_damos
+ import _damon
+ 
+-def run_damon(target, is_target_cmd, attrs, old_attrs):
++def run_damon(target, is_target_cmd, init_regions, attrs, old_attrs):
+     if os.path.isfile(attrs.rfile_path):
+         os.rename(attrs.rfile_path, attrs.rfile_path + '.old')
+ 
+@@ -27,8 +27,8 @@ def run_damon(target, is_target_cmd, attrs, old_attrs):
+     if is_target_cmd:
+         p = subprocess.Popen(target, shell=True, executable='/bin/bash')
+         target = p.pid
+-    if _damon.set_target_pid(target):
+-        print('pid setting (%s) failed' % target)
++    if _damon.set_target(target, init_regions):
++        print('target setting (%s, %s) failed' % (target, init_regions))
+         cleanup_exit(old_attrs, -2)
+     if _damon.turn_damon('on'):
+         print('could not turn on damon' % target)
+@@ -68,6 +68,7 @@ def chk_permission():
+ 
+ def set_argparser(parser):
+     _damon.set_attrs_argparser(parser)
++    _damon.set_init_regions_argparser(parser)
+     parser.add_argument('target', type=str, metavar='<target>',
+             help='the target command or the pid to record')
+     parser.add_argument('-c', '--schemes', metavar='<file>', type=str,
+@@ -92,19 +93,20 @@ def main(args=None):
+     args.out = 'null'
+     args.schemes = _convert_damos.convert(args.schemes, args.sample, args.aggr)
+     new_attrs = _damon.cmd_args_to_attrs(args)
++    init_regions = _damon.cmd_args_to_init_regions(args)
+     target = args.target
+ 
+     target_fields = target.split()
+     if not subprocess.call('which %s &> /dev/null' % target_fields[0],
+             shell=True, executable='/bin/bash'):
+-        run_damon(target, True, new_attrs, orig_attrs)
++        run_damon(target, True, init_regions, new_attrs, orig_attrs)
+     else:
+         try:
+             pid = int(target)
+         except:
+             print('target \'%s\' is neither a command, nor a pid' % target)
+             exit(1)
+-        run_damon(target, False, new_attrs, orig_attrs)
++        run_damon(target, False, init_regions, new_attrs, orig_attrs)
+ 
+ if __name__ == '__main__':
+     main()
 -- 
 2.17.1
 
