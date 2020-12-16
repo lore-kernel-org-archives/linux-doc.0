@@ -2,117 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC612C4361B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 13:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C57EC2BBCA
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 13:47:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8ED052311B
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 13:44:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F2EE2255F
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 13:47:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgLPNol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 08:44:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53314 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726354AbgLPNol (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 16 Dec 2020 08:44:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 621CCAC7F;
-        Wed, 16 Dec 2020 13:43:59 +0000 (UTC)
-Date:   Wed, 16 Dec 2020 14:43:54 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v9 09/11] mm/hugetlb: Introduce nr_free_vmemmap_pages in
- the struct hstate
-Message-ID: <20201216134354.GD29394@linux>
-References: <20201213154534.54826-1-songmuchun@bytedance.com>
- <20201213154534.54826-10-songmuchun@bytedance.com>
+        id S1726405AbgLPNru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 08:47:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33698 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbgLPNru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 08:47:50 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B300DC06138C
+        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 05:47:03 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id n16so1982286wmc.0
+        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 05:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KftYZd62fX32zg2WC2QvD8OPXOuyZBfnJgkDnV1mwqY=;
+        b=CLReobLT9VHfHG7+xWWubJvml+kt3Ff0xG0whO3LjSNalaBT0su6kwH1HIJ0/nm04q
+         /oysGEQ59Wcwjf2CvgpBDiw9Y1wt4OcLmiEci3E0mYg4JYG5EpkUWNO41kbbWKIBfkoN
+         DsTIGQKGU/PuV5PHdrWtpfNeYg3zstfWWmciyDfOyq/IBk4Z+Xexr/CtOL+QUFTN6fn3
+         u7NmyrTe+yw+sidAff3IcVib84ATh29fUHkZcET79alVEXL+4qE2dRncVx1J8GqMnTUT
+         8wvHIL2HPvI28ARNAO/IJabxNIJD2/bsUoheyq6B7D6CysEVDGoP+zSleQzU+R6C8YBd
+         /fyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KftYZd62fX32zg2WC2QvD8OPXOuyZBfnJgkDnV1mwqY=;
+        b=YUNz3uIEhsDVUYkLVutm9I2yRR+srJxCk+jGr+noFN39lZWe0IR98fz2wB/6BcmgMn
+         /fOuyHyATvrgkotM+jQf+xA9OaVnEWfW4ktZk3fNmMoL0kb71xIWMXoKF8Btjmyaj2f6
+         Nd7jsYxJRQdX/AWjyk99D9Wk7428JI9EP7RuxcA+gn3qpwnFs5EtE8cjA/N3z3YCuMGh
+         22mKn8vrQpauN1oY0yJd5i6ja2putz3GeCCkk+qJK1mnTR20ZMIWXnPbxigdomdEiVLk
+         8Kt0O5xVeoj5kp4Vwj5W0+kDLcGxp7obaTb5A0sYBQRR72pdKL8dhhXAwD9HLuXnlCBH
+         ylGQ==
+X-Gm-Message-State: AOAM531WBztGR+7PQv87u643tpJ91ZORRWR3/b+IXGfb/WnqKeqjokLq
+        upema3eD235MVcYz9g81rMS9DA==
+X-Google-Smtp-Source: ABdhPJyvfywoV7EzC+xHckvRU9HoKLb+eOnqtQGM5kwKZTGE9ehSPbhZGrmTO+TT8K5ZT0sGs309cQ==
+X-Received: by 2002:a1c:a785:: with SMTP id q127mr3397684wme.25.1608126422468;
+        Wed, 16 Dec 2020 05:47:02 -0800 (PST)
+Received: from dell.default ([91.110.221.200])
+        by smtp.gmail.com with ESMTPSA id n12sm3323474wrg.76.2020.12.16.05.47.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 05:47:01 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 1/1] docs: submitting-patches: Trivial - fix grammatical error
+Date:   Wed, 16 Dec 2020 13:46:54 +0000
+Message-Id: <20201216134654.271508-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201213154534.54826-10-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 13, 2020 at 11:45:32PM +0800, Muchun Song wrote:
-> All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
-> field in the hstate to indicate how many vmemmap pages associated with
-> a HugeTLB page that we can free to buddy allocator. And initialize it
-"can be freed to buddy allocator"
+"it is a used" does not make sense.  Should be "it is used".
 
-> in the hugetlb_vmemmap_init(). This patch is actual enablement of the
-> feature.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ Documentation/process/submitting-patches.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-With below nits addressed you can add:
-
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-
->  static int __init early_hugetlb_free_vmemmap_param(char *buf)
->  {
-> +	/* We cannot optimize if a "struct page" crosses page boundaries. */
-> +	if (!is_power_of_2(sizeof(struct page)))
-> +		return 0;
-> +
-
-I wonder if we should report a warning in case someone wants to enable this
-feature and stuct page size it not power of 2.
-In case someone wonders why it does not work for him/her.
-
-> +void __init hugetlb_vmemmap_init(struct hstate *h)
-> +{
-> +	unsigned int nr_pages = pages_per_huge_page(h);
-> +	unsigned int vmemmap_pages;
-> +
-> +	if (!hugetlb_free_vmemmap_enabled)
-> +		return;
-> +
-> +	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-> +	/*
-> +	 * The head page and the first tail page are not to be freed to buddy
-> +	 * system, the others page will map to the first tail page. So there
-> +	 * are the remaining pages that can be freed.
-"the other pages will map to the first tail page, so they can be freed."
-> +	 *
-> +	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-> +	 * on some architectures (e.g. aarch64). See Documentation/arm64/
-> +	 * hugetlbpage.rst for more details.
-> +	 */
-> +	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
-> +		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-> +
-> +	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
-> +		h->name);
-
-Maybe specify this is hugetlb code:
-
-pr_info("%s: blabla", __func__, ...)
-or
-pr_info("hugetlb: blalala", ...);
-
-although I am not sure whether we need that at all, or maybe just use
-pr_debug().
-
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index fb8261a4be308..2c48a00a436e7 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -446,7 +446,7 @@ patch.  This tag documents that potentially interested parties
+ have been included in the discussion.
+ 
+ Co-developed-by: states that the patch was co-created by multiple developers;
+-it is a used to give attribution to co-authors (in addition to the author
++it is used to give attribution to co-authors (in addition to the author
+ attributed by the From: tag) when several people work on a single patch.  Since
+ Co-developed-by: denotes authorship, every Co-developed-by: must be immediately
+ followed by a Signed-off-by: of the associated co-author.  Standard sign-off
 -- 
-Oscar Salvador
-SUSE L3
+2.25.1
+
