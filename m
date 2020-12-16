@@ -2,127 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD32C0018C
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 20:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40B2C2BBCF
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 20:36:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 992CF20663
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 20:04:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85174223E8
+	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 20:36:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbgLPUDh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 15:03:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35394 "EHLO
+        id S1729011AbgLPUgn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 15:36:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728691AbgLPUDh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 15:03:37 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B732EC0617A7
-        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 12:02:56 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id o17so48572036lfg.4
-        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 12:02:56 -0800 (PST)
+        with ESMTP id S1729004AbgLPUgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 15:36:43 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F96C06138C
+        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 12:35:31 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id r4so13605094pls.11
+        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 12:35:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+T1M0djTrVYMWMJ7UcJwx0tkQ79zd8SuUMW71DQVsS0=;
-        b=q+DyxhaxnPb/nH8qJzxHDRUDbs6pwrBVZw6PzpLeFo3wtldBNCEn4e64bSK0nhLF5X
-         QvBT/wceHb8MK7Fm6YtVe7alN3zuwE0T3jaFFX9VRfhZKifVX3CDGzSjGXXVAJJpXSLk
-         BYqUA0lzyEkYCfA/0WuODCJH5mOGW4V8P0cbCJlM2NdsPkwY5ZpUVEVBumz8vq3xmZQm
-         PQyEwimqMI9kswHp6aDK7UXpsBu5joatambFWqpECUHqscsjIaEKpGZiYFMen0Kf3XVW
-         Q8YKf8+FVjWvyXB/rJ0RfDFFi19z72HtGBVwOT5yFzE5kLAsEpDIgG2ZzYj5KaG1wkfA
-         IjGQ==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p8XQW4cjugdKIwxwILtgQ7d/G6qN5cGSPlZP2CvVqWE=;
+        b=Ae5GMZR0GgdREbYr5rQL+Y6zzEpSs9tfB6yohEkPmZ5E1lcGrwEUU+HoYpy8Fa8RgS
+         VAC13qOduFHPKeiR1uI3szWbNbAMgObaU2YT4T5QDUIVeeNt/aWuFqWwmNoFQU+dbuKc
+         Z4kviXMMEEyOlqoT1cOyXnBeLIM94mPlS7K4BqE88Z1EPMuSbXOerl74LIqQcUk3lq1x
+         IuZLG+a2gM8sI3Kubb4gc8EsYnlFD7BfAuCcDovqJRqZIt64oGZvU2nE05Gw8ENVYU+7
+         2iJ9ZB22yeKFfkxjzay9AvrLAPhog7Axgffdf7X2RUP/HL3sTl2xBH7DvYyONUShZ1Bv
+         Lbeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+T1M0djTrVYMWMJ7UcJwx0tkQ79zd8SuUMW71DQVsS0=;
-        b=p4AyG0dvwqgoloXbReCmTcVAVtxwULQrgMZbyWzqm4qRlyEARYbkh4shlUILo/Xu+b
-         Ae5QXw7rTC+8PAcz3KERNSqSm3ZrpmG5LIDDte83dvHFzfjjKkIAr7hf4Ldc2Vg0ghQg
-         0VdhJSmtGZJ3hta7geKdaZDHiC7C7SHW6r59Vzy7LV/GutXDTAr/x1IpppmG0+ed6rtN
-         +tt4XV+fzJhrvEd9H2t7HuSdm6dDPZD2gC3PjTV/POzkNDuxla0e82+klTODfMHFxah6
-         +XCN6nYwSolHJXuJuMcHJLs0VbKvAJEX1Oq81scBwHod+H13UDfJ6guc3HiYGsC7ugjz
-         IqLQ==
-X-Gm-Message-State: AOAM530+9WnWbO55GP1uMWodZe76VWzfDpje+bscsk1SZZj5N678D+4g
-        WHjheFrJ6hxy1yHM528AMxEiQJZwvDTFOe2qX5Yc3A==
-X-Google-Smtp-Source: ABdhPJwIsp1KYDGfDYl/qLLsUR1dFSzUtaS6n+MO1KkOUvZ4UrkSMNj8fmCA+zqoeFpXCBoAmALBMZNzzSZUYt5+MhQ=
-X-Received: by 2002:a19:4813:: with SMTP id v19mr14625283lfa.655.1608148974571;
- Wed, 16 Dec 2020 12:02:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20201209205413.3391139-1-vipinsh@google.com> <X9E6eZaIFDhzrqWO@mtj.duckdns.org>
- <4f7b9c3f-200e-6127-1d94-91dd9c917921@de.ibm.com> <5f8d4cba-d3f-61c2-f97-fdb338fec9b8@google.com>
- <X9onUwvKovJeHpKR@mtj.duckdns.org>
-In-Reply-To: <X9onUwvKovJeHpKR@mtj.duckdns.org>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Wed, 16 Dec 2020 12:02:37 -0800
-Message-ID: <CAHVum0dS+QxWFSK+evxQtZDHkZZx9pr0m_jEDHc9ovd5jQcfaA@mail.gmail.com>
-Subject: Re: [Patch v3 0/2] cgroup: KVM: New Encryption IDs cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     David Rientjes <rientjes@google.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Brijesh <brijesh.singh@amd.com>, Jon <jon.grimm@amd.com>,
-        Eric <eric.vantassell@amd.com>, pbonzini@redhat.com,
-        Sean Christopherson <seanjc@google.com>, lizefan@huawei.com,
-        hannes@cmpxchg.org, Janosch Frank <frankja@linux.ibm.com>,
-        corbet@lwn.net, joro@8bytes.org, vkuznets@redhat.com,
-        wanpengli@tencent.com, Jim Mattson <jmattson@google.com>,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        Matt Gingell <gingell@google.com>,
-        Dionna Glaze <dionnaglaze@google.com>, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=p8XQW4cjugdKIwxwILtgQ7d/G6qN5cGSPlZP2CvVqWE=;
+        b=ZMmqgbMpI8BqdTHMHJM8XYXT15/pojauPnowWCS7Iuupl13aOj8l7aCAa38WgKe9cL
+         Exa9D/YZbT8iV44RjYa6lfP96h50v7ekAxzCvWjj2mhh7lSmgKB5Qus+Whd20ogAPo3p
+         d53wsk9UYFM1cbIjV16EEifhgG8nb3b/pNLyHDriKrTBj2BDZtWhAFJIwNjqR0e8gZBg
+         JMHk3dXBNvIms0d8WdM8cJdRsj9Af29XmEI6RGstEZunbfmZS1hqySMxp59JsPwnSKBo
+         LTJ6XiGOarxRY08c1ZvzCFLcK7kkTDsP6b+zzJSl7YniOQTzxblvQLy5ZrGi+ZPClSXt
+         ttfg==
+X-Gm-Message-State: AOAM5337A6SNBmi2Z1V9IRJtM1dRy6mB+DVaFl9lxB6ujq9eQxqfa2IC
+        zWfiN/qNJ6VNUJY5Mi/B6LCa+g==
+X-Google-Smtp-Source: ABdhPJzSD8U4wMSXgHoibwCGxFPKpPyA9oDYq8beROKHNnGC6MmYee5AX3iL50+jC56MZu8jjmPTdw==
+X-Received: by 2002:a17:90a:df13:: with SMTP id gp19mr4545800pjb.235.1608150930853;
+        Wed, 16 Dec 2020 12:35:30 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id u25sm3329042pfn.170.2020.12.16.12.35.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 12:35:29 -0800 (PST)
+Date:   Wed, 16 Dec 2020 12:35:29 -0800 (PST)
+X-Google-Original-Date: Wed, 16 Dec 2020 10:42:26 PST (-0800)
+Subject:     Re: [dm-devel] [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to userspace
+In-Reply-To: <CABmKtjfdDS-iO+jLkwt7x-oDHt9V1p-cpYHjL5EV2NKwHxqN1Q@mail.gmail.com>
+CC:     josef@toxicpanda.com, linux-raid@vger.kernel.org,
+        bvanassche@acm.org, snitzer@redhat.com, linux-doc@vger.kernel.org,
+        shuah@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@infradead.org>, song@kernel.org,
+        dm-devel@redhat.com, michael.christie@oracle.com,
+        linux-kselftest@vger.kernel.org, kernel-team@android.com,
+        agk@redhat.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     ruby.wktk@gmail.com
+Message-ID: <mhng-cc7f1629-3ff7-4efe-8dc6-806b4d8e28c5@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 12:59 PM Tejun Heo <tj@kernel.org> wrote:
-> * I don't have an overall objection. In terms of behavior, the only thing
->   which stood out was input rejection depending on the current usage. The
->   preferred way of handling that is rejecting future allocations rather than
->   failing configuration as that makes it impossible e.g. to lower limit and
->   drain existing usages from outside the container.
-
-Thanks. In next version of the patch I will remove rejection of max value
-based on current usage.
-
-On Wed, Dec 16, 2020 at 7:27 AM Tejun Heo <tj@kernel.org> wrote:
-> On Thu, Dec 10, 2020 at 03:44:35PM -0800, David Rientjes wrote:
-> > Concern with a single misc controller would be that any subsystem that
-> > wants to use it has to exactly fit this support: current, max, stat,
-> > nothing more.  The moment a controller needs some additional support, and
-> > its controller is already implemented in previous kernel versionv as a
-> > part of "misc," we face a problem.
+On Tue, 15 Dec 2020 22:17:06 PST (-0800), ruby.wktk@gmail.com wrote:
+> Hi my name is Akira Hayakawa. I am maintaining an out-of-tree DM target
+> named dm-writeboost.
 >
-> Yeah, that's a valid concern, but given the history, there doesn't seem to
-> be much need beyond that for these use cases and the limited need seems
-> inherent to the way the resources are defined and consumed. So yeah, it can
-> either way.
+> Sorry to step in. But this is a very interesting topic at least to me.
+>
+> I have been looking for something like dm-user because I believe we should
+> be able to implement virtual block devices in Rust language.
+>
+> I know proxying IO requests to userland always causes some overhead but for
+> some type of device that performance doesn't matter or some research
+> prototyping or pseudo device for testing, this way should be developed. Of
+> course, implementation in Rust will give us opportunities to develop more
+> complicated software in high quality.
+>
+> I noticed this thread few days ago then I started to prototype this library
+> https://github.com/akiradeveloper/userland-io
+>
+> It is what I want but the transport is still NBD which I don't like so
+> much. If dm-user is available, I will implement a transport using dm-user.
 
-I think a misc controller should be able support other "Resource Distribution
-Models" mentioned in the cgroup v2 documentation besides limits. There might be
-use cases in future which want to use weight, protection or allocation models.
-If that happens it will be more difficult to support these different resources.
-This will also mean the same hierarchy might get charged differently by the
-same controller.
+Great, I'm glad to hear that.  Obviously this is still in the early days and
+we're talking about high-level ABI design here, so things are almost certainly
+going to change, but it's always good to have people pushing on stuff.
 
-I like the idea of having a separate controller to keep the code simple and
-easier for maintenance.
+Just be warned: we've only had two people write userspaces for this (one of
+which was me, and all that is test code) so I'd be shocked if you manage to
+avoid running into bugs.
 
-If you decide to have a separate misc controller please let me know what will
-be the overall expectations and I can change my patch to reflect that,
-otherwise I can send out a new patch with just removal of max input rejection.
-
-My understanding with a "misc" controller is it will be something like
-- cgroup v2
-  cgroup/misc.encryption_ids.{sev, tdx, seid}.{stat, max, current}
-
-- cgroup v1
-  cgroup/misc/misc.encryption_ids.{sev, tdx, seid}.{stat, max, current}
-
-Thanks
-Vipin
+>
+> - Akira
+>
+> On Tue, Dec 15, 2020 at 7:00 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>
+>> On Thu, 10 Dec 2020 09:03:21 PST (-0800), josef@toxicpanda.com wrote:
+>> > On 12/9/20 10:38 PM, Bart Van Assche wrote:
+>> >> On 12/7/20 10:55 AM, Palmer Dabbelt wrote:
+>> >>> All in all, I've found it a bit hard to figure out what sort of
+>> interest
+>> >>> people
+>> >>> have in dm-user: when I bring this up I seem to run into people who've
+>> done
+>> >>> similar things before and are vaguely interested, but certainly nobody
+>> is
+>> >>> chomping at the bit.  I'm sending it out in this early state to try and
+>> >>> figure
+>> >>> out if it's interesting enough to keep going.
+>> >>
+>> >> Cc-ing Josef and Mike since their nbd contributions make me wonder
+>> >> whether this new driver could be useful to their use cases?
+>> >>
+>> >
+>> > Sorry gmail+imap sucks and I can't get my email client to get at the
+>> original
+>> > thread.  However here is my take.
+>>
+>> and I guess I then have to apoligize for missing your email ;).  Hopefully
+>> that
+>> was the problem, but who knows.
+>>
+>> > 1) The advantages of using dm-user of NBD that you listed aren't actually
+>> > problems for NBD.  We have NBD working in production where you can hand
+>> off the
+>> > sockets for the server without ending in timeouts, it was actually the
+>> main
+>> > reason we wrote our own server so we could use the FD transfer stuff to
+>> restart
+>> > the server without impacting any clients that had the device in use.
+>>
+>> OK.  So you just send the FD around using one of the standard mechanisms to
+>> orchestrate the handoff?  I guess that might work for our use case,
+>> assuming
+>> whatever the security side of things was doing was OK with the old FD.
+>> TBH I'm
+>> not sure how all that works and while we thought about doing that sort of
+>> transfer scheme we decided to just open it again -- not sure how far we
+>> were
+>> down the dm-user rabbit hole at that point, though, as this sort of arose
+>> out
+>> of some other ideas.
+>>
+>> > 2) The extra copy is a big deal, in fact we already have too many copies
+>> in our
+>> > existing NBD setup and are actively looking for ways to avoid those.
+>> >
+>> > Don't take this as I don't think dm-user is a good idea, but I think at
+>> the very
+>> > least it should start with the very best we have to offer, starting with
+>> as few
+>> > copies as possible.
+>>
+>> I was really experting someone to say that.  It does seem kind of silly to
+>> build
+>> out the new interface, but not go all the way to a ring buffer.  We just
+>> didn't
+>> really have any way to justify the extra complexity as our use cases aren't
+>> that high performance.   I kind of like to have benchmarks for this sort of
+>> thing, though, and I didn't have anyone who had bothered avoiding the last
+>> copy
+>> to compare against.
+>>
+>> > If you are using it currently in production then cool, there's clearly a
+>> usecase
+>> > for it.  Personally as I get older and grouchier I want less things in
+>> the
+>> > kernel, so if this enables us to eventually do everything NBD related in
+>> > userspace with no performance drop then I'd be down.  I don't think you
+>> need to
+>> > make that your primary goal, but at least polishing this up so it could
+>> > potentially be abused in the future would make it more compelling for
+>> merging.
+>> > Thanks,
+>>
+>> Ya, it's in Android already and we'll be shipping it as part of the new OTA
+>> flow for the next release.  The rules on deprecation are a bit different
+>> over
+>> there, though, so it's not like we're wed to it.  The whole point of
+>> bringing
+>> this up here was to try and get something usable by everyone, and while I'd
+>> eventually like to get whatever's in Android into the kernel proper we'd
+>> really
+>> planned on supporting an extra Android-only ABI for a cycle at least.
+>>
+>> I'm kind of inclined to take a crack at the extra copy, to at least see if
+>> building something that eliminates it is viable.  I'm not really sure if
+>> it is
+>> (or at least, if it'll net us a meaningful amount of performance), but
+>> it'd at
+>> least be interesting to try.
+>>
+>> It'd be nice to have some benchmark target, though, as otherwise this stuff
+>> hangs on forever.  My workloads are in selftests later on in the patch
+>> set, but
+>> I'm essentially using tmpfs as a baseline to compare against ext4+dm-user
+>> with
+>> some FIO examples as workloads.  Our early benchmark numbers indicated
+>> this was
+>> way faster than we needed, so I didn't even bother putting together a
+>> proper
+>> system to run on so I don't really have any meaningful numbers there.  Is
+>> there
+>> an NBD server that's fast that I should be comparing against?
+>>
+>> I haven't gotten a whole lot of feedback, so I'm inclined to at least have
+>> some
+>> reasonable performance numbers before bothering with a v2.
+>>
+>> --
+>> dm-devel mailing list
+>> dm-devel@redhat.com
+>> https://www.redhat.com/mailman/listinfo/dm-devel
