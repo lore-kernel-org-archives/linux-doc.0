@@ -2,45 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DED14C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD7FDC4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B19772389E
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:21:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F3952395A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbgLQSVU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 13:21:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35366 "EHLO mail.kernel.org"
+        id S1727388AbgLQSf7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 13:35:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39400 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725468AbgLQSVT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Dec 2020 13:21:19 -0500
-Date:   Thu, 17 Dec 2020 10:20:37 -0800
+        id S1727368AbgLQSf7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Dec 2020 13:35:59 -0500
+Date:   Thu, 17 Dec 2020 10:35:17 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608229239;
-        bh=lopp1baHdbxZu/0OjsahYIxemeNxg8EJ4PxKfBGb5Kk=;
+        s=k20201202; t=1608230118;
+        bh=LGhVrFTaXwYgvhalPQ0cqXO6yPW4ZzqcxrJG0+nwx9w=;
         h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nxMHBu55Hz/THJg9MBoluBeLK7SaHb+ut23C1aF3Jyy9IyjeWtZNj3GOjrol00Olw
-         3D7bdF+ZqXZT+JS8dD0julR19FwvWCoAesXFjbg/0GHyLnQhXHX755rS0cROZtTtXe
-         wyiS1kwDDFyxLE72QFr/PKVQ3p5tJhv4q7BXgKJPhxrukBL0zEXQuDpuuxU40LFeOH
-         n9IvhfNy6dYFTM8BeG9IoMLBRSxAH03lujo2mEkbn1ofylZnqvldY2Nw/ZwPVD2NQk
-         UVKvnQpZ968M0/BYAjFkg4GAOUEL9roC57GvQNlTlDQ9X/kQOqSVyrC1vV01floYsn
-         OyL7DFXOxDfOw==
+        b=TCNm/R1HgAANTflWPRxRlntr1/vLevn5fm91ldY8/LBj8wa7HxvdlQ+6lhjzfZOlV
+         iU/OzFrhgqFb1wKukGt/6pqOgUVBOIsDcCplmlh6O4uVERyi7Xa3n2Xao95yKWOu7j
+         Tt/i9SnurDaJiq2INCvOY+tJzHIzoqu/2h7+nhk0qCqeSit7M0UdK0jjeSpTOJ7Uj1
+         3KlReTu+BuRynabmV/jyMAH2i4xLRX/v64/1t291lryexw/9TZ9FAuoTpUYYFsFbaR
+         UEk2ycFfNjDU7gG9Lpypj3DwExCMyJOyIh6I54o5AAoNnE0vINtks/v0Z2S1Khwk5I
+         8/i2vSuA2MWLA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     Baruch Siach <baruch@tkos.co.il>
 Cc:     "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Ulisses Alonso =?UTF-8?B?Q2FtYXLDsw==?= <uaca@alumni.uv.es>
-Subject: Re: [PATCH net 2/2] docs: networking: packet_mmap: don't mention
- PACKET_MMAP
-Message-ID: <20201217102037.6f5ceee9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il>
-References: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
-        <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il>
+        linux-doc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH net] docs: netdev-FAQ: add missing underlines to
+ questions
+Message-ID: <20201217103517.6ac75a97@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <ccd6e8b9f1d87b683a0759e8954d03310cb0c09f.1608052699.git.baruch@tkos.co.il>
+References: <ccd6e8b9f1d87b683a0759e8954d03310cb0c09f.1608052699.git.baruch@tkos.co.il>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -48,55 +47,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Dec 2020 18:51:17 +0200 Baruch Siach wrote:
-> Before commit 889b8f964f2f ("packet: Kill CONFIG_PACKET_MMAP.") there
-> used to be a CONFIG_PACKET_MMAP config symbol that depended on
-> CONFIG_PACKET. The text still refers to PACKET_MMAP as the name of this
-> feature, implying that it can be disabled. Another naming variant is
-> "Packet MMAP".
+On Tue, 15 Dec 2020 19:18:19 +0200 Baruch Siach wrote:
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+>  Documentation/networking/netdev-FAQ.rst | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
 > 
-> Use "PACKET mmap()" everywhere to unify the terminology. Rephrase the
-> text the implied mmap() feature disable option.
-
-Should we maybe say AF_PACKET mmap() ?
-
-> -In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process is very
-> -inefficient. It uses very limited buffers and requires one system call to
-> -capture each packet, it requires two if you want to get packet's timestamp
-> -(like libpcap always does).
-> +In Linux 2.4/2.6/3.x non mmap() PACKET capture process is very inefficient. It
-
-We can drop the references to versions. Kernels older than 2.4 are
-prehistoric, and we have 4.x and 5.x now.
-
-> +uses very limited buffers and requires one system call to capture each packet,
-> +it requires two if you want to get packet's timestamp (like libpcap always
-> +does).
-
-Would it be possible to avoid re-flowing the existing text. IMHO it's
-okay if we end on a short line, and it makes the diff easier to review.
-
-> -In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a size
-> -configurable circular buffer mapped in user space that can be used to either
-> -send or receive packets. This way reading packets just needs to wait for them,
-> -most of the time there is no need to issue a single system call. Concerning
-> -transmission, multiple packets can be sent through one system call to get the
-> -highest bandwidth. By using a shared buffer between the kernel and the user
-> -also has the benefit of minimizing packet copies.
-> +In the other hand PACKET mmap() is very efficient. PACKET mmap() provides a
-
-While at it - "on the other hand"?
-
-> +size configurable circular buffer mapped in user space that can be used to
-> +either send or receive packets. This way reading packets just needs to wait for
-> +them, most of the time there is no need to issue a single system call.
-> +Concerning transmission, multiple packets can be sent through one system call
-> +to get the highest bandwidth. By using a shared buffer between the kernel and
-> +the user also has the benefit of minimizing packet copies.
+> diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/networking/netdev-FAQ.rst
+> index 4b9ed5874d5a..4ef90fe26640 100644
+> --- a/Documentation/networking/netdev-FAQ.rst
+> +++ b/Documentation/networking/netdev-FAQ.rst
+> @@ -82,6 +82,7 @@ focus for ``net`` is on stabilization and bug fixes.
+>  Finally, the vX.Y gets released, and the whole cycle starts over.
 >  
-> -It's fine to use PACKET_MMAP to improve the performance of the capture and
-> +It's fine to use PACKET mmap() to improve the performance of the capture and
->  transmission process, but it isn't everything. At least, if you are capturing
->  at high speeds (this is relative to the cpu speed), you should check if the
->  device driver of your network interface card supports some sort of interrupt
+>  Q: So where are we now in this cycle?
+> +-------------------------------------
+>  
+>  Load the mainline (Linus) page here:
+>  
+> @@ -108,6 +109,7 @@ with.
+>  Q: I sent a patch and I'm wondering what happened to it?
+>  --------------------------------------------------------
+>  Q: How can I tell whether it got merged?
+> +----------------------------------------
 
+I think this and the following fixes should be folded into a single
+line (unless it's possible in RST for header to span multiple lines):
+
+I sent a patch and I'm wondering what happened to it - how can I tell whether it got merged?
+--------------------------------------------------------------------------------------------
+
+To be honest I think we can also drop the Q: and A: prefixes now that
+we're using RST.
+
+And perhaps we can add an index of questions at the beginning of the
+the file?
