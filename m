@@ -2,67 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C7AC4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:01:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E0BC4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:11:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF6BB235F9
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:01:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8743E2396F
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbgLQPAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 10:00:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48430 "EHLO mx2.suse.de"
+        id S1727806AbgLQPLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 10:11:09 -0500
+Received: from gofer.mess.org ([88.97.38.141]:35709 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728529AbgLQPAo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Dec 2020 10:00:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 99214AD29;
-        Thu, 17 Dec 2020 15:00:02 +0000 (UTC)
-Date:   Thu, 17 Dec 2020 15:59:58 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v10 00/11] Free some vmemmap pages of HugeTLB page
-Message-ID: <20201217145953.GA13874@linux>
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
+        id S1726569AbgLQPLI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Dec 2020 10:11:08 -0500
+X-Greylist: delayed 564 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Dec 2020 10:11:08 EST
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 968C011A001; Thu, 17 Dec 2020 15:01:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1608217262; bh=qwTTyCxEAzSEaQKYD8zY8b7vlNqO68xHkST3ZUNBE9c=;
+        h=Date:From:To:Subject:From;
+        b=jYx1M5oMnTMP+35GOb1o3Vm/8kqyX54IA0hlOhXJybCELL3Dt1aFR18GmFSkdyU/S
+         48TtKiiEAuvlwmtRgoImptBfvsdDOwbUpsEOTfJBoGYeIEofo+W3rFlvcMox8I6Zie
+         lwsaJMvKpoeKZDt9sFkFrgfUSQDFetWptc6lKpJtz87E3UldLlOE4xBdlsBsjl5J/5
+         hhTvZXr378YMfaI3VTI0N9egxGMKQVbKAdlIz9O/7aw8IEO9ITV8gp0CmhfeTYnchM
+         Ri6XMh/DxT4FXU1ipaXHbhqf2FpR9ctRPu1lAUpnZ8qoK7zsen0G6zDu8nYPNHaZxp
+         Fo6IaVjcpOOwA==
+Date:   Thu, 17 Dec 2020 15:01:02 +0000
+From:   Sean Young <sean@mess.org>
+To:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH] btf: support ints larger than 128 bits
+Message-ID: <20201217150102.GA13532@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201217121303.13386-1-songmuchun@bytedance.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 08:12:52PM +0800, Muchun Song wrote:
-> In this case, for the 1GB HugeTLB page, we can save 4088 pages(There are
-> 4096 pages for struct page structs, we reserve 2 pages for vmemmap and 8
-> pages for page tables. So we can save 4088 pages). This is a very substantial
-> gain. On our server, run some SPDK/QEMU applications which will use 1024GB
-> hugetlbpage. With this feature enabled, we can save ~16GB(1G hugepage)/~11GB
-> (2MB hugepage, the worst case is 10GB while the best is 12GB) memory.
+clang supports arbitrary length ints using the _ExtInt extension. This
+can be useful to hold very large values, e.g. 256 bit or 512 bit types.
 
-Is the above really true?
-We no longer need to allocate pagetables, so the savings go up to 4094, right?
+Larger types (e.g. 1024 bits) are possible but I am unaware of a use
+case for these.
 
-I will be off for a few days but I expect to get back to this and review the
-missing bits when I am back.
+This requires the _ExtInt extension to enabled for BPF in clang, which
+is under review.
 
+Link: https://clang.llvm.org/docs/LanguageExtensions.html#extended-integer-types
+Link: https://reviews.llvm.org/D93103
+
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ Documentation/bpf/btf.rst      |  4 ++--
+ include/uapi/linux/btf.h       |  2 +-
+ tools/bpf/bpftool/btf_dumper.c | 39 ++++++++++++++++++++++++++++++++++
+ tools/include/uapi/linux/btf.h |  2 +-
+ 4 files changed, 43 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+index 44dc789de2b4..784f1743dbc7 100644
+--- a/Documentation/bpf/btf.rst
++++ b/Documentation/bpf/btf.rst
+@@ -132,7 +132,7 @@ The following sections detail encoding of each kind.
+ 
+   #define BTF_INT_ENCODING(VAL)   (((VAL) & 0x0f000000) >> 24)
+   #define BTF_INT_OFFSET(VAL)     (((VAL) & 0x00ff0000) >> 16)
+-  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000000ff)
++  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000003ff)
+ 
+ The ``BTF_INT_ENCODING`` has the following attributes::
+ 
+@@ -147,7 +147,7 @@ pretty print. At most one encoding can be specified for the int type.
+ The ``BTF_INT_BITS()`` specifies the number of actual bits held by this int
+ type. For example, a 4-bit bitfield encodes ``BTF_INT_BITS()`` equals to 4.
+ The ``btf_type.size * 8`` must be equal to or greater than ``BTF_INT_BITS()``
+-for the type. The maximum value of ``BTF_INT_BITS()`` is 128.
++for the type. The maximum value of ``BTF_INT_BITS()`` is 512.
+ 
+ The ``BTF_INT_OFFSET()`` specifies the starting bit offset to calculate values
+ for this int. For example, a bitfield struct member has:
+diff --git a/include/uapi/linux/btf.h b/include/uapi/linux/btf.h
+index 5a667107ad2c..1696fd02b302 100644
+--- a/include/uapi/linux/btf.h
++++ b/include/uapi/linux/btf.h
+@@ -84,7 +84,7 @@ struct btf_type {
+  */
+ #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
+ #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
+-#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
++#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
+ 
+ /* Attributes stored in the BTF_INT_ENCODING */
+ #define BTF_INT_SIGNED	(1 << 0)
+diff --git a/tools/bpf/bpftool/btf_dumper.c b/tools/bpf/bpftool/btf_dumper.c
+index 0e9310727281..45ed45ea9962 100644
+--- a/tools/bpf/bpftool/btf_dumper.c
++++ b/tools/bpf/bpftool/btf_dumper.c
+@@ -271,6 +271,40 @@ static void btf_int128_print(json_writer_t *jw, const void *data,
+ 	}
+ }
+ 
++static void btf_bigint_print(json_writer_t *jw, const void *data, int nr_bits,
++			     bool is_plain_text)
++{
++	char buf[nr_bits / 4 + 1];
++	bool first = true;
++	int i;
++
++#ifdef __BIG_ENDIAN_BITFIELD
++	for (i = 0; i < nr_bits / 64; i++) {
++#else
++	for (i = nr_bits / 64 - 1; i >= 0; i++) {
++#endif
++		__u64 v = ((__u64 *)data)[i];
++
++		if (first) {
++			if (!v)
++				continue;
++
++			snprintf(buf, sizeof(buf), "%llx", v);
++
++			first = false;
++		} else {
++			size_t off = strlen(buf);
++
++			snprintf(buf + off, sizeof(buf) - off, "%016llx", v);
++		}
++	}
++
++	if (is_plain_text)
++		jsonw_printf(jw, "0x%s", buf);
++	else
++		jsonw_printf(jw, "\"0x%s\"", buf);
++}
++
+ static void btf_int128_shift(__u64 *print_num, __u16 left_shift_bits,
+ 			     __u16 right_shift_bits)
+ {
+@@ -373,6 +407,11 @@ static int btf_dumper_int(const struct btf_type *t, __u8 bit_offset,
+ 		return 0;
+ 	}
+ 
++	if (nr_bits > 128) {
++		btf_bigint_print(jw, data, nr_bits, is_plain_text);
++		return 0;
++	}
++
+ 	if (nr_bits == 128) {
+ 		btf_int128_print(jw, data, is_plain_text);
+ 		return 0;
+diff --git a/tools/include/uapi/linux/btf.h b/tools/include/uapi/linux/btf.h
+index 5a667107ad2c..1696fd02b302 100644
+--- a/tools/include/uapi/linux/btf.h
++++ b/tools/include/uapi/linux/btf.h
+@@ -84,7 +84,7 @@ struct btf_type {
+  */
+ #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
+ #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
+-#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
++#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
+ 
+ /* Attributes stored in the BTF_INT_ENCODING */
+ #define BTF_INT_SIGNED	(1 << 0)
 -- 
-Oscar Salvador
-SUSE L3
+2.29.2
+
