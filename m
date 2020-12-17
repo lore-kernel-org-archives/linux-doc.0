@@ -2,135 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC2ABC2BB9A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:38:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69719C2BB9A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 786EB2151B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:38:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2EB5323975
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbgLQOid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 09:38:33 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:60663 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727015AbgLQOid (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 09:38:33 -0500
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 17 Dec 2020 06:37:52 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Dec 2020 06:37:50 -0800
-X-QCInternal: smtphost
-Received: from mdalam-linux.qualcomm.com ([10.201.2.71])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 17 Dec 2020 20:07:28 +0530
-Received: by mdalam-linux.qualcomm.com (Postfix, from userid 466583)
-        id B1A7F219ED; Thu, 17 Dec 2020 20:07:26 +0530 (IST)
-From:   Md Sadre Alam <mdalam@codeaurora.org>
-To:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
-        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
-        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc:     mdalam@codeaurora.org, sricharan@codeaurora.org
-Subject: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit support
-Date:   Thu, 17 Dec 2020 20:07:22 +0530
-Message-Id: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        id S1727656AbgLQOvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 09:51:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbgLQOvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 09:51:42 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C01C0611C5;
+        Thu, 17 Dec 2020 06:50:57 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1608216656;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VA4CgUr+mddzE5W5XW9xxSKHdRVWkhVu9Ou7VaYBRBs=;
+        b=x8YQjbsn8YubrCEDl0qhTSqp7psA5Cd6Hcsqd6nPGmOKkR4V3QV6au+wuNiZ7qXnSqXxrh
+        pHl+HVLKuH/NQrLPX+SBnCxVKjKz4KY9NGvsbLDIguCeKiwS0WVyMaaieLw2qaowM92I+v
+        AOu83+LgNoQtBcOH4v4HANgrFaxI66gNG0k0wizSwWzdOkg1aXgLEoo8LJ5Abil4dSH97g
+        LlvLd6o+i/ALJXAtSNNYH+yIhVe2vxmfXVuuIlY1jBObQ37+MdgawY4Cp01Gj58Mt9CyAy
+        JklATQ+uU8bAY28yrrUKjmnYeC6hjxb0UQqdPzcYoYDMWKALZ6gJQN1y4PCu6A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1608216656;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VA4CgUr+mddzE5W5XW9xxSKHdRVWkhVu9Ou7VaYBRBs=;
+        b=zuop8u3nFEivs4Yrh4v+upsEEA6+NJTeUPgODNyRqWXHhC8ikax+nyK5d9aFM+tUmTqDLA
+        kfxhlxbeOeHvM0Bw==
+To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3 04/10] x86/pks: Preserve the PKRS MSR on context switch
+In-Reply-To: <20201106232908.364581-5-ira.weiny@intel.com>
+References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-5-ira.weiny@intel.com>
+Date:   Thu, 17 Dec 2020 15:50:55 +0100
+Message-ID: <871rfoscz4.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This change will add support for LOCK & UNLOCK flag bit support
-on CMD descriptor.
+On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
+> --- a/arch/x86/kernel/process.c
+> +++ b/arch/x86/kernel/process.c
+> @@ -43,6 +43,7 @@
+>  #include <asm/io_bitmap.h>
+>  #include <asm/proto.h>
+>  #include <asm/frame.h>
+> +#include <asm/pkeys_common.h>
+>  
+>  #include "process.h"
+>  
+> @@ -187,6 +188,27 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
+>  	return ret;
+>  }
+>  
+> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
+> +DECLARE_PER_CPU(u32, pkrs_cache);
+> +static inline void pks_init_task(struct task_struct *tsk)
 
-If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
-transaction wanted to lock the DMA controller for this transaction so
-BAM driver should set LOCK bit for the HW descriptor.
+First of all. I asked several times now not to glue stuff onto a
+function without a newline inbetween. It's unreadable.
 
-If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
-transaction wanted to unlock the DMA controller.so BAM driver should set
-UNLOCK bit for the HW descriptor.
+But what's worse is that the declaration of pkrs_cache which is global
+is in a C file and not in a header. And pkrs_cache is not even used in
+this file. So what?
 
-Signed-off-by: Md Sadre Alam <mdalam@codeaurora.org>
----
- Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
- drivers/dma/qcom/bam_dma.c                      | 9 +++++++++
- include/linux/dmaengine.h                       | 5 +++++
- 3 files changed, 23 insertions(+)
+> +{
+> +	/* New tasks get the most restrictive PKRS value */
+> +	tsk->thread.saved_pkrs = INIT_PKRS_VALUE;
+> +}
+> +static inline void pks_sched_in(void)
 
-diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-index ddb0a81..d7516e2 100644
---- a/Documentation/driver-api/dmaengine/provider.rst
-+++ b/Documentation/driver-api/dmaengine/provider.rst
-@@ -599,6 +599,15 @@ DMA_CTRL_REUSE
-   - This flag is only supported if the channel reports the DMA_LOAD_EOT
-     capability.
- 
-+- DMA_PREP_LOCK
-+
-+  - If set , the client driver tells DMA controller I am locking you for
-+    this transcation.
-+
-+- DMA_PREP_UNLOCK
-+
-+  - If set, the client driver will tells DMA controller I am releasing the lock
-+
- General Design Notes
- ====================
- 
-diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-index 4eeb8bb..cdbe395 100644
---- a/drivers/dma/qcom/bam_dma.c
-+++ b/drivers/dma/qcom/bam_dma.c
-@@ -58,6 +58,8 @@ struct bam_desc_hw {
- #define DESC_FLAG_EOB BIT(13)
- #define DESC_FLAG_NWD BIT(12)
- #define DESC_FLAG_CMD BIT(11)
-+#define DESC_FLAG_LOCK BIT(10)
-+#define DESC_FLAG_UNLOCK BIT(9)
- 
- struct bam_async_desc {
- 	struct virt_dma_desc vd;
-@@ -644,6 +646,13 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
- 
- 	/* fill in temporary descriptors */
- 	desc = async_desc->desc;
-+	if (flags & DMA_PREP_CMD) {
-+		if (flags & DMA_PREP_LOCK)
-+			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
-+		if (flags & DMA_PREP_UNLOCK)
-+			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
-+	}
-+
- 	for_each_sg(sgl, sg, sg_len, i) {
- 		unsigned int remainder = sg_dma_len(sg);
- 		unsigned int curr_offset = 0;
-diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-index dd357a7..79ccadb4 100644
---- a/include/linux/dmaengine.h
-+++ b/include/linux/dmaengine.h
-@@ -190,6 +190,9 @@ struct dma_interleaved_template {
-  *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
-  *  to never be processed and stay in the issued queue forever. The flag is
-  *  ignored if the previous transaction is not a repeated transaction.
-+ * @DMA_PREP_LOCK: tell the driver that DMA HW engine going to be locked for this
-+ *  transaction , until not seen DMA_PREP_UNLOCK flag set.
-+ * @DMA_PREP_UNLOCK: tell the driver to unlock the DMA HW engine.
-  */
- enum dma_ctrl_flags {
- 	DMA_PREP_INTERRUPT = (1 << 0),
-@@ -202,6 +205,8 @@ enum dma_ctrl_flags {
- 	DMA_PREP_CMD = (1 << 7),
- 	DMA_PREP_REPEAT = (1 << 8),
- 	DMA_PREP_LOAD_EOT = (1 << 9),
-+	DMA_PREP_LOCK = (1 << 10),
-+	DMA_PREP_UNLOCK = (1 << 11),
- };
- 
- /**
--- 
-2.7.4
+Newline between functions. It's fine for stubs, but not for a real implementation.
 
+> diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
+> index d1dfe743e79f..76a62419c446 100644
+> --- a/arch/x86/mm/pkeys.c
+> +++ b/arch/x86/mm/pkeys.c
+> @@ -231,3 +231,34 @@ u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags)
+>  
+>  	return pk_reg;
+>  }
+> +
+> +DEFINE_PER_CPU(u32, pkrs_cache);
+
+Again, why is this global?
+
+> +void write_pkrs(u32 new_pkrs)
+> +{
+> +	u32 *pkrs;
+> +
+> +	if (!static_cpu_has(X86_FEATURE_PKS))
+> +		return;
+> +
+> +	pkrs = get_cpu_ptr(&pkrs_cache);
+
+So this is called from various places including schedule and also from
+the low level entry/exit code. Why do we need to have an extra
+preempt_disable/enable() there via get/put_cpu_ptr()?
+
+Just because performance in those code paths does not matter?
+
+> +	if (*pkrs != new_pkrs) {
+> +		*pkrs = new_pkrs;
+> +		wrmsrl(MSR_IA32_PKRS, new_pkrs);
+> +	}
+> +	put_cpu_ptr(pkrs);
+
+Now back to the context switch:
+
+> @@ -644,6 +668,8 @@ void __switch_to_xtra(struct task_struct *prev_p, struct task_struct *next_p)
+>
+>	 if ((tifp ^ tifn) & _TIF_SLD)
+>		 switch_to_sld(tifn);
+> +
+> +	pks_sched_in();
+>  }
+
+How is this supposed to work? 
+
+switch_to() {
+   ....
+   switch_to_extra() {
+      ....
+      if (unlikely(next_tif & _TIF_WORK_CTXSW_NEXT ||
+	           prev_tif & _TIF_WORK_CTXSW_PREV))
+	   __switch_to_xtra(prev, next);
+
+I.e. __switch_to_xtra() is only invoked when the above condition is
+true, which is not guaranteed at all.
+
+While I have to admit that I dropped the ball on the update for the
+entry patch, I'm not too sorry about it anymore when looking at this.
+
+Are you still sure that this is ready for merging?
+
+Thanks,
+
+        tglx
