@@ -2,117 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1312C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:53:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B9CC2BB9A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 16:59:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABF3423975
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:53:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86B392395A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 16:59:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgLQPx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 10:53:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49316 "EHLO
+        id S1728462AbgLQQ7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 11:59:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728709AbgLQPx1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 10:53:27 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D00AC0617B0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 07:52:47 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id n7so20614738pgg.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 07:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7OV9R4drFVeTku6dunPe0dURgcLywII3vMyOLzHOjbo=;
-        b=yIBLJwwwDEHWJYBXBXaDOCOIOlu1mzIWwwnbbYQQfRQ7LMkU8qv2JkgGg26nogIKSs
-         gxn3EeARR2JyL2paSPPTy8ZZOLVboX9eX3dPocdwjayLq4ljEaMz9tUUS7eoFsq61rpO
-         vQfCxyF+sy1wilxSU4GP9nCyRGicjzMz1xnoQ5CSZOMcjYmsIGmlIfL59XL6Sj/+js1P
-         llf3TuHQXpH+jtwajIkC0hNlgujwNjiNEXG1kNvJwQVxRQj34fRA2bjR1G1wYaPUkZUf
-         aD3n/TscPNVA97au0sGrkDHWaARlvnOewXs22G5Iewdj4dM7VdJHL6fzM0jp1uJZ1kDq
-         N8Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7OV9R4drFVeTku6dunPe0dURgcLywII3vMyOLzHOjbo=;
-        b=NcUfnpmyUuG4bCcsJll2XhkRBfCgq9c+uCrcJADr364z3wvyOv9M5ibK6cP/JoDYHY
-         glg3JdQCTPBAobawYx702uxCHTIv6G5gwGluRoq8JIj6xkmg0qiNXS7TnKyX6BBQ3U25
-         Tib5lBDXLsibxKLnHxvKMtD4con2mjR7UbKZ3Iz9hjZehp5mlmd5QESZb0P/Ehl4X64H
-         GwJUqMtOHgZ39YWc2xmTXa7LayXhUcRAAOSeFW3uc4KlfvODHOY1TPjiMftrZwDdIZrM
-         MIhL93Kt5H6nSJMnZofqpXRQxQ0vu5UZIsjg1IIvD+4GVIA2A3AjXajxUyiW7Cvp8MUL
-         2yiQ==
-X-Gm-Message-State: AOAM531cW+WKyMK+3GSSfE/ImzYpz6L/bB5CHD2/cYJOUPi1CfcAt/n4
-        EEkYietSnDDfEEaCMq41Jcv4vGwZHcrXe+VRT2z/Gg==
-X-Google-Smtp-Source: ABdhPJyTI/Q5bVzBSZ27aLlJM/iDQhjOE7mhc5Lg63MoMB/+jhXY3WlVE+4+B5+ELdOXR7SAXo9VOCUMfJ9+AK6tiv8=
-X-Received: by 2002:aa7:979d:0:b029:1a4:3b76:a559 with SMTP id
- o29-20020aa7979d0000b02901a43b76a559mr22509754pfp.49.1608220366075; Thu, 17
- Dec 2020 07:52:46 -0800 (PST)
+        with ESMTP id S1727260AbgLQQ7K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 11:59:10 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65F3AC061794;
+        Thu, 17 Dec 2020 08:58:30 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1608224308;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BfeG9stxOsSpjRYXj7Js+sXxnOSrg6f7PFi1tBPvTk4=;
+        b=gBt8MjRwIBoZoOeRr2iv95diwya5Pn0IUF0cU39dmJIhU7C9g+sbPkGpiPSqGHzNVwKtDS
+        Xebun5owJ8k+ANh+8c0GWB+05QGhsw5KAcBBaS6D+JrDVzMI/TKSy6DG+w/+ZCUJmtTY5D
+        +i8C5pHMQYcdLgBTjcVfO3mGh8TlhZc8gB9nhauvVIBqeUXg5M+/0ysikjITOcokAeDkJd
+        L+YVwS6Fdxdeuz2l35ol/TuD+YD5rlv/Pv0DupbkIoORNb84qEnTPe1nB+J9E3JjQtUabc
+        usFUtM5tTrGUzWYXB2IJZs/PvBxPNuAIYQ0XIdXEbKQ/LoKy3j0BoiipJxmPQA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1608224308;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BfeG9stxOsSpjRYXj7Js+sXxnOSrg6f7PFi1tBPvTk4=;
+        b=dn3W9hQ1peESFmJ2swDmnwnBERH9a1KMBLetWpglvwv9bYVzv/pp+RbTDpNLyrNb0+nCvp
+        vsP9GutiQJM3cYDg==
+To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
+In-Reply-To: <20201124060956.1405768-1-ira.weiny@intel.com>
+References: <20201106232908.364581-6-ira.weiny@intel.com> <20201124060956.1405768-1-ira.weiny@intel.com>
+Date:   Thu, 17 Dec 2020 17:58:28 +0100
+Message-ID: <87v9d0qsi3.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <20201217121303.13386-1-songmuchun@bytedance.com> <20201217145953.GA13874@linux>
-In-Reply-To: <20201217145953.GA13874@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 17 Dec 2020 23:52:09 +0800
-Message-ID: <CAMZfGtX__Ys+ccGyMBYTO+i+0u+btaK1NF6tSafTP3B53zm+cg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 00/11] Free some vmemmap pages of
- HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 11:00 PM Oscar Salvador <osalvador@suse.de> wrote:
+On Mon, Nov 23 2020 at 22:09, ira weiny wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
 >
-> On Thu, Dec 17, 2020 at 08:12:52PM +0800, Muchun Song wrote:
-> > In this case, for the 1GB HugeTLB page, we can save 4088 pages(There are
-> > 4096 pages for struct page structs, we reserve 2 pages for vmemmap and 8
-> > pages for page tables. So we can save 4088 pages). This is a very substantial
-> > gain. On our server, run some SPDK/QEMU applications which will use 1024GB
-> > hugetlbpage. With this feature enabled, we can save ~16GB(1G hugepage)/~11GB
-> > (2MB hugepage, the worst case is 10GB while the best is 12GB) memory.
->
-> Is the above really true?
-> We no longer need to allocate pagetables, so the savings go up to 4094, right?
+> Currently struct irqentry_state_t only contains a single bool value
+> which makes passing it by value is reasonable.  However, future patches
+> add information to this struct.  This includes the PKRS thread state,
+> included in this series, as well as information to store kmap reference
+> tracking and PKS global state outside this series. In total, we
+> anticipate 2 new 32 bit fields and an integer field to be added to the
+> struct beyond the existing bool value.
 
-Yeah, you are right. I forget to update this.
+Well yes, but why can't you provide at least in the comment section
+below the '---' a pointer to the latest version of this reference muck
+and PKS global state if you can't explain at least the concept of the
+two things here?
 
->
-> I will be off for a few days but I expect to get back to this and review the
-> missing bits when I am back.
->
+It's one thing that you anticipate something but a different thing
+whether it's the right thing to do.
 
-Thanks.
+Thanks,
 
-> --
-> Oscar Salvador
-> SUSE L3
-
-
-
--- 
-Yours,
-Muchun
+        tglx
