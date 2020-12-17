@@ -2,145 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6226EC4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:20:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC2ABC2BB9A
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:38:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25A61238A0
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:20:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 786EB2151B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:38:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727303AbgLQNUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 08:20:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbgLQNUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 08:20:30 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658F2C061794;
-        Thu, 17 Dec 2020 05:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Ki9FXUcA/jS53jop1ttnv7UISCrAaFpfQpHTD7Zfflc=; b=L8h4Yi/u8flONjvNDbffLQl69p
-        AVHTgDEHkjVbzg1ZBlYJikolD2maAnDufsFyn3T0vrw42EF45cq7xWNAAR3TqrmyPYtIq4P8mcrRA
-        u7JZLPBNfub/3RPbtAYDLcKM3Vf6OSBtfpuLF2M5d6hZziKU8BSV/1dssN7ZQoMd7x9WSRSgSzcVI
-        faug25WQmxTZnjjjcQ1koe4iwrWpbYSJ2D4qk+sp9Wf0NI2CPs82tcFwT7kaTEKuqKEXh61xjXOvl
-        yzmSxmiqX6OLALXHsYIXlQUaTeMcaVyGhIMeiTqozXX1r3Q2nMjXP7+f6SXui8dE+xztrdQU6TAlf
-        DtE4PMnA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kptBm-0005SF-PQ; Thu, 17 Dec 2020 13:19:26 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F157B300446;
-        Thu, 17 Dec 2020 14:19:24 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id E5DF3202395D6; Thu, 17 Dec 2020 14:19:24 +0100 (CET)
-Date:   Thu, 17 Dec 2020 14:19:24 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
-Message-ID: <20201217131924.GW3040@hirez.programming.kicks-ass.net>
-References: <20201106232908.364581-6-ira.weiny@intel.com>
- <20201124060956.1405768-1-ira.weiny@intel.com>
- <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
- <878s9wshsa.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878s9wshsa.fsf@nanos.tec.linutronix.de>
+        id S1727185AbgLQOid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 09:38:33 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:60663 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727015AbgLQOid (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 09:38:33 -0500
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 17 Dec 2020 06:37:52 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Dec 2020 06:37:50 -0800
+X-QCInternal: smtphost
+Received: from mdalam-linux.qualcomm.com ([10.201.2.71])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 17 Dec 2020 20:07:28 +0530
+Received: by mdalam-linux.qualcomm.com (Postfix, from userid 466583)
+        id B1A7F219ED; Thu, 17 Dec 2020 20:07:26 +0530 (IST)
+From:   Md Sadre Alam <mdalam@codeaurora.org>
+To:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
+        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc:     mdalam@codeaurora.org, sricharan@codeaurora.org
+Subject: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit support
+Date:   Thu, 17 Dec 2020 20:07:22 +0530
+Message-Id: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 02:07:01PM +0100, Thomas Gleixner wrote:
-> On Fri, Dec 11 2020 at 14:14, Andy Lutomirski wrote:
-> > On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
-> > After contemplating this for a bit, I think this isn't really the
-> > right approach.  It *works*, but we've mostly just created a bit of an
-> > unfortunate situation.  Our stack, on a (possibly nested) entry looks
-> > like:
-> >
-> > previous frame (or empty if we came from usermode)
-> > ---
-> > SS
-> > RSP
-> > FLAGS
-> > CS
-> > RIP
-> > rest of pt_regs
-> >
-> > C frame
-> >
-> > irqentry_state_t (maybe -- the compiler is within its rights to play
-> > almost arbitrary games here)
-> >
-> > more C stuff
-> >
-> > So what we've accomplished is having two distinct arch register
-> > regions, one called pt_regs and the other stuck in irqentry_state_t.
-> > This is annoying because it means that, if we want to access this
-> > thing without passing a pointer around or access it at all from outer
-> > frames, we need to do something terrible with the unwinder, and we
-> > don't want to go there.
-> >
-> > So I propose a somewhat different solution: lay out the stack like this.
-> >
-> > SS
-> > RSP
-> > FLAGS
-> > CS
-> > RIP
-> > rest of pt_regs
-> > PKS
-> > ^^^^^^^^ extended_pt_regs points here
-> >
-> > C frame
-> > more C stuff
-> > ...
-> >
-> > IOW we have:
-> >
-> > struct extended_pt_regs {
-> >   bool rcu_whatever;
-> >   other generic fields here;
-> >   struct arch_extended_pt_regs arch_regs;
-> >   struct pt_regs regs;
-> > };
-> >
-> > and arch_extended_pt_regs has unsigned long pks;
-> >
-> > and instead of passing a pointer to irqentry_state_t to the generic
-> > entry/exit code, we just pass a pt_regs pointer.
-> 
-> While I agree vs. PKS which is architecture specific state and needed in
-> other places e.g. #PF, I'm not convinced that sticking the existing
-> state into the same area buys us anything more than an indirect access.
-> 
-> Peter?
+This change will add support for LOCK & UNLOCK flag bit support
+on CMD descriptor.
 
-Agreed; that immediately solves the confusion Ira had as well. While
-extending pt_regs sounds scary, I think we've isolated our pt_regs
-implementation from actual ABI pretty well, but of course, that would
-need an audit. We don't want to leak this into signals for example.
+If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+transaction wanted to lock the DMA controller for this transaction so
+BAM driver should set LOCK bit for the HW descriptor.
 
+If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
+transaction wanted to unlock the DMA controller.so BAM driver should set
+UNLOCK bit for the HW descriptor.
+
+Signed-off-by: Md Sadre Alam <mdalam@codeaurora.org>
+---
+ Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
+ drivers/dma/qcom/bam_dma.c                      | 9 +++++++++
+ include/linux/dmaengine.h                       | 5 +++++
+ 3 files changed, 23 insertions(+)
+
+diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+index ddb0a81..d7516e2 100644
+--- a/Documentation/driver-api/dmaengine/provider.rst
++++ b/Documentation/driver-api/dmaengine/provider.rst
+@@ -599,6 +599,15 @@ DMA_CTRL_REUSE
+   - This flag is only supported if the channel reports the DMA_LOAD_EOT
+     capability.
+ 
++- DMA_PREP_LOCK
++
++  - If set , the client driver tells DMA controller I am locking you for
++    this transcation.
++
++- DMA_PREP_UNLOCK
++
++  - If set, the client driver will tells DMA controller I am releasing the lock
++
+ General Design Notes
+ ====================
+ 
+diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+index 4eeb8bb..cdbe395 100644
+--- a/drivers/dma/qcom/bam_dma.c
++++ b/drivers/dma/qcom/bam_dma.c
+@@ -58,6 +58,8 @@ struct bam_desc_hw {
+ #define DESC_FLAG_EOB BIT(13)
+ #define DESC_FLAG_NWD BIT(12)
+ #define DESC_FLAG_CMD BIT(11)
++#define DESC_FLAG_LOCK BIT(10)
++#define DESC_FLAG_UNLOCK BIT(9)
+ 
+ struct bam_async_desc {
+ 	struct virt_dma_desc vd;
+@@ -644,6 +646,13 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+ 
+ 	/* fill in temporary descriptors */
+ 	desc = async_desc->desc;
++	if (flags & DMA_PREP_CMD) {
++		if (flags & DMA_PREP_LOCK)
++			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
++		if (flags & DMA_PREP_UNLOCK)
++			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
++	}
++
+ 	for_each_sg(sgl, sg, sg_len, i) {
+ 		unsigned int remainder = sg_dma_len(sg);
+ 		unsigned int curr_offset = 0;
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index dd357a7..79ccadb4 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -190,6 +190,9 @@ struct dma_interleaved_template {
+  *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
+  *  to never be processed and stay in the issued queue forever. The flag is
+  *  ignored if the previous transaction is not a repeated transaction.
++ * @DMA_PREP_LOCK: tell the driver that DMA HW engine going to be locked for this
++ *  transaction , until not seen DMA_PREP_UNLOCK flag set.
++ * @DMA_PREP_UNLOCK: tell the driver to unlock the DMA HW engine.
+  */
+ enum dma_ctrl_flags {
+ 	DMA_PREP_INTERRUPT = (1 << 0),
+@@ -202,6 +205,8 @@ enum dma_ctrl_flags {
+ 	DMA_PREP_CMD = (1 << 7),
+ 	DMA_PREP_REPEAT = (1 << 8),
+ 	DMA_PREP_LOAD_EOT = (1 << 9),
++	DMA_PREP_LOCK = (1 << 10),
++	DMA_PREP_UNLOCK = (1 << 11),
+ };
+ 
+ /**
+-- 
+2.7.4
 
