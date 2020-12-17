@@ -2,89 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B9CC2BB9A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 16:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED14C4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:21:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86B392395A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 16:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B19772389E
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 18:21:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728462AbgLQQ7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 11:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbgLQQ7K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 11:59:10 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65F3AC061794;
-        Thu, 17 Dec 2020 08:58:30 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1608224308;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BfeG9stxOsSpjRYXj7Js+sXxnOSrg6f7PFi1tBPvTk4=;
-        b=gBt8MjRwIBoZoOeRr2iv95diwya5Pn0IUF0cU39dmJIhU7C9g+sbPkGpiPSqGHzNVwKtDS
-        Xebun5owJ8k+ANh+8c0GWB+05QGhsw5KAcBBaS6D+JrDVzMI/TKSy6DG+w/+ZCUJmtTY5D
-        +i8C5pHMQYcdLgBTjcVfO3mGh8TlhZc8gB9nhauvVIBqeUXg5M+/0ysikjITOcokAeDkJd
-        L+YVwS6Fdxdeuz2l35ol/TuD+YD5rlv/Pv0DupbkIoORNb84qEnTPe1nB+J9E3JjQtUabc
-        usFUtM5tTrGUzWYXB2IJZs/PvBxPNuAIYQ0XIdXEbKQ/LoKy3j0BoiipJxmPQA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1608224308;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BfeG9stxOsSpjRYXj7Js+sXxnOSrg6f7PFi1tBPvTk4=;
-        b=dn3W9hQ1peESFmJ2swDmnwnBERH9a1KMBLetWpglvwv9bYVzv/pp+RbTDpNLyrNb0+nCvp
-        vsP9GutiQJM3cYDg==
-To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
-In-Reply-To: <20201124060956.1405768-1-ira.weiny@intel.com>
-References: <20201106232908.364581-6-ira.weiny@intel.com> <20201124060956.1405768-1-ira.weiny@intel.com>
-Date:   Thu, 17 Dec 2020 17:58:28 +0100
-Message-ID: <87v9d0qsi3.fsf@nanos.tec.linutronix.de>
+        id S1726773AbgLQSVU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 13:21:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35366 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725468AbgLQSVT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Dec 2020 13:21:19 -0500
+Date:   Thu, 17 Dec 2020 10:20:37 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608229239;
+        bh=lopp1baHdbxZu/0OjsahYIxemeNxg8EJ4PxKfBGb5Kk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nxMHBu55Hz/THJg9MBoluBeLK7SaHb+ut23C1aF3Jyy9IyjeWtZNj3GOjrol00Olw
+         3D7bdF+ZqXZT+JS8dD0julR19FwvWCoAesXFjbg/0GHyLnQhXHX755rS0cROZtTtXe
+         wyiS1kwDDFyxLE72QFr/PKVQ3p5tJhv4q7BXgKJPhxrukBL0zEXQuDpuuxU40LFeOH
+         n9IvhfNy6dYFTM8BeG9IoMLBRSxAH03lujo2mEkbn1ofylZnqvldY2Nw/ZwPVD2NQk
+         UVKvnQpZ968M0/BYAjFkg4GAOUEL9roC57GvQNlTlDQ9X/kQOqSVyrC1vV01floYsn
+         OyL7DFXOxDfOw==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Baruch Siach <baruch@tkos.co.il>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Ulisses Alonso =?UTF-8?B?Q2FtYXLDsw==?= <uaca@alumni.uv.es>
+Subject: Re: [PATCH net 2/2] docs: networking: packet_mmap: don't mention
+ PACKET_MMAP
+Message-ID: <20201217102037.6f5ceee9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il>
+References: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
+        <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 23 2020 at 22:09, ira weiny wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
->
-> Currently struct irqentry_state_t only contains a single bool value
-> which makes passing it by value is reasonable.  However, future patches
-> add information to this struct.  This includes the PKRS thread state,
-> included in this series, as well as information to store kmap reference
-> tracking and PKS global state outside this series. In total, we
-> anticipate 2 new 32 bit fields and an integer field to be added to the
-> struct beyond the existing bool value.
+On Tue, 15 Dec 2020 18:51:17 +0200 Baruch Siach wrote:
+> Before commit 889b8f964f2f ("packet: Kill CONFIG_PACKET_MMAP.") there
+> used to be a CONFIG_PACKET_MMAP config symbol that depended on
+> CONFIG_PACKET. The text still refers to PACKET_MMAP as the name of this
+> feature, implying that it can be disabled. Another naming variant is
+> "Packet MMAP".
+> 
+> Use "PACKET mmap()" everywhere to unify the terminology. Rephrase the
+> text the implied mmap() feature disable option.
 
-Well yes, but why can't you provide at least in the comment section
-below the '---' a pointer to the latest version of this reference muck
-and PKS global state if you can't explain at least the concept of the
-two things here?
+Should we maybe say AF_PACKET mmap() ?
 
-It's one thing that you anticipate something but a different thing
-whether it's the right thing to do.
+> -In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process is very
+> -inefficient. It uses very limited buffers and requires one system call to
+> -capture each packet, it requires two if you want to get packet's timestamp
+> -(like libpcap always does).
+> +In Linux 2.4/2.6/3.x non mmap() PACKET capture process is very inefficient. It
 
-Thanks,
+We can drop the references to versions. Kernels older than 2.4 are
+prehistoric, and we have 4.x and 5.x now.
 
-        tglx
+> +uses very limited buffers and requires one system call to capture each packet,
+> +it requires two if you want to get packet's timestamp (like libpcap always
+> +does).
+
+Would it be possible to avoid re-flowing the existing text. IMHO it's
+okay if we end on a short line, and it makes the diff easier to review.
+
+> -In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a size
+> -configurable circular buffer mapped in user space that can be used to either
+> -send or receive packets. This way reading packets just needs to wait for them,
+> -most of the time there is no need to issue a single system call. Concerning
+> -transmission, multiple packets can be sent through one system call to get the
+> -highest bandwidth. By using a shared buffer between the kernel and the user
+> -also has the benefit of minimizing packet copies.
+> +In the other hand PACKET mmap() is very efficient. PACKET mmap() provides a
+
+While at it - "on the other hand"?
+
+> +size configurable circular buffer mapped in user space that can be used to
+> +either send or receive packets. This way reading packets just needs to wait for
+> +them, most of the time there is no need to issue a single system call.
+> +Concerning transmission, multiple packets can be sent through one system call
+> +to get the highest bandwidth. By using a shared buffer between the kernel and
+> +the user also has the benefit of minimizing packet copies.
+>  
+> -It's fine to use PACKET_MMAP to improve the performance of the capture and
+> +It's fine to use PACKET mmap() to improve the performance of the capture and
+>  transmission process, but it isn't everything. At least, if you are capturing
+>  at high speeds (this is relative to the cpu speed), you should check if the
+>  device driver of your network interface card supports some sort of interrupt
+
