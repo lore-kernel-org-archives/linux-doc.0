@@ -2,103 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE589C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 21:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE60C2BBCF
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 22:03:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7513923A51
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 21:30:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7814623434
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 22:03:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbgLQVaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 16:30:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44888 "EHLO
+        id S1732072AbgLQWDW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 17:03:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgLQVaN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 16:30:13 -0500
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9166FC061794
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 13:29:33 -0800 (PST)
-Received: by mail-vs1-xe36.google.com with SMTP id x26so271941vsq.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 13:29:33 -0800 (PST)
+        with ESMTP id S1732044AbgLQWDV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 17:03:21 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BD2C0617B0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 14:02:41 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id g20so311398ejb.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 14:02:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=urAPcSZI0AoxV640vCzvFnC8SN1UrtzLHnxgpBxd1pM=;
-        b=r9UT9t38JUuZdqamQnu/y5XIuGAOfcGFq0OYmGBBVEMkSphsxKepRxZRSQcmPmDZh+
-         vvvfi+BmN0AFkHEgjRIQDXJdTjK4XHyPDC2zm0NtCfH8EkknSsOIUrlcaNzw8CbLCs4I
-         8/2/+j9+vYK7q6kZiUAigTC4UObyW7dqO3Uj0jUMk+IdWuy6sDMaQrJO+l8ggxS+nVzY
-         5luNtNIvzN7oFlhIM6l+Sey8mRuI6HUMSxRaGLcAsw2eU21Hcaz05ETKv1CcTAwSLUa0
-         Qq1yR78NgmSuuc0ONk0PcxrO1+cpOIp6umMgPykCXA60vFgEA4O+CGPcTb5lAuVU8EdP
-         4+Vg==
+        bh=9vdnsUgYkB36Ep59teaQpHG5J09HGP1/qSDhF8tulqw=;
+        b=IyWl6xJfaeIwBHp2Vnyb602iv3sW5tz1Z1AonhBzz//6kqX6ut9KC3FJr8VW8yMCoO
+         WRkzbAJo3tcX4BE4tIWUTt9b5IMTegSH0DxRJYvoOCTmYk3N7ZxBLzBGTWkXrzz85kmB
+         uJQ1gHlb6oGRhyKkKvoevO32Bd/V8u31wI7z/0YmWJEKPv/Yu/8MTwjHgTtwebJGBHfz
+         mMzBZBYMFhrvEj93oVEq2KK1wAh2W8sOEFebz96Puan3tNp4aIGxmiPOsd45rAIxLcmF
+         AozEgbPb4M4QG2zOLYiatpVfuSqNk0lpaAu4P2+j5Wt4pNPzxaptN2sOKJyjbtCayXCs
+         OsAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=urAPcSZI0AoxV640vCzvFnC8SN1UrtzLHnxgpBxd1pM=;
-        b=YNjr+gGzjs4kKWZ/F9PtJJxojdEHZux8uTXFycr4Qc78KPXzGVC+RPDKx4loGBgVQE
-         r/ro1CVlg0AxK8lbq6zyF1cmWGeDUiMhuRs2VFMMf7hirlSAFBI0A1JGbjDkeZn0yUEW
-         1IoCsuzhFeplz180kIwwNMNSC6IB+Nbvm1DVLsRUIEYPe9vNlcyHMFTH9aHAXCacWCDT
-         kOGyuK2RN+DDhsvvmH5GJDeE5R//boUnXGm5Jwx3rSuDvnJ31Wn6u7m8dZtoT7lr1UQ4
-         ePBLYFB+0hBdwq3I/2bCyr8dzU21JACslPcUcqqNNt1SrjEs6zeV2lpdg9E85jhiFz+6
-         mPAg==
-X-Gm-Message-State: AOAM532ZCDHS7vElOBfumTICFoyRbwpZ4N10JO8pPyULgE4zhhN8+elS
-        Sf3g0SEpaZZFyLVOMuQeHm494vUPy/g=
-X-Google-Smtp-Source: ABdhPJz236KPqxm8SLuOl0srrFiOwnJFuvZdKOnanDHBm6WUPXQgcusFGwxxyS2Z69CHEjkTijrPkQ==
-X-Received: by 2002:a67:f915:: with SMTP id t21mr1389584vsq.55.1608240572289;
-        Thu, 17 Dec 2020 13:29:32 -0800 (PST)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id t127sm972520vka.3.2020.12.17.13.29.30
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Dec 2020 13:29:31 -0800 (PST)
-Received: by mail-ua1-f49.google.com with SMTP id 73so125985uac.8
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 13:29:30 -0800 (PST)
-X-Received: by 2002:a9f:2356:: with SMTP id 80mr1166550uae.92.1608240570490;
- Thu, 17 Dec 2020 13:29:30 -0800 (PST)
+        bh=9vdnsUgYkB36Ep59teaQpHG5J09HGP1/qSDhF8tulqw=;
+        b=mtxCvI5qoQt2r7NM+DLOzfXGSbT8Hzj6MZ0WuqFNFlavpuvobY8Uq9n0nrbcqu+A2u
+         0o98s78X3MJYvr+pPvx9G5xrCROaIQVPUvzaLcQ8uAJPsdjhGcKWJzKItGR3xdoeEUYD
+         hDm3bBvGmHGECBwtvr+idG/MDm58MsxFiJrVa4dkuqDFjm6+oDE3SDTV2MoA1oWp81Fd
+         tE0+Rryix1frrBMg4RGIecqmGJWOG0qx9MtUUUGI1x19E3Y1TZ+5MDqMH9Exi0EJc43j
+         BljotX1Ik8XhmNPcIvMz6W69sr8HGT+a6zZiT5btW3NjDM3v8c7XgziARRLh55Kd3InH
+         HEaw==
+X-Gm-Message-State: AOAM531g1YfLrvojQPec0L86OwFndixVroRmb7sctV8TT9e+OI8mSg7v
+        PA4YfpPJ4mYUOC8YZHCxD0jKoYJVq2fANKt91Kw+2A==
+X-Google-Smtp-Source: ABdhPJyrI5y+cymaIqjTdtLsBCNiORBZzKUiI7EZcr4ephYPlGDRI1t9oCp94abQkVwD0TaI9OLg1Gw6Z/Sgo+obFp8=
+X-Received: by 2002:a17:906:ce51:: with SMTP id se17mr1122204ejb.314.1608242559864;
+ Thu, 17 Dec 2020 14:02:39 -0800 (PST)
 MIME-Version: 1.0
-References: <425a2567dbf8ece01fb54fbb43ceee7b2eab9d05.1608051077.git.baruch@tkos.co.il>
- <1fc59ef61e324a969071ea537ccc2856adee3c5b.1608051077.git.baruch@tkos.co.il> <20201217102037.6f5ceee9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201217102037.6f5ceee9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date:   Thu, 17 Dec 2020 16:28:54 -0500
-X-Gmail-Original-Message-ID: <CA+FuTScTEthUW=s+5_jnnHj4SQeFr0=HsgwVeNegNOaCNQ+C=Q@mail.gmail.com>
-Message-ID: <CA+FuTScTEthUW=s+5_jnnHj4SQeFr0=HsgwVeNegNOaCNQ+C=Q@mail.gmail.com>
-Subject: Re: [PATCH net 2/2] docs: networking: packet_mmap: don't mention PACKET_MMAP
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Baruch Siach <baruch@tkos.co.il>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Network Development <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        =?UTF-8?Q?Ulisses_Alonso_Camar=C3=B3?= <uaca@alumni.uv.es>
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-9-pasha.tatashin@soleen.com> <20201217205048.GL5487@ziepe.ca>
+In-Reply-To: <20201217205048.GL5487@ziepe.ca>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Thu, 17 Dec 2020 17:02:03 -0500
+Message-ID: <CA+CK2bA4F+SipkReJzFjCSC-8kZdK4yrwCQZM+TvCTrqV2CGHg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/10] mm/gup: limit number of gup migration failures,
+ honor failures
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 2:48 PM Jakub Kicinski <kuba@kernel.org> wrote:
+Hi Jason,
+
+Thank you for your comments. My replies below.
+
+On Thu, Dec 17, 2020 at 3:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> On Tue, 15 Dec 2020 18:51:17 +0200 Baruch Siach wrote:
-> > Before commit 889b8f964f2f ("packet: Kill CONFIG_PACKET_MMAP.") there
-> > used to be a CONFIG_PACKET_MMAP config symbol that depended on
-> > CONFIG_PACKET. The text still refers to PACKET_MMAP as the name of this
-> > feature, implying that it can be disabled. Another naming variant is
-> > "Packet MMAP".
+> On Thu, Dec 17, 2020 at 01:52:41PM -0500, Pavel Tatashin wrote:
+> > +/*
+> > + * Verify that there are no unpinnable (movable) pages, if so return true.
+> > + * Otherwise an unpinnable pages is found return false, and unpin all pages.
+> > + */
+> > +static bool check_and_unpin_pages(unsigned long nr_pages, struct page **pages,
+> > +                               unsigned int gup_flags)
+> > +{
+> > +     unsigned long i, step;
+> > +
+> > +     for (i = 0; i < nr_pages; i += step) {
+> > +             struct page *head = compound_head(pages[i]);
+> > +
+> > +             step = compound_nr(head) - (pages[i] - head);
+>
+> You can't assume that all of a compound head is in the pages array,
+> this assumption would only work inside the page walkers if the page
+> was found in a PMD or something.
+
+I am not sure I understand your comment. The compound head is not
+taken from the pages array, and not assumed to be in it. It is exactly
+the same logic as that we currently have:
+https://soleen.com/source/xref/linux/mm/gup.c?r=a00cda3f#1565
+
+>
+> > +     if (gup_flags & FOLL_PIN) {
+> > +             unpin_user_pages(pages, nr_pages);
+>
+> So we throw everything away? Why? That isn't how the old algorithm worked
+
+It is exactly like the old algorithm worked: if there are pages to be
+migrated (not pinnable pages) we unpinned everything.
+See here:
+https://soleen.com/source/xref/linux/mm/gup.c?r=a00cda3f#1603
+
+If cma_pages_list is not empty unpin everything. The list is not empty
+if we isolated some pages, we isolated some pages if there are some
+pages which are not pinnable. Now, we do exactly the same thing, but
+cleaner, and handle errors. We must unpin everything because if we
+fail, no pages should stay pinned, and also if we migrated some pages,
+the pages array must be updated, so we need to call
+__get_user_pages_locked() pin and repopulated pages array.
+
+>
+> > @@ -1654,22 +1664,55 @@ static long __gup_longterm_locked(struct mm_struct *mm,
+> >                                 struct vm_area_struct **vmas,
+> >                                 unsigned int gup_flags)
+> >  {
+> > -     unsigned long flags = 0;
+> > +     int migrate_retry = 0;
+> > +     int isolate_retry = 0;
+> > +     unsigned int flags;
+> >       long rc;
 > >
-> > Use "PACKET mmap()" everywhere to unify the terminology. Rephrase the
-> > text the implied mmap() feature disable option.
+> > -     if (gup_flags & FOLL_LONGTERM)
+> > -             flags = memalloc_pin_save();
+> > +     if (!(gup_flags & FOLL_LONGTERM))
+> > +             return __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
+> > +                                            NULL, gup_flags);
+> >
+> > -     rc = __get_user_pages_locked(mm, start, nr_pages, pages, vmas, NULL,
+> > -                                  gup_flags);
+> > +     /*
+> > +      * Without FOLL_WRITE fault handler may return zero page, which can
+> > +      * be in a movable zone, and also will fail to isolate during migration,
+> > +      * thus the longterm pin will fail.
+> > +      */
+> > +     gup_flags &= FOLL_WRITE;
 >
-> Should we maybe say AF_PACKET mmap() ?
+> Is &= what you mean here? |= right?
 
-I don't think that the feature name PACKET_MMAP implies
-CONFIG_PACKET_MMAP, or thus that the name is obsolete now that the
-latter is.
+Right, I meant |=.
 
-If it needs a rename, the setsockopt is PACKET_[RT]X_RING. So, if this
-needs updating, perhaps PACKET_RING would be suitable. Or TPACKET,
-based on the version definitions.
+>
+> Seems like we've ended up in a weird place if FOLL_LONGTERM always
+> includes FOLL_WRITE. Putting the zero page in ZONE_MOVABLE seems like
+> a bad idea, no?
+
+I am not sure, I just found this problem during testing, and this is
+the solution I am proposing. I am worried about limiting the zero page
+to a non movable zone, but let's see what others think about this.
+
+>
+> > +     /*
+> > +      * Migration may fail, we retry before giving up. Also, because after
+> > +      * migration pages[] becomes outdated, we unpin and repin all pages
+> > +      * in the range, so pages array is repopulated with new values.
+> > +      * Also, because of this we cannot retry migration failures in a loop
+> > +      * without pinning/unpinnig pages.
+> > +      */
+>
+> The old algorithm made continuous forward progress and only went back
+> to the first migration point.
+
+That is not right, the old code went back to the beginning. Making
+continuous progress is possible, but we won't see any performance
+betnefit from it, because migration failures is already exception
+scenarios where machine is under memory stress. The truth is if we
+fail to migrate it is unlikely will succeed if we retry right away, so
+giving some time between retries may be even beneficial.  Also with
+continious progress we need to take care of some corner cases where we
+need to unpin already succeeded pages in case if forward progress is
+not possible. Also, adjust pages array, start address etc.
+
+>
+> > +     for (; ; ) {
+>
+> while (true)?
+
+Hm, the same thing? :)
+
+>
+> > +             rc = __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
+> > +                                          NULL, gup_flags);
+>
+> > +             /* Return if error or if all pages are pinnable */
+> > +             if (rc <= 0 || check_and_unpin_pages(rc, pages, gup_flags))
+> > +                     break;
+>
+> So we sweep the pages list twice now?
+
+Yes, but O(N) is the same. No new operation is added. Before we had
+something like this:
+
+while (npages)
+     check if pinnable
+            isolate
+while (npages)
+   unpin
+migrate
+while (npages)
+  pin
+
+Now:
+while(npages)
+    check if pinnable
+while(npages)
+   unpin
+while(npages)
+    isolate
+migrate
+   pin
+
+>
+> > +             /* Some pages are not pinnable, migrate them */
+> > +             rc = migrate_movable_pages(rc, pages);
+> > +
+> > +             /*
+> > +              * If there is an error, and we tried maximum number of times
+> > +              * bail out. Notice: we return an error code, and all pages are
+> > +              * unpinned
+> > +              */
+> > +             if (rc < 0 && migrate_retry++ >= PINNABLE_MIGRATE_MAX) {
+> > +                     break;
+> > +             } else if (rc > 0 && isolate_retry++ >= PINNABLE_ISOLATE_MAX) {
+> > +                     rc = -EBUSY;
+>
+> I don't like this at all. It shouldn't be so flakey
+>
+> Can you do migration without the LRU?
+
+I do not think it is possible, we must isolate pages before migration.
+
+Pasha
