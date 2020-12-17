@@ -7,132 +7,140 @@ X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6F9C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6226EC4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:20:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE3762396D
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:07:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25A61238A0
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgLQNHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 08:07:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
+        id S1727303AbgLQNUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 08:20:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727185AbgLQNHn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 08:07:43 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE25C061794;
-        Thu, 17 Dec 2020 05:07:03 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1608210421;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CyOHKGrGF5FgJ/jrTCkQanXT7eBDkCqK5reXHcNL6hU=;
-        b=eovS1hyj5PJ9FjFq7ljImsiygsavh4+hyAufANIEN4qOrIiRDJvnEz+nMcNLlzLjQ0nmpQ
-        qpnwUz3EbXYBc8fFktrxzlnN4DQmYjZ5fJG/MnTix8uxeXRp5AG95AtjsfGKOw0krQrQxv
-        1vu89vPNDAI5DTALWz8VCvROwjE0G5obplIWO86tQCTJsL8Ksrn/sX1nm9dy12fVzaf4Jy
-        eLWmf4CzfHO5nriFc0GYwEHcejk6r4D1+RzHUBqtvKcEI2Cbx+JIjoJYs4kN/Xi6fu2LQC
-        vavhLTIKjSMksx9LjtZAGZdRTRAJXK54Rhp3ahyHcTjHuE4EKFiMiOaYQs+8/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1608210421;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=CyOHKGrGF5FgJ/jrTCkQanXT7eBDkCqK5reXHcNL6hU=;
-        b=trlnJKPooUM3Q07R6gTR3/B9v5VRgpJBlPadulHLT7hRSrDAzhWFliWBHTApTwcTBZrwKG
-        VIZ25dC5Vt0t6hDA==
-To:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
+        with ESMTP id S1726012AbgLQNUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 08:20:30 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658F2C061794;
+        Thu, 17 Dec 2020 05:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Ki9FXUcA/jS53jop1ttnv7UISCrAaFpfQpHTD7Zfflc=; b=L8h4Yi/u8flONjvNDbffLQl69p
+        AVHTgDEHkjVbzg1ZBlYJikolD2maAnDufsFyn3T0vrw42EF45cq7xWNAAR3TqrmyPYtIq4P8mcrRA
+        u7JZLPBNfub/3RPbtAYDLcKM3Vf6OSBtfpuLF2M5d6hZziKU8BSV/1dssN7ZQoMd7x9WSRSgSzcVI
+        faug25WQmxTZnjjjcQ1koe4iwrWpbYSJ2D4qk+sp9Wf0NI2CPs82tcFwT7kaTEKuqKEXh61xjXOvl
+        yzmSxmiqX6OLALXHsYIXlQUaTeMcaVyGhIMeiTqozXX1r3Q2nMjXP7+f6SXui8dE+xztrdQU6TAlf
+        DtE4PMnA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kptBm-0005SF-PQ; Thu, 17 Dec 2020 13:19:26 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F157B300446;
+        Thu, 17 Dec 2020 14:19:24 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E5DF3202395D6; Thu, 17 Dec 2020 14:19:24 +0100 (CET)
+Date:   Thu, 17 Dec 2020 14:19:24 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Fenghua Yu <fenghua.yu@intel.com>,
-        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         linux-nvdimm <linux-nvdimm@lists.01.org>,
         Linux-MM <linux-mm@kvack.org>,
-        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         Dan Williams <dan.j.williams@intel.com>,
         Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
-In-Reply-To: <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
-References: <20201106232908.364581-6-ira.weiny@intel.com> <20201124060956.1405768-1-ira.weiny@intel.com> <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
-Date:   Thu, 17 Dec 2020 14:07:01 +0100
-Message-ID: <878s9wshsa.fsf@nanos.tec.linutronix.de>
+Message-ID: <20201217131924.GW3040@hirez.programming.kicks-ass.net>
+References: <20201106232908.364581-6-ira.weiny@intel.com>
+ <20201124060956.1405768-1-ira.weiny@intel.com>
+ <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
+ <878s9wshsa.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878s9wshsa.fsf@nanos.tec.linutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11 2020 at 14:14, Andy Lutomirski wrote:
-> On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
-> After contemplating this for a bit, I think this isn't really the
-> right approach.  It *works*, but we've mostly just created a bit of an
-> unfortunate situation.  Our stack, on a (possibly nested) entry looks
-> like:
->
-> previous frame (or empty if we came from usermode)
-> ---
-> SS
-> RSP
-> FLAGS
-> CS
-> RIP
-> rest of pt_regs
->
-> C frame
->
-> irqentry_state_t (maybe -- the compiler is within its rights to play
-> almost arbitrary games here)
->
-> more C stuff
->
-> So what we've accomplished is having two distinct arch register
-> regions, one called pt_regs and the other stuck in irqentry_state_t.
-> This is annoying because it means that, if we want to access this
-> thing without passing a pointer around or access it at all from outer
-> frames, we need to do something terrible with the unwinder, and we
-> don't want to go there.
->
-> So I propose a somewhat different solution: lay out the stack like this.
->
-> SS
-> RSP
-> FLAGS
-> CS
-> RIP
-> rest of pt_regs
-> PKS
-> ^^^^^^^^ extended_pt_regs points here
->
-> C frame
-> more C stuff
-> ...
->
-> IOW we have:
->
-> struct extended_pt_regs {
->   bool rcu_whatever;
->   other generic fields here;
->   struct arch_extended_pt_regs arch_regs;
->   struct pt_regs regs;
-> };
->
-> and arch_extended_pt_regs has unsigned long pks;
->
-> and instead of passing a pointer to irqentry_state_t to the generic
-> entry/exit code, we just pass a pt_regs pointer.
+On Thu, Dec 17, 2020 at 02:07:01PM +0100, Thomas Gleixner wrote:
+> On Fri, Dec 11 2020 at 14:14, Andy Lutomirski wrote:
+> > On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
+> > After contemplating this for a bit, I think this isn't really the
+> > right approach.  It *works*, but we've mostly just created a bit of an
+> > unfortunate situation.  Our stack, on a (possibly nested) entry looks
+> > like:
+> >
+> > previous frame (or empty if we came from usermode)
+> > ---
+> > SS
+> > RSP
+> > FLAGS
+> > CS
+> > RIP
+> > rest of pt_regs
+> >
+> > C frame
+> >
+> > irqentry_state_t (maybe -- the compiler is within its rights to play
+> > almost arbitrary games here)
+> >
+> > more C stuff
+> >
+> > So what we've accomplished is having two distinct arch register
+> > regions, one called pt_regs and the other stuck in irqentry_state_t.
+> > This is annoying because it means that, if we want to access this
+> > thing without passing a pointer around or access it at all from outer
+> > frames, we need to do something terrible with the unwinder, and we
+> > don't want to go there.
+> >
+> > So I propose a somewhat different solution: lay out the stack like this.
+> >
+> > SS
+> > RSP
+> > FLAGS
+> > CS
+> > RIP
+> > rest of pt_regs
+> > PKS
+> > ^^^^^^^^ extended_pt_regs points here
+> >
+> > C frame
+> > more C stuff
+> > ...
+> >
+> > IOW we have:
+> >
+> > struct extended_pt_regs {
+> >   bool rcu_whatever;
+> >   other generic fields here;
+> >   struct arch_extended_pt_regs arch_regs;
+> >   struct pt_regs regs;
+> > };
+> >
+> > and arch_extended_pt_regs has unsigned long pks;
+> >
+> > and instead of passing a pointer to irqentry_state_t to the generic
+> > entry/exit code, we just pass a pt_regs pointer.
+> 
+> While I agree vs. PKS which is architecture specific state and needed in
+> other places e.g. #PF, I'm not convinced that sticking the existing
+> state into the same area buys us anything more than an indirect access.
+> 
+> Peter?
 
-While I agree vs. PKS which is architecture specific state and needed in
-other places e.g. #PF, I'm not convinced that sticking the existing
-state into the same area buys us anything more than an indirect access.
+Agreed; that immediately solves the confusion Ira had as well. While
+extending pt_regs sounds scary, I think we've isolated our pt_regs
+implementation from actual ABI pretty well, but of course, that would
+need an audit. We don't want to leak this into signals for example.
 
-Peter?
 
-Thanks,
-
-        tglx
