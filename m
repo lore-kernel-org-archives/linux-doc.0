@@ -2,223 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF74FC0018C
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 23:50:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D706C0018C
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 00:39:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCB3223730
-	for <linux-doc@archiver.kernel.org>; Wed, 16 Dec 2020 23:50:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 044DA23788
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 00:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730518AbgLPXuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 16 Dec 2020 18:50:03 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:43588 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726110AbgLPXuD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 16 Dec 2020 18:50:03 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BGNiO32178003;
-        Wed, 16 Dec 2020 23:48:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=t+xg/WoW+Lcz45M9BqHGxWCcZtlzUk4JFO7sfQxB45g=;
- b=i3Cha5kpL4DqsDgi2QwPQYuwKIUzWCWeiMwhDMJ+XTV+OrC+uBBS6ahx/biDz5Cbpd8X
- VtgH2Fr97/lB0K/nSa0Zz8tLY8+OzFTOttvGOGYxPbOtePerjU8JcnedG+i3laEIDvkv
- AAwAqfksaCVOPjupTAHsa1tDfPwUccni/5APjrtEA/HTyzNz3tj7dDg/qeLweLkLB0fv
- CowUg8d0QqhLaAj9DR9kDaCyaaOJYaItGAv+N7GvP6cxu/fMcVjS4+dplCiuld9h07Zh
- Gx0mZMjB6kk+30GqyziKhr73J3eA7CgWH9NIhMSJ6vAdgED0cHQbmHLa1+QDyxPVcHH0 wA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 35cn9rjyrs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 16 Dec 2020 23:48:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BGNjMNf192968;
-        Wed, 16 Dec 2020 23:48:31 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 35d7eq67qx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 16 Dec 2020 23:48:31 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BGNmNnp013213;
-        Wed, 16 Dec 2020 23:48:24 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 16 Dec 2020 15:48:23 -0800
-Subject: Re: [PATCH v9 04/11] mm/hugetlb: Defer freeing of HugeTLB pages
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
-        song.bao.hua@hisilicon.com, david@redhat.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20201213154534.54826-1-songmuchun@bytedance.com>
- <20201213154534.54826-5-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <6b555fb8-6fd5-049a-49c1-4dc8a3f66766@oracle.com>
-Date:   Wed, 16 Dec 2020 15:48:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727754AbgLQAjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 16 Dec 2020 19:39:18 -0500
+Received: from mga03.intel.com ([134.134.136.65]:41740 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727126AbgLQAjS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 16 Dec 2020 19:39:18 -0500
+IronPort-SDR: XGMrxkwFhYQpZI6EHZkhVsJOQMmV0Sw2gq+cPR67QzZ8iYbJ3cdR5tRVSZ3N6yepNaMrVuAKMv
+ KYkv8gBXHyFg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="175266136"
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="175266136"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 16:38:36 -0800
+IronPort-SDR: NimDuO3JSSCaVpcE48OB6QWQniCI0fiXPNzekJI5l7NmE3AKdZihNJaKV633ov9z2pi3EL+dvK
+ tZn+LkRliH4A==
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="369434314"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 16:38:36 -0800
+Date:   Wed, 16 Dec 2020 16:38:36 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
+Message-ID: <20201217003835.GZ1563847@iweiny-DESK2.sc.intel.com>
+References: <20201106232908.364581-6-ira.weiny@intel.com>
+ <20201124060956.1405768-1-ira.weiny@intel.com>
+ <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
+ <20201216013202.GY1563847@iweiny-DESK2.sc.intel.com>
+ <CALCETrWoh5BYnU16adT7i6tsQ77PGaLN_qyZnCy-WfO3UJoykw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201213154534.54826-5-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9837 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 bulkscore=0
- suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012160147
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9837 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012160147
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrWoh5BYnU16adT7i6tsQ77PGaLN_qyZnCy-WfO3UJoykw@mail.gmail.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/13/20 7:45 AM, Muchun Song wrote:
-> In the subsequent patch, we will allocate the vmemmap pages when free
-> HugeTLB pages. But update_and_free_page() is called from a non-task
-> context(and hold hugetlb_lock), so we can defer the actual freeing in
-> a workqueue to prevent use GFP_ATOMIC to allocate the vmemmap pages.
+On Tue, Dec 15, 2020 at 06:09:02PM -0800, Andy Lutomirski wrote:
+> On Tue, Dec 15, 2020 at 5:32 PM Ira Weiny <ira.weiny@intel.com> wrote:
+> >
+> > On Fri, Dec 11, 2020 at 02:14:28PM -0800, Andy Lutomirski wrote:
+> > > On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
 > 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-
-It is unfortunate we need to add this complexitty, but I can not think
-of another way.  One small comment (no required change) below.
-
-Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
-
-> ---
->  mm/hugetlb.c         | 77 ++++++++++++++++++++++++++++++++++++++++++++++++----
->  mm/hugetlb_vmemmap.c | 12 --------
->  mm/hugetlb_vmemmap.h | 17 ++++++++++++
->  3 files changed, 88 insertions(+), 18 deletions(-)
+> > > IOW we have:
+> > >
+> > > struct extended_pt_regs {
+> > >   bool rcu_whatever;
+> > >   other generic fields here;
+> > >   struct arch_extended_pt_regs arch_regs;
+> > >   struct pt_regs regs;
+> > > };
+> > >
+> > > and arch_extended_pt_regs has unsigned long pks;
+> > >
+> > > and instead of passing a pointer to irqentry_state_t to the generic
+> > > entry/exit code, we just pass a pt_regs pointer.  And we have a little
+> > > accessor like:
+> > >
+> > > struct extended_pt_regs *extended_regs(struct pt_regs *) { return
+> > > container_of(...); }
+> > >
+> > > And we tell eBPF that extended_pt_regs is NOT ABI, and we will change
+> > > it whenever we feel like just to keep you on your toes, thank you very
+> > > much.
+> > >
+> > > Does this seem reasonable?
+> >
+> > Conceptually yes.  But I'm failing to see how this implementation can be made
+> > generic for the generic fields.  The pks fields, assuming they stay x86
+> > specific, would be reasonable to add in PUSH_AND_CLEAR_REGS.  But the
+> > rcu/lockdep field is generic.  Wouldn't we have to modify every architecture to
+> > add space for the rcu/lockdep bool?
+> >
+> > If not, where is a generic place that could be done?  Basically I'm missing how
+> > the effective stack structure can look like this:
+> >
+> > > struct extended_pt_regs {
+> > >   bool rcu_whatever;
+> > >   other generic fields here;
+> > >   struct arch_extended_pt_regs arch_regs;
+> > >   struct pt_regs regs;
+> > > };
+> >
+> > It seems more reasonable to make it look like:
+> >
+> > #ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
+> > struct extended_pt_regs {
+> >         unsigned long pkrs;
+> >         struct pt_regs regs;
+> > };
+> > #endif
+> >
+> > And leave the rcu/lockdep bool passed by value as before (still in C).
 > 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 140135fc8113..0ff9b90e524f 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1292,15 +1292,76 @@ static inline void destroy_compound_gigantic_page(struct page *page,
->  						unsigned int order) { }
->  #endif
->  
-> -static void update_and_free_page(struct hstate *h, struct page *page)
-> +static void __free_hugepage(struct hstate *h, struct page *page);
-> +
-> +/*
-> + * As update_and_free_page() is be called from a non-task context(and hold
-> + * hugetlb_lock), we can defer the actual freeing in a workqueue to prevent
-> + * use GFP_ATOMIC to allocate a lot of vmemmap pages.
-> + *
-> + * update_hpage_vmemmap_workfn() locklessly retrieves the linked list of
-> + * pages to be freed and frees them one-by-one. As the page->mapping pointer
-> + * is going to be cleared in update_hpage_vmemmap_workfn() anyway, it is
-> + * reused as the llist_node structure of a lockless linked list of huge
-> + * pages to be freed.
-> + */
-> +static LLIST_HEAD(hpage_update_freelist);
-> +
-> +static void update_hpage_vmemmap_workfn(struct work_struct *work)
->  {
-> -	int i;
-> +	struct llist_node *node;
-> +	struct page *page;
-> +
-> +	node = llist_del_all(&hpage_update_freelist);
->  
-> +	while (node) {
-> +		page = container_of((struct address_space **)node,
-> +				     struct page, mapping);
-> +		node = node->next;
-> +		page->mapping = NULL;
-> +		__free_hugepage(page_hstate(page), page);
-> +
-> +		cond_resched();
-> +	}
-> +}
-> +static DECLARE_WORK(hpage_update_work, update_hpage_vmemmap_workfn);
-> +
-> +static inline void __update_and_free_page(struct hstate *h, struct page *page)
-> +{
-> +	/* No need to allocate vmemmap pages */
-> +	if (!free_vmemmap_pages_per_hpage(h)) {
-> +		__free_hugepage(h, page);
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * Defer freeing to avoid using GFP_ATOMIC to allocate vmemmap
-> +	 * pages.
-> +	 *
-> +	 * Only call schedule_work() if hpage_update_freelist is previously
-> +	 * empty. Otherwise, schedule_work() had been called but the workfn
-> +	 * hasn't retrieved the list yet.
-> +	 */
-> +	if (llist_add((struct llist_node *)&page->mapping,
-> +		      &hpage_update_freelist))
-> +		schedule_work(&hpage_update_work);
-> +}
-> +
-> +static void update_and_free_page(struct hstate *h, struct page *page)
-> +{
->  	if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
->  		return;
->  
->  	h->nr_huge_pages--;
->  	h->nr_huge_pages_node[page_to_nid(page)]--;
-> +
-> +	__update_and_free_page(h, page);
-> +}
-> +
-> +static void __free_hugepage(struct hstate *h, struct page *page)
-> +{
-> +	int i;
-> +
+> We could certainly do this,
 
-Can we add a comment here saying that this is where the call to allocate
-vmemmmap pages will be inserted in a later patch.  Such a comment would
-help a bit to understand the restructuring of the code.
+I'm going to start with this basic support.  Because I have 0 experience in
+most of these architectures.
 
--- 
-Mike Kravetz
+> but we could also allocate some generic
+> space.  PUSH_AND_CLEAR_REGS would get an extra instruction like:
+> 
+> subq %rsp, $GENERIC_PTREGS_SIZE
+> 
+> or however this should be written.  That field would be defined in
+> asm-offsets.c.  And yes, all the generic-entry architectures would
+> need to get onboard.
 
->  	for (i = 0; i < pages_per_huge_page(h); i++) {
->  		page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
->  				1 << PG_referenced | 1 << PG_dirty |
-> @@ -1313,13 +1374,17 @@ static void update_and_free_page(struct hstate *h, struct page *page)
->  	set_page_refcounted(page);
->  	if (hstate_is_gigantic(h)) {
->  		/*
-> -		 * Temporarily drop the hugetlb_lock, because
-> -		 * we might block in free_gigantic_page().
-> +		 * Temporarily drop the hugetlb_lock only when this type of
-> +		 * HugeTLB page does not support vmemmap optimization (which
-> +		 * contex do not hold the hugetlb_lock), because we might block
-> +		 * in free_gigantic_page().
->  		 */
-> -		spin_unlock(&hugetlb_lock);
-> +		if (!free_vmemmap_pages_per_hpage(h))
-> +			spin_unlock(&hugetlb_lock);
->  		destroy_compound_gigantic_page(page, huge_page_order(h));
->  		free_gigantic_page(page, huge_page_order(h));
-> -		spin_lock(&hugetlb_lock);
-> +		if (!free_vmemmap_pages_per_hpage(h))
-> +			spin_lock(&hugetlb_lock);
->  	} else {
->  		__free_pages(page, huge_page_order(h));
->  	}
+What do you mean by 'generic-entry' architectures?  I thought they all used the
+generic entry code?
+
+Regardless I would need to start another thread on this topic with any of those
+architecture maintainers to see what the work load would be for this.  I don't
+think I can do it on my own.
+
+FWIW I think it is a bit unfair to hold up the PKS support in x86 for making
+these generic fields part of the stack frame.  So perhaps that could be made a
+follow on to the PKS series?
+
+> 
+> If we wanted to be fancy, we could split the generic area into
+> initialize-to-zero and uninitialized for debugging purposes, but that
+> might be more complication than is worthwhile.
+
+Ok, agreed, but this is step 3 or 4 at the earliest.
+
+Ira
