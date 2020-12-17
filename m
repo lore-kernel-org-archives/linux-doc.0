@@ -2,144 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A16C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 06:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B760BC2BB40
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 08:36:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C27923372
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 06:56:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71FE62388B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 08:36:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726719AbgLQG4I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 01:56:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51210 "EHLO
+        id S1726999AbgLQIgG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 03:36:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726547AbgLQG4H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 01:56:07 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67449C061248
-        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 22:55:20 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id i7so7983123pgc.8
-        for <linux-doc@vger.kernel.org>; Wed, 16 Dec 2020 22:55:20 -0800 (PST)
+        with ESMTP id S1726601AbgLQIgF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 03:36:05 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1E8C0617B0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 00:35:25 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id c12so18554596pfo.10
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 00:35:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BjnZ5s+jnI9mFnTZF3RJgIJMeukCqH/N1kppehfap7Y=;
-        b=MBNR7NLIdCYQa+qPbJyC+kEool/SY9YLMyPfGemmPyFOFNBylFATMYY0dvR/oo61E8
-         9f4eyvP+inKs/hugnGWwfwE2QtXdDrna2juwkKf1zZwI4ibcD9gU2BYyhkoPZFBL8Sxb
-         ShVzr0UPDrFT4vMttijcd+lYmuLDZVOmxMMrz8huf+mNHWh71wfNP0ZWJ1ZrdHZu3SqF
-         YjOWXNdI4hufbL5e6JVHlsvsg9qeOVlfA1zBc2blHIa/8dM6FI2YC0ZWkN0GEjWCwv7P
-         12OZZS+iGTuSm1EzDR4rrh/l2KsC1J9enE/z5SzJWscdldap/xklGjipk/IIbGLbFTk0
-         xG8g==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UD8UiYZqJIf2Kb/S80auNAb6silZRJyxZE/TFtnTm+A=;
+        b=tWxbf1ddK/nCiLVHjiT+LH4sjGyxYjLBASs/MS6lEDwMw+v+jqcQVQjocFVkVnq+oe
+         FxvthimPCcDfeWT/HMW5GLkxqb20ihPfuCipQ1amnIjrd8H/wfmABZPlc+RbkUUH0Ko6
+         ae7NO2R7hd8+y/qIY2MTPBV+m14MHLmF6BSTeQVJpyJ5JlmgNmBGzxK63kQjsUk/jEAA
+         7dUCa1XOB5hpkt4HPaVDx9/ae28lGVJV0Rgotjy/bB4SrfD5C+fIPghHigfNjhN01xtp
+         FTGUewRDErbxGAszaGlP2X/wrxKJkaJwtQAS/tk3TqXU+i9BrRnKdZr2/8h0D1QVFk+G
+         50aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=BjnZ5s+jnI9mFnTZF3RJgIJMeukCqH/N1kppehfap7Y=;
-        b=ALVlOmNrG/7B1s0fDfXTUD8XVDV8CmFelqyy4iWxF6EQtCDOITquIFOOZuzNfVW1DR
-         DCdaUadfN6QXgqNTairVTqkdf1neQC1ngV2i53haxFLvDI53wB68eSl9EqUlFtCEC2P5
-         sxDwYCKxysMX7jIF5Msui48u5Ngx4kis/Wr4+I3vRiECmrhX24J8EzuJD2AqA+Blh7YY
-         dWPbMJnqrTd9eEh4erv+pTChs/s6g+WQPshTElJcAL1k2SDlJRV/Ht8MyVXW0vE7ukwu
-         8N9d7xG0HjH0u1EkjCK0UKlunv9hY2hlsl2RRWQz8IhOWqiTgSqcNFhd4p1nTbtzAHsB
-         hgeA==
-X-Gm-Message-State: AOAM533K8Rh+PeiGOIM4zHUlI2JJQZD26/mg2ve0zQdYwSzca7wwJNDW
-        D9L8yhP2tFqYfnvhjFRTqoiNWQ==
-X-Google-Smtp-Source: ABdhPJwOkX04PZM/hDkMwFByq3zRzuq27yaN/Sp6sDe9qMIhnlWHKH2jlrq5wuwjc8F2fNQ6gRsdzQ==
-X-Received: by 2002:aa7:8506:0:b029:19e:95:f75f with SMTP id v6-20020aa785060000b029019e0095f75fmr35416013pfn.7.1608188119792;
-        Wed, 16 Dec 2020 22:55:19 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id l7sm3921765pjy.29.2020.12.16.22.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Dec 2020 22:55:19 -0800 (PST)
-Date:   Wed, 16 Dec 2020 22:55:19 -0800 (PST)
-X-Google-Original-Date: Wed, 16 Dec 2020 22:55:17 PST (-0800)
-Subject:     Re: [dm-devel] [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to userspace
-In-Reply-To: <CAGF4SLgDvS7VOih4XZ+sqx6jVK3wBQZan+uZMVsdYdVEPZdrpw@mail.gmail.com>
-CC:     josef@toxicpanda.com, bvanassche@acm.org,
-        Christoph Hellwig <hch@infradead.org>, snitzer@redhat.com,
-        corbet@lwn.net, kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        song@kernel.org, dm-devel@redhat.com,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org, agk@redhat.com,
-        michael.christie@oracle.com
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     v.mayatskih@gmail.com
-Message-ID: <mhng-7da80016-a7d7-4232-999d-6fea3196118d@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UD8UiYZqJIf2Kb/S80auNAb6silZRJyxZE/TFtnTm+A=;
+        b=VSy5AgkND2n7v2zXtTxw7ni3PFJHFNOZDZoqnBFoWGcy22joXi5KWjtVhHHJiIlB2L
+         hZatyM159zuRJGaHLXprXHp3s50euprnrBMCe/ud/eNH825LEZkniBByY0qejCte9FPJ
+         Bp/LZUyqEDnY6FjXMZkZwmh56H2NijFSG+ieqhg2ixaOgNjr8tjmKwRISJYau0VTPAsA
+         H47wvmKCj3nXOiPieS44JikJCsCFBQhkBUEHcDuYLHestOWNHDVWnXpe784rIVMo9qOX
+         62m9oTwrEH2L0SP+yTeuOrX49YHNRyZkPxxHLrIRj+/JLrsJL1CkJ56yJaxceGsCEv8C
+         cSpQ==
+X-Gm-Message-State: AOAM533J3QA3Orok7CrMVn6GfyF3ubTDaVzoKUUuy9OdLVd6kiRlbrsA
+        7MMgZiX1x/SofzhIGpiOxD3l4k9HYT1km3goDXGMbA==
+X-Google-Smtp-Source: ABdhPJythkfZxHytXhliHdLNrWqdzMo5Hdh1huYzcFpYuttP2PnH1eM1A0sAeWedX40e4XiWjTLCpwgmi44v+L95D3Q=
+X-Received: by 2002:a63:1f21:: with SMTP id f33mr13398642pgf.31.1608194125214;
+ Thu, 17 Dec 2020 00:35:25 -0800 (PST)
+MIME-Version: 1.0
+References: <20201213154534.54826-1-songmuchun@bytedance.com>
+ <20201213154534.54826-10-songmuchun@bytedance.com> <20201216134354.GD29394@linux>
+In-Reply-To: <20201216134354.GD29394@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 17 Dec 2020 16:34:48 +0800
+Message-ID: <CAMZfGtVc8Lp+pCEw1aoEf6_yTys4GQMEqNHdgFetGyWr6V01LA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v9 09/11] mm/hugetlb: Introduce
+ nr_free_vmemmap_pages in the struct hstate
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 16 Dec 2020 10:24:59 PST (-0800), v.mayatskih@gmail.com wrote:
-> On Mon, Dec 14, 2020 at 10:03 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+On Wed, Dec 16, 2020 at 9:44 PM Oscar Salvador <osalvador@suse.de> wrote:
 >
->> I was really experting someone to say that.  It does seem kind of silly to build
->> out the new interface, but not go all the way to a ring buffer.  We just didn't
->> really have any way to justify the extra complexity as our use cases aren't
->> that high performance.   I kind of like to have benchmarks for this sort of
->> thing, though, and I didn't have anyone who had bothered avoiding the last copy
->> to compare against.
+> On Sun, Dec 13, 2020 at 11:45:32PM +0800, Muchun Song wrote:
+> > All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
+> > field in the hstate to indicate how many vmemmap pages associated with
+> > a HugeTLB page that we can free to buddy allocator. And initialize it
+> "can be freed to buddy allocator"
 >
-> I worked on something very similar, though performance was one of the
-> goals. The implementation was floating around lockless ring buffers,
-> shared memory for zerocopy, multiqueue and error handling. It could be
-> that every disk storage vendor has to implement something like that in
-> order to bridge Linux kernel to their own proprietary datapath running
-> in userspace.
+> > in the hugetlb_vmemmap_init(). This patch is actual enablement of the
+> > feature.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+>
+> With below nits addressed you can add:
+>
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+>
+> >  static int __init early_hugetlb_free_vmemmap_param(char *buf)
+> >  {
+> > +     /* We cannot optimize if a "struct page" crosses page boundaries. */
+> > +     if (!is_power_of_2(sizeof(struct page)))
+> > +             return 0;
+> > +
+>
+> I wonder if we should report a warning in case someone wants to enable this
+> feature and stuct page size it not power of 2.
+> In case someone wonders why it does not work for him/her.
 
-OK, good to know.  That's kind of the feeling I'd gotten from having chatted to
-a handful of people about this, but I don't remember people having actually
-gotten all the way to zero-copy.  That's how we managed to end up at this
-middle-ground ABI style: when I thought people were, in practice, punting on
-zero copy because the complexity just wasn't worth the performance benefit.
-Maybe I'd just been colored by how my projects ended up going, but I've ended
-up designing complicated interfaces in the past that allow for zero-copy only
-to never get around to actually making that work.  I don't know if that's just
-because I've had the good fortune to avoid working on anything that ended up
-with users, though :).
+Agree. I think that we should add a warning message here.
 
-For our use case I think we actually get better performance out of the
-copy-based (and probably more importantly kalloc-based, but that's an
-implementation thing not an ABI thing) approach: essentially we're very
-sensitive to memory pressure and expect this first dm-user daemon to mostly be
-idle, so we're really worried about avoiding excess memory usage while idle and
-less worried about throughput when active.  This stream-based interface means
-that userspace doesn't need much memory allocated to service a request, which
-helps with sleep/wake latencies and/or idle memory usage.  That's also why we
-have the simple locking scheme: no sense splitting locks if there's no
-contention, and we only need a single thread to saturate the storage bandwidth
-on these phones.
+>
+> > +void __init hugetlb_vmemmap_init(struct hstate *h)
+> > +{
+> > +     unsigned int nr_pages = pages_per_huge_page(h);
+> > +     unsigned int vmemmap_pages;
+> > +
+> > +     if (!hugetlb_free_vmemmap_enabled)
+> > +             return;
+> > +
+> > +     vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
+> > +     /*
+> > +      * The head page and the first tail page are not to be freed to buddy
+> > +      * system, the others page will map to the first tail page. So there
+> > +      * are the remaining pages that can be freed.
+> "the other pages will map to the first tail page, so they can be freed."
+> > +      *
+> > +      * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
+> > +      * on some architectures (e.g. aarch64). See Documentation/arm64/
+> > +      * hugetlbpage.rst for more details.
+> > +      */
+> > +     if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
+> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
+> > +
+> > +     pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
+> > +             h->name);
+>
+> Maybe specify this is hugetlb code:
+>
+> pr_info("%s: blabla", __func__, ...)
+> or
+> pr_info("hugetlb: blalala", ...);
+>
+> although I am not sure whether we need that at all, or maybe just use
+> pr_debug().
+>
+> --
+> Oscar Salvador
+> SUSE L3
 
-That said, it does sound like people really do care about the sort of
-performance levels where zero copy is relevant in this space.  I'll take a shot
-at something along those lines, and while it will add a degree of userspace
-complexity I'm not sure it'll add much in the way of kernel complexity -- at
-least compared to a fast version of this, where we'd need most of that stuff
-anyway (obviously the malloc+single lock design is simple, but probably
-wouldn't stick around for long).  At a bare minimum it'll be interesting to
-play around with, but if people are doing it in practice then I'm more
-confident that I can put something together that at least serves as a starting
-point for further discussion.
 
-I haven't gotten around to writing any code yet, but I had spent a bit of time
-thinking about how to put this zero-copy version together and am leaning
-towards it being a standalone block device (as opposed to a DM target).  I'd
-avoided that before as I didn't want to mess around with my own device control
-scheme so I'll still try to do the DM thing, but I'm not sure it'll be viable.
-That's all speculation now, but it does bring up one interesting question:
 
-IIUC, this version of dm-user handles BIOs before they reach the block
-scheduler while a standalone driver would likely handle them after blk-mq.  I
-don't have direct experience with this, but the last time I ran into people who
-had these sorts of performance requirements for userspace drivers they weren't
-actually trying to write userspace drivers but were instead trying to write a
-userspace scheduler, with the userspace drivers just being the mechanism to
-implement that scheduler.  This was a decade ago and I'm not sure that's what
-people are trying to do in the new blk-mq world, but if it is then it's going
-to be a major design consideration.  I'm also not entirely sure that we're
-really solving the same problem at that point.
+-- 
+Yours,
+Muchun
