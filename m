@@ -2,165 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69719C2BB9A
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C7AC4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:01:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EB5323975
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 14:51:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF6BB235F9
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:01:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727656AbgLQOvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 09:51:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726291AbgLQOvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 09:51:42 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C01C0611C5;
-        Thu, 17 Dec 2020 06:50:57 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1608216656;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VA4CgUr+mddzE5W5XW9xxSKHdRVWkhVu9Ou7VaYBRBs=;
-        b=x8YQjbsn8YubrCEDl0qhTSqp7psA5Cd6Hcsqd6nPGmOKkR4V3QV6au+wuNiZ7qXnSqXxrh
-        pHl+HVLKuH/NQrLPX+SBnCxVKjKz4KY9NGvsbLDIguCeKiwS0WVyMaaieLw2qaowM92I+v
-        AOu83+LgNoQtBcOH4v4HANgrFaxI66gNG0k0wizSwWzdOkg1aXgLEoo8LJ5Abil4dSH97g
-        LlvLd6o+i/ALJXAtSNNYH+yIhVe2vxmfXVuuIlY1jBObQ37+MdgawY4Cp01Gj58Mt9CyAy
-        JklATQ+uU8bAY28yrrUKjmnYeC6hjxb0UQqdPzcYoYDMWKALZ6gJQN1y4PCu6A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1608216656;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VA4CgUr+mddzE5W5XW9xxSKHdRVWkhVu9Ou7VaYBRBs=;
-        b=zuop8u3nFEivs4Yrh4v+upsEEA6+NJTeUPgODNyRqWXHhC8ikax+nyK5d9aFM+tUmTqDLA
-        kfxhlxbeOeHvM0Bw==
-To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3 04/10] x86/pks: Preserve the PKRS MSR on context switch
-In-Reply-To: <20201106232908.364581-5-ira.weiny@intel.com>
-References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-5-ira.weiny@intel.com>
-Date:   Thu, 17 Dec 2020 15:50:55 +0100
-Message-ID: <871rfoscz4.fsf@nanos.tec.linutronix.de>
+        id S1728575AbgLQPAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 10:00:45 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48430 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728529AbgLQPAo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 17 Dec 2020 10:00:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 99214AD29;
+        Thu, 17 Dec 2020 15:00:02 +0000 (UTC)
+Date:   Thu, 17 Dec 2020 15:59:58 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v10 00/11] Free some vmemmap pages of HugeTLB page
+Message-ID: <20201217145953.GA13874@linux>
+References: <20201217121303.13386-1-songmuchun@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201217121303.13386-1-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
-> --- a/arch/x86/kernel/process.c
-> +++ b/arch/x86/kernel/process.c
-> @@ -43,6 +43,7 @@
->  #include <asm/io_bitmap.h>
->  #include <asm/proto.h>
->  #include <asm/frame.h>
-> +#include <asm/pkeys_common.h>
->  
->  #include "process.h"
->  
-> @@ -187,6 +188,27 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
->  	return ret;
->  }
->  
-> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
-> +DECLARE_PER_CPU(u32, pkrs_cache);
-> +static inline void pks_init_task(struct task_struct *tsk)
+On Thu, Dec 17, 2020 at 08:12:52PM +0800, Muchun Song wrote:
+> In this case, for the 1GB HugeTLB page, we can save 4088 pages(There are
+> 4096 pages for struct page structs, we reserve 2 pages for vmemmap and 8
+> pages for page tables. So we can save 4088 pages). This is a very substantial
+> gain. On our server, run some SPDK/QEMU applications which will use 1024GB
+> hugetlbpage. With this feature enabled, we can save ~16GB(1G hugepage)/~11GB
+> (2MB hugepage, the worst case is 10GB while the best is 12GB) memory.
 
-First of all. I asked several times now not to glue stuff onto a
-function without a newline inbetween. It's unreadable.
+Is the above really true?
+We no longer need to allocate pagetables, so the savings go up to 4094, right?
 
-But what's worse is that the declaration of pkrs_cache which is global
-is in a C file and not in a header. And pkrs_cache is not even used in
-this file. So what?
+I will be off for a few days but I expect to get back to this and review the
+missing bits when I am back.
 
-> +{
-> +	/* New tasks get the most restrictive PKRS value */
-> +	tsk->thread.saved_pkrs = INIT_PKRS_VALUE;
-> +}
-> +static inline void pks_sched_in(void)
-
-Newline between functions. It's fine for stubs, but not for a real implementation.
-
-> diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
-> index d1dfe743e79f..76a62419c446 100644
-> --- a/arch/x86/mm/pkeys.c
-> +++ b/arch/x86/mm/pkeys.c
-> @@ -231,3 +231,34 @@ u32 update_pkey_val(u32 pk_reg, int pkey, unsigned int flags)
->  
->  	return pk_reg;
->  }
-> +
-> +DEFINE_PER_CPU(u32, pkrs_cache);
-
-Again, why is this global?
-
-> +void write_pkrs(u32 new_pkrs)
-> +{
-> +	u32 *pkrs;
-> +
-> +	if (!static_cpu_has(X86_FEATURE_PKS))
-> +		return;
-> +
-> +	pkrs = get_cpu_ptr(&pkrs_cache);
-
-So this is called from various places including schedule and also from
-the low level entry/exit code. Why do we need to have an extra
-preempt_disable/enable() there via get/put_cpu_ptr()?
-
-Just because performance in those code paths does not matter?
-
-> +	if (*pkrs != new_pkrs) {
-> +		*pkrs = new_pkrs;
-> +		wrmsrl(MSR_IA32_PKRS, new_pkrs);
-> +	}
-> +	put_cpu_ptr(pkrs);
-
-Now back to the context switch:
-
-> @@ -644,6 +668,8 @@ void __switch_to_xtra(struct task_struct *prev_p, struct task_struct *next_p)
->
->	 if ((tifp ^ tifn) & _TIF_SLD)
->		 switch_to_sld(tifn);
-> +
-> +	pks_sched_in();
->  }
-
-How is this supposed to work? 
-
-switch_to() {
-   ....
-   switch_to_extra() {
-      ....
-      if (unlikely(next_tif & _TIF_WORK_CTXSW_NEXT ||
-	           prev_tif & _TIF_WORK_CTXSW_PREV))
-	   __switch_to_xtra(prev, next);
-
-I.e. __switch_to_xtra() is only invoked when the above condition is
-true, which is not guaranteed at all.
-
-While I have to admit that I dropped the ball on the update for the
-entry patch, I'm not too sorry about it anymore when looking at this.
-
-Are you still sure that this is ready for merging?
-
-Thanks,
-
-        tglx
+-- 
+Oscar Salvador
+SUSE L3
