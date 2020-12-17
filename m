@@ -2,186 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E0BC4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:11:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B53E1C2BBCA
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:29:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8743E2396F
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8400523998
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 15:29:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727806AbgLQPLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 10:11:09 -0500
-Received: from gofer.mess.org ([88.97.38.141]:35709 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726569AbgLQPLI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 17 Dec 2020 10:11:08 -0500
-X-Greylist: delayed 564 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Dec 2020 10:11:08 EST
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 968C011A001; Thu, 17 Dec 2020 15:01:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1608217262; bh=qwTTyCxEAzSEaQKYD8zY8b7vlNqO68xHkST3ZUNBE9c=;
-        h=Date:From:To:Subject:From;
-        b=jYx1M5oMnTMP+35GOb1o3Vm/8kqyX54IA0hlOhXJybCELL3Dt1aFR18GmFSkdyU/S
-         48TtKiiEAuvlwmtRgoImptBfvsdDOwbUpsEOTfJBoGYeIEofo+W3rFlvcMox8I6Zie
-         lwsaJMvKpoeKZDt9sFkFrgfUSQDFetWptc6lKpJtz87E3UldLlOE4xBdlsBsjl5J/5
-         hhTvZXr378YMfaI3VTI0N9egxGMKQVbKAdlIz9O/7aw8IEO9ITV8gp0CmhfeTYnchM
-         Ri6XMh/DxT4FXU1ipaXHbhqf2FpR9ctRPu1lAUpnZ8qoK7zsen0G6zDu8nYPNHaZxp
-         Fo6IaVjcpOOwA==
-Date:   Thu, 17 Dec 2020 15:01:02 +0000
-From:   Sean Young <sean@mess.org>
-To:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Quentin Monnet <quentin@isovalent.com>,
-        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH] btf: support ints larger than 128 bits
-Message-ID: <20201217150102.GA13532@gofer.mess.org>
+        id S1729041AbgLQP3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 10:29:35 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:46956 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbgLQP3d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 10:29:33 -0500
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1608218931;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EIcpuCdPdjtUIDDq5V1Kd6Nd1DvDsLvtJ/iV0ZcMRgA=;
+        b=3/uIVXk04WU6Kuue5KdK/PZzRT3PQRQci3lkMWxtnm0m12Qkt5QmdLW1qQQiqnAFp2hZp5
+        QzFq2fC1v1lLeWxspvs7ZktqDZYepiYqq++tBMgUhzKOe2wtg66cawjCw02bRBA1+2Djdc
+        4KqVMkPy5/ypITooF8IgTBcIQjsKSpTImchFsyfvoJm7nqCiKy3U5DR28Hag30uG9YGgov
+        RUvtLmBoVLaNPRF+SFiF/2wkaVq1oYPqBJmTNbWB4E7TQFmDGdSdnkPdaiSRXTI2qchLhb
+        YTBG4YlbqP+sIR9BHSNaYY0o6m7NSpXCZrdp1Gbc1GfXIGh0T78z8Dt66x3VyQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1608218931;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EIcpuCdPdjtUIDDq5V1Kd6Nd1DvDsLvtJ/iV0ZcMRgA=;
+        b=9yQmqCVKnv9+iECxfpPNtEbdep6NKjLzINPHlJVMXIR0uStpoRGsed4or02lEAiC+4QayK
+        TZlxdiWrObB1IHAQ==
+To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-doc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-mm@kvack.org,
+        linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3 06/10] x86/entry: Preserve PKRS MSR across exceptions
+In-Reply-To: <20201106232908.364581-7-ira.weiny@intel.com>
+References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-7-ira.weiny@intel.com>
+Date:   Thu, 17 Dec 2020 16:28:51 +0100
+Message-ID: <87y2hwqwng.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-clang supports arbitrary length ints using the _ExtInt extension. This
-can be useful to hold very large values, e.g. 256 bit or 512 bit types.
+On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
+> +#ifdef CONFIG_ARCH_HAS_SUPERVISOR_PKEYS
+> +/*
+> + * PKRS is a per-logical-processor MSR which overlays additional protection for
+> + * pages which have been mapped with a protection key.
+> + *
+> + * The register is not maintained with XSAVE so we have to maintain the MSR
+> + * value in software during context switch and exception handling.
+> + *
+> + * Context switches save the MSR in the task struct thus taking that value to
+> + * other processors if necessary.
+> + *
+> + * To protect against exceptions having access to this memory we save the
+> + * current running value and set the PKRS value for the duration of the
+> + * exception.  Thus preventing exception handlers from having the elevated
+> + * access of the interrupted task.
+> + */
+> +noinstr void irq_save_set_pkrs(irqentry_state_t *irq_state, u32 val)
+> +{
+> +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
+> +		return;
+> +
+> +	irq_state->thread_pkrs = current->thread.saved_pkrs;
+> +	write_pkrs(INIT_PKRS_VALUE);
 
-Larger types (e.g. 1024 bits) are possible but I am unaware of a use
-case for these.
+Why is this noinstr? Just because it's called from a noinstr function?
 
-This requires the _ExtInt extension to enabled for BPF in clang, which
-is under review.
+Of course the function itself violates the noinstr constraints:
 
-Link: https://clang.llvm.org/docs/LanguageExtensions.html#extended-integer-types
-Link: https://reviews.llvm.org/D93103
+  vmlinux.o: warning: objtool: write_pkrs()+0x36: call to do_trace_write_msr() leaves .noinstr.text section
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- Documentation/bpf/btf.rst      |  4 ++--
- include/uapi/linux/btf.h       |  2 +-
- tools/bpf/bpftool/btf_dumper.c | 39 ++++++++++++++++++++++++++++++++++
- tools/include/uapi/linux/btf.h |  2 +-
- 4 files changed, 43 insertions(+), 4 deletions(-)
+There is absolutely no reason to have this marked noinstr.
 
-diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-index 44dc789de2b4..784f1743dbc7 100644
---- a/Documentation/bpf/btf.rst
-+++ b/Documentation/bpf/btf.rst
-@@ -132,7 +132,7 @@ The following sections detail encoding of each kind.
- 
-   #define BTF_INT_ENCODING(VAL)   (((VAL) & 0x0f000000) >> 24)
-   #define BTF_INT_OFFSET(VAL)     (((VAL) & 0x00ff0000) >> 16)
--  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000000ff)
-+  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000003ff)
- 
- The ``BTF_INT_ENCODING`` has the following attributes::
- 
-@@ -147,7 +147,7 @@ pretty print. At most one encoding can be specified for the int type.
- The ``BTF_INT_BITS()`` specifies the number of actual bits held by this int
- type. For example, a 4-bit bitfield encodes ``BTF_INT_BITS()`` equals to 4.
- The ``btf_type.size * 8`` must be equal to or greater than ``BTF_INT_BITS()``
--for the type. The maximum value of ``BTF_INT_BITS()`` is 128.
-+for the type. The maximum value of ``BTF_INT_BITS()`` is 512.
- 
- The ``BTF_INT_OFFSET()`` specifies the starting bit offset to calculate values
- for this int. For example, a bitfield struct member has:
-diff --git a/include/uapi/linux/btf.h b/include/uapi/linux/btf.h
-index 5a667107ad2c..1696fd02b302 100644
---- a/include/uapi/linux/btf.h
-+++ b/include/uapi/linux/btf.h
-@@ -84,7 +84,7 @@ struct btf_type {
-  */
- #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
- #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
--#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
-+#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
- 
- /* Attributes stored in the BTF_INT_ENCODING */
- #define BTF_INT_SIGNED	(1 << 0)
-diff --git a/tools/bpf/bpftool/btf_dumper.c b/tools/bpf/bpftool/btf_dumper.c
-index 0e9310727281..45ed45ea9962 100644
---- a/tools/bpf/bpftool/btf_dumper.c
-+++ b/tools/bpf/bpftool/btf_dumper.c
-@@ -271,6 +271,40 @@ static void btf_int128_print(json_writer_t *jw, const void *data,
- 	}
- }
- 
-+static void btf_bigint_print(json_writer_t *jw, const void *data, int nr_bits,
-+			     bool is_plain_text)
-+{
-+	char buf[nr_bits / 4 + 1];
-+	bool first = true;
-+	int i;
-+
-+#ifdef __BIG_ENDIAN_BITFIELD
-+	for (i = 0; i < nr_bits / 64; i++) {
-+#else
-+	for (i = nr_bits / 64 - 1; i >= 0; i++) {
-+#endif
-+		__u64 v = ((__u64 *)data)[i];
-+
-+		if (first) {
-+			if (!v)
-+				continue;
-+
-+			snprintf(buf, sizeof(buf), "%llx", v);
-+
-+			first = false;
-+		} else {
-+			size_t off = strlen(buf);
-+
-+			snprintf(buf + off, sizeof(buf) - off, "%016llx", v);
-+		}
-+	}
-+
-+	if (is_plain_text)
-+		jsonw_printf(jw, "0x%s", buf);
-+	else
-+		jsonw_printf(jw, "\"0x%s\"", buf);
-+}
-+
- static void btf_int128_shift(__u64 *print_num, __u16 left_shift_bits,
- 			     __u16 right_shift_bits)
- {
-@@ -373,6 +407,11 @@ static int btf_dumper_int(const struct btf_type *t, __u8 bit_offset,
- 		return 0;
- 	}
- 
-+	if (nr_bits > 128) {
-+		btf_bigint_print(jw, data, nr_bits, is_plain_text);
-+		return 0;
-+	}
-+
- 	if (nr_bits == 128) {
- 		btf_int128_print(jw, data, is_plain_text);
- 		return 0;
-diff --git a/tools/include/uapi/linux/btf.h b/tools/include/uapi/linux/btf.h
-index 5a667107ad2c..1696fd02b302 100644
---- a/tools/include/uapi/linux/btf.h
-+++ b/tools/include/uapi/linux/btf.h
-@@ -84,7 +84,7 @@ struct btf_type {
-  */
- #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
- #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
--#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
-+#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
- 
- /* Attributes stored in the BTF_INT_ENCODING */
- #define BTF_INT_SIGNED	(1 << 0)
--- 
-2.29.2
+Thanks,
 
+        tglx
