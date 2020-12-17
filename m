@@ -2,67 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B760BC2BB40
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 08:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF89C2BB48
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 09:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71FE62388B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 08:36:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7875C23437
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 09:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726999AbgLQIgG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 03:36:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
+        id S1725988AbgLQJGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 04:06:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726601AbgLQIgF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 03:36:05 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC1E8C0617B0
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 00:35:25 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id c12so18554596pfo.10
-        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 00:35:25 -0800 (PST)
+        with ESMTP id S1726601AbgLQJGY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 04:06:24 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2626FC0617B0
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 01:05:44 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id hk16so3749509pjb.4
+        for <linux-doc@vger.kernel.org>; Thu, 17 Dec 2020 01:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UD8UiYZqJIf2Kb/S80auNAb6silZRJyxZE/TFtnTm+A=;
-        b=tWxbf1ddK/nCiLVHjiT+LH4sjGyxYjLBASs/MS6lEDwMw+v+jqcQVQjocFVkVnq+oe
-         FxvthimPCcDfeWT/HMW5GLkxqb20ihPfuCipQ1amnIjrd8H/wfmABZPlc+RbkUUH0Ko6
-         ae7NO2R7hd8+y/qIY2MTPBV+m14MHLmF6BSTeQVJpyJ5JlmgNmBGzxK63kQjsUk/jEAA
-         7dUCa1XOB5hpkt4HPaVDx9/ae28lGVJV0Rgotjy/bB4SrfD5C+fIPghHigfNjhN01xtp
-         FTGUewRDErbxGAszaGlP2X/wrxKJkaJwtQAS/tk3TqXU+i9BrRnKdZr2/8h0D1QVFk+G
-         50aQ==
+        bh=Jju/bhtr378BZhL5XC8hlXJ5twNsYnX10+jclSTpAtw=;
+        b=oyT19CCeCTvnLuZsgySvYPjdrvjtXQFVUeDBvJPphOXxl/MBFsaAONbs7EtEB9CB16
+         Z33x5yEq+NVJZyrcFATL9oI8Lom7xeH8H7nWshGuzMO2DfrQXY/ZWSUv25tcCpoYmUWe
+         ZkVeWr5GoxZlMbYI9gRf3oa7luwcmgIo27ljLWVTCs5MDwZfHxpMnDUNGT/+SWzbQ4xw
+         pv7FZal9SXndCn9cAd8vDh4MZXHBPCpYMQKqvakbue1/f7ux2VwzBHjilo3x2BfVxIvI
+         ks3ZW9TKrwk15fo6SLYheJGUS6QGy0019nm1laQvtbRpmEKZE2V15ZEcolLQc23reoZu
+         J8Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UD8UiYZqJIf2Kb/S80auNAb6silZRJyxZE/TFtnTm+A=;
-        b=VSy5AgkND2n7v2zXtTxw7ni3PFJHFNOZDZoqnBFoWGcy22joXi5KWjtVhHHJiIlB2L
-         hZatyM159zuRJGaHLXprXHp3s50euprnrBMCe/ud/eNH825LEZkniBByY0qejCte9FPJ
-         Bp/LZUyqEDnY6FjXMZkZwmh56H2NijFSG+ieqhg2ixaOgNjr8tjmKwRISJYau0VTPAsA
-         H47wvmKCj3nXOiPieS44JikJCsCFBQhkBUEHcDuYLHestOWNHDVWnXpe784rIVMo9qOX
-         62m9oTwrEH2L0SP+yTeuOrX49YHNRyZkPxxHLrIRj+/JLrsJL1CkJ56yJaxceGsCEv8C
-         cSpQ==
-X-Gm-Message-State: AOAM533J3QA3Orok7CrMVn6GfyF3ubTDaVzoKUUuy9OdLVd6kiRlbrsA
-        7MMgZiX1x/SofzhIGpiOxD3l4k9HYT1km3goDXGMbA==
-X-Google-Smtp-Source: ABdhPJythkfZxHytXhliHdLNrWqdzMo5Hdh1huYzcFpYuttP2PnH1eM1A0sAeWedX40e4XiWjTLCpwgmi44v+L95D3Q=
-X-Received: by 2002:a63:1f21:: with SMTP id f33mr13398642pgf.31.1608194125214;
- Thu, 17 Dec 2020 00:35:25 -0800 (PST)
+        bh=Jju/bhtr378BZhL5XC8hlXJ5twNsYnX10+jclSTpAtw=;
+        b=aS1z71ab0bcc5IjT/u/db520umMrnxW2S+KbYbQ7uRgMyL+bIE4dcY9vToOOlaWaCv
+         MtuGDBFwLYNIU8d02+qvtYDRl+FAh2LEvElpB00R3mvhZ/jiFnF+d6CKD3iprb3togHX
+         VIksV8CuAbswGtsNCmT734+MlIRQ8aKmYhVjfggR2ZolyZXQzkCv70NUyQInM5wA/Jfd
+         v/cYF0LsF2h8z2MZZrX+hAO2G7UIeizEtPM7ABBe17V6Q0A5BEC5e3oRZx9H08LXFZdC
+         e5FJq6/Rf2WQw8ifdhJJEYNd/4nZ4r331XWsR998hGsbF2AhKxX4FmVXqC/r58CJ7i6c
+         rzZA==
+X-Gm-Message-State: AOAM531hj+E78FnY6kryMQ8ziLmICEmD8r4FfIoHssyX24eLi+PBAeZT
+        MdwJzmR1jfgPOSiY0+rLJ6G7KrbuQ7bT8HD0ZzudBg==
+X-Google-Smtp-Source: ABdhPJxDpXsIbZNc4x3sr9DJrY0ZC9PGO9w3Eabe2wNgO5QhVcnZ9m9fZAKWqgGcx69r2FmoF930NeWGyZWQQdyJwZ4=
+X-Received: by 2002:a17:90a:c588:: with SMTP id l8mr7047657pjt.147.1608195943608;
+ Thu, 17 Dec 2020 01:05:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20201213154534.54826-1-songmuchun@bytedance.com>
- <20201213154534.54826-10-songmuchun@bytedance.com> <20201216134354.GD29394@linux>
-In-Reply-To: <20201216134354.GD29394@linux>
+ <20201213154534.54826-4-songmuchun@bytedance.com> <5936a766-505a-eab0-42a6-59aab2585880@oracle.com>
+ <20201216222549.GC3207@localhost.localdomain> <49f6a0f1-c6fa-4642-2db0-69f090e8a392@oracle.com>
+ <CAMZfGtXwU7LcTZw7iKFNksVTYx8Bhd=9Nct+zfNy_ibuFiF6ew@mail.gmail.com>
+In-Reply-To: <CAMZfGtXwU7LcTZw7iKFNksVTYx8Bhd=9Nct+zfNy_ibuFiF6ew@mail.gmail.com>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 17 Dec 2020 16:34:48 +0800
-Message-ID: <CAMZfGtVc8Lp+pCEw1aoEf6_yTys4GQMEqNHdgFetGyWr6V01LA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v9 09/11] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Oscar Salvador <osalvador@suse.de>
+Date:   Thu, 17 Dec 2020 17:05:07 +0800
+Message-ID: <CAMZfGtU4QRXp_ufJX_XZzbANbhLO1sdGvDEe+ugTg7WfVc-VYA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v9 03/11] mm/hugetlb: Free the vmemmap
+ pages associated with each HugeTLB page
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Oscar Salvador <osalvador@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
         bp@alien8.de, x86@kernel.org, hpa@zytor.com,
         dave.hansen@linux.intel.com, luto@kernel.org,
@@ -86,75 +87,97 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 9:44 PM Oscar Salvador <osalvador@suse.de> wrote:
+On Thu, Dec 17, 2020 at 2:54 PM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> On Sun, Dec 13, 2020 at 11:45:32PM +0800, Muchun Song wrote:
-> > All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
-> > field in the hstate to indicate how many vmemmap pages associated with
-> > a HugeTLB page that we can free to buddy allocator. And initialize it
-> "can be freed to buddy allocator"
->
-> > in the hugetlb_vmemmap_init(). This patch is actual enablement of the
-> > feature.
+> On Thu, Dec 17, 2020 at 6:52 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
 > >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+> > On 12/16/20 2:25 PM, Oscar Salvador wrote:
+> > > On Wed, Dec 16, 2020 at 02:08:30PM -0800, Mike Kravetz wrote:
+> > >>> + * vmemmap_rmap_walk - walk vmemmap page table
+> > >>> +
+> > >>> +static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
+> > >>> +                         unsigned long end, struct vmemmap_rmap_walk *walk)
+> > >>> +{
+> > >>> +   pte_t *pte;
+> > >>> +
+> > >>> +   pte = pte_offset_kernel(pmd, addr);
+> > >>> +   do {
+> > >>> +           BUG_ON(pte_none(*pte));
+> > >>> +
+> > >>> +           if (!walk->reuse)
+> > >>> +                   walk->reuse = pte_page(pte[VMEMMAP_TAIL_PAGE_REUSE]);
+> > >>
+> > >> It may be just me, but I don't like the pte[-1] here.  It certainly does work
+> > >> as designed because we want to remap all pages in the range to the page before
+> > >> the range (at offset -1).  But, we do not really validate this 'reuse' page.
+> > >> There is the BUG_ON(pte_none(*pte)) as a sanity check, but we do nothing similar
+> > >> for pte[-1].  Based on the usage for HugeTLB pages, we can be confident that
+> > >> pte[-1] is actually a pte.  In discussions with Oscar, you mentioned another
+> > >> possible use for these routines.
+> > >
+> > > Without giving it much of a thought, I guess we could duplicate the
+> > > BUG_ON for the pte outside the loop, and add a new one for pte[-1].
+> > > Also, since walk->reuse seems to not change once it is set, we can take
+> > > it outside the loop? e.g:
+> > >
+> > >       pte *pte;
+> > >
+> > >       pte = pte_offset_kernel(pmd, addr);
+> > >       BUG_ON(pte_none(*pte));
+> > >       BUG_ON(pte_none(pte[VMEMMAP_TAIL_PAGE_REUSE]));
+> > >       walk->reuse = pte_page(pte[VMEMMAP_TAIL_PAGE_REUSE]);
+> > >       do {
+> > >               ....
+> > >       } while...
+> > >
+> > > Or I am not sure whether we want to keep it inside the loop in case
+> > > future cases change walk->reuse during the operation.
+> > > But to be honest, I do not think it is realistic of all future possible
+> > > uses of this, so I would rather keep it simple for now.
+> >
+> > I was thinking about possibly passing the 'reuse' address as another parameter
+> > to vmemmap_remap_reuse().  We could add this addr to the vmemmap_rmap_walk
+> > struct and set walk->reuse when we get to the pte for that address.  Of
+> > course this would imply that the addr would need to be part of the range.
 >
-> With below nits addressed you can add:
+> Maybe adding another one parameter is unnecessary.  How about doing
+> this in the vmemmap_remap_reuse?
 >
-> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> The 'reuse' address just is start + PAGE_SIZE.
 >
-> >  static int __init early_hugetlb_free_vmemmap_param(char *buf)
-> >  {
-> > +     /* We cannot optimize if a "struct page" crosses page boundaries. */
-> > +     if (!is_power_of_2(sizeof(struct page)))
-> > +             return 0;
-> > +
->
-> I wonder if we should report a warning in case someone wants to enable this
-> feature and stuct page size it not power of 2.
-> In case someone wonders why it does not work for him/her.
+> void vmemmap_remap_free(unsigned long start, unsigned long size)
+> {
+>          unsigned long end = start + size;
+>          unsigned long reuse_addr = start + PAGE_SIZE;
+                                           ^^^
+                                        Here is "-"
+Sorry.
 
-Agree. I think that we should add a warning message here.
-
+>          LIST_HEAD(vmemmap_pages);
 >
-> > +void __init hugetlb_vmemmap_init(struct hstate *h)
-> > +{
-> > +     unsigned int nr_pages = pages_per_huge_page(h);
-> > +     unsigned int vmemmap_pages;
-> > +
-> > +     if (!hugetlb_free_vmemmap_enabled)
-> > +             return;
-> > +
-> > +     vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-> > +     /*
-> > +      * The head page and the first tail page are not to be freed to buddy
-> > +      * system, the others page will map to the first tail page. So there
-> > +      * are the remaining pages that can be freed.
-> "the other pages will map to the first tail page, so they can be freed."
-> > +      *
-> > +      * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-> > +      * on some architectures (e.g. aarch64). See Documentation/arm64/
-> > +      * hugetlbpage.rst for more details.
-> > +      */
-> > +     if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
-> > +             h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-> > +
-> > +     pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
-> > +             h->name);
+>          struct vmemmap_remap_walk walk = {
+>                   .remap_pte = vmemmap_remap_pte,
+>                   .vmemmap_pages = &vmemmap_pages,
+>                   .reuse_addr = reuse_addr.
+>          };
 >
-> Maybe specify this is hugetlb code:
+> }
 >
-> pr_info("%s: blabla", __func__, ...)
-> or
-> pr_info("hugetlb: blalala", ...);
+> >
+> > Ideally, we would walk the page table to get to the reuse page.  My concern
+> > was not explicitly about adding the BUG_ON.  In more general use, *pte could
+> > be the first entry on a pte page.  And, then pte[-1] may not even be a pte.
+> >
+> > Again, I don't think this matters for the current HugeTLB use case.  Just a
+> > little concerned if code is put to use for other purposes.
+> > --
+> > Mike Kravetz
 >
-> although I am not sure whether we need that at all, or maybe just use
-> pr_debug().
+>
 >
 > --
-> Oscar Salvador
-> SUSE L3
+> Yours,
+> Muchun
 
 
 
