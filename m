@@ -2,271 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C31C9C2BBCA
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 12:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6F9C4361B
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:07:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D6E4239CF
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 12:19:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE3762396D
+	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 13:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728711AbgLQMTq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 07:19:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44721 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727873AbgLQMTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 07:19:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1608207494;
+        id S1728103AbgLQNHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 08:07:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727185AbgLQNHn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 08:07:43 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE25C061794;
+        Thu, 17 Dec 2020 05:07:03 -0800 (PST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1608210421;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=DTlbLSnNcMrJSDuydAJRjKKQ4AwImC6eBy5XwIiw1xI=;
-        b=Mat6q3WeibKes36EpxuMVzJ+uQY96Sc+ebl4Q6OmmekQqlb5+iE5zmbUK1khzNTjBqr4Wi
-        hmEzJzn+5e5QJuW+cru/FyXG8fyBOQmv9x8FeT9DJkjjgvYZg3iRDKJcbG8XEcYPZ4XMbB
-        GG1RjMuYaRZGsLC064ZO3Dygg2p99AY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593--W6qHNabMoa4KcgwSRp6ng-1; Thu, 17 Dec 2020 07:18:10 -0500
-X-MC-Unique: -W6qHNabMoa4KcgwSRp6ng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49FF5801AC9;
-        Thu, 17 Dec 2020 12:18:05 +0000 (UTC)
-Received: from [10.36.113.93] (ovpn-113-93.ams2.redhat.com [10.36.113.93])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9E2E11ACC7;
-        Thu, 17 Dec 2020 12:17:57 +0000 (UTC)
-Subject: Re: [PATCH v10 00/11] Free some vmemmap pages of HugeTLB page
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        naoya.horiguchi@nec.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <6fbd36f0-4864-89ff-15ef-9750059defab@redhat.com>
-Date:   Thu, 17 Dec 2020 13:17:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        bh=CyOHKGrGF5FgJ/jrTCkQanXT7eBDkCqK5reXHcNL6hU=;
+        b=eovS1hyj5PJ9FjFq7ljImsiygsavh4+hyAufANIEN4qOrIiRDJvnEz+nMcNLlzLjQ0nmpQ
+        qpnwUz3EbXYBc8fFktrxzlnN4DQmYjZ5fJG/MnTix8uxeXRp5AG95AtjsfGKOw0krQrQxv
+        1vu89vPNDAI5DTALWz8VCvROwjE0G5obplIWO86tQCTJsL8Ksrn/sX1nm9dy12fVzaf4Jy
+        eLWmf4CzfHO5nriFc0GYwEHcejk6r4D1+RzHUBqtvKcEI2Cbx+JIjoJYs4kN/Xi6fu2LQC
+        vavhLTIKjSMksx9LjtZAGZdRTRAJXK54Rhp3ahyHcTjHuE4EKFiMiOaYQs+8/g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1608210421;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=CyOHKGrGF5FgJ/jrTCkQanXT7eBDkCqK5reXHcNL6hU=;
+        b=trlnJKPooUM3Q07R6gTR3/B9v5VRgpJBlPadulHLT7hRSrDAzhWFliWBHTApTwcTBZrwKG
+        VIZ25dC5Vt0t6hDA==
+To:     Andy Lutomirski <luto@kernel.org>, Weiny Ira <ira.weiny@intel.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "open list\:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list\:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH V3.1] entry: Pass irqentry_state_t by reference
+In-Reply-To: <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
+References: <20201106232908.364581-6-ira.weiny@intel.com> <20201124060956.1405768-1-ira.weiny@intel.com> <CALCETrUHwZPic89oExMMe-WyDY8-O3W68NcZvse3=PGW+iW5=w@mail.gmail.com>
+Date:   Thu, 17 Dec 2020 14:07:01 +0100
+Message-ID: <878s9wshsa.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201217121303.13386-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 17.12.20 13:12, Muchun Song wrote:
-> Hi all,
-> 
-> This patch series will free some vmemmap pages(struct page structures)
-> associated with each hugetlbpage when preallocated to save memory.
-> 
-> In order to reduce the difficulty of the first version of code review.
-> From this version, we disable PMD/huge page mapping of vmemmap if this
-> feature was enabled. This accutualy eliminate a bunch of the complex code
-> doing page table manipulation. When this patch series is solid, we cam add
-> the code of vmemmap page table manipulation in the future.
-> 
-> The struct page structures (page structs) are used to describe a physical
-> page frame. By default, there is a one-to-one mapping from a page frame to
-> it's corresponding page struct.
-> 
-> The HugeTLB pages consist of multiple base page size pages and is supported
-> by many architectures. See hugetlbpage.rst in the Documentation directory
-> for more details. On the x86 architecture, HugeTLB pages of size 2MB and 1GB
-> are currently supported. Since the base page size on x86 is 4KB, a 2MB
-> HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
-> 4096 base pages. For each base page, there is a corresponding page struct.
-> 
-> Within the HugeTLB subsystem, only the first 4 page structs are used to
-> contain unique information about a HugeTLB page. HUGETLB_CGROUP_MIN_ORDER
-> provides this upper limit. The only 'useful' information in the remaining
-> page structs is the compound_head field, and this field is the same for all
-> tail pages.
-> 
-> By removing redundant page structs for HugeTLB pages, memory can returned to
-> the buddy allocator for other uses.
-> 
-> When the system boot up, every 2M HugeTLB has 512 struct page structs which
-> size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
-> 
->     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
->  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
->  |           |                     |     0     | -------------> |     0     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     1     | -------------> |     1     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     2     | -------------> |     2     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     3     | -------------> |     3     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     4     | -------------> |     4     |
->  |    2MB    |                     +-----------+                +-----------+
->  |           |                     |     5     | -------------> |     5     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     6     | -------------> |     6     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     7     | -------------> |     7     |
->  |           |                     +-----------+                +-----------+
->  |           |
->  |           |
->  |           |
->  +-----------+
-> 
-> The value of page->compound_head is the same for all tail pages. The first
-> page of page structs (page 0) associated with the HugeTLB page contains the 4
-> page structs necessary to describe the HugeTLB. The only use of the remaining
-> pages of page structs (page 1 to page 7) is to point to page->compound_head.
-> Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
-> will be used for each HugeTLB page. This will allow us to free the remaining
-> 6 pages to the buddy allocator.
-> 
-> Here is how things look after remapping.
-> 
->     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
->  +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
->  |           |                     |     0     | -------------> |     0     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     1     | -------------> |     1     |
->  |           |                     +-----------+                +-----------+
->  |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
->  |           |                     +-----------+                   | | | | |
->  |           |                     |     3     | ------------------+ | | | |
->  |           |                     +-----------+                     | | | |
->  |           |                     |     4     | --------------------+ | | |
->  |    2MB    |                     +-----------+                       | | |
->  |           |                     |     5     | ----------------------+ | |
->  |           |                     +-----------+                         | |
->  |           |                     |     6     | ------------------------+ |
->  |           |                     +-----------+                           |
->  |           |                     |     7     | --------------------------+
->  |           |                     +-----------+
->  |           |
->  |           |
->  |           |
->  +-----------+
-> 
-> When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
-> vmemmap pages and restore the previous mapping relationship.
-> 
-> Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
-> to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
-> pages.
-> 
-> In this case, for the 1GB HugeTLB page, we can save 4088 pages(There are
-> 4096 pages for struct page structs, we reserve 2 pages for vmemmap and 8
-> pages for page tables. So we can save 4088 pages). This is a very substantial
-> gain. On our server, run some SPDK/QEMU applications which will use 1024GB
-> hugetlbpage. With this feature enabled, we can save ~16GB(1G hugepage)/~11GB
-> (2MB hugepage, the worst case is 10GB while the best is 12GB) memory.
-> 
-> Because there are vmemmap page tables reconstruction on the freeing/allocating
-> path, it increases some overhead. Here are some overhead analysis.
-> 
-> 1) Allocating 10240 2MB hugetlb pages.
-> 
->    a) With this patch series applied:
->    # time echo 10240 > /proc/sys/vm/nr_hugepages
-> 
->    real     0m0.166s
->    user     0m0.000s
->    sys      0m0.166s
-> 
->    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
->    Attaching 2 probes...
-> 
->    @latency:
->    [8K, 16K)           8360 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
->    [16K, 32K)          1868 |@@@@@@@@@@@                                         |
->    [32K, 64K)            10 |                                                    |
->    [64K, 128K)            2 |                                                    |
-> 
->    b) Without this patch series:
->    # time echo 10240 > /proc/sys/vm/nr_hugepages
-> 
->    real     0m0.066s
->    user     0m0.000s
->    sys      0m0.066s
-> 
->    # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
->    Attaching 2 probes...
-> 
->    @latency:
->    [4K, 8K)           10176 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
->    [8K, 16K)             62 |                                                    |
->    [16K, 32K)             2 |                                                    |
-> 
->    Summarize: this feature is about ~2x slower than before.
-> 
-> 2) Freeing 10240 2MB hugetlb pages.
-> 
->    a) With this patch series applied:
->    # time echo 0 > /proc/sys/vm/nr_hugepages
-> 
->    real     0m0.004s
->    user     0m0.000s
->    sys      0m0.002s
-> 
->    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
->    Attaching 2 probes...
-> 
->    @latency:
->    [16K, 32K)         10240 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
-> 
->    b) Without this patch series:
->    # time echo 0 > /proc/sys/vm/nr_hugepages
-> 
->    real     0m0.077s
->    user     0m0.001s
->    sys      0m0.075s
-> 
->    # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
->    Attaching 2 probes...
-> 
->    @latency:
->    [4K, 8K)            9950 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
->    [8K, 16K)            287 |@                                                   |
->    [16K, 32K)             3 |                                                    |
-> 
->    Summarize: The overhead of __free_hugepage is about ~2-4x slower than before.
->               But according to the allocation test above, I think that here is
-> 	      also ~2x slower than before.
-> 
->               But why the 'real' time of patched is smaller than before? Because
-> 	      In this patch series, the freeing hugetlb is asynchronous(through
-> 	      kwoker).
-> 
-> Although the overhead has increased, the overhead is not significant. Like Mike
-> said, "However, remember that the majority of use cases create hugetlb pages at
-> or shortly after boot time and add them to the pool. So, additional overhead is
-> at pool creation time. There is no change to 'normal run time' operations of
-> getting a page from or returning a page to the pool (think page fault/unmap)".
-> 
+On Fri, Dec 11 2020 at 14:14, Andy Lutomirski wrote:
+> On Mon, Nov 23, 2020 at 10:10 PM <ira.weiny@intel.com> wrote:
+> After contemplating this for a bit, I think this isn't really the
+> right approach.  It *works*, but we've mostly just created a bit of an
+> unfortunate situation.  Our stack, on a (possibly nested) entry looks
+> like:
+>
+> previous frame (or empty if we came from usermode)
+> ---
+> SS
+> RSP
+> FLAGS
+> CS
+> RIP
+> rest of pt_regs
+>
+> C frame
+>
+> irqentry_state_t (maybe -- the compiler is within its rights to play
+> almost arbitrary games here)
+>
+> more C stuff
+>
+> So what we've accomplished is having two distinct arch register
+> regions, one called pt_regs and the other stuck in irqentry_state_t.
+> This is annoying because it means that, if we want to access this
+> thing without passing a pointer around or access it at all from outer
+> frames, we need to do something terrible with the unwinder, and we
+> don't want to go there.
+>
+> So I propose a somewhat different solution: lay out the stack like this.
+>
+> SS
+> RSP
+> FLAGS
+> CS
+> RIP
+> rest of pt_regs
+> PKS
+> ^^^^^^^^ extended_pt_regs points here
+>
+> C frame
+> more C stuff
+> ...
+>
+> IOW we have:
+>
+> struct extended_pt_regs {
+>   bool rcu_whatever;
+>   other generic fields here;
+>   struct arch_extended_pt_regs arch_regs;
+>   struct pt_regs regs;
+> };
+>
+> and arch_extended_pt_regs has unsigned long pks;
+>
+> and instead of passing a pointer to irqentry_state_t to the generic
+> entry/exit code, we just pass a pt_regs pointer.
 
-Just FYI, I'll be offline until first week of January. I'm planning on
-reviewing when I'm back.
+While I agree vs. PKS which is architecture specific state and needed in
+other places e.g. #PF, I'm not convinced that sticking the existing
+state into the same area buys us anything more than an indirect access.
 
+Peter?
 
--- 
 Thanks,
 
-David / dhildenb
-
+        tglx
