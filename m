@@ -2,169 +2,302 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F33C4361B
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 22:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86867C2BBCF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 02:13:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64ED0239D3
-	for <linux-doc@archiver.kernel.org>; Thu, 17 Dec 2020 22:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5438D23A58
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 02:13:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727133AbgLQWn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 17 Dec 2020 17:43:59 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:49096 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726796AbgLQWn7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 17:43:59 -0500
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1608244996;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/S3rCsR4wz25bQqtxLvPPE+bxBFLx2igc0E9oZoBixU=;
-        b=wRinoYpzeL4ipkhvpMBgUpezoNqnN4BwXIz6yCt/nstpu+1cIIa6AhqenWWWDuIGhiMkOk
-        CgBSGq+EQLUSN9blubISX09j3JB1cUFFvM2gc/4yVDkCmqEjWMRmnRN92OKprWuQFH8G+K
-        NkwxrRjg1k0PiQEkjqiHBNmoHeasdsNX94jSGQkWfCKi19W1Rbw3cvPUrm9IpD7TwUC+nV
-        ACdc6YScpXoHcP5diNMP4a5qX4wgyfeDV4LsY8msOVkwEM82YjXZOFroP2V/QtN6nSvTIX
-        30LaegIh2ac27qxKzekW++HDO7k8ZZdzcFJWCHEJnmZDQHdeC3vadvqArXeZTA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1608244996;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/S3rCsR4wz25bQqtxLvPPE+bxBFLx2igc0E9oZoBixU=;
-        b=++W/DH+pERsrf2PJVkJS5SNOxNLygeL5yW5v2CfziX3B5GGLBVUk7yuB5f3LQe/a8v69Ue
-        IAySbYQONXjuIgAQ==
-To:     ira.weiny@intel.com, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>
-Cc:     Ira Weiny <ira.weiny@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3 04/10] x86/pks: Preserve the PKRS MSR on context switch
-In-Reply-To: <871rfoscz4.fsf@nanos.tec.linutronix.de>
-References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-5-ira.weiny@intel.com> <871rfoscz4.fsf@nanos.tec.linutronix.de>
-Date:   Thu, 17 Dec 2020 23:43:16 +0100
-Message-ID: <87mtycqcjf.fsf@nanos.tec.linutronix.de>
+        id S1731900AbgLRCNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 17 Dec 2020 21:13:24 -0500
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:54058 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732022AbgLRCNX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 17 Dec 2020 21:13:23 -0500
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0BI2BeTk019914;
+        Thu, 17 Dec 2020 18:12:18 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=subject : to : references
+ : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=K3krahpAi/beaWANuyRuJk1wpRvW5FaE1mh/2unRJMg=;
+ b=VPe+GeZD2yfHTkgixdbp1flN+PRkwFVd7bdwCBRRyirM0aXkedkVtxI6mchNLx0F+/kQ
+ 5n4JHs6Zxy0/qxuWo1XJZCyeO3f+bgKLv6DzHxGFvnSDlL28WWBYlT2br4/9PZSVOlRN
+ 5SaqH5dU4xu5duV9UdNkEmuszACBYNPQkms= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+        by mx0a-00082601.pphosted.com with ESMTP id 35g83xkrg7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 17 Dec 2020 18:12:18 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.173) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Thu, 17 Dec 2020 18:12:16 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WdPh2sT8sur6gE9LdekadyuqSSISI93EVeSqMoaaWKh51oRgVZovRfYAmVaMb2bCpaZOqVWgZJOdIN7o/X8nA0+gZ4apxUAP5uTXRJxyzJPREb7qXJRTtKPF1S28TY7wXvLk8T06uVqbXXZPaCT/v270ym7SsmETFBHFFtNKJ2zQ80fJ12VQ2oArF9xM2x2H7oWA5/wl6aGmyFDc0dYaSAhnonnUIYn0arc1dOf7vzu6VpOUS423aEFpV4ZY78oIpLaRqHVe8Pyv5um1jKJeDwNsRPHNwzMh4c5rxFzpGinASYFdaGAF+LTmOmy14bbF1uhrQLGvmwZs09YSDkOakg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w1/J138vR4gXGKCdVDxwhN/xEoCuJx++OYI+aJ10qdA=;
+ b=hvHClnYBlDvVUzad1lJx8PseAjpJm47v0EbpVS+C6ZKHlcWBnpsN6XUqgWZdYOkoOb0e5GTKb5ya20PWjKMDNGVtVL/IX1mBa3VmBNjPCFhXurIA8U0Wm75xvx7aqROWJPlD6YQiclyp5b82BHAfdURuk4nMvHQCtlOKRoJwILhGNprIWSo8ZWyC46ZyZbQa4pBdOdhu447KtjqX+dQzXleHRqIApsiyXspXrsMh9OTLB1i2q35/DRjyoAN7g6oK8Z3ICJlrJzqHuGtekngtonAjJ3rDGoHFrgeX4FeDvZTK+zRKgc/O7VYSeVUAes7YGSfX8nsoRo3jG/kWbdCFrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w1/J138vR4gXGKCdVDxwhN/xEoCuJx++OYI+aJ10qdA=;
+ b=XgT4xgbFeNMAXNKXeFm7hy2UbbX786nRirZwGAzErI23gA+FiQ17op0tRkKaIxf7Qiee8XFuSe16pf3nVYoZfmoEgIzpkQ7KY3UOfYUJ0q4Je9EgdxAOS6XXlQoTQSDlJMVBPjgl26sQxooMnsgL8YEg08v4coojXmxR03Ov7OM=
+Authentication-Results: googlegroups.com; dkim=none (message not signed)
+ header.d=none;googlegroups.com; dmarc=none action=none header.from=fb.com;
+Received: from BYAPR15MB4088.namprd15.prod.outlook.com (2603:10b6:a02:c3::18)
+ by BYAPR15MB2695.namprd15.prod.outlook.com (2603:10b6:a03:150::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 18 Dec
+ 2020 02:12:15 +0000
+Received: from BYAPR15MB4088.namprd15.prod.outlook.com
+ ([fe80::9ae:1628:daf9:4b03]) by BYAPR15MB4088.namprd15.prod.outlook.com
+ ([fe80::9ae:1628:daf9:4b03%7]) with mapi id 15.20.3654.025; Fri, 18 Dec 2020
+ 02:12:15 +0000
+Subject: Re: [PATCH] btf: support ints larger than 128 bits
+To:     Sean Young <sean@mess.org>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
+        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <clang-built-linux@googlegroups.com>
+References: <20201217150102.GA13532@gofer.mess.org>
+From:   Yonghong Song <yhs@fb.com>
+Message-ID: <1e9594be-c21d-88d2-e3bf-0b8e3e991aa1@fb.com>
+Date:   Thu, 17 Dec 2020 18:12:11 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
+In-Reply-To: <20201217150102.GA13532@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Originating-IP: [2620:10d:c090:400::5:4f3]
+X-ClientProxiedBy: MW4PR03CA0366.namprd03.prod.outlook.com
+ (2603:10b6:303:114::11) To BYAPR15MB4088.namprd15.prod.outlook.com
+ (2603:10b6:a02:c3::18)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21cf::12e6] (2620:10d:c090:400::5:4f3) by MW4PR03CA0366.namprd03.prod.outlook.com (2603:10b6:303:114::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.13 via Frontend Transport; Fri, 18 Dec 2020 02:12:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8fcc9734-4427-4a9f-4c79-08d8a2fa5707
+X-MS-TrafficTypeDiagnostic: BYAPR15MB2695:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR15MB26950A0295891BD1C2435D39D3C30@BYAPR15MB2695.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 45QjXk+uCFi6PwpGXsiu59rxYHIc87Jg1QCO+ULj11ytRmw0QnvNZ/mbLThea+GXhK0S7HZKl+BMl3nrIJMfeM1874YCyGQNkYh9FoKMtXyWeUTzBfbwBJnY25PMgzPMfLf0dtZqhRvxs6oPwahniaXiCZ6tFj9SGX/UoMFcCu9oVcQHdhv62RfZhZMNbZH9BbobOct9AqUngbCAWdVhMgtju9FT3sl0A6g6eC5pMI6bu3F6qM33DnFK/JRIzruoLU/pAkwFZxWgddtc3bN4YSmLhSmWi0rawqTLsMc42RNGPVli8PWz/nurUIyO4rVSfkhgWzxcWZPAHJ1R1PQDKxN5kDM/SB1dKT3V5fwFtMGJ4oI5Hs34izpUy14/vNQRMjfnBxTzkX30aGGdN2yPGkq0TbqVbhR9Iz0Rdxi+vv0N1MJY3Exb2p5lTcC/i+zkBTD96pFq6o2HaL/Ui9Njesy+cNMv7l/l2OP4kSvn6OuAEKb6ZcPtwZttr2JXjjXm
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR15MB4088.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(39860400002)(376002)(366004)(136003)(66476007)(8936002)(478600001)(8676002)(31686004)(16526019)(6486002)(186003)(66556008)(966005)(2906002)(31696002)(110136005)(36756003)(5660300002)(86362001)(921005)(2616005)(53546011)(52116002)(7416002)(66946007)(6666004)(316002)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NGpiTnZmWC9pUGRZN2NZeDFEclJQS00xMm1lR3N1b2ZpaGt0WU1kSm1aeSt1?=
+ =?utf-8?B?QmVLdEpOZGtlUTBHdVRueEljMG5xaXFUdDhycEVGSkgrME05WW52QnVoRWdx?=
+ =?utf-8?B?YmJsMXhmNUttSCtuZE5SM2J1Zm11NFdRN1VwREZuWXZ6a2FJWFdQenArem55?=
+ =?utf-8?B?OUt3aGI5a3JDbXJjUUM5NUw3YzlTVjVIUnpiek9KTTdxR0tMdGNyNklGcDNV?=
+ =?utf-8?B?a2dJOVhacXNTNlU0NjJjejNoR2YxSUZKQkxtRm42Y0NkZ3FoTWp4SGxsZzdn?=
+ =?utf-8?B?ZGVsaDMzS3IrM2MxSFMzYm5sckRoWUhsc1pBeHYrUnlseFkySXNwYkVlY216?=
+ =?utf-8?B?MUpkWVZlU2tmQ1BmbEJSNjdjR1BBTFRxTm14dFBBMXN6VnpTdGxHdkx2WTVB?=
+ =?utf-8?B?Z0dtbG5rOHJsZzMrL1J4RlpicXM5endrQVdyd3Q4QUVmRjkvZ1N6MDFNZjBy?=
+ =?utf-8?B?RVBTT2Zhd0l3R21heHpTTDBlYVpMUFJvWVBwNHpLNEJKM2hHY3JNL1NURFhG?=
+ =?utf-8?B?RlNnSmdmSDlLdGdDTWRZZUtEanJiQWhXb1pDeExIYUxkMElMS1VraGxNRW5i?=
+ =?utf-8?B?Q0ZTWUNlRkNmV0ZwS2FVRFNBWFN3TUlDSjNnYllLNU5ITUZlUzlUeHhDTmRU?=
+ =?utf-8?B?amZ6NmF4NkNFYWd6WmwyMEFuclFjRC9vNngySXM4SmhKcjJDc3NUN3AxT3pr?=
+ =?utf-8?B?RHNsemMwaERzU3RaMHhuNUdQWnZ3bXovcmlObldZckV4U1FsMmZLenlIUnBj?=
+ =?utf-8?B?bnEzV0p3aFRranlaTVJ1blEwMGR1TWdEZmttS2NrcTJwNzBzZFkwb3BMRVZn?=
+ =?utf-8?B?WVQ2N3NhbWx5RzdLN3NlNXgyVjFPMFZNOHlnTnFXVERNZHRZUXhQQ2NNM2hL?=
+ =?utf-8?B?eVVkVGhmYjZZWlJHZWF0UTRWVWptNVdKSjE2NlB5OXYzbHN1UXdwMXUxbFZk?=
+ =?utf-8?B?NVgwZEhSOG1veTdSNGRObU0zRnVraWlFeGRWVCtnRjdYbVMxUFhBaW1XT2Za?=
+ =?utf-8?B?UFhiWWYrcVUwZ0Vic2Nhc3E2a1NxRXVsWG9IYU92b0sxVXZSWkkycTdja01J?=
+ =?utf-8?B?UFhDQk5uOGJZYlNPZ21hUC9rZG42U0xDTlorbzJ6aGNRYUNuWGpjNTZhNmVj?=
+ =?utf-8?B?N2tMZy8wQ0kxNU1kVHBaTUtuM1RnTlhBVFl1RTB3bmtvN2hTbGNSR0xGV0xx?=
+ =?utf-8?B?cElNL0p6QlE1WVZrcVlZMjlXdE5STnBlN2dxZzRSU2RVZ3paajJuMWxyWlFV?=
+ =?utf-8?B?UElSUWVJZ0gwN2pCMlpXWEZ4RHB1WU5xZXJpR001SDZQZytZcDFQUTh2a1lz?=
+ =?utf-8?B?RkpXSEkvN1Fad01TM1BmL1pPaUQyUDlkbEJCTTJxWGFvd1c2a0hWdEE3ZC9O?=
+ =?utf-8?B?eldkTnZvaUp4MUE9PQ==?=
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB4088.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 02:12:15.7075
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fcc9734-4427-4a9f-4c79-08d8a2fa5707
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tU2sY+6pYoC8LfblWfl50uuFt+RPAoPS0M/kQQBjNHxHmdK5F0Qdq54vu8jbz4R3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2695
+X-OriginatorOrg: fb.com
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 2 URL's were un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2020-12-17_17:2020-12-17,2020-12-17 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 spamscore=0 clxscore=1011 adultscore=0
+ malwarescore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012180013
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17 2020 at 15:50, Thomas Gleixner wrote:
-> On Fri, Nov 06 2020 at 15:29, ira weiny wrote:
->
->> +void write_pkrs(u32 new_pkrs)
->> +{
->> +	u32 *pkrs;
->> +
->> +	if (!static_cpu_has(X86_FEATURE_PKS))
->> +		return;
->> +
->> +	pkrs = get_cpu_ptr(&pkrs_cache);
->
-> So this is called from various places including schedule and also from
-> the low level entry/exit code. Why do we need to have an extra
-> preempt_disable/enable() there via get/put_cpu_ptr()?
->
-> Just because performance in those code paths does not matter?
->
->> +	if (*pkrs != new_pkrs) {
->> +		*pkrs = new_pkrs;
->> +		wrmsrl(MSR_IA32_PKRS, new_pkrs);
->> +	}
->> +	put_cpu_ptr(pkrs);
-
-Which made me look at the other branch of your git repo just because I
-wanted to know about the 'other' storage requirements and I found this
-gem:
-
-> update_global_pkrs()
-> ...
->	/*
->	 * If we are preventing access from the old value.  Force the
->	 * update on all running threads.
->	 */
->	if (((old_val == 0) && protection) ||
->	    ((old_val & PKR_WD_BIT) && (protection & PKEY_DISABLE_ACCESS))) {
->		int cpu;
->
->		for_each_online_cpu(cpu) {
->			u32 *ptr = per_cpu_ptr(&pkrs_cache, cpu);
->
->			*ptr = update_pkey_val(*ptr, pkey, protection);
->			wrmsrl_on_cpu(cpu, MSR_IA32_PKRS, *ptr);
->			put_cpu_ptr(ptr);
-
-1) per_cpu_ptr() -> put_cpu_ptr() is broken as per_cpu_ptr() is not
-   disabling preemption while put_cpu_ptr() enables it which wreckages
-   the preemption count. 
-
-   How was that ever tested at all with any debug option enabled?
-
-   Answer: Not at all
-
-2) How is that sequence:
-
-	ptr = per_cpu_ptr(&pkrs_cache, cpu);
-	*ptr = update_pkey_val(*ptr, pkey, protection);
-	wrmsrl_on_cpu(cpu, MSR_IA32_PKRS, *ptr);
-
-   supposed to be correct vs. a concurrent modification of the
-   pkrs_cache of the remote CPU?
-
-   Answer: Not at all
-
-Also doing a wrmsrl_on_cpu() on _each_ online CPU is insane at best.
-
-  A smp function call on a remote CPU takes ~3-5us when the remote CPU
-  is not idle and can immediately respond. If the remote CPU is deep in
-  idle it can take up to 100us depending on C-State it is in.
-
-  Even if the remote CPU is not not idle and just has interrupts
-  disabled for a few dozen of microseconds this adds up.
-
-  So on a 256 CPU system depending on the state of the remote CPUs this
-  stalls the CPU doing the update for anything between 1 and 25ms worst
-  case.
-
-  Of course that also violates _all_ CPU isolation mechanisms.
-
-  What for?
-
-  Just for the theoretical chance that _all_ remote CPUs have
-  seen that global permission and have it still active?
-
-  You're not serious about that, right?
-
-The only use case for this in your tree is: kmap() and the possible
-usage of that mapping outside of the thread context which sets it up.
-
-The only hint for doing this at all is:
-
-    Some users, such as kmap(), sometimes requires PKS to be global.
-
-'sometime requires' is really _not_ a technical explanation.
-
-Where is the explanation why kmap() usage 'sometimes' requires this
-global trainwreck in the first place and where is the analysis why this
-can't be solved differently?
-
-Detailed use case analysis please.
-
-Thanks,
-
-        tglx
 
 
+On 12/17/20 7:01 AM, Sean Young wrote:
+> clang supports arbitrary length ints using the _ExtInt extension. This
+> can be useful to hold very large values, e.g. 256 bit or 512 bit types.
+> 
+> Larger types (e.g. 1024 bits) are possible but I am unaware of a use
+> case for these.
+> 
+> This requires the _ExtInt extension to enabled for BPF in clang, which
+> is under review.
+> 
+> Link: https://clang.llvm.org/docs/LanguageExtensions.html#extended-integer-types
+> Link: https://reviews.llvm.org/D93103
+> 
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>   Documentation/bpf/btf.rst      |  4 ++--
+>   include/uapi/linux/btf.h       |  2 +-
+>   tools/bpf/bpftool/btf_dumper.c | 39 ++++++++++++++++++++++++++++++++++
+>   tools/include/uapi/linux/btf.h |  2 +-
+>   4 files changed, 43 insertions(+), 4 deletions(-)
 
+Thanks for the patch. But the change is not enough and no tests in the 
+patch set.
+
+For example, in kernel/bpf/btf.c, we BITS_PER_U128 to guard in various 
+places where the number of integer bits must be <= 128 bits which is
+what we supported now. In function btf_type_int_is_regular(), # of int
+bits larger than 128 considered false. The extint like 256/512bits 
+should be also regular int.
+
+extint permits non-power-of-2 bits (e.g., 192bits), to support them
+may not be necessary and this is not your use case. what do you think?
+
+lib/bpf/btf.c btf__and_int() function also has the following check,
+
+         /* byte_sz must be power of 2 */
+         if (!byte_sz || (byte_sz & (byte_sz - 1)) || byte_sz > 16)
+                 return -EINVAL;
+
+So Extint 256 bits will fail here.
+
+Please do add some selftests tools/testing/selftests/bpf
+directories:
+    - to ensure btf with newly supported int types loaded successfully
+      in kernel
+    - to ensure bpftool map [pretty] print working fine with new types
+    - to ensure kernel map pretty print works fine
+      (tests at tools/testing/selftests/bpf/prog_tests/btf.c)
+    - to ensure btf manipulation APIs works with new types.
+
+> 
+> diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+> index 44dc789de2b4..784f1743dbc7 100644
+> --- a/Documentation/bpf/btf.rst
+> +++ b/Documentation/bpf/btf.rst
+> @@ -132,7 +132,7 @@ The following sections detail encoding of each kind.
+>   
+>     #define BTF_INT_ENCODING(VAL)   (((VAL) & 0x0f000000) >> 24)
+>     #define BTF_INT_OFFSET(VAL)     (((VAL) & 0x00ff0000) >> 16)
+> -  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000000ff)
+> +  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000003ff)
+>   
+>   The ``BTF_INT_ENCODING`` has the following attributes::
+>   
+> @@ -147,7 +147,7 @@ pretty print. At most one encoding can be specified for the int type.
+>   The ``BTF_INT_BITS()`` specifies the number of actual bits held by this int
+>   type. For example, a 4-bit bitfield encodes ``BTF_INT_BITS()`` equals to 4.
+>   The ``btf_type.size * 8`` must be equal to or greater than ``BTF_INT_BITS()``
+> -for the type. The maximum value of ``BTF_INT_BITS()`` is 128.
+> +for the type. The maximum value of ``BTF_INT_BITS()`` is 512.
+>   
+>   The ``BTF_INT_OFFSET()`` specifies the starting bit offset to calculate values
+>   for this int. For example, a bitfield struct member has:
+> diff --git a/include/uapi/linux/btf.h b/include/uapi/linux/btf.h
+> index 5a667107ad2c..1696fd02b302 100644
+> --- a/include/uapi/linux/btf.h
+> +++ b/include/uapi/linux/btf.h
+> @@ -84,7 +84,7 @@ struct btf_type {
+>    */
+>   #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
+>   #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
+> -#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
+> +#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
+>   
+>   /* Attributes stored in the BTF_INT_ENCODING */
+>   #define BTF_INT_SIGNED	(1 << 0)
+> diff --git a/tools/bpf/bpftool/btf_dumper.c b/tools/bpf/bpftool/btf_dumper.c
+> index 0e9310727281..45ed45ea9962 100644
+> --- a/tools/bpf/bpftool/btf_dumper.c
+> +++ b/tools/bpf/bpftool/btf_dumper.c
+> @@ -271,6 +271,40 @@ static void btf_int128_print(json_writer_t *jw, const void *data,
+>   	}
+>   }
+>   
+> +static void btf_bigint_print(json_writer_t *jw, const void *data, int nr_bits,
+> +			     bool is_plain_text)
+> +{
+> +	char buf[nr_bits / 4 + 1];
+> +	bool first = true;
+> +	int i;
+> +
+> +#ifdef __BIG_ENDIAN_BITFIELD
+> +	for (i = 0; i < nr_bits / 64; i++) {
+> +#else
+> +	for (i = nr_bits / 64 - 1; i >= 0; i++) {
+> +#endif
+> +		__u64 v = ((__u64 *)data)[i];
+> +
+> +		if (first) {
+> +			if (!v)
+> +				continue;
+> +
+> +			snprintf(buf, sizeof(buf), "%llx", v);
+> +
+> +			first = false;
+> +		} else {
+> +			size_t off = strlen(buf);
+> +
+> +			snprintf(buf + off, sizeof(buf) - off, "%016llx", v);
+> +		}
+> +	}
+> +
+> +	if (is_plain_text)
+> +		jsonw_printf(jw, "0x%s", buf);
+> +	else
+> +		jsonw_printf(jw, "\"0x%s\"", buf);
+> +}
+> +
+>   static void btf_int128_shift(__u64 *print_num, __u16 left_shift_bits,
+>   			     __u16 right_shift_bits)
+>   {
+> @@ -373,6 +407,11 @@ static int btf_dumper_int(const struct btf_type *t, __u8 bit_offset,
+>   		return 0;
+>   	}
+>   
+> +	if (nr_bits > 128) {
+> +		btf_bigint_print(jw, data, nr_bits, is_plain_text);
+> +		return 0;
+> +	}
+> +
+>   	if (nr_bits == 128) {
+>   		btf_int128_print(jw, data, is_plain_text);
+>   		return 0;
+[...]
