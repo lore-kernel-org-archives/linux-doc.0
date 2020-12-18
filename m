@@ -2,101 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B3CC4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3620FC2BBCF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:12:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 332F123A7B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:07:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED22623A82
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:12:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388799AbgLRJHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 04:07:20 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35508 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725875AbgLRJHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Dec 2020 04:07:19 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5572DABC6;
-        Fri, 18 Dec 2020 09:06:37 +0000 (UTC)
-Date:   Fri, 18 Dec 2020 10:06:31 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v10 10/11] mm/hugetlb: Gather discrete indexes of tail
- page
-Message-ID: <20201218090631.GA3623@localhost.localdomain>
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-11-songmuchun@bytedance.com>
+        id S1732930AbgLRJLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 04:11:48 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12005 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730833AbgLRJLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 04:11:48 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fdc722b0001>; Fri, 18 Dec 2020 01:11:07 -0800
+Received: from [10.2.61.104] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Dec
+ 2020 09:11:00 +0000
+Subject: Re: [PATCH v4 09/10] selftests/vm: test flag is broken
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <akpm@linux-foundation.org>, <vbabka@suse.cz>, <mhocko@suse.com>,
+        <david@redhat.com>, <osalvador@suse.de>,
+        <dan.j.williams@intel.com>, <sashal@kernel.org>,
+        <tyhicks@linux.microsoft.com>, <iamjoonsoo.kim@lge.com>,
+        <mike.kravetz@oracle.com>, <rostedt@goodmis.org>,
+        <mingo@redhat.com>, <jgg@ziepe.ca>, <peterz@infradead.org>,
+        <mgorman@suse.de>, <willy@infradead.org>, <rientjes@google.com>,
+        <linux-doc@vger.kernel.org>, <ira.weiny@intel.com>,
+        <linux-kselftest@vger.kernel.org>
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-10-pasha.tatashin@soleen.com>
+ <8879f12c-2aed-1615-1298-7cf9596acc95@nvidia.com>
+Message-ID: <d0b1fec7-cc18-68d2-c574-639e665c137c@nvidia.com>
+Date:   Fri, 18 Dec 2020 01:11:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201217121303.13386-11-songmuchun@bytedance.com>
+In-Reply-To: <8879f12c-2aed-1615-1298-7cf9596acc95@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1608282667; bh=3mPuCxRz8KYq0pwcFButq0DOd57iVq04TlvZG8ID//Y=;
+        h=Subject:From:To:References:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=sMmU4YUHis88+7q8FOrjOMAnSAnAGKQ2GV412pBnkj07s0+IB6Dg0kzx6uXmT0FoA
+         D9CtmbOLgNVPgEL4CjkpMgfDKZUoBsABCOj6FR/OT/Ayv3A7Mi/9K3LqDeVL/gVFke
+         11h//FrtmvBwAkHQd9dQi5uFLVyxVWtTN0/BFa3iWKJUUNLnLaN1+yvzelntj+5Qmb
+         kDkaFu3PaOExGyCeNYrlZUXyb1rhU+0ACDWvwHnqWWBu/Q9bo/NUDFniBG8FrVCx00
+         pINgEsVY0Wx6JmiWmFHoZO5zfTsFHpPRXyi8VquTqtYw9OmKYL1wIDKPMQmV2kWytw
+         vENCsi8xBVWIg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 08:13:02PM +0800, Muchun Song wrote:
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 6c02f49959fd..78dd88dda857 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1360,7 +1360,7 @@ static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
->  	if (!PageHWPoison(head) || !free_vmemmap_pages_per_hpage(h))
->  		return;
->  
-> -	page = head + page_private(head + 4);
-> +	page = head + page_private(head + SUBPAGE_INDEX_HWPOISON);
->  
->  	/*
->  	 * Move PageHWPoison flag from head page to the raw error page,
-> @@ -1379,7 +1379,7 @@ static inline void hwpoison_subpage_set(struct hstate *h, struct page *head,
->  		return;
->  
->  	if (free_vmemmap_pages_per_hpage(h)) {
-> -		set_page_private(head + 4, page - head);
-> +		set_page_private(head + SUBPAGE_INDEX_HWPOISON, page - head);
+On 12/18/20 1:06 AM, John Hubbard wrote:
+>> Add a new test_flags field, to allow raw gup_flags to work.
+> 
+> I think .test_control_flags field would be a good name, to make it very
+> clear that it's not destined for gup_flags. Just .test_flags is not quite
+> as clear a distinction from .gup_flags, as .test_control_flags is, IMHO.
+> 
 
-Ok, I was too eager here.
+And maybe renaming .flags to .gup_flags, just to make it really clear.
 
-If CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is not set for whatever reason
-(e.g: CONFIG_MEMORY_HOTREMOVE is disabled), when you convert "+4"
-to its index (SUBPAGE_INDEX_HWPOISON), this will no longer build
-since we only define SUBPAGE_INDEX_HWPOISON when the config
-option CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set.
 
-Different things can be done to fix this:
-
-e.g:
-
- - Define a two different hwpoison_subpage_{deliver,set}
-   and have them under
-   #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-   ...
-   #else
-   ...
-   #endif
-
- - Work it around as is with IS_ENABLED(CONFIG_HUGETLB_...
- - Have a common entry and decide depending on whether
-   the config is enabled.
-
-I guess option #1 might be cleaner.
-
+thanks,
 -- 
-Oscar Salvador
-SUSE L3
+John Hubbard
+NVIDIA
