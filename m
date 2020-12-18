@@ -2,223 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3C39C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 08:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D831C2BBCF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:07:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95865233F6
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 08:49:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7184A23A80
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 09:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732761AbgLRIta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 03:49:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732708AbgLRIta (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 03:49:30 -0500
-X-Greylist: delayed 64020 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Dec 2020 00:48:49 PST
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96074C0617A7;
-        Fri, 18 Dec 2020 00:48:48 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id C7FA6C6357; Fri, 18 Dec 2020 08:48:44 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1608281324; bh=CIzQrAxB7jgM7leCH+INznRjBjqtpr1Q5eX8IU853Gs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c+foaB8HTf0USnft7LqxYZA0Z5Iy4qGqYKAUqCLKH7zIZqPaJFdeYOwfT7WaMja4g
-         DPdNXrfQHnGINeG3HViP1H+XaUAx9+yV/P8F7IQX9xF/rnU/FclrKt0YTptn87RRPK
-         X7WiQG+hSa8B+2HGHkpE9FrW8B6PuZXQyWeNgXXm79FVDXFV5i1qLKjsLZnwjzuOe7
-         xZNZlCgAHUoD5jFdPZgI9Hzb1NoXdnHG5MtYCszSeD3Am2BbxNPd4HJ7NJNSPS/GYQ
-         9OlScxKHMScuJWBcYcJfy7+O66Jr29bi+bLMC8T7Y/SKkQH6KUmiqpekgvVmPVZiJI
-         IMarfEcNWnM/A==
-Date:   Fri, 18 Dec 2020 08:48:44 +0000
-From:   Sean Young <sean@mess.org>
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Quentin Monnet <quentin@isovalent.com>,
-        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] btf: support ints larger than 128 bits
-Message-ID: <20201218084844.GA28455@gofer.mess.org>
-References: <20201217150102.GA13532@gofer.mess.org>
- <1e9594be-c21d-88d2-e3bf-0b8e3e991aa1@fb.com>
+        id S1732792AbgLRJGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 04:06:53 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15234 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbgLRJGw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 04:06:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fdc71040000>; Fri, 18 Dec 2020 01:06:12 -0800
+Received: from [10.2.61.104] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Dec
+ 2020 09:06:06 +0000
+Subject: Re: [PATCH v4 09/10] selftests/vm: test flag is broken
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <akpm@linux-foundation.org>, <vbabka@suse.cz>, <mhocko@suse.com>,
+        <david@redhat.com>, <osalvador@suse.de>,
+        <dan.j.williams@intel.com>, <sashal@kernel.org>,
+        <tyhicks@linux.microsoft.com>, <iamjoonsoo.kim@lge.com>,
+        <mike.kravetz@oracle.com>, <rostedt@goodmis.org>,
+        <mingo@redhat.com>, <jgg@ziepe.ca>, <peterz@infradead.org>,
+        <mgorman@suse.de>, <willy@infradead.org>, <rientjes@google.com>,
+        <linux-doc@vger.kernel.org>, <ira.weiny@intel.com>,
+        <linux-kselftest@vger.kernel.org>
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-10-pasha.tatashin@soleen.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <8879f12c-2aed-1615-1298-7cf9596acc95@nvidia.com>
+Date:   Fri, 18 Dec 2020 01:06:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1e9594be-c21d-88d2-e3bf-0b8e3e991aa1@fb.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201217185243.3288048-10-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1608282372; bh=5277vShgfxIqxzMFqL87T3EXD/MyoKA02zbxyfLRTE0=;
+        h=Subject:To:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=ic6JlVIJztt/t4Moauhx/uH2QghTWoWzBKdcIerJyhSHODgSfWjSqcCtKEuQkg3Ie
+         psMcozOGsmYlArtg98/s5pacZre1ejOQcU4lxkI6TbeinhlNrV3iIQcjkIJDScT8ja
+         hDQlR7mkmG5/WhDX/ks3bbwM95sOYodbwyE0JhcY9wALe+GoA43py5Ue0Vsb+Gdkcv
+         EjxULMTn0yDpoIw9kquyVYXnsobOZ4WRyCjqfn6fcQrYGgdIEtrmpDDhJvpeC9QBSO
+         wEzgBoFystxRLmP+G/UI5e8r6IGemsThPIBZj5YflqRVC2RBYJS7ZNo7xTpsEZS4d4
+         ytsQsHQ1KO+8g==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yonghong,
+On 12/17/20 10:52 AM, Pavel Tatashin wrote:
+> In gup_test both gup_flags and test_flags use the same flags field.
+> This is broken, because gup_flags can be passed as raw value (via -F hex),
+> which can overwrite all the test flags.
 
-Thank you for the detailed review.
+Thanks for finding and fixing the "stuck at 0x1" bug!
 
-On Thu, Dec 17, 2020 at 06:12:11PM -0800, Yonghong Song wrote:
-> On 12/17/20 7:01 AM, Sean Young wrote:
-> > clang supports arbitrary length ints using the _ExtInt extension. This
-> > can be useful to hold very large values, e.g. 256 bit or 512 bit types.
-> > 
-> > Larger types (e.g. 1024 bits) are possible but I am unaware of a use
-> > case for these.
-> > 
-> > This requires the _ExtInt extension to enabled for BPF in clang, which
-> > is under review.
-> > 
-> > Link: https://clang.llvm.org/docs/LanguageExtensions.html#extended-integer-types
-> > Link: https://reviews.llvm.org/D93103
-> > 
-> > Signed-off-by: Sean Young <sean@mess.org>
-> > ---
-> >   Documentation/bpf/btf.rst      |  4 ++--
-> >   include/uapi/linux/btf.h       |  2 +-
-> >   tools/bpf/bpftool/btf_dumper.c | 39 ++++++++++++++++++++++++++++++++++
-> >   tools/include/uapi/linux/btf.h |  2 +-
-> >   4 files changed, 43 insertions(+), 4 deletions(-)
-> 
-> Thanks for the patch. But the change is not enough and no tests in the patch
-> set.
-> 
-> For example, in kernel/bpf/btf.c, we BITS_PER_U128 to guard in various
-> places where the number of integer bits must be <= 128 bits which is
-> what we supported now. In function btf_type_int_is_regular(), # of int
-> bits larger than 128 considered false. The extint like 256/512bits should be
-> also regular int.
+The test is not quite as broken as you think, though, because you're not
+looking at the history and intent of the FOLL_WRITE, and how that is used.
+And that is leading you to make wider "fixes" than I'd recommend.
 
-Right, thanks for spotting that. I'll give the next version some better
-testing.
+The new -F command line switch is the latest, newest (and therefore
+flakiest) addition, and  *that* part is worth fixing up, because in
+addition to being stuck at 0x1 as you noticed, it also misleads everyone
+into thinking that it's intended for general gup flags. It's not.
 
-> extint permits non-power-of-2 bits (e.g., 192bits), to support them
-> may not be necessary and this is not your use case. what do you think?
+It really was meant to be a subtest control flag (controlling the behavior
+of the dump pages sub-test), as you can see in the commit log and documentation:
 
-My feeling is that non-power-of-2 types are useful for llvm targets
-which such registers. I'm not sure they have much use for our use case
-or bpf in general. If anyone thinks otherwise I'm easily convinced.
+     For example:
 
-> lib/bpf/btf.c btf__and_int() function also has the following check,
-> 
->         /* byte_sz must be power of 2 */
->         if (!byte_sz || (byte_sz & (byte_sz - 1)) || byte_sz > 16)
->                 return -EINVAL;
-> 
-> So Extint 256 bits will fail here.
+         ./gup_test -ct -F 1 0 19 0x1000
 
-Indeed it will.
+     Meaning:
+         -c:          dump pages sub-test
+         -t:          use THP pages
+         -F 1:        use pin_user_pages() instead of get_user_pages()
+         0 19 0x1000: dump pages 0, 19, and 4096
 
-> Please do add some selftests tools/testing/selftests/bpf
-> directories:
->    - to ensure btf with newly supported int types loaded successfully
->      in kernel
->    - to ensure bpftool map [pretty] print working fine with new types
->    - to ensure kernel map pretty print works fine
->      (tests at tools/testing/selftests/bpf/prog_tests/btf.c)
->    - to ensure btf manipulation APIs works with new types.
-
-Absolutely. I'll send out a v2 when ready.
-
-Thanks again for the great review.
-
-Sean
 
 > 
-> > 
-> > diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
-> > index 44dc789de2b4..784f1743dbc7 100644
-> > --- a/Documentation/bpf/btf.rst
-> > +++ b/Documentation/bpf/btf.rst
-> > @@ -132,7 +132,7 @@ The following sections detail encoding of each kind.
-> >     #define BTF_INT_ENCODING(VAL)   (((VAL) & 0x0f000000) >> 24)
-> >     #define BTF_INT_OFFSET(VAL)     (((VAL) & 0x00ff0000) >> 16)
-> > -  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000000ff)
-> > +  #define BTF_INT_BITS(VAL)       ((VAL)  & 0x000003ff)
-> >   The ``BTF_INT_ENCODING`` has the following attributes::
-> > @@ -147,7 +147,7 @@ pretty print. At most one encoding can be specified for the int type.
-> >   The ``BTF_INT_BITS()`` specifies the number of actual bits held by this int
-> >   type. For example, a 4-bit bitfield encodes ``BTF_INT_BITS()`` equals to 4.
-> >   The ``btf_type.size * 8`` must be equal to or greater than ``BTF_INT_BITS()``
-> > -for the type. The maximum value of ``BTF_INT_BITS()`` is 128.
-> > +for the type. The maximum value of ``BTF_INT_BITS()`` is 512.
-> >   The ``BTF_INT_OFFSET()`` specifies the starting bit offset to calculate values
-> >   for this int. For example, a bitfield struct member has:
-> > diff --git a/include/uapi/linux/btf.h b/include/uapi/linux/btf.h
-> > index 5a667107ad2c..1696fd02b302 100644
-> > --- a/include/uapi/linux/btf.h
-> > +++ b/include/uapi/linux/btf.h
-> > @@ -84,7 +84,7 @@ struct btf_type {
-> >    */
-> >   #define BTF_INT_ENCODING(VAL)	(((VAL) & 0x0f000000) >> 24)
-> >   #define BTF_INT_OFFSET(VAL)	(((VAL) & 0x00ff0000) >> 16)
-> > -#define BTF_INT_BITS(VAL)	((VAL)  & 0x000000ff)
-> > +#define BTF_INT_BITS(VAL)	((VAL)  & 0x000003ff)
-> >   /* Attributes stored in the BTF_INT_ENCODING */
-> >   #define BTF_INT_SIGNED	(1 << 0)
-> > diff --git a/tools/bpf/bpftool/btf_dumper.c b/tools/bpf/bpftool/btf_dumper.c
-> > index 0e9310727281..45ed45ea9962 100644
-> > --- a/tools/bpf/bpftool/btf_dumper.c
-> > +++ b/tools/bpf/bpftool/btf_dumper.c
-> > @@ -271,6 +271,40 @@ static void btf_int128_print(json_writer_t *jw, const void *data,
-> >   	}
-> >   }
-> > +static void btf_bigint_print(json_writer_t *jw, const void *data, int nr_bits,
-> > +			     bool is_plain_text)
-> > +{
-> > +	char buf[nr_bits / 4 + 1];
-> > +	bool first = true;
-> > +	int i;
-> > +
-> > +#ifdef __BIG_ENDIAN_BITFIELD
-> > +	for (i = 0; i < nr_bits / 64; i++) {
-> > +#else
-> > +	for (i = nr_bits / 64 - 1; i >= 0; i++) {
-> > +#endif
-> > +		__u64 v = ((__u64 *)data)[i];
-> > +
-> > +		if (first) {
-> > +			if (!v)
-> > +				continue;
-> > +
-> > +			snprintf(buf, sizeof(buf), "%llx", v);
-> > +
-> > +			first = false;
-> > +		} else {
-> > +			size_t off = strlen(buf);
-> > +
-> > +			snprintf(buf + off, sizeof(buf) - off, "%016llx", v);
-> > +		}
-> > +	}
-> > +
-> > +	if (is_plain_text)
-> > +		jsonw_printf(jw, "0x%s", buf);
-> > +	else
-> > +		jsonw_printf(jw, "\"0x%s\"", buf);
-> > +}
-> > +
-> >   static void btf_int128_shift(__u64 *print_num, __u16 left_shift_bits,
-> >   			     __u16 right_shift_bits)
-> >   {
-> > @@ -373,6 +407,11 @@ static int btf_dumper_int(const struct btf_type *t, __u8 bit_offset,
-> >   		return 0;
-> >   	}
-> > +	if (nr_bits > 128) {
-> > +		btf_bigint_print(jw, data, nr_bits, is_plain_text);
-> > +		return 0;
-> > +	}
-> > +
-> >   	if (nr_bits == 128) {
-> >   		btf_int128_print(jw, data, is_plain_text);
-> >   		return 0;
-> [...]
+> Farther, in the actual gup_test.c all the passed gup_flags are erased and
+> unconditionally replaced with FOLL_WRITE.
+
+This is still desirable; Kirill's original intention of only allowing
+FOLL_WRITE or nothing is still what we want. There is no desire to pass
+in general gup_flags.
+
+> 
+> Which means that test_flags are ignored, and code like this always
+> performs pin dump test:
+> 
+> 155  			if (gup->flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
+> 156  				nr = pin_user_pages(addr, nr, gup->flags,
+> 157  						    pages + i, NULL);
+> 158  			else
+> 159  				nr = get_user_pages(addr, nr, gup->flags,
+> 160  						    pages + i, NULL);
+> 161  			break;
+> 
+> Add a new test_flags field, to allow raw gup_flags to work.
+
+I think .test_control_flags field would be a good name, to make it very
+clear that it's not destined for gup_flags. Just .test_flags is not quite
+as clear a distinction from .gup_flags, as .test_control_flags is, IMHO.
+
+> Add a new subcommand for DUMP_USER_PAGES_TEST to specify that pin test
+> should be performed.
+
+It's arguably better to just keep using the -c option instead, plus the new
+.test_control_flags field. Otherwise you get a multiplication of possibilities
+(and therefore, of command line options).
+
+> Remove  unconditional overwriting of gup_flags via FOLL_WRITE. But,
+
+Nope, let's not do that.
+
+> preserve the previous behaviour where FOLL_WRITE was the default flag,
+> and add a new option "-W" to unset FOLL_WRITE.
+
+Or that either.
+
+> 
+> With the fix, dump works like this:
+> 
+> root@virtme:/# gup_test  -c
+> ---- page #0, starting from user virt addr: 0x7f8acb9e4000
+> page:00000000d3d2ee27 refcount:2 mapcount:1 mapping:0000000000000000
+> index:0x0 pfn:0x100bcf
+> anon flags: 0x300000000080016(referenced|uptodate|lru|swapbacked)
+> raw: 0300000000080016 ffffd0e204021608 ffffd0e208df2e88 ffff8ea04243ec61
+> raw: 0000000000000000 0000000000000000 0000000200000000 0000000000000000
+> page dumped because: gup_test: dump_pages() test
+> DUMP_USER_PAGES_TEST: done
+> 
+> root@virtme:/# gup_test  -c -p
+> ---- page #0, starting from user virt addr: 0x7fd19701b000
+> page:00000000baed3c7d refcount:1025 mapcount:1 mapping:0000000000000000
+> index:0x0 pfn:0x108008
+> anon flags: 0x300000000080014(uptodate|lru|swapbacked)
+> raw: 0300000000080014 ffffd0e204200188 ffffd0e205e09088 ffff8ea04243ee71
+> raw: 0000000000000000 0000000000000000 0000040100000000 0000000000000000
+> page dumped because: gup_test: dump_pages() test
+> DUMP_USER_PAGES_TEST: done
+> 
+> Refcount shows the difference between pin vs no-pin case.
+> Also change type of nr from int to long, as it counts number of pages.
+
+Why? Is there a bug? gup only handles int sized amounts of pages so this
+is just adding to the churn, yes?
+
+> 
+> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+> ---
+>   mm/gup_test.c                         |  9 +++------
+>   mm/gup_test.h                         |  1 +
+>   tools/testing/selftests/vm/gup_test.c | 11 +++++++++--
+>   3 files changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/mm/gup_test.c b/mm/gup_test.c
+> index e3cf78e5873e..24c70c5814ba 100644
+> --- a/mm/gup_test.c
+> +++ b/mm/gup_test.c
+> @@ -94,7 +94,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   {
+>   	ktime_t start_time, end_time;
+>   	unsigned long i, nr_pages, addr, next;
+> -	int nr;
+> +	long nr;
+>   	struct page **pages;
+>   	int ret = 0;
+>   	bool needs_mmap_lock =
+> @@ -126,9 +126,6 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   			nr = (next - addr) / PAGE_SIZE;
+>   		}
+>   
+> -		/* Filter out most gup flags: only allow a tiny subset here: */
+> -		gup->flags &= FOLL_WRITE;
+> -
+>   		switch (cmd) {
+>   		case GUP_FAST_BENCHMARK:
+>   			nr = get_user_pages_fast(addr, nr, gup->flags,
+> @@ -152,7 +149,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   					    pages + i, NULL);
+>   			break;
+>   		case DUMP_USER_PAGES_TEST:
+> -			if (gup->flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
+> +			if (gup->test_flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
+>   				nr = pin_user_pages(addr, nr, gup->flags,
+>   						    pages + i, NULL);
+>   			else
+> @@ -187,7 +184,7 @@ static int __gup_test_ioctl(unsigned int cmd,
+>   
+>   	start_time = ktime_get();
+>   
+> -	put_back_pages(cmd, pages, nr_pages, gup->flags);
+> +	put_back_pages(cmd, pages, nr_pages, gup->test_flags);
+>   
+>   	end_time = ktime_get();
+>   	gup->put_delta_usec = ktime_us_delta(end_time, start_time);
+> diff --git a/mm/gup_test.h b/mm/gup_test.h
+> index 90a6713d50eb..b1b376b5d3b2 100644
+> --- a/mm/gup_test.h
+> +++ b/mm/gup_test.h
+> @@ -22,6 +22,7 @@ struct gup_test {
+>   	__u64 size;
+>   	__u32 nr_pages_per_call;
+>   	__u32 flags;
+> +	__u32 test_flags;
+>   	/*
+>   	 * Each non-zero entry is the number of the page (1-based: first page is
+>   	 * page 1, so that zero entries mean "do nothing") from the .addr base.
+> diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
+> index 6c6336dd3b7f..42c71483729f 100644
+> --- a/tools/testing/selftests/vm/gup_test.c
+> +++ b/tools/testing/selftests/vm/gup_test.c
+> @@ -37,13 +37,13 @@ int main(int argc, char **argv)
+>   {
+>   	struct gup_test gup = { 0 };
+>   	unsigned long size = 128 * MB;
+> -	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 0;
+> +	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
+
+Let's leave that alone, as noted above.
+
+>   	unsigned long cmd = GUP_FAST_BENCHMARK;
+>   	int flags = MAP_PRIVATE;
+>   	char *file = "/dev/zero";
+>   	char *p;
+>   
+> -	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwSH")) != -1) {
+> +	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
+
+And also as noted above I don't think we need this or any of the remaining
+hunks below.
+
+>   		switch (opt) {
+>   		case 'a':
+>   			cmd = PIN_FAST_BENCHMARK;
+> @@ -65,6 +65,10 @@ int main(int argc, char **argv)
+>   			 */
+>   			gup.which_pages[0] = 1;
+>   			break;
+> +		case 'p':
+> +			/* works only with DUMP_USER_PAGES_TEST */
+> +			gup.test_flags |= GUP_TEST_FLAG_DUMP_PAGES_USE_PIN;
+> +			break;
+>   		case 'F':
+>   			/* strtol, so you can pass flags in hex form */
+>   			gup.flags = strtol(optarg, 0, 0);
+> @@ -93,6 +97,9 @@ int main(int argc, char **argv)
+>   		case 'w':
+>   			write = 1;
+>   			break;
+> +		case 'W':
+> +			write = 0;
+> +			break;
+>   		case 'f':
+>   			file = optarg;
+>   			break;
+> 
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
