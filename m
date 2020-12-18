@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65401C2BBD4
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:24:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76136C2BBCF
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:26:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A8B923443
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:24:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 489E323A79
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:26:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726459AbgLRMYT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 07:24:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40688 "EHLO
+        id S1726619AbgLRM0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 07:26:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726395AbgLRMYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 07:24:19 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA38C0617A7
-        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:23:38 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id w1so2897197ejf.11
-        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:23:38 -0800 (PST)
+        with ESMTP id S1726072AbgLRM0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 07:26:11 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F04C06138C
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:25:30 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id d17so2910861ejy.9
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=q5KjjPrbn9WR2MdEGDTRtTus2Vw4k9w92nCN62Th8qg=;
-        b=UQKi0zIH+5RBkxjLICF+v+gLFuX5Yn/W4ogPzP5V4rmY3SGR7gUDPduCncrWW7RecZ
-         7wtPBVcyR2wdwtN+1OkyNp9AM7ZWjYpRGd+2d4UyyrFoJaA0m7I5FJ02AMVCtFIP5YbG
-         H2qh0kxKXwbuOesHnKGk8DP/SkkhpJNP+kc/fm0DCQ+6WjDTe0OK/aM3vqfSKJOgUxnh
-         bsD/Bxdlwo78e+ZrI9p694YPJPkghUmemIZV36cJ1HubQ3mNtLUhCN0zYPfUyV9VSVfp
-         r073sVIb5imENWeRbeLod1SoKtKN+DHcvH165E2ueeKSc/DJjrmvz6unJag37qvpAnU7
-         i8+A==
+        bh=3lhuweqQlhHO7hy/V02BEkOocTAj67fYHbIRgEWFXLs=;
+        b=MJ6K37SnOv0MOV1yNPGIsCJSfLdzIW59btJg0j0VNKWwYOIneNWAlzLezFS+4P1UIg
+         kvtBTojCVh9e1FShHJeAPucWvI2ftbOUroXc3gg7yM9AHLhxecDsp8JqaLP16g3CYZ95
+         KNP1Cnk6441ZWkLzWsRgdtvMxmnJkXOKrDk8xEK6tCfLPgJxrVR4w/situU0UMdI+ZPY
+         SogVsfeoRkuyNuOHCbCzgcc9dcFBT5d5ugBKWROYrsUZM6AezfJFecEcH9aIqwQZ1vsU
+         gurHn2N1ewEy9LbesQUw63usbfVnz6ZqRvJr4uYOp33JrXL8bIpGh2UkjhHGhGLVcJy7
+         FOPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=q5KjjPrbn9WR2MdEGDTRtTus2Vw4k9w92nCN62Th8qg=;
-        b=ZYqhQwBtg2LDpfPPtYGW1d1O6g9vfiSXUJgd8LhJUVWVzlJmoH8qNtEC0y5zOo0uze
-         Usy8YkHYyiYDYFjVEVRD8FfhbEjKjXUTa/eAP0z5aHnHi1LK+VhMSoUrDWY6ra00pkYa
-         uQJOwgg9y6JMX9ZPDl3qOEfv8GcyQeTmhUJzchEIHiqLZzNQY71NcoYmwmkEaGOqdXvt
-         8k6JyFPwCV9u/XFwHLZdAF0k7siQ1ZKHuySgMiHeFgYx/fjegW+TnK2MH3lZ/ORfEwpm
-         MW6ilzBg6XJLFrCIxNooYv00xuiozgbfH+uylakw1Jes8hj9N89Qy1jcM7h2wauNvBZP
-         PEqg==
-X-Gm-Message-State: AOAM532wafpyNriWHkOzFXbaw+fetMbJ7nnCWGkGnud73bDa8JBNt/vt
-        4717gUhbl+Tz//eoSl9qXAXXnfNHyNYpjBFUryH62g==
-X-Google-Smtp-Source: ABdhPJzYpFY+fqtYFVTRAo67fRmzRQtjC2ddNY82HbsGhTh9P0LkvQeKOIes+HF7XU76kp1q3P/VHUBHVO7ShP4WC/s=
-X-Received: by 2002:a17:906:4a4f:: with SMTP id a15mr3763164ejv.541.1608294217306;
- Fri, 18 Dec 2020 04:23:37 -0800 (PST)
+        bh=3lhuweqQlhHO7hy/V02BEkOocTAj67fYHbIRgEWFXLs=;
+        b=G3NumM1CWJgUFtob24dibv/r5KxYgbcQuHpmMZ51/SM0UJcTY1ymxEw55wChMPoVvH
+         JwSjEi7lxKbvN458MwhlWr82vSnkBWttwSPwrrgTPFIgoaGEVA1r+TnbMYCNa151/iwv
+         nFOoe8/Q5onnetKBOMZKn2+M1POf8iy0diFpk7njVD6Z0uSd4jLbAKPTp7F+dR8+u+Eh
+         UUpU0UswwidpKFo+Zsb7TqqmBqobjKVXORgCmXoBdhiQql0PARkzsa4dvN0kYJDRf6DD
+         TsWNDNB1kvVvGfzXkGOr1PNsx7ErUKsN+pzcTLzAiFdMiyWTMpInEZzdgnRSbeQhgt9N
+         JdBQ==
+X-Gm-Message-State: AOAM530k0gpa8Lgo2uobPaaRydR5EajIohfZNY9IC6jjiYeiB7z1wNKa
+        TO09+9s1tnyN0CyEzxCsj59dqVHlDKnU5ZnXoAdkhg==
+X-Google-Smtp-Source: ABdhPJxS61dnQ5BtpBbJ0RZj2DWMhhsRQ2d4te1FBg4JvHGVH2QxOB81QucqauKQ/kxnWqUevwveMDcth6n5BZbPruM=
+X-Received: by 2002:a17:906:ce51:: with SMTP id se17mr3761264ejb.314.1608294329649;
+ Fri, 18 Dec 2020 04:25:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
- <20201217185243.3288048-4-pasha.tatashin@soleen.com> <20201218093653.GS32193@dhcp22.suse.cz>
-In-Reply-To: <20201218093653.GS32193@dhcp22.suse.cz>
+ <20201217185243.3288048-6-pasha.tatashin@soleen.com> <20201218094324.GT32193@dhcp22.suse.cz>
+In-Reply-To: <20201218094324.GT32193@dhcp22.suse.cz>
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Fri, 18 Dec 2020 07:23:00 -0500
-Message-ID: <CA+CK2bAtD+m=-W-St7RqeFSkc7-3O4a32LOLY6LuVG4hOgJj=A@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] mm: apply per-task gfp constraints in fast path
+Date:   Fri, 18 Dec 2020 07:24:53 -0500
+Message-ID: <CA+CK2bAKiWC5E4h4CZOqQrh4QzQQ-3_TUJgB=r4H23gu3cqvAA@mail.gmail.com>
+Subject: Re: [PATCH v4 05/10] mm/gup: migrate pinned pages out of movable zone
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -84,57 +84,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 4:36 AM Michal Hocko <mhocko@suse.com> wrote:
+On Fri, Dec 18, 2020 at 4:43 AM Michal Hocko <mhocko@suse.com> wrote:
 >
-> On Thu 17-12-20 13:52:36, Pavel Tatashin wrote:
-> [..]
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index 469016222cdb..d9546f5897f4 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -3234,11 +3234,12 @@ static bool throttle_direct_reclaim(gfp_t gfp_mask, struct zonelist *zonelist,
-> >  unsigned long try_to_free_pages(struct zonelist *zonelist, int order,
-> >                               gfp_t gfp_mask, nodemask_t *nodemask)
-> >  {
-> > +     gfp_t current_gfp_mask = current_gfp_context(gfp_mask);
-> >       unsigned long nr_reclaimed;
-> >       struct scan_control sc = {
-> >               .nr_to_reclaim = SWAP_CLUSTER_MAX,
-> > -             .gfp_mask = current_gfp_context(gfp_mask),
-> > -             .reclaim_idx = gfp_zone(gfp_mask),
-> > +             .gfp_mask = current_gfp_mask,
-> > +             .reclaim_idx = gfp_zone(current_gfp_mask),
-> >               .order = order,
-> >               .nodemask = nodemask,
-> >               .priority = DEF_PRIORITY,
-> > @@ -4158,17 +4159,18 @@ static int __node_reclaim(struct pglist_data *pgdat, gfp_t gfp_mask, unsigned in
-> >  {
-> >       /* Minimum pages needed in order to stay on node */
-> >       const unsigned long nr_pages = 1 << order;
-> > +     gfp_t current_gfp_mask = current_gfp_context(gfp_mask);
-> >       struct task_struct *p = current;
-> >       unsigned int noreclaim_flag;
-> >       struct scan_control sc = {
-> >               .nr_to_reclaim = max(nr_pages, SWAP_CLUSTER_MAX),
-> > -             .gfp_mask = current_gfp_context(gfp_mask),
-> > +             .gfp_mask = current_gfp_mask,
-> >               .order = order,
-> >               .priority = NODE_RECLAIM_PRIORITY,
-> >               .may_writepage = !!(node_reclaim_mode & RECLAIM_WRITE),
-> >               .may_unmap = !!(node_reclaim_mode & RECLAIM_UNMAP),
-> >               .may_swap = 1,
-> > -             .reclaim_idx = gfp_zone(gfp_mask),
-> > +             .reclaim_idx = gfp_zone(current_gfp_mask),
-> >       };
-> >
-> >       trace_mm_vmscan_node_reclaim_begin(pgdat->node_id, order,
+> On Thu 17-12-20 13:52:38, Pavel Tatashin wrote:
+> > +      * 1. Pinned pages: (long-term) pinning of movable pages is avoided
+> > +      *    when pages are pinned and faulted, but it is still possible that
+> > +      *    address space already has pages in ZONE_MOVABLE at the time when
+> > +      *    pages are pinned (i.e. user has touches that memory before
+> > +      *    pinning). In such case we try to migrate them to a different zone,
+> > +      *    but if migration fails the pages can still end-up pinned in
+> > +      *    ZONE_MOVABLE. In such case, memory offlining might retry a long
+> > +      *    time and will only succeed once user application unpins pages.
 >
-> I was hoping we had agreed these are not necessary and they shouldn't be
-> touched in the patch.
+> I still dislike this. Pinning can fail so there shouldn't be any reasons
+> to break MOVABLE constrain for something that can be handled. If
+> anything there should be a very good reasoning behind this decision
+> documented.
 
-Thank you for noticing, I was sure I removed these changes, not sure
-what happened :(
-They will be gone in the next version.
+This is basically current behaviour, after patch 8, we can never pin
+pages in the movable zone, so I will update this comment in that
+patch.
 
 Thank you,
 Pasha
