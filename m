@@ -2,143 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14889C4361B
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 22:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C88C2D0E4
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 23:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB0AC23B01
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 22:45:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3523C23B28
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 23:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbgLRWpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 17:45:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51472 "EHLO
+        id S1726209AbgLRW74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 17:59:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbgLRWp3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 17:45:29 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C86C0617A7;
-        Fri, 18 Dec 2020 14:44:49 -0800 (PST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1608331487;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RSvGwnCoAalQdHR+Ln4Q2sS79B4UxqMN+RD1afn6GC4=;
-        b=WLPlBrXYqR/QHDC+jzhTogdMRUXRoXK7xVn6httZGE/POOtKQOICxm2Vx7GbejEFjraKCp
-        8FtPz4HV4CtlPx6lsNBoWhtimmNasXfdHmGCB3HmbMpO6jtChbcJzok72ZwXgYgiPqi/+W
-        TVo3o8mEE5wxXl7oVY4N8wC2y8Fd1c5dq3sp22pGFacd1ybmBMogWCrnWhS0YH/Yv6bOLv
-        jy76FaA3txWF3rrqdIiM/E1ZuVFE2VhdGDiw8WjIanN7S0vT61aUViIeTCTFVaKx6xUytw
-        RvdtJ7Gjd4DRTiq5bs+kLdz+fgJOLnKr2p1wVbJxp5o5kFLaeENoshm8pvRMtQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1608331487;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RSvGwnCoAalQdHR+Ln4Q2sS79B4UxqMN+RD1afn6GC4=;
-        b=adzlxci9JislJbxDWr9PbAbA3shNaiVRFjiwlYUSAoyCp+6io/bqTAyHyqeJm/zADQxY5/
-        Mn3qg+DY7xHFSeBA==
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     "Weiny\, Ira" <ira.weiny@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>, X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux MM <linux-mm@kvack.org>, linux-kselftest@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH V3 04/10] x86/pks: Preserve the PKRS MSR on context switch
-In-Reply-To: <CAPcyv4gqm5p+pVmX4JL0fT2LY0dfoT+UXAfsGLA9LMr42vp33A@mail.gmail.com>
-References: <20201106232908.364581-1-ira.weiny@intel.com> <20201106232908.364581-5-ira.weiny@intel.com> <871rfoscz4.fsf@nanos.tec.linutronix.de> <87mtycqcjf.fsf@nanos.tec.linutronix.de> <878s9vqkrk.fsf@nanos.tec.linutronix.de> <CAPcyv4h2MvybBi==3uzAjGeW0R7azHYSKwmvzMXq9eM8NzMLEg@mail.gmail.com> <875z4yrfhr.fsf@nanos.tec.linutronix.de> <CAPcyv4gqm5p+pVmX4JL0fT2LY0dfoT+UXAfsGLA9LMr42vp33A@mail.gmail.com>
-Date:   Fri, 18 Dec 2020 23:44:47 +0100
-Message-ID: <87wnxepwdc.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S1725957AbgLRW74 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 17:59:56 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2412EC0617B0;
+        Fri, 18 Dec 2020 14:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=wZt5jPkvDSYDw1XVc5r0R9C+AIg9SwGtTG0KRX6U9Fw=; b=QEbvfz27RCcd47U1jfTFu5wjHF
+        4qNrQqRDEK5VTtx69yxp0uca/x1i6r9+kRqjPkjZftduHIf+VdopkauCB7Ww9g6F+2u0nb0a2xbsz
+        TitDRYLBtxSeliJzCYqNRsW5VgY3ze4qHi3BjDyfzX/+k7ZTgYozobXyabbc1Ij7lbF1/KdIEnoJN
+        Mlqm3JFUE6TfwAf6/W1+zPyCRpCnC/kEPiXr45t0Vun8wHAoGmvxWcbbqkVLTt3Zg9o70sHHEZU75
+        JSuQ3kzfeoJtc48tlp0LffA6kiT8Z43g2bNyHQ/KUoCqcpnRB9VYOq5uuhKcb45uMP37GlZmGrGZH
+        QHjumSnw==;
+Received: from [2601:1c0:6280:3f0::64ea]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kqOiK-0005zy-Kx; Fri, 18 Dec 2020 22:59:09 +0000
+Subject: Re: [PATCH 06/22] misc: xlink-pcie: Add documentation for XLink PCIe
+ driver
+To:     mgross@linux.intel.com, markgross@kernel.org, arnd@arndb.de,
+        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        leonard.crestez@nxp.com, palmerdabbelt@google.com,
+        paul.walmsley@sifive.com, peng.fan@nxp.com, robh+dt@kernel.org,
+        shawnguo@kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Srikanth Thokala <srikanth.thokala@intel.com>,
+        linux-doc@vger.kernel.org
+References: <20201201223511.65542-1-mgross@linux.intel.com>
+ <20201201223511.65542-7-mgross@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <2fd73da0-ee89-3831-bf96-5ed130e90c4d@infradead.org>
+Date:   Fri, 18 Dec 2020 14:59:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20201201223511.65542-7-mgross@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 18 2020 at 13:58, Dan Williams wrote:
-> On Fri, Dec 18, 2020 at 1:06 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->> kmap_local() is fine. That can work automatically because it's strict
->> local to the context which does the mapping.
->>
->> kmap() is dubious because it's a 'global' mapping as dictated per
->> HIGHMEM. So doing the RELAXED mode for kmap() is sensible I think to
->> identify cases where the mapped address is really handed to a different
->> execution context. We want to see those cases and analyse whether this
->> can't be solved in a different way. That's why I suggested to do a
->> warning in that case.
->>
->> Also vs. the DAX use case I really meant the code in fs/dax and
->> drivers/dax/ itself which is handling this via dax_read_[un]lock.
->>
->> Does that make more sense?
->
-> Yup, got it. The dax code can be precise wrt to PKS in a way that
-> kmap_local() cannot.
+On 12/1/20 2:34 PM, mgross@linux.intel.com wrote:
+> From: Srikanth Thokala <srikanth.thokala@intel.com>
+> 
+> Provide overview of XLink PCIe driver implementation
+> 
+> Cc: linux-doc@vger.kernel.org
+> Reviewed-by: Mark Gross <mgross@linux.intel.com>
+> Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
+> ---
+>  Documentation/vpu/index.rst      |  1 +
+>  Documentation/vpu/xlink-pcie.rst | 91 ++++++++++++++++++++++++++++++++
+>  2 files changed, 92 insertions(+)
+>  create mode 100644 Documentation/vpu/xlink-pcie.rst
+> 
 
-Which makes me wonder whether we should have kmap_local_for_read()
-or something like that, which could be obviously only be RO enforced for
-the real HIGHMEM case or the (for now x86 only) enforced kmap_local()
-debug mechanics on 64bit.
+Hi--
 
-So for the !highmem case it would not magically make the existing kernel
-mapping RO, but this could be forwarded to the PKS protection. Aside of
-that it's a nice annotation in the code.
+For document, chapter, section, etc., headings, please read & use
+Documentation/doc-guide/sphinx.rst:
 
-That could be used right away for all the kmap[_atomic] -> kmap_local
-conversions.
+* Please stick to this order of heading adornments:
 
-Thanks,
+  1. ``=`` with overline for document title::
 
-        tglx
----
- include/linux/highmem-internal.h |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+       ==============
+       Document title
+       ==============
 
---- a/include/linux/highmem-internal.h
-+++ b/include/linux/highmem-internal.h
-@@ -32,6 +32,10 @@ static inline void kmap_flush_tlb(unsign
- #define kmap_prot PAGE_KERNEL
- #endif
- 
-+#ifndef kmap_prot_to
-+#define kmap_prot PAGE_KERNEL_RO
-+#endif
-+
- void *kmap_high(struct page *page);
- void kunmap_high(struct page *page);
- void __kmap_flush_unused(void);
-@@ -73,6 +77,11 @@ static inline void *kmap_local_page(stru
- 	return __kmap_local_page_prot(page, kmap_prot);
- }
- 
-+static inline void *kmap_local_page_for_read(struct page *page)
-+{
-+	return __kmap_local_page_prot(page, kmap_prot_ro);
-+}
-+
- static inline void *kmap_local_page_prot(struct page *page, pgprot_t prot)
- {
- 	return __kmap_local_page_prot(page, prot);
-@@ -169,6 +178,11 @@ static inline void *kmap_local_page_prot
- {
- 	return kmap_local_page(page);
- }
-+
-+static inline void *kmap_local_page_for_read(struct page *page)
-+{
-+	return kmap_local_page(page);
-+}
- 
- static inline void *kmap_local_pfn(unsigned long pfn)
- {
+  2. ``=`` for chapters::
+
+       Chapters
+       ========
+
+  3. ``-`` for sections::
+
+       Section
+       -------
+
+  4. ``~`` for subsections::
+
+       Subsection
+       ~~~~~~~~~~
+
+> diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
+> new file mode 100644
+> index 000000000000..bc64b566989d
+> --- /dev/null
+> +++ b/Documentation/vpu/xlink-pcie.rst
+> @@ -0,0 +1,91 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver: xlink-pcie driver
+> +================================
+> +Supported chips:
+> +  * Intel Edge.AI Computer Vision platforms: Keem Bay
+> +    Suffix: Bay
+> +    Slave address: 6240
+> +    Datasheet: Publicly available at Intel
+> +
+> +Author: Srikanth Thokala Srikanth.Thokala@intel.com
+> +
+> +-------------
+> +Introduction:
+
+No colon at end of chapter/section headings.
+
+> +-------------
+> +The xlink-pcie driver in linux-5.4 provides transport layer implementation for
+
+                            Linux 5.4 (?)
+
+> +the data transfers to support xlink protocol subsystem communication with the
+
+                                 Xlink
+
+> +peer device. i.e, between remote host system and the local Keem Bay device.
+
+        device, i.e., between the remote host system and
+
+> +
+> +The Keem Bay device is an ARM based SOC that includes a vision processing
+
+                             ARM-based
+
+> +unit (VPU) and deep learning, neural network core in the hardware.
+> +The xlink-pcie driver exports a functional device endpoint to the Keem Bay device
+> +and supports two-way communication with peer device.
+
+                                      with the peer device.
+
+> +
+> +------------------------
+> +High-level architecture:
+> +------------------------
+> +Remote Host: IA CPU
+> +Local Host: ARM CPU (Keem Bay)::
+> +
+> +        +------------------------------------------------------------------------+
+> +        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
+> +        +==================================+=+===============================+===+
+> +        |  User App                        | | User App                      |   |
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |   XLink UAPI                     | | XLink UAPI                    |   |
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |   XLink Core                     | | XLink Core                    |   |
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |   XLink PCIe                     | | XLink PCIe                    |   |
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
+> +        +----------------------------------+-+-------------------------------+---+
+> +        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
+> +        +----------------------------------+-+-------------------------------+---+
+> +               ^                                             ^
+> +               |                                             |
+> +               |------------- PCIe x2 Link  -----------------|
+> +
+> +This XLink PCIe driver comprises of two variants:
+> +* Local Host driver
+> +
+> +  * Intended for ARM CPU
+> +  * It is based on PCI Endpoint Framework
+> +  * Driver path: {tree}/drivers/misc/xlink-pcie/local_host
+> +
+> +* Remote Host driver
+> +
+> +       * Intended for IA CPU
+> +       * It is a PCIe endpoint driver
+> +       * Driver path: {tree}/drivers/misc/xlink-pcie/remote_host
+> +
+> +XLink PCIe communication between local host and remote host is achieved through
+> +ring buffer management and MSI/Doorbell interrupts.
+> +
+> +The xlink-pcie driver subsystem registers Keem Bay device as an endpoint driver
+
+                                   registers the
+
+> +and provides standard linux pcie sysfs interface, # /sys/bus/pci/devices/xxxx:xx:xx.0/
+
+                         Linux PCIe
+
+> +
+> +
+> +-------------------------
+> +XLink protocol subsystem:
+
+No colon at end.
+
+> +-------------------------
+> +xlink is an abstracted control and communication subsystem based on channel
+
+   Xlink
+
+> +identification. It is intended to support VPU technology both at SoC level as
+> +well as at IP level, over multiple interfaces.
+> +
+> +- The xlink subsystem abstracts several types of communication channels
+
+         Xlink
+
+> +  underneath, allowing the usage of different interfaces with the
+> +  same function call interface.
+> +- The Communication channels are full-duplex protocol channels allowing
+> +  concurrent bidirectional communication.
+> +- The xlink subsystem also supports control operations to VPU either
+
+         Xlink
+
+> +  from standalone local system or from remote system based on communication
+> +  interface underneath.
+> +- The xlink subsystem supports following communication interfaces:
+
+         Xlink           supports the following
+
+
+> +    * USB CDC
+> +    * Gigabit Ethernet
+> +    * PCIe
+> +    * IPC
+> 
+
+
+cheers.
+-- 
+~Randy
+
