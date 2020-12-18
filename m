@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76136C2BBCF
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:26:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B99C2C4361B
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:34:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 489E323A79
-	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:26:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F06723443
+	for <linux-doc@archiver.kernel.org>; Fri, 18 Dec 2020 12:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgLRM0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 07:26:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40978 "EHLO
+        id S1726018AbgLRMdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 07:33:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726072AbgLRM0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 07:26:11 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3F04C06138C
-        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:25:30 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id d17so2910861ejy.9
-        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:25:30 -0800 (PST)
+        with ESMTP id S1725968AbgLRMdy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 07:33:54 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F25AC0617A7
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:33:13 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id cm17so2179806edb.4
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 04:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3lhuweqQlhHO7hy/V02BEkOocTAj67fYHbIRgEWFXLs=;
-        b=MJ6K37SnOv0MOV1yNPGIsCJSfLdzIW59btJg0j0VNKWwYOIneNWAlzLezFS+4P1UIg
-         kvtBTojCVh9e1FShHJeAPucWvI2ftbOUroXc3gg7yM9AHLhxecDsp8JqaLP16g3CYZ95
-         KNP1Cnk6441ZWkLzWsRgdtvMxmnJkXOKrDk8xEK6tCfLPgJxrVR4w/situU0UMdI+ZPY
-         SogVsfeoRkuyNuOHCbCzgcc9dcFBT5d5ugBKWROYrsUZM6AezfJFecEcH9aIqwQZ1vsU
-         gurHn2N1ewEy9LbesQUw63usbfVnz6ZqRvJr4uYOp33JrXL8bIpGh2UkjhHGhGLVcJy7
-         FOPg==
+        bh=i4auixzjhc3l5kGc5mD15oPo8KZORVAz4eHOnG9WGUU=;
+        b=n6tUjhd4sqvhp8M2z4j5VFSxJeotpjxPd0CPZa5/EEkcoeLyfyDskake0eK9yxhmwy
+         S2gV2oOJzviGu9Y+HT1JnquGMls/BLX+jC+HgjKoBbCtEGWktMPT2nMVHOoLhLl0KgvG
+         peXy3mP/v5o9GPyQ8zCeJENiWt244Qtx5yIrpCIXKcHHLKce5fQ7WLALIl8MpgCHKKD0
+         q1lOXUYw01ZQ5n/Hzb1tToYlIWOWHfXBaEMR8L39XIv4/BPtOJ3zfKkyuTXHwcwSFoiD
+         GbfceUFPcWfb8QPWxwJ3/wFiCvhjXjbRR2moF52UiyqMkdZSC0eRi45AU3BnsQyx5mMJ
+         1t7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3lhuweqQlhHO7hy/V02BEkOocTAj67fYHbIRgEWFXLs=;
-        b=G3NumM1CWJgUFtob24dibv/r5KxYgbcQuHpmMZ51/SM0UJcTY1ymxEw55wChMPoVvH
-         JwSjEi7lxKbvN458MwhlWr82vSnkBWttwSPwrrgTPFIgoaGEVA1r+TnbMYCNa151/iwv
-         nFOoe8/Q5onnetKBOMZKn2+M1POf8iy0diFpk7njVD6Z0uSd4jLbAKPTp7F+dR8+u+Eh
-         UUpU0UswwidpKFo+Zsb7TqqmBqobjKVXORgCmXoBdhiQql0PARkzsa4dvN0kYJDRf6DD
-         TsWNDNB1kvVvGfzXkGOr1PNsx7ErUKsN+pzcTLzAiFdMiyWTMpInEZzdgnRSbeQhgt9N
-         JdBQ==
-X-Gm-Message-State: AOAM530k0gpa8Lgo2uobPaaRydR5EajIohfZNY9IC6jjiYeiB7z1wNKa
-        TO09+9s1tnyN0CyEzxCsj59dqVHlDKnU5ZnXoAdkhg==
-X-Google-Smtp-Source: ABdhPJxS61dnQ5BtpBbJ0RZj2DWMhhsRQ2d4te1FBg4JvHGVH2QxOB81QucqauKQ/kxnWqUevwveMDcth6n5BZbPruM=
-X-Received: by 2002:a17:906:ce51:: with SMTP id se17mr3761264ejb.314.1608294329649;
- Fri, 18 Dec 2020 04:25:29 -0800 (PST)
+        bh=i4auixzjhc3l5kGc5mD15oPo8KZORVAz4eHOnG9WGUU=;
+        b=OpvZaGSIXdjelJ6fUwlx+XBxY0PxsCeuGagDmoy9PfTVAcA9yUcgNUcRUBi+7ZXFU5
+         X690BSmSFUizb1kKqi0TAghjJkEoJeVh4yDN0UqOiqoQgnDKNNLbyNE58N6r8vrHraQt
+         hdzlvfcfOtYxzYnB50RELh/6uMheh/IjpIAtTcy9ly0BkKkNKkpGuP7u9vg7rqWKZO/x
+         +D2onu/He7zI+9bulIJqQFOPgrrK09d2nZXiN+48oH1ftaBcTkS6gC0h7bCzZ7hKhAEt
+         2ZgbmIwd0N9yzA6CGQptiHVl2Ao3e6BXbHu2IM/RK0nYb9onMh3ZGf7miEaeDDUkyVaB
+         cr0w==
+X-Gm-Message-State: AOAM531/RN5atDpfwUbuu4iCxj84Egt7YbYhlqp8gs3pXqnSw0QFj82t
+        sHG4wU6vSReLRIL6tKr1f0Bhr5yEO4q3ybM78dmukA==
+X-Google-Smtp-Source: ABdhPJwgiTCZzvnrnw4pePa5kEW9sgXWm1sxNmTcGwoJHPoxUO+t4XBaVGOPekgQGbQO4lfsyuEJ3CDfnv6ztzzqldQ=
+X-Received: by 2002:a50:f404:: with SMTP id r4mr4201011edm.62.1608294792260;
+ Fri, 18 Dec 2020 04:33:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
- <20201217185243.3288048-6-pasha.tatashin@soleen.com> <20201218094324.GT32193@dhcp22.suse.cz>
-In-Reply-To: <20201218094324.GT32193@dhcp22.suse.cz>
+ <20201217185243.3288048-8-pasha.tatashin@soleen.com> <20201218095058.GV32193@dhcp22.suse.cz>
+In-Reply-To: <20201218095058.GV32193@dhcp22.suse.cz>
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Fri, 18 Dec 2020 07:24:53 -0500
-Message-ID: <CA+CK2bAKiWC5E4h4CZOqQrh4QzQQ-3_TUJgB=r4H23gu3cqvAA@mail.gmail.com>
-Subject: Re: [PATCH v4 05/10] mm/gup: migrate pinned pages out of movable zone
+Date:   Fri, 18 Dec 2020 07:32:36 -0500
+Message-ID: <CA+CK2bBTtVQuZMBQ=67cFQ6fLNcFi+nuPgFWOHWMWgyiQSeEzQ@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] mm/gup: change index type to long as it counts pages
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -84,30 +84,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 4:43 AM Michal Hocko <mhocko@suse.com> wrote:
+On Fri, Dec 18, 2020 at 4:51 AM Michal Hocko <mhocko@suse.com> wrote:
 >
-> On Thu 17-12-20 13:52:38, Pavel Tatashin wrote:
-> > +      * 1. Pinned pages: (long-term) pinning of movable pages is avoided
-> > +      *    when pages are pinned and faulted, but it is still possible that
-> > +      *    address space already has pages in ZONE_MOVABLE at the time when
-> > +      *    pages are pinned (i.e. user has touches that memory before
-> > +      *    pinning). In such case we try to migrate them to a different zone,
-> > +      *    but if migration fails the pages can still end-up pinned in
-> > +      *    ZONE_MOVABLE. In such case, memory offlining might retry a long
-> > +      *    time and will only succeed once user application unpins pages.
+> On Thu 17-12-20 13:52:40, Pavel Tatashin wrote:
+> > In __get_user_pages_locked() i counts number of pages which should be
+> > long.
 >
-> I still dislike this. Pinning can fail so there shouldn't be any reasons
-> to break MOVABLE constrain for something that can be handled. If
-> anything there should be a very good reasoning behind this decision
-> documented.
+> Do we know of any caller who would like to pin so many pages it wouldn't
+> fit into an int? I suspect this is more to sync types of nr_pages and
+> the iterator right. It would be better to be explicit about this in the
+> changelog.
 
-This is basically current behaviour, after patch 8, we can never pin
-pages in the movable zone, so I will update this comment in that
-patch.
+It is to sync types. I will add it to the changelog.
 
-Thank you,
-Pasha
+But, in general 32-bit increasingly becomes too small for handling
+page count proportional values. It is 8T for npages. For pinning may
+be a bit too large today, but I can image RDMA this size in the
+future.
 
+>
+> > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+>
+> > ---
+> >  mm/gup.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/mm/gup.c b/mm/gup.c
+> > index 591d8e2dfc70..1ebb7cc2fbe4 100644
+> > --- a/mm/gup.c
+> > +++ b/mm/gup.c
+> > @@ -1481,7 +1481,7 @@ static long __get_user_pages_locked(struct mm_struct *mm, unsigned long start,
+> >  {
+> >       struct vm_area_struct *vma;
+> >       unsigned long vm_flags;
+> > -     int i;
+> > +     long i;
+> >
+> >       /* calculate required read or write permissions.
+> >        * If FOLL_FORCE is set, we only require the "MAY" flags.
+> > --
+> > 2.25.1
+>
 > --
 > Michal Hocko
 > SUSE Labs
