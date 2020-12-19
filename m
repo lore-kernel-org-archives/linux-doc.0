@@ -2,261 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF6CC4361B
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Dec 2020 00:09:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F20CC3526E
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Dec 2020 03:36:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D8E423BAB
-	for <linux-doc@archiver.kernel.org>; Sat, 19 Dec 2020 00:09:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE64E23BB5
+	for <linux-doc@archiver.kernel.org>; Sat, 19 Dec 2020 03:36:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbgLSAJR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 18 Dec 2020 19:09:17 -0500
-Received: from mga09.intel.com ([134.134.136.24]:27012 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbgLSAJR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 18 Dec 2020 19:09:17 -0500
-IronPort-SDR: RgM1hIb7Ppv/kJucWYGLaCY+RHJWKTgxddYfjUK4SLlg7BuaXasrG13dnvU/WfozzNssf2fvbg
- C7nVRGKzZV4g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9839"; a="175668070"
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
-   d="scan'208";a="175668070"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 16:07:31 -0800
-IronPort-SDR: 5apeQInjqN1QtnzWe4LXLxbLfwawLGtuxvxGuwLtpRuitCis6i5rtlIA6G98NFCAt799C06QgB
- EK1PpOr2QIVg==
-X-IronPort-AV: E=Sophos;i="5.78,431,1599548400"; 
-   d="scan'208";a="394032333"
-Received: from smtp.ostc.intel.com ([10.54.29.231])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2020 16:07:30 -0800
-Received: from localhost (mtg-dev.jf.intel.com [10.54.74.10])
-        by smtp.ostc.intel.com (Postfix) with ESMTP id 4DD876363;
-        Fri, 18 Dec 2020 16:07:30 -0800 (PST)
-Date:   Fri, 18 Dec 2020 16:07:30 -0800
-From:   mark gross <mgross@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     mgross@linux.intel.com, markgross@kernel.org, arnd@arndb.de,
-        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        leonard.crestez@nxp.com, palmerdabbelt@google.com,
-        paul.walmsley@sifive.com, peng.fan@nxp.com, robh+dt@kernel.org,
-        shawnguo@kernel.org, linux-kernel@vger.kernel.org,
-        Srikanth Thokala <srikanth.thokala@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 06/22] misc: xlink-pcie: Add documentation for XLink PCIe
- driver
-Message-ID: <20201219000730.GA37040@linux.intel.com>
-Reply-To: mgross@linux.intel.com
-References: <20201201223511.65542-1-mgross@linux.intel.com>
- <20201201223511.65542-7-mgross@linux.intel.com>
- <2fd73da0-ee89-3831-bf96-5ed130e90c4d@infradead.org>
+        id S1726334AbgLSDgH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 18 Dec 2020 22:36:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726323AbgLSDgG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 18 Dec 2020 22:36:06 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588DEC061282
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 19:35:20 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id a6so2899571qtw.6
+        for <linux-doc@vger.kernel.org>; Fri, 18 Dec 2020 19:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XWIxnd1TBokkeQDQoDs2P8h6KNdDQQlPBRCQPqQe8vw=;
+        b=oT4McdXtX1VIEqC/VVrfo0fLp43cCBc3I5eiaj9ysuFEvUHHQvIi7jdhZ30CjQYwhm
+         5PfHpVTU8EMUWgRoXVY+IhUgByR6sbEQzsUjUSezQxTYBJA5i6MYybCK/QjmtzwO9Mhz
+         YGfjo66X6cNq1DYsVTfUk4QCRF4zftFk5BndhToeX5XBdfp+Y4LUd/hGBF6XziHM/Pkr
+         qX0LmYurv2QIwATyXDmABTbmO/7E9KJ3s1JUdrdCyO0PssTAfQdiPuwN5kBytSzr7Pe9
+         QohicqYEs+mpz+Hr9JF5QzDFQVYBgxIxMM0eb5rmeAqtqT9OZyxNsIGjtDnymKunXWtc
+         A+xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XWIxnd1TBokkeQDQoDs2P8h6KNdDQQlPBRCQPqQe8vw=;
+        b=HhnTxxubw1zUKxsSP8FZQQOzHIZpc2jlEQbc1XeZ8rlE64r9ZhjcZ5JjG7U/pvZuUV
+         bKiuzpFKOtbNB5TYC4Dq1Mz+SOTf5xGVKX7NWNZ3uC3iSNgZ8tmTmo3uDQhhRppk+pR4
+         DHtWR0VHyjq1mJgbKUWKF/1cifyEgndn6qHtWYnI/E99/zBe20JmvVPxe42SkAMCASSr
+         8revosBbkPTqnDU+avx0mrum6UqdlHrrIFDyC6StPE1VoTg1RId2nF2Cf/7ChrI5aOaK
+         9YLn1+0d/CwQHdLRwxn+jlLQmXp+ELp8KEFwThhezjo8y9092TJ+uasd8sn7A+51ojKg
+         ypTA==
+X-Gm-Message-State: AOAM5318qTn05V67KGCcLHEV6l+2aH9FstlzayZ9hflGEMTZRSyFunHP
+        IZnqQD0N42YIk8ACpvKTZsTtIw==
+X-Google-Smtp-Source: ABdhPJzaYoqA+UVM8mSoDAHP47OOIG2HtxFlJ6430vZVxDe776H3vaiKcHiP9+DgjxyAnlqWl7mMkA==
+X-Received: by 2002:ac8:464c:: with SMTP id f12mr7278436qto.272.1608348919450;
+        Fri, 18 Dec 2020 19:35:19 -0800 (PST)
+Received: from [192.168.1.93] (pool-71-163-245-5.washdc.fios.verizon.net. [71.163.245.5])
+        by smtp.gmail.com with ESMTPSA id s19sm3298501qta.35.2020.12.18.19.35.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Dec 2020 19:35:18 -0800 (PST)
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+To:     Md Sadre Alam <mdalam@codeaurora.org>, vkoul@kernel.org,
+        corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
+        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     sricharan@codeaurora.org
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+From:   Thara Gopinath <thara.gopinath@linaro.org>
+Message-ID: <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+Date:   Fri, 18 Dec 2020 22:35:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fd73da0-ee89-3831-bf96-5ed130e90c4d@infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 02:59:00PM -0800, Randy Dunlap wrote:
-> On 12/1/20 2:34 PM, mgross@linux.intel.com wrote:
-> > From: Srikanth Thokala <srikanth.thokala@intel.com>
-> > 
-> > Provide overview of XLink PCIe driver implementation
-> > 
-> > Cc: linux-doc@vger.kernel.org
-> > Reviewed-by: Mark Gross <mgross@linux.intel.com>
-> > Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
-> > ---
-> >  Documentation/vpu/index.rst      |  1 +
-> >  Documentation/vpu/xlink-pcie.rst | 91 ++++++++++++++++++++++++++++++++
-> >  2 files changed, 92 insertions(+)
-> >  create mode 100644 Documentation/vpu/xlink-pcie.rst
-> > 
-> 
-> Hi--
-> 
-> For document, chapter, section, etc., headings, please read & use
-> Documentation/doc-guide/sphinx.rst:
-> 
-> * Please stick to this order of heading adornments:
-> 
->   1. ``=`` with overline for document title::
-> 
->        ==============
->        Document title
->        ==============
-> 
->   2. ``=`` for chapters::
-> 
->        Chapters
->        ========
-> 
->   3. ``-`` for sections::
-> 
->        Section
->        -------
-> 
->   4. ``~`` for subsections::
-> 
->        Subsection
->        ~~~~~~~~~~
-Thanks for the help!  I'm new to the sphix markup language and appreciate your
-advice.  I'll reread that doc-guide.
-
-We'll address the issues on our next posting once the marge window closes.
-
-thanks again for the reviews!
-
---mark
 
 
+On 12/17/20 9:37 AM, Md Sadre Alam wrote:
+> This change will add support for LOCK & UNLOCK flag bit support
+> on CMD descriptor.
 > 
-> > diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
-> > new file mode 100644
-> > index 000000000000..bc64b566989d
-> > --- /dev/null
-> > +++ b/Documentation/vpu/xlink-pcie.rst
-> > @@ -0,0 +1,91 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +Kernel driver: xlink-pcie driver
-> > +================================
-> > +Supported chips:
-> > +  * Intel Edge.AI Computer Vision platforms: Keem Bay
-> > +    Suffix: Bay
-> > +    Slave address: 6240
-> > +    Datasheet: Publicly available at Intel
-> > +
-> > +Author: Srikanth Thokala Srikanth.Thokala@intel.com
-> > +
-> > +-------------
-> > +Introduction:
+> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+> transaction wanted to lock the DMA controller for this transaction so
+> BAM driver should set LOCK bit for the HW descriptor.
 > 
-> No colon at end of chapter/section headings.
+> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
+> transaction wanted to unlock the DMA controller.so BAM driver should set
+> UNLOCK bit for the HW descriptor.
+Hi,
+
+This is a generic question. What is the point of LOCK/UNLOCK with 
+allocating LOCK groups to the individual dma channels? By default
+doesn't all channels fall in the same group. This would mean that
+a lock does not prevent the dma controller from not executing a
+transaction on the other channels.
+
+-- 
+Warm Regards
+Thara
+
 > 
-> > +-------------
-> > +The xlink-pcie driver in linux-5.4 provides transport layer implementation for
+> Signed-off-by: Md Sadre Alam <mdalam@codeaurora.org>
+> ---
+>   Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
+>   drivers/dma/qcom/bam_dma.c                      | 9 +++++++++
+>   include/linux/dmaengine.h                       | 5 +++++
+>   3 files changed, 23 insertions(+)
 > 
->                             Linux 5.4 (?)
+> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+> index ddb0a81..d7516e2 100644
+> --- a/Documentation/driver-api/dmaengine/provider.rst
+> +++ b/Documentation/driver-api/dmaengine/provider.rst
+> @@ -599,6 +599,15 @@ DMA_CTRL_REUSE
+>     - This flag is only supported if the channel reports the DMA_LOAD_EOT
+>       capability.
+>   
+> +- DMA_PREP_LOCK
+> +
+> +  - If set , the client driver tells DMA controller I am locking you for
+> +    this transcation.
+> +
+> +- DMA_PREP_UNLOCK
+> +
+> +  - If set, the client driver will tells DMA controller I am releasing the lock
+> +
+>   General Design Notes
+>   ====================
+>   
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 4eeb8bb..cdbe395 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> @@ -58,6 +58,8 @@ struct bam_desc_hw {
+>   #define DESC_FLAG_EOB BIT(13)
+>   #define DESC_FLAG_NWD BIT(12)
+>   #define DESC_FLAG_CMD BIT(11)
+> +#define DESC_FLAG_LOCK BIT(10)
+> +#define DESC_FLAG_UNLOCK BIT(9)
+>   
+>   struct bam_async_desc {
+>   	struct virt_dma_desc vd;
+> @@ -644,6 +646,13 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+>   
+>   	/* fill in temporary descriptors */
+>   	desc = async_desc->desc;
+> +	if (flags & DMA_PREP_CMD) {
+> +		if (flags & DMA_PREP_LOCK)
+> +			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
+> +		if (flags & DMA_PREP_UNLOCK)
+> +			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
+> +	}
+> +
+>   	for_each_sg(sgl, sg, sg_len, i) {
+>   		unsigned int remainder = sg_dma_len(sg);
+>   		unsigned int curr_offset = 0;
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index dd357a7..79ccadb4 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -190,6 +190,9 @@ struct dma_interleaved_template {
+>    *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
+>    *  to never be processed and stay in the issued queue forever. The flag is
+>    *  ignored if the previous transaction is not a repeated transaction.
+> + * @DMA_PREP_LOCK: tell the driver that DMA HW engine going to be locked for this
+> + *  transaction , until not seen DMA_PREP_UNLOCK flag set.
+> + * @DMA_PREP_UNLOCK: tell the driver to unlock the DMA HW engine.
+>    */
+>   enum dma_ctrl_flags {
+>   	DMA_PREP_INTERRUPT = (1 << 0),
+> @@ -202,6 +205,8 @@ enum dma_ctrl_flags {
+>   	DMA_PREP_CMD = (1 << 7),
+>   	DMA_PREP_REPEAT = (1 << 8),
+>   	DMA_PREP_LOAD_EOT = (1 << 9),
+> +	DMA_PREP_LOCK = (1 << 10),
+> +	DMA_PREP_UNLOCK = (1 << 11),
+>   };
+>   
+>   /**
 > 
-> > +the data transfers to support xlink protocol subsystem communication with the
-> 
->                                  Xlink
-> 
-> > +peer device. i.e, between remote host system and the local Keem Bay device.
-> 
->         device, i.e., between the remote host system and
-> 
-> > +
-> > +The Keem Bay device is an ARM based SOC that includes a vision processing
-> 
->                              ARM-based
-> 
-> > +unit (VPU) and deep learning, neural network core in the hardware.
-> > +The xlink-pcie driver exports a functional device endpoint to the Keem Bay device
-> > +and supports two-way communication with peer device.
-> 
->                                       with the peer device.
-> 
-> > +
-> > +------------------------
-> > +High-level architecture:
-> > +------------------------
-> > +Remote Host: IA CPU
-> > +Local Host: ARM CPU (Keem Bay)::
-> > +
-> > +        +------------------------------------------------------------------------+
-> > +        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
-> > +        +==================================+=+===============================+===+
-> > +        |  User App                        | | User App                      |   |
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |   XLink UAPI                     | | XLink UAPI                    |   |
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |   XLink Core                     | | XLink Core                    |   |
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |   XLink PCIe                     | | XLink PCIe                    |   |
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
-> > +        +----------------------------------+-+-------------------------------+---+
-> > +               ^                                             ^
-> > +               |                                             |
-> > +               |------------- PCIe x2 Link  -----------------|
-> > +
-> > +This XLink PCIe driver comprises of two variants:
-> > +* Local Host driver
-> > +
-> > +  * Intended for ARM CPU
-> > +  * It is based on PCI Endpoint Framework
-> > +  * Driver path: {tree}/drivers/misc/xlink-pcie/local_host
-> > +
-> > +* Remote Host driver
-> > +
-> > +       * Intended for IA CPU
-> > +       * It is a PCIe endpoint driver
-> > +       * Driver path: {tree}/drivers/misc/xlink-pcie/remote_host
-> > +
-> > +XLink PCIe communication between local host and remote host is achieved through
-> > +ring buffer management and MSI/Doorbell interrupts.
-> > +
-> > +The xlink-pcie driver subsystem registers Keem Bay device as an endpoint driver
-> 
->                                    registers the
-> 
-> > +and provides standard linux pcie sysfs interface, # /sys/bus/pci/devices/xxxx:xx:xx.0/
-> 
->                          Linux PCIe
-> 
-> > +
-> > +
-> > +-------------------------
-> > +XLink protocol subsystem:
-> 
-> No colon at end.
-> 
-> > +-------------------------
-> > +xlink is an abstracted control and communication subsystem based on channel
-> 
->    Xlink
-> 
-> > +identification. It is intended to support VPU technology both at SoC level as
-> > +well as at IP level, over multiple interfaces.
-> > +
-> > +- The xlink subsystem abstracts several types of communication channels
-> 
->          Xlink
-> 
-> > +  underneath, allowing the usage of different interfaces with the
-> > +  same function call interface.
-> > +- The Communication channels are full-duplex protocol channels allowing
-> > +  concurrent bidirectional communication.
-> > +- The xlink subsystem also supports control operations to VPU either
-> 
->          Xlink
-> 
-> > +  from standalone local system or from remote system based on communication
-> > +  interface underneath.
-> > +- The xlink subsystem supports following communication interfaces:
-> 
->          Xlink           supports the following
-> 
-> 
-> > +    * USB CDC
-> > +    * Gigabit Ethernet
-> > +    * PCIe
-> > +    * IPC
-> > 
-> 
-> 
-> cheers.
-> -- 
-> ~Randy
-> 
+
+
