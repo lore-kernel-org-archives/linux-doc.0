@@ -2,120 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423E3C4332B
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D93C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:10:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28C9222D49
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:07:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E1B2230FC
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbgLUSHS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 13:07:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+        id S1725791AbgLUSKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 13:10:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbgLUSHS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 13:07:18 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F820C061248
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:06:38 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id x18so6016324pln.6
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:06:38 -0800 (PST)
+        with ESMTP id S1726000AbgLUSKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 13:10:34 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F1FC061793
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:09:53 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id 4so6018326plk.5
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:09:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JhvMmYOdFPEQsdkzltW2aRwWzXxJ2fIZG/7Lv2kkB4c=;
-        b=S5szebOzFDTVguVH8GCcLC9zpyBaokUUS+BlpueH6g4aieSbtIbuFAiiS9ULXSSPK5
-         YhMDHcJxfvAo6CKneTwM3uuCMuExpke2+xkkUi55NbLlv8d7UawDMb1fUYKFrj7F9YIZ
-         eqLlBlQ30iCPJh0YZXC1pwX57XF0Ra7y63UMvYAT2gG2SpmeROQU3KoJwYG3nhfzmOE8
-         dgPvXgeghZrwoQ+0i6TzwM5Rhg2zBVDrdapU3W0185lxQ62LVv6WKSJ5m9jZeCsh2HDY
-         tQFEHxx5KfF4kRJwzW+SPzGk5jSlNa3iXvRRg7zflT7KlH6mX4lMS+llXxNok4UtMVes
-         nWMA==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oKzr3FPkUPe+aYLEEdAws7uUObKGbIl98KSfBYhptN8=;
+        b=soNsn/OEkcxcg3tdMLUK8S9ZfkM2t2yqDVZhgO18mjV+PiB93rs9nVs4/WOxCehg/l
+         Zg1AKon2Kp22DOxk79DHwR6nf3NMY2EigMyBBHYEATgEmmoIAESPB5ryNAeJdcC/ABow
+         gu2QCIJsK3kY5FV0rUzPAZKM+Vu5PA9N1h2mZkoKFe5opMbOQqNy5Nv+ZylxufnFJNgp
+         M9n+UFZYYDVCrgxz1RYf1f7reW9o1Uj/tCIUJeJghbf4yqPqoHRS6HDcSsdLMgXS3j5C
+         il7Nm9zO2lJUTh3QxS6ymYW9gn3wf4DgrEL+jOFyt3bn8Bjnh1bYfSBVesfBWDPaEQ27
+         tqcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JhvMmYOdFPEQsdkzltW2aRwWzXxJ2fIZG/7Lv2kkB4c=;
-        b=WqFSh8s1VZh46YX+o9DSPjSQA9r47E3C1q6EO/9/i264f5Qlsdj8Mbex9XaOZZVM5J
-         wE3kkiCxZ23OfFLHbXLq6w9lzkt4hy0LasOH7egRYgZ/rKmkoG+AuAdm0IeGdXPNPGtd
-         KgTuMvgLhUujmYoe2pPCSYeFkbfPngHl2wdmgOQ498hM0yAGpHCdmRDEwmJ6JtE7NPp7
-         f6i6BNx6v+nlzYPuaLLzFwRh+4GIP8yMin83Vuw1zZVCN8eL0p0uYJFyWT6/l4CKn8+V
-         H0whPTekzJ7oRPKv9EL0liAr+pQZzZw3S0Uk920560QhrEmzY6m7NayF4ViL8MsUrhzK
-         gN8g==
-X-Gm-Message-State: AOAM531A90hah4udOn8O1q+b6t6Krl5DCC9TwXBCASN+G5b3gJR2jc7M
-        O81eu9r6NhJQgDeP8QLgUu+eq2Sqt+LVov1KfIp6gSAtfR1l5zMS
-X-Google-Smtp-Source: ABdhPJwVx//EDYahork2LZ/VOpYoYko3xANCgxRVilG3AdbDW9UcKntl7bSI1Dn7ehiZiOaGvbQDz+RUAAvPxjhTtiM=
-X-Received: by 2002:a17:902:ed0d:b029:da:c83b:5f40 with SMTP id
- b13-20020a170902ed0db02900dac83b5f40mr17050460pld.20.1608563927117; Mon, 21
- Dec 2020 07:18:47 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oKzr3FPkUPe+aYLEEdAws7uUObKGbIl98KSfBYhptN8=;
+        b=C4otknzuTZ09U4Nk4HBEuxVzsOx7cGa8iGgFHwV+vlAtHBYw+u/dP3LVMk8wLKCrcU
+         5AH3NgONEfrWfohVw/KqJfSW8UfQnS7vh90i3FRM/We/RPaoL4MUCSKBmsxGN9EaygzS
+         OsknXumoNagAO/eYH5O1W+HKoiSCeDeuLB++wmAQ+Wra5HL+D7OHa6MUWtswCYpu4Lzo
+         mu74+JgYx+F7y9CBtyLRtY4Xcazo40Tsf+4wQQeqsO+l3nQlAfUUAdznhM2GwJHwIjJh
+         YtkTmpudzbyL7qc1hIbeCaN/ujWuUW3Nv03/iysaxCGF359y7lPWnz1vP9XJB8lI9RUy
+         1HLQ==
+X-Gm-Message-State: AOAM531Ml9QWbh6+2/i5FJrczUoWb6wDeteSLEgu0e9MLHJyGCODW2y5
+        LfCDgMAXMVEMJgqXHnz2hQxeWLYg1z/a7g==
+X-Google-Smtp-Source: ABdhPJztnTinUeHX3LcXJVPOkssICjBjG1WnlYcFyNRW4VUcZrVDlmsc2+SKAtrnjnsK75mEEiyg7Q==
+X-Received: by 2002:a17:902:5581:b029:da:a817:1753 with SMTP id g1-20020a1709025581b02900daa8171753mr17030542pli.76.1608574193380;
+        Mon, 21 Dec 2020 10:09:53 -0800 (PST)
+Received: from [192.168.1.70] (ip72-195-250-206.ph.ph.cox.net. [72.195.250.206])
+        by smtp.gmail.com with ESMTPSA id w63sm17017843pfc.20.2020.12.21.10.09.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Dec 2020 10:09:52 -0800 (PST)
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+To:     mdalam@codeaurora.org
+Cc:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
+        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        sricharan@codeaurora.org
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+ <9769c54acf54617a17346fea60ee38b6@codeaurora.org>
+From:   Thara Gopinath <thara.gopinath@linaro.org>
+Message-ID: <8c86f4db-9956-10d1-b380-a207137b50ef@linaro.org>
+Date:   Mon, 21 Dec 2020 13:09:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-5-songmuchun@bytedance.com> <20201221102703.GA15804@linux>
- <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com> <20201221141242.GA19680@linux>
-In-Reply-To: <20201221141242.GA19680@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 21 Dec 2020 23:18:11 +0800
-Message-ID: <CAMZfGtXgzorGv_hymZF_cJPv2qziVG6xN5hCGFqT3KOjCZOteg@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 04/11] mm/hugetlb: Defer freeing of
- HugeTLB pages
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <9769c54acf54617a17346fea60ee38b6@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 10:14 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Mon, Dec 21, 2020 at 07:07:18PM +0800, Muchun Song wrote:
-> > > The above implies that update_and_free_page() is __always__ called from a
-> > > non-task context, but that is not always the case?
-> >
-> > IIUC, here is always the case.
->
-> I might be missing something obvious, so bear with me.
->
-> I guess you are refering to the call __free_huge_page()->update_and_free_page().
-> AFAICS, free_huge_page might call __free_huge_page right away when in task
-> context, and so, we would be calling update_and_free in a task context as well.
-
-Yeah. You are right. I mean the call __free_huge_page()->update_and_free_page().
-Because update_and_free_page is called under hugetlb_lock, it is
-non-task context,
-right?
 
 
->
-> Or are you referring to the other callers?
->
-> --
-> Oscar Salvador
-> SUSE L3
+On 12/21/20 2:35 AM, mdalam@codeaurora.org wrote:
+> On 2020-12-19 09:05, Thara Gopinath wrote:
+>> On 12/17/20 9:37 AM, Md Sadre Alam wrote:
+>>> This change will add support for LOCK & UNLOCK flag bit support
+>>> on CMD descriptor.
+>>>
+>>> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+>>> transaction wanted to lock the DMA controller for this transaction so
+>>> BAM driver should set LOCK bit for the HW descriptor.
+>>>
+>>> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
+>>> transaction wanted to unlock the DMA controller.so BAM driver should set
+>>> UNLOCK bit for the HW descriptor.
+>> Hi,
+>>
+>> This is a generic question. What is the point of LOCK/UNLOCK with
+>> allocating LOCK groups to the individual dma channels? By default
+>> doesn't all channels fall in the same group. This would mean that
+>> a lock does not prevent the dma controller from not executing a
+>> transaction on the other channels.
+>>
+> 
+> The Pipe Locking/Unlocking will be only on command-descriptor.
+> Upon encountering a command descriptor with LOCK bit set, the BAM
+> will lock all other pipes not related to the current pipe group, and keep
+> handling the current pipe only until it sees the UNLOCK set then it will
+> release all locked pipes.
 
+So unless you assign pipe groups, this will not work as intended right? 
+So this patch is only half of the solution. There should also be a patch 
+allowing pipe groups to be assigned. Without that extra bit this patch 
+does nothing , right ?
 
 
 -- 
-Yours,
-Muchun
+Warm Regards
+Thara
