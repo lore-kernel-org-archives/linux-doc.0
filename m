@@ -2,102 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 941EFC433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A3AC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 16:45:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5858E22B43
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:31:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA7D922C9C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 16:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727234AbgLUObU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 09:31:20 -0500
-Received: from codesynthesis.com ([188.40.148.39]:41578 "EHLO
-        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727233AbgLUObT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 09:31:19 -0500
-X-Greylist: delayed 460 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Dec 2020 09:31:18 EST
-Received: from brak.codesynthesis.com (unknown [102.68.73.213])
+        id S1725841AbgLUQpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 11:45:36 -0500
+Received: from ms.lwn.net ([45.79.88.28]:45818 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725790AbgLUQpg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Dec 2020 11:45:36 -0500
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by codesynthesis.com (Postfix) with ESMTPSA id 6E9AB5EFBA;
-        Mon, 21 Dec 2020 14:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
-        s=mail1; t=1608560577;
-        bh=8PpVFaUjaHs2MJm3jQ7t5c/TtRcoscdZ1xfcf5mbWoI=;
-        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
-        b=nIfTDFuuwtvrwlLI0gRUtYqIBv7ctWlG2OthJd0nkphVG5ftuWGLu1LfT9pzl+HAh
-         8cTAOpXQhKB7sr42uVeMzSARbE8P1058fG4fT1z9mXbov7nMthr3w70soD4rYq8igb
-         6SY50eMg/0PgiQNVi3WHVNxgZfiyKbyGyELZmAmyMc+CuDdUBdSO0x0Mh5Dh0u7TmA
-         FNkrVt7VmzyTMqcah+tz0Y7xP3iU3TI7BOl0QeCboqSE/O1O9jFM4ZHNw5j98bYzvi
-         tCLfJ6pnTku4Ec2nqnY/Ruawp8U/CB2fIJYLpU1whEzp1Xs2gFnoFZT6D+lhljoW19
-         qWVGgtIGhxJIQ==
-Received: by brak.codesynthesis.com (Postfix, from userid 1000)
-        id 16D3E1A800C4; Mon, 21 Dec 2020 16:22:53 +0200 (SAST)
-Date:   Mon, 21 Dec 2020 16:22:53 +0200
-From:   Boris Kolpackov <boris@codesynthesis.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kconfig: drop filename and line number prefix from
- warning/error-if macros
-Message-ID: <boris.20201221161803@codesynthesis.com>
-References: <20201221094650.283511-1-masahiroy@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id 789DC9B2;
+        Mon, 21 Dec 2020 16:44:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 789DC9B2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1608569093; bh=0x4bn3amvPabhwdRTkhgk2jOAl4RQkmRqo6ffszm8fo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d4pKIq4gWbaUU/f/5dNJ1HZDv9XXaO+JofyEAYCXGAJZI0htgIhnJgT4XSInSmyzv
+         D9HPAAyT8nfsZ2AtZ9OPgHLv34wYN7mELVE+H7BdKEUhAtVozUJ+7mH+tCCYtkebQc
+         h5cAWiFhMOhh1Xahch2xKucc8vmX4qnfl76y/ej2WGEuMzFt6i9heuGv9+VUayKYEa
+         0UZLlhWP8TSCrbfMuiAjWskI0FcMeyBbbJo28+jGiiYbcERNQu+FJBU6k0AojFl7hm
+         Lrl5Aq9l3bZthA30TbRJpWTTl0LtMfmKQ5Zee/uT+mZaUKmQAi1mtk9Mj6sq6qlcFp
+         dwZ9uhpeyprxg==
+Date:   Mon, 21 Dec 2020 09:44:52 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/1] docs: submitting-patches: Trivial - fix grammatical
+ error
+Message-ID: <20201221094452.02851661@lwn.net>
+In-Reply-To: <20201216134654.271508-1-lee.jones@linaro.org>
+References: <20201216134654.271508-1-lee.jones@linaro.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201221094650.283511-1-masahiroy@kernel.org>
-Organization: Code Synthesis
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Copying some of my comments from another reply.]
+On Wed, 16 Dec 2020 13:46:54 +0000
+Lee Jones <lee.jones@linaro.org> wrote:
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-
-> When I implemented the Kconfig macro language, I took the GNU Make
-> behavior as a reference in general, but I did not follow the message
-> format of $(error ...) to avoid that annoyance.
+> "it is a used" does not make sense.  Should be "it is used".
 > 
-> So, the following code in Kconfig:
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->   $(warning-if,y,This is the first line)
->   $(warning-if,y,This is the second line)
->   $(error-if,y,This is the last line)
-> 
-> ... will print the messages in a consistent format:
-> 
->   Kconfig:1: This is the first line
->   Kconfig:2: This is the second line
->   Kconfig:3: This is the last line
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index fb8261a4be308..2c48a00a436e7 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -446,7 +446,7 @@ patch.  This tag documents that potentially interested parties
+>  have been included in the discussion.
+>  
+>  Co-developed-by: states that the patch was co-created by multiple developers;
+> -it is a used to give attribution to co-authors (in addition to the author
+> +it is used to give attribution to co-authors (in addition to the author
 
-IMO, there is a flaw with this approach: there is no way for the
-user to know that these three lines are about the same error.
+Applied, thanks.
 
-If we want this ability, then let's find a way do it properly
-rather than spreading further hacks. For example, in the build
-system I am working on, we have suport for multi-line diagnostics
-records that to the user look like this:
-
-Makefile:3: error: This is the first line
-  This is the second line
-  This is the last line
-
-
-> But, in hindsight, the built-in functions should have only primitive
-> functionality to print the given message without any prefix. The lesson
-> I learned from GNU Make was such a prefix is easy to add, difficult to
-> remove.
-> 
-> This commit changes the built-in functions, warning-if and error-if, to
-> not print the file name or the line number.
-
-Wouldn't automatically showing the position in the Kconfig file
-where the error/warning has originated be much, much more useful
-than the occasional need to print multi-line messages?
+jon
