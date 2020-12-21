@@ -2,123 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D29AFC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:50:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA67C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 23:58:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9558E22ADC
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 18:50:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CAF222512
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 23:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727667AbgLUSu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 13:50:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56180 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbgLUSu6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 13:50:58 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92399C0613D3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:50:18 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id n7so6855720pgg.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 10:50:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YliUtlY76/UIPuQ5v8deFXxZeb8eSvRLcMxme2JxEEk=;
-        b=HDksKqgKauZN6tvbdPBgggj8IeeTS2c7JRuSWMI+pRG1FwKAhMCJxMCv7JOIqk50wv
-         3X1HRLkpEKIsTmGLQK6vIyf/RMl8sqUJoc0+IVGVdkvPNiQkOjCyDbUhahzYluorDnrk
-         1PDsuxVXgwT/JnDR/e8fyiqWr/gjcp4gXGi2ngqD9bS5/EBS76qfZPKMvDBaRcXFxHGt
-         YOSyX7QbQ/Koym0Jms6BgoWpgnw/5heVHu2j7+FeQsRTUWVZEWILea7Byq/nnV5Cq6bO
-         YDDYicvRlZMY5s2D5oa9p6I/4Nwjhwv9qDpErWN/14vrvlkMgsgZNqe/YH2kcc3Fnt+d
-         1eOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YliUtlY76/UIPuQ5v8deFXxZeb8eSvRLcMxme2JxEEk=;
-        b=M/2GJOl9QtzhTJKCJ9KbMXUJZ7gLG5GVpIlxcX9X7chdrdxUJia1knTO6cDnq2IVfT
-         qI6XKrIPIjBfbXxR+xRqKvYoUru2wkcELiiFWFA+9xgsGV1qKdSOmdBebP4sW4Moqcth
-         eBHblY47imNO0ZXIwTh3OiLLgMEeFx30mMdilD2tug0ULyFnb8+OJ0oqebKMn+fVZCDU
-         6Sq+jdbsXadg+BhJniuaMRejaEtxb5B5zC9iMPVEjVMUCN/0TdI+1mURBYGv/1yeiPG6
-         yus4GoPznGIs7SLw9+l5S2kmKIRlogvVtDnhVPq+IzTvCRsIg5k3JGqDJpQvMTA33sJl
-         7Rmg==
-X-Gm-Message-State: AOAM53014pBftLQcj5yinzF5NHLsBM1d9bXSOI1rs1y0UMPyjqlfKd0s
-        2EV1l1x5TyTDpEqgncL60pQtsMfv+MnOZ84dDD/GkbYbj38ZeagE
-X-Google-Smtp-Source: ABdhPJxKT6tC6/ndV2N5i1FwKZxN3yOMknKcMYRbpSq6pVUOWTKpPSP2SnmFD7tg+Np8Z6fWmUqBTLjQBM+VPNs1bYw=
-X-Received: by 2002:a63:480f:: with SMTP id v15mr2249541pga.341.1608565986866;
- Mon, 21 Dec 2020 07:53:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-4-songmuchun@bytedance.com> <20201221091123.GB14343@linux>
- <CAMZfGtVnS=_m4fpGBfDpOpdgzP02QCteUQn-gGiLADWfGiVJ=A@mail.gmail.com> <20201221134345.GA19324@linux>
-In-Reply-To: <20201221134345.GA19324@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 21 Dec 2020 23:52:30 +0800
-Message-ID: <CAMZfGtVTqYXOvTHSay-6WS+gtDSCtcN5ksnkj8hJgrUs_XWoWQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 03/11] mm/hugetlb: Free the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        id S1725852AbgLUX60 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 18:58:26 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:51382 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbgLUX6Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 18:58:25 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BLNs6eb009813;
+        Mon, 21 Dec 2020 23:56:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=5vrSBOew8HABg1K7IIt0ecbCATAXnyNZ7u+UzhkFBR0=;
+ b=RScpOCwb8erjM6f6Yh8H7A+5i5rpno35AKLHVaUYfwBBedIBduOkGrTdOFeJBHP4Pnqv
+ kfb4fUTI3+R1h+2aAMCWo5FBIEKyQ+OZ/euL/yz0hDYjV+r4ydHtDWVWhcblLNsUNFPD
+ BIDsafP8N7o7REZ94jP++tI7Tafi8XkX84AKhfF9BALiQGvZL+Fr01RJRTBthzDPW8mE
+ hduoxvxBcfiRBpaQB0c1m6FlXD3WcvyvEDO+aPGIH13hWg1fz5cvWq30uTsccLU4S2nE
+ S/dt5eaGAf8puz1LJsXSg1xAi5DmoQoA01zNHjizZXfcmqi/Oe7ZQx8pvo4y1173OpIm hQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 35k0d116ee-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 21 Dec 2020 23:56:49 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BLNtWgt015074;
+        Mon, 21 Dec 2020 23:56:49 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 35k0e7sdf1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 21 Dec 2020 23:56:49 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BLNuT7t023088;
+        Mon, 21 Dec 2020 23:56:29 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 21 Dec 2020 15:56:29 -0800
+Subject: Re: [PATCH v10 02/11] mm/hugetlb: Introduce a new config
+ HUGETLB_PAGE_FREE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
         mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
+        song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20201217121303.13386-1-songmuchun@bytedance.com>
+ <20201217121303.13386-3-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <2c0fb4d7-e25b-a5d3-c397-f20398a84732@oracle.com>
+Date:   Mon, 21 Dec 2020 15:56:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20201217121303.13386-3-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9842 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012210162
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9842 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
+ phishscore=0 mlxlogscore=999 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012210162
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 9:44 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Mon, Dec 21, 2020 at 07:25:15PM +0800, Muchun Song wrote:
->
-> > Should we add a BUG_ON in vmemmap_remap_free() for now?
-> >
-> >         BUG_ON(reuse != start + PAGE_SIZE);
->
-> I do not think we have to, plus we would be BUG_ing for some specific use
-> case in "generic" function.
+On 12/17/20 4:12 AM, Muchun Song wrote:
+> The HUGETLB_PAGE_FREE_VMEMMAP option is used to enable the freeing
+> of unnecessary vmemmap associated with HugeTLB pages. The config
+> option is introduced early so that supporting code can be written
+> to depend on the option. The initial version of the code only
+> provides support for x86-64.
+> 
+> Like other code which frees vmemmap, this config option depends on
+> HAVE_BOOTMEM_INFO_NODE. The routine register_page_bootmem_info() is
+> used to register bootmem info. Therefore, make sure
+> register_page_bootmem_info is enabled if HUGETLB_PAGE_FREE_VMEMMAP
+> is defined.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  arch/x86/mm/init_64.c |  2 +-
+>  fs/Kconfig            | 18 ++++++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
 
-The vmemmap_remap_range() walks page table range [start, end),
-if reuse is equal to (start + PAGE_SIZE), the range can adjust to
-[start - PAGE_SIZE, end). But if not, we need some work to
-implement the "generic" function.
+Thanks for updating,
 
-  - adjust range to [min(start, reuse), end) and call
-    vmemmap_remap_rangeand which skip the hole
-    which is [reuse + PAGE_SIZE, start) or [end, reuse).
-  - call vmemmap_remap_range(reuse, reuse + PAGE_SIZE)
-    to get the reuse page.Then, call vmemmap_remap_range(start, end)
-    again to remap.
+Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
 
-Which one do you prefer?
-
-> Maybe others think different though.
->
-> --
-> Oscar Salvador
-> SUSE L3
-
-
-
---
-Yours,
-Muchun
+-- 
+Mike Kravetz
