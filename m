@@ -3,64 +3,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 538F6C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 11:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1B05C433E9
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 11:08:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0937020757
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 11:08:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8949422512
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 11:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbgLULIj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 06:08:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S1725998AbgLULI4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 06:08:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725972AbgLULIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 06:08:38 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28567C061793
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 03:07:57 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id lj6so5987323pjb.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 03:07:57 -0800 (PST)
+        with ESMTP id S1725892AbgLULI4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 06:08:56 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06BC5C061282
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 03:08:16 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id l23so6263452pjg.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 03:08:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BOlZCOLM2fiX9IZHU6rHTKDZB2KqCTIIheGSQkZLkzk=;
-        b=keW0J8Q4lXZv+SIUf1De3T7sb3p2+MR0Lv0chpM09bx0Nf5BD8D5xSd/IAc7+zxacC
-         TWPoC21wd4gx+W52iqF52xIef/afr+jhVsi7ICGWneMOi4bju/knXoiROvRkFBMcggys
-         gkA4Ik1i+mImdXy06ZzmVZofmSfej86CBElBp5x9DGRYfeQd4HWCLFRlbaKjaowPGAsJ
-         IVkAjGPr4+BIpMFGmzi2+qnWEg3k/aB5NkTtneAyxaWGJsaxzm+lfSEVxypucCTxG0Lf
-         p3NLvydg4KDMuXdIT3HZUgFFg5XlzjgZy5lcvJZS07IWPc3vUWStqiexCXRwm73UpQh6
-         Onmw==
+        bh=fCGxNgt4GzjA2J6Ybm1/RunLTw4Cq07YupT3iACrfFE=;
+        b=B5uSct3PlX3Kr2qHj80JA4OzaFMIIWkWLrcFydCymroCnU4gdEWUxv+k4jLZQN5EmH
+         r4KZ36GROasljVcxMEDBFuIjx5kDLgAYT0jx/0eFjIJ+RTwumNYYW5wiqWDYEGaIfGZ6
+         B1J9gjOQlc6xCuXmInx6VPGQbW/KAlLapxKaFS9FEvbSBYBksXlg8agiKvEwwvZKdZsq
+         g68GPvFpDpgpTs47V5dAaPJPY0td3gBMd4XF4IJGKXhhMLH7UxHarEzpnTluxYZhPwtJ
+         zc5X0VzG2K69a8/Rau9IXEy2PP+GsTEWB0r4Gy4aYSNPDMAvW0fcn/Xpj1efl/rD+jv9
+         Bw1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BOlZCOLM2fiX9IZHU6rHTKDZB2KqCTIIheGSQkZLkzk=;
-        b=eJ115WDr52/i80J7OY9XDWM4wDXOVFBQjobIeARZuV4FIjfvFQyCwe6GrxcbTmHCxv
-         3A5O8BGKXX8LGsgMRA6VfkcEIH3Tu1xB1rASepExwzN62I+Hpll6U6maMQxRpa/xFeDA
-         yDMdohL1xdjTlgPg83ImpLVRCjjvEbP1k53KRlCu3VVzAHqE6m/fe3+HsIcsbKMDXfZz
-         3GtKYuspvlqpJ7SUpRiiuLXt7oNaCkSvFMwq+CkPR8Mp5/f0yHx4PwhY/YmB5VQlBqfe
-         bMuqBwLH5s3QuwmFzGp2dEMyNTWVYzhCsD4rC8FLUQNKOPvllGGus8aslsMqc8X4Jsyh
-         6/lg==
-X-Gm-Message-State: AOAM530Fzsb39jRphw+ptCsKng6uW7lLrodU4dZk+qzoS/uYmfyUOams
-        K3t4wlp4gVzYDvnJU6OXt6dUAufbjW8lSpimv2mGsg==
-X-Google-Smtp-Source: ABdhPJwoJStF1A669nR7sEzwHJAQg6sembIt+S/xmXLOZRFLjO1my0AFoe54teplQtqVoxYW3ICQo1YTApqa6dAcBYs=
-X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
- bj3-20020a1709028503b02900dc044f62d8mr15600526plb.34.1608548876589; Mon, 21
- Dec 2020 03:07:56 -0800 (PST)
+        bh=fCGxNgt4GzjA2J6Ybm1/RunLTw4Cq07YupT3iACrfFE=;
+        b=DQNT/BxoBYbYHB8qwa4Yg3s8CJvMQtWr3tc+WIlZgAUyuoc/P2qG04Uu6I79SXzJy2
+         LTWZFG/GqcTH8V+OPoCSTDD6tRNCwWbUCx2I989/dpzbWIyACYLpkUX4+QddRA52c7yt
+         ostHTr4BqifkvFE2ugoEyQj+2NNQZUfGsjJn/+MIVu0eB6bIX5/DpXlPrYOu/MkIw89K
+         MM/i3DJVELQWHyLpN+AIvmo2GuBehCHEfifGKVrs1XmuIjqd/HpfvB4qWghWxvzqdY6l
+         sfsfDs65EfoZKtW3OZOEB3y7xyhHpG53kfyb64fZVkwDA7V1cZ/TQR8LXDfCKUBLpvjI
+         6Kqw==
+X-Gm-Message-State: AOAM5324yEKmtOk5g9UKebkgLDbn2aK5nHQ/2dg9RQSt4pAVCkwtkxUn
+        oMgQnevTmq1Fpcy48SL3XTR39YWeRiMdGl4esHjI8g==
+X-Google-Smtp-Source: ABdhPJy+5TgHcPSu8gMt1h1aG/LqaNFQSJjtwWsk5Gyn08DMQ3M95ZayPCuRTgLij5s8O5gnZE+fn6qyzAL9VBxRPHo=
+X-Received: by 2002:a17:90a:c588:: with SMTP id l8mr16683485pjt.147.1608548895665;
+ Mon, 21 Dec 2020 03:08:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-5-songmuchun@bytedance.com> <20201221102703.GA15804@linux>
-In-Reply-To: <20201221102703.GA15804@linux>
+ <20201217121303.13386-8-songmuchun@bytedance.com> <20201221104013.GB15804@linux>
+In-Reply-To: <20201221104013.GB15804@linux>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 21 Dec 2020 19:07:18 +0800
-Message-ID: <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 04/11] mm/hugetlb: Defer freeing of
- HugeTLB pages
+Date:   Mon, 21 Dec 2020 19:07:37 +0800
+Message-ID: <CAMZfGtWK5uJE=W5O+dg4XO5zgTQUVpL0bjPB6im4+GZa3U+dsA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v10 07/11] mm/hugetlb: Flush work when
+ dissolving hugetlb page
 To:     Oscar Salvador <osalvador@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -87,100 +86,20 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 6:27 PM Oscar Salvador <osalvador@suse.de> wrote:
+On Mon, Dec 21, 2020 at 6:40 PM Oscar Salvador <osalvador@suse.de> wrote:
 >
-> On Thu, Dec 17, 2020 at 08:12:56PM +0800, Muchun Song wrote:
-> > In the subsequent patch, we will allocate the vmemmap pages when free
-> > HugeTLB pages. But update_and_free_page() is called from a non-task
-> > context(and hold hugetlb_lock), so we can defer the actual freeing in
-> > a workqueue to prevent from using GFP_ATOMIC to allocate the vmemmap
-> > pages.
->
-> I think we would benefit from a more complete changelog, at least I had
-> to stare at the code for a while in order to grasp what are we trying
-> to do and the reasons behind.
-
-OK. Will do.
-
->
-> > +static void __free_hugepage(struct hstate *h, struct page *page);
-> > +
-> > +/*
-> > + * As update_and_free_page() is be called from a non-task context(and hold
-> > + * hugetlb_lock), we can defer the actual freeing in a workqueue to prevent
-> > + * use GFP_ATOMIC to allocate a lot of vmemmap pages.
->
-> The above implies that update_and_free_page() is __always__ called from a
-> non-task context, but that is not always the case?
-
-IIUC, here is always the case.
-
->
-> > +static void update_hpage_vmemmap_workfn(struct work_struct *work)
-> >  {
-> > -     int i;
-> > +     struct llist_node *node;
-> > +     struct page *page;
+> On Thu, Dec 17, 2020 at 08:12:59PM +0800, Muchun Song wrote:
+> > We should flush work when dissolving a hugetlb page to make sure that
+> > the hugetlb page is freed to the buddy.
 > >
-> > +     node = llist_del_all(&hpage_update_freelist);
-> > +
-> > +     while (node) {
-> > +             page = container_of((struct address_space **)node,
-> > +                                  struct page, mapping);
-> > +             node = node->next;
-> > +             page->mapping = NULL;
-> > +             __free_hugepage(page_hstate(page), page);
-> > +
-> > +             cond_resched();
-> > +     }
-> > +}
-> > +static DECLARE_WORK(hpage_update_work, update_hpage_vmemmap_workfn);
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 >
-> I wonder if this should be moved to hugetlb_vmemmap.c
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-Maybe I can do a try.
-
->
-> > +/*
-> > + * This is where the call to allocate vmemmmap pages will be inserted.
-> > + */
->
-> I think this should go in the changelog.
-
-OK. Will do.
-
->
-> > +static void __free_hugepage(struct hstate *h, struct page *page)
-> > +{
-> > +     int i;
-> > +
-> >       for (i = 0; i < pages_per_huge_page(h); i++) {
-> >               page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
-> >                               1 << PG_referenced | 1 << PG_dirty |
-> > @@ -1313,13 +1377,17 @@ static void update_and_free_page(struct hstate *h, struct page *page)
-> >       set_page_refcounted(page);
-> >       if (hstate_is_gigantic(h)) {
-> >               /*
-> > -              * Temporarily drop the hugetlb_lock, because
-> > -              * we might block in free_gigantic_page().
-> > +              * Temporarily drop the hugetlb_lock only when this type of
-> > +              * HugeTLB page does not support vmemmap optimization (which
-> > +              * context do not hold the hugetlb_lock), because we might
-> > +              * block in free_gigantic_page().
->
-> "
->  /*
->   * Temporarily drop the hugetlb_lock, because we might block
->   * in free_gigantic_page(). Only drop it in case the vmemmap
->   * optimization is disabled, since that context does not hold
->   * the lock.
->   */
-> " ?
-
-Thanks a lot.
-
+Thanks.
 >
 >
+> --
 > Oscar Salvador
 > SUSE L3
 
