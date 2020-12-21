@@ -2,115 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590BDC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 10:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4321C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 10:14:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F8842075A
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 10:10:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A4C3207FF
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 10:14:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726612AbgLUKKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 05:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbgLUKKM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 05:10:12 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA84EC0613D6
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 02:09:27 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id 2so8353210ilg.9
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 02:09:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9oI6PpbsNinrAY/UY/16dtjoAnO4VqhB1tmPSdI/mzw=;
-        b=rhSiOJwy3U4u0Kw1EqHDbBvUoYsSF7bEya7dN9TqYVff8KYrfn4UChVh7IQq/1A9Hl
-         dAjMNaS84HENeb8/nKBjvZN7gmKZ5lgqJI4lpX58TXd2r4oCuqj4CB7BHPmKKSaLaHoc
-         lHMzUSmt9hw8K+yONpy8aFqQ/L4Do1Cwy4ZZR3ZFOnacCdVA1DOo5MzeguNrLwsgsRHo
-         gHIvGZr71szBt0uZE3efY7l8C2RF2iWCb351IPFzUuia9o9b5npWOw8JAXptrZz+dY+h
-         eHA8JHujNp0vf2XAROIjtg0hYg6zm6xieVMPX69Oh7q1hOHDsB+1qvQt/w4VACFcfLJg
-         SL/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9oI6PpbsNinrAY/UY/16dtjoAnO4VqhB1tmPSdI/mzw=;
-        b=ODb1Ve2IrQGmcs2wKof6FwkvIfFAyk7Sdbjsqvz1RgfDDAafz9aHpCxCAQoHOD1v1e
-         a1DrmRgrJkQ++LDM5b2Kv4zmBYrcZYPpuusKJtZ6FaeJRnbtm7fREL/J+4rEIdMfkFIW
-         nVbmgiqmI5LBknXvzIg2XOhWwtV/KPWu7uTehLx9KZYe6sJ/ZWAMdUfuUXTMTrSR1xlc
-         HIYfHrVfKxRASPbWsZINTqdw+sQxHXiRnpectPLKyYuOnODswjPxINsmcLtpLOG0LbCj
-         WEqnjANKxJkX/P9GyQRekH4zpb8roqwWRV57jjufoPgx1SZxc6DmO/yjjZzOQyaXQaFs
-         4Klw==
-X-Gm-Message-State: AOAM533d6Bv36Poj59o4elEuvz+rwzLpFagFk12fw1lF/R7okW136zVE
-        X1B9u+FiN/1jgBjPZaMUSWupkFdO93kqxPSZOvGvSm+8PmTj2Q==
-X-Google-Smtp-Source: ABdhPJy5FiyRxWb1/yg6+OenrVe7Jltn8hbV9VjG+MoGHrsui5ke3eBLjJR+w4cjHgORyzwDp0wmtCT4SrAgqQp2DHs=
-X-Received: by 2002:a63:1f21:: with SMTP id f33mr14505632pgf.31.1608543266172;
- Mon, 21 Dec 2020 01:34:26 -0800 (PST)
+        id S1726253AbgLUKO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 05:14:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726196AbgLUKO3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Dec 2020 05:14:29 -0500
+Date:   Mon, 21 Dec 2020 14:53:55 +0530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608542640;
+        bh=JO4ab5ou5wn2IYemAu40S3kxk97Cbr2moLnttUGZi3k=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OliryD7qqLmTqyoCTX6dzKbEVI2tjG+ledbsd0RWvXKG8A/KHGORZlnpNDKWkv0Wg
+         9ECU3LxcuWvxzrUcVc7REh/qTu1UGETQSsCOa8Ii2YUXE8Xez/WK/nw7esWPl9Vq7j
+         VVPm4txLNd/Xn/u+tT+WUE6Y3ByL4N+a3JhJBrNGs2yROsTuhaBFGu/XfzJMWvok7i
+         sc0qmk+08Asn6kgIJ4wudG9n2URG9y/tDJKJgFZK6mUD5RRuJP2xGLZYWNFTWnzi77
+         pSUgqMmMJZ36iRCOfqfusv7qq+21JEJTvchTilRnH8iAn8yhE3xHEX7XafyKloTPCq
+         uwkgSKJRNoHsQ==
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Md Sadre Alam <mdalam@codeaurora.org>
+Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
+        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+Message-ID: <20201221092355.GA3323@vkoul-mobl>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
 MIME-Version: 1.0
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-10-songmuchun@bytedance.com> <20201221080414.GA14343@linux>
-In-Reply-To: <20201221080414.GA14343@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 21 Dec 2020 17:33:47 +0800
-Message-ID: <CAMZfGtUr5NhScQDVF+DzsUHxYVD6vEs+2wEz6SOi-Y84+PXK2A@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 09/11] mm/hugetlb: Introduce
- nr_free_vmemmap_pages in the struct hstate
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 4:17 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Thu, Dec 17, 2020 at 08:13:01PM +0800, Muchun Song wrote:
-> > @@ -182,6 +184,12 @@ bool hugetlb_free_vmemmap_enabled;
-> >
-> >  static int __init early_hugetlb_free_vmemmap_param(char *buf)
-> >  {
-> > +     /* We cannot optimize if a "struct page" crosses page boundaries. */
-> > +     if ((!is_power_of_2(sizeof(struct page)))) {
-> > +             pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
-> > +             return 0;
-> > +     }
->
-> Unless there is a strong reason behind, I would move this to the previous patch,
-> where early_hugetlb_free_vmemmap_param is introduced.
+Hello,
 
-OK. Will do. Thanks.
+On 17-12-20, 20:07, Md Sadre Alam wrote:
+> This change will add support for LOCK & UNLOCK flag bit support
+> on CMD descriptor.
+> 
+> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+> transaction wanted to lock the DMA controller for this transaction so
+> BAM driver should set LOCK bit for the HW descriptor.
+> 
+> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
+> transaction wanted to unlock the DMA controller.so BAM driver should set
+> UNLOCK bit for the HW descriptor.
 
->
-> --
-> Oscar Salvador
-> SUSE L3
+Can you explain why would we need to first lock and then unlock..? How
+would this be used in real world.
+
+I have read a bit of documentation but is unclear to me. Also should
+this be exposed as an API to users, sounds like internal to driver..?
 
 
+> 
+> Signed-off-by: Md Sadre Alam <mdalam@codeaurora.org>
+> ---
+>  Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
+>  drivers/dma/qcom/bam_dma.c                      | 9 +++++++++
+>  include/linux/dmaengine.h                       | 5 +++++
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+> index ddb0a81..d7516e2 100644
+> --- a/Documentation/driver-api/dmaengine/provider.rst
+> +++ b/Documentation/driver-api/dmaengine/provider.rst
+> @@ -599,6 +599,15 @@ DMA_CTRL_REUSE
+>    - This flag is only supported if the channel reports the DMA_LOAD_EOT
+>      capability.
+>  
+> +- DMA_PREP_LOCK
+> +
+> +  - If set , the client driver tells DMA controller I am locking you for
+> +    this transcation.
+> +
+> +- DMA_PREP_UNLOCK
+> +
+> +  - If set, the client driver will tells DMA controller I am releasing the lock
+> +
+>  General Design Notes
+>  ====================
+>  
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 4eeb8bb..cdbe395 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> @@ -58,6 +58,8 @@ struct bam_desc_hw {
+>  #define DESC_FLAG_EOB BIT(13)
+>  #define DESC_FLAG_NWD BIT(12)
+>  #define DESC_FLAG_CMD BIT(11)
+> +#define DESC_FLAG_LOCK BIT(10)
+> +#define DESC_FLAG_UNLOCK BIT(9)
+>  
+>  struct bam_async_desc {
+>  	struct virt_dma_desc vd;
+> @@ -644,6 +646,13 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+>  
+>  	/* fill in temporary descriptors */
+>  	desc = async_desc->desc;
+> +	if (flags & DMA_PREP_CMD) {
+> +		if (flags & DMA_PREP_LOCK)
+> +			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
+> +		if (flags & DMA_PREP_UNLOCK)
+> +			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
+> +	}
+> +
+>  	for_each_sg(sgl, sg, sg_len, i) {
+>  		unsigned int remainder = sg_dma_len(sg);
+>  		unsigned int curr_offset = 0;
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index dd357a7..79ccadb4 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -190,6 +190,9 @@ struct dma_interleaved_template {
+>   *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
+>   *  to never be processed and stay in the issued queue forever. The flag is
+>   *  ignored if the previous transaction is not a repeated transaction.
+> + * @DMA_PREP_LOCK: tell the driver that DMA HW engine going to be locked for this
+> + *  transaction , until not seen DMA_PREP_UNLOCK flag set.
+> + * @DMA_PREP_UNLOCK: tell the driver to unlock the DMA HW engine.
+>   */
+>  enum dma_ctrl_flags {
+>  	DMA_PREP_INTERRUPT = (1 << 0),
+> @@ -202,6 +205,8 @@ enum dma_ctrl_flags {
+>  	DMA_PREP_CMD = (1 << 7),
+>  	DMA_PREP_REPEAT = (1 << 8),
+>  	DMA_PREP_LOAD_EOT = (1 << 9),
+> +	DMA_PREP_LOCK = (1 << 10),
+> +	DMA_PREP_UNLOCK = (1 << 11),
+>  };
+>  
+>  /**
+> -- 
+> 2.7.4
 
 -- 
-Yours,
-Muchun
+~Vinod
