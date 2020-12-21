@@ -2,75 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9739BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8EC5C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:36:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6133622CB1
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 960B922CAE
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:36:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725969AbgLUHFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 02:05:07 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:57593 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbgLUHFH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 02:05:07 -0500
-Received: from grover.flets-west.jp (softbank126090214151.bbtec.net [126.90.214.151]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0BL73QIa003747;
-        Mon, 21 Dec 2020 16:03:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0BL73QIa003747
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1608534206;
-        bh=fEEvXp8Wcc12ooWYzUUnc13htwwx9AT0UT0HbIHCBzQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IYzBOxavJ2CmtVwTtfVqgrnWwhFiE/PfhO/dvluFfWvfeOlrgkJEzO1wrEbynP6+E
-         ZWEpLV+5js7DASI46CA+vpa4SlLX0G3v0AYcmlF8h9onA51cF/KX+tPjcs4on7lgA8
-         ChDxP5c0cIVcQxst28E7/MI8esGZ9zKUXvIG/r+/M7s6o5XiwTpH8SEu2Pg/LeIvK9
-         lUrBrWo2UWJ0R09XF0tdCZ5ugcfXVKlwWp7YlgSluYAaWCoclyU3gSLJryNSPaw6cw
-         jhVhaibs/aEyJwAmQKKBRI8qONBTr8v7xr2iCQtZfApEjqkbIRgEJi+dpjntVEYZ34
-         m9PrOXVRplftQ==
-X-Nifty-SrcIP: [126.90.214.151]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: doc: fix $(fileno) to $(filename)
-Date:   Mon, 21 Dec 2020 16:03:24 +0900
-Message-Id: <20201221070324.269334-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        id S1726594AbgLUHgi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 02:36:38 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:16422 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbgLUHgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 02:36:38 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1608536172; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=cIizDPRICPgg/bSArezwSPToM2+vbpPt0D05PpcHIg4=;
+ b=M/7/Z8msxsHq+oSuHVfu1RxP52579StAdC/gTO3Ae0Hyl/WAOdqn9A86dCtRqtHcs/XgP5I/
+ C9xVBAAWuF6nBKVzzTb1CPuiohFA2F+/232qu0ZglZUJq18ZLXW1iY+HeJQZgsRloAezsjt3
+ aUSCCAgHJk8w7ru7X/6FuxriCis=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5fe050520564dfefcd460bc1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Dec 2020 07:35:46
+ GMT
+Sender: mdalam=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9A31CC43464; Mon, 21 Dec 2020 07:35:45 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mdalam)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 721FCC433CA;
+        Mon, 21 Dec 2020 07:35:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 21 Dec 2020 13:05:44 +0530
+From:   mdalam@codeaurora.org
+To:     Thara Gopinath <thara.gopinath@linaro.org>
+Cc:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
+        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        sricharan@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+In-Reply-To: <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+Message-ID: <9769c54acf54617a17346fea60ee38b6@codeaurora.org>
+X-Sender: mdalam@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a typo.
+On 2020-12-19 09:05, Thara Gopinath wrote:
+> On 12/17/20 9:37 AM, Md Sadre Alam wrote:
+>> This change will add support for LOCK & UNLOCK flag bit support
+>> on CMD descriptor.
+>> 
+>> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+>> transaction wanted to lock the DMA controller for this transaction so
+>> BAM driver should set LOCK bit for the HW descriptor.
+>> 
+>> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of this
+>> transaction wanted to unlock the DMA controller.so BAM driver should 
+>> set
+>> UNLOCK bit for the HW descriptor.
+> Hi,
+> 
+> This is a generic question. What is the point of LOCK/UNLOCK with
+> allocating LOCK groups to the individual dma channels? By default
+> doesn't all channels fall in the same group. This would mean that
+> a lock does not prevent the dma controller from not executing a
+> transaction on the other channels.
+> 
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+The Pipe Locking/Unlocking will be only on command-descriptor.
+Upon encountering a command descriptor with LOCK bit set, the BAM
+will lock all other pipes not related to the current pipe group, and 
+keep
+handling the current pipe only until it sees the UNLOCK set then it will
+release all locked pipes.
 
- Documentation/kbuild/kconfig-macro-language.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The actual locking is done on the new descriptor fetching for 
+publishing,
+i.e. locked pipe will not fetch new descriptors even if it got 
+event/events
+adding more descriptors for this pipe (locked pipe).
 
-diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
-index 8b413ef9603d..6163467f6ae4 100644
---- a/Documentation/kbuild/kconfig-macro-language.rst
-+++ b/Documentation/kbuild/kconfig-macro-language.rst
-@@ -97,7 +97,7 @@ Like Make, Kconfig provides several built-in functions. Every function takes a
- particular number of arguments.
- 
- In Make, every built-in function takes at least one argument. Kconfig allows
--zero argument for built-in functions, such as $(fileno), $(lineno). You could
-+zero argument for built-in functions, such as $(filename), $(lineno). You could
- consider those as "built-in variable", but it is just a matter of how we call
- it after all. Let's say "built-in function" here to refer to natively supported
- functionality.
--- 
-2.27.0
+The bam LOCKING mechanism is needed where different cores needs to share
+same hardware block which use bam for their transaction. So if both 
+cores
+wanted to access the hardware block in parallel via bam, then locking 
+mechanism
+is needed for bam pipes.
 
+> --
+> Warm Regards
+> Thara
+> 
+>> 
+>> Signed-off-by: Md Sadre Alam <mdalam@codeaurora.org>
+>> ---
+>>   Documentation/driver-api/dmaengine/provider.rst | 9 +++++++++
+>>   drivers/dma/qcom/bam_dma.c                      | 9 +++++++++
+>>   include/linux/dmaengine.h                       | 5 +++++
+>>   3 files changed, 23 insertions(+)
+>> 
+>> diff --git a/Documentation/driver-api/dmaengine/provider.rst 
+>> b/Documentation/driver-api/dmaengine/provider.rst
+>> index ddb0a81..d7516e2 100644
+>> --- a/Documentation/driver-api/dmaengine/provider.rst
+>> +++ b/Documentation/driver-api/dmaengine/provider.rst
+>> @@ -599,6 +599,15 @@ DMA_CTRL_REUSE
+>>     - This flag is only supported if the channel reports the 
+>> DMA_LOAD_EOT
+>>       capability.
+>>   +- DMA_PREP_LOCK
+>> +
+>> +  - If set , the client driver tells DMA controller I am locking you 
+>> for
+>> +    this transcation.
+>> +
+>> +- DMA_PREP_UNLOCK
+>> +
+>> +  - If set, the client driver will tells DMA controller I am 
+>> releasing the lock
+>> +
+>>   General Design Notes
+>>   ====================
+>>   diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+>> index 4eeb8bb..cdbe395 100644
+>> --- a/drivers/dma/qcom/bam_dma.c
+>> +++ b/drivers/dma/qcom/bam_dma.c
+>> @@ -58,6 +58,8 @@ struct bam_desc_hw {
+>>   #define DESC_FLAG_EOB BIT(13)
+>>   #define DESC_FLAG_NWD BIT(12)
+>>   #define DESC_FLAG_CMD BIT(11)
+>> +#define DESC_FLAG_LOCK BIT(10)
+>> +#define DESC_FLAG_UNLOCK BIT(9)
+>>     struct bam_async_desc {
+>>   	struct virt_dma_desc vd;
+>> @@ -644,6 +646,13 @@ static struct dma_async_tx_descriptor 
+>> *bam_prep_slave_sg(struct dma_chan *chan,
+>>     	/* fill in temporary descriptors */
+>>   	desc = async_desc->desc;
+>> +	if (flags & DMA_PREP_CMD) {
+>> +		if (flags & DMA_PREP_LOCK)
+>> +			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
+>> +		if (flags & DMA_PREP_UNLOCK)
+>> +			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
+>> +	}
+>> +
+>>   	for_each_sg(sgl, sg, sg_len, i) {
+>>   		unsigned int remainder = sg_dma_len(sg);
+>>   		unsigned int curr_offset = 0;
+>> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+>> index dd357a7..79ccadb4 100644
+>> --- a/include/linux/dmaengine.h
+>> +++ b/include/linux/dmaengine.h
+>> @@ -190,6 +190,9 @@ struct dma_interleaved_template {
+>>    *  transaction is marked with DMA_PREP_REPEAT will cause the new 
+>> transaction
+>>    *  to never be processed and stay in the issued queue forever. The 
+>> flag is
+>>    *  ignored if the previous transaction is not a repeated 
+>> transaction.
+>> + * @DMA_PREP_LOCK: tell the driver that DMA HW engine going to be 
+>> locked for this
+>> + *  transaction , until not seen DMA_PREP_UNLOCK flag set.
+>> + * @DMA_PREP_UNLOCK: tell the driver to unlock the DMA HW engine.
+>>    */
+>>   enum dma_ctrl_flags {
+>>   	DMA_PREP_INTERRUPT = (1 << 0),
+>> @@ -202,6 +205,8 @@ enum dma_ctrl_flags {
+>>   	DMA_PREP_CMD = (1 << 7),
+>>   	DMA_PREP_REPEAT = (1 << 8),
+>>   	DMA_PREP_LOAD_EOT = (1 << 9),
+>> +	DMA_PREP_LOCK = (1 << 10),
+>> +	DMA_PREP_UNLOCK = (1 << 11),
+>>   };
+>>     /**
+>> 
