@@ -6,23 +6,23 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD12C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 13:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFA1C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:15:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB604216FD
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 13:44:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8524522BEA
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:15:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726699AbgLUNol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 08:44:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56334 "EHLO mx2.suse.de"
+        id S1727046AbgLUOPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 09:15:01 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40200 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725806AbgLUNol (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Dec 2020 08:44:41 -0500
+        id S1726921AbgLUOPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Dec 2020 09:15:00 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2C8A6AC63;
-        Mon, 21 Dec 2020 13:43:59 +0000 (UTC)
-Date:   Mon, 21 Dec 2020 14:43:53 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 3CA14AC63;
+        Mon, 21 Dec 2020 14:14:19 +0000 (UTC)
+Date:   Mon, 21 Dec 2020 15:14:14 +0100
 From:   Oscar Salvador <osalvador@suse.de>
 To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -45,31 +45,35 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v10 03/11] mm/hugetlb: Free the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <20201221134345.GA19324@linux>
+Subject: Re: [External] Re: [PATCH v10 04/11] mm/hugetlb: Defer freeing of
+ HugeTLB pages
+Message-ID: <20201221141242.GA19680@linux>
 References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-4-songmuchun@bytedance.com>
- <20201221091123.GB14343@linux>
- <CAMZfGtVnS=_m4fpGBfDpOpdgzP02QCteUQn-gGiLADWfGiVJ=A@mail.gmail.com>
+ <20201217121303.13386-5-songmuchun@bytedance.com>
+ <20201221102703.GA15804@linux>
+ <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZfGtVnS=_m4fpGBfDpOpdgzP02QCteUQn-gGiLADWfGiVJ=A@mail.gmail.com>
+In-Reply-To: <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 07:25:15PM +0800, Muchun Song wrote:
-
-> Should we add a BUG_ON in vmemmap_remap_free() for now?
+On Mon, Dec 21, 2020 at 07:07:18PM +0800, Muchun Song wrote:
+> > The above implies that update_and_free_page() is __always__ called from a
+> > non-task context, but that is not always the case?
 > 
->         BUG_ON(reuse != start + PAGE_SIZE);
+> IIUC, here is always the case.
 
-I do not think we have to, plus we would be BUG_ing for some specific use
-case in "generic" function.
-Maybe others think different though.
+I might be missing something obvious, so bear with me.
+
+I guess you are refering to the call __free_huge_page()->update_and_free_page().
+AFAICS, free_huge_page might call __free_huge_page right away when in task
+context, and so, we would be calling update_and_free in a task context as well.
+
+Or are you referring to the other callers?
 
 -- 
 Oscar Salvador
