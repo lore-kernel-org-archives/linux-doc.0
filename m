@@ -2,79 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEFA1C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 941EFC433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:31:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8524522BEA
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:15:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5858E22B43
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 14:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgLUOPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 09:15:01 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40200 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726921AbgLUOPA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 21 Dec 2020 09:15:00 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 3CA14AC63;
-        Mon, 21 Dec 2020 14:14:19 +0000 (UTC)
-Date:   Mon, 21 Dec 2020 15:14:14 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v10 04/11] mm/hugetlb: Defer freeing of
- HugeTLB pages
-Message-ID: <20201221141242.GA19680@linux>
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-5-songmuchun@bytedance.com>
- <20201221102703.GA15804@linux>
- <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com>
+        id S1727234AbgLUObU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 09:31:20 -0500
+Received: from codesynthesis.com ([188.40.148.39]:41578 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727233AbgLUObT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 09:31:19 -0500
+X-Greylist: delayed 460 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Dec 2020 09:31:18 EST
+Received: from brak.codesynthesis.com (unknown [102.68.73.213])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id 6E9AB5EFBA;
+        Mon, 21 Dec 2020 14:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1608560577;
+        bh=8PpVFaUjaHs2MJm3jQ7t5c/TtRcoscdZ1xfcf5mbWoI=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=nIfTDFuuwtvrwlLI0gRUtYqIBv7ctWlG2OthJd0nkphVG5ftuWGLu1LfT9pzl+HAh
+         8cTAOpXQhKB7sr42uVeMzSARbE8P1058fG4fT1z9mXbov7nMthr3w70soD4rYq8igb
+         6SY50eMg/0PgiQNVi3WHVNxgZfiyKbyGyELZmAmyMc+CuDdUBdSO0x0Mh5Dh0u7TmA
+         FNkrVt7VmzyTMqcah+tz0Y7xP3iU3TI7BOl0QeCboqSE/O1O9jFM4ZHNw5j98bYzvi
+         tCLfJ6pnTku4Ec2nqnY/Ruawp8U/CB2fIJYLpU1whEzp1Xs2gFnoFZT6D+lhljoW19
+         qWVGgtIGhxJIQ==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 16D3E1A800C4; Mon, 21 Dec 2020 16:22:53 +0200 (SAST)
+Date:   Mon, 21 Dec 2020 16:22:53 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kconfig: drop filename and line number prefix from
+ warning/error-if macros
+Message-ID: <boris.20201221161803@codesynthesis.com>
+References: <20201221094650.283511-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZfGtW0jzNchLqieAudyk4TsaAUtYEdoC=j+gkkVLJBaKg3pA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201221094650.283511-1-masahiroy@kernel.org>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 21, 2020 at 07:07:18PM +0800, Muchun Song wrote:
-> > The above implies that update_and_free_page() is __always__ called from a
-> > non-task context, but that is not always the case?
+[Copying some of my comments from another reply.]
+
+Masahiro Yamada <masahiroy@kernel.org> writes:
+
+> When I implemented the Kconfig macro language, I took the GNU Make
+> behavior as a reference in general, but I did not follow the message
+> format of $(error ...) to avoid that annoyance.
 > 
-> IIUC, here is always the case.
+> So, the following code in Kconfig:
+> 
+>   $(warning-if,y,This is the first line)
+>   $(warning-if,y,This is the second line)
+>   $(error-if,y,This is the last line)
+> 
+> ... will print the messages in a consistent format:
+> 
+>   Kconfig:1: This is the first line
+>   Kconfig:2: This is the second line
+>   Kconfig:3: This is the last line
 
-I might be missing something obvious, so bear with me.
+IMO, there is a flaw with this approach: there is no way for the
+user to know that these three lines are about the same error.
 
-I guess you are refering to the call __free_huge_page()->update_and_free_page().
-AFAICS, free_huge_page might call __free_huge_page right away when in task
-context, and so, we would be calling update_and_free in a task context as well.
+If we want this ability, then let's find a way do it properly
+rather than spreading further hacks. For example, in the build
+system I am working on, we have suport for multi-line diagnostics
+records that to the user look like this:
 
-Or are you referring to the other callers?
+Makefile:3: error: This is the first line
+  This is the second line
+  This is the last line
 
--- 
-Oscar Salvador
-SUSE L3
+
+> But, in hindsight, the built-in functions should have only primitive
+> functionality to print the given message without any prefix. The lesson
+> I learned from GNU Make was such a prefix is easy to add, difficult to
+> remove.
+> 
+> This commit changes the built-in functions, warning-if and error-if, to
+> not print the file name or the line number.
+
+Wouldn't automatically showing the position in the Kconfig file
+where the error/warning has originated be much, much more useful
+than the occasional need to print multi-line messages?
