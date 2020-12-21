@@ -2,96 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C532C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:53:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C47E1C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 08:17:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4104822C7B
-	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 07:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8648522C9C
+	for <linux-doc@archiver.kernel.org>; Mon, 21 Dec 2020 08:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbgLUHxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 02:53:22 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:34012 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726200AbgLUHxV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 02:53:21 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UJFraV9_1608537157;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UJFraV9_1608537157)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 21 Dec 2020 15:52:38 +0800
-Subject: Re: [PATCH v2] docs/zh_CN: Improve Cinese transolation quality.
-To:     Ran Wang <gxndwr@outlook.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
- <20201208080037.40543cdb@lwn.net>
- <AT5PR8401MB096480DF491AAD270CDEDD9CCCC20@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <0529bd5e-8305-e5a3-9c85-ec0d1370caf9@linux.alibaba.com>
-Date:   Mon, 21 Dec 2020 15:52:37 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1727015AbgLUIRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 03:17:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50966 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726275AbgLUIRm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 21 Dec 2020 03:17:42 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AB7C0ACF5;
+        Mon, 21 Dec 2020 08:16:59 +0000 (UTC)
+Date:   Mon, 21 Dec 2020 09:16:54 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v10 09/11] mm/hugetlb: Introduce nr_free_vmemmap_pages in
+ the struct hstate
+Message-ID: <20201221080414.GA14343@linux>
+References: <20201217121303.13386-1-songmuchun@bytedance.com>
+ <20201217121303.13386-10-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <AT5PR8401MB096480DF491AAD270CDEDD9CCCC20@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201217121303.13386-10-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Dec 17, 2020 at 08:13:01PM +0800, Muchun Song wrote:
+> @@ -182,6 +184,12 @@ bool hugetlb_free_vmemmap_enabled;
+>  
+>  static int __init early_hugetlb_free_vmemmap_param(char *buf)
+>  {
+> +	/* We cannot optimize if a "struct page" crosses page boundaries. */
+> +	if ((!is_power_of_2(sizeof(struct page)))) {
+> +		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+> +		return 0;
+> +	}
 
+Unless there is a strong reason behind, I would move this to the previous patch,
+where early_hugetlb_free_vmemmap_param is introduced.
 
-在 2020/12/19 上午11:42, Ran Wang 写道:
-> Hi Jonathan,
->     
-> On Tuesday, December 8, 2020 11:00 PM Jonathan Corbet wrote:
->  
->> On Tue,  8 Dec 2020 21:16:04 +0800
->> Ran Wang <gxndwr@outlook.com> wrote:
->>
->>> Signed-off-by: Ran Wang <gxndwr@outlook.com>
->>> ---
->>> Change in v2:
->>>    - For 'cn_development_coding' part, change back to >'是关于编码过程的'
->>>
->>>   .../translations/zh_CN/process/1.Intro.rst    | 61 >++++++++++---------
->>>   1 file changed, 32 insertions(+), 29 deletions(-)
->>
->> Thank you for working to improve the documentation!  >Please, though,
->> include a changelog with your patch; what does "improve >translation
->> quality" mean here?
->>
->> Thanks,
->>
->> jon
-> 
-> Sorry I missed your mail.
-> 
-> Actually I feel difficult to list the change log to describe this (after not I am not a language teacher :) ).
-> 
-> I would say the original translation looks like a little bit more by machine: English word to Chinese word directly without considering particular scenarios (such as software development related terms we used in Chinese, a little bit different to normal usage maybe). So I tried to re-tell the story in a way more kind of 'human' to make everything clearer for Chinese reader.
-
-Hi Ran,
-
-I don't think you describe correctly for your new translation. And you are not 're-tell story'
-for a standard community co-work process, which we don't need. Also the original translation is
-not by machine, it's by myself.
-
-What you did right is polishing the Chinese words, make it more fluency and fit better for Chinese
-custom, although it costs a bit verboseness and a bit precision.
-
-
-Thanks
-Alex
-
-> 
-> Anyway, I am willing to provide you such change log if you could provide me an example for reference (this is my first time to post such patch).
-> 
-> Thanks & Regards,
-> Ran
-> 
+-- 
+Oscar Salvador
+SUSE L3
