@@ -2,66 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 060FFC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB9DC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:16:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C777323103
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:12:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D60523133
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:16:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbgLVRMG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 12:12:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36504 "EHLO
+        id S1727321AbgLVRQZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 12:16:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727225AbgLVRMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 12:12:06 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0384CC0613D6;
-        Tue, 22 Dec 2020 09:11:26 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id q5so12597957ilc.10;
-        Tue, 22 Dec 2020 09:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AINn8Nb9q8jvWLVllpPnrH3quR2dm0zbu53bd3Z1QEM=;
-        b=OcnlWLaXZ87Ny1FYkp/STIe/tMokwF7G5NePJX6JueRCVHVN/2elCWq2SdIGJ+rY4C
-         WH+fYThmcMzOFbPb3aZDAq6R8Hp3I3GU3DhkM59IaSAEAtbu7D5R8mQQnLMg48Kf6Xck
-         aVYsLGe1sQph/M5JrGLLxs+Bo3SoQgp/0CT3j1pR8v2iXgXYoT4UM8F6JVi3oAki5C5S
-         WHMhCtf5tbsXXvY1cxBQbAUKF2aS8XdZBTAG5chy17i+MaSk/g1Yz3EZDvkaOoajYk1O
-         mF0zht+fjY0wjO6sfSUJsBROKOP/hzXMomaO0ly0MEx+7kxnrpVUCaMQIKiQw914b3Dy
-         v8pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AINn8Nb9q8jvWLVllpPnrH3quR2dm0zbu53bd3Z1QEM=;
-        b=MdxDozQCov6df3OGOOpUj29fCroOFn5Rjgm4xq1OuY4IgjBVTnFwqmSzcWvm25bsIq
-         zkAvOKxdbxMJnHx+8J5hCNU0sg+dODA2O4ldzKmNmJvlTlu0t16hB/B++O5g6L0kigrG
-         w38rkbqc5Dvd47mP9JLQ2iDUN5BiAgzkt3CdmOBpmamAwhUX1RNuBSqaenuMtSh762HQ
-         nb+cTpt1QqfyEIpouw4Lufwu+cvrdT9/KIz+LDW0f2EcrMT8HvR/ej21Y+vvyZDrIc/h
-         S6wZEp3w+sGzNppnqloRt3IkomBb6jtrleApTtNFuRfF8Y7DOtdBl3XUwJJSGEbJGBVv
-         ciDA==
-X-Gm-Message-State: AOAM533E/z3TuleBLVYkDAIitwNcTO/gj33M3/XD98Dw9L7QB/z/dQ1p
-        2bKd5tEaUMQC4fLKoydY2XtOfoZDQM9TbZUVAgIMAmTl+5E=
-X-Google-Smtp-Source: ABdhPJyjewsF6LN9BzDE3u42TsMLG/EfcpvoC9t225/gplNBE3msFizR70EcnejPc1vXA1P5F1kTLaVC8Y3sxdjTJRk=
-X-Received: by 2002:a92:512:: with SMTP id q18mr21940753ile.147.1608657085336;
- Tue, 22 Dec 2020 09:11:25 -0800 (PST)
-MIME-Version: 1.0
-References: <1608064956-5512-1-git-send-email-milan.lakhani@codethink.co.uk>
- <20201221095209.4dd4233e@lwn.net> <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
- <7a6ab1d3-a5f5-d4ae-61e2-0a52419732f6@infradead.org>
-In-Reply-To: <7a6ab1d3-a5f5-d4ae-61e2-0a52419732f6@infradead.org>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Tue, 22 Dec 2020 18:11:14 +0100
-Message-ID: <CAKXUXMxU1EQ+n+AsiQWNPxx=iO-U_e1V6dwqABbn=uJ8CCxepw@mail.gmail.com>
+        with ESMTP id S1727121AbgLVRQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 12:16:25 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D6DC0613D3;
+        Tue, 22 Dec 2020 09:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=gufAg2KpiIFJ6VLLKcQMN7HR7h/VjEMR0EGTFx+cXS0=; b=HOzIg+fUJcZsJMRXnjE1YyeaNj
+        k4Hxgh5IGwVvWOTDmNtQ1bnmLi89UHxvdA+XIeTYTiy63IVYPqzkMVdjhQtmx8QUl/eLu9FugC3OP
+        y/qb2tpLkqcmQlcFRfUcUyNcTpzlW9b9Y0t3up0fDYKWBPiH7/w3ssxCLvLyhOC7ZHs28/60aqZvE
+        fZsd4RI9b7HwiJmk3E3UPMiiolxs3IipEGu7EiEcrb8efH+NnAxBKyn4RddD++wbPW5tToLl2E2jL
+        ljMImDAr7AkUKdG4J2e8PfLiuMXLtzn29Nf4hjqV2XnA0k0lpZtjAfxmBu8f61rBDQt1lsQPmqqaW
+        tad+xUEw==;
+Received: from [2601:1c0:6280:3f0::64ea]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1krlG8-00009P-PL; Tue, 22 Dec 2020 17:15:41 +0000
 Subject: Re: [PATCH v2] Documentation: process: Correct numbering
-To:     Randy Dunlap <rdunlap@infradead.org>,
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
         Milan Lakhani <milan.lakhani@codethink.co.uk>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -69,97 +44,120 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
         Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+References: <1608064956-5512-1-git-send-email-milan.lakhani@codethink.co.uk>
+ <20201221095209.4dd4233e@lwn.net>
+ <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
+ <7a6ab1d3-a5f5-d4ae-61e2-0a52419732f6@infradead.org>
+ <CAKXUXMxU1EQ+n+AsiQWNPxx=iO-U_e1V6dwqABbn=uJ8CCxepw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f8e02679-a87e-127a-5989-7f265c71efca@infradead.org>
+Date:   Tue, 22 Dec 2020 09:15:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAKXUXMxU1EQ+n+AsiQWNPxx=iO-U_e1V6dwqABbn=uJ8CCxepw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 22, 2020 at 5:36 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 12/22/20 8:23 AM, Lukas Bulwahn wrote:
-> > On Mon, Dec 21, 2020 at 5:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> >>
-> >> On Tue, 15 Dec 2020 20:42:36 +0000
-> >> Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
-> >>
-> >>> Renumber the steps in submit-checklist.rst as some numbers were skipped.
-> >>>
-> >>> Fixes: 72deb455b5ec ("block: remove CONFIG_LBDAF")
-> >>> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
-> >>> ---
-> >>>  Documentation/process/submit-checklist.rst | 24 ++++++++++++------------
-> >>>  1 file changed, 12 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-> >>> index 1879f88..230ee42 100644
-> >>> --- a/Documentation/process/submit-checklist.rst
-> >>> +++ b/Documentation/process/submit-checklist.rst
-> >>> @@ -75,44 +75,44 @@ and elsewhere regarding submitting Linux kernel patches.
-> >>>  13) Has been build- and runtime tested with and without ``CONFIG_SMP`` and
-> >>>      ``CONFIG_PREEMPT.``
-> >>>
-> >>> -16) All codepaths have been exercised with all lockdep features enabled.
-> >>> +14) All codepaths have been exercised with all lockdep features enabled.
-> >>>
-> >>> -17) All new ``/proc`` entries are documented under ``Documentation/``
-> >>> +15) All new ``/proc`` entries are documented under ``Documentation/``
-> >> [...]
-> >>
-> >> I've applied this, but, if you're going to stick a "Fixes" tag onto a
-> >> patch, it's probably only polite to copy the original author.  I'm not
-> >> fully convinced that the tag is warranted in this case.
-> >>
-> >> This document seems out of date in a number of ways; it could really use a
-> >> rather more thorough updating than this.
-> >>
-> >
-> > Jon, I completely agree on your out-of-date comment. That is why we
-> > pointed Milan to that checklist to start with some small basic changes
-> > and continue with increasingly more challenging and complex updates.
-> >
-> > Milan, next update for you to consider: what does "make headers_check"
-> > do nowadays? (spoiler alert: it does nothing) Adjust the documentation
-> > for that.
-> >
-> > Then, a more general improvement: think about structuring the
-> > checklist to follow the structure of the other submission guidelines.
-> > So, reorder the current checklist and check if the step is mentioned
-> > in submitting-patches and where and make the checklist much more
-> > aligned to submitting-patches.
->
-> Please do not move item #1. It is #1 for a reason.
->
+On 12/22/20 9:11 AM, Lukas Bulwahn wrote:
+> On Tue, Dec 22, 2020 at 5:36 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> On 12/22/20 8:23 AM, Lukas Bulwahn wrote:
+>>> On Mon, Dec 21, 2020 at 5:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>>>>
+>>>> On Tue, 15 Dec 2020 20:42:36 +0000
+>>>> Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
+>>>>
+>>>>> Renumber the steps in submit-checklist.rst as some numbers were skipped.
+>>>>>
+>>>>> Fixes: 72deb455b5ec ("block: remove CONFIG_LBDAF")
+>>>>> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
+>>>>> ---
+>>>>>  Documentation/process/submit-checklist.rst | 24 ++++++++++++------------
+>>>>>  1 file changed, 12 insertions(+), 12 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+>>>>> index 1879f88..230ee42 100644
+>>>>> --- a/Documentation/process/submit-checklist.rst
+>>>>> +++ b/Documentation/process/submit-checklist.rst
+>>>>> @@ -75,44 +75,44 @@ and elsewhere regarding submitting Linux kernel patches.
+>>>>>  13) Has been build- and runtime tested with and without ``CONFIG_SMP`` and
+>>>>>      ``CONFIG_PREEMPT.``
+>>>>>
+>>>>> -16) All codepaths have been exercised with all lockdep features enabled.
+>>>>> +14) All codepaths have been exercised with all lockdep features enabled.
+>>>>>
+>>>>> -17) All new ``/proc`` entries are documented under ``Documentation/``
+>>>>> +15) All new ``/proc`` entries are documented under ``Documentation/``
+>>>> [...]
+>>>>
+>>>> I've applied this, but, if you're going to stick a "Fixes" tag onto a
+>>>> patch, it's probably only polite to copy the original author.  I'm not
+>>>> fully convinced that the tag is warranted in this case.
+>>>>
+>>>> This document seems out of date in a number of ways; it could really use a
+>>>> rather more thorough updating than this.
+>>>>
+>>>
+>>> Jon, I completely agree on your out-of-date comment. That is why we
+>>> pointed Milan to that checklist to start with some small basic changes
+>>> and continue with increasingly more challenging and complex updates.
+>>>
+>>> Milan, next update for you to consider: what does "make headers_check"
+>>> do nowadays? (spoiler alert: it does nothing) Adjust the documentation
+>>> for that.
+>>>
+>>> Then, a more general improvement: think about structuring the
+>>> checklist to follow the structure of the other submission guidelines.
+>>> So, reorder the current checklist and check if the step is mentioned
+>>> in submitting-patches and where and make the checklist much more
+>>> aligned to submitting-patches.
+>>
+>> Please do not move item #1. It is #1 for a reason.
+>>
+> 
+> Randy, thanks for your hint.
+> 
+> We will consider that. I never considered this list ordered by
+> priority but maybe somebody did really consider it with those
+> priorities. To me, it seemed rather randomly sorted (with some
+> duplicates) or somehow sorted by the various topics a patch might
+> touch (e.g., some rules on Kconfig, then some rules for device
+> drivers, then some on documenting APIs, then some on testing options).
 
-Randy, thanks for your hint.
+Probably only rule #1 is sorted.  :)
 
-We will consider that. I never considered this list ordered by
-priority but maybe somebody did really consider it with those
-priorities. To me, it seemed rather randomly sorted (with some
-duplicates) or somehow sorted by the various topics a patch might
-touch (e.g., some rules on Kconfig, then some rules for device
-drivers, then some on documenting APIs, then some on testing options).
+> Interestingly, I could not find any mention of checklist item #1 in
+> development-process.rst and further linked pages, despite it being
+> very explicit on various other points.
+> 
+> Just for the record on my investigation, it is also not mentioned in
+> submitting-patches, which I did not expect, though, because that guide
+> touches more on the specific stage of preparing a submission than on
+> the creation of a code change.
+> 
+> So, if item #1 is so important to the development process, it might
+> deserve to be mentioned elsewhere with some explanation as well.
+> 
+> Side remark: I am also wondering if a clang-tidy check could actually
+> check that property of proper includes with a quick rule; that would
+> be a nice showcase for clang-tidy if that can be implemented quickly.
 
-Interestingly, I could not find any mention of checklist item #1 in
-development-process.rst and further linked pages, despite it being
-very explicit on various other points.
+That would be great.
 
-Just for the record on my investigation, it is also not mentioned in
-submitting-patches, which I did not expect, though, because that guide
-touches more on the specific stage of preparing a submission than on
-the creation of a code change.
+> Milan, you see there is quite some potential work here.
+> 
+> Milan, maybe you can find some good way of structuring the checklist
+> and make sure that #1 is still clear to be most important.
+> 
+> I am happy to assist you, Milan, on improving this checklist.
 
-So, if item #1 is so important to the development process, it might
-deserve to be mentioned elsewhere with some explanation as well.
 
-Side remark: I am also wondering if a clang-tidy check could actually
-check that property of proper includes with a quick rule; that would
-be a nice showcase for clang-tidy if that can be implemented quickly.
+thanks.
+-- 
+~Randy
 
-Milan, you see there is quite some potential work here.
-
-Milan, maybe you can find some good way of structuring the checklist
-and make sure that #1 is still clear to be most important.
-
-I am happy to assist you, Milan, on improving this checklist.
-
-Lukas
