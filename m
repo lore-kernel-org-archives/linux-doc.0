@@ -2,90 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8D4C43381
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3442DC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:37:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9414230FC
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:33:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6A2E233F8
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727632AbgLVQde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 11:33:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46128 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727590AbgLVQde (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 22 Dec 2020 11:33:34 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 56F11B769;
-        Tue, 22 Dec 2020 16:32:52 +0000 (UTC)
-Date:   Tue, 22 Dec 2020 17:32:48 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v11 03/11] mm/hugetlb: Free the vmemmap pages associated
- with each HugeTLB page
-Message-ID: <20201222163248.GB31385@linux>
-References: <20201222142440.28930-1-songmuchun@bytedance.com>
- <20201222142440.28930-4-songmuchun@bytedance.com>
+        id S1727254AbgLVQh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 11:37:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727243AbgLVQh2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 11:37:28 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D45C0613D3;
+        Tue, 22 Dec 2020 08:36:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=K6TY+2C87Nj2Uq8Izy+0y+KXHauQffDaMdJAxzjoZ6s=; b=bwf62DIJfsUfHKXIpyhlGNotni
+        yYIhhi671lt8p9+fgbrNYgf3RDFH77C8bRHsERXVzi93yh6SpB0DmGHVugS7T+R1SnyR+tqhRIVh/
+        0HpJ+8KwjiUYEVfLnJFGOQ3gnDOBVB4LUl3XKYT7XInI0IaCBHYvVxT9Jh8oeaTiHORK5qAhn+MIy
+        G14RomDlNZ2rhfPFKpLxPP5biI4uOCdbuWoUHoY0kHq0OzTE0bItCTvPGJAZHVDc9x+71Ij2/SIhd
+        ZWUsSXb+S0DTG3bkkB6xO/XsRYgrI3BWdpYJnCmD6/vWS9JxLhBectNEyvrK75eVGiWoMVEqlcGN7
+        tMkaFgrQ==;
+Received: from [2601:1c0:6280:3f0::64ea]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1krkeQ-0005jc-Ve; Tue, 22 Dec 2020 16:36:43 +0000
+Subject: Re: [PATCH v2] Documentation: process: Correct numbering
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Milan Lakhani <milan.lakhani@codethink.co.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-safety@lists.elisa.tech,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
+        Christoph Hellwig <hch@lst.de>
+References: <1608064956-5512-1-git-send-email-milan.lakhani@codethink.co.uk>
+ <20201221095209.4dd4233e@lwn.net>
+ <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7a6ab1d3-a5f5-d4ae-61e2-0a52419732f6@infradead.org>
+Date:   Tue, 22 Dec 2020 08:36:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201222142440.28930-4-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 22, 2020 at 10:24:32PM +0800, Muchun Song wrote:
-> diff --git a/include/linux/mmdebug.h b/include/linux/mmdebug.h
-> index 5d0767cb424a..eff5b13a6945 100644
-> --- a/include/linux/mmdebug.h
-> +++ b/include/linux/mmdebug.h
-> @@ -37,6 +37,13 @@ void dump_mm(const struct mm_struct *mm);
->  			BUG();						\
->  		}							\
->  	} while (0)
-> +#define VM_WARN_ON_PAGE(cond, page)					\
-> +	do {								\
-> +		if (unlikely(cond)) {					\
-> +			dump_page(page, "VM_WARN_ON_PAGE(" __stringify(cond)")");\
-> +			WARN_ON(1);					\
-> +		}							\
-> +	} while (0)
->  #define VM_WARN_ON_ONCE_PAGE(cond, page)	({			\
->  	static bool __section(".data.once") __warned;			\
->  	int __ret_warn_once = !!(cond);					\
-> @@ -60,6 +67,7 @@ void dump_mm(const struct mm_struct *mm);
->  #define VM_BUG_ON_MM(cond, mm) VM_BUG_ON(cond)
->  #define VM_WARN_ON(cond) BUILD_BUG_ON_INVALID(cond)
->  #define VM_WARN_ON_ONCE(cond) BUILD_BUG_ON_INVALID(cond)
-> +#define VM_WARN_ON_PAGE(cond, page) BUILD_BUG_ON_INVALID(cond)
->  #define VM_WARN_ON_ONCE_PAGE(cond, page)  BUILD_BUG_ON_INVALID(cond)
->  #define VM_WARN_ONCE(cond, format...) BUILD_BUG_ON_INVALID(cond)
->  #define VM_WARN(cond, format...) BUILD_BUG_ON_INVALID(cond)
+On 12/22/20 8:23 AM, Lukas Bulwahn wrote:
+> On Mon, Dec 21, 2020 at 5:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>> On Tue, 15 Dec 2020 20:42:36 +0000
+>> Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
+>>
+>>> Renumber the steps in submit-checklist.rst as some numbers were skipped.
+>>>
+>>> Fixes: 72deb455b5ec ("block: remove CONFIG_LBDAF")
+>>> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
+>>> ---
+>>>  Documentation/process/submit-checklist.rst | 24 ++++++++++++------------
+>>>  1 file changed, 12 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+>>> index 1879f88..230ee42 100644
+>>> --- a/Documentation/process/submit-checklist.rst
+>>> +++ b/Documentation/process/submit-checklist.rst
+>>> @@ -75,44 +75,44 @@ and elsewhere regarding submitting Linux kernel patches.
+>>>  13) Has been build- and runtime tested with and without ``CONFIG_SMP`` and
+>>>      ``CONFIG_PREEMPT.``
+>>>
+>>> -16) All codepaths have been exercised with all lockdep features enabled.
+>>> +14) All codepaths have been exercised with all lockdep features enabled.
+>>>
+>>> -17) All new ``/proc`` entries are documented under ``Documentation/``
+>>> +15) All new ``/proc`` entries are documented under ``Documentation/``
+>> [...]
+>>
+>> I've applied this, but, if you're going to stick a "Fixes" tag onto a
+>> patch, it's probably only polite to copy the original author.  I'm not
+>> fully convinced that the tag is warranted in this case.
+>>
+>> This document seems out of date in a number of ways; it could really use a
+>> rather more thorough updating than this.
+>>
+> 
+> Jon, I completely agree on your out-of-date comment. That is why we
+> pointed Milan to that checklist to start with some small basic changes
+> and continue with increasingly more challenging and complex updates.
+> 
+> Milan, next update for you to consider: what does "make headers_check"
+> do nowadays? (spoiler alert: it does nothing) Adjust the documentation
+> for that.
+> 
+> Then, a more general improvement: think about structuring the
+> checklist to follow the structure of the other submission guidelines.
+> So, reorder the current checklist and check if the step is mentioned
+> in submitting-patches and where and make the checklist much more
+> aligned to submitting-patches.
 
-Take this off this patch and make it a preparation patch prior to this one.
-A new VM_WARN_ON_ macro does not make much sense in this patch as it is
-not related.
+Please do not move item #1. It is #1 for a reason.
 
-I will have a look later today at the other changes, but so far looks good.
 
 -- 
-Oscar Salvador
-SUSE L3
+~Randy
+
