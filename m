@@ -2,110 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E97C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 01:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B585DC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 02:51:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C49822B43
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 01:13:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C88222CB1
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 02:51:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725924AbgLVBNY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 20:13:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58642 "EHLO
+        id S1725954AbgLVCuy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 21:50:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725780AbgLVBNX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 20:13:23 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEA6C0613D3;
-        Mon, 21 Dec 2020 17:12:43 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id y24so10709516edt.10;
-        Mon, 21 Dec 2020 17:12:43 -0800 (PST)
+        with ESMTP id S1725869AbgLVCuy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 21:50:54 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A52BC0613D3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 18:50:14 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id y8so6660005plp.8
+        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 18:50:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GliYyH7yy7ye5oeDSopSLd690B1DZ40po/a9jbBg3Ek=;
-        b=PGO9qu6T57IQ4Nfj6h3qO4kRsdkl8rrwYhKiqqGXq+aSjNdZyKFlWX0AQkGkbQdZ1d
-         w9Bx+f8qwBf+UUaWxgOn4gvr5r4Fhibf69V1VmELYjxj9zGZeyR+CJjN93/Ae1FtFnk5
-         Fe1wngC2dw/SAHOfCbLpEkdp0sOCSGgMhiwnEpsGe9HHMjcyoGAXAEtLhHwpd1FdSr7y
-         x1GE3BCJvDF+YA4jLDPbz1tBd182z4ekXTbIg4qnfUvpbTP8Oy2TM4Q9Mw4SDhjmOKlL
-         MHwGk7FBQEvJ0DWUMsBZpRzn4qA8G6VIrtuDgYW/pFf3mBRX1mOhf/BcjTyY2AFihH7G
-         d8xA==
+        bh=sCc2IFUwdvsSbaqGN4i+xoLYg8bo8q9GqOnadnWn86M=;
+        b=EFcweklmpZFX37UCEa3NG/H3IqUe54EEr8xpQ6AhjlUWmnNx+oFVTKuD+PJBMF9MC/
+         PuFFFg9DSJ5ZqAwIVFcWXhAKNGWPqqF9ssAWzic75Tq45wA8X+6NlRIq8tw9fSmh+5Q6
+         DyDpIAtBPi/QMJDfwtuXuWeDouFBQdcR2dzVjlrRLWskgwMzha9m8jXCTBq9loGrlbMP
+         0lR4bZyv8mKlXjD3CnQlEuePSSPV1H6noA2eO5XEJ71Qxf/Tuvq1jc8H7eGZjb7KKgOZ
+         WICiH3apu5X51ETJcKMrV8hF3Lh9xibTjcIzS9KvLcmNKrnGLrIBSRmPqvpdnxIOC/J6
+         PBqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GliYyH7yy7ye5oeDSopSLd690B1DZ40po/a9jbBg3Ek=;
-        b=tcdt9CC8r0BwJVu7DDGvfHFffQS21lTzJzoZveZq3CNZsaTSGxje7i/0RjPiZzv6bW
-         lWJwsbzZLf/hjHKXh0tAFCaDtsDmNEEr7VUb2gIHcZjFA2barqeLUgvw7W6F3qiJZmGb
-         1h9ZPQ8doX0Na/KjdHQ1Sx0k3C//kInuK5E6t/Z7v/mUi67tqk8GWy6RLuW13vmWsxvz
-         S1Ye9vNUoWm3SDJ9bWf7CSMWNKVvNFRnnXUY8+/beUI9qzEcmtYk8h94gk2cq9ChZXBY
-         KNGJfvc5xHYD+6Cb7F3pIvexfWn8ihS57ZJan51RhTzO4nE9a0T/wtCP+O/LFZM/c9Nz
-         6tqg==
-X-Gm-Message-State: AOAM530nhxDFmThxoGNhA23SIOJWdYCPeH/pPkRKJ69Y7JU4cYugQxuC
-        MDntZ4QNFjY8QrUqLTaXPLA1GzLvVS6gF9M+bYg=
-X-Google-Smtp-Source: ABdhPJzVOecyNYG+T5AvEZ2NZACOGkQW0lcuS/RsS/USm1j9Qv3jcTv1wvsyViPvDQmdYhhLG55i3DXRU74tCjAcu+k=
-X-Received: by 2002:aa7:cc15:: with SMTP id q21mr18341443edt.213.1608599562140;
- Mon, 21 Dec 2020 17:12:42 -0800 (PST)
+        bh=sCc2IFUwdvsSbaqGN4i+xoLYg8bo8q9GqOnadnWn86M=;
+        b=XL88pMLW9Tli8OGEihWgLjuMe70XGqJmCCmrTdr+zlByQ0qXunCW7hGEDfAIok4zoV
+         T2lzHsO72jGnwlKH34qP7+5/gPKGGOmPvq12LqA9Jw3MQ4CbpeBNDknZyxIM1dpbcR9D
+         BNEu4GRZVGn8HON26hrdvrFZaYTBa5Pz/XcTEGswSWf6vpjNHSaL3znVCmSyydqpjTMp
+         lPvuEO5XsagAmXQ/cNlhnVFrLLJxygaBbYF6DTWAe9Pnd7RpgmifCpE+7jwmzcXzV3a7
+         TEqJ/urevPGUvkVp1S7vRruzTzO5gPJEpXrQaiibB+z9NISljvKuIOV+I/vemAiZtBfM
+         DsXQ==
+X-Gm-Message-State: AOAM533KfUorQEmYPEB1+LRm3gcsshJavzSQ3hEI18NgI9Eg9FsfwjmA
+        TBzJzoEzkWY771FTR/Wn0YmX1yMyYS/6a5RIEsx5WQ==
+X-Google-Smtp-Source: ABdhPJwN8zbi7sZTQVpPryOVuQt7CfApSm+iEg1iAxKHHrxnSB7kplgsZ+W7mu3itpRyCUFJ7EmCi7/nZfC9oacqVo4=
+X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
+ bj3-20020a1709028503b02900dc044f62d8mr18889150plb.34.1608605413385; Mon, 21
+ Dec 2020 18:50:13 -0800 (PST)
 MIME-Version: 1.0
-References: <1607144496-10635-1-git-send-email-cainiao666999@gmail.com> <20201221095721.6bebfb28@lwn.net>
-In-Reply-To: <20201221095721.6bebfb28@lwn.net>
-From:   Mingzhe Yang <cainiao666999@gmail.com>
-Date:   Tue, 22 Dec 2020 09:12:10 +0800
-Message-ID: <CAAY4BKP9HJse43ixR3txu1o=-j4ubgXoXEALaNOZcFQUxVhMgw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: x86: update the thread_info's position
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, David Laight <David.Laight@aculab.com>
+References: <20201217121303.13386-1-songmuchun@bytedance.com>
+ <20201217121303.13386-4-songmuchun@bytedance.com> <20201221091123.GB14343@linux>
+ <CAMZfGtVnS=_m4fpGBfDpOpdgzP02QCteUQn-gGiLADWfGiVJ=A@mail.gmail.com>
+ <20201221134345.GA19324@linux> <CAMZfGtVTqYXOvTHSay-6WS+gtDSCtcN5ksnkj8hJgrUs_XWoWQ@mail.gmail.com>
+ <20201221180019.GA2884@localhost.localdomain>
+In-Reply-To: <20201221180019.GA2884@localhost.localdomain>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 22 Dec 2020 10:49:35 +0800
+Message-ID: <CAMZfGtVsJz-vt-vsgGBAxGOKdibCAxBsnjEpupKX_=Tw9rZZ3A@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v10 03/11] mm/hugetlb: Free the vmemmap
+ pages associated with each HugeTLB page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks a million!
-I truly appreciate your review!
+On Tue, Dec 22, 2020 at 2:00 AM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Mon, Dec 21, 2020 at 11:52:30PM +0800, Muchun Song wrote:
+> > On Mon, Dec 21, 2020 at 9:44 PM Oscar Salvador <osalvador@suse.de> wrote:
+> > >
+> > > On Mon, Dec 21, 2020 at 07:25:15PM +0800, Muchun Song wrote:
+> > >
+> > > > Should we add a BUG_ON in vmemmap_remap_free() for now?
+> > > >
+> > > >         BUG_ON(reuse != start + PAGE_SIZE);
+> > >
+> > > I do not think we have to, plus we would be BUG_ing for some specific use
+> > > case in "generic" function.
+> >
+> > The vmemmap_remap_range() walks page table range [start, end),
+> > if reuse is equal to (start + PAGE_SIZE), the range can adjust to
+> > [start - PAGE_SIZE, end). But if not, we need some work to
+> > implement the "generic" function.
+> >
+> >   - adjust range to [min(start, reuse), end) and call
+> >     vmemmap_remap_rangeand which skip the hole
+> >     which is [reuse + PAGE_SIZE, start) or [end, reuse).
+> >   - call vmemmap_remap_range(reuse, reuse + PAGE_SIZE)
+> >     to get the reuse page.Then, call vmemmap_remap_range(start, end)
+> >     again to remap.
+> >
+> > Which one do you prefer?
+>
+> I would not overcomplicate things at this stage.
+> Just follow my sugestion and add a BUG_ON as you said, that might be the
+> easier way now.
+> We can overthink this in the future when some other usecases come
+> around, right?
 
-On Tue, Dec 22, 2020 at 12:57 AM Jonathan Corbet <corbet@lwn.net> wrote:
+You are right. Will do this. Thanks for your suggestions.
+
 >
-> On Sat,  5 Dec 2020 13:01:36 +0800
-> Mingzhe Yang <cainiao666999@gmail.com> wrote:
+> Thanks
 >
-> > Prior to kernel 4.9 the thread_info structure was at the bottom of
-> > the kernel stack. kernel 4.9 moved it into the task_struct.
-> >
-> > See commits c65eacb ("sched/core: Allow putting thread_info into
-> > task_struct"), 15f4eae ("x86: Move thread_info into task_struct")
-> > and 883d50f ("scripts/gdb: fix get_thread_info").
-> >
-> > Signed-off-by: Mingzhe Yang <cainiao666999@gmail.com>
-> > ---
-> >  Documentation/x86/kernel-stacks.rst | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/x86/kernel-stacks.rst b/Documentation/x86/kernel-stacks.rst
-> > index 6b0bcf0..e9097f3 100644
-> > --- a/Documentation/x86/kernel-stacks.rst
-> > +++ b/Documentation/x86/kernel-stacks.rst
-> > @@ -15,7 +15,8 @@ Like all other architectures, x86_64 has a kernel stack for every
-> >  active thread.  These thread stacks are THREAD_SIZE (2*PAGE_SIZE) big.
-> >  These stacks contain useful data as long as a thread is alive or a
-> >  zombie. While the thread is in user space the kernel stack is empty
-> > -except for the thread_info structure at the bottom.
-> > +except for the thread_info structure at the bottom (since kernel 4.9,
-> > +the thread_info structure has been moved into task_struct).
 >
-> So this has been sitting in my inbox for a bit, sorry.  This seems worth
-> fixing, but is this the correct fix?  The documentation should reflect the
-> current kernel, rather than what once was with a "(it's not actually that
-> way anymore)" note.  Is the kernel stack truly empty now?  If so we should
-> just say that; otherwise say what's lurking there in current kernels.
->
-> Thanks,
->
-> jon
+> --
+> Oscar Salvador
+> SUSE L3
+
+
+
+-- 
+Yours,
+Muchun
