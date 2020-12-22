@@ -2,162 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB9DC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E30A5C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 20:32:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D60523133
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 17:16:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB8FF22AAE
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 20:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727321AbgLVRQZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 12:16:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        id S1726319AbgLVUcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 15:32:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727121AbgLVRQZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 12:16:25 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D6DC0613D3;
-        Tue, 22 Dec 2020 09:15:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=gufAg2KpiIFJ6VLLKcQMN7HR7h/VjEMR0EGTFx+cXS0=; b=HOzIg+fUJcZsJMRXnjE1YyeaNj
-        k4Hxgh5IGwVvWOTDmNtQ1bnmLi89UHxvdA+XIeTYTiy63IVYPqzkMVdjhQtmx8QUl/eLu9FugC3OP
-        y/qb2tpLkqcmQlcFRfUcUyNcTpzlW9b9Y0t3up0fDYKWBPiH7/w3ssxCLvLyhOC7ZHs28/60aqZvE
-        fZsd4RI9b7HwiJmk3E3UPMiiolxs3IipEGu7EiEcrb8efH+NnAxBKyn4RddD++wbPW5tToLl2E2jL
-        ljMImDAr7AkUKdG4J2e8PfLiuMXLtzn29Nf4hjqV2XnA0k0lpZtjAfxmBu8f61rBDQt1lsQPmqqaW
-        tad+xUEw==;
-Received: from [2601:1c0:6280:3f0::64ea]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1krlG8-00009P-PL; Tue, 22 Dec 2020 17:15:41 +0000
-Subject: Re: [PATCH v2] Documentation: process: Correct numbering
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Milan Lakhani <milan.lakhani@codethink.co.uk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-safety@lists.elisa.tech,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
-        Christoph Hellwig <hch@lst.de>
-References: <1608064956-5512-1-git-send-email-milan.lakhani@codethink.co.uk>
- <20201221095209.4dd4233e@lwn.net>
- <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
- <7a6ab1d3-a5f5-d4ae-61e2-0a52419732f6@infradead.org>
- <CAKXUXMxU1EQ+n+AsiQWNPxx=iO-U_e1V6dwqABbn=uJ8CCxepw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f8e02679-a87e-127a-5989-7f265c71efca@infradead.org>
-Date:   Tue, 22 Dec 2020 09:15:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAKXUXMxU1EQ+n+AsiQWNPxx=iO-U_e1V6dwqABbn=uJ8CCxepw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S1726030AbgLVUcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 15:32:20 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C16C0613D6
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 12:31:40 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id b5so1969241pjk.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 12:31:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K3t0gQbM6vz2TJwWgefdmZ2h7DY9X/bWdXKHVBct5Bo=;
+        b=xIcXQn7R4olfb6NcIyMf0NYfvpPgw6QMgzZqfGR/vN1YUULDWUjonzB1u1/ySq/1+2
+         LxpwMMHsEwVO8g1rS3R3TIZjoli5f69LDfyF5ZNNXGfOU+tHVbnyiyN+Y+zWKr1/JZL5
+         S+uqgfDwY2RRWm2ZHdTC0BJLvhQzV0y417kxiPUtc2/qhs2GQA6POOqa+KU+OdEfXMoA
+         A+6e3BNovWaPuA16HnA874KhkukNH+vohj9uEjGTi1uBHlJlZCvOBUoJ1T1oL8MmpH71
+         t0tFwT2gvcsPX5zjaFyLTscOoRU9spDL3/Lu9+cRSLHINPBTUkaFuLh2mAlsqZtI20q4
+         WB5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=K3t0gQbM6vz2TJwWgefdmZ2h7DY9X/bWdXKHVBct5Bo=;
+        b=f86hhHIwDSh+jxoewrpz9LkW09y2YpIGLkL6XtelZiic5tv0LlVtTfTRQxt//Ao1RB
+         q75cBt8Op4+yu8l7hI0rXhyiX43+k0K/q2VUxFQquU58RSiCO/8h4pZKLiH66IzU9z6l
+         sdC3JZb92rQqeU4O4Mp8CaFqtdo06FYrxDBf5hJxCcyyvAPF0zJx/rVyj9fOrdysF7OX
+         8PWp/lV1omf+5m+fjDW7d402MKrMzwxU1M4creVe3mE45wE/6KWKf2A77AcWrImMYZiD
+         poAqgU3HO+BGxqyJxDDuhRZaEJgXRC0gA9lw+Y8atXlDIpJY2BkRLRH02jEolZtDGNxc
+         zGRQ==
+X-Gm-Message-State: AOAM533ArP1dUNGxnCnTIEXRKXCLjEpMGbWtZlzYzrOni9vhHjy27PlK
+        JhIEQpAwdjTVTZWwV+TEmIaB9FLo1OQCrJ9q
+X-Google-Smtp-Source: ABdhPJxmDWHlPtP4ZhkG5oNkIvaR9bXeCaw5WhU7AWPPpJheCeEpfLo0O3inkKuWstj+VTyDNxvnQw==
+X-Received: by 2002:a17:90a:e005:: with SMTP id u5mr23339455pjy.64.1608669100205;
+        Tue, 22 Dec 2020 12:31:40 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id w27sm17486740pfq.104.2020.12.22.12.31.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Dec 2020 12:31:39 -0800 (PST)
+Date:   Tue, 22 Dec 2020 12:31:39 -0800 (PST)
+X-Google-Original-Date: Tue, 22 Dec 2020 12:31:37 PST (-0800)
+Subject:     Re: [dm-devel] [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to userspace
+In-Reply-To: <20201222133246.GA5099@infradead.org>
+CC:     josef@toxicpanda.com, bvanassche@acm.org,
+        Christoph Hellwig <hch@infradead.org>, snitzer@redhat.com,
+        corbet@lwn.net, kernel-team@android.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        song@kernel.org, dm-devel@redhat.com,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org, agk@redhat.com,
+        michael.christie@oracle.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Message-ID: <mhng-843a42fb-63aa-4626-a60d-6e4d28a7bb73@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/22/20 9:11 AM, Lukas Bulwahn wrote:
-> On Tue, Dec 22, 2020 at 5:36 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> On 12/22/20 8:23 AM, Lukas Bulwahn wrote:
->>> On Mon, Dec 21, 2020 at 5:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
->>>>
->>>> On Tue, 15 Dec 2020 20:42:36 +0000
->>>> Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
->>>>
->>>>> Renumber the steps in submit-checklist.rst as some numbers were skipped.
->>>>>
->>>>> Fixes: 72deb455b5ec ("block: remove CONFIG_LBDAF")
->>>>> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
->>>>> ---
->>>>>  Documentation/process/submit-checklist.rst | 24 ++++++++++++------------
->>>>>  1 file changed, 12 insertions(+), 12 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
->>>>> index 1879f88..230ee42 100644
->>>>> --- a/Documentation/process/submit-checklist.rst
->>>>> +++ b/Documentation/process/submit-checklist.rst
->>>>> @@ -75,44 +75,44 @@ and elsewhere regarding submitting Linux kernel patches.
->>>>>  13) Has been build- and runtime tested with and without ``CONFIG_SMP`` and
->>>>>      ``CONFIG_PREEMPT.``
->>>>>
->>>>> -16) All codepaths have been exercised with all lockdep features enabled.
->>>>> +14) All codepaths have been exercised with all lockdep features enabled.
->>>>>
->>>>> -17) All new ``/proc`` entries are documented under ``Documentation/``
->>>>> +15) All new ``/proc`` entries are documented under ``Documentation/``
->>>> [...]
->>>>
->>>> I've applied this, but, if you're going to stick a "Fixes" tag onto a
->>>> patch, it's probably only polite to copy the original author.  I'm not
->>>> fully convinced that the tag is warranted in this case.
->>>>
->>>> This document seems out of date in a number of ways; it could really use a
->>>> rather more thorough updating than this.
->>>>
->>>
->>> Jon, I completely agree on your out-of-date comment. That is why we
->>> pointed Milan to that checklist to start with some small basic changes
->>> and continue with increasingly more challenging and complex updates.
->>>
->>> Milan, next update for you to consider: what does "make headers_check"
->>> do nowadays? (spoiler alert: it does nothing) Adjust the documentation
->>> for that.
->>>
->>> Then, a more general improvement: think about structuring the
->>> checklist to follow the structure of the other submission guidelines.
->>> So, reorder the current checklist and check if the step is mentioned
->>> in submitting-patches and where and make the checklist much more
->>> aligned to submitting-patches.
->>
->> Please do not move item #1. It is #1 for a reason.
->>
-> 
-> Randy, thanks for your hint.
-> 
-> We will consider that. I never considered this list ordered by
-> priority but maybe somebody did really consider it with those
-> priorities. To me, it seemed rather randomly sorted (with some
-> duplicates) or somehow sorted by the various topics a patch might
-> touch (e.g., some rules on Kconfig, then some rules for device
-> drivers, then some on documenting APIs, then some on testing options).
+On Tue, 22 Dec 2020 05:32:46 PST (-0800), Christoph Hellwig wrote:
+> On Mon, Dec 14, 2020 at 07:00:57PM -0800, Palmer Dabbelt wrote:
+>> I haven't gotten a whole lot of feedback, so I'm inclined to at least have some
+>> reasonable performance numbers before bothering with a v2.
+>
+> FYI, my other main worry beside duplicating nbd is that device mapper
+> really is a stacked interface that sits on top of other block device.
+> Turning this into something else that just pipes data to userspace
+> seems very strange.
 
-Probably only rule #1 is sorted.  :)
+Agreed.  It certainly doesn't fit the DM model.  We'd considered doing a non-DM
+version of this (maybe "ubd"), but decided to stick with dm-user because we
+didn't want to duplicate all the device creation stuff that DM provides.  A
+simple version of that wouldn't be that hard to do, but the DM version has a
+lot of features and we get that all for free.  We essentially decided to run
+with DM until it gets in the way, and the only sticking point we ended up with
+was that REQUEUE stuff (though not sure how that would show up with a bare
+block device) and that scheduler question.
 
-> Interestingly, I could not find any mention of checklist item #1 in
-> development-process.rst and further linked pages, despite it being
-> very explicit on various other points.
-> 
-> Just for the record on my investigation, it is also not mentioned in
-> submitting-patches, which I did not expect, though, because that guide
-> touches more on the specific stage of preparing a submission than on
-> the creation of a code change.
-> 
-> So, if item #1 is so important to the development process, it might
-> deserve to be mentioned elsewhere with some explanation as well.
-> 
-> Side remark: I am also wondering if a clang-tidy check could actually
-> check that property of proper includes with a quick rule; that would
-> be a nice showcase for clang-tidy if that can be implemented quickly.
-
-That would be great.
-
-> Milan, you see there is quite some potential work here.
-> 
-> Milan, maybe you can find some good way of structuring the checklist
-> and make sure that #1 is still clear to be most important.
-> 
-> I am happy to assist you, Milan, on improving this checklist.
-
-
-thanks.
--- 
-~Randy
-
+I'm going to stick with DM for now, unless it gets in the way, to avoid coming
+up with a device creation scheme myself.  In the long term it's probably best
+to have this be a standalone thing, but I don't want to dump a bunch of time
+into putting that stuff together only to find that this isn't interesting
+enough from a performance perspective to stick around.
