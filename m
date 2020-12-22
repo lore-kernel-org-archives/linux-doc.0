@@ -2,149 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82884C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 14:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB014C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 14:38:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D5EB23124
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 14:32:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87FC3221FC
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 14:38:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727236AbgLVOcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 09:32:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727195AbgLVOcP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 09:32:15 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2359C0611C5
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 06:31:34 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id f14so1383246pju.4
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 06:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=XzS1srauFLdS7N6FaDP6UmV3KONPJLbFcZMdSU+F95w=;
-        b=Lts37J0+3a2+gZxXrxIlmZsq95Q5atD4QwQiIzeJWwob3euyPog2S4lryq1WXf5hyc
-         NCaQeZhkJrmH58b2gZybUS3oJlbFTtdpGM+qce4CtwbeAn1ahp3WzpJ0vTZSu0lfbnmB
-         cVaMG8N4hFI0uw/+NFbL7XR7c2b7ikU7NvzH2zoSIRXHMNG19+dFYQ/qXqF679zcq6VH
-         Bt+6xbRRGxx8/5jjqzJGP6NnwgnytuTrxp7vDe8IJRChjOZ3xZwOvBzaaMgGIkTYTkCm
-         nz1m8RjpiY90rLrUmPsE/sUVmAjMmncCNmWsh8TAhB0CCtu9zW51z3eNF2KZ/wheaEH0
-         R09w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XzS1srauFLdS7N6FaDP6UmV3KONPJLbFcZMdSU+F95w=;
-        b=VYUdhocT0vuFbHtysdJBGNyEmRuqDaKRAFTGn2x8lKZpbXk4gld8Ifna4NAcls0Vj9
-         BdDGa26t+kMU5Ib1skhBxpaXFOak1RNKbPa/codHxKJkUvZj3px2+ZhFmMKrBYQyJdXv
-         PZ+7nEfpDi2+pqiDo1W3IJib3waNqhWXHmBXh+dWmzuneQCb+54qJkGR0kowoapJLkwT
-         v9/1Vhx1PTZdc9a0NHrCNVrkVVoPKcugD3rn/z5qedpCNyWdZ9WdelPm0i/jkkCQgSkH
-         /FQVCDJdFLswV1GvxbhHDU02jn1/J8CNKcZDxo6DGEGNrFydH5gH5WSlgzfIGAM0A43/
-         sDaw==
-X-Gm-Message-State: AOAM531VxvmQSnl7drpEsqUomAUBpdqvbOObk95PCZ78mjpyOTCukb0o
-        FH/asGHvZg5TvCdWJzL7/5aAZQ==
-X-Google-Smtp-Source: ABdhPJy8DyVGhNGlLTRjXJsqd1MUxY4ju29rgjY632JH4g9tOkY13BOMltdn/B0pI2vP/UgK9jgUcQ==
-X-Received: by 2002:a17:902:7592:b029:dc:3c87:1c63 with SMTP id j18-20020a1709027592b02900dc3c871c63mr10339125pll.47.1608647494418;
-        Tue, 22 Dec 2020 06:31:34 -0800 (PST)
-Received: from localhost.bytedance.net ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id a31sm21182088pgb.93.2020.12.22.06.31.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Dec 2020 06:31:33 -0800 (PST)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v11 11/11] mm/hugetlb: Optimize the code with the help of the compiler
-Date:   Tue, 22 Dec 2020 22:24:40 +0800
-Message-Id: <20201222142440.28930-12-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20201222142440.28930-1-songmuchun@bytedance.com>
-References: <20201222142440.28930-1-songmuchun@bytedance.com>
+        id S1727669AbgLVOhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 09:37:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33632 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727657AbgLVOhv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 09:37:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1608647785;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VOk6E6hPe7usXLD5bNCDmNIcAC8JFXb+4t0X8eR9cr4=;
+        b=SJrIVV5eVXvMCpxds2FaAP370gHMJTsymQkasmhElVk1sVj0xk9jEYt07EdPohBfgTrugi
+        WoEXSt8aJUhBq+f5U7KQjrsoZuz0MqTcV7yryV/OEnivShpepOIAgDYDhNo2XFmB7WnQuH
+        qkD0OcMtZQCvbiX/JrUKPLdvtgWGie8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-6XDxApNmPNKJ09t1PSBSsQ-1; Tue, 22 Dec 2020 09:36:22 -0500
+X-MC-Unique: 6XDxApNmPNKJ09t1PSBSsQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B74E910054FF;
+        Tue, 22 Dec 2020 14:36:20 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 24A0D6F977;
+        Tue, 22 Dec 2020 14:36:17 +0000 (UTC)
+Date:   Tue, 22 Dec 2020 09:36:16 -0500
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>, josef@toxicpanda.com,
+        bvanassche@acm.org, corbet@lwn.net, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-raid@vger.kernel.org, song@kernel.org, dm-devel@redhat.com,
+        linux-kselftest@vger.kernel.org, shuah@kernel.org, agk@redhat.com,
+        michael.christie@oracle.com
+Subject: Re: [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to
+ userspace
+Message-ID: <20201222143616.GB12885@redhat.com>
+References: <30d39293-80a4-9ef5-92bb-6b6dec464be3@toxicpanda.com>
+ <mhng-2da5b1a2-20f9-4b0e-9ffd-7f60a161ebf0@palmerdabbelt-glaptop>
+ <20201222133246.GA5099@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201222133246.GA5099@infradead.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We cannot optimize if a "struct page" crosses page boundaries. If
-it is true, we can optimize the code with the help of a compiler.
-When free_vmemmap_pages_per_hpage() returns zero, most functions are
-optimized by the compiler.
+On Tue, Dec 22 2020 at  8:32am -0500,
+Christoph Hellwig <hch@infradead.org> wrote:
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- include/linux/hugetlb.h | 3 ++-
- mm/hugetlb_vmemmap.c    | 7 +++++++
- mm/hugetlb_vmemmap.h    | 5 +++--
- 3 files changed, 12 insertions(+), 3 deletions(-)
+> On Mon, Dec 14, 2020 at 07:00:57PM -0800, Palmer Dabbelt wrote:
+> > I haven't gotten a whole lot of feedback, so I'm inclined to at least have some
+> > reasonable performance numbers before bothering with a v2.
+> 
+> FYI, my other main worry beside duplicating nbd is that device mapper
+> really is a stacked interface that sits on top of other block device.
+> Turning this into something else that just pipes data to userspace
+> seems very strange.
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 7295f6b3d55e..adc17765e0e9 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -791,7 +791,8 @@ extern bool hugetlb_free_vmemmap_enabled;
- 
- static inline bool is_hugetlb_free_vmemmap_enabled(void)
- {
--	return hugetlb_free_vmemmap_enabled;
-+	return hugetlb_free_vmemmap_enabled &&
-+	       is_power_of_2(sizeof(struct page));
- }
- #else
- static inline bool is_hugetlb_free_vmemmap_enabled(void)
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 6b8f7bb2273e..5ea12c7507a6 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -250,6 +250,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	BUILD_BUG_ON(NR_USED_SUBPAGE >=
- 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- 
-+	/*
-+	 * The compiler can help us to optimize this function to null
-+	 * when the size of the struct page is not power of 2.
-+	 */
-+	if (!is_power_of_2(sizeof(struct page)))
-+		return;
-+
- 	if (!hugetlb_free_vmemmap_enabled)
- 		return;
- 
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index 8fd9ae113dbd..e8de41295d4d 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -17,11 +17,12 @@ void hugetlb_vmemmap_init(struct hstate *h);
- 
- /*
-  * How many vmemmap pages associated with a HugeTLB page that can be freed
-- * to the buddy allocator.
-+ * to the buddy allocator. The checking of the is_power_of_2() aims to let
-+ * the compiler help us optimize the code as much as possible.
-  */
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
--	return h->nr_free_vmemmap_pages;
-+	return is_power_of_2(sizeof(struct page)) ? h->nr_free_vmemmap_pages : 0;
- }
- #else
- static inline void alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
--- 
-2.11.0
+I agree.  Only way I'd be interested is if it somehow tackled enabling
+much more efficient IO.  Earlier discussion in this thread mentioned
+that zero-copy and low overhead wasn't a priority (because it is hard,
+etc).  But the hard work has already been done with io_uring.  If
+dm-user had a prereq of leaning heavily on io_uring and also enabled IO
+polling for bio-based then there may be a win to supporting it.
+
+But unless lower latency (or some other more significant win) is made
+possible I just don't care to prop up an unnatural DM bolt-on.
+
+Mike
 
