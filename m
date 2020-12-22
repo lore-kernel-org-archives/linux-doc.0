@@ -2,107 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45561C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C15B8C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:24:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1986323103
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:22:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D21E23103
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 16:24:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727384AbgLVQWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 11:22:50 -0500
-Received: from smtprelay0114.hostedemail.com ([216.40.44.114]:35312 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727254AbgLVQWu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 11:22:50 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 48F1E100E7B46;
-        Tue, 22 Dec 2020 16:22:09 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: shock82_5013a7b27461
-X-Filterd-Recvd-Size: 3498
-Received: from XPS-9350.home (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf03.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 22 Dec 2020 16:22:07 +0000 (UTC)
-Message-ID: <983e6452a7f2af14ca7edfa56cd2e2997172a771.camel@perches.com>
-Subject: Re: [PATCH] checkpatch: make the line length warnings match the
- coding style document
-From:   Joe Perches <joe@perches.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Matthew Wilcox <willy@infradead.org>, apw@canonical.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 22 Dec 2020 08:22:06 -0800
-In-Reply-To: <20201222131234.GA29028@lst.de>
-References: <20201210082251.2717564-1-hch@lst.de>
-         <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
-         <20201210200930.GB7338@casper.infradead.org>
-         <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
-         <93a470c7631d2607e7b2a12e9cc5d8e930911989.camel@perches.com>
-         <20201222131234.GA29028@lst.de>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S1727843AbgLVQYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 11:24:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727790AbgLVQYE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 11:24:04 -0500
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34507C0613D6;
+        Tue, 22 Dec 2020 08:23:24 -0800 (PST)
+Received: by mail-io1-xd34.google.com with SMTP id d9so12460066iob.6;
+        Tue, 22 Dec 2020 08:23:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ANErGQVIqQj48QsZur9ujVXtxW39rQn+lJjWeUAYdrA=;
+        b=veeydcPeh0M2CCM3R/Rh0jUfggTZDkL8vqlYZxVAiCvkzpGWTEZ614+2DnsCHMmlz3
+         pQMKSKTCZDlI40VbP2PmVD6SvrYFINcKscFIY/MXeJDR63rAFqGVP1+jwSwVx4QcXd65
+         GU5QAE7gY6Tbcrt7HaFXvzavk7xeSwlu7vbC9S5bGWwNCnLVbtj4pdATxlEpQ/mCr+pG
+         31OGYoIVphYuh8wbdZ4qgLjp7QidVe8iEnTJBtyMLFnrglMZ0MAQppx1GobNoHof810i
+         S1876VV7fWF7H2CvpdNV0srMdydKxnOcCVFwG+BO1qkBuGqsDWczT8oyFSCu/tLaeynS
+         2Orw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ANErGQVIqQj48QsZur9ujVXtxW39rQn+lJjWeUAYdrA=;
+        b=S1Zik3QputyUYnmoGXRm/TbwgEYl35Nx++FAVBHHFW71AWcSVdknhabfPmgcQIpOpb
+         9kmD/86IduCLfryZvn4tl1pFAx53JF6NSb8ZpFjZxV0OEkys3o6sfc9XYRhWWdjcaoHO
+         UXDofnevBUp3JVOoTT+95T+m6QtPoVnkWiz+KCD7Vd6SciKLHYbatcRHOLiDe+DMX0rt
+         5dOQ/N4sZZF5++peiwPHdlr9msC+t9q6BdTLaJqOuMNaMZ5+tZvpEb/Qkbv/4pXmoY5R
+         3LLRKNyrZVdo1rCkjG2IOtgNAQlni5w23QXSfvTdGZWAyuB7uo6ZqzYCDNib5WNEH13n
+         3o7g==
+X-Gm-Message-State: AOAM5330ytPjISvm5KFaOvryz5ZaxCVpoyizguzUAm7r8shKO9GYz4Kl
+        8HO4FPH+J7fMiaz3FK0GEDf0i7cGNSyWL0o7RC79AakKuZw=
+X-Google-Smtp-Source: ABdhPJzhlQMVpEILVIPZ4JARLz6t9lY6qdQHVYRORmaQ6AhXWklFhgpJy6oI+dXqc9s8dBMn078l7xs0TMk8vnh+yHk=
+X-Received: by 2002:a6b:6d1a:: with SMTP id a26mr18703014iod.158.1608654203503;
+ Tue, 22 Dec 2020 08:23:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <1608064956-5512-1-git-send-email-milan.lakhani@codethink.co.uk> <20201221095209.4dd4233e@lwn.net>
+In-Reply-To: <20201221095209.4dd4233e@lwn.net>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Tue, 22 Dec 2020 17:23:18 +0100
+Message-ID: <CAKXUXMwR9i5bJx+_rXkv4SK0yU1cHpGexH9RjsN7UFqJ-Ozsew@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: process: Correct numbering
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Milan Lakhani <milan.lakhani@codethink.co.uk>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-safety@lists.elisa.tech,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
+        Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2020-12-22 at 14:12 +0100, Christoph Hellwig wrote:
-> On Mon, Dec 21, 2020 at 08:08:20PM -0800, Joe Perches wrote:
-> > On Thu, 2020-12-10 at 13:27 -0800, Joe Perches wrote:
-> > > On Thu, 2020-12-10 at 20:09 +0000, Matthew Wilcox wrote:
-> > > > On Thu, Dec 10, 2020 at 12:05:04PM -0800, Joe Perches wrote:
-> > > > > Also, given the ever increasing average identifier length, strict
-> > > > > adherence to 80 columns is sometimes just not possible without silly
-> > > > > visual gymnastics.  The kernel now has quite a lot of 30+ character
-> > > > > length function names, constants, and structs.
-> > > > 
-> > > > maybe checkpatch should warn for identifiers that are 30+ characters
-> > > > long?  address the problem at its source ..
-> > > 
-> > > Hard to know when to warn as patches could just add uses of already
-> > > existing names and emitting warnings for those would just be annoying.
-> > > 
-> > > Maybe something that tests long identifier additions of
-> > > defines/functions/macros/structs but not their uses and maybe only
-> > > then in patches and not files.
-> > > 
-> > > Perhaps:
-> > 
-> > Anyone care that this should be added or not added to checkpatch?
-> 
-> It is pretty useless.
+On Mon, Dec 21, 2020 at 5:52 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Tue, 15 Dec 2020 20:42:36 +0000
+> Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
+>
+> > Renumber the steps in submit-checklist.rst as some numbers were skipped.
+> >
+> > Fixes: 72deb455b5ec ("block: remove CONFIG_LBDAF")
+> > Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
+> > ---
+> >  Documentation/process/submit-checklist.rst | 24 ++++++++++++------------
+> >  1 file changed, 12 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+> > index 1879f88..230ee42 100644
+> > --- a/Documentation/process/submit-checklist.rst
+> > +++ b/Documentation/process/submit-checklist.rst
+> > @@ -75,44 +75,44 @@ and elsewhere regarding submitting Linux kernel patches.
+> >  13) Has been build- and runtime tested with and without ``CONFIG_SMP`` and
+> >      ``CONFIG_PREEMPT.``
+> >
+> > -16) All codepaths have been exercised with all lockdep features enabled.
+> > +14) All codepaths have been exercised with all lockdep features enabled.
+> >
+> > -17) All new ``/proc`` entries are documented under ``Documentation/``
+> > +15) All new ``/proc`` entries are documented under ``Documentation/``
+> [...]
+>
+> I've applied this, but, if you're going to stick a "Fixes" tag onto a
+> patch, it's probably only polite to copy the original author.  I'm not
+> fully convinced that the tag is warranted in this case.
+>
+> This document seems out of date in a number of ways; it could really use a
+> rather more thorough updating than this.
+>
 
-Maybe so, if only because I chose a high value for the max id length
-to avoid controversy.  I would prefer something like 20.
+Jon, I completely agree on your out-of-date comment. That is why we
+pointed Milan to that checklist to start with some small basic changes
+and continue with increasingly more challenging and complex updates.
 
-> What we need is a patch that doesn't make people
-> uselessly add overly long lines against the intent of the coding style
-> document.  I have submitted a pretty reasonable one, and I'm open to
-> alternatives, but we need to to stop people submitting code that does
-> not fit the coding style all the time because checkpatch doesn't
-> complain.
+Milan, next update for you to consider: what does "make headers_check"
+do nowadays? (spoiler alert: it does nothing) Adjust the documentation
+for that.
 
-Having checkpatch complain about > 80 column lines didn't stop
-patches before, likely it wouldn't stop patches now.
+Then, a more general improvement: think about structuring the
+checklist to follow the structure of the other submission guidelines.
+So, reorder the current checklist and check if the step is mentioned
+in submitting-patches and where and make the checklist much more
+aligned to submitting-patches.
 
-Emitting yet more messages for trivial lines > 80 columns is also
-against the intent of the commit that changed the line length maximum.
-
-commit bdc48fa11e46f867ea4d75fa59ee87a7f48be144
-checkpatch/coding-style: deprecate 80-column warning
-
-The effect of your patch might as well revert the checkpatch portion
-of that commit.
-
-I think that's not a great idea for the reason in the commit message.
-
-
+Lukas
