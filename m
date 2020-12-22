@@ -2,139 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B585DC433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 02:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F984C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 04:09:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C88222CB1
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 02:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3F3F22ADC
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 04:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725954AbgLVCuy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 21:50:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbgLVCuy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 21:50:54 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A52BC0613D3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 18:50:14 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id y8so6660005plp.8
-        for <linux-doc@vger.kernel.org>; Mon, 21 Dec 2020 18:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sCc2IFUwdvsSbaqGN4i+xoLYg8bo8q9GqOnadnWn86M=;
-        b=EFcweklmpZFX37UCEa3NG/H3IqUe54EEr8xpQ6AhjlUWmnNx+oFVTKuD+PJBMF9MC/
-         PuFFFg9DSJ5ZqAwIVFcWXhAKNGWPqqF9ssAWzic75Tq45wA8X+6NlRIq8tw9fSmh+5Q6
-         DyDpIAtBPi/QMJDfwtuXuWeDouFBQdcR2dzVjlrRLWskgwMzha9m8jXCTBq9loGrlbMP
-         0lR4bZyv8mKlXjD3CnQlEuePSSPV1H6noA2eO5XEJ71Qxf/Tuvq1jc8H7eGZjb7KKgOZ
-         WICiH3apu5X51ETJcKMrV8hF3Lh9xibTjcIzS9KvLcmNKrnGLrIBSRmPqvpdnxIOC/J6
-         PBqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sCc2IFUwdvsSbaqGN4i+xoLYg8bo8q9GqOnadnWn86M=;
-        b=XL88pMLW9Tli8OGEihWgLjuMe70XGqJmCCmrTdr+zlByQ0qXunCW7hGEDfAIok4zoV
-         T2lzHsO72jGnwlKH34qP7+5/gPKGGOmPvq12LqA9Jw3MQ4CbpeBNDknZyxIM1dpbcR9D
-         BNEu4GRZVGn8HON26hrdvrFZaYTBa5Pz/XcTEGswSWf6vpjNHSaL3znVCmSyydqpjTMp
-         lPvuEO5XsagAmXQ/cNlhnVFrLLJxygaBbYF6DTWAe9Pnd7RpgmifCpE+7jwmzcXzV3a7
-         TEqJ/urevPGUvkVp1S7vRruzTzO5gPJEpXrQaiibB+z9NISljvKuIOV+I/vemAiZtBfM
-         DsXQ==
-X-Gm-Message-State: AOAM533KfUorQEmYPEB1+LRm3gcsshJavzSQ3hEI18NgI9Eg9FsfwjmA
-        TBzJzoEzkWY771FTR/Wn0YmX1yMyYS/6a5RIEsx5WQ==
-X-Google-Smtp-Source: ABdhPJwN8zbi7sZTQVpPryOVuQt7CfApSm+iEg1iAxKHHrxnSB7kplgsZ+W7mu3itpRyCUFJ7EmCi7/nZfC9oacqVo4=
-X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
- bj3-20020a1709028503b02900dc044f62d8mr18889150plb.34.1608605413385; Mon, 21
- Dec 2020 18:50:13 -0800 (PST)
+        id S1725902AbgLVEJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 21 Dec 2020 23:09:05 -0500
+Received: from smtprelay0172.hostedemail.com ([216.40.44.172]:35924 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725854AbgLVEJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 23:09:05 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id CFC35837F24C;
+        Tue, 22 Dec 2020 04:08:23 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: sky76_34051c32745d
+X-Filterd-Recvd-Size: 5338
+Received: from XPS-9350.home (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf10.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 22 Dec 2020 04:08:22 +0000 (UTC)
+Message-ID: <93a470c7631d2607e7b2a12e9cc5d8e930911989.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: make the line length warnings match the
+ coding style document
+From:   Joe Perches <joe@perches.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Christoph Hellwig <hch@lst.de>, apw@canonical.com,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 21 Dec 2020 20:08:20 -0800
+In-Reply-To: <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
+References: <20201210082251.2717564-1-hch@lst.de>
+         <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
+         <20201210200930.GB7338@casper.infradead.org>
+         <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20201217121303.13386-1-songmuchun@bytedance.com>
- <20201217121303.13386-4-songmuchun@bytedance.com> <20201221091123.GB14343@linux>
- <CAMZfGtVnS=_m4fpGBfDpOpdgzP02QCteUQn-gGiLADWfGiVJ=A@mail.gmail.com>
- <20201221134345.GA19324@linux> <CAMZfGtVTqYXOvTHSay-6WS+gtDSCtcN5ksnkj8hJgrUs_XWoWQ@mail.gmail.com>
- <20201221180019.GA2884@localhost.localdomain>
-In-Reply-To: <20201221180019.GA2884@localhost.localdomain>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 22 Dec 2020 10:49:35 +0800
-Message-ID: <CAMZfGtVsJz-vt-vsgGBAxGOKdibCAxBsnjEpupKX_=Tw9rZZ3A@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v10 03/11] mm/hugetlb: Free the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 22, 2020 at 2:00 AM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Mon, Dec 21, 2020 at 11:52:30PM +0800, Muchun Song wrote:
-> > On Mon, Dec 21, 2020 at 9:44 PM Oscar Salvador <osalvador@suse.de> wrote:
-> > >
-> > > On Mon, Dec 21, 2020 at 07:25:15PM +0800, Muchun Song wrote:
-> > >
-> > > > Should we add a BUG_ON in vmemmap_remap_free() for now?
-> > > >
-> > > >         BUG_ON(reuse != start + PAGE_SIZE);
-> > >
-> > > I do not think we have to, plus we would be BUG_ing for some specific use
-> > > case in "generic" function.
-> >
-> > The vmemmap_remap_range() walks page table range [start, end),
-> > if reuse is equal to (start + PAGE_SIZE), the range can adjust to
-> > [start - PAGE_SIZE, end). But if not, we need some work to
-> > implement the "generic" function.
-> >
-> >   - adjust range to [min(start, reuse), end) and call
-> >     vmemmap_remap_rangeand which skip the hole
-> >     which is [reuse + PAGE_SIZE, start) or [end, reuse).
-> >   - call vmemmap_remap_range(reuse, reuse + PAGE_SIZE)
-> >     to get the reuse page.Then, call vmemmap_remap_range(start, end)
-> >     again to remap.
-> >
-> > Which one do you prefer?
->
-> I would not overcomplicate things at this stage.
-> Just follow my sugestion and add a BUG_ON as you said, that might be the
-> easier way now.
-> We can overthink this in the future when some other usecases come
-> around, right?
+On Thu, 2020-12-10 at 13:27 -0800, Joe Perches wrote:
+> On Thu, 2020-12-10 at 20:09 +0000, Matthew Wilcox wrote:
+> > On Thu, Dec 10, 2020 at 12:05:04PM -0800, Joe Perches wrote:
+> > > Also, given the ever increasing average identifier length, strict
+> > > adherence to 80 columns is sometimes just not possible without silly
+> > > visual gymnastics.  The kernel now has quite a lot of 30+ character
+> > > length function names, constants, and structs.
+> > 
+> > maybe checkpatch should warn for identifiers that are 30+ characters
+> > long?  address the problem at its source ..
+> 
+> Hard to know when to warn as patches could just add uses of already
+> existing names and emitting warnings for those would just be annoying.
+> 
+> Maybe something that tests long identifier additions of
+> defines/functions/macros/structs but not their uses and maybe only
+> then in patches and not files.
+> 
+> Perhaps:
 
-You are right. Will do this. Thanks for your suggestions.
+Anyone care that this should be added or not added to checkpatch?
 
->
-> Thanks
->
->
-> --
-> Oscar Salvador
-> SUSE L3
+> ---
+>  scripts/checkpatch.pl | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 7b086d1cd6c2..8579be987fc0 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -54,6 +54,7 @@ my @ignore = ();
+>  my $help = 0;
+>  my $configuration_file = ".checkpatch.conf";
+>  my $max_line_length = 100;
+> +my $max_identifier_length = 30;
+>  my $ignore_perl_version = 0;
+>  my $minimum_perl_version = 5.10.0;
+>  my $min_conf_desc_length = 4;
+> @@ -103,6 +104,8 @@ Options:
+>    --max-line-length=n        set the maximum line length, (default $max_line_length)
+>                               if exceeded, warn on patches
+>                               requires --strict for use with --file
+> +  --max-identifier-length=n  set the maximum identifier length, (default $max_identifier_length)
+> +                             only used with patches, not output with --file
+>    --min-conf-desc-length=n   set the min description length, if shorter, warn
+>    --tab-size=n               set the number of spaces for tab (default $tabsize)
+>    --root=PATH                PATH to the kernel tree root
+> @@ -223,6 +226,7 @@ GetOptions(
+>  	'show-types!'	=> \$show_types,
+>  	'list-types!'	=> \$list_types,
+>  	'max-line-length=i' => \$max_line_length,
+> +	'max-identifier-length=i' => \$max_identifier_length,
+>  	'min-conf-desc-length=i' => \$min_conf_desc_length,
+>  	'tab-size=i'	=> \$tabsize,
+>  	'root=s'	=> \$root,
+> @@ -2489,6 +2493,7 @@ sub process {
+>  	my $suppress_statement = 0;
+>  
+> 
+>  	my %signatures = ();
+> +	my %long_identifiers = ();
+>  
+> 
+>  	# Pre-scan the patch sanitizing the lines.
+>  	# Pre-scan the patch looking for any __setup documentation.
+> @@ -3840,6 +3845,33 @@ sub process {
+>  # check we are in a valid C source file if not then ignore this hunk
+>  		next if ($realfile !~ /\.(h|c)$/);
+>  
+> 
+> +# check for long identifiers in defines/macros/functions/structs/types/labels
+> +		if (!$file) {
+> +			while ($sline =~ /^\+.*\b(\w{$max_identifier_length,})\b/g) {
+> +				my $id = $1;
+> +				next if (exists($long_identifiers{$id}));
+> +				my $use = "";
+> +				if ($sline =~ /^\+\s*\#\s*define\s+$id(?!\()/) {
+> +					$use = "define";
+> +				} elsif ($sline =~ /^\+\s*\#\s*define\s+$id\(/) {
+> +					$use = "function-like macro";
+> +				} elsif ($sline =~ /^\+\s*(?!define)$Declare?$id\s*\(/) {
+> +					$use = "function";
+> +				} elsif ($sline =~ /^\+\s*(struct|union|enum)\s+$id\b/) {
+> +					$use = "$1";
+> +				} elsif ($sline =~ /^\+\s*$Declare$id\b/) {
+> +					$use = "declaration";
+> +				} elsif ($sline =~ /^\+\s*$id\s*:\s*$/) {
+> +					$use = "label";
+> +				}
+> +				if ($use ne "") {
+> +					$long_identifiers{$id} = $id;
+> +					WARN("LONG_IDENTIFIER",
+> +					     "$use '$id' is " . length($id) . " characters - avoid using identifiers with $max_identifier_length+ characters\n" . $herecurr);
+> +				}
+> +			}
+> +		}
+> +
+>  # check for unusual line ending [ or (
+>  		if ($line =~ /^\+.*([\[\(])\s*$/) {
+>  			CHK("OPEN_ENDED_LINE",
+> 
 
 
-
--- 
-Yours,
-Muchun
