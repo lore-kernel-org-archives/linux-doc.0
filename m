@@ -2,157 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F984C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 04:09:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 980ECC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 12:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3F3F22ADC
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 04:09:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 717022313C
+	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 12:19:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725902AbgLVEJF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 21 Dec 2020 23:09:05 -0500
-Received: from smtprelay0172.hostedemail.com ([216.40.44.172]:35924 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725854AbgLVEJF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 21 Dec 2020 23:09:05 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id CFC35837F24C;
-        Tue, 22 Dec 2020 04:08:23 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: sky76_34051c32745d
-X-Filterd-Recvd-Size: 5338
-Received: from XPS-9350.home (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 22 Dec 2020 04:08:22 +0000 (UTC)
-Message-ID: <93a470c7631d2607e7b2a12e9cc5d8e930911989.camel@perches.com>
-Subject: Re: [PATCH] checkpatch: make the line length warnings match the
- coding style document
-From:   Joe Perches <joe@perches.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>, apw@canonical.com,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 21 Dec 2020 20:08:20 -0800
-In-Reply-To: <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
-References: <20201210082251.2717564-1-hch@lst.de>
-         <c3f1d9de2e5a61588f64e69a1309968d84a2dd12.camel@perches.com>
-         <20201210200930.GB7338@casper.infradead.org>
-         <4898c0c03d370a23b1b98ddabb72e70ec8d430fa.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S1726615AbgLVMTb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 07:19:31 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:58109 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726166AbgLVMTb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 07:19:31 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1608639547; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=4Pjy6oXt8m46ugTOK9z6c9JGgi4a6imnMwcwh9QIWLA=;
+ b=I2Zpx4oW9zU4wJTvaz3s7Hdv/3Ecxyr9v4Ahj5yimmZTkWYCdsfk2KE6vSL7FOlw4RoYK2g/
+ tohC5uUYRaVla5lQxWLJ10vKcQ+Pdg8IiY8+FyO3RaiiYhhyXT5rhM/jRS7oXuHuy+z5IK+j
+ 6OJ1wtTXjjOedufEA0+8PMGugY4=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 5fe1e418db8e07fa6c20411b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Dec 2020 12:18:32
+ GMT
+Sender: mdalam=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 7EDD9C43461; Tue, 22 Dec 2020 12:18:32 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mdalam)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B11F4C433CA;
+        Tue, 22 Dec 2020 12:18:31 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 22 Dec 2020 17:48:31 +0530
+From:   mdalam@codeaurora.org
+To:     Thara Gopinath <thara.gopinath@linaro.org>
+Cc:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
+        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        sricharan@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+In-Reply-To: <8c86f4db-9956-10d1-b380-a207137b50ef@linaro.org>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+ <9769c54acf54617a17346fea60ee38b6@codeaurora.org>
+ <8c86f4db-9956-10d1-b380-a207137b50ef@linaro.org>
+Message-ID: <11f538a697de934551bcec5036d7fb17@codeaurora.org>
+X-Sender: mdalam@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2020-12-10 at 13:27 -0800, Joe Perches wrote:
-> On Thu, 2020-12-10 at 20:09 +0000, Matthew Wilcox wrote:
-> > On Thu, Dec 10, 2020 at 12:05:04PM -0800, Joe Perches wrote:
-> > > Also, given the ever increasing average identifier length, strict
-> > > adherence to 80 columns is sometimes just not possible without silly
-> > > visual gymnastics.  The kernel now has quite a lot of 30+ character
-> > > length function names, constants, and structs.
-> > 
-> > maybe checkpatch should warn for identifiers that are 30+ characters
-> > long?  address the problem at its source ..
+On 2020-12-21 23:39, Thara Gopinath wrote:
+> On 12/21/20 2:35 AM, mdalam@codeaurora.org wrote:
+>> On 2020-12-19 09:05, Thara Gopinath wrote:
+>>> On 12/17/20 9:37 AM, Md Sadre Alam wrote:
+>>>> This change will add support for LOCK & UNLOCK flag bit support
+>>>> on CMD descriptor.
+>>>> 
+>>>> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+>>>> transaction wanted to lock the DMA controller for this transaction 
+>>>> so
+>>>> BAM driver should set LOCK bit for the HW descriptor.
+>>>> 
+>>>> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of 
+>>>> this
+>>>> transaction wanted to unlock the DMA controller.so BAM driver should 
+>>>> set
+>>>> UNLOCK bit for the HW descriptor.
+>>> Hi,
+>>> 
+>>> This is a generic question. What is the point of LOCK/UNLOCK with
+>>> allocating LOCK groups to the individual dma channels? By default
+>>> doesn't all channels fall in the same group. This would mean that
+>>> a lock does not prevent the dma controller from not executing a
+>>> transaction on the other channels.
+>>> 
+>> 
+>> The Pipe Locking/Unlocking will be only on command-descriptor.
+>> Upon encountering a command descriptor with LOCK bit set, the BAM
+>> will lock all other pipes not related to the current pipe group, and 
+>> keep
+>> handling the current pipe only until it sees the UNLOCK set then it 
+>> will
+>> release all locked pipes.
 > 
-> Hard to know when to warn as patches could just add uses of already
-> existing names and emitting warnings for those would just be annoying.
-> 
-> Maybe something that tests long identifier additions of
-> defines/functions/macros/structs but not their uses and maybe only
-> then in patches and not files.
-> 
-> Perhaps:
+> So unless you assign pipe groups, this will not work as intended
+> right? So this patch is only half of the solution. There should also
+> be a patch allowing pipe groups to be assigned. Without that extra bit
+> this patch does nothing , right ?
 
-Anyone care that this should be added or not added to checkpatch?
-
-> ---
->  scripts/checkpatch.pl | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 7b086d1cd6c2..8579be987fc0 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -54,6 +54,7 @@ my @ignore = ();
->  my $help = 0;
->  my $configuration_file = ".checkpatch.conf";
->  my $max_line_length = 100;
-> +my $max_identifier_length = 30;
->  my $ignore_perl_version = 0;
->  my $minimum_perl_version = 5.10.0;
->  my $min_conf_desc_length = 4;
-> @@ -103,6 +104,8 @@ Options:
->    --max-line-length=n        set the maximum line length, (default $max_line_length)
->                               if exceeded, warn on patches
->                               requires --strict for use with --file
-> +  --max-identifier-length=n  set the maximum identifier length, (default $max_identifier_length)
-> +                             only used with patches, not output with --file
->    --min-conf-desc-length=n   set the min description length, if shorter, warn
->    --tab-size=n               set the number of spaces for tab (default $tabsize)
->    --root=PATH                PATH to the kernel tree root
-> @@ -223,6 +226,7 @@ GetOptions(
->  	'show-types!'	=> \$show_types,
->  	'list-types!'	=> \$list_types,
->  	'max-line-length=i' => \$max_line_length,
-> +	'max-identifier-length=i' => \$max_identifier_length,
->  	'min-conf-desc-length=i' => \$min_conf_desc_length,
->  	'tab-size=i'	=> \$tabsize,
->  	'root=s'	=> \$root,
-> @@ -2489,6 +2493,7 @@ sub process {
->  	my $suppress_statement = 0;
->  
-> 
->  	my %signatures = ();
-> +	my %long_identifiers = ();
->  
-> 
->  	# Pre-scan the patch sanitizing the lines.
->  	# Pre-scan the patch looking for any __setup documentation.
-> @@ -3840,6 +3845,33 @@ sub process {
->  # check we are in a valid C source file if not then ignore this hunk
->  		next if ($realfile !~ /\.(h|c)$/);
->  
-> 
-> +# check for long identifiers in defines/macros/functions/structs/types/labels
-> +		if (!$file) {
-> +			while ($sline =~ /^\+.*\b(\w{$max_identifier_length,})\b/g) {
-> +				my $id = $1;
-> +				next if (exists($long_identifiers{$id}));
-> +				my $use = "";
-> +				if ($sline =~ /^\+\s*\#\s*define\s+$id(?!\()/) {
-> +					$use = "define";
-> +				} elsif ($sline =~ /^\+\s*\#\s*define\s+$id\(/) {
-> +					$use = "function-like macro";
-> +				} elsif ($sline =~ /^\+\s*(?!define)$Declare?$id\s*\(/) {
-> +					$use = "function";
-> +				} elsif ($sline =~ /^\+\s*(struct|union|enum)\s+$id\b/) {
-> +					$use = "$1";
-> +				} elsif ($sline =~ /^\+\s*$Declare$id\b/) {
-> +					$use = "declaration";
-> +				} elsif ($sline =~ /^\+\s*$id\s*:\s*$/) {
-> +					$use = "label";
-> +				}
-> +				if ($use ne "") {
-> +					$long_identifiers{$id} = $id;
-> +					WARN("LONG_IDENTIFIER",
-> +					     "$use '$id' is " . length($id) . " characters - avoid using identifiers with $max_identifier_length+ characters\n" . $herecurr);
-> +				}
-> +			}
-> +		}
-> +
->  # check for unusual line ending [ or (
->  		if ($line =~ /^\+.*([\[\(])\s*$/) {
->  			CHK("OPEN_ENDED_LINE",
-> 
-
-
+Yes you are right.
+We are having some register which will configure the pipe lock group.
+But these registers are not exposed to non-secure world. These registers
+only accessible through secure world. Currently in IPQ5018 SoC we are 
+configuring
+these register in secure world to configure pipe lock group.
