@@ -2,234 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8ECC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 15:33:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5682C4332B
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 15:52:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC5DC23380
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 15:33:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BBC823340
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 15:52:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727351AbgLWPcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 10:32:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44604 "EHLO
+        id S1727902AbgLWPwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 10:52:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbgLWPci (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 10:32:38 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF48C061794
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 07:31:58 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id 23so40908964lfg.10
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 07:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lfA6xo7ZY2UezgEnberC47d7lINIUx2tdvlXx5dRSMg=;
-        b=s/8pfm9/q4KfoeQvoJVRXQYJtrJyV5wt67cLf6OH8aJZ9xMuZ0kLlddsj3P4245KVa
-         hDO7uI8+GQ6g4nPDS9W4qyXOKaZc+8u4qOngi8eBPry7KQjtq+ewrrdJHan8RLHQ+OhH
-         0GFWEAAgNymVb00cSWD9bt45nqtmh9VlB956ds/Vbh9qDBjO8GNz2E+IsIDGCzLKI6uG
-         L7WHpFrIG+4/PVrDT2vUKAZQOTh1vfLrrLFFgwpTneI+rSBYEUXRMLtWZuY2xRBXWIyN
-         dWA+MmWhr8nmDlDyvSAnWs+2I0kPEtF2fj2ioA0R2kzwqawOvjBnG/KhppV+RcjN1z0F
-         prAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lfA6xo7ZY2UezgEnberC47d7lINIUx2tdvlXx5dRSMg=;
-        b=bs+24vIAa1JVO2s2E6AjcIsR6PoCr95cQH3TH3pJi0eTaRHeP2Oi+uoKsFIy5ombBf
-         N7ytWhtW3MaYPEJOY2j0DIhGEw4Gu05tc9/XMQtQzu2jJFfQcoYE+j9J86nbJoLSm6WF
-         17tllQNjYTTwXtYdSK87IVKWRWhylY6YNiprK//yMYatSqbf5Vm6Fc57gNR2dHmsnLtB
-         MhyFT2jUVE95acZLNTRvxAsN65oIkcN8rNCIjha3VLRnffePXFrUlUXA1t3q4oSz2sDa
-         Fw7SDdye9Uex9FB7HQZkag9EmbBIIcz+3M+hGVsiPi4tnyMVwLdoJfCwCZk4tshkeFAN
-         IOOA==
-X-Gm-Message-State: AOAM531jgzqWsyusmtHnmUVRhnc2b9UtZ+0MG5K6/Au54httd311WA95
-        P82sSBuxIod0JEL+9avB75d1/UmOe1/VdhYQdvwOXw==
-X-Google-Smtp-Source: ABdhPJw6vH/wnmn6eKuUm5Fv3lxVK7tu2XrsM98EgKp+9QKzLEImKbHMeAnyS49GCpdpcIa4OFDlvxiGPnHlKKAnVRs=
-X-Received: by 2002:ac2:47e7:: with SMTP id b7mr10573632lfp.117.1608737516435;
- Wed, 23 Dec 2020 07:31:56 -0800 (PST)
+        with ESMTP id S1726390AbgLWPwa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 10:52:30 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2CFC06179C;
+        Wed, 23 Dec 2020 07:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=DvH0NyUD3VzfHuiFkeAq1PYtCpt4Xs2NiwNXDYcFb5E=; b=r5Av1aYEpmlsqfXcI87HZwooYp
+        hNoYZTPHlzpf8R3PngDBkeUYyekmPZHjSvP+5Y3t/QDQeOb7PjtU60bOreHBspxZd8YUySWfx6LXs
+        Jc2J9cL/2SNWMnDDg0JGyL1dbeq6bwFLoAYSIkWYQpYYDrcyBWd1k7ay5dhh6Ajknf6vcfWMobB4M
+        d7YDf4C3uW5cb8WAsCp1mdzQnIS5cXmqbZK92BQ+Gkc1Nn7tDAmwqTDjrN+pMSjzMJ8ia/7RQBNPY
+        TuwEJMOQDeNP7zK1fBQ2omM4imubJcd/XoiZyc13i9XFXRjtUoP5Advk/4h1hgU32RFuK0kJecodo
+        rkLAE63g==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ks6QT-0001ad-OM; Wed, 23 Dec 2020 15:51:45 +0000
+Date:   Wed, 23 Dec 2020 15:51:45 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Pavel Begunkov <asml.silence@gmail.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 0/6] no-copy bvec
+Message-ID: <20201223155145.GA5902@infradead.org>
+References: <cover.1607976425.git.asml.silence@gmail.com>
+ <20201215014114.GA1777020@T590>
+ <103235c1-e7d0-0b55-65d0-013d1a09304e@gmail.com>
+ <20201215120357.GA1798021@T590>
+ <e755fec3-4181-1414-0603-02e1a1f4e9eb@gmail.com>
+ <20201222141112.GE13079@infradead.org>
+ <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
 MIME-Version: 1.0
-References: <20201215115448.25633-1-sjpark@amazon.com> <20201215115448.25633-6-sjpark@amazon.com>
-In-Reply-To: <20201215115448.25633-6-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 23 Dec 2020 07:31:45 -0800
-Message-ID: <CALvZod4i=gBc2mL_ZmF5zE9udYnEKctPk3KBguj=nwzC5cLRNA@mail.gmail.com>
-Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual
- memory address spaces
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
-        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 15, 2020 at 3:58 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-> From: SeongJae Park <sjpark@amazon.de>
->
-> This commit introduces a reference implementation of the address space
-> specific low level primitives for the virtual address space, so that
-> users of DAMON can easily monitor the data accesses on virtual address
-> spaces of specific processes by simply configuring the implementation to
-> be used by DAMON.
->
-> The low level primitives for the fundamental access monitoring are
-> defined in two parts:
->
-> 1. Identification of the monitoring target address range for the address
->    space.
-> 2. Access check of specific address range in the target space.
->
-> The reference implementation for the virtual address space does the
-> works as below.
->
-> PTE Accessed-bit Based Access Check
-> -----------------------------------
->
-> The implementation uses PTE Accessed-bit for basic access checks.  That
-> is, it clears the bit for next sampling target page and checks whether
+On Wed, Dec 23, 2020 at 12:52:59PM +0000, Pavel Begunkov wrote:
+> Can scatterlist have 0-len entries? Those are directly translated into
+> bvecs, e.g. in nvme/target/io-cmd-file.c and target/target_core_file.c.
+> I've audited most of others by this moment, they're fine.
 
-'for the next'
-
-> it set again after one sampling period.  This could disturb the reclaim
-
-'it is set'
-
-> logic.  DAMON uses ``PG_idle`` and ``PG_young`` page flags to solve the
-> conflict, as Idle page tracking does.
->
-> VMA-based Target Address Range Construction
-> -------------------------------------------
->
-> Only small parts in the super-huge virtual address space of the
-> processes are mapped to physical memory and accessed.  Thus, tracking
-> the unmapped address regions is just wasteful.  However, because DAMON
-> can deal with some level of noise using the adaptive regions adjustment
-> mechanism, tracking every mapping is not strictly required but could
-> even incur a high overhead in some cases.  That said, too huge unmapped
-> areas inside the monitoring target should be removed to not take the
-> time for the adaptive mechanism.
->
-> For the reason, this implementation converts the complex mappings to
-> three distinct regions that cover every mapped area of the address
-> space.  Also, the two gaps between the three regions are the two biggest
-> unmapped areas in the given address space.  The two biggest unmapped
-> areas would be the gap between the heap and the uppermost mmap()-ed
-> region, and the gap between the lowermost mmap()-ed region and the stack
-> in most of the cases.  Because these gaps are exceptionally huge in
-> usual address spacees, excluding these will be sufficient to make a
-
-*spaces
-
-> reasonable trade-off.  Below shows this in detail::
->
->     <heap>
->     <BIG UNMAPPED REGION 1>
->     <uppermost mmap()-ed region>
->     (small mmap()-ed regions and munmap()-ed regions)
->     <lowermost mmap()-ed region>
->     <BIG UNMAPPED REGION 2>
->     <stack>
->
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> ---
->  include/linux/damon.h |  13 +
->  mm/damon/Kconfig      |   9 +
->  mm/damon/Makefile     |   1 +
->  mm/damon/vaddr.c      | 579 ++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 602 insertions(+)
->  create mode 100644 mm/damon/vaddr.c
->
-> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> index f446f8433599..39b4d6d3ddee 100644
-> --- a/include/linux/damon.h
-> +++ b/include/linux/damon.h
-> @@ -274,4 +274,17 @@ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
->
->  #endif /* CONFIG_DAMON */
->
-> +#ifdef CONFIG_DAMON_VADDR
-> +
-> +/* Monitoring primitives for virtual memory address spaces */
-> +void damon_va_init_regions(struct damon_ctx *ctx);
-> +void damon_va_update_regions(struct damon_ctx *ctx);
-> +void damon_va_prepare_access_checks(struct damon_ctx *ctx);
-> +unsigned int damon_va_check_accesses(struct damon_ctx *ctx);
-> +bool damon_va_target_valid(void *t);
-> +void damon_va_cleanup(struct damon_ctx *ctx);
-> +void damon_va_set_primitives(struct damon_ctx *ctx);
-
-Any reason for these to be in the header?
-
-> +
-[snip]
-> +
-> +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-> +                       unsigned long *page_sz)
-> +{
-> +       pte_t *pte = NULL;
-> +       pmd_t *pmd = NULL;
-> +       spinlock_t *ptl;
-> +       bool young = false;
-> +
-> +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> +               return false;
-> +
-> +       *page_sz = PAGE_SIZE;
-> +       if (pte) {
-> +               young = pte_young(*pte);
-> +               if (!young)
-> +                       young = !page_is_idle(pte_page(*pte));
-> +               pte_unmap_unlock(pte, ptl);
-> +               return young;
-> +       }
-> +
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +       young = pmd_young(*pmd);
-> +       if (!young)
-> +               young = !page_is_idle(pmd_page(*pmd));
-> +       spin_unlock(ptl);
-> +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-> +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> +
-> +       return young;
-
-You need mmu_notifier_test_young() here. Hmm I remember mentioning
-this in some previous version as well.
-
-BTW have you tested this on a VM?
-
-The patch looks good overall.
+For block layer SGLs we should never see them, and for nvme neither.
+I think the same is true for the SCSI target code, but please double
+check.
