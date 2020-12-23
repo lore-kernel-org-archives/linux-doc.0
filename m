@@ -2,95 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C4FC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75865C433E9
 	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 18:38:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF7AA22287
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 18:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A8742229C
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 18:38:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgLWSil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 13:38:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726923AbgLWSil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 13:38:41 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2357C061794;
-        Wed, 23 Dec 2020 10:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=2/PotIte2uF8Rp7Cxfp8eiOJ3+42/nTavyU1PczDiAY=; b=hJlntF1PVWHo/AFsU4PjBe0Axn
-        5dl2/TaR8pr6w/owzLDYXGOIiipRHHvQb7P7328s0OziQDAF5kthOlgP3RTG1EzFfMbTes/n1C8EC
-        rJbLJh1VWaobbTUUt+Gm1XBLDYycB1PK3Zk5kP42MmGFPMoAi+QsRHW34XRw5vDqoQ9JyumAd0+nr
-        XGo49aha8fL3+IiFOoQkMBGuSsp7bTiWarMnCKee4iKJOXBK6xZamgWm/sEI+JS2TZkntq2+ZpWqI
-        3xg/1aMmUy/4qKY/C1az2IJliNqFsEuVKBAyNmYdwABJ9JESgPF5mU3Z7uuLfSX4ADi75syOoy0ts
-        ehfI1Lsw==;
-Received: from [2601:1c0:6280:3f0::64ea]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ks91J-0003Mc-HD; Wed, 23 Dec 2020 18:37:57 +0000
-Subject: Re: [PATCH v3 21/21] x86/fpu/xstate: Introduce boot-parameters to
- control some state component support
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>, bp@suse.de,
-        luto@kernel.org, tglx@linutronix.de, mingo@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
-        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20201223155717.19556-1-chang.seok.bae@intel.com>
- <20201223155717.19556-22-chang.seok.bae@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <64c67e40-ecba-5d9b-7c4b-4c64ea62906a@infradead.org>
-Date:   Wed, 23 Dec 2020 10:37:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1728235AbgLWSiw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 13:38:52 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:61521 "EHLO
+        smtp-fw-6002.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727207AbgLWSiw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 13:38:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1608748732; x=1640284732;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=PMQG4qz/czIhu/3Vb66DfarbU9VPAw72RQIGHA4B6zU=;
+  b=fCYdRZh9d5cM3hF2hQNeZKPl/maSbdB3g3dOE2C9gClhmWUTAyKAITCM
+   0OHhiwiuhA354Vtj7Jxp3/Pt2YJyRIF2RCc220aGW4gzj5cbqMZ27M3TO
+   zOR6Vvtq7UOZzqTSfzJscDVBVkGmmOSzHqCHx+LqR097A4tVBneqtDmaW
+   c=;
+X-IronPort-AV: E=Sophos;i="5.78,442,1599523200"; 
+   d="scan'208";a="73319603"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP; 23 Dec 2020 18:38:04 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com (Postfix) with ESMTPS id 81C9BA1F19;
+        Wed, 23 Dec 2020 18:37:52 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.66) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 23 Dec 2020 18:37:35 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 11/15] tools: Introduce a minimal user-space tool for DAMON
+Date:   Wed, 23 Dec 2020 19:37:21 +0100
+Message-ID: <20201223183721.8898-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201215115448.25633-12-sjpark@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <20201223155717.19556-22-chang.seok.bae@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.66]
+X-ClientProxiedBy: EX13D35UWB003.ant.amazon.com (10.43.161.65) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/23/20 7:57 AM, Chang S. Bae wrote:
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 44fde25bb221..a67ae04d43c5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6002,6 +6002,21 @@
->  			which allow the hypervisor to 'idle' the guest on lock
->  			contention.
->  
-> +	xstate.enable=	[X86-64]
-> +	xstate.disable=	[X86-64]
-> +			The kernel is compiled with a default xstate bitmask --
-> +			enabling it to use the XSAVE hardware to efficiently
-> +			save and restore thread states on context switch.
-> +			xstate.enable allows adding to that default mask at
-> +			boot-time without recompiling the kernel just to support
-> +			the new thread state. (Note that the kernel will ignore
-> +			any bits in the mask that do not correspond to features
-> +			that are actually available in CPUID)  xstate.disable
+On Tue, 15 Dec 2020 12:54:44 +0100 SeongJae Park <sjpark@amazon.com> wrote:
 
-			                               CPUID.)
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+> 'damon-dbgfs' provides simple user space interface for DAMON, but using
+> the interface for complex usages could require annoying repetitive
+> works.  Writing a user space data access monitoring applications on top
+> of the debugfs interface and using the application would be better for
+> such complex cases.
+> 
+> This commit introduces a reference implementation of such user space
+> application built on top of the debugfs interface, namely 'DAMon
+> Operator' (DAMO).  It contains a shallow wrapper python script of the
+> debugfs interface and various visualization of the monitoring results
+> convenient user interface.
+> 
+> Note that it is initially aimed to be used for minimal reference of the
+> 'damon-dbgfs' interface and for debugging of the DAMON itself.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> ---
+>  tools/damon/.gitignore    |   1 +
+>  tools/damon/_damon.py     | 130 ++++++++++++++
+>  tools/damon/_dist.py      |  35 ++++
+>  tools/damon/_recfile.py   |  23 +++
+>  tools/damon/bin2txt.py    |  67 +++++++
+>  tools/damon/damo          |  37 ++++
+>  tools/damon/heats.py      | 362 ++++++++++++++++++++++++++++++++++++++
+>  tools/damon/nr_regions.py |  91 ++++++++++
+>  tools/damon/record.py     | 135 ++++++++++++++
+>  tools/damon/report.py     |  45 +++++
+>  tools/damon/wss.py        | 100 +++++++++++
+>  11 files changed, 1026 insertions(+)
 
-> +			allows clearing bits in the default mask, forcing the
-> +			kernel to forget that it supports the specified thread
-> +			state. When a bit set for both, the kernel takes
-> +			xstate.disable in a priority.
-
-			               as a priority.
-?
-
-
-thanks.
--- 
-~Randy
-
+I will drop this patch from the next version of this patchset, because this is
+not the essential part but could only make the code review time consuming.  I
+will post another DAMON RFC patchset for convenient user space usages including
+this and the perf integration.
