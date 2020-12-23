@@ -2,66 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B92C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 325C7C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:57:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 774B322273
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:55:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1C1D22273
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:57:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbgLWWyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 17:54:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55790 "EHLO
+        id S1727464AbgLWW5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 17:57:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726746AbgLWWyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 17:54:55 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13397C06179C
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:54:15 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id o19so1027659lfo.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:54:14 -0800 (PST)
+        with ESMTP id S1727144AbgLWW5D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 17:57:03 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2AAC06179C
+        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:56:22 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id m25so914178lfc.11
+        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:56:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=toS9/UXOgygIv5/JsFXSLZjtZRcGltwDge5uvyW+ZWE=;
-        b=G6K+frm4usiDNsy54nqovFvsVKgDfwnlcqwizLUB2sMkLMPHlYnxgfuXUHsOojVXFw
-         /xt2oZRbXSu5CI8DX5+rRvzw4S9LW+Xj/Nc7JSgAoW8ivJkV45cWCKrLTf7PxLxxx+Cx
-         zI9Wm8nTWe1MMOuXTFlce9/yjl8z85vEMsRETL370DlXbffiE1ivHgPADKgCqZwgtqDg
-         0LcU6uoZKF6W6BUO1wtPdKNyDZLyWe38U3Svmx06IfXYwGPUreI5Omz+Bg1G+IrGOhLF
-         lMfckB64+SM8Xa8ny/ivZLlqJpHPuzr94Aqf+oMcRLV8kMeb5FdyS2AmK/NtXoAU3WCf
-         ocBg==
+        bh=DhR9g6GISx+3RIJSrNoTktJAD8JqDRQmJMtw4uaGJsY=;
+        b=wRdmlgV8vdm/6G9QgvJneWx8kAFhz2u+kJWZjg5Ut6glF0olLdK7qL+Tu3mDgLpqVI
+         3VZejIMoM4rNmLWxdsG0Tbtv6UrvsUaS0z6L+gZ9I8wW+xD1W0q6X+xza/WewluIRA/y
+         RseS1q2rkxaZmgL+mMUDrB+HkiYwbq6n85vTXBc4KNSP1U519L10WxI8n8zv+bJygb8O
+         z98YGG39NFtconBm6oX63ItClE/OcsTrIT79+bwjjEuEWoitHNJbvRgf134QOqWpFlLP
+         mwkBbGBR1eZj0PYt2EJT1KTl9o2Dd9ou32u2Tr8VyFiJbsjYB9Z58N1e34WzA3SbqtSV
+         CH7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=toS9/UXOgygIv5/JsFXSLZjtZRcGltwDge5uvyW+ZWE=;
-        b=Y0eKwFOb5Emd0CoQra7zOq+amqT304t5urmr7Ucf3jgNOcJYl4zOBzpoLpEKsISvm7
-         5Wh3Bl+j4Ddz9yFbuEh9WsLSaBK5n3YU/SsHCbXgQesZ/H1IO46unUIV7WUnCyjScvEH
-         dCVweEM9A/YZlXN/NuvKIQanYlNax/HUTqUJzY+58M6SlpfQ8wX+ACEn/dLrDh+oX8VM
-         /hgpYe8VctjKOqMOwq5qz+Jv0V/SmQ40/0UzkDgbdur3x/BIl3Y0gXrfuOegCI8rWnhi
-         AITsHmL3P/t9dEkdRvraHkzVzEKXxHRrerToFKpIOvYZ1e5Js5fVtCVKmnDYpkk8w6sQ
-         lgBg==
-X-Gm-Message-State: AOAM533XA1mfSvev8IAZ4Hycq42bN7hN0FDV8+J2QUGXXq0tkUic3Av6
-        CraDU76zVjVrQ+SYHLGDKdRup+y4Fj3gBfK8znzqjA==
-X-Google-Smtp-Source: ABdhPJy/Kuiq5nYL/CE16WSk/6X+m/pQAohwMoamwxyWTJjm6Ssj0NyAucKyNP7cAy7nAgBmnP0B7IFJsfjl51hpq9c=
-X-Received: by 2002:ac2:46d4:: with SMTP id p20mr11066331lfo.299.1608764053186;
- Wed, 23 Dec 2020 14:54:13 -0800 (PST)
+        bh=DhR9g6GISx+3RIJSrNoTktJAD8JqDRQmJMtw4uaGJsY=;
+        b=fd6drelYCuY7S0WaaQaakuBPizfJrqI1t0YqA7s45CU8WuPCBq6uIJ/6vs4tjwnX4L
+         4JGIvHworrmr7hTCXoMAC5yudvvqnrnDBM371e3OUm7919iIoYOrrkQK/zo7o5K8m9Wx
+         IwoehcpZuxRZ9CDkT67LNvsKGmvdLlnCO2fuFiftjp/7DlPRc0pvYYOFxWGwbTofUJ3m
+         H2bVsFh/1ViQ38WBxLzPHWspa6wXTgTiSn4c0j1zUrAxF6trZKNrOGB0/32ckZ0UcJ5b
+         u05ckPU5BnjS6YmBF0CFkb2xrN2eNx+tc4v7KWIlqmJkubuG7vRGA0tNQqa7QJ+fPKEb
+         AYQw==
+X-Gm-Message-State: AOAM531ekWY0DjgfSTvsm+/XpXDlqimnZ2FbcnHti3gkwek4CQ/prhAa
+        eHGcF7K/Qe7L6B1zFEWeKUTgh7Rm8yglUdzSNXYzmA==
+X-Google-Smtp-Source: ABdhPJxv1e3/W5GCN0xsKQTeeBsZi/Yh4mkxtO4TeDf6EejDKtjr0Gvi+BshysmBZUN39882t7NWdwHy7c2TwPMebgY=
+X-Received: by 2002:a2e:9605:: with SMTP id v5mr12220313ljh.81.1608764181058;
+ Wed, 23 Dec 2020 14:56:21 -0800 (PST)
 MIME-Version: 1.0
-References: <CALvZod4i=gBc2mL_ZmF5zE9udYnEKctPk3KBguj=nwzC5cLRNA@mail.gmail.com>
- <20201223164700.29723-1-sjpark@amazon.com>
-In-Reply-To: <20201223164700.29723-1-sjpark@amazon.com>
+References: <20201215115448.25633-12-sjpark@amazon.com> <20201223183721.8898-1-sjpark@amazon.com>
+In-Reply-To: <20201223183721.8898-1-sjpark@amazon.com>
 From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 23 Dec 2020 14:54:02 -0800
-Message-ID: <CALvZod6ReV=vTWZu_k2p9p3ZWOLM1z4SZ-kwoTv_a73iYFZj0g@mail.gmail.com>
-Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual
- memory address spaces
+Date:   Wed, 23 Dec 2020 14:56:10 -0800
+Message-ID: <CALvZod5dxOJMNP3HhwYc0ePN+0V8YXruXDtQQRuy+eKsJTYhcw@mail.gmail.com>
+Subject: Re: [PATCH v23 11/15] tools: Introduce a minimal user-space tool for DAMON
 To:     SeongJae Park <sjpark@amazon.com>
-Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan.Cameron@huawei.com,
         Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
         alexander.shishkin@linux.intel.com, amit@kernel.org,
         benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
@@ -95,65 +94,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 8:47 AM SeongJae Park <sjpark@amazon.com> wrote:
+On Wed, Dec 23, 2020 at 10:38 AM SeongJae Park <sjpark@amazon.com> wrote:
 >
 [snip]
-> > [snip]
-> > > +
-> > > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-> > > +                       unsigned long *page_sz)
-> > > +{
-> > > +       pte_t *pte = NULL;
-> > > +       pmd_t *pmd = NULL;
-> > > +       spinlock_t *ptl;
-> > > +       bool young = false;
-> > > +
-> > > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> > > +               return false;
-> > > +
-> > > +       *page_sz = PAGE_SIZE;
-> > > +       if (pte) {
-> > > +               young = pte_young(*pte);
-> > > +               if (!young)
-> > > +                       young = !page_is_idle(pte_page(*pte));
-> > > +               pte_unmap_unlock(pte, ptl);
-> > > +               return young;
-> > > +       }
-> > > +
-> > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > +       young = pmd_young(*pmd);
-> > > +       if (!young)
-> > > +               young = !page_is_idle(pmd_page(*pmd));
-> > > +       spin_unlock(ptl);
-> > > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-> > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > +
-> > > +       return young;
-> >
-> > You need mmu_notifier_test_young() here. Hmm I remember mentioning
-> > this in some previous version as well.
 >
-> Your question and my answer was as below:
->
->     > Don't you need mmu_notifier_clear_young() here?
->
->     I think we don't need it here because we only read the Accessed bit and PG_Idle
->     if Accessed bit was not set.
->
-> I should notice that you mean 'test_young()' but didn't, sorry.  I will add it
-> in the next version.
->
+> I will drop this patch from the next version of this patchset, because this is
+> not the essential part but could only make the code review time consuming.  I
+> will post another DAMON RFC patchset for convenient user space usages including
+> this and the perf integration.
 
-I should have said mmu_notifier_test_young() instead of
-mmu_notifier_clear_young().
-
-> >
-> > BTW have you tested this on a VM?
->
-> Yes.  Indeed, I'm testing this on a QEMU/KVM environment.  You can get more
-> detail at: https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#setup
->
-
-Hmm without mmu_notifier_test_young() you should be missing the kvm
-mmu access updates. Can you please recheck if your eval is correctly
-seeing the memory accesses from the VM?
+You can just add the link to your github repo with commit/tag
+containing the usage examples in the cover letter.
