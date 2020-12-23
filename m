@@ -8,38 +8,38 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DD7C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F7BC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 883782226A
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:34:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5466C22242
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:48:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbgLWQeq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 11:34:46 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:40232 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725785AbgLWQep (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 11:34:45 -0500
+        id S1725833AbgLWQsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 11:48:35 -0500
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:48208 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbgLWQsf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 11:48:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1608741284; x=1640277284;
+  t=1608742114; x=1640278114;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=Amjf4Nd9P7yDOjz0bAkirUS++C7I5gsECdGtUXZ2REE=;
-  b=DmuXmkUrzQS2wExYBys6gjmI0BysASf7I53NKIZUy7ExrwrupF1L2qXU
-   9iJqmqjIbiiPqscf4thbQKhLkyOPjQJEmDSpkUSweEYkm5ar7JXi4ohVF
-   +qCNwtoYo23Bt717wtc+vHMK1dViIGIiytzS15cImuJ6MLy6LvCOPPKVO
-   8=;
+  bh=oCbn+BtjmSbDnkdD3LkKFsSfsMdG/SsfM5rXzn781H4=;
+  b=Ovb9WldXG1DCBUIeiUBeuqD9xBUJTgPaIdE0/kGCjlj4GRNq66EMZWJP
+   49iz6p/Ilh1ohc6Sc5tbhMT3/kUv0cBAnTzc/V3VUQfv+hDHiQ0dUZJYt
+   HWNj2+lzdAAXz/oTrkU/tW24qhjJ/lsrGN5UYFnihM7DETdYLoG7NrGcG
+   c=;
 X-IronPort-AV: E=Sophos;i="5.78,441,1599523200"; 
-   d="scan'208";a="71234674"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 23 Dec 2020 16:33:50 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS id 0DE89A0391;
-        Wed, 23 Dec 2020 16:33:47 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.211) by
+   d="scan'208";a="105643871"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 23 Dec 2020 16:47:44 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id 1C486A1E5D;
+        Wed, 23 Dec 2020 16:47:31 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.66) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 23 Dec 2020 16:33:30 +0000
+ id 15.0.1497.2; Wed, 23 Dec 2020 16:47:14 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Shakeel Butt <shakeelb@google.com>
 CC:     SeongJae Park <sjpark@amazon.com>,
@@ -73,426 +73,188 @@ CC:     SeongJae Park <sjpark@amazon.com>,
         Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
         <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v23 01/15] mm: Introduce Data Access MONitor (DAMON)
-Date:   Wed, 23 Dec 2020 17:33:17 +0100
-Message-ID: <20201223163317.25979-1-sjpark@amazon.com>
+Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual memory address spaces
+Date:   Wed, 23 Dec 2020 17:47:00 +0100
+Message-ID: <20201223164700.29723-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod5C_Pt_BAVBW7QRYLnfv9=9Qs0K5=kXqyyM=2dg6EqVXw@mail.gmail.com>
+In-Reply-To: <CALvZod4i=gBc2mL_ZmF5zE9udYnEKctPk3KBguj=nwzC5cLRNA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.162.211]
-X-ClientProxiedBy: EX13D24UWB002.ant.amazon.com (10.43.161.159) To
+X-Originating-IP: [10.43.160.66]
+X-ClientProxiedBy: EX13D36UWB003.ant.amazon.com (10.43.161.118) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the valuable comments, Shakeel!
+On Wed, 23 Dec 2020 07:31:45 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-On Wed, 23 Dec 2020 07:11:12 -0800 Shakeel Butt <shakeelb@google.com> wrote:
-
-> First I would like you to prune your To/CC list.
-
-I will remove people not directly related with this work and didn't comment to
-this series yet.
-
-> 
-> On Tue, Dec 15, 2020 at 3:56 AM SeongJae Park <sjpark@amazon.com> wrote:
+> On Tue, Dec 15, 2020 at 3:58 AM SeongJae Park <sjpark@amazon.com> wrote:
 > >
 > > From: SeongJae Park <sjpark@amazon.de>
 > >
-> > DAMON is a data access monitoring framework for the Linux kernel.  The
-> > core mechanisms of DAMON make it
+> > This commit introduces a reference implementation of the address space
+> > specific low level primitives for the virtual address space, so that
+> > users of DAMON can easily monitor the data accesses on virtual address
+> > spaces of specific processes by simply configuring the implementation to
+> > be used by DAMON.
 > >
-> >  - accurate (the monitoring output is useful enough for DRAM level
-> >    performance-centric memory management; It might be inappropriate for
-> >    CPU cache levels, though),
-> >  - light-weight (the monitoring overhead is normally low enough to be
-> >    applied online), and
-> >  - scalable (the upper-bound of the overhead is in constant range
-> >    regardless of the size of target workloads).
+> > The low level primitives for the fundamental access monitoring are
+> > defined in two parts:
 > >
-> > Using this framework, hence, we can easily write efficient kernel space
-> > data access monitoring applications.  For example, the kernel's memory
-> > management mechanisms can make advanced decisions using this.
-> > Experimental data access aware optimization works that incurring high
-> > access monitoring overhead could implemented again on top of this.
+> > 1. Identification of the monitoring target address range for the address
+> >    space.
+> > 2. Access check of specific address range in the target space.
+> >
+> > The reference implementation for the virtual address space does the
+> > works as below.
+> >
+> > PTE Accessed-bit Based Access Check
+> > -----------------------------------
+> >
+> > The implementation uses PTE Accessed-bit for basic access checks.  That
+> > is, it clears the bit for next sampling target page and checks whether
 > 
-> *could again be implemented on*
-
-Good eye!  I will fix this in the next version.
-
+> 'for the next'
 > 
-> >
-> > Due to its simple and flexible interface, providing user space interface
-> > would be also easy.  Then, user space users who have some special
-> > workloads can write personalized applications for better understanding
-> > and optimizations of their workloads and systems.
-> >
-> > ---
-> >
-> > Nevertheless, this commit is defining and implementing only basic access
-> > check part without the overhead-accuracy handling core logic.  The basic
-> > access check is as below.
-> >
-> > The output of DAMON says what memory regions are how frequently accessed
-> > for a given duration.  The resolution of the access frequency is
-> > controlled by setting ``sampling interval`` and ``aggregation
-> > interval``.  In detail, DAMON checks access to each page per ``sampling
-> > interval`` and aggregates the results.  In other words, counts the
-> > number of the accesses to each region.  After each ``aggregation
-> > interval`` passes, DAMON calls callback functions that previously
-> > registered by users so that users can read the aggregated results and
-> > then clears the results.  This can be described in below simple
-> > pseudo-code::
-> >
-> >     while monitoring_on:
-> >         for page in monitoring_target:
-> >             if accessed(page):
-> >                 nr_accesses[page] += 1
-> >         if time() % aggregation_interval == 0:
-> >             for callback in user_registered_callbacks:
-> >                 callback(monitoring_target, nr_accesses)
-> >             for page in monitoring_target:
-> >                 nr_accesses[page] = 0
-> >         sleep(sampling interval)
-> >
+> > it set again after one sampling period.  This could disturb the reclaim
 > 
-> The above is a good example and I was hoping to see the almost same actual code.
+> 'it is set'
 
-Oh, this doesn't explain about the 'update'.  I will update this in the next
-version.
+Good catch!  Will fix in the next version.
 
 > 
-> > The target regions constructed at the beginning of the monitoring and
-> > updated after each ``regions_update_interval``, because the target
-> > regions could be dynamically changed (e.g., mmap() or memory hotplug).
-> > The monitoring overhead of this mechanism will arbitrarily increase as
-> > the size of the target workload grows.
+> > logic.  DAMON uses ``PG_idle`` and ``PG_young`` page flags to solve the
+> > conflict, as Idle page tracking does.
 > >
-> > The basic monitoring primitives for actual access check and dynamic
-> > target regions construction aren't in the core part of DAMON.  Instead,
-> > it allows users to implement their own primitives that optimized for
-> 
-> 'that are optimized for'
-
-Good catch!  I will fix this in the next version.
-
-> 
-> > their use case and configure DAMON to use those.  In other words, users
-> > cannot use current version of DAMON without some additional works.
+> > VMA-based Target Address Range Construction
+> > -------------------------------------------
 > >
-> > Following commits will implement the core mechanisms for the
-> > overhead-accuracy control and default primitives implementations.
+> > Only small parts in the super-huge virtual address space of the
+> > processes are mapped to physical memory and accessed.  Thus, tracking
+> > the unmapped address regions is just wasteful.  However, because DAMON
+> > can deal with some level of noise using the adaptive regions adjustment
+> > mechanism, tracking every mapping is not strictly required but could
+> > even incur a high overhead in some cases.  That said, too huge unmapped
+> > areas inside the monitoring target should be removed to not take the
+> > time for the adaptive mechanism.
+> >
+> > For the reason, this implementation converts the complex mappings to
+> > three distinct regions that cover every mapped area of the address
+> > space.  Also, the two gaps between the three regions are the two biggest
+> > unmapped areas in the given address space.  The two biggest unmapped
+> > areas would be the gap between the heap and the uppermost mmap()-ed
+> > region, and the gap between the lowermost mmap()-ed region and the stack
+> > in most of the cases.  Because these gaps are exceptionally huge in
+> > usual address spacees, excluding these will be sufficient to make a
+> 
+> *spaces
+
+Good eye!  Will fix in the next version.
+
+> 
+> > reasonable trade-off.  Below shows this in detail::
+> >
+> >     <heap>
+> >     <BIG UNMAPPED REGION 1>
+> >     <uppermost mmap()-ed region>
+> >     (small mmap()-ed regions and munmap()-ed regions)
+> >     <lowermost mmap()-ed region>
+> >     <BIG UNMAPPED REGION 2>
+> >     <stack>
 > >
 > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 > > ---
-> >  include/linux/damon.h | 167 ++++++++++++++++++++++
-> >  mm/Kconfig            |   2 +
-> >  mm/Makefile           |   1 +
-> >  mm/damon/Kconfig      |  15 ++
-> >  mm/damon/Makefile     |   3 +
-> >  mm/damon/core.c       | 316 ++++++++++++++++++++++++++++++++++++++++++
-> >  6 files changed, 504 insertions(+)
-> >  create mode 100644 include/linux/damon.h
-> >  create mode 100644 mm/damon/Kconfig
-> >  create mode 100644 mm/damon/Makefile
-> >  create mode 100644 mm/damon/core.c
+> >  include/linux/damon.h |  13 +
+> >  mm/damon/Kconfig      |   9 +
+> >  mm/damon/Makefile     |   1 +
+> >  mm/damon/vaddr.c      | 579 ++++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 602 insertions(+)
+> >  create mode 100644 mm/damon/vaddr.c
 > >
 > > diff --git a/include/linux/damon.h b/include/linux/damon.h
-> > new file mode 100644
-> > index 000000000000..387fa4399fc8
-> > --- /dev/null
+> > index f446f8433599..39b4d6d3ddee 100644
+> > --- a/include/linux/damon.h
 > > +++ b/include/linux/damon.h
-> > @@ -0,0 +1,167 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * DAMON api
-> > + *
-> > + * Author: SeongJae Park <sjpark@amazon.de>
-> > + */
-> > +
-> > +#ifndef _DAMON_H_
-> > +#define _DAMON_H_
-> > +
-> > +#include <linux/mutex.h>
-> > +#include <linux/time64.h>
-> > +#include <linux/types.h>
-> > +
-> > +struct damon_ctx;
-> > +
-> > +/**
-> > + * struct damon_primitive      Monitoring primitives for given use cases.
-> > + *
-> > + * @init_target_regions:       Constructs initial monitoring target regions.
-> > + * @update_target_regions:     Updates monitoring target regions.
-> 
-> The 'region' here still does not feel right. I prefer to rename the
-> above two to just init() and update().
-
-Agreed.  I will rename so in the next version.
-
-> 
-> > + * @prepare_access_checks:     Prepares next access check of target regions.
-> > + * @check_accesses:            Checks the access of target regions.
-> > + * @reset_aggregated:          Resets aggregated accesses monitoring results.
-> > + * @target_valid:              Determine if the target is valid.
-> > + * @cleanup:                   Cleans up the context.
-> > + *
-> > + * DAMON can be extended for various address spaces and usages.  For this,
-> > + * users should register the low level primitives for their target address
-> > + * space and usecase via the &damon_ctx.primitive.  Then, the monitoring thread
-> > + * calls @init_target_regions and @prepare_access_checks before starting the
-> > + * monitoring, @update_target_regions after each
-> > + * &damon_ctx.regions_update_interval, and @check_accesses, @target_valid and
-> > + * @prepare_access_checks after each &damon_ctx.sample_interval.  Finally,
-> > + * @reset_aggregated is called after each &damon_ctx.aggr_interval.
-> > + *
-> > + * @init_target_regions should construct proper monitoring target regions and
-> > + * link those to the DAMON context struct.  The regions should be defined by
-> > + * user and saved in @damon_ctx.target.
-> > + * @update_target_regions should update the monitoring target regions for
-> > + * current status.
-> > + * @prepare_access_checks should manipulate the monitoring regions to be
-> > + * prepared for the next access check.
-> > + * @check_accesses should check the accesses to each region that made after the
-> > + * last preparation and update the number of observed accesses of each region.
-> > + * @reset_aggregated should reset the access monitoring results that aggregated
-> > + * by @check_accesses.
-> > + * @target_valid should check whether the target is still valid for the
-> > + * monitoring.
-> > + * @cleanup is called from @kdamond just before its termination.  After this
-> > + * call, only @kdamond_lock and @kdamond will be touched.
-> > + */
-> > +struct damon_primitive {
-> > +       void (*init_target_regions)(struct damon_ctx *context);
-> > +       void (*update_target_regions)(struct damon_ctx *context);
-> > +       void (*prepare_access_checks)(struct damon_ctx *context);
-> > +       void (*check_accesses)(struct damon_ctx *context);
-> > +       void (*reset_aggregated)(struct damon_ctx *context);
-> > +       bool (*target_valid)(void *target);
-> > +       void (*cleanup)(struct damon_ctx *context);
-> > +};
-> > +
-> > +/*
-> > + * struct damon_callback       Monitoring events notification callbacks.
-> > + *
-> > + * @before_start:      Called before starting the monitoring.
-> > + * @after_sampling:    Called after each sampling.
-> > + * @after_aggregation: Called after each aggregation.
-> > + * @before_terminate:  Called before terminating the monitoring.
-> > + * @private:           User private data.
-> > + *
-> > + * The monitoring thread (&damon_ctx->kdamond) calls @before_start and
-> > + * @before_terminate just before starting and finishing the monitoring,
-> > + * respectively.  Therefore, those are good places for installing and cleaning
-> > + * @private.
-> > + *
-> > + * The monitoring thread calls @after_sampling and @after_aggregation for each
-> > + * of the sampling intervals and aggregation intervals, respectively.
-> > + * Therefore, users can safely access the monitoring results without additional
-> > + * protection.  For the reason, users are recommended to use these callback for
-> > + * the accesses to the results.
-> > + *
-> > + * If any callback returns non-zero, monitoring stops.
-> 
-> I am not sure if this is the right patch to add this struct. Either we
-> need to add text why this is needed or add this patch when the real
-> user i.e. debugfs interface is added.
-
-I think this is better to be here to let people know how DAMON API users can
-access to the monitoring result.
-
-> 
-> > + */
-> > +struct damon_callback {
-> > +       void *private;
-> > +
-> > +       int (*before_start)(struct damon_ctx *context);
-> > +       int (*after_sampling)(struct damon_ctx *context);
-> > +       int (*after_aggregation)(struct damon_ctx *context);
-> > +       int (*before_terminate)(struct damon_ctx *context);
-> > +};
-> > +
-> > +/**
-> > + * struct damon_ctx - Represents a context for each monitoring.  This is the
-> > + * main interface that allows users to set the attributes and get the results
-> > + * of the monitoring.
-> > + *
-> > + * @sample_interval:           The time between access samplings.
-> > + * @aggr_interval:             The time between monitor results aggregations.
-> > + * @regions_update_interval:   The time between monitor regions updates.
-> 
-> regions_update_internal should be part of the primitive abstraction
-> and the update() callback internally can check this field.
-
-I think the field should be renamed to be independent from the 'region'
-concept.
-
-However, if we agree that the 'update()' is general concept (I assume
-so because you didn't object to adding 'update()' callback), I believe this
-should be here, because the interval is the part of the monitoring request.
-Also, I unsure how the monitoring thread could know when to call 'update()'
-callback if this field is not here.
-
-[...]
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index 390165ffbb0f..b97f2e8ab83f 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -859,4 +859,6 @@ config ARCH_HAS_HUGEPD
-> >  config MAPPING_DIRTY_HELPERS
-> >          bool
+> > @@ -274,4 +274,17 @@ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
 > >
-> > +source "mm/damon/Kconfig"
+> >  #endif /* CONFIG_DAMON */
+> >
+> > +#ifdef CONFIG_DAMON_VADDR
 > > +
-> >  endmenu
-> > diff --git a/mm/Makefile b/mm/Makefile
-> > index d73aed0fc99c..8022b8f04096 100644
-> > --- a/mm/Makefile
-> > +++ b/mm/Makefile
-> > @@ -120,3 +120,4 @@ obj-$(CONFIG_MEMFD_CREATE) += memfd.o
-> >  obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
-> >  obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
-> >  obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
-> > +obj-$(CONFIG_DAMON) += damon/
-> > diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-> > new file mode 100644
-> > index 000000000000..d00e99ac1a15
-> > --- /dev/null
-> > +++ b/mm/damon/Kconfig
-> > @@ -0,0 +1,15 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +/* Monitoring primitives for virtual memory address spaces */
+> > +void damon_va_init_regions(struct damon_ctx *ctx);
+> > +void damon_va_update_regions(struct damon_ctx *ctx);
+> > +void damon_va_prepare_access_checks(struct damon_ctx *ctx);
+> > +unsigned int damon_va_check_accesses(struct damon_ctx *ctx);
+> > +bool damon_va_target_valid(void *t);
+> > +void damon_va_cleanup(struct damon_ctx *ctx);
+> > +void damon_va_set_primitives(struct damon_ctx *ctx);
+> 
+> Any reason for these to be in the header?
+
+To let DAMON API users (in kernel space) and other primitives developers to use
+those.
+
+> 
 > > +
-> > +menu "Data Access Monitoring"
+> [snip]
 > > +
-> > +config DAMON
-> > +       bool "DAMON: Data Access Monitoring Framework"
-> > +       help
-> > +         This builds a framework that allows kernel subsystems to monitor
-> > +         access frequency of each memory region. The information can be useful
-> > +         for performance-centric DRAM level memory management.
-> > +
-> > +         See https://damonitor.github.io/doc/html/latest-damon/index.html for
-> > +         more information.
-> > +
-> > +endmenu
-> > diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-> > new file mode 100644
-> > index 000000000000..4fd2edb4becf
-> > --- /dev/null
-> > +++ b/mm/damon/Makefile
-> > @@ -0,0 +1,3 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +
-> > +obj-$(CONFIG_DAMON)            := core.o
-> > diff --git a/mm/damon/core.c b/mm/damon/core.c
-> > new file mode 100644
-> > index 000000000000..8963804efdf9
-> > --- /dev/null
-> > +++ b/mm/damon/core.c
-[...]
-> > +/*
-> > + * The monitoring daemon that runs as a kernel thread
-> > + */
-> > +static int kdamond_fn(void *data)
+> > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
+> > +                       unsigned long *page_sz)
 > > +{
-> > +       struct damon_ctx *ctx = (struct damon_ctx *)data;
+> > +       pte_t *pte = NULL;
+> > +       pmd_t *pmd = NULL;
+> > +       spinlock_t *ptl;
+> > +       bool young = false;
 > > +
-> > +       pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
+> > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > +               return false;
 > > +
-> > +       if (ctx->primitive.init_target_regions)
-> > +               ctx->primitive.init_target_regions(ctx);
-> > +       if (ctx->callback.before_start && ctx->callback.before_start(ctx))
-> > +               set_kdamond_stop(ctx);
-> > +
-> > +       while (!kdamond_need_stop(ctx)) {
-> > +               if (ctx->primitive.prepare_access_checks)
-> > +                       ctx->primitive.prepare_access_checks(ctx);
-> > +               if (ctx->callback.after_sampling &&
-> > +                               ctx->callback.after_sampling(ctx))
-> > +                       set_kdamond_stop(ctx);
-> 
-> Is 'break' needed here? Or do we want to complete this iteration (same
-> for the set_kdamond_stop() below)?
-
-My intention was to complete this iteration.  I think it could give slightly
-simpler view to primitives and callbacks implementing people, because they can
-assume callbacks in each iteration will be called.
-
-> 
-> > +
-> > +               usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
-> > +
-> > +               if (ctx->primitive.check_accesses)
-> > +                       ctx->primitive.check_accesses(ctx);
-> > +
-> > +               if (kdamond_aggregate_interval_passed(ctx)) {
-> > +                       if (ctx->callback.after_aggregation &&
-> > +                                       ctx->callback.after_aggregation(ctx))
-> > +                               set_kdamond_stop(ctx);
-> > +                       if (ctx->primitive.reset_aggregated)
-> > +                               ctx->primitive.reset_aggregated(ctx);
-> > +               }
-> > +
-> 
-> The following 'if' can be done in ctx->primitive.update() callback.
-
-I think this could be common to multiple primitives, so I'd like to let it be
-here to minimize code duplication.
-
-> 
-> > +               if (kdamond_need_update_regions(ctx)) {
-> > +                       if (ctx->primitive.update_target_regions)
-> > +                               ctx->primitive.update_target_regions(ctx);
-> > +               }
+> > +       *page_sz = PAGE_SIZE;
+> > +       if (pte) {
+> > +               young = pte_young(*pte);
+> > +               if (!young)
+> > +                       young = !page_is_idle(pte_page(*pte));
+> > +               pte_unmap_unlock(pte, ptl);
+> > +               return young;
 > > +       }
 > > +
-> > +       if (ctx->callback.before_terminate &&
-> > +                       ctx->callback.before_terminate(ctx))
-> > +               set_kdamond_stop(ctx);
-> > +       if (ctx->primitive.cleanup)
-> > +               ctx->primitive.cleanup(ctx);
+> > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > +       young = pmd_young(*pmd);
+> > +       if (!young)
+> > +               young = !page_is_idle(pmd_page(*pmd));
+> > +       spin_unlock(ptl);
+> > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
+> > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
 > > +
-> > +       pr_debug("kdamond (%d) finishes\n", ctx->kdamond->pid);
-> > +       mutex_lock(&ctx->kdamond_lock);
-> > +       ctx->kdamond = NULL;
-> > +       mutex_unlock(&ctx->kdamond_lock);
-> > +
-> > +       mutex_lock(&damon_lock);
-> > +       nr_running_ctxs--;
-> > +       mutex_unlock(&damon_lock);
-> > +
-> > +       do_exit(0);
-> > +}
-> > --
-> > 2.17.1
-> >
+> > +       return young;
 > 
-> Overall the patch looks good to me. Two concerns I have are if we
-> should damon_callback here or with the real user and the regions part
-> of primitive abstraction. For the first one, I don't have any strong
-> opinion but for the second one I do.
+> You need mmu_notifier_test_young() here. Hmm I remember mentioning
+> this in some previous version as well.
 
-I'd like to keep 'damon_callback' part here, to let API users know how the
-monitoring result will be available to them.
+Your question and my answer was as below:
 
-For the 'regions' part, I will rename relevant things as below in the next
-version, to reduce any confusion.
+    > Don't you need mmu_notifier_clear_young() here?
 
-init_target_regions() -> init()
-update_target_regions() -> update()
-regions_update_interval -> update_interval
-last_regions_update -> last_update
+    I think we don't need it here because we only read the Accessed bit and PG_Idle
+    if Accessed bit was not set.
+
+I should notice that you mean 'test_young()' but didn't, sorry.  I will add it
+in the next version.
 
 > 
-> More specifically the question is if sampling and adaptive region
-> adjustment are general enough to be part of core monitoring context?
-> Can you give an example of a different primitive/use-case where these
-> would be beneficial.
+> BTW have you tested this on a VM?
 
-I think all adress spaces having some spatial locality and monitoring requests
-that need to have upper-bound overhead and best-effort accuracy could get
-benefit from it.  The primitives targetting 'virtual address spaces' and the
-'physical address space' clearly showed the benefit.
+Yes.  Indeed, I'm testing this on a QEMU/KVM environment.  You can get more
+detail at: https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#setup
+
+> 
+> The patch looks good overall.
+
+Thanks.  I will fix above things in the next version.
+
+
+Thanks,
+SeongJae Park
