@@ -2,63 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 774B9C43332
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:48:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B095BC4321A
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50A8D22D73
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:48:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8575D225AA
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729755AbgLWCsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 21:48:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40302 "EHLO
+        id S1729749AbgLWCtS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 21:49:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729819AbgLWCsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 21:48:18 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0D8C0613D6
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:47:37 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id i7so9666017pgc.8
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:47:37 -0800 (PST)
+        with ESMTP id S1729885AbgLWCtR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 21:49:17 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951F8C06179C
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:48:37 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id 15so9666560pgx.7
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:48:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2RxImZ5WYRvc5MqAscnk3rOKSiD33zPjRspOINuFOmk=;
-        b=ZSofn4JpoLY62LuOFvyMLW+ht/GEoFFtWL44njivDzeC44346+fsAkf51YIrkwCt2u
-         e2mpu3QIlWALgYyhUPkEOBqOTgcw9ONcKGAKeMFjoYsw+0+c/myum8tIRTLkx6Uovt3x
-         vefkC30tlRJr9xGylZUk2ekApJbfFrL/zqxqYpbCV3u9e2tU4xB1l7JGNsLzUCzx8gKc
-         aiD3IUH6WV7BuQgcmFP+vCAkkEilhHnrKQvlrcr0BMLsT8Fqai4rFo0sXus8YL16+hky
-         ybNCa/sVjeKRTu9uF98dXi4tZ/Aw7wqr/1HzihhnIwwX8eYMX6FebuTri8TMrS3u/JhC
-         CK6A==
+        bh=wP7Uq2lowyz2FH8P5+5koRz57WTCSgXorU4PTle7rdo=;
+        b=bI+yNYRnrvlvKm0GFWJ0h8Zo4CX+ntNyT8egYkggS18UBmlB5Ej5FmqGO/cmC3a6io
+         rjiGb4MIW9QvltzrZxdJDzjP+HmGGr5CTERjUc21VMF44i38G1LMaWQLTgrM96CfxFn7
+         OHEBz4+sDNwo1WVSAhW+l3nQjVStyrz8JeZdfW5gSfDdodXi7/SWiyuWPdb+Y4OdrSY0
+         qrE5QZFwaicGQDZ3c3tyX5pIzN+bjhBHG7uGbox0Hr6tS7uoZZsNklQGcEz9jqgvjR9z
+         5dkVJSklQB4IqZEVi5p0kBVeJaOfBJh5fgfsaUpmA25RoNGn4WfFbNliDSRu8yCgpVOt
+         hNzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2RxImZ5WYRvc5MqAscnk3rOKSiD33zPjRspOINuFOmk=;
-        b=qlbvIo/HDwWxoTpZ8ecDis4xUkyWBIvIrAsMROgqwlDF5Gn1rBSyy1nTJP9lkayO0Q
-         XGhB2NsIAwE4gp0WtZMtoe2tbi5ihPy/a60PAJFi1zkaMKyzQoU1hkOgLMM+wxC40GYj
-         EhEHvp1FjCXEb1BCbBszE+DINFPA+64Q84/qHzEYL/k4GnOWLPodPNeZQ/OV8QmT5kxD
-         HY4h8uHjxxoNYGDnytqtsabDDuKMOjzYOs13ts6FX6ZJCNx5/cvTrW15YirnmLeF/r1t
-         1wCt671/onVW+cV0wvCiEGaxCiBVQB1AbZ+fzRsFE1Xr5sOCLXp6x8sAfBC/47MYMuI+
-         zXvw==
-X-Gm-Message-State: AOAM5330su0NCRD+yw51yRfqhlqtEUJeFVmrFT4tJBfVdAWqEjoFh7Jp
-        p2EW7vhKrQf2/uUNf5Zvh3j6dmPhxZVjFpw8xMzEmw==
-X-Google-Smtp-Source: ABdhPJy8EmvuJ4kATkeRW6z5LeXrJXJXVcrcQ/jIwvne3ldCQrTuBWBNVQlwzNU1j2RO4aEF/9ZHp8TsxaRao9smtm0=
-X-Received: by 2002:a63:50a:: with SMTP id 10mr22501568pgf.273.1608691657419;
- Tue, 22 Dec 2020 18:47:37 -0800 (PST)
+        bh=wP7Uq2lowyz2FH8P5+5koRz57WTCSgXorU4PTle7rdo=;
+        b=UH+lZHEmfaX1eFdM8urxXBMHLZUwQ8dT8cqI0oBK5pQcFhcoiBOKj0qbTnSkmb5RCc
+         8AYshNVE+jht9hb3TYG/mpManja5qopy/RFUWhFrc5JHL9fkmPdZdyT6GU1nCSPq2rHk
+         1J6E2h2o/Oidp9DHHo6iau6lS0rwOLCcL2zWzqbnvmg2ggyVsyNyazdIG/at6zcb0mNC
+         TaKAP0czHdP8Y7P4VLYTcQ8zIPCDtCAPojSt0Ve6HC/PNTqAt4CPfrzlzq7O2Ta4J/Jd
+         X9Gr4x6/fPgAHyrwqEBHKMHim1AX+3MKsVFoAxDy5ReK1vE50UjNjDyyL3ITyszbQYb5
+         hqcA==
+X-Gm-Message-State: AOAM532QtpLawb91fKPiZ+2Y4Usn9Q822aL04lXF2DTvaTc0rb3yRLGW
+        wEaLUg1OEPMNF9WoPapRz4Xq19GdALrwn1UboYKvgw==
+X-Google-Smtp-Source: ABdhPJyZhq4UXodKoW1yonKLx7SJbDUeopHTSj9WphsfAsFA9xHEfINldXo3tXZS2SFAgF7o8OQRmc7gOerPeZ7KwJo=
+X-Received: by 2002:a63:480f:: with SMTP id v15mr9021169pga.341.1608691717231;
+ Tue, 22 Dec 2020 18:48:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20201222142440.28930-1-songmuchun@bytedance.com>
- <20201222142440.28930-11-songmuchun@bytedance.com> <20201222162948.GA31385@linux>
-In-Reply-To: <20201222162948.GA31385@linux>
+ <20201222142440.28930-4-songmuchun@bytedance.com> <20201222163248.GB31385@linux>
+In-Reply-To: <20201222163248.GB31385@linux>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Wed, 23 Dec 2020 10:46:58 +0800
-Message-ID: <CAMZfGtV6a9UYO0Gzs7QoTTY12vEUesYGnH762MM0JxnAfMHH+A@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v11 10/11] mm/hugetlb: Gather discrete
- indexes of tail page
+Date:   Wed, 23 Dec 2020 10:47:59 +0800
+Message-ID: <CAMZfGtU5x6kcdL32zL8Mz6DBp3pEQ+kMC5=yOda9arUm5p0=Xg@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v11 03/11] mm/hugetlb: Free the vmemmap
+ pages associated with each HugeTLB page
 To:     Oscar Salvador <osalvador@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
@@ -85,42 +86,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 12:30 AM Oscar Salvador <osalvador@suse.de> wrote:
+On Wed, Dec 23, 2020 at 12:32 AM Oscar Salvador <osalvador@suse.de> wrote:
 >
-> On Tue, Dec 22, 2020 at 10:24:39PM +0800, Muchun Song wrote:
-> > +#else
-> > +static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
-> > +{
-> > +}
-> > +
-> > +static inline void hwpoison_subpage_set(struct hstate *h, struct page *head,
-> > +                                     struct page *page)
-> > +{
-> > +     if (PageHWPoison(head) && page != head) {
-> > +             /*
-> > +              * Move PageHWPoison flag from head page to the raw error page,
-> > +              * which makes any subpages rather than the error page reusable.
-> > +              */
-> > +             SetPageHWPoison(page);
-> > +             ClearPageHWPoison(head);
-> > +     }
-> > +}
-> > +#endif
+> On Tue, Dec 22, 2020 at 10:24:32PM +0800, Muchun Song wrote:
+> > diff --git a/include/linux/mmdebug.h b/include/linux/mmdebug.h
+> > index 5d0767cb424a..eff5b13a6945 100644
+> > --- a/include/linux/mmdebug.h
+> > +++ b/include/linux/mmdebug.h
+> > @@ -37,6 +37,13 @@ void dump_mm(const struct mm_struct *mm);
+> >                       BUG();                                          \
+> >               }                                                       \
+> >       } while (0)
+> > +#define VM_WARN_ON_PAGE(cond, page)                                  \
+> > +     do {                                                            \
+> > +             if (unlikely(cond)) {                                   \
+> > +                     dump_page(page, "VM_WARN_ON_PAGE(" __stringify(cond)")");\
+> > +                     WARN_ON(1);                                     \
+> > +             }                                                       \
+> > +     } while (0)
+> >  #define VM_WARN_ON_ONCE_PAGE(cond, page)     ({                      \
+> >       static bool __section(".data.once") __warned;                   \
+> >       int __ret_warn_once = !!(cond);                                 \
+> > @@ -60,6 +67,7 @@ void dump_mm(const struct mm_struct *mm);
+> >  #define VM_BUG_ON_MM(cond, mm) VM_BUG_ON(cond)
+> >  #define VM_WARN_ON(cond) BUILD_BUG_ON_INVALID(cond)
+> >  #define VM_WARN_ON_ONCE(cond) BUILD_BUG_ON_INVALID(cond)
+> > +#define VM_WARN_ON_PAGE(cond, page) BUILD_BUG_ON_INVALID(cond)
+> >  #define VM_WARN_ON_ONCE_PAGE(cond, page)  BUILD_BUG_ON_INVALID(cond)
+> >  #define VM_WARN_ONCE(cond, format...) BUILD_BUG_ON_INVALID(cond)
+> >  #define VM_WARN(cond, format...) BUILD_BUG_ON_INVALID(cond)
 >
-> Sorry, I guess I should have made a more clear statement.
-> This patch should really be about changing the numeric index to its symbolic
-> names, so the #ifdef handling of hwpoison_subpage_* should have been gone into
-> patch#6.
+> Take this off this patch and make it a preparation patch prior to this one.
+> A new VM_WARN_ON_ macro does not make much sense in this patch as it is
+> not related.
 
-Because patch#6 is also compatible with !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
-So I add the #ifdef handling in this patch. But moving it to patch#6
-also makes sense to me. Thanks.
+OK. Will do in the next version. Thanks.
 
 >
-> I will have a closer look later on though.
-
-Thanks.
-
+> I will have a look later today at the other changes, but so far looks good.
 >
 > --
 > Oscar Salvador
