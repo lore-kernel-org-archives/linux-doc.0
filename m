@@ -2,171 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB443C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 20:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA30C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 20:40:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D4742246B
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 20:36:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E5E7223DB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 20:40:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbgLWUgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 15:36:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34670 "EHLO
+        id S1728941AbgLWUkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 15:40:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbgLWUgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 15:36:51 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ADCBC06179C;
-        Wed, 23 Dec 2020 12:36:11 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id d13so345851wrc.13;
-        Wed, 23 Dec 2020 12:36:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=a0rpAb93KEzfxlmUoYJd4BCt58+pD6nzkkuli/XS38E=;
-        b=GL9+LliYfL8/uuo3thjXfhFVPCDzOYuzbT/YTw/gXSU+e8byMr6IWG4JRI9A8JE1Rn
-         J9F+Ir8ph1gDvr7NIwbitZrbdOvoFkdCskpdPUe0+u+xQkaaZt1QjU+jmYdbcxRaLdSH
-         uyzsd+GuiBVEMIh8kdtKqtCyww+Q/F2QGVjMQfLw/YdsaOdwrZPPB1jZXqCg0eW9pMce
-         /temjc8dJPt94GBmENn8B/W+ZvU8MQv6D+CtSbHI4OCSEpVViXkVmOlRHPaEUhoYibtM
-         mJZ/zLY5P4eiA5GmYsPXYOEs3WT9tS0nn9n1wYh3Gl1ORDTb0hYgjidc1+25qIGnkAJ8
-         wCeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=a0rpAb93KEzfxlmUoYJd4BCt58+pD6nzkkuli/XS38E=;
-        b=oY8+TdHU8TM74A2oRhkyR0SVWc0mWjBhP60BzAYU2z04w5CRg3Rdd17PfokXC1AgJZ
-         RXYYnmPgYz7LcPkfiF8cGO7E1S4yZ6zM6nPgX7QF1vq3h1oRcHhuwdZy86xSdHCIZERA
-         4g4SSoCUS1HzNcy3oZOcQdwddq07035NVwujouMwMj5hTHJOW724Bgn+qbEGiGouAIXC
-         Ov49LspcYQzqGr//MTkK/VmLDaEs6A4X6wWkCkx+C1YLyZ3sRA0LKl1IGUbBywjZUp/m
-         oGEJ/e/t2RjWFcacQB4oGg0G9dgGhwitJzTbMZj7CqYD2MC7j81LC8D6IAxmNdz4OH/V
-         fRpw==
-X-Gm-Message-State: AOAM532fysX1+lJ3THoG4xbdi1GDTSgcq7sz5cjjmTVZOR3WpQXUJhXl
-        Y81pWBwdiALG/CBeziD5cCSHg771b7GcRA==
-X-Google-Smtp-Source: ABdhPJyfdcpevW4c5rLF9fw3eGxFPW+d0c0i5c8SoYyvopbDxArb44ULVgyephWBuR+3XrCfl6GgOA==
-X-Received: by 2002:adf:9d82:: with SMTP id p2mr19030926wre.330.1608755769486;
-        Wed, 23 Dec 2020 12:36:09 -0800 (PST)
-Received: from [192.168.8.148] ([85.255.233.85])
-        by smtp.gmail.com with ESMTPSA id n9sm36389523wrq.41.2020.12.23.12.36.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Dec 2020 12:36:09 -0800 (PST)
-Subject: Re: [PATCH v1 0/6] no-copy bvec
-To:     dgilbert@interlog.com,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-References: <cover.1607976425.git.asml.silence@gmail.com>
- <20201215014114.GA1777020@T590>
- <103235c1-e7d0-0b55-65d0-013d1a09304e@gmail.com>
- <20201215120357.GA1798021@T590>
- <e755fec3-4181-1414-0603-02e1a1f4e9eb@gmail.com>
- <20201222141112.GE13079@infradead.org>
- <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
- <20201223155145.GA5902@infradead.org>
- <f06ece44a86eb9c8ef07bbd9f6f53342366b7751.camel@HansenPartnership.com>
- <8abc56c2-4db8-5ee3-ab2d-8960d0eeeb0d@interlog.com>
-From:   Pavel Begunkov <asml.silence@gmail.com>
-Autocrypt: addr=asml.silence@gmail.com; prefer-encrypt=mutual; keydata=
- mQINBFmKBOQBEAC76ZFxLAKpDw0bKQ8CEiYJRGn8MHTUhURL02/7n1t0HkKQx2K1fCXClbps
- bdwSHrhOWdW61pmfMbDYbTj6ZvGRvhoLWfGkzujB2wjNcbNTXIoOzJEGISHaPf6E2IQx1ik9
- 6uqVkK1OMb7qRvKH0i7HYP4WJzYbEWVyLiAxUj611mC9tgd73oqZ2pLYzGTqF2j6a/obaqha
- +hXuWTvpDQXqcOZJXIW43atprH03G1tQs7VwR21Q1eq6Yvy2ESLdc38EqCszBfQRMmKy+cfp
- W3U9Mb1w0L680pXrONcnlDBCN7/sghGeMHjGKfNANjPc+0hzz3rApPxpoE7HC1uRiwC4et83
- CKnncH1l7zgeBT9Oa3qEiBlaa1ZCBqrA4dY+z5fWJYjMpwI1SNp37RtF8fKXbKQg+JuUjAa9
- Y6oXeyEvDHMyJYMcinl6xCqCBAXPHnHmawkMMgjr3BBRzODmMr+CPVvnYe7BFYfoajzqzq+h
- EyXSl3aBf0IDPTqSUrhbmjj5OEOYgRW5p+mdYtY1cXeK8copmd+fd/eTkghok5li58AojCba
- jRjp7zVOLOjDlpxxiKhuFmpV4yWNh5JJaTbwCRSd04sCcDNlJj+TehTr+o1QiORzc2t+N5iJ
- NbILft19Izdn8U39T5oWiynqa1qCLgbuFtnYx1HlUq/HvAm+kwARAQABtDFQYXZlbCBCZWd1
- bmtvdiAoc2lsZW5jZSkgPGFzbWwuc2lsZW5jZUBnbWFpbC5jb20+iQJOBBMBCAA4FiEE+6Ju
- PTjTbx479o3OWt5b1Glr+6UFAlmKBOQCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQ
- Wt5b1Glr+6WxZA//QueaKHzgdnOikJ7NA/Vq8FmhRlwgtP0+E+w93kL+ZGLzS/cUCIjn2f4Q
- Mcutj2Neg0CcYPX3b2nJiKr5Vn0rjJ/suiaOa1h1KzyNTOmxnsqE5fmxOf6C6x+NKE18I5Jy
- xzLQoktbdDVA7JfB1itt6iWSNoOTVcvFyvfe5ggy6FSCcP+m1RlR58XxVLH+qlAvxxOeEr/e
- aQfUzrs7gqdSd9zQGEZo0jtuBiB7k98t9y0oC9Jz0PJdvaj1NZUgtXG9pEtww3LdeXP/TkFl
- HBSxVflzeoFaj4UAuy8+uve7ya/ECNCc8kk0VYaEjoVrzJcYdKP583iRhOLlZA6HEmn/+Gh9
- 4orG67HNiJlbFiW3whxGizWsrtFNLsSP1YrEReYk9j1SoUHHzsu+ZtNfKuHIhK0sU07G1OPN
- 2rDLlzUWR9Jc22INAkhVHOogOcc5ajMGhgWcBJMLCoi219HlX69LIDu3Y34uIg9QPZIC2jwr
- 24W0kxmK6avJr7+n4o8m6sOJvhlumSp5TSNhRiKvAHB1I2JB8Q1yZCIPzx+w1ALxuoWiCdwV
- M/azguU42R17IuBzK0S3hPjXpEi2sK/k4pEPnHVUv9Cu09HCNnd6BRfFGjo8M9kZvw360gC1
- reeMdqGjwQ68o9x0R7NBRrtUOh48TDLXCANAg97wjPoy37dQE7e5Ag0EWYoE5AEQAMWS+aBV
- IJtCjwtfCOV98NamFpDEjBMrCAfLm7wZlmXy5I6o7nzzCxEw06P2rhzp1hIqkaab1kHySU7g
- dkpjmQ7Jjlrf6KdMP87mC/Hx4+zgVCkTQCKkIxNE76Ff3O9uTvkWCspSh9J0qPYyCaVta2D1
- Sq5HZ8WFcap71iVO1f2/FEHKJNz/YTSOS/W7dxJdXl2eoj3gYX2UZNfoaVv8OXKaWslZlgqN
- jSg9wsTv1K73AnQKt4fFhscN9YFxhtgD/SQuOldE5Ws4UlJoaFX/yCoJL3ky2kC0WFngzwRF
- Yo6u/KON/o28yyP+alYRMBrN0Dm60FuVSIFafSqXoJTIjSZ6olbEoT0u17Rag8BxnxryMrgR
- dkccq272MaSS0eOC9K2rtvxzddohRFPcy/8bkX+t2iukTDz75KSTKO+chce62Xxdg62dpkZX
- xK+HeDCZ7gRNZvAbDETr6XI63hPKi891GeZqvqQVYR8e+V2725w+H1iv3THiB1tx4L2bXZDI
- DtMKQ5D2RvCHNdPNcZeldEoJwKoA60yg6tuUquvsLvfCwtrmVI2rL2djYxRfGNmFMrUDN1Xq
- F3xozA91q3iZd9OYi9G+M/OA01husBdcIzj1hu0aL+MGg4Gqk6XwjoSxVd4YT41kTU7Kk+/I
- 5/Nf+i88ULt6HanBYcY/+Daeo/XFABEBAAGJAjYEGAEIACAWIQT7om49ONNvHjv2jc5a3lvU
- aWv7pQUCWYoE5AIbDAAKCRBa3lvUaWv7pfmcEACKTRQ28b1y5ztKuLdLr79+T+LwZKHjX++P
- 4wKjEOECCcB6KCv3hP+J2GCXDOPZvdg/ZYZafqP68Yy8AZqkfa4qPYHmIdpODtRzZSL48kM8
- LRzV8Rl7J3ItvzdBRxf4T/Zseu5U6ELiQdCUkPGsJcPIJkgPjO2ROG/ZtYa9DvnShNWPlp+R
- uPwPccEQPWO/NP4fJl2zwC6byjljZhW5kxYswGMLBwb5cDUZAisIukyAa8Xshdan6C2RZcNs
- rB3L7vsg/R8UCehxOH0C+NypG2GqjVejNZsc7bgV49EOVltS+GmGyY+moIzxsuLmT93rqyII
- 5rSbbcTLe6KBYcs24XEoo49Zm9oDA3jYvNpeYD8rDcnNbuZh9kTgBwFN41JHOPv0W2FEEWqe
- JsCwQdcOQ56rtezdCJUYmRAt3BsfjN3Jn3N6rpodi4Dkdli8HylM5iq4ooeb5VkQ7UZxbCWt
- UVMKkOCdFhutRmYp0mbv2e87IK4erwNHQRkHUkzbsuym8RVpAZbLzLPIYK/J3RTErL6Z99N2
- m3J6pjwSJY/zNwuFPs9zGEnRO4g0BUbwGdbuvDzaq6/3OJLKohr5eLXNU3JkT+3HezydWm3W
- OPhauth7W0db74Qd49HXK0xe/aPrK+Cp+kU1HRactyNtF8jZQbhMCC8vMGukZtWaAwpjWiiH bA==
-Message-ID: <f5cb6ac2-1c59-33be-de8f-e86c8528fbec@gmail.com>
-Date:   Wed, 23 Dec 2020 20:32:45 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        with ESMTP id S1727498AbgLWUkJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 15:40:09 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FCBC061794;
+        Wed, 23 Dec 2020 12:39:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=mYnRVo2UaFr9zFPBGbjYJ7pTSAghDBkk6o+o1KQqW4w=; b=cjqdwDP8RqHsTe+zifoiAzBU0d
+        Ky2JbKMUtKBrHLrjNU1VXOaev6TvR5D6fwmKI6QJWvZ4hbyql+HVBJj/vkD0+kzodZisZgvoz8GVG
+        YofQpVLSqy11/eIe1zff3Jk6LiYz+yKWDVXNhRDHrz9v33W/kOAyPtypLf/39FPtSA2qg/I7yONil
+        uHJmMMwsbxdXhjxUm54wv5MgbJ84o+NNUrAy58nzfedugeu3QE5VrjIymodu+jOQHiSb8EOpoJ565
+        cRV4FlWyEcnmZNFe48iCIuSTFtBZBcojTMkv98L96ls/Wb/84p6a/lMGfhN9WZxpoQesY8wB23Op4
+        NtWjnlyQ==;
+Received: from [2601:1c0:6280:3f0::64ea]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ksAun-0000oa-A7; Wed, 23 Dec 2020 20:39:21 +0000
+Subject: Re: [PATCH V3 08/10] x86/pks: Add PKS kernel API
+To:     ira.weiny@intel.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     Fenghua Yu <fenghua.yu@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+References: <20201106232908.364581-1-ira.weiny@intel.com>
+ <20201106232908.364581-9-ira.weiny@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <092ec873-b023-4cd1-6301-30a2bcd3b54a@infradead.org>
+Date:   Wed, 23 Dec 2020 12:39:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <8abc56c2-4db8-5ee3-ab2d-8960d0eeeb0d@interlog.com>
+In-Reply-To: <20201106232908.364581-9-ira.weiny@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/12/2020 20:23, Douglas Gilbert wrote:
-> On 2020-12-23 11:04 a.m., James Bottomley wrote:
->> On Wed, 2020-12-23 at 15:51 +0000, Christoph Hellwig wrote:
->>> On Wed, Dec 23, 2020 at 12:52:59PM +0000, Pavel Begunkov wrote:
->>>> Can scatterlist have 0-len entries? Those are directly translated
->>>> into bvecs, e.g. in nvme/target/io-cmd-file.c and
->>>> target/target_core_file.c. I've audited most of others by this
->>>> moment, they're fine.
->>>
->>> For block layer SGLs we should never see them, and for nvme neither.
->>> I think the same is true for the SCSI target code, but please double
->>> check.
->>
->> Right, no-one ever wants to see a 0-len scatter list entry.  The reason
->> is that every driver uses the sgl to program the device DMA engine in
->> the way NVME does.  a 0 length sgl would be a dangerous corner case:
->> some DMA engines would ignore it and others would go haywire, so if we
->> ever let a 0 length list down into the driver, they'd have to
->> understand the corner case behaviour of their DMA engine and filter it
->> accordingly, which is why we disallow them in the upper levels, since
->> they're effective nops anyway.
+On 11/6/20 3:29 PM, ira.weiny@intel.com wrote:
+> From: Fenghua Yu <fenghua.yu@intel.com>
 > 
-> When using scatter gather lists at the far end (i.e. on the storage device)
-> the T10 examples (WRITE SCATTERED and POPULATE TOKEN in SBC-4) explicitly
-> allow the "number of logical blocks" in their sgl_s to be zero and state
-> that it is _not_ to be considered an error.
+> PKS allows kernel users to define domains of page mappings which have
+> additional protections beyond the paging protections.
+> 
+> Add an API to allocate, use, and free a protection key which identifies
+> such a domain.  Export 5 new symbols pks_key_alloc(), pks_mknoaccess(),
+> pks_mkread(), pks_mkrdwr(), and pks_key_free().  Add 2 new macros;
+> PAGE_KERNEL_PKEY(key) and _PAGE_PKEY(pkey).
+> 
+> Update the protection key documentation to cover pkeys on supervisor
+> pages.
+> 
+> Co-developed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+> 
+> ---
+> ---
+>  Documentation/core-api/protection-keys.rst | 102 +++++++++++++---
+>  arch/x86/include/asm/pgtable_types.h       |  12 ++
+>  arch/x86/include/asm/pkeys.h               |  11 ++
+>  arch/x86/include/asm/pkeys_common.h        |   4 +
+>  arch/x86/mm/pkeys.c                        | 128 +++++++++++++++++++++
+>  include/linux/pgtable.h                    |   4 +
+>  include/linux/pkeys.h                      |  24 ++++
+>  7 files changed, 267 insertions(+), 18 deletions(-)
+> 
+> diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
+> index ec575e72d0b2..c4e6c480562f 100644
+> --- a/Documentation/core-api/protection-keys.rst
+> +++ b/Documentation/core-api/protection-keys.rst
+> @@ -4,25 +4,33 @@
+>  Memory Protection Keys
+>  ======================
+>  
+> -Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
+> -which is found on Intel's Skylake (and later) "Scalable Processor"
+> -Server CPUs. It will be available in future non-server Intel parts
+> -and future AMD processors.
+> -
+> -For anyone wishing to test or use this feature, it is available in
+> -Amazon's EC2 C5 instances and is known to work there using an Ubuntu
+> -17.04 image.
+> -
+>  Memory Protection Keys provides a mechanism for enforcing page-based
 
-It's fine for my case unless it leaks them out of device driver to the
-net/block layer/etc. Is it?
+                          provide
+
+>  protections, but without requiring modification of the page tables
+> -when an application changes protection domains.  It works by
+> -dedicating 4 previously ignored bits in each page table entry to a
+> -"protection key", giving 16 possible keys.
+> +when an application changes protection domains.
+> +
+> +PKeys Userspace (PKU) is a feature which is found on Intel's Skylake "Scalable
+> +Processor" Server CPUs and later.  And It will be available in future
+
+                                          it
+
+> +non-server Intel parts and future AMD processors.
+> +
+> +Future Intel processors will support Protection Keys for Supervisor pages
+> +(PKS).
+> +
+> +For anyone wishing to test or use user space pkeys, it is available in Amazon's
+> +EC2 C5 instances and is known to work there using an Ubuntu 17.04 image.
+> +
+> +pkeys work by dedicating 4 previously Reserved bits in each page table entry to
+> +a "protection key", giving 16 possible keys.  User and Supervisor pages are
+> +treated separately.
+> +
+> +Protections for each page are controlled with per CPU registers for each type
+
+                                                 per-CPU
+ 
+> +of page User and Supervisor.  Each of these 32 bit register stores two separate
+
+                                               32-bit registers
+
+
+> +bits (Access Disable and Write Disable) for each key.
+>  
+> -There is also a new user-accessible register (PKRU) with two separate
+> -bits (Access Disable and Write Disable) for each key.  Being a CPU
+> -register, PKRU is inherently thread-local, potentially giving each
+> -thread a different set of protections from every other thread.
+> +For Userspace the register is user-accessible (rdpkru/wrpkru).  For
+> +Supervisor, the register (MSR_IA32_PKRS) is accessible only to the kernel.
+> +
+> +Being a CPU register, pkeys are inherently thread-local, potentially giving
+> +each thread an independent set of protections from every other thread.
+>  
+>  There are two new instructions (RDPKRU/WRPKRU) for reading and writing
+>  to the new register.  The feature is only available in 64-bit mode,
+> @@ -30,8 +38,11 @@ even though there is theoretically space in the PAE PTEs.  These
+>  permissions are enforced on data access only and have no effect on
+>  instruction fetches.
+>  
+> -Syscalls
+> -========
+> +For kernel space rdmsr/wrmsr are used to access the kernel MSRs.
+> +
+> +
+> +Syscalls for user space keys
+> +============================
+>  
+>  There are 3 system calls which directly interact with pkeys::
+>  
+> @@ -98,3 +109,58 @@ with a read()::
+>  The kernel will send a SIGSEGV in both cases, but si_code will be set
+>  to SEGV_PKERR when violating protection keys versus SEGV_ACCERR when
+>  the plain mprotect() permissions are violated.
+> +
+> +
+> +Kernel API for PKS support
+> +==========================
+> +
+> +The following interface is used to allocate, use, and free a pkey which defines
+> +a 'protection domain' within the kernel.  Setting a pkey value in a supervisor
+> +mapping adds that mapping to the protection domain.
+> +
+> +        int pks_key_alloc(const char * const pkey_user, int flags);
+> +        #define PAGE_KERNEL_PKEY(pkey)
+> +        #define _PAGE_KEY(pkey)
+> +        void pks_mk_noaccess(int pkey);
+> +        void pks_mk_readonly(int pkey);
+> +        void pks_mk_readwrite(int pkey);
+> +        void pks_key_free(int pkey);
+> +
+> +pks_key_alloc() allocates keys dynamically to allow better use of the limited
+> +key space.  'flags' alter the allocation based on the users need.  Currently
+
+                                                         user's
+or maybe                                                 users'
+
+> +they can request an exclusive key.
+> +
+> +Callers of pks_key_alloc() _must_ be prepared for it to fail and take
+> +appropriate action.  This is due mainly to the fact that PKS may not be
+> +available on all arch's.  Failure to check the return of pks_key_alloc() and
+> +using any of the rest of the API is undefined.
+> +
+> +Kernel users must set the PTE permissions in the page table entries for the
+> +mappings they want to protect.  This can be done with PAGE_KERNEL_PKEY() or
+> +_PAGE_KEY().
+> +
+> +The pks_mk*() family of calls allows kernel users the ability to change the
+> +protections for the domain identified by the pkey specified.  3 states are
+> +available pks_mk_noaccess(), pks_mk_readonly(), and pks_mk_readwrite() which
+
+   available:
+
+> +set the access to none, read, and read/write respectively.
+> +
+> +Finally, pks_key_free() allows a user to return the key to the allocator for
+> +use by others.
+> +
+> +The interface maintains pks_mk_noaccess() (Access Disabled (AD=1)) for all keys
+> +not currently allocated.  Therefore, the user can depend on access being
+> +disabled when pks_key_alloc() returns a key and the user should remove mappings
+> +from the domain (remove the pkey from the PTE) prior to calling pks_key_free().
+> +
+> +It should be noted that the underlying WRMSR(MSR_IA32_PKRS) is not serializing
+> +but still maintains ordering properties similar to WRPKRU.  Thus it is safe to
+> +immediately use a mapping when the pks_mk*() functions returns.
+
+                                                          return.
+
+> +
+> +The current SDM section on PKRS needs updating but should be the same as that
+> +of WRPKRU.  So to quote from the WRPKRU text:
+> +
+> +	WRPKRU will never execute transiently. Memory accesses
+> +	affected by PKRU register will not execute (even transiently)
+> +	until all prior executions of WRPKRU have completed execution
+> +	and updated the PKRU register.
+> +
+
 
 -- 
-Pavel Begunkov
+~Randy
+
