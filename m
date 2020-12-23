@@ -2,274 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96F17C4332B
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8AFC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:05:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75CA223383
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:03:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2409122AAF
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 16:05:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729243AbgLWQDr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 11:03:47 -0500
-Received: from mga01.intel.com ([192.55.52.88]:1574 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728357AbgLWQDo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 23 Dec 2020 11:03:44 -0500
-IronPort-SDR: XAi4pC28HUR3qu/LMLCUFZ4g6IVGUrX0dJOgBSsetrL0J5Vk+bxzizgbZMZmuIe3dpdFGQl+Zj
- KMvfZDdhLR1w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9844"; a="194483207"
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="194483207"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 08:01:42 -0800
-IronPort-SDR: TCj6TKSMOsZFMf0xgVwBuMfSxrZygI4cDPZYZSO7Oyftv+O/QShZZ1IqSWw4h5k7adcXmnlon3
- 1TZs6sQs6Qvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="458028073"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Dec 2020 08:01:42 -0800
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     bp@suse.de, luto@kernel.org, tglx@linutronix.de, mingo@kernel.org,
-        x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
-        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, linux-doc@vger.kernel.org
-Subject: [PATCH v3 21/21] x86/fpu/xstate: Introduce boot-parameters to control some state component support
-Date:   Wed, 23 Dec 2020 07:57:17 -0800
-Message-Id: <20201223155717.19556-22-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201223155717.19556-1-chang.seok.bae@intel.com>
-References: <20201223155717.19556-1-chang.seok.bae@intel.com>
+        id S1729247AbgLWQFE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 11:05:04 -0500
+Received: from bedivere.hansenpartnership.com ([96.44.175.130]:34262 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727360AbgLWQFE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 11:05:04 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id D32A412809AE;
+        Wed, 23 Dec 2020 08:04:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1608739463;
+        bh=dzRbIAIFFOVOpKnDTOA6zj0KHef4324sFMv5xTBqMv8=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=UOJqbOiPCHjby5AESe5JFFEouYk+7tGM0MdXl1UUaO5WknQH6hP4It7J3GKxcEi95
+         Yte0Ppq4ypfucjFU3ZXlhSB3CzxVj/rcDo+FxKT5WH0PyxzP08G4QrDqX877Em71j9
+         QH2hzjXQGwyh49OWRTJ42Aqg9mNa9g8Tkf2ap8ls=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id c3cuwwSOf488; Wed, 23 Dec 2020 08:04:23 -0800 (PST)
+Received: from jarvis.int.hansenpartnership.com (c-73-35-198-56.hsd1.wa.comcast.net [73.35.198.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id D1B9C12809AD;
+        Wed, 23 Dec 2020 08:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=hansenpartnership.com; s=20151216; t=1608739463;
+        bh=dzRbIAIFFOVOpKnDTOA6zj0KHef4324sFMv5xTBqMv8=;
+        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+        b=UOJqbOiPCHjby5AESe5JFFEouYk+7tGM0MdXl1UUaO5WknQH6hP4It7J3GKxcEi95
+         Yte0Ppq4ypfucjFU3ZXlhSB3CzxVj/rcDo+FxKT5WH0PyxzP08G4QrDqX877Em71j9
+         QH2hzjXQGwyh49OWRTJ42Aqg9mNa9g8Tkf2ap8ls=
+Message-ID: <f06ece44a86eb9c8ef07bbd9f6f53342366b7751.camel@HansenPartnership.com>
+Subject: Re: [PATCH v1 0/6] no-copy bvec
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Christoph Hellwig <hch@infradead.org>,
+        Pavel Begunkov <asml.silence@gmail.com>
+Cc:     Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+Date:   Wed, 23 Dec 2020 08:04:22 -0800
+In-Reply-To: <20201223155145.GA5902@infradead.org>
+References: <cover.1607976425.git.asml.silence@gmail.com>
+         <20201215014114.GA1777020@T590>
+         <103235c1-e7d0-0b55-65d0-013d1a09304e@gmail.com>
+         <20201215120357.GA1798021@T590>
+         <e755fec3-4181-1414-0603-02e1a1f4e9eb@gmail.com>
+         <20201222141112.GE13079@infradead.org>
+         <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
+         <20201223155145.GA5902@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"xstate.disable=0x60000" will disable AMX on a system that has AMX compiled
-into XFEATURE_MASK_USER_ENABLED.
+On Wed, 2020-12-23 at 15:51 +0000, Christoph Hellwig wrote:
+> On Wed, Dec 23, 2020 at 12:52:59PM +0000, Pavel Begunkov wrote:
+> > Can scatterlist have 0-len entries? Those are directly translated
+> > into bvecs, e.g. in nvme/target/io-cmd-file.c and
+> > target/target_core_file.c. I've audited most of others by this
+> > moment, they're fine.
+> 
+> For block layer SGLs we should never see them, and for nvme neither.
+> I think the same is true for the SCSI target code, but please double
+> check.
 
-"xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
-compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
-to support this feature).
+Right, no-one ever wants to see a 0-len scatter list entry.  The reason
+is that every driver uses the sgl to program the device DMA engine in
+the way NVME does.  a 0 length sgl would be a dangerous corner case:
+some DMA engines would ignore it and others would go haywire, so if we
+ever let a 0 length list down into the driver, they'd have to
+understand the corner case behaviour of their DMA engine and filter it
+accordingly, which is why we disallow them in the upper levels, since
+they're effective nops anyway.
 
-Rename XFEATURE_MASK_USER_SUPPORTED to XFEATURE_MASK_USER_ENABLED to be
-aligned with the new parameters.
+James
 
-While this cmdline is currently enabled only for AMX, it is intended to be
-easily enabled to be useful for future XSAVE-enabled features.
-
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Cc: x86@kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from v2:
-* Changed the kernel tainted when any unknown state is enabled. (Andy
-  Lutomirski)
-* Simplified the cmdline handling.
-* Edited the changelog.
-
-Changes from v1:
-* Renamed the user state mask define (Andy Lutomirski and Dave Hansen)
-* Changed the error message (Dave Hansen)
-* Fixed xfeatures_mask_user()
-* Rebased the upstream kernel (5.10) -- revived the param parse function
----
- .../admin-guide/kernel-parameters.txt         | 15 +++++
- arch/x86/include/asm/fpu/types.h              |  6 ++
- arch/x86/include/asm/fpu/xstate.h             | 24 +++----
- arch/x86/kernel/fpu/init.c                    | 65 +++++++++++++++++--
- 4 files changed, 93 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 44fde25bb221..a67ae04d43c5 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6002,6 +6002,21 @@
- 			which allow the hypervisor to 'idle' the guest on lock
- 			contention.
- 
-+	xstate.enable=	[X86-64]
-+	xstate.disable=	[X86-64]
-+			The kernel is compiled with a default xstate bitmask --
-+			enabling it to use the XSAVE hardware to efficiently
-+			save and restore thread states on context switch.
-+			xstate.enable allows adding to that default mask at
-+			boot-time without recompiling the kernel just to support
-+			the new thread state. (Note that the kernel will ignore
-+			any bits in the mask that do not correspond to features
-+			that are actually available in CPUID)  xstate.disable
-+			allows clearing bits in the default mask, forcing the
-+			kernel to forget that it supports the specified thread
-+			state. When a bit set for both, the kernel takes
-+			xstate.disable in a priority.
-+
- 	xirc2ps_cs=	[NET,PCMCIA]
- 			Format:
- 			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index bf9511efd546..8835d3f6acb7 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -149,6 +149,12 @@ enum xfeature {
- #define XFEATURE_MASK_XTILE		(XFEATURE_MASK_XTILE_DATA \
- 					 | XFEATURE_MASK_XTILE_CFG)
- 
-+#define XFEATURE_REGION_MASK(max_bit, min_bit) \
-+	((BIT_ULL((max_bit) - (min_bit) + 1) - 1) << (min_bit))
-+
-+#define XFEATURE_MASK_CONFIGURABLE \
-+	XFEATURE_REGION_MASK(XFEATURE_XTILE_DATA, XFEATURE_XTILE_CFG)
-+
- #define FIRST_EXTENDED_XFEATURE	XFEATURE_YMM
- 
- struct reg_128_bit {
-diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-index 8f5218d420ad..c27feca8e66c 100644
---- a/arch/x86/include/asm/fpu/xstate.h
-+++ b/arch/x86/include/asm/fpu/xstate.h
-@@ -25,17 +25,17 @@
- 
- #define XSAVE_ALIGNMENT     64
- 
--/* All currently supported user features */
--#define XFEATURE_MASK_USER_SUPPORTED (XFEATURE_MASK_FP | \
--				      XFEATURE_MASK_SSE | \
--				      XFEATURE_MASK_YMM | \
--				      XFEATURE_MASK_OPMASK | \
--				      XFEATURE_MASK_ZMM_Hi256 | \
--				      XFEATURE_MASK_Hi16_ZMM	 | \
--				      XFEATURE_MASK_PKRU | \
--				      XFEATURE_MASK_BNDREGS | \
--				      XFEATURE_MASK_BNDCSR | \
--				      XFEATURE_MASK_XTILE)
-+/* All currently enabled user features */
-+#define XFEATURE_MASK_USER_ENABLED (XFEATURE_MASK_FP | \
-+				    XFEATURE_MASK_SSE | \
-+				    XFEATURE_MASK_YMM | \
-+				    XFEATURE_MASK_OPMASK | \
-+				    XFEATURE_MASK_ZMM_Hi256 | \
-+				    XFEATURE_MASK_Hi16_ZMM	 | \
-+				    XFEATURE_MASK_PKRU | \
-+				    XFEATURE_MASK_BNDREGS | \
-+				    XFEATURE_MASK_BNDCSR | \
-+				    XFEATURE_MASK_XTILE)
- 
- /* All currently supported supervisor features */
- #define XFEATURE_MASK_SUPERVISOR_SUPPORTED (XFEATURE_MASK_PASID)
-@@ -87,7 +87,7 @@ static inline u64 xfeatures_mask_supervisor(void)
- 
- static inline u64 xfeatures_mask_user(void)
- {
--	return xfeatures_mask_all & XFEATURE_MASK_USER_SUPPORTED;
-+	return xfeatures_mask_all & ~(XFEATURE_MASK_SUPERVISOR_ALL);
- }
- 
- static inline u64 xfeatures_mask_supervisor_dynamic(void)
-diff --git a/arch/x86/kernel/fpu/init.c b/arch/x86/kernel/fpu/init.c
-index c77c1c5580f9..f73aaae81ed9 100644
---- a/arch/x86/kernel/fpu/init.c
-+++ b/arch/x86/kernel/fpu/init.c
-@@ -5,6 +5,7 @@
- #include <asm/fpu/internal.h>
- #include <asm/tlbflush.h>
- #include <asm/setup.h>
-+#include <asm/cmdline.h>
- 
- #include <linux/sched.h>
- #include <linux/sched/task.h>
-@@ -229,14 +230,45 @@ static void __init fpu__init_system_xstate_size_legacy(void)
- /*
-  * Find supported xfeatures based on cpu features and command-line input.
-  * This must be called after fpu__init_parse_early_param() is called and
-- * xfeatures_mask is enumerated.
-+ * xfeatures_mask_all is enumerated.
-  */
-+
-+static u64 xstate_enable;
-+static u64 xstate_disable;
-+
- u64 __init fpu__get_supported_xfeatures_mask(void)
- {
--	u64 mask = XFEATURE_MASK_USER_SUPPORTED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
--
--	if (!IS_ENABLED(CONFIG_X86_64))
--		mask &= ~(XFEATURE_MASK_XTILE);
-+	u64 mask = XFEATURE_MASK_USER_ENABLED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
-+
-+	if (!IS_ENABLED(CONFIG_X86_64)) {
-+		mask  &= ~(XFEATURE_MASK_XTILE);
-+	} else if (xstate_enable || xstate_disable) {
-+		u64 custom = mask;
-+		u64 unknown;
-+
-+		custom |= xstate_enable;
-+		custom &= ~xstate_disable;
-+
-+		unknown = custom & ~mask;
-+		if (unknown) {
-+			/*
-+			 * User should fully understand the result of using undocumented
-+			 * xstate component.
-+			 */
-+			add_taint(TAINT_CPU_OUT_OF_SPEC, LOCKDEP_STILL_OK);
-+			pr_warn("x86/fpu: Attempt to enable unknown xstate features 0x%llx\n",
-+				unknown);
-+			WARN_ON_FPU(1);
-+		}
-+
-+		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
-+			pr_warn("x86/fpu: Error in xstate.disable. Additionally disabling 0x%x components.\n",
-+				XFEATURE_MASK_XTILE);
-+			custom &= ~(XFEATURE_MASK_XTILE);
-+		}
-+
-+		mask = custom;
-+	}
- 
- 	return mask;
- }
-@@ -250,12 +282,35 @@ static void __init fpu__init_system_ctx_switch(void)
- 	on_boot_cpu = 0;
- }
- 
-+/*
-+ * Longest parameter of 'xstate.enable=' is 22 octal number characters with '0' prefix and
-+ * an extra '\0' for termination.
-+ */
-+#define MAX_XSTATE_MASK_CHARS	24
-+/*
-+ * We parse xstate parameters early because fpu__init_system() is executed before
-+ * parse_early_param().
-+ */
-+static void __init fpu__init_parse_early_param(void)
-+{
-+	char arg[MAX_XSTATE_MASK_CHARS];
-+
-+	if (cmdline_find_option(boot_command_line, "xstate.enable", arg, sizeof(arg)) &&
-+	    !kstrtoull(arg, 0, &xstate_enable))
-+		xstate_enable &= XFEATURE_MASK_CONFIGURABLE;
-+
-+	if (cmdline_find_option(boot_command_line, "xstate.disable", arg, sizeof(arg)) &&
-+	    !kstrtoull(arg, 0, &xstate_disable))
-+		xstate_disable &= XFEATURE_MASK_CONFIGURABLE;
-+}
-+
- /*
-  * Called on the boot CPU once per system bootup, to set up the initial
-  * FPU state that is later cloned into all processes:
-  */
- void __init fpu__init_system(struct cpuinfo_x86 *c)
- {
-+	fpu__init_parse_early_param();
- 	fpu__init_system_early_generic(c);
- 
- 	/*
--- 
-2.17.1
 
