@@ -2,117 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 333D3C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 20:39:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774B9C43332
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:48:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFB6E22AB9
-	for <linux-doc@archiver.kernel.org>; Tue, 22 Dec 2020 20:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50A8D22D73
+	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 02:48:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726991AbgLVUjK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 22 Dec 2020 15:39:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40052 "EHLO
+        id S1729755AbgLWCsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 22 Dec 2020 21:48:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgLVUjK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 15:39:10 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0939AC0613D3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 12:38:30 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id g3so8024899plp.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 12:38:30 -0800 (PST)
+        with ESMTP id S1729819AbgLWCsS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 22 Dec 2020 21:48:18 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA0D8C0613D6
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:47:37 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id i7so9666017pgc.8
+        for <linux-doc@vger.kernel.org>; Tue, 22 Dec 2020 18:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w7wUorTulI1SLGLyUAtcsZM5JvELPWd2Jp06S7SjCVY=;
-        b=ZNsgbNsRLxQLY7+11c14jHqKYzrHQmsqrg+2m3ddf/Ug+scMbC5go73SdBpHMpQPyB
-         FJvf7yfTrnVexb1ow0kk7CQzb2GRgaAKJLzXYhW+AMwQoJT8XPclFaqDzu06DNB+CE5b
-         gpM3g+Xh7axYHWU2/IgxH7oBU0Zn4r0jSYQmlxCZtrm0DZiozBRJdv/1YToFSbMoo2Id
-         u2Eg77AGoZCB8QKdLxHb08aagEkZ3b4wLNrs2/eTCpNxNU5wZ4HEbmxT14k41CXmXYhI
-         2KGtcBnabjtrtI/HH4vQtz7s91OwZtX1Dq3vbbQGyKuJJGyLQWJg94hsYWuf/v3eusrS
-         lOHg==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2RxImZ5WYRvc5MqAscnk3rOKSiD33zPjRspOINuFOmk=;
+        b=ZSofn4JpoLY62LuOFvyMLW+ht/GEoFFtWL44njivDzeC44346+fsAkf51YIrkwCt2u
+         e2mpu3QIlWALgYyhUPkEOBqOTgcw9ONcKGAKeMFjoYsw+0+c/myum8tIRTLkx6Uovt3x
+         vefkC30tlRJr9xGylZUk2ekApJbfFrL/zqxqYpbCV3u9e2tU4xB1l7JGNsLzUCzx8gKc
+         aiD3IUH6WV7BuQgcmFP+vCAkkEilhHnrKQvlrcr0BMLsT8Fqai4rFo0sXus8YL16+hky
+         ybNCa/sVjeKRTu9uF98dXi4tZ/Aw7wqr/1HzihhnIwwX8eYMX6FebuTri8TMrS3u/JhC
+         CK6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=w7wUorTulI1SLGLyUAtcsZM5JvELPWd2Jp06S7SjCVY=;
-        b=ccuQ79lp0nWhLZVnEO9gOjmjzH8LcFxff+Q8fpY0089s0qj8ilXkGKEsogl/Q5fptb
-         SxTW+cVia/i0VSJNcTTn6JRz39nPdOjl1B7FDw8vj/LM0PBicmDcq2sZpyxc32AUAl1H
-         mv5lRDbw7XprN6KwzNphMWyOXrLoefRTFCG3UGB+b6T130658Se4h6y7ix06PURIP1/3
-         1ZMTthUwwaqlFsfLkYnd2MYCv+QTjiOZMzIJsBuDI207EvSXc2iifu/xV1Z7OLgdqWL+
-         XwC+Qwr5zvL4NyYT1NlPZpx5cpgS8ilrm7l4V3imxvsd+mRbGLcglVRUNU6rWYbbGfeN
-         4Kig==
-X-Gm-Message-State: AOAM530Qh4FjrIwV5kyFZm1n6LIpfMaNFbiFSA54lBFGNNc8uM2vq9Ic
-        TZW0uwWLnYqZ1eWJw2lvlljVbQ==
-X-Google-Smtp-Source: ABdhPJyrUEeQS+6tCykxcXi4wBUYC0ygmbARaXIsYIp63WsLg3f/qvwDb9rwYmvpLbj3fuqqf4mwnw==
-X-Received: by 2002:a17:90a:301:: with SMTP id 1mr23852780pje.195.1608669509537;
-        Tue, 22 Dec 2020 12:38:29 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id g30sm21624684pfr.152.2020.12.22.12.38.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Dec 2020 12:38:28 -0800 (PST)
-Date:   Tue, 22 Dec 2020 12:38:28 -0800 (PST)
-X-Google-Original-Date: Tue, 22 Dec 2020 12:38:26 PST (-0800)
-Subject:     Re: [PATCH v1 0/5] dm: dm-user: New target that proxies BIOs to userspace
-In-Reply-To: <20201222143616.GB12885@redhat.com>
-CC:     Christoph Hellwig <hch@infradead.org>, josef@toxicpanda.com,
-        bvanassche@acm.org, corbet@lwn.net, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-raid@vger.kernel.org, song@kernel.org, dm-devel@redhat.com,
-        linux-kselftest@vger.kernel.org, shuah@kernel.org, agk@redhat.com,
-        michael.christie@oracle.com
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     snitzer@redhat.com
-Message-ID: <mhng-26d96d8e-77aa-415b-a8ee-518a0e91b6ef@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2RxImZ5WYRvc5MqAscnk3rOKSiD33zPjRspOINuFOmk=;
+        b=qlbvIo/HDwWxoTpZ8ecDis4xUkyWBIvIrAsMROgqwlDF5Gn1rBSyy1nTJP9lkayO0Q
+         XGhB2NsIAwE4gp0WtZMtoe2tbi5ihPy/a60PAJFi1zkaMKyzQoU1hkOgLMM+wxC40GYj
+         EhEHvp1FjCXEb1BCbBszE+DINFPA+64Q84/qHzEYL/k4GnOWLPodPNeZQ/OV8QmT5kxD
+         HY4h8uHjxxoNYGDnytqtsabDDuKMOjzYOs13ts6FX6ZJCNx5/cvTrW15YirnmLeF/r1t
+         1wCt671/onVW+cV0wvCiEGaxCiBVQB1AbZ+fzRsFE1Xr5sOCLXp6x8sAfBC/47MYMuI+
+         zXvw==
+X-Gm-Message-State: AOAM5330su0NCRD+yw51yRfqhlqtEUJeFVmrFT4tJBfVdAWqEjoFh7Jp
+        p2EW7vhKrQf2/uUNf5Zvh3j6dmPhxZVjFpw8xMzEmw==
+X-Google-Smtp-Source: ABdhPJy8EmvuJ4kATkeRW6z5LeXrJXJXVcrcQ/jIwvne3ldCQrTuBWBNVQlwzNU1j2RO4aEF/9ZHp8TsxaRao9smtm0=
+X-Received: by 2002:a63:50a:: with SMTP id 10mr22501568pgf.273.1608691657419;
+ Tue, 22 Dec 2020 18:47:37 -0800 (PST)
+MIME-Version: 1.0
+References: <20201222142440.28930-1-songmuchun@bytedance.com>
+ <20201222142440.28930-11-songmuchun@bytedance.com> <20201222162948.GA31385@linux>
+In-Reply-To: <20201222162948.GA31385@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Wed, 23 Dec 2020 10:46:58 +0800
+Message-ID: <CAMZfGtV6a9UYO0Gzs7QoTTY12vEUesYGnH762MM0JxnAfMHH+A@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v11 10/11] mm/hugetlb: Gather discrete
+ indexes of tail page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>, naoya.horiguchi@nec.com,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 22 Dec 2020 06:36:16 PST (-0800), snitzer@redhat.com wrote:
-> On Tue, Dec 22 2020 at  8:32am -0500,
-> Christoph Hellwig <hch@infradead.org> wrote:
+On Wed, Dec 23, 2020 at 12:30 AM Oscar Salvador <osalvador@suse.de> wrote:
 >
->> On Mon, Dec 14, 2020 at 07:00:57PM -0800, Palmer Dabbelt wrote:
->> > I haven't gotten a whole lot of feedback, so I'm inclined to at least have some
->> > reasonable performance numbers before bothering with a v2.
->>
->> FYI, my other main worry beside duplicating nbd is that device mapper
->> really is a stacked interface that sits on top of other block device.
->> Turning this into something else that just pipes data to userspace
->> seems very strange.
+> On Tue, Dec 22, 2020 at 10:24:39PM +0800, Muchun Song wrote:
+> > +#else
+> > +static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
+> > +{
+> > +}
+> > +
+> > +static inline void hwpoison_subpage_set(struct hstate *h, struct page *head,
+> > +                                     struct page *page)
+> > +{
+> > +     if (PageHWPoison(head) && page != head) {
+> > +             /*
+> > +              * Move PageHWPoison flag from head page to the raw error page,
+> > +              * which makes any subpages rather than the error page reusable.
+> > +              */
+> > +             SetPageHWPoison(page);
+> > +             ClearPageHWPoison(head);
+> > +     }
+> > +}
+> > +#endif
 >
-> I agree.  Only way I'd be interested is if it somehow tackled enabling
-> much more efficient IO.  Earlier discussion in this thread mentioned
-> that zero-copy and low overhead wasn't a priority (because it is hard,
-> etc).  But the hard work has already been done with io_uring.  If
-> dm-user had a prereq of leaning heavily on io_uring and also enabled IO
-> polling for bio-based then there may be a win to supporting it.
+> Sorry, I guess I should have made a more clear statement.
+> This patch should really be about changing the numeric index to its symbolic
+> names, so the #ifdef handling of hwpoison_subpage_* should have been gone into
+> patch#6.
+
+Because patch#6 is also compatible with !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+So I add the #ifdef handling in this patch. But moving it to patch#6
+also makes sense to me. Thanks.
+
 >
-> But unless lower latency (or some other more significant win) is made
-> possible I just don't care to prop up an unnatural DM bolt-on.
+> I will have a closer look later on though.
 
-I don't remember if I mentioned this in the thread, but it was definately in
-the Plumbers talk, but I'd had the general idea bouncing around that it would
-be possible to write a high-performance version of this using an interface
-similar to the one provided here while relying on io_uring for the
-high-performance userspace.  That definately won't work with exactly the
-current interface, but my hope was to avoid writing my own high-performance
-ring buffer.  My worry was that it'll be too tricky to map this all to
-zero-copy, and I guess I forgot about it.
+Thanks.
 
-Now that you bring it up, it certainly seems worth taking a shot at.  We'd
-essentially have the best of both worlds: userspace implementations that want
-to be simple could just use read()/write(), while those that want to be higher
-performance could have their implicit ring buffer.
+>
+> --
+> Oscar Salvador
+> SUSE L3
 
-I'm currently trying to put together a benchmarking setup that is of sufficient
-fidelity that I would believe the numbers, which is really why I don't have any
-performance numbers yet (no sense posting numbers I would shoot down :)).  I'll
-try to remember to take a shot at an io_uring based userspace (probably with
-some dm-user interface modifications) to see how it feels.
+
+
+-- 
+Yours,
+Muchun
