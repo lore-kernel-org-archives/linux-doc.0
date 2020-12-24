@@ -1,107 +1,68 @@
 Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Level: **
+X-Spam-Status: No, score=2.0 required=3.0 tests=BAYES_50,CHARSET_FARAWAY,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 325C7C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:57:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C06C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 02:19:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1C1D22273
-	for <linux-doc@archiver.kernel.org>; Wed, 23 Dec 2020 22:57:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D60A22256F
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 02:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727464AbgLWW5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 17:57:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727144AbgLWW5D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 17:57:03 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2AAC06179C
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:56:22 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id m25so914178lfc.11
-        for <linux-doc@vger.kernel.org>; Wed, 23 Dec 2020 14:56:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DhR9g6GISx+3RIJSrNoTktJAD8JqDRQmJMtw4uaGJsY=;
-        b=wRdmlgV8vdm/6G9QgvJneWx8kAFhz2u+kJWZjg5Ut6glF0olLdK7qL+Tu3mDgLpqVI
-         3VZejIMoM4rNmLWxdsG0Tbtv6UrvsUaS0z6L+gZ9I8wW+xD1W0q6X+xza/WewluIRA/y
-         RseS1q2rkxaZmgL+mMUDrB+HkiYwbq6n85vTXBc4KNSP1U519L10WxI8n8zv+bJygb8O
-         z98YGG39NFtconBm6oX63ItClE/OcsTrIT79+bwjjEuEWoitHNJbvRgf134QOqWpFlLP
-         mwkBbGBR1eZj0PYt2EJT1KTl9o2Dd9ou32u2Tr8VyFiJbsjYB9Z58N1e34WzA3SbqtSV
-         CH7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DhR9g6GISx+3RIJSrNoTktJAD8JqDRQmJMtw4uaGJsY=;
-        b=fd6drelYCuY7S0WaaQaakuBPizfJrqI1t0YqA7s45CU8WuPCBq6uIJ/6vs4tjwnX4L
-         4JGIvHworrmr7hTCXoMAC5yudvvqnrnDBM371e3OUm7919iIoYOrrkQK/zo7o5K8m9Wx
-         IwoehcpZuxRZ9CDkT67LNvsKGmvdLlnCO2fuFiftjp/7DlPRc0pvYYOFxWGwbTofUJ3m
-         H2bVsFh/1ViQ38WBxLzPHWspa6wXTgTiSn4c0j1zUrAxF6trZKNrOGB0/32ckZ0UcJ5b
-         u05ckPU5BnjS6YmBF0CFkb2xrN2eNx+tc4v7KWIlqmJkubuG7vRGA0tNQqa7QJ+fPKEb
-         AYQw==
-X-Gm-Message-State: AOAM531ekWY0DjgfSTvsm+/XpXDlqimnZ2FbcnHti3gkwek4CQ/prhAa
-        eHGcF7K/Qe7L6B1zFEWeKUTgh7Rm8yglUdzSNXYzmA==
-X-Google-Smtp-Source: ABdhPJxv1e3/W5GCN0xsKQTeeBsZi/Yh4mkxtO4TeDf6EejDKtjr0Gvi+BshysmBZUN39882t7NWdwHy7c2TwPMebgY=
-X-Received: by 2002:a2e:9605:: with SMTP id v5mr12220313ljh.81.1608764181058;
- Wed, 23 Dec 2020 14:56:21 -0800 (PST)
+        id S1728470AbgLXCTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 21:19:01 -0500
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:44124 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727802AbgLXCTB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 21:19:01 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UJb3vJ._1608776296;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UJb3vJ._1608776296)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 24 Dec 2020 10:18:17 +0800
+Subject: =?UTF-8?B?UmU6IGxpbnV4IGtlcm5lbOaWsOaJi+aDs+WPguS4juaWh+aho+e/uw==?=
+ =?UTF-8?B?6K+R?=
+To:     =?UTF-8?B?6ams5Y6f6YeO?= <yuanye.ma@qq.com>,
+        linux-doc@vger.kernel.org
+References: <tencent_8666121ADC28A5099719E06674964F7A3208@qq.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-ID: <79aba0de-a6ed-f686-fe2a-81cde23cdc0f@linux.alibaba.com>
+Date:   Thu, 24 Dec 2020 10:18:16 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201215115448.25633-12-sjpark@amazon.com> <20201223183721.8898-1-sjpark@amazon.com>
-In-Reply-To: <20201223183721.8898-1-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Wed, 23 Dec 2020 14:56:10 -0800
-Message-ID: <CALvZod5dxOJMNP3HhwYc0ePN+0V8YXruXDtQQRuy+eKsJTYhcw@mail.gmail.com>
-Subject: Re: [PATCH v23 11/15] tools: Introduce a minimal user-space tool for DAMON
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
-        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <tencent_8666121ADC28A5099719E06674964F7A3208@qq.com>
+Content-Type: text/plain; charset=gb18030
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 10:38 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-[snip]
->
-> I will drop this patch from the next version of this patchset, because this is
-> not the essential part but could only make the code review time consuming.  I
-> will post another DAMON RFC patchset for convenient user space usages including
-> this and the perf integration.
+CC linux-doc
 
-You can just add the link to your github repo with commit/tag
-containing the usage examples in the cover letter.
+在 2020/12/23 下午11:03, 马原野 写道:
+> 前辈您好：
+>       我是一名Linux开发工程师，同时也是一个开源爱好者，我在kernel的Documentation/translations/zh_CN中看到您的联系方式。我对您翻译内核文档的工作很感兴趣，觉得是一件非常有意义的事情，因此我也想贡献一点自己的力量。
+
+欢迎欢迎，非常欢迎， 很高兴看到越来越多的内核中文文档， 相信这会促进和鼓励中国的内核开发工作！
+
+>       非常冒昧的给您发这封邮件，目的是想咨询您我该如何参与到内核文档的翻译工作中，比如翻译工作的流程、怎么提交或者推送我翻译的文档、翻译文档的格式要求等等。
+>       请问翻译内核文档的工作是否也是像向内核中提交代码那样工作？在Documentation/translations/zh_CN目录中按照Documentation/的目录结构创建自己要翻译的文档，翻译完成后向中文版的维护者推送合并请求，或者向维护者的邮箱发送patch文件？请问翻译文档有没有类似于CodingStyle的格式要求？
+
+翻译文档没有专用的coding style, 它也类似于普通内核开发， 需要符合普通的 coding style, 但是在行长度的计算上中文字符一个等于英文2个，其他方面也需要符合内核代码开发的要求， 比如需要通过 make help 中的，make cleandocs/htmldocs 等。 需要发送前在浏览器上实际检查 htmldocs 等文档的效果,确保各个链接有效等。它也需要提交patch 给Jonathan Corbet <corbet@lwn.net>, cc 给相关人员。
+
+>       非常感谢您百忙之中抽出时间查看这封邮件，冒昧打扰，实属抱歉，非常希望前辈能解答我的困惑，如果能再给我一些参与内核开发的建议，我将不胜感激，非常期待您的回信。
+
+内核社区很多人乐意在 patch review 时给新人很多建议。 加油！
+
+>      
+>       祝：身体健康，工作顺利。
+
+谢谢， 祝，翻译快乐！
+
+奎亮
+Alex 
