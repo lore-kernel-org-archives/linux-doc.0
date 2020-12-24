@@ -2,105 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FD4C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 06:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6251C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 07:03:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D088D22283
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 06:42:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D315227BF
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 07:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725811AbgLXGmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 24 Dec 2020 01:42:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725613AbgLXGmI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Dec 2020 01:42:08 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69174C061794;
-        Wed, 23 Dec 2020 22:41:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=hgZ+lZNP3B/K9Oj/s5udXyrBDVF5xZJ71bYP1nixZdo=; b=hzjxM2aGVedqOqTPaeLJKWYuY4
-        xkqiFVFpQKWkgqEySPTCLiSvWvcEJrgRLsJBOnrS0QZdfm4dsSOXZeO0PNLab6ggKCBq1lw6nS3kW
-        Y3WaTFZ3ODCAIHwpPam/g5eYytVyG9hqXEC7GPEvByE+eg/g0kafrqgdDkSIVH2HW9VYEuJ8mRIkc
-        w8qFJdvjTIWFM9bOal30Yib0rTy3vrCUR/hyI4lFqoeN/ROgowBMVqDPpJTNzgpcOcabaesZubCUI
-        HkInEHpdkOK6FMxwC/PdZmtaPCsBloa68FjEumpKaKfc+q+vT15CVF5bXkEMkQSnUvd4YD+3SEbZo
-        nG0RhV+w==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ksKJL-0000uK-Pw; Thu, 24 Dec 2020 06:41:19 +0000
-Date:   Thu, 24 Dec 2020 06:41:19 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Pavel Begunkov <asml.silence@gmail.com>
-Cc:     dgilbert@interlog.com,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 0/6] no-copy bvec
-Message-ID: <20201224064119.GA3048@infradead.org>
-References: <20201215014114.GA1777020@T590>
- <103235c1-e7d0-0b55-65d0-013d1a09304e@gmail.com>
- <20201215120357.GA1798021@T590>
- <e755fec3-4181-1414-0603-02e1a1f4e9eb@gmail.com>
- <20201222141112.GE13079@infradead.org>
- <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
- <20201223155145.GA5902@infradead.org>
- <f06ece44a86eb9c8ef07bbd9f6f53342366b7751.camel@HansenPartnership.com>
- <8abc56c2-4db8-5ee3-ab2d-8960d0eeeb0d@interlog.com>
- <f5cb6ac2-1c59-33be-de8f-e86c8528fbec@gmail.com>
+        id S1725950AbgLXHDX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Dec 2020 02:03:23 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:62237 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725885AbgLXHDW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Dec 2020 02:03:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1608793402; x=1640329402;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=oUJoo3u6FSyIrW2Sz/3hj3BeSsKUKhSGefxN2L8Gdj8=;
+  b=jJ+B84TKiZ2KVae4p0b3nPgU6Y0yIXcDQ79kJVp41jcZprXGLV23YWPm
+   AcYLJP0yM1PVQUkmkxwga8LQJwtH3fBmStmIic0nXHEuRvZ005gfQO+6B
+   8W7tajx4Z1OWumnIrqPdzt8IQeYcvYTpC80Y2ZfI2BuOr7V9VZIG9Lpgf
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.78,444,1599523200"; 
+   d="scan'208";a="98775651"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 24 Dec 2020 07:02:35 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id A6CDCA1E7D;
+        Thu, 24 Dec 2020 07:02:32 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.193) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 24 Dec 2020 07:02:16 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>, <Jonathan.Cameron@huawei.com>,
+        "Andrea Arcangeli" <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 01/15] mm: Introduce Data Access MONitor (DAMON)
+Date:   Thu, 24 Dec 2020 08:02:01 +0100
+Message-ID: <20201224070201.9607-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod6HjfHg-LGM82mnj5keCL8gXykmvR_aatfi2B=F0hqgbw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5cb6ac2-1c59-33be-de8f-e86c8528fbec@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.193]
+X-ClientProxiedBy: EX13D43UWC004.ant.amazon.com (10.43.162.42) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 23, 2020 at 08:32:45PM +0000, Pavel Begunkov wrote:
-> On 23/12/2020 20:23, Douglas Gilbert wrote:
-> > On 2020-12-23 11:04 a.m., James Bottomley wrote:
-> >> On Wed, 2020-12-23 at 15:51 +0000, Christoph Hellwig wrote:
-> >>> On Wed, Dec 23, 2020 at 12:52:59PM +0000, Pavel Begunkov wrote:
-> >>>> Can scatterlist have 0-len entries? Those are directly translated
-> >>>> into bvecs, e.g. in nvme/target/io-cmd-file.c and
-> >>>> target/target_core_file.c. I've audited most of others by this
-> >>>> moment, they're fine.
-> >>>
-> >>> For block layer SGLs we should never see them, and for nvme neither.
-> >>> I think the same is true for the SCSI target code, but please double
-> >>> check.
-> >>
-> >> Right, no-one ever wants to see a 0-len scatter list entry.?? The reason
-> >> is that every driver uses the sgl to program the device DMA engine in
-> >> the way NVME does.?? a 0 length sgl would be a dangerous corner case:
-> >> some DMA engines would ignore it and others would go haywire, so if we
-> >> ever let a 0 length list down into the driver, they'd have to
-> >> understand the corner case behaviour of their DMA engine and filter it
-> >> accordingly, which is why we disallow them in the upper levels, since
-> >> they're effective nops anyway.
-> > 
-> > When using scatter gather lists at the far end (i.e. on the storage device)
-> > the T10 examples (WRITE SCATTERED and POPULATE TOKEN in SBC-4) explicitly
-> > allow the "number of logical blocks" in their sgl_s to be zero and state
-> > that it is _not_ to be considered an error.
-> 
-> It's fine for my case unless it leaks them out of device driver to the
-> net/block layer/etc. Is it?
+On Wed, 23 Dec 2020 14:49:57 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-None of the SCSI Command mentions above are supported by Linux,
-nevermind mapped to struct scatterlist.
+> On Wed, Dec 23, 2020 at 8:34 AM SeongJae Park <sjpark@amazon.com> wrote:
+> [snip]
+> > > Overall the patch looks good to me. Two concerns I have are if we
+> > > should damon_callback here or with the real user and the regions part
+> > > of primitive abstraction. For the first one, I don't have any strong
+> > > opinion but for the second one I do.
+> >
+> > I'd like to keep 'damon_callback' part here, to let API users know how the
+> > monitoring result will be available to them.
+> >
+> > For the 'regions' part, I will rename relevant things as below in the next
+> > version, to reduce any confusion.
+> >
+> > init_target_regions() -> init()
+> > update_target_regions() -> update()
+> > regions_update_interval -> update_interval
+> > last_regions_update -> last_update
+> >
+> > >
+> > > More specifically the question is if sampling and adaptive region
+> > > adjustment are general enough to be part of core monitoring context?
+> > > Can you give an example of a different primitive/use-case where these
+> > > would be beneficial.
+> >
+> > I think all adress spaces having some spatial locality and monitoring requests
+> > that need to have upper-bound overhead and best-effort accuracy could get
+> > benefit from it.  The primitives targetting 'virtual address spaces' and the
+> > 'physical address space' clearly showed the benefit.
+> 
+> I am still not much convinced on the 'physical address space' use-case
+> or the way you are presenting it.
+
+I understand the concern.  I also once thought the mechanism might not work
+well for the physical address space because we cannot expect much spatial
+locality in the space.  However, it turned out that there is some (temporal)
+spatial locality that enough to make DAMON work reasonably well.  The word,
+'reasonably well' might be controversial.  With the mechanism, DAMON provides
+only 'best-effort' accuracy, rather than 100% accuracy.  Our goal is to make
+the information accurate enough only for DRAM-centric optimizations.  I'd like
+to also note that there are knobs that you can use to make minimum quality
+higher (nr_min_regions) while setting the upperbound of the monitoring overhead
+(nr_max_regions).   What I can say for now is that we ran DAMON for physical
+address space of our production systems (shared detail in the 'Real-workd User
+Story' section of coverletter[1]) and the result was reasonable enough to
+convince the owner of the systems.
+
+[1] https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com/
+
+> Anyways I think we start with what you have and if in future there is a
+> use-case where regions adjustment does not make sense, we can change it then.
+
+100% agreed, and thank you for understanding my argument.
+
+
+Thanks,
+SeongJae Park
