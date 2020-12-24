@@ -1,68 +1,119 @@
 Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=3.0 tests=BAYES_50,CHARSET_FARAWAY,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,UNWANTED_LANGUAGE_BODY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C06C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 02:19:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CB1C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 03:05:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D60A22256F
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 02:19:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70CE6224B8
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 03:05:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728470AbgLXCTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 21:19:01 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:44124 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727802AbgLXCTB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 21:19:01 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UJb3vJ._1608776296;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UJb3vJ._1608776296)
+        id S1728655AbgLXDFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 23 Dec 2020 22:05:34 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:38748 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728631AbgLXDFe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 22:05:34 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UJb.Tkt_1608779089;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UJb.Tkt_1608779089)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 24 Dec 2020 10:18:17 +0800
-Subject: =?UTF-8?B?UmU6IGxpbnV4IGtlcm5lbOaWsOaJi+aDs+WPguS4juaWh+aho+e/uw==?=
- =?UTF-8?B?6K+R?=
-To:     =?UTF-8?B?6ams5Y6f6YeO?= <yuanye.ma@qq.com>,
-        linux-doc@vger.kernel.org
-References: <tencent_8666121ADC28A5099719E06674964F7A3208@qq.com>
+          Thu, 24 Dec 2020 11:04:49 +0800
+Subject: Re: [PATCH v2] docs/zh_CN: Improve Cinese transolation quality.
+To:     Ran Wang <gxndwr@outlook.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Harry Wei <harryxiyou@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
+ <20201208080037.40543cdb@lwn.net>
+ <AT5PR8401MB096480DF491AAD270CDEDD9CCCC20@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
+ <0529bd5e-8305-e5a3-9c85-ec0d1370caf9@linux.alibaba.com>
+ <AT5PR8401MB0964C0D4E2C993755C9DB223CCC00@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Message-ID: <79aba0de-a6ed-f686-fe2a-81cde23cdc0f@linux.alibaba.com>
-Date:   Thu, 24 Dec 2020 10:18:16 +0800
+Message-ID: <8618ce39-c7b8-8ae4-399f-03b0279afb5b@linux.alibaba.com>
+Date:   Thu, 24 Dec 2020 11:04:48 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
  Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <tencent_8666121ADC28A5099719E06674964F7A3208@qq.com>
-Content-Type: text/plain; charset=gb18030
+In-Reply-To: <AT5PR8401MB0964C0D4E2C993755C9DB223CCC00@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CC linux-doc
 
-在 2020/12/23 下午11:03, 马原野 写道:
-> 前辈您好：
->       我是一名Linux开发工程师，同时也是一个开源爱好者，我在kernel的Documentation/translations/zh_CN中看到您的联系方式。我对您翻译内核文档的工作很感兴趣，觉得是一件非常有意义的事情，因此我也想贡献一点自己的力量。
 
-欢迎欢迎，非常欢迎， 很高兴看到越来越多的内核中文文档， 相信这会促进和鼓励中国的内核开发工作！
+鍦� 2020/12/21 涓嬪崍8:34, Ran Wang 鍐欓亾:
+> Hi Alex,
+> 
+> 
+> On Monday, December 21, 2020 3:52 PM, Alex Shi wrote:
+> 
+>> 鍦� 2020/12/19 涓婂崍11:42, Ran Wang 鍐欓亾:
+>>> Hi Jonathan,
+>>> 聽聽聽聽 
+>>> On Tuesday, December 8, 2020 11:00 PM Jonathan Corbet wrote:
+>>> 聽
+>>>> On Tue,聽 8 Dec 2020 21:16:04 +0800
+>>>> Ran Wang <gxndwr@outlook.com> wrote:
+>>>>
+>>>>> Signed-off-by: Ran Wang <gxndwr@outlook.com>
+>>>>> ---
+>>>>> Change in v2:
+>>>>> 聽聽 - For 'cn_development_coding' part, change back to >'鏄叧浜庣紪鐮佽繃绋嬬殑'
+>>>>>
+>>>>> 聽 .../translations/zh_CN/process/1.Intro.rst聽聽聽 | 61 >++++++++++---------
+>>>>> 聽 1 file changed, 32 insertions(+), 29 deletions(-)
+>>>>
+>>>> Thank you for working to improve the documentation!聽 >Please, though,
+>>>> include a changelog with your patch; what does "improve >translation
+>>>> quality" mean here?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> jon
+>>>
+>>> Sorry I missed your mail.
+>>>
+>>> Actually I feel difficult to list the change log to describe this (after not I am not a language teacher :) ).
+>>>
+>>> I would say the original translation looks like a little bit more by machine: English word to Chinese word directly without considering particular scenarios (such as software development related terms we used in Chinese, a little bit different to normal usage maybe). So I tried to re-tell the story in a way more kind of 'human' to make everything clearer for Chinese reader.
+>>
+>> Hi Ran,
+>>
+>> I don't think you describe correctly for your new translation. And you are not 're-tell story'
+>> for a standard community co-work process, which we don't need. Also the original translation is
+>> not by machine, it's by myself.
+> 
+> Sorry, I didn't mean to offend. You are right.
 
->       非常冒昧的给您发这封邮件，目的是想咨询您我该如何参与到内核文档的翻译工作中，比如翻译工作的流程、怎么提交或者推送我翻译的文档、翻译文档的格式要求等等。
->       请问翻译内核文档的工作是否也是像向内核中提交代码那样工作？在Documentation/translations/zh_CN目录中按照Documentation/的目录结构创建自己要翻译的文档，翻译完成后向中文版的维护者推送合并请求，或者向维护者的邮箱发送patch文件？请问翻译文档有没有类似于CodingStyle的格式要求？
+That's all right. I guess, few my translation is easy to be misunderstood, and I own some explantion:
+like 2 places:
 
-翻译文档没有专用的coding style, 它也类似于普通内核开发， 需要符合普通的 coding style, 但是在行长度的计算上中文字符一个等于英文2个，其他方面也需要符合内核代码开发的要求， 比如需要通过 make help 中的，make cleandocs/htmldocs 等。 需要发送前在浏览器上实际检查 htmldocs 等文档的效果,确保各个链接有效等。它也需要提交patch 给Jonathan Corbet <corbet@lwn.net>, cc 给相关人员。
+1, 'There are a great many "reasons" why kernel code should be merged into the ...'
+Here if 'reasons' translated as 'benefits/advantage', that would fits better in Chinese
+converstion custom. (I don't strong oppose this). but usually we keep 'reasons' original meaning.
 
->       非常感谢您百忙之中抽出时间查看这封邮件，冒昧打扰，实属抱歉，非常希望前辈能解答我的困惑，如果能再给我一些参与内核开发的建议，我将不胜感激，非常期待您的回信。
+2, 'managing patches with git and reviewing patches "posted" by others.' 
+Here the 'posted', I did think a lot on '鍙戝竷' or '鎻愪氦', It costed me sometime, But finally I used '鍙戝竷'
+not 鈥樻彁浜も�欙紝 since the latter is easy to be confused with git 'commit' in Chinese, while patches we hold
+here were posted by email, not 'git'.
 
-内核社区很多人乐意在 patch review 时给新人很多建议。 加油！
 
->      
->       祝：身体健康，工作顺利。
+> 
+>> What you did right is polishing the Chinese words, make it more fluency and fit better for Chinese
+>> custom, although it costs a bit verboseness and a bit precision.> 
+> The word 'polishing' is the perfect word to describe this, thank you.
 
-谢谢， 祝，翻译快乐！
+We are not professional translators or interpreters (although my wife is one). :)
+But there is a standards of the Chinese translation, fidelity, fluency, elegence, let's hang on fidelity,
+and try best on fluency or elegence. :)
 
-奎亮
-Alex 
+
+Thanks
+Alex
