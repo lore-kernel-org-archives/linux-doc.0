@@ -2,118 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1CB1C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 03:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FD4C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 06:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70CE6224B8
-	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 03:05:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D088D22283
+	for <linux-doc@archiver.kernel.org>; Thu, 24 Dec 2020 06:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbgLXDFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 23 Dec 2020 22:05:34 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:38748 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728631AbgLXDFe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 23 Dec 2020 22:05:34 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UJb.Tkt_1608779089;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UJb.Tkt_1608779089)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 24 Dec 2020 11:04:49 +0800
-Subject: Re: [PATCH v2] docs/zh_CN: Improve Cinese transolation quality.
-To:     Ran Wang <gxndwr@outlook.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <AT5PR8401MB096492D31BB7E602E1F45DC9CCCD0@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
- <20201208080037.40543cdb@lwn.net>
- <AT5PR8401MB096480DF491AAD270CDEDD9CCCC20@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
- <0529bd5e-8305-e5a3-9c85-ec0d1370caf9@linux.alibaba.com>
- <AT5PR8401MB0964C0D4E2C993755C9DB223CCC00@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <8618ce39-c7b8-8ae4-399f-03b0279afb5b@linux.alibaba.com>
-Date:   Thu, 24 Dec 2020 11:04:48 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1725811AbgLXGmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 24 Dec 2020 01:42:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42510 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725613AbgLXGmI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 24 Dec 2020 01:42:08 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69174C061794;
+        Wed, 23 Dec 2020 22:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=hgZ+lZNP3B/K9Oj/s5udXyrBDVF5xZJ71bYP1nixZdo=; b=hzjxM2aGVedqOqTPaeLJKWYuY4
+        xkqiFVFpQKWkgqEySPTCLiSvWvcEJrgRLsJBOnrS0QZdfm4dsSOXZeO0PNLab6ggKCBq1lw6nS3kW
+        Y3WaTFZ3ODCAIHwpPam/g5eYytVyG9hqXEC7GPEvByE+eg/g0kafrqgdDkSIVH2HW9VYEuJ8mRIkc
+        w8qFJdvjTIWFM9bOal30Yib0rTy3vrCUR/hyI4lFqoeN/ROgowBMVqDPpJTNzgpcOcabaesZubCUI
+        HkInEHpdkOK6FMxwC/PdZmtaPCsBloa68FjEumpKaKfc+q+vT15CVF5bXkEMkQSnUvd4YD+3SEbZo
+        nG0RhV+w==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ksKJL-0000uK-Pw; Thu, 24 Dec 2020 06:41:19 +0000
+Date:   Thu, 24 Dec 2020 06:41:19 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Pavel Begunkov <asml.silence@gmail.com>
+Cc:     dgilbert@interlog.com,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Matthew Wilcox <willy@infradead.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 0/6] no-copy bvec
+Message-ID: <20201224064119.GA3048@infradead.org>
+References: <20201215014114.GA1777020@T590>
+ <103235c1-e7d0-0b55-65d0-013d1a09304e@gmail.com>
+ <20201215120357.GA1798021@T590>
+ <e755fec3-4181-1414-0603-02e1a1f4e9eb@gmail.com>
+ <20201222141112.GE13079@infradead.org>
+ <933030f0-e428-18fd-4668-68db4f14b976@gmail.com>
+ <20201223155145.GA5902@infradead.org>
+ <f06ece44a86eb9c8ef07bbd9f6f53342366b7751.camel@HansenPartnership.com>
+ <8abc56c2-4db8-5ee3-ab2d-8960d0eeeb0d@interlog.com>
+ <f5cb6ac2-1c59-33be-de8f-e86c8528fbec@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <AT5PR8401MB0964C0D4E2C993755C9DB223CCC00@AT5PR8401MB0964.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5cb6ac2-1c59-33be-de8f-e86c8528fbec@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-在 2020/12/21 下午8:34, Ran Wang 写道:
-> Hi Alex,
+On Wed, Dec 23, 2020 at 08:32:45PM +0000, Pavel Begunkov wrote:
+> On 23/12/2020 20:23, Douglas Gilbert wrote:
+> > On 2020-12-23 11:04 a.m., James Bottomley wrote:
+> >> On Wed, 2020-12-23 at 15:51 +0000, Christoph Hellwig wrote:
+> >>> On Wed, Dec 23, 2020 at 12:52:59PM +0000, Pavel Begunkov wrote:
+> >>>> Can scatterlist have 0-len entries? Those are directly translated
+> >>>> into bvecs, e.g. in nvme/target/io-cmd-file.c and
+> >>>> target/target_core_file.c. I've audited most of others by this
+> >>>> moment, they're fine.
+> >>>
+> >>> For block layer SGLs we should never see them, and for nvme neither.
+> >>> I think the same is true for the SCSI target code, but please double
+> >>> check.
+> >>
+> >> Right, no-one ever wants to see a 0-len scatter list entry.?? The reason
+> >> is that every driver uses the sgl to program the device DMA engine in
+> >> the way NVME does.?? a 0 length sgl would be a dangerous corner case:
+> >> some DMA engines would ignore it and others would go haywire, so if we
+> >> ever let a 0 length list down into the driver, they'd have to
+> >> understand the corner case behaviour of their DMA engine and filter it
+> >> accordingly, which is why we disallow them in the upper levels, since
+> >> they're effective nops anyway.
+> > 
+> > When using scatter gather lists at the far end (i.e. on the storage device)
+> > the T10 examples (WRITE SCATTERED and POPULATE TOKEN in SBC-4) explicitly
+> > allow the "number of logical blocks" in their sgl_s to be zero and state
+> > that it is _not_ to be considered an error.
 > 
-> 
-> On Monday, December 21, 2020 3:52 PM, Alex Shi wrote:
-> 
->> 在 2020/12/19 上午11:42, Ran Wang 写道:
->>> Hi Jonathan,
->>>      
->>> On Tuesday, December 8, 2020 11:00 PM Jonathan Corbet wrote:
->>>  
->>>> On Tue,  8 Dec 2020 21:16:04 +0800
->>>> Ran Wang <gxndwr@outlook.com> wrote:
->>>>
->>>>> Signed-off-by: Ran Wang <gxndwr@outlook.com>
->>>>> ---
->>>>> Change in v2:
->>>>>    - For 'cn_development_coding' part, change back to >'是关于编码过程的'
->>>>>
->>>>>   .../translations/zh_CN/process/1.Intro.rst    | 61 >++++++++++---------
->>>>>   1 file changed, 32 insertions(+), 29 deletions(-)
->>>>
->>>> Thank you for working to improve the documentation!  >Please, though,
->>>> include a changelog with your patch; what does "improve >translation
->>>> quality" mean here?
->>>>
->>>> Thanks,
->>>>
->>>> jon
->>>
->>> Sorry I missed your mail.
->>>
->>> Actually I feel difficult to list the change log to describe this (after not I am not a language teacher :) ).
->>>
->>> I would say the original translation looks like a little bit more by machine: English word to Chinese word directly without considering particular scenarios (such as software development related terms we used in Chinese, a little bit different to normal usage maybe). So I tried to re-tell the story in a way more kind of 'human' to make everything clearer for Chinese reader.
->>
->> Hi Ran,
->>
->> I don't think you describe correctly for your new translation. And you are not 're-tell story'
->> for a standard community co-work process, which we don't need. Also the original translation is
->> not by machine, it's by myself.
-> 
-> Sorry, I didn't mean to offend. You are right.
+> It's fine for my case unless it leaks them out of device driver to the
+> net/block layer/etc. Is it?
 
-That's all right. I guess, few my translation is easy to be misunderstood, and I own some explantion:
-like 2 places:
-
-1, 'There are a great many "reasons" why kernel code should be merged into the ...'
-Here if 'reasons' translated as 'benefits/advantage', that would fits better in Chinese
-converstion custom. (I don't strong oppose this). but usually we keep 'reasons' original meaning.
-
-2, 'managing patches with git and reviewing patches "posted" by others.' 
-Here the 'posted', I did think a lot on '发布' or '提交', It costed me sometime, But finally I used '发布'
-not ‘提交’， since the latter is easy to be confused with git 'commit' in Chinese, while patches we hold
-here were posted by email, not 'git'.
-
-
-> 
->> What you did right is polishing the Chinese words, make it more fluency and fit better for Chinese
->> custom, although it costs a bit verboseness and a bit precision.> 
-> The word 'polishing' is the perfect word to describe this, thank you.
-
-We are not professional translators or interpreters (although my wife is one). :)
-But there is a standards of the Chinese translation, fidelity, fluency, elegence, let's hang on fidelity,
-and try best on fluency or elegence. :)
-
-
-Thanks
-Alex
+None of the SCSI Command mentions above are supported by Linux,
+nevermind mapped to struct scatterlist.
