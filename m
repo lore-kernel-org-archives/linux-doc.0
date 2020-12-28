@@ -2,132 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86253C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Dec 2020 17:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B15C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BAA9229C5
-	for <linux-doc@archiver.kernel.org>; Mon, 28 Dec 2020 17:20:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B79E207BC
+	for <linux-doc@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728153AbgL1RUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 28 Dec 2020 12:20:08 -0500
-Received: from mail-40134.protonmail.ch ([185.70.40.134]:28852 "EHLO
-        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728105AbgL1RUI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Dec 2020 12:20:08 -0500
-Date:   Mon, 28 Dec 2020 17:19:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1609175964;
-        bh=leLQ7HLOOBAi96gGzZ6lvQ1zwU5ypDUPyx8uomLDoZU=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=owzcvxZoYmH6GH6qBht0MRdwycosO+m3EClz9L2BwFJ6YUKGyav9wa+6bTOWNxVOj
-         zLNFA2FnmwvyibgCn2XXc8jvK0dPbxhqc2KICloFMk7ETmoGMEamdbsD3OWZrtkJK9
-         TM5DR3BH52g27kH0uGavOJyIJiekVnf0KkDfH2p8=
-To:     corbet@lwn.net
-From:   =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        masahiroy@kernel.org, mchehab+huawei@kernel.org,
-        mchehab@kernel.org, michal.lkml@markovi.net
-Reply-To: =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201228171907.159028-1-nfraprado@protonmail.com>
+        id S1730794AbgL1Wzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 28 Dec 2020 17:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729481AbgL1UzF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 28 Dec 2020 15:55:05 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E076C06179F;
+        Mon, 28 Dec 2020 12:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=ppRSnb5Uz4jIDnyS28Gp9E63hTbg6xv1tyWfwaISO2E=; b=aaRSuaaT0OUxbLka9O/IWIfosq
+        9feyWDp5ilTRnODWdjvuQFzQeQoWWurQdYN3NJ0sgB519+MJD6GeHo0hyB+sILQYlyOCg3IQvl4dk
+        NMGpaEKhSLOkPWsH0CDWReXxsRJmGFwGJxn9dkWs04dmckUOn4dI8rF60EmLqQPmulM3Z7h3Madn0
+        hjpLZPZ/EP8zYNtTx/n6rkVnsT6iSSwOx01+xLV20G0uSD2xU2S8iPbUV/cm/AD8ccecg18rBGSnh
+        Dray8JDH1B7PlejrGT/0f6/6M7ouTAYHOi1mR+JunbWzkwctpbCNERBewGK8ZoRKpPRoBacHqufDs
+        z52O4mYA==;
+Received: from [2601:1c0:6280:3f0::64ea] (helo=smtpauth.infradead.org)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ktzWm-0002ml-MW; Mon, 28 Dec 2020 20:54:05 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, David Herrmann <dh.herrmann@gmail.com>
+Subject: [PATCH v2 8/8] Documentation: HID: uhid editing & corrections
+Date:   Mon, 28 Dec 2020 12:53:27 -0800
+Message-Id: <20201228205327.1063-9-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201228205327.1063-1-rdunlap@infradead.org>
+References: <20201228205327.1063-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 05:03:50PM -0700, Jonathan Corbet wrote:
-> The right solution is probably something like this:
->=20
-> =09try:
-> =09    import rst2pdf
-> =09    extensions.append('rst2pdf.pdfbuilder')
-> =09except ModuleNotFoundError:
-> =09    pass # no rst2pdf for you
 
-I tested it, but it still fails, and the error message is even more cryptic=
-:
+Do basic editing & correction to hid-alps.rst:
+- correct a file name (.txt -> .rst)
+- use less hyphenation when not needed
+- fix grammar & punctuation
+- fix article adjectives
+- fix typos/spellos
+- use HID instead of hid consistently
 
-=09Sphinx error:
-=09Builder name pdf not registered or available through entry point
-=09make[1]: *** [Documentation/Makefile:120: rst2pdf] Error 2
-=09make: *** [Makefile:1663: rst2pdf] Error 2
 
-It seems to me that the missing dependency should be treated in the Makefil=
-e
-target rather than in Sphinx. Looking through the Makefile, I took inspirat=
-ion
-from the latex version and did the following:
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
+Cc: David Herrmann <dh.herrmann@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>
+---
+v2: rebase & resend
 
-=09HAVE_RST2PDF :=3D $(shell if python -c "import rst2pdf" >/dev/null 2>&1;=
- then echo 1; else echo 0; fi)
+ Documentation/hid/uhid.rst |   34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-=09=20
-=09ifeq ($(HAVE_RST2PDF),0)
-
-=09rst2pdf:
-=09       $(warning The 'rst2pdf' python module was not found. Make sure yo=
-u have it installed to produce PDF output.)
-=09       @echo "  SKIP    Sphinx $@ target."
-
-=09else # HAVE_RST2PDF
-
-=09rst2pdf:
-=09       @$(srctree)/scripts/sphinx-pre-install --version-check
-=09       @+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),p=
-df,$(var)))
-
-=09endif # HAVE_RST2PDF
-
-With this, the following message is shown in case it isn't installed:
-
-=09Documentation/Makefile:122: The 'rst2pdf' python module was not found. M=
-ake sure you have it installed to produce PDF output.
-=09  SKIP    Sphinx rst2pdf target.
-
-But with that check on the Makefile in place, on the Sphinx side, we can in=
-deed
-just do Jon's snippet to only add the extension if it is installed. Another
-option would be to split the 'try' into 'try' and 'else', where the 'else' =
-only
-executes if the 'try' is succesful. The benefit is that this makes it clear=
-er
-that only the import is being "tried":
-
-=09# Enable experimental rst2pdf, if available
-=09try:
-=09    import rst2pdf
-=09except ModuleNotFoundError:
-=09    pass
-=09else:
-=09    extensions.append("rst2pdf.pdfbuilder")
-
-Something interesting I noticed is that when building with Sphinx 3, and if
-rst2pdf is installed, even when building other targets, like htmldocs, (sin=
-ce
-the rst2pdf extension is added based on rst2pdf being installed and not if =
-it is
-being used) the following is printed:
-
-=09WARNING: the rst2pdf.pdfbuilder extension is not safe for parallel writi=
-ng
-=09WARNING: doing serial write
-
-Looking into rst2pdf's pdfbuilder.py, indeed 'parallel_write_safe' is False=
-, so
-we should probably make sure rst2pdf isn't negatively impacting build time =
-for
-other formats before merging this patch.
-
-Thanks,
-N=C3=ADcolas
-
+--- linux-next-20201201.orig/Documentation/hid/uhid.rst
++++ linux-next-20201201/Documentation/hid/uhid.rst
+@@ -3,7 +3,7 @@ UHID - User-space I/O driver support for
+ ======================================================
+ 
+ UHID allows user-space to implement HID transport drivers. Please see
+-hid-transport.txt for an introduction into HID transport drivers. This document
++hid-transport.rst for an introduction into HID transport drivers. This document
+ relies heavily on the definitions declared there.
+ 
+ With UHID, a user-space transport driver can create kernel hid-devices for each
+@@ -15,7 +15,7 @@ There is an example user-space applicati
+ The UHID API
+ ------------
+ 
+-UHID is accessed through a character misc-device. The minor-number is allocated
++UHID is accessed through a character misc-device. The minor number is allocated
+ dynamically so you need to rely on udev (or similar) to create the device node.
+ This is /dev/uhid by default.
+ 
+@@ -45,23 +45,23 @@ The "type" field defines the payload. Fo
+ payload-structure available in the union "u" (except for empty payloads). This
+ payload contains management and/or device data.
+ 
+-The first thing you should do is sending an UHID_CREATE2 event. This will
+-register the device. UHID will respond with an UHID_START event. You can now
++The first thing you should do is send a UHID_CREATE2 event. This will
++register the device. UHID will respond with a UHID_START event. You can now
+ start sending data to and reading data from UHID. However, unless UHID sends the
+ UHID_OPEN event, the internally attached HID Device Driver has no user attached.
+ That is, you might put your device asleep unless you receive the UHID_OPEN
+ event. If you receive the UHID_OPEN event, you should start I/O. If the last
+-user closes the HID device, you will receive an UHID_CLOSE event. This may be
+-followed by an UHID_OPEN event again and so on. There is no need to perform
++user closes the HID device, you will receive a UHID_CLOSE event. This may be
++followed by a UHID_OPEN event again and so on. There is no need to perform
+ reference-counting in user-space. That is, you will never receive multiple
+-UHID_OPEN events without an UHID_CLOSE event. The HID subsystem performs
++UHID_OPEN events without a UHID_CLOSE event. The HID subsystem performs
+ ref-counting for you.
+ You may decide to ignore UHID_OPEN/UHID_CLOSE, though. I/O is allowed even
+ though the device may have no users.
+ 
+ If you want to send data on the interrupt channel to the HID subsystem, you send
+-an HID_INPUT2 event with your raw data payload. If the kernel wants to send data
+-on the interrupt channel to the device, you will read an UHID_OUTPUT event.
++a HID_INPUT2 event with your raw data payload. If the kernel wants to send data
++on the interrupt channel to the device, you will read a UHID_OUTPUT event.
+ Data requests on the control channel are currently limited to GET_REPORT and
+ SET_REPORT (no other data reports on the control channel are defined so far).
+ Those requests are always synchronous. That means, the kernel sends
+@@ -71,7 +71,7 @@ the response via UHID_GET_REPORT_REPLY a
+ The kernel blocks internal driver-execution during such round-trips (times out
+ after a hard-coded period).
+ 
+-If your device disconnects, you should send an UHID_DESTROY event. This will
++If your device disconnects, you should send a UHID_DESTROY event. This will
+ unregister the device. You can now send UHID_CREATE2 again to register a new
+ device.
+ If you close() the fd, the device is automatically unregistered and destroyed
+@@ -125,7 +125,7 @@ UHID_START:
+   This is sent when the HID device is started. Consider this as an answer to
+   UHID_CREATE2. This is always the first event that is sent. Note that this
+   event might not be available immediately after write(UHID_CREATE2) returns.
+-  Device drivers might required delayed setups.
++  Device drivers might require delayed setups.
+   This event contains a payload of type uhid_start_req. The "dev_flags" field
+   describes special behaviors of a device. The following flags are defined:
+ 
+@@ -149,7 +149,7 @@ UHID_STOP:
+   reloaded/changed the device driver loaded on your HID device (or some other
+   maintenance actions happened).
+ 
+-  You can usually ignored any UHID_STOP events safely.
++  You can usually ignore any UHID_STOP events safely.
+ 
+ UHID_OPEN:
+   This is sent when the HID device is opened. That is, the data that the HID
+@@ -166,17 +166,17 @@ UHID_OUTPUT:
+   This is sent if the HID device driver wants to send raw data to the I/O
+   device on the interrupt channel. You should read the payload and forward it to
+   the device. The payload is of type "struct uhid_output_req".
+-  This may be received even though you haven't received UHID_OPEN, yet.
++  This may be received even though you haven't received UHID_OPEN yet.
+ 
+ UHID_GET_REPORT:
+   This event is sent if the kernel driver wants to perform a GET_REPORT request
+-  on the control channeld as described in the HID specs. The report-type and
++  on the control channel as described in the HID specs. The report-type and
+   report-number are available in the payload.
+   The kernel serializes GET_REPORT requests so there will never be two in
+   parallel. However, if you fail to respond with a UHID_GET_REPORT_REPLY, the
+   request might silently time out.
+-  Once you read a GET_REPORT request, you shall forward it to the hid device and
+-  remember the "id" field in the payload. Once your hid device responds to the
++  Once you read a GET_REPORT request, you shall forward it to the HID device and
++  remember the "id" field in the payload. Once your HID device responds to the
+   GET_REPORT (or if it fails), you must send a UHID_GET_REPORT_REPLY to the
+   kernel with the exact same "id" as in the request. If the request already
+   timed out, the kernel will ignore the response silently. The "id" field is
+@@ -184,7 +184,7 @@ UHID_GET_REPORT:
+ 
+ UHID_SET_REPORT:
+   This is the SET_REPORT equivalent of UHID_GET_REPORT. On receipt, you shall
+-  send a SET_REPORT request to your hid device. Once it replies, you must tell
++  send a SET_REPORT request to your HID device. Once it replies, you must tell
+   the kernel about it via UHID_SET_REPORT_REPLY.
+   The same restrictions as for UHID_GET_REPORT apply.
+ 
