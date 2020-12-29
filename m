@@ -2,66 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DFBC433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 09:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7864C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 12:42:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB9FA21D7F
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 09:09:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F2B620867
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 12:42:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgL2JJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Dec 2020 04:09:35 -0500
-Received: from guitar.tcltek.co.il ([192.115.133.116]:47622 "EHLO
-        mx.tkos.co.il" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726129AbgL2JJf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Dec 2020 04:09:35 -0500
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726196AbgL2MmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Dec 2020 07:42:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725964AbgL2MmE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Dec 2020 07:42:04 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7B5C0613D6;
+        Tue, 29 Dec 2020 04:41:24 -0800 (PST)
+Received: from zn.tnic (p2e584e83.dip0.t-ipconnect.de [46.88.78.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx.tkos.co.il (Postfix) with ESMTPS id 9AEEA440AEE;
-        Tue, 29 Dec 2020 11:08:50 +0200 (IST)
-From:   Baruch Siach <baruch@tkos.co.il>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        =?UTF-8?q?Ulisses=20Alonso=20Camar=C3=B3?= <uaca@alumni.uv.es>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH v2 1/2] docs: networking: packet_mmap: fix formatting for C macros
-Date:   Tue, 29 Dec 2020 11:08:38 +0200
-Message-Id: <5cb47005e7a59b64299e038827e295822193384c.1609232919.git.baruch@tkos.co.il>
-X-Mailer: git-send-email 2.29.2
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8F8A61EC04EC;
+        Tue, 29 Dec 2020 13:41:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1609245682;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=OOvXZBMQoIK+UvAUZYe+0qhjBjyUbhc4PxiosDWY7K8=;
+        b=kSuZWitBGMRGQgaVggsdrAEL0Efy6toGfl5eErUFhou97tpqX+9b/p9nk/yCryuEtYGxJJ
+        nLtpzpe73aNhdSirVgFlhBSWelCg12bdGxtFgP7bfWtiRHIVkis2gYEbs9o8jv2mspotTD
+        n+cLy+uJbPZtThZnmxp/C/nzgtm7zFc=
+Date:   Tue, 29 Dec 2020 13:39:10 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v16 02/26] x86/cet/shstk: Add Kconfig option for
+ user-mode control-flow protection
+Message-ID: <20201229123910.GB29947@zn.tnic>
+References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
+ <20201209222320.1724-3-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201209222320.1724-3-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The citation of macro definitions should appear in a code block.
+On Wed, Dec 09, 2020 at 02:22:56PM -0800, Yu-cheng Yu wrote:
+> Shadow Stack provides protection against function return address
+> corruption.  It is active when the processor supports it, the kernel has
+> CONFIG_X86_CET_USER, and the application is built for the feature.
+		     ^
+		   enabled.
 
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- Documentation/networking/packet_mmap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+> non-Shadow Stack applications continue to work, but without protection.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/Kconfig           | 22 ++++++++++++++++++++++
+>  arch/x86/Kconfig.assembler |  5 +++++
+>  2 files changed, 27 insertions(+)
 
-diff --git a/Documentation/networking/packet_mmap.rst b/Documentation/networking/packet_mmap.rst
-index 6c009ceb1183..f3646c80b019 100644
---- a/Documentation/networking/packet_mmap.rst
-+++ b/Documentation/networking/packet_mmap.rst
-@@ -437,7 +437,7 @@ and the following flags apply:
- Capture process
- ^^^^^^^^^^^^^^^
- 
--     from include/linux/if_packet.h
-+From include/linux/if_packet.h::
- 
-      #define TP_STATUS_COPY          (1 << 1)
-      #define TP_STATUS_LOSING        (1 << 2)
+Rest looks good, thanks.
+
 -- 
-2.29.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
