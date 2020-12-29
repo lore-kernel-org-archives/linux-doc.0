@@ -2,101 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7864C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 12:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE55C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 13:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F2B620867
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 12:42:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5262D20867
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 13:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgL2MmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Dec 2020 07:42:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725964AbgL2MmE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 29 Dec 2020 07:42:04 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7B5C0613D6;
-        Tue, 29 Dec 2020 04:41:24 -0800 (PST)
-Received: from zn.tnic (p2e584e83.dip0.t-ipconnect.de [46.88.78.131])
+        id S1726811AbgL2NzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Dec 2020 08:55:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49706 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726657AbgL2NzX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Dec 2020 08:55:23 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8F8A61EC04EC;
-        Tue, 29 Dec 2020 13:41:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1609245682;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=OOvXZBMQoIK+UvAUZYe+0qhjBjyUbhc4PxiosDWY7K8=;
-        b=kSuZWitBGMRGQgaVggsdrAEL0Efy6toGfl5eErUFhou97tpqX+9b/p9nk/yCryuEtYGxJJ
-        nLtpzpe73aNhdSirVgFlhBSWelCg12bdGxtFgP7bfWtiRHIVkis2gYEbs9o8jv2mspotTD
-        n+cLy+uJbPZtThZnmxp/C/nzgtm7zFc=
-Date:   Tue, 29 Dec 2020 13:39:10 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v16 02/26] x86/cet/shstk: Add Kconfig option for
- user-mode control-flow protection
-Message-ID: <20201229123910.GB29947@zn.tnic>
-References: <20201209222320.1724-1-yu-cheng.yu@intel.com>
- <20201209222320.1724-3-yu-cheng.yu@intel.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 5440320784;
+        Tue, 29 Dec 2020 13:54:41 +0000 (UTC)
+Date:   Tue, 29 Dec 2020 13:54:38 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/8] Documentation: HID: edit/correct all files
+Message-ID: <20201229135438.347469da@archlinux>
+In-Reply-To: <20201228205327.1063-1-rdunlap@infradead.org>
+References: <20201228205327.1063-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201209222320.1724-3-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 09, 2020 at 02:22:56PM -0800, Yu-cheng Yu wrote:
-> Shadow Stack provides protection against function return address
-> corruption.  It is active when the processor supports it, the kernel has
-> CONFIG_X86_CET_USER, and the application is built for the feature.
-		     ^
-		   enabled.
+On Mon, 28 Dec 2020 12:53:19 -0800
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
-> non-Shadow Stack applications continue to work, but without protection.
+> Make editing corrections to all files in Documentation/hid/.
+
+As with all docs, we could bikeshed this for ever and a day, but
+these changes seem to be good to me.
+
+I did argue with myself over "an HID" vs "a HID" depending
+on whether people tend to go with hid (as a word) vs H.I.D. (spelling
+out the acronym) but I think hid is the one I've heard more commonly.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Thanks,
+
+Jonathan
+
+
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/Kconfig           | 22 ++++++++++++++++++++++
->  arch/x86/Kconfig.assembler |  5 +++++
->  2 files changed, 27 insertions(+)
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: linux-iio@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> 
+>  [PATCH v2 1/8] Documentation: HID: hid-alps editing & corrections
+>  [PATCH v2 2/8] Documentation: HID: amd-sfh-hid editing & corrections
+>  [PATCH v2 3/8] Documentation: HID: hiddev editing & corrections
+>  [PATCH v2 4/8] Documentation: HID: intel-ish-hid editing & corrections
+>  [PATCH v2 5/8] Documentation: HID: hidraw editing & corrections
+>  [PATCH v2 6/8] Documentation: HID: hid-sensor editing & corrections
+>  [PATCH v2 7/8] Documentation: HID: hid-transport editing & corrections
+>  [PATCH v2 8/8] Documentation: HID: uhid editing & corrections
+> 
+>  Documentation/hid/amd-sfh-hid.rst   |   22 +++----
+>  Documentation/hid/hid-alps.rst      |    4 -
+>  Documentation/hid/hid-sensor.rst    |   18 +++---
+>  Documentation/hid/hid-transport.rst |   12 ++--
+>  Documentation/hid/hiddev.rst        |   10 +--
+>  Documentation/hid/hidraw.rst        |    5 +
+>  Documentation/hid/intel-ish-hid.rst |   78 +++++++++++++-------------
+>  Documentation/hid/uhid.rst          |   34 +++++------
+>  8 files changed, 93 insertions(+), 90 deletions(-)
 
-Rest looks good, thanks.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
