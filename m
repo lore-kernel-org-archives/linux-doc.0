@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A551C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 21:35:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EF7FC433E9
+	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 21:35:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5918421D1B
+	by mail.kernel.org (Postfix) with ESMTP id D9799223E0
 	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 21:35:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727292AbgL2VfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Dec 2020 16:35:19 -0500
+        id S1727352AbgL2Vff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 29 Dec 2020 16:35:35 -0500
 Received: from mga09.intel.com ([134.134.136.24]:31879 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727275AbgL2VfS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Dec 2020 16:35:18 -0500
-IronPort-SDR: oGO0OZ+j9In+cSIsNU6UlRIThO/QD2iUaHIQwUDtI14volZmV2hkgjfCNat4/sYlPlmXxt76gH
- iV7RKFln5cCA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="176695629"
+        id S1727351AbgL2Vfd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 29 Dec 2020 16:35:33 -0500
+IronPort-SDR: uPicJDn48RaQcZybJpL7Nyx1R5DaRTFimxJR4iv2uX7hH7+mjU3bi0n7rokYgHQTXqVepH6xVJ
+ mgS4mihpdmxg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="176695636"
 X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="176695629"
+   d="scan'208";a="176695636"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:34:21 -0800
-IronPort-SDR: gYCoL2EYiljV1FjHciFY+X8u4oxLg/qUpU6NMkyOsnaYcnFeaXT4QtIZNgBcoF3p+iJ09xR5pw
- SxwmZ2zgjNCQ==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:34:23 -0800
+IronPort-SDR: 039ybZnVZv3H42RPBEG94YL9PcwvK1bh/A5EYGAX2y2byYnFiBudaLa+OfDwhMYyNskXBShYyV
+ 3gYfJ6125Bkg==
 X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="376190131"
+   d="scan'208";a="376190153"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:34:20 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:34:22 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,9 +60,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v17 4/7] x86/cet/ibt: Update ELF header parsing for Indirect Branch Tracking
-Date:   Tue, 29 Dec 2020 13:33:47 -0800
-Message-Id: <20201229213350.17010-5-yu-cheng.yu@intel.com>
+Subject: [PATCH v17 7/7] x86/vdso: Insert endbr32/endbr64 to vDSO
+Date:   Tue, 29 Dec 2020 13:33:50 -0800
+Message-Id: <20201229213350.17010-8-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20201229213350.17010-1-yu-cheng.yu@intel.com>
 References: <20201229213350.17010-1-yu-cheng.yu@intel.com>
@@ -72,34 +72,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An ELF file's .note.gnu.property indicates features the file supports.
-The property is parsed at loading time and passed to arch_setup_elf_
-property().  Update it for Indirect Branch Tracking.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
+When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
+called indirectly, and must have ENDBR32 or ENDBR64 as the first
+instruction.  The compiler must support -fcf-protection=branch so that it
+can be used to compile vDSO.
+
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Acked-by: Andy Lutomirski <luto@kernel.org>
 ---
- arch/x86/kernel/process_64.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/x86/entry/vdso/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 2e8decf79f8c..c646221fd55b 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -864,6 +864,14 @@ int arch_setup_elf_property(struct arch_elf_state *state)
- 			r = cet_setup_shstk();
- 	}
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 02e3e42f380b..4d9225758a73 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -93,6 +93,10 @@ endif
  
-+	if (r < 0)
-+		return r;
+ $(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
+ 
++ifdef CONFIG_X86_CET_USER
++$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
++endif
 +
-+	if (static_cpu_has(X86_FEATURE_IBT)) {
-+		if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_IBT)
-+			r = cet_setup_ibt();
-+	}
-+
- 	return r;
- }
- #endif
+ #
+ # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
+ #
 -- 
 2.21.0
 
