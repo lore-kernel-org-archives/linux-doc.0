@@ -2,154 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5CAC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 13:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A179C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 15:59:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE14F2222A
-	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 13:31:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 552D220795
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 15:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbgL3Nbo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 30 Dec 2020 08:31:44 -0500
-Received: from guitar.tcltek.co.il ([192.115.133.116]:48941 "EHLO
-        mx.tkos.co.il" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726827AbgL3Nbo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 30 Dec 2020 08:31:44 -0500
-Received: from tarshish (unknown [10.0.8.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx.tkos.co.il (Postfix) with ESMTPS id 4CCE9440DBB;
-        Wed, 30 Dec 2020 15:31:00 +0200 (IST)
-References: <5cb47005e7a59b64299e038827e295822193384c.1609232919.git.baruch@tkos.co.il>
- <80089f3783372c8fd7833f28ce774a171b2ef252.1609232919.git.baruch@tkos.co.il>
- <CAPfuSqFOHDaxuUDwD6m3NVfzk+VTLKwvseOPrVYdchZAYF+sYQ@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 27.1
-From:   Baruch Siach <baruch@tkos.co.il>
-To:     Ulises Alonso <ulises.alonso@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Ulisses Alonso =?utf-8?Q?Camar=C3=B3?= <uaca@alumni.uv.es>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Subject: Re: [PATCH v2 2/2] docs: networking: packet_mmap: fix old config
- reference
-In-reply-to: <CAPfuSqFOHDaxuUDwD6m3NVfzk+VTLKwvseOPrVYdchZAYF+sYQ@mail.gmail.com>
-Date:   Wed, 30 Dec 2020 15:30:59 +0200
-Message-ID: <87eej78lpo.fsf@tarshish>
+        id S1726293AbgL3P6u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Dec 2020 10:58:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726168AbgL3P6u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Dec 2020 10:58:50 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D192C061799
+        for <linux-doc@vger.kernel.org>; Wed, 30 Dec 2020 07:58:10 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id y23so5072817wmi.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Dec 2020 07:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yfjl0xYNPtQx7QvF6KQCIMzo4+rXF1YUWQNooUhwZuA=;
+        b=erB1RMnnqtKP12BjoDU4VlvXKidhl+N9EON2C4IjQGUK/639C/rCZzWPRk6afyg3NT
+         A1PrWhfc+/XhCPBV5ik5czOTx6hiO3oHT8Z/oTC/bm5zu4wGyjbw7p477KE6DIqw+hxb
+         Cb6A+wmUavRzgpbT96is0DmgNd/E5wFVH7EsiTxtCtnqaekINagZVfL52EODakuiOgXI
+         rpMTG9jZ+nCKsD5p0gxjP3klochMj1rNho78c8qnnYpBrfrLHAhI8FgDfF6Ytek3PpjN
+         dXFxTIvMx8MyjypjKfSi09e//OcFnofRjN0yCtiXXYrxzL7yA2QBGbU55JobPeYN+Xa0
+         GhkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yfjl0xYNPtQx7QvF6KQCIMzo4+rXF1YUWQNooUhwZuA=;
+        b=IECmQYzl1j1R9scjLws6ObQWaMgakSqIq8TmP1RBUcy1ApHkzHjSIzxNZqTp30aFy9
+         ZKPxJx/8Yp1O2C71B7zLc0VZNtgxB+LbGw7plmsy0m+l5jYYkJivvTlQ06Sn+dj91aEi
+         EXdu+zgIPioWRAPLbVTykpTAFPFzXH2iWCQ0HW2p2NsQH+U+RwONzUiFBU5e4HFYDhNk
+         ZHD9HBwBMQExBtoBAIC5RHfK5YJBE0s1bmydH9Q3Irolg0h3sskbwy7sTifQnxnNREi9
+         3W4AoiJw9QnAKMTnI6DQeo1lV19PWImGoOTWTJJEiRF06+4Rja5E6Duo9wGB6N0BXy3w
+         IehQ==
+X-Gm-Message-State: AOAM5313OXmIXmHI8KTDH5UMNEm3kKjmLvzrukPMNFLMX5MHATI2bdLs
+        tVsqkkc0YESceW7DNfTVk3ffooWny6J5/4ga
+X-Google-Smtp-Source: ABdhPJxOKNn3OGHx8EuaMfMxs5CYwEFeYOFNus1wEckq+MgcXP7d+GS6bpdN4QHURn2P38ywGNb7zA==
+X-Received: by 2002:a7b:c259:: with SMTP id b25mr8366549wmj.40.1609343888896;
+        Wed, 30 Dec 2020 07:58:08 -0800 (PST)
+Received: from localhost.localdomain ([195.213.153.250])
+        by smtp.gmail.com with ESMTPSA id n11sm51608560wra.9.2020.12.30.07.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Dec 2020 07:58:08 -0800 (PST)
+From:   Joe Pater <02joepater06@gmail.com>
+To:     corbet@lwn.net
+Cc:     trivial@kernel.org, linux-doc@vger.kernel.org,
+        Joe Pater <02joepater06@gmail.com>
+Subject: [PATCH] Documentation: kernel-hacking: change 'current()' to 'current'
+Date:   Wed, 30 Dec 2020 15:56:59 +0000
+Message-Id: <20201230155658.26147-1-02joepater06@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ulises,
+Change 'current()' heading to 'current' to reflect usage.
 
-On Tue, Dec 29 2020, Ulises Alonso wrote:
-> Can you also replace the sentence
->
->      "(like libpcap always does)."
->
-> with
->
->     "(which old libpcap versions used do)."
+Signed-off-by: Joe Pater <02joepater06@gmail.com>
+---
+ Documentation/kernel-hacking/hacking.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Are you sure this change is correct? The text says:
-
-  ... it requires two if you want to get packet's timestamp
-  (like libpcap always does).
-
-I think libpcap still reads packets timestamps, though it most likely
-uses the newer interface for that.
-
-Maybe we should just drop the libpcap reference here?
-
-Thanks for reviewing the patch,
-baruch
-
-> On Tue, Dec 29, 2020 at 10:11 AM Baruch Siach <baruch@tkos.co.il> wrote:
->
->> Before commit 889b8f964f2f ("packet: Kill CONFIG_PACKET_MMAP.") there
->> used to be a CONFIG_PACKET_MMAP config symbol that depended on
->> CONFIG_PACKET. The text still implies that PACKET_MMAP can be disabled.
->> Remove that from the text, as well as reference to old kernel versions.
->>
->> Also, drop reference to broken link to information for pre 2.6.5
->> kernels.
->>
->> Make a slight working improvement (s/In/On/) while at it.
->>
->> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
->> ---
->> v2: Address comments from Jakub Kicinski and Willem de Bruijn
->>
->>   * Don't change PACKET_MMAP
->>
->>   * Remove mention of specific kernel versions
->>
->>   * Don't reflow paragraphs
->>
->>   * s/In/On/
->> ---
->>  Documentation/networking/packet_mmap.rst | 9 ++++-----
->>  1 file changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/networking/packet_mmap.rst
->> b/Documentation/networking/packet_mmap.rst
->> index f3646c80b019..500ef60b1b82 100644
->> --- a/Documentation/networking/packet_mmap.rst
->> +++ b/Documentation/networking/packet_mmap.rst
->> @@ -8,7 +8,7 @@ Abstract
->>  ========
->>
->>  This file documents the mmap() facility available with the PACKET
->> -socket interface on 2.4/2.6/3.x kernels. This type of sockets is used for
->> +socket interface. This type of sockets is used for
->>
->>  i) capture network traffic with utilities like tcpdump,
->>  ii) transmit network traffic, or any other that needs raw
->> @@ -25,12 +25,12 @@ Please send your comments to
->>  Why use PACKET_MMAP
->>  ===================
->>
->> -In Linux 2.4/2.6/3.x if PACKET_MMAP is not enabled, the capture process
->> is very
->> +Non PACKET_MMAP capture process (plain AF_PACKET) is very
->>  inefficient. It uses very limited buffers and requires one system call to
->>  capture each packet, it requires two if you want to get packet's timestamp
->>  (like libpcap always does).
->>
->> -In the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a
->> size
->> +On the other hand PACKET_MMAP is very efficient. PACKET_MMAP provides a
->> size
->>  configurable circular buffer mapped in user space that can be used to
->> either
->>  send or receive packets. This way reading packets just needs to wait for
->> them,
->>  most of the time there is no need to issue a single system call.
->> Concerning
->> @@ -252,8 +252,7 @@ PACKET_MMAP setting constraints
->>
->>  In kernel versions prior to 2.4.26 (for the 2.4 branch) and 2.6.5 (2.6
->> branch),
->>  the PACKET_MMAP buffer could hold only 32768 frames in a 32 bit
->> architecture or
->> -16384 in a 64 bit architecture. For information on these kernel versions
->> -see
->> http://pusa.uv.es/~ulisses/packet_mmap/packet_mmap.pre-2.4.26_2.6.5.txt
->> +16384 in a 64 bit architecture.
->>
->>  Block size limit
->>  ----------------
->> --
->> 2.29.2
-
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index eed2136d847f..451523424942 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -346,8 +346,8 @@ routine.
+ Before inventing your own cache of often-used objects consider using a
+ slab cache in ``include/linux/slab.h``
+ 
+-:c:func:`current()`
+--------------------
++:c:macro:`current`
++------------------
+ 
+ Defined in ``include/asm/current.h``
+ 
 -- 
-                                                     ~. .~   Tk Open Systems
-=}------------------------------------------------ooO--U--Ooo------------{=
-   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
+2.29.2
+
