@@ -2,217 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1170C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 21:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 950DDC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 08:47:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E999207C8
-	for <linux-doc@archiver.kernel.org>; Tue, 29 Dec 2020 21:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5496920784
+	for <linux-doc@archiver.kernel.org>; Wed, 30 Dec 2020 08:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbgL2Vc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 29 Dec 2020 16:32:58 -0500
-Received: from mga03.intel.com ([134.134.136.65]:11891 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726185AbgL2Vc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 29 Dec 2020 16:32:58 -0500
-IronPort-SDR: 0ip6FS/7jORhMaslJr2sDc0UydizneZKN3RYcaPLUVjWLpCMw0MEqkfefulSgWfN+DKP2rM0pV
- ISwq6vU0Z7+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="176640497"
-X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="176640497"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:32:17 -0800
-IronPort-SDR: siHl44mb3vT51tRq6qDm9TUMZ0HJXUQKOYOqK0PkXQYdAkRx2ameqqXPYPJ+bM7a1iE9qvqs+k
- eImvm7bWBZJA==
-X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="376189558"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 13:32:16 -0800
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v17 00/26] Control-flow Enforcement: Shadow Stack
-Date:   Tue, 29 Dec 2020 13:30:27 -0800
-Message-Id: <20201229213053.16395-1-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726352AbgL3Iri (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 30 Dec 2020 03:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726348AbgL3Iri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 30 Dec 2020 03:47:38 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5993DC061799;
+        Wed, 30 Dec 2020 00:46:58 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id f9so9361922pfc.11;
+        Wed, 30 Dec 2020 00:46:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=4hCJ1uMJpAFhFUoq0+DB5gxgdyiGzPgLXZHVoajEEEA=;
+        b=PHm5ofpjbWbsoLGYwa9L10tOUovyRO/uI6H5ddbo36wgCesQ7mcCy2z3oBMiUEaf3/
+         5Mc0kNcQk8jyewpciwrxPxJ5bgppu2LydQFqLUieJPndZtHr/bgH4raxv0RX+7sdlxcp
+         38BDnO6xoVzWIMbVYYfKNNUw0KSMSMraT0jur/NJB+YPnqXsvcXZMQB7wc3p+DXjkf0B
+         sg44yNm4lr6KHxZ/Cy+1db3DgaR3CNCnOETlOnJgPgwD3XAlN86C/9iO17DVM8XwRq4o
+         nZFvz/KntWpSba/IddB2VFM9A3Fjklaem/GsXSV03N+GgkLCWEBVyTYTcu5YFK+hWfqJ
+         dpJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=4hCJ1uMJpAFhFUoq0+DB5gxgdyiGzPgLXZHVoajEEEA=;
+        b=NvML41CRfy7AohAAnzgeu9f/p6sUmLp/r86HU7/YnhiXJ85XdVVkHQJBUPPihuQ1Uh
+         nJ7NhdLCpmDi4q6H+v6X4Aa7K7phg0sVpklBDMItugDn06rds8cCY8D2IdJL+KLtceVJ
+         UpEBx+27dBVGlsFo+pGwZ8CwdKw874NfbkqC/l91BLniPZ4xQXlbaoW/x43i97RD2yvm
+         OsCvjtVGLfBvlKSz+VgQJkSgpcseO4D3GMLkJPr6Osi+ZcYkrPxtD61kE686pUP4gyee
+         to34sqR8i28OpXywNGZuRJ4tGx/809wj0U0Ox2piDEf/SaUod+dSoeCdiYH+BQ5QUTbL
+         +1MA==
+X-Gm-Message-State: AOAM531bc4WTg1l8ewXIJDKWrDAHAZsg73N6cNUyHz/G5nFYkIXfaOdC
+        3oChq0mDgFQo5Qj3aVUbJgfjXIgbJw==
+X-Google-Smtp-Source: ABdhPJwcsakYdfFcFOfWAxfpjWtQAy1hsG9kYylK6U1z+W9dz0HstcNWGR26ZyKh7ZHxUq2BPHRlyw==
+X-Received: by 2002:a63:8f4c:: with SMTP id r12mr51411688pgn.311.1609318017913;
+        Wed, 30 Dec 2020 00:46:57 -0800 (PST)
+Received: from localhost.localdomain ([216.52.21.4])
+        by smtp.gmail.com with ESMTPSA id 22sm41936113pfn.190.2020.12.30.00.46.56
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Dec 2020 00:46:57 -0800 (PST)
+From:   Praveen Chaudhary <praveen5582@gmail.com>
+X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
+To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Allow user to set metric on default route learned via Router Advertisement.
+Date:   Wed, 30 Dec 2020 00:46:43 -0800
+Message-Id: <1609318004-12709-1-git-send-email-pchaudhary@linkedin.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-return/jump-oriented programming attacks.  Details are in "Intel 64 and
-IA-32 Architectures Software Developer's Manual" [1].
+Allow user to set metric on default route learned via Router Advertisement.
+Not: RFC 4191 does not say anything for metric for IPv6 default route.
 
-CET can protect applications and the kernel.  This series enables only
-application-level protection, and has three parts:
+Fix:
+For IPv4, default route is learned via DHCPv4 and user is allowed to change
+metric using config etc/network/interfaces. But for IPv6, default route can
+be learned via RA, for which, currently a fixed metric value 1024 is used.
 
-  - Shadow stack [2],
-  - Indirect branch tracking [3], and
-  - Selftests [4].
+Ideally, user should be able to configure metric on default route for IPv6
+similar to IPv4. This fix adds sysctl for the same.
 
-I have run tests on these patches for quite some time, and they have been
-very stable.  Linux distributions with CET are available now, and Intel
-processors with CET are already on the market.  It would be nice if CET
-support can be accepted into the kernel.  I will be working to address any
-issues should they come up.
+Logs:
+----------------------------------------------------------------
+For IPv4:
+----------------------------------------------------------------
 
-Changes in v17:
-- Rebase to v5.11-rc1.
+Config in etc/network/interfaces
+----------------------------------------------------------------
+```
+auto eth0
+iface eth0 inet dhcp
+    metric 4261413864
+```
 
-[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+IPv4 Kernel Route Table:
+----------------------------------------------------------------
+```
+$ sudo route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.11.44.1     0.0.0.0         UG    -33553432 0        0 eth0
+```
 
-    https://software.intel.com/en-us/download/intel-64-and-ia-32-
-    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+FRR Table, if default route is learned via routing protocol too.
+----------------------------------------------------------------
+```
+# show ip route 
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       > - selected route, * - FIB route
 
-[2] CET Shadow Stack patches v16:
+S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
+K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
+```
 
-    https://lkml.kernel.org/r/20201209222320.1724-1-yu-cheng.yu@intel.com/
+----------------------------------------------------------------
+i.e. User can prefer Default Router learned via Routing Protocol, 
+Similar behavior is not possible for IPv6, without this fix.
 
-[3] Indirect Branch Tracking patches v16.
 
-    https://lkml.kernel.org/r/20201209222752.2911-1-yu-cheng.yu@intel.com/
+----------------------------------------------------------------
+After fix [for IPv6]:
+----------------------------------------------------------------
+```
+sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.accept_ra_defrtr_metric=0x770003e9
+```
 
-[4] I am holding off the selftests changes and working to get Acked-by's.
-    The earlier version of the selftests patches:
+IP monitor:
+----------------------------------------------------------------
+```
+default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
+```
 
-    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+Kernel IPv6 routing table
+----------------------------------------------------------------
+```
+Destination                    Next Hop                   Flag Met Ref Use If
+::/0                           fe80::be16:65ff:feb3:ce8e  UGDAe 1996489705 0    
+ 0 eth0
+```
 
-[5] The kernel ptrace patch is tested with an Intel-internal updated GDB.
-    I am holding off the kernel ptrace patch to re-test it with my earlier
-    patch for fixing regset holes.
+FRR Routing Table, if default route is learned via routing protocol.
+----------------------------------------------------------------
+# show ipv6 route 
+Codes: K - kernel route, C - connected, S - static, R - RIPng,
+       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+       v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       > - selected route, * - FIB route
 
-Yu-cheng Yu (26):
-  Documentation/x86: Add CET description
-  x86/cet/shstk: Add Kconfig option for user-mode control-flow
-    protection
-  x86/cpufeatures: Add CET CPU feature flags for Control-flow
-    Enforcement Technology (CET)
-  x86/cpufeatures: Introduce X86_FEATURE_CET and setup functions
-  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
-  x86/cet: Add control-protection fault handler
-  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-  x86/mm: Introduce _PAGE_COW
-  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
-  x86/mm: Update pte_modify for _PAGE_COW
-  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
-    transition from _PAGE_DIRTY to _PAGE_COW
-  mm: Introduce VM_SHSTK for shadow stack memory
-  x86/mm: Shadow Stack page fault error checking
-  x86/mm: Update maybe_mkwrite() for shadow stack
-  mm: Fixup places that call pte_mkwrite() directly
-  mm: Add guard pages around a shadow stack.
-  mm/mmap: Add shadow stack pages to memory accounting
-  mm: Update can_follow_write_pte() for shadow stack
-  mm: Re-introduce vm_flags to do_mmap()
-  x86/cet/shstk: User-mode shadow stack support
-  x86/cet/shstk: Handle signals for shadow stack
-  binfmt_elf: Define GNU_PROPERTY_X86_FEATURE_1_AND properties
-  ELF: Introduce arch_setup_elf_property()
-  x86/cet/shstk: Handle thread shadow stack
-  x86/cet/shstk: Add arch_prctl functions for shadow stack
-  mm: Introduce PROT_SHSTK for shadow stack
+S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
+K   ::/0 [119/1001] via fe80::be16:65ff:feb3:ce8e, eth0, 6d07h43m
+----------------------------------------------------------------
 
- .../admin-guide/kernel-parameters.txt         |   6 +
- Documentation/x86/index.rst                   |   1 +
- Documentation/x86/intel_cet.rst               | 136 +++++++
- arch/arm64/include/asm/elf.h                  |   5 +
- arch/x86/Kconfig                              |  28 ++
- arch/x86/Kconfig.assembler                    |   5 +
- arch/x86/ia32/ia32_signal.c                   |  17 +
- arch/x86/include/asm/cet.h                    |  42 +++
- arch/x86/include/asm/cpufeatures.h            |   4 +-
- arch/x86/include/asm/disabled-features.h      |  17 +-
- arch/x86/include/asm/elf.h                    |  13 +
- arch/x86/include/asm/fpu/internal.h           |  10 +
- arch/x86/include/asm/fpu/types.h              |  23 +-
- arch/x86/include/asm/fpu/xstate.h             |   6 +-
- arch/x86/include/asm/idtentry.h               |   4 +
- arch/x86/include/asm/mman.h                   |  83 +++++
- arch/x86/include/asm/mmu_context.h            |   3 +
- arch/x86/include/asm/msr-index.h              |  19 +
- arch/x86/include/asm/page_64_types.h          |  10 +
- arch/x86/include/asm/pgtable.h                | 202 ++++++++++-
- arch/x86/include/asm/pgtable_types.h          |  48 ++-
- arch/x86/include/asm/processor.h              |   5 +
- arch/x86/include/asm/special_insns.h          |  32 ++
- arch/x86/include/asm/trap_pf.h                |   2 +
- arch/x86/include/uapi/asm/mman.h              |  28 +-
- arch/x86/include/uapi/asm/prctl.h             |   4 +
- arch/x86/include/uapi/asm/processor-flags.h   |   2 +
- arch/x86/include/uapi/asm/sigcontext.h        |   9 +
- arch/x86/kernel/Makefile                      |   2 +
- arch/x86/kernel/cet.c                         | 343 ++++++++++++++++++
- arch/x86/kernel/cet_prctl.c                   |  68 ++++
- arch/x86/kernel/cpu/common.c                  |  40 +-
- arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
- arch/x86/kernel/fpu/signal.c                  | 100 +++++
- arch/x86/kernel/fpu/xstate.c                  |  10 +-
- arch/x86/kernel/idt.c                         |   4 +
- arch/x86/kernel/process.c                     |  14 +-
- arch/x86/kernel/process_64.c                  |  32 ++
- arch/x86/kernel/signal.c                      |  10 +
- arch/x86/kernel/signal_compat.c               |   2 +-
- arch/x86/kernel/traps.c                       |  59 +++
- arch/x86/mm/fault.c                           |  19 +
- arch/x86/mm/mmap.c                            |   2 +
- arch/x86/mm/pat/set_memory.c                  |   2 +-
- arch/x86/mm/pgtable.c                         |  25 ++
- drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
- fs/aio.c                                      |   2 +-
- fs/binfmt_elf.c                               |   4 +
- fs/proc/task_mmu.c                            |   3 +
- include/linux/elf.h                           |   6 +
- include/linux/mm.h                            |  38 +-
- include/linux/pgtable.h                       |  35 ++
- include/uapi/asm-generic/siginfo.h            |   3 +-
- include/uapi/linux/elf.h                      |   9 +
- ipc/shm.c                                     |   2 +-
- mm/gup.c                                      |   8 +-
- mm/huge_memory.c                              |  10 +-
- mm/memory.c                                   |   5 +-
- mm/migrate.c                                  |   3 +-
- mm/mmap.c                                     |  23 +-
- mm/mprotect.c                                 |   2 +-
- mm/nommu.c                                    |   4 +-
- mm/util.c                                     |   2 +-
- 63 files changed, 1576 insertions(+), 83 deletions(-)
- create mode 100644 Documentation/x86/intel_cet.rst
- create mode 100644 arch/x86/include/asm/cet.h
- create mode 100644 arch/x86/include/asm/mman.h
- create mode 100644 arch/x86/kernel/cet.c
- create mode 100644 arch/x86/kernel/cet_prctl.c
+Praveen Chaudhary (1):
+  Allow user to set metric on default route learned via Router
+    Advertisement.
+
+ Documentation/networking/ip-sysctl.rst |  8 ++++++++
+ include/linux/ipv6.h                   |  1 +
+ include/net/ip6_route.h                |  3 ++-
+ include/uapi/linux/ipv6.h              |  1 +
+ include/uapi/linux/sysctl.h            |  1 +
+ net/ipv6/addrconf.c                    | 10 ++++++++++
+ net/ipv6/ndisc.c                       | 15 +++++++++++----
+ net/ipv6/route.c                       |  8 +++++---
+ 8 files changed, 39 insertions(+), 8 deletions(-)
 
 -- 
-2.21.0
+2.7.4
 
