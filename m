@@ -2,111 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C93C4360C
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Dec 2020 14:32:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2D08C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Dec 2020 22:46:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06C6D223E0
-	for <linux-doc@archiver.kernel.org>; Thu, 31 Dec 2020 14:32:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9CAC206C0
+	for <linux-doc@archiver.kernel.org>; Thu, 31 Dec 2020 22:46:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727345AbgLaOb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 31 Dec 2020 09:31:57 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:33007 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726979AbgLaObb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Dec 2020 09:31:31 -0500
-Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D1484200005;
-        Thu, 31 Dec 2020 14:30:31 +0000 (UTC)
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: [PATCH v4 14/15] ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
-Date:   Thu, 31 Dec 2020 15:29:47 +0100
-Message-Id: <20201231142948.3241780-15-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
+        id S1726829AbgLaWqD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 31 Dec 2020 17:46:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbgLaWqD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 31 Dec 2020 17:46:03 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C9CC061573;
+        Thu, 31 Dec 2020 14:45:22 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 63D3260B;
+        Thu, 31 Dec 2020 22:45:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 63D3260B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1609454721; bh=tMnJuIUNfFdc8FRuTCustjnoFzYrW86BK7QzKx5Y8uY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fvvOqr2D52pcHO5U+rmC245H1ANjhQVhPQ8anZ3sJBAePTEwjDa+W/9hNIhZfzKuo
+         U0wmvhx02lT7Ujt1wzEOoOrgdXa8ooqrtpPF6OPicXT8h/FtmaASaUnD7TXHGTZEEi
+         7wyClBrH+KduCpG0eOzDy1xKoYn0PPVIlOoYroJA4RoqVZPX/mXlj+nJFhfokljBQI
+         4vYUBoPX4TMEmA1JFA7ldTGGmg6l4oN4a/0OKDTkYDgWBEEqoh/hk9hzIedT2uFTiA
+         0vb/iWkG1OPBhRRPNnSeUmIe7NjRu2w37HUpnSPW2miy2dFq27pl+/V7E6cx8vaZQ+
+         1UM8LIztNX5Xw==
+Date:   Thu, 31 Dec 2020 15:45:19 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>, rcu@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        andrealmeid@collabora.com
+Subject: Re: [PATCH v2] docs: Fix reST markup when linking to sections
+Message-ID: <20201231154519.25425c3b@lwn.net>
+In-Reply-To: <20201228144537.135353-1-nfraprado@protonmail.com>
+References: <20201228144537.135353-1-nfraprado@protonmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MIPI CSI-2 is supported on the A83T with a dedicated controller that
-covers both the protocol and D-PHY. It can be connected to the CSI
-interface as a V4L2 subdev through the fwnode graph.
+On Mon, 28 Dec 2020 14:46:07 +0000
+Nícolas F. R. A. Prado <nfraprado@protonmail.com> wrote:
 
-This is not done by default since connecting the bridge without a
-subdev attached to it will cause a failure on the CSI driver.
+> During the process of converting the documentation to reST, some links
+> were converted using the following wrong syntax (and sometimes using %20
+> instead of spaces):
+> 
+>    `Display text <#section-name-in-html>`__
+> 
+> This syntax isn't valid according to the docutils' spec [1], but more
+> importantly, it is specific to HTML, since it uses '#' to link to an
+> HTML anchor.
+> 
+> The right syntax would instead use a docutils hyperlink reference as the
+> embedded URI to point to the section [2], that is:
+> 
+>    `Display text <Section Name_>`__
+> 
+> This syntax works in both HTML and PDF.
+> 
+> The LaTeX toolchain doesn't mind the HTML anchor syntax when generating
+> the pdf documentation (make pdfdocs), that is, the build succeeds but
+> the links don't work, but that syntax causes errors when trying to build
+> using the not-yet-merged rst2pdf:
+> 
+>    ValueError: format not resolved, probably missing URL scheme or undefined destination target for 'Forcing%20Quiescent%20States'
+> 
+> So, use the correct syntax in order to have it work in all different
+> output formats.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Applied, thanks.
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index c010b27fdb6a..d6d55c12b995 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -1066,6 +1066,32 @@ csi_in: port {
- 			};
- 		};
- 
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-a83t-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI_SCLK>,
-+				 <&ccu CLK_MIPI_CSI>,
-+				 <&ccu CLK_CSI_MISC>;
-+			clock-names = "bus", "mod", "mipi", "misc";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				mipi_csi2_in: port@0 {
-+					reg = <0>;
-+				};
-+
-+				mipi_csi2_out: port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
- 		hdmi: hdmi@1ee0000 {
- 			compatible = "allwinner,sun8i-a83t-dw-hdmi";
- 			reg = <0x01ee0000 0x10000>;
--- 
-2.29.2
-
+jon
