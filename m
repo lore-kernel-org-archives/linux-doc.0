@@ -2,94 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 911BEC433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jan 2021 22:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C8E4C432C3
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jan 2021 15:22:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AEED2184D
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jan 2021 22:22:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E387322482
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jan 2021 15:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbhAAWWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jan 2021 17:22:09 -0500
-Received: from mout.gmx.net ([212.227.17.20]:47757 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727147AbhAAWWJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 1 Jan 2021 17:22:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1609539590;
-        bh=jMwXiMjRPNgjy8AA61m/2S9siVt4OWWaNSlKQ33wBSk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=UHfQ+4E8+6bt7niXqDPg9a/Bs8CVJccbrLd7hichakV7H7Wi1WmZeaHIhWtCdri4V
-         zyFBSGZDT+hzmXhMwg3bdU4JEOM0V4nnt83oivBV4ns2F8fbRdhcSzPhckcxzx8bdx
-         sPEGWOzBsfEUjG1j/q/hc1wHQQnp892KYhzBYHQw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.215.57]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MirjY-1kPRwY2E1k-00ewkT; Fri, 01
- Jan 2021 23:19:50 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: ALSA: Fix reference to mixart.rst
-Date:   Fri,  1 Jan 2021 23:19:42 +0100
-Message-Id: <20210101221942.1068388-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.29.2
+        id S1726781AbhABPWL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jan 2021 10:22:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726766AbhABPWK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jan 2021 10:22:10 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29F1C0613ED;
+        Sat,  2 Jan 2021 07:21:27 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id 91so26566410wrj.7;
+        Sat, 02 Jan 2021 07:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7FOerU/+uiaLOx8IjnYNL5LXRoiyAnmqji55A4AV5Zs=;
+        b=LBsSYTbjwdI3QmQu4IbgQ7olNGDMBAqElqxAyPsojxLe7NcTh8El+Pke0BmUM22eYb
+         AuZq9SBpNP53WKEFTQdHVDQPCC/8PDYsWLnhkSG7Q2av8EAE8APyACuUnwA3w3t7JqWh
+         R4mCXlk4y9W+n2bx+NU4V6SqSobRuYDWexgtwJuMlhnrLQQMDddC3lR9NTJlDYGo4U1G
+         Yntmje7tslRu50v12yeP/tlquNu8wXFd0g77n+FLG0DNgXfWPtBPtB8SMzz/3+rhpWhR
+         Epwmsr+CSoG9EWj2xUflykAOxhsPhi2ABMO72oHO7eo5cj09XjFAKrK+DFY/UA4J8N0y
+         OWaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7FOerU/+uiaLOx8IjnYNL5LXRoiyAnmqji55A4AV5Zs=;
+        b=H54ehalIm4pDyQ20WUtcI4FW9hSb/7osqZR9HBk+rzMD32OM0cWqAMMMZMfZA57Cf3
+         vQi8Sj5yv6SHhQS95nr2OUK1mjnpOtKZUG8PVsCw6PAvEy4fiUmny0scjRb6fl4SZsZy
+         o4b40qV+ruSi90OC0jZjPHrZI6g1T/dgX2Ugeb1HBzf4S7IUbhnmDMNmF/PFl5yVX7xm
+         4IclwqlzPwjK8Jg3lMyiNZjYTz12SBI0ZyCg2AAfZz7YYJAWa6rkZfXxuPDihImJn4Nu
+         Gq7GXbvd2PkE5TkzKNekGWANcuToq2oH/VBogzBNfn+XvvXfUT84qfH/bendRWDaRiUF
+         /zew==
+X-Gm-Message-State: AOAM532vVaNBSbbz8b10LLhrk1DTnnHmFPlkojsPahgQLncNsDl1DcF0
+        +NvOfaLIqM84eM+Qv+AfvBJCAsRBSy/3UQ==
+X-Google-Smtp-Source: ABdhPJzvzXyfPCTdTGrqpyWR+n7zH7gi0rGiGb6+ilO2BRa7Nk9Cv57P3HckjnOAEWjCCb1q8AjWLg==
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr71303602wru.86.1609600886321;
+        Sat, 02 Jan 2021 07:21:26 -0800 (PST)
+Received: from localhost.localdomain ([85.255.236.0])
+        by smtp.gmail.com with ESMTPSA id h13sm78671243wrm.28.2021.01.02.07.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jan 2021 07:21:25 -0800 (PST)
+From:   Pavel Begunkov <asml.silence@gmail.com>
+To:     linux-block@vger.kernel.org
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Ming Lei <ming.lei@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2 3/7] block/psi: remove PSI annotations from direct IO
+Date:   Sat,  2 Jan 2021 15:17:35 +0000
+Message-Id: <c77839347f1f3fdf917ac2bc251310f1c1f26044.1609461359.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1609461359.git.asml.silence@gmail.com>
+References: <cover.1609461359.git.asml.silence@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u4OdV2KYuu67DbBoGJ+25LQDNFC8odVCZqA11wCKXavaJOYVKwA
- pcmu2JFhX/flR4D295h0ysUXE/v10ePDzBCr9IcbGlq0JWlwb6h7OWQC1bcDQ46QmQdk8tq
- L4W/P8d00ttRVpzgMypWKdezTwGZ18VkVUIiuNlfbs//F0mQEi7GdSiGLvfeVZdUOSzcTNH
- STehxjVcTlsvITUojTv0A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:n+OgFaAHS4w=:sAJG1ANtldmAofN6xRLV+u
- e0siHJqME3EYMHQ/iVVlV0bwsjj9QHlSHYm18twbi4ELiu4RkcRu6xT8eQadCEP05Qg+KW/tL
- PEInvzoLsz71c+6u+rbSmtGhn33gQxPNi0cz8EpKS5rKzBUaPUF7Pm++NhM+QHdwSRxwqOQAo
- xabZOhEQ7uD7A+BUyrTqPzIVaAiiBR2GCDPd5x6s4cENQZgKkUsNQf3Ca0IOBxvNjqlwA8WxK
- jdL14vi4QJl2zVYQN7NjLd8c5FSxQIQXGMdbFjJ8X0i0ogyr5KjdYiuhF5e4zxW/EvxWmB9vn
- gklr3msPag3uIhPZ/e0fXJoBuoVQIwOzUVzbxjC16uIFZC4+EFwwPHNYN1botom4xNUhzkpSa
- M662+Bk01E+bSrGKGe81v8oqmh+ncGt1XH+TXuOhCyRnOfkphN5WhWGq3fcfl/W/ho4txXAv/
- P79l2ZfAiB5QSaZ0bOAK4Rm/0H1qAGlBnhBTd767Cw+1WLyw8BZZQfphEPkoVVKBLArrAdKXn
- 8eAT8SAJsewfUK/1l7i4BirIdAB5tXiF0m3InKZ9j66dexUkMpAUGoqb6C/6LIJcph9S6gr0b
- Lz9WBBLXLYW2IGO3ludLk/jVUPK04X6YPtoCnZvSsZO/LQmXJVVSkET1ICASPjU5tC5XzEWIg
- LB6v3Kxhi6x0zi9AfgHoX2ns1BJ2VdzaPqpB8xwpJ2OUnzEyKAQn7jKoFemY8FgrXsOid0tPp
- 0n0VdrQGBUl1MIdpKBzCpNs56kNKqNRHg0G3jDoGE+eBENRqgHsTKjBVXpf2dea0HrNNDEsu4
- olls2alLEG7/8PT0VpHdx7BTqs01mzo+UqU///Kc1PXYyUdtyKx878Q3dF1LQdceafP5NUAoi
- H12oeTUaUnKu6Fb9ZL0g==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-MIXART.txt has been converted to ReST and renamed. Fix the reference
-in alsa-configuration.rst.
+Direct IO does not operate on the current working set of pages managed
+by the kernel, so it should not be accounted as memory stall to PSI
+infrastructure.
 
-Fixes: 3d8e81862ce4 ("ALSA: doc: ReSTize MIXART.txt")
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/sound/alsa-configuration.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The block layer and iomap direct IO use bio_iov_iter_get_pages()
+to build bios, and they are the only users of it, so to avoid PSI
+tracking for them clear out BIO_WORKINGSET flag. Do same for
+dio_bio_submit() because fs/direct_io constructs bios by hand directly
+calling bio_add_page().
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/so=
-und/alsa-configuration.rst
-index fe52c314b7639..b36af65a08edf 100644
-=2D-- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -1501,7 +1501,7 @@ Module for Digigram miXart8 sound cards.
+Reported-by: Christoph Hellwig <hch@infradead.org>
+Suggested-by: Christoph Hellwig <hch@infradead.org>
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ block/bio.c    | 6 ++++++
+ fs/direct-io.c | 2 ++
+ 2 files changed, 8 insertions(+)
 
- This module supports multiple cards.
- Note: One miXart8 board will be represented as 4 alsa cards.
--See MIXART.txt for details.
-+See Documentation/sound/cards/mixart.rst for details.
-
- When the driver is compiled as a module and the hotplug firmware
- is supported, the firmware data is loaded via hotplug automatically.
-=2D-
-2.29.2
+diff --git a/block/bio.c b/block/bio.c
+index 1f2cc1fbe283..9f26984af643 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -1099,6 +1099,9 @@ static int __bio_iov_append_get_pages(struct bio *bio, struct iov_iter *iter)
+  * fit into the bio, or are requested in @iter, whatever is smaller. If
+  * MM encounters an error pinning the requested pages, it stops. Error
+  * is returned only if 0 pages could be pinned.
++ *
++ * It's intended for direct IO, so doesn't do PSI tracking, the caller is
++ * responsible for setting BIO_WORKINGSET if necessary.
+  */
+ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ {
+@@ -1123,6 +1126,9 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter)
+ 
+ 	if (is_bvec)
+ 		bio_set_flag(bio, BIO_NO_PAGE_REF);
++
++	/* don't account direct I/O as memory stall */
++	bio_clear_flag(bio, BIO_WORKINGSET);
+ 	return bio->bi_vcnt ? 0 : ret;
+ }
+ EXPORT_SYMBOL_GPL(bio_iov_iter_get_pages);
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index d53fa92a1ab6..0e689233f2c7 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -426,6 +426,8 @@ static inline void dio_bio_submit(struct dio *dio, struct dio_submit *sdio)
+ 	unsigned long flags;
+ 
+ 	bio->bi_private = dio;
++	/* don't account direct I/O as memory stall */
++	bio_clear_flag(bio, BIO_WORKINGSET);
+ 
+ 	spin_lock_irqsave(&dio->bio_lock, flags);
+ 	dio->refcount++;
+-- 
+2.24.0
 
