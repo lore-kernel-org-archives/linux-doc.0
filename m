@@ -2,66 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A88CC4332B
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20214C433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6392D2245C
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:22:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6B9C224D2
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:37:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727982AbhADQW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jan 2021 11:22:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49190 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727886AbhADQW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jan 2021 11:22:28 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E90C061574;
-        Mon,  4 Jan 2021 08:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=l2WBiCb5duYJRA9nKpihqrJOH1Qjg6utSrFiu8qAdtc=; b=c0jpPOEqnvAg3akTI36JpIt9xU
-        3Ekb+xZLKcCXAuP6aX6X9X8OGfhEZ17fGCaGMIef9SYWHAdGFc3uo+vlM9b1aXhF2iUKc3eoM/+dB
-        IQGe6jvfoR/G8XoGFUMvlRk4jRdegFaYaE6jx2RsUzv3k6nJKLUfpQHggy8F8pB0AZd+3mRagBkmm
-        m3WCbGkk0X4L0vgPqIe18hM7QT3VbjVhhWEDpUWZER/+kUzQkuZsCNMWKvmvJtTLy6zB8vkGFhGvM
-        MziqpdCXp1G/luzbgryf1rW4esI1mIB1/QXusWuiHmvToORh0ubs8CpGH8homiD0Ul2EDf3i99GBY
-        fTjSWP2g==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1kwSbF-000I7h-7f; Mon, 04 Jan 2021 16:20:54 +0000
-Date:   Mon, 4 Jan 2021 16:20:53 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Pavel Begunkov <asml.silence@gmail.com>
-Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Ming Lei <ming.lei@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] bio: don't copy bvec for direct IO
-Message-ID: <20210104162053.GC68600@infradead.org>
-References: <cover.1609461359.git.asml.silence@gmail.com>
- <29ed343fa15eb4139f8ab9104d3f9b16fe025dfd.1609461359.git.asml.silence@gmail.com>
+        id S1727247AbhADQhg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jan 2021 11:37:36 -0500
+Received: from mga14.intel.com ([192.55.52.115]:38050 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726098AbhADQhf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Jan 2021 11:37:35 -0500
+IronPort-SDR: SlmnHzossjxN0MkA0zT5uunUOeTwfZyjAGxIUItGXXo2ba+U5I88Kxutqc/fSoCShOxCTuOQXj
+ 4WTzB4gKYEng==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="176195116"
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="176195116"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:36:54 -0800
+IronPort-SDR: N+mkhNAODPxP9UE0q46ZQnx1alHTCFQWhK0p/3ikPIMn8HhiciueGXhqwWEnSzo6VfuLYMrrtC
+ 441lse0j6A3A==
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="421423006"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:36:54 -0800
+Date:   Mon, 4 Jan 2021 08:36:53 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Hao Li <lihao2018.fnst@cn.fujitsu.com>
+Cc:     corbet@lwn.net, davem@davemloft.net, gregkh@linuxfoundation.org,
+        alexander.deucher@amd.com, mchehab+huawei@kernel.org,
+        lee.jones@linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/dax: Update description of DAX policy
+ changing
+Message-ID: <20210104163653.GG3097896@iweiny-DESK2.sc.intel.com>
+References: <20210104024040.5381-1-lihao2018.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <29ed343fa15eb4139f8ab9104d3f9b16fe025dfd.1609461359.git.asml.silence@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210104024040.5381-1-lihao2018.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Looks good,
+On Mon, Jan 04, 2021 at 10:40:40AM +0800, Hao Li wrote:
+> After commit 77573fa310d9 ("fs: Kill DCACHE_DONTCACHE dentry even if
+> DCACHE_REFERENCED is set"), changes to DAX policy will take effect
+> as soon as all references to this file are gone.
+> 
+> Update the documentation accordingly.
+> 
+> Signed-off-by: Hao Li <lihao2018.fnst@cn.fujitsu.com>
+> ---
+>  Documentation/filesystems/dax.txt | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
+> index 8fdb78f3c6c9..a5af22831087 100644
+> --- a/Documentation/filesystems/dax.txt
+> +++ b/Documentation/filesystems/dax.txt
+> @@ -84,19 +84,8 @@ Summary
+>         described in 6) below.
+>  
+>   6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX flag,
+                                                                                  ^^
+                                                  I would delete this '.' as well.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> -    the change in behaviour for existing regular files may not occur
+> -    immediately.  If the change must take effect immediately, the administrator
+> -    needs to:
+> -
+> -    a) stop the application so there are no active references to the data set
+> -       the policy change will affect
+> -
+> -    b) evict the data set from kernel caches so it will be re-instantiated when
+> -       the application is restarted. This can be achieved by:
+> -
+> -       i. drop-caches
+> -       ii. a filesystem unmount and mount cycle
+> -       iii. a system reboot
+> +    the change to existing regular file won't take effect until the file is closed
+                                                                      ^^^^^
+                                                                      files
+
+> +    by all processes or all processes referencing the file are stopped.
+
+So how about:
+
+   6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX
+      flag the change to existing regular files won't take effect until the file
+      is closed by all processes or all processes referencing the file are
+      stopped.
+
+I also feel like mentioning the stoppage of process' is redundant as users
+should know that will result in the closing of those FDs but I'm ok leaving it
+if others like it.
+
+Ira
+
+>  
+>  
+>  Details
+> -- 
+> 2.29.2
+> 
+> 
+> 
