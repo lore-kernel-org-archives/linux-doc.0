@@ -2,114 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34068C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 10:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35A7CC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 10:53:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04C5A20780
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 10:00:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F297421D79
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 10:53:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbhADKAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jan 2021 05:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbhADKAa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jan 2021 05:00:30 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B068EC061574;
-        Mon,  4 Jan 2021 01:59:49 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id y23so18728792wmi.1;
-        Mon, 04 Jan 2021 01:59:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=K5SA1Kqz0dt8CUajBPOd9U9d9H1oNPjs6B9I4sOCihg=;
-        b=s/ndwmXPjggdbAmH8nqLSw+5NLZoYG0yiBdSUadb61dYmcBPO1+VTHoKQ7iDsge4PD
-         VMkeS4AL6TNM5gNMY50C450CXct9J2X2Iam2lsvGQw4qOgZRFrNFl8mxw97xbENJ7GrK
-         BaL0J8Bsb+UE+IwYXu89+2fk3uYTRLfRMZzEgs1h6xpErc9QcxA5eCExmxn+tqTEtOHK
-         vZohNzMNBax92I9VU+iJyK4wFYZSgsduWuT9C8QBV4olifjt34uG4QZVVKOcVxY7WLU8
-         a3yWLhtFvj7as2tbIgydyhfaDB6st6/k19iV2pebM3SDNiOcEmb8KMCAiB/TZcyopHt1
-         moNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=K5SA1Kqz0dt8CUajBPOd9U9d9H1oNPjs6B9I4sOCihg=;
-        b=LffyVqKqM6siqrt4+3FoL2cixXGW3+7cpw/Cr1iuogceSgTbhxCuIo4gnZs7ezYQW8
-         WsbjiHrKnc4DqUi5hDtkZDixIJgIcxFBKlNMQbRXQ+H3rH1jHSmtT/ju3Pq/X/c/k8Fx
-         0qP/TmrRI41bkNFYS0CvjIw+vRzH35RUH9OyEiQXxrjzRz1Xk2DTK8n8t68uIL/qFWdk
-         J7nxzzjHcuI79YHKXfdHrGr9H8yqYp5EF4yC3Ljm0C6VxyHkaVQ5U0a8aKV2iHnEO8rz
-         hIW3gXsCMbn8nroiiwxsHIRORrqG6+TzuqXxWB5Dn+phLpJP1v2AlZnexazyv63OY9vM
-         Zrfw==
-X-Gm-Message-State: AOAM531t44wma4tB7A/LxWD3Wb6lXXMFqquisRrmvz0D6jRk1xMGmxck
-        LQeKO6aLRvQ7jIQuEWSQeZk=
-X-Google-Smtp-Source: ABdhPJxHcxk8Zms1qD+WtiLwvK1ZD5IQG8mz5G59lWDzup0lUO9dL59+ZWr+7qzzSVZajuoxy8/KZA==
-X-Received: by 2002:a05:600c:214a:: with SMTP id v10mr25791435wml.138.1609754388432;
-        Mon, 04 Jan 2021 01:59:48 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2da9:600:3101:95d1:b0b:2d5a])
-        by smtp.gmail.com with ESMTPSA id b9sm35572840wmd.32.2021.01.04.01.59.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jan 2021 01:59:47 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        id S1726864AbhADKwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jan 2021 05:52:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56158 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726642AbhADKwm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 4 Jan 2021 05:52:42 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 28DC921E92;
+        Mon,  4 Jan 2021 10:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609757521;
+        bh=yCS/H6aJTt1wzx9x4HeCFHymxrj9yPku3Xzccp3e8O8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=f7iIoLIoGBUmEY8KBSNAMkcLrUee3scGwOGiZarB5Y2vpEDflGLaclao7k1/6fMax
+         c3CDxaf2Ry92mPb53JZtNWsZB5rdikA0xiRjIuIFaZ5cYSsn5P3TCX1KRd4bukCJ4j
+         jGTCaEBavYbslgWDujZ12UZiNsmYhRjaWPRcahy5xg5gTnsK6WvjcGXEWHm0APKvRI
+         v2fXQChImr2/Hcgs/dU/KxtJcx9im7+1GTjCxDyX/ZZ3IFnyWt8w5MHDiG1oWUueUz
+         Q1YuI0sr/qN9ttjeuurQCFC+22d3GZ7VEN0nK4qZk8UPYeea0lMMPyoCd1cZ4LaAaR
+         mZiVwJiXkVaYQ==
+Date:   Mon, 4 Jan 2021 11:51:51 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+cc:     linux-kernel@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-doc@vger.kernel.org
-Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] KVM: Documentation: rectify rst markup in KVM_GET_SUPPORTED_HV_CPUID
-Date:   Mon,  4 Jan 2021 10:59:38 +0100
-Message-Id: <20210104095938.24838-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Subject: Re: [PATCH v2 0/8] Documentation: HID: edit/correct all files
+In-Reply-To: <20201228205327.1063-1-rdunlap@infradead.org>
+Message-ID: <nycvar.YFH.7.76.2101041151400.13752@cbobk.fhfr.pm>
+References: <20201228205327.1063-1-rdunlap@infradead.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit c21d54f0307f ("KVM: x86: hyper-v: allow KVM_GET_SUPPORTED_HV_CPUID
-as a system ioctl") added an enumeration in the KVM_GET_SUPPORTED_HV_CPUID
-documentation improperly for rst, and caused new warnings in make htmldocs:
+On Mon, 28 Dec 2020, Randy Dunlap wrote:
 
-  Documentation/virt/kvm/api.rst:4536: WARNING: Unexpected indentation.
-  Documentation/virt/kvm/api.rst:4538: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Make editing corrections to all files in Documentation/hid/.
+> 
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: linux-iio@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> 
+>  [PATCH v2 1/8] Documentation: HID: hid-alps editing & corrections
+>  [PATCH v2 2/8] Documentation: HID: amd-sfh-hid editing & corrections
+>  [PATCH v2 3/8] Documentation: HID: hiddev editing & corrections
+>  [PATCH v2 4/8] Documentation: HID: intel-ish-hid editing & corrections
+>  [PATCH v2 5/8] Documentation: HID: hidraw editing & corrections
+>  [PATCH v2 6/8] Documentation: HID: hid-sensor editing & corrections
+>  [PATCH v2 7/8] Documentation: HID: hid-transport editing & corrections
+>  [PATCH v2 8/8] Documentation: HID: uhid editing & corrections
+> 
+>  Documentation/hid/amd-sfh-hid.rst   |   22 +++----
+>  Documentation/hid/hid-alps.rst      |    4 -
+>  Documentation/hid/hid-sensor.rst    |   18 +++---
+>  Documentation/hid/hid-transport.rst |   12 ++--
+>  Documentation/hid/hiddev.rst        |   10 +--
+>  Documentation/hid/hidraw.rst        |    5 +
+>  Documentation/hid/intel-ish-hid.rst |   78 +++++++++++++-------------
+>  Documentation/hid/uhid.rst          |   34 +++++------
+>  8 files changed, 93 insertions(+), 90 deletions(-)
 
-Fix that issue and another historic rst markup issue from the initial
-rst conversion in the KVM_GET_SUPPORTED_HV_CPUID documentation.
+Queued in hid.git#for-5.12/doc. Thanks,
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on v5.11-rc2 and next-20210104
-
-Jonathan, please pick this minor doc warning fixup.
-
- Documentation/virt/kvm/api.rst | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index c136e254b496..9c04b9e0c78a 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4508,6 +4508,7 @@ KVM_GET_SUPPORTED_CPUID ioctl because some of them intersect with KVM feature
- leaves (0x40000000, 0x40000001).
- 
- Currently, the following list of CPUID leaves are returned:
-+
-  - HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS
-  - HYPERV_CPUID_INTERFACE
-  - HYPERV_CPUID_VERSION
-@@ -4532,6 +4533,7 @@ userspace should not expect to get any particular value there.
- Note, vcpu version of KVM_GET_SUPPORTED_HV_CPUID is currently deprecated. Unlike
- system ioctl which exposes all supported feature bits unconditionally, vcpu
- version has the following quirks:
-+
- - HYPERV_CPUID_NESTED_FEATURES leaf and HV_X64_ENLIGHTENED_VMCS_RECOMMENDED
-   feature bit are only exposed when Enlightened VMCS was previously enabled
-   on the corresponding vCPU (KVM_CAP_HYPERV_ENLIGHTENED_VMCS).
 -- 
-2.17.1
+Jiri Kosina
+SUSE Labs
 
