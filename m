@@ -2,64 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB5AC43217
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC08C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 17:27:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19A4F2251F
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 16:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6028F22509
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 17:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727672AbhADQ66 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jan 2021 11:58:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54874 "EHLO
+        id S1726419AbhADR1g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jan 2021 12:27:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727192AbhADQ6y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jan 2021 11:58:54 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9862C061795;
-        Mon,  4 Jan 2021 08:58:13 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id c133so19102333wme.4;
-        Mon, 04 Jan 2021 08:58:13 -0800 (PST)
+        with ESMTP id S1726189AbhADR1g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jan 2021 12:27:36 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E257BC061574;
+        Mon,  4 Jan 2021 09:26:55 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id c133so19190460wme.4;
+        Mon, 04 Jan 2021 09:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=to:cc:references:from:autocrypt:subject:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UJYMdZ73nO/ztE6W7LiWsUeFEuTaj0uyXsQLPX54cic=;
-        b=LGckwdlLnk1vvXgMKkoeIFeHw6BydohIF8BGeWROtoKqo80UoLuKUz4fLZOASoW+S2
-         011dlsg2R8tCKFSnd/JrRCa/0OLdUSm/psjj8o+Jx9pqOrGIHXAiDa+gO5MRpEkb4UBw
-         GlPnN+umnbBEJCF26g4m8WHPHsyCGg4M2O8d98cHNqOUNVpvIRS97T4gy67EOhQEf4yB
-         12OQ53d6TfAmfbY/n5Ld963+N2VCOT3ZeRT60GBgBGdKhkmLUZ0RZkAT0rDtlj4o/l0E
-         gBatvBXaR7fiI8wKt4Th4qp/eY806mFaW4J0Yvh/pD+bnznE0xCeEn2sYVBceQbwEG2Z
-         v2ig==
+        bh=vhZcYxw85hQr217njjB88qNCX1pBfOIpilSgl/Wkqsk=;
+        b=lIvmXiWTK3tUPBqWNrMOzheIsKhz7ZK+Gj2aSDsVfam72rOuxAWCFOkzIuJi0UsLxv
+         xkwkBKgOZrfHKM85yWWIlww4h1ZvB7yUwzfOAux3kdtbgfSf7h8ivjwrcNh0p7y4HdNn
+         8itAJ2XuJmi6vDeWNuCqW8VYRh4gv8hdJgmnQoEqKbIWb+Z4KEXZAwuMyoNLr4IZR8jI
+         aTmi9sZmmEOpaM0ggqRxS6kazZP8OR3uyS96Lq6tPI2PfijJtUEAo1vQIINoegC9aWFy
+         S6BEMFntgGhUvDevrkxH3KYGt7t5GANVjxTQL/cE9qrO2Ya1x8yU1lytKf1xWEgbON8c
+         rbyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:to:cc:references:from:autocrypt:subject
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=UJYMdZ73nO/ztE6W7LiWsUeFEuTaj0uyXsQLPX54cic=;
-        b=G7G6+QXyVRDye8mVQchaRo8WBmQ1OaOXMz48fhyY2+27fXJ+luagSkDK5tMBegGHPJ
-         M7e0shVhF8/R39z/rmaKxigjFl7kvv8hRluq/4+pBMsJdSkq4Ku4bjl9gYx/RwXcpQ4s
-         hUV0KfPjv/J8M4kKufxTorAyh0mtlxqW8+wEW0KUoY41NCdDAT/gQTkFYmlWQrPZEMwQ
-         bF5OM2ZH/cu9YV/M/aDfpxyhcEseB53a1Le+o9MG9fjfjbzd8InaVODSLDbO8sNwTJyN
-         vVRuyKkqFoyyK/C0VKwrWewaZy7peTP444cGT0cGbyDNDqDrG3aF3jW4+oXKW3UWh3sd
-         IXOg==
-X-Gm-Message-State: AOAM530KW7sWtzGl07T06KRxc0Kup2jTzbTB46LNAmP/IlEqp+8su4MC
-        RNbiOmgNVuVjRsP+QKVLlCbUwa7oxUDpDmJF
-X-Google-Smtp-Source: ABdhPJzyyKOPG4henaerjY6JRXo5/vhdCWl8sAVm0Z/yV/Jc8CrOa5pAL9LJpHaOQ/SVprxyGBSZ/Q==
-X-Received: by 2002:a1c:2ed2:: with SMTP id u201mr27463445wmu.79.1609779492430;
-        Mon, 04 Jan 2021 08:58:12 -0800 (PST)
+        bh=vhZcYxw85hQr217njjB88qNCX1pBfOIpilSgl/Wkqsk=;
+        b=R89yQVPBe9zPNaNQl9mzlOv6HbF/VlmlsMsVggmBS7xVQH/bKDC1G+tB1m6bRG/5Ro
+         1aMbVgv/mIHDR2qyfroYXiu/G4Ehe1xSoFe8KTs1JZ28phRzLYTBgyDdjiu91HtSjSa4
+         0H5SnLu62t91zlRxs0sq+R6vPhu6eWwSYWS34zjQ98Ag28bNLZsfLmE7F5F1RSNhtdrR
+         6XggWy2CI+dZLI3DwbGgNXhhKWnVquN9wXcL9SNrdXTQ89GIdOPfOPDoEWuXWNr3bTVs
+         BB+Ot7Q6/LESowPwk/25+6swQLHIh4mrRsikx3dRngz195xeUHVTAEDxlUhdyPYc0Q4Q
+         qTdw==
+X-Gm-Message-State: AOAM530gbRC2rybgYFCurWYF3oyFzyJSEi67AzJLEgxT/KrsgegYR3gA
+        ZkSguTF79uIQd183DS4EAV0eSW+uqZSQr7w0
+X-Google-Smtp-Source: ABdhPJwKi+A2PZ7gJsqOn5Ymq1PeYPvYx8txZ71YhsB/T4YTc39zWcuXj3Vp193rQV2REjlyyPEgXQ==
+X-Received: by 2002:a7b:cf30:: with SMTP id m16mr27225859wmg.145.1609781214488;
+        Mon, 04 Jan 2021 09:26:54 -0800 (PST)
 Received: from [192.168.8.190] ([85.255.233.205])
-        by smtp.gmail.com with ESMTPSA id c6sm71218419wrh.7.2021.01.04.08.58.11
+        by smtp.gmail.com with ESMTPSA id n14sm5213wmi.1.2021.01.04.09.26.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jan 2021 08:58:11 -0800 (PST)
-To:     Christoph Hellwig <hch@infradead.org>
+        Mon, 04 Jan 2021 09:26:54 -0800 (PST)
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Matthew Wilcox <willy@infradead.org>,
+        Christoph Hellwig <hch@infradead.org>,
         Ming Lei <ming.lei@redhat.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -70,8 +70,8 @@ Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
         linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
         linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
 References: <cover.1609461359.git.asml.silence@gmail.com>
- <ca14f80bf5156d83b38f543be2b9434a571474c9.1609461359.git.asml.silence@gmail.com>
- <20210104161716.GA68600@infradead.org>
+ <b46b8c1943bbefcb90ea5c4dd9beaad8bbc15448.1609461359.git.asml.silence@gmail.com>
+ <20210104163755.GA22407@casper.infradead.org>
 From:   Pavel Begunkov <asml.silence@gmail.com>
 Autocrypt: addr=asml.silence@gmail.com; prefer-encrypt=mutual; keydata=
  mQINBFmKBOQBEAC76ZFxLAKpDw0bKQ8CEiYJRGn8MHTUhURL02/7n1t0HkKQx2K1fCXClbps
@@ -116,13 +116,13 @@ Autocrypt: addr=asml.silence@gmail.com; prefer-encrypt=mutual; keydata=
  UVMKkOCdFhutRmYp0mbv2e87IK4erwNHQRkHUkzbsuym8RVpAZbLzLPIYK/J3RTErL6Z99N2
  m3J6pjwSJY/zNwuFPs9zGEnRO4g0BUbwGdbuvDzaq6/3OJLKohr5eLXNU3JkT+3HezydWm3W
  OPhauth7W0db74Qd49HXK0xe/aPrK+Cp+kU1HRactyNtF8jZQbhMCC8vMGukZtWaAwpjWiiH bA==
-Subject: Re: [PATCH v2 1/7] splice: don't generate zero-len segement bvecs
-Message-ID: <333a7628-904b-c02a-b871-298b4833974a@gmail.com>
-Date:   Mon, 4 Jan 2021 16:54:42 +0000
+Subject: Re: [PATCH v2 2/7] bvec/iter: disallow zero-length segment bvecs
+Message-ID: <c535efd4-7c3d-22ab-9519-8bb34a10ae78@gmail.com>
+Date:   Mon, 4 Jan 2021 17:23:24 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20210104161716.GA68600@infradead.org>
+In-Reply-To: <20210104163755.GA22407@casper.infradead.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -130,40 +130,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/01/2021 16:17, Christoph Hellwig wrote:
-> On Sat, Jan 02, 2021 at 03:17:33PM +0000, Pavel Begunkov wrote:
->> iter_file_splice_write() may spawn bvec segments with zero-length. In
->> preparation for prohibiting them, filter out by hand at splice level.
->>
->> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
->> ---
->>  fs/splice.c | 9 +++++----
->>  1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/fs/splice.c b/fs/splice.c
->> index 866d5c2367b2..7299330c3270 100644
->> --- a/fs/splice.c
->> +++ b/fs/splice.c
->> @@ -644,7 +644,6 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
->>  		ret = splice_from_pipe_next(pipe, &sd);
->>  		if (ret <= 0)
->>  			break;
->> -
+On 04/01/2021 16:37, Matthew Wilcox wrote:
+> On Sat, Jan 02, 2021 at 03:17:34PM +0000, Pavel Begunkov wrote:
+>> --- a/Documentation/filesystems/porting.rst
+>> +++ b/Documentation/filesystems/porting.rst
+>> @@ -865,3 +865,10 @@ no matter what.  Everything is handled by the caller.
+>>  
+>>  clone_private_mount() returns a longterm mount now, so the proper destructor of
+>>  its result is kern_unmount() or kern_unmount_array().
+>> +
+>> +---
+>> +
+>> +**mandatory**
+>> +
+>> +zero-length bvec segments are disallowed, they must be filtered out before
+>> +passed on to an iterator.
 > 
-> Spurious empty line removal..
-> 
->> +			if (!this_len)
->> +				continue;
-> 
-> Maybe throw in a comment on why we skip empty segments here?
+> Why are you putting this in filesystems/porting?  Filesystems don't usually
 
-Definitely won't hurt. Thanks for taking a look
+At least splice and a dozen of others do. As block apriori doesn't have them,
+it's mainly addressed to fs + net. 
 
-> 
-> Otherwise looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
+> generate bvecs ... there's nothing in this current series that stops them.
+
+Yes, just mixing it with splice changes, which did all the work, looks
+awkward to me. Would you suggest another segregation for the patches?
+
+> I'd suggest Documentation/block/biovecs.rst or biodoc.rst (and frankly,
+> biodoc.rst needs a good cleanup)
+
+I'll add a note to biovecs.rst
 
 -- 
 Pavel Begunkov
