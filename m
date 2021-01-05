@@ -2,173 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56547C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 16:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 582FFC433E9
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 19:52:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2835222CE3
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 16:30:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B89A22D71
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 19:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbhAEQaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 11:30:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47162 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbhAEQaE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 11:30:04 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E71EC061793;
-        Tue,  5 Jan 2021 08:29:24 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id l11so74029287lfg.0;
-        Tue, 05 Jan 2021 08:29:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WnKBAJVxaowk5MMmWYJeufW/YY0cNztLm0VvLAro1vA=;
-        b=fURn9bOv3P/p4cp2iKgs4R1KSHwzlBISuB5l7hmbgr2m0VDOpMlRldjjH/6B6EpJWf
-         +ScfItVpJyAG/ZfT+qHs+aZX7oCU2hMZDUP8L/RM8dYKlfysJXmrrNF6qatk86qC9x6O
-         B/dzzTXlw3QYb04hueAf4/MQRTknN/Hth25T7EmPOX7+wRBAVEcoqp/D2kmd8DTasyG9
-         MOYMckeOfHOxD33h8B4WpKekj5VqaG2c/Q+qrZdVjaZ6AoFjfeobyHAPMoHihEW22B/m
-         RJxK3yYUdYx0mc7xJeaiq8a598qMOcvAl/jn9tES1XSN8KIcW2EDn+G4q1d2jnPg+Xih
-         YeAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WnKBAJVxaowk5MMmWYJeufW/YY0cNztLm0VvLAro1vA=;
-        b=uU2MERb1jLPcpAjRI2ZXBXI1s8+208GIuRch9Tg36oyTWww46RImh9YkpLWzItEyos
-         uPLdqGwURrt7IYihxa/suLEGVSyTbYA+3kTBmmOogdRa4A9TOvr7wuyZFyyTH9i0RylB
-         YjMjC8ZB1j34XoVInqOzszx9mKxyPR56gdZWFto0GD2PdSQbafeW2IxUA13zUMasVKqa
-         PaZsXAyig+9hy3n7HMRs2MDm8qJrOJmT+s/ykY6fYu1t4uqS+SDWK2cbvQn0L7+Xf1t6
-         e3pbzsmp9dBqivHzemo41+2Ees2eFhcHNaE4Xk97ieC6XFG/YYHkuKUzDArqmt4g4f0D
-         wUqA==
-X-Gm-Message-State: AOAM533hQXedcjZT46uKZp0ZY/lMpKWR0JXL3V70phhN4wyCTrVWbbuY
-        UTgPqqKbEhJxj97x4GhqV6/ge2Z4fzE=
-X-Google-Smtp-Source: ABdhPJy5I4KmUU2D1eK6L9+2fhJOb70aRXLJX7tqprrilhPBBux8G8iXkrdSZolqzRQx+ysFJHNXZA==
-X-Received: by 2002:a2e:720c:: with SMTP id n12mr222633ljc.2.1609864162746;
-        Tue, 05 Jan 2021 08:29:22 -0800 (PST)
-Received: from pc638.lan (h5ef52e3d.seluork.dyn.perspektivbredband.net. [94.245.46.61])
-        by smtp.gmail.com with ESMTPSA id v63sm14662lfa.89.2021.01.05.08.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 08:29:21 -0800 (PST)
-From:   Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc638.lan>
-Date:   Tue, 5 Jan 2021 17:29:19 +0100
-To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Cc:     Uladzislau Rezki <urezki@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>
-Subject: Re: kerneldoc warnings since commit 538fc2ee870a3 ("rcu: Introduce
- kfree_rcu() single-argument macro")
-Message-ID: <20210105162919.GA1800@pc638.lan>
-References: <CAKXUXMygqbupE_6CK92=PwLw4DjnSuo9-+6iHs_DrZeZ55iRKg@mail.gmail.com>
- <20210105131441.GA2457@pc638.lan>
- <20210105145659.GD17086@paulmck-ThinkPad-P72>
-MIME-Version: 1.0
+        id S1730823AbhAETwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 14:52:25 -0500
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:2716 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727923AbhAETwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 14:52:25 -0500
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 105JiqMH031307;
+        Tue, 5 Jan 2021 11:51:23 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=facebook; bh=z51xaWa67o+04YiVXH7Hd7iRkePzGilKXzEdFDkjZr8=;
+ b=b+mUAIgiuTHD6uLPxYWCU+LECUsbv4D70k3iZnuusDIQxKQoDmPGI9bh4/8IjU1P4zyH
+ PyStgjWLrZoxfqU0XQhwTdSxwXeZ/lP8thyqqt5arU+nWGNCtYxL7DpAdyKVQSN2K/vu
+ tG/LPRVaWMobcutON13xoeAQwc6MHsc6I2w= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+        by mx0a-00082601.pphosted.com with ESMTP id 35u9cpb3ny-7
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Tue, 05 Jan 2021 11:51:23 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.173) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Tue, 5 Jan 2021 11:51:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PNdBhxWpgj+vbeHbjTuhBf2E5+RULAMhhE2usBVN8c8axvMATGaMMnZ728/5T0l0UO/1FJMlgMBSOXH8ID8E1yA5XU0gOqRAb8jvVnT9UsEHlXgCTQ7+f/V1CEK9kPx0wxu4Bvqj7LGrVNiyCakHpNvXgt02/qRBh7d49Ox3ABGE/8ICPFvW3ZtHYjIs+yuiFb0hU9w9Oy607SftTK4Kop1WZn6w0h9sAGfoVtAFjHI99nRYKfZsbgloRkr0SzsV4/MxVCfXE2tAuah2Pu+I5/ZyrnsbBeB3pEy/VA8cGJyTz5KLGm4pPDBF01aSyyMszwBTF7dvCSaIjf/9FGTX/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z51xaWa67o+04YiVXH7Hd7iRkePzGilKXzEdFDkjZr8=;
+ b=OD4GYExpPCkejf2mYe9fVjZks/JA9OOQLh+B2NXJxL363w7dnyhrY+TJtXcTE2wa4QuDU1lHJsiXLVK3oMznNgoGnsgnVK3VQ01S0IId1JZGfUOzMXfXm4BWXKWjOQN4vY1vnwvtNpSn3Bl8JJ3D6gEVh0YR+Zq7dJVk8XCk3fvW+SxegnVPb7F8P4a8AF8PON1bSXWyYGwmawTnX+4AFcr2a8FDYJ+Ffbf0Iab6W7ssMwXPUsEiE1MnXFkFCX/xMpS2bRX3pjyWP7Bxb3iJlbo4I7IKXLNiXCBBDi4ky5p2xCD+W5XhBKwbthfCP45+dChkH7FLSkTa3/Dj5f9usQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z51xaWa67o+04YiVXH7Hd7iRkePzGilKXzEdFDkjZr8=;
+ b=UWzDo5tZCpq4ADVDcrrl5pbEiSzfko05MCk/GM0NwqoJCZFNT06R2XOibRel7/y1MmRZ66ZdI99j/MY5hgELmWtB1wSx5SUIOxmRxDElD/eeaWQn6TG68GhIYYMIojtQFFctYFISm1rVUjhYUnTOOHy/5cPQxciLVwODZNzKLv4=
+Authentication-Results: mess.org; dkim=none (message not signed)
+ header.d=none;mess.org; dmarc=none action=none header.from=fb.com;
+Received: from BY5PR15MB3571.namprd15.prod.outlook.com (2603:10b6:a03:1f6::32)
+ by BYAPR15MB2373.namprd15.prod.outlook.com (2603:10b6:a02:92::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.22; Tue, 5 Jan
+ 2021 19:51:21 +0000
+Received: from BY5PR15MB3571.namprd15.prod.outlook.com
+ ([fe80::217e:885b:1cef:e1f7]) by BY5PR15MB3571.namprd15.prod.outlook.com
+ ([fe80::217e:885b:1cef:e1f7%7]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 19:51:20 +0000
+Date:   Tue, 5 Jan 2021 11:51:13 -0800
+From:   Martin KaFai Lau <kafai@fb.com>
+To:     Sean Young <sean@mess.org>
+CC:     Yonghong Song <yhs@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <bpf@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH v3 0/4] btf: support ints larger than 128 bits
+Message-ID: <20210105195113.lr3mc5ma2rvej4r6@kafai-mbp>
+References: <cover.1609855479.git.sean@mess.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210105145659.GD17086@paulmck-ThinkPad-P72>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cover.1609855479.git.sean@mess.org>
+X-Originating-IP: [2620:10d:c090:400::5:66db]
+X-ClientProxiedBy: MWHPR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:300:117::31) To BY5PR15MB3571.namprd15.prod.outlook.com
+ (2603:10b6:a03:1f6::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kafai-mbp (2620:10d:c090:400::5:66db) by MWHPR03CA0021.namprd03.prod.outlook.com (2603:10b6:300:117::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20 via Frontend Transport; Tue, 5 Jan 2021 19:51:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d8c5befb-b06b-4f15-62ba-08d8b1b34646
+X-MS-TrafficTypeDiagnostic: BYAPR15MB2373:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR15MB2373952EBF06EA6B29D173A5D5D10@BYAPR15MB2373.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kNTO2rizg3HHeKXulrHl+5ZfzNXVmkjDpv3ufTyBV0+4d6SQBSD+3ZnszPs5dV8xdIEydJztTI1QY+OrdJONq1f5FMg2mZq1IX7x9t2lptz7gPXXTXve2Eypdxdt+Tgx1kKRbZkXexlECc8BqbOpvdT0CBdkYNNZOD7torvLud9hQGm5wpvsJE8UmAyB93+UnTnW4qlq6pn0+hjdTAi2ogGHwKw6xN9ewdoXiwYlCkm402KfdgXYxzDjdddLisB2JOyhXcNFI3IBGNjBhdtJWY/F9DEu0/rRQjBmJuYhpucIXydQ5F7GEg0prrIvx15iVCoA96fN7QXhAhRBSKgwBlHNJ0MKn4EvH/w06If5TgVZgQ0Du4B563Jvw4wqd9izegXY541dCCsg43thpBgceg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3571.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(39860400002)(396003)(136003)(346002)(366004)(83380400001)(8676002)(55016002)(5660300002)(6916009)(4326008)(478600001)(7416002)(86362001)(4744005)(8936002)(316002)(6666004)(1076003)(54906003)(66556008)(6496006)(9686003)(52116002)(186003)(16526019)(2906002)(33716001)(66476007)(66946007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?nyfcAHzN4apikCppiyPSgKRUqFEbIy14uErZwH4fdnq6nugDZJ/X1S/FQ4Io?=
+ =?us-ascii?Q?a+CSrzd2V1InLgZ7f2cgOsTtPcQGU3FHrHO7ZWYxVaCQnDlJxV/w9jUPoZ9z?=
+ =?us-ascii?Q?eq7P2ikOj9M/oBzscmPC9qkpnVkQg/Uq+CWcsQlSc0/l91tEbaB0aZbqxXKe?=
+ =?us-ascii?Q?hQdR1zyHshslO/havXEwtD0LDc+9CoxzP1HijbQOBXS0goeVZY+ylR7ukNh0?=
+ =?us-ascii?Q?t6RRZF/eOkidQ0A9uzUYix6aUv9N86oxODLaogXm4R9nKPHJaFXS8Y0vV8JS?=
+ =?us-ascii?Q?v68h24AHoexS6amMWt+IQBxgKmNoRUYYTqIkDtcGrP2sqRM0sA3rvPVI0shz?=
+ =?us-ascii?Q?YgCCkK2hiuGvDjm/qAgt3g+W0Jez9pjF8ZDqnLegtmEEtfEoYg76qyT0FkjS?=
+ =?us-ascii?Q?Xqe1CvIbujcYcuT6855Q932vk967grXrBd0KqGsZFTOjqcI6XmjnMO8GA8CT?=
+ =?us-ascii?Q?NU0AchA2gmSyg/lfJ5XdO40RI4/RTjp/SAneukRgxocaeignD49Sy4XefCje?=
+ =?us-ascii?Q?YcH59kpJMJ+Cmd1jqmvoeyn+Lbbwevq4RaGK527jsHI3bxQASl7vQLoTRMdE?=
+ =?us-ascii?Q?yoH5+QhMA84xhgvtE+a/8IfDwFuSSp2lVwougWr+95A0joXCkbH0MLj6ogHN?=
+ =?us-ascii?Q?BQ9gO7eRdgGPBIETYqmNVcXFY1abKxvzro1b1JegvVsKjJ6g3k5/AfJ+JE8I?=
+ =?us-ascii?Q?9Jc5cNXD6YbqopcI7OEkVc/0/KZVmqfhnRjNGIzs32yTmPD3/dHUclb5cTbj?=
+ =?us-ascii?Q?oDyICTPgolFMhZqCP+lpCQC/A0/DBXqleSH9rKphnSHzGiF4pimstTIZbyXj?=
+ =?us-ascii?Q?rTVbWNQFZ7ZU14k5DdndU0nxUc8S0jZGWPm/NJkDTgDUnnrhuwIE6RJo4Prr?=
+ =?us-ascii?Q?YIpPNLlJ07Yjg01BKFpdY9+UKJ7YC/0qi6CXwQG95QAwKsjfgNB1jOVRYTkd?=
+ =?us-ascii?Q?Gu+mY0XEX4SixB9prXpsCb8yEPHl05oTqGs0/fv7cCcBsf6DDqwDGy2OJ7MW?=
+ =?us-ascii?Q?p5QADfODudIv0ug8GBUhjQlpxw=3D=3D?=
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3571.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2021 19:51:20.8375
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8c5befb-b06b-4f15-62ba-08d8b1b34646
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2xeWM0Rk8fMcSnBeuIrh5XhFva4dGOMcSHgVk7fmpYBQ20XZAExRJlpRp0sjfeqx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2373
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-05_06:2021-01-05,2021-01-05 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 adultscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 mlxlogscore=832 mlxscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050114
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 06:56:59AM -0800, Paul E. McKenney wrote:
-> On Tue, Jan 05, 2021 at 02:14:41PM +0100, Uladzislau Rezki wrote:
-> > Dear, Lukas.
-> > 
-> > > Dear Uladzislau,
-> > > 
-> > > in commit 538fc2ee870a3 ("rcu: Introduce kfree_rcu() single-argument
-> > > macro"), you have refactored the kfree_rcu macro.
-> > > 
-> > > Since then, make htmldocs warns:
-> > > 
-> > > ./include/linux/rcupdate.h:882: warning: Excess function parameter
-> > > 'ptr' description in 'kfree_rcu'
-> > > ./include/linux/rcupdate.h:882: warning: Excess function parameter
-> > > 'rhf' description in 'kfree_rcu'
-> > > 
-> > > As you deleted the two arguments in the macro definition, kerneldoc
-> > > cannot resolve the argument names in the macro's kerneldoc
-> > > documentation anymore and warns about that.
-> > > 
-> > > Probably, it is best to just turn the formal kerneldoc references to
-> > > the two arguments, which are not used in the macro definition anymore,
-> > > simply into two informal references in the documentation.
-> > > 
-> > Thanks for your suggestion. I am not sure if htmldocs supports something
-> > like "__maybe_unused", but tend to say that it does not. See below the
-> > patch:
-> > 
-> > <snip>
-> > >From 65ecc7c58810c963c02e0596ce2e5758c54ef55d Mon Sep 17 00:00:00 2001
-> > From: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
-> > Date: Tue, 5 Jan 2021 13:23:30 +0100
-> > Subject: [PATCH] rcu: fix kerneldoc warnings
-> > 
-> > After refactoring of the kfree_rcu(), it becomes possible to use
-> > the macro with one or two arguments. From the other hand, in the
-> > description there are two arguments in the macro definition expected.
-> > That is why the "htmldocs" emits a warning about it:
-> > 
-> > <snip>
-> > ./include/linux/rcupdate.h:882: warning: Excess function parameter
-> > 'ptr' description in 'kfree_rcu'
-> > ./include/linux/rcupdate.h:882: warning: Excess function parameter
-> > 'rhf' description in 'kfree_rcu'
-> > <snip>
-> > 
-> > Fix it by converting two parameters into informal references in the
-> > macro description.
-> > 
-> > Fixes: 3d3d9ff077a9 ("rcu: Introduce kfree_rcu() single-argument macro")
-> > Signed-off-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
-> > ---
-> >  include/linux/rcupdate.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> > index ebd8dcca4997..e678ce7f5ca2 100644
-> > --- a/include/linux/rcupdate.h
-> > +++ b/include/linux/rcupdate.h
-> > @@ -854,8 +854,8 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
-> >  
-> >  /**
-> >   * kfree_rcu() - kfree an object after a grace period.
-> > - * @ptr: pointer to kfree for both single- and double-argument invocations.
-> > - * @rhf: the name of the struct rcu_head within the type of @ptr,
-> > + * ptr: pointer to kfree for both single- and double-argument invocations.
-> > + * rhf: the name of the struct rcu_head within the type of ptr,
-> >   *       but only for double-argument invocations.
-> >   *
-> >   * Many rcu callbacks functions just call kfree() on the base structure.
-> > -- 
-> > 2.20.1
-> > <snip>
-> > 
-> > Paul, does it work for you?
+On Tue, Jan 05, 2021 at 02:45:30PM +0000, Sean Young wrote:
+> clang supports arbitrary length ints using the _ExtInt extension. This
+> can be useful to hold very large values, e.g. 256 bit or 512 bit types.
 > 
-> If it works for the documentation generation, then it works for me.  ;-)
+> Larger types (e.g. 1024 bits) are possible but I am unaware of a use
+> case for these.
 > 
-OK. Then we need the patch to be reviewed by the documentation generation :)
-
-Dear, linux-doc folk!
-
-Could you please review the patch that is in question?
-
-Thank you in advance.
-
---
-Vlad Rezki
+> This requires the _ExtInt extension enabled in clang, which is under
+> review.
+1. Please explain the use case.
+2. All patches have the same commit message which is not useful.
+   Please spend some time in the commit message to explain what each
+   individual patch does.
+3. The test_extint.py is mostly a copy-and-paste from the existing
+   test_offload.py?  Does it need most of the test_offload.py
+   to test the BTF 256/512 bit int?  Please create a minimal
+   test and use the test_progs.c infra-structure.
