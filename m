@@ -2,179 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAC6C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:37:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FCBC433E9
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 13:15:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3228D2255F
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:37:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E21C9229EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 13:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728532AbhAEJgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 04:36:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
+        id S1727394AbhAENP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 08:15:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbhAEJgo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 04:36:44 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3EBC061574;
-        Tue,  5 Jan 2021 01:36:03 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id c5so35454581wrp.6;
-        Tue, 05 Jan 2021 01:36:03 -0800 (PST)
+        with ESMTP id S1726018AbhAENP0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 08:15:26 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2EB2C061793;
+        Tue,  5 Jan 2021 05:14:45 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id h22so72523151lfu.2;
+        Tue, 05 Jan 2021 05:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=CBEgq3lGKdv8uL6EZCtDkPUPdtOI/LvqjfEie+xNIH4=;
-        b=HJiFrO0cyFUE3EdhkZ9ieByRFQCmu2tX+0L8OoIw4Wob2ig1rJoDxLCjxIQnyLdkES
-         SioIrCKKqRUCdIYJRnHHT7DH2PlW/UdIRpSfWuZwCmLdKhc/OUZpvSuRfBlbneWGJyz7
-         ZpTpMHZr6MH21FebXJKTorOtdY/31zxbsf5Oig5Tf7niL6jH0Jca7W5tA9EZaHf7eFrf
-         s8GfCy82KvLI/Z3W+VmSKjwi6MWD0zldc+X9455cJLoiLVNFmAuolk+7rC2oCndiGKB2
-         dSf4ivxSDbGtUAPA+FpgOuqJARYz4fUdzftUMx+JZT7jv1z3acWwet08NEa4KajaJGVY
-         ua/g==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tQKbFrNJhZtnkQVAJYkn3GuvMlIvsBf16oBsGWuoFBg=;
+        b=Qgcs4Xx6lLq0YZhAP+b3iXdVigcYK/deCQAJeY+C1VNb9zFq0ywyeJXslL8S6zNt26
+         oMdstuxuBGDOvQ0f4VNaTt5aEQthq7vPE66VQkNdfu1+ugV5to9YzhrNTqZqRSfWY2xq
+         EoJQs2veM7c22hFQAPIVdYjXXKVTn/FG6Oo1qzfTPoHiu53wGXkauVd8ALaIynNN8BGc
+         yN74qQ2qBj8KGbxQOnpYfVO9y3fBiyZyUdU00YRMf45t1EAODcfDqMjvV38EzIIi6tK7
+         F7J/aBxnojloVN0+XEpes+OlJ4xXNXDr0jyglTcvTyOVXDiDbVtOXMn+C7gUfUkjHkFO
+         090Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=CBEgq3lGKdv8uL6EZCtDkPUPdtOI/LvqjfEie+xNIH4=;
-        b=WIpM7WD9q9hXlBAPvdZY4Ye7JhmXUtjBbt/LSz+jpJseNDF/33i/zLe4q6c8Y8fJXO
-         +xQnSi/xBAhPKVe+JZaWOdCgoNlzpmJ9IukvUcKI4/YhyenUBtr6shgh8VwC29Eww12X
-         a2i3daHDaUFRW+Xtu9mZyYuuuk5PlkLITumYNyb/WYfdoVu0FWy5T2RLKJ1WO5XZ/axI
-         2kj5DwrOhuW7LliaLNLfKwoM86LDk23pmuXFIRlPz7FH6zOTBTjA1PQ5cnEKMb0lS+nS
-         CQ67WytgHHwDAMxIO0W58UKVSUlyWPqrUm2HI5efh8JAwmoJBpeQ3rz+NeXTbmlqfa0P
-         heaw==
-X-Gm-Message-State: AOAM533ki9cTmSRAdSw4rMEBDwz9c/GWU6E1ukAi52QxSoiQnfzyXK/A
-        5OiwhUJiAGl9NaRPf5CU0c0=
-X-Google-Smtp-Source: ABdhPJzbwhnvkmHNN5DP1N2v4XP1Us0fHF241cvauNZBE+WGFQnXleX6Na2ODfxxGTIz0yr5/IiMsg==
-X-Received: by 2002:adf:e512:: with SMTP id j18mr83068277wrm.52.1609839361280;
-        Tue, 05 Jan 2021 01:36:01 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d99:1a00:4199:29a0:95cf:5dfe])
-        by smtp.gmail.com with ESMTPSA id j10sm3532540wmj.7.2021.01.05.01.36.00
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tQKbFrNJhZtnkQVAJYkn3GuvMlIvsBf16oBsGWuoFBg=;
+        b=RzTwZ3CUrb1GpqJf5+FVKxHaasAWep8qxh1kzPBblCzRCqxYoE1mWnenZleG3IbPyR
+         NwYBRRn0ReDrCZbcnjuWJSHob3DSXB85WwdWP5ErkFIULyJQ+MkMW20XW/l2kQEO6P/W
+         sur1DMoocQGn5zRTc2lGX6dZFCh9ykMeprK9YGVtD9s4IvYxCuicHaEkw/n7wGjgvWCu
+         VUcc8jknefI42kNHAYLuhczYRi5XCuXqCVciJ27cxtQlyCIC2YXB3ktFG0OedbzhEY44
+         xyPJBPnISfxunSnZoKdh0Yuo8FqV68tN3yh+QaGcxjKcaTvNM+96fzwHLwJrqGwexP7M
+         NaYg==
+X-Gm-Message-State: AOAM532yY+b5Qqvnz/7y43pg9TxT4O+pR/F9BAFud7Dj8z78jor5k8G2
+        cznGV46kCXP1yK0jaUHsGkQ=
+X-Google-Smtp-Source: ABdhPJyeY24/g5kvCBsLLaTN+RDyjtpbSWCKqEnHATmX3nVrdhUp3hZJPi9Y5sxP84E4B53L/qOF6Q==
+X-Received: by 2002:a05:6512:3051:: with SMTP id b17mr30077247lfb.16.1609852484397;
+        Tue, 05 Jan 2021 05:14:44 -0800 (PST)
+Received: from pc638.lan (h5ef52e3d.seluork.dyn.perspektivbredband.net. [94.245.46.61])
+        by smtp.gmail.com with ESMTPSA id t30sm7608665lft.266.2021.01.05.05.14.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 01:36:00 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     George Cherian <george.cherian@marvell.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Sunil Goutham <sgoutham@marvell.com>,
-        Linu Cherian <lcherian@marvell.com>,
-        Geetha Sowjanya <gakula@marvell.com>,
-        Jerin Jacob <jerinj@marvell.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] docs: octeontx2: tune rst markup
-Date:   Tue,  5 Jan 2021 10:35:53 +0100
-Message-Id: <20210105093553.31879-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 05 Jan 2021 05:14:43 -0800 (PST)
+From:   Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc638.lan>
+Date:   Tue, 5 Jan 2021 14:14:41 +0100
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Uladzislau Rezki <urezki@gmail.com>,
+        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: kerneldoc warnings since commit 538fc2ee870a3 ("rcu: Introduce
+ kfree_rcu() single-argument macro")
+Message-ID: <20210105131441.GA2457@pc638.lan>
+References: <CAKXUXMygqbupE_6CK92=PwLw4DjnSuo9-+6iHs_DrZeZ55iRKg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKXUXMygqbupE_6CK92=PwLw4DjnSuo9-+6iHs_DrZeZ55iRKg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 80b9414832a1 ("docs: octeontx2: Add Documentation for NPA health
-reporters") added new documentation with improper formatting for rst, and
-caused a few new warnings for make htmldocs in octeontx2.rst:169--202.
+Dear, Lukas.
 
-Tune markup and formatting for better presentation in the HTML view.
+> Dear Uladzislau,
+> 
+> in commit 538fc2ee870a3 ("rcu: Introduce kfree_rcu() single-argument
+> macro"), you have refactored the kfree_rcu macro.
+> 
+> Since then, make htmldocs warns:
+> 
+> ./include/linux/rcupdate.h:882: warning: Excess function parameter
+> 'ptr' description in 'kfree_rcu'
+> ./include/linux/rcupdate.h:882: warning: Excess function parameter
+> 'rhf' description in 'kfree_rcu'
+> 
+> As you deleted the two arguments in the macro definition, kerneldoc
+> cannot resolve the argument names in the macro's kerneldoc
+> documentation anymore and warns about that.
+> 
+> Probably, it is best to just turn the formal kerneldoc references to
+> the two arguments, which are not used in the macro definition anymore,
+> simply into two informal references in the documentation.
+> 
+Thanks for your suggestion. I am not sure if htmldocs supports something
+like "__maybe_unused", but tend to say that it does not. See below the
+patch:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+<snip>
+From 65ecc7c58810c963c02e0596ce2e5758c54ef55d Mon Sep 17 00:00:00 2001
+From: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
+Date: Tue, 5 Jan 2021 13:23:30 +0100
+Subject: [PATCH] rcu: fix kerneldoc warnings
+
+After refactoring of the kfree_rcu(), it becomes possible to use
+the macro with one or two arguments. From the other hand, in the
+description there are two arguments in the macro definition expected.
+That is why the "htmldocs" emits a warning about it:
+
+<snip>
+./include/linux/rcupdate.h:882: warning: Excess function parameter
+'ptr' description in 'kfree_rcu'
+./include/linux/rcupdate.h:882: warning: Excess function parameter
+'rhf' description in 'kfree_rcu'
+<snip>
+
+Fix it by converting two parameters into informal references in the
+macro description.
+
+Fixes: 3d3d9ff077a9 ("rcu: Introduce kfree_rcu() single-argument macro")
+Signed-off-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
 ---
-applies cleanly on current master (v5.11-rc2) and next-20201205
+ include/linux/rcupdate.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-George, please ack.
-Jonathan, please pick this minor formatting clean-up patch.
-
- .../ethernet/marvell/octeontx2.rst            | 59 +++++++++++--------
- 1 file changed, 34 insertions(+), 25 deletions(-)
-
-diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-index d3fcf536d14e..00bdc10fe2b8 100644
---- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-+++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-@@ -165,45 +165,54 @@ Devlink health reporters
- NPA Reporters
- -------------
- The NPA reporters are responsible for reporting and recovering the following group of errors
-+
- 1. GENERAL events
-+
-    - Error due to operation of unmapped PF.
-    - Error due to disabled alloc/free for other HW blocks (NIX, SSO, TIM, DPI and AURA).
-+
- 2. ERROR events
-+
-    - Fault due to NPA_AQ_INST_S read or NPA_AQ_RES_S write.
-    - AQ Doorbell Error.
-+
- 3. RAS events
-+
-    - RAS Error Reporting for NPA_AQ_INST_S/NPA_AQ_RES_S.
-+
- 4. RVU events
-+
-    - Error due to unmapped slot.
+diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+index ebd8dcca4997..e678ce7f5ca2 100644
+--- a/include/linux/rcupdate.h
++++ b/include/linux/rcupdate.h
+@@ -854,8 +854,8 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
  
--Sample Output
---------------
--~# devlink health
--pci/0002:01:00.0:
--  reporter hw_npa_intr
--      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
--  reporter hw_npa_gen
--      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
--  reporter hw_npa_err
--      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
--   reporter hw_npa_ras
--      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
-+Sample Output::
-+
-+	~# devlink health
-+	pci/0002:01:00.0:
-+	  reporter hw_npa_intr
-+	      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_npa_gen
-+	      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_npa_err
-+	      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
-+	   reporter hw_npa_ras
-+	      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
- 
- Each reporter dumps the
-  - Error Type
-  - Error Register value
-  - Reason in words
- 
--For eg:
--~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
-- NPA_AF_GENERAL:
--         NPA General Interrupt Reg : 1
--         NIX0: free disabled RX
--~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
-- NPA_AF_RVU:
--         NPA RVU Interrupt Reg : 1
--         Unmap Slot Error
--~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
-- NPA_AF_ERR:
--        NPA Error Interrupt Reg : 4096
--        AQ Doorbell Error
-+For eg::
-+
-+	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
-+	 NPA_AF_GENERAL:
-+	         NPA General Interrupt Reg : 1
-+	         NIX0: free disabled RX
-+	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
-+	 NPA_AF_RVU:
-+	         NPA RVU Interrupt Reg : 1
-+	         Unmap Slot Error
-+	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
-+	 NPA_AF_ERR:
-+	        NPA Error Interrupt Reg : 4096
-+	        AQ Doorbell Error
+ /**
+  * kfree_rcu() - kfree an object after a grace period.
+- * @ptr: pointer to kfree for both single- and double-argument invocations.
+- * @rhf: the name of the struct rcu_head within the type of @ptr,
++ * ptr: pointer to kfree for both single- and double-argument invocations.
++ * rhf: the name of the struct rcu_head within the type of ptr,
+  *       but only for double-argument invocations.
+  *
+  * Many rcu callbacks functions just call kfree() on the base structure.
 -- 
-2.17.1
+2.20.1
+<snip>
 
+Paul, does it work for you?
+
+Thanks!
+
+--
+Vlad Rezki
