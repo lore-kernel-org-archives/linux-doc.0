@@ -2,90 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D92EC433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 05:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 034E2C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 07:33:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24D6F229C5
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 05:59:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAB842065D
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 07:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725710AbhAEF7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 00:59:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725550AbhAEF7Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jan 2021 00:59:24 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F177227C3;
-        Tue,  5 Jan 2021 05:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609826324;
-        bh=M90jhBdiFXVbsGD5pYBV2cqPCbT6JyTQD6Oaxavk6EM=;
-        h=Date:From:To:Cc:Subject:From;
-        b=eOrA9gViZNChfa2l+n6CqecHWlQTSCADG2csBRcvu5t9nMd29rIIsgMbydcmx7gD2
-         4g3RWlFRN3JBcWjsNojs7ibXoOzwZqAKEO6NcVhwu1BZf4chUeSZ1k8wfLbAPFlx23
-         mdpqDlR2dbqto2jaA0mdTrXaOFkDY+/TUswzbbk8dFiy/UoM/lReHLds1t/UWv05cJ
-         wMLXaO+ch6VeusLROs12VGs6h7A9Zq1Wz5jpH8nCppvVcpRA4yztQEbmgTH3HzwY7d
-         rydo2zvsdiA2O+eZ/5GtS0XC99kja7pSZfTVdW2KqparMUh7qHnKbDibbXoKM8VjwB
-         z5h3YlBpaSwyw==
-Date:   Tue, 5 Jan 2021 06:58:15 +0100
-From:   Miguel Ojeda <ojeda@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] docs: remove mention of ENABLE_MUST_CHECK
-Message-ID: <20210105055815.GA5173@kernel.org>
+        id S1726224AbhAEHdK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 02:33:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbhAEHdJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 02:33:09 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9905AC061574;
+        Mon,  4 Jan 2021 23:32:29 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id q137so27331341iod.9;
+        Mon, 04 Jan 2021 23:32:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=cnzmQm5ZMFN9Dtc3fbUF90FMsTzRzNPKJylUEvWnArc=;
+        b=lzmlhl5mf5ER472B58sUIvMqx6/BuYn1cUJe0B1NuDvk5nc0jBO4GsLgfuAzRzhuiM
+         ML/aJ6aJHX9Z8g1owXyDBAVd+eB74ZNxU3Bh8Pt1oi2qZoJ32ENIShg5dIqB9XeNPLVY
+         niCNcwmzX4Brl6VO6HnCHlnCp3Zk/JmnpReiZFaFjgNefxLKoRo8bPBmnhmOFQmFLCIk
+         YQrabvVgynuSy9O9M/dY35RPKG+cdK252fpfMvVWCQrodmyQoiX9a3I+CYSBDdq/eJUA
+         o/i+65Bf9ERN9vt/ZOD32lrrEuxViDrv8dt7U3/d97LY1OR19NdRU5x/dwpH0c0Ruea0
+         F8AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=cnzmQm5ZMFN9Dtc3fbUF90FMsTzRzNPKJylUEvWnArc=;
+        b=RqzM1FMV+PS6Vtnzq/P9k3EPki0HmdwHW3ZMDWjTQ3rV3UtzBsjUDoUcQkTXBxe3P9
+         QH8K//AJY+S8em/30/LHJWrYZwcNWW8zbRNrVmL1yFkWv+o986GEfWHZjBAoKC3pCKPb
+         CQJRDsVvcplMXgV+MKyhmkf2Ror2EP0hJMALxdESKTK6UdoqpedgNgY5Rlxnoy2lNNu/
+         X+yA4Zug/hMK8Q+rCYoxqn3FI8KJ9BVwGeoRhF/xJnogoKUg0BTona0qYonB3CrCPvNT
+         4ccnxUjCJBYOY2/tDzz3qfM5GSASiiJuPBMOxAssF79tx4oMM7ZTuXhpGAFBFTeP5PH/
+         6Ysg==
+X-Gm-Message-State: AOAM532zj1elmwkyCfNoZkYo7vJMVRQQVHwjycp+i/RUhIZsZo5d5+I1
+        cEOS4ybX4WqYHB/jURK1m/ZlsW0yjfqBWrvR0s61ygt9xpXyng==
+X-Google-Smtp-Source: ABdhPJwZLKF2MmCRNN9b62TQIhNnPubnQLvxjVObKDnh5BD9/qUU4hVdnVPfS/2tJsZjYIgfjf/yAWyx3EOXeB2oqDo=
+X-Received: by 2002:a02:5581:: with SMTP id e123mr64508991jab.98.1609831948990;
+ Mon, 04 Jan 2021 23:32:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: elm/2
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Tue, 5 Jan 2021 08:32:18 +0100
+Message-ID: <CAKXUXMygqbupE_6CK92=PwLw4DjnSuo9-+6iHs_DrZeZ55iRKg@mail.gmail.com>
+Subject: kerneldoc warnings since commit 538fc2ee870a3 ("rcu: Introduce
+ kfree_rcu() single-argument macro")
+To:     Uladzislau Rezki <urezki@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We removed ENABLE_MUST_CHECK in 196793946264 ("Compiler Attributes:
-remove CONFIG_ENABLE_MUST_CHECK"), so let's remove docs' mentions.
+Dear Uladzislau,
 
-At the same time, fix the outdated text related to
-ENABLE_WARN_DEPRECATED that wasn't removed in 3337d5cfe5e08
-("configs: get rid of obsolete CONFIG_ENABLE_WARN_DEPRECATED").
+in commit 538fc2ee870a3 ("rcu: Introduce kfree_rcu() single-argument
+macro"), you have refactored the kfree_rcu macro.
 
-Finally, reflow the paragraph.
+Since then, make htmldocs warns:
 
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-A couple translations (it and zh) should consider updating this
-too, since they also have the mention -- Cc'ing their maintainers.
+./include/linux/rcupdate.h:882: warning: Excess function parameter
+'ptr' description in 'kfree_rcu'
+./include/linux/rcupdate.h:882: warning: Excess function parameter
+'rhf' description in 'kfree_rcu'
 
- Documentation/process/4.Coding.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+As you deleted the two arguments in the macro definition, kerneldoc
+cannot resolve the argument names in the macro's kerneldoc
+documentation anymore and warns about that.
 
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index c27e59d2f702..0825dc496f22 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -249,10 +249,8 @@ features; most of these are found in the "kernel hacking" submenu.  Several
- of these options should be turned on for any kernel used for development or
- testing purposes.  In particular, you should turn on:
- 
-- - ENABLE_MUST_CHECK and FRAME_WARN to get an
--   extra set of warnings for problems like the use of deprecated interfaces
--   or ignoring an important return value from a function.  The output
--   generated by these warnings can be verbose, but one need not worry about
-+ - FRAME_WARN to get warnings for stack frames larger than a given amount.
-+   The output generated can be verbose, but one need not worry about
-    warnings from other parts of the kernel.
- 
-  - DEBUG_OBJECTS will add code to track the lifetime of various objects
--- 
-2.29.2
+Probably, it is best to just turn the formal kerneldoc references to
+the two arguments, which are not used in the macro definition anymore,
+simply into two informal references in the documentation.
 
+Best regards,
+
+Lukas
