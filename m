@@ -2,93 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 034E2C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 07:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61550C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:20:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAB842065D
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 07:33:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB76720731
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:20:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726224AbhAEHdK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 02:33:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726202AbhAEHdJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 02:33:09 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9905AC061574;
-        Mon,  4 Jan 2021 23:32:29 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id q137so27331341iod.9;
-        Mon, 04 Jan 2021 23:32:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=cnzmQm5ZMFN9Dtc3fbUF90FMsTzRzNPKJylUEvWnArc=;
-        b=lzmlhl5mf5ER472B58sUIvMqx6/BuYn1cUJe0B1NuDvk5nc0jBO4GsLgfuAzRzhuiM
-         ML/aJ6aJHX9Z8g1owXyDBAVd+eB74ZNxU3Bh8Pt1oi2qZoJ32ENIShg5dIqB9XeNPLVY
-         niCNcwmzX4Brl6VO6HnCHlnCp3Zk/JmnpReiZFaFjgNefxLKoRo8bPBmnhmOFQmFLCIk
-         YQrabvVgynuSy9O9M/dY35RPKG+cdK252fpfMvVWCQrodmyQoiX9a3I+CYSBDdq/eJUA
-         o/i+65Bf9ERN9vt/ZOD32lrrEuxViDrv8dt7U3/d97LY1OR19NdRU5x/dwpH0c0Ruea0
-         F8AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=cnzmQm5ZMFN9Dtc3fbUF90FMsTzRzNPKJylUEvWnArc=;
-        b=RqzM1FMV+PS6Vtnzq/P9k3EPki0HmdwHW3ZMDWjTQ3rV3UtzBsjUDoUcQkTXBxe3P9
-         QH8K//AJY+S8em/30/LHJWrYZwcNWW8zbRNrVmL1yFkWv+o986GEfWHZjBAoKC3pCKPb
-         CQJRDsVvcplMXgV+MKyhmkf2Ror2EP0hJMALxdESKTK6UdoqpedgNgY5Rlxnoy2lNNu/
-         X+yA4Zug/hMK8Q+rCYoxqn3FI8KJ9BVwGeoRhF/xJnogoKUg0BTona0qYonB3CrCPvNT
-         4ccnxUjCJBYOY2/tDzz3qfM5GSASiiJuPBMOxAssF79tx4oMM7ZTuXhpGAFBFTeP5PH/
-         6Ysg==
-X-Gm-Message-State: AOAM532zj1elmwkyCfNoZkYo7vJMVRQQVHwjycp+i/RUhIZsZo5d5+I1
-        cEOS4ybX4WqYHB/jURK1m/ZlsW0yjfqBWrvR0s61ygt9xpXyng==
-X-Google-Smtp-Source: ABdhPJwZLKF2MmCRNN9b62TQIhNnPubnQLvxjVObKDnh5BD9/qUU4hVdnVPfS/2tJsZjYIgfjf/yAWyx3EOXeB2oqDo=
-X-Received: by 2002:a02:5581:: with SMTP id e123mr64508991jab.98.1609831948990;
- Mon, 04 Jan 2021 23:32:28 -0800 (PST)
+        id S1725803AbhAEJUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 04:20:33 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:33284 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725876AbhAEJUc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jan 2021 04:20:32 -0500
+Received: from localhost.localdomain (unknown [112.20.112.14])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxTzYxL_RfPGYKAA--.726S2;
+        Tue, 05 Jan 2021 17:19:46 +0800 (CST)
+From:   siyanteng@loongson.cn
+To:     Harry Wei <harryxiyou@gmail.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH] docs/zh_CN: add Chinese booting and index file
+Date:   Tue,  5 Jan 2021 17:19:42 +0800
+Message-Id: <20210105091942.812515-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Tue, 5 Jan 2021 08:32:18 +0100
-Message-ID: <CAKXUXMygqbupE_6CK92=PwLw4DjnSuo9-+6iHs_DrZeZ55iRKg@mail.gmail.com>
-Subject: kerneldoc warnings since commit 538fc2ee870a3 ("rcu: Introduce
- kfree_rcu() single-argument macro")
-To:     Uladzislau Rezki <urezki@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxTzYxL_RfPGYKAA--.726S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr48AF4rKrWxtr4rAr13urg_yoW7Jw17pr
+        s3GryfKa1UA342vrWfKF1UJr1rJr4fGFWUJ3Wktw1kXrn7AF18JrnFyry0yry7Kry8uFW2
+        vrWUKrWjkr1Yk3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUva14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lw4CEc2x0rVAKj4xx
+        MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+        026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+        Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+        vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
+        aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
+        uYvjfUntxhDUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Uladzislau,
+From: Yanteng Si <siyanteng@loongson.cn>
 
-in commit 538fc2ee870a3 ("rcu: Introduce kfree_rcu() single-argument
-macro"), you have refactored the kfree_rcu macro.
+This is the Chinese version of booting and index file
 
-Since then, make htmldocs warns:
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/mips/booting.rst       | 47 +++++++++++++++++++
+ .../translations/zh_CN/mips/index.rst         | 45 ++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/mips/booting.rst
+ create mode 100644 Documentation/translations/zh_CN/mips/index.rst
 
-./include/linux/rcupdate.h:882: warning: Excess function parameter
-'ptr' description in 'kfree_rcu'
-./include/linux/rcupdate.h:882: warning: Excess function parameter
-'rhf' description in 'kfree_rcu'
+diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/mips/booting.rst
+new file mode 100644
+index 000000000000..12e0aa76b485
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mips/booting.rst
+@@ -0,0 +1,47 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Chinese translated version of Documentation/mips/booting.rst
++
++If you have any comment or update to the content, please contact the
++original document maintainer directly.  However, if you have a problem
++communicating in English you can also ask the Chinese maintainer for
++help.  Contact the Chinese maintainer if this translation is outdated
++or if there is a problem with the translation.
++
++Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
++---------------------------------------------------------------------
++Documentation/mips/booting.rst 的中文翻译
++
++如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
++交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
++译存在问题，请联系中文版维护者。
++
++中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++
++以下为正文
++---------------------------------------------------------------------
++
++BMIPS设备树引导
++------------------------
++
++  一些bootloaders只支持在内核镜像开始地址处的单一入口点。而其它
++  bootloaders将跳转到ELF的开始地址处。两种方案都被支持的；因为
++  CONFIG_BOOT_RAW=y and CONFIG_NO_EXCEPT_FILL=y, 所以第一条指令
++  会立即跳转到kernel_entry()入口处执行。
++
++  与arch/arm情况(b)类似，dt感知的引导加载程序需要设置以下寄存器:
++
++         a0 : 0
++
++         a1 : 0xffffffff
++
++         a2 : RAM中指向设备树块的物理指针(在chapterII中定义)。
++              设备树可以位于前512MB物理地址空间(0x00000000 -
++              0x1fffffff)的任何位置，以64位边界对齐。
++
++  legacy bootloaders不会使用这样的约定，并且它们不传入DT块。
++  在这种情况下，Linux将通过选中CONFIG_DT_*查找DTB。
++
++  这个约定只在32位系统中定义，因为目前没有任何64位的BMIPS实现。
+diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
+new file mode 100644
+index 000000000000..244b16b7ef51
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mips/index.rst
+@@ -0,0 +1,45 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Chinese translated version of Documentation/mips/index.rst
++
++If you have any comment or update to the content, please contact the
++original document maintainer directly.  However, if you have a problem
++communicating in English you can also ask the Chinese maintainer for
++help.  Contact the Chinese maintainer if this translation is outdated
++or if there is a problem with the translation.
++
++Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
++---------------------------------------------------------------------
++Documentation/mips/index.rst 的中文翻译
++
++如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
++交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
++译存在问题，请联系中文版维护者。
++
++中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
++
++以下为正文
++---------------------------------------------------------------------
++
++
++===========================
++MIPS特性文档
++===========================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   booting
++   ingenic-tcu
++
++   features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+-- 
+2.27.0
 
-As you deleted the two arguments in the macro definition, kerneldoc
-cannot resolve the argument names in the macro's kerneldoc
-documentation anymore and warns about that.
-
-Probably, it is best to just turn the formal kerneldoc references to
-the two arguments, which are not used in the macro definition anymore,
-simply into two informal references in the documentation.
-
-Best regards,
-
-Lukas
