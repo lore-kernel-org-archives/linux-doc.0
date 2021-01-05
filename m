@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0988C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 14:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 356D9C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 14:47:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CE7922B45
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 14:46:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E4EC22BEF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 14:47:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726919AbhAEOqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 09:46:18 -0500
-Received: from gofer.mess.org ([88.97.38.141]:54255 "EHLO gofer.mess.org"
+        id S1728177AbhAEOqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 09:46:20 -0500
+Received: from gofer.mess.org ([88.97.38.141]:46111 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726694AbhAEOqR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jan 2021 09:46:17 -0500
+        id S1728023AbhAEOqT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jan 2021 09:46:19 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7A5CEC637E; Tue,  5 Jan 2021 14:45:34 +0000 (GMT)
+        id 01ED6C63A5; Tue,  5 Jan 2021 14:45:34 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1609857934; bh=iJ86QbxBrhi/nSJypbCAMvYcDP4l2HigQ2w1KwuFLoQ=;
-        h=From:To:Subject:Date:From;
-        b=RKRuRNaOSqpGKmLkT3YE+xHyCRSzR4zz81sZRfyaVxK8mA2RFPOzlnFQrROGo21BW
-         pu8RJr1qccWhZAOhhjmsOxfnYeE/yGxQlLsQAQCe/DDkQXutEIT755yNGygMOy+Jsr
-         bH1UaIJR1DatoIcPI47IOOrWbpNEGXgn9IuNEdPE0IdTCkcgm2FTGF4+WZQnalWrgn
-         V8lvjotfbWfpMf5APdQYlpsHoe5IFvh8EiKq7K9MvmLJs4Av/wYlMF4m43RCZv0La5
-         KQihe77WRKfe8bjxFINZWq2NY83gEgljwPtsHl7r4ENBW7xTZvvXqXvkxYOFe1/OMa
-         46qe4HK4rP3Xg==
+        t=1609857935; bh=g86agJ+LPCw8ZkNJiHIjn0DJBtQq5JIr7Xq67deH28w=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=XHOybA/r4qqH1zaC2uKTFdjC2EijfmJkW3d1TIyxp0nrJ3ZBi+LQthgf5jiCUFEb5
+         zR+ZMU3J3k6BCc0FOnZuBWL5oVjbdlhIJpd7Hp7Mp5j1Sc4bF/vY84Kbfcc011OUpC
+         LZLRppiXbiEV5ko1jHT4gPGaBJ2LbDbhTxkbHl0aouRai2FM98PG13HatJzHYbJX0C
+         6YRHdrobCpiPQwTp0K+OaV8gOwSNmuhhV97jW77PufdLz3CILYqcJduwwjsxKqtTl4
+         7gu5rHs/siDqlhWC+aa2QhOrIClNp8CagKEOoQiKJZcCTDh76JRPYUcJ0vryfv/N+P
+         E4tn0ykEpX8gw==
 From:   Sean Young <sean@mess.org>
 To:     Yonghong Song <yhs@fb.com>, Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -45,10 +45,12 @@ To:     Yonghong Song <yhs@fb.com>, Alexei Starovoitov <ast@kernel.org>,
         linux-doc@vger.kernel.org, netdev@vger.kernel.org,
         bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
         clang-built-linux@googlegroups.com
-Subject: [PATCH v3 0/4] btf: support ints larger than 128 bits
-Date:   Tue,  5 Jan 2021 14:45:30 +0000
-Message-Id: <cover.1609855479.git.sean@mess.org>
+Subject: [PATCH v3 3/4] bpftool: add support for ints larger than 128 bits
+Date:   Tue,  5 Jan 2021 14:45:33 +0000
+Message-Id: <67ffe6998af5cf88bdda6eaa1e6b085db1e093ed.1609855479.git.sean@mess.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1609855479.git.sean@mess.org>
+References: <cover.1609855479.git.sean@mess.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -58,9 +60,6 @@ X-Mailing-List: linux-doc@vger.kernel.org
 clang supports arbitrary length ints using the _ExtInt extension. This
 can be useful to hold very large values, e.g. 256 bit or 512 bit types.
 
-Larger types (e.g. 1024 bits) are possible but I am unaware of a use
-case for these.
-
 This requires the _ExtInt extension enabled in clang, which is under
 review.
 
@@ -68,35 +67,68 @@ Link: https://clang.llvm.org/docs/LanguageExtensions.html#extended-integer-types
 Link: https://reviews.llvm.org/D93103
 
 Signed-off-by: Sean Young <sean@mess.org>
+---
+ tools/bpf/bpftool/btf_dumper.c | 40 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-changes since v2:
- - split patches into 4 distinct patches
-
-changes since v1:
- - added tests as suggested by Yonghong Song
- - added kernel pretty-printer
-
-
-Sean Young (4):
-  btf: add support for ints larger than 128 bits
-  libbpf: add support for ints larger than 128 bits
-  bpftool: add support for ints larger than 128 bits
-  bpf: add tests for ints larger than 128 bits
-
- Documentation/bpf/btf.rst                     |   4 +-
- include/uapi/linux/btf.h                      |   2 +-
- kernel/bpf/btf.c                              |  54 +-
- tools/bpf/bpftool/btf_dumper.c                |  40 ++
- tools/include/uapi/linux/btf.h                |   2 +-
- tools/lib/bpf/btf.c                           |   2 +-
- tools/testing/selftests/bpf/Makefile          |   3 +-
- tools/testing/selftests/bpf/prog_tests/btf.c  |   3 +-
- .../selftests/bpf/progs/test_btf_extint.c     |  50 ++
- tools/testing/selftests/bpf/test_extint.py    | 535 ++++++++++++++++++
- 10 files changed, 679 insertions(+), 16 deletions(-)
- create mode 100644 tools/testing/selftests/bpf/progs/test_btf_extint.c
- create mode 100755 tools/testing/selftests/bpf/test_extint.py
-
+diff --git a/tools/bpf/bpftool/btf_dumper.c b/tools/bpf/bpftool/btf_dumper.c
+index 0e9310727281..8b5318ec5c26 100644
+--- a/tools/bpf/bpftool/btf_dumper.c
++++ b/tools/bpf/bpftool/btf_dumper.c
+@@ -271,6 +271,41 @@ static void btf_int128_print(json_writer_t *jw, const void *data,
+ 	}
+ }
+ 
++static void btf_bigint_print(json_writer_t *jw, const void *data, int nr_bits,
++			     bool is_plain_text)
++{
++	char buf[nr_bits / 4 + 1];
++	int last_u64 = nr_bits / 64 - 1;
++	bool seen_nonzero = false;
++	int i;
++
++	for (i = 0; i <= last_u64; i++) {
++#ifdef __BIG_ENDIAN_BITFIELD
++		__u64 v = ((__u64 *)data)[i];
++#else
++		__u64 v = ((__u64 *)data)[last_u64 - i];
++#endif
++
++		if (!seen_nonzero) {
++			if (!v && i != last_u64)
++				continue;
++
++			snprintf(buf, sizeof(buf), "%llx", v);
++
++			seen_nonzero = true;
++		} else {
++			size_t off = strlen(buf);
++
++			snprintf(buf + off, sizeof(buf) - off, "%016llx", v);
++		}
++	}
++
++	if (is_plain_text)
++		jsonw_printf(jw, "0x%s", buf);
++	else
++		jsonw_printf(jw, "\"0x%s\"", buf);
++}
++
+ static void btf_int128_shift(__u64 *print_num, __u16 left_shift_bits,
+ 			     __u16 right_shift_bits)
+ {
+@@ -373,6 +408,11 @@ static int btf_dumper_int(const struct btf_type *t, __u8 bit_offset,
+ 		return 0;
+ 	}
+ 
++	if (nr_bits > 128) {
++		btf_bigint_print(jw, data, nr_bits, is_plain_text);
++		return 0;
++	}
++
+ 	if (nr_bits == 128) {
+ 		btf_int128_print(jw, data, is_plain_text);
+ 		return 0;
 -- 
 2.29.2
 
