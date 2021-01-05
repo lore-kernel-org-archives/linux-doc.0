@@ -2,178 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61550C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAC6C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:37:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB76720731
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:20:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3228D2255F
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 09:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725803AbhAEJUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jan 2021 04:20:33 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:33284 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725876AbhAEJUc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 5 Jan 2021 04:20:32 -0500
-Received: from localhost.localdomain (unknown [112.20.112.14])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxTzYxL_RfPGYKAA--.726S2;
-        Tue, 05 Jan 2021 17:19:46 +0800 (CST)
-From:   siyanteng@loongson.cn
-To:     Harry Wei <harryxiyou@gmail.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH] docs/zh_CN: add Chinese booting and index file
-Date:   Tue,  5 Jan 2021 17:19:42 +0800
-Message-Id: <20210105091942.812515-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxTzYxL_RfPGYKAA--.726S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZr48AF4rKrWxtr4rAr13urg_yoW7Jw17pr
-        s3GryfKa1UA342vrWfKF1UJr1rJr4fGFWUJ3Wktw1kXrn7AF18JrnFyry0yry7Kry8uFW2
-        vrWUKrWjkr1Yk3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUva14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lw4CEc2x0rVAKj4xx
-        MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
-        026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-        Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
-        vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280
-        aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
-        uYvjfUntxhDUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+        id S1728532AbhAEJgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 04:36:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727260AbhAEJgo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jan 2021 04:36:44 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3EBC061574;
+        Tue,  5 Jan 2021 01:36:03 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id c5so35454581wrp.6;
+        Tue, 05 Jan 2021 01:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=CBEgq3lGKdv8uL6EZCtDkPUPdtOI/LvqjfEie+xNIH4=;
+        b=HJiFrO0cyFUE3EdhkZ9ieByRFQCmu2tX+0L8OoIw4Wob2ig1rJoDxLCjxIQnyLdkES
+         SioIrCKKqRUCdIYJRnHHT7DH2PlW/UdIRpSfWuZwCmLdKhc/OUZpvSuRfBlbneWGJyz7
+         ZpTpMHZr6MH21FebXJKTorOtdY/31zxbsf5Oig5Tf7niL6jH0Jca7W5tA9EZaHf7eFrf
+         s8GfCy82KvLI/Z3W+VmSKjwi6MWD0zldc+X9455cJLoiLVNFmAuolk+7rC2oCndiGKB2
+         dSf4ivxSDbGtUAPA+FpgOuqJARYz4fUdzftUMx+JZT7jv1z3acWwet08NEa4KajaJGVY
+         ua/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=CBEgq3lGKdv8uL6EZCtDkPUPdtOI/LvqjfEie+xNIH4=;
+        b=WIpM7WD9q9hXlBAPvdZY4Ye7JhmXUtjBbt/LSz+jpJseNDF/33i/zLe4q6c8Y8fJXO
+         +xQnSi/xBAhPKVe+JZaWOdCgoNlzpmJ9IukvUcKI4/YhyenUBtr6shgh8VwC29Eww12X
+         a2i3daHDaUFRW+Xtu9mZyYuuuk5PlkLITumYNyb/WYfdoVu0FWy5T2RLKJ1WO5XZ/axI
+         2kj5DwrOhuW7LliaLNLfKwoM86LDk23pmuXFIRlPz7FH6zOTBTjA1PQ5cnEKMb0lS+nS
+         CQ67WytgHHwDAMxIO0W58UKVSUlyWPqrUm2HI5efh8JAwmoJBpeQ3rz+NeXTbmlqfa0P
+         heaw==
+X-Gm-Message-State: AOAM533ki9cTmSRAdSw4rMEBDwz9c/GWU6E1ukAi52QxSoiQnfzyXK/A
+        5OiwhUJiAGl9NaRPf5CU0c0=
+X-Google-Smtp-Source: ABdhPJzbwhnvkmHNN5DP1N2v4XP1Us0fHF241cvauNZBE+WGFQnXleX6Na2ODfxxGTIz0yr5/IiMsg==
+X-Received: by 2002:adf:e512:: with SMTP id j18mr83068277wrm.52.1609839361280;
+        Tue, 05 Jan 2021 01:36:01 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d99:1a00:4199:29a0:95cf:5dfe])
+        by smtp.gmail.com with ESMTPSA id j10sm3532540wmj.7.2021.01.05.01.36.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jan 2021 01:36:00 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     George Cherian <george.cherian@marvell.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Sunil Goutham <sgoutham@marvell.com>,
+        Linu Cherian <lcherian@marvell.com>,
+        Geetha Sowjanya <gakula@marvell.com>,
+        Jerin Jacob <jerinj@marvell.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] docs: octeontx2: tune rst markup
+Date:   Tue,  5 Jan 2021 10:35:53 +0100
+Message-Id: <20210105093553.31879-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yanteng Si <siyanteng@loongson.cn>
+Commit 80b9414832a1 ("docs: octeontx2: Add Documentation for NPA health
+reporters") added new documentation with improper formatting for rst, and
+caused a few new warnings for make htmldocs in octeontx2.rst:169--202.
 
-This is the Chinese version of booting and index file
+Tune markup and formatting for better presentation in the HTML view.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- .../translations/zh_CN/mips/booting.rst       | 47 +++++++++++++++++++
- .../translations/zh_CN/mips/index.rst         | 45 ++++++++++++++++++
- 2 files changed, 92 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mips/booting.rst
- create mode 100644 Documentation/translations/zh_CN/mips/index.rst
+applies cleanly on current master (v5.11-rc2) and next-20201205
 
-diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/mips/booting.rst
-new file mode 100644
-index 000000000000..12e0aa76b485
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mips/booting.rst
-@@ -0,0 +1,47 @@
-+.. SPDX-License-Identifier: GPL-2.0
+George, please ack.
+Jonathan, please pick this minor formatting clean-up patch.
+
+ .../ethernet/marvell/octeontx2.rst            | 59 +++++++++++--------
+ 1 file changed, 34 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+index d3fcf536d14e..00bdc10fe2b8 100644
+--- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
++++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+@@ -165,45 +165,54 @@ Devlink health reporters
+ NPA Reporters
+ -------------
+ The NPA reporters are responsible for reporting and recovering the following group of errors
 +
-+Chinese translated version of Documentation/mips/booting.rst
+ 1. GENERAL events
 +
-+If you have any comment or update to the content, please contact the
-+original document maintainer directly.  However, if you have a problem
-+communicating in English you can also ask the Chinese maintainer for
-+help.  Contact the Chinese maintainer if this translation is outdated
-+or if there is a problem with the translation.
+    - Error due to operation of unmapped PF.
+    - Error due to disabled alloc/free for other HW blocks (NIX, SSO, TIM, DPI and AURA).
 +
-+Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
-+---------------------------------------------------------------------
-+Documentation/mips/booting.rst 的中文翻译
+ 2. ERROR events
 +
-+如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
-+交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-+译存在问题，请联系中文版维护者。
+    - Fault due to NPA_AQ_INST_S read or NPA_AQ_RES_S write.
+    - AQ Doorbell Error.
 +
-+中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-+中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-+中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+ 3. RAS events
 +
-+以下为正文
-+---------------------------------------------------------------------
+    - RAS Error Reporting for NPA_AQ_INST_S/NPA_AQ_RES_S.
 +
-+BMIPS设备树引导
-+------------------------
+ 4. RVU events
 +
-+  一些bootloaders只支持在内核镜像开始地址处的单一入口点。而其它
-+  bootloaders将跳转到ELF的开始地址处。两种方案都被支持的；因为
-+  CONFIG_BOOT_RAW=y and CONFIG_NO_EXCEPT_FILL=y, 所以第一条指令
-+  会立即跳转到kernel_entry()入口处执行。
+    - Error due to unmapped slot.
+ 
+-Sample Output
+--------------
+-~# devlink health
+-pci/0002:01:00.0:
+-  reporter hw_npa_intr
+-      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
+-  reporter hw_npa_gen
+-      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
+-  reporter hw_npa_err
+-      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
+-   reporter hw_npa_ras
+-      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
++Sample Output::
 +
-+  与arch/arm情况(b)类似，dt感知的引导加载程序需要设置以下寄存器:
++	~# devlink health
++	pci/0002:01:00.0:
++	  reporter hw_npa_intr
++	      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
++	  reporter hw_npa_gen
++	      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
++	  reporter hw_npa_err
++	      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
++	   reporter hw_npa_ras
++	      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
+ 
+ Each reporter dumps the
+  - Error Type
+  - Error Register value
+  - Reason in words
+ 
+-For eg:
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
+- NPA_AF_GENERAL:
+-         NPA General Interrupt Reg : 1
+-         NIX0: free disabled RX
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
+- NPA_AF_RVU:
+-         NPA RVU Interrupt Reg : 1
+-         Unmap Slot Error
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
+- NPA_AF_ERR:
+-        NPA Error Interrupt Reg : 4096
+-        AQ Doorbell Error
++For eg::
 +
-+         a0 : 0
-+
-+         a1 : 0xffffffff
-+
-+         a2 : RAM中指向设备树块的物理指针(在chapterII中定义)。
-+              设备树可以位于前512MB物理地址空间(0x00000000 -
-+              0x1fffffff)的任何位置，以64位边界对齐。
-+
-+  legacy bootloaders不会使用这样的约定，并且它们不传入DT块。
-+  在这种情况下，Linux将通过选中CONFIG_DT_*查找DTB。
-+
-+  这个约定只在32位系统中定义，因为目前没有任何64位的BMIPS实现。
-diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
-new file mode 100644
-index 000000000000..244b16b7ef51
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mips/index.rst
-@@ -0,0 +1,45 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Chinese translated version of Documentation/mips/index.rst
-+
-+If you have any comment or update to the content, please contact the
-+original document maintainer directly.  However, if you have a problem
-+communicating in English you can also ask the Chinese maintainer for
-+help.  Contact the Chinese maintainer if this translation is outdated
-+or if there is a problem with the translation.
-+
-+Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
-+---------------------------------------------------------------------
-+Documentation/mips/index.rst 的中文翻译
-+
-+如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
-+交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-+译存在问题，请联系中文版维护者。
-+
-+中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-+中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-+中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-+
-+以下为正文
-+---------------------------------------------------------------------
-+
-+
-+===========================
-+MIPS特性文档
-+===========================
-+
-+.. toctree::
-+   :maxdepth: 2
-+   :numbered:
-+
-+   booting
-+   ingenic-tcu
-+
-+   features
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
++	 NPA_AF_GENERAL:
++	         NPA General Interrupt Reg : 1
++	         NIX0: free disabled RX
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
++	 NPA_AF_RVU:
++	         NPA RVU Interrupt Reg : 1
++	         Unmap Slot Error
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
++	 NPA_AF_ERR:
++	        NPA Error Interrupt Reg : 4096
++	        AQ Doorbell Error
 -- 
-2.27.0
+2.17.1
 
