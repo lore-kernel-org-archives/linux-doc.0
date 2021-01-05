@@ -2,74 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8975C43381
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 21:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D92EC433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 05:59:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 958C622509
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jan 2021 21:31:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24D6F229C5
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jan 2021 05:59:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbhADVat (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jan 2021 16:30:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40454 "EHLO mail.kernel.org"
+        id S1725710AbhAEF7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jan 2021 00:59:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53630 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726246AbhADVat (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 4 Jan 2021 16:30:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9CCA322273;
-        Mon,  4 Jan 2021 21:30:08 +0000 (UTC)
+        id S1725550AbhAEF7Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 5 Jan 2021 00:59:24 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F177227C3;
+        Tue,  5 Jan 2021 05:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609795808;
-        bh=HzvYBOK98PlTaEbm96qGzSSodUIIZDjE9+ZnZmW3E6E=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=QQY2lObHW005IFFecga2L7lZ4LxzE+7ML3UsldqcE7g+TUDkN1RbQwYamgl0vO67V
-         7Dc/arqoW1LBO3M/m8javoYlohFqbs6xvN9GyS1RYdpWcWL5B9iGMDndRX7aHD6vqK
-         kvmRI+o0aWROsJh+OTlZhcJ+nmQREpgKWSXNsMOLujZAFwHghkGAGZc3UaP8fhnTdp
-         qINi/LjjEL3B4Eh1pKfj1M3jplYehrbOF7HZqrwhN6eNIz6z9XutFMgK5+xJliGDDE
-         mvQ01DjX+u4Q4sq9K1jkXPHi9PmXrn0C0IjoAsHz4RUrpTg40l1N9jPFIh3kLINBMd
-         1bqMT4IhVat6w==
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1609826324;
+        bh=M90jhBdiFXVbsGD5pYBV2cqPCbT6JyTQD6Oaxavk6EM=;
+        h=Date:From:To:Cc:Subject:From;
+        b=eOrA9gViZNChfa2l+n6CqecHWlQTSCADG2csBRcvu5t9nMd29rIIsgMbydcmx7gD2
+         4g3RWlFRN3JBcWjsNojs7ibXoOzwZqAKEO6NcVhwu1BZf4chUeSZ1k8wfLbAPFlx23
+         mdpqDlR2dbqto2jaA0mdTrXaOFkDY+/TUswzbbk8dFiy/UoM/lReHLds1t/UWv05cJ
+         wMLXaO+ch6VeusLROs12VGs6h7A9Zq1Wz5jpH8nCppvVcpRA4yztQEbmgTH3HzwY7d
+         rydo2zvsdiA2O+eZ/5GtS0XC99kja7pSZfTVdW2KqparMUh7qHnKbDibbXoKM8VjwB
+         z5h3YlBpaSwyw==
+Date:   Tue, 5 Jan 2021 06:58:15 +0100
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] docs: remove mention of ENABLE_MUST_CHECK
+Message-ID: <20210105055815.GA5173@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 1/2] docs: networking: packet_mmap: fix formatting for C
- macros
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <160979580858.407.15734291422142555141.git-patchwork-notify@kernel.org>
-Date:   Mon, 04 Jan 2021 21:30:08 +0000
-References: <5cb47005e7a59b64299e038827e295822193384c.1609232919.git.baruch@tkos.co.il>
-In-Reply-To: <5cb47005e7a59b64299e038827e295822193384c.1609232919.git.baruch@tkos.co.il>
-To:     Baruch Siach <baruch@tkos.co.il>
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        uaca@alumni.uv.es, willemdebruijn.kernel@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: elm/2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+We removed ENABLE_MUST_CHECK in 196793946264 ("Compiler Attributes:
+remove CONFIG_ENABLE_MUST_CHECK"), so let's remove docs' mentions.
 
-This series was applied to netdev/net.git (refs/heads/master):
+At the same time, fix the outdated text related to
+ENABLE_WARN_DEPRECATED that wasn't removed in 3337d5cfe5e08
+("configs: get rid of obsolete CONFIG_ENABLE_WARN_DEPRECATED").
 
-On Tue, 29 Dec 2020 11:08:38 +0200 you wrote:
-> The citation of macro definitions should appear in a code block.
-> 
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
->  Documentation/networking/packet_mmap.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Finally, reflow the paragraph.
 
-Here is the summary with links:
-  - [v2,1/2] docs: networking: packet_mmap: fix formatting for C macros
-    https://git.kernel.org/netdev/net/c/17e94567c57d
-  - [v2,2/2] docs: networking: packet_mmap: fix old config reference
-    https://git.kernel.org/netdev/net/c/e4da63cda51f
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+A couple translations (it and zh) should consider updating this
+too, since they also have the mention -- Cc'ing their maintainers.
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+ Documentation/process/4.Coding.rst | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
+index c27e59d2f702..0825dc496f22 100644
+--- a/Documentation/process/4.Coding.rst
++++ b/Documentation/process/4.Coding.rst
+@@ -249,10 +249,8 @@ features; most of these are found in the "kernel hacking" submenu.  Several
+ of these options should be turned on for any kernel used for development or
+ testing purposes.  In particular, you should turn on:
+ 
+- - ENABLE_MUST_CHECK and FRAME_WARN to get an
+-   extra set of warnings for problems like the use of deprecated interfaces
+-   or ignoring an important return value from a function.  The output
+-   generated by these warnings can be verbose, but one need not worry about
++ - FRAME_WARN to get warnings for stack frames larger than a given amount.
++   The output generated can be verbose, but one need not worry about
+    warnings from other parts of the kernel.
+ 
+  - DEBUG_OBJECTS will add code to track the lifetime of various objects
+-- 
+2.29.2
 
