@@ -2,112 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF046C433E9
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:46:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D48AC4332E
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 23:42:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCBE62312C
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:46:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA76223332
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 23:42:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbhAFSqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 13:46:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbhAFSqA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 13:46:00 -0500
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8733FC06134D
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jan 2021 10:45:20 -0800 (PST)
-Received: by mail-pf1-x432.google.com with SMTP id t22so2222846pfl.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jan 2021 10:45:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ho+xRsAlnZPA9XwreJh6lam3mNeyMrjUZb8gp0Pijj4=;
-        b=pp1lm1jkJ+G032pTcswwk6Ab4cZJqTQ98WbtBympCzpKmXncEcv6qCTKzdSbVOifHF
-         uO+nl+4aB9LlmW27p+QnG2+/nu8cKCtE16/9E02D0atV5oYdFrwqTeb1hcvmgQQjdytE
-         BP1rIL3zXJL23b5bAWRaM36ihs/hLE+PLKsZFbf/TciuW23P2ye6vkAHfsnLnFQiw8op
-         SaTOOnQnWIsFOuYSjlppUh85Nmnt1nhpBQbFhMgLCW6419x2Pc3B2b/hRpknb8qcl2/J
-         v0XFc/9O3QoVmWuvbjNFMHTi5AJ8M6U2jnYB8YoB90TeBavfL516zS3wbFWGmGUCg3im
-         GPtg==
+        id S1727789AbhAFXma (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 18:42:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57879 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727790AbhAFXm3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 18:42:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1609976461;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=gg1abwP+BqeCY//k62aX3KXyaRI5IScydAPs2iM5zX8=;
+        b=DwxC2fpZD2T05sOMvqbsGOSwnFYMMhUQHX9GsUAwlLTzNR/W0PNVxG69mHENNrEmvm9WrN
+        GxFT0mCeNdDpiyxrRR1CmM3qoCMPh7/p8pI/BnFSNlgL/tvygZWFexlORGwa6va6f2HHwt
+        +Q9U9zfvkCE8PCeE7oKnpE/ucWmL/yI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-9y_y3ghRMUKijvVpbBui4w-1; Wed, 06 Jan 2021 18:40:59 -0500
+X-MC-Unique: 9y_y3ghRMUKijvVpbBui4w-1
+Received: by mail-ed1-f70.google.com with SMTP id g25so2511572edu.4
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jan 2021 15:40:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ho+xRsAlnZPA9XwreJh6lam3mNeyMrjUZb8gp0Pijj4=;
-        b=XIH7FqXukeR/RVLMZI1zLMXPeV+86cRlYADeVNePf+2BHWPfuD7YGkj7B1je346hf3
-         CLJQgh5w+KO6EoGoCUeCaUPMaFaPXCI8uNwfASf8SHXeWshiSueCGyDlT0qhgL5dmdr0
-         DMD4FabCJuXz28F/ROtIVmDwIg9160xu+x3ntBIwZlM0WKTovu0bfMYk0v8C+2+HvECH
-         yiR3dU9ZislM1mqXsQeY5GGRYAKwVM/32KSldp38ybZkbhrCoPsIDlo34UBOuUsAsXZE
-         3VrQlufcK60ULa3nXjI/kSRFSRYvhFevNBWx0QW9PvnmpQXUZZEN6LJjwValZg9+iUhc
-         D1jQ==
-X-Gm-Message-State: AOAM530Zw7SWQFBrq+GTcPRQ0vu1TMIbo9GJxKciuZCzsepHFYLzFNc5
-        3+R4vypd/8u9xN+mCzZfMIbcKw==
-X-Google-Smtp-Source: ABdhPJwtNkxU+RDoHsd2aWmLEUDActU8ItlTVYihGE3QCDrRNmO5CRDj6A156uPcWiMvJZXbiH69+g==
-X-Received: by 2002:a63:1261:: with SMTP id 33mr5797347pgs.213.1609958719939;
-        Wed, 06 Jan 2021 10:45:19 -0800 (PST)
-Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
-        by smtp.gmail.com with ESMTPSA id 21sm3299297pfx.84.2021.01.06.10.45.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 10:45:19 -0800 (PST)
-Date:   Wed, 6 Jan 2021 10:45:14 -0800
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     David Rientjes <rientjes@google.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Brijesh <brijesh.singh@amd.com>, Jon <jon.grimm@amd.com>,
-        Eric <eric.vantassell@amd.com>, pbonzini@redhat.com,
-        Sean Christopherson <seanjc@google.com>, lizefan@huawei.com,
-        hannes@cmpxchg.org, Janosch Frank <frankja@linux.ibm.com>,
-        corbet@lwn.net, joro@8bytes.org, vkuznets@redhat.com,
-        wanpengli@tencent.com, Jim Mattson <jmattson@google.com>,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        Matt Gingell <gingell@google.com>,
-        Dionna Glaze <dionnaglaze@google.com>, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gg1abwP+BqeCY//k62aX3KXyaRI5IScydAPs2iM5zX8=;
+        b=NgbyjPOFPFSkCw8CqSzZiA9W0awWkeHGNoV404ZILC3NSx5anI5EzESK4J87bEi9a2
+         KdCXQSjvz03myn772LHKdc7q4WJlkIZFXmtBdhqacHmGvstaR0EJzjrW8ZoRyb0eHKBQ
+         YUrQFv6g2qhkc8bATgT6PlrsEdEWp/ideVuEOXlMeOSlwAzJYaG9kpoxdVb6AF5c+sCD
+         pmLH0UY6zXpjS34DHfvRQreVmdGsoDnKcM1sFaUxt6TYbjis+mJQb15gA4fXnsSeai18
+         p9q4riq4633vf2zO/+CPrXyQ/5uaRUQcp16+sa47++rdvCmGKZBh7pZkCY96QD+6C6dn
+         7A4A==
+X-Gm-Message-State: AOAM533GT4vF0Bo+d1UKQBm0jhv7Xqx2RrvzzGT1x7mGhMGXxwZKNXdH
+        9I+vFwZEXeYxL2ltnbVUHa3JONoDWBv7C5p2k7E6ZgIhTZgqqg9VoMdB8usQJVb9u4insUWoyDa
+        mRE+nrC4kojE4uf0o0WMfmE/eNkw+CyCt6baSnIjYbl+0tBWZBC5QzWPLMTJPcMuCr0C8nPEM
+X-Received: by 2002:a17:906:2755:: with SMTP id a21mr4492511ejd.374.1609976457997;
+        Wed, 06 Jan 2021 15:40:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy2qqa4NVTN8YKqNbKoZ88bAEZVXKvFTJDmjmRqxRyBEdOQ49LBm88dohdusRjKj+Cjy/ppIQ==
+X-Received: by 2002:a17:906:2755:: with SMTP id a21mr4492475ejd.374.1609976457686;
+        Wed, 06 Jan 2021 15:40:57 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id be6sm1960700edb.29.2021.01.06.15.40.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jan 2021 15:40:56 -0800 (PST)
+Subject: Re: [PATCH v3 0/9] Add support for Microsoft Surface System
+ Aggregator Module
+To:     Maximilian Luz <luzmaximilian@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [Patch v3 0/2] cgroup: KVM: New Encryption IDs cgroup controller
-Message-ID: <X/YFOvLp/mEk5z9W@google.com>
-References: <20201209205413.3391139-1-vipinsh@google.com>
- <X9E6eZaIFDhzrqWO@mtj.duckdns.org>
- <4f7b9c3f-200e-6127-1d94-91dd9c917921@de.ibm.com>
- <5f8d4cba-d3f-61c2-f97-fdb338fec9b8@google.com>
- <X9onUwvKovJeHpKR@mtj.duckdns.org>
- <CAHVum0dS+QxWFSK+evxQtZDHkZZx9pr0m_jEDHc9ovd5jQcfaA@mail.gmail.com>
- <X/SHiFHRsQM43VgC@mtj.duckdns.org>
+Cc:     Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
+        Dorian Stoll <dorian.stoll@tmsp.io>,
+        platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20201221183959.1186143-1-luzmaximilian@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a47f9739-0d6f-4e1d-c436-3ec272144d87@redhat.com>
+Date:   Thu, 7 Jan 2021 00:40:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/SHiFHRsQM43VgC@mtj.duckdns.org>
+In-Reply-To: <20201221183959.1186143-1-luzmaximilian@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 10:36:40AM -0500, Tejun Heo wrote:
-> Happy new year!
+Hi,
+
+On 12/21/20 7:39 PM, Maximilian Luz wrote:
+> Hello,
 > 
-> On Wed, Dec 16, 2020 at 12:02:37PM -0800, Vipin Sharma wrote:
-> > I like the idea of having a separate controller to keep the code simple and
-> > easier for maintenance.
+> Here is version three of the Surface System Aggregator Module (SAM/SSAM)
+> driver series, adding initial support for the embedded controller on 5th
+> and later generation Microsoft Surface devices. Initial support includes
+> the ACPI interface to the controller, via which battery and thermal
+> information is provided on some of these devices.
 > 
-> Yeah, the more I think about it, keeping it separate seems like the right
-> thing to do. What bothers me primarily is that the internal logic is
-> identical between the RDMA controller and this one. If you wanna try
-> factoring them out into library, great. If not, I don't think it should
-> block merging this controller. We can get to refactoring later.
+> The first version and cover letter detailing what this series is about
+> can be found at
+> 
+>   https://lore.kernel.org/platform-driver-x86/20201115192143.21571-1-luzmaximilian@gmail.com/
+> 
+> the previous version (v2) at
+> 
+>   https://lore.kernel.org/platform-driver-x86/20201203212640.663931-1-luzmaximilian@gmail.com/
+> 
+> This patch-set can also be found at the following repository and
+> reference, if you prefer to look at a kernel tree instead of these
+> emails:
+> 
+>   https://github.com/linux-surface/kernel tags/s/surface-aggregator/v3
+> 
+> Thank you all for the feedback to and reviews of the previous versions,
+> I hope I have addressed all comments.
+
+Thank you for your patch-series, I've applied the series to my
+review-hans branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+
+This has been applied on top of:
+"platform/surface: SURFACE_PLATFORMS should depend on ACPI"
+
+As requested. Since my review-hans branch has been fast-forwarded to 5.11-rc1
+there where some conflicts:
+
+6/9 "platform/surface: aggregator: Add dedicated bus and device type" had conflicts in:
+scripts/mod/devicetable-offsets.c
+scripts/mod/file2alias.c
+
+8/9 "platform/surface: Add Surface Aggregator user-space interface" had a conflict in:
+Documentation/userspace-api/ioctl/ioctl-number.rst
+
+This conflict was caused by the addition of documentation of the sgx ioctls, these use
+0xA4 as "Code" byte (shared with uapi/linux/tee.h), so the 0xA5 code for the sam cdev
+ioctl is still unique.
+
+I'm pretty sure that I've properly resolved the conflicts, but please double-check.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
+
+Regards,
+
+Hans
+
+
+
+
+> Note: In v3, I have dropped the explicit dependency of the core module
+> and driver on CONFIG_ACPI due to the incoming
+> 
+>   [PATCH] platform/surface: SURFACE_PLATFORMS should depend on ACPI
+> 
+> Thus, this series depends on said patch. This patch can be found at
+> 
+>   https://www.spinics.net/lists/platform-driver-x86/msg23929.html
+> 
+> 
+> Changes in v1 (from RFC, overview):
+>  - move to platform/surface
+>  - add copyright lines
+>  - change SPDX identifier to GPL-2.0+ (was GPL-2.0-or-later)
+>  - change user-space interface from debugfs to misc-device
+>  - address issues in user-space interface
+>  - fix typos in commit messages and documentation
+>  - fix some bugs, address other issues
+> 
+> Changes in v2 (overview):
+>  - simplify some code, mostly with regards to concurrency
+>  - add architectural overview to documentation
+>  - improve comments for documentation
+>  - use printk specifier for hex prefix instead of hard-coding it
+>  - spell check comments and strings, fix typos
+>  - unify comment style
+>  - run checkpatch --strict, fix these and other style issues
+> 
+> Changes in v3 (overview):
+>  - remove explicit dependency on ACPI as this is going to be covered by
+>    CONFIG_SURFACE_PLATFORMS
+>  - simplify locking requirements
+>  - help enforce locking requirements via lockdep assertions
+>  - fix false-positive lockdep warning
+>  - warn on event enablement reference counter exhaustion
+>  - don't warn about unhandled event if event handling failed
+>  - validate flags on request initialization
+>  - improve documentation/add comments
+>  - replace 'iff' with 'if' in documentation and comments
+> 
+> Changes regarding specific patches (and more details) can be found on
+> the individual patch.
+> 
+> 
+> Maximilian Luz (9):
+>   platform/surface: Add Surface Aggregator subsystem
+>   platform/surface: aggregator: Add control packet allocation caching
+>   platform/surface: aggregator: Add event item allocation caching
+>   platform/surface: aggregator: Add trace points
+>   platform/surface: aggregator: Add error injection capabilities
+>   platform/surface: aggregator: Add dedicated bus and device type
+>   docs: driver-api: Add Surface Aggregator subsystem documentation
+>   platform/surface: Add Surface Aggregator user-space interface
+>   platform/surface: Add Surface ACPI Notify driver
+> 
+>  Documentation/driver-api/index.rst            |    1 +
+>  .../surface_aggregator/client-api.rst         |   38 +
+>  .../driver-api/surface_aggregator/client.rst  |  393 +++
+>  .../surface_aggregator/clients/cdev.rst       |   87 +
+>  .../surface_aggregator/clients/index.rst      |   21 +
+>  .../surface_aggregator/clients/san.rst        |   44 +
+>  .../driver-api/surface_aggregator/index.rst   |   21 +
+>  .../surface_aggregator/internal-api.rst       |   67 +
+>  .../surface_aggregator/internal.rst           |  577 ++++
+>  .../surface_aggregator/overview.rst           |   77 +
+>  .../driver-api/surface_aggregator/ssh.rst     |  344 +++
+>  .../userspace-api/ioctl/ioctl-number.rst      |    2 +
+>  MAINTAINERS                                   |   13 +
+>  drivers/platform/surface/Kconfig              |   38 +
+>  drivers/platform/surface/Makefile             |    3 +
+>  drivers/platform/surface/aggregator/Kconfig   |   68 +
+>  drivers/platform/surface/aggregator/Makefile  |   17 +
+>  drivers/platform/surface/aggregator/bus.c     |  415 +++
+>  drivers/platform/surface/aggregator/bus.h     |   27 +
+>  .../platform/surface/aggregator/controller.c  | 2579 +++++++++++++++++
+>  .../platform/surface/aggregator/controller.h  |  285 ++
+>  drivers/platform/surface/aggregator/core.c    |  839 ++++++
+>  .../platform/surface/aggregator/ssh_msgb.h    |  205 ++
+>  .../surface/aggregator/ssh_packet_layer.c     | 2057 +++++++++++++
+>  .../surface/aggregator/ssh_packet_layer.h     |  190 ++
+>  .../platform/surface/aggregator/ssh_parser.c  |  228 ++
+>  .../platform/surface/aggregator/ssh_parser.h  |  154 +
+>  .../surface/aggregator/ssh_request_layer.c    | 1264 ++++++++
+>  .../surface/aggregator/ssh_request_layer.h    |  143 +
+>  drivers/platform/surface/aggregator/trace.h   |  632 ++++
+>  .../platform/surface/surface_acpi_notify.c    |  886 ++++++
+>  .../surface/surface_aggregator_cdev.c         |  303 ++
+>  include/linux/mod_devicetable.h               |   18 +
+>  include/linux/surface_acpi_notify.h           |   39 +
+>  include/linux/surface_aggregator/controller.h |  824 ++++++
+>  include/linux/surface_aggregator/device.h     |  423 +++
+>  include/linux/surface_aggregator/serial_hub.h |  672 +++++
+>  include/uapi/linux/surface_aggregator/cdev.h  |   78 +
+>  scripts/mod/devicetable-offsets.c             |    8 +
+>  scripts/mod/file2alias.c                      |   23 +
+>  40 files changed, 14103 insertions(+)
+>  create mode 100644 Documentation/driver-api/surface_aggregator/client-api.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/client.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/cdev.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/index.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/clients/san.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/index.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/internal-api.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/internal.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/overview.rst
+>  create mode 100644 Documentation/driver-api/surface_aggregator/ssh.rst
+>  create mode 100644 drivers/platform/surface/aggregator/Kconfig
+>  create mode 100644 drivers/platform/surface/aggregator/Makefile
+>  create mode 100644 drivers/platform/surface/aggregator/bus.c
+>  create mode 100644 drivers/platform/surface/aggregator/bus.h
+>  create mode 100644 drivers/platform/surface/aggregator/controller.c
+>  create mode 100644 drivers/platform/surface/aggregator/controller.h
+>  create mode 100644 drivers/platform/surface/aggregator/core.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_msgb.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_packet_layer.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_parser.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_parser.h
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.c
+>  create mode 100644 drivers/platform/surface/aggregator/ssh_request_layer.h
+>  create mode 100644 drivers/platform/surface/aggregator/trace.h
+>  create mode 100644 drivers/platform/surface/surface_acpi_notify.c
+>  create mode 100644 drivers/platform/surface/surface_aggregator_cdev.c
+>  create mode 100644 include/linux/surface_acpi_notify.h
+>  create mode 100644 include/linux/surface_aggregator/controller.h
+>  create mode 100644 include/linux/surface_aggregator/device.h
+>  create mode 100644 include/linux/surface_aggregator/serial_hub.h
+>  create mode 100644 include/uapi/linux/surface_aggregator/cdev.h
 > 
 
-Happy new year!
-Sounds great, I will send out a new patch which will not reject the new
-max limit based on the current usage. It will not include refactoring
-out common code between RDMA and Encryption ID controller. We can pursue
-that later.
-
-Thanks
-Vipin
