@@ -2,176 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6D5AC433E6
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 15:33:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1084AC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 16:18:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A00E22311E
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 15:33:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEB0A23130
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 16:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbhAFPde (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 10:33:34 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:50126 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726551AbhAFPdd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Jan 2021 10:33:33 -0500
-Received: by ajax-webmail-mail.loongson.cn (Coremail) ; Wed, 6 Jan 2021
- 23:32:45 +0800 (GMT+08:00)
-X-Originating-IP: [153.35.206.188]
-Date:   Wed, 6 Jan 2021 23:32:45 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   =?UTF-8?B?5Y+45bu26IW+?= <siyanteng@loongson.cn>
-To:     "Alex Shi" <alex.shi@linux.alibaba.com>
-Cc:     "Harry Wei" <harryxiyou@gmail.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Huacai Chen" <chenhuacai@loongson.cn>,
-        "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-Subject: Re: Re: [PATCH] docs/zh_CN: add Chinese booting and index file
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10a build 20191018(4c4f6d15)
- Copyright (c) 2002-2021 www.mailtech.cn .loongson.cn
-In-Reply-To: <4eed2bbe-1567-38cf-8471-bd8165c5da7f@linux.alibaba.com>
-References: <20210105091942.812515-1-siyanteng@loongson.cn>
- <4eed2bbe-1567-38cf-8471-bd8165c5da7f@linux.alibaba.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <308135ce.51f.176d8543504.Coremail.siyanteng@loongson.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: AQAAf9DxK+Qf2PVf0VwAAA--.324W
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/1tbiAQANEV3QvM0WDwABs5
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+        id S1727320AbhAFQSZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 11:18:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727273AbhAFQSY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 11:18:24 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E767C06134C;
+        Wed,  6 Jan 2021 08:17:44 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id c5so2930158wrp.6;
+        Wed, 06 Jan 2021 08:17:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=d3NVlNatfm0P1wuR1e8ONPfbyHqMhsXuVlJCZwTJO1A=;
+        b=EaUpeLMszQu8MNpCM/62eyGBU/TZRVH8o1qDP40DTXR3cU8Y/NVqm512GZxetz3vjS
+         TcY7n8A/6Z/G6MMoC8Mg+wpWayx1TrIw+q797er4/7sSdK0VLq71sigWi8d8tlSqa4e/
+         11iw16GSnlWZ4GJnh9zVpaDKql/nopwX/oRsSgb+iaJEjtKZy0YPWmaiI2caqtMSZrxG
+         YUQieTZB4ebeDLhJK2Dnf+fDEQXkkU3LRnySCjEb1I8ahjjmPWQA79FLsFnsSVnjOUWa
+         6aWxsdWZ+94DPyw2rbQXGA0LCH3VLX5am64XaIIKdCFThBXkFuOtMc1lmTHiqqXEIwJV
+         KYWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=d3NVlNatfm0P1wuR1e8ONPfbyHqMhsXuVlJCZwTJO1A=;
+        b=DpalVC38ni8arI0KzO0lXYebN9h+ogLRHSZsQJFOQFldZSOxyzHg93U7A/wo5NlqB1
+         Hf+cmTPGtmrxztoEjBHCw4/s9o9mQiFQ7MnsI28GGwGGUBSbfUayIB9nDBWjUtyDiaa5
+         UH6tBFpgLI/5+hFiJnFO1isMEB2CAeBD/LLyh0+0ixZVPXOWonTZL6qhiazOg1U92S6P
+         F5c1nGr267PvmGbM8IuHb7cdhylet68zMCyaTTYdM6nWkIKD39FRHQWV/K2HzsYlLejY
+         ugDvowvla7iIP5ftfWJTxLufSCef81cBweDb6ZlSNAuXvIjldMkA3e0mDLRnezSYitDk
+         7tYw==
+X-Gm-Message-State: AOAM532qPtuZKruSVbVcb7a978kcIXKRueL+PMmLYyhYjls9+osFhg7t
+        mcBb3NONzA7IoyKA/aiqeus=
+X-Google-Smtp-Source: ABdhPJwDZBbwhW3R7r/kMRQ6y3srhWrUH1dlXd8rPSbWPsHdQ57pGfZgg67rcf/09oSiVyFSfHUUBA==
+X-Received: by 2002:adf:902a:: with SMTP id h39mr4927486wrh.147.1609949862778;
+        Wed, 06 Jan 2021 08:17:42 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2db6:2e00:1065:c83e:b188:32c2])
+        by smtp.gmail.com with ESMTPSA id o13sm4151928wrh.88.2021.01.06.08.17.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jan 2021 08:17:42 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     George Cherian <george.cherian@marvell.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     Sunil Goutham <sgoutham@marvell.com>,
+        Linu Cherian <lcherian@marvell.com>,
+        Geetha Sowjanya <gakula@marvell.com>,
+        Jerin Jacob <jerinj@marvell.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH v2] docs: octeontx2: tune rst markup
+Date:   Wed,  6 Jan 2021 17:17:35 +0100
+Message-Id: <20210106161735.21751-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rmlyc3RseSxUaGVzZSBjaGFuZ2VzIGFyZSBncmVhdDsgVGhlbiwgSSBhbSB2ZXJ5IHNvcnJ5LCB0
-aGlzCmlzIG15IGZpcnN0IGF0dGVtcHQgdG8gdHJhbnNsYXRlIGRvY3VtZW50cywgSSB3aWxsIGZp
-eCB0aGVtCmluIHRoZSBQQVRDSCBWMi4KClRoYW5rcwpZYW50ZW5nIFNpCgomZ3Q7IC0tLS0tT3Jp
-Z2luYWwgTWVzc2FnZXMtLS0tLQomZ3Q7IEZyb206ICJBbGV4IFNoaSIgPGFsZXguc2hpQGxpbnV4
-LmFsaWJhYmEuY29tPgomZ3Q7IFNlbnQgVGltZTogMjAyMS0wMS0wNiAxNDozMDozOCAoV2VkbmVz
-ZGF5KQomZ3Q7IFRvOiBzaXlhbnRlbmdAbG9vbmdzb24uY24sICJIYXJyeSBXZWkiIDxoYXJyeXhp
-eW91QGdtYWlsLmNvbT4KJmd0OyBDYzogIkpvbmF0aGFuIENvcmJldCIgPGNvcmJldEBsd24ubmV0
-PiwgbGludXgtZG9jQHZnZXIua2VybmVsLm9yZywgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
-ZywgIkh1YWNhaSBDaGVuIiA8Y2hlbmh1YWNhaUBsb29uZ3Nvbi5jbj4sICJKaWF4dW4gWWFuZyIg
-PGppYXh1bi55YW5nQGZseWdvYXQuY29tPgomZ3Q7IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGRvY3Mv
-emhfQ046IGFkZCBDaGluZXNlIGJvb3RpbmcgYW5kIGluZGV4IGZpbGUKJmd0OyAKJmd0OyAKJmd0
-OyAKJmd0OyDlnKggMjAyMS8xLzUg5LiL5Y2INToxOSwgc2l5YW50ZW5nQGxvb25nc29uLmNuIOWG
-memBkzoKJmd0OyAmZ3Q7IEZyb206IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4K
-Jmd0OyAmZ3Q7IAomZ3Q7ICZndDsgVGhpcyBpcyB0aGUgQ2hpbmVzZSB2ZXJzaW9uIG9mIGJvb3Rp
-bmcgYW5kIGluZGV4IGZpbGUKJmd0OyAmZ3Q7IAomZ3Q7ICZndDsgU2lnbmVkLW9mZi1ieTogWWFu
-dGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPgomZ3Q7ICZndDsgLS0tCiZndDsgJmd0OyAg
-Li4uL3RyYW5zbGF0aW9ucy96aF9DTi9taXBzL2Jvb3RpbmcucnN0ICAgICAgIHwgNDcgKysrKysr
-KysrKysrKysrKysrKwomZ3Q7ICZndDsgIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vbWlwcy9pbmRl
-eC5yc3QgICAgICAgICB8IDQ1ICsrKysrKysrKysrKysrKysrKwomZ3Q7ICZndDsgIDIgZmlsZXMg
-Y2hhbmdlZCwgOTIgaW5zZXJ0aW9ucygrKQomZ3Q7ICZndDsgIGNyZWF0ZSBtb2RlIDEwMDY0NCBE
-b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9taXBzL2Jvb3RpbmcucnN0CiZndDsgJmd0
-OyAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21p
-cHMvaW5kZXgucnN0CiZndDsgJmd0OyAKJmd0OyAmZ3Q7IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9taXBzL2Jvb3RpbmcucnN0IGIvRG9jdW1lbnRhdGlvbi90
-cmFuc2xhdGlvbnMvemhfQ04vbWlwcy9ib290aW5nLnJzdAomZ3Q7ICZndDsgbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKJmd0OyAmZ3Q7IGluZGV4IDAwMDAwMDAwMDAwMC4uMTJlMGFhNzZiNDg1CiZndDsg
-Jmd0OyAtLS0gL2Rldi9udWxsCiZndDsgJmd0OyArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9taXBzL2Jvb3RpbmcucnN0CiZndDsgJmd0OyBAQCAtMCwwICsxLDQ3IEBACiZn
-dDsgJmd0OyArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKJmd0OyAmZ3Q7ICsK
-Jmd0OyAmZ3Q7ICtDaGluZXNlIHRyYW5zbGF0ZWQgdmVyc2lvbiBvZiBEb2N1bWVudGF0aW9uL21p
-cHMvYm9vdGluZy5yc3QKJmd0OyAmZ3Q7ICsKJmd0OyAmZ3Q7ICtJZiB5b3UgaGF2ZSBhbnkgY29t
-bWVudCBvciB1cGRhdGUgdG8gdGhlIGNvbnRlbnQsIHBsZWFzZSBjb250YWN0IHRoZQomZ3Q7ICZn
-dDsgK29yaWdpbmFsIGRvY3VtZW50IG1haW50YWluZXIgZGlyZWN0bHkuICBIb3dldmVyLCBpZiB5
-b3UgaGF2ZSBhIHByb2JsZW0KJmd0OyAmZ3Q7ICtjb21tdW5pY2F0aW5nIGluIEVuZ2xpc2ggeW91
-IGNhbiBhbHNvIGFzayB0aGUgQ2hpbmVzZSBtYWludGFpbmVyIGZvcgomZ3Q7ICZndDsgK2hlbHAu
-ICBDb250YWN0IHRoZSBDaGluZXNlIG1haW50YWluZXIgaWYgdGhpcyB0cmFuc2xhdGlvbiBpcyBv
-dXRkYXRlZAomZ3Q7ICZndDsgK29yIGlmIHRoZXJlIGlzIGEgcHJvYmxlbSB3aXRoIHRoZSB0cmFu
-c2xhdGlvbi4KJmd0OyAmZ3Q7ICsKJmd0OyAmZ3Q7ICtDaGluZXNlIG1haW50YWluZXI6IFlhbnRl
-bmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4KJmd0OyAmZ3Q7ICstLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KJmd0
-OyAmZ3Q7ICtEb2N1bWVudGF0aW9uL21pcHMvYm9vdGluZy5yc3Qg55qE5Lit5paH57+76K+RCiZn
-dDsgJmd0OyArCiZndDsgJmd0OyAr5aaC5p6c5oOz6K+E6K665oiW5pu05paw5pys5paH55qE5YaF
-5a6577yM6K+355u05o6l6IGU57O75Y6f5paH5qGj55qE57u05oqk6ICF44CC5aaC5p6c5L2g5L2/
-55So6Iux5paHCiZndDsgJmd0OyAr5Lqk5rWB5pyJ5Zuw6Zq+55qE6K+d77yM5Lmf5Y+v5Lul5ZCR
-5Lit5paH54mI57u05oqk6ICF5rGC5Yqp44CC5aaC5p6c5pys57+76K+R5pu05paw5LiN5Y+K5pe2
-5oiW6ICF57+7CiZndDsgJmd0OyAr6K+R5a2Y5Zyo6Zeu6aKY77yM6K+36IGU57O75Lit5paH54mI
-57u05oqk6ICF44CCCiZndDsgJmd0OyArCiZndDsgJmd0OyAr5Lit5paH54mI57u05oqk6ICF77ya
-IOWPuOW7tuiFviAgWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPgomZ3Q7ICZndDsg
-K+S4reaWh+eJiOe/u+ivkeiAhe+8miDlj7jlu7bohb4gIFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bs
-b29uZ3Nvbi5jbj4KJmd0OyAmZ3Q7ICvkuK3mlofniYjmoKHor5HogIXvvJog5Y+45bu26IW+ICBZ
-YW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+CiZndDsgCiZndDsgQ291bGQgeW91IGxp
-a2UgdG8gcmV1c2UgZGlzY2xhaW1lci16aF9DTi5yc3QsIGFuZCB0aGUganVzdCBrZWVwIHRoZSB0
-cmFuc2xhdG9yCiZndDsgaXMgZmluZSBpZiBhbGwgcm9sZXMgYXJlIHlvdXNlbGYuCiZndDsgCiZn
-dDsgCiZndDsgJmd0OyArCiZndDsgJmd0OyAr5Lul5LiL5Li65q2j5paHCiZndDsgJmd0OyArLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tCiZndDsgJmd0OyArCiZndDsgJmd0OyArQk1JUFPorr7lpIfmoJHlvJXlr7wKJmd0
-OyAmZ3Q7ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KJmd0OyAmZ3Q7ICsKJmd0OyAmZ3Q7ICsg
-IOS4gOS6m2Jvb3Rsb2FkZXJz5Y+q5pSv5oyB5Zyo5YaF5qC46ZWc5YOP5byA5aeL5Zyw5Z2A5aSE
-55qE5Y2V5LiA5YWl5Y+j54K544CC6ICM5YW25a6DCiZndDsgJmd0OyArICBib290bG9hZGVyc+Ww
-hui3s+i9rOWIsEVMRueahOW8gOWni+WcsOWdgOWkhOOAguS4pOenjeaWueahiOmDveiiq+aUr+aM
-geeahO+8m+WboOS4ugomZ3Q7IAomZ3Q7IEhvdyBhYm91dCB0aGUgZm9sbG93aW5nIGNoYW5nZXM/
-CiZndDsgCiZndDsgcy/ooqvmlK/mjIEv5pSv5oyBLwomZ3Q7ICZndDsgKyAgQ09ORklHX0JPT1Rf
-UkFXPXkgYW5kIENPTkZJR19OT19FWENFUFRfRklMTD15LCDmiYDku6XnrKzkuIDmnaHmjIfku6QK
-Jmd0OyAmZ3Q7ICsgIOS8mueri+WNs+i3s+i9rOWIsGtlcm5lbF9lbnRyeSgp5YWl5Y+j5aSE5omn
-6KGM44CCCiZndDsgJmd0OyArCiZndDsgJmd0OyArICDkuI5hcmNoL2FybeaDheWGtShiKeexu+S8
-vO+8jGR05oSf55+l55qE5byV5a+85Yqg6L2956iL5bqP6ZyA6KaB6K6+572u5Lul5LiL5a+E5a2Y
-5ZmoOgomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgKyAgICAgICAgIGEwIDogMAomZ3Q7ICZndDsgKwom
-Z3Q7ICZndDsgKyAgICAgICAgIGExIDogMHhmZmZmZmZmZgomZ3Q7ICZndDsgKwomZ3Q7ICZndDsg
-KyAgICAgICAgIGEyIDogUkFN5Lit5oyH5ZCR6K6+5aSH5qCR5Z2X55qE54mp55CG5oyH6ZKIKOWc
-qGNoYXB0ZXJJSeS4reWumuS5iSnjgIIKJmd0OyAmZ3Q7ICsgICAgICAgICAgICAgIOiuvuWkh+ag
-keWPr+S7peS9jeS6juWJjTUxMk1C54mp55CG5Zyw5Z2A56m66Ze0KDB4MDAwMDAwMDAgLQomZ3Q7
-ICZndDsgKyAgICAgICAgICAgICAgMHgxZmZmZmZmZinnmoTku7vkvZXkvY3nva7vvIzku6U2NOS9
-jei+ueeVjOWvuem9kOOAggomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgKyAgbGVnYWN5IGJvb3Rsb2Fk
-ZXJz5LiN5Lya5L2/55So6L+Z5qC355qE57qm5a6a77yM5bm25LiU5a6D5Lus5LiN5Lyg5YWlRFTl
-nZfjgIIKJmd0OyAKJmd0OyBzL2xlZ2FjeS/kvKDnu58vCiZndDsgCiZndDsgJmd0OyArICDlnKjo
-v5nnp43mg4XlhrXkuIvvvIxMaW51eOWwhumAmui/h+mAieS4rUNPTkZJR19EVF8q5p+l5om+RFRC
-44CCCiZndDsgJmd0OyArCiZndDsgJmd0OyArICDov5nkuKrnuqblrprlj6rlnKgzMuS9jeezu+e7
-n+S4reWumuS5ie+8jOWboOS4uuebruWJjeayoeacieS7u+S9lTY05L2N55qEQk1JUFPlrp7njrDj
-gIIKJmd0OyAKJmd0OyBzL+i/meS4qi/ku6XkuIovCiZndDsgCiZndDsgVGhhbmtzCiZndDsgQWxl
-eAomZ3Q7IAomZ3Q7ICZndDsgZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL21pcHMvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
-bWlwcy9pbmRleC5yc3QKJmd0OyAmZ3Q7IG5ldyBmaWxlIG1vZGUgMTAwNjQ0CiZndDsgJmd0OyBp
-bmRleCAwMDAwMDAwMDAwMDAuLjI0NGIxNmI3ZWY1MQomZ3Q7ICZndDsgLS0tIC9kZXYvbnVsbAom
-Z3Q7ICZndDsgKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbWlwcy9pbmRl
-eC5yc3QKJmd0OyAmZ3Q7IEBAIC0wLDAgKzEsNDUgQEAKJmd0OyAmZ3Q7ICsuLiBTUERYLUxpY2Vu
-c2UtSWRlbnRpZmllcjogR1BMLTIuMAomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgK0NoaW5lc2UgdHJh
-bnNsYXRlZCB2ZXJzaW9uIG9mIERvY3VtZW50YXRpb24vbWlwcy9pbmRleC5yc3QKJmd0OyAmZ3Q7
-ICsKJmd0OyAmZ3Q7ICtJZiB5b3UgaGF2ZSBhbnkgY29tbWVudCBvciB1cGRhdGUgdG8gdGhlIGNv
-bnRlbnQsIHBsZWFzZSBjb250YWN0IHRoZQomZ3Q7ICZndDsgK29yaWdpbmFsIGRvY3VtZW50IG1h
-aW50YWluZXIgZGlyZWN0bHkuICBIb3dldmVyLCBpZiB5b3UgaGF2ZSBhIHByb2JsZW0KJmd0OyAm
-Z3Q7ICtjb21tdW5pY2F0aW5nIGluIEVuZ2xpc2ggeW91IGNhbiBhbHNvIGFzayB0aGUgQ2hpbmVz
-ZSBtYWludGFpbmVyIGZvcgomZ3Q7ICZndDsgK2hlbHAuICBDb250YWN0IHRoZSBDaGluZXNlIG1h
-aW50YWluZXIgaWYgdGhpcyB0cmFuc2xhdGlvbiBpcyBvdXRkYXRlZAomZ3Q7ICZndDsgK29yIGlm
-IHRoZXJlIGlzIGEgcHJvYmxlbSB3aXRoIHRoZSB0cmFuc2xhdGlvbi4KJmd0OyAmZ3Q7ICsKJmd0
-OyAmZ3Q7ICtDaGluZXNlIG1haW50YWluZXI6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nv
-bi5jbj4KJmd0OyAmZ3Q7ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KJmd0OyAmZ3Q7ICtEb2N1bWVudGF0aW9uL21p
-cHMvaW5kZXgucnN0IOeahOS4reaWh+e/u+ivkQomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgK+Wmguae
-nOaDs+ivhOiuuuaIluabtOaWsOacrOaWh+eahOWGheWuue+8jOivt+ebtOaOpeiBlOezu+WOn+aW
-h+aho+eahOe7tOaKpOiAheOAguWmguaenOS9oOS9v+eUqOiLseaWhwomZ3Q7ICZndDsgK+S6pOa1
-geacieWbsOmavueahOivne+8jOS5n+WPr+S7peWQkeS4reaWh+eJiOe7tOaKpOiAheaxguWKqeOA
-guWmguaenOacrOe/u+ivkeabtOaWsOS4jeWPiuaXtuaIluiAhee/uwomZ3Q7ICZndDsgK+ivkeWt
-mOWcqOmXrumimO+8jOivt+iBlOezu+S4reaWh+eJiOe7tOaKpOiAheOAggomZ3Q7ICZndDsgKwom
-Z3Q7ICZndDsgK+S4reaWh+eJiOe7tOaKpOiAhe+8miDlj7jlu7bohb4gIFlhbnRlbmcgU2kgPHNp
-eWFudGVuZ0Bsb29uZ3Nvbi5jbj4KJmd0OyAmZ3Q7ICvkuK3mlofniYjnv7vor5HogIXvvJog5Y+4
-5bu26IW+ICBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+CiZndDsgJmd0OyAr5Lit
-5paH54mI5qCh6K+R6ICF77yaIOWPuOW7tuiFviAgWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25n
-c29uLmNuPgomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgK+S7peS4i+S4uuato+aWhwomZ3Q7ICZndDsg
-Ky0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgKwomZ3Q7ICZndDsgKz09PT09PT09
-PT09PT09PT09PT09PT09PT09PQomZ3Q7ICZndDsgK01JUFPnibnmgKfmlofmoaMKJmd0OyAmZ3Q7
-ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT0KJmd0OyAmZ3Q7ICsKJmd0OyAmZ3Q7ICsuLiB0
-b2N0cmVlOjoKJmd0OyAmZ3Q7ICsgICA6bWF4ZGVwdGg6IDIKJmd0OyAmZ3Q7ICsgICA6bnVtYmVy
-ZWQ6CiZndDsgJmd0OyArCiZndDsgJmd0OyArICAgYm9vdGluZwomZ3Q7ICZndDsgKyAgIGluZ2Vu
-aWMtdGN1CiZndDsgJmd0OyArCiZndDsgJmd0OyArICAgZmVhdHVyZXMKJmd0OyAmZ3Q7ICsKJmd0
-OyAmZ3Q7ICsuLiBvbmx5OjogIHN1YnByb2plY3QgYW5kIGh0bWwKJmd0OyAmZ3Q7ICsKJmd0OyAm
-Z3Q7ICsgICBJbmRpY2VzCiZndDsgJmd0OyArICAgPT09PT09PQomZ3Q7ICZndDsgKwomZ3Q7ICZn
-dDsgKyAgICogOnJlZjpgZ2VuaW5kZXhgCiZndDsgJmd0OyAKPC9zaXlhbnRlbmdAbG9vbmdzb24u
-Y24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9zaXlh
-bnRlbmdAbG9vbmdzb24uY24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9zaXlhbnRlbmdAbG9v
-bmdzb24uY24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+
-PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9zaXlhbnRlbmdAbG9vbmdzb24uY24+PC9qaWF4dW4u
-eWFuZ0BmbHlnb2F0LmNvbT48L2NoZW5odWFjYWlAbG9vbmdzb24uY24+PC9jb3JiZXRAbHduLm5l
-dD48L2hhcnJ5eGl5b3VAZ21haWwuY29tPjwvYWxleC5zaGlAbGludXguYWxpYmFiYS5jb20+
+Commit 80b9414832a1 ("docs: octeontx2: Add Documentation for NPA health
+reporters") added new documentation with improper formatting for rst, and
+caused a few new warnings for make htmldocs in octeontx2.rst:169--202.
+
+Tune markup and formatting for better presentation in the HTML view.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+v1 -> v2: minor stylistic tuning as suggested by Randy
+
+applies cleanly on current master (v5.11-rc2) and next-20210106
+
+George, please ack.
+Jonathan, please pick this minor formatting clean-up patch.
+
+ .../ethernet/marvell/octeontx2.rst            | 62 +++++++++++--------
+ 1 file changed, 36 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+index d3fcf536d14e..61e850460e18 100644
+--- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
++++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+@@ -164,46 +164,56 @@ Devlink health reporters
+ 
+ NPA Reporters
+ -------------
+-The NPA reporters are responsible for reporting and recovering the following group of errors
++The NPA reporters are responsible for reporting and recovering the following group of errors:
++
+ 1. GENERAL events
++
+    - Error due to operation of unmapped PF.
+    - Error due to disabled alloc/free for other HW blocks (NIX, SSO, TIM, DPI and AURA).
++
+ 2. ERROR events
++
+    - Fault due to NPA_AQ_INST_S read or NPA_AQ_RES_S write.
+    - AQ Doorbell Error.
++
+ 3. RAS events
++
+    - RAS Error Reporting for NPA_AQ_INST_S/NPA_AQ_RES_S.
++
+ 4. RVU events
++
+    - Error due to unmapped slot.
+ 
+-Sample Output
+--------------
+-~# devlink health
+-pci/0002:01:00.0:
+-  reporter hw_npa_intr
+-      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
+-  reporter hw_npa_gen
+-      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
+-  reporter hw_npa_err
+-      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
+-   reporter hw_npa_ras
+-      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
++Sample Output::
++
++	~# devlink health
++	pci/0002:01:00.0:
++	  reporter hw_npa_intr
++	      state healthy error 2872 recover 2872 last_dump_date 2020-12-10 last_dump_time 09:39:09 grace_period 0 auto_recover true auto_dump true
++	  reporter hw_npa_gen
++	      state healthy error 2872 recover 2872 last_dump_date 2020-12-11 last_dump_time 04:43:04 grace_period 0 auto_recover true auto_dump true
++	  reporter hw_npa_err
++	      state healthy error 2871 recover 2871 last_dump_date 2020-12-10 last_dump_time 09:39:17 grace_period 0 auto_recover true auto_dump true
++	   reporter hw_npa_ras
++	      state healthy error 0 recover 0 last_dump_date 2020-12-10 last_dump_time 09:32:40 grace_period 0 auto_recover true auto_dump true
+ 
+ Each reporter dumps the
++
+  - Error Type
+  - Error Register value
+  - Reason in words
+ 
+-For eg:
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
+- NPA_AF_GENERAL:
+-         NPA General Interrupt Reg : 1
+-         NIX0: free disabled RX
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
+- NPA_AF_RVU:
+-         NPA RVU Interrupt Reg : 1
+-         Unmap Slot Error
+-~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
+- NPA_AF_ERR:
+-        NPA Error Interrupt Reg : 4096
+-        AQ Doorbell Error
++For example::
++
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_gen
++	 NPA_AF_GENERAL:
++	         NPA General Interrupt Reg : 1
++	         NIX0: free disabled RX
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_intr
++	 NPA_AF_RVU:
++	         NPA RVU Interrupt Reg : 1
++	         Unmap Slot Error
++	~# devlink health dump show  pci/0002:01:00.0 reporter hw_npa_err
++	 NPA_AF_ERR:
++	        NPA Error Interrupt Reg : 4096
++	        AQ Doorbell Error
+-- 
+2.17.1
+
