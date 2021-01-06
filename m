@@ -2,106 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD47DC433DB
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 05:46:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EEEC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 06:31:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB4F22CE3
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 05:46:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC24C207B5
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 06:31:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725789AbhAFFqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 00:46:22 -0500
-Received: from mga07.intel.com ([134.134.136.100]:64079 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725562AbhAFFqW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Jan 2021 00:46:22 -0500
-IronPort-SDR: u90VQLtF0Oh64b8NjT8YUbhE5gjh+LLdytZOfMubw0C857IDSqyhipwKvsYtd+mrJfTRqh5/Wx
- z/kSG/+t17cg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="241311437"
-X-IronPort-AV: E=Sophos;i="5.78,479,1599548400"; 
-   d="scan'208";a="241311437"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 21:45:40 -0800
-IronPort-SDR: rgoReUgBBvCvxYUE8vN1aDRaoWCHJmtfXAc4NHgmtgqwTytax4xNeBGxb3/E7R/mZSGEnkDyzt
- Hh9YH81PQLxw==
-X-IronPort-AV: E=Sophos;i="5.78,479,1599548400"; 
-   d="scan'208";a="379160484"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 21:45:41 -0800
-Date:   Tue, 5 Jan 2021 21:45:41 -0800
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Hao Li <lihao2018.fnst@cn.fujitsu.com>
-Cc:     corbet@lwn.net, davem@davemloft.net, gregkh@linuxfoundation.org,
-        alexander.deucher@amd.com, mchehab+huawei@kernel.org,
-        lee.jones@linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/dax: Update description of DAX policy
- changing
-Message-ID: <20210106054541.GR3097896@iweiny-DESK2.sc.intel.com>
-References: <20210106015000.5263-1-lihao2018.fnst@cn.fujitsu.com>
+        id S1725789AbhAFGb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 01:31:26 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:39393 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725788AbhAFGb0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 01:31:26 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R911e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0UKtVM.C_1609914638;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UKtVM.C_1609914638)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 06 Jan 2021 14:30:39 +0800
+Subject: Re: [PATCH] docs/zh_CN: add Chinese booting and index file
+To:     siyanteng@loongson.cn, Harry Wei <harryxiyou@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210105091942.812515-1-siyanteng@loongson.cn>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <4eed2bbe-1567-38cf-8471-bd8165c5da7f@linux.alibaba.com>
+Date:   Wed, 6 Jan 2021 14:30:38 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210106015000.5263-1-lihao2018.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <20210105091942.812515-1-siyanteng@loongson.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 06, 2021 at 09:50:00AM +0800, Hao Li wrote:
-> After commit 77573fa310d9 ("fs: Kill DCACHE_DONTCACHE dentry even if
-> DCACHE_REFERENCED is set"), changes to DAX policy will take effect
-> as soon as all references to this file are gone.
+
+
+在 2021/1/5 下午5:19, siyanteng@loongson.cn 写道:
+> From: Yanteng Si <siyanteng@loongson.cn>
 > 
-> Update the documentation accordingly.
+> This is the Chinese version of booting and index file
 > 
-> Signed-off-by: Hao Li <lihao2018.fnst@cn.fujitsu.com>
-
-LGTM
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
-> Changes in v2:
->   * simplify sentences and fix style problems.
+>  .../translations/zh_CN/mips/booting.rst       | 47 +++++++++++++++++++
+>  .../translations/zh_CN/mips/index.rst         | 45 ++++++++++++++++++
+>  2 files changed, 92 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/mips/booting.rst
+>  create mode 100644 Documentation/translations/zh_CN/mips/index.rst
 > 
->  Documentation/filesystems/dax.txt | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-> index 8fdb78f3c6c9..e03c20564f3a 100644
-> --- a/Documentation/filesystems/dax.txt
-> +++ b/Documentation/filesystems/dax.txt
-> @@ -83,20 +83,9 @@ Summary
->         directories.  This has runtime constraints and limitations that are
->         described in 6) below.
->  
-> - 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX flag,
-> -    the change in behaviour for existing regular files may not occur
-> -    immediately.  If the change must take effect immediately, the administrator
-> -    needs to:
-> -
-> -    a) stop the application so there are no active references to the data set
-> -       the policy change will affect
-> -
-> -    b) evict the data set from kernel caches so it will be re-instantiated when
-> -       the application is restarted. This can be achieved by:
-> -
-> -       i. drop-caches
-> -       ii. a filesystem unmount and mount cycle
-> -       iii. a system reboot
-> + 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX
-> +    flag, the change to existing regular files won't take effect until the
-> +    files are closed by all processes.
->  
->  
->  Details
-> -- 
-> 2.29.2
-> 
-> 
+> diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/mips/booting.rst
+> new file mode 100644
+> index 000000000000..12e0aa76b485
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/mips/booting.rst
+> @@ -0,0 +1,47 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Chinese translated version of Documentation/mips/booting.rst
+> +
+> +If you have any comment or update to the content, please contact the
+> +original document maintainer directly.  However, if you have a problem
+> +communicating in English you can also ask the Chinese maintainer for
+> +help.  Contact the Chinese maintainer if this translation is outdated
+> +or if there is a problem with the translation.
+> +
+> +Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
+> +---------------------------------------------------------------------
+> +Documentation/mips/booting.rst 的中文翻译
+> +
+> +如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+> +交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> +译存在问题，请联系中文版维护者。
+> +
+> +中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+> +中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+> +中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+
+Could you like to reuse disclaimer-zh_CN.rst, and the just keep the translator
+is fine if all roles are youself.
+
+
+> +
+> +以下为正文
+> +---------------------------------------------------------------------
+> +
+> +BMIPS设备树引导
+> +------------------------
+> +
+> +  一些bootloaders只支持在内核镜像开始地址处的单一入口点。而其它
+> +  bootloaders将跳转到ELF的开始地址处。两种方案都被支持的；因为
+
+How about the following changes?
+
+s/被支持/支持/
+> +  CONFIG_BOOT_RAW=y and CONFIG_NO_EXCEPT_FILL=y, 所以第一条指令
+> +  会立即跳转到kernel_entry()入口处执行。
+> +
+> +  与arch/arm情况(b)类似，dt感知的引导加载程序需要设置以下寄存器:
+> +
+> +         a0 : 0
+> +
+> +         a1 : 0xffffffff
+> +
+> +         a2 : RAM中指向设备树块的物理指针(在chapterII中定义)。
+> +              设备树可以位于前512MB物理地址空间(0x00000000 -
+> +              0x1fffffff)的任何位置，以64位边界对齐。
+> +
+> +  legacy bootloaders不会使用这样的约定，并且它们不传入DT块。
+
+s/legacy/传统/
+
+> +  在这种情况下，Linux将通过选中CONFIG_DT_*查找DTB。
+> +
+> +  这个约定只在32位系统中定义，因为目前没有任何64位的BMIPS实现。
+
+s/这个/以上/
+
+Thanks
+Alex
+
+> diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
+> new file mode 100644
+> index 000000000000..244b16b7ef51
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/mips/index.rst
+> @@ -0,0 +1,45 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Chinese translated version of Documentation/mips/index.rst
+> +
+> +If you have any comment or update to the content, please contact the
+> +original document maintainer directly.  However, if you have a problem
+> +communicating in English you can also ask the Chinese maintainer for
+> +help.  Contact the Chinese maintainer if this translation is outdated
+> +or if there is a problem with the translation.
+> +
+> +Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
+> +---------------------------------------------------------------------
+> +Documentation/mips/index.rst 的中文翻译
+> +
+> +如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+> +交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> +译存在问题，请联系中文版维护者。
+> +
+> +中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+> +中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+> +中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+> +
+> +以下为正文
+> +---------------------------------------------------------------------
+> +
+> +
+> +===========================
+> +MIPS特性文档
+> +===========================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +   :numbered:
+> +
+> +   booting
+> +   ingenic-tcu
+> +
+> +   features
+> +
+> +.. only::  subproject and html
+> +
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
 > 
