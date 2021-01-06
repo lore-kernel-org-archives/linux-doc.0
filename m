@@ -2,93 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C503C433DB
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 16:42:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D813C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:41:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0716F23131
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 16:42:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3E882312C
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:41:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbhAFQmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 11:42:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbhAFQmb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 11:42:31 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6FDEC06134D;
-        Wed,  6 Jan 2021 08:41:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=qZq90mmL68TTEu2JR4PK3LFmriBAdAePndUjOjY8mwg=; b=OcZhu5sfoSwgx9xpuoqXf/ekjy
-        vsJ1bTkkDyjVLU3hznXR3X429kRne9UKKpuWQu0zzchRkhrmo94Cr2O+L+yTXVIAvxyGqfiaskFyf
-        +DrIU+/DiNEcg2q4Lht0qTfjix4wsjD9ac+kJC4Hsq9il83r2plQiHrZ88+orp/YknY7IMUiHg5Da
-        PY6Qm7/OZaZAViCLnmfgpgy8UpBAR4olNyuQ7UyFloCpcD2FitStpCghfdtyrNZ39TdLZ/xA6ju09
-        Rz8b5zIDNAtwEwsHQnFJlUkzlFftwrcwo7ltTb5RJOPm2rpgdFAJOIcq3i2ryU6B3/hduSEaQM13m
-        h3voRpPA==;
-Received: from [2601:1c0:6280:3f0::79df]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kxBsY-0004Ia-Es; Wed, 06 Jan 2021 16:41:46 +0000
-Subject: Re: [PATCH v2] docs: octeontx2: tune rst markup
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        George Cherian <george.cherian@marvell.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Sunil Goutham <sgoutham@marvell.com>,
-        Linu Cherian <lcherian@marvell.com>,
-        Geetha Sowjanya <gakula@marvell.com>,
-        Jerin Jacob <jerinj@marvell.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210106161735.21751-1-lukas.bulwahn@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <878ae398-818a-4859-6968-e04070b34d15@infradead.org>
-Date:   Wed, 6 Jan 2021 08:41:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726375AbhAFSky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 13:40:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60918 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbhAFSky (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Jan 2021 13:40:54 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F3C9223125;
+        Wed,  6 Jan 2021 18:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609958413;
+        bh=e76ZrSUo4kfJMpdyS4XgVdQgK/kZ7LafnTrqfSStf5s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pBi4uRgIH6zJJxneqrp7CcW348KiG4LvjcAwvdaPVu4iECzXwnwSiGTTFTnmEFcON
+         iid5VS3fLOBaK+NYmEvtPSggWPKFs/ZhN7/+hlwBKq3fNzwP06gcAhgFZB3XenhyPA
+         y5tdf6BChp6nd36g2lTVPnu1NO4Xyh2PkjRUrewQ6E51payf6A3Jpqn4PA/3WuVFcY
+         351YrhmHGuYe1YJY9bnvvXFnyeXrU/STnabgatHgBWYmVunmU70OAvdMqmNiWSssxk
+         5MkrB9roIqfFcHQMHZWjnTvYNfJObAbdVzK+UY2iITciOmbB/zuJ3+WJMTQhfy/Hfv
+         u3reuzm6P5uoQ==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        f.fainelli@gmail.com, xiyou.wangcong@gmail.com,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net 0/3] net: fix issues around register_netdevice() failures
+Date:   Wed,  6 Jan 2021 10:40:04 -0800
+Message-Id: <20210106184007.1821480-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210106161735.21751-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/6/21 8:17 AM, Lukas Bulwahn wrote:
-> Commit 80b9414832a1 ("docs: octeontx2: Add Documentation for NPA health
-> reporters") added new documentation with improper formatting for rst, and
-> caused a few new warnings for make htmldocs in octeontx2.rst:169--202.
-> 
-> Tune markup and formatting for better presentation in the HTML view.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> v1 -> v2: minor stylistic tuning as suggested by Randy
-> 
-> applies cleanly on current master (v5.11-rc2) and next-20210106
-> 
-> George, please ack.
-> Jonathan, please pick this minor formatting clean-up patch.
-> 
->  .../ethernet/marvell/octeontx2.rst            | 62 +++++++++++--------
->  1 file changed, 36 insertions(+), 26 deletions(-)
-> 
-> diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-> index d3fcf536d14e..61e850460e18 100644
-> --- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+This series attempts to clean up the life cycle of struct
+net_device. Dave has added dev->needs_free_netdev in the
+past to fix double frees, we can lean on that mechanism
+a little more to fix remaining issues with register_netdevice().
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+This is the next chapter of the saga which already includes:
+commit 0e0eee2465df ("net: correct error path in rtnl_newlink()")
+commit e51fb152318e ("rtnetlink: fix a memory leak when ->newlink fails")
+commit cf124db566e6 ("net: Fix inconsistent teardown and release of private netdev state.")
+commit 93ee31f14f6f ("[NET]: Fix free_netdev on register_netdev failure.")
+commit 814152a89ed5 ("net: fix memleak in register_netdevice()")
+commit 10cc514f451a ("net: Fix null de-reference of device refcount")
 
-Thanks.
+The immediate problem which gets fixed here is that calling
+free_netdev() right after unregister_netdevice() is illegal
+because we need to release rtnl_lock first, to let the
+unregistration finish. Note that unregister_netdevice() is
+just a wrapper of unregister_netdevice_queue(), it only
+does half of the job.
+
+Where this limitation becomes most problematic is in failure
+modes of register_netdevice(). There is a notifier call right
+at the end of it, which lets other subsystems veto the entire
+thing. At which point we should really go through a full
+unregister_netdevice(), but we can't because callers may
+go straight to free_netdev() after the failure, and that's
+no bueno (see the previous paragraph).
+
+This set makes free_netdev() more lenient, when device
+is still being unregistered free_netdev() will simply set
+dev->needs_free_netdev and let the unregister process do
+the freeing.
+
+With the free_netdev() problem out of the way failures in
+register_netdevice() can make use of net_todo, again.
+Users are still expected to call free_netdev() right after
+failure but that will only set dev->needs_free_netdev.
+
+To prevent the pathological case of:
+
+ dev->needs_free_netdev = true;
+ if (register_netdevice(dev)) {
+   rtnl_unlock();
+   free_netdev(dev);
+ }
+
+make register_netdevice()'s failure clear dev->needs_free_netdev.
+
+Problems described above are only present with register_netdevice() /
+unregister_netdevice(). We have two parallel APIs for registration
+of devices:
+ - those called outside rtnl_lock (register_netdev(), and
+   unregister_netdev());
+ - and those to be used under rtnl_lock - register_netdevice()
+   and unregister_netdevice().
+The former is trivial and has no problems. The alternative
+approach to fix the latter would be to also separate the
+freeing functions - i.e. add free_netdevice(). This has been
+implemented (incl. converting all relevant calls in the tree)
+but it feels a little unnecessary to put the burden of choosing
+the right free_netdev{,ice}() call on the programmer when we
+can "just do the right thing" by default.
+
+Jakub Kicinski (3):
+  docs: net: explain struct net_device lifetime
+  net: make free_netdev() more lenient with unregistering devices
+  net: make sure devices go through netdev_wait_all_refs
+
+ Documentation/networking/netdevices.rst | 171 +++++++++++++++++++++++-
+ net/8021q/vlan.c                        |   4 +-
+ net/core/dev.c                          |  25 ++--
+ net/core/rtnetlink.c                    |  23 +---
+ 4 files changed, 187 insertions(+), 36 deletions(-)
 
 -- 
-~Randy
+2.26.2
+
