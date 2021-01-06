@@ -2,124 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D813C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E374C4332D
 	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:41:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E3E882312C
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:41:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DB5123134
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 18:41:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbhAFSky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 13:40:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60918 "EHLO mail.kernel.org"
+        id S1726532AbhAFSkz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 13:40:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725789AbhAFSky (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 6 Jan 2021 13:40:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F3C9223125;
-        Wed,  6 Jan 2021 18:40:12 +0000 (UTC)
+        id S1725789AbhAFSkz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Jan 2021 13:40:55 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A2B223137;
+        Wed,  6 Jan 2021 18:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609958413;
-        bh=e76ZrSUo4kfJMpdyS4XgVdQgK/kZ7LafnTrqfSStf5s=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pBi4uRgIH6zJJxneqrp7CcW348KiG4LvjcAwvdaPVu4iECzXwnwSiGTTFTnmEFcON
-         iid5VS3fLOBaK+NYmEvtPSggWPKFs/ZhN7/+hlwBKq3fNzwP06gcAhgFZB3XenhyPA
-         y5tdf6BChp6nd36g2lTVPnu1NO4Xyh2PkjRUrewQ6E51payf6A3Jpqn4PA/3WuVFcY
-         351YrhmHGuYe1YJY9bnvvXFnyeXrU/STnabgatHgBWYmVunmU70OAvdMqmNiWSssxk
-         5MkrB9roIqfFcHQMHZWjnTvYNfJObAbdVzK+UY2iITciOmbB/zuJ3+WJMTQhfy/Hfv
-         u3reuzm6P5uoQ==
+        s=k20201202; t=1609958414;
+        bh=0BrWNZz5FTEATIslw6poEkKFNsItoHl93UC2ZCWjyoE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HfQ2g8hPUPNlBlMXidj9GFsuK4OMZX/NKYDlnlH4XaeG/k9oKWeZuPTUzueec8Xd+
+         /3sidZ14IzfASQ2xT5f/ofLD6abPAvQBJFLuNtMiIe0jYEFemtJItziyWqYoVYB1OG
+         9KCdMzwpifrIy2InTt8PpUYhMDnS14nsN4hJ55PJetGTey8vcNGgOqdp0zrLGs+oAD
+         AITOrmyiTvvdeHAQqnHmXv4qvEvZ6GimVI1qqUYGo8BR+owdx7uvmujWudj5Rd8Tb8
+         muR7kgxCF7hM+2FeJb/hOCSkoFW74igvhpmbPUKOTL2LYtVmfgG+KFeDcqj6kNLeTj
+         f71eNB0Jphn/g==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
         f.fainelli@gmail.com, xiyou.wangcong@gmail.com,
-        Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net 0/3] net: fix issues around register_netdevice() failures
-Date:   Wed,  6 Jan 2021 10:40:04 -0800
-Message-Id: <20210106184007.1821480-1-kuba@kernel.org>
+        Jakub Kicinski <kuba@kernel.org>,
+        Hulk Robot <hulkci@huawei.com>,
+        Yang Yingliang <yangyingliang@huawei.com>
+Subject: [PATCH net 3/3] net: make sure devices go through netdev_wait_all_refs
+Date:   Wed,  6 Jan 2021 10:40:07 -0800
+Message-Id: <20210106184007.1821480-4-kuba@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210106184007.1821480-1-kuba@kernel.org>
+References: <20210106184007.1821480-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series attempts to clean up the life cycle of struct
-net_device. Dave has added dev->needs_free_netdev in the
-past to fix double frees, we can lean on that mechanism
-a little more to fix remaining issues with register_netdevice().
+If register_netdevice() fails at the very last stage - the
+notifier call - some subsystems may have already seen it and
+grabbed a reference. struct net_device can't be freed right
+away without calling netdev_wait_all_refs().
 
-This is the next chapter of the saga which already includes:
-commit 0e0eee2465df ("net: correct error path in rtnl_newlink()")
-commit e51fb152318e ("rtnetlink: fix a memory leak when ->newlink fails")
-commit cf124db566e6 ("net: Fix inconsistent teardown and release of private netdev state.")
-commit 93ee31f14f6f ("[NET]: Fix free_netdev on register_netdev failure.")
-commit 814152a89ed5 ("net: fix memleak in register_netdevice()")
-commit 10cc514f451a ("net: Fix null de-reference of device refcount")
+Now that we have a clean interface in form of dev->needs_free_netdev
+and lenient free_netdev() we can undo what commit 93ee31f14f6f ("[NET]:
+Fix free_netdev on register_netdev failure.") has done and complete
+the unregistration path by bringing the net_set_todo() call back.
 
-The immediate problem which gets fixed here is that calling
-free_netdev() right after unregister_netdevice() is illegal
-because we need to release rtnl_lock first, to let the
-unregistration finish. Note that unregister_netdevice() is
-just a wrapper of unregister_netdevice_queue(), it only
-does half of the job.
+After registration fails user is still expected to explicitly
+free the net_device, so make sure ->needs_free_netdev is cleared,
+otherwise rolling back the registration will cause the old double
+free for callers who release rtnl_lock before the free.
 
-Where this limitation becomes most problematic is in failure
-modes of register_netdevice(). There is a notifier call right
-at the end of it, which lets other subsystems veto the entire
-thing. At which point we should really go through a full
-unregister_netdevice(), but we can't because callers may
-go straight to free_netdev() after the failure, and that's
-no bueno (see the previous paragraph).
+This also solves the problem of priv_destructor not being called
+on notifier error.
 
-This set makes free_netdev() more lenient, when device
-is still being unregistered free_netdev() will simply set
-dev->needs_free_netdev and let the unregister process do
-the freeing.
+net_set_todo() will be moved back into unregister_netdevice_queue()
+in a follow up.
 
-With the free_netdev() problem out of the way failures in
-register_netdevice() can make use of net_todo, again.
-Users are still expected to call free_netdev() right after
-failure but that will only set dev->needs_free_netdev.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Reported-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ net/core/dev.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-To prevent the pathological case of:
-
- dev->needs_free_netdev = true;
- if (register_netdevice(dev)) {
-   rtnl_unlock();
-   free_netdev(dev);
- }
-
-make register_netdevice()'s failure clear dev->needs_free_netdev.
-
-Problems described above are only present with register_netdevice() /
-unregister_netdevice(). We have two parallel APIs for registration
-of devices:
- - those called outside rtnl_lock (register_netdev(), and
-   unregister_netdev());
- - and those to be used under rtnl_lock - register_netdevice()
-   and unregister_netdevice().
-The former is trivial and has no problems. The alternative
-approach to fix the latter would be to also separate the
-freeing functions - i.e. add free_netdevice(). This has been
-implemented (incl. converting all relevant calls in the tree)
-but it feels a little unnecessary to put the burden of choosing
-the right free_netdev{,ice}() call on the programmer when we
-can "just do the right thing" by default.
-
-Jakub Kicinski (3):
-  docs: net: explain struct net_device lifetime
-  net: make free_netdev() more lenient with unregistering devices
-  net: make sure devices go through netdev_wait_all_refs
-
- Documentation/networking/netdevices.rst | 171 +++++++++++++++++++++++-
- net/8021q/vlan.c                        |   4 +-
- net/core/dev.c                          |  25 ++--
- net/core/rtnetlink.c                    |  23 +---
- 4 files changed, 187 insertions(+), 36 deletions(-)
-
+diff --git a/net/core/dev.c b/net/core/dev.c
+index adde93cbca9f..0071a11a6dc3 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -10077,17 +10077,11 @@ int register_netdevice(struct net_device *dev)
+ 	ret = call_netdevice_notifiers(NETDEV_REGISTER, dev);
+ 	ret = notifier_to_errno(ret);
+ 	if (ret) {
++		/* Expect explicit free_netdev() on failure */
++		dev->needs_free_netdev = false;
+ 		rollback_registered(dev);
+-		rcu_barrier();
+-
+-		dev->reg_state = NETREG_UNREGISTERED;
+-		/* We should put the kobject that hold in
+-		 * netdev_unregister_kobject(), otherwise
+-		 * the net device cannot be freed when
+-		 * driver calls free_netdev(), because the
+-		 * kobject is being hold.
+-		 */
+-		kobject_put(&dev->dev.kobj);
++		net_set_todo(dev);
++		goto out;
+ 	}
+ 	/*
+ 	 *	Prevent userspace races by waiting until the network
 -- 
 2.26.2
 
