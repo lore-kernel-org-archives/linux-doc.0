@@ -2,182 +2,392 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EEEC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 06:31:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8980C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 14:21:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC24C207B5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 06:31:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B01BD23129
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jan 2021 14:21:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725789AbhAFGb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jan 2021 01:31:26 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:39393 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725788AbhAFGb0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 01:31:26 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R911e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0UKtVM.C_1609914638;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UKtVM.C_1609914638)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 06 Jan 2021 14:30:39 +0800
-Subject: Re: [PATCH] docs/zh_CN: add Chinese booting and index file
-To:     siyanteng@loongson.cn, Harry Wei <harryxiyou@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210105091942.812515-1-siyanteng@loongson.cn>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <4eed2bbe-1567-38cf-8471-bd8165c5da7f@linux.alibaba.com>
-Date:   Wed, 6 Jan 2021 14:30:38 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1726216AbhAFOUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jan 2021 09:20:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbhAFOUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jan 2021 09:20:41 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B2AC06134C
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jan 2021 06:20:01 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id y8so1607295plp.8
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jan 2021 06:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KJ6Np1xd/OskxB51v7VwaId+Q8lWpX8AkKhtMjTja9c=;
+        b=M8q4YB6l8Nq8+eqQYK1h3X8KiVlrdbRM0LKtjETeV4oNNwRF1afVKw0dcismjphWpi
+         gT72MuKAWWpIG3opOft6g5dhqReiybGAvptIWhm2S9PMpIb8ps0JquHuDzaj5aw28a6R
+         8OkjnTHgle11RQiaf1B/Pv+ksqDhxJhtqxUibDtTXoDuYQT4xoVUA+Jkd3g/M8x9U7x7
+         TGdaO8mAJaMJO3sTSMqEvE0o2Rvbmm44/pOwKd83mPiGrcxrkjipX8SARTKzE1DDlnCG
+         tVECxcZuiO0v7KIYtCQP3sBvEMdbZ9nrAzl1XdUSzZX1Ag/ANyx0YYYdnZjoOUT2iG7R
+         8O7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KJ6Np1xd/OskxB51v7VwaId+Q8lWpX8AkKhtMjTja9c=;
+        b=BhjtJ0BiA0Gya7ZZGA9XLtL2gH/anmdaDIp/9oHRcQtbwwemzvsuNwvpHdS7O+OK2y
+         cP53+au4k1UGHsKnC5YFaO81Ovj0qmnFoe/zxDOhh9xqaC/YdK3KWA+u+upWjfihUylv
+         yWnMbkz21CSpkbotMkEtdK2jIy76gKFl8x/jh9j3zlJqpaQszW4CRegD1QkUZdE3CkNm
+         n9dk0adJbXNLItNV0FhL5mrL8NbtjdrnC6G6yum9ycoPrr+4XC3DRzOSXX3BZ942EVej
+         6rUXV5ercBfY5/QbUKylU+xCiTmYCSFl6jpCTGQ4BR0Z47y+qO/6H2dH2gEMx5Fhm9Hf
+         MBBg==
+X-Gm-Message-State: AOAM530MZKJ3pSgXlR2spH8/gQHxByk4nIPmJ6Qu+bpGpjSXRpAYK4wC
+        IpbaXVl804qAliXZqKo4wEXFNA==
+X-Google-Smtp-Source: ABdhPJy8EDX4OJevVIK5yDNVQ2LOXVtap3PyVqTxUE4Z/PmvaJSRmBTg+XDSAmPl4o7SZlf2+YirNA==
+X-Received: by 2002:a17:90a:66ce:: with SMTP id z14mr4454786pjl.153.1609942800582;
+        Wed, 06 Jan 2021 06:20:00 -0800 (PST)
+Received: from localhost.bytedance.net ([139.177.225.232])
+        by smtp.gmail.com with ESMTPSA id a29sm2831730pfr.73.2021.01.06.06.19.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Jan 2021 06:19:59 -0800 (PST)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v12 00/13] Free some vmemmap pages of HugeTLB page
+Date:   Wed,  6 Jan 2021 22:19:18 +0800
+Message-Id: <20210106141931.73931-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-In-Reply-To: <20210105091942.812515-1-siyanteng@loongson.cn>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi all,
 
+This patch series will free some vmemmap pages(struct page structures)
+associated with each hugetlbpage when preallocated to save memory.
 
-在 2021/1/5 下午5:19, siyanteng@loongson.cn 写道:
-> From: Yanteng Si <siyanteng@loongson.cn>
-> 
-> This is the Chinese version of booting and index file
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/mips/booting.rst       | 47 +++++++++++++++++++
->  .../translations/zh_CN/mips/index.rst         | 45 ++++++++++++++++++
->  2 files changed, 92 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/mips/booting.rst
->  create mode 100644 Documentation/translations/zh_CN/mips/index.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/mips/booting.rst
-> new file mode 100644
-> index 000000000000..12e0aa76b485
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/mips/booting.rst
-> @@ -0,0 +1,47 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Chinese translated version of Documentation/mips/booting.rst
-> +
-> +If you have any comment or update to the content, please contact the
-> +original document maintainer directly.  However, if you have a problem
-> +communicating in English you can also ask the Chinese maintainer for
-> +help.  Contact the Chinese maintainer if this translation is outdated
-> +or if there is a problem with the translation.
-> +
-> +Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
-> +---------------------------------------------------------------------
-> +Documentation/mips/booting.rst 的中文翻译
-> +
-> +如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
-> +交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> +译存在问题，请联系中文版维护者。
-> +
-> +中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-> +中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-> +中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
+In order to reduce the difficulty of the first version of code review.
+From this version, we disable PMD/huge page mapping of vmemmap if this
+feature was enabled. This accutualy eliminate a bunch of the complex code
+doing page table manipulation. When this patch series is solid, we cam add
+the code of vmemmap page table manipulation in the future.
 
-Could you like to reuse disclaimer-zh_CN.rst, and the just keep the translator
-is fine if all roles are youself.
+The struct page structures (page structs) are used to describe a physical
+page frame. By default, there is a one-to-one mapping from a page frame to
+it's corresponding page struct.
 
+The HugeTLB pages consist of multiple base page size pages and is supported
+by many architectures. See hugetlbpage.rst in the Documentation directory
+for more details. On the x86 architecture, HugeTLB pages of size 2MB and 1GB
+are currently supported. Since the base page size on x86 is 4KB, a 2MB
+HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
+4096 base pages. For each base page, there is a corresponding page struct.
 
-> +
-> +以下为正文
-> +---------------------------------------------------------------------
-> +
-> +BMIPS设备树引导
-> +------------------------
-> +
-> +  一些bootloaders只支持在内核镜像开始地址处的单一入口点。而其它
-> +  bootloaders将跳转到ELF的开始地址处。两种方案都被支持的；因为
+Within the HugeTLB subsystem, only the first 4 page structs are used to
+contain unique information about a HugeTLB page. HUGETLB_CGROUP_MIN_ORDER
+provides this upper limit. The only 'useful' information in the remaining
+page structs is the compound_head field, and this field is the same for all
+tail pages.
 
-How about the following changes?
+By removing redundant page structs for HugeTLB pages, memory can returned to
+the buddy allocator for other uses.
 
-s/被支持/支持/
-> +  CONFIG_BOOT_RAW=y and CONFIG_NO_EXCEPT_FILL=y, 所以第一条指令
-> +  会立即跳转到kernel_entry()入口处执行。
-> +
-> +  与arch/arm情况(b)类似，dt感知的引导加载程序需要设置以下寄存器:
-> +
-> +         a0 : 0
-> +
-> +         a1 : 0xffffffff
-> +
-> +         a2 : RAM中指向设备树块的物理指针(在chapterII中定义)。
-> +              设备树可以位于前512MB物理地址空间(0x00000000 -
-> +              0x1fffffff)的任何位置，以64位边界对齐。
-> +
-> +  legacy bootloaders不会使用这样的约定，并且它们不传入DT块。
+When the system boot up, every 2M HugeTLB has 512 struct page structs which
+size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
 
-s/legacy/传统/
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | -------------> |     2     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     3     | -------------> |     3     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     4     | -------------> |     4     |
+ |    2MB    |                     +-----------+                +-----------+
+ |           |                     |     5     | -------------> |     5     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     6     | -------------> |     6     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     7     | -------------> |     7     |
+ |           |                     +-----------+                +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-> +  在这种情况下，Linux将通过选中CONFIG_DT_*查找DTB。
-> +
-> +  这个约定只在32位系统中定义，因为目前没有任何64位的BMIPS实现。
+The value of page->compound_head is the same for all tail pages. The first
+page of page structs (page 0) associated with the HugeTLB page contains the 4
+page structs necessary to describe the HugeTLB. The only use of the remaining
+pages of page structs (page 1 to page 7) is to point to page->compound_head.
+Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
+will be used for each HugeTLB page. This will allow us to free the remaining
+6 pages to the buddy allocator.
 
-s/这个/以上/
+Here is how things look after remapping.
 
-Thanks
-Alex
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                   | | | | |
+ |           |                     |     3     | ------------------+ | | | |
+ |           |                     +-----------+                     | | | |
+ |           |                     |     4     | --------------------+ | | |
+ |    2MB    |                     +-----------+                       | | |
+ |           |                     |     5     | ----------------------+ | |
+ |           |                     +-----------+                         | |
+ |           |                     |     6     | ------------------------+ |
+ |           |                     +-----------+                           |
+ |           |                     |     7     | --------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-> diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
-> new file mode 100644
-> index 000000000000..244b16b7ef51
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/mips/index.rst
-> @@ -0,0 +1,45 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Chinese translated version of Documentation/mips/index.rst
-> +
-> +If you have any comment or update to the content, please contact the
-> +original document maintainer directly.  However, if you have a problem
-> +communicating in English you can also ask the Chinese maintainer for
-> +help.  Contact the Chinese maintainer if this translation is outdated
-> +or if there is a problem with the translation.
-> +
-> +Chinese maintainer: Yanteng Si <siyanteng@loongson.cn>
-> +---------------------------------------------------------------------
-> +Documentation/mips/index.rst 的中文翻译
-> +
-> +如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
-> +交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
-> +译存在问题，请联系中文版维护者。
-> +
-> +中文版维护者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-> +中文版翻译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-> +中文版校译者： 司延腾  Yanteng Si <siyanteng@loongson.cn>
-> +
-> +以下为正文
-> +---------------------------------------------------------------------
-> +
-> +
-> +===========================
-> +MIPS特性文档
-> +===========================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +   :numbered:
-> +
-> +   booting
-> +   ingenic-tcu
-> +
-> +   features
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> 
+When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
+vmemmap pages and restore the previous mapping relationship.
+
+Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
+to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
+pages.
+
+In this case, for the 1GB HugeTLB page, we can save 4094 pages. This is a
+very substantial gain. On our server, run some SPDK/QEMU applications which
+will use 1024GB hugetlbpage. With this feature enabled, we can save ~16GB
+(1G hugepage)/~12GB (2MB hugepage) memory.
+
+Because there are vmemmap page tables reconstruction on the freeing/allocating
+path, it increases some overhead. Here are some overhead analysis.
+
+1) Allocating 10240 2MB hugetlb pages.
+
+   a) With this patch series applied:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.166s
+   user     0m0.000s
+   sys      0m0.166s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [8K, 16K)           8360 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [16K, 32K)          1868 |@@@@@@@@@@@                                         |
+   [32K, 64K)            10 |                                                    |
+   [64K, 128K)            2 |                                                    |
+
+   b) Without this patch series:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.066s
+   user     0m0.000s
+   sys      0m0.066s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)           10176 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)             62 |                                                    |
+   [16K, 32K)             2 |                                                    |
+
+   Summarize: this feature is about ~2x slower than before.
+
+2) Freeing 10240 2MB hugetlb pages.
+
+   a) With this patch series applied:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.004s
+   user     0m0.000s
+   sys      0m0.002s
+
+   # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [16K, 32K)         10240 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+
+   b) Without this patch series:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.077s
+   user     0m0.001s
+   sys      0m0.075s
+
+   # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)            9950 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)            287 |@                                                   |
+   [16K, 32K)             3 |                                                    |
+
+   Summarize: The overhead of __free_hugepage is about ~2-4x slower than before.
+              But according to the allocation test above, I think that here is
+	      also ~2x slower than before.
+
+              But why the 'real' time of patched is smaller than before? Because
+	      In this patch series, the freeing hugetlb is asynchronous(through
+	      kwoker).
+
+Although the overhead has increased, the overhead is not significant. Like Mike
+said, "However, remember that the majority of use cases create hugetlb pages at
+or shortly after boot time and add them to the pool. So, additional overhead is
+at pool creation time. There is no change to 'normal run time' operations of
+getting a page from or returning a page to the pool (think page fault/unmap)".
+
+Todo:
+  - Free all of the tail vmemmap pages
+    Now for the 2MB HugrTLB page, we only free 6 vmemmap pages. we really can
+    free 7 vmemmap pages. In this case, we can see 8 of the 512 struct page
+    structures has beed set PG_head flag. If we can adjust compound_head()
+    slightly and make compound_head() return the real head struct page when
+    the parameter is the tail struct page but with PG_head flag set.
+
+    In order to make the code evolution route clearer. This feature can can be
+    a separate patch after this patchset is solid.
+
+  - Support for other architectures (e.g. aarch64).
+  - Enable PMD/huge page mapping of vmemmap even if this feature was enabled.
+
+Changelog in v11 -> v12:
+  - Move VM_WARN_ON_PAGE to a separate patch.
+  - Call __free_hugepage() with hugetlb_lock (See patch #5.) to serialize
+    with dissolve_free_huge_page(). It is to prepare for patch #9.
+  - Introduce PageHugeInflight. See patch #9.
+
+Changelog in v10 -> v11:
+  - Fix compiler error when !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+  - Rework some comments and commit changes.
+  - Rework vmemmap_remap_free() to 3 parameters.
+
+  Thanks to Oscar and Mike's suggestions and review.
+
+Changelog in v9 -> v10:
+  - Fix a bug in patch #11. Thanks to Oscar for pointing that out.
+  - Rework some commit log or comments. Thanks Mike and Oscar for the suggestions.
+  - Drop VMEMMAP_TAIL_PAGE_REUSE in the patch #3.
+
+  Thank you very much Mike and Oscar for reviewing the code.
+
+Changelog in v8 -> v9:
+  - Rework some code. Very thanks to Oscar.
+  - Put all the non-hugetlb vmemmap functions under sparsemem-vmemmap.c.
+
+Changelog in v7 -> v8:
+  - Adjust the order of patches.
+
+  Very thanks to David and Oscar. Your suggestions are very valuable.
+
+Changelog in v6 -> v7:
+  - Rebase to linux-next 20201130
+  - Do not use basepage mapping for vmemmap when this feature is disabled.
+  - Rework some patchs.
+    [PATCH v6 08/16] mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+    [PATCH v6 10/16] mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb page
+
+  Thanks to Oscar and Barry.
+
+Changelog in v5 -> v6:
+  - Disable PMD/huge page mapping of vmemmap if this feature was enabled.
+  - Simplify the first version code.
+
+Changelog in v4 -> v5:
+  - Rework somme comments and code in the [PATCH v4 04/21] and [PATCH v4 05/21].
+
+  Thanks to Mike and Oscar's suggestions.
+
+Changelog in v3 -> v4:
+  - Move all the vmemmap functions to hugetlb_vmemmap.c.
+  - Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we want to
+    disable this feature, we should disable it by a boot/kernel command line.
+  - Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+  - Initialize page table lock for vmemmap through core_initcall mechanism.
+
+  Thanks for Mike and Oscar's suggestions.
+
+Changelog in v2 -> v3:
+  - Rename some helps function name. Thanks Mike.
+  - Rework some code. Thanks Mike and Oscar.
+  - Remap the tail vmemmap page with PAGE_KERNEL_RO instead of PAGE_KERNEL.
+    Thanks Matthew.
+  - Add some overhead analysis in the cover letter.
+  - Use vmemap pmd table lock instead of a hugetlb specific global lock.
+
+Changelog in v1 -> v2:
+  - Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+  - Fix some typo and code style problems.
+  - Remove unused handle_vmemmap_fault().
+  - Merge some commits to one commit suggested by Mike.
+
+Muchun Song (13):
+  mm/memory_hotplug: Factor out bootmem core functions to bootmem_info.c
+  mm/hugetlb: Introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+  mm: Introduce VM_WARN_ON_PAGE macro
+  mm/hugetlb: Free the vmemmap pages associated with each HugeTLB page
+  mm/hugetlb: Defer freeing of HugeTLB pages
+  mm/hugetlb: Allocate the vmemmap pages associated with each HugeTLB
+    page
+  mm/hugetlb: Set the PageHWPoison to the raw error page
+  mm/hugetlb: Flush work when dissolving a HugeTLB page
+  mm/hugetlb: Introduce PageHugeInflight
+  mm/hugetlb: Add a kernel parameter hugetlb_free_vmemmap
+  mm/hugetlb: Introduce nr_free_vmemmap_pages in the struct hstate
+  mm/hugetlb: Gather discrete indexes of tail page
+  mm/hugetlb: Optimize the code with the help of the compiler
+
+ Documentation/admin-guide/kernel-parameters.txt |  14 ++
+ Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+ arch/x86/mm/init_64.c                           |  13 +-
+ fs/Kconfig                                      |  18 ++
+ include/linux/bootmem_info.h                    |  65 ++++++
+ include/linux/hugetlb.h                         |  37 ++++
+ include/linux/hugetlb_cgroup.h                  |  15 +-
+ include/linux/memory_hotplug.h                  |  27 ---
+ include/linux/mm.h                              |   5 +
+ include/linux/mmdebug.h                         |   8 +
+ mm/Makefile                                     |   2 +
+ mm/bootmem_info.c                               | 124 +++++++++++
+ mm/hugetlb.c                                    | 218 +++++++++++++++++--
+ mm/hugetlb_vmemmap.c                            | 278 ++++++++++++++++++++++++
+ mm/hugetlb_vmemmap.h                            |  45 ++++
+ mm/memory_hotplug.c                             | 116 ----------
+ mm/sparse-vmemmap.c                             | 256 ++++++++++++++++++++++
+ mm/sparse.c                                     |   1 +
+ 18 files changed, 1073 insertions(+), 172 deletions(-)
+ create mode 100644 include/linux/bootmem_info.h
+ create mode 100644 mm/bootmem_info.c
+ create mode 100644 mm/hugetlb_vmemmap.c
+ create mode 100644 mm/hugetlb_vmemmap.h
+
+-- 
+2.11.0
+
