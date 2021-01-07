@@ -2,97 +2,364 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A966C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 11:43:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A867C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41E6C2333C
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 11:43:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6127123356
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:09:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbhAGLnC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jan 2021 06:43:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727907AbhAGLnC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 06:43:02 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED04C0612F6
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jan 2021 03:42:22 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id r4so3332968pls.11
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jan 2021 03:42:21 -0800 (PST)
+        id S1726073AbhAGMJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jan 2021 07:09:07 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:21798 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725835AbhAGMJH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 07:09:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9LgQWsmOFElkiLf05U+26lKjk/BOB6UPEZTx7RDx+X8=;
-        b=iDrhS3bvpsoJA//KOJIA8S6QmOm/T6S3WIhlulzR3yc6ZWw0DE5VdsQstr9G/C6Rav
-         LMrI4fYZJ/OT83tH5gUtKsiUPorPLTi7I5lQF5ho7D9d79WBTDMFAjSbP5/ksRk9cVVS
-         Z6/3sb2OKAXtwY8ZWiaNXeMmw6ZfczgYyPXmxVrx7RI72zX9/ubr2QiDHMJTyqygxmyQ
-         houU/9IMLwrdFGaiIEL2VcEWa2ClokQpcIB5+uRniVvh3qtVu9l54dNjHTaLI7Ch4kBa
-         Hs553dJx/t8N8rSYtMKKKfEvfIuqkn4MYG/aNHW8LEbO8eDVziPBoZvBi0qsab+qqQhV
-         PqBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9LgQWsmOFElkiLf05U+26lKjk/BOB6UPEZTx7RDx+X8=;
-        b=eRG+yjcn98iSAGXR1jHh+90ZwUd0tWrcqYuLTQQGwbNDxmDfNAxypm8hX7NrNM4cRo
-         jdRiLWk6Ss+cRnRJ//HwXsR1aZaCaJgU95/FMj0BbbNFDZ89QoF0MlkHaWE8Sy6REwbZ
-         mj7ca4qFgikQglUwwQEN74rLacOx1wDy0DdfB4exLzsJD8h8FyEzvqtfeDZRhhl8t42S
-         yzxhCUTl/CvdB8rwonqJRq0R0JRs1hr3oBSiyNcvoU+64gDi8pfw1434vsZRF8PTkdXP
-         nHkDfHYCyiNpIf9NWC0s+PVy2g35sovs38QHAEcS/aEqM9QMjZj8bqLMjDrmGDRztkfr
-         Cs1w==
-X-Gm-Message-State: AOAM5327cIoazHwBFW9IVDBSpipKtpcHw3Z7/PWy4Q08kEi0PVis07u7
-        A+cmfCUTur0NrCF+lMW94cXAJA==
-X-Google-Smtp-Source: ABdhPJxzZ8oeKB/meYVSBeksDMO+gwFZyPlb9af11OzHmvmJ3fVK8ygHaa9PJ9gzmrHIVVfHzRPB2w==
-X-Received: by 2002:a17:90a:902:: with SMTP id n2mr8851796pjn.126.1610019741338;
-        Thu, 07 Jan 2021 03:42:21 -0800 (PST)
-Received: from localhost ([122.172.20.109])
-        by smtp.gmail.com with ESMTPSA id o1sm6196138pgq.1.2021.01.07.03.42.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Jan 2021 03:42:20 -0800 (PST)
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        anmar.oueja@linaro.org, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: kbuild: Fix section reference
-Date:   Thu,  7 Jan 2021 17:12:08 +0530
-Message-Id: <6f551ebb80f88e9b1bf6aa981f3c201409e1555c.1610019699.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1610021347; x=1641557347;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=Pq/1QFmMwIoQiLmPrNgwyVK1ezuCrlRevhqPdfRTny8=;
+  b=huUfGYoAxCTFq0EF3NTuEUNidZPybN/SgBsTYqr/k60/bCDNK20R9plX
+   HM7IzHzKv1Rl7+3Rthf87/wg9mBraiJVVH6n40jCU6pDj7ik597jd6fVc
+   o/Jx19oQGmZeQOboskbtv6CCBne6TVoZl5rJK4lJkQqVzT+I6EODpxeN3
+   8=;
+X-IronPort-AV: E=Sophos;i="5.79,329,1602547200"; 
+   d="scan'208";a="73626685"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 07 Jan 2021 12:08:19 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id A8E4EA207D;
+        Thu,  7 Jan 2021 12:08:07 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.66) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 7 Jan 2021 12:07:50 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     <akpm@linux-foundation.org>
+CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH] tools/perf: Integrate DAMON in perf
+Date:   Thu, 7 Jan 2021 13:07:29 +0100
+Message-ID: <20210107120729.22328-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.66]
+X-ClientProxiedBy: EX13D23UWC003.ant.amazon.com (10.43.162.81) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Section 3.11 was incorrectly called 3.9, fix it.
+From: SeongJae Park <sjpark@amazon.de>
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+NOTE: This RFC has a dependancy on DAMON (Data Access MONitor)
+patchset[1], which is not merged in the mainline yet.  The aim of this
+is to show how DAMON would be evolved once it is merged in and get some
+comments early.  So, if you have some interest in this, please consider
+reviewing the DAMON patchset, either.
+
+[1] https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com
+
 ---
- Documentation/kbuild/makefiles.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index d36768cf1250..9f6a11881951 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -598,7 +598,7 @@ more details, with real examples.
- 	explicitly added to $(targets).
- 
- 	Assignments to $(targets) are without $(obj)/ prefix. if_changed may be
--	used in conjunction with custom rules as defined in "3.9 Custom Rules".
-+	used in conjunction with custom rules as defined in "3.11 Custom Rules".
- 
- 	Note: It is a typical mistake to forget the FORCE prerequisite.
- 	Another common pitfall is that whitespace is sometimes significant; for
+Though there is a simple debugfs interface for DAMON and even a
+dedicated user space tool, integrating the interface in perf will make
+best user experiences.  For the reason, this commit adds perf scripts
+for DAMON.  After this commit, users can record the data access
+monitoring results and read in human readable form with:
+
+    $ sudo perf script record damon
+    $ sudo perf script report damon
+
+or simply,
+
+    $ sudo perf script damon
+
+Nevertheless, above commands do not start the monitoring by themselves,
+so the user should turn it on in background.  To make it easy, this
+commit also adds a convenient version of 'perf script record damon',
+which executes a command, turns on DAMON for the process, and records
+DAMON trace events.  For example, it can be used as:
+
+    $ sudo ~/libexec/perf-core/scripts/python/bin/damon-record.sh <cmd>
+    $ sudo perf script report damon
+
+Currently, the report command supports only raw format.
+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+---
+ tools/perf/scripts/python/bin/damon-record    |   4 +
+ tools/perf/scripts/python/bin/damon-record.sh | 163 ++++++++++++++++++
+ tools/perf/scripts/python/bin/damon-report    |   4 +
+ tools/perf/scripts/python/damon.py            |  44 +++++
+ 4 files changed, 215 insertions(+)
+ create mode 100644 tools/perf/scripts/python/bin/damon-record
+ create mode 100644 tools/perf/scripts/python/bin/damon-record.sh
+ create mode 100644 tools/perf/scripts/python/bin/damon-report
+ create mode 100644 tools/perf/scripts/python/damon.py
+
+diff --git a/tools/perf/scripts/python/bin/damon-record b/tools/perf/scripts/python/bin/damon-record
+new file mode 100644
+index 000000000000..6e21802c8c0e
+--- /dev/null
++++ b/tools/perf/scripts/python/bin/damon-record
+@@ -0,0 +1,4 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++perf record -e damon:damon_aggregated $@
+diff --git a/tools/perf/scripts/python/bin/damon-record.sh b/tools/perf/scripts/python/bin/damon-record.sh
+new file mode 100644
+index 000000000000..3e3e27343ccc
+--- /dev/null
++++ b/tools/perf/scripts/python/bin/damon-record.sh
+@@ -0,0 +1,163 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++#
++# This is more convenient version of 'perf script record damon <command>'.
++# While the command assumes DAMON will be turned on by the user, this do that
++# instead.  That is, this command starts the command, turn DAMON on for the
++# process, and record the trace events.
++
++pr_usage()
++{
++	>&2 echo "Usage: $0 [OPTION]... <command>"
++	>&2 echo
++	>&2 echo "OPTION"
++	>&2 echo "  --sampling <interval>	Sampling interval (us)"
++	>&2 echo "  --aggregate <interval>	Aggregate interval (us)"
++	>&2 echo "  --update <interval>	Regions update interval (us)"
++	>&2 echo "  --min-reg <nr>		Minimum number of regions"
++	>&2 echo "  --max-reg <nr>		Maximum number of regions"
++}
++
++# Default values (intervals are in us)
++sampling_interval=5000
++aggregate_interval=100000
++regions_update_interval=1000000
++min_nr_regions=10
++max_nr_regions=1000
++cmd=""
++
++debugfs_dir=$(mount | grep -e "type debugfs" | awk '{print $3}')
++if [ -z "$debugfs_dir" ]
++then
++	>&2 echo "debugfs not found"
++	exit 1
++fi
++
++damon_dir="$debugfs_dir/damon"
++if [ ! -d "$damon_dir" ]
++then
++	>&2 echo "damon dir not found"
++	exit 1
++fi
++
++if [ $# -lt 1 ]
++then
++	pr_usage
++	exit 1
++fi
++
++while [ $# -ne 0 ]
++do
++	case $1 in
++	"--sampling")
++		if [ $# -lt 2 ]
++		then
++			>&2 echo "<interval> not given"
++			pr_usage
++			exit 1
++		fi
++		sampling_interval=$2
++		shift 2
++		continue
++		;;
++	"--aggregate")
++		if [ $# -lt 2 ]
++		then
++			>&2 echo "<interval> not given"
++			pr_usage
++			exit 1
++		fi
++		aggregate_interval=$2
++		shift 2
++		continue
++		;;
++	"--update")
++		if [ $# -lt 2 ]
++		then
++			>&2 echo "<interval> not given"
++			pr_usage
++			exit 1
++		fi
++		regions_update_interval=$2
++		shift 2
++		continue
++		;;
++	"--min_reg")
++		if [ $# -lt 2 ]
++		then
++			>&2 echo "<nr> not given"
++			pr_usage
++			exit 1
++		fi
++		min_nr_regions=$2
++		shift 2
++		continue
++		;;
++	"--max_reg")
++		if [ $# -lt 2 ]
++		then
++			>&2 echo "<nr> not given"
++			pr_usage
++			exit 1
++		fi
++		max_nr_regions=$2
++		shift 2
++		continue
++		;;
++	*)
++		if [ $# -lt 1 ]
++		then
++			>&2 echo "<command> not given"
++			pr_usage
++			exit 1
++		fi
++		cmd="$*"
++		break
++		;;
++	esac
++done
++
++if [ -z "$cmd" ]
++then
++	pr_usage
++	exit 1
++fi
++
++orig_attrs=$(cat "$damon_dir/attrs")
++attrs="$sampling_interval $aggregate_interval $regions_update_interval"
++attrs="$attrs $min_nr_regions $max_nr_regions"
++
++echo "$attrs" > "$damon_dir/attrs"
++
++$cmd &
++cmd_pid=$!
++
++echo "$cmd_pid" > "$damon_dir/target_ids"
++echo "on" > "$damon_dir/monitor_on"
++
++perf record -e damon:damon_aggregated &
++perf_pid=$!
++
++sigint_trap()
++{
++	kill 2 "$cmd_pid"
++	kill 2 "$perf_pid"
++	echo "$orig_attrs" > "$damon_dir/attrs"
++	exit
++}
++
++trap sigint_trap INT
++
++>&2 echo "Press Control+C to stop recording"
++
++while :;
++do
++	on_off=$(cat "$damon_dir/monitor_on")
++	if [ "$on_off" = "off" ]
++	then
++		kill 2 $perf_pid
++		echo "$orig_attrs" > "$damon_dir/attrs"
++		break
++	fi
++	sleep 1
++done
+diff --git a/tools/perf/scripts/python/bin/damon-report b/tools/perf/scripts/python/bin/damon-report
+new file mode 100644
+index 000000000000..89ece171959e
+--- /dev/null
++++ b/tools/perf/scripts/python/bin/damon-report
+@@ -0,0 +1,4 @@
++#!/bin/bash
++# description: data access monitoring
++
++perf script $@ -s "$PERF_EXEC_PATH"/scripts/python/damon.py
+diff --git a/tools/perf/scripts/python/damon.py b/tools/perf/scripts/python/damon.py
+new file mode 100644
+index 000000000000..b71a9bdf00e7
+--- /dev/null
++++ b/tools/perf/scripts/python/damon.py
+@@ -0,0 +1,44 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Author: SeongJae Park <sjpark@amazon.de>
++
++from __future__ import print_function
++
++import os
++import sys
++
++sys.path.append(os.environ['PERF_EXEC_PATH'] + \
++	'/scripts/python/Perf-Trace-Util/lib/Perf/Trace')
++
++from perf_trace_context import *
++from Core import *
++
++
++def trace_begin():
++	pass
++
++def trace_end():
++	pass
++
++start_time = None
++nr_printed = 0
++def damon__damon_aggregated(event_name, context, common_cpu,
++		common_secs, common_nsecs, common_pid, common_comm,
++		common_callchain, target_id, nr_regions, start, end,
++		nr_accesses, perf_sample_dict):
++	global start_time
++	global nr_printed
++	time = common_secs * 1000000000 + common_nsecs
++	if not start_time:
++		start_time = time
++		print('start_time: %d' % start_time)
++	if nr_printed == 0:
++		print('rel time: %d' % (time - start_time))
++		print('target_id: %d' % target_id)
++		print('nr_regions: %d' % nr_regions)
++	print('%x-%x (%d): %u' % (start, end, end - start, nr_accesses))
++
++	nr_printed += 1
++	if nr_printed == nr_regions:
++		nr_printed = 0
++		print()
 -- 
-2.25.0.rc1.19.g042ed3e048af
+2.17.1
 
