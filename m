@@ -2,88 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4221AC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 16:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1D4C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 20:49:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D787023432
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 16:35:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 996932343E
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 20:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725965AbhAGQfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jan 2021 11:35:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725835AbhAGQfj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 11:35:39 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A7EBC0612F6;
-        Thu,  7 Jan 2021 08:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=r1DkkM634LmbM+8iNum9ry0SlTP4QSLEZKVyMcSDUE8=; b=pkREtNwWgEZG339X0qE+wgQ1eF
-        N9UymPXbyG5MYV1N93S6//KKUV8sgkTU+5/T5QHr4fPFUeiQbH3BF+QPDcVfv3tZCuJOyHwZapgMP
-        CVEKXDFQqcRmGazWwLtm932MmwHgLH8yYJqXMeoB4wop9zQVuUcbiOwF1rIE9EVS/hHBaSmaUjFxh
-        trQp26ZztNnjoipY2KP31JcwY5kMS8GQ394GLKnEPQ/qrnes2Y4Ce5FrC8un1ChS/WuJC7WrMtX52
-        U/q1saIHp87MFEvzHms9l0bP+YbW1xwI4GVrNdirESAqDrhB+NYVxP19BXcjoeTF4Bbk8X6pv/vjn
-        ZSwTCf6w==;
-Received: from [2601:1c0:6280:3f0::79df]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kxYFT-0007Dt-L7; Thu, 07 Jan 2021 16:34:55 +0000
-Subject: Re: [PATCH] docs: admin-guide: bootconfig: Fix feils to fails
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, mhiramat@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210107125610.1576368-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ee03c134-22f5-0845-de04-6b4d38f00ec2@infradead.org>
-Date:   Thu, 7 Jan 2021 08:34:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726410AbhAGUtJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jan 2021 15:49:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58026 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725944AbhAGUtJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Jan 2021 15:49:09 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CEEA82343B;
+        Thu,  7 Jan 2021 20:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610052508;
+        bh=gTToTgtzJwu6dILhUp01eNoOHIo3R7gTvPzbhkyLT5o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=l6vDPCsgNuBgu5m501/gqwtWAtoUbOcDWI5wBhGCZ0zWu44JYuAhOlmWzzevwSS2y
+         XNWAv0VXvVTx/ESAkr/fp5df2h6ViOocku6MFJV+XXlvOHazy8x7KIo+l3aKhrr1ad
+         VMr5HuSVbVvamiiiwzaJCGnS4PjW4i91kUzYP3X8buNrb3gDjtNhinPNTfhHOm3qlx
+         B7COXx0aOtSu+/BJbM4ukcbL7ZbmR2XsKbSzq27GP41R7i+KAz3CPHCbOtEERTjJ/K
+         5TPsmjmA76mYRXYp63NEE0wLNWwlR5aJCKpK5lAH1uihpo9J1+yTEcVhf9Jd4KTTRF
+         F6a0ewgXTRYYg==
+Date:   Thu, 7 Jan 2021 12:48:26 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     George Cherian <george.cherian@marvell.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, Sunil Goutham <sgoutham@marvell.com>,
+        Linu Cherian <lcherian@marvell.com>,
+        Geetha Sowjanya <gakula@marvell.com>,
+        Jerin Jacob <jerinj@marvell.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: octeontx2: tune rst markup
+Message-ID: <20210107124826.6cb90423@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210106161735.21751-1-lukas.bulwahn@gmail.com>
+References: <20210106161735.21751-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210107125610.1576368-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/7/21 4:56 AM, Bhaskar Chowdhury wrote:
-> s/feils/fails/p
+On Wed,  6 Jan 2021 17:17:35 +0100 Lukas Bulwahn wrote:
+> Commit 80b9414832a1 ("docs: octeontx2: Add Documentation for NPA health
+> reporters") added new documentation with improper formatting for rst, and
+> caused a few new warnings for make htmldocs in octeontx2.rst:169--202.
 > 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/admin-guide/bootconfig.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Tune markup and formatting for better presentation in the HTML view.
 > 
-> diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
-> index 9b90efcc3a35..452b7dcd7f6b 100644
-> --- a/Documentation/admin-guide/bootconfig.rst
-> +++ b/Documentation/admin-guide/bootconfig.rst
-> @@ -154,7 +154,7 @@ get the boot configuration data.
->  Because of this "piggyback" method, there is no need to change or
->  update the boot loader and the kernel image itself as long as the boot
->  loader passes the correct initrd file size. If by any chance, the boot
-> -loader passes a longer size, the kernel feils to find the bootconfig data.
-> +loader passes a longer size, the kernel fails to find the bootconfig data.
-> 
->  To do this operation, Linux kernel provides "bootconfig" command under
->  tools/bootconfig, which allows admin to apply or delete the config file
-> --
-> 2.30.0
-> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-
--- 
-~Randy
+Applied to net, thanks everyone!
