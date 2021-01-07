@@ -2,364 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A867C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 980BCC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:23:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6127123356
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:09:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BD5B22AB9
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbhAGMJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jan 2021 07:09:07 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:21798 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725835AbhAGMJH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 07:09:07 -0500
+        id S1728118AbhAGMXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jan 2021 07:23:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727830AbhAGMXX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 07:23:23 -0500
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFA49C0612F5
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jan 2021 04:22:42 -0800 (PST)
+Received: by mail-qk1-x734.google.com with SMTP id n142so5260133qkn.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jan 2021 04:22:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1610021347; x=1641557347;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=Pq/1QFmMwIoQiLmPrNgwyVK1ezuCrlRevhqPdfRTny8=;
-  b=huUfGYoAxCTFq0EF3NTuEUNidZPybN/SgBsTYqr/k60/bCDNK20R9plX
-   HM7IzHzKv1Rl7+3Rthf87/wg9mBraiJVVH6n40jCU6pDj7ik597jd6fVc
-   o/Jx19oQGmZeQOboskbtv6CCBne6TVoZl5rJK4lJkQqVzT+I6EODpxeN3
-   8=;
-X-IronPort-AV: E=Sophos;i="5.79,329,1602547200"; 
-   d="scan'208";a="73626685"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 07 Jan 2021 12:08:19 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id A8E4EA207D;
-        Thu,  7 Jan 2021 12:08:07 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.66) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 7 Jan 2021 12:07:50 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH] tools/perf: Integrate DAMON in perf
-Date:   Thu, 7 Jan 2021 13:07:29 +0100
-Message-ID: <20210107120729.22328-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iQCFF7Idhr2G6w+CkYDajOHCzBRjDPguD8Lo9f+cp5M=;
+        b=NpCvkun1lBkXWaCrTZf3MToAiiG2shditRsGPRoFbliJfZ7ecrSCF9GFqRLZQVVoy5
+         cEfElKZz5VJubz9uoii1lXN7JObXOLdFq4vMquCTLzgqDlBu9eTE4movume05j7McrIi
+         O8OUbfvw4Ee/LnQEc2ixYDJN2dY2RaAsd8kx257nM63pSINhotjNZiJKKReirkSiQSJ9
+         5Kf1tBEUVSZYkeNi6T0gQUA1AdImNc+jLe9+POiQfveyJP9qnKuzK+2nFgj3u655+c0K
+         SS6iOS1dv3yXjNB65ouMN4L3PZ4UpWFsCByaQ96QcTKe3ahOZUMjCv/knddgmAUwcWIe
+         eBFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iQCFF7Idhr2G6w+CkYDajOHCzBRjDPguD8Lo9f+cp5M=;
+        b=NcZMTkpPGeiC9qDAoBZssLkvHn83p+KyO1AKsPZ3QMvuYTSRR2s0m5VdvPSbVfmiVi
+         s1qJUkYDlvzg0+EzbDArLa1IvghI0wZSBhAmBJuzHLu4BNwI7BPmerdnjHuIKU7D8uM9
+         5be6eNvVemNGao+dErhNbOqFXOSRYb011TWK0N/3rxM2NnQ8RGusvhvjRVbxTsjzMS1X
+         3G9xqNiEd4Lhl9A7r3j36UPtlUHNdC16hFlTqW91BTSJDt5lRxu1fidjzqrqn3wrQUHd
+         FiGr/dH7wbjp06fjkMq3K5lC34pjfLkAdymS/ldKJXN05nArD8/XdrjbKqVMyzb9EF8o
+         XsFQ==
+X-Gm-Message-State: AOAM530ywNFyoQXGg2dYAgl41PPg3pX/x7SKjnHqAT2pmxJBmSi9NRef
+        lW7cYT5cR4MQ3R2GE/L9cOHfslrqnjSiKEXMJCbLt6uJ3Y8YI55j
+X-Google-Smtp-Source: ABdhPJzIlSbVbqyfQ4v6aRX0X4DVCmR0dDJMgjdScgkcSOrGiyo0awN9NSyL6wyvwi9EQf9v4PW+UFLst2bOewvEmNM=
+X-Received: by 2002:ae9:c013:: with SMTP id u19mr8710243qkk.59.1610022162077;
+ Thu, 07 Jan 2021 04:22:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.66]
-X-ClientProxiedBy: EX13D23UWC003.ant.amazon.com (10.43.162.81) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+References: <20210107022337.1791010-1-siyanteng@loongson.cn>
+ <20210107022337.1791010-2-siyanteng@loongson.cn> <45db18b6-f471-4f9d-5ffe-9ab7ee45469e@linux.alibaba.com>
+In-Reply-To: <45db18b6-f471-4f9d-5ffe-9ab7ee45469e@linux.alibaba.com>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Thu, 7 Jan 2021 20:22:30 +0800
+Message-ID: <CAMU9jJo0WfWjraMJ4o1Mp8Tqh16HCEopv=CQbd0ewJG89SQgCg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] docs/zh_CN: add Chinese booting file
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Huacai Chen <chenhuacai@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng01@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
-
-NOTE: This RFC has a dependancy on DAMON (Data Access MONitor)
-patchset[1], which is not merged in the mainline yet.  The aim of this
-is to show how DAMON would be evolved once it is merged in and get some
-comments early.  So, if you have some interest in this, please consider
-reviewing the DAMON patchset, either.
-
-[1] https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com
-
----
-
-Though there is a simple debugfs interface for DAMON and even a
-dedicated user space tool, integrating the interface in perf will make
-best user experiences.  For the reason, this commit adds perf scripts
-for DAMON.  After this commit, users can record the data access
-monitoring results and read in human readable form with:
-
-    $ sudo perf script record damon
-    $ sudo perf script report damon
-
-or simply,
-
-    $ sudo perf script damon
-
-Nevertheless, above commands do not start the monitoring by themselves,
-so the user should turn it on in background.  To make it easy, this
-commit also adds a convenient version of 'perf script record damon',
-which executes a command, turns on DAMON for the process, and records
-DAMON trace events.  For example, it can be used as:
-
-    $ sudo ~/libexec/perf-core/scripts/python/bin/damon-record.sh <cmd>
-    $ sudo perf script report damon
-
-Currently, the report command supports only raw format.
-
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- tools/perf/scripts/python/bin/damon-record    |   4 +
- tools/perf/scripts/python/bin/damon-record.sh | 163 ++++++++++++++++++
- tools/perf/scripts/python/bin/damon-report    |   4 +
- tools/perf/scripts/python/damon.py            |  44 +++++
- 4 files changed, 215 insertions(+)
- create mode 100644 tools/perf/scripts/python/bin/damon-record
- create mode 100644 tools/perf/scripts/python/bin/damon-record.sh
- create mode 100644 tools/perf/scripts/python/bin/damon-report
- create mode 100644 tools/perf/scripts/python/damon.py
-
-diff --git a/tools/perf/scripts/python/bin/damon-record b/tools/perf/scripts/python/bin/damon-record
-new file mode 100644
-index 000000000000..6e21802c8c0e
---- /dev/null
-+++ b/tools/perf/scripts/python/bin/damon-record
-@@ -0,0 +1,4 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+perf record -e damon:damon_aggregated $@
-diff --git a/tools/perf/scripts/python/bin/damon-record.sh b/tools/perf/scripts/python/bin/damon-record.sh
-new file mode 100644
-index 000000000000..3e3e27343ccc
---- /dev/null
-+++ b/tools/perf/scripts/python/bin/damon-record.sh
-@@ -0,0 +1,163 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# This is more convenient version of 'perf script record damon <command>'.
-+# While the command assumes DAMON will be turned on by the user, this do that
-+# instead.  That is, this command starts the command, turn DAMON on for the
-+# process, and record the trace events.
-+
-+pr_usage()
-+{
-+	>&2 echo "Usage: $0 [OPTION]... <command>"
-+	>&2 echo
-+	>&2 echo "OPTION"
-+	>&2 echo "  --sampling <interval>	Sampling interval (us)"
-+	>&2 echo "  --aggregate <interval>	Aggregate interval (us)"
-+	>&2 echo "  --update <interval>	Regions update interval (us)"
-+	>&2 echo "  --min-reg <nr>		Minimum number of regions"
-+	>&2 echo "  --max-reg <nr>		Maximum number of regions"
-+}
-+
-+# Default values (intervals are in us)
-+sampling_interval=5000
-+aggregate_interval=100000
-+regions_update_interval=1000000
-+min_nr_regions=10
-+max_nr_regions=1000
-+cmd=""
-+
-+debugfs_dir=$(mount | grep -e "type debugfs" | awk '{print $3}')
-+if [ -z "$debugfs_dir" ]
-+then
-+	>&2 echo "debugfs not found"
-+	exit 1
-+fi
-+
-+damon_dir="$debugfs_dir/damon"
-+if [ ! -d "$damon_dir" ]
-+then
-+	>&2 echo "damon dir not found"
-+	exit 1
-+fi
-+
-+if [ $# -lt 1 ]
-+then
-+	pr_usage
-+	exit 1
-+fi
-+
-+while [ $# -ne 0 ]
-+do
-+	case $1 in
-+	"--sampling")
-+		if [ $# -lt 2 ]
-+		then
-+			>&2 echo "<interval> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		sampling_interval=$2
-+		shift 2
-+		continue
-+		;;
-+	"--aggregate")
-+		if [ $# -lt 2 ]
-+		then
-+			>&2 echo "<interval> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		aggregate_interval=$2
-+		shift 2
-+		continue
-+		;;
-+	"--update")
-+		if [ $# -lt 2 ]
-+		then
-+			>&2 echo "<interval> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		regions_update_interval=$2
-+		shift 2
-+		continue
-+		;;
-+	"--min_reg")
-+		if [ $# -lt 2 ]
-+		then
-+			>&2 echo "<nr> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		min_nr_regions=$2
-+		shift 2
-+		continue
-+		;;
-+	"--max_reg")
-+		if [ $# -lt 2 ]
-+		then
-+			>&2 echo "<nr> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		max_nr_regions=$2
-+		shift 2
-+		continue
-+		;;
-+	*)
-+		if [ $# -lt 1 ]
-+		then
-+			>&2 echo "<command> not given"
-+			pr_usage
-+			exit 1
-+		fi
-+		cmd="$*"
-+		break
-+		;;
-+	esac
-+done
-+
-+if [ -z "$cmd" ]
-+then
-+	pr_usage
-+	exit 1
-+fi
-+
-+orig_attrs=$(cat "$damon_dir/attrs")
-+attrs="$sampling_interval $aggregate_interval $regions_update_interval"
-+attrs="$attrs $min_nr_regions $max_nr_regions"
-+
-+echo "$attrs" > "$damon_dir/attrs"
-+
-+$cmd &
-+cmd_pid=$!
-+
-+echo "$cmd_pid" > "$damon_dir/target_ids"
-+echo "on" > "$damon_dir/monitor_on"
-+
-+perf record -e damon:damon_aggregated &
-+perf_pid=$!
-+
-+sigint_trap()
-+{
-+	kill 2 "$cmd_pid"
-+	kill 2 "$perf_pid"
-+	echo "$orig_attrs" > "$damon_dir/attrs"
-+	exit
-+}
-+
-+trap sigint_trap INT
-+
-+>&2 echo "Press Control+C to stop recording"
-+
-+while :;
-+do
-+	on_off=$(cat "$damon_dir/monitor_on")
-+	if [ "$on_off" = "off" ]
-+	then
-+		kill 2 $perf_pid
-+		echo "$orig_attrs" > "$damon_dir/attrs"
-+		break
-+	fi
-+	sleep 1
-+done
-diff --git a/tools/perf/scripts/python/bin/damon-report b/tools/perf/scripts/python/bin/damon-report
-new file mode 100644
-index 000000000000..89ece171959e
---- /dev/null
-+++ b/tools/perf/scripts/python/bin/damon-report
-@@ -0,0 +1,4 @@
-+#!/bin/bash
-+# description: data access monitoring
-+
-+perf script $@ -s "$PERF_EXEC_PATH"/scripts/python/damon.py
-diff --git a/tools/perf/scripts/python/damon.py b/tools/perf/scripts/python/damon.py
-new file mode 100644
-index 000000000000..b71a9bdf00e7
---- /dev/null
-+++ b/tools/perf/scripts/python/damon.py
-@@ -0,0 +1,44 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Author: SeongJae Park <sjpark@amazon.de>
-+
-+from __future__ import print_function
-+
-+import os
-+import sys
-+
-+sys.path.append(os.environ['PERF_EXEC_PATH'] + \
-+	'/scripts/python/Perf-Trace-Util/lib/Perf/Trace')
-+
-+from perf_trace_context import *
-+from Core import *
-+
-+
-+def trace_begin():
-+	pass
-+
-+def trace_end():
-+	pass
-+
-+start_time = None
-+nr_printed = 0
-+def damon__damon_aggregated(event_name, context, common_cpu,
-+		common_secs, common_nsecs, common_pid, common_comm,
-+		common_callchain, target_id, nr_regions, start, end,
-+		nr_accesses, perf_sample_dict):
-+	global start_time
-+	global nr_printed
-+	time = common_secs * 1000000000 + common_nsecs
-+	if not start_time:
-+		start_time = time
-+		print('start_time: %d' % start_time)
-+	if nr_printed == 0:
-+		print('rel time: %d' % (time - start_time))
-+		print('target_id: %d' % target_id)
-+		print('nr_regions: %d' % nr_regions)
-+	print('%x-%x (%d): %u' % (start, end, end - start, nr_accesses))
-+
-+	nr_printed += 1
-+	if nr_printed == nr_regions:
-+		nr_printed = 0
-+		print()
--- 
-2.17.1
-
+VGhhbmsgeW91IHZlcnkgbXVjaCwgeW91IHdpbGwgc2VlIGl0IGluIHRoZSBQQVRDSCB2My4NCg0K
+VGhhbmtzDQpZYW50ZW5nIFNpDQoNCg0KQWxleCBTaGkgPGFsZXguc2hpQGxpbnV4LmFsaWJhYmEu
+Y29tPiDkuo4yMDIx5bm0MeaciDfml6Xlkajlm5sg5LiK5Y2IMTE6MjflhpnpgZPvvJoNCj4NCj4N
+Cj4NCj4g5ZyoIDIwMjEvMS83IOS4iuWNiDEwOjIzLCBZYW50ZW5nIFNpIOWGmemBkzoNCj4gPiBU
+aGlzIGlzIHRoZSBDaGluZXNlIHZlcnNpb24gb2YgYm9vdGluZyBmaWxlDQo+DQo+DQo+IFVoLCBJ
+IGd1ZXNzIG1vcmUgY2xlYXIgYW5kIGRldGFpbGVkIGNvbW1pdCBsb2cgYW5kIHN1YmplY3Qgd2ls
+bCBoZWxwDQo+IHVzZXIgdW5kZXJzdGFuZCB5b3VyIGNoYW5nZXMuDQo+DQo+IGxpa2UgdGhpczoN
+Cj4NCj4gc3ViamVjdDogZG9jL3poX0NOOiBhZGQgbWlwcyBib290aW5nLnJzdCB0cmFuc2xhdGlv
+bg0KPg0KPiBUaGlzIHBhdGNoIHRyYW5zbGF0ZXMgRG9jdW1lbnRhdGlvbi9taXBzL2Jvb3Rpbmcu
+cnN0IGludG8gQ2hpbmVzZS4NCj4NCj4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlhbnRlbmcg
+U2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAtLS0NCj4gPiAgLi4uL3RyYW5zbGF0aW9u
+cy96aF9DTi9taXBzL2Jvb3RpbmcucnN0ICAgICAgIHwgMzEgKysrKysrKysrKysrKysrKysrKw0K
+PiA+ICAxIGZpbGUgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAx
+MDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbWlwcy9ib290aW5nLnJzdA0K
+PiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21p
+cHMvYm9vdGluZy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9taXBzL2Jv
+b3RpbmcucnN0DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAw
+MDAuLjMwOTlkMGZmZjdhNg0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0
+aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9taXBzL2Jvb3RpbmcucnN0DQo+ID4gQEAgLTAsMCArMSwz
+MSBAQA0KPiA+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICsNCj4g
+PiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ID4gKw0KPiA+ICs6T3Jp
+Z2luYWw6IDpyZWY6YERvY3VtZW50YXRpb24vbWlwcy9ib290aW5nLnJzdCA8Ym9vdGluZz5gDQo+
+ID4gKzpUcmFuc2xhdG9yOiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4g
+Kw0KPiA+ICsuLiBfY25fYm9vdGluZzoNCj4gPiArDQo+ID4gK0JNSVBT6K6+5aSH5qCR5byV5a+8
+DQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICsNCj4gPiArICDkuIDkuptib290
+bG9hZGVyc+WPquaUr+aMgeWcqOWGheaguOmVnOWDj+W8gOWni+WcsOWdgOWkhOeahOWNleS4gOWF
+peWPo+eCueOAguiAjOWFtuWugw0KPiA+ICsgIGJvb3Rsb2FkZXJz5bCG6Lez6L2s5YiwRUxG55qE
+5byA5aeL5Zyw5Z2A5aSE44CC5Lik56eN5pa55qGI6YO95pSv5oyB55qE77yb5Zug5Li6DQo+ID4g
+KyAgQ09ORklHX0JPT1RfUkFXPXkgYW5kIENPTkZJR19OT19FWENFUFRfRklMTD15LCDmiYDku6Xn
+rKzkuIDmnaHmjIfku6QNCj4gPiArICDkvJrnq4vljbPot7PovazliLBrZXJuZWxfZW50cnkoKeWF
+peWPo+WkhOaJp+ihjOOAgg0KPiA+ICsNCj4gPiArICDkuI5hcmNoL2FybeaDheWGtShiKeexu+S8
+vO+8jGR05oSf55+l55qE5byV5a+85Yqg6L2956iL5bqP6ZyA6KaB6K6+572u5Lul5LiL5a+E5a2Y
+5ZmoOg0KPiA+ICsNCj4gPiArICAgICAgICAgYTAgOiAwDQo+ID4gKw0KPiA+ICsgICAgICAgICBh
+MSA6IDB4ZmZmZmZmZmYNCj4gPiArDQo+ID4gKyAgICAgICAgIGEyIDogUkFN5Lit5oyH5ZCR6K6+
+5aSH5qCR5Z2X55qE54mp55CG5oyH6ZKIKOWcqGNoYXB0ZXJJSeS4reWumuS5iSnjgIINCj4gPiAr
+ICAgICAgICAgICAgICDorr7lpIfmoJHlj6/ku6XkvY3kuo7liY01MTJNQueJqeeQhuWcsOWdgOep
+uumXtCgweDAwMDAwMDAwIC0NCj4gPiArICAgICAgICAgICAgICAweDFmZmZmZmZmKeeahOS7u+S9
+leS9jee9ru+8jOS7pTY05L2N6L6555WM5a+56b2Q44CCDQo+ID4gKw0KPiA+ICsgIOS8oOe7n2Jv
+b3Rsb2FkZXJz5LiN5Lya5L2/55So6L+Z5qC355qE57qm5a6a77yM5bm25LiU5a6D5Lus5LiN5Lyg
+5YWlRFTlnZfjgIINCj4gPiArICDlnKjov5nnp43mg4XlhrXkuIvvvIxMaW51eOWwhumAmui/h+mA
+ieS4rUNPTkZJR19EVF8q5p+l5om+RFRC44CCDQo+ID4gKw0KPiA+ICsgIOS7peS4iue6puWumuWP
+quWcqDMy5L2N57O757uf5Lit5a6a5LmJ77yM5Zug5Li655uu5YmN5rKh5pyJ5Lu75L2VNjTkvY3n
+moRCTUlQU+WunueOsOOAgg0KPiA+DQo=
