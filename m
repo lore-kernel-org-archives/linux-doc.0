@@ -2,107 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7239C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2EA9C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 876022337F
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:51:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D3C423371
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jan 2021 12:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbhAGMvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jan 2021 07:51:22 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:60438 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727327AbhAGMvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Jan 2021 07:51:21 -0500
-Received: from localhost.localdomain (unknown [112.20.112.14])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxy+SZA_dfIdgAAA--.2399S2;
-        Thu, 07 Jan 2021 20:50:34 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     Harry Wei <harryxiyou@gmail.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Yanteng Si <siyanteng01@gmail.com>,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3] doc/zh_CN: add mips booting.rst translation
-Date:   Thu,  7 Jan 2021 20:50:43 +0800
-Message-Id: <20210107125043.3873317-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        id S1726780AbhAGM4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jan 2021 07:56:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbhAGM4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jan 2021 07:56:53 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D31B1C0612F9;
+        Thu,  7 Jan 2021 04:56:12 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id n9so6616417ili.0;
+        Thu, 07 Jan 2021 04:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uApyszem/ROfh/q8GyAsaUk/VqjtHZu4fUgb+wmUYG4=;
+        b=N+ljDYZ6bfE7tFgoZXG9Mx2bjNY2ifzv0DeAOJIWeDakDqQfASoFPjX/TZZz/ZjaGZ
+         gT/Qazz/cfI9rPuZGQ1gtkBhIiktXWCBMknNvI6tA4TyM7hz5JIY3aNFruoEowceS6n6
+         /mV65Mfk8+Lhyp3+HJ6qrSOGG0AbSQ7ztDhWIVuIk4TZZVtQUuhAgDQ3swOdfn91ZrmM
+         bKL9JOOSJOvDJrEt5Wvj6cbu8WnhIBfiCadMKvWahsGDOqrECRRMqpuJGh0rrRli8z6C
+         SzCPldfeOzIM0qIT3AHfNKdZ1b82wN7wOI3jVpZU28AHOMpu9orW6uKi0ujciotHErXw
+         lkkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uApyszem/ROfh/q8GyAsaUk/VqjtHZu4fUgb+wmUYG4=;
+        b=mEHtouFzrdCZ7nJEA6NXPROQf2blDB09GPnGZuA5G7C1ZQOJP1jrtGEWZBgZjEPeqP
+         6dST39myfGg11ZbyDKnq9rf8lLHXxhatyVG/kKlfHUjVZIT8CbqtIOS5S1UAC9Zwegwo
+         ALcGkF8SEGFsSmQ4SikPXFK9Urofdm3s+4llWbloYt1aKo8WnBd8ggmpaFS3UK8Frb/l
+         30dW/V583U5lRQ0we4ZatA2hK35jRjR0UMO3fSz55PGmRr5BRjCnobr//F2nsjFmWpBc
+         n21wN0Rln0hDev9WuVrp2AqyrV9nEOjntAblmDwDkCfpUm3nijZdrmHa3skV0/WYujqd
+         9wmA==
+X-Gm-Message-State: AOAM532D6UvRJT3dLvWFl6c4le5da3vq+X7g6lOzXb4UkiXtg2Rs4OET
+        5Lc4VTcyHRaRHjfbFMoZ69OBhP+VVGO/ztSj
+X-Google-Smtp-Source: ABdhPJwod1tUHUGFZnuwP7eUJHp/I8z5qLhXrV8NSn9EKf9GOh2pnjX3CsL81hFK3zGkHdLIqSc2iA==
+X-Received: by 2002:a92:4019:: with SMTP id n25mr8786806ila.25.1610024172282;
+        Thu, 07 Jan 2021 04:56:12 -0800 (PST)
+Received: from localhost.localdomain ([138.199.10.65])
+        by smtp.gmail.com with ESMTPSA id b18sm4363893iln.46.2021.01.07.04.56.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jan 2021 04:56:11 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     mhiramat@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: admin-guide: bootconfig: Fix feils to fails
+Date:   Thu,  7 Jan 2021 18:26:10 +0530
+Message-Id: <20210107125610.1576368-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxy+SZA_dfIdgAAA--.2399S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWfCr1fZFW3AFy3Kw1fCrg_yoW8CF43pF
-        4Ikr4fKa1kAwnF9rWrKryUGw1fuF48Gay3JF42gw48Xrn7KF1ktr9xtryFyFy8XryFkFy7
-        XFsIkrWj9w10y3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5JwCF
-        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUDWrXUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/mips/booting.rst into Chinese.
+s/feils/fails/p
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- .../translations/zh_CN/mips/booting.rst       | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/mips/booting.rst
+ Documentation/admin-guide/bootconfig.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/mips/booting.rst b/Documentation/translations/zh_CN/mips/booting.rst
-new file mode 100644
-index 000000000000..3099d0fff7a6
---- /dev/null
-+++ b/Documentation/translations/zh_CN/mips/booting.rst
-@@ -0,0 +1,31 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :ref:`Documentation/mips/booting.rst <booting>`
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_booting:
-+
-+BMIPS设备树引导
-+------------------------
-+
-+  一些bootloaders只支持在内核镜像开始地址处的单一入口点。而其它
-+  bootloaders将跳转到ELF的开始地址处。两种方案都支持的；因为
-+  CONFIG_BOOT_RAW=y and CONFIG_NO_EXCEPT_FILL=y, 所以第一条指令
-+  会立即跳转到kernel_entry()入口处执行。
-+
-+  与arch/arm情况(b)类似，dt感知的引导加载程序需要设置以下寄存器:
-+
-+         a0 : 0
-+
-+         a1 : 0xffffffff
-+
-+         a2 : RAM中指向设备树块的物理指针(在chapterII中定义)。
-+              设备树可以位于前512MB物理地址空间(0x00000000 -
-+              0x1fffffff)的任何位置，以64位边界对齐。
-+
-+  传统bootloaders不会使用这样的约定，并且它们不传入DT块。
-+  在这种情况下，Linux将通过选中CONFIG_DT_*查找DTB。
-+
-+  以上约定只在32位系统中定义，因为目前没有任何64位的BMIPS实现。
--- 
-2.27.0
+diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+index 9b90efcc3a35..452b7dcd7f6b 100644
+--- a/Documentation/admin-guide/bootconfig.rst
++++ b/Documentation/admin-guide/bootconfig.rst
+@@ -154,7 +154,7 @@ get the boot configuration data.
+ Because of this "piggyback" method, there is no need to change or
+ update the boot loader and the kernel image itself as long as the boot
+ loader passes the correct initrd file size. If by any chance, the boot
+-loader passes a longer size, the kernel feils to find the bootconfig data.
++loader passes a longer size, the kernel fails to find the bootconfig data.
+
+ To do this operation, Linux kernel provides "bootconfig" command under
+ tools/bootconfig, which allows admin to apply or delete the config file
+--
+2.30.0
 
