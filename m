@@ -4,65 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CFFC433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB37C43331
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C62D22E02
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:57:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEDE1236FB
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727239AbhAHJ5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jan 2021 04:57:25 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:38971 "EHLO
+        id S1728180AbhAHJ5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jan 2021 04:57:47 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37491 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727898AbhAHJ5Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 04:57:24 -0500
+        by vger.kernel.org with ESMTP id S1728015AbhAHJ5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 04:57:46 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 62B455805B5;
-        Fri,  8 Jan 2021 04:56:18 -0500 (EST)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 33C6B5805ED;
+        Fri,  8 Jan 2021 04:57:00 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:56:18 -0500
+  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:57:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=nhNnfGpgrsijY/Ccu+y8p0GNRzv
-        B/ZDbp2P5o/E9YYI=; b=mCu2BkvuJ60N05UHH3NFsoh91nOK914AIlpEVkz6P7N
-        Tv3MtQExaE4iycqINncj+4/U8eo/flDASas8AGjU3HR1NP6almnLr2wwTLjQYoxJ
-        sHUvgBhFkQ8+KfjlTfYaSAFVrvjMn5qgAUL+RuGQ3JGo7Zyv9GnA1Er0qgLKwdnw
-        T8Wag3E81PpRErhMagM0hUmwDK0UEl9sSBippaadqvIRW82EoaDT0BBPwXP3aKaC
-        sm0mzPadNHg4gd4Qmo2xznsyx9p0L7nBLXHNnBzlfMPj9p4copwQYp0TkIVYjUxo
-        S5LyJVPlkyNe50WyY1DcsfuW2pvsmu8ZouUr0L9X6Nw==
+        :content-type:in-reply-to; s=fm1; bh=Gumn+UFcpMQd/G6u6D6jQGC0lUs
+        rtxfZoAQ6q9w3wmE=; b=o0rxWON1XpD90My2sfmiBDlC+nbFl2csa6Dt+jaHUxs
+        pWPIJeu5B5WlV4WyJobAzghwMqknvT/VoFKKsYq+MfADE4sW7f9wzuoBzeiJx7T8
+        8UdxiY7L8aCazAND9d+Deozy+uFNkgY2JGs5zSwHV6wc+XvUF1m7ppztZofK1C91
+        5q+p7mwvub4BEPqiIXoS7SA5eA6M1VXjOAMn/SlpWaUwwJz/oWIgLWlwlPV5Dpie
+        2+HIM8grJDKEYmhugfJB6/IUe6cKEq5Fe8qYaiU2TZiCxh+1Pk2uwDXQWZ9X7EPV
+        vocnX6f+lO+92bg3VIJ9LUDtHXyoNZSqVwpKMJL4yoA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nhNnfG
-        pgrsijY/Ccu+y8p0GNRzvB/ZDbp2P5o/E9YYI=; b=FypFiIH8/HMzVMOKvJ6cNK
-        03GOdjTrcdipr8QmsLbs0koleqvV58rkjUdjfSBuvYUjoRzS8xrsocCOtDqCeBas
-        FkFat+dPalXcssOOA3Lq83HYFi/Una2HebqQ3lEkZu7e6+X82S11YL33v3Md0gQ9
-        y7sOQ7rHwop6/wg9F3c6tXMDiWaOQzYnEQl1dmNfOcANWy+K/iMLy0dPHhU5HFzt
-        54zP2ZMuosr2kQap6tvAFyF45v4GqzIKh8MgnIi+zw4P5NTE7Ln773mPpWYWYnqO
-        VpYHFBZ3dWGSW907UWLiPbROS2ZEocGDRNCJK1+EJTVTufHMrZygJGvU7NU35hmg
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Gumn+U
+        FcpMQd/G6u6D6jQGC0lUsrtxfZoAQ6q9w3wmE=; b=MDVf5D5fvjd0hKNvEud+L1
+        0ughkqzcz+tA2C3Hp/cWW021wZ07dU9iNhZu+DOIPusdzhcCfz39PBPrif1km3W5
+        z2+C1LnHfcc2f8lxWNlajWNvGZ9ndgI0oP+hNNED33NoKo8xESbUASCYfXKXBI9o
+        h6BCwrZPupY4fsgqZOtERTRBlgtVwN6JH6ZfuCZZvamCt2muZCC75Bwf24OIMf6f
+        X0R32ecVWxqWo3EZmo6grWITtDxp9p3u0Wdg/SnH0AWF0ygGSMwdHkEgfgs/EzuT
+        nNWmQSN/iiH44SEoX7RqsueB6wiz8mY2XbEeqUnAMAuvKteEo/S0Ar7AsQneBvRQ
         ==
-X-ME-Sender: <xms:Qiz4XzVXczHUGtWkxxUSpJzht1sSKgO83Nh_91PmIihTPVFQ40Lz2w>
-    <xme:Qiz4X7nbR1FJUS_T7zjlxjIHBowTLFMmj9UhxJF164sAr4jFYWCiXNrnq6RCkH8fX
-    3zOU92jbFjWpjczlaY>
+X-ME-Sender: <xms:ayz4X2QD9YO29o8AoZqONVQ3Bz3xfwkgJsDrL6_w2bmBO94ddi1aAg>
+    <xme:ayz4X7xlhHBaeummXVxHg4t5tIUoVlQIFoeMOQ3ubAk2NkhyY54nPCisJd23khHwH
+    7lqjKfu4XZ2sjJXClM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedgtdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
     htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
-    gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
     frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Qiz4X_Yb7R6wfHUdYRv9VVqWql5ANEVGFiTs_nLEc7cmdA_hQpjTMg>
-    <xmx:Qiz4X-VXv5EAm95r6c89-UjXxsgKv0BJPm1SYqLyPmqBu7nK7lYroQ>
-    <xmx:Qiz4X9nuz9AeEAO4hz3TNMTqsl9s6npywTQeCmkm3V6iNHH0UYi--g>
-    <xmx:Qiz4X3v_yzueyTaMUQG_WvCF8OKC4oqeZ96GeaNdkgKUjNtnU4s0xw>
+X-ME-Proxy: <xmx:bCz4Xz2RdqT8EALSwqZtv5VP6hx616XmPq-OuOMWCLHUKM37YalLqw>
+    <xmx:bCz4XyARGJxcv26hG72CNkqjKjK_yyShFkS9jJ062yBTrBsjdYm17A>
+    <xmx:bCz4X_jOZds5PlkuJtMaiO-BHBUM-F3VWow8zODP52L_3_AgzMwlpg>
+    <xmx:bCz4X6SfQzqFdFismthl1C3r6TnpwTO_zkPTwxKYxDmyWLPbp7yowg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C7057240057;
-        Fri,  8 Jan 2021 04:56:17 -0500 (EST)
-Date:   Fri, 8 Jan 2021 10:56:16 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id 91AEE24005B;
+        Fri,  8 Jan 2021 04:56:59 -0500 (EST)
+Date:   Fri, 8 Jan 2021 10:56:58 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -82,78 +82,56 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v4 13/15] media: sunxi: Add support for the A83T MIPI
- CSI-2 controller
-Message-ID: <20210108095616.fy5oaslwnyumv3if@gilmour>
+        kevin.lhopital@hotmail.com,
+        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Subject: Re: [PATCH v4 05/15] media: sun6i-csi: Only configure the interface
+ data width for parallel
+Message-ID: <20210108095658.krhbyunsgp2dfq2y@gilmour>
 References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-14-paul.kocialkowski@bootlin.com>
+ <20201231142948.3241780-6-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tc6l3ymxpbqq47df"
+        protocol="application/pgp-signature"; boundary="rypyyqk74gxoh356"
 Content-Disposition: inline
-In-Reply-To: <20201231142948.3241780-14-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201231142948.3241780-6-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---tc6l3ymxpbqq47df
+--rypyyqk74gxoh356
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Thu, Dec 31, 2020 at 03:29:46PM +0100, Paul Kocialkowski wrote:
-> The A83T supports MIPI CSI-2 with a composite controller, covering
-> both the protocol logic and the D-PHY implementation. This controller
-> seems to be found on the A83T only and probably was abandoned since.
+On Thu, Dec 31, 2020 at 03:29:38PM +0100, Paul Kocialkowski wrote:
+> Bits related to the interface data width are only applicable to the
+> parallel interface and are irrelevant when the CSI controller is taking
+> input from the MIPI CSI-2 controller.
 >=20
-> This implementation splits the protocol and D-PHY registers and
-> uses the PHY framework internally. The D-PHY is not registered as a
-> standalone PHY driver since it cannot be used with any other
-> controller.
+> In prevision of adding support for this case, set these bits
+> conditionally so there is no ambiguity. The conditional block is
+> moved around before the interlaced conditional block for nicer code
+> symmetry (conditional blocks first) while at it.
 >=20
-> There are a few notable points about the controller:
-> - The initialisation sequence involes writing specific magic init
->   values that do not seem to make any particular sense given the
->   concerned register fields;
-> - Interrupts appear to be hitting regardless of the interrupt mask
->   registers, which can cause a serious flood when transmission errors
->   occur.
->=20
-> Only 8-bit and 10-bit Bayer formats are currently supported.
-> While up to 4 internal channels to the CSI controller exist, only one
-> is currently supported by this implementation.
->=20
-> This work is based on the first version of the driver submitted by
-> K=E9vin L'h=F4pital, which was adapted to mainline from the Allwinner BSP.
-> This version integrates MIPI CSI-2 support as a standalone V4L2 subdev
-> instead of merging it in the sun6i-csi driver.
->=20
-> It was tested on a Banana Pi M3 board with an OV8865 sensor in a 4-lane
-> configuration.
->=20
+> Co-developed-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
+> Signed-off-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-There's a couple of checkpatch --strict warnings here as well
-
-Once fixed,
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Thanks!
 Maxime
 
---tc6l3ymxpbqq47df
+--rypyyqk74gxoh356
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/gsQAAKCRDj7w1vZxhR
-xa6vAQDzxq7wGkrr8cxK3zTV9vzdO+lsvVdg8AtqesAmrp2IVAD+JY8cLaoGu8C1
-tfK38n0rbE9wxRSIDnEtIQ3OENiefwk=
-=GD9h
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/gsagAKCRDj7w1vZxhR
+xfL6AP9dn6HmLvnM/Ix3pQ5lhHB9Iwr84/STH1AatQ1xva4O1QEAxMbOf9LpNbRg
+7Fo1+jpZm5YR5iuuhDorVRGP+IjvXgo=
+=5hoq
 -----END PGP SIGNATURE-----
 
---tc6l3ymxpbqq47df--
+--rypyyqk74gxoh356--
