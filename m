@@ -4,66 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6BE3C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C6AC43381
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:54:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91614235FA
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:49:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 818F1235FF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 09:54:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727661AbhAHJtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jan 2021 04:49:41 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:48347 "EHLO
+        id S1728385AbhAHJxc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jan 2021 04:53:32 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37439 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726683AbhAHJtk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 04:49:40 -0500
+        by vger.kernel.org with ESMTP id S1728174AbhAHJxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 04:53:31 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 32FB75805D1;
-        Fri,  8 Jan 2021 04:48:34 -0500 (EST)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 5AC1358041D;
+        Fri,  8 Jan 2021 04:52:25 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:48:34 -0500
+  by compute6.internal (MEProxy); Fri, 08 Jan 2021 04:52:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=T
-        ytH3TW5ntRxZ1LpTYSljem0k/W8jkP4F1c3fUJ+HnI=; b=W3F2qLClKz+EIUHj1
-        pv70rfj99kjHw5cSQWbB+HijiNCWpzhjGi5yptuS//finB4rRnYVI0LrJ8SvHTr2
-        +5MGi5cR+C4GWr5anRTBVMif4V3TfDelToTBfAfeLKMXaF8HHA3VUKHhLbsfwp/c
-        xqoOT+jB7EIMAoWSWuHfdQ3G96SOepw8okwkDXI5F+mcPr5yGgJ2jxXDfIZSzurt
-        v7RU568SvVs2/kckacscI/Y8816G7pIqGywlrAyxBZIXRKijQ+gXnAed/K/Sfd/M
-        UuPeCCL/XXliHSR/mg4Z6UL2Z04aZhG+vKYIN0fvQQXCiahlKovIOZZJYJQtfGkl
-        3D1Ug==
+        :content-type:in-reply-to; s=fm1; bh=TKBkA03lRN84ad9o+as6yIqJAef
+        QnnerZu10YLu1NjI=; b=m+pxzedo2S2L716UHZ4j9iCb1c5FDm8UGCb2vef3hdV
+        ew3LWXiBjWiNt2+dbzspyyriTBT+K+LRmyDJGkK2hnFTcGruOy60aHVNeHPCxPki
+        Td0Gr1Y958Oh7o+g5Vu7Vh8lhr4qnCj6Wh66EhCWqn/0236sU4oLnEGWDUJt+cpU
+        iZO2r52XCPmI24HJFrfFHLqjmoArrG1uGTgE4xY9NgMIPYLVqvUaojw2XE+Tud4o
+        xsrhpVkqo5tOsoChAu+L6yfEfhGL3SS2OMdFUJp6LA5eoi6x8FselVmijYkZ+/Tb
+        9JR30bMfZyfpldrTEiXvjdWmCE+UNAtL+0undFw8T1w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=TytH3TW5ntRxZ1LpTYSljem0k/W8jkP4F1c3fUJ+H
-        nI=; b=dvLWvQnc+tGYtY5Ktw5Nv60Z2gEzvnYGdAeKcKrfgM3yB0w1DA2nMjMWb
-        87srFgfXi0KPy/XIT2aFkW+L2SNm0UO3lz4BjhcurLhQMwpuD4EUdtEd6iEGgF0X
-        aPcwwkj5NoRVDyJglif8E3HUsqDq5EkWSvqqbi8kjF+FaZfGZ/GzlmQMOTB9iuf7
-        Iabaou+nUWZ9bVn/a4iXu+A7H+b6l7St8dJJleUVEAWRwqroAegdVyD6ePS4RvuV
-        MjReMwNCOdoP+2sDSFGbrQn87RBWVB9fIjnKFcjeL71kds928Rsb33eOagBzUTuC
-        XQDT0VVEKD9Rhc1p6UtSWcMQiUOhQ==
-X-ME-Sender: <xms:cCr4XwXj0PKIWNmqVR-oTuQrqqORN9LX6e4Hojg1sTDdHlVc8TObMw>
-    <xme:cCr4X0lDefX2fYgiqmmwkHM515jroZ62sabD940CHyxLYIW3_QQ82ovwyV5HZmd3r
-    Sc3wZcZV17SVBsrhLY>
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TKBkA0
+        3lRN84ad9o+as6yIqJAefQnnerZu10YLu1NjI=; b=heq/+AQIBLXcDsCkZx5zff
+        0hnm1PMvajE6l7mt4Z47GwPSsqpB8ggnwNuPHvywBvf7WKb1hwrg22hIeUUhM197
+        LeSfIx7DwsJTt7l55Upr/WG4hk6D/y7wvjN55E8a/dJD3KYfpMlMFoL9k4fMbzMn
+        OPvOGhhV+YH9wG6uuaGG8iGPwspLrtP81OMqo/05GAhurx9z46gfAqmPpTEAu8mC
+        Iowc/0aEvMifC5po2jAxkUBI8yIrMSnT3tXH0MRT9csPaZ7HAzy5QDi0AJZqOex6
+        lSNAPBegVc4SLw+cst+IrPfu20zBZLW3DtVd8Y0J+PHc/LgXE33eBDstYsB6LJzQ
+        ==
+X-ME-Sender: <xms:Viv4X4h3I89EjG0iLlhFhjKy7kBSvhKHAcWPTNDQE2FdBNMnMrxiCQ>
+    <xme:Viv4XxAx1Hhc-qM9_K10QSi-xxLfqEARjUUIUoUULrr9ick7ODGCTDR4IzZINCrq7
+    KMrAuU80PnqyxNbRLs>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedgtdekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
-    gedvudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:cCr4X0aUwcPPWAHJ5z4rzpXyY02ZK-FVieH81hLxeY748HZ74uu9sw>
-    <xmx:cCr4X_VxDu4MnTytDOB-yCRgYACgQDwv7llt5mu0Xyn54_mTIHLrUg>
-    <xmx:cCr4X6lnqBbTcRkSwR3kgpGeVMsAJwmEce1NWD34avV_Amz-rXXO3A>
-    <xmx:cir4X8XjlFasr4jNuf3X53We_AZ3OUI6qRjSHA9nQ--7odUbviF99A>
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Viv4XwGcjShzK8QFNQjNxg2u94C5NgOVSatD_enozxkDpi6F0dGUiQ>
+    <xmx:Viv4X5S-Q3KDoFbUdzfqhiaLW3J83aqDSpMuC37wqaN-O0b2tADPuw>
+    <xmx:Viv4X1zhxMhL93apUjud3BPMxgahozIT220Q5vnhbFT2KHv12OOMsA>
+    <xmx:WSv4X7q0iqtF9Qza53DGiFN9PqwltNx255OzBpeLEMfjlMqnI35eOg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AF09D108005C;
-        Fri,  8 Jan 2021 04:48:31 -0500 (EST)
-Date:   Fri, 8 Jan 2021 10:48:30 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id 464A61080059;
+        Fri,  8 Jan 2021 04:52:22 -0500 (EST)
+Date:   Fri, 8 Jan 2021 10:52:21 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -83,45 +82,71 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v4 06/15] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <20210108094830.6cmuelnraxjpgmaf@gilmour>
+        kevin.lhopital@hotmail.com
+Subject: Re: [PATCH v4 07/15] media: sun6i-csi: Add support for MIPI CSI-2
+ bridge input
+Message-ID: <20210108095221.squax52u2knxxgoy@gilmour>
 References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-7-paul.kocialkowski@bootlin.com>
+ <20201231142948.3241780-8-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="sapnhbeyia6qq3l7"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20201231142948.3241780-7-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201231142948.3241780-8-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 31, 2020 at 03:29:39PM +0100, Paul Kocialkowski wrote:
-> The A31 CSI controller supports two distinct input interfaces:
-> parallel and an external MIPI CSI-2 bridge. The parallel interface
-> is often connected to a set of hardware pins while the MIPI CSI-2
-> bridge is an internal FIFO-ish link. As a result, these two inputs
-> are distinguished as two different ports.
+
+--sapnhbeyia6qq3l7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 31, 2020 at 03:29:40PM +0100, Paul Kocialkowski wrote:
+> The A31 CSI controller supports a MIPI CSI-2 bridge input, which has
+> its own dedicated port in the fwnode graph.
 >=20
-> Note that only one of the two may be present on a controller instance.
-> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> dedicated to parallel.
+> Support for this input is added with this change:
+> - two pads are defined for the media entity instead of one
+>   and only one needs to be connected at a time;
+> - the pads currently match the fwnode graph representation;
+> - links are created between our pads and the subdevs for each
+>   interface and are no longer immutable so that userspace can select
+>   which interface to use in case both are bound to a subdev;
+> - fwnode endpoints are parsed and stored for each interface;
+> - the active subdev (and fwnode endpoint) is retrieved when validating
+>   the media link at stream on time and cleared at stream off;
+> - an error is raised if both links are active at the same time;
+> - the MIPI interface bit is set if the MIPI CSI-2 bridge endpoint is
+>   active.
 >=20
-> Update the binding with an explicit ports node that holds two distinct
-> port nodes: one for parallel input and one for MIPI CSI-2.
+> In the future, the media entity representation might evolve to:
+> - distinguish the internal parallel bridge and data formatter;
+> - represent each of the 4 internal channels that can exist between
+>   the parallel bridge (for BT656 time-multiplex) and MIPI CSI-2
+>   (internal channels can be mapped to virtual channels);
+> - connect the controller's output to the ISP instead of its
+>   DMA engine.
 >=20
-> This is backward-compatible with the single-port approach that was
-> previously taken for representing the parallel interface port, which
-> stays enumerated as fwnode port 0.
->=20
-> Note that additional ports may be added in the future, especially to
-> support feeding the CSI controller's output to the ISP.
+> Finally note that the MIPI CSI-2 bridges should not be linked in
+> the fwnode graph unless they have a sensor subdev attached.
 >=20
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
+
+--sapnhbeyia6qq3l7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/grTwAKCRDj7w1vZxhR
+xaWoAQDnF8B2JCSct0BxYeQua9xd5yH22K8Et3Stf1Z7l8QlcQD8C2QDOCFM5k6d
+9v4VMq95E2L9I/j04U1xefNZHfVdkw8=
+=yq67
+-----END PGP SIGNATURE-----
+
+--sapnhbeyia6qq3l7--
