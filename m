@@ -2,98 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.6 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C0CC433E9
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 16:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25373C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 17:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25EA423A00
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 16:55:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CBD9623A5C
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jan 2021 17:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbhAHQyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jan 2021 11:54:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49170 "EHLO
+        id S1728326AbhAHRcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jan 2021 12:32:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728091AbhAHQyk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 11:54:40 -0500
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1344C0612EA
-        for <linux-doc@vger.kernel.org>; Fri,  8 Jan 2021 08:53:59 -0800 (PST)
-Received: by mail-qt1-x84a.google.com with SMTP id h7so8662560qtn.21
-        for <linux-doc@vger.kernel.org>; Fri, 08 Jan 2021 08:53:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=B4cmagUJvqsvM8KJ5vcfLLw3GzVKlYfhlZ7WKpaii2Q=;
-        b=g2ySYlslVFQEhuaHS7k+EtkU/c4zzrCRoDUa5ArebteqUm80XrjjPCM4k5ePja3PTf
-         qMSdK4AimLDRv70ypB97L9lzMmDlMKy8CQa20AuroYeZ77AgtpjzOVnSrBBIENWRCiRc
-         elogZg/UOmOgI7nNL130bYIZLGwLdXGrrlet16+9hTkz8+KIIm61s7BR7QTYN4jiyT4q
-         FKyIvCM9A5g8Pb3dSmMJ1wdl+FpqLtZSAmz+n+MOu9VkEs4exSOPOL2S0nyTe6ZpKd1G
-         4WrFtJwhRkmCU0w9t4p8S+zYE3EcshcBme0wKw0umqaH7oY8YeIYWFYShcjhV37gYQM+
-         RNhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=B4cmagUJvqsvM8KJ5vcfLLw3GzVKlYfhlZ7WKpaii2Q=;
-        b=deFlpSejVWzoWrH9urClMk0EMTxouM3m6kSAY26C3285Ai/1q3CVPRZsz8U1JhJujA
-         D7f7p6vA+KoMVZqKBKovIhCDZ3S/ebtfbakWoJK2JdVUlfiAhVfUVWOb99z6qI/fz1zu
-         jh9QRO1Kh+V3wbo/N6WTQsrUZy2bO4a1XuCMxdnHEac7xEzIOzufu9JF+dPtJg+8tUg+
-         jcZBz2Iwiwa7/S40VRc6nspvNBdBOtRQJJWStik1SZ8Xwqs40oe4ObDe9wab5mfsX7GC
-         vwgQZqcZVdrgxZ4Z2c8nyN/kwirb3HW45rlvtHDnBrjsAcplKKL5xKLUsc5bVR900pP5
-         XrHg==
-X-Gm-Message-State: AOAM531Ra56WwGBmGm1/wfCRQqKdaj2JUUY1hCA4zLn4cFXg+TVafOHw
-        AWc5HAfcB3PNvXdOufayqcWSG1m828ez
-X-Google-Smtp-Source: ABdhPJz0ATVlqOcvXwgcYlNfRWv/oEcTQtMpwLVM4J6J727f8fSNNP+cR7MOSfTNDQ2kHT21jmqtIgkIu85h
-Sender: "qperret via sendgmr" <qperret@r2d2-qp.c.googlers.com>
-X-Received: from r2d2-qp.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:1652])
- (user=qperret job=sendgmr) by 2002:ad4:4f41:: with SMTP id
- eu1mr4188454qvb.1.1610124838785; Fri, 08 Jan 2021 08:53:58 -0800 (PST)
-Date:   Fri,  8 Jan 2021 16:53:49 +0000
-Message-Id: <20210108165349.747359-1-qperret@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH] KVM: Documentation: Fix spec for KVM_CAP_ENABLE_CAP_VM
-From:   Quentin Perret <qperret@google.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Cc:     android-kvm@google.com, kernel-team@android.com,
-        Quentin Perret <qperret@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S1728322AbhAHRcB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 12:32:01 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF57C0612EA;
+        Fri,  8 Jan 2021 09:31:21 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 232427DB;
+        Fri,  8 Jan 2021 17:31:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 232427DB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1610127081; bh=buUWoDkE18q1AeRyuA4cMNBnZ3FdNTmMpr5kz7V2qTY=;
+        h=Date:From:To:Cc:Subject:From;
+        b=X0yxz1u9yFAo4VUQ1QWcWySK/nnd12xoV180RRGvolwcw7YFlIudPI354dg6hCqdU
+         DBQX67oR9krZwQL0cHXAqrqKU1WHVdN39UJlgNeVx41UWnXuuu5hrkfftm4jRkw+wW
+         hZ+j84+GlIbHoP27F6DKXq4vKp3DTFHUdrDkMdjCYh+KBLaLQ2tv/J1ajCDvhsNq8A
+         ghhNnZ7DgpLyunta/uyqlJEPamj25E8MA4qftA7OzLfCvaIWal0jYs5+gT0YsqhQYS
+         bhLe7P09TLk/gf9IU5mCv9kpRqvwL8qsDYLt7/psq/6fp8KFt5RJrxGbZY3RiLNTpv
+         kBkshvxtEQQaA==
+Date:   Fri, 8 Jan 2021 10:31:20 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes
+Message-ID: <20210108103120.73a35ba6@lwn.net>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation classifies KVM_ENABLE_CAP with KVM_CAP_ENABLE_CAP_VM
-as a vcpu ioctl, which is incorrect. Fix it by specifying it as a VM
-ioctl.
+The following changes since commit
+5c8fe583cce542aa0b84adc939ce85293de36e5e:
 
-Fixes: e5d83c74a580 ("kvm: make KVM_CAP_ENABLE_CAP_VM architecture agnostic")
-Signed-off-by: Quentin Perret <qperret@google.com>
----
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 70254eaa5229..68898b623d86 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1328,7 +1328,7 @@ documentation when it pops into existence).
- 
- :Capability: KVM_CAP_ENABLE_CAP_VM
- :Architectures: all
--:Type: vcpu ioctl
-+:Type: vm ioctl
- :Parameters: struct kvm_enable_cap (in)
- :Returns: 0 on success; -1 on error
- 
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
+are available in the Git repository at:
 
+  git://git.lwn.net/linux.git tags/docs-5.11-3
+
+for you to fetch changes up to 9d54ee78aef62c29b15ae2f58a70b1d1cd63a8f0:
+
+  docs: admin-guide: bootconfig: Fix feils to fails (2021-01-07 14:44:58 -0700)
+
+----------------------------------------------------------------
+A handful of relatively small documentation fixes.
+
+----------------------------------------------------------------
+Bhaskar Chowdhury (1):
+      docs: admin-guide: bootconfig: Fix feils to fails
+
+Jonathan Neuschäfer (1):
+      docs: binfmt-misc: Fix .rst formatting
+
+Liao Pingfang (1):
+      docs/mm: concepts.rst: Correct the threshold to low watermark
+
+Lukas Bulwahn (1):
+      atomic: remove further references to atomic_ops
+
+Miguel Ojeda (1):
+      docs: remove mention of ENABLE_MUST_CHECK
+
+Nícolas F. R. A. Prado (1):
+      docs: Fix reST markup when linking to sections
+
+Randy Dunlap (3):
+      Documentation: admin: early_param()s are also listed in kernel-parameters
+      Documentation: doc-guide: fixes to sphinx.rst
+      Documentation/admin-guide: kernel-parameters: hyphenate comma-separated
+
+ .../Memory-Ordering/Tree-RCU-Memory-Ordering.rst   |  8 +++---
+ .../RCU/Design/Requirements/Requirements.rst       | 20 +++++++-------
+ Documentation/admin-guide/binfmt-misc.rst          |  4 +--
+ Documentation/admin-guide/bootconfig.rst           |  2 +-
+ Documentation/admin-guide/kernel-parameters.rst    |  4 +--
+ Documentation/admin-guide/kernel-parameters.txt    | 12 ++++----
+ Documentation/admin-guide/mm/concepts.rst          |  2 +-
+ Documentation/core-api/index.rst                   |  1 -
+ Documentation/doc-guide/sphinx.rst                 | 32 +++++++++++-----------
+ Documentation/kernel-hacking/locking.rst           |  8 +++---
+ Documentation/process/4.Coding.rst                 |  6 ++--
+ .../sound/kernel-api/writing-an-alsa-driver.rst    | 16 +++++------
+ MAINTAINERS                                        |  1 -
+ 13 files changed, 56 insertions(+), 60 deletions(-)
