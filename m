@@ -2,188 +2,460 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5AE9C4332D
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 16:08:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 112EBC433DB
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 22:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8612823A04
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 16:08:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4AA12245C
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 22:25:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726929AbhAIQIK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jan 2021 11:08:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726058AbhAIQII (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jan 2021 11:08:08 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C274C0617A6;
-        Sat,  9 Jan 2021 08:06:54 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id i9so11920379wrc.4;
-        Sat, 09 Jan 2021 08:06:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RwZZxMhI82qZ1NGjjWs3i9PNzY6l2vY31jXhvq/2jzI=;
-        b=Ttko+RVGU3n5aJcKu+1ljJRmO0ZoHSASRWTCu9NUBLQwvAMVtJm4xDctv0HVgar+fN
-         j1+FVNn31Se10pLKpcqpfLj8k/U/bCPpLxmbmyG9XhOQyBjS0P2EzY+bpgmi+CuQUrhJ
-         WIGEIL+T1d4wzj8RPH1EjE4HYVpzd83UevIJJNOzJAvvhyRCV9gTTPu/DFakNUBhjPUE
-         6YAc1X5PQF2GEWeLQfCtAjB499ILo9qLgoWgjQm1uq5kYEoxQ6UI0jSz1HOqcEDSpjJd
-         uY01F6EMQsqPI6ykkfpm8TNw/LNJIbIiD1vvLsZRCX6bzgxA5GWTjxPV4bsYNY4Ny2/9
-         EEYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RwZZxMhI82qZ1NGjjWs3i9PNzY6l2vY31jXhvq/2jzI=;
-        b=fLFT8G3T/77dDHC+cFDrKkF1EG+/9I/IJ4lTztV4/r5D1H+7Y3jRtoajbsurVSWJ2f
-         W5raIE9/GDGDeWVZYd47sTHa9dqKRY1qp/YaGFLoZqbwKNSfAJSzKKpGa1GUSIV0x9ai
-         mPn0YWOAfysDskRRoFeMNTEzjTddoeJTgR2V0tieJSAyycH/i/eYS0k3h+jH0c4R4fEw
-         U8V3yXSKZoPtmI1+rvyqhtO9++QHbYfTZtm03wWaBFvTgPeJcB5ydet/mTSu0GWAA6GO
-         KjKjeOnns01Nv9mYsN2qx15vo7qALiV3rq3OyVa1l2PQXgd8CcY2gYzBL+zz9quzgVlW
-         zn8w==
-X-Gm-Message-State: AOAM530ZIUsnWvTA29TU4Qn5NUjtMO5Dtzut524QEOGriHtEIbkBRe8T
-        ZUJaU5l0PP1zV0spzizLFiB3n9DUC9Fa1sxM
-X-Google-Smtp-Source: ABdhPJzoUjsfyBMMnqeq2r+2TVEKl5UD3aKgPfvVrdJFCjILudq2jNC955I3gsW4LTeZMtylLSyYdw==
-X-Received: by 2002:a5d:4a44:: with SMTP id v4mr8956687wrs.106.1610208412908;
-        Sat, 09 Jan 2021 08:06:52 -0800 (PST)
-Received: from localhost.localdomain ([185.69.144.125])
-        by smtp.gmail.com with ESMTPSA id j9sm17403866wrm.14.2021.01.09.08.06.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Jan 2021 08:06:52 -0800 (PST)
-From:   Pavel Begunkov <asml.silence@gmail.com>
-To:     linux-block@vger.kernel.org
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Ming Lei <ming.lei@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 6/7] bio: add a helper calculating nr segments to alloc
-Date:   Sat,  9 Jan 2021 16:03:02 +0000
-Message-Id: <cde94f6cc32bd8a899129575678c4195f7cb187b.1610170479.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <cover.1610170479.git.asml.silence@gmail.com>
-References: <cover.1610170479.git.asml.silence@gmail.com>
+        id S1726253AbhAIWZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jan 2021 17:25:15 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57845 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726238AbhAIWZO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jan 2021 17:25:14 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 0C8985805EF;
+        Sat,  9 Jan 2021 17:24:07 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sat, 09 Jan 2021 17:24:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        to:cc:references:from:subject:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=m
+        12NFdKt3bGrZeShAQKdpYummJW0fgdM/Zs/d2W6cXE=; b=YhmaFfwuMCWJ//o7d
+        xQPOOwawY+upfamD3yMo7ainVkyhPxe8Fa8R0GOV307DPKuU7A5JmFBtr98/gAK6
+        eRL65NmeF6PWmo98HCEfSobQrTEPJ+4N3MgYOcEGZ97+ZFIgjzlxWeb9ijt08dMs
+        yQMubyN5bvInwxVpZxqwCQFleNAIJ8aPma078GSO3XSb/j2ovhOEPpV5f7KnJwyg
+        pAwiIqOWA62ltBYiaeYGFqD3DljaRGI2JQGnvTEHbZlxCoAZyHEeU84WaFYA9T6x
+        0xxIhTyaL47yv+XgePozom5VQ+qUrePBIbcOUsJsLFuHp2NxLEGX980qehOQUxLi
+        ww9Tw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=m12NFdKt3bGrZeShAQKdpYummJW0fgdM/Zs/d2W6c
+        XE=; b=pw5W4y3Fd76Mbc1DC1ewxmUAwR94EhUk6k7JiKajubxmlmTKF/242wapQ
+        5Wt3bPLyAvDjdiPhaf5HokS2Qi6s+hXPKNbbYE6SMh5gIwTVVcYhyCVJ0jqAr3hF
+        VfCrXKISxFyQGFTHIJo8Ec7BtTkrtJz7h46ZDev7ncXQQ2eRwc/5BbpzYMd1FP2n
+        t+OZi2GCpkJNcGJF6P5WI7+I8aC5FtdrvPEYEr1VLEKxJ61fzO8szjkw06t3WQ6i
+        daaFzTj5XF7PwthYIbOqEmXH75kqX9HKt32TMbPAwsVgjOgfXi2yiAgz78/WMWdC
+        FAruv4juw+GYvOotiSn83E0hLW77w==
+X-ME-Sender: <xms:Ay36X1Y1h-KqjoodnccU38awJLJi-UIAdHnDx34zgR0HtxIvvZG-UQ>
+    <xme:Ay36X8YVu_TDdAS0-rJ74MaaqcDesfC2Ts_VFHQRQPGMGxReRBMze4N9M9Qv7eaxq
+    BThi2iuBWOQkp882w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdegjedgudeivdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvtddtjeeiuddugfffveetkeffgeffgedutdfgfeekudevudek
+    ffehtdefveeuvdenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrh
+    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
+    rghnugdrohhrgh
+X-ME-Proxy: <xmx:Ay36X3-BIAcYok8WBOWIHKzgH4DCnIqk_REtsCwrv88DnmAk72YeOw>
+    <xmx:Ay36XzqpJgWqkixv_77DUWmiPgRoN6SPrcxj-SSprreR03vtjacfBg>
+    <xmx:Ay36XwruO3cqQlTCyyiExYFTmeZt42XVRWmsttBNq3z_txMAhzESgg>
+    <xmx:Bi36X5ay336yNwVUfUsqrUZN98m-Yh_0P-BckXpbJjSjxzVQWP7q1Q>
+Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2DB9A1080057;
+        Sat,  9 Jan 2021 17:24:02 -0500 (EST)
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
+ <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
+From:   Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v4 09/15] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <4ea6a6d0-e2ef-9374-e24b-9d62d5f66e23@sholland.org>
+Date:   Sat, 9 Jan 2021 16:24:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a helper function calculating the number of bvec segments we need to
-allocate to construct a bio. It doesn't change anything functionally,
-but will be used to not duplicate special cases in the future.
+On 12/31/20 8:29 AM, Paul Kocialkowski wrote:
+> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
+> found on Allwinner SoCs such as the A31 and V3/V3s.
+> 
+> It is a standalone block, connected to the CSI controller on one side
+> and to the MIPI D-PHY block on the other. It has a dedicated address
+> space, interrupt line and clock.
+> 
+> It is represented as a V4L2 subdev to the CSI controller and takes a
+> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
+> media controller API.
+> 
+> Only 8-bit and 10-bit Bayer formats are currently supported.
+> While up to 4 internal channels to the CSI controller exist, only one
+> is currently supported by this implementation.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/platform/sunxi/Kconfig          |   1 +
+>  drivers/media/platform/sunxi/Makefile         |   1 +
+>  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
+>  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 590 ++++++++++++++++++
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
+>  6 files changed, 725 insertions(+)
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+> 
+> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
+> index 7151cc249afa..9684e07454ad 100644
+> --- a/drivers/media/platform/sunxi/Kconfig
+> +++ b/drivers/media/platform/sunxi/Kconfig
+> @@ -2,3 +2,4 @@
+>  
+>  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
+>  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
+> +source "drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig"
+> diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platform/sunxi/Makefile
+> index fc537c9f5ca9..887a7cae8fca 100644
+> --- a/drivers/media/platform/sunxi/Makefile
+> +++ b/drivers/media/platform/sunxi/Makefile
+> @@ -2,5 +2,6 @@
+>  
+>  obj-y		+= sun4i-csi/
+>  obj-y		+= sun6i-csi/
+> +obj-y		+= sun6i-mipi-csi2/
+>  obj-y		+= sun8i-di/
+>  obj-y		+= sun8i-rotate/
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+> new file mode 100644
+> index 000000000000..47f1bb0779a8
+> --- /dev/null
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config VIDEO_SUN6I_MIPI_CSI2
+> +	tristate "Allwinner A31 MIPI CSI-2 Controller Driver"
+> +	depends on ARCH_SUNXI || COMPILE_TEST
+> +	depends on PM && COMMON_CLK && VIDEO_V4L2
+> +	select REGMAP_MMIO
+> +	select PHY_SUN6I_MIPI_DPHY
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select V4L2_FWNODE
+> +	help
+> +	   Support for the Allwinner A31 MIPI CSI-2 Controller.
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+> new file mode 100644
+> index 000000000000..14e4e03818b5
+> --- /dev/null
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +sun6i-mipi-csi2-y += sun6i_mipi_csi2.o
+> +
+> +obj-$(CONFIG_VIDEO_SUN6I_MIPI_CSI2) += sun6i-mipi-csi2.o
+> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> new file mode 100644
+> index 000000000000..87307beda4cf
+> --- /dev/null
+> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+> @@ -0,0 +1,590 @@
+[...]
+> +/* Base Driver */
+> +
+> +static int sun6i_mipi_csi2_suspend(struct device *dev)
+> +{
+> +	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(cdev->clk_mod);
+> +	clk_disable_unprepare(cdev->clk_bus);
+> +	reset_control_assert(cdev->reset);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun6i_mipi_csi2_resume(struct device *dev)
+> +{
+> +	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = reset_control_deassert(cdev->reset);
+> +	if (ret) {
+> +		dev_err(cdev->dev, "failed to deassert reset\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(cdev->clk_bus);
+> +	if (ret) {
+> +		dev_err(cdev->dev, "failed to enable bus clock\n");
+> +		goto error_reset;
+> +	}
+> +
+> +	ret = clk_prepare_enable(cdev->clk_mod);
+> +	if (ret) {
+> +		dev_err(cdev->dev, "failed to enable module clock\n");
+> +		goto error_clk_bus;
+> +	}
+> +
+> +	return 0;
+> +
+> +error_clk_bus:
+> +	clk_disable_unprepare(cdev->clk_bus);
+> +
+> +error_reset:
+> +	reset_control_assert(cdev->reset);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
+> +{
+> +	struct sun6i_mipi_csi2_video *video = &cdev->video;
+> +	struct v4l2_subdev *subdev = &video->subdev;
+> +	struct v4l2_async_notifier *notifier = &video->notifier;
+> +	struct fwnode_handle *handle;
+> +	struct v4l2_fwnode_endpoint *endpoint;
+> +	struct v4l2_async_subdev *subdev_async;
+> +	int ret;
+> +
+> +	/* Subdev */
+> +
+> +	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> +	subdev->dev = cdev->dev;
+> +	subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
+> +	v4l2_set_subdevdata(subdev, cdev);
+> +
+> +	/* Entity */
+> +
+> +	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
+> +
+> +	/* Pads */
+> +
+> +	video->pads[0].flags = MEDIA_PAD_FL_SINK;
+> +	video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Endpoint */
+> +
+> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
+> +						 FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!handle) {
+> +		ret = -ENODEV;
+> +		goto error_media_entity;
+> +	}
+> +
+> +	endpoint = &video->endpoint;
+> +	endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
+> +	fwnode_handle_put(handle);
+> +	if (ret)
+> +		goto error_media_entity;
+> +
+> +	/* Notifier */
+> +
+> +	v4l2_async_notifier_init(notifier);
+> +
+> +	subdev_async = &video->subdev_async;
+> +	ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
+> +							   subdev_async);
+> +	if (ret)
+> +		goto error_media_entity;
+> +
+> +	video->notifier.ops = &sun6i_mipi_csi2_notifier_ops;
+> +
+> +	ret = v4l2_async_subdev_notifier_register(subdev, notifier);
+> +	if (ret < 0)
+> +		goto error_notifier;
+> +
+> +	/* Subdev */
+> +
+> +	ret = v4l2_async_register_subdev(subdev);
+> +	if (ret < 0)
+> +		goto error_notifier_registered;
+> +
+> +	/* Runtime PM */
+> +
+> +	pm_runtime_enable(cdev->dev);
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- fs/block_dev.c       |  7 ++++---
- fs/iomap/direct-io.c |  9 ++++-----
- include/linux/bio.h  | 10 ++++++++++
- 3 files changed, 18 insertions(+), 8 deletions(-)
+I would expect to see this before registering with the class, since
+pm_runtime_get_sync() will fail if called before runtime PM is enabled.
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 3b8963e228a1..6f5bd9950baf 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -416,7 +416,7 @@ __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
- 		dio->size += bio->bi_iter.bi_size;
- 		pos += bio->bi_iter.bi_size;
- 
--		nr_pages = iov_iter_npages(iter, BIO_MAX_PAGES);
-+		nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_PAGES);
- 		if (!nr_pages) {
- 			bool polled = false;
- 
-@@ -481,9 +481,10 @@ blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
- {
- 	int nr_pages;
- 
--	nr_pages = iov_iter_npages(iter, BIO_MAX_PAGES + 1);
--	if (!nr_pages)
-+	if (!iov_iter_count(iter))
- 		return 0;
-+
-+	nr_pages = bio_iov_vecs_to_alloc(iter, BIO_MAX_PAGES + 1);
- 	if (is_sync_kiocb(iocb) && nr_pages <= BIO_MAX_PAGES)
- 		return __blkdev_direct_IO_simple(iocb, iter, nr_pages);
- 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index 933f234d5bec..ea1e8f696076 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -250,11 +250,8 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
- 	orig_count = iov_iter_count(dio->submit.iter);
- 	iov_iter_truncate(dio->submit.iter, length);
- 
--	nr_pages = iov_iter_npages(dio->submit.iter, BIO_MAX_PAGES);
--	if (nr_pages <= 0) {
--		ret = nr_pages;
-+	if (!iov_iter_count(dio->submit.iter))
- 		goto out;
--	}
- 
- 	if (need_zeroout) {
- 		/* zero out from the start of the block to the write offset */
-@@ -263,6 +260,7 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
- 			iomap_dio_zero(dio, iomap, pos - pad, pad);
- 	}
- 
-+	nr_pages = bio_iov_vecs_to_alloc(dio->submit.iter, BIO_MAX_PAGES);
- 	do {
- 		size_t n;
- 		if (dio->error) {
-@@ -308,7 +306,8 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
- 		dio->size += n;
- 		copied += n;
- 
--		nr_pages = iov_iter_npages(dio->submit.iter, BIO_MAX_PAGES);
-+		nr_pages = bio_iov_vecs_to_alloc(dio->submit.iter,
-+						 BIO_MAX_PAGES);
- 		iomap_dio_submit_bio(dio, iomap, bio, pos);
- 		pos += n;
- 	} while (nr_pages);
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 1edda614f7ce..d8f9077c43ef 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -10,6 +10,7 @@
- #include <linux/ioprio.h>
- /* struct bio, bio_vec and BIO_* flags are defined in blk_types.h */
- #include <linux/blk_types.h>
-+#include <linux/uio.h>
- 
- #define BIO_DEBUG
- 
-@@ -441,6 +442,15 @@ static inline void bio_wouldblock_error(struct bio *bio)
- 	bio_endio(bio);
- }
- 
-+/*
-+ * Calculate number of bvec segments that should be allocated to fit data
-+ * pointed by @iter.
-+ */
-+static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
-+{
-+	return iov_iter_npages(iter, max_segs);
-+}
-+
- struct request_queue;
- 
- extern int submit_bio_wait(struct bio *bio);
--- 
-2.24.0
+> +	pm_runtime_set_suspended(cdev->dev);
 
+This is already the default.
+
+> +
+> +	return 0;
+> +
+> +error_notifier_registered:
+> +	v4l2_async_notifier_unregister(notifier);
+> +error_notifier:
+> +	v4l2_async_notifier_cleanup(notifier);
+> +error_media_entity:
+> +	media_entity_cleanup(&subdev->entity);
+> +
+> +	return ret;
+> +}
+> +
+> +static int sun6i_mipi_csi2_v4l2_teardown(struct sun6i_mipi_csi2_dev *cdev)
+> +{
+> +	struct sun6i_mipi_csi2_video *video = &cdev->video;
+> +	struct v4l2_subdev *subdev = &video->subdev;
+> +	struct v4l2_async_notifier *notifier = &video->notifier;
+> +
+> +	v4l2_async_unregister_subdev(subdev);
+> +	v4l2_async_notifier_unregister(notifier);
+> +	v4l2_async_notifier_cleanup(notifier);
+> +	media_entity_cleanup(&subdev->entity);
+> +	v4l2_device_unregister_subdev(subdev);
+> +
+
+I would expect to see pm_runtime_suspend()/pm_runtime_disable() called
+here, so you do not leak clock prepare/enable references.
+
+Cheers,
+Samuel
+
+> +	return 0;
+> +}
+> +
+> +static const struct regmap_config sun6i_mipi_csi2_regmap_config = {
+> +	.reg_bits       = 32,
+> +	.reg_stride     = 4,
+> +	.val_bits       = 32,
+> +	.max_register	= 0x400,
+> +};
+> +
+> +static int sun6i_mipi_csi2_probe(struct platform_device *pdev)
+> +{
+> +	struct sun6i_mipi_csi2_dev *cdev;
+> +	struct resource *res;
+> +	void __iomem *io_base;
+> +	int ret;
+> +
+> +	cdev = devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
+> +	if (!cdev)
+> +		return -ENOMEM;
+> +
+> +	cdev->dev = &pdev->dev;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	io_base = devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(io_base))
+> +		return PTR_ERR(io_base);
+> +
+> +	cdev->regmap = devm_regmap_init_mmio(&pdev->dev, io_base,
+> +					     &sun6i_mipi_csi2_regmap_config);
+> +	if (IS_ERR(cdev->regmap)) {
+> +		dev_err(&pdev->dev, "failed to init register map\n");
+> +		return PTR_ERR(cdev->regmap);
+> +	}
+> +
+> +	cdev->clk_bus = devm_clk_get(&pdev->dev, "bus");
+> +	if (IS_ERR(cdev->clk_bus)) {
+> +		dev_err(&pdev->dev, "failed to acquire bus clock\n");
+> +		return PTR_ERR(cdev->clk_bus);
+> +	}
+> +
+> +	cdev->clk_mod = devm_clk_get(&pdev->dev, "mod");
+> +	if (IS_ERR(cdev->clk_mod)) {
+> +		dev_err(&pdev->dev, "failed to acquire mod clock\n");
+> +		return PTR_ERR(cdev->clk_mod);
+> +	}
+> +
+> +	cdev->reset = devm_reset_control_get_shared(&pdev->dev, NULL);
+> +	if (IS_ERR(cdev->reset)) {
+> +		dev_err(&pdev->dev, "failed to get reset controller\n");
+> +		return PTR_ERR(cdev->reset);
+> +	}
+> +
+> +	cdev->dphy = devm_phy_get(&pdev->dev, NULL);
+> +	if (IS_ERR(cdev->dphy)) {
+> +		dev_err(&pdev->dev, "failed to get the MIPI D-PHY\n");
+> +		return PTR_ERR(cdev->dphy);
+> +	}
+> +
+> +	ret = phy_init(cdev->dphy);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to initialize the MIPI D-PHY\n");
+> +		return ret;
+> +	}
+> +
+> +	platform_set_drvdata(pdev, cdev);
+> +
+> +	ret = sun6i_mipi_csi2_v4l2_setup(cdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun6i_mipi_csi2_remove(struct platform_device *pdev)
+> +{
+> +	struct sun6i_mipi_csi2_dev *cdev = platform_get_drvdata(pdev);
+> +
+> +	phy_exit(cdev->dphy);
+> +
+> +	return sun6i_mipi_csi2_v4l2_teardown(cdev);
+> +}
+> +
+> +static const struct dev_pm_ops sun6i_mipi_csi2_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(sun6i_mipi_csi2_suspend, sun6i_mipi_csi2_resume,
+> +			   NULL)
+> +};
+> +
+> +static const struct of_device_id sun6i_mipi_csi2_of_match[] = {
+> +	{ .compatible = "allwinner,sun6i-a31-mipi-csi2" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, sun6i_mipi_csi2_of_match);
+> +
+> +static struct platform_driver sun6i_mipi_csi2_platform_driver = {
+> +	.probe = sun6i_mipi_csi2_probe,
+> +	.remove = sun6i_mipi_csi2_remove,
+> +	.driver = {
+> +		.name = MODULE_NAME,
+> +		.of_match_table = of_match_ptr(sun6i_mipi_csi2_of_match),
+> +		.pm = &sun6i_mipi_csi2_pm_ops,
+> +	},
+> +};
+> +module_platform_driver(sun6i_mipi_csi2_platform_driver);
+> +
+> +MODULE_DESCRIPTION("Allwinner A31 MIPI CSI-2 Controller Driver");
+> +MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
+> +MODULE_LICENSE("GPL");
+[...]
