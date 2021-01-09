@@ -2,82 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0382C433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 03:41:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC6DDC4361A
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 16:07:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7852923A3C
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 03:41:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 989B123A68
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 16:07:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725906AbhAIDkt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jan 2021 22:40:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47810 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725836AbhAIDkt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Jan 2021 22:40:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id C21AA23A23;
-        Sat,  9 Jan 2021 03:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610163608;
-        bh=xKRQlUPM6LZ1/K5pS7j2eyZvG9rVM8WXhPSoJS6JKfg=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=O6W03qDVV/8YJKjA7t7SbbkCEguZLqZ0M6iCwWw/4/1oAFF6tvYs7k7mCOOcnpQzA
-         wp3q9KMWXPsCHvkvFxg+l8lEPTIU/zib4iXFmy3VSELTqGcfKFopzQ+RoatZDOiV/O
-         PH0nqioqdNCLwoiwtooDLjcF66PrQB/i87B7i/HgTlkNgYnUJG+kmOJyA0mxzBjd+j
-         RdZGE8zNy0H4FXmsTZeyFJqQQV6LeLi59cjVnN8Lf1q60S4sXKHHoqbP4nTaZ7R482
-         pLDrGTgUDevu5d0wTHFzQreHmZEDbGaA4eteV0a4gxSo3d7kEy382HSg/s5IGUuA25
-         WvpR7HyWiRIHw==
-Content-Type: text/plain; charset="utf-8"
+        id S1726692AbhAIQHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jan 2021 11:07:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbhAIQHb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jan 2021 11:07:31 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57198C0617A4;
+        Sat,  9 Jan 2021 08:06:51 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id 190so10216049wmz.0;
+        Sat, 09 Jan 2021 08:06:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LOsfOtb4JF9iqyizeOjm4tVRPPo2GoTdvRn37AEB3XM=;
+        b=Naupq7MH/QGjgYPNZ6nDh8HfOkE4n+5H8WjdQV22O4U+GN5oR8Ixv+Gl0qgQdk/j5c
+         ror5a9etqnkRwbLZtFecJMcJzPkfKyMpprD4UzKGG7SSMj0Wi+vldVDQD03UCr6cRo7n
+         XslEbcpU4b29/jvNvkfRRV425pGdOV5ri/XWO0dOpB0xSe9yp0uF+JUkgxBHlG0EVsSJ
+         vh6OV5OVGJxasK4c8MsZ0f0UaF7d5DdwAcf3iB4vuMr/Bo932nWihR9VgM3blH1dJpvR
+         guhwKvbCGPS3CqatmW254sYwWbBHH7dCEoXtGD9igJm7GWNOpYe5oppH34AB0Kbgxc3c
+         vGbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LOsfOtb4JF9iqyizeOjm4tVRPPo2GoTdvRn37AEB3XM=;
+        b=j8MFP6gGghrGEaOUgrKW1uX0oott1K/p4BNb2FJJ0065VQQx3j5jkUZQi7w/wbrQP/
+         FUtKUfIYToAM0F9cuUW7AJ6hiKlRyILiXMNouEkq+wHiF5LVZSjWBwDH8knhgzBRU+8E
+         5pMrsTasAqD6HQXWrfwlVIzGSDwl1DJy+tk2zubp3Bs2JJCIUjmyv9tr1+7e8nEiaoj3
+         5EILJK82RIuvQLAp6oXrlP7q84pJklWplG5InfkScdHKV+HgTBnxGvxfiJDajG54QnlO
+         Ufewxd+ilTy77L5vUYyMuRQE2Mq0AbF90ROlokFfSpa0s4soiOHe7lyvAJ/Tlfa/RmB0
+         VPcg==
+X-Gm-Message-State: AOAM531ziyyhi+zFizpCjKv3M6qZGMRFl3fAdT1FnoLFHusc9eCmmq6S
+        q4xEnuX6u127MMxxRxodSeBhp6cvq3bI2GGx
+X-Google-Smtp-Source: ABdhPJwTh8SgrJgP2KLlExaCfgCAEBrNfjWruyuIlYMsHFTOuOfOCftaIufrH3TPb7KFf9qH55pOLg==
+X-Received: by 2002:a1c:7d94:: with SMTP id y142mr7810148wmc.105.1610208409857;
+        Sat, 09 Jan 2021 08:06:49 -0800 (PST)
+Received: from localhost.localdomain ([185.69.144.125])
+        by smtp.gmail.com with ESMTPSA id j9sm17403866wrm.14.2021.01.09.08.06.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Jan 2021 08:06:49 -0800 (PST)
+From:   Pavel Begunkov <asml.silence@gmail.com>
+To:     linux-block@vger.kernel.org
+Cc:     Jens Axboe <axboe@kernel.dk>,
+        Christoph Hellwig <hch@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Ming Lei <ming.lei@redhat.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
+        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v3 4/7] target/file: allocate the bvec array as part of struct target_core_file_cmd
+Date:   Sat,  9 Jan 2021 16:03:00 +0000
+Message-Id: <2650722037cd756690f2e398468420bbaa26ed7f.1610170479.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1610170479.git.asml.silence@gmail.com>
+References: <cover.1610170479.git.asml.silence@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net 0/3] net: fix issues around register_netdevice() failures
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161016360872.369.12946201469501614847.git-patchwork-notify@kernel.org>
-Date:   Sat, 09 Jan 2021 03:40:08 +0000
-References: <20210106184007.1821480-1-kuba@kernel.org>
-In-Reply-To: <20210106184007.1821480-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, f.fainelli@gmail.com,
-        xiyou.wangcong@gmail.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+From: Christoph Hellwig <hch@lst.de>
 
-This series was applied to netdev/net.git (refs/heads/master):
+This saves one memory allocation, and ensures the bvecs aren't freed
+before the AIO completion.  This will allow the lower level code to be
+optimized so that it can avoid allocating another bvec array.
 
-On Wed,  6 Jan 2021 10:40:04 -0800 you wrote:
-> This series attempts to clean up the life cycle of struct
-> net_device. Dave has added dev->needs_free_netdev in the
-> past to fix double frees, we can lean on that mechanism
-> a little more to fix remaining issues with register_netdevice().
-> 
-> This is the next chapter of the saga which already includes:
-> commit 0e0eee2465df ("net: correct error path in rtnl_newlink()")
-> commit e51fb152318e ("rtnetlink: fix a memory leak when ->newlink fails")
-> commit cf124db566e6 ("net: Fix inconsistent teardown and release of private netdev state.")
-> commit 93ee31f14f6f ("[NET]: Fix free_netdev on register_netdev failure.")
-> commit 814152a89ed5 ("net: fix memleak in register_netdevice()")
-> commit 10cc514f451a ("net: Fix null de-reference of device refcount")
-> 
-> [...]
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ drivers/target/target_core_file.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-Here is the summary with links:
-  - [net,1/3] docs: net: explain struct net_device lifetime
-    https://git.kernel.org/netdev/net/c/2b446e650b41
-  - [net,2/3] net: make free_netdev() more lenient with unregistering devices
-    https://git.kernel.org/netdev/net/c/c269a24ce057
-  - [net,3/3] net: make sure devices go through netdev_wait_all_refs
-    https://git.kernel.org/netdev/net/c/766b0515d5be
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+diff --git a/drivers/target/target_core_file.c b/drivers/target/target_core_file.c
+index b0cb5b95e892..cce455929778 100644
+--- a/drivers/target/target_core_file.c
++++ b/drivers/target/target_core_file.c
+@@ -241,6 +241,7 @@ struct target_core_file_cmd {
+ 	unsigned long	len;
+ 	struct se_cmd	*cmd;
+ 	struct kiocb	iocb;
++	struct bio_vec	bvecs[];
+ };
+ 
+ static void cmd_rw_aio_complete(struct kiocb *iocb, long ret, long ret2)
+@@ -268,29 +269,22 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 	struct target_core_file_cmd *aio_cmd;
+ 	struct iov_iter iter = {};
+ 	struct scatterlist *sg;
+-	struct bio_vec *bvec;
+ 	ssize_t len = 0;
+ 	int ret = 0, i;
+ 
+-	aio_cmd = kmalloc(sizeof(struct target_core_file_cmd), GFP_KERNEL);
++	aio_cmd = kmalloc(struct_size(aio_cmd, bvecs, sgl_nents), GFP_KERNEL);
+ 	if (!aio_cmd)
+ 		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+ 
+-	bvec = kcalloc(sgl_nents, sizeof(struct bio_vec), GFP_KERNEL);
+-	if (!bvec) {
+-		kfree(aio_cmd);
+-		return TCM_LOGICAL_UNIT_COMMUNICATION_FAILURE;
+-	}
+-
+ 	for_each_sg(sgl, sg, sgl_nents, i) {
+-		bvec[i].bv_page = sg_page(sg);
+-		bvec[i].bv_len = sg->length;
+-		bvec[i].bv_offset = sg->offset;
++		aio_cmd->bvecs[i].bv_page = sg_page(sg);
++		aio_cmd->bvecs[i].bv_len = sg->length;
++		aio_cmd->bvecs[i].bv_offset = sg->offset;
+ 
+ 		len += sg->length;
+ 	}
+ 
+-	iov_iter_bvec(&iter, is_write, bvec, sgl_nents, len);
++	iov_iter_bvec(&iter, is_write, aio_cmd->bvecs, sgl_nents, len);
+ 
+ 	aio_cmd->cmd = cmd;
+ 	aio_cmd->len = len;
+@@ -307,8 +301,6 @@ fd_execute_rw_aio(struct se_cmd *cmd, struct scatterlist *sgl, u32 sgl_nents,
+ 	else
+ 		ret = call_read_iter(file, &aio_cmd->iocb, &iter);
+ 
+-	kfree(bvec);
+-
+ 	if (ret != -EIOCBQUEUED)
+ 		cmd_rw_aio_complete(&aio_cmd->iocb, ret, 0);
+ 
+-- 
+2.24.0
 
