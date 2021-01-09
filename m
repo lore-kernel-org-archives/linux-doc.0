@@ -2,86 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE7EC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE49BC43381
 	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 00:31:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F30C23AAA
+	by mail.kernel.org (Postfix) with ESMTP id 8E1F623A79
 	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 00:31:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbhAIAae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jan 2021 19:30:34 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:28888 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbhAIAad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 19:30:33 -0500
+        id S1726300AbhAIAam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jan 2021 19:30:42 -0500
+Received: from m43-15.mailgun.net ([69.72.43.15]:64201 "EHLO
+        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbhAIAal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jan 2021 19:30:41 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610152210; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=3dGnbAVtyB6gyWXMowpwoOXTGcorXVWtWCxmc7pIxOw=; b=rkaqjxC6KUsU5SPrAxa3fJj0TzbmMft3vbBcRkwSjCrfJWQsiAm7/EI75fMP3dQ7LvVhgwYG
- hPWEM+BMSWG+9lUtMbYlar6AeWnMIZ9uFBFfebMULk+Tt8O3TfNQTSpMsgTT0fVnxQlvO+kB
- lcsHAhVwq1WGhE6vv5v5WLMujJ8=
-X-Mailgun-Sending-Ip: 198.61.254.31
+ s=smtp; t=1610152223; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=/UzpSUzQlXPBPQkn7Vw+DS3IUNoOjIx7BnHc/ReGtgc=; b=XD43z5ayo3Dz0biIYLiIKNCp/DaQP0uMXnn+sv00/6Zkgnb8g8WUrlCktXZzUtE5Y1tfuqMO
+ t0s/3Qkme2VXS1B8SdOV8Bg8V2vpcOSGi8hSEnZG/v6el7YayVfs3a3QNxqVKSwJMK6wrlzL
+ Oddvp+eSddark5mmROs2x5VtTKQ=
+X-Mailgun-Sending-Ip: 69.72.43.15
 X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 5ff8f8f2f1be2d22c4ea7d8f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 09 Jan 2021 00:29:38
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5ff8f8f98fb3cda82f53733e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 09 Jan 2021 00:29:45
  GMT
 Sender: sramana=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 5AC2DC43462; Sat,  9 Jan 2021 00:29:37 +0000 (UTC)
+        id 3C224C433ED; Sat,  9 Jan 2021 00:29:45 +0000 (UTC)
 Received: from sramana-linux1.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: sramana)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4B1BCC433C6;
-        Sat,  9 Jan 2021 00:29:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4B1BCC433C6
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7818BC433ED;
+        Sat,  9 Jan 2021 00:29:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7818BC433ED
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sramana@codeaurora.org
 From:   Srinivas Ramana <sramana@codeaurora.org>
 To:     catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Srinivas Ramana <sramana@codeaurora.org>
-Subject: [PATCH 0/3] arm64: cpufeature: Add filter function to control
-Date:   Fri,  8 Jan 2021 16:29:20 -0800
-Message-Id: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
+        Srinivas Ramana <sramana@codeaurora.org>,
+        Prasad Sodagudi <psodagud@codeaurora.org>
+Subject: [PATCH 2/3] arm64: cpufeature: Add a filter function to cpufeature
+Date:   Fri,  8 Jan 2021 16:29:22 -0800
+Message-Id: <1610152163-16554-3-git-send-email-sramana@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
+References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset adds a control function for cpufeature framework
-so that the feature can be controlled at runtime.
+Add a filter function to cpufeature so that it can be used
+when dynamic control of the feature is required.
 
-Defer PAC on boot core and use the filter function added to disable
-PAC from command line. This will help toggling the feature on systems
-that do not support PAC or where PAC needs to be disabled at runtime,
-without modifying the core kernel.
+Signed-off-by: Ajay Patil <pajay@qti.qualcomm.com>
+Signed-off-by: Prasad Sodagudi <psodagud@codeaurora.org>
+Signed-off-by: Srinivas Ramana <sramana@codeaurora.org>
+---
+ arch/arm64/include/asm/cpufeature.h |  8 +++++++-
+ arch/arm64/kernel/cpufeature.c      | 15 ++++++++++-----
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-The idea of adding the filter function for cpufeature is taken from
-https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-25-catalin.marinas@arm.com/
-https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-24-catalin.marinas@arm.com/
-
-Srinivas Ramana (3):
-  arm64: Defer enabling pointer authentication on boot core
-  arm64: cpufeature: Add a filter function to cpufeature
-  arm64: Enable control of pointer authentication using early param
-
- Documentation/admin-guide/kernel-parameters.txt |  6 +++
- arch/arm64/include/asm/cpufeature.h             |  8 +++-
- arch/arm64/include/asm/pointer_auth.h           | 10 +++++
- arch/arm64/include/asm/stackprotector.h         |  1 +
- arch/arm64/kernel/cpufeature.c                  | 53 +++++++++++++++++++------
- arch/arm64/kernel/head.S                        |  4 --
- 6 files changed, 64 insertions(+), 18 deletions(-)
-
+diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+index 9a555809b89c..81a5c97d647d 100644
+--- a/arch/arm64/include/asm/cpufeature.h
++++ b/arch/arm64/include/asm/cpufeature.h
+@@ -61,6 +61,7 @@ struct arm64_ftr_bits {
+ 	u8		shift;
+ 	u8		width;
+ 	s64		safe_val; /* safe value for FTR_EXACT features */
++	s64		(*filter)(const struct arm64_ftr_bits *ftrp, s64 fval);
+ };
+ 
+ /*
+@@ -566,7 +567,12 @@ cpuid_feature_extract_field(u64 features, int field, bool sign)
+ 
+ static inline s64 arm64_ftr_value(const struct arm64_ftr_bits *ftrp, u64 val)
+ {
+-	return (s64)cpuid_feature_extract_field_width(val, ftrp->shift, ftrp->width, ftrp->sign);
++	s64 fval = (s64)cpuid_feature_extract_field_width(val, ftrp->shift,
++					ftrp->width, ftrp->sign);
++
++	if (ftrp->filter)
++		fval = ftrp->filter(ftrp, fval);
++	return fval;
+ }
+ 
+ static inline bool id_aa64mmfr0_mixed_endian_el0(u64 mmfr0)
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 7ffb5f1d8b68..b2ffa9eaaaff 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -132,23 +132,28 @@ DEFINE_STATIC_KEY_ARRAY_FALSE(cpu_hwcap_keys, ARM64_NCAPS);
+ EXPORT_SYMBOL(cpu_hwcap_keys);
+ 
+ #define __ARM64_FTR_BITS(SIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL) \
+-	{						\
+ 		.sign = SIGNED,				\
+ 		.visible = VISIBLE,			\
+ 		.strict = STRICT,			\
+ 		.type = TYPE,				\
+ 		.shift = SHIFT,				\
+ 		.width = WIDTH,				\
+-		.safe_val = SAFE_VAL,			\
+-	}
++		.safe_val = SAFE_VAL
+ 
+ /* Define a feature with unsigned values */
+ #define ARM64_FTR_BITS(VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL) \
+-	__ARM64_FTR_BITS(FTR_UNSIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL)
++	{__ARM64_FTR_BITS(FTR_UNSIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL), }
+ 
+ /* Define a feature with a signed value */
+ #define S_ARM64_FTR_BITS(VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL) \
+-	__ARM64_FTR_BITS(FTR_SIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL)
++	{__ARM64_FTR_BITS(FTR_SIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL), }
++
++/* Define a feature with a filter function to process the field value */
++#define FILTERED_ARM64_FTR_BITS(SIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL, filter_fn) \
++	{											\
++		__ARM64_FTR_BITS(SIGNED, VISIBLE, STRICT, TYPE, SHIFT, WIDTH, SAFE_VAL),	\
++		.filter = filter_fn,								\
++	}
+ 
+ #define ARM64_FTR_END					\
+ 	{						\
 -- 
 2.7.4
 
