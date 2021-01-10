@@ -2,76 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDBAC433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 16:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D88C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 20:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00736229C7
-	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 16:17:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D363E225A9
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 20:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbhAJQRE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Jan 2021 11:17:04 -0500
-Received: from m12-13.163.com ([220.181.12.13]:56110 "EHLO m12-13.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726080AbhAJQRE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 10 Jan 2021 11:17:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id; bh=uWCpczaT+Kp1u2fPcI
-        VWE1toUte4ZvxGSaJT+gjXIv0=; b=IXnsJKlLPiqHSedfWmDHerfp3Ct6f6Lljv
-        KpCuUWEBdmBBzLcxS+QVZeAR4IZTCIBbBGQtKyW0xbVIXPYgS59CQJgCF2JGTfhO
-        Ib6sospHy5sByjTLPhDCjbaIBO1bQmYygBGsZVCzhC89u5GQqnqj+gEKvdamOutk
-        iIyG/8cq8=
-Received: from localhost.localdomain.localdomain (unknown [182.150.135.160])
-        by smtp9 (Coremail) with SMTP id DcCowAB3v2tZt_pf69c2aQ--.11668S2;
-        Sun, 10 Jan 2021 16:14:19 +0800 (CST)
-From:   winndows@163.com
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Liao Pingfang <winndows@163.com>
-Subject: [PATCH] docs: filesystems: vfs: Correct the struct name
-Date:   Sun, 10 Jan 2021 15:59:59 +0800
-Message-Id: <1610265599-5101-1-git-send-email-winndows@163.com>
-X-Mailer: git-send-email 1.8.3.1
-X-CM-TRANSID: DcCowAB3v2tZt_pf69c2aQ--.11668S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gry5KrWxGr1fCF4kKw15Jwb_yoWxKwbE9r
-        WxXF4kWFZ7JryftF4kCF1YvF1fZrsakr1rXwn3AF4DA343t3ykJFykX34jvrW5Wr4I9rZ8
-        Gan8ZrZIqFnrJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjDKs7UUUUU==
-X-Originating-IP: [182.150.135.160]
-X-CM-SenderInfo: hzlq0vxrzvqiywtou0bp/xtbByhsWmV0CPnHalwAAsD
+        id S1726829AbhAJUSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Jan 2021 15:18:15 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:50256 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbhAJUSP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Jan 2021 15:18:15 -0500
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 10AKHAHD018308;
+        Mon, 11 Jan 2021 05:17:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 10AKHAHD018308
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1610309831;
+        bh=92UFZwn5rH6dES5yWvRNhvQHxZ2dhzVHs9u2pm1p3m8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=w9wZFhrRfhuYH7QMhcKbYvfQ4XywvjU8wmdzxSDDLGF1JHTz+3eFuQUw0PfpYdTHS
+         CLxxEzdG3XbzPl5d0seExPwIsfoIDqtvDe5UkG+ld2U6XkpZM6skneTyJKgoOzoHTM
+         CgLvvotIT/Csh6Yq99SI1AWsvIWKgd1tH+cIT2UDM/nGNzQHerv0TlvkJEpSvbZ+ue
+         xnqKiYnNpXzzMKHBQsw8vASd1vxXWjGxHatu0L3/qMtJHEWa4DZJJ5cLhGcGiyiZJW
+         SGddTHTbZ8e4fuT7C/7ZirHewwm3PcTBheO7dt5yz1EWHpkjY9llQpZo31RQzq3TWN
+         zBqDyzMs9R1Zg==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id l23so9208799pjg.1;
+        Sun, 10 Jan 2021 12:17:11 -0800 (PST)
+X-Gm-Message-State: AOAM531nt0Q1z1TousGiZUSI3fK4OCWpoqgjqnSZlpO31THdRKl+Z+OW
+        QravTFB7pNOOINiZbtfzllPHHW6U4ZzuEZiMLBQ=
+X-Google-Smtp-Source: ABdhPJyoDpYzVjeVK4wF66jhvCNZJLbkOwN30MRYXw53O0JWsjmYZ2CY3S9XTi+zQjJYtdxeK2PgV0ITQxEKG1O8D/M=
+X-Received: by 2002:a17:902:9b91:b029:db:f003:c5eb with SMTP id
+ y17-20020a1709029b91b02900dbf003c5ebmr13288781plp.1.1610309830433; Sun, 10
+ Jan 2021 12:17:10 -0800 (PST)
+MIME-Version: 1.0
+References: <6f551ebb80f88e9b1bf6aa981f3c201409e1555c.1610019699.git.viresh.kumar@linaro.org>
+In-Reply-To: <6f551ebb80f88e9b1bf6aa981f3c201409e1555c.1610019699.git.viresh.kumar@linaro.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 11 Jan 2021 05:16:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ-d-9VSLdS9SLM9_cjUrL3tvLXndiFw124c_qic2vh5g@mail.gmail.com>
+Message-ID: <CAK7LNAQ-d-9VSLdS9SLM9_cjUrL3tvLXndiFw124c_qic2vh5g@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kbuild: Fix section reference
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Anmar Oueja <anmar.oueja@linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Liao Pingfang <winndows@163.com>
+On Thu, Jan 7, 2021 at 8:42 PM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> Section 3.11 was incorrectly called 3.9, fix it.
+>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  Documentation/kbuild/makefiles.rst | 2 +-
 
-The struct name should be file_system_type instead of
-file_system_operations.
 
-Signed-off-by: Liao Pingfang <winndows@163.com>
----
- Documentation/filesystems/vfs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to linux-kbuild. Thanks.
 
-diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesystems/vfs.rst
-index ca52c82..18d69a4 100644
---- a/Documentation/filesystems/vfs.rst
-+++ b/Documentation/filesystems/vfs.rst
-@@ -112,7 +112,7 @@ members are defined:
- 
- .. code-block:: c
- 
--	struct file_system_operations {
-+	struct file_system_type {
- 		const char *name;
- 		int fs_flags;
- 		struct dentry *(*mount) (struct file_system_type *, int,
+
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index d36768cf1250..9f6a11881951 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -598,7 +598,7 @@ more details, with real examples.
+>         explicitly added to $(targets).
+>
+>         Assignments to $(targets) are without $(obj)/ prefix. if_changed may be
+> -       used in conjunction with custom rules as defined in "3.9 Custom Rules".
+> +       used in conjunction with custom rules as defined in "3.11 Custom Rules".
+>
+>         Note: It is a typical mistake to forget the FORCE prerequisite.
+>         Another common pitfall is that whitespace is sometimes significant; for
+> --
+> 2.25.0.rc1.19.g042ed3e048af
+>
+
+
 -- 
-1.8.3.1
-
-
+Best Regards
+Masahiro Yamada
