@@ -2,460 +2,331 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 112EBC433DB
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 22:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1755EC433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 12:11:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4AA12245C
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jan 2021 22:25:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD83C238E5
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Jan 2021 12:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbhAIWZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jan 2021 17:25:15 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57845 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726238AbhAIWZO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jan 2021 17:25:14 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 0C8985805EF;
-        Sat,  9 Jan 2021 17:24:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 09 Jan 2021 17:24:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        to:cc:references:from:subject:message-id:date:mime-version
-        :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=m
-        12NFdKt3bGrZeShAQKdpYummJW0fgdM/Zs/d2W6cXE=; b=YhmaFfwuMCWJ//o7d
-        xQPOOwawY+upfamD3yMo7ainVkyhPxe8Fa8R0GOV307DPKuU7A5JmFBtr98/gAK6
-        eRL65NmeF6PWmo98HCEfSobQrTEPJ+4N3MgYOcEGZ97+ZFIgjzlxWeb9ijt08dMs
-        yQMubyN5bvInwxVpZxqwCQFleNAIJ8aPma078GSO3XSb/j2ovhOEPpV5f7KnJwyg
-        pAwiIqOWA62ltBYiaeYGFqD3DljaRGI2JQGnvTEHbZlxCoAZyHEeU84WaFYA9T6x
-        0xxIhTyaL47yv+XgePozom5VQ+qUrePBIbcOUsJsLFuHp2NxLEGX980qehOQUxLi
-        ww9Tw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=m12NFdKt3bGrZeShAQKdpYummJW0fgdM/Zs/d2W6c
-        XE=; b=pw5W4y3Fd76Mbc1DC1ewxmUAwR94EhUk6k7JiKajubxmlmTKF/242wapQ
-        5Wt3bPLyAvDjdiPhaf5HokS2Qi6s+hXPKNbbYE6SMh5gIwTVVcYhyCVJ0jqAr3hF
-        VfCrXKISxFyQGFTHIJo8Ec7BtTkrtJz7h46ZDev7ncXQQ2eRwc/5BbpzYMd1FP2n
-        t+OZi2GCpkJNcGJF6P5WI7+I8aC5FtdrvPEYEr1VLEKxJ61fzO8szjkw06t3WQ6i
-        daaFzTj5XF7PwthYIbOqEmXH75kqX9HKt32TMbPAwsVgjOgfXi2yiAgz78/WMWdC
-        FAruv4juw+GYvOotiSn83E0hLW77w==
-X-ME-Sender: <xms:Ay36X1Y1h-KqjoodnccU38awJLJi-UIAdHnDx34zgR0HtxIvvZG-UQ>
-    <xme:Ay36X8YVu_TDdAS0-rJ74MaaqcDesfC2Ts_VFHQRQPGMGxReRBMze4N9M9Qv7eaxq
-    BThi2iuBWOQkp882w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdegjedgudeivdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedvtddtjeeiuddugfffveetkeffgeffgedutdfgfeekudevudek
-    ffehtdefveeuvdenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:Ay36X3-BIAcYok8WBOWIHKzgH4DCnIqk_REtsCwrv88DnmAk72YeOw>
-    <xmx:Ay36XzqpJgWqkixv_77DUWmiPgRoN6SPrcxj-SSprreR03vtjacfBg>
-    <xmx:Ay36XwruO3cqQlTCyyiExYFTmeZt42XVRWmsttBNq3z_txMAhzESgg>
-    <xmx:Bi36X5ay336yNwVUfUsqrUZN98m-Yh_0P-BckXpbJjSjxzVQWP7q1Q>
-Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 2DB9A1080057;
-        Sat,  9 Jan 2021 17:24:02 -0500 (EST)
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
-From:   Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v4 09/15] media: sunxi: Add support for the A31 MIPI CSI-2
- controller
-Message-ID: <4ea6a6d0-e2ef-9374-e24b-9d62d5f66e23@sholland.org>
-Date:   Sat, 9 Jan 2021 16:24:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726112AbhAJMLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Jan 2021 07:11:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726069AbhAJMLV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Jan 2021 07:11:21 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7AAC061786;
+        Sun, 10 Jan 2021 04:10:40 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1kyZYI-0000V2-Jj; Sun, 10 Jan 2021 13:10:34 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 (RFC)] docs: discourage users from using bugzilla.kernel.org
+Date:   Sun, 10 Jan 2021 13:10:33 +0100
+Message-Id: <20210110121033.130504-1-linux@leemhuis.info>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610280640;753466df;
+X-HE-SMSGID: 1kyZYI-0000V2-Jj
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/31/20 8:29 AM, Paul Kocialkowski wrote:
-> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
-> found on Allwinner SoCs such as the A31 and V3/V3s.
-> 
-> It is a standalone block, connected to the CSI controller on one side
-> and to the MIPI D-PHY block on the other. It has a dedicated address
-> space, interrupt line and clock.
-> 
-> It is represented as a V4L2 subdev to the CSI controller and takes a
-> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
-> media controller API.
-> 
-> Only 8-bit and 10-bit Bayer formats are currently supported.
-> While up to 4 internal channels to the CSI controller exist, only one
-> is currently supported by this implementation.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/platform/sunxi/Kconfig          |   1 +
->  drivers/media/platform/sunxi/Makefile         |   1 +
->  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
->  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 590 ++++++++++++++++++
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
->  6 files changed, 725 insertions(+)
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-> 
-> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
-> index 7151cc249afa..9684e07454ad 100644
-> --- a/drivers/media/platform/sunxi/Kconfig
-> +++ b/drivers/media/platform/sunxi/Kconfig
-> @@ -2,3 +2,4 @@
->  
->  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
->  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
-> +source "drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig"
-> diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platform/sunxi/Makefile
-> index fc537c9f5ca9..887a7cae8fca 100644
-> --- a/drivers/media/platform/sunxi/Makefile
-> +++ b/drivers/media/platform/sunxi/Makefile
-> @@ -2,5 +2,6 @@
->  
->  obj-y		+= sun4i-csi/
->  obj-y		+= sun6i-csi/
-> +obj-y		+= sun6i-mipi-csi2/
->  obj-y		+= sun8i-di/
->  obj-y		+= sun8i-rotate/
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> new file mode 100644
-> index 000000000000..47f1bb0779a8
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> @@ -0,0 +1,12 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_SUN6I_MIPI_CSI2
-> +	tristate "Allwinner A31 MIPI CSI-2 Controller Driver"
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	depends on PM && COMMON_CLK && VIDEO_V4L2
-> +	select REGMAP_MMIO
-> +	select PHY_SUN6I_MIPI_DPHY
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select V4L2_FWNODE
-> +	help
-> +	   Support for the Allwinner A31 MIPI CSI-2 Controller.
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-> new file mode 100644
-> index 000000000000..14e4e03818b5
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
-> @@ -0,0 +1,4 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +sun6i-mipi-csi2-y += sun6i_mipi_csi2.o
-> +
-> +obj-$(CONFIG_VIDEO_SUN6I_MIPI_CSI2) += sun6i-mipi-csi2.o
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> new file mode 100644
-> index 000000000000..87307beda4cf
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -0,0 +1,590 @@
-[...]
-> +/* Base Driver */
-> +
-> +static int sun6i_mipi_csi2_suspend(struct device *dev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
-> +
-> +	clk_disable_unprepare(cdev->clk_mod);
-> +	clk_disable_unprepare(cdev->clk_bus);
-> +	reset_control_assert(cdev->reset);
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun6i_mipi_csi2_resume(struct device *dev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = reset_control_deassert(cdev->reset);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to deassert reset\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(cdev->clk_bus);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to enable bus clock\n");
-> +		goto error_reset;
-> +	}
-> +
-> +	ret = clk_prepare_enable(cdev->clk_mod);
-> +	if (ret) {
-> +		dev_err(cdev->dev, "failed to enable module clock\n");
-> +		goto error_clk_bus;
-> +	}
-> +
-> +	return 0;
-> +
-> +error_clk_bus:
-> +	clk_disable_unprepare(cdev->clk_bus);
-> +
-> +error_reset:
-> +	reset_control_assert(cdev->reset);
-> +
-> +	return ret;
-> +}
-> +
-> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
-> +{
-> +	struct sun6i_mipi_csi2_video *video = &cdev->video;
-> +	struct v4l2_subdev *subdev = &video->subdev;
-> +	struct v4l2_async_notifier *notifier = &video->notifier;
-> +	struct fwnode_handle *handle;
-> +	struct v4l2_fwnode_endpoint *endpoint;
-> +	struct v4l2_async_subdev *subdev_async;
-> +	int ret;
-> +
-> +	/* Subdev */
-> +
-> +	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-> +	subdev->dev = cdev->dev;
-> +	subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
-> +	v4l2_set_subdevdata(subdev, cdev);
-> +
-> +	/* Entity */
-> +
-> +	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
-> +
-> +	/* Pads */
-> +
-> +	video->pads[0].flags = MEDIA_PAD_FL_SINK;
-> +	video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Endpoint */
-> +
-> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
-> +						 FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!handle) {
-> +		ret = -ENODEV;
-> +		goto error_media_entity;
-> +	}
-> +
-> +	endpoint = &video->endpoint;
-> +	endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
-> +	fwnode_handle_put(handle);
-> +	if (ret)
-> +		goto error_media_entity;
-> +
-> +	/* Notifier */
-> +
-> +	v4l2_async_notifier_init(notifier);
-> +
-> +	subdev_async = &video->subdev_async;
-> +	ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> +							   subdev_async);
-> +	if (ret)
-> +		goto error_media_entity;
-> +
-> +	video->notifier.ops = &sun6i_mipi_csi2_notifier_ops;
-> +
-> +	ret = v4l2_async_subdev_notifier_register(subdev, notifier);
-> +	if (ret < 0)
-> +		goto error_notifier;
-> +
-> +	/* Subdev */
-> +
-> +	ret = v4l2_async_register_subdev(subdev);
-> +	if (ret < 0)
-> +		goto error_notifier_registered;
-> +
-> +	/* Runtime PM */
-> +
-> +	pm_runtime_enable(cdev->dev);
+The bugtracker on kernel.org is not working very well and might be a
+disservice to the community, as discussed on the maintainers summit 2017
+and explained below in detail. For most of the kernel it was never the
+preferred place to report issues anyway, as the MAINTAINERS file and the
+recently added text Documentation/admin-guide/reporting-issues.rst show.
 
-I would expect to see this before registering with the class, since
-pm_runtime_get_sync() will fail if called before runtime PM is enabled.
+Hence, remove the two points in the kernel's English documentation that
+suggest submitting all sorts of bugs in bugzilla.kernel.org. That gets
+rid of known inconsistencies with
+Documentation/admin-guide/reporting-issues.rst, which is the reason for
+one 'this needs further discussion' warning in there. Hence, remove that
+warning as well to make the approach it describes the official one. A
+few files in the Documentation continue referring to bugzilla.kernel.org
+and sometimes even suggest filing issues there, but those references are
+fine for now (see below for details).
 
-> +	pm_runtime_set_suspended(cdev->dev);
+Why bugzilla.kernel.org isn't working well
+==========================================
 
-This is already the default.
+Find below the good, the bad and the ugly aspects of
+bugzilla.kernel.org.
 
-> +
-> +	return 0;
-> +
-> +error_notifier_registered:
-> +	v4l2_async_notifier_unregister(notifier);
-> +error_notifier:
-> +	v4l2_async_notifier_cleanup(notifier);
-> +error_media_entity:
-> +	media_entity_cleanup(&subdev->entity);
-> +
-> +	return ret;
-> +}
-> +
-> +static int sun6i_mipi_csi2_v4l2_teardown(struct sun6i_mipi_csi2_dev *cdev)
-> +{
-> +	struct sun6i_mipi_csi2_video *video = &cdev->video;
-> +	struct v4l2_subdev *subdev = &video->subdev;
-> +	struct v4l2_async_notifier *notifier = &video->notifier;
-> +
-> +	v4l2_async_unregister_subdev(subdev);
-> +	v4l2_async_notifier_unregister(notifier);
-> +	v4l2_async_notifier_cleanup(notifier);
-> +	media_entity_cleanup(&subdev->entity);
-> +	v4l2_device_unregister_subdev(subdev);
-> +
+The good
+--------
 
-I would expect to see pm_runtime_suspend()/pm_runtime_disable() called
-here, so you do not leak clock prepare/enable references.
+Bugzilla.kernel.org is useful tool sometimes:
 
-Cheers,
-Samuel
+* About 15 of the ~2225 section entries in Linux's MAINTAINERS file
+  point to bugzilla.kernel.org as the official place to report bugs.
+  from a brief look it seems the developers of those areas take care of
+  issues filed in the bug tracker; sometimes they even file bugs there
+  themselves to keep track of things.
 
-> +	return 0;
-> +}
-> +
-> +static const struct regmap_config sun6i_mipi_csi2_regmap_config = {
-> +	.reg_bits       = 32,
-> +	.reg_stride     = 4,
-> +	.val_bits       = 32,
-> +	.max_register	= 0x400,
-> +};
-> +
-> +static int sun6i_mipi_csi2_probe(struct platform_device *pdev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev;
-> +	struct resource *res;
-> +	void __iomem *io_base;
-> +	int ret;
-> +
-> +	cdev = devm_kzalloc(&pdev->dev, sizeof(*cdev), GFP_KERNEL);
-> +	if (!cdev)
-> +		return -ENOMEM;
-> +
-> +	cdev->dev = &pdev->dev;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	io_base = devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(io_base))
-> +		return PTR_ERR(io_base);
-> +
-> +	cdev->regmap = devm_regmap_init_mmio(&pdev->dev, io_base,
-> +					     &sun6i_mipi_csi2_regmap_config);
-> +	if (IS_ERR(cdev->regmap)) {
-> +		dev_err(&pdev->dev, "failed to init register map\n");
-> +		return PTR_ERR(cdev->regmap);
-> +	}
-> +
-> +	cdev->clk_bus = devm_clk_get(&pdev->dev, "bus");
-> +	if (IS_ERR(cdev->clk_bus)) {
-> +		dev_err(&pdev->dev, "failed to acquire bus clock\n");
-> +		return PTR_ERR(cdev->clk_bus);
-> +	}
-> +
-> +	cdev->clk_mod = devm_clk_get(&pdev->dev, "mod");
-> +	if (IS_ERR(cdev->clk_mod)) {
-> +		dev_err(&pdev->dev, "failed to acquire mod clock\n");
-> +		return PTR_ERR(cdev->clk_mod);
-> +	}
-> +
-> +	cdev->reset = devm_reset_control_get_shared(&pdev->dev, NULL);
-> +	if (IS_ERR(cdev->reset)) {
-> +		dev_err(&pdev->dev, "failed to get reset controller\n");
-> +		return PTR_ERR(cdev->reset);
-> +	}
-> +
-> +	cdev->dphy = devm_phy_get(&pdev->dev, NULL);
-> +	if (IS_ERR(cdev->dphy)) {
-> +		dev_err(&pdev->dev, "failed to get the MIPI D-PHY\n");
-> +		return PTR_ERR(cdev->dphy);
-> +	}
-> +
-> +	ret = phy_init(cdev->dphy);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "failed to initialize the MIPI D-PHY\n");
-> +		return ret;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, cdev);
-> +
-> +	ret = sun6i_mipi_csi2_v4l2_setup(cdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sun6i_mipi_csi2_remove(struct platform_device *pdev)
-> +{
-> +	struct sun6i_mipi_csi2_dev *cdev = platform_get_drvdata(pdev);
-> +
-> +	phy_exit(cdev->dphy);
-> +
-> +	return sun6i_mipi_csi2_v4l2_teardown(cdev);
-> +}
-> +
-> +static const struct dev_pm_ops sun6i_mipi_csi2_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(sun6i_mipi_csi2_suspend, sun6i_mipi_csi2_resume,
-> +			   NULL)
-> +};
-> +
-> +static const struct of_device_id sun6i_mipi_csi2_of_match[] = {
-> +	{ .compatible = "allwinner,sun6i-a31-mipi-csi2" },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, sun6i_mipi_csi2_of_match);
-> +
-> +static struct platform_driver sun6i_mipi_csi2_platform_driver = {
-> +	.probe = sun6i_mipi_csi2_probe,
-> +	.remove = sun6i_mipi_csi2_remove,
-> +	.driver = {
-> +		.name = MODULE_NAME,
-> +		.of_match_table = of_match_ptr(sun6i_mipi_csi2_of_match),
-> +		.pm = &sun6i_mipi_csi2_pm_ops,
-> +	},
-> +};
-> +module_platform_driver(sun6i_mipi_csi2_platform_driver);
-> +
-> +MODULE_DESCRIPTION("Allwinner A31 MIPI CSI-2 Controller Driver");
-> +MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
-> +MODULE_LICENSE("GPL");
-[...]
+* For a few other subsystems the bug tracker also works as intended: the
+  maintainer gets reports and comments by mail. Some act upon those.
+  Gregkh is one of those, who often replies with standard text like "you
+  should report this to your distro" or "Please report this to the
+  following mailing list instead".
+
+* The bug tracker sometimes brings users together: someone files a bug
+  which other users find and join; the users sometimes help each other
+  and occasionally even manage to get the right developers involved,
+  even in cases where those don't get a copy of the report by mail.
+
+* It's a place where users can upload files they don't want or can't
+  send to mailing lists.
+
+The bad
+-------
+
+The list of products and components in bugzilla.kernel.org is widely
+incomplete, outdated in sometimes plain wrong. The same is true for the
+list of default assignees and the email addresses to which newly filed
+reports get send to.
+
+This leads to several problems. To see some of them one needs to look
+closer at the products and components, for example by browsing the web
+(https://bugzilla.kernel.org/describecomponents.cgi) or by using the
+REST interface to get it as JSON
+(https://bugzilla.kernel.org//rest/product?type=accessible [to get the
+email addresses one needs to provide login credentials as well]).
+
+That JSON output will list about 20 products with nearly 200 components.
+
+* The majority of the ~2225 section entries and subsystems listed in
+  the MAINTAINERS file have no corresponding entry in bugzilla, hence
+  it's not a tool to contact the people users need to contact in case
+  of problems.
+
+* About 66 of those ~200 components will assign bugs to email addresses
+  that look valid, but 125 of them end with @kernel-bugs.osdl.org or
+  @kernel-bugs.kernel.org. Those domains do not exist anymore, mails
+  sent there bounce ('Unrouteable address'). It's possible that the
+  server might be rewriting those domain names and nevertheless
+  delivers new reports and comments by mails to some human; but it
+  seems more like they never get mailed to anyone and thus just linger
+  in the database; no wonder quite a few of bugs filed against such
+  components never get a single reply (see below).
+
+The ugly
+--------
+
+Bugzilla.kernel.org might look like the official place to report all
+sorts of kernel bugs, but it was never. That itself would be just bad,
+what makes it ugly is this:
+
+The front page doesn't make this aspect obvious and not even point to
+Documentation/admin-guide/reporting-bugs.rst to help those that want to
+properly report a bug. Only the FAQ mentions it, albeit only indirectly:
+'The subsystem maintainers in kernel tracker are volunteers to help
+track bugs in an area they are interested in. Sometimes they are the
+same person as on kernel.org sometimes they are not. There are still
+some categories with no maintainers so more volunteers are needed.'
+
+It looks like those volunteers were never found; the outdated list of
+components and products (see 'the bad' above) also shows that the
+volunteers seem to not really take care of things.
+
+In the end that's the reasons why quite a few (a lot?) reports never get
+a reply from someone. During a randomly selected 2 week window at the
+end of November 2020(¹) there were 60 public bugs and a bit more than
+half of them by the end of the year never got a single comment by anyone
+except maybe the reporter.
+
+(¹) bugs created between 2020-11-21 and 2020-12-05 23:59:59; that's
+about one week before the merge window of 5.11 started and 2 1/2 weeks
+before Christmas
+
+Who's not to blame
+------------------
+
+For the sake of this commit it's irrelevant at all who's to blame for
+the state of bugzilla.kernel.org; it for sure was set up with good
+intentions, it just didn't work out very well in the end. The situations
+just needs to be improved, ideally quickly; blaming it on someone isn't
+helping at all.
+
+But there is one aspect that should be noted here: The situation can't
+be blamed on the kernel.org admins. They are doing a good job at keeping
+the bugzilla.kernel.org up and the bugzilla codebase up2date. But as
+admins it's not their job to maintain the list of products and
+components.
+
+Why not fix it?
+---------------
+
+It's well known for years now that bugzilla.kernel.org is not working
+that well, but nobody ever stepped up to improve the situation. Maybe
+this commit gets something rolling. If that's the case this change can
+be reverted. For now the change is an improvement that was agreed on
+during the maintainers summit 2017 in a session discussion regression
+tracking (https://lwn.net/Articles/738216/).
+
+Apart from this change there is one more change planned to improve the
+situation with bugzilla.kernel.org: discuss with the admins how to make
+it more obvious to users when to use the bug tracker, and when to avoid
+it; the text that does this will obviously link to
+Documentation/admin-guide/reporting-issues.rst, which is one of the
+reasons why it's designed to be understandable for newcomers.
+
+Where bugzilla.kernel.org still gets mentioned
+==============================================
+
+After this commit, a few places in the kernel's documentation continue
+to mention bugzilla.kernel.org:
+
+* admin-guide/reporting-issues.rst -- it discourages people from filing
+  issues there, but mention it's better to file a bug there than not
+reporting it at all (that part is inspired from a similar section in
+admin-guide/reporting-bugs.rst). The file also mentions the bug tracker
+as a good place to upload big files which should be keep available for
+years (dmesg output, config files, …).
+
+* admin-guide/reporting-bugs.rst -- it still mentions bugzilla in a
+  broader sense a few times. There is also one place where it suggests
+  filing any sort of issues in bugzilla.kernel.org, which will be
+  addresses by a different patch, as it touches another aspect that and
+  thus better discussed separately. The whole file will vanish anyway
+  once Documentation/admin-guide/reporting-issues.rst is considered
+  fully ready.
+
+* admin-guide/cifs/todo.rst -- just mentions it as a place to look for
+  'known bugs', which seems fine, as the CIFS maintainers are among
+  those that seem to keep an eye on bugzilla.kernel.org.
+
+* bpf/bpf_devel_QA.rst -- discourages people from filing issues there.
+
+* process/code-of-conduct-interpretation.rst -- just mentions it as an
+  example for 'bug tracking tools' with isn't particular concerning.
+
+* sound/alsa-configuration.rst and sound/hd-audio/notes.rst -- they
+  mention it as a place to file bugs. Looks like at least some are
+  looked at, thus leave this as it is for now.
+
+* A few translations still mention the bug tracker; they hopefully
+  notice this change and follow suit.
+
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+v1 (RFC): 
+
+- Just sent to a 'small' audience (linux-docs, Jon, Randy, LKML); once
+  it got some comments the plan is to send this to a bigger audience,
+  including Gregkh (who's listed as maintainer for
+  Documentation/process/howto.rst) and ksummit-discuss (which is the
+  best way to contact the core developers; and it's a follow up to a
+  maintainer summit discussion anyway).
+
+Ciao, Thorsten
+
+---
+ Documentation/admin-guide/reporting-bugs.rst  |  7 +++----
+ .../admin-guide/reporting-issues.rst          | 20 -------------------
+ Documentation/process/howto.rst               | 20 +++++++++----------
+ 3 files changed, 13 insertions(+), 34 deletions(-)
+
+diff --git a/Documentation/admin-guide/reporting-bugs.rst b/Documentation/admin-guide/reporting-bugs.rst
+index 409fa91d7495..284de0314b5d 100644
+--- a/Documentation/admin-guide/reporting-bugs.rst
++++ b/Documentation/admin-guide/reporting-bugs.rst
+@@ -48,11 +48,10 @@ Identify who to notify
+ ----------------------
+ 
+ Once you know the subsystem that is causing the issue, you should send a
+-bug report.  Some maintainers prefer bugs to be reported via bugzilla
+-(https://bugzilla.kernel.org), while others prefer that bugs be reported
+-via the subsystem mailing list.
++bug report. Most of the maintainers prefer them to be reported by mail,
++but a few of them rely on bug trackers.
+ 
+-To find out where to send an emailed bug report, find your subsystem or
++To find out where to send or file your bug report, find your subsystem or
+ device driver in the MAINTAINERS file.  Search in the file for relevant
+ entries, and send your bug report to the person(s) listed in the "M:"
+ lines, making sure to Cc the mailing list(s) in the "L:" lines.  When the
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+index 5cbb1b5f4a52..147b9bb7d320 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -526,26 +526,6 @@ example above does not have such a line. That is the case for most sections, as
+ Linux kernel development is completely driven by mail. Very few subsystems use
+ a bug tracker, and only some of those rely on bugzilla.kernel.org.
+ 
+-
+-.. note::
+-
+-   FIXME: The old text took a totally different approach to bugzilla.kernel.org,
+-   as it mentions it as the place to file issue for people that don't known how
+-   to contact the appropriate people. The new one mentions it rarely; and when
+-   it does like here, it warns users that it's often the wrong place to go.
+-
+-   This approach was chosen as the main author of this document noticed quite a
+-   few users (or even a lot?) get no reply to the bugs they file in bugzilla.
+-   That's kind of expected, as quite a few (many? most?) of the maintainers
+-   don't even get notified when reports for their subsystem get filed there. And
+-   not getting a single reply to report is something that is just annoying for
+-   users and might make them angry. Improving bugzilla.k.o would be an option,
+-   but on the kernel and maintainers summit 2017 it was agreed on to first go
+-   this route (sorry it took so long): it's easier to achieve and less
+-   controversial, as putting additional burden on already overworked maintainers
+-   is unlikely to get well received.
+-
+-
+ In this and many other cases you thus have to look for lines starting with
+ 'Mail:' instead. Those mention the name and the email addresses for the
+ maintainers of the particular code. Also look for a line starting with 'Mailing
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 7a5c105e34d4..5fd695a0b363 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -342,16 +342,10 @@ Adventurous testers are very welcome to runtime-test the linux-next.
+ Bug Reporting
+ -------------
+ 
+-https://bugzilla.kernel.org is where the Linux kernel developers track kernel
+-bugs.  Users are encouraged to report all bugs that they find in this
+-tool.  For details on how to use the kernel bugzilla, please see:
+-
+-	https://bugzilla.kernel.org/page.cgi?id=faq.html
+-
+ The file 'Documentation/admin-guide/reporting-issues.rst' in the main kernel
+-source directory has a good template for how to report a possible kernel bug,
+-and details what kind of information is needed by the kernel developers to help
+-track down the problem.
++source directory describes how to report a possible kernel bug, and details
++what kind of information is needed by the kernel developers to help track
++down the problem.
+ 
+ 
+ Managing bug reports
+@@ -364,7 +358,13 @@ improve your skills, and other developers will be aware of your presence.
+ Fixing bugs is one of the best ways to get merits among other developers,
+ because not many people like wasting time fixing other people's bugs.
+ 
+-To work in the already reported bug reports, go to https://bugzilla.kernel.org.
++To work on already reported bug reports, find a subsystem you are interested in
++and check existing reports for one where you want to help. You find such
++reports in the archives of the place where reports for the particular subsystem
++need to be sent to, which is listed in the MAINTAINERS file; often it will be a
++mailing list, rarely a bugtracker. You may also consider checking
++https://bugzilla.kernel.org. Only a handful of kernel subsystems actually use it
++actively, but bugs for other subsystems get filed there nevertheless.
+ 
+ 
+ Mailing lists
+-- 
+2.29.2
+
