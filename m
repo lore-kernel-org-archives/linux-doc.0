@@ -2,111 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22499C433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 08:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F009C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 09:18:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1BB922B4E
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 08:47:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 369E82068D
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 09:18:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728185AbhAKIrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 03:47:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48822 "EHLO
+        id S1727872AbhAKJS1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 04:18:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728100AbhAKIra (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 03:47:30 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC44C061786;
-        Mon, 11 Jan 2021 00:46:49 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id w1so23446517ejf.11;
-        Mon, 11 Jan 2021 00:46:49 -0800 (PST)
+        with ESMTP id S1727739AbhAKJS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 04:18:27 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3C8C061795
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 01:17:46 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id p22so17925946edu.11
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 01:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=YlWsX4vIpjnJ+C3Yar4M2WF0HiBoobe/CVqoUsW6rVo=;
-        b=COw2rqB77zW6ZIOfu7OjUku4N7nfgax8oJ9zq1ttqjWKsRXGjatsHvgc6ObraJj3v6
-         Z+JDkxvucKWw1riQrOqDrq1qyGO8Jj/73spV6l1EgiO1BB54dNqyeFIAC6EY6GRg1/3X
-         77C+7c1DTWy2+5FwfzUB+PCZIv2JhiYxVLrfuTdHhwJ6+c2FNgy0hlzw1fj/Gnf5fiBG
-         QJsNi5alVtS8/6D06g0QFg8P/IvtuxBUhy2FqFS8DSAoyctBr44V8MDp6WFcHVabHeo/
-         RY1AvfGCBzjfJ9ZYX1f7tnOIWUfN0tpnjepI7koTzaoA7D4zIGVObe6zEydk13m8blH4
-         IyqQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LaTp5Y5Nk9Ij1O9UX9G8J8yj5l061X+cBmCeyjMzuRA=;
+        b=PU6XsOP4CHf5LtAxQ7g3G3LuSBk+T0UA4WDm78IqIFTfQfKIEfqgNWPD2e/A+1suzV
+         eiPMsgXjID9Au+GtD6H1EJuTCzVEDd1j4LTCMXtv1ffvplMvFL2Xk/eb1CnYJ5dGJmNL
+         UtZTilH1FjNk5Kq9pvgV0J+PlHannYyo5BLdGLu2cLgx95oH4YM9Xg9HjRYWLk2ldEaH
+         5+YRqNWniOx9ZwxDv4UU97JcWjZzA+pNIBqcbWLzxrLtUc69BEiO6PwxRbBJvJrsFqbK
+         1WHEEbzky03S86d6v+RFmEqDZaRAspY+D9vrVYHC9WOeis/7LRU21haoSX7+n4u263MW
+         X33g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YlWsX4vIpjnJ+C3Yar4M2WF0HiBoobe/CVqoUsW6rVo=;
-        b=mOyYx6W7wQz+6L8tPOATDfv6ZA540lONNcasxXKj0fWW7Y1hTn7vA11xRAvawBp+GD
-         EZVbZ8vCaqqqdwDh6sO1XETvOf5K7zP/rcp4R9lL3+T5sgwzgtxBJmxf6/5mw048Aa4w
-         Qw8OcsQma7ToMHm88bb5Xvkx8XZZgMZ5sG4tLoPWjEl4vaMJMuBCUKoWIFI+bm27k8ep
-         5RHDcm9kaWQkcpH3ZKOm5mpZQRy8GUL17TTLEy9bUX/upHRFVBs+z98kkBf3ObUy3g13
-         7T6+YoimEcdoDBfMsbRF9E5Auwn2Z7+sg5gMPZnDNpchKZVpjB89RQneuAK3ulNPcPPF
-         i4Pw==
-X-Gm-Message-State: AOAM532IuJ7if252H7frEomt+hThDuq6N3DhtObiQtv4AfxltKrFjKk3
-        VgO+K4igHCMk4aqkIlycq2LhU17KR/aMWw==
-X-Google-Smtp-Source: ABdhPJwACYUF7sGeZamayddBFCwllD7sJkbrh/rFulbE6JzAxqy1K0DMg/EsOWVzFKaoobUwwyrblg==
-X-Received: by 2002:a17:907:6e9:: with SMTP id yh9mr9959389ejb.131.1610354808059;
-        Mon, 11 Jan 2021 00:46:48 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d2f:cf00:597a:a5a4:31de:992e])
-        by smtp.gmail.com with ESMTPSA id j7sm6775313ejj.27.2021.01.11.00.46.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 00:46:47 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        Nick Kazlauskas <Nicholas.Kazlauskas@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        amd-gfx@lists.freedesktop.org
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH -next] drm/amd/display: tweak the kerneldoc for active_vblank_irq_count
-Date:   Mon, 11 Jan 2021 09:46:40 +0100
-Message-Id: <20210111084640.28500-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LaTp5Y5Nk9Ij1O9UX9G8J8yj5l061X+cBmCeyjMzuRA=;
+        b=JTo4oPIb2eB5rvwA/7GvMQrvp4XTqxKvcVkyq/Uz1DvKLAQHL1B6i2gQ6XVw/gwjdz
+         MjY/WnnFfoSfarI+mPvF+rqBSXEx7GzlcVQAnGPoBN6OR5Zk5sWWGK924JPO+pYnTDDl
+         mKvC1KWL991pFs6evSFLbLSSjUD1Y0wtfrMveWqy6a/Em9fDuajDwZDYrXVFIZRAK2aH
+         yFAM4DSgRYPjakf9t+4HiAjJaAw7b/V92hFVLOMM96B/1qkwhYZTNDKJPPhozXwBOxXY
+         +BLWaPi9Nh791Kma60YcIOxvudpPL+waqmMUOjj0JRRd1PRd+gSJbDJ0fGts1GYUI82q
+         CAZQ==
+X-Gm-Message-State: AOAM531edo5ndpQe8+Sh6uSjE2BVQots53MP91rovdctBxrzzxGdNnY/
+        bfRaHVWal5cHH6sD+AKv8TONYlcgeX/zW0E0npowUAkwDw==
+X-Google-Smtp-Source: ABdhPJwu4WWPzJvauBgwvH9pXvz7ot5kdqV6CGu1DbAAUcqkkL1pIHhUPUc4xiN2VB4I5oZGx96PyarzTMzq4J5tEvY=
+X-Received: by 2002:a50:a694:: with SMTP id e20mr13412711edc.261.1610356665096;
+ Mon, 11 Jan 2021 01:17:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20210111081821.3041587-1-morbo@google.com> <CA+icZUUUTEdRNbmORy4X=UqMHLMEfD186o2mh23v_mXGBM8Anw@mail.gmail.com>
+In-Reply-To: <CA+icZUUUTEdRNbmORy4X=UqMHLMEfD186o2mh23v_mXGBM8Anw@mail.gmail.com>
+From:   Bill Wendling <morbo@google.com>
+Date:   Mon, 11 Jan 2021 01:17:33 -0800
+Message-ID: <CAGG=3QUHWkuF0Q-=tNO5PztqtxuKYgyQy_EbBLyL0xNQ7TjgoQ@mail.gmail.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 71338cb4a7c2 ("drm/amd/display: enable idle optimizations for linux
-(MALL stutter)") adds active_vblank_irq_count to amdgpu_display_manager
-in ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h.
+On Mon, Jan 11, 2021 at 12:39 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> On Mon, Jan 11, 2021 at 9:18 AM 'Bill Wendling' via Clang Built Linux
+> <clang-built-linux@googlegroups.com> wrote:
+> >
+> > From: Sami Tolvanen <samitolvanen@google.com>
+> >
+> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> > profile, the kernel is instrumented with PGO counters, a representative
+> > workload is run, and the raw profile data is collected from
+> > /sys/kernel/debug/pgo/profraw.
+> >
+> > The raw profile data must be processed by clang's "llvm-profdata" tool before
+> > it can be used during recompilation:
+> >
+> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> >
+> > Multiple raw profiles may be merged during this step.
+> >
+> > The data can be used either by the compiler if LTO isn't enabled:
+> >
+> >     ... -fprofile-use=vmlinux.profdata ...
+> >
+> > or by LLD if LTO is enabled:
+> >
+> >     ... -lto-cs-profile-file=vmlinux.profdata ...
+> >
+> > This initial submission is restricted to x86, as that's the platform we know
+> > works. This restriction can be lifted once other platforms have been verified
+> > to work with PGO.
+> >
+> > Note that this method of profiling the kernel is clang-native and isn't
+> > compatible with clang's gcov support in kernel/gcov.
+> >
+> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> >
+>
+> Hi Bill and Sami,
+>
+> I have seen the pull-request in the CBL issue tracker and had some
+> questions in mind.
+>
+> Good you send this.
+>
+> First of all, I like to fetch any development stuff easily from a Git
+> repository.
 
-The kerneldoc is incorrectly formatted, and make htmldocs warns:
+The version in the pull-request in the CBL issue tracker is roughly
+the same as this patch. (There are some changes, but they aren't
+functionality changes.)
 
-  ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:
-    340: warning: Incorrect use of kernel-doc format:          * @active_vblank_irq_count
-    379: warning: Function parameter or member 'active_vblank_irq_count' not described in 'amdgpu_display_manager'
+> Can you offer this, please?
+> What is the base for your work?
+> I hope this is (fresh released) Linux v5.11-rc3.
+>
+This patch (and the PR on the CBL issue tracker) are from top-of-tree Linux.
 
-Tweak the kerneldoc for active_vblank_irq_count.
+> I myself had some experiences with a PGO + ThinLTO optimized LLVM
+> toolchain built with the help of tc-build.
+> Here it takes very long to build it.
+>
+> This means I have some profile-data archived.
+> Can I use it?
+>
+LLVM is more tolerant of "stale" profile data than gcov, so it's
+possible that your archived profile data would still work, but I can't
+guarantee that it will be better than using new profile data.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies on amdgpu's -next and next-20210111
+> Is an own PGO + ThinLTO optimized LLVM toolchain pre-requirement for
+> this or not?
+> That is one of my important questions.
+>
+Do you mean that the LLVM tools (clang, llc, etc.) are compiled with
+PGO + ThinLTO?
 
-Bhawanpreet, Nick, please review and ack.
-
-Alex, Christian, please pick on top of the commit above.
-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index f084e2fc9569..5ee1b766884e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -337,7 +337,7 @@ struct amdgpu_display_manager {
- 	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
- 
- 	/**
--	 * @active_vblank_irq_count
-+	 * @active_vblank_irq_count:
- 	 *
- 	 * number of currently active vblank irqs
- 	 */
--- 
-2.17.1
-
+-bw
