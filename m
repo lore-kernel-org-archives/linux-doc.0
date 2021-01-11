@@ -2,323 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87FA2C43333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C836AC4321A
 	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 00:28:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6323C22DA9
+	by mail.kernel.org (Postfix) with ESMTP id A53D122D49
 	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 00:28:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390903AbhALA0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S2391794AbhALA0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Mon, 11 Jan 2021 19:26:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403930AbhAKXOQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 18:14:16 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3573FC06179F
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 15:13:36 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id w17so1009808ilj.8
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 15:13:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rrRq5mHSq4NB5JLwy/mYqVFr8iEMeG5LcRfheBfLpZk=;
-        b=ceLOYbplpX8PK8IkU4hodjUkUzzbeQ4iQnbP1dGKtgMR0T23ZDmuTHVbrLybQSpWWQ
-         LhggthDyaxieWogbXE1qAiDh9SBFcR6Nel0lifbe5wG7nU/dS0OgRujyo0rUyU728WoP
-         TDCV8Q4s3AyjyRQBI2bSyEiL88J0kExw0iBWEX3QrxlKa/DMTGedbHZdgUd7D7RHEYJL
-         2mHVXaWjNwhPFvqHl1ZEt0Euc4PC0dVrgdhDebc7wP2BEkCKUdI94q6wlC6EhHwpUcQ3
-         a7s8Gu3NKPIbV38FeEMmCvUMazx26AE917vOKjmWnRrEeeD/3IM0ylTvGQC1G9znqLb9
-         OJ6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rrRq5mHSq4NB5JLwy/mYqVFr8iEMeG5LcRfheBfLpZk=;
-        b=i2F1YWZbRedkyetyn+AGHPuHE0KVgtF3javm21Go9AHrkfHIh2l4nSFtsDA6/P3S9R
-         hHRTrth08zuTgCyx0oZatWJAcwNcGuZW+kU/axPLRaLKgJV3hkSxJIaIuu4Q0uR0S2nG
-         qrUIhIZq8I6M7PR8J4N6jS6gc8okjhovrMpmlA0MmuXf1zZW6JpzBJCPpUQb3clGyvjT
-         jsblfeuv8hNmNR2bfs0vozsgOdlJO/tsAT0dz7Khsa2OBIep+UMVxnblkYxkll6HeeVk
-         Kpi8fxhVivxqDWirwW+zwJ0XOnwyP2dQsqwpBe3li7TdHycVkk4IClZmKXFEhmItO0Uz
-         zY7Q==
-X-Gm-Message-State: AOAM531UIdZ2lw8DYEqZZ4vZQROogJj6zfL5yp063zdW9MGG+VdkYP5q
-        npCHyOCJ73r0ogfa7XZ8jUjSPMVURD8uTg==
-X-Google-Smtp-Source: ABdhPJy24jGvmbWDWgUyA/ln48Z2jWKXj5z5gpXJIpkDApwErfBJmQT+T1aH5HZK+71MhDAVmYie8g==
-X-Received: by 2002:a05:6e02:5d0:: with SMTP id l16mr1343949ils.90.1610406814979;
-        Mon, 11 Jan 2021 15:13:34 -0800 (PST)
-Received: from [192.168.1.93] (pool-71-163-245-5.washdc.fios.verizon.net. [71.163.245.5])
-        by smtp.gmail.com with ESMTPSA id r3sm756226ilt.76.2021.01.11.15.13.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Jan 2021 15:13:32 -0800 (PST)
-Subject: Re: [PATCH 1/6] thermal/core: Remove the 'forced_passive' option
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>, rui.zhang@intel.com
-Cc:     mjg59@codon.org.uk, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, amitk@kernel.org,
+Received: from mga11.intel.com ([192.55.52.93]:39033 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403798AbhAKXKC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 18:10:02 -0500
+IronPort-SDR: qC1aELj2gyhGu/i9CxfUmbUejtQuOj7DK4jBnyhfF0KlAYS7swMbLKRVzr+CftFOvizEFsidyM
+ zxfxk1dV1+eQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="174441940"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="174441940"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 15:09:21 -0800
+IronPort-SDR: 03gtsdKQMl7/Ci6SQ2nPH6H+l81KnWZEJl/l4Hwg+8Psk5ygcnq5dCSVulJdv9ncXRgZbYB9pQ
+ QkYlEnicI7ng==
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="381184164"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 15:09:20 -0800
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20201214233811.485669-1-daniel.lezcano@linaro.org>
-From:   Thara Gopinath <thara.gopinath@linaro.org>
-Message-ID: <314b70a1-8c39-bd2c-cba8-937657658930@linaro.org>
-Date:   Mon, 11 Jan 2021 18:13:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and setup functions
+Date:   Mon, 11 Jan 2021 15:09:00 -0800
+Message-Id: <20210111230900.5916-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20201229213053.16395-5-yu-cheng.yu@intel.com>
+References: <20201229213053.16395-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201214233811.485669-1-daniel.lezcano@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Introduce a software-defined X86_FEATURE_CET, which indicates either Shadow
+Stack or Indirect Branch Tracking (or both) is present.  Also introduce
+related cpu init/setup functions.
 
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+---
+ arch/x86/include/asm/cpufeatures.h          |  2 +-
+ arch/x86/include/asm/disabled-features.h    |  5 ++++-
+ arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+ arch/x86/kernel/cpu/common.c                | 19 +++++++++++++++++++
+ arch/x86/kernel/cpu/intel.c                 |  3 +++
+ 5 files changed, 29 insertions(+), 2 deletions(-)
 
-On 12/14/20 6:38 PM, Daniel Lezcano wrote:
-> The code was reorganized in 2012 with the commit 0c01ebbfd3caf1.
-> 
-> The main change is a loop on the trip points array and a unconditional
-> call to the throttle() ops of the governors for each of them even if
-> the trip temperature is not reached yet.
-> 
-> With this change, the 'forced_passive' is no longer checked in the
-> thermal_zone_device_update() function but in the step wise governor's
-> throttle() callback.
-> 
-> As the force_passive does no belong to the trip point array, the
-> thermal_zone_device_update() can not compare with the specified
-> passive temperature, thus does not detect the passive limit has been
-> crossed. Consequently, throttle() is never called and the
-> 'forced_passive' branch is unreached.
-> 
-> In addition, the default processor cooling device is not automatically
-> bound to the thermal zone if there is not passive trip point, thus the
-> 'forced_passive' can not operate.
-> 
-> If there is an active trip point, then the throttle function will be
-> called to mitigate at this temperature and the 'forced_passive' will
-> override the mitigation of the active trip point in this case but with
-> the default cooling device bound to the thermal zone, so usually a
-> fan, and that is not a passive cooling effect.
-> 
-> Given the regression exists since more than 8 years, nobody complained
-> and at the best of my knowledge there is no bug open in
-> https://bugzilla.kernel.org, it is reasonable to say it is unused.
-> 
-> Remove the 'forced_passive' related code.
-> 
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-
-Reviewed-by: Thara Gopinath <thara.gopinath@linaro.org>
-
-> ---
->   .../driver-api/thermal/sysfs-api.rst          | 13 ---
->   drivers/thermal/gov_step_wise.c               | 14 +---
->   drivers/thermal/thermal_sysfs.c               | 80 -------------------
->   include/linux/thermal.h                       |  4 -
->   4 files changed, 3 insertions(+), 108 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-> index e7520cb439ac..a4969c474cc3 100644
-> --- a/Documentation/driver-api/thermal/sysfs-api.rst
-> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
-> @@ -520,19 +520,6 @@ available_policies
->   
->   	RW, Optional
->   
-> -passive
-> -	Attribute is only present for zones in which the passive cooling
-> -	policy is not supported by native thermal driver. Default is zero
-> -	and can be set to a temperature (in millidegrees) to enable a
-> -	passive trip point for the zone. Activation is done by polling with
-> -	an interval of 1 second.
-> -
-> -	Unit: millidegrees Celsius
-> -
-> -	Valid values: 0 (disabled) or greater than 1000
-> -
-> -	RW, Optional
-> -
->   emul_temp
->   	Interface to set the emulated temperature method in thermal zone
->   	(sensor). After setting this temperature, the thermal zone may pass
-> diff --git a/drivers/thermal/gov_step_wise.c b/drivers/thermal/gov_step_wise.c
-> index 2ae7198d3067..12acb12aac50 100644
-> --- a/drivers/thermal/gov_step_wise.c
-> +++ b/drivers/thermal/gov_step_wise.c
-> @@ -109,7 +109,7 @@ static void update_passive_instance(struct thermal_zone_device *tz,
->   	 * If value is +1, activate a passive instance.
->   	 * If value is -1, deactivate a passive instance.
->   	 */
-> -	if (type == THERMAL_TRIP_PASSIVE || type == THERMAL_TRIPS_NONE)
-> +	if (type == THERMAL_TRIP_PASSIVE)
->   		tz->passive += value;
->   }
->   
-> @@ -122,13 +122,8 @@ static void thermal_zone_trip_update(struct thermal_zone_device *tz, int trip)
->   	bool throttle = false;
->   	int old_target;
->   
-> -	if (trip == THERMAL_TRIPS_NONE) {
-> -		trip_temp = tz->forced_passive;
-> -		trip_type = THERMAL_TRIPS_NONE;
-> -	} else {
-> -		tz->ops->get_trip_temp(tz, trip, &trip_temp);
-> -		tz->ops->get_trip_type(tz, trip, &trip_type);
-> -	}
-> +	tz->ops->get_trip_temp(tz, trip, &trip_temp);
-> +	tz->ops->get_trip_type(tz, trip, &trip_type);
->   
->   	trend = get_tz_trend(tz, trip);
->   
-> @@ -189,9 +184,6 @@ static int step_wise_throttle(struct thermal_zone_device *tz, int trip)
->   
->   	thermal_zone_trip_update(tz, trip);
->   
-> -	if (tz->forced_passive)
-> -		thermal_zone_trip_update(tz, THERMAL_TRIPS_NONE);
-> -
->   	mutex_lock(&tz->lock);
->   
->   	list_for_each_entry(instance, &tz->thermal_instances, tz_node)
-> diff --git a/drivers/thermal/thermal_sysfs.c b/drivers/thermal/thermal_sysfs.c
-> index 0866e949339b..4e7f9e880d76 100644
-> --- a/drivers/thermal/thermal_sysfs.c
-> +++ b/drivers/thermal/thermal_sysfs.c
-> @@ -216,49 +216,6 @@ trip_point_hyst_show(struct device *dev, struct device_attribute *attr,
->   	return ret ? ret : sprintf(buf, "%d\n", temperature);
->   }
->   
-> -static ssize_t
-> -passive_store(struct device *dev, struct device_attribute *attr,
-> -	      const char *buf, size_t count)
-> -{
-> -	struct thermal_zone_device *tz = to_thermal_zone(dev);
-> -	int state;
-> -
-> -	if (sscanf(buf, "%d\n", &state) != 1)
-> -		return -EINVAL;
-> -
-> -	/* sanity check: values below 1000 millicelcius don't make sense
-> -	 * and can cause the system to go into a thermal heart attack
-> -	 */
-> -	if (state && state < 1000)
-> -		return -EINVAL;
-> -
-> -	if (state && !tz->forced_passive) {
-> -		if (!tz->passive_delay)
-> -			tz->passive_delay = 1000;
-> -		thermal_zone_device_rebind_exception(tz, "Processor",
-> -						     sizeof("Processor"));
-> -	} else if (!state && tz->forced_passive) {
-> -		tz->passive_delay = 0;
-> -		thermal_zone_device_unbind_exception(tz, "Processor",
-> -						     sizeof("Processor"));
-> -	}
-> -
-> -	tz->forced_passive = state;
-> -
-> -	thermal_zone_device_update(tz, THERMAL_EVENT_UNSPECIFIED);
-> -
-> -	return count;
-> -}
-> -
-> -static ssize_t
-> -passive_show(struct device *dev, struct device_attribute *attr,
-> -	     char *buf)
-> -{
-> -	struct thermal_zone_device *tz = to_thermal_zone(dev);
-> -
-> -	return sprintf(buf, "%d\n", tz->forced_passive);
-> -}
-> -
->   static ssize_t
->   policy_store(struct device *dev, struct device_attribute *attr,
->   	     const char *buf, size_t count)
-> @@ -403,7 +360,6 @@ static DEVICE_ATTR_RW(sustainable_power);
->   
->   /* These thermal zone device attributes are created based on conditions */
->   static DEVICE_ATTR_RW(mode);
-> -static DEVICE_ATTR_RW(passive);
->   
->   /* These attributes are unconditionally added to a thermal zone */
->   static struct attribute *thermal_zone_dev_attrs[] = {
-> @@ -438,45 +394,9 @@ static const struct attribute_group thermal_zone_mode_attribute_group = {
->   	.attrs = thermal_zone_mode_attrs,
->   };
->   
-> -/* We expose passive only if passive trips are present */
-> -static struct attribute *thermal_zone_passive_attrs[] = {
-> -	&dev_attr_passive.attr,
-> -	NULL,
-> -};
-> -
-> -static umode_t thermal_zone_passive_is_visible(struct kobject *kobj,
-> -					       struct attribute *attr,
-> -					       int attrno)
-> -{
-> -	struct device *dev = kobj_to_dev(kobj);
-> -	struct thermal_zone_device *tz;
-> -	enum thermal_trip_type trip_type;
-> -	int count, passive = 0;
-> -
-> -	tz = container_of(dev, struct thermal_zone_device, device);
-> -
-> -	for (count = 0; count < tz->trips && !passive; count++) {
-> -		tz->ops->get_trip_type(tz, count, &trip_type);
-> -
-> -		if (trip_type == THERMAL_TRIP_PASSIVE)
-> -			passive = 1;
-> -	}
-> -
-> -	if (!passive)
-> -		return attr->mode;
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct attribute_group thermal_zone_passive_attribute_group = {
-> -	.attrs = thermal_zone_passive_attrs,
-> -	.is_visible = thermal_zone_passive_is_visible,
-> -};
-> -
->   static const struct attribute_group *thermal_zone_attribute_groups[] = {
->   	&thermal_zone_attribute_group,
->   	&thermal_zone_mode_attribute_group,
-> -	&thermal_zone_passive_attribute_group,
->   	/* This is not NULL terminated as we create the group dynamically */
->   };
->   
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index c80032322158..a57232a9a6f9 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -131,9 +131,6 @@ struct thermal_cooling_device {
->   			trip point.
->    * @prev_high_trip:	the above current temperature if you've crossed a
->   			passive trip point.
-> - * @forced_passive:	If > 0, temperature at which to switch on all ACPI
-> - *			processor cooling devices.  Currently only used by the
-> - *			step-wise governor.
->    * @need_update:	if equals 1, thermal_zone_device_update needs to be invoked.
->    * @ops:	operations this &thermal_zone_device supports
->    * @tzp:	thermal zone parameters
-> @@ -167,7 +164,6 @@ struct thermal_zone_device {
->   	int passive;
->   	int prev_low_trip;
->   	int prev_high_trip;
-> -	unsigned int forced_passive;
->   	atomic_t need_update;
->   	struct thermal_zone_device_ops *ops;
->   	struct thermal_zone_params *tzp;
-> 
-
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 292fe87b26b3..d1866659edbd 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -108,7 +108,7 @@
+ #define X86_FEATURE_EXTD_APICID		( 3*32+26) /* Extended APICID (8 bits) */
+ #define X86_FEATURE_AMD_DCM		( 3*32+27) /* AMD multi-node processor */
+ #define X86_FEATURE_APERFMPERF		( 3*32+28) /* P-State hardware coordination feedback capability (APERF/MPERF MSRs) */
+-/* free					( 3*32+29) */
++#define X86_FEATURE_CET			( 3*32+29) /* Control-flow enforcement */
+ #define X86_FEATURE_NONSTOP_TSC_S3	( 3*32+30) /* TSC doesn't stop in S3 state */
+ #define X86_FEATURE_TSC_KNOWN_FREQ	( 3*32+31) /* TSC has known frequency */
+ 
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index 4d3b7ce509e5..86ac4a1c6d81 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -71,9 +71,11 @@
+ #ifdef CONFIG_X86_CET_USER
+ #define DISABLE_SHSTK	0
+ #define DISABLE_IBT	0
++#define DISABLE_CET	0
+ #else
+ #define DISABLE_SHSTK	(1 << (X86_FEATURE_SHSTK & 31))
+ #define DISABLE_IBT	(1 << (X86_FEATURE_IBT & 31))
++#define DISABLE_CET	(1 << (X86_FEATURE_CET & 31))
+ #endif
+ 
+ /*
+@@ -82,7 +84,8 @@
+ #define DISABLED_MASK0	(DISABLE_VME)
+ #define DISABLED_MASK1	0
+ #define DISABLED_MASK2	0
+-#define DISABLED_MASK3	(DISABLE_CYRIX_ARR|DISABLE_CENTAUR_MCR|DISABLE_K6_MTRR)
++#define DISABLED_MASK3	(DISABLE_CYRIX_ARR|DISABLE_CENTAUR_MCR|DISABLE_K6_MTRR| \
++			 DISABLE_CET)
+ #define DISABLED_MASK4	(DISABLE_PCID)
+ #define DISABLED_MASK5	0
+ #define DISABLED_MASK6	0
+diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+index bcba3c643e63..a8df907e8017 100644
+--- a/arch/x86/include/uapi/asm/processor-flags.h
++++ b/arch/x86/include/uapi/asm/processor-flags.h
+@@ -130,6 +130,8 @@
+ #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
+ #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
+ #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
++#define X86_CR4_CET_BIT		23 /* enable Control-flow Enforcement */
++#define X86_CR4_CET		_BITUL(X86_CR4_CET_BIT)
+ 
+ /*
+  * x86-64 Task Priority Register, CR8
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 35ad8480c464..954f92ef7bc1 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -510,6 +510,14 @@ static __init int setup_disable_pku(char *arg)
+ __setup("nopku", setup_disable_pku);
+ #endif /* CONFIG_X86_64 */
+ 
++static __always_inline void setup_cet(struct cpuinfo_x86 *c)
++{
++	if (!cpu_feature_enabled(X86_FEATURE_CET))
++		return;
++
++	cr4_set_bits(X86_CR4_CET);
++}
++
+ /*
+  * Some CPU features depend on higher CPUID levels, which may not always
+  * be available due to CPUID level capping or broken virtualization
+@@ -1252,6 +1260,16 @@ static void __init cpu_parse_early_param(void)
+ 	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
+ 		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
+ 
++	/*
++	 * CET states are XSAVES states and options must be parsed early.
++	 */
++#ifdef CONFIG_X86_CET_USER
++	if (cmdline_find_option_bool(boot_command_line, "no_user_shstk"))
++		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
++	if (cmdline_find_option_bool(boot_command_line, "no_user_ibt"))
++		setup_clear_cpu_cap(X86_FEATURE_IBT);
++#endif
++
+ 	arglen = cmdline_find_option(boot_command_line, "clearcpuid", arg, sizeof(arg));
+ 	if (arglen <= 0)
+ 		return;
+@@ -1591,6 +1609,7 @@ static void identify_cpu(struct cpuinfo_x86 *c)
+ 
+ 	x86_init_rdrand(c);
+ 	setup_pku(c);
++	setup_cet(c);
+ 
+ 	/*
+ 	 * Clear/Set all flags overridden by options, need do it
+diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
+index 59a1e3ce3f14..1784b9f95239 100644
+--- a/arch/x86/kernel/cpu/intel.c
++++ b/arch/x86/kernel/cpu/intel.c
+@@ -333,6 +333,9 @@ static void early_init_intel(struct cpuinfo_x86 *c)
+ 
+ static void bsp_init_intel(struct cpuinfo_x86 *c)
+ {
++	if (cpu_has(c, X86_FEATURE_SHSTK) || cpu_has(c, X86_FEATURE_IBT))
++		setup_force_cpu_cap(X86_FEATURE_CET);
++
+ 	resctrl_cpu_detect(c);
+ }
+ 
 -- 
-Warm Regards
-Thara
+2.21.0
+
