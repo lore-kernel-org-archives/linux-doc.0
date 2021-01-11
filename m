@@ -2,114 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75ABC433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 10:29:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B09C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 10:34:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 882B922581
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 10:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43FA120735
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 10:34:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729155AbhAKK3R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 05:29:17 -0500
-Received: from mga05.intel.com ([192.55.52.43]:14253 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728762AbhAKK3R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Jan 2021 05:29:17 -0500
-IronPort-SDR: n5t3IywvKyNuJS/HVl21Q1ULdCGulutDN2twgTc+O0NASA/3MDiZry365MC1Vsg4H2o28RERI0
- 0wT1UD5/axJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9860"; a="262618129"
-X-IronPort-AV: E=Sophos;i="5.79,338,1602572400"; 
-   d="scan'208";a="262618129"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 02:28:32 -0800
-IronPort-SDR: 5MzC5HhH255GOVkG6N4933OfzmRqUt6c+42gYGNb3SJikDLDRzhfQ2OWfsTarTtSk3m7l2hTrx
- jqlyJ1kpTimw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,338,1602572400"; 
-   d="scan'208";a="464119262"
-Received: from ahunter-desktop.fi.intel.com (HELO [10.237.72.149]) ([10.237.72.149])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2021 02:28:29 -0800
-Subject: Re: [PATCH -next] scsi: docs: ABI: sysfs-driver-ufs: rectify table
- formatting
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210111102212.19377-1-lukas.bulwahn@gmail.com>
-From:   Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: PL 281, 00181 Helsinki,
- Business Identity Code: 0357606 - 4, Domiciled in Helsinki
-Message-ID: <25616ec5-3c90-2548-8516-599a73cc986b@intel.com>
-Date:   Mon, 11 Jan 2021 12:28:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728991AbhAKKeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 05:34:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728879AbhAKKeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 05:34:24 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C04FC061786;
+        Mon, 11 Jan 2021 02:33:43 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id q75so14557287wme.2;
+        Mon, 11 Jan 2021 02:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dbrLZ8WTPGAsZD8pPmORFSKZzWFo2KyWvC0I69a1emQ=;
+        b=EyOyI0s/8D+ZLv06FszNdfopdBXggLn3Y/dr/1cRwETBupnBanwuop+Jn1CR2HJgyC
+         d2xjycfQliepqcxXV4j4/An2pniJBwxco5ts5eJ7gx45cf4/yafZEkXSUZB6K8MDn8Nr
+         P16S0c3Z9QnG4CAvRpXIw4Axfn315lTHcNd7wLifNy0CfJMQDSGbTJUYsptzPqHFsggu
+         1aHdMtAi95Rmx6V7H7lHmVAt7dmYLoU5GbuvIUKXpvrmq1Y+0He/jdnVkAJG3EwLOFGL
+         /kFqaCqgJMYJXnda8L1XAV76N0DpTOpI/MprnknkqMbuPrxhGI7li8kjmTGS8dhrBh0H
+         ZE+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dbrLZ8WTPGAsZD8pPmORFSKZzWFo2KyWvC0I69a1emQ=;
+        b=g/SZ1TH8B8+UIfaMrzsjdza+lhlnPp8g5WzzuBejailmnJ/bA2+0lA52LWDCz7QMl5
+         73jwrujKlmJUE0FUSXCHnAzEb9O6Xik0rOk8lIBtUjmUxZkccGbOioPdI2D05q6x10dh
+         o8RHJ00L8wY+nFpOZVAuMNcysg4N1p9u39OBwU+rNL0q3ycvXzTwzOOfpyjoHa8i7qhi
+         9OrUjbiRAR/7YxogiP34iXCNn6B51KmtzKxgK2Zt/m6S5jD/So5TXRcQDAiiRpWStO7Q
+         Z8pZ/y8BnKFVpaLyB/qXCUZ0fqoVkOY4hLwcOxzG+0nVl5saUN72YMXZRn74lyGUiz6Q
+         FhsA==
+X-Gm-Message-State: AOAM530S9rlQd4QNHdtSRUySsRADaSP5a73GiW1SiOIQNs/B+w0FaHP4
+        bQyofNiOtBl2YL5PWooP08qdHn0ctWhZAw==
+X-Google-Smtp-Source: ABdhPJy3H4vUmZKPaaxnih+V4jvjXFzRweyPsPK2cKyeDQrImEQ+BTO1sjnbvHX1rSQmBbdfGmp2WQ==
+X-Received: by 2002:a05:600c:224b:: with SMTP id a11mr13949574wmm.97.1610361222248;
+        Mon, 11 Jan 2021 02:33:42 -0800 (PST)
+Received: from localhost.localdomain (242.23.159.143.dyn.plus.net. [143.159.23.242])
+        by smtp.gmail.com with ESMTPSA id u3sm26256808wre.54.2021.01.11.02.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 02:33:41 -0800 (PST)
+From:   Joe Pater <02joepater06@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Joe Pater <02joepater06@gmail.com>
+Subject: [PATCH] Documentation: kernel-hacking: change 'current()' to 'current'
+Date:   Mon, 11 Jan 2021 10:32:41 +0000
+Message-Id: <20210111103240.7445-1-02joepater06@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210111102212.19377-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/01/21 12:22 pm, Lukas Bulwahn wrote:
-> Commit 0b2894cd0fdf ("scsi: docs: ABI: sysfs-driver-ufs: Add DeepSleep
-> power mode") adds new entries in tables of sysfs-driver-ufs ABI
-> documentation, but formatted the table incorrectly.
-> 
-> Hence, make htmldocs warns:
-> 
->   ./Documentation/ABI/testing/sysfs-driver-ufs:{915,956}:
->   WARNING: Malformed table. Text in column margin in table line 15.
-> 
-> Rectify table formatting for DeepSleep power mode.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Change 'current()' heading to 'current' to reflect usage.
 
-Acked-by: Adrian Hunter <adrian.hunter@intel.com>
+Signed-off-by: Joe Pater <02joepater06@gmail.com>
+---
+ Documentation/kernel-hacking/hacking.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you!
+diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+index eed2136d847f..451523424942 100644
+--- a/Documentation/kernel-hacking/hacking.rst
++++ b/Documentation/kernel-hacking/hacking.rst
+@@ -346,8 +346,8 @@ routine.
+ Before inventing your own cache of often-used objects consider using a
+ slab cache in ``include/linux/slab.h``
+ 
+-:c:func:`current()`
+--------------------
++:c:macro:`current`
++------------------
+ 
+ Defined in ``include/asm/current.h``
+ 
 
-> ---
-> Adrian, please ack.
-> 
-> Martin, please pick on your scsi-next tree.
-> 
->  Documentation/ABI/testing/sysfs-driver-ufs | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-ufs b/Documentation/ABI/testing/sysfs-driver-ufs
-> index e77fa784d6d8..75ccc5c62b3c 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-ufs
-> +++ b/Documentation/ABI/testing/sysfs-driver-ufs
-> @@ -932,8 +932,9 @@ Description:	This entry could be used to set or show the UFS device
->  		5   UFS device will be powered off, UIC link will
->  		    be powered off
->  		6   UFS device will be moved to deep sleep, UIC link
-> -		will be powered off. Note, deep sleep might not be
-> -		supported in which case this value will not be accepted
-> +		    will be powered off. Note, deep sleep might not be
-> +		    supported in which case this value will not be
-> +		    accepted
->  		==  ====================================================
->  
->  What:		/sys/bus/platform/drivers/ufshcd/*/rpm_target_dev_state
-> @@ -973,8 +974,9 @@ Description:	This entry could be used to set or show the UFS device
->  		5   UFS device will be powered off, UIC link will
->  		    be powered off
->  		6   UFS device will be moved to deep sleep, UIC link
-> -		will be powered off. Note, deep sleep might not be
-> -		supported in which case this value will not be accepted
-> +		    will be powered off. Note, deep sleep might not be
-> +		    supported in which case this value will not be
-> +		    accepted
->  		==  ====================================================
->  
->  What:		/sys/bus/platform/drivers/ufshcd/*/spm_target_dev_state
-> 
+base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+-- 
+2.29.2
 
