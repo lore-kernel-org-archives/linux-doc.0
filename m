@@ -2,116 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 667BFC433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:17:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE56C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:22:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D7C9225AB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:17:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4551822C7E
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:22:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390245AbhAKSRj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 13:17:39 -0500
-Received: from mga09.intel.com ([134.134.136.24]:42548 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389966AbhAKSRj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Jan 2021 13:17:39 -0500
-IronPort-SDR: 03tw9AhqhAQ3qXl9/36Ko0lpUhQPH8X4EnJpYND/IQoY6chdDBgclgo5oK2P/uV9xyqxLvETXt
- 6/JsYEXk9H3Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="178058948"
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
-   d="scan'208";a="178058948"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 10:15:53 -0800
-IronPort-SDR: HstuQOBFjueT/RCEbswKktk8XpQMzyI11ZnZQbhOMwKZvBDadOmvJxhX2qHMWh7TvRUAxfQtfn
- VEyNg38hikQw==
-X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
-   d="scan'208";a="399891728"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 10:15:52 -0800
-Date:   Mon, 11 Jan 2021 10:16:59 -0800 (PST)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Moritz Fischer <mdf@kernel.org>
-cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wu Hao <hao.wu@intel.com>, linux-fpga@vger.kernel.org,
-        Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] fpga: dfl-pci: rectify ReST formatting
-In-Reply-To: <X/x07V2WqhmkIMcr@archbook>
-Message-ID: <alpine.DEB.2.22.394.2101111016480.2457315@rhweight-WRK1>
-References: <20210111112113.27242-1-lukas.bulwahn@gmail.com> <X/x07V2WqhmkIMcr@archbook>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S2390372AbhAKSWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 13:22:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390368AbhAKSWN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:22:13 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0871C06179F
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 10:21:32 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id w1so953846ejf.11
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 10:21:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CFJgcUraVYnAcRA/EQl4N4cPutZjWeez3ie/8dOk8uQ=;
+        b=gPztFvge6sLDP2oMhZwGOuEQ0X/dCjbBTq3szIS/EPuYNDe580jPSK55z7yN65wf/h
+         agTKvULIOqKZSJ41XSZXtCnlye6Toa2ZjZ5JbBu0oVC2ml/8DldDzkGsmheT3FMllKRq
+         BXaDr8EVkhoJnf0nJvtVeL7je6zjHeLvL36OU7hr55cvrPVLdmD9QU6lKkW9Q1oS3c11
+         BKxBVrs1vs125kKlQpW2AWIMXSGq+1V5N/QvuzxpgfYwYKHetWIzzItEgYEhuiuewWxK
+         b0JP814MMhT6jv4vxGLQpDX/REnsImQR7Vi9r+j+TnTTBtA1LXl7ImVA/XzEn/iBaPoJ
+         OnfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CFJgcUraVYnAcRA/EQl4N4cPutZjWeez3ie/8dOk8uQ=;
+        b=Sp7J+IipK9UEP/eer8m/BX6DurNBu08rGruDMEYbF3TEnKuRiyJpqZQGBGD/riPReU
+         XvPwtlzEy2LLf/cj/QZjdD8esRVyfyuFynXwX5ToYOKsGTZTFL3AQPojvHcQ+7wYEfbw
+         JVsL/kaKTp7CbUPohLX668nmaTe/g1sUhuFY09g1vjzl6i5GnjzO+M3N3tICWCQO623W
+         zP9Xt/WqWeGXeLKEhOrUYD8OtfES4mnp2UY6nopYCoNkEQ2mler6Wm1UDCXBLPzq0gAQ
+         mdlGFXFSu8NZHt+W0ILWbOQTIw/xxGYYHCEVlAo4h44c4hGzhLPvAHkhDNcn1Tdd0Ba+
+         sgRQ==
+X-Gm-Message-State: AOAM532gvfqtqWfmE+M7G7DQPa3//+FegaQexoHGSB81edh5QNyl8S5R
+        CqHWjT3iNpNYrrWD71snh3z8CPljem8OPSs20u1XFQ==
+X-Google-Smtp-Source: ABdhPJwom3REW4DvPvDU76P3UdiKeANy+VtFakYT/UiUi/Jb4v5N0QsFQet4UQhvnePRkm+//d0FlWxlr142J0dAjGo=
+X-Received: by 2002:a17:906:8051:: with SMTP id x17mr497930ejw.430.1610389291321;
+ Mon, 11 Jan 2021 10:21:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com> <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 11 Jan 2021 15:21:19 -0300
+Message-ID: <CAAEAJfAJYCE2z662hPderJ-5Qv3WBA8K5ZQaZ1JuZbZN+KfFig@mail.gmail.com>
+Subject: Re: [linux-sunxi] [PATCH v4 09/15] media: sunxi: Add support for the
+ A31 MIPI CSI-2 controller
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Salut Paul,
 
+Just a minor comment about the v4l2 async API.
 
-On Mon, 11 Jan 2021, Moritz Fischer wrote:
+On Thu, 31 Dec 2020 at 11:30, Paul Kocialkowski
+<paul.kocialkowski@bootlin.com> wrote:
+>
+> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
+> found on Allwinner SoCs such as the A31 and V3/V3s.
+>
+> It is a standalone block, connected to the CSI controller on one side
+> and to the MIPI D-PHY block on the other. It has a dedicated address
+> space, interrupt line and clock.
+>
+> It is represented as a V4L2 subdev to the CSI controller and takes a
+> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
+> media controller API.
+>
+> Only 8-bit and 10-bit Bayer formats are currently supported.
+> While up to 4 internal channels to the CSI controller exist, only one
+> is currently supported by this implementation.
+>
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/platform/sunxi/Kconfig          |   1 +
+>  drivers/media/platform/sunxi/Makefile         |   1 +
+>  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
+>  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 590 ++++++++++++++++++
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
+>  6 files changed, 725 insertions(+)
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+>
+[..]
+> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
+> +{
+> +       struct sun6i_mipi_csi2_video *video = &cdev->video;
+> +       struct v4l2_subdev *subdev = &video->subdev;
+> +       struct v4l2_async_notifier *notifier = &video->notifier;
+> +       struct fwnode_handle *handle;
+> +       struct v4l2_fwnode_endpoint *endpoint;
+> +       struct v4l2_async_subdev *subdev_async;
+> +       int ret;
+> +
+> +       /* Subdev */
+> +
+> +       v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> +       subdev->dev = cdev->dev;
+> +       subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +       strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
+> +       v4l2_set_subdevdata(subdev, cdev);
+> +
+> +       /* Entity */
+> +
+> +       subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +       subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
+> +
+> +       /* Pads */
+> +
+> +       video->pads[0].flags = MEDIA_PAD_FL_SINK;
+> +       video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +       ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
+> +       if (ret)
+> +               return ret;
+> +
+> +       /* Endpoint */
+> +
+> +       handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
+> +                                                FWNODE_GRAPH_ENDPOINT_NEXT);
+> +       if (!handle) {
+> +               ret = -ENODEV;
+> +               goto error_media_entity;
+> +       }
+> +
+> +       endpoint = &video->endpoint;
+> +       endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
+> +
+> +       ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
+> +       fwnode_handle_put(handle);
 
-> Hi Lukas,
->
-> On Mon, Jan 11, 2021 at 12:21:13PM +0100, Lukas Bulwahn wrote:
->> Commit fa41d10589be ("fpga: dfl-pci: locate DFLs by PCIe vendor specific
->> capability") provides documentation to the FPGA Device Feature List (DFL)
-> Nit: Do you want to make this a Fixes: tag instead?
->> Framework Overview, but introduced new documentation warnings:
->>
->>   ./Documentation/fpga/dfl.rst:
->>     505: WARNING: Title underline too short.
->>     523: WARNING: Unexpected indentation.
->>     523: WARNING: Blank line required after table.
->>     524: WARNING: Block quote ends without a blank line; unexpected unindent.
->>
->> Rectify ReST formatting in ./Documentation/fpga/dfl.rst.
->>
->> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Acked-by: Moritz Fischer <mdf@kernel.org>
-Acked-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> ---
->> applies cleanly on next-20210111
->>
->> Moritz, Matthew, please ack.
->>
->> Greg, please pick this doc fixup to your fpga -next tree on top of
->> the commit above.
->>
->>  Documentation/fpga/dfl.rst | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
->> index ea8cefc18bdb..c41ac76ffaae 100644
->> --- a/Documentation/fpga/dfl.rst
->> +++ b/Documentation/fpga/dfl.rst
->> @@ -502,7 +502,7 @@ FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
->>  could be a reference.
->>
->>  Location of DFLs on a PCI Device
->> -===========================
->> +================================
->>  The original method for finding a DFL on a PCI device assumed the start of the
->>  first DFL to offset 0 of bar 0.  If the first node of the DFL is an FME,
->>  then further DFLs in the port(s) are specified in FME header registers.
->> @@ -514,6 +514,7 @@ data begins with a 4 byte vendor specific register for the number of DFLs follow
->>  Offset/BIR vendor specific registers for each DFL. Bits 2:0 of Offset/BIR register
->>  indicates the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
->>  zero.
->> +::
->>
->>          +----------------------------+
->>          |31     Number of DFLS      0|
->> --
->> 2.17.1
->>
->
-> Thanks for doing this, I was about to send that same patch myself.
->
-> - Moritz
->
+I think the _put should be...
+
+> +       if (ret)
+> +               goto error_media_entity;
+> +
+> +       /* Notifier */
+> +
+> +       v4l2_async_notifier_init(notifier);
+> +
+> +       subdev_async = &video->subdev_async;
+> +       ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
+> +                                                          subdev_async);
+
+... here. See for instance drivers/media/platform/rcar-vin/rcar-csi2.c.
+
+(Unless I've missed something, of course).
+
+Cheers,
+Ezequiel
