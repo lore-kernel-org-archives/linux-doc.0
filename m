@@ -2,101 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63441C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 13:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3793AC43381
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 13:58:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4788022203
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 13:41:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04CD122482
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 13:58:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733246AbhAKNle (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 08:41:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47962 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733235AbhAKNlb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Jan 2021 08:41:31 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9137D221FD;
-        Mon, 11 Jan 2021 13:40:50 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1kyxRA-006gvt-Gn; Mon, 11 Jan 2021 13:40:48 +0000
+        id S2388101AbhAKN6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 08:58:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388097AbhAKN6E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 08:58:04 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9670EC061786
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 05:57:17 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id x16so24829795ejj.7
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 05:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura-hr.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VMiB/LmxKvao5gWQXAQVDppdL6DxCPyCpBp5kNdzT1c=;
+        b=lBWNN2ux+2kukuAXA05YCcGPqggGYffm32fLEq36e+lNmfLFoV4YaMYwCAYUukCXGJ
+         naKsUz7UjWeDhc+pPAlKEOcxjR9mye+kAeHTfmhUzjX8NJSQy5/sj1F16Lg5mGqcRCIu
+         YWTi2pciXCaR82EUYqXg3WFAjX6FA4UXe049A3rYOOmTyj6WVJZelSEMqYtNDupsA31C
+         j7emHgKndWBDUWXow3hs78+LWwTQcxZEMw7lmklRywu6Xt/ycFd97oX1MXKCGtXcbIe9
+         fhrSNSidwDEsnp7IExAyir2i1c44Yl8bH8/HPkt323f4efUJC+tkiEw8fBPJO4NLkiwQ
+         yGwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VMiB/LmxKvao5gWQXAQVDppdL6DxCPyCpBp5kNdzT1c=;
+        b=ZmtopwiKFQuulwbHiDq56oRVYFZnA5Poxk2FgZuA/8QS7CGiFDnog8cYPrjoXaY0L1
+         siFfay/rMYA9yBkXs3ywyeaQea8Ij0MQxS3D1IkG3RF9QGiU+AirKvUJE35SdSb53KKb
+         VsZGSFM3O5zPosZKROM/o8Wh01LasGzO5c1kgjQvAOyKiBlFaZXraEUsMi5ntcEvMcwT
+         oVtAoXHxR0OJhucabBwVqsefw8zlRNuRbAp0OQTXYuy6qPetn7qHTjmCpKuN4HImx9AW
+         2+HmmPr46esF4wlGFidMyQUIAszmvS5O4GRcLWCioIHjFFOo3zC41mk/B/MgR2vvPxIF
+         Tvvw==
+X-Gm-Message-State: AOAM530A9QkQr4nENy/KA0XrEGBvwK9PBcsLtiUFZnxmRL1vZL9e1pNl
+        g4NmOnl6Iflo35pY9MPBdb43+A==
+X-Google-Smtp-Source: ABdhPJyC+FwGp040lq0f11Sf8bfqy9jwn7/aPAccw+ygtKjPGohABo8b+RtcMwUf+DMjDcx5ZI4lQQ==
+X-Received: by 2002:a17:906:85cd:: with SMTP id i13mr10837332ejy.553.1610373436363;
+        Mon, 11 Jan 2021 05:57:16 -0800 (PST)
+Received: from localhost.localdomain (dh207-97-248.xnet.hr. [88.207.97.248])
+        by smtp.googlemail.com with ESMTPSA id ak17sm7176408ejc.103.2021.01.11.05.57.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 05:57:15 -0800 (PST)
+From:   Robert Marko <robert.marko@sartura.hr>
+To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Cc:     Robert Marko <robert.marko@sartura.hr>,
+        Luka Perkov <luka.perkov@sartura.hr>
+Subject: [PATCH v4 1/3] dt-bindings: hwmon: Add TI TPS23861 bindings
+Date:   Mon, 11 Jan 2021 14:57:06 +0100
+Message-Id: <20210111135708.3703175-1-robert.marko@sartura.hr>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 11 Jan 2021 13:40:48 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Srinivas Ramana <sramana@codeaurora.org>
-Cc:     catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 0/3] arm64: cpufeature: Add filter function to control
-In-Reply-To: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
-References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: sramana@codeaurora.org, catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Srinivas,
+Document bindings for the Texas Instruments TPS23861 driver.
 
-On 2021-01-09 00:29, Srinivas Ramana wrote:
-> This patchset adds a control function for cpufeature framework
-> so that the feature can be controlled at runtime.
-> 
-> Defer PAC on boot core and use the filter function added to disable
-> PAC from command line. This will help toggling the feature on systems
-> that do not support PAC or where PAC needs to be disabled at runtime,
-> without modifying the core kernel.
-> 
-> The idea of adding the filter function for cpufeature is taken from
-> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-25-catalin.marinas@arm.com/
-> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-24-catalin.marinas@arm.com/
-> 
-> Srinivas Ramana (3):
->   arm64: Defer enabling pointer authentication on boot core
->   arm64: cpufeature: Add a filter function to cpufeature
->   arm64: Enable control of pointer authentication using early param
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  6 +++
->  arch/arm64/include/asm/cpufeature.h             |  8 +++-
->  arch/arm64/include/asm/pointer_auth.h           | 10 +++++
->  arch/arm64/include/asm/stackprotector.h         |  1 +
->  arch/arm64/kernel/cpufeature.c                  | 53 
-> +++++++++++++++++++------
->  arch/arm64/kernel/head.S                        |  4 --
->  6 files changed, 64 insertions(+), 18 deletions(-)
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+Cc: Luka Perkov <luka.perkov@sartura.hr>
+---
+Changes in v4:
+* Correct shunt binding
 
-I've been working for some time on a similar series to allow a feature
-set to be disabled during the early boot phase, initially to prevent
-booting a kernel with VHE, but the mechanism is generic enough to
-deal with most architectural features.
+ .../bindings/hwmon/ti,tps23861.yaml           | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
 
-I took the liberty to lift your first patch and to add it to my 
-series[1],
-further allowing PAuth to be disabled at boot time on top of BTI and 
-VHE.
-
-I'd appreciate your comments on this.
-
-Thanks,
-
-         M.
-
-[1] https://lore.kernel.org/r/20210111132811.2455113-1-maz@kernel.org
+diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+new file mode 100644
+index 000000000000..891eee9489aa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+@@ -0,0 +1,52 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++
++$id: http://devicetree.org/schemas/hwmon/ti,tps23861.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: TI TPS23861 PoE PSE
++
++maintainers:
++  - Robert Marko <robert.marko@sartura.hr>
++
++description: |
++  The TPS23861 is a IEEE 802.3at Quad Port Power-over-Ethernet PSE Controller.
++
++  Datasheets:
++  https://www.ti.com/lit/gpn/tps23861
++
++
++properties:
++  compatible:
++    enum:
++      - ti,tps23861
++
++  reg:
++    maxItems: 1
++
++  shunt-resistor-micro-ohms:
++    description: The value of curent sense resistor in microohms.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 255000
++    minimum: 250000
++    maximum: 255000
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          tps23861@30 {
++              compatible = "ti,tps23861";
++              reg = <0x30>;
++              shunt-resistor-micro-ohms = <255000>;
++          };
++    };
 -- 
-Jazz is not dead. It just smells funny...
+2.29.2
+
