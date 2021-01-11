@@ -4,50 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD01C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 270DCC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:34:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63F3421BE5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:32:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E827B21BE5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:34:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732812AbhAKUck (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 15:32:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59526 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730955AbhAKUck (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 15:32:40 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A01C061786;
-        Mon, 11 Jan 2021 12:32:00 -0800 (PST)
+        id S2387453AbhAKUeB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 15:34:01 -0500
+Received: from ms.lwn.net ([45.79.88.28]:34514 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731948AbhAKUeB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 15:34:01 -0500
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E36C69B2;
-        Mon, 11 Jan 2021 20:31:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E36C69B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 746E79B2;
+        Mon, 11 Jan 2021 20:33:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 746E79B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610397120; bh=26pO2/zq+dBjgEu9pl4QKeQ5FvwMWC8q9w3/eaxa6O8=;
+        t=1610397200; bh=BY8eScDNycdd49z8UzwKPJOGgGLk+Cy0F6YF5RoD4Mc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DPPdGuerm6JpqKf7UkmXiL9/k9jPonkJgb9Y4o6lyZrtu/gv69D+GdD+A4EJgWzt/
-         i9EgmQJ6A5M6k+JvKLK0xg+ZZAytckhCl0lqEIYlan31xb3FAgoncuefyeWLMXjjFM
-         kKQD3xLO/pHwUkmdqTTozPD4h9u7R8FB/IEdTCNqdzuu/4A6z8az/XD6lkn2t4bRVq
-         5Prc8qXJgwmVakLztmb+HBLqgDE5fszdaJ4Pt/VQXq1x/TCNiVq/ORSVLRrZ2g2/ke
-         JEbn7wkt9QKolgNc62wto2LhK4Trqo47jlGC5iWFZSjjdQcZbtxCnRHo6hGlA8Ue4U
-         9oVRGAJBOTH5w==
-Date:   Mon, 11 Jan 2021 13:31:58 -0700
+        b=YlTXNiDDJXQyP4fmefHg5bctJY+k7ppKwUzTbbNJNK8I5vXakEVRZbkrN6NfgU2H/
+         EoW5E9EKEPWKvBpHduiCLVLmevfzsJSJhEx53qmzgWbcjFbWP9BZJqwF3hAosmZez6
+         SR+L+r0jzwZAlESAGYZCCCQGWYTtjmXexcbp3Qm/HAqCk4C0DE0vQ7pGrkyZ4XhErS
+         khslNtegFkqV690KNjNsR/PzsXOl4+vLS2fGracHk9av9gyI7Mlngk1QkyAFm31Xwv
+         ejNxUE2mmIcp1/Aguxc/jXPmmIaSlLBen/4HK8LPphw9k+runfInr0AZqAC7N67CEh
+         yiNUj5xaCmsFg==
+Date:   Mon, 11 Jan 2021 13:33:19 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Michael Witten <mfwitten@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-model: bus.rst: Clean up the formatting,
- expound, modernize
-Message-ID: <20210111133158.34923b4c@lwn.net>
-In-Reply-To: <3dc7d8abd06941fca5071b0ede9b6088@gmail.com>
-References: <3dc7d8abd06941fca5071b0ede9b6088@gmail.com>
+To:     Marc Koderer <marc@koderer.com>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        trivial@kernel.org
+Subject: Re: [PATCH] samples/kprobes: Remove misleading comment
+Message-ID: <20210111133319.4cca787c@lwn.net>
+In-Reply-To: <20201228060415.2194-1-marc@koderer.com>
+References: <20201228060415.2194-1-marc@koderer.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,69 +55,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 21 Dec 2020 07:52:00 -0000
-Michael Witten <mfwitten@gmail.com> wrote:
+On Mon, 28 Dec 2020 07:04:15 +0100
+Marc Koderer <marc@koderer.com> wrote:
 
-> * The reStructuredText had some indentation issues.
+> The example file supports many architectures not only x86 and PPC.
 > 
-> * The HTML output was not properly formatted in places.
-> 
-> * Some of the details were lacking or needed clarification (especially
->   with regard to how a `struct bus_type` object should be defined).
-> 
-> * The sysfs example hierarchy appeared outdated; I've updated it with
->   output based on what my own system currently displays.
-> 
-> Signed-off-by: Michael Witten <mfwitten@gmail.com>
+> Signed-off-by: Marc Koderer <marc@koderer.com>
+> Cc: trivial@kernel.org
 > ---
->  Documentation/driver-api/driver-model/bus.rst | 110 +++++++++++++--------
->  1 file changed, 67 insertions(+), 43 deletions(-)
+>  samples/kprobes/kprobe_example.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
+> index 365905cb24b1..192aa68db0c0 100644
+> --- a/samples/kprobes/kprobe_example.c
+> +++ b/samples/kprobes/kprobe_example.c
+> @@ -1,6 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * NOTE: This example is works on x86 and powerpc.
+>   * Here's a sample kernel module showing the use of kprobes to dump a
+>   * stack trace and selected registers when kernel_clone() is called.
 
-Thanks for working to improve the docs.  I have a couple of requests,
-though... 
-
-> diff --git a/Documentation/driver-api/driver-model/bus.rst b/Documentation/driver-api/driver-model/bus.rst
-> index 016b15a6e8ea..68a95389b1eb 100644
-> --- a/Documentation/driver-api/driver-model/bus.rst
-> +++ b/Documentation/driver-api/driver-model/bus.rst
-> @@ -4,34 +4,58 @@ Bus Types
->  
->  Definition
->  ~~~~~~~~~~
-> -See the kerneldoc for the struct bus_type.
-> -
-> -int bus_register(struct bus_type * bus);
-> +* ``struct bus_type``;
-> +* ``int bus_register(struct bus_type *bus);``
-
-This should just be made into a literal block like the others.
-
->  Declaration
->  ~~~~~~~~~~~
->  
-> -Each bus type in the kernel (PCI, USB, etc) should declare one static
-> -object of this type. They must initialize the name field, and may
-> -optionally initialize the match callback::
-> +For each bus type (PCI, USB, etc), there should be code that defines
-> +one object of type ``struct bus_type``:
-
-It is better not to mark types as ``literal`` this way; the build system is
-getting better at recognizing such things on its own and generating the
-appropriate links.
-
-[...]
-
->  Registration
->  ~~~~~~~~~~~~
->  
-> -When a bus driver is initialized, it calls bus_register. This
-> -initializes the rest of the fields in the bus object and inserts it
-> -into a global list of bus types. Once the bus object is registered,
-> +During initialization of a bus driver, ``bus_register()`` is called; this
-
-*definitely* don't mark functions as literal in this way; simply say
- bus_register() and the Right Things will happen.
-
-Thanks,
+Applied, thanks.
 
 jon
