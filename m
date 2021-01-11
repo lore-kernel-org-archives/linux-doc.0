@@ -2,136 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1A8C433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24256C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:14:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE39F229CA
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:57:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1AB8225AB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389857AbhAKR5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 12:57:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        id S2390069AbhAKSOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 13:14:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389680AbhAKR5h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 12:57:37 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C25C0617A4;
-        Mon, 11 Jan 2021 09:56:52 -0800 (PST)
-Received: from zn.tnic (p200300ec2f088f00ad31e6206ee73146.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:8f00:ad31:e620:6ee7:3146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D700E1EC04DD;
-        Mon, 11 Jan 2021 18:56:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1610387808;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=/5CtVo/UwrBSJWcpm5LHTVgzx79jnr7sh5lj/gNN1EE=;
-        b=r1dRCcuAAzNinHRwv70Jc/k2NLJRF6q7sDui9/+Zn1f8PG48sZQFwQ07YaMmLil58/Jk3e
-        8Ix8pm+/1koZXCLgJ5Pd/KygG1l+XQOydfsHuyx1X7+DolK4jzI04VBxJp9VDGVeqQI3xa
-        0TVfTxuAUigDYWZxsnFfYFG320gE/So=
-Date:   Mon, 11 Jan 2021 18:56:43 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-Message-ID: <20210111175643.GD25645@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-5-yu-cheng.yu@intel.com>
+        with ESMTP id S2389860AbhAKSOz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:14:55 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031BFC06179F;
+        Mon, 11 Jan 2021 10:14:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=+yL4rFpmpqzWF4MRa4OI55Sy1AqIMFXHO/4zaA5wwVI=; b=LXC5eg/Jo2DjmQwekxjr1Admpe
+        f7ldsBTyXRvxqctPXkrJTYxCI0aUrx60J1kEyO7ukhRh8BBhSRx4sYeOmWqcgX7E9O2mEFMlNJw5q
+        Lk6Fb3DK7yCc76rJer/lt3B4POITOFwoK+nrZOZBg5is9BgQlaYeD1fmXEE07S78YhqdNE+UKJtJQ
+        Gz29Hm7D+inCpduh4rsMdCr76P7fkDyV8CTGLH2dIVVG2QqihaEuMG0mk8EHK9jZS+ogQ0TOn8cIM
+        rqazYjyyDltCKk898rRYRVxsWt1VuCJKWP44w3ehp8k1qqBDn38oJ5IEfBwHyriNEBD1P27WM+HG6
+        cHwwSlwQ==;
+Received: from [2601:1c0:6280:3f0::79df]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kz1hj-0004ph-QH; Mon, 11 Jan 2021 18:14:12 +0000
+Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
+ bugzilla.kernel.org
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210110121033.130504-1-linux@leemhuis.info>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
+Date:   Mon, 11 Jan 2021 10:14:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20210110121033.130504-1-linux@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201229213053.16395-5-yu-cheng.yu@intel.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 01:30:31PM -0800, Yu-cheng Yu wrote:
-> @@ -895,6 +903,12 @@ static void init_speculation_control(struct cpuinfo_x86 *c)
->  	}
->  }
->  
-> +static void init_cet_features(struct cpuinfo_x86 *c)
-> +{
-> +	if (cpu_has(c, X86_FEATURE_SHSTK) || cpu_has(c, X86_FEATURE_IBT))
-> +		set_cpu_cap(c, X86_FEATURE_CET);
-> +}
+On 1/10/21 4:10 AM, Thorsten Leemhuis wrote:
+> * About 66 of those ~200 components will assign bugs to email addresses
+>   that look valid, but 125 of them end with @kernel-bugs.osdl.org or
+>   @kernel-bugs.kernel.org. Those domains do not exist anymore, mails
+>   sent there bounce ('Unrouteable address'). It's possible that the
+>   server might be rewriting those domain names and nevertheless
+>   delivers new reports and comments by mails to some human; but it
+>   seems more like they never get mailed to anyone and thus just linger
+>   in the database; no wonder quite a few of bugs filed against such
+>   components never get a single reply (see below).
 
-No need for that function - just add this two-liner to bsp_init_intel()
-and not in get_cpu_cap().
+Those @kernel-bugs email addresses should not be a problem:
 
-> +static void adjust_combined_cpu_features(void)
-> +{
-> +#ifdef CONFIG_X86_CET_USER
-> +	if (test_bit(X86_FEATURE_SHSTK, (unsigned long *)cpu_caps_cleared) &&
-> +	    test_bit(X86_FEATURE_IBT, (unsigned long *)cpu_caps_cleared))
-> +		setup_clear_cpu_cap(X86_FEATURE_CET);
-> +#endif
+  https://korg.docs.kernel.org/bugzilla.html#real-assignees-vs-virtual-assignees
 
-There's no need for this function...
 
-> +}
-> +
->  /*
->   * We parse cpu parameters early because fpu__init_system() is executed
->   * before parse_early_param().
-> @@ -1252,9 +1276,19 @@ static void __init cpu_parse_early_param(void)
->  	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
->  		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
->  
-> +	/*
-> +	 * CET states are XSAVES states and options must be parsed early.
-> +	 */
-> +#ifdef CONFIG_X86_CET_USER
-> +	if (cmdline_find_option_bool(boot_command_line, "no_user_shstk"))
-> +		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
 
-... when you can do
+AFAIK, USB bugs go to linux-usb@vger.kernel.org,
+SCSI bugs go to linux-scsi@vger.kernel.org.
 
-	setup_clear_cpu_cap(X86_FEATURE_CET);
+netdev didn't want bugs sent there automatically IIRC, so a
+human takes care of doing that if warranted.
 
-here and...
+Andrew Morton takes MM bugs and Cc:s them to linux-mm mailing list
+and then asks for discussion to continue on the mailing list.
 
-> +	if (cmdline_find_option_bool(boot_command_line, "no_user_ibt"))
-> +		setup_clear_cpu_cap(X86_FEATURE_IBT);
 
-... here.
+We could/should probably see if we can add more project-specific
+mailing lists to the automatic reporting -- but probably not LKML.
 
-Thx.
+Otherwise some bug reports might never be heard about.
 
 -- 
-Regards/Gruss,
-    Boris.
+~Randy
 
-https://people.kernel.org/tglx/notes-about-netiquette
