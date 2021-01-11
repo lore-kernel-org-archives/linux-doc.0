@@ -2,119 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6005C4332B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 11:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0086C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 11:34:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC0C3224B0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 11:22:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F740224B8
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 11:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729805AbhAKLWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 06:22:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729564AbhAKLWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 06:22:08 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32313C061786;
-        Mon, 11 Jan 2021 03:21:28 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id p22so18299578edu.11;
-        Mon, 11 Jan 2021 03:21:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=jCkNG6d1sS57slG3YOXz4r4g6qRq6UBa2FdiKKF/U8M=;
-        b=AvBkVaufXzXIsVdn1YJ4xAeqSkLx8xzFgWYsG4YCOou8z0VtlmhpGf/yqOoxgmzzDW
-         /ZeObeuvfUAw8q3QK9OjBUTask/TCMO0f06FPAFjOqw+t31cDrKJYk6CHovnhxbpUPU9
-         Bdp1heIK+nQGqlgql8xA0hvzCmSg+2zEsnOYFnX/+lcF2F6LzUsxtt/g8M+12rBrZzsv
-         9WG1+hteAwOJLpywSJb5/zx2iVbRaqgq314Uqizfux4YbQH5D38JupGDpdCXhNlTudYI
-         JcpHNDz82r3eWTYnpxQnQm46qei5QkPCJkuds5g+23rJWmI9ptte7TuwmB86qf2VD+mQ
-         S6kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=jCkNG6d1sS57slG3YOXz4r4g6qRq6UBa2FdiKKF/U8M=;
-        b=bigaoHN8I7Rjzzv13lfEBKQ/gO2lB6vIFsV0AzZO/di+UzIvfoWzdbLQAWZI6we4pq
-         P/jI5R0cteh2vbW+WD8mH0LSE9O6sL+aqS8VO97Ofmv/tHAHM28ZvH7Sfo9CJiyrkgTd
-         X4LKZW96NjIHPOAlT9mx3iimrAJMhwJqN5lVGroHzkEvEx3M+gOsr6qQdsJObTCg2Kzp
-         /XzhdQiKMG+XA/VD/rBxeoppS+BT1wZk8UnmVq7SbZnNW2v/Zpv5TknlPT/fGwd3ttqh
-         IW6MTEBKOgU7gIPnptsg9Ns7244tzbbbJMP2NrpxQix09GtXr2PracOhOnIQCwh6Q0Zv
-         6bmQ==
-X-Gm-Message-State: AOAM530YWAfCTRM3dHB2JnGksUJjKA4nuavGFesbBNv5+1CXHDq29mYF
-        iaXtQPOmt98SsLnke2AFu/w=
-X-Google-Smtp-Source: ABdhPJyAns38qBDE1Lc13bKVIkxB+w9SwLysPYTkgMIasHzSmg6AQ4IEYqKemx29sgueBY5wPJaOew==
-X-Received: by 2002:a05:6402:610:: with SMTP id n16mr13422354edv.172.1610364086747;
-        Mon, 11 Jan 2021 03:21:26 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d2f:cf00:597a:a5a4:31de:992e])
-        by smtp.gmail.com with ESMTPSA id z25sm6833936ejd.23.2021.01.11.03.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 03:21:26 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wu Hao <hao.wu@intel.com>, Moritz Fischer <mdf@kernel.org>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>,
-        linux-fpga@vger.kernel.org
-Cc:     Tom Rix <trix@redhat.com>, linux-doc@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH -next] fpga: dfl-pci: rectify ReST formatting
-Date:   Mon, 11 Jan 2021 12:21:13 +0100
-Message-Id: <20210111112113.27242-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729463AbhAKLet (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 06:34:49 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:54030 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728408AbhAKLet (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 06:34:49 -0500
+Received: from localhost.localdomain (unknown [112.3.198.81])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxe+SjN_xf_4sCAA--.4550S2;
+        Mon, 11 Jan 2021 19:33:57 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     Harry Wei <harryxiyou@gmail.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Yanteng Si <siyanteng01@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH 1/4] doc/zh_CN: add mips index.rst translation
+Date:   Mon, 11 Jan 2021 19:33:58 +0800
+Message-Id: <20210111113401.2852455-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxe+SjN_xf_4sCAA--.4550S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF4fCF1kuw4rXF1fWr1rZwb_yoWDtFc_Aw
+        nYqFWkCr4jqF1xWFW8AF1UJryIkFW09r12kFs8t398Gw1UArZrJFyDW3s7ZF48WF43ur15
+        CrWkWr1kJFnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbcxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+        1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+        cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+        ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4kMxAI
+        w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+        CI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbeT5PUUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit fa41d10589be ("fpga: dfl-pci: locate DFLs by PCIe vendor specific
-capability") provides documentation to the FPGA Device Feature List (DFL)
-Framework Overview, but introduced new documentation warnings:
+This patch translates Documentation/mips/index.rst into Chinese.
 
-  ./Documentation/fpga/dfl.rst:
-    505: WARNING: Title underline too short.
-    523: WARNING: Unexpected indentation.
-    523: WARNING: Blank line required after table.
-    524: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-Rectify ReST formatting in ./Documentation/fpga/dfl.rst.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
-applies cleanly on next-20210111
+ .../translations/zh_CN/mips/index.rst         | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/mips/index.rst
 
-Moritz, Matthew, please ack.
-
-Greg, please pick this doc fixup to your fpga -next tree on top of
-the commit above.
-
- Documentation/fpga/dfl.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index ea8cefc18bdb..c41ac76ffaae 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -502,7 +502,7 @@ FME Partial Reconfiguration Sub Feature driver (see drivers/fpga/dfl-fme-pr.c)
- could be a reference.
- 
- Location of DFLs on a PCI Device
--===========================
-+================================
- The original method for finding a DFL on a PCI device assumed the start of the
- first DFL to offset 0 of bar 0.  If the first node of the DFL is an FME,
- then further DFLs in the port(s) are specified in FME header registers.
-@@ -514,6 +514,7 @@ data begins with a 4 byte vendor specific register for the number of DFLs follow
- Offset/BIR vendor specific registers for each DFL. Bits 2:0 of Offset/BIR register
- indicates the BAR, and bits 31:3 form the 8 byte aligned offset where bits 2:0 are
- zero.
-+::
- 
-         +----------------------------+
-         |31     Number of DFLS      0|
+diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
+new file mode 100644
+index 000000000000..2c7b836a3da5
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mips/index.rst
+@@ -0,0 +1,29 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/mips/index.rst <index>`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_index:
++
++
++===========================
++MIPS特性文档
++===========================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   booting
++   ingenic-tcu
++
++   features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
 -- 
-2.17.1
+2.27.0
 
