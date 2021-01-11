@@ -2,73 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8796C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:27:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADDFC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:32:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8762322C7E
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:27:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C3B022CF6
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbhAKU1l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 15:27:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
+        id S1730079AbhAKUcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 15:32:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389057AbhAKU1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 15:27:41 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B595C061786;
-        Mon, 11 Jan 2021 12:27:01 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 12847728;
-        Mon, 11 Jan 2021 20:27:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 12847728
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610396821; bh=Qleuqoc2NdcIM44L0gYiLwhd79eolf94h+6PtwawCNw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=JQ9fqz5JSIKUtYl4394LM2yFBo1IT105XNjXCRwAxnwIEY24x6V7gavZ/JAxk6ifM
-         l+EIf71zpxZB60ODpyQNOJ76UZhGXw/rBZETWWMcwyiOSX3dZj9zKp2rwU1sZo2pbP
-         BV5BlFS76j1oyOAk64ocmHgP1SKHtnX9kn6zTTGe5AVvzdrxOsKMIZjj3InfRO/W3y
-         ahFS/p0Xo/2ztII3JJPclEVaK0DGZFBy+fbyctvDQ+2VWgUihajX5QLXxRfa1QYfYP
-         dlBenM043XmxI3jFqYO+4PbohWnIpKXRZiMI3rJeoesdTVgx96o/MSPDZrc+ggejnP
-         73tEQ/8hpBKbQ==
-Date:   Mon, 11 Jan 2021 13:26:59 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Hannes Duerr <Hannes.Duerr@duagon.com>
-Subject: Re: [PATCH] Documentation: document dma device use for mcb
-Message-ID: <20210111132659.1b1543a0@lwn.net>
-In-Reply-To: <SN4PR0401MB35985663FE8EFD62AD7B42B69BAB0@SN4PR0401MB3598.namprd04.prod.outlook.com>
-References: <3bdc8f76b30c2b0e2a2bfab06c2e73797ddc9384.1608305690.git.johannes.thumshirn@wdc.com>
-        <SN4PR0401MB35985663FE8EFD62AD7B42B69BAB0@SN4PR0401MB3598.namprd04.prod.outlook.com>
-Organization: LWN.net
+        with ESMTP id S1726570AbhAKUcF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 15:32:05 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05078C061794
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 12:31:25 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id b5so252609pjk.2
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 12:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BZbWJMckP7KnFzgMzYjv6b0GUK1slDkOJ3IpYhCUuJM=;
+        b=ZmSjWT7fgSd1h2QCqYkfefvC7EBMF1WXYaFlU/v6xYDyebfJ3A4MtqB5B9R9QoJZdr
+         zwOkX46YznqaaTwRUsjKhbu/FTJce0XchX3Dg38w4d2PJ78QBFiXRDYnLVddUQPZXii6
+         w1MIlAW7XLcq/wIvIcumiEkGdcHd1/N4oQg63J9ONYBGGCvtmkdgYKdY9EivNstrRP6C
+         UcXE7ajSI/3Z4OVHWC4dl4c9Vfila5c9BIabdkWEkgYCM7Ti8QeQDSM2DJBievQ1Efwu
+         HMMhPtCEikIiUF7Yx4UrhQK+CrOLwJUyjvTrJYRZJmxR9tmkl9AGvjbIcU86JCWmlfdM
+         J+xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BZbWJMckP7KnFzgMzYjv6b0GUK1slDkOJ3IpYhCUuJM=;
+        b=YhmhdUSOwFx6aZDK8fy2LRXK+63OBRp+52ZmlM0yJCvDWLx590FL+XcgYJEruknnne
+         5EcWXBV66AvGJ3VjefjFGpb5yOfqy1ljgtoMj5cVus37vOwNfpBE1cMtEOuoUeDWiis8
+         UGL8xJSCLZF9es7MTvdx7Zi1OsWSGzdxHoWprO/m16s/Z8YO1A1qzVbyDTOqZEuNOS/w
+         SX6+WKoh3mvAduTCN+YlN+eEflQjGPxIRK21eQSn+DMoyJyXJYnKVALyRWMeG+I/B3+B
+         O6g2GDOyOqAgj51SVDaQ9ewzLQchr+q3YCBvjVjXI/oWaduz1UgOYpCN2yCW3IPrwVZZ
+         FDlg==
+X-Gm-Message-State: AOAM533CFJn7uAYy61LzJIuZZJXU7xHk3kStTPsRIZ43pnNQIMQZ/WF5
+        WvPstowA3oAf58moMxUjURwuT5/XUEAZLA==
+X-Google-Smtp-Source: ABdhPJxYNzGpmQg8oZE5NeZyx+bJ73huRA+dBmzVz8D+rUMN7YQUX4wwdcr0btxqP/PRS0wXW4Ugrg==
+X-Received: by 2002:a17:90b:23d6:: with SMTP id md22mr638840pjb.206.1610397084289;
+        Mon, 11 Jan 2021 12:31:24 -0800 (PST)
+Received: from google.com ([2620:15c:2ce:0:a6ae:11ff:fe11:4abb])
+        by smtp.gmail.com with ESMTPSA id t23sm538631pfc.0.2021.01.11.12.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 12:31:23 -0800 (PST)
+Date:   Mon, 11 Jan 2021 12:31:20 -0800
+From:   Fangrui Song <maskray@google.com>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <20210111203120.daeef4yuwgmk5em4@google.com>
+References: <20210111081821.3041587-1-morbo@google.com>
+ <20210111201224.l5r2zxuyd7ayszke@google.com>
+ <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAGG=3QWo5_wwTMHtif4BzFssByaW1ScvpaEH1p1nZ6ymVggLjA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 11 Jan 2021 10:19:55 +0000
-Johannes Thumshirn <Johannes.Thumshirn@wdc.com> wrote:
+On 2021-01-11, Bill Wendling wrote:
+>On Mon, Jan 11, 2021 at 12:12 PM Fangrui Song <maskray@google.com> wrote:
+>>
+>> On 2021-01-11, 'Bill Wendling' via Clang Built Linux wrote:
+>> >From: Sami Tolvanen <samitolvanen@google.com>
+>> >
+>> >Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+>> >profile, the kernel is instrumented with PGO counters, a representative
+>> >workload is run, and the raw profile data is collected from
+>> >/sys/kernel/debug/pgo/profraw.
+>> >
+>> >The raw profile data must be processed by clang's "llvm-profdata" tool before
+>> >it can be used during recompilation:
+>> >
+>> >  $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+>> >  $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+>> >
+>> >Multiple raw profiles may be merged during this step.
+>> >
+>> >The data can be used either by the compiler if LTO isn't enabled:
+>> >
+>> >    ... -fprofile-use=vmlinux.profdata ...
+>> >
+>> >or by LLD if LTO is enabled:
+>> >
+>> >    ... -lto-cs-profile-file=vmlinux.profdata ...
+>>
+>> This LLD option does not exist.
+>> LLD does have some `--lto-*` options but the `-lto-*` form is not supported
+>> (it clashes with -l) https://reviews.llvm.org/D79371
+>>
+>That's strange. I've been using that option for years now. :-) Is this
+>a recent change?
 
-> On 18/12/2020 16:35, Johannes Thumshirn wrote:
-> > Hannes reported a problem with setting up dma transfers on a mcb device.
-> > The problem boiled down to the use of a wrong 'device' for the dma
-> > functions.
-> > 
-> > Document how to setup dma transfers for a IP core on a mcb carrier.  
-> 
-> Ping?
+The more frequently used options (specifyed by the clang driver) are
+-plugin-opt=... (options implemented by LLVMgold.so).
+`-lto-*` is rare.
 
-Sorry, I've been distracted by holidays, merge window, network issues, and
-generally watching the news in horror.  The patch is applied now, thanks.
+>> (There is an earlier -fprofile-instr-generate which does
+>> instrumentation in Clang, but the option does not have broad usage.
+>> It is used more for code coverage, not for optimization.
+>> Noticeably, it does not even implement the Kirchhoff's current law
+>> optimization)
+>>
+>Right. I've been told outside of this email that -fprofile-generate is
+>the prefered flag to use.
+>
+>> -fprofile-use= is used by both regular PGO and context-sensitive PGO (CSPGO).
+>>
+>> clang -flto=thin -fprofile-use= passes -plugin-opt=cs-profile-path= to the linker.
+>> For regular PGO, this option is effectively a no-op (confirmed with CSPGO main developer).
+>>
+>> So I think the "or by LLD if LTO is enabled:" part should be removed.
+>
+>But what if you specify the linking step explicitly? Linux doesn't
+>call "clang" when linking, but "ld.lld".
 
-jon
+Regular PGO+LTO does not need -plugin-opt=cs-profile-path=
+CSPGO+LTO needs it.
+Because -fprofile-use= may be used by both, Clang driver adds it.
+CSPGO is relevant in this this patch, so the linker option does not need to be mentioned.
