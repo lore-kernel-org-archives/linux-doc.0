@@ -2,172 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65545C43381
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4847BC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:55:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34FD82222F
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:29:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC73C22ADF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:55:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390471AbhAKS3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 13:29:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32868 "EHLO
+        id S2390451AbhAKSzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 13:55:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390469AbhAKS3O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:29:14 -0500
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE04C061786;
-        Mon, 11 Jan 2021 10:28:34 -0800 (PST)
-Received: by mail-qk1-x734.google.com with SMTP id h4so408726qkk.4;
-        Mon, 11 Jan 2021 10:28:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ExTGI1xPKNq4svVK8CHLz8qefNJSyDheErjNSIGWfZ4=;
-        b=YYffgrENxRJQcTsL0yqhA7FrKx1Hkd/gDDpAE1Uhy0DuRc+FLL88lcZu/xG/QEF6aX
-         IyYoJKxRhFEVT1EshDCkR7+UCtV6uoWOBBXStinXTvidZ2gvoLJpMnwQxwqNmtqpMNqg
-         eZoXHV77NwXAvIPiAJMMT1pceSzmpiIsiaiCMUsnmyQG1EJunG3Ce7QYLY3t2dDG+IUi
-         Z8YQb9B3OICTNK0ScFPDbn4Z0mMCkZ3We9mbWB+fHfG+/JG6xCntwPO8ZRVhSU8pC1RF
-         07PnyjPB6wlyw/+TVo40ktJjT8YnTKmKVeRSWDo8MLp2ewPxzv4W9Tbb3y5ZvPUZ9nv/
-         mzgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ExTGI1xPKNq4svVK8CHLz8qefNJSyDheErjNSIGWfZ4=;
-        b=tYGH4GKA1kOSRehvZqr4+Mf+P5lvsBNa4g9t27u6jyXnHEHJkR36/T1iJautfliCzO
-         f0cBwWV8/SnU+VIoElxMx0jMnPF7Ycpu5XWOMClidmrFWdwaMPKUvjK1CM8vhgNKtyjA
-         yKU42+qNW33OCBfExxReSwPOtlL5ymZNQTcfYDLUJx63X1r1yxMRD9jV2c2W9iYOwJjM
-         2XjOGsJGWMo6YCcmogxnZzKBb+hYGt88P752buHJzop8aU/bN8eNuWNPi1kfgeMZkXag
-         rtD3a+YKJJLm6tTZdW+zss/JLiQlH/dz0uXhOPNl6ry2vpW6CR4f0IHGodnzxfkuSKh0
-         WZzA==
-X-Gm-Message-State: AOAM533a74mauWJVM5wFMc5D/dQE8xvD8IP7mbqTFgiPAU1wKO4mOMSy
-        w5EI7snM///HpiY1k45kTvso35pOP+ZiGw==
-X-Google-Smtp-Source: ABdhPJxqOPGIAmd28x6rr4jzh1TSGIWuX+9SrfehHjib9sM4AevbyanVEqzUI62bl8rGBeoXPgBS3g==
-X-Received: by 2002:a37:b985:: with SMTP id j127mr606560qkf.85.1610389713257;
-        Mon, 11 Jan 2021 10:28:33 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id g26sm332942qka.76.2021.01.11.10.28.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 10:28:32 -0800 (PST)
-Date:   Mon, 11 Jan 2021 11:28:31 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <20210111182831.GB758023@ubuntu-m3-large-x86>
-References: <20210111081821.3041587-1-morbo@google.com>
- <CA+icZUUUTEdRNbmORy4X=UqMHLMEfD186o2mh23v_mXGBM8Anw@mail.gmail.com>
- <CAGG=3QUHWkuF0Q-=tNO5PztqtxuKYgyQy_EbBLyL0xNQ7TjgoQ@mail.gmail.com>
- <CA+icZUX0dtfOFLqyG_NOHgFnbwnOKEBP7Fo+RxgjhzuL3FPA9g@mail.gmail.com>
+        with ESMTP id S2390441AbhAKSzz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:55:55 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2270C061786;
+        Mon, 11 Jan 2021 10:55:14 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kz2LP-0005Dj-G0; Mon, 11 Jan 2021 19:55:11 +0100
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210110121033.130504-1-linux@leemhuis.info>
+ <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
+ bugzilla.kernel.org
+Message-ID: <dc2b0eaa-26e9-f686-ae7b-7e777cb3d55f@leemhuis.info>
+Date:   Mon, 11 Jan 2021 19:55:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUX0dtfOFLqyG_NOHgFnbwnOKEBP7Fo+RxgjhzuL3FPA9g@mail.gmail.com>
+In-Reply-To: <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610391315;12dcc039;
+X-HE-SMSGID: 1kz2LP-0005Dj-G0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 10:57:35AM +0100, Sedat Dilek wrote:
-> On Mon, Jan 11, 2021 at 10:17 AM Bill Wendling <morbo@google.com> wrote:
-> >
-> > On Mon, Jan 11, 2021 at 12:39 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Mon, Jan 11, 2021 at 9:18 AM 'Bill Wendling' via Clang Built Linux
-> > > <clang-built-linux@googlegroups.com> wrote:
-> > > >
-> > > > From: Sami Tolvanen <samitolvanen@google.com>
-> > > >
-> > > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > > > profile, the kernel is instrumented with PGO counters, a representative
-> > > > workload is run, and the raw profile data is collected from
-> > > > /sys/kernel/debug/pgo/profraw.
-> > > >
-> > > > The raw profile data must be processed by clang's "llvm-profdata" tool before
-> > > > it can be used during recompilation:
-> > > >
-> > > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > > >
-> > > > Multiple raw profiles may be merged during this step.
-> > > >
-> > > > The data can be used either by the compiler if LTO isn't enabled:
-> > > >
-> > > >     ... -fprofile-use=vmlinux.profdata ...
-> > > >
-> > > > or by LLD if LTO is enabled:
-> > > >
-> > > >     ... -lto-cs-profile-file=vmlinux.profdata ...
-> > > >
-> > > > This initial submission is restricted to x86, as that's the platform we know
-> > > > works. This restriction can be lifted once other platforms have been verified
-> > > > to work with PGO.
-> > > >
-> > > > Note that this method of profiling the kernel is clang-native and isn't
-> > > > compatible with clang's gcov support in kernel/gcov.
-> > > >
-> > > > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> > > >
-> > >
-> > > Hi Bill and Sami,
-> > >
-> > > I have seen the pull-request in the CBL issue tracker and had some
-> > > questions in mind.
-> > >
-> > > Good you send this.
-> > >
-> > > First of all, I like to fetch any development stuff easily from a Git
-> > > repository.
-> >
-> > The version in the pull-request in the CBL issue tracker is roughly
-> > the same as this patch. (There are some changes, but they aren't
-> > functionality changes.)
-> >
-> > > Can you offer this, please?
-> > > What is the base for your work?
-> > > I hope this is (fresh released) Linux v5.11-rc3.
-> > >
-> > This patch (and the PR on the CBL issue tracker) are from top-of-tree Linux.
-> >
-> > > I myself had some experiences with a PGO + ThinLTO optimized LLVM
-> > > toolchain built with the help of tc-build.
-> > > Here it takes very long to build it.
-> > >
-> > > This means I have some profile-data archived.
-> > > Can I use it?
-> > >
-> > LLVM is more tolerant of "stale" profile data than gcov, so it's
-> > possible that your archived profile data would still work, but I can't
-> > guarantee that it will be better than using new profile data.
-> >
-> > > Is an own PGO + ThinLTO optimized LLVM toolchain pre-requirement for
-> > > this or not?
-> > > That is one of my important questions.
-> > >
-> > Do you mean that the LLVM tools (clang, llc, etc.) are compiled with
-> > PGO + ThinLTO?
-> >
+Am 11.01.21 um 19:14 schrieb Randy Dunlap:
+> On 1/10/21 4:10 AM, Thorsten Leemhuis wrote:
+>> * About 66 of those ~200 components will assign bugs to email addresses
+>>   that look valid, but 125 of them end with @kernel-bugs.osdl.org or
+>>   @kernel-bugs.kernel.org. Those domains do not exist anymore, mails
+>>   sent there bounce ('Unrouteable address'). It's possible that the
+>>   server might be rewriting those domain names and nevertheless
+>>   delivers new reports and comments by mails to some human; but it
+>>   seems more like they never get mailed to anyone and thus just linger
+>>   in the database; no wonder quite a few of bugs filed against such
+>>   components never get a single reply (see below).
 > 
-> Yes.
-> 
-> - Sedat -
+> Those @kernel-bugs email addresses should not be a problem:
+>   https://korg.docs.kernel.org/bugzilla.html#real-assignees-vs-virtual-assignees
 
-No, having an optimized LLVM toolchain is not a requirement of this
-patchset. It will make compiling the kernel faster but it does nothing
-more than that.
+Ahh, interesting, many many thx. Stupid me also forgot to put Konstantin
+on the CC list (I had planned to do that, but forgot when I actually
+sent the patch :-/ ), which likely would have pointed be there as well.
 
-Cheers,
-Nathan
+> AFAIK, USB bugs go to linux-usb@vger.kernel.org,
+
+Those seem to use the approach the link above describes.
+
+> SCSI bugs go to linux-scsi@vger.kernel.org.
+
+That's one of the email address that are in the database for real, which
+were mentioned in my patch description as 'looking valid':
+https://bugzilla.kernel.org/describecomponents.cgi?product=IO%2FStorage
+
+> netdev didn't want bugs sent there automatically IIRC, so a
+> human takes care of doing that if warranted.
+
+Ahh, good to know, it's really not obvious there are some humans working
+there to that take care of this. That and all those bugs that never get
+a reply look really like things are not working well.
+
+> Andrew Morton takes MM bugs and Cc:s them to linux-mm mailing list
+> and then asks for discussion to continue on the mailing list.
+
+Then what use it bugzilla here? Wouldn't it be better for people to go
+straight to the list?
+
+> We
+
+Who is "we"? We as in "the kernel community"? Or is there actually a
+smaller group of people you are referring to which is actively
+maintaining the list of products and components on bugzilla.kernel.org?
+
+Just trying to understand things better here, as there are other things
+that look strange to me and were mentioned in the patch description. For
+example: Why are there only 200 products and components on
+bugzilla.kernel.org (some of them for historic things like the
+ac-kernels) while the MAINTAINERS file has more than 2200 entries?
+
+> could/should probably see if we can add more project-specific
+> mailing lists to the automatic reporting 
+
+Guess that would mean taking to a lot of maintainers/mailing list admins
+if they are okay with that. Who would do that?
+
+> -- but probably not LKML.
+> Otherwise some bug reports might never be heard about.
+
+Yeah, agreed.
+
+FWIW: I don't care too much about this whole thing, the whole idea for
+the approach I'm currently driving forward started when I did regression
+tracking in 2017. Back then I noticed quite a lot of bug reports on
+bugzilla.kernel.org never got a single reply, even if they were good and
+looked valid. That's why I brought this forward on the maintainers
+summit (https://lwn.net/Articles/738216/ ) and there it was discussed to
+basically go the route I'm taking currently. But I'm totally find to
+adjust that route if there are good reasons, especially as that
+discussion happened some time ago.
+
+Ciao, Thorsten
