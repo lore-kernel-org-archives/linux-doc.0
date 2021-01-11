@@ -2,125 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4847BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B09C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC73C22ADF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:55:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4690122BF3
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 19:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390451AbhAKSzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 13:55:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390441AbhAKSzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:55:55 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2270C061786;
-        Mon, 11 Jan 2021 10:55:14 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kz2LP-0005Dj-G0; Mon, 11 Jan 2021 19:55:11 +0100
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
+        id S1730389AbhAKTpu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 14:45:50 -0500
+Received: from ms.lwn.net ([45.79.88.28]:58558 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730411AbhAKTpu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 14:45:50 -0500
+Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C00D09A8;
+        Mon, 11 Jan 2021 19:45:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C00D09A8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1610394310; bh=7TmXEknUcAlmtbHUglEqhDvsunxbo1+equLlj15wZRc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=OLtkSmzV7gUwAYyEPu8SNG1dobLmpodw5HfBkKUiFspzwIr4hFAa+VNRbpDHr+pe1
+         hTKiyF5pjveM9agl1gcEaL3+6Un05bA6bBMhVZ8kpUOH4stiS7W/1ms9q1SpRRwHBn
+         Rmfrf4KRwgmi8FH0p3jGCmAD6Jet54LF/2OuujxmoNtHLuEmL56sidX6rYno3zc6ic
+         /uPF+xklQ/FrCG2MK7c90kmQ5UXWJgnUCmCYAHopwLfTnBGgEyOuBUim1NrcxZlM96
+         EIgHnPSiiXs4hOm/r9Fz9Kf70zMwAZZxodKrfbFWwcuClxK5bEossHnZPzTbaqplOp
+         VFQPdDsIJaglg==
+Date:   Mon, 11 Jan 2021 12:45:08 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joe Pater <02joepater06@gmail.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210110121033.130504-1-linux@leemhuis.info>
- <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
- bugzilla.kernel.org
-Message-ID: <dc2b0eaa-26e9-f686-ae7b-7e777cb3d55f@leemhuis.info>
-Date:   Mon, 11 Jan 2021 19:55:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Subject: Re: [PATCH] Documentation: kernel-hacking: change 'current()' to
+ 'current'
+Message-ID: <20210111124508.0434a8a9@lwn.net>
+In-Reply-To: <20210111103240.7445-1-02joepater06@gmail.com>
+References: <20210111103240.7445-1-02joepater06@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610391315;12dcc039;
-X-HE-SMSGID: 1kz2LP-0005Dj-G0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 11.01.21 um 19:14 schrieb Randy Dunlap:
-> On 1/10/21 4:10 AM, Thorsten Leemhuis wrote:
->> * About 66 of those ~200 components will assign bugs to email addresses
->>   that look valid, but 125 of them end with @kernel-bugs.osdl.org or
->>   @kernel-bugs.kernel.org. Those domains do not exist anymore, mails
->>   sent there bounce ('Unrouteable address'). It's possible that the
->>   server might be rewriting those domain names and nevertheless
->>   delivers new reports and comments by mails to some human; but it
->>   seems more like they never get mailed to anyone and thus just linger
->>   in the database; no wonder quite a few of bugs filed against such
->>   components never get a single reply (see below).
+On Mon, 11 Jan 2021 10:32:41 +0000
+Joe Pater <02joepater06@gmail.com> wrote:
+
+> Change 'current()' heading to 'current' to reflect usage.
 > 
-> Those @kernel-bugs email addresses should not be a problem:
->   https://korg.docs.kernel.org/bugzilla.html#real-assignees-vs-virtual-assignees
+> Signed-off-by: Joe Pater <02joepater06@gmail.com>
+> ---
+>  Documentation/kernel-hacking/hacking.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
+> index eed2136d847f..451523424942 100644
+> --- a/Documentation/kernel-hacking/hacking.rst
+> +++ b/Documentation/kernel-hacking/hacking.rst
+> @@ -346,8 +346,8 @@ routine.
+>  Before inventing your own cache of often-used objects consider using a
+>  slab cache in ``include/linux/slab.h``
+>  
+> -:c:func:`current()`
+> --------------------
+> +:c:macro:`current`
+> +------------------
 
-Ahh, interesting, many many thx. Stupid me also forgot to put Konstantin
-on the CC list (I had planned to do that, but forgot when I actually
-sent the patch :-/ ), which likely would have pointed be there as well.
+Applied, thanks.
 
-> AFAIK, USB bugs go to linux-usb@vger.kernel.org,
-
-Those seem to use the approach the link above describes.
-
-> SCSI bugs go to linux-scsi@vger.kernel.org.
-
-That's one of the email address that are in the database for real, which
-were mentioned in my patch description as 'looking valid':
-https://bugzilla.kernel.org/describecomponents.cgi?product=IO%2FStorage
-
-> netdev didn't want bugs sent there automatically IIRC, so a
-> human takes care of doing that if warranted.
-
-Ahh, good to know, it's really not obvious there are some humans working
-there to that take care of this. That and all those bugs that never get
-a reply look really like things are not working well.
-
-> Andrew Morton takes MM bugs and Cc:s them to linux-mm mailing list
-> and then asks for discussion to continue on the mailing list.
-
-Then what use it bugzilla here? Wouldn't it be better for people to go
-straight to the list?
-
-> We
-
-Who is "we"? We as in "the kernel community"? Or is there actually a
-smaller group of people you are referring to which is actively
-maintaining the list of products and components on bugzilla.kernel.org?
-
-Just trying to understand things better here, as there are other things
-that look strange to me and were mentioned in the patch description. For
-example: Why are there only 200 products and components on
-bugzilla.kernel.org (some of them for historic things like the
-ac-kernels) while the MAINTAINERS file has more than 2200 entries?
-
-> could/should probably see if we can add more project-specific
-> mailing lists to the automatic reporting 
-
-Guess that would mean taking to a lot of maintainers/mailing list admins
-if they are okay with that. Who would do that?
-
-> -- but probably not LKML.
-> Otherwise some bug reports might never be heard about.
-
-Yeah, agreed.
-
-FWIW: I don't care too much about this whole thing, the whole idea for
-the approach I'm currently driving forward started when I did regression
-tracking in 2017. Back then I noticed quite a lot of bug reports on
-bugzilla.kernel.org never got a single reply, even if they were good and
-looked valid. That's why I brought this forward on the maintainers
-summit (https://lwn.net/Articles/738216/ ) and there it was discussed to
-basically go the route I'm taking currently. But I'm totally find to
-adjust that route if there are good reasons, especially as that
-discussion happened some time ago.
-
-Ciao, Thorsten
+jon
