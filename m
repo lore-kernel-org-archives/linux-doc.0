@@ -4,93 +4,134 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1901BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:52:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1A8C433E9
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:57:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2E9C22AAF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:52:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE39F229CA
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 17:57:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389749AbhAKRwu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 12:52:50 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:40252 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389737AbhAKRwu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 12:52:50 -0500
-Date:   Mon, 11 Jan 2021 18:52:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1610387527;
+        id S2389857AbhAKR5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 12:57:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389680AbhAKR5h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 12:57:37 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C25C0617A4;
+        Mon, 11 Jan 2021 09:56:52 -0800 (PST)
+Received: from zn.tnic (p200300ec2f088f00ad31e6206ee73146.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:8f00:ad31:e620:6ee7:3146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D700E1EC04DD;
+        Mon, 11 Jan 2021 18:56:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1610387808;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cVPy9CIYHjVZt0nLPho0cY7Gyw6JNwoxw+L1fIWKpKQ=;
-        b=4HTQTzsYZBP196mM6oAM2A/14W35mIEIDbJOId6/+iuzHyA64c7fan3+w8MteOXQMcZGXa
-        /6Moj3fCObl/hDaeeuDcFQh+UpJj+Bc1EpqP2hI039I76oY3LNwDC1ZHQ6M/CkdBRj4oaZ
-        /Te9CFcspFob0/LqQij4Ri5/sSvQzrD6n0KqIyXKkmRxe6IqgwHuUQOwW3l5XMEUgW9arI
-        n4M9++0u8mwTXbz/1OGdnGhKswyVZpaWAjoJlT6xIRAiU2W7VCs10G82q6kTc6i0qkMvk0
-        Fe9VAB/QJA+SnEwr0hhmiy6mhUjlpDfUPsXblebbjCqzkRYmccc9uTMCAwBIYQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1610387527;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cVPy9CIYHjVZt0nLPho0cY7Gyw6JNwoxw+L1fIWKpKQ=;
-        b=0aoetZFobB4JlwzD45Q6x4+B5sm7cnXj/5GBF+r2cdaFyeflfjpYgZL5VHgqFVWpUGNSxF
-        mah3iQGwO/5Dg0Cg==
-From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
-To:     John Garry <john.garry@huawei.com>
-Cc:     jejb@linux.ibm.com, martin.petersen@oracle.com,
-        artur.paszkiewicz@intel.com, jinpu.wang@cloud.ionos.com,
-        corbet@lwn.net, yanaijie@huawei.com, linux-scsi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, intel-linux-scu@intel.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scsi: libsas and users: Remove notifier indirection
-Message-ID: <X/yQRg4duKpDjFFC@lx-t490>
-References: <1610386112-132641-1-git-send-email-john.garry@huawei.com>
- <X/yN3uNT77yy8Usi@lx-t490>
- <a056f28e-bbdc-1400-83f2-b6d76afd92b9@huawei.com>
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=/5CtVo/UwrBSJWcpm5LHTVgzx79jnr7sh5lj/gNN1EE=;
+        b=r1dRCcuAAzNinHRwv70Jc/k2NLJRF6q7sDui9/+Zn1f8PG48sZQFwQ07YaMmLil58/Jk3e
+        8Ix8pm+/1koZXCLgJ5Pd/KygG1l+XQOydfsHuyx1X7+DolK4jzI04VBxJp9VDGVeqQI3xa
+        0TVfTxuAUigDYWZxsnFfYFG320gE/So=
+Date:   Mon, 11 Jan 2021 18:56:43 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <20210111175643.GD25645@zn.tnic>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <a056f28e-bbdc-1400-83f2-b6d76afd92b9@huawei.com>
+In-Reply-To: <20201229213053.16395-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 05:44:17PM +0000, John Garry wrote:
-> On 11/01/2021 17:41, Ahmed S. Darwish wrote:
-> > On Tue, Jan 12, 2021 at 01:28:32AM +0800, John Garry wrote:
-> > ...
-> > > index a920eced92ec..6a51abdc59ae 100644
-> > > --- a/drivers/scsi/mvsas/mv_sas.c
-> > > +++ b/drivers/scsi/mvsas/mv_sas.c
-> > > @@ -230,7 +230,7 @@ static void mvs_bytes_dmaed(struct mvs_info *mvi, int i)
-> > >   	}
-> > >
-> > >   	sas_ha = mvi->sas;
-> > > -	sas_ha->notify_phy_event(sas_phy, PHYE_OOB_DONE);
-> > > +	sas_notify_phy_event(sas_phy, PHYE_OOB_DONE);
-> > >
-> >
-> > Minor point: "sas_ha" is now not used anywhere; it should be removed.
-> > .
-> >
->
-> ah, yes, it can be removed.
->
+On Tue, Dec 29, 2020 at 01:30:31PM -0800, Yu-cheng Yu wrote:
+> @@ -895,6 +903,12 @@ static void init_speculation_control(struct cpuinfo_x86 *c)
+>  	}
+>  }
+>  
+> +static void init_cet_features(struct cpuinfo_x86 *c)
+> +{
+> +	if (cpu_has(c, X86_FEATURE_SHSTK) || cpu_has(c, X86_FEATURE_IBT))
+> +		set_cpu_cap(c, X86_FEATURE_CET);
+> +}
 
-Similarly for drivers/scsi/pm8001/pm8001_sas.c.
+No need for that function - just add this two-liner to bsp_init_intel()
+and not in get_cpu_cap().
 
-(Just discovering these while integrating your patch at the top of my
- series).
+> +static void adjust_combined_cpu_features(void)
+> +{
+> +#ifdef CONFIG_X86_CET_USER
+> +	if (test_bit(X86_FEATURE_SHSTK, (unsigned long *)cpu_caps_cleared) &&
+> +	    test_bit(X86_FEATURE_IBT, (unsigned long *)cpu_caps_cleared))
+> +		setup_clear_cpu_cap(X86_FEATURE_CET);
+> +#endif
 
-> BTW, on separate topic, did intel-linux-scu@intel.com bounce for you?
->
+There's no need for this function...
 
-Yup :)
+> +}
+> +
+>  /*
+>   * We parse cpu parameters early because fpu__init_system() is executed
+>   * before parse_early_param().
+> @@ -1252,9 +1276,19 @@ static void __init cpu_parse_early_param(void)
+>  	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
+>  		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
+>  
+> +	/*
+> +	 * CET states are XSAVES states and options must be parsed early.
+> +	 */
+> +#ifdef CONFIG_X86_CET_USER
+> +	if (cmdline_find_option_bool(boot_command_line, "no_user_shstk"))
+> +		setup_clear_cpu_cap(X86_FEATURE_SHSTK);
 
---
-Ahmed S. Darwish
-Linutronix GmbH
+... when you can do
+
+	setup_clear_cpu_cap(X86_FEATURE_CET);
+
+here and...
+
+> +	if (cmdline_find_option_bool(boot_command_line, "no_user_ibt"))
+> +		setup_clear_cpu_cap(X86_FEATURE_IBT);
+
+... here.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
