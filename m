@@ -2,191 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE56C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65545C43381
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:29:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4551822C7E
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:22:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34FD82222F
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:29:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390372AbhAKSWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 13:22:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59578 "EHLO
+        id S2390471AbhAKS3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 13:29:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390368AbhAKSWN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:22:13 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0871C06179F
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 10:21:32 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id w1so953846ejf.11
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 10:21:32 -0800 (PST)
+        with ESMTP id S2390469AbhAKS3O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:29:14 -0500
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BE04C061786;
+        Mon, 11 Jan 2021 10:28:34 -0800 (PST)
+Received: by mail-qk1-x734.google.com with SMTP id h4so408726qkk.4;
+        Mon, 11 Jan 2021 10:28:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CFJgcUraVYnAcRA/EQl4N4cPutZjWeez3ie/8dOk8uQ=;
-        b=gPztFvge6sLDP2oMhZwGOuEQ0X/dCjbBTq3szIS/EPuYNDe580jPSK55z7yN65wf/h
-         agTKvULIOqKZSJ41XSZXtCnlye6Toa2ZjZ5JbBu0oVC2ml/8DldDzkGsmheT3FMllKRq
-         BXaDr8EVkhoJnf0nJvtVeL7je6zjHeLvL36OU7hr55cvrPVLdmD9QU6lKkW9Q1oS3c11
-         BKxBVrs1vs125kKlQpW2AWIMXSGq+1V5N/QvuzxpgfYwYKHetWIzzItEgYEhuiuewWxK
-         b0JP814MMhT6jv4vxGLQpDX/REnsImQR7Vi9r+j+TnTTBtA1LXl7ImVA/XzEn/iBaPoJ
-         OnfQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ExTGI1xPKNq4svVK8CHLz8qefNJSyDheErjNSIGWfZ4=;
+        b=YYffgrENxRJQcTsL0yqhA7FrKx1Hkd/gDDpAE1Uhy0DuRc+FLL88lcZu/xG/QEF6aX
+         IyYoJKxRhFEVT1EshDCkR7+UCtV6uoWOBBXStinXTvidZ2gvoLJpMnwQxwqNmtqpMNqg
+         eZoXHV77NwXAvIPiAJMMT1pceSzmpiIsiaiCMUsnmyQG1EJunG3Ce7QYLY3t2dDG+IUi
+         Z8YQb9B3OICTNK0ScFPDbn4Z0mMCkZ3We9mbWB+fHfG+/JG6xCntwPO8ZRVhSU8pC1RF
+         07PnyjPB6wlyw/+TVo40ktJjT8YnTKmKVeRSWDo8MLp2ewPxzv4W9Tbb3y5ZvPUZ9nv/
+         mzgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CFJgcUraVYnAcRA/EQl4N4cPutZjWeez3ie/8dOk8uQ=;
-        b=Sp7J+IipK9UEP/eer8m/BX6DurNBu08rGruDMEYbF3TEnKuRiyJpqZQGBGD/riPReU
-         XvPwtlzEy2LLf/cj/QZjdD8esRVyfyuFynXwX5ToYOKsGTZTFL3AQPojvHcQ+7wYEfbw
-         JVsL/kaKTp7CbUPohLX668nmaTe/g1sUhuFY09g1vjzl6i5GnjzO+M3N3tICWCQO623W
-         zP9Xt/WqWeGXeLKEhOrUYD8OtfES4mnp2UY6nopYCoNkEQ2mler6Wm1UDCXBLPzq0gAQ
-         mdlGFXFSu8NZHt+W0ILWbOQTIw/xxGYYHCEVlAo4h44c4hGzhLPvAHkhDNcn1Tdd0Ba+
-         sgRQ==
-X-Gm-Message-State: AOAM532gvfqtqWfmE+M7G7DQPa3//+FegaQexoHGSB81edh5QNyl8S5R
-        CqHWjT3iNpNYrrWD71snh3z8CPljem8OPSs20u1XFQ==
-X-Google-Smtp-Source: ABdhPJwom3REW4DvPvDU76P3UdiKeANy+VtFakYT/UiUi/Jb4v5N0QsFQet4UQhvnePRkm+//d0FlWxlr142J0dAjGo=
-X-Received: by 2002:a17:906:8051:: with SMTP id x17mr497930ejw.430.1610389291321;
- Mon, 11 Jan 2021 10:21:31 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ExTGI1xPKNq4svVK8CHLz8qefNJSyDheErjNSIGWfZ4=;
+        b=tYGH4GKA1kOSRehvZqr4+Mf+P5lvsBNa4g9t27u6jyXnHEHJkR36/T1iJautfliCzO
+         f0cBwWV8/SnU+VIoElxMx0jMnPF7Ycpu5XWOMClidmrFWdwaMPKUvjK1CM8vhgNKtyjA
+         yKU42+qNW33OCBfExxReSwPOtlL5ymZNQTcfYDLUJx63X1r1yxMRD9jV2c2W9iYOwJjM
+         2XjOGsJGWMo6YCcmogxnZzKBb+hYGt88P752buHJzop8aU/bN8eNuWNPi1kfgeMZkXag
+         rtD3a+YKJJLm6tTZdW+zss/JLiQlH/dz0uXhOPNl6ry2vpW6CR4f0IHGodnzxfkuSKh0
+         WZzA==
+X-Gm-Message-State: AOAM533a74mauWJVM5wFMc5D/dQE8xvD8IP7mbqTFgiPAU1wKO4mOMSy
+        w5EI7snM///HpiY1k45kTvso35pOP+ZiGw==
+X-Google-Smtp-Source: ABdhPJxqOPGIAmd28x6rr4jzh1TSGIWuX+9SrfehHjib9sM4AevbyanVEqzUI62bl8rGBeoXPgBS3g==
+X-Received: by 2002:a37:b985:: with SMTP id j127mr606560qkf.85.1610389713257;
+        Mon, 11 Jan 2021 10:28:33 -0800 (PST)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
+        by smtp.gmail.com with ESMTPSA id g26sm332942qka.76.2021.01.11.10.28.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 10:28:32 -0800 (PST)
+Date:   Mon, 11 Jan 2021 11:28:31 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <20210111182831.GB758023@ubuntu-m3-large-x86>
+References: <20210111081821.3041587-1-morbo@google.com>
+ <CA+icZUUUTEdRNbmORy4X=UqMHLMEfD186o2mh23v_mXGBM8Anw@mail.gmail.com>
+ <CAGG=3QUHWkuF0Q-=tNO5PztqtxuKYgyQy_EbBLyL0xNQ7TjgoQ@mail.gmail.com>
+ <CA+icZUX0dtfOFLqyG_NOHgFnbwnOKEBP7Fo+RxgjhzuL3FPA9g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com> <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
-In-Reply-To: <20201231142948.3241780-10-paul.kocialkowski@bootlin.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Mon, 11 Jan 2021 15:21:19 -0300
-Message-ID: <CAAEAJfAJYCE2z662hPderJ-5Qv3WBA8K5ZQaZ1JuZbZN+KfFig@mail.gmail.com>
-Subject: Re: [linux-sunxi] [PATCH v4 09/15] media: sunxi: Add support for the
- A31 MIPI CSI-2 controller
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUX0dtfOFLqyG_NOHgFnbwnOKEBP7Fo+RxgjhzuL3FPA9g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Salut Paul,
+On Mon, Jan 11, 2021 at 10:57:35AM +0100, Sedat Dilek wrote:
+> On Mon, Jan 11, 2021 at 10:17 AM Bill Wendling <morbo@google.com> wrote:
+> >
+> > On Mon, Jan 11, 2021 at 12:39 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > >
+> > > On Mon, Jan 11, 2021 at 9:18 AM 'Bill Wendling' via Clang Built Linux
+> > > <clang-built-linux@googlegroups.com> wrote:
+> > > >
+> > > > From: Sami Tolvanen <samitolvanen@google.com>
+> > > >
+> > > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> > > > profile, the kernel is instrumented with PGO counters, a representative
+> > > > workload is run, and the raw profile data is collected from
+> > > > /sys/kernel/debug/pgo/profraw.
+> > > >
+> > > > The raw profile data must be processed by clang's "llvm-profdata" tool before
+> > > > it can be used during recompilation:
+> > > >
+> > > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> > > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> > > >
+> > > > Multiple raw profiles may be merged during this step.
+> > > >
+> > > > The data can be used either by the compiler if LTO isn't enabled:
+> > > >
+> > > >     ... -fprofile-use=vmlinux.profdata ...
+> > > >
+> > > > or by LLD if LTO is enabled:
+> > > >
+> > > >     ... -lto-cs-profile-file=vmlinux.profdata ...
+> > > >
+> > > > This initial submission is restricted to x86, as that's the platform we know
+> > > > works. This restriction can be lifted once other platforms have been verified
+> > > > to work with PGO.
+> > > >
+> > > > Note that this method of profiling the kernel is clang-native and isn't
+> > > > compatible with clang's gcov support in kernel/gcov.
+> > > >
+> > > > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> > > >
+> > >
+> > > Hi Bill and Sami,
+> > >
+> > > I have seen the pull-request in the CBL issue tracker and had some
+> > > questions in mind.
+> > >
+> > > Good you send this.
+> > >
+> > > First of all, I like to fetch any development stuff easily from a Git
+> > > repository.
+> >
+> > The version in the pull-request in the CBL issue tracker is roughly
+> > the same as this patch. (There are some changes, but they aren't
+> > functionality changes.)
+> >
+> > > Can you offer this, please?
+> > > What is the base for your work?
+> > > I hope this is (fresh released) Linux v5.11-rc3.
+> > >
+> > This patch (and the PR on the CBL issue tracker) are from top-of-tree Linux.
+> >
+> > > I myself had some experiences with a PGO + ThinLTO optimized LLVM
+> > > toolchain built with the help of tc-build.
+> > > Here it takes very long to build it.
+> > >
+> > > This means I have some profile-data archived.
+> > > Can I use it?
+> > >
+> > LLVM is more tolerant of "stale" profile data than gcov, so it's
+> > possible that your archived profile data would still work, but I can't
+> > guarantee that it will be better than using new profile data.
+> >
+> > > Is an own PGO + ThinLTO optimized LLVM toolchain pre-requirement for
+> > > this or not?
+> > > That is one of my important questions.
+> > >
+> > Do you mean that the LLVM tools (clang, llc, etc.) are compiled with
+> > PGO + ThinLTO?
+> >
+> 
+> Yes.
+> 
+> - Sedat -
 
-Just a minor comment about the v4l2 async API.
-
-On Thu, 31 Dec 2020 at 11:30, Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
->
-> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 bridge
-> found on Allwinner SoCs such as the A31 and V3/V3s.
->
-> It is a standalone block, connected to the CSI controller on one side
-> and to the MIPI D-PHY block on the other. It has a dedicated address
-> space, interrupt line and clock.
->
-> It is represented as a V4L2 subdev to the CSI controller and takes a
-> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
-> media controller API.
->
-> Only 8-bit and 10-bit Bayer formats are currently supported.
-> While up to 4 internal channels to the CSI controller exist, only one
-> is currently supported by this implementation.
->
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/media/platform/sunxi/Kconfig          |   1 +
->  drivers/media/platform/sunxi/Makefile         |   1 +
->  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
->  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 590 ++++++++++++++++++
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 ++++
->  6 files changed, 725 insertions(+)
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
->  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
->
-[..]
-> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
-> +{
-> +       struct sun6i_mipi_csi2_video *video = &cdev->video;
-> +       struct v4l2_subdev *subdev = &video->subdev;
-> +       struct v4l2_async_notifier *notifier = &video->notifier;
-> +       struct fwnode_handle *handle;
-> +       struct v4l2_fwnode_endpoint *endpoint;
-> +       struct v4l2_async_subdev *subdev_async;
-> +       int ret;
-> +
-> +       /* Subdev */
-> +
-> +       v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-> +       subdev->dev = cdev->dev;
-> +       subdev->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +       strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
-> +       v4l2_set_subdevdata(subdev, cdev);
-> +
-> +       /* Entity */
-> +
-> +       subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +       subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
-> +
-> +       /* Pads */
-> +
-> +       video->pads[0].flags = MEDIA_PAD_FL_SINK;
-> +       video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +       ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
-> +       if (ret)
-> +               return ret;
-> +
-> +       /* Endpoint */
-> +
-> +       handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
-> +                                                FWNODE_GRAPH_ENDPOINT_NEXT);
-> +       if (!handle) {
-> +               ret = -ENODEV;
-> +               goto error_media_entity;
-> +       }
-> +
-> +       endpoint = &video->endpoint;
-> +       endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
-> +
-> +       ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
-> +       fwnode_handle_put(handle);
-
-I think the _put should be...
-
-> +       if (ret)
-> +               goto error_media_entity;
-> +
-> +       /* Notifier */
-> +
-> +       v4l2_async_notifier_init(notifier);
-> +
-> +       subdev_async = &video->subdev_async;
-> +       ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
-> +                                                          subdev_async);
-
-... here. See for instance drivers/media/platform/rcar-vin/rcar-csi2.c.
-
-(Unless I've missed something, of course).
+No, having an optimized LLVM toolchain is not a requirement of this
+patchset. It will make compiling the kernel faster but it does nothing
+more than that.
 
 Cheers,
-Ezequiel
+Nathan
