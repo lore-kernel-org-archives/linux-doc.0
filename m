@@ -2,81 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 270DCC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA531C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:05:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E827B21BE5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 20:34:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63DB122D03
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387453AbhAKUeB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 15:34:01 -0500
-Received: from ms.lwn.net ([45.79.88.28]:34514 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731948AbhAKUeB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Jan 2021 15:34:01 -0500
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 746E79B2;
-        Mon, 11 Jan 2021 20:33:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 746E79B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610397200; bh=BY8eScDNycdd49z8UzwKPJOGgGLk+Cy0F6YF5RoD4Mc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=YlTXNiDDJXQyP4fmefHg5bctJY+k7ppKwUzTbbNJNK8I5vXakEVRZbkrN6NfgU2H/
-         EoW5E9EKEPWKvBpHduiCLVLmevfzsJSJhEx53qmzgWbcjFbWP9BZJqwF3hAosmZez6
-         SR+L+r0jzwZAlESAGYZCCCQGWYTtjmXexcbp3Qm/HAqCk4C0DE0vQ7pGrkyZ4XhErS
-         khslNtegFkqV690KNjNsR/PzsXOl4+vLS2fGracHk9av9gyI7Mlngk1QkyAFm31Xwv
-         ejNxUE2mmIcp1/Aguxc/jXPmmIaSlLBen/4HK8LPphw9k+runfInr0AZqAC7N67CEh
-         yiNUj5xaCmsFg==
-Date:   Mon, 11 Jan 2021 13:33:19 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Marc Koderer <marc@koderer.com>
-Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        trivial@kernel.org
-Subject: Re: [PATCH] samples/kprobes: Remove misleading comment
-Message-ID: <20210111133319.4cca787c@lwn.net>
-In-Reply-To: <20201228060415.2194-1-marc@koderer.com>
-References: <20201228060415.2194-1-marc@koderer.com>
-Organization: LWN.net
+        id S2389212AbhAKVFD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 16:05:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389211AbhAKVFC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 16:05:02 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3441FC061786;
+        Mon, 11 Jan 2021 13:04:22 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id z5so1114917iob.11;
+        Mon, 11 Jan 2021 13:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N/JvOTzwKH7g4yOdOBaQJ0iIJUcwItzyG+gczSopw4M=;
+        b=OXMlL0nFMwpzNwC2f9hygACs5XEunTsQpb6aACMX25jkbji9m8sSHFDsmhnp3mPYlp
+         SlLN/oThul0KAa75nH+HduGfoaUrlmvTnc+vUKl+0rGbgc9PQ13hqoHp30u4GxpuL5BC
+         drCtzm7vvpXBrSy5FHkBMKMHqhi07+9SDjvB+edTg0vuNByQ1XXJtSM4S5c7ACOxUv+1
+         khCCeK7WSN1uAunAcFugHBzaLVFRJ0V1MDTo5e+bMSje1OnOcz3pvZ9GCoofCoaU0VKE
+         deXhPop+4w63HKcMjfAM77cdGSdmE/mA7P9sgfumesBviMBDDnz3FP9zk/45zCJLsBGw
+         vFKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N/JvOTzwKH7g4yOdOBaQJ0iIJUcwItzyG+gczSopw4M=;
+        b=FyCxhM7tkQqrj6xEjqLHUblB5ugP8tm0Pr4fCq3/lIwzV8r4Cy8AxjMG+ZmT6TcSzK
+         eWpsHs4lzm5OQMXOUJ214UCi2SuvmEv2ilS81B0XhvZK1Iema6TPXLRZAFvHFr9TrYvq
+         0jZ/jRTelF1btZGtvJ9oK7Na+3fpprwrW7KAkB/w9IgQj80xLx6yVg2/b4bbgW09Yf6L
+         Xv6c9p5HaDp/Z3Rxmw9lculaztcbzj2Ibu///hBifQEKViZfCcqoF60f5DeuIUV/oJNM
+         OXjMkRIekPZhTkN5aNBD1AVuZjGK0mCjp31ICFBWWkpZpRXRYUpT7+qpvEp3HhuLuAn9
+         bBzA==
+X-Gm-Message-State: AOAM533rfYLdbfXWcmp1FwRqI9j3EvR68eCXj9iqAdVMT51DUCrLpA0V
+        z9QiK50nwsiL2BAFHS1jExY=
+X-Google-Smtp-Source: ABdhPJzlX1J0Me+WPyfffdtszIDtkV578KtRvvz7AHXun8SDcNdQAuwilVMi0DH4aOhMBMS4yA17gw==
+X-Received: by 2002:a6b:b5d2:: with SMTP id e201mr858966iof.111.1610399061403;
+        Mon, 11 Jan 2021 13:04:21 -0800 (PST)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
+        by smtp.gmail.com with ESMTPSA id r9sm547004ill.72.2021.01.11.13.04.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 13:04:20 -0800 (PST)
+Date:   Mon, 11 Jan 2021 14:04:18 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <20210111210418.GA3660906@ubuntu-m3-large-x86>
+References: <20210111081821.3041587-1-morbo@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210111081821.3041587-1-morbo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 28 Dec 2020 07:04:15 +0100
-Marc Koderer <marc@koderer.com> wrote:
-
-> The example file supports many architectures not only x86 and PPC.
+On Mon, Jan 11, 2021 at 12:18:21AM -0800, Bill Wendling wrote:
+> From: Sami Tolvanen <samitolvanen@google.com>
 > 
-> Signed-off-by: Marc Koderer <marc@koderer.com>
-> Cc: trivial@kernel.org
-> ---
->  samples/kprobes/kprobe_example.c | 1 -
->  1 file changed, 1 deletion(-)
+> Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> profile, the kernel is instrumented with PGO counters, a representative
+> workload is run, and the raw profile data is collected from
+> /sys/kernel/debug/pgo/profraw.
 > 
-> diff --git a/samples/kprobes/kprobe_example.c b/samples/kprobes/kprobe_example.c
-> index 365905cb24b1..192aa68db0c0 100644
-> --- a/samples/kprobes/kprobe_example.c
-> +++ b/samples/kprobes/kprobe_example.c
-> @@ -1,6 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * NOTE: This example is works on x86 and powerpc.
->   * Here's a sample kernel module showing the use of kprobes to dump a
->   * stack trace and selected registers when kernel_clone() is called.
+> The raw profile data must be processed by clang's "llvm-profdata" tool before
+> it can be used during recompilation:
+> 
+>   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+>   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> 
+> Multiple raw profiles may be merged during this step.
+> 
+> The data can be used either by the compiler if LTO isn't enabled:
+> 
+>     ... -fprofile-use=vmlinux.profdata ...
+> 
+> or by LLD if LTO is enabled:
+> 
+>     ... -lto-cs-profile-file=vmlinux.profdata ...
+> 
+> This initial submission is restricted to x86, as that's the platform we know
+> works. This restriction can be lifted once other platforms have been verified
+> to work with PGO.
+> 
+> Note that this method of profiling the kernel is clang-native and isn't
+> compatible with clang's gcov support in kernel/gcov.
+> 
+> [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Co-developed-by: Bill Wendling <morbo@google.com>
+> Signed-off-by: Bill Wendling <morbo@google.com>
 
-Applied, thanks.
+I took this for a spin against x86_64_defconfig and ran into two issues:
 
-jon
+1. https://github.com/ClangBuiltLinux/linux/issues/1252
+
+   There is also one in drivers/gpu/drm/i915/i915_query.c. For the time
+   being, I added PGO_PROFILE_... := n for those two files.
+
+2. After doing that, I run into an undefined function error with ld.lld.
+
+How I tested:
+
+$ make -skj"$(nproc)" LLVM=1 defconfig
+
+$ scripts/config -e PGO_CLANG
+
+$ make -skj"$(nproc)" LLVM=1 olddefconfig vmlinux all
+ld.lld: error: undefined symbol: __llvm_profile_instrument_memop
+>>> referenced by head64.c
+>>>               arch/x86/kernel/head64.o:(__early_make_pgtable)
+>>> referenced by head64.c
+>>>               arch/x86/kernel/head64.o:(x86_64_start_kernel)
+>>> referenced by head64.c
+>>>               arch/x86/kernel/head64.o:(copy_bootdata)
+>>> referenced 2259 more times
+
+Local diff:
+
+diff --git a/drivers/char/Makefile b/drivers/char/Makefile
+index ffce287ef415..4b2f238770b5 100644
+--- a/drivers/char/Makefile
++++ b/drivers/char/Makefile
+@@ -4,6 +4,7 @@
+ #
+ 
+ obj-y				+= mem.o random.o
++PGO_PROFILE_random.o		:= n
+ obj-$(CONFIG_TTY_PRINTK)	+= ttyprintk.o
+ obj-y				+= misc.o
+ obj-$(CONFIG_ATARI_DSP56K)	+= dsp56k.o
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index e5574e506a5c..d83cacc79b1a 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -168,6 +168,7 @@ i915-y += \
+ 	  i915_vma.o \
+ 	  intel_region_lmem.o \
+ 	  intel_wopcm.o
++PGO_PROFILE_i915_query.o := n
+ 
+ # general-purpose microcontroller (GuC) support
+ i915-y += gt/uc/intel_uc.o \
