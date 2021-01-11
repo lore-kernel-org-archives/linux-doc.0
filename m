@@ -2,91 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24256C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:14:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9B2C43381
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:15:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1AB8225AB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:14:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E38922473
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 18:15:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390069AbhAKSOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 13:14:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389860AbhAKSOz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 13:14:55 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031BFC06179F;
-        Mon, 11 Jan 2021 10:14:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=+yL4rFpmpqzWF4MRa4OI55Sy1AqIMFXHO/4zaA5wwVI=; b=LXC5eg/Jo2DjmQwekxjr1Admpe
-        f7ldsBTyXRvxqctPXkrJTYxCI0aUrx60J1kEyO7ukhRh8BBhSRx4sYeOmWqcgX7E9O2mEFMlNJw5q
-        Lk6Fb3DK7yCc76rJer/lt3B4POITOFwoK+nrZOZBg5is9BgQlaYeD1fmXEE07S78YhqdNE+UKJtJQ
-        Gz29Hm7D+inCpduh4rsMdCr76P7fkDyV8CTGLH2dIVVG2QqihaEuMG0mk8EHK9jZS+ogQ0TOn8cIM
-        rqazYjyyDltCKk898rRYRVxsWt1VuCJKWP44w3ehp8k1qqBDn38oJ5IEfBwHyriNEBD1P27WM+HG6
-        cHwwSlwQ==;
-Received: from [2601:1c0:6280:3f0::79df]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kz1hj-0004ph-QH; Mon, 11 Jan 2021 18:14:12 +0000
-Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
- bugzilla.kernel.org
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210110121033.130504-1-linux@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
-Date:   Mon, 11 Jan 2021 10:14:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S2389737AbhAKSPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 13:15:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726668AbhAKSPH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 13:15:07 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9666B207B1;
+        Mon, 11 Jan 2021 18:14:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1610388866;
+        bh=B62HC3paLLckrwQ1xkjNWaCPCuRiDK6rJQAJHbpRzW0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CPEP7PyqdyWqlypm0V+py211dLaXp0PKJ548GXRHUjlxBI1C1pA0riBCH8NE/YmK8
+         zeCPeAzynkkTQ3bs128bQMKaOQKUst9hFNCInoXxc+XOVTuQ4dwH1jNzzccRZf7S3i
+         KaHQOkQ6DajfJ9898JY4pNhDgLsb9talwxc6gnwU=
+Date:   Mon, 11 Jan 2021 19:14:22 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Wu Hao <hao.wu@intel.com>, Moritz Fischer <mdf@kernel.org>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>,
+        linux-fpga@vger.kernel.org, Tom Rix <trix@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH -next] fpga: dfl-pci: rectify ReST formatting
+Message-ID: <X/yVflU6ccIlAtgO@kroah.com>
+References: <20210111112113.27242-1-lukas.bulwahn@gmail.com>
+ <X/x0j+hWRdJ6U/MG@kroah.com>
+ <CAKXUXMzR2J895_+ZsRqcJ___Pu0HnRfiiFFrGfehQe8J4kQrgg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210110121033.130504-1-linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKXUXMzR2J895_+ZsRqcJ___Pu0HnRfiiFFrGfehQe8J4kQrgg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/10/21 4:10 AM, Thorsten Leemhuis wrote:
-> * About 66 of those ~200 components will assign bugs to email addresses
->   that look valid, but 125 of them end with @kernel-bugs.osdl.org or
->   @kernel-bugs.kernel.org. Those domains do not exist anymore, mails
->   sent there bounce ('Unrouteable address'). It's possible that the
->   server might be rewriting those domain names and nevertheless
->   delivers new reports and comments by mails to some human; but it
->   seems more like they never get mailed to anyone and thus just linger
->   in the database; no wonder quite a few of bugs filed against such
->   components never get a single reply (see below).
+On Mon, Jan 11, 2021 at 05:34:57PM +0100, Lukas Bulwahn wrote:
+> On Mon, Jan 11, 2021 at 4:52 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Mon, Jan 11, 2021 at 12:21:13PM +0100, Lukas Bulwahn wrote:
+> > > Commit fa41d10589be ("fpga: dfl-pci: locate DFLs by PCIe vendor specific
+> > > capability") provides documentation to the FPGA Device Feature List (DFL)
+> > > Framework Overview, but introduced new documentation warnings:
+> > >
+> > >   ./Documentation/fpga/dfl.rst:
+> > >     505: WARNING: Title underline too short.
+> > >     523: WARNING: Unexpected indentation.
+> > >     523: WARNING: Blank line required after table.
+> > >     524: WARNING: Block quote ends without a blank line; unexpected unindent.
+> > >
+> > > Rectify ReST formatting in ./Documentation/fpga/dfl.rst.
+> > >
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >
+> 
+> > You forgot a Reported-by: tag for the person who notified you of this :(
+> 
+> Greg, would you believe that I run 'make htmldocs' on linux-next myself?
 
-Those @kernel-bugs email addresses should not be a problem:
+Sure, just seemed to match up with when Stephen reported this a few
+hours earlier...
 
-  https://korg.docs.kernel.org/bugzilla.html#real-assignees-vs-virtual-assignees
+thanks,
 
-
-
-AFAIK, USB bugs go to linux-usb@vger.kernel.org,
-SCSI bugs go to linux-scsi@vger.kernel.org.
-
-netdev didn't want bugs sent there automatically IIRC, so a
-human takes care of doing that if warranted.
-
-Andrew Morton takes MM bugs and Cc:s them to linux-mm mailing list
-and then asks for discussion to continue on the mailing list.
-
-
-We could/should probably see if we can add more project-specific
-mailing lists to the automatic reporting -- but probably not LKML.
-
-Otherwise some bug reports might never be heard about.
-
--- 
-~Randy
-
+greg k-h
