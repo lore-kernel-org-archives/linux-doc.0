@@ -2,190 +2,273 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-28.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7144AC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76656C43381
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:59:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3890922CB2
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:33:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BA6522473
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 21:59:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbhAKVdg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 16:33:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44402 "EHLO
+        id S2388953AbhAKV7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 16:59:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbhAKVdg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 16:33:36 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD699C061786
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 13:32:55 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id 6so483546ejz.5
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jan 2021 13:32:55 -0800 (PST)
+        with ESMTP id S1725917AbhAKV7U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 16:59:20 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAE2C061794;
+        Mon, 11 Jan 2021 13:58:40 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id b5so383480pjl.0;
+        Mon, 11 Jan 2021 13:58:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=50L+1hnJJiPA478RLj/gLuEG+isMc9fiaMNBoBubFG8=;
-        b=rYOp9BCUVy7bgeYU35xdwLribm7Ww37Bcp1eJcWjuc90z/LhUUyMPc19HCdqTD9l67
-         cd7GR+imksIxIU/WsQLWGGaJwGxPmCMbUdUzfXyohigz6XcMRByOcdeY/ZhAenAMpTwA
-         TfMVLU1yeUw8nGcMTu9UfQXyqb56ftQSQJVpOy227M/Qr3ML+GTo+2e+WO2M2d86uFFh
-         H9nxrtZSY5Q//LSDZvsOJSsTnRMj+gn2d5mMpa0JN0ET6dmpD5wJRfs58n3zp176Hy+0
-         TdzKJLJSR1qTLZlQxX1nnsFosQCCpbL4aMhAwViuDQUIsOJNg091t58ZiFilVJTroXIM
-         1VCg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=aBXnKLnbF5QBJWOxzxvZrwLpPgIU33au5TIuZ8DUciQ=;
+        b=hXw9N8PpOiOjWAjoV07v/RUpwNy0/XJkbGzeSzpQAbJPwdAi2dDUp+0Qy/IcTF5GBY
+         K/14xQzFM0saAW/lY/n3dFwfqy3nmV5zeexDIEfYov0FWX2+pJGwcvCF4SJ4+625Su/4
+         bFbGa1yGRWvpx/JYjMTM7fhYzeInWgAyOaw78MLWwOEAmByb5s/Q2fHUjO7TFAtJpgEO
+         anZDYlbIAT+aqWBe7JvVoAI3ci85MmKpLxnAnGG3iNSlro7huY8YbpAG2Tf4PrUU01x9
+         YrjxwyMBIvWl/qttZ4ruaMlwolyCmG3CyPh1EfY3XVCst+oK5pX2PfRC/afZmn4jzf2l
+         EUvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=50L+1hnJJiPA478RLj/gLuEG+isMc9fiaMNBoBubFG8=;
-        b=F+F31wJgLzpTOmIX6Md9bLTO51otWsTzzEbLqq8UXzvtVbt7+kxiJQ1sK6fVTXwBBh
-         WItoldt9iaWmqBSwK6YDXkMt8sz5P2Xp0BPf4XbLezFMP18Muxhr3EHbdVmJSjhcQZh5
-         E5l5iJD2mX05qp3stFv65nsr134sT/o5WkQX4ubQKd2Ci6V4mkpp0+C03uPl0HnfGzdv
-         f/XWEjZ3Mvco3gTgrgwddFe3bWlQdtI5BUXnFnnlX/q1Ojzy++TAbCRnwSLgJUYI7Hrd
-         jR9gFhxhDLGPROra0pEzPA43AvkYvu3qITmayBQwkDFp+9xpQwGpiNrMjYui63ThCCRF
-         igXA==
-X-Gm-Message-State: AOAM5319bThLTEFxIidy45vqh6HJ5f3hKAtzub+5zuH8FMUf67zD+W8z
-        WDAkWjYI8ybpTvh1dEmFzAks9m5+YuDzpLFV9qio
-X-Google-Smtp-Source: ABdhPJx+2LyouZzRygCuLlWFWx4k+p6i/4U8LokURJQNA4v0tODWOZ8ObMJC5e5El+Q6xCskMviaUUvpTxEojhVhqlQ=
-X-Received: by 2002:a17:906:cc8c:: with SMTP id oq12mr958706ejb.419.1610400774280;
- Mon, 11 Jan 2021 13:32:54 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=aBXnKLnbF5QBJWOxzxvZrwLpPgIU33au5TIuZ8DUciQ=;
+        b=nXzqkMZWJkeQABB9Ritnn1xGnczcyZ28i8Z+efDFYbLzs1JHJCFSkqVUERHE+wMJL1
+         Xk0ALeUKbBbjZxPEF9f5edWv91rxJ04rPyJuEJFJtnQuA272aRExccB17u+APqWptrmS
+         7cP1Ze5r90JyAL2RSHad+kPJ2kf391J4CNl8ApxptYm8D8yoOzBF6/M0gPuEstkVtxUs
+         CXsPdrTxWP9ex7RZ1TuaLcayT1f/kdkMJwdMo4JWoFaQuVnc44xFpX2A0PhSvKH01iXC
+         8u0pxnl3zvO2a0gR71kr3OcqibAP5cG0DpMGyBPYTB1wtsNMmejYY9M7rlPW+wlKb3bo
+         cGzQ==
+X-Gm-Message-State: AOAM531p31SUks7UMyeTPgEHjDs8DZt1fY7RiYl7E1O9m1hhw1q9NRYX
+        vhNwQkgw4VGdt4+hUaJohw==
+X-Google-Smtp-Source: ABdhPJzNvJaV0cppcJBUw6uYQ8HHuD4/i1AtZmQuYWaq6Px2L13/5EFZpta2iEX3baeuKfj6UztUFA==
+X-Received: by 2002:a17:90a:7842:: with SMTP id y2mr991134pjl.36.1610402319904;
+        Mon, 11 Jan 2021 13:58:39 -0800 (PST)
+Received: from localhost.localdomain ([216.52.21.4])
+        by smtp.gmail.com with ESMTPSA id z13sm403883pjz.42.2021.01.11.13.58.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 11 Jan 2021 13:58:39 -0800 (PST)
+From:   Praveen Chaudhary <praveen5582@gmail.com>
+X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
+To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Zhenggen Xu <zxu@linkedin.com>
+Subject: [PATCH v0 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
+Date:   Mon, 11 Jan 2021 13:58:29 -0800
+Message-Id: <20210111215829.3774-2-pchaudhary@linkedin.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20210111215829.3774-1-pchaudhary@linkedin.com>
+References: <20210111215829.3774-1-pchaudhary@linkedin.com>
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210111210418.GA3660906@ubuntu-m3-large-x86>
- <CAKwvOdnssY=CV4daRQvGa659AzGvMT+Kb10g5-DDuZjqbp-J5A@mail.gmail.com>
-In-Reply-To: <CAKwvOdnssY=CV4daRQvGa659AzGvMT+Kb10g5-DDuZjqbp-J5A@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Mon, 11 Jan 2021 13:32:43 -0800
-Message-ID: <CAGG=3QVpxUpZJJYiy88YYk80-kvRPipnYdk9_9WzN=bToX9POA@mail.gmail.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 1:18 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Mon, Jan 11, 2021 at 1:04 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > On Mon, Jan 11, 2021 at 12:18:21AM -0800, Bill Wendling wrote:
-> > > From: Sami Tolvanen <samitolvanen@google.com>
-> > >
-> > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > > profile, the kernel is instrumented with PGO counters, a representative
-> > > workload is run, and the raw profile data is collected from
-> > > /sys/kernel/debug/pgo/profraw.
-> > >
-> > > The raw profile data must be processed by clang's "llvm-profdata" tool before
-> > > it can be used during recompilation:
-> > >
-> > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > >
-> > > Multiple raw profiles may be merged during this step.
-> > >
-> > > The data can be used either by the compiler if LTO isn't enabled:
-> > >
-> > >     ... -fprofile-use=vmlinux.profdata ...
-> > >
-> > > or by LLD if LTO is enabled:
-> > >
-> > >     ... -lto-cs-profile-file=vmlinux.profdata ...
-> > >
-> > > This initial submission is restricted to x86, as that's the platform we know
-> > > works. This restriction can be lifted once other platforms have been verified
-> > > to work with PGO.
-> > >
-> > > Note that this method of profiling the kernel is clang-native and isn't
-> > > compatible with clang's gcov support in kernel/gcov.
-> > >
-> > > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> > >
-> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > Co-developed-by: Bill Wendling <morbo@google.com>
-> > > Signed-off-by: Bill Wendling <morbo@google.com>
-> >
-> > I took this for a spin against x86_64_defconfig and ran into two issues:
-> >
-> > 1. https://github.com/ClangBuiltLinux/linux/issues/1252
->
-> "Cannot split an edge from a CallBrInst"
-> Looks like that should be fixed first, then we should gate this
-> feature on clang-12.
->
-Weird. I'll investigate.
+For IPv4, default route is learned via DHCPv4 and user is allowed to change
+metric using config etc/network/interfaces. But for IPv6, default route can
+be learned via RA, for which, currently a fixed metric value 1024 is used.
 
-> >
-> >    There is also one in drivers/gpu/drm/i915/i915_query.c. For the time
-> >    being, I added PGO_PROFILE_... := n for those two files.
-> >
-> > 2. After doing that, I run into an undefined function error with ld.lld.
-> >
-> > How I tested:
-> >
-> > $ make -skj"$(nproc)" LLVM=1 defconfig
-> >
-> > $ scripts/config -e PGO_CLANG
-> >
-> > $ make -skj"$(nproc)" LLVM=1 olddefconfig vmlinux all
-> > ld.lld: error: undefined symbol: __llvm_profile_instrument_memop
->
-> Err...that seems like it should be implemented in
-> kernel/pgo/instrument.c in this patch in a v2?
->
-Yes. I'll submit a new V2 with this and other feedback integrated.
+Ideally, user should be able to configure metric on default route for IPv6
+similar to IPv4. This fix adds sysctl for the same.
 
-> > >>> referenced by head64.c
-> > >>>               arch/x86/kernel/head64.o:(__early_make_pgtable)
-> > >>> referenced by head64.c
-> > >>>               arch/x86/kernel/head64.o:(x86_64_start_kernel)
-> > >>> referenced by head64.c
-> > >>>               arch/x86/kernel/head64.o:(copy_bootdata)
-> > >>> referenced 2259 more times
-> >
-> > Local diff:
-> >
-> > diff --git a/drivers/char/Makefile b/drivers/char/Makefile
-> > index ffce287ef415..4b2f238770b5 100644
-> > --- a/drivers/char/Makefile
-> > +++ b/drivers/char/Makefile
-> > @@ -4,6 +4,7 @@
-> >  #
-> >
-> >  obj-y                          += mem.o random.o
-> > +PGO_PROFILE_random.o           := n
-> >  obj-$(CONFIG_TTY_PRINTK)       += ttyprintk.o
-> >  obj-y                          += misc.o
-> >  obj-$(CONFIG_ATARI_DSP56K)     += dsp56k.o
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> > index e5574e506a5c..d83cacc79b1a 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -168,6 +168,7 @@ i915-y += \
-> >           i915_vma.o \
-> >           intel_region_lmem.o \
-> >           intel_wopcm.o
-> > +PGO_PROFILE_i915_query.o := n
-> >
-> >  # general-purpose microcontroller (GuC) support
-> >  i915-y += gt/uc/intel_uc.o \
->
-> I'd rather have these both sorted out before landing with PGO disabled
-> on these files.
->
-Agreed.
+Signed-off-by: Praveen Chaudhary<pchaudhary@linkedin.com>
+Signed-off-by: Zhenggen Xu<zxu@linkedin.com>
+---
+ Documentation/networking/ip-sysctl.rst | 18 ++++++++++++++++++
+ include/linux/ipv6.h                   |  1 +
+ include/net/ip6_route.h                |  3 ++-
+ include/uapi/linux/ipv6.h              |  1 +
+ include/uapi/linux/sysctl.h            |  1 +
+ net/ipv6/addrconf.c                    | 10 ++++++++++
+ net/ipv6/ndisc.c                       | 12 +++++++++---
+ net/ipv6/route.c                       |  5 +++--
+ 8 files changed, 45 insertions(+), 6 deletions(-)
 
--bw
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index dd2b12a32b73..384159081d91 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1871,6 +1871,24 @@ accept_ra_defrtr - BOOLEAN
+ 		- enabled if accept_ra is enabled.
+ 		- disabled if accept_ra is disabled.
+ 
++accept_ra_defrtr_metric - INTEGER
++	Route metric for default route learned in Router Advertisement. This
++	value will be assigned as metric for the route learned via IPv6 Router
++	Advertisement.
++
++	Possible values are:
++		0:
++			Use default value i.e. IP6_RT_PRIO_USER	1024.
++		0xFFFFFFFF to -1:
++			-ve values represent high route metric, value will be treated as
++			unsigned value. This behaviour is inline with current IPv4 metric
++			shown with commands such as "route -n" or "ip route list".
++		1 to 0x7FFFFFF:
++			+ve values will be used as is for route metric.
++
++	Functional default: enabled if accept_ra_defrtr is enabled.
++				disabled if accept_ra_defrtr is disabled.
++
+ accept_ra_from_local - BOOLEAN
+ 	Accept RA with source-address that is found on local machine
+ 	if the RA is otherwise proper and able to be accepted.
+diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
+index dda61d150a13..19af90c77200 100644
+--- a/include/linux/ipv6.h
++++ b/include/linux/ipv6.h
+@@ -31,6 +31,7 @@ struct ipv6_devconf {
+ 	__s32		max_desync_factor;
+ 	__s32		max_addresses;
+ 	__s32		accept_ra_defrtr;
++	__s32		accept_ra_defrtr_metric;
+ 	__s32		accept_ra_min_hop_limit;
+ 	__s32		accept_ra_pinfo;
+ 	__s32		ignore_routes_with_linkdown;
+diff --git a/include/net/ip6_route.h b/include/net/ip6_route.h
+index 2a5277758379..a470bdab2420 100644
+--- a/include/net/ip6_route.h
++++ b/include/net/ip6_route.h
+@@ -174,7 +174,8 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
+ 				     struct net_device *dev);
+ struct fib6_info *rt6_add_dflt_router(struct net *net,
+ 				     const struct in6_addr *gwaddr,
+-				     struct net_device *dev, unsigned int pref);
++				     struct net_device *dev, unsigned int pref,
++				     unsigned int defrtr_usr_metric);
+ 
+ void rt6_purge_dflt_routers(struct net *net);
+ 
+diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
+index 13e8751bf24a..945de5de5144 100644
+--- a/include/uapi/linux/ipv6.h
++++ b/include/uapi/linux/ipv6.h
+@@ -189,6 +189,7 @@ enum {
+ 	DEVCONF_ACCEPT_RA_RT_INFO_MIN_PLEN,
+ 	DEVCONF_NDISC_TCLASS,
+ 	DEVCONF_RPL_SEG_ENABLED,
++	DEVCONF_ACCEPT_RA_DEFRTR_METRIC,
+ 	DEVCONF_MAX
+ };
+ 
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 458179df9b27..5e79c196e33c 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -571,6 +571,7 @@ enum {
+ 	NET_IPV6_ACCEPT_SOURCE_ROUTE=25,
+ 	NET_IPV6_ACCEPT_RA_FROM_LOCAL=26,
+ 	NET_IPV6_ACCEPT_RA_RT_INFO_MIN_PLEN=27,
++	NET_IPV6_ACCEPT_RA_DEFRTR_METRIC=28,
+ 	__NET_IPV6_MAX
+ };
+ 
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index eff2cacd5209..702ec4a33936 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -205,6 +205,7 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
+ 	.max_desync_factor	= MAX_DESYNC_FACTOR,
+ 	.max_addresses		= IPV6_MAX_ADDRESSES,
+ 	.accept_ra_defrtr	= 1,
++	.accept_ra_defrtr_metric = 0,
+ 	.accept_ra_from_local	= 0,
+ 	.accept_ra_min_hop_limit= 1,
+ 	.accept_ra_pinfo	= 1,
+@@ -260,6 +261,7 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
+ 	.max_desync_factor	= MAX_DESYNC_FACTOR,
+ 	.max_addresses		= IPV6_MAX_ADDRESSES,
+ 	.accept_ra_defrtr	= 1,
++	.accept_ra_defrtr_metric = 0,
+ 	.accept_ra_from_local	= 0,
+ 	.accept_ra_min_hop_limit= 1,
+ 	.accept_ra_pinfo	= 1,
+@@ -5475,6 +5477,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
+ 	array[DEVCONF_MAX_DESYNC_FACTOR] = cnf->max_desync_factor;
+ 	array[DEVCONF_MAX_ADDRESSES] = cnf->max_addresses;
+ 	array[DEVCONF_ACCEPT_RA_DEFRTR] = cnf->accept_ra_defrtr;
++	array[DEVCONF_ACCEPT_RA_DEFRTR_METRIC] = cnf->accept_ra_defrtr_metric;
+ 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] = cnf->accept_ra_min_hop_limit;
+ 	array[DEVCONF_ACCEPT_RA_PINFO] = cnf->accept_ra_pinfo;
+ #ifdef CONFIG_IPV6_ROUTER_PREF
+@@ -6667,6 +6670,13 @@ static const struct ctl_table addrconf_sysctl[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec,
+ 	},
++	{
++		.procname	= "accept_ra_defrtr_metric",
++		.data		= &ipv6_devconf.accept_ra_defrtr_metric,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++	},
+ 	{
+ 		.procname	= "accept_ra_min_hop_limit",
+ 		.data		= &ipv6_devconf.accept_ra_min_hop_limit,
+diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+index 76717478f173..955dde8aad22 100644
+--- a/net/ipv6/ndisc.c
++++ b/net/ipv6/ndisc.c
+@@ -1180,6 +1180,7 @@ static void ndisc_router_discovery(struct sk_buff *skb)
+ 	unsigned int pref = 0;
+ 	__u32 old_if_flags;
+ 	bool send_ifinfo_notify = false;
++	unsigned int defrtr_usr_metric = 0;
+ 
+ 	__u8 *opt = (__u8 *)(ra_msg + 1);
+ 
+@@ -1303,13 +1304,18 @@ static void ndisc_router_discovery(struct sk_buff *skb)
+ 			return;
+ 		}
+ 	}
+-	if (rt && lifetime == 0) {
++	/* Set default route metric if specified by user */
++	defrtr_usr_metric = in6_dev->cnf.accept_ra_defrtr_metric;
++	if (defrtr_usr_metric == 0)
++		defrtr_usr_metric = IP6_RT_PRIO_USER;
++	/* delete the route if lifetime is 0 or if metric needs change */
++	if (rt && ((lifetime == 0) || (rt->fib6_metric != defrtr_usr_metric)))  {
+ 		ip6_del_rt(net, rt, false);
+ 		rt = NULL;
+ 	}
+ 
+-	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, for dev: %s\n",
+-		  rt, lifetime, skb->dev->name);
++	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, metric: %d, for dev: %s\n",
++		  rt, lifetime, defrtr_usr_metric, skb->dev->name);
+ 	if (!rt && lifetime) {
+ 		ND_PRINTK(3, info, "RA: adding default router\n");
+ 
+diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+index 188e114b29b4..5f177ae97e42 100644
+--- a/net/ipv6/route.c
++++ b/net/ipv6/route.c
+@@ -4252,11 +4252,12 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
+ struct fib6_info *rt6_add_dflt_router(struct net *net,
+ 				     const struct in6_addr *gwaddr,
+ 				     struct net_device *dev,
+-				     unsigned int pref)
++				     unsigned int pref,
++				     unsigned int defrtr_usr_metric)
+ {
+ 	struct fib6_config cfg = {
+ 		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
+-		.fc_metric	= IP6_RT_PRIO_USER,
++		.fc_metric	= defrtr_usr_metric ? defrtr_usr_metric : IP6_RT_PRIO_USER,
+ 		.fc_ifindex	= dev->ifindex,
+ 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
+ 				  RTF_UP | RTF_EXPIRES | RTF_PREF(pref),
+-- 
+2.29.0
+
