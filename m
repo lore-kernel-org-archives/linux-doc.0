@@ -2,201 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-31.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA99C4332B
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F57C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:47:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A5CB230F9
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:10:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0384D23120
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406727AbhALTKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 14:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
+        id S2406789AbhALTre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 14:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406723AbhALTKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 14:10:11 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42475C061795;
-        Tue, 12 Jan 2021 11:09:31 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1kzP2i-0007NT-Rj; Tue, 12 Jan 2021 20:09:25 +0100
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210110121033.130504-1-linux@leemhuis.info>
- <20210111194822.4kvl2tx24anyu23k@chatter.i7.local>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
- bugzilla.kernel.org
-Message-ID: <fba45829-cac3-9f53-c753-0b08d813aa83@leemhuis.info>
-Date:   Tue, 12 Jan 2021 20:09:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210111194822.4kvl2tx24anyu23k@chatter.i7.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610478571;eef0f28c;
-X-HE-SMSGID: 1kzP2i-0007NT-Rj
+        with ESMTP id S2406736AbhALTre (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 14:47:34 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D27C061786
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 11:46:53 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id v1so2274825qvb.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 11:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=575K5Wa01BXuSX5wfEbu2mOnTk5h9ngYJOt0hPIiDbE=;
+        b=uWIQwzplj0dSfYqg/T40aBR3p//IOck88E6Nca9IgUtiYbKfdinxhWWnC3QKE7NYv3
+         0UMB7z2PAs7qpXcDAAuN5wzmCxwgaMRy5OISAgIcPBOQCzXd5eX3ihg6O9avJYHqBOpL
+         B6UTnPRuCzCKKsJTMvaJuMPmaisO9J67gQvgX23WwgEvVEAnI9I9JlwYidsoX0f+7pY1
+         ymwnAiOh3fO8c5+aeJqPRsoGvFdA91JB4M/txMK8o5pxoCr6gMYLZAb9UrayWrz9D6YD
+         9xpAmByPNxYAH/FodYigxhG1MYxAtuGxn3hiaY6s/ZE/tKwPVrYndVXPEpSVp97xPEB8
+         Ymhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=575K5Wa01BXuSX5wfEbu2mOnTk5h9ngYJOt0hPIiDbE=;
+        b=UAFk7acSg3opV73GEQSbMkx6EbID44Ubz4lubrjkw26tft8s1QrLlg+Y9mZ+mT+ofE
+         InNoo8IVAkPnBSKlu11HYnwu8O2XwUGHFL5QOprZTd/SXOY2taRcKNqjXP669O1P5UDn
+         U176DsKIjRA3XdTi3H71VTm3Q2X5QlJ45npSO5sPJPIXFOGEayH/LJiGw8x9On9auFOs
+         SV0wAxnEbq3+FIjAMij9JYv6ibB7M7FKOIUldNSdRFg3gQ4EFF7RKhQV8ihAuTh0QwHk
+         zp9bjGeKqlOsHzKUQknD+1+BKUCHMZLCO0B+e+hW0+oqzRWF3M89HCAHKErzTnLiUHHn
+         keUA==
+X-Gm-Message-State: AOAM53319IvGis8r4lH4UQdP8v2oMo+JU0pJznjqJNBl2NsOrhagYnxi
+        NhiZCaNTmIAh3SSFiSC9smTLVIUH+2T9MkebRK0=
+X-Google-Smtp-Source: ABdhPJwFr5GNH3mYsB63vu/qRw5kPYC06VeiweTXzWX2Xnus8dFpApEikj2fXJ+HMNrEno0SRfXqfGs5F0Hy5DkKDxM=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:ad4:4390:: with SMTP id
+ s16mr1155717qvr.28.1610480812711; Tue, 12 Jan 2021 11:46:52 -0800 (PST)
+Date:   Tue, 12 Jan 2021 11:46:24 -0800
+In-Reply-To: <20210112115421.GB13086@zn.tnic>
+Message-Id: <20210112194625.4181814-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+References: <20210112115421.GB13086@zn.tnic>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thx for your reply and sorry for forgetting to CC you; that was the
-plan, but I forgot when I called git send-email :-/
+Arnd found a randconfig that produces the warning:
 
-Am 11.01.21 um 20:48 wrote Konstantin Ryabitsev:
-> On Sun, Jan 10, 2021 at 01:10:33PM +0100, Thorsten Leemhuis wrote:
->> The front page doesn't make this aspect obvious and not even point to
->> Documentation/admin-guide/reporting-bugs.rst to help those that want to
->> properly report a bug. Only the FAQ mentions it, albeit only indirectly:
->> 'The subsystem maintainers in kernel tracker are volunteers to help
->> track bugs in an area they are interested in. Sometimes they are the
->> same person as on kernel.org sometimes they are not. There are still
->> some categories with no maintainers so more volunteers are needed.'
-> My general comment on this is that bug triage sucks and nobody really wants to
-> do it for any extended period of time. :) There were times in the past when
-> this or that person did step up and kept an eye on all incoming new bugs,
-> properly routing them to the proper product/component, but they quickly burned
-> out or found a less thankless occupation. Understandably.
+arch/x86/entry/thunk_64.o: warning: objtool: missing symbol for insn at
+offset 0x3e
 
-Yeah, I can relate to that, too.
+when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
+notes:
 
->> It looks like those volunteers were never found; the outdated list of
->> components and products (see 'the bad' above) also shows that the
->> volunteers seem to not really take care of things.
-> I want to encourage you and the rest of the developers to complain about this
-> to the TAB. It is entirely in their power to come to the Linux Foundation with
-> the suggestion that perhaps bug triage should be a paid position. It's not a
-> given that such a position would then be created and funded, but this for sure
-> won't happen if these complaints don't reach People In Charge Of Funds at the
-> LF.
+  With the LLVM assembler not generating section symbols, objtool has no
+  way to reference this code when it generates ORC unwinder entries,
+  because this code is outside of any ELF function.
 
-Hmmm, I'll have to think about that. I'm not sure yet if I'm currently
-willing to enter enter such a fight^w^w^w^w go down that route – I soon
-have other things on my plate and not much time to spare for this. Sure,
-bringing this to TAB is not that much work, but I expect that will lead
-to a longer process that will involve lots of arguments that will need
-to get exchanged by mail... And I don't care that much about bugzilla,
-that why I spend time wring the recently added text
-Documentation/admin-guide/reporting-issues.rst
+  The limitation now being imposed by objtool is that all code must be
+  contained in an ELF symbol.  And .L symbols don't create such symbols.
 
+  So basically, you can use an .L symbol *inside* a function or a code
+  segment, you just can't use the .L symbol to contain the code using a
+  SYM_*_START/END annotation pair.
 
+Fangrui notes that this optimization is helpful for reducing image size
+when compiling with -ffunction-sections and -fdata-sections. I have
+observed on the order of tens of thousands of symbols for the kernel
+images built with those flags.
 
->> In the end that's the reasons why quite a few (a lot?) reports never get
->> a reply from someone. During a randomly selected 2 week window at the
->> end of November 2020(¹) there were 60 public bugs and a bit more than
->> half of them by the end of the year never got a single comment by anyone
->> except maybe the reporter.
-> Well, that said, a lot of stuff sent to the _proper_ mailing lists also never
-> receives a response
+A patch has been authored against GNU binutils to match this behavior,
+so this will also become a problem for users of GNU binutils once they
+upgrade to 2.36.
 
-Good point.
+We can omit the .L prefix on a label so that the assembler will emit an
+entry into the symbol table for the label, with STB_LOCAL binding.  This
+enables objtool to generate proper unwind info here with LLVM_IAS=1 or
+GNU binutils 2.36+.
 
-> -- either because it didn't catch appropriate eyeballs or
-> because those eyeballs didn't have time to spend on the required
-> back-and-forth to identify the source of the problem.
+Cc: Fangrui Song <maskray@google.com>
+Link: https://github.com/ClangBuiltLinux/linux/issues/1209
+Link: https://reviews.llvm.org/D93783
+Link: https://sourceware.org/binutils/docs/as/Symbol-Names.html
+Link: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=d1bcae833b32f1408485ce69f844dcd7ded093a8
+Reported-by: Arnd Bergmann <arnd@arndb.de>
+Suggested-by: Josh Poimboeuf <jpoimboe@redhat.com>
+Suggested-by: Borislav Petkov <bp@alien8.de>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Changes v3 -> v4:
+* Add changes to Documentation/ and include/ as per Boris.
+* Fix typos as per Josh.
+* Replace link and note in commit message about
+  --generate-unused-section-symbols=[yes|no] which was dropped from GNU
+  binutils with link to actual commit in binutils-gdb.
+* Add additional notes from Josh in commit message.
+* Slightly reword commit message to indicate that section symbols are
+  not emitted, rather than stripped.
 
-Or because the bug report was obviously so bad no one dared to touch it.
-But that reason and the two you mentioned are all covered in
-Documentation/admin-guide/reporting-issues.rst
+Changes v2 -> v3:
+* rework to use STB_LOCAL rather than STB_GLOBAL by dropping .L prefix,
+  as per Josh.
+* rename oneline to drop STB_GLOBAL in commit message.
+* add link to GAS docs on .L prefix.
+* drop Josh's ack since patch changed.
 
-Sure, not everybody will read that far, but at least those that do will
-find help. And yes, the text could cover those situations for
-bugzilla.kernel.org as well, but that afaics would boil down to 'report
-to the place that is mentioned in the MAINTAINERS file (as you better
-would have right from the start)'.
+Changes v1 -> v2:
+* Pick up Josh's Ack.
+* Add commit message info about -ffunction-sections/-fdata-sections, and
+  link to binutils patch.
 
-> I don't think we should
-> be using this metric as indication that bugzilla doesn't work.
+ Documentation/asm-annotations.rst | 9 +++++++++
+ arch/x86/entry/thunk_64.S         | 8 ++++----
+ include/linux/linkage.h           | 5 ++++-
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
-Well, FWIW, that's why I described it as 'doesn't work that well' and
-had a 'the good' section in my patch description, as it clearly is
-useful sometimes. That's also why I'm not on a quest 'kill bugzilla with
-fire'. ;-)
+diff --git a/Documentation/asm-annotations.rst b/Documentation/asm-annotations.rst
+index 32ea57483378..e711ff98102a 100644
+--- a/Documentation/asm-annotations.rst
++++ b/Documentation/asm-annotations.rst
+@@ -153,6 +153,15 @@ This section covers ``SYM_FUNC_*`` and ``SYM_CODE_*`` enumerated above.
+   To some extent, this category corresponds to deprecated ``ENTRY`` and
+   ``END``. Except ``END`` had several other meanings too.
+ 
++  Developers should avoid using local symbol names that are prefixed with
++  ``.L``, as this has special meaning for the assembler; a symbol entry will
++  not be emitted into the symbol table. This can prevent ``objtool`` from
++  generating correct unwind info. Symbols with STB_LOCAL binding may still be
++  used, and ``.L`` prefixed local symbol names are still generally useable
++  within a function, but ``.L`` prefixed local symbol names should not be used
++  to denote the beginning or end of code regions via
++  ``SYM_CODE_START_LOCAL``/``SYM_CODE_END``.
++
+ * ``SYM_INNER_LABEL*`` is used to denote a label inside some
+   ``SYM_{CODE,FUNC}_START`` and ``SYM_{CODE,FUNC}_END``.  They are very similar
+   to C labels, except they can be made global. An example of use::
+diff --git a/arch/x86/entry/thunk_64.S b/arch/x86/entry/thunk_64.S
+index ccd32877a3c4..c9a9fbf1655f 100644
+--- a/arch/x86/entry/thunk_64.S
++++ b/arch/x86/entry/thunk_64.S
+@@ -31,7 +31,7 @@ SYM_FUNC_START_NOALIGN(\name)
+ 	.endif
+ 
+ 	call \func
+-	jmp  .L_restore
++	jmp  __thunk_restore
+ SYM_FUNC_END(\name)
+ 	_ASM_NOKPROBE(\name)
+ 	.endm
+@@ -44,7 +44,7 @@ SYM_FUNC_END(\name)
+ #endif
+ 
+ #ifdef CONFIG_PREEMPTION
+-SYM_CODE_START_LOCAL_NOALIGN(.L_restore)
++SYM_CODE_START_LOCAL_NOALIGN(__thunk_restore)
+ 	popq %r11
+ 	popq %r10
+ 	popq %r9
+@@ -56,6 +56,6 @@ SYM_CODE_START_LOCAL_NOALIGN(.L_restore)
+ 	popq %rdi
+ 	popq %rbp
+ 	ret
+-	_ASM_NOKPROBE(.L_restore)
+-SYM_CODE_END(.L_restore)
++	_ASM_NOKPROBE(__thunk_restore)
++SYM_CODE_END(__thunk_restore)
+ #endif
+diff --git a/include/linux/linkage.h b/include/linux/linkage.h
+index 5bcfbd972e97..11537ba9f512 100644
+--- a/include/linux/linkage.h
++++ b/include/linux/linkage.h
+@@ -270,7 +270,10 @@
+ 	SYM_END(name, SYM_T_FUNC)
+ #endif
+ 
+-/* SYM_CODE_START -- use for non-C (special) functions */
++/*
++ * SYM_CODE_START -- use for non-C (special) functions, avoid .L prefixed local
++ * symbol names which may not emit a symbol table entry.
++ */
+ #ifndef SYM_CODE_START
+ #define SYM_CODE_START(name)				\
+ 	SYM_START(name, SYM_L_GLOBAL, SYM_A_ALIGN)
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
-Nevertheless I think discouraging users from filing bugs there is a good
-way to quickly improve the situation, as chances a good bug report will
-be acted upon afaics are currently much better when they get reported to
-the proper place: the one mentioned in the MAINTAINERS file.
-
->> But there is one aspect that should be noted here: The situation can't
->> be blamed on the kernel.org admins. They are doing a good job at keeping
->> the bugzilla.kernel.org up and the bugzilla codebase up2date. But as
->> admins it's not their job to maintain the list of products and
->> components.
-> Aw, thanks. :) It's indeed hard enough just keeping all the spam off it.
-> Unfortunately, there are no perfect solutions for it, but usually all spam is
-> junked and hidden from public view within an hour or two of being posted.
-> Sadly, this usually happens after spammy notifications have already gone out.
-
-Ouch. Maybe that's one good reason to make bugzilla.kernel.org either
-work properly or kill it, to make sure the time your spent on things
-like this is actually worth it.
-
->> Apart from this change there is one more change planned to improve the
->> situation with bugzilla.kernel.org: discuss with the admins how to make
->> it more obvious to users when to use the bug tracker, and when to avoid
->> it; the text that does this will obviously link to
->> Documentation/admin-guide/reporting-issues.rst, which is one of the
->> reasons why it's designed to be understandable for newcomers.
-> I'm not sure there's any single solution that will solve the problem. If we
-> properly organize products/components, many people will just get lost in them
-> and create all bug reports in "other" (or "helpdesk", as is the case lately).
-
-Yeah, the kernel is complex and might benefit from a 1st level support
-that relays good reports to the appropriate developers or maintains. But
-such a solution would need time and money to set up. Until something is
-happening in that direction I'd say a patch like mine is a good idea and
-can easily get reverted later if the situation with bugzilla.kernel.org
-improves.
-
-> The sanest approach would be to have a simple web gateway to bug reporting:
-
-+1
-
-> - which distribution are you using?
-> - if they choose a distribution, show them where to report bugs for that
->   distribution, because most bugs should start there, really
-
-Agreed. Fun fact: that why the step-by-step guide in
-Documentation/admin-guide/reporting-issues.rst starts with "Stop reading
-this document and report the problem to your vendor instead, unless you
-are running the latest mainline kernel already or are willing to install
-it. " ;-)
-
-> - on that page, also give a link:
->   "I'm a distribution maintainer and I want to report this bug upstream"
-> - if they click that link, let them fill out a freeform bug report that will
->   create a new bug entry on bugzilla.kernel.org in "Other/Other"
-> - creating a bug there will email the designated person in charge of initial
->   bug triage
-> - that designated person or persons will then assign proper product/component,
->   or simply forward the bug report to the proper maintainer if they are able
->   to ascertain that
-
-
-Well, do we really need bugzilla and a middleperson for triaging and
-forwarding when it we are taking about reports filed by distribution
-maintainers? They are unlikely to be newcomers to FLOSS bug reporting,
-so they IMHO should be able to read the MAINTAINERS file and follow
-Documentation/admin-guide/reporting-issues.rst
-
-> This is far from perfect and still hinges on finding a person willing to do
-
-> bug triage. However, it should hopefully improve the workflow without making
-
-> it too complicated.
-
-It might imrpove the workflow, but one question wasn't raised: why do we
-need two places to report bugs to at all? The MAINTAINERS file is there
-and the places specified there are clearly the ones maintainers prefer.
-Sure, bugzilla is easier to handle, especially for for inexperienced
-users. But is that worth it? Especially in its current state?
-
-Ciao, Thorsten
