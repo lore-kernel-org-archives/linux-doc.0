@@ -2,177 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1455C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 23:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972C7C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 00:56:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A53502312F
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 23:04:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A3372312E
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 00:56:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728321AbhALXEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 18:04:06 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:58391 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728490AbhALXEG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 18:04:06 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.west.internal (Postfix) with ESMTP id 9A7ED1898;
-        Tue, 12 Jan 2021 18:03:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 12 Jan 2021 18:03:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:mime-version:content-type; s=
-        fm2; bh=mYWmDzHWBoB1V4UN4/tY87hDOtYWQ4SrN8ymzI8LjVg=; b=cYWjSMx6
-        GAtvbf/Pvkwv1zD88BKxRLUCnmLI/Kmo0xkEnHxBrC+DuJH/voVR/QfoghNthus4
-        K9PGF2BcynfG3FJO+CGyVxp5zBfDDVbeoEdiWCanvnolfsBR9JVDC4KHNuTUqpH3
-        tMJvNmbMmD1MheJByOBGK1IgWMO3b4lrD4XUsk8SC84I8LmVH8Jt7l3pXzUmFSyg
-        A0PnA24q0uTf2GKJgpuRRGECsh47gUW1AKXBgYXf5oATHMHrhuV3837M9CfUIrIC
-        YXyqGmKq8fGRIm18fIkjCq3DJdOszPFRW2vcMEFDSoF4yYoBZs5QAsxUHuZq6FP8
-        CfJ98S8yKAWBKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:message-id
-        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm1; bh=mYWmDzHWBoB1V4UN4/tY87hDOtYWQ
-        4SrN8ymzI8LjVg=; b=liAkEDZ8CQv8s675+zTXSD3RRVVuE7mRo9WT4sk6/Hvx9
-        P1ATml5gCjVTdzxwEU4OWj+tvn4JHJ8i9gjIC/pHeZixQziqXhEO3UZQQq/Snlzx
-        9JfZoJlV/BNldf9RL3UfMrviyUXMnMUt2kEcuQD5seWZlPNyU2MN/CMbXkUH6FhN
-        1lcdLNuirPVxc63/tu6Ym+YAq270x0o8O6EqWqpEt9Gqsl30rmlPyrBTc6b+HCiO
-        8nsEYPP1qtQIwvWKsdAUMpQ7wLuISRUHg1vqFJcb0Gc8KadCAObB+GWP70Cb6kor
-        sdnUn5uJ6OWO34np4XguqtphUVW9CRNt7NKl79uyQ==
-X-ME-Sender: <xms:tir-X6TCVlz-Hw_Hc0tVxND0Mt3wSrPjTn80d8pMw_Wt75egERCl0g>
-    <xme:tir-X3i7ytNCtvZ8xCRJcmEgsA0m9NfXAu8mTTsQmYWcacztrnIDy4mO8c-rl6yRD
-    _EQo8PTQ5mj4BJcfps>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugddtiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkgggtugesthdtredttddtvdenucfhrhhomheprfgvthgvrhcujfhu
-    thhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqeenuc
-    ggtffrrghtthgvrhhnpeekffekgeegjeelieefueejveehjefgvdehleefveevfeelffei
-    teehkeegteeuueenucffohhmrghinhepmhhitghrohhsohhfthdrtghomhdpfhhrvggvug
-    gvshhkthhophdrohhrghenucfkphepuddujedrvddtrdejuddrjeefnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvg
-    hrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:tir-X64dwZ5uYKkuecCsXFRFlit84yS_-lCHJoyym8xNcXuJgjinLw>
-    <xmx:tir-X0B43WPNZ4DEtR1JBE8fAz5729o3ia2SJLL0sjCxLQPM3QuwNQ>
-    <xmx:tir-Xxa9KEgr_rfjf5etkXIm2z36weOSmcozt9MstBpPzIenSyTrQQ>
-    <xmx:tyr-X8UeGdcTQjEuUG0-GcukTUpC_Hodnoo77lny_3oJas8F-aqfgQ>
-Received: from jelly (117-20-71-73.751447.bne.nbn.aussiebb.net [117.20.71.73])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 58D8B1080068;
-        Tue, 12 Jan 2021 18:03:15 -0500 (EST)
-Date:   Wed, 13 Jan 2021 09:03:10 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Ping Cheng <pinglinux@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: input: define ABS_PRESSURE/ABS_MT_PRESSURE
- resolution as grams
-Message-ID: <20210112230310.GA149342@jelly>
+        id S2390128AbhAMAmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 19:42:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45184 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390144AbhALXoI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jan 2021 18:44:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 27E972312F;
+        Tue, 12 Jan 2021 23:43:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610495007;
+        bh=sqMp/LI/6JLJMB7Mj/Nym0uVuhozEe+eZ7tk61SBsnI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=b4bqZedq/HxHQl7UEpD5I/ZcnjYvpyEkPhQ56hj2cc/AC12LYOEu6lJdtXY5ooMKv
+         VqqomRl2pHO5/Fvxw85OIocQG0DrOGvNXBHohYJ7g2KE9zmcZF6m7+7QywzFAXt8PB
+         JfZE5Ww3wbYVZ38GvlzuDx2a0ORgzq+yUwLH68pzx/4h/7a1ykIa4nOavZfeAFhHEe
+         E4xgZXUjNWlXJSjBUNlrWfY9GbpPiH5O5Lg50i4o2Pe0ENRtyrIF2Ty4+OoB5jrXxG
+         keMc+IPubtGAxpHqoEMNKeOLTs6vCcPzBxMhFbVFn0wEJOC06eB2iZq/Dcm31uPor3
+         AX//VyQu0ZEBg==
+Date:   Tue, 12 Jan 2021 15:43:26 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Praveen Chaudhary <praveen5582@gmail.com>
+Cc:     davem@davemloft.net, corbet@lwn.net, kuznet@ms2.inr.ac.ru,
+        yoshfuji@linux-ipv6.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v0 net-next 1/1] Allow user to set metric on default
+ route learned via Router Advertisement.
+Message-ID: <20210112154326.00f45bf1@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210112195511.13235-1-pchaudhary@linkedin.com>
+References: <20210111151650.41ac7532@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20210112195511.13235-1-pchaudhary@linkedin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ABS_PRESSURE and ABS_MT_PRESSURE on touch devices usually represent
-contact size (as a finger flattens with higher pressure the contact size
-increases) and userspace translates the kernel pressure value back into
-contact size. For example, libinput has pressure thresholds when a touch is
-considered a palm (palm == large contact area -> high pressure). The values
-themselves are on an arbitrary scale and device-specific.
+On Tue, 12 Jan 2021 11:55:11 -0800 Praveen Chaudhary wrote:
+> Hi Jakub
+>=20
+> Thanks for the review,
+>=20
+> Sure, I will reraise the patch (again v0i, sonce no code changes) after a=
+dding space before '<'.
+>=20
+> This patch adds lines in 'include/uapi/', that requires ABI version chang=
+es for debian build. I am not sure, if we need any such changes to avoid br=
+eaking allmodconfig. It will be really helpful, if you can look at the patc=
+h once 'https://lkml.org/lkml/2021/1/11/1668' and suggest on this. Thanks a=
+ lot again.
 
-On pressurepads however, the pressure axis may represent the real physical
-pressure. Pressurepads are touchpads without a hinge but an actual pressure
-sensor underneath the device instead, for example the Lenovo Yoga 9i.
+The code doesn't build, AFAIK it's because:
 
-A high-enough pressure is converted to a button click by the firmware.
-Microsoft does not require a pressure axis to be present, see [1], so as seen
-from userspace most pressurepads are identical to clickpads - one button and
-INPUT_PROP_BUTTONPAD set.
-
-However, pressurepads that export the pressure axis break userspace because
-that axis no longer represents contact size, resulting in inconsistent touch
-tracking, e.g. [2]. Userspace needs to know when a pressure axis represents
-real pressure and the best way to do so is to define what the resolution
-field means. Userspace can then treat data with a pressure resolution as
-true pressure.
-
-This patch documents that the pressure resolution is in units/gram. This
-allows for fine-grained detail and tops out at roughly ~2000t, enough for the
-devices we're dealing with. Grams is not a scientific pressure unit but the
-alternative is:
-- Pascal: defined as force per area and area is unreliable on many devices and
-  seems like the wrong option here anyway, especially for devices with a
-  single pressure sensor only.
-- Newton: defined as mass * distance/acceleration and for the purposes of a
-  pressure axis, the distance is tricky to interpret and we get the data to
-  calculate acceleration from event timestamps anyway.
-
-For the purposes of touch devices and digitizers, grams seems the best choice
-and the easiest to interpret.
-
-Bonus side effect: we can use the existing hwdb infrastructure in userspace to
-fix devices that advertise false pressure.
-
-[1] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#windows-precision-touchpad-input-reports
-[2] https://gitlab.freedesktop.org/libinput/libinput/-/issues/562
-
-Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
----
- Documentation/input/event-codes.rst          | 15 +++++++++++++++
- Documentation/input/multi-touch-protocol.rst |  4 ++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-index b24b5343f5eb..3118fc1c1e26 100644
---- a/Documentation/input/event-codes.rst
-+++ b/Documentation/input/event-codes.rst
-@@ -236,6 +236,21 @@ A few EV_ABS codes have special meanings:
-   - Used to describe multitouch input events. Please see
-     multi-touch-protocol.txt for details.
- 
-+* ABS_PRESSURE/ABS_MT_PRESSURE:
-+
-+   - For touch devices, many devices converted contact size into pressure.
-+     A finger flattens with pressure, causing a larger contact area and thus
-+     pressure and contact size are directly related. This is not the case
-+     for other devices, for example digitizers and touchpads with a true
-+     pressure sensor ("pressure pads").
-+
-+     A device should set the resolution of the axis to indicate whether the
-+     pressure is in measurable units. If the resolution is zero, the
-+     pressure data is in arbitrary units. If the resolution is nonzero, the
-+     pressure data is in units/gram. For example, a value of 10 with a
-+     resolution of 1 represents 10 gram, a value of 10 with a resolution on
-+     1000 represents 10 microgram.
-+
- EV_SW
- -----
- 
-diff --git a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
-index 307fe22d9668..21c1e6a22888 100644
---- a/Documentation/input/multi-touch-protocol.rst
-+++ b/Documentation/input/multi-touch-protocol.rst
-@@ -260,6 +260,10 @@ ABS_MT_PRESSURE
-     of TOUCH and WIDTH for pressure-based devices or any device with a spatial
-     signal intensity distribution.
- 
-+    If the resolution is zero, the pressure data is in arbitrary units.
-+    If the resolution is nonzero, the pressure data is in units/gram. See
-+    :ref:`input-event-codes` for details.
-+
- ABS_MT_DISTANCE
-     The distance, in surface units, between the contact and the surface. Zero
-     distance means the contact is touching the surface. A positive number means
--- 
-2.29.2
-
+net/ipv6/ndisc.c:1322:8: error: too few arguments to function =E2=80=98rt6_=
+add_dflt_router=E2=80=99
