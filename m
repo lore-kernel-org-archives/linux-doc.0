@@ -2,134 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF41C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:23:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D14ACC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:35:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 601B223120
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:23:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A6D62311D
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392348AbhALRXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 12:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46208 "EHLO
+        id S1731283AbhALRfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 12:35:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391167AbhALRXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 12:23:21 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52B8C061786;
-        Tue, 12 Jan 2021 09:22:40 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id 19so2513716qkm.8;
-        Tue, 12 Jan 2021 09:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Cekwa6Gg8tFAQMdvQMX54ozrri2M75odcKtK/zwsgg0=;
-        b=dm6lBlHFrKWfvEFQDoGKdvc8cGFBVbyku1WFw7oWjrIWT9iA9Uv7hEr7klthM8iI8V
-         Jqmds2eSlencuXDnTe6vOf0sG7ZEupGgYbjt7HRQyUDXiFSqmm7pGGKKU+bF78vNe1Tt
-         aoJIFzfjFvYPJwgsjih3xIo8bsf2b/gwcfu/zBaBzq5+zCRSLPYBRyto+8M2p1vehT/Y
-         OeJLwQPPtHl04LNdTNj0K0WaIVtrSixICog5eHOENN0Ny2OCKMtVxIloBVlX0rYDDB41
-         bB+09QjiiXmTi8l2P0XXvKbwJgtCMbEuVwOWak+47L29fXqltJp0oyqE11RwyBA36/Iu
-         CNdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Cekwa6Gg8tFAQMdvQMX54ozrri2M75odcKtK/zwsgg0=;
-        b=IP2I33ntToO+iOs7IUVgzpWaDBJ06G5bvPizQzwPQHq2TDOTHwKGZO0NqfJWCARLsb
-         sZE/TpxhlEfDBfnYgYud+yfvsoEylVdekYm/Ehxkvtj6F27tiTpstnvWwfxcZGFS50/B
-         J3OyBAHykik1fWWfClxoGt14xMZGXwnbQy5dApKQuYsZvLXIdON4MG4Lz1y4afd1ckoP
-         MSDJ6kPcAGUP1Upu0t/HP+XDJUWo3hXXUqiOXSDaGtxd3BxqM4isci7nEYae1xMcQ/PP
-         a5a7rEehvo8zJ/OsDcIppkM13RVjj+ROnn4p+yEHRqopb8+EnJye+j+sMNytEcF3xmrq
-         0njA==
-X-Gm-Message-State: AOAM532JMQKtHojGBQ01NHTX2iuYWxmJyLo5SeIdpGQXitkyWFSDOkyc
-        VlHrsvYm4RrkkSWAAuLeSrc=
-X-Google-Smtp-Source: ABdhPJxR9EN4Bi/GC/cHsHL0Wklo8RdvqQuhoTzQlheMI5t1BVqMwTVoYpHa3hRgayKDRCupixQOIw==
-X-Received: by 2002:ae9:c010:: with SMTP id u16mr352562qkk.346.1610472159841;
-        Tue, 12 Jan 2021 09:22:39 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id d1sm1628462qkf.102.2021.01.12.09.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 09:22:38 -0800 (PST)
-Date:   Tue, 12 Jan 2021 10:22:37 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3] pgo: add clang's Profile Guided Optimization
- infrastructure
-Message-ID: <20210112172237.GA1792840@ubuntu-m3-large-x86>
-References: <20210112053113.4180271-1-morbo@google.com>
- <202101121755.pyYoRozB-lkp@intel.com>
+        with ESMTP id S1726386AbhALRfF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 12:35:05 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AA3C061795;
+        Tue, 12 Jan 2021 09:34:25 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kzNYg-00024B-UN; Tue, 12 Jan 2021 18:34:19 +0100
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210110121033.130504-1-linux@leemhuis.info>
+ <6ca51584-1739-e532-d40e-e4447065ea1e@infradead.org>
+ <dc2b0eaa-26e9-f686-ae7b-7e777cb3d55f@leemhuis.info>
+ <5ed98052-28ea-4701-10d4-b7fde106c1fd@infradead.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
+ bugzilla.kernel.org
+Message-ID: <ee7fc5b7-3fcb-b0a7-3ae1-b7b11e350be2@leemhuis.info>
+Date:   Tue, 12 Jan 2021 18:34:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202101121755.pyYoRozB-lkp@intel.com>
+In-Reply-To: <5ed98052-28ea-4701-10d4-b7fde106c1fd@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610472865;8e46fe0e;
+X-HE-SMSGID: 1kzNYg-00024B-UN
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 05:10:04PM +0800, kernel test robot wrote:
-> Hi Bill,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v5.11-rc3]
-> [cannot apply to powerpc/next s390/features tip/x86/core next-20210111]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Bill-Wendling/pgo-add-clang-s-Profile-Guided-Optimization-infrastructure/20210112-133315
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a0d54b4f5b219fb31f0776e9f53aa137e78ae431
-> config: x86_64-allyesconfig (attached as .config)
-> compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+Am 12.01.21 um 00:42 schrieb Randy Dunlap:
+> On 1/11/21 10:55 AM, Thorsten Leemhuis wrote:
+>> Am 11.01.21 um 19:14 schrieb Randy Dunlap:
+>>> On 1/10/21 4:10 AM, Thorsten Leemhuis wrote:
+>
+>>> Andrew Morton takes MM bugs and Cc:s them to linux-mm mailing list
+>>> and then asks for discussion to continue on the mailing list.
+>> Then what use it bugzilla here? Wouldn't it be better for people to go
+>> straight to the list?
+> Might as well, yes.
 
-Hmmm... This should probably be gated on CC_IS_CLANG? Or even better
-CLANG_VERSION >= 120000 due to
-https://github.com/ClangBuiltLinux/linux/issues/1252?
+Yeah, and that's among the reasons why I wrote the new document on
+reporting bugs/issues (which explains how to report issues by mail) and
+additionally work (at least for now) towards discouraging people from
+using bugzilla.kernel.org.
 
-> reproduce (this is a W=1 build):
->         # https://github.com/0day-ci/linux/commit/6ab85bae7667afd0aa68c6442b7ca5c369fa1088
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Bill-Wendling/pgo-add-clang-s-Profile-Guided-Optimization-infrastructure/20210112-133315
->         git checkout 6ab85bae7667afd0aa68c6442b7ca5c369fa1088
->         # save the attached .config to linux build tree
->         make W=1 ARCH=x86_64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    kernel/pgo/instrument.c:72:6: warning: no previous prototype for '__llvm_profile_instrument_target' [-Wmissing-prototypes]
->       72 | void __llvm_profile_instrument_target(u64 target_value, void *data, u32 index)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/pgo/instrument.c:135:6: warning: no previous prototype for '__llvm_profile_instrument_range' [-Wmissing-prototypes]
->      135 | void __llvm_profile_instrument_range(u64 target_value, void *data,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> kernel/pgo/instrument.c:179:6: warning: no previous prototype for '__llvm_profile_instrument_memop' [-Wmissing-prototypes]
->      179 | void __llvm_profile_instrument_memop(u64 target_value, void *data,
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
+>> Just trying to understand things better here, as there are other things
+>> that look strange to me and were mentioned in the patch description. For
+>> example: Why are there only 200 products and components on
+>> bugzilla.kernel.org (some of them for historic things like the
+>> ac-kernels) while the MAINTAINERS file has more than 2200 entries?
+> I wouldn't want a separate entry for each  SPI/GPIO/regulator/USB etc.
+> device. That's just IMO...
 
-I still think that this warning will show up with clang at W=1. Given
-that these are compiler inserted functions, the prototypes don't matter
-but we could shut it up by just putting the prototypes right above the
-functions like was done in commit 1e1b6d63d634 ("lib/string.c: implement
-stpcpy").
+I can relate to that view, but OTOH that would means a middleperson is
+needed to get in contact with the maintainer. Which is fine concept, as
+that person could be a kind of 1st level support that shields higher
+level people like developers and maintainers from bad bug reports.
 
-Cheers,
-Nathan
+But I guess that would be a boring job which I nobody will do over
+longer periods of time just for fun. Sure, the LF or someone else could
+hire someone (see the mail from Konstantin in this thread; will reply to
+that later); but I wonder if we have more pressing issues where the
+money would better be spend better. And even if not: getting that money
+and hiring someone would take some time...
+
+>>> could/should probably see if we can add more project-specific
+>>> mailing lists to the automatic reporting 
+>> Guess that would mean taking to a lot of maintainers/mailing list admins
+>> if they are okay with that. Who would do that?
+> whoever is motivated to do so.
+
+Not me. ;-) That bugzilla.kernel.org is not working to well is known for
+years now, without anyone stepping up to improve the situation for real.
+Maybe my work/this discussion gets something rolling. But I guess until
+I see that happen I continue working towards discouraging people from
+using bugzilla.kernel.org, as otherwise things will just stay as they
+are, which IMHO is a bad idea with the state of things.
+
+Ciao, Thorsten
