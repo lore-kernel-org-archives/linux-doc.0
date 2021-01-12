@@ -2,91 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 360A2C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 22:21:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15179C4332D
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 00:28:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDA0922D06
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jan 2021 22:21:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB49922D58
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 00:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389798AbhAKWUv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jan 2021 17:20:51 -0500
-Received: from mail-ot1-f45.google.com ([209.85.210.45]:35496 "EHLO
-        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389420AbhAKWUt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jan 2021 17:20:49 -0500
-Received: by mail-ot1-f45.google.com with SMTP id i6so435232otr.2;
-        Mon, 11 Jan 2021 14:20:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VyFCFff7hYJpxW+Rad4By7LUlx7N6qhPoYPEaO1tJps=;
-        b=NxtbbNjHq6wTCHvDZqGd7CCrZuktBH1DDLrVUUMM1eCbueN18rWYeATbjloawk95CZ
-         VlUmjyKBTrZQyKO4VErMMZ41Fi3j0uMOnW1pBenVgTDCXPdqONPXXUoLLvnqnfgecS0e
-         /Rz/n2OqoWnY9KTPxoHoDtmsGD28haLssjkgdhuUrzoKubQCP0tYXFy6IS9jt+LdNh7J
-         le2CZf/xTQlMgSwiRyR3MRs+Oq354cU7TCb/w/BK5Xt7cOaCFGBDDB8p8mAyKvqBIrvF
-         XOIouR8lgxfjT8U2mO4gwVEexLu5ie8+oll8cSebexyi7uoSSkuxK+yzxktVslUrL1Z4
-         WrMw==
-X-Gm-Message-State: AOAM531KjYYU6rV9MFIK1F7uLScHrvo3A3AYSITXXGcPDMvt1fEmcCqg
-        ix9B0peSA4A+jFXa6MCXFw==
-X-Google-Smtp-Source: ABdhPJwU6Becx7jAKNM9/tRzPRBw1eNYiQOnEXAerdi4abgkEPy3hpSEyntlUQKR5I5QMiNGp8R4gg==
-X-Received: by 2002:a9d:5f9a:: with SMTP id g26mr843215oti.241.1610403608789;
-        Mon, 11 Jan 2021 14:20:08 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p10sm67054otp.43.2021.01.11.14.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 14:20:07 -0800 (PST)
-Received: (nullmailer pid 3160469 invoked by uid 1000);
-        Mon, 11 Jan 2021 22:20:05 -0000
-Date:   Mon, 11 Jan 2021 16:20:05 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        devicetree@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        devel@driverdev.osuosl.org, kevin.lhopital@hotmail.com,
-        Maxime Ripard <mripard@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-sunxi@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v4 08/15] dt-bindings: media: Add A31 MIPI CSI-2 bindings
- documentation
-Message-ID: <20210111222005.GA3160418@robh.at.kernel.org>
-References: <20201231142948.3241780-1-paul.kocialkowski@bootlin.com>
- <20201231142948.3241780-9-paul.kocialkowski@bootlin.com>
+        id S2391796AbhALA0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jan 2021 19:26:02 -0500
+Received: from mga14.intel.com ([192.55.52.115]:29965 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404238AbhALAK0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Jan 2021 19:10:26 -0500
+IronPort-SDR: 4WkjVdCVtSs4tpYTIl+Oru/a85CxppNMem/874N/QAWKFowtW91gsdxpnkxHf6q9HiJ2x3jM9/
+ wWCRfLfdI+Jg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="177183523"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="177183523"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 16:09:46 -0800
+IronPort-SDR: MZ6o279zdJ2hukSqNJAelzE0N3EoPSuST80JVMJ0lG7cLsw+cOmSn4be9Fxg2PwEjeSvp7bcPZ
+ 612cCvl1Cu1Q==
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="352799931"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.197.241]) ([10.212.197.241])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 16:09:43 -0800
+Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201229213053.16395-5-yu-cheng.yu@intel.com>
+ <20210111230900.5916-1-yu-cheng.yu@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <f88d2211-d314-5d9c-9471-a54c412525e0@intel.com>
+Date:   Mon, 11 Jan 2021 16:09:42 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201231142948.3241780-9-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20210111230900.5916-1-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 31 Dec 2020 15:29:41 +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the A31 MIPI CSI-2
-> controller.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 149 ++++++++++++++++++
->  1 file changed, 149 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> 
+This is a minor revision of the original [PATCH v17 04/26] patch.  The 
+purpose of the revision is to address Boris' comment earlier by doing 
+setup_force_cpu_cap(X86_FEATURE_CET) in bsp_init_intel().
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--
+Yu-cheng
