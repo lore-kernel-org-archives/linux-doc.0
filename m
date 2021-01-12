@@ -2,224 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-31.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F57C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:47:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9817AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:56:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0384D23120
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:47:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EFC2206C3
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406789AbhALTre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 14:47:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49422 "EHLO
+        id S2392732AbhALTz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 14:55:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406736AbhALTre (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 14:47:34 -0500
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D27C061786
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 11:46:53 -0800 (PST)
-Received: by mail-qv1-xf49.google.com with SMTP id v1so2274825qvb.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 11:46:53 -0800 (PST)
+        with ESMTP id S2390432AbhALTz6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 14:55:58 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29E0C061575;
+        Tue, 12 Jan 2021 11:55:17 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id x18so1985603pln.6;
+        Tue, 12 Jan 2021 11:55:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=575K5Wa01BXuSX5wfEbu2mOnTk5h9ngYJOt0hPIiDbE=;
-        b=uWIQwzplj0dSfYqg/T40aBR3p//IOck88E6Nca9IgUtiYbKfdinxhWWnC3QKE7NYv3
-         0UMB7z2PAs7qpXcDAAuN5wzmCxwgaMRy5OISAgIcPBOQCzXd5eX3ihg6O9avJYHqBOpL
-         B6UTnPRuCzCKKsJTMvaJuMPmaisO9J67gQvgX23WwgEvVEAnI9I9JlwYidsoX0f+7pY1
-         ymwnAiOh3fO8c5+aeJqPRsoGvFdA91JB4M/txMK8o5pxoCr6gMYLZAb9UrayWrz9D6YD
-         9xpAmByPNxYAH/FodYigxhG1MYxAtuGxn3hiaY6s/ZE/tKwPVrYndVXPEpSVp97xPEB8
-         Ymhw==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=OHxfZefJp5DVb6I/g654zOX0kdQvKWlVA9tkXuzjllI=;
+        b=E8p8MbbFOX87Tzd29VAlYQ94npIDgPk6BOQXPjg5q4rz9vI9cL5EgwkamLkQr2tp/t
+         KTp7/g+3JZr5opWsE/zCm4OH9mrxWHUjLeGgvXlvsgvRG0gmOiaOqncJ2lD8WUn0FRH5
+         omFHVaj5MzfxJq9YqJbGkuHqGVr89ATX3zTNkdGvheskX5UOLOB57HslDbdVhAI4hDVl
+         8rvIiSDxPBOYv4GLsQYlzCkPERh2YGRR7Yrvoe+oxwzg+uf3rVmjAgfE3qb8SENG2qr4
+         +4j3RhFhe9x8Bq9ZMRdz/8l1e9cxze8ec4R/ygNk5bJ1lc+aRDKsZl6sEl9DM1WymfAW
+         ZTRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=575K5Wa01BXuSX5wfEbu2mOnTk5h9ngYJOt0hPIiDbE=;
-        b=UAFk7acSg3opV73GEQSbMkx6EbID44Ubz4lubrjkw26tft8s1QrLlg+Y9mZ+mT+ofE
-         InNoo8IVAkPnBSKlu11HYnwu8O2XwUGHFL5QOprZTd/SXOY2taRcKNqjXP669O1P5UDn
-         U176DsKIjRA3XdTi3H71VTm3Q2X5QlJ45npSO5sPJPIXFOGEayH/LJiGw8x9On9auFOs
-         SV0wAxnEbq3+FIjAMij9JYv6ibB7M7FKOIUldNSdRFg3gQ4EFF7RKhQV8ihAuTh0QwHk
-         zp9bjGeKqlOsHzKUQknD+1+BKUCHMZLCO0B+e+hW0+oqzRWF3M89HCAHKErzTnLiUHHn
-         keUA==
-X-Gm-Message-State: AOAM53319IvGis8r4lH4UQdP8v2oMo+JU0pJznjqJNBl2NsOrhagYnxi
-        NhiZCaNTmIAh3SSFiSC9smTLVIUH+2T9MkebRK0=
-X-Google-Smtp-Source: ABdhPJwFr5GNH3mYsB63vu/qRw5kPYC06VeiweTXzWX2Xnus8dFpApEikj2fXJ+HMNrEno0SRfXqfGs5F0Hy5DkKDxM=
-Sender: "ndesaulniers via sendgmr" 
-        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
- (user=ndesaulniers job=sendgmr) by 2002:ad4:4390:: with SMTP id
- s16mr1155717qvr.28.1610480812711; Tue, 12 Jan 2021 11:46:52 -0800 (PST)
-Date:   Tue, 12 Jan 2021 11:46:24 -0800
-In-Reply-To: <20210112115421.GB13086@zn.tnic>
-Message-Id: <20210112194625.4181814-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20210112115421.GB13086@zn.tnic>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=OHxfZefJp5DVb6I/g654zOX0kdQvKWlVA9tkXuzjllI=;
+        b=ZRfL5HelAAGdv3yqjDJDrTJSzMOCN0DRxuG7peef5qrllVhHxKye9psy3TWzsrkWpv
+         XABKILiqqgtFcO1KCefvnvluumbNtNGTZFWc0+6bMxur93FmqjP/XZbLisxhANNkZAna
+         HFpor7Qm5g1pSgleTPrPbnCeMvhWLt1lRVsVJsQ1MzBENpTPAhG/m1ZQVHZvU7MtxiuI
+         wS0L+C3kt8hW64H1Fx0Is6V3AphPAJHkxo6NRmfQjQSF2H2gwKemqE5Q8Hc36x3B2Ggu
+         fjhvMHyyn7GTFXPvU7KmeqBMpuMBvpl9MNINHvamkpd3tzoL2QHKMFegUCPq+0Mw4ocv
+         pxdQ==
+X-Gm-Message-State: AOAM530BkR9lZnRY1H2ZoDICzg48DOm9nzPIbw1Yzbh4eWrsEzaxEvoz
+        yF+gJaBuXiGWCroRMuIfjyhsgSzNpSD7
+X-Google-Smtp-Source: ABdhPJyh4OgXheUX+DS6PXdtvQs2YW4vSjLZHQhggjATer9UQzyWYabHVV6R2AH78V8m5+hWE8XQ1g==
+X-Received: by 2002:a17:90a:454e:: with SMTP id r14mr809933pjm.194.1610481317402;
+        Tue, 12 Jan 2021 11:55:17 -0800 (PST)
+Received: from localhost.localdomain ([216.52.21.4])
+        by smtp.gmail.com with ESMTPSA id c62sm3874039pfa.116.2021.01.12.11.55.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 12 Jan 2021 11:55:16 -0800 (PST)
+From:   Praveen Chaudhary <praveen5582@gmail.com>
+X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
+To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: RE: [PATCH v0 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
+Date:   Tue, 12 Jan 2021 11:55:11 -0800
+Message-Id: <20210112195511.13235-1-pchaudhary@linkedin.com>
+X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20210111151650.41ac7532@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <20210111151650.41ac7532@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Arnd found a randconfig that produces the warning:
+Hi Jakub
 
-arch/x86/entry/thunk_64.o: warning: objtool: missing symbol for insn at
-offset 0x3e
+Thanks for the review,
 
-when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
-notes:
+Sure, I will reraise the patch (again v0i, sonce no code changes) after adding space before '<'.
 
-  With the LLVM assembler not generating section symbols, objtool has no
-  way to reference this code when it generates ORC unwinder entries,
-  because this code is outside of any ELF function.
-
-  The limitation now being imposed by objtool is that all code must be
-  contained in an ELF symbol.  And .L symbols don't create such symbols.
-
-  So basically, you can use an .L symbol *inside* a function or a code
-  segment, you just can't use the .L symbol to contain the code using a
-  SYM_*_START/END annotation pair.
-
-Fangrui notes that this optimization is helpful for reducing image size
-when compiling with -ffunction-sections and -fdata-sections. I have
-observed on the order of tens of thousands of symbols for the kernel
-images built with those flags.
-
-A patch has been authored against GNU binutils to match this behavior,
-so this will also become a problem for users of GNU binutils once they
-upgrade to 2.36.
-
-We can omit the .L prefix on a label so that the assembler will emit an
-entry into the symbol table for the label, with STB_LOCAL binding.  This
-enables objtool to generate proper unwind info here with LLVM_IAS=1 or
-GNU binutils 2.36+.
-
-Cc: Fangrui Song <maskray@google.com>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1209
-Link: https://reviews.llvm.org/D93783
-Link: https://sourceware.org/binutils/docs/as/Symbol-Names.html
-Link: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=d1bcae833b32f1408485ce69f844dcd7ded093a8
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Suggested-by: Josh Poimboeuf <jpoimboe@redhat.com>
-Suggested-by: Borislav Petkov <bp@alien8.de>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v3 -> v4:
-* Add changes to Documentation/ and include/ as per Boris.
-* Fix typos as per Josh.
-* Replace link and note in commit message about
-  --generate-unused-section-symbols=[yes|no] which was dropped from GNU
-  binutils with link to actual commit in binutils-gdb.
-* Add additional notes from Josh in commit message.
-* Slightly reword commit message to indicate that section symbols are
-  not emitted, rather than stripped.
-
-Changes v2 -> v3:
-* rework to use STB_LOCAL rather than STB_GLOBAL by dropping .L prefix,
-  as per Josh.
-* rename oneline to drop STB_GLOBAL in commit message.
-* add link to GAS docs on .L prefix.
-* drop Josh's ack since patch changed.
-
-Changes v1 -> v2:
-* Pick up Josh's Ack.
-* Add commit message info about -ffunction-sections/-fdata-sections, and
-  link to binutils patch.
-
- Documentation/asm-annotations.rst | 9 +++++++++
- arch/x86/entry/thunk_64.S         | 8 ++++----
- include/linux/linkage.h           | 5 ++++-
- 3 files changed, 17 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/asm-annotations.rst b/Documentation/asm-annotations.rst
-index 32ea57483378..e711ff98102a 100644
---- a/Documentation/asm-annotations.rst
-+++ b/Documentation/asm-annotations.rst
-@@ -153,6 +153,15 @@ This section covers ``SYM_FUNC_*`` and ``SYM_CODE_*`` enumerated above.
-   To some extent, this category corresponds to deprecated ``ENTRY`` and
-   ``END``. Except ``END`` had several other meanings too.
- 
-+  Developers should avoid using local symbol names that are prefixed with
-+  ``.L``, as this has special meaning for the assembler; a symbol entry will
-+  not be emitted into the symbol table. This can prevent ``objtool`` from
-+  generating correct unwind info. Symbols with STB_LOCAL binding may still be
-+  used, and ``.L`` prefixed local symbol names are still generally useable
-+  within a function, but ``.L`` prefixed local symbol names should not be used
-+  to denote the beginning or end of code regions via
-+  ``SYM_CODE_START_LOCAL``/``SYM_CODE_END``.
-+
- * ``SYM_INNER_LABEL*`` is used to denote a label inside some
-   ``SYM_{CODE,FUNC}_START`` and ``SYM_{CODE,FUNC}_END``.  They are very similar
-   to C labels, except they can be made global. An example of use::
-diff --git a/arch/x86/entry/thunk_64.S b/arch/x86/entry/thunk_64.S
-index ccd32877a3c4..c9a9fbf1655f 100644
---- a/arch/x86/entry/thunk_64.S
-+++ b/arch/x86/entry/thunk_64.S
-@@ -31,7 +31,7 @@ SYM_FUNC_START_NOALIGN(\name)
- 	.endif
- 
- 	call \func
--	jmp  .L_restore
-+	jmp  __thunk_restore
- SYM_FUNC_END(\name)
- 	_ASM_NOKPROBE(\name)
- 	.endm
-@@ -44,7 +44,7 @@ SYM_FUNC_END(\name)
- #endif
- 
- #ifdef CONFIG_PREEMPTION
--SYM_CODE_START_LOCAL_NOALIGN(.L_restore)
-+SYM_CODE_START_LOCAL_NOALIGN(__thunk_restore)
- 	popq %r11
- 	popq %r10
- 	popq %r9
-@@ -56,6 +56,6 @@ SYM_CODE_START_LOCAL_NOALIGN(.L_restore)
- 	popq %rdi
- 	popq %rbp
- 	ret
--	_ASM_NOKPROBE(.L_restore)
--SYM_CODE_END(.L_restore)
-+	_ASM_NOKPROBE(__thunk_restore)
-+SYM_CODE_END(__thunk_restore)
- #endif
-diff --git a/include/linux/linkage.h b/include/linux/linkage.h
-index 5bcfbd972e97..11537ba9f512 100644
---- a/include/linux/linkage.h
-+++ b/include/linux/linkage.h
-@@ -270,7 +270,10 @@
- 	SYM_END(name, SYM_T_FUNC)
- #endif
- 
--/* SYM_CODE_START -- use for non-C (special) functions */
-+/*
-+ * SYM_CODE_START -- use for non-C (special) functions, avoid .L prefixed local
-+ * symbol names which may not emit a symbol table entry.
-+ */
- #ifndef SYM_CODE_START
- #define SYM_CODE_START(name)				\
- 	SYM_START(name, SYM_L_GLOBAL, SYM_A_ALIGN)
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
-
+This patch adds lines in 'include/uapi/', that requires ABI version changes for debian build. I am not sure, if we need any such changes to avoid breaking allmodconfig. It will be really helpful, if you can look at the patch once 'https://lkml.org/lkml/2021/1/11/1668' and suggest on this. Thanks a lot again.
