@@ -2,201 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA96C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 11:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0A1C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 11:53:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BDB1224BD
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 11:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E62D52310D
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 11:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728989AbhALLe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 06:34:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726974AbhALLe5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 06:34:57 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0ABC061786
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 03:34:17 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id my11so702414pjb.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 03:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x4fbLWMy7tyZTn+4QhCx/eBNGb6COT/VlIQAs5b2FxE=;
-        b=Q1oD52jI+aIUjL3KnRIVupMshuaeY6O8X/28pjs+B+/kBY7wiMWUtc3S9jlQLJk1f+
-         sGCb/NU0LXotWlRqajiD9ffQbrmsyRBE4iHewv0m/snjcHhFUdgpVT+vHqfBCt19vIYx
-         DmvqVTwcDuXSSI3xpV1LDw4kvZJBFjaR3nFJfKBFSNKnhk3IpaO8psrhfQik56VPPFlS
-         loxHeAK59IhbNGLuEUYl4MIuJVZuVqaQNp06xI32ZHaTmsXdBe34YVqw9ZDVw6zLiztG
-         iUrSn8I7mOuLNx5d2ZL4r1zlkHK0t+rxCvwkagsFhRGbIGl1c7zRA9nB0Ez5/4yBnvpx
-         y57A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x4fbLWMy7tyZTn+4QhCx/eBNGb6COT/VlIQAs5b2FxE=;
-        b=IBKFHnpyPvmJAL5GKj83lZFOfDsFpA1s4FQiSHjOBuV50368s4VjBmSkb3/lnmq2pt
-         GPYz/AglEQFVZ2Kf8RKyXaDFk8CkLJq3mbQcl0F/fACn29VCxyRm9r7kRhvFvCrftSMB
-         +2b6e6C+/byklhCP1rJNjzNV27zVYgW/5UfdxqF5G80/UCMj42B88n7uQBbZm04/BPwM
-         ZZWdiKEo3nLWspFMLs3nxXlc6aGAzaSmBL9X7hp8ss+KuK4q0Qwv27icQ+MX36iylhB+
-         IQEff0sZlTquQOW9zKF1cxzZWRc/G7pgFxdPriHRPapUKB4bz0jYmdVHW6zNtW8A/7Yl
-         afKA==
-X-Gm-Message-State: AOAM533UnNMpJ4ScLTeaAUv+NGyBy4z7Mgtx8zPWQNZcXTew5yANKzEA
-        +yd9htqNz5V4L/iAHvsrLehPTcO5yTuoxtejL+HxAw==
-X-Google-Smtp-Source: ABdhPJyVdXNDm11fdbJsCJ5DrnV2EarI5jkwSk+Egq8s0ShDsjrDdPaqcCK37QtLNK4gxDR3vY8z6XMXc+kvJVUHyzE=
-X-Received: by 2002:a17:90a:5405:: with SMTP id z5mr4284976pjh.13.1610451256706;
- Tue, 12 Jan 2021 03:34:16 -0800 (PST)
+        id S1727181AbhALLxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 06:53:25 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:55336 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731141AbhALLxZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jan 2021 06:53:25 -0500
+Received: from localhost.localdomain (unknown [112.3.198.184])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx77+Fjf1fzSMDAA--.5647S2;
+        Tue, 12 Jan 2021 19:52:39 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     Harry Wei <harryxiyou@gmail.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Yanteng Si <siyanteng01@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v6 1/4] doc/zh_CN: add mips index.rst translation
+Date:   Tue, 12 Jan 2021 19:52:56 +0800
+Message-Id: <20210112115259.217944-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210106141931.73931-1-songmuchun@bytedance.com>
- <20210106141931.73931-5-songmuchun@bytedance.com> <20210112080453.GA10895@linux>
-In-Reply-To: <20210112080453.GA10895@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 12 Jan 2021 19:33:33 +0800
-Message-ID: <CAMZfGtUqN2BZH28i9VJhRJ3VH3OGKBQ7hDUuX1-F5LcwbKk+4A@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v12 04/13] mm/hugetlb: Free the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx77+Fjf1fzSMDAA--.5647S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF4fCF15AFy8tFy5ZryUGFg_yoWkWrg_Aw
+        1vqFW8Cr4jqF1xXFW8AF1UJryIkFW0kr1j9Fs8tws8Gw1UArZrJa4DW3s7ZF48Wr43ur15
+        CFWkWr1kXFnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbz8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48J
+        MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+        AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+        0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+        v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+        14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 4:05 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Wed, Jan 06, 2021 at 10:19:22PM +0800, Muchun Song wrote:
-> > Every HugeTLB has more than one struct page structure. We __know__ that
-> > we only use the first 4(HUGETLB_CGROUP_MIN_ORDER) struct page structures
-> > to store metadata associated with each HugeTLB.
-> >
-> > There are a lot of struct page structures associated with each HugeTLB
-> > page. For tail pages, the value of compound_head is the same. So we can
-> > reuse first page of tail page structures. We map the virtual addresses
-> > of the remaining pages of tail page structures to the first tail page
-> > struct, and then free these page frames. Therefore, we need to reserve
-> > two pages as vmemmap areas.
-> >
-> > When we allocate a HugeTLB page from the buddy, we can free some vmemmap
-> > pages associated with each HugeTLB page. It is more appropriate to do it
-> > in the prep_new_huge_page().
-> >
-> > The free_vmemmap_pages_per_hpage(), which indicates how many vmemmap
-> > pages associated with a HugeTLB page can be freed, returns zero for
-> > now, which means the feature is disabled. We will enable it once all
-> > the infrastructure is there.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->
-> My memory may betray me after vacation, so bear with me.
+This patch translates Documentation/mips/index.rst into Chinese.
 
-Welcome back. :)
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+---
+ .../translations/zh_CN/mips/index.rst         | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/mips/index.rst
 
->
-> > +/*
-> > + * Any memory allocated via the memblock allocator and not via the
-> > + * buddy will be marked reserved already in the memmap. For those
-> > + * pages, we can call this function to free it to buddy allocator.
-> > + */
-> > +static inline void free_bootmem_page(struct page *page)
-> > +{
-> > +     unsigned long magic = (unsigned long)page->freelist;
-> > +
-> > +     /*
-> > +      * The reserve_bootmem_region sets the reserved flag on bootmem
-> > +      * pages.
-> > +      */
-> > +     VM_WARN_ON_PAGE(page_ref_count(page) != 2, page);
->
-> I have been thinking about this some more.
-> And while I think that this macro might have its room somewhere, I do not
-> think this is the case.
->
-> Here, if we see that page's refcount differs from 2 it means that we had an
-> earlier corruption.
-> Now, as a person that has dealt with debugging memory corruptions, I think it
-> is of no use to proceed further if such corruption happened, as this can lead
-> to problems somewhere else that can manifest in funny ways, and you will find
-> yourself scratching your head and trying to work out what happened.
->
-> I am aware that this is not the root of the problem here, as someone might have
-> had to decrease the refcount, but I would definitely change this to its
-> VM_BUG_ON_* variant.
+diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
+new file mode 100644
+index 000000000000..2c7b836a3da5
+--- /dev/null
++++ b/Documentation/translations/zh_CN/mips/index.rst
+@@ -0,0 +1,29 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :ref:`Documentation/mips/index.rst <index>`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_index:
++
++
++===========================
++MIPS特性文档
++===========================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
++
++   booting
++   ingenic-tcu
++
++   features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+-- 
+2.27.0
 
-OK. I will change this to VM_BUG_ON_PAGE.
-
->
-> > --- /dev/null
-> > +++ b/mm/hugetlb_vmemmap.c
->
-> [...]
->
-> > diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> > new file mode 100644
-> > index 000000000000..6923f03534d5
-> > --- /dev/null
-> > +++ b/mm/hugetlb_vmemmap.h
->
-> [...]
->
-> > +/**
-> > + * vmemmap_remap_free - remap the vmemmap virtual address range [@start, @end)
-> > + *                   to the page which @reuse is mapped, then free vmemmap
-> > + *                   pages.
-> > + * @start:   start address of the vmemmap virtual address range.
-> > + * @end:     end address of the vmemmap virtual address range.
-> > + * @reuse:   reuse address.
-> > + */
-> > +void vmemmap_remap_free(unsigned long start, unsigned long end,
-> > +                     unsigned long reuse)
-> > +{
-> > +     LIST_HEAD(vmemmap_pages);
-> > +     struct vmemmap_remap_walk walk = {
-> > +             .remap_pte      = vmemmap_remap_pte,
-> > +             .reuse_addr     = reuse,
-> > +             .vmemmap_pages  = &vmemmap_pages,
-> > +     };
-> > +
-> > +     BUG_ON(start != reuse + PAGE_SIZE);
->
-> It seems a bit odd to only pass "start" for the BUG_ON.
-> Also, I kind of dislike the "addr += PAGE_SIZE" in vmemmap_pte_range.
->
-> I wonder if adding a ".remap_start_addr" would make more sense.
-> And adding it here with the vmemmap_remap_walk init.
-
-How about introducing a new function which aims to get the reuse
-page? In this case, we can drop the BUG_ON() and "addr += PAGE_SIZE"
-which is in vmemmap_pte_range. The vmemmap_remap_range only
-does the remapping.
-
->
->
-> --
-> Oscar Salvador
-> SUSE L3
