@@ -2,94 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FF7C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 08:07:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 798FEC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 09:31:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2280822D2C
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 08:07:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3889C22DFA
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 09:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404365AbhALIHX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 03:07:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730314AbhALIHX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 03:07:23 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 805B8C061786
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 00:06:42 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id w1so2152291ejf.11
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 00:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=7Sgvg1tPjZjbNBCzAfmr4JQAgmHYp6UU+LYrDUE5QYk=;
-        b=l8MY9zdvNfZT6x0+R6KR9nX8qWsDv4QETbFaX2FvU4eUVdf4zmoMYdVx9/on5/Gj7E
-         6LIA+ZTsLXEYtb8k3WRYM45moj5QwiUbRcziQ6IyI4LtDmHSTujCTcWw9EXgaDrQaUZI
-         rkhXxb/ZwinWZ6nyF8nR7A+7YAVtZCs7Ct57tg0te1uVYf6zIAeHwt3CXguLuzSYqAdA
-         cUbSjYutjWy3p5piYMkpSr3dHtrpCobRyRJO6htd1Wcrq0voUDqIsGI/a4rFVQJArR06
-         6hfzRS1L9VV3ZnYPtxohra55wgTBzpktDOXzhfEaE6ECWeZvfqjUD8WAZANWew0FMZn/
-         6y7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=7Sgvg1tPjZjbNBCzAfmr4JQAgmHYp6UU+LYrDUE5QYk=;
-        b=IHjq4yn+hjyeSUbb//cdzeMgvuOFGIrkU68WyRh/bB5r2CgPnsgK+iSk4GExsPrvWo
-         yzAIuY/QDtN24CCbuYizmxJ4dFgeDsy/0q0jm3AV3AgVny7mlejwTDWimKs0oSUkVQaO
-         yTc3FlHkBag9KgHbIuZgkZ90nTLvQDRdERrWJOYclybHMYtkukjcd0JgF6jh6//pqEag
-         nEMmKFbzoLgZllQyKYGO2/FcUxi4oB/UP97Gyl5XXTJNI0lIT7VV+CH78ZgysyGg5syd
-         Pxw/14jJf3yUSi2alOdhmuwHr1SLpPO/uvNKqFZ32Q0BXb9yzjPn0Kpv8d9haFJsS95/
-         K6sg==
-X-Gm-Message-State: AOAM533hWSZsVulkl+CuLKGtd/LudZUhvGjt55tOc1KplzPT7YZtdY9O
-        l3kKU3dp3o6ySwsawzrEwsxeJ/AXQ3NXBN8AV3c=
-X-Google-Smtp-Source: ABdhPJy0o7b6PW+Mp/uRix0ln2l+fsEp2J2tZ84JAYzXQcJxLaGJQZkhaJFPYK0xwDowMI3gsc0yfONW/1AQoJ3Q4A0=
-X-Received: by 2002:a17:906:704d:: with SMTP id r13mr2351029ejj.43.1610438800483;
- Tue, 12 Jan 2021 00:06:40 -0800 (PST)
+        id S2390828AbhALJbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 04:31:04 -0500
+Received: from m43-15.mailgun.net ([69.72.43.15]:37257 "EHLO
+        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389824AbhALJbC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 04:31:02 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1610443838; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=074WLx/sNBYbNlq20eslBXSyFVzU/VE2fXP/4Hp+4Bw=;
+ b=eBdT//6n3nsBIVfMPBn7ixxCJtOShqzn5PYBiroYAP7pfEgpQSEZpjzW/muKjmRlsT52uZHh
+ d+WxSIB2sv4KnkQDG3utxJjXngGFoH4z2uLLnQ/5UOJ6Ys9bDkIGP0w+Y4yjt+LQI9DAeVqq
+ JKd2C0rlnrhgtf7ouwTF2BdjPjw=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5ffd6c1c8fb3cda82fd38cc1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 12 Jan 2021 09:30:04
+ GMT
+Sender: mdalam=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3EAD2C433ED; Tue, 12 Jan 2021 09:30:03 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mdalam)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 78B9AC433CA;
+        Tue, 12 Jan 2021 09:30:02 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210108100221.1370763-1-siyanteng@loongson.cn>
- <20210108100221.1370763-4-siyanteng@loongson.cn> <6b6dd58a-0f59-c8c3-2a7a-8ee7c866a970@flygoat.com>
- <CAEensMxVwEzPZaGS9vUunieMJQYj3jGBA9oPn62WCW2hoTS5Ww@mail.gmail.com> <66520b7e-e911-20b9-dd72-29ff337434d8@flygoat.com>
-In-Reply-To: <66520b7e-e911-20b9-dd72-29ff337434d8@flygoat.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 12 Jan 2021 16:06:27 +0800
-Message-ID: <CAEensMxzQQhgZx7WjsCOGj+XgDsaqzhDMVOBjL_XbKNrpb7EFQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] doc/zh_CN: add mips ingenic-tcu.rst translation
-To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Zhou Yanjie <zhouyanjie@zoho.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 12 Jan 2021 15:00:02 +0530
+From:   mdalam@codeaurora.org
+To:     Thara Gopinath <thara.gopinath@linaro.org>
+Cc:     vkoul@kernel.org, corbet@lwn.net, agross@kernel.org,
+        bjorn.andersson@linaro.org, dan.j.williams@intel.com,
+        dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        sricharan@codeaurora.org, mdalam=codeaurora.org@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+In-Reply-To: <11f538a697de934551bcec5036d7fb17@codeaurora.org>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <6c85436d-e064-367e-736b-951af82256c8@linaro.org>
+ <9769c54acf54617a17346fea60ee38b6@codeaurora.org>
+ <8c86f4db-9956-10d1-b380-a207137b50ef@linaro.org>
+ <11f538a697de934551bcec5036d7fb17@codeaurora.org>
+Message-ID: <ec3f90470eca80256d3c335c7fb23e4e@codeaurora.org>
+X-Sender: mdalam@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ik9TVCIgYXBwZWFycyBtYW55IHRpbWVzIGFib3ZlLCBhbmQgaXQgaGFzIGJlZW4gaW50ZXJwcmV0
-ZWQgYXMgIuezu+e7n+WumuaXtuWZqCINCndoZW4gaXQgZmlyc3QgYXBwZWFyZWQuIFRoZXJlZm9y
-ZSwgaW4gb3JkZXIgdG8gYmUgY29uc2lzdGVudCB3aXRoIHRoZQ0Kb3JpZ2luYWwgZG9jdW1lbnQg
-c3R5bGUsIEkgdGhpbmsgIk9TVCIgZG9lcyBub3QgbmVlZCB0byBiZSB0cmFuc2xhdGVkLg0KVGhh
-bmsgeW91IQ0KDQpKaWF4dW4gWWFuZyA8amlheHVuLnlhbmdAZmx5Z29hdC5jb20+IOS6jjIwMjHl
-ubQx5pyIMTLml6Xlkajkuowg5LiL5Y2IMzoxNuWGmemBk++8mg0KPg0KPiDlnKggMjAyMS8xLzkg
-5LiK5Y2IOTo0OSwgeWFudGVuZyBzaSDlhpnpgZM6DQo+ID4gSSB0aGluayB0aGVzZSBjaGFuZ2Vz
-IGFyZSB2ZXJ5IGdvb2QsIHlvdSB3aWxsIHNlZSBpdCBpbiBQQVRDSCB2NSwgdGhhbmsgeW91IQ0K
-PiA+DQo+ID4gSmlheHVuIFlhbmcgPGppYXh1bi55YW5nQGZseWdvYXQuY29tPiDkuo4yMDIx5bm0
-MeaciDjml6XlkajkupQg5LiL5Y2INzoyNeWGmemBk++8mg0KPiA+PiDlnKggMjAyMS8xLzgg5LiL
-5Y2INjowMiwgWWFudGVuZyBTaSDlhpnpgZM6DQo+IFsuLi5dDQo+ID4+PiAr5a6e546wDQo+ID4+
-PiArPT09PQ0KPiA+Pj4gKw0KPiA+Pj4gK1RDVeehrOS7tueahOWKn+iDveWIhuW4g+WcqOWkmuS4
-qumpseWKqOeoi+W6j++8mg0KPiA+Pj4gKw0KPiA+Pj4gKz09PT09PT09PT09ICA9PT09PQ0KPiA+
-Pj4gK+aXtumSnyAgICAgICAgIGRyaXZlcnMvY2xrL2luZ2VuaWMvdGN1LmMNCj4gPj4+ICvkuK3m
-lq0gICAgICAgICBkcml2ZXJzL2lycWNoaXAvaXJxLWluZ2VuaWMtdGN1LmMNCj4gPj4+ICvlrprm
-l7blmaggICAgICAgZHJpdmVycy9jbG9ja3NvdXJjZS9pbmdlbmljLXRpbWVyLmMNCj4gPj4+ICtP
-U1QgICAgICAgICAgZHJpdmVycy9jbG9ja3NvdXJjZS9pbmdlbmljLW9zdC5jDQo+ID4+IOaZtuaM
-r++8nw0KPg0KPiBUbyBjb3JyZWN0IG15c2VsZiwgdGhlIE9TVCByZWZlcnMgdG8gIk9wZXJhdGlu
-ZyBTeXN0ZW0gVGltZXIiLg0KPiBTbyBtYXliZSAi57O757uf5a6a5pe25ZmoIiBvciBqdXN0IGxl
-YXZlIGl0IGFzIGlzLg0KPg0KPiBUaGFua3MuDQo+DQo+IC0gSmlheHVuLg0KPg0KPiBbLi4uXQ0K
+On 2020-12-22 17:48, mdalam@codeaurora.org wrote:
+> On 2020-12-21 23:39, Thara Gopinath wrote:
+>> On 12/21/20 2:35 AM, mdalam@codeaurora.org wrote:
+>>> On 2020-12-19 09:05, Thara Gopinath wrote:
+>>>> On 12/17/20 9:37 AM, Md Sadre Alam wrote:
+>>>>> This change will add support for LOCK & UNLOCK flag bit support
+>>>>> on CMD descriptor.
+>>>>> 
+>>>>> If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of 
+>>>>> this
+>>>>> transaction wanted to lock the DMA controller for this transaction 
+>>>>> so
+>>>>> BAM driver should set LOCK bit for the HW descriptor.
+>>>>> 
+>>>>> If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester of 
+>>>>> this
+>>>>> transaction wanted to unlock the DMA controller.so BAM driver 
+>>>>> should set
+>>>>> UNLOCK bit for the HW descriptor.
+>>>> Hi,
+>>>> 
+>>>> This is a generic question. What is the point of LOCK/UNLOCK with
+>>>> allocating LOCK groups to the individual dma channels? By default
+>>>> doesn't all channels fall in the same group. This would mean that
+>>>> a lock does not prevent the dma controller from not executing a
+>>>> transaction on the other channels.
+>>>> 
+>>> 
+>>> The Pipe Locking/Unlocking will be only on command-descriptor.
+>>> Upon encountering a command descriptor with LOCK bit set, the BAM
+>>> will lock all other pipes not related to the current pipe group, and 
+>>> keep
+>>> handling the current pipe only until it sees the UNLOCK set then it 
+>>> will
+>>> release all locked pipes.
+>> 
+>> So unless you assign pipe groups, this will not work as intended
+>> right? So this patch is only half of the solution. There should also
+>> be a patch allowing pipe groups to be assigned. Without that extra bit
+>> this patch does nothing , right ?
+> 
+> Yes you are right.
+> We are having some register which will configure the pipe lock group.
+> But these registers are not exposed to non-secure world. These 
+> registers
+> only accessible through secure world. Currently in IPQ5018 SoC we are
+> configuring
+> these register in secure world to configure pipe lock group.
+
+ping! Is there any update on this ? Do you need any further info ?
