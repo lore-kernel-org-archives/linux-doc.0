@@ -2,144 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCA1C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA99C4332B
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:10:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFA5023120
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 17:46:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A5CB230F9
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 19:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728583AbhALRqK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 12:46:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51184 "EHLO
+        id S2406727AbhALTKM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 14:10:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728338AbhALRqK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 12:46:10 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2FCC061794
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 09:45:30 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id c79so1826386pfc.2
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jan 2021 09:45:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kp8U52XQRpl24mM7G2RDldHnlK7yV2a+H4JiRS6waC0=;
-        b=s1TmDllNcfHa8938jvmhvPAjJZWqwEjtTyoDnQZPsMSJznW7XTmhxVP5QdM+VgFQfg
-         GX4fndU3z6c3ACC6H4qbwKDzKyqZAhxRUrFNFDQKv0jWwSJmzyAWn6zDf3S0k1PxzE+f
-         zPPPtxqBgqLvQILOQcmZ1vLXO2wQOK+JHC67fhNpUOjFsdRZP+oG/CqUd407IoMSYKlO
-         V6dgnHUKIDSi7JGpq8exTW/MIFI65W1O4bc/DtreEikPrmXag2mYo57+lEMg+xln9z75
-         FTwQfrHHHTqAFde7sPnMaD61o3HSCMHTFC5fbqgZdzK9WUpMEmtM5iPH7CbaeMnLAjCe
-         rhog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kp8U52XQRpl24mM7G2RDldHnlK7yV2a+H4JiRS6waC0=;
-        b=cBX83DQOZ+PlkARbOJshCTLVRnrp61xZGxo977T4r1G94QcNkzvcvQRy+3xmvotJO8
-         IuY+7DDJYWuwt9je5F4kYzZ+fdLblqxi8mVDcTmr6fI/5vr27/tq6MWhXsIpy9vbVPrO
-         9Hn6S/ZDiMh+/tz9ZxsHryVST/tEWh+6BCr2QlJVOv6uw7alIGGsispG7/AaoLpv1/sf
-         NPtPrv7ySRLndm3wFiJpD8lsioQ/fxGibool0a6akET4Ef0uwdgQc8FROhA3DUFpYJEj
-         pghUCpDmmyyYOu9zZcKkbtJ2gq54lh50/J9f5nKni3W3F8fmJby+aIO8NmjyxPNn5XH3
-         dJlQ==
-X-Gm-Message-State: AOAM530YQqIG9oRSKR6qufnXLdyH/KugU1YZ7r8oQrIlcFwVQK9pnHlr
-        +ITFqUbAioaUFv9pgpVeIFPf+6QXC3Dl5M18/cdPuw==
-X-Google-Smtp-Source: ABdhPJyL7OrY+b1LIuAu9suY0afpSNd4lx3LHIi9FgBh9f/K/AUZnnmRSwCYB6DM54QwVU7/1JHfcI8EHgMCtk27m4w=
-X-Received: by 2002:a65:48cb:: with SMTP id o11mr164747pgs.121.1610473529429;
- Tue, 12 Jan 2021 09:45:29 -0800 (PST)
+        with ESMTP id S2406723AbhALTKL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jan 2021 14:10:11 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42475C061795;
+        Tue, 12 Jan 2021 11:09:31 -0800 (PST)
+Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=[192.168.66.101]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1kzP2i-0007NT-Rj; Tue, 12 Jan 2021 20:09:25 +0100
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210110121033.130504-1-linux@leemhuis.info>
+ <20210111194822.4kvl2tx24anyu23k@chatter.i7.local>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
+ bugzilla.kernel.org
+Message-ID: <fba45829-cac3-9f53-c753-0b08d813aa83@leemhuis.info>
+Date:   Tue, 12 Jan 2021 20:09:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <20210112051428.4175583-1-morbo@google.com>
- <CAKwvOdk+NqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdk+NqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ@mail.gmail.com>
-From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Date:   Tue, 12 Jan 2021 09:45:17 -0800
-Message-ID: <CAFP8O3J+85x2S+9T2vM+iem=t45MdJt+D1houpqKGhDRfcHu-w@mail.gmail.com>
-Subject: Re: [PATCH v2] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Alistair Delva <adelva@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210111194822.4kvl2tx24anyu23k@chatter.i7.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1610478571;eef0f28c;
+X-HE-SMSGID: 1kzP2i-0007NT-Rj
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 9:37 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> On Mon, Jan 11, 2021 at 9:14 PM Bill Wendling <morbo@google.com> wrote:
-> >
-> > From: Sami Tolvanen <samitolvanen@google.com>
-> >
-> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > profile, the kernel is instrumented with PGO counters, a representative
-> > workload is run, and the raw profile data is collected from
-> > /sys/kernel/debug/pgo/profraw.
-> >
-> > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > before it can be used during recompilation:
-> >
-> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> >
-> > Multiple raw profiles may be merged during this step.
-> >
-> > The data can now be used by the compiler:
-> >
-> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> >
-> > This initial submission is restricted to x86, as that's the platform we
->
-> Please drop all changes to arch/* that are not to arch/x86/ then; we
-> can cross that bridge when we get to each arch. For example, there's
-> no point disabling PGO for architectures LLVM doesn't even have a
-> backend for.
->
-> > know works. This restriction can be lifted once other platforms have
-> > been verified to work with PGO.
-> >
-> > Note that this method of profiling the kernel is clang-native and isn't
-> > compatible with clang's gcov support in kernel/gcov.
->
-> Then the Kconfig option should depend on !GCOV so that they are
-> mutually exclusive and can't be selected together accidentally; such
-> as by bots doing randconfig tests.
+Thx for your reply and sorry for forgetting to CC you; that was the
+plan, but I forgot when I called git send-email :-/
 
-The profile formats (Clang PGO, Clang gcov, GCC gcov/PGO) are
-different but Clang PGO can be used with Clang's gcov implementation:
-clang -fprofile-generate --coverage a.cc; ./a.out => default*.profraw + a.gcda
+Am 11.01.21 um 20:48 wrote Konstantin Ryabitsev:
+> On Sun, Jan 10, 2021 at 01:10:33PM +0100, Thorsten Leemhuis wrote:
+>> The front page doesn't make this aspect obvious and not even point to
+>> Documentation/admin-guide/reporting-bugs.rst to help those that want to
+>> properly report a bug. Only the FAQ mentions it, albeit only indirectly:
+>> 'The subsystem maintainers in kernel tracker are volunteers to help
+>> track bugs in an area they are interested in. Sometimes they are the
+>> same person as on kernel.org sometimes they are not. There are still
+>> some categories with no maintainers so more volunteers are needed.'
+> My general comment on this is that bug triage sucks and nobody really wants to
+> do it for any extended period of time. :) There were times in the past when
+> this or that person did step up and kept an eye on all incoming new bugs,
+> properly routing them to the proper product/component, but they quickly burned
+> out or found a less thankless occupation. Understandably.
 
-> <large snip>
->
-> > +static inline int inst_prof_popcount(unsigned long long value)
-> > +{
-> > +       value = value - ((value >> 1) & 0x5555555555555555ULL);
-> > +       value = (value & 0x3333333333333333ULL) +
-> > +               ((value >> 2) & 0x3333333333333333ULL);
-> > +       value = (value + (value >> 4)) & 0x0F0F0F0F0F0F0F0FULL;
-> > +
-> > +       return (int)((unsigned long long)(value * 0x0101010101010101ULL) >> 56);
-> > +}
->
-> The kernel has a portable popcnt implementation called hweight64 if
-> you #include <asm-generic/bitops/hweight.h>; does that work here?
-> https://en.wikipedia.org/wiki/Hamming_weight
-> --
-> Thanks,
-> ~Nick Desaulniers
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdk%2BNqhzC_4wFbQMJmLMQWoDSjQiRJyCGe5dsWkqK_NJJQ%40mail.gmail.com.
+Yeah, I can relate to that, too.
+
+>> It looks like those volunteers were never found; the outdated list of
+>> components and products (see 'the bad' above) also shows that the
+>> volunteers seem to not really take care of things.
+> I want to encourage you and the rest of the developers to complain about this
+> to the TAB. It is entirely in their power to come to the Linux Foundation with
+> the suggestion that perhaps bug triage should be a paid position. It's not a
+> given that such a position would then be created and funded, but this for sure
+> won't happen if these complaints don't reach People In Charge Of Funds at the
+> LF.
+
+Hmmm, I'll have to think about that. I'm not sure yet if I'm currently
+willing to enter enter such a fight^w^w^w^w go down that route – I soon
+have other things on my plate and not much time to spare for this. Sure,
+bringing this to TAB is not that much work, but I expect that will lead
+to a longer process that will involve lots of arguments that will need
+to get exchanged by mail... And I don't care that much about bugzilla,
+that why I spend time wring the recently added text
+Documentation/admin-guide/reporting-issues.rst
+
+
+
+>> In the end that's the reasons why quite a few (a lot?) reports never get
+>> a reply from someone. During a randomly selected 2 week window at the
+>> end of November 2020(¹) there were 60 public bugs and a bit more than
+>> half of them by the end of the year never got a single comment by anyone
+>> except maybe the reporter.
+> Well, that said, a lot of stuff sent to the _proper_ mailing lists also never
+> receives a response
+
+Good point.
+
+> -- either because it didn't catch appropriate eyeballs or
+> because those eyeballs didn't have time to spend on the required
+> back-and-forth to identify the source of the problem.
+
+Or because the bug report was obviously so bad no one dared to touch it.
+But that reason and the two you mentioned are all covered in
+Documentation/admin-guide/reporting-issues.rst
+
+Sure, not everybody will read that far, but at least those that do will
+find help. And yes, the text could cover those situations for
+bugzilla.kernel.org as well, but that afaics would boil down to 'report
+to the place that is mentioned in the MAINTAINERS file (as you better
+would have right from the start)'.
+
+> I don't think we should
+> be using this metric as indication that bugzilla doesn't work.
+
+Well, FWIW, that's why I described it as 'doesn't work that well' and
+had a 'the good' section in my patch description, as it clearly is
+useful sometimes. That's also why I'm not on a quest 'kill bugzilla with
+fire'. ;-)
+
+Nevertheless I think discouraging users from filing bugs there is a good
+way to quickly improve the situation, as chances a good bug report will
+be acted upon afaics are currently much better when they get reported to
+the proper place: the one mentioned in the MAINTAINERS file.
+
+>> But there is one aspect that should be noted here: The situation can't
+>> be blamed on the kernel.org admins. They are doing a good job at keeping
+>> the bugzilla.kernel.org up and the bugzilla codebase up2date. But as
+>> admins it's not their job to maintain the list of products and
+>> components.
+> Aw, thanks. :) It's indeed hard enough just keeping all the spam off it.
+> Unfortunately, there are no perfect solutions for it, but usually all spam is
+> junked and hidden from public view within an hour or two of being posted.
+> Sadly, this usually happens after spammy notifications have already gone out.
+
+Ouch. Maybe that's one good reason to make bugzilla.kernel.org either
+work properly or kill it, to make sure the time your spent on things
+like this is actually worth it.
+
+>> Apart from this change there is one more change planned to improve the
+>> situation with bugzilla.kernel.org: discuss with the admins how to make
+>> it more obvious to users when to use the bug tracker, and when to avoid
+>> it; the text that does this will obviously link to
+>> Documentation/admin-guide/reporting-issues.rst, which is one of the
+>> reasons why it's designed to be understandable for newcomers.
+> I'm not sure there's any single solution that will solve the problem. If we
+> properly organize products/components, many people will just get lost in them
+> and create all bug reports in "other" (or "helpdesk", as is the case lately).
+
+Yeah, the kernel is complex and might benefit from a 1st level support
+that relays good reports to the appropriate developers or maintains. But
+such a solution would need time and money to set up. Until something is
+happening in that direction I'd say a patch like mine is a good idea and
+can easily get reverted later if the situation with bugzilla.kernel.org
+improves.
+
+> The sanest approach would be to have a simple web gateway to bug reporting:
+
++1
+
+> - which distribution are you using?
+> - if they choose a distribution, show them where to report bugs for that
+>   distribution, because most bugs should start there, really
+
+Agreed. Fun fact: that why the step-by-step guide in
+Documentation/admin-guide/reporting-issues.rst starts with "Stop reading
+this document and report the problem to your vendor instead, unless you
+are running the latest mainline kernel already or are willing to install
+it. " ;-)
+
+> - on that page, also give a link:
+>   "I'm a distribution maintainer and I want to report this bug upstream"
+> - if they click that link, let them fill out a freeform bug report that will
+>   create a new bug entry on bugzilla.kernel.org in "Other/Other"
+> - creating a bug there will email the designated person in charge of initial
+>   bug triage
+> - that designated person or persons will then assign proper product/component,
+>   or simply forward the bug report to the proper maintainer if they are able
+>   to ascertain that
+
+
+Well, do we really need bugzilla and a middleperson for triaging and
+forwarding when it we are taking about reports filed by distribution
+maintainers? They are unlikely to be newcomers to FLOSS bug reporting,
+so they IMHO should be able to read the MAINTAINERS file and follow
+Documentation/admin-guide/reporting-issues.rst
+
+> This is far from perfect and still hinges on finding a person willing to do
+
+> bug triage. However, it should hopefully improve the workflow without making
+
+> it too complicated.
+
+It might imrpove the workflow, but one question wasn't raised: why do we
+need two places to report bugs to at all? The MAINTAINERS file is there
+and the places specified there are clearly the ones maintainers prefer.
+Sure, bugzilla is easier to handle, especially for for inexperienced
+users. But is that worth it? Especially in its current state?
+
+Ciao, Thorsten
