@@ -2,114 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFEDC072AD
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 21:42:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21610C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 23:02:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9175623122
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 21:42:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D565323123
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jan 2021 23:02:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406959AbhALVh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jan 2021 16:37:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39682 "EHLO mail.kernel.org"
+        id S2388059AbhALXCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jan 2021 18:02:31 -0500
+Received: from mga11.intel.com ([192.55.52.93]:32015 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437101AbhALVDJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Jan 2021 16:03:09 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3BB2D2311F;
-        Tue, 12 Jan 2021 21:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610485349;
-        bh=mqgTIR/4dJzxefUyLCCyIKX0u33hmXbXJc7zpzyVpNM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uAFq5wox3wQldNptnu9tUBsbKiL86oesVKz60jCJMEzSkloJmFkWMq9fRpIxgiju9
-         6nkj6ecrUCKnOhFiBxrVfYul+ViCovg9HpZFpunr5jJqJQ9Vqru+5jnu0SwUW1kIfS
-         RSyrSzyTQgr78e6fgmJF+REHDf+1MhEBoqFAwZTOVS8aeXoNhGKzU+uYEqN4ru8HoB
-         XgCRoATzV37Kf/t432esHrqdpF6VFHG4h12youy7ZibFbTA/7W5z+xXaAXBWEHSXkc
-         Ij13HTgALGiuu9WtiQaU8sNFlDxO2c7fyeDqYa6RusOHo9boZr9IgzpGwhM1wCQX9h
-         XLba3/yFFt7QQ==
-Date:   Tue, 12 Jan 2021 21:01:54 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
+        id S1729320AbhALXCa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Jan 2021 18:02:30 -0500
+IronPort-SDR: RMO7RHKhKv9vip0YRrOcKlfQwRyvynVK/ATTUSKiWao9mEzs9qo3o3K2UEj9SFapyh8qf84MB4
+ sy+Drv0cPZYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="174611842"
+X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; 
+   d="scan'208";a="174611842"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 15:02:07 -0800
+IronPort-SDR: zBMMKHAiBobVrLDfrDcDdJSqGxiTSdD34PT5PSkJ0OlBLjoAwyPye77F//xOR069fHpa7ys6T0
+ P6adA37XOpHQ==
+X-IronPort-AV: E=Sophos;i="5.79,342,1602572400"; 
+   d="scan'208";a="571845814"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.89.212]) ([10.212.89.212])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 15:02:06 -0800
+Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Fangrui Song <maskray@google.com>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
-Message-ID: <20210112210154.GI4646@sirena.org.uk>
-References: <20210112115421.GB13086@zn.tnic>
- <20210112194625.4181814-1-ndesaulniers@google.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201229213053.16395-5-yu-cheng.yu@intel.com>
+ <20210111230900.5916-1-yu-cheng.yu@intel.com>
+ <20210112123854.GE13086@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <0b144668-a989-6bc7-0b0d-2195d2d73397@intel.com>
+Date:   Tue, 12 Jan 2021 15:02:06 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mXDO3udm/xYWQeMQ"
-Content-Disposition: inline
-In-Reply-To: <20210112194625.4181814-1-ndesaulniers@google.com>
-X-Cookie: Stay away from hurricanes for a while.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210112123854.GE13086@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/12/2021 4:38 AM, Borislav Petkov wrote:
+> On Mon, Jan 11, 2021 at 03:09:00PM -0800, Yu-cheng Yu wrote:
+>> @@ -1252,6 +1260,16 @@ static void __init cpu_parse_early_param(void)
+>>   	if (cmdline_find_option_bool(boot_command_line, "noxsaves"))
+>>   		setup_clear_cpu_cap(X86_FEATURE_XSAVES);
+>>   
+>> +	/*
+>> +	 * CET states are XSAVES states and options must be parsed early.
+>> +	 */
+> 
+> That comment is redundant - look at the containing function's name.
+> 
+> Otherwise patch looks just as it should.
+> 
+> Thx.
+> 
 
---mXDO3udm/xYWQeMQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Should I send an updated patch?  Thanks!
 
-On Tue, Jan 12, 2021 at 11:46:24AM -0800, Nick Desaulniers wrote:
-
-This:
-
-> when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
-> notes:
-
->   So basically, you can use an .L symbol *inside* a function or a code
->   segment, you just can't use the .L symbol to contain the code using a
->   SYM_*_START/END annotation pair.
-
-is a stronger statement than this:
-
-> +  Developers should avoid using local symbol names that are prefixed with
-> +  ``.L``, as this has special meaning for the assembler; a symbol entry will
-> +  not be emitted into the symbol table. This can prevent ``objtool`` from
-> +  generating correct unwind info. Symbols with STB_LOCAL binding may still be
-> +  used, and ``.L`` prefixed local symbol names are still generally useable
-> +  within a function, but ``.L`` prefixed local symbol names should not be used
-> +  to denote the beginning or end of code regions via
-> +  ``SYM_CODE_START_LOCAL``/``SYM_CODE_END``.
-
-and seems more what I'd expect - SYM_FUNC* is also affected for example.
-Even though other usages are probably not very likely it seems better to
-keep the stronger statement in case someone comes up with one, and to
-stop anyone spending time wondering why only SYM_CODE_START_LOCAL is
-affected.
-
-This also looks like a good candiate for a checkpatch rule, but that can
-be done separately of course.
-
---mXDO3udm/xYWQeMQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/+DkEACgkQJNaLcl1U
-h9Cq7wf/T25FXiQQZ1vqQuvuSs9y7UidITjNn00or2An/9AZvjd7fNSIGitE6JZF
-ulLa3Dnm6DnJ8IHxCom/f9HA0Bhqduottun00gPpRE4yYnc6I6rs4+jD3D3yaM+e
-P48KYy2zaNF6Xgud3wdMdBWrO6wHbpk/FtrGu9myxKXbPoaWXCc/2JO+lQGHy2Ld
-stRoPLzuNHGsqiiQyQVFUCJcva6y2q5UTYqWG21loFirQ0khEI1aHwVuifeddpjE
-JamhRqQhmlTD8qRrnf8c4iVj6oexQsKzjOKkaKX2qpyYhK8bxdgvG8r0kwJfnuZM
-LObeotMsynR86MF2K/fVFTw7r4fXMw==
-=H9dS
------END PGP SIGNATURE-----
-
---mXDO3udm/xYWQeMQ--
+--
+Yu-cheng
