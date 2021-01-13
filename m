@@ -2,90 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC852C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 10:05:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC92C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57D2323405
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 10:05:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84F0922210
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbhAMKE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 05:04:58 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:37676 "EHLO mail.skyhub.de"
+        id S1726779AbhAMLAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:00:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38262 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726948AbhAMKE5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 05:04:57 -0500
-Received: from zn.tnic (p200300ec2f0b5c00b2d62b1c55c494d5.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:5c00:b2d6:2b1c:55c4:94d5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 052ED1EC0373;
-        Wed, 13 Jan 2021 11:04:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1610532256;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=6Q836lvEI8WL7BDS9FwTyp3jQYCAq9tax7h39eSviyg=;
-        b=QGhyTjv+8jrsJmW04auJ2WzRUI8x3z3h3Nxe1Iofsa5h9SNwPhWVcm/kTr2VofD+ot0uEi
-        bR8WMYNsVxyzR9uzfEztPrm+Wzta+YIiesKnMhkrnCnIz5NiIFbiNmce9zipmTdW9b6nvc
-        PUt9/J0L3nIz3b7JgjwDsvnXLiuuciE=
-Date:   Wed, 13 Jan 2021 11:04:16 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 04/26] x86/cpufeatures: Introduce X86_FEATURE_CET and
- setup functions
-Message-ID: <20210113100416.GB16960@zn.tnic>
-References: <20201229213053.16395-5-yu-cheng.yu@intel.com>
- <20210111230900.5916-1-yu-cheng.yu@intel.com>
- <20210112123854.GE13086@zn.tnic>
- <0b144668-a989-6bc7-0b0d-2195d2d73397@intel.com>
+        id S1726549AbhAMLAK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:00:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C2FD23159;
+        Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610535569;
+        bh=zPWcolGCBBiIUcSu9gOwE8Ispr/jLZk/wATleNmUKag=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=EYnu+v3MeRWCSJDpQuQz+Nfrhk1DR2tsY5f4sYu+OqUsw+iTlAen9CjllGkqwfOei
+         adyBFjH5IUeN9qx8SpIvFSpQLxM8osRPspcz4KFYkHbMm3aX3vWU8L/N60pCCBAyxm
+         60Pft8ge+MfdhcDRsr6CCWAxSJVEYEMZag7nrBVJg6SaoYZefZqrgrvM2U5aTXjOqN
+         DfLXLhXnqfWda5yQe4x5mofEc2o0iu+jdhsSHcHUXN6hBhwWH+HsjA0qnDP96gVQTA
+         B4y6/Sf9adZ7Yy1tsuIxtZUool1gfmmMSa6g+8a0beDxD4YJew6F08HAk3cemg8ifg
+         KBgnleWT79qAg==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kzds7-00DpFy-7f; Wed, 13 Jan 2021 11:59:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/24] MAINTAINERS: update envelope-detector.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:06 +0100
+Message-Id: <d416b1831674b2a58c511766a10247685fdc6758.1610535349.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0b144668-a989-6bc7-0b0d-2195d2d73397@intel.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 03:02:06PM -0800, Yu, Yu-cheng wrote:
-> Should I send an updated patch?  Thanks!
+Changeset 66a6dcc20e63 ("dt-bindings:iio:adc:envelope-detector: txt to yaml conversion.")
+renamed: Documentation/devicetree/bindings/iio/adc/envelope-detector.txt
+to: Documentation/devicetree/bindings/iio/adc/envelope-detector.yaml.
 
-No, this is not how review works.
+Update its cross-reference accordingly.
 
-Usually, you send your patchset, wait a week or two to gather feedback,
-incorporate that feedback or discuss/dispute it and you send your next
-version. You should know the process by now...
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0ff692445967..a2579cdad3ab 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8691,7 +8691,7 @@ M:	Peter Rosin <peda@axentia.se>
+ L:	linux-iio@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-bus-iio-adc-envelope-detector
+-F:	Documentation/devicetree/bindings/iio/adc/envelope-detector.txt
++F:	Documentation/devicetree/bindings/iio/adc/envelope-detector.yaml
+ F:	drivers/iio/adc/envelope-detector.c
+ 
+ IIO MULTIPLEXER
 -- 
-Regards/Gruss,
-    Boris.
+2.29.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
