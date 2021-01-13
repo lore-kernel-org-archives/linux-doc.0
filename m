@@ -2,82 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B068BC4332E
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A52E1C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:04:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7943323442
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:03:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6ECAA2343F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:04:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729772AbhANCCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:02:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729448AbhAMXWd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 18:22:33 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE4DC0617BE;
-        Wed, 13 Jan 2021 15:21:28 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B6685612C;
-        Wed, 13 Jan 2021 23:21:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6685612C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610580088; bh=HtK7neyREhRZnKo1DhkVntwSDPRKPQbMPmFOCpss7rc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=obh38bPaqzYcTE+AkjRqELraIkpT6q8jJP8Ed0Rzmn2DICtaA5SScy+nTH/9RvK5c
-         /KVQNcyT51sn3d5GWhSWq7joqCMWdcpQoGpe5ucwEo517GYIU2H7DdIahUZRNRGDDo
-         mwMjp3DzRPMpP1MWppbm2PYx2+rZrGiDUpdeS0Ue8q6nmnWc6vjeIUw/7hyZ7k+RYb
-         CR3gijmMBdf2fT68IEEsRvH2WWHSSIPXy10qx0wbKHfdxqm/nP4xrvftHMUo7ZICpB
-         Wx8byEXRenXDz2p1YQGjtefrICL39vcRtYBlslI6Ot8Z/3M3vY5+DGjh5d0GcVe1iE
-         JK2CajB9pXkaQ==
-Date:   Wed, 13 Jan 2021 16:21:26 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH for doc-next] doc/zh_CN: adjust table markup in
- mips/ingenic-tcu.rst
-Message-ID: <20210113162126.62e36bd3@lwn.net>
-In-Reply-To: <20210113070023.25064-1-lukas.bulwahn@gmail.com>
-References: <20210113070023.25064-1-lukas.bulwahn@gmail.com>
-Organization: LWN.net
+        id S1729371AbhAMWdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 17:33:54 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:48526 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbhAMWdM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:33:12 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DMO15C022373;
+        Wed, 13 Jan 2021 22:31:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=cbAaYYA369SOVtMavd6SqpAAxPSZNSJN5l6rUr3r578=;
+ b=hw1PkC/sUHVQ3mQIsWe5wLnCnD2UBEsLkifv+QVZj58xK8X58jAvZHonkY4pgU3pvEDj
+ Qbdg//OBSnnr5KhM1CRI+pUx8YpfyfYH6j9jCGSIiEjGCAW7ADrY1s+JbJ/rPaKRuNJ7
+ PqW5Aff7qhKGiz3m9c3YZnYnV0paT2Loxi7cTh/BWnDyVYu5qdlqzBieH8mF1mYGr9+i
+ WmNU4hCwh6GoY2StJhoj56q3c00HmJooyE3Mwy2Jczgsm0mtYCv1nuUF0ON7KkDArGIg
+ 9BElpiJWUeQU2dZSNnu4fGH2edtGH636RDEeJH74U0UD8GUsWHc3t9/2mS/wRnSnNS1u Mg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 360kcywv8r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Jan 2021 22:31:12 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DMTfZl061547;
+        Wed, 13 Jan 2021 22:31:11 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 360ke9591t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Jan 2021 22:31:11 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DMUxqN029174;
+        Wed, 13 Jan 2021 22:31:00 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 13 Jan 2021 14:30:59 -0800
+Subject: Re: [PATCH v12 03/13] mm: Introduce VM_WARN_ON_PAGE macro
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
+        song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20210106141931.73931-1-songmuchun@bytedance.com>
+ <20210106141931.73931-4-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <65b2103d-6198-3380-d36e-17dd774359bd@oracle.com>
+Date:   Wed, 13 Jan 2021 14:30:57 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210106141931.73931-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101130135
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130134
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Jan 2021 08:00:23 +0100
-Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-
-> Commit 419b1d4ed1cb ("doc/zh_CN: add mips ingenic-tcu.rst translation")
-> introduces a warning with make htmldocs:
+On 1/6/21 6:19 AM, Muchun Song wrote:
+> Very similar to VM_WARN_ON_ONCE_PAGE and VM_BUG_ON_PAGE, add
+> VM_WARN_ON_PAGE macro.
 > 
->   ./Documentation/translations/zh_CN/mips/ingenic-tcu.rst:
->     61: WARNING: Malformed table. Text in column margin in table line 6.
-> 
-> Adjust the table markup to address this warning.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
-> applies cleanly on next-20210113
-> 
-> Yanteng, please ack.
-> 
-> Jonathan, please pick this doc warning fixup on your -next tree. 
+>  include/linux/mmdebug.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Not waiting for the ack, I've applied this (with an added Fixes tag),
-thanks.
+I was going to question the use/need for this macro in the following
+patch.  Looks like Oscar has already done that, and free_bootmem_page
+will now use VM_BUG_ON_PAGE.  So, this patch can be dropped.
 
-jon
+-- 
+Mike Kravetz
