@@ -2,146 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6687FC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E49C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 21:05:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25A8122BEA
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:34:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A1D923339
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 21:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbhAMUec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 15:34:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59778 "EHLO
+        id S1726730AbhAMU7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 15:59:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbhAMUec (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 15:34:32 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2765C061786
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 12:33:51 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id t30so3544377wrb.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 12:33:51 -0800 (PST)
+        with ESMTP id S1726808AbhAMU6x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 15:58:53 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0205EC061794;
+        Wed, 13 Jan 2021 12:55:50 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id m6so2010809pfk.1;
+        Wed, 13 Jan 2021 12:55:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uZ7Hgjq3EwFlb9h2mNHzEA//LZq6FUIgncCnYkTCuws=;
-        b=Sso1YrFRy85VawRnTMzqET8IW53+1x1oHBSzmGHtd347+EcGNLBryZFMfwgkl9FVhl
-         WGCrKg+RawNman31i8FAR9kmYcpxyokYmeKHvzLrWzCYAq5rU3rLdO5wsD6CjTocV3kZ
-         xg9piVdZ8UQqaUlTmP5PFBwrNgVaILb5SFwMruQ8R40kdMIrwBx9IaTmdzi+rVzAaSAE
-         cWI5Yz4uuH36x285mTCrTi8i8czP403l5OI2CymZGcRkhuFP5364Q7taEDgm2mHj1+/Q
-         Rw7JqR/o+ZVO7VIz14jDMiy1JeQP9mWPoq26PCL+Hq1Qip/+ufR9JcUdHYlxyThBeLbu
-         mPuw==
+         :content-disposition:in-reply-to;
+        bh=J9lVrM6cSutgG7mLzBj653Ro4jtg4186uGwFWHcVmp8=;
+        b=aRbWDjM0yw+GzgajvHwsGcoM/qQAnLebk4lOpB6oieho/KvR/07e+KyNCPGY5laQw4
+         SPRAXQMAnMCbRMCTC5fqzPugVtDlbETr5J97GgdQ1sAv0cKQW0tL8ofkciZjiXIlwHQq
+         8iKkxV3P+ks7L5tVLOs5lBAmCILODu+eHpjX7VKBnX1JQS8a4gOclyrrGXRCLd3zwPNo
+         MCkmKjfE9QMOM4wJx85TZZ6+jGtD54JDm/5GV3YNyYf7pmQMVps2rBjhXfJo6fVDQ7aD
+         qXJEQZi7fP0/r4g5G+q+mmyoGfG7mcYVVo2RpYgUffvfo1tqWddaZ+KOflabOsP2dq7Z
+         X4RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uZ7Hgjq3EwFlb9h2mNHzEA//LZq6FUIgncCnYkTCuws=;
-        b=riyY0EySVFfVWohO0KNiF7ZT0EbnPycmnfX4ZnEZS4gl1Xj8VVT3fl5hYXWQrco6LZ
-         m2uKZr+/OPnY+DxBcJsVrauKSwraM8qSV2Ijb7twkZIzG8U++vwygZLHelBRlMNrh0Ph
-         kRGaEJf+AhItFZRQB5xZDaNpL2R5WJAwlZiQ7p8tVu2fnMMchj0KJZgYv2VBCDNGzRLV
-         uytpDxUyZUD9U9Jm20ZAjDZkL2qvJDEkqKfT/k05Kc3CdxDqm1FU2FFjmmtF6PYtDG/k
-         yV61L05Gi93JmZmM8h2bND3zlCjkAhSYDwaLWpxm9EK66BP18/rfP81b7ypTdzeiCwm0
-         IKuA==
-X-Gm-Message-State: AOAM530eYY2FdfAjUh1orF1q+m48/q1pz3oOinR21lDOtXeHNaKKtj6S
-        I7yYwR+s2/LGEe48H4AiXmB5zA==
-X-Google-Smtp-Source: ABdhPJw1+muA9rZ09tzUpEpzGFWjjxkRNbnfx/YtF76gWJ48/LVuRr6PPrRzYhBQ5xDtKTsFfVYslA==
-X-Received: by 2002:adf:ebc2:: with SMTP id v2mr4355940wrn.88.1610570030708;
-        Wed, 13 Jan 2021 12:33:50 -0800 (PST)
-Received: from dell ([91.110.221.193])
-        by smtp.gmail.com with ESMTPSA id j7sm4691438wmb.40.2021.01.13.12.33.49
+         :mime-version:content-disposition:in-reply-to;
+        bh=J9lVrM6cSutgG7mLzBj653Ro4jtg4186uGwFWHcVmp8=;
+        b=bSBs7fWvUKQ6G+MRh6k+9pTByg8UahqbwqApmG3oB8Ase0bLA1JoRhuvuqa+VMhGqD
+         nTz5XfARidWnIsq+XX1xiOeEpkMIhEBY/PYUUWepvW0mfe486+zw8XB+5fcKU+3yKUud
+         CQTuglyJdXh/X7uiLqOAv/fMQp4wCJJOx6837CIxOlX198YwBYZ/b8iLSbKxiy+p6lru
+         2IzWS0W2fpOiekFS0SlotlhfUZkxHVAeO7r+d5jAK5+gNPdB3PfepJ8Bk0ceaIkhVulZ
+         NXehBRzIKUKHNY8eJYHTNwaLkBh7d7FDTX4+Q4mgf/kmUG4SArXLLg82Sn4gEzxTNPLE
+         I99Q==
+X-Gm-Message-State: AOAM533ZcpNzLgih5h3qKdjtC2YdDJWVzba2E53l5j/Ps4JDXnxbHu7A
+        gcAjAc+XEHoDMxDMJEE3G3/g8cw3C1+Uvfow
+X-Google-Smtp-Source: ABdhPJwJB5cRbqWwwGBk5Nr7WqzNuqy+CTCQqqVwdvVa0dQ8kEtvDJ3rLMDb9QGF7xp6flDXXyBxZg==
+X-Received: by 2002:a63:f21:: with SMTP id e33mr3991936pgl.84.1610571350379;
+        Wed, 13 Jan 2021 12:55:50 -0800 (PST)
+Received: from Ryzen-9-3900X.localdomain (ip68-104-204-241.ph.ph.cox.net. [68.104.204.241])
+        by smtp.gmail.com with ESMTPSA id 193sm3564863pfz.36.2021.01.13.12.55.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 12:33:50 -0800 (PST)
-Date:   Wed, 13 Jan 2021 20:33:48 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] docs: submitting-patches: Emphasise the
- requirement to Cc: stable when using Fixes: tag
-Message-ID: <20210113203348.GH3975472@dell>
-References: <20210113163315.1331064-1-lee.jones@linaro.org>
- <87bldssrzu.fsf@intel.com>
- <20210113171211.GF3975472@dell>
- <878s8wspsz.fsf@intel.com>
+        Wed, 13 Jan 2021 12:55:49 -0800 (PST)
+Date:   Wed, 13 Jan 2021 13:55:47 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Bill Wendling <morbo@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization
+ infrastructure
+Message-ID: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+References: <20210112053113.4180271-1-morbo@google.com>
+ <20210113061958.886723-1-morbo@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <878s8wspsz.fsf@intel.com>
+In-Reply-To: <20210113061958.886723-1-morbo@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Jan 2021, Jani Nikula wrote:
+Hi Bill,
 
-> On Wed, 13 Jan 2021, Lee Jones <lee.jones@linaro.org> wrote:
-> > On Wed, 13 Jan 2021, Jani Nikula wrote:
-> >
-> >> On Wed, 13 Jan 2021, Lee Jones <lee.jones@linaro.org> wrote:
-> >> > Clear-up any confusion surrounding the Fixes: tag with regards to the
-> >> > need to Cc: the stable mailing list when submitting stable patch
-> >> > candidates.
-> >> >
-> >> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> > Cc: Jonathan Corbet <corbet@lwn.net>
-> >> > Cc: linux-doc@vger.kernel.org
-> >> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> >> > ---
-> >> > v2:
-> >> >  - Link to the 'stable-kernel-rules' document as per Greg's request
-> >> >
-> >> >  Documentation/process/submitting-patches.rst | 5 +++++
-> >> >  1 file changed, 5 insertions(+)
-> >> >
-> >> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> >> > index 7c97ad580e7d0..7f48cccc75cdf 100644
-> >> > --- a/Documentation/process/submitting-patches.rst
-> >> > +++ b/Documentation/process/submitting-patches.rst
-> >> > @@ -556,6 +556,11 @@ which stable kernel versions should receive your fix. This is the preferred
-> >> >  method for indicating a bug fixed by the patch. See :ref:`describe_changes`
-> >> >  for more details.
-> >> >  
-> >> > +Note: Attaching a Fixes: tag does not subvert the stable kernel rules
-> >> > +process nor the requirement to Cc: stable@vger.kernel.org on all stable 
-> >> > +patch candidates. For more information, please read
-> >> > +:ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-> >> 
-> >> Has there been a process change, or should I take it that a Fixes: tag
-> >> without Cc: stable *may* still end up being backported to stable?
-> >
-> > The 'process' has not changed.  Cc:ing the stable mailing list has
-> > been a requirement for years.  This patch clears up the misconception
-> > that you (and I ... and many others by all accounts) hold that the
-> > Fixes: tag is enough.
-> >
-> > Fixes: only works when/if Greg and/or Sasha run their magical scripts
-> > to scan for them.  By them doing so has "perpetuated a myth that this
-> > was the proper thing to do".  It's not.
+On Tue, Jan 12, 2021 at 10:19:58PM -0800, Bill Wendling wrote:
+> From: Sami Tolvanen <samitolvanen@google.com>
 > 
-> I held no misconception here, and we've scripted adding appropriate Cc:
-> stable for years along with the Fixes: tag.
+> Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> profile, the kernel is instrumented with PGO counters, a representative
+> workload is run, and the raw profile data is collected from
+> /sys/kernel/debug/pgo/profraw.
 > 
-> There's been debate in the past whether commits with *only* Fixes:
-> should be automatically backported with the magic scripts at all. I
-> don't mean to reopen that question now, but that was what I was
-> referring to with the process change.
+> The raw profile data must be processed by clang's "llvm-profdata" tool
+> before it can be used during recompilation:
+> 
+>   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+>   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> 
+> Multiple raw profiles may be merged during this step.
+> 
+> The data can now be used by the compiler:
+> 
+>   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
+> 
+> This initial submission is restricted to x86, as that's the platform we
+> know works. This restriction can be lifted once other platforms have
+> been verified to work with PGO.
+> 
+> Note that this method of profiling the kernel is clang-native, unlike
+> the clang support in kernel/gcov.
+> 
+> [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> 
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Co-developed-by: Bill Wendling <morbo@google.com>
+> Signed-off-by: Bill Wendling <morbo@google.com>
+> Change-Id: Ic78e69c682286d3a44c4549a0138578c98138b77
 
-There's an on-going effort to pull in as many stable-worthy patches
-as possible from across a plethora of varying sources.  Patches with
-Fixes: tags which "forgot" to Cc: the stable mailing list is just one
-of those sources.
+Small nit: This should be removed.
 
-In answer to the question you didn't ask; there is still a requirement
-this scenario to be catered for, IMHO.
+I applied this patch on top of v5.11-rc3, built it with LLVM 12
+(f1d5cbbdee5526bc86eac0a5652b115d9bc158e5 + D94470) with Microsoft's
+WSL 5.4 config [1] + CONFIG_PGO_CLANG=y, and ran it on WSL2.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+$ zgrep PGO /proc/config.gz
+# Profile Guided Optimization (PGO) (EXPERIMENTAL)
+CONFIG_ARCH_SUPPORTS_PGO_CLANG=y
+CONFIG_PGO_CLANG=y
+# end of Profile Guided Optimization (PGO) (EXPERIMENTAL)
+
+However, I see an issue with actually using the data:
+
+$ sudo -s
+# mount -t debugfs none /sys/kernel/debug
+# cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+# chown nathan:nathan vmlinux.profraw
+# exit
+$ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+error: No profiles could be merged.
+
+Am I holding it wrong? :) Note, this is virtualized, I do not have any
+"real" x86 hardware that I can afford to test on right now.
+
+[1]: https://github.com/microsoft/WSL2-Linux-Kernel/raw/linux-msft-wsl-5.4.y/Microsoft/config-wsl
+
+Cheers,
+Nathan
