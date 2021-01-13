@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B8BC43333
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D2A7C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:01:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1625223136
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:01:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3581D23136
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727635AbhAMLBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 06:01:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38834 "EHLO mail.kernel.org"
+        id S1726897AbhAMLBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:01:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38835 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727624AbhAMLBI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727610AbhAMLBI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 13 Jan 2021 06:01:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 38CB923442;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3914823443;
         Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610535570;
-        bh=ykEet3EI/ADgoSKLzwNCpDq7KddS6zlSWibH/hw3RFQ=;
+        bh=02hqnGTUS5YhTP2z/VCY76S2cwZbqzkUNrtVW3wWscw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pb8I5UUyyDvOrvpxjCKIOB44foG974g42MpJ2ltWAXtOfUkw9hiw23WnDYMCpkEhw
-         NGHs9nDMbvjjR0OoYE8XNOsAVgPvZFjppLLMKK6NiDRBQjEMxEVVNa5H7VnFRSZQCu
-         cjrpekabgfWQlW9b7PCrNZksJjecEwy1e7CQ5oqlJMnvD51UKJYlfQbT/vvI9V74dv
-         7vQWzIhGGY4AOAck26cnmfmwvZHFbqOKua7VUKrBxC3UJxkvJOenY6jygGGWHcL0s5
-         KhL2LWwI7CY7wdEfdCnh4l50G9lUSnhgJg93kbArxdYGJ6uyltlP2HGs7vTNK+HPC2
-         +mY0mFpaokIrQ==
+        b=bp76ErEzNtCVNA+AIn8Z5iSWYV2oQEYfmmQxRzFhjkznZtI6dq9SDiA+kDekUSB1h
+         V1yRM6pIcQu6161UiruJwjsd55ACNbY85D+lP2P3LLOnAprb9dPlIHoewlm7ZspwPd
+         6pBJnfeMWAGMncgrEv9bMjcpawP07RsG6MEdiRUu/arWspnrrHunBE3z2ajn+34ePg
+         oSwl0dYGuB2roaecBwIQeX4DSFtmFHdtjy7n2DaTYNpcEMTZGqdb3B0t7iOL14Cj8V
+         yyDHv84cIxlY+Z5WhkbwR9CrjL+ZNDKbHKUOdMUkvrh0HEwmMClB/4dKq6zHfkr6UM
+         /xVKFJu+YmU5A==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpGr-TO; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpGn-RR; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Cameron <jic23@kernel.org>,
+To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Rob Herring <robh+dt@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        devicetree@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 23/24] dt-bindings:iio:adc: update adc.yaml reference
-Date:   Wed, 13 Jan 2021 11:59:24 +0100
-Message-Id: <8e37dba8ae9099acd649bab8a1cf718caa4f3e6a.1610535350.git.mchehab+huawei@kernel.org>
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH 21/24] dt-bindings: display: mediatek: update mediatek,dpi.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:22 +0100
+Message-Id: <3bf906f39b797d18800abd387187cce71296e5eb.1610535350.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
 References: <cover.1610535349.git.mchehab+huawei@kernel.org>
@@ -59,30 +59,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset b70d154d6558 ("dt-bindings:iio:adc: convert adc.txt to yaml")
-renamed: Documentation/devicetree/bindings/iio/adc/adc.txt
-to: Documentation/devicetree/bindings/iio/adc/adc.yaml.
+Changeset 9273cf7d3942 ("dt-bindings: display: mediatek: convert the dpi bindings to yaml")
+renamed: Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt
+to: Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml.
 
 Update its cross-reference accordingly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml | 2 +-
+ .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-index e0cc3b2e8957..22b7ed3723f6 100644
---- a/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml
-@@ -80,7 +80,7 @@ properties:
-     type: boolean
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+index 33977e15bebd..865e1e1b88ac 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+@@ -23,7 +23,7 @@ connected to.
  
-   bipolar:
--    description: see Documentation/devicetree/bindings/iio/adc/adc.txt
-+    description: see Documentation/devicetree/bindings/iio/adc/adc.yaml
-     type: boolean
+ For a description of the display interface sink function blocks, see
+ Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt and
+-Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.txt.
++Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml.
  
- required:
+ Required properties (all function blocks):
+ - compatible: "mediatek,<chip>-disp-<function>", one of
 -- 
 2.29.2
 
