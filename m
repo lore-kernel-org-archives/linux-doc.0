@@ -2,128 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BEF3C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39CC7C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E616D23339
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:35:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC99D20776
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:45:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727688AbhAMTev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 14:34:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23414 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725859AbhAMTev (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:34:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610566404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BvxbEyyhBtCq7uGHAUkz6B6eLyqDhX07ZV2UU6Kj9M4=;
-        b=faN8mCWnSnARFHqFC4a0RrxM2PJYS+6Gqc8SEE7iv9XHZkPV5bPPiWnUF+tvu3CBk7PkFo
-        4mAnthXYJqEG5QE2NEz5btEW1YNMj3XWAglJLcBHClNFTEPw/BHp+ByjZ/jIhNyiEbewGi
-        7xy17MnalJ6MHnJ+bzh2WoUQY80vc6Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-TdjqVTxnO4mYhvHFaR1sXw-1; Wed, 13 Jan 2021 14:33:22 -0500
-X-MC-Unique: TdjqVTxnO4mYhvHFaR1sXw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B36F8799F8;
-        Wed, 13 Jan 2021 19:33:20 +0000 (UTC)
-Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8411B5D9DD;
-        Wed, 13 Jan 2021 19:33:15 +0000 (UTC)
-Date:   Wed, 13 Jan 2021 13:33:13 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210113192735.rg2fxwlfrzueinci@treble>
-References: <20210113165743.3385-1-broonie@kernel.org>
+        id S1728735AbhAMTpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 14:45:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728723AbhAMTpH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:45:07 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658E5C061794
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:44:27 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id p22so3212866edu.11
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GzLWsELsR8oBhjbTdjrRDFjyjZTq2jjcpWmnVrGQ51I=;
+        b=blkgyjyuXkDo5M/XULWxM5GW1ddqW2qXuIXAtWWMAqhHL+3/1zjCc7RoGJs7InE1v+
+         CIEfh/FhW+eMnf1pvKFQdwu1ZaHYxwxeIyOr/oE15qji765qD9ZHGhLzQwpchiUtLLEU
+         XQGul31+VseAFTmXOtU4RDBEdGBdyWI7bHMBWJMIHOCs4NWtcI/cO++YjmBn3qbCnGnW
+         b+zgy7QI5U4IS3WONm+Uyy6v9TUvT1eC7CrvQv295dhZzrwlgDIoTVdkQlERaoceOB1N
+         4IZxF81GGBSSBc2xDG0bSrjG5y5YoTDuIwLKwt3n6XVUBR+EZQ3rHWAM8/36PzT7edSi
+         nzRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GzLWsELsR8oBhjbTdjrRDFjyjZTq2jjcpWmnVrGQ51I=;
+        b=p7T40MgUiH7Ef7Inxl67ikqXvJhokD98ncVrWLkeQZrDhnbZ0xLd65keCxhGC/Ie9L
+         Lgv5n7fSEigzRrU2PdKgVvPOaQYegTmwkn6JSOxyftd3j6fm2udgjG7roUZ+oLY0ZIYI
+         krD33zuW/uIyk+3pGJ0ZFCoqYP71HX7/K3v/K3LbrzrUU9QhcxktzaLJe5mDhL5A/ROk
+         46U2k+MC4J5i3UsBjRiPLOp2QSIi1EQ4o+FdzGRi4juGh0A/3m7G+tENpnA7izDY3jFA
+         IorVUt6s0m0MWchBkquZvEDbgnkJU27RMWvaKmT3XbMY7+z+VAPOaPNN1F+0TfXupAd7
+         1LqA==
+X-Gm-Message-State: AOAM532EKrgFYFOJKrUOgsp1lGtn2sLAFZ7bMp2mHRcyYdwZwB3zAkaq
+        WW+lR2SCIlX76QGxdAvWtpt4dBVlEqXhsG11ho+Dig==
+X-Google-Smtp-Source: ABdhPJx/wAgqIbD+ZYNJG3iSEd9yk4DGHJF/U8NkN3WeGN5rGN1CxD05Wp/6PO3UCjHQRCOiNQz/xz0b3G4dzQS6UjM=
+X-Received: by 2002:a05:6402:5246:: with SMTP id t6mr3107479edd.62.1610567066055;
+ Wed, 13 Jan 2021 11:44:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210113165743.3385-1-broonie@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-9-pasha.tatashin@soleen.com> <20201217205048.GL5487@ziepe.ca>
+ <CA+CK2bA4F+SipkReJzFjCSC-8kZdK4yrwCQZM+TvCTrqV2CGHg@mail.gmail.com> <20201218141927.GM5487@ziepe.ca>
+In-Reply-To: <20201218141927.GM5487@ziepe.ca>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 13 Jan 2021 14:43:50 -0500
+Message-ID: <CA+CK2bDULopw649ndBybA-ST5EoRMHULwcfQcSQVKT9r8zAtwQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/10] mm/gup: limit number of gup migration failures,
+ honor failures
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
-> From: Mark Rutland <mark.rutland@arm.com>
-> 
-> Add documentation for reliable stacktrace. This is intended to describe
-> the semantics and to be an aid for implementing architecture support for
-> HAVE_RELIABLE_STACKTRACE.
-> 
-> Unwinding is a subtle area, and architectures vary greatly in both
-> implementation and the set of concerns that affect them, so I've tried
-> to avoid making this too specific to any given architecture. I've used
-> examples from both x86_64 and arm64 to explain corner cases in more
-> detail, but I've tried to keep the descriptions sufficient for those who
-> are unfamiliar with the particular architecture.
-> 
-> I've tried to give rationale for all the recommendations/requirements,
-> since that makes it easier to spot nearby issues, or when a check
-> happens to catch a few things at once. I believe what I have written is
-> sound, but as some of this was reverse-engineered I may have missed
-> things worth noting.
-> 
-> I've made a few assumptions about preferred behaviour, notably:
-> 
-> * If you can reliably unwind through exceptions, you should (as x86_64
->   does).
-> 
-> * It's fine to omit ftrace_return_to_handler and other return
->   trampolines so long as these are not subject to patching and the
->   original return address is reported. Most architectures do this for
->   ftrace_return_handler, but not other return trampolines.
-> 
-> * For cases where link register unreliability could result in duplicate
->   entries in the trace or an inverted trace, I've assumed this should be
->   treated as unreliable. This specific case shouldn't matter to
->   livepatching, but I assume that that we want a reliable trace to have
->   the correct order.
+On Fri, Dec 18, 2020 at 9:19 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Thu, Dec 17, 2020 at 05:02:03PM -0500, Pavel Tatashin wrote:
+> > Hi Jason,
+> >
+> > Thank you for your comments. My replies below.
+> >
+> > On Thu, Dec 17, 2020 at 3:50 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Thu, Dec 17, 2020 at 01:52:41PM -0500, Pavel Tatashin wrote:
+> > > > +/*
+> > > > + * Verify that there are no unpinnable (movable) pages, if so return true.
+> > > > + * Otherwise an unpinnable pages is found return false, and unpin all pages.
+> > > > + */
+> > > > +static bool check_and_unpin_pages(unsigned long nr_pages, struct page **pages,
+> > > > +                               unsigned int gup_flags)
+> > > > +{
+> > > > +     unsigned long i, step;
+> > > > +
+> > > > +     for (i = 0; i < nr_pages; i += step) {
+> > > > +             struct page *head = compound_head(pages[i]);
+> > > > +
+> > > > +             step = compound_nr(head) - (pages[i] - head);
+> > >
+> > > You can't assume that all of a compound head is in the pages array,
+> > > this assumption would only work inside the page walkers if the page
+> > > was found in a PMD or something.
+> >
+> > I am not sure I understand your comment. The compound head is not
+> > taken from the pages array, and not assumed to be in it. It is exactly
+> > the same logic as that we currently have:
+> > https://soleen.com/source/xref/linux/mm/gup.c?r=a00cda3f#1565
+>
+> Oh, that existing logic is wrong too :( Another bug.
 
-Thanks to you and Mark for getting this documented properly!
+I do not think there is a bug.
 
-I think it's worth mentioning a little more about objtool.  There are a
-few passing mentions of objtool's generation of metadata (i.e. ORC), but
-objtool has another relevant purpose: stack validation.  That's
-particularly important when it comes to frame pointers.
+> You can't skip pages in the pages[] array under the assumption they
+> are contiguous. ie the i+=step is wrong.
 
-For some architectures like x86_64 and arm64 (but not powerpc/s390),
-it's far too easy for a human to write asm and/or inline asm which
-violates frame pointer protocol, silently causing the violater's callee
-to get skipped in the unwind.  Such architectures need objtool
-implemented for CONFIG_STACK_VALIDATION.
+If pages[i] is part of a compound page, the other parts of this page
+must be sequential in this array for this compound page (it might
+start in the middle through). If they are not sequential then the
+translation will be broken, as these pages also correspond to virtual
+addresses from [start, start + nr_pages) in __gup_longterm_locked.
 
-> +There are several ways an architecture may identify kernel code which is deemed
-> +unreliable to unwind from, e.g.
-> +
-> +* Using metadata created by objtool, with such code annotated with
-> +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+For example, when __gup_longterm_locked() is returned, the following
+must be true:
+PHYSICAL                           VIRTUAL
+page_to_phys(pages[0]) -> start + 0 * PAGE_SIZE
+page_to_phys(pages[1]) -> start + 1 * PAGE_SIZE
+page_to_phys(pages[2]) -> start + 2 * PAGE_SIZE
+page_to_phys(pages[3]) -> start + 3 * PAGE_SIZE
+...
+page_to_phys(pages[nr_pages - 1]) -> start + (nr_pages - 1) * PAGE_SIZE
 
-I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
-necessarily mean the code is unreliable, and objtool doesn't treat it as
-such.  Its mention can probably be removed unless there was some other
-point I'm missing.
+If any pages[i] is part of a compound page (i.e. huge page), we can't
+have other pages to be in the middle of that page in the array..
 
-Also, s/STACKFRAME/STACK_FRAME/
+>
+> > >
+> > > > +     if (gup_flags & FOLL_PIN) {
+> > > > +             unpin_user_pages(pages, nr_pages);
+> > >
+> > > So we throw everything away? Why? That isn't how the old algorithm worked
+> >
+> > It is exactly like the old algorithm worked: if there are pages to be
+> > migrated (not pinnable pages) we unpinned everything.
+> > See here:
+> > https://soleen.com/source/xref/linux/mm/gup.c?r=a00cda3f#1603
+>
+> Hmm, OK, but I'm not sure that is great either
 
--- 
-Josh
+I will send out a new series. We can discuss it there if you have
+suggestions for improvement here.
 
+>
+> > cleaner, and handle errors. We must unpin everything because if we
+> > fail, no pages should stay pinned, and also if we migrated some pages,
+> > the pages array must be updated, so we need to call
+> > __get_user_pages_locked() pin and repopulated pages array.
+>
+> However the page can't be unpinned until it is put on the LRU (and I'm
+> hoping that the LRU is enough of a 'lock' to make that safe, no idea)
+>
+> > > I don't like this at all. It shouldn't be so flakey
+> > >
+> > > Can you do migration without the LRU?
+> >
+> > I do not think it is possible, we must isolate pages before migration.
+>
+> I don't like this at all :( Lots of stuff relies on GUP, introducing a
+> random flakiness like this not good.
+
+This is actually standard migration procedure, elsewhere in the kernel
+we migrate pages in exactly the same fashion: isolate and later
+migrate. The isolation works for LRU only pages.
+
+>
+> Jason
