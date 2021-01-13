@@ -2,63 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 119BCC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E921C433E6
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2CD8233E2
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5778C2333F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbhAMLCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 06:02:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38838 "EHLO mail.kernel.org"
+        id S1727856AbhAMLCL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:02:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727442AbhAMLAw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 06:00:52 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96C0123383;
+        id S1727460AbhAMLAv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:00:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A9DB8233EF;
         Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610535569;
-        bh=UsiaJ5TeFRIuOKIuSBE3ueTDIjqdP8/ojUP8xNThLiU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=JwQBO8e3swkxbw4v0qYoQuzfOutZcHgnI0MSHLSa7aQYUqKKz9xGmdslvbE+6X+pl
-         iQOsreIaYUaopfrnoALMeRcoV8b2ewED6qoB6VZAohTV2XoiM/Ugq8CdhsTDpkpFSC
-         sHsApbyrBjWJlSbUXBv7tLCy1UNX3cGrSSAD7j++4HLesIzeEjFZVPQJn2J5oLmjON
-         LO6JcKkXMZsrXk8YpCGzlX782pac1zAqJFB7uHTlnn9sXRcGD3zlcwAV7Mf5VR7pFG
-         iH9Nqr9o9EuUz7C11onQCo1Sg/vfJIRxblyM1+yeUPdfpo0R+ivUmKOYdf8WcgHtgm
-         MAEc9cWWKa5YQ==
+        s=k20201202; t=1610535570;
+        bh=cP2PAjL0wXmVMbF1/NvxliecGhMDO/7PBXxWnPX/VSc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=rBBLXRqimkazNuX73miRF5uLgGq1ISNSJ5bt/cfVoLVTt4NqVta2D6p2mZ0glM3Ka
+         wGSNcEET26q6HY71anlmDLrANt0Ur692bYVyqpVyrmqySMngxlmQpK7B9HsEqd5GJU
+         45wbm1DH4/fLq9XbmE3vw2pcBNs8+cbvVh8PO8O8R6RI7vRlysxCskfiuqJ/Yoa7aU
+         HjQ208auZh1AnogHBQxPPAL50xkc4+MmHMYG5szSgFMZ8+7AWOauCcNb9/V5YjYXwy
+         5SA5O3UIVfHIg+u47QOrtvgBeYGS+f3Y4M6TJhK0SV5QJhx74/SG3q+r6QlAGb+1si
+         OnLHA003/BX5w==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpFo-1W; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpGM-G3; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH 00/24] Fix broken file docs cross-references
-Date:   Wed, 13 Jan 2021 11:59:01 +0100
-Message-Id: <cover.1610535349.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: [PATCH 13/24] MAINTAINERS: update st,lsm6dsx.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:14 +0100
+Message-Id: <a11cd7f95f0cd2890bde4c7747b4e0481eb7b506.1610535350.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -66,62 +51,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-File renames and yaml conversions broke file references for several files,
-as reported by:
+Changeset 7a2cf8e91390 ("dt-bindings:iio:imu:st,lsm6dsx: txt to yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/imu/st_lsm6dsx.txt
+to: Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml.
 
-	./scripts/documentation-file-ref-check
+Update its cross-reference accordingly.
 
-Fix most of them.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please notice that this series was generated against  linux-next
-(next-20210113).  So, it is better if the fixup patch could be added
-at the same tree that received the patch renaming the filename.
-
-Regards,
-Mauro
-
-Mauro Carvalho Chehab (24):
-  MAINTAINERS: update adi,ad5758.yaml reference
-  MAINTAINERS: update fsl,dpaa2-console.yaml reference
-  MAINTAINERS: update st,hts221.yaml reference
-  MAINTAINERS: update dpot-dac.yaml reference
-  MAINTAINERS: update envelope-detector.yaml reference
-  MAINTAINERS: update current-sense-amplifier.yaml reference
-  MAINTAINERS: update current-sense-shunt.yaml reference
-  MAINTAINERS: update voltage-divider.yaml reference
-  MAINTAINERS: update mtk-sd.yaml reference
-  MAINTAINERS: update atmel,sama5d2-adc.yaml reference
-  MAINTAINERS: update pni,rm3100.yaml reference
-  MAINTAINERS: update renesas,rcar-gyroadc.yaml reference
-  MAINTAINERS: update st,lsm6dsx.yaml reference
-  MAINTAINERS: update st,vl53l0x.yaml reference
-  MAINTAINERS: update ti,dac7612.yaml reference
-  Documentation/hwmon/ina2xx.rst: update ti,ina2xx.yaml reference
-  arch/Kconfig: update unaligned-memory-access.rst reference
-  include/linux/iio/dac/mcp4725.h: update a microchip,mcp4725.yaml ref
-  doc: update rcu_dereference.rst reference
-  ASoC: audio-graph-card: update audio-graph-card.yaml reference
-  dt-bindings: display: mediatek: update mediatek,dpi.yaml reference
-  dt-bindings: memory: mediatek: update mediatek,smi-larb.yaml
-    references
-  dt-bindings:iio:adc: update adc.yaml reference
-  dt-bindings: phy: update phy-cadence-sierra.yaml reference
-
- .../bindings/display/bridge/sii902x.txt       |  2 +-
- .../display/mediatek/mediatek,disp.txt        |  4 +--
- .../bindings/iio/adc/adi,ad7192.yaml          |  2 +-
- .../bindings/media/mediatek-jpeg-decoder.txt  |  2 +-
- .../bindings/media/mediatek-jpeg-encoder.txt  |  2 +-
- .../bindings/media/mediatek-mdp.txt           |  2 +-
- .../bindings/phy/ti,phy-j721e-wiz.yaml        |  2 +-
- Documentation/hwmon/ina2xx.rst                |  2 +-
- MAINTAINERS                                   | 30 +++++++++----------
- arch/Kconfig                                  |  2 +-
- include/linux/iio/dac/mcp4725.h               |  2 +-
- tools/memory-model/Documentation/glossary.txt |  2 +-
- 12 files changed, 27 insertions(+), 27 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e5d2f3ef659c..bba2d2d8576a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16877,7 +16877,7 @@ M:	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Maintained
+ W:	http://www.st.com/
+-F:	Documentation/devicetree/bindings/iio/imu/st_lsm6dsx.txt
++F:	Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
+ F:	drivers/iio/imu/st_lsm6dsx/
+ 
+ ST MIPID02 CSI-2 TO PARALLEL BRIDGE DRIVER
 -- 
 2.29.2
-
 
