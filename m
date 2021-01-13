@@ -2,118 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E811C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:15:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BEF3C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:35:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE14A23102
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:15:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E616D23339
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbhAMTP3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 14:15:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728485AbhAMTP3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:15:29 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB11C061786
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:14:48 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id e18so4621439ejt.12
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:14:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5aTU8OrppExQUcP6FVeiibwynpQy0ibxwUp1/rbGZIk=;
-        b=Sv2HxDCmKXdyTqJ93g5cCHC3Kr+3XqkqB3PIINmwUzxMxz3rLg7O0Pve18wur4cvOH
-         q0p03maFJy0DMmSNRHJaKyFe9v+xXJyoC6n5p+lEGKIN/GAJ4J4wmBBXHuiZ8DtLcKba
-         KNhMl+iVZfSFWg7zudOzcZSqvldMoNqNHSixspx/r9eQF3/XwD4LOcrZmj7wybXwclGH
-         tKR7S5SAM6MMrp4PxFE3XyhdVn02FCB+5TviGD1HKox42sye33wyHtq037S3LkEb/Idh
-         i6CvY2oEbiaJLlctaIUe9/pLg7PAQ+CjO0cjYBX6nxK+FadK2tjf9J05wC1zQl1tKkXt
-         MJVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5aTU8OrppExQUcP6FVeiibwynpQy0ibxwUp1/rbGZIk=;
-        b=gWjEYAK/kBF942/HL838PzSpdgQGnJcR/4WRfYdYKh3ttMxdSlxfVXrd8K0fQoMBXZ
-         +fnyb0EzLiTj8G6gn2krHO3eiGl2et9n7hLq45heXJbYyDf9IqQ3V8iXNA8keIZm4A8m
-         TfEXZkXUSoU46iH6lE7yMPYjXuqmR9zulceD2gUcE8ITdvhQMwHrY/TjhmcRefFkWtZQ
-         abVNFXzTERVxd4tcTr/G8jzJOoMHE/h/YnDpwNtapTHQfnd3ZxRy02lAHf8RuYra4r5j
-         Fdkx65bb3yTCont8l562Bj6epr+cpwkTvBTc+A6/m0COY0NXTBx9QIX43oFR3oozRHn+
-         sV1Q==
-X-Gm-Message-State: AOAM530cxIc4VwRI/xK7ZduOMlDbjwst8qQQjjFo8Ndb5X+jh3Sch7tb
-        hcvbcZ1QmIeJS7+GGKN1ZSJdzzNrOusat27Mzy0X/A==
-X-Google-Smtp-Source: ABdhPJzN7cj8lor+g6eQXIJKxLe3OOGnVmi1MMEYtrIoJZ2nMFFGpb7NnFptxtpKrs9BIibDNfPkEmFPZXevSHQ0Too=
-X-Received: by 2002:a17:906:7d98:: with SMTP id v24mr2664891ejo.129.1610565287094;
- Wed, 13 Jan 2021 11:14:47 -0800 (PST)
+        id S1727688AbhAMTev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 14:34:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23414 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725859AbhAMTev (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:34:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610566404;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BvxbEyyhBtCq7uGHAUkz6B6eLyqDhX07ZV2UU6Kj9M4=;
+        b=faN8mCWnSnARFHqFC4a0RrxM2PJYS+6Gqc8SEE7iv9XHZkPV5bPPiWnUF+tvu3CBk7PkFo
+        4mAnthXYJqEG5QE2NEz5btEW1YNMj3XWAglJLcBHClNFTEPw/BHp+ByjZ/jIhNyiEbewGi
+        7xy17MnalJ6MHnJ+bzh2WoUQY80vc6Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-595-TdjqVTxnO4mYhvHFaR1sXw-1; Wed, 13 Jan 2021 14:33:22 -0500
+X-MC-Unique: TdjqVTxnO4mYhvHFaR1sXw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B36F8799F8;
+        Wed, 13 Jan 2021 19:33:20 +0000 (UTC)
+Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8411B5D9DD;
+        Wed, 13 Jan 2021 19:33:15 +0000 (UTC)
+Date:   Wed, 13 Jan 2021 13:33:13 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210113192735.rg2fxwlfrzueinci@treble>
+References: <20210113165743.3385-1-broonie@kernel.org>
 MIME-Version: 1.0
-References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
- <20201217185243.3288048-6-pasha.tatashin@soleen.com> <20201218094324.GT32193@dhcp22.suse.cz>
- <CA+CK2bAKiWC5E4h4CZOqQrh4QzQQ-3_TUJgB=r4H23gu3cqvAA@mail.gmail.com> <20201218130825.GY32193@dhcp22.suse.cz>
-In-Reply-To: <20201218130825.GY32193@dhcp22.suse.cz>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 13 Jan 2021 14:14:11 -0500
-Message-ID: <CA+CK2bBLZu3X5P3qkaTV7To4qx2W79Y1MQdpJM3134LtkzkhXA@mail.gmail.com>
-Subject: Re: [PATCH v4 05/10] mm/gup: migrate pinned pages out of movable zone
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210113165743.3385-1-broonie@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 18, 2020 at 8:08 AM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 18-12-20 07:24:53, Pavel Tatashin wrote:
-> > On Fri, Dec 18, 2020 at 4:43 AM Michal Hocko <mhocko@suse.com> wrote:
-> > >
-> > > On Thu 17-12-20 13:52:38, Pavel Tatashin wrote:
-> > > > +      * 1. Pinned pages: (long-term) pinning of movable pages is avoided
-> > > > +      *    when pages are pinned and faulted, but it is still possible that
-> > > > +      *    address space already has pages in ZONE_MOVABLE at the time when
-> > > > +      *    pages are pinned (i.e. user has touches that memory before
-> > > > +      *    pinning). In such case we try to migrate them to a different zone,
-> > > > +      *    but if migration fails the pages can still end-up pinned in
-> > > > +      *    ZONE_MOVABLE. In such case, memory offlining might retry a long
-> > > > +      *    time and will only succeed once user application unpins pages.
-> > >
-> > > I still dislike this. Pinning can fail so there shouldn't be any reasons
-> > > to break MOVABLE constrain for something that can be handled. If
-> > > anything there should be a very good reasoning behind this decision
-> > > documented.
-> >
-> > This is basically current behaviour, after patch 8, we can never pin
-> > pages in the movable zone, so I will update this comment in that
-> > patch.
->
-> Then it would be much easier for review to state that the existing
-> behavior is unchanged and do not update this comment just to remove it
-> in a later patch. Because this patch should be straightforward change of
-> the condition which pages to migrate (+some renaming which should be
-> reasonably easy to follow).
+On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
+> From: Mark Rutland <mark.rutland@arm.com>
+> 
+> Add documentation for reliable stacktrace. This is intended to describe
+> the semantics and to be an aid for implementing architecture support for
+> HAVE_RELIABLE_STACKTRACE.
+> 
+> Unwinding is a subtle area, and architectures vary greatly in both
+> implementation and the set of concerns that affect them, so I've tried
+> to avoid making this too specific to any given architecture. I've used
+> examples from both x86_64 and arm64 to explain corner cases in more
+> detail, but I've tried to keep the descriptions sufficient for those who
+> are unfamiliar with the particular architecture.
+> 
+> I've tried to give rationale for all the recommendations/requirements,
+> since that makes it easier to spot nearby issues, or when a check
+> happens to catch a few things at once. I believe what I have written is
+> sound, but as some of this was reverse-engineered I may have missed
+> things worth noting.
+> 
+> I've made a few assumptions about preferred behaviour, notably:
+> 
+> * If you can reliably unwind through exceptions, you should (as x86_64
+>   does).
+> 
+> * It's fine to omit ftrace_return_to_handler and other return
+>   trampolines so long as these are not subject to patching and the
+>   original return address is reported. Most architectures do this for
+>   ftrace_return_handler, but not other return trampolines.
+> 
+> * For cases where link register unreliability could result in duplicate
+>   entries in the trace or an inverted trace, I've assumed this should be
+>   treated as unreliable. This specific case shouldn't matter to
+>   livepatching, but I assume that that we want a reliable trace to have
+>   the correct order.
 
-Makes sense, I will update this comment correctly right away when the
-behaviour changes.
+Thanks to you and Mark for getting this documented properly!
+
+I think it's worth mentioning a little more about objtool.  There are a
+few passing mentions of objtool's generation of metadata (i.e. ORC), but
+objtool has another relevant purpose: stack validation.  That's
+particularly important when it comes to frame pointers.
+
+For some architectures like x86_64 and arm64 (but not powerpc/s390),
+it's far too easy for a human to write asm and/or inline asm which
+violates frame pointer protocol, silently causing the violater's callee
+to get skipped in the unwind.  Such architectures need objtool
+implemented for CONFIG_STACK_VALIDATION.
+
+> +There are several ways an architecture may identify kernel code which is deemed
+> +unreliable to unwind from, e.g.
+> +
+> +* Using metadata created by objtool, with such code annotated with
+> +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+
+I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
+necessarily mean the code is unreliable, and objtool doesn't treat it as
+such.  Its mention can probably be removed unless there was some other
+point I'm missing.
+
+Also, s/STACKFRAME/STACK_FRAME/
+
+-- 
+Josh
+
