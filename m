@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C5DC43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441F0C433E9
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2700322210
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDE3E23383
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727848AbhAMLCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727844AbhAMLCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 13 Jan 2021 06:02:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38852 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38854 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727480AbhAMLAv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727481AbhAMLAv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 13 Jan 2021 06:00:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AC5F1233F7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AE80D233F8;
         Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610535570;
-        bh=a+dkjYxr1JQcyA3F/5+J8go+yX3JsyBH4EIlx2hcACo=;
+        bh=0KUSOcYdlFDQOmEbTyJ1Jg7PLXqu+3897CFhO7LpT3g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fj42FGSOoNm/vx1BoyMwr0HbtVrkNXX4g+/0Kn5WrFhqsx/uueN0rR7dV8BNVPlgN
-         1/tuJQgvWGXPDtis3yygXGtPHY7ubK69F7/59fFSMiv/vGuOkYMp0PE6RSeV69N62I
-         99BIYjhn4g2YfqGjZYbv2niAIL7N3tkptbaPnTGP9x+TtIZ0hE0SoXb8HiXuwN0gOQ
-         vWqFIwR9PZPQ4dY6b5Z7ydBYqFMuRY3nTW412dK2QPwF+mdPBZ7dVKwdhbKrTR8QUA
-         hcWyEiuWVsGEHOBFy/LcsAhaiLGw95TLOfOxTxV3ynFMUhffS4tTzBdhneiq9eQURv
-         WQoukiHRoTy5A==
+        b=tRnAZnuxpXzHOLJkYUtl6MOGaQ8LHbpMYCuC91SnWFn6xIyGRnUx+u6L4WYzw0BRJ
+         NR0PXtozoxbs4ynR2qNB9QlXmVwkbcqUF28sy74KnIxzStojzdJsvsN6BnY0Mj+LhD
+         3E9ANQ9J/8Ou5s8AICWNU5rStDTytv7G7uxlGc4VA2vueI42V4z+TVgAQffpb0t6Ky
+         igJY4S3vsJWy00YV6s+8D9JCw0eIWZmS1FvtJqknStfUySab0Jy7CEprg1TDdxRgRq
+         gPyXiP4wuObU/5CqK9H1CvyhAVgZSRF9ZAm6f3+prifRa64QpNxdo7haMiaXYpBN2d
+         ABqjzBLTWF1tg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpFw-6a; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpGA-CE; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/24] MAINTAINERS: update dpot-dac.yaml reference
-Date:   Wed, 13 Jan 2021 11:59:05 +0100
-Message-Id: <15b0ff7bfe9ba7ca6d438e1ca7880061cfce05b3.1610535349.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/24] MAINTAINERS: update mtk-sd.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:10 +0100
+Message-Id: <4f691aef6e2f20d4189413c62b17e780e07cc5f7.1610535349.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
 References: <cover.1610535349.git.mchehab+huawei@kernel.org>
@@ -51,9 +51,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 06d2ff6fe11e ("dt-bindings:iio:dac:dpot-dac: yaml conversion.")
-renamed: Documentation/devicetree/bindings/iio/dac/dpot-dac.txt
-to: Documentation/devicetree/bindings/iio/dac/dpot-dac.yaml.
+Changeset c626695ecd8b ("dt-bindings: mmc: Convert mtk-sd to json-schema")
+renamed: Documentation/devicetree/bindings/mmc/mtk-sd.txt
+to: Documentation/devicetree/bindings/mmc/mtk-sd.yaml.
 
 Update its cross-reference accordingly.
 
@@ -63,18 +63,18 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index b3fe85038eb8..0ff692445967 100644
+index 6083de743261..a35f1bb9ae44 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8683,7 +8683,7 @@ M:	Peter Rosin <peda@axentia.se>
- L:	linux-iio@vger.kernel.org
+@@ -11272,7 +11272,7 @@ F:	drivers/media/platform/mtk-vpu/
+ MEDIATEK MMC/SD/SDIO DRIVER
+ M:	Chaotian Jing <chaotian.jing@mediatek.com>
  S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-iio-dac-dpot-dac
--F:	Documentation/devicetree/bindings/iio/dac/dpot-dac.txt
-+F:	Documentation/devicetree/bindings/iio/dac/dpot-dac.yaml
- F:	drivers/iio/dac/dpot-dac.c
+-F:	Documentation/devicetree/bindings/mmc/mtk-sd.txt
++F:	Documentation/devicetree/bindings/mmc/mtk-sd.yaml
+ F:	drivers/mmc/host/mtk-sd.c
  
- IIO ENVELOPE DETECTOR
+ MEDIATEK MT76 WIRELESS LAN DRIVER
 -- 
 2.29.2
 
