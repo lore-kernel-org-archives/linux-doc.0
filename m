@@ -2,366 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E89C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 05:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFE5C43331
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 05:50:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0A2923120
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 05:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D33F23120
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 05:50:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbhAMFf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 00:35:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35258 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbhAMFf6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 00:35:58 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E4E8C061575;
-        Tue, 12 Jan 2021 21:35:17 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id r5so540566eda.12;
-        Tue, 12 Jan 2021 21:35:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:date:from:to:cc:message-id:in-reply-to:references;
-        bh=+tHov+ldUPE+pcoRYd4a8sxaOI1/2CRBGC1q++RDxYo=;
-        b=rGZoYuRdGgVPhd+NMbxrOHemxgcIcLPUTDeuQshz/5qNyKckkiayl9tk8Tu6+aqvbB
-         xG5EBQOzs/JzNcSBiCtrhdCJvgts0gtRRnNeMVcjm8pniIKGv7W56pgpsz5PxN9CeUWr
-         yJQgd6pAGhH1B4bHvp3RFKOJMdNf2V/pF11aEdMigxUryZlWuVaTPqF9pvtOM7jopUyB
-         RpeE6wukH+8WPsmu9f6lsy+/+YtEOnMtka7lh2TD3YkinKOER7zLso+SrjcVm31LepWf
-         wDHZvp46cUYoW77kcZGSTAL723ANZeCIqGxyiPGJrKhLvpz/i5IYlCXBC8uI8I6Sheqs
-         hJAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:date:from:to:cc:message-id:in-reply-to
-         :references;
-        bh=+tHov+ldUPE+pcoRYd4a8sxaOI1/2CRBGC1q++RDxYo=;
-        b=nnfc+3VbyjK3R3m9PG537VOpaU7ryWKOHVaDv7EVOCg+hRq+7KHRzxMY8O0IQd80BO
-         TxSeT5ALJNclrVxuJl36zdsmtK6sE6IQ2ZHLbOap5V83ryN+53fWuK08d4+I71m5IIzm
-         hxuiOG3x/mUaaYB0yIPMJu11IrtpPh6AZacYVGfhh/Pzlr+VqSKn4SxG5Gj1e9izZp0L
-         bUcl1/pGnPiC40HwnVo34cra1AA+XScQm2kI/TspGyI05gqJxmvldDoCUWhI+uS9Xj+z
-         LOIxjPkH1e3VWqScfZ8z435GpKTAx+BoJgp9ph8Xd4FAyoVaRuPYRDlePAKpSXJh0w+D
-         GVYQ==
-X-Gm-Message-State: AOAM531ePnC3mS36u8gKvZJFCsvPVdWzgJJcL0q1nMHVlXm635o/E5Wn
-        6v5TbA0L/CuLKFQbPkQzwqS5+9lX6nPg0Q==
-X-Google-Smtp-Source: ABdhPJx3/tEdBAPXaw//jEk6tUZbOX1ReXpYc+2YpcDwmoglPU1J7mMuSh5YhQsoLRJGD0Ir8D9lZg==
-X-Received: by 2002:aa7:c0d6:: with SMTP id j22mr415336edp.31.1610516116007;
-        Tue, 12 Jan 2021 21:35:16 -0800 (PST)
-Received: from gmail.com (tor-exit-relay-5.anonymizing-proxy.digitalcourage.de. [185.220.102.251])
-        by smtp.gmail.com with ESMTPSA id u17sm333856edr.0.2021.01.12.21.35.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 21:35:15 -0800 (PST)
-Subject: [PATCH v2] docs: driver-model: bus.rst: Clean up the formatting, expound, modernize
-Date:   Wed, 13 Jan 2021 05:35:00 -0000
-From:   Michael Witten <mfwitten@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <bca1170d131b4b46905f030232da3339@gmail.com>
-In-Reply-To: <20210111133158.34923b4c@lwn.net>
-References: <3dc7d8abd06941fca5071b0ede9b6088@gmail.com>
-  <20210111133158.34923b4c@lwn.net>
+        id S1726244AbhAMFtn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 00:49:43 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:36916 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbhAMFtn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 00:49:43 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10D5hrpM096106;
+        Wed, 13 Jan 2021 05:48:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=ZkHrcYYV5Akk6uzT+EdKBUBcNo8KiHkTc+tKaCmAVFk=;
+ b=Wyp7IYKwOIvT64CBbNSyB65TGDFvs0W78C4DuwGnJ5YYC6P/lmGf1ZZ4f6qf35Cl5gRc
+ 8Cf9HlSD6IbEfEkU0WFH2WKXN785UvvvVOkti7TgWNZtjMWFTEdFJd4MfONyOrSTnr4N
+ HYZd/ncw7KQc/6MSOR2AgOuJOQWHn1/FbwaGNIVKNHvegBBkKuAl1OW9HhSNDarnmNvN
+ 2IpWl6JrSFWXiGqX4DZajqtC2xNY8NwG/SB+cQllbecDj2W8lMR9i0jezWjOpm+tHVrH
+ 7HsYr/iQWpzDI4B7gaCqqgTwM2a25/Qv9v83i/HCe0/WqQHr+4lUR5BZH/79o2f3DFDu Ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 360kcysp29-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Jan 2021 05:48:59 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10D5eVSw058726;
+        Wed, 13 Jan 2021 05:48:58 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 360kf6w0j0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Jan 2021 05:48:58 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10D5mvRS023930;
+        Wed, 13 Jan 2021 05:48:58 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 12 Jan 2021 21:48:57 -0800
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     linux-scsi@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        kernel-janitors@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] scsi: docs: ABI: sysfs-driver-ufs: rectify table formatting
+Date:   Wed, 13 Jan 2021 00:48:53 -0500
+Message-Id: <161051681546.32710.5582070513683033836.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210111102212.19377-1-lukas.bulwahn@gmail.com>
+References: <20210111102212.19377-1-lukas.bulwahn@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9862 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130034
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9862 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1011 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130034
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for your guidance.
+On Mon, 11 Jan 2021 11:22:12 +0100, Lukas Bulwahn wrote:
 
-  * Save this patch to:
+> Commit 0b2894cd0fdf ("scsi: docs: ABI: sysfs-driver-ufs: Add DeepSleep
+> power mode") adds new entries in tables of sysfs-driver-ufs ABI
+> documentation, but formatted the table incorrectly.
+> 
+> Hence, make htmldocs warns:
+> 
+>   ./Documentation/ABI/testing/sysfs-driver-ufs:{915,956}:
+>   WARNING: Malformed table. Text in column margin in table line 15.
+> 
+> [...]
 
-      /path/to/email
+Applied to 5.11/scsi-fixes, thanks!
 
-    Then apply it with:
+[1/1] scsi: docs: ABI: sysfs-driver-ufs: rectify table formatting
+      https://git.kernel.org/mkp/scsi/c/f2cb4b2397ca
 
-      git am --scissors /path/to/email
-
-  * Here are the changes from the last patch:
-
-       Definition
-       ~~~~~~~~~~
-      -* ``struct bus_type``;
-      -* ``int bus_register(struct bus_type *bus);``
-      +
-      +::
-      +
-      +	struct bus_type;
-      +	int bus_register(struct bus_type *bus);
-
-
-       Declaration
-       ~~~~~~~~~~~
-
-       For each bus type (PCI, USB, etc), there should be code that defines
-      -one object of type ``struct bus_type``:
-      +one object of type struct bus_type:
-
-       1. The definition should declare a file-scope identifier that has
-          external linkage.
-      @@ -53,7 +56,7 @@ The relevant API header should include the following declaration::
-       Registration
-       ~~~~~~~~~~~~
-
-      -During initialization of a bus driver, ``bus_register()`` is called; this
-      +During initialization of a bus driver, bus_register() is called; this
-       initializes the rest of the fields in the bus type object and inserts it
-       into a global list of bus types. Once the bus type object is registered,
-       the fields in it are usable by the bus driver.
-      @@ -77,8 +80,8 @@ particular device, without sacrificing bus-specific functionality or
-       type-safety.
-
-       When a driver is registered with the bus, the bus's list of devices is
-      -iterated over, and the match callback is called for each device that
-      -does not have a driver associated with it.
-      +iterated over, and the ``match`` callback is called for each device that
-      +does not already have a driver associated with it.
-
-
-
-      @@ -87,8 +90,8 @@ Device and Driver Lists
-
-       There are generic facilities for keeping lists of devices and drivers:
-
-      -* There is a list of ``struct device`` objects.
-      -* There is a list of ``struct device_driver`` objects.
-      +* There is a list of struct device objects.
-      +* There is a list of struct device_driver objects.
-
-       Bus drivers are free to use the lists as they please, but conversion
-       to a bus-specific type may be necessary.
-      @@ -156,12 +159,21 @@ Exporting Attributes
-       		ssize_t (*store)(struct bus_type *, const char *buf, size_t count);
-       	};
-
-      -Bus drivers can export attributes using the ``BUS_ATTR_RW()`` macro that works
-      -similarly to the ``DEVICE_ATTR_RW()`` macro for devices. For example, the
-      +Bus drivers can export attributes using the BUS_ATTR_RW() macro that works
-      +similarly to the DEVICE_ATTR_RW() macro for devices. For example, the
-       following are equivalent:
-
-      -* ``static BUS_ATTR_RW(debug);``
-      -* ``static bus_attribute bus_attr_debug;``
-      +* ::
-      +
-      +	static BUS_ATTR_RW(something);
-      +
-      +* ::
-      +
-      +	static struct bus_attribute bus_attr_something = {
-      +		.attr  = { .name = "something", .mode = 0644 },
-      +		.show  = something_show,   // These functions must be
-      +		.store = something_store   // defined or declared already.
-      +	};
-
-       This can then be used to add or remove the attribute from the bus's
-       sysfs directory using::
-
-Sincerely,
-Michael Witten
-
---8<----8<----8<----8<----8<----8<----8<----8<----8<----8<----8<----8<----8<--
-
-* The reStructuredText had some indentation issues (I only fixed the
-  areas I touched).
-
-* The HTML output was not properly formatted in places.
-
-* Some of the details were lacking or needed clarification (especially
-  with regard to how a `struct bus_type` object should be defined).
-
-* The sysfs example hierarchy appeared outdated; I've updated it with
-  output based on what my own system currently displays.
-
-Signed-off-by: Michael Witten <mfwitten@gmail.com>
----
- Documentation/driver-api/driver-model/bus.rst | 120 ++++++++++++------
- 1 file changed, 78 insertions(+), 42 deletions(-)
-
-diff --git a/Documentation/driver-api/driver-model/bus.rst b/Documentation/driver-api/driver-model/bus.rst
-index 016b15a6e8ea..9a4cf15df8b9 100644
---- a/Documentation/driver-api/driver-model/bus.rst
-+++ b/Documentation/driver-api/driver-model/bus.rst
-@@ -4,34 +4,61 @@ Bus Types
- 
- Definition
- ~~~~~~~~~~
--See the kerneldoc for the struct bus_type.
- 
--int bus_register(struct bus_type * bus);
-+::
-+
-+	struct bus_type;
-+	int bus_register(struct bus_type *bus);
- 
- 
- Declaration
- ~~~~~~~~~~~
- 
--Each bus type in the kernel (PCI, USB, etc) should declare one static
--object of this type. They must initialize the name field, and may
--optionally initialize the match callback::
-+For each bus type (PCI, USB, etc), there should be code that defines
-+one object of type struct bus_type:
-+
-+1. The definition should declare a file-scope identifier that has
-+   external linkage.
-+
-+   * There should be a header that provides a declaration of this
-+     identifier.
-+
-+   * The identifier should be explicitly exported.
-+
-+2. The definition should initialize the ``name`` member. Other
-+   members may also be initialized (such as the ``match`` callback
-+   member).
- 
--   struct bus_type pci_bus_type = {
--          .name	= "pci",
--          .match	= pci_bus_match,
--   };
-+For instance, here is the definition for the PCI bus type::
- 
--The structure should be exported to drivers in a header file:
-+	struct bus_type pci_bus_type = {
-+		.name          = "pci",               // REQUIRED
-+		.match         = pci_bus_match,
-+		.uevent        = pci_uevent,
-+		.probe         = pci_device_probe,
-+		.remove        = pci_device_remove,
-+		.shutdown      = pci_device_shutdown,
-+		.dev_groups    = pci_dev_groups,
-+		.bus_groups    = pci_bus_groups,
-+		.drv_groups    = pci_drv_groups,
-+		.pm            = PCI_PM_OPS_PTR,
-+		.num_vf        = pci_bus_num_vf,
-+		.dma_configure = pci_dma_configure,
-+	};
- 
--extern struct bus_type pci_bus_type;
-+	EXPORT_SYMBOL(pci_bus_type);
-+
-+The relevant API header should include the following declaration::
-+
-+	extern struct bus_type pci_bus_type;
- 
- 
- Registration
- ~~~~~~~~~~~~
- 
--When a bus driver is initialized, it calls bus_register. This
--initializes the rest of the fields in the bus object and inserts it
--into a global list of bus types. Once the bus object is registered,
-+During initialization of a bus driver, bus_register() is called; this
-+initializes the rest of the fields in the bus type object and inserts it
-+into a global list of bus types. Once the bus type object is registered,
- the fields in it are usable by the bus driver.
- 
- 
-@@ -53,30 +80,33 @@ particular device, without sacrificing bus-specific functionality or
- type-safety.
- 
- When a driver is registered with the bus, the bus's list of devices is
--iterated over, and the match callback is called for each device that
--does not have a driver associated with it.
-+iterated over, and the ``match`` callback is called for each device that
-+does not already have a driver associated with it.
- 
- 
- 
- Device and Driver Lists
- ~~~~~~~~~~~~~~~~~~~~~~~
- 
--The lists of devices and drivers are intended to replace the local
--lists that many buses keep. They are lists of struct devices and
--struct device_drivers, respectively. Bus drivers are free to use the
--lists as they please, but conversion to the bus-specific type may be
--necessary.
-+There are generic facilities for keeping lists of devices and drivers:
-+
-+* There is a list of struct device objects.
-+* There is a list of struct device_driver objects.
-+
-+Bus drivers are free to use the lists as they please, but conversion
-+to a bus-specific type may be necessary.
- 
- The LDM core provides helper functions for iterating over each list::
- 
--  int bus_for_each_dev(struct bus_type * bus, struct device * start,
--		       void * data,
--		       int (*fn)(struct device *, void *));
-+	int bus_for_each_dev(struct bus_type *bus, struct device *start,
-+	                     void *data,
-+	                     int (*fn)(struct device *, void *));
- 
--  int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
--		       void * data, int (*fn)(struct device_driver *, void *));
-+	int bus_for_each_drv(struct bus_type *bus, struct device_driver *start,
-+	                     void *data,
-+	                     int (*fn)(struct device_driver *, void *));
- 
--These helpers iterate over the respective list, and call the callback
-+These helpers iterate over the respective list, and call the callback (``fn``)
- for each device or driver in the list. All list accesses are
- synchronized by taking the bus's lock (read currently). The reference
- count on each object in the list is incremented before the callback is
-@@ -112,9 +142,9 @@ hierarchy::
- 
- 	/sys/bus/pci/
- 	|-- devices
--	|   |-- 00:00.0 -> ../../../root/pci0/00:00.0
--	|   |-- 00:01.0 -> ../../../root/pci0/00:01.0
--	|   `-- 00:02.0 -> ../../../root/pci0/00:02.0
-+	|   |-- 0000:00:00.0 -> ../../../devices/pci0000:00/0000:00:00.0
-+	|   |-- 0000:00:02.0 -> ../../../devices/pci0000:00/0000:00:02.0
-+	|   `-- 0000:00:14.0 -> ../../../devices/pci0000:00/0000:00:14.0
- 	`-- drivers
- 
- 
-@@ -123,23 +153,29 @@ Exporting Attributes
- 
- ::
- 
--  struct bus_attribute {
--	struct attribute	attr;
--	ssize_t (*show)(struct bus_type *, char * buf);
--	ssize_t (*store)(struct bus_type *, const char * buf, size_t count);
--  };
-+	struct bus_attribute {
-+		struct attribute attr;
-+		ssize_t (*show)(struct bus_type *, char *buf);
-+		ssize_t (*store)(struct bus_type *, const char *buf, size_t count);
-+	};
-+
-+Bus drivers can export attributes using the BUS_ATTR_RW() macro that works
-+similarly to the DEVICE_ATTR_RW() macro for devices. For example, the
-+following are equivalent:
- 
--Bus drivers can export attributes using the BUS_ATTR_RW macro that works
--similarly to the DEVICE_ATTR_RW macro for devices. For example, a
--definition like this::
-+* ::
- 
--	static BUS_ATTR_RW(debug);
-+	static BUS_ATTR_RW(something);
- 
--is equivalent to declaring::
-+* ::
- 
--	static bus_attribute bus_attr_debug;
-+	static struct bus_attribute bus_attr_something = {
-+		.attr  = { .name = "something", .mode = 0644 },
-+		.show  = something_show,   // These functions must be
-+		.store = something_store   // defined or declared already.
-+	};
- 
--This can then be used to add and remove the attribute from the bus's
-+This can then be used to add or remove the attribute from the bus's
- sysfs directory using::
- 
- 	int bus_create_file(struct bus_type *, struct bus_attribute *);
 -- 
-2.22.0
-
+Martin K. Petersen	Oracle Linux Engineering
