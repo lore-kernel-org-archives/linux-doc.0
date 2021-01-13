@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C142C43332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0384C43333
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27BFF23383
+	by mail.kernel.org (Postfix) with ESMTP id 7E65123383
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727001AbhAMLBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 06:01:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39168 "EHLO mail.kernel.org"
+        id S1727220AbhAMLBw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:01:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39134 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727767AbhAMLBg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 06:01:36 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3BA8823447;
+        id S1727735AbhAMLBd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:01:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E5D3235F8;
         Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610535570;
-        bh=usBYgqfS4umIzINtxT4Nu+/0pMkIB1VBJg8Hcuu4a4Y=;
+        bh=9tvX+bdF7vZzRjfdf3aTmCuShY92K6sxOhnK8P3hfg0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D0kQMvh+6xU4pn8wdIY/LKaWRNZRhq66KAxXllJtJRZMjpaqRVBu1cJM8r76AXOda
-         OdEujvrHbK2tzLM5FSMUhiQzEMaEOUHZij27aKs/aErdNyvGLGWrdyT1dLux3P1MI4
-         xuSk+i03y/oIjIkJ26vevI22vI9BOajrOkvWabA1GpQ+XCZ1k/ZoxKHudaHl3ZnMJF
-         iyg9jDsJDBsRoJHGtG2galUihyg+hifG2ax1szo38hTgiw4BWPgjLRYtu4yDFYcfRN
-         IAe+b9G9Gsm+wYFWFAwzh/YpQ+h+m927kE2GwubcxZ+/XK63Sx0dsI528IaUj5wqtd
-         L2QbpWf9GQ1Cw==
+        b=PelSfOIloBflwGZOzbGZJw7GytSQMejH3SDd848JDzPvc5lJk5ZGELvfUJOeEhP4h
+         R7bNJjp7XbWHPU8tpLf4nQFVfC2rPCUKYxovs4JB/oU3wyxOjzNwt0kTh3HiEoqZM7
+         P9ttfCIZ8sLxksdULp8GK8PecYzf1U8TwByBXOSQeW8T4eExGDO6VcCUMYzfVNNojr
+         YPJdXpQe31lpvI9DhgK6WwM2DAgw/7SXLfI+PoPrL3YoPj0u3tSjZ/KM6qBApgPw6w
+         whUruFW+xs/oaJegXdTVfzizr3ECB76gtv1k0IuwWe+1ZrYP0Ry86tF2Hd3QUhlYRm
+         mBSR8oOmImwqg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpGu-Ux; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpGf-NZ; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
+To:     Jonathan Cameron <jic23@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 24/24] dt-bindings: phy: update phy-cadence-sierra.yaml reference
-Date:   Wed, 13 Jan 2021 11:59:25 +0100
-Message-Id: <3550b08d4e8312e7d4a247a3515a93a5f0fd04c5.1610535350.git.mchehab+huawei@kernel.org>
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 18/24] include/linux/iio/dac/mcp4725.h: update a microchip,mcp4725.yaml ref
+Date:   Wed, 13 Jan 2021 11:59:19 +0100
+Message-Id: <ae1bc39a6c064bbce186a720a84a4f325bc2438c.1610535350.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
 References: <cover.1610535349.git.mchehab+huawei@kernel.org>
@@ -55,30 +55,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset ba2bf1f090eb ("dt-bindings: phy: Add Cadence Sierra PHY bindings in YAML format")
-renamed: Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
-to: Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml.
+Changeset 6ced946a4bba ("dt-bindings:iio:dac:microchip,mcp4725 yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/dac/mcp4725.txt
+to: Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml.
 
 Update its cross-reference accordingly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml | 2 +-
+ include/linux/iio/dac/mcp4725.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-index c33e9bc79521..bbbd85501ada 100644
---- a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-+++ b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
-@@ -151,7 +151,7 @@ patternProperties:
-       WIZ node should have '1' subnode for the SERDES. It could be either
-       Sierra SERDES or Torrent SERDES. Sierra SERDES should follow the
-       bindings specified in
--      Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
-+      Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
-       Torrent SERDES should follow the bindings specified in
-       Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
- 
+diff --git a/include/linux/iio/dac/mcp4725.h b/include/linux/iio/dac/mcp4725.h
+index e9801c8d49c0..1f7e53c506b6 100644
+--- a/include/linux/iio/dac/mcp4725.h
++++ b/include/linux/iio/dac/mcp4725.h
+@@ -15,7 +15,7 @@
+  * @vref_buffered: Controls buffering of the external reference voltage.
+  *
+  * Vref related settings are available only on MCP4756. See
+- * Documentation/devicetree/bindings/iio/dac/mcp4725.txt for more information.
++ * Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml for more information.
+  */
+ struct mcp4725_platform_data {
+ 	bool use_vref;
 -- 
 2.29.2
 
