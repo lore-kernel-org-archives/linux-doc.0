@@ -2,113 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D430FC4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF12EC43381
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:55:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 931672310A
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:54:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9035A2310A
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728285AbhANBxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 20:53:51 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:61505 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbhANBxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 20:53:51 -0500
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
-        by twspam01.aspeedtech.com with ESMTP id 10E1Y8tB015352;
-        Thu, 14 Jan 2021 09:34:08 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 10E1UhIW015149;
-        Thu, 14 Jan 2021 09:30:43 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 14 Jan
- 2021 09:35:43 +0800
-Date:   Thu, 14 Jan 2021 01:35:35 +0000
-From:   Troy Lee <troy_lee@aspeedtech.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Andrew Jeffery <andrew@aj.id.au>,
-        Ryan Chen <ryan_chen@aspeedtech.com>,
-        "leetroy@gmail.com" <leetroy@gmail.com>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Guenter Roeck <linux@roeck-us.net>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
-Message-ID: <20210114013535.GB2151879@aspeedtech.com>
-References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
- <20210113070850.1184506-2-troy_lee@aspeedtech.com>
- <1610552704.291941.2506185.nullmailer@robh.at.kernel.org>
+        id S1728397AbhANByh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 20:54:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729648AbhAMXy4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 18:54:56 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 332C8C0617A2;
+        Wed, 13 Jan 2021 15:24:25 -0800 (PST)
+Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9A8646132;
+        Wed, 13 Jan 2021 23:24:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9A8646132
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1610580265; bh=Q7+Y7LKXkVAGeN134Mxv0g5tuHJqDerkJg9QZMMJMlg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=EAOrejo3tVWr3rPpO8hgQAeLiN8gOTu02A2DHlM1DsBhay2XXvj1CD7O9m7a3oWS8
+         9bgiywwl82dzrrcpcjkKLZnVas/Q3pKM98tsanVzYF0TpxZg+SZH80hsvSvdtOKdNA
+         ECfJWYVzLgzm2VDtH7shgckzztimqDnnj9c6jTW5iDeRYIePV4f/2rBfl8BVwqXS4e
+         F9J9eqOmw4C+1kf0K7T+zulEUQNaGBEg+bysOh9fqu1C3w/JVXEpPlFQPS7Ceu9LG4
+         vUW3/0FBfK5f4JS4u0oei7OmbHaCL6qSuQy2ig+Q03HcPyVgYQ96/qo9Q8O8I3Igxg
+         P3X0Od1Mt0Izg==
+Date:   Wed, 13 Jan 2021 16:24:23 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH for doc-next] doc/zh_CN: mips: use doc references
+ instead
+Message-ID: <20210113162423.5255f7b8@lwn.net>
+In-Reply-To: <20210113070557.28792-1-lukas.bulwahn@gmail.com>
+References: <20210113070557.28792-1-lukas.bulwahn@gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <1610552704.291941.2506185.nullmailer@robh.at.kernel.org>
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 10E1UhIW015149
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
-The 01/13/2021 23:45, Rob Herring wrote:
-> On Wed, 13 Jan 2021 07:08:45 +0000, Troy Lee wrote:
-> > We add binding for supporting a new AST2600 PWM/Fan hwmon driver.
-> > 
-> > Changes since v1:
-> > - dt binding with DT schema format
-> > 
-> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> > ---
-> >  .../hwmon/aspeed,ast2600-pwm-tachometer.yaml  | 137 ++++++++++++++++++
-> >  1 file changed, 137 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
-> > 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml:108:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
-> 
-> dtschema/dtc warnings/errors:
-> 
-> See https://patchwork.ozlabs.org/patch/1425628
-> 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
-> 
+On Wed, 13 Jan 2021 08:05:57 +0100
+Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 
-After install yamllint and ran 'make dt_binding_check' again, I can see
-the same issue. I'll fix it in v3 patch set.
+> The Chinese mips translations refer to non-existing labels in the original
+> documentation. Hence, make htmldocs warns about those undefined labels on
+> all files in ./Documentation/translations/zh_CN/mips/.
+> 
+> Replace the references to non-existing labels with suitable doc references.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Thanks,
-Troy Lee
+Applied, thanks.
+
+jon
