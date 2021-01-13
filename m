@@ -4,43 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6D8EC4332E
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C142C43332
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EE11233F8
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27BFF23383
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:02:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727748AbhAMLBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 06:01:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39174 "EHLO mail.kernel.org"
+        id S1727001AbhAMLBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:01:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727773AbhAMLBh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 06:01:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96CDA238E7;
+        id S1727767AbhAMLBg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:01:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3BA8823447;
         Wed, 13 Jan 2021 10:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610535570;
-        bh=DQDknHPOnBWjCkPDysFt7tqeQlGBl/GidYLvIZ+e9d0=;
+        bh=usBYgqfS4umIzINtxT4Nu+/0pMkIB1VBJg8Hcuu4a4Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VQIhycGI01SKo48NJyvI5US3PuKM/rO7pTDs4hE1KGGCZ7Uui9LEM+oTzPjsolSov
-         hqaR3kfCQBWQEmTaMLfeyonbag7+qJxn3tJnJPvF2Wq/R1P1h7saMl53vYU1XWbeiQ
-         AeMM4Pn93FAjkVuZEHZ2RzZ+RL+a5/lCB+i+ntBgB+m/qzGoB4fd7Pa44iPxkTjA1X
-         BenpHLZU1CN/VPPEiaPR2YO0MCh2d1vqth6dPhJWDGy98Ll/ElhuypEvaMGi/wM14m
-         CPr9OPjP7MLkKWsQGASf7ytsMYyXrQrN1dkqus8atDq0KONN+e0VH6+h0h+PP9YRMA
-         9Ayj/Epxmi2Uw==
+        b=D0kQMvh+6xU4pn8wdIY/LKaWRNZRhq66KAxXllJtJRZMjpaqRVBu1cJM8r76AXOda
+         OdEujvrHbK2tzLM5FSMUhiQzEMaEOUHZij27aKs/aErdNyvGLGWrdyT1dLux3P1MI4
+         xuSk+i03y/oIjIkJ26vevI22vI9BOajrOkvWabA1GpQ+XCZ1k/ZoxKHudaHl3ZnMJF
+         iyg9jDsJDBsRoJHGtG2galUihyg+hifG2ax1szo38hTgiw4BWPgjLRYtu4yDFYcfRN
+         IAe+b9G9Gsm+wYFWFAwzh/YpQ+h+m927kE2GwubcxZ+/XK63Sx0dsI528IaUj5wqtd
+         L2QbpWf9GQ1Cw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpG7-BJ; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpGu-Ux; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/24] MAINTAINERS: update voltage-divider.yaml reference
-Date:   Wed, 13 Jan 2021 11:59:09 +0100
-Message-Id: <8f0eb68c83148410a7efdf406b88c8e143c841ac.1610535349.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 24/24] dt-bindings: phy: update phy-cadence-sierra.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:25 +0100
+Message-Id: <3550b08d4e8312e7d4a247a3515a93a5f0fd04c5.1610535350.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
 References: <cover.1610535349.git.mchehab+huawei@kernel.org>
@@ -51,30 +55,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 6f633bc91ac1 ("dt-bindings:iio:afe:voltage-divider: txt to yaml conversion")
-renamed: Documentation/devicetree/bindings/iio/afe/voltage-divider.txt
-to: Documentation/devicetree/bindings/iio/afe/voltage-divider.yaml.
+Changeset ba2bf1f090eb ("dt-bindings: phy: Add Cadence Sierra PHY bindings in YAML format")
+renamed: Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
+to: Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml.
 
 Update its cross-reference accordingly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
+ Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a699a221a48b..6083de743261 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8722,7 +8722,7 @@ L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.yaml
- F:	Documentation/devicetree/bindings/iio/afe/current-sense-shunt.yaml
--F:	Documentation/devicetree/bindings/iio/afe/voltage-divider.txt
-+F:	Documentation/devicetree/bindings/iio/afe/voltage-divider.yaml
- F:	drivers/iio/afe/iio-rescale.c
+diff --git a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
+index c33e9bc79521..bbbd85501ada 100644
+--- a/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
++++ b/Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml
+@@ -151,7 +151,7 @@ patternProperties:
+       WIZ node should have '1' subnode for the SERDES. It could be either
+       Sierra SERDES or Torrent SERDES. Sierra SERDES should follow the
+       bindings specified in
+-      Documentation/devicetree/bindings/phy/phy-cadence-sierra.txt
++      Documentation/devicetree/bindings/phy/phy-cadence-sierra.yaml
+       Torrent SERDES should follow the bindings specified in
+       Documentation/devicetree/bindings/phy/phy-cadence-torrent.yaml
  
- IKANOS/ADI EAGLE ADSL USB DRIVER
 -- 
 2.29.2
 
