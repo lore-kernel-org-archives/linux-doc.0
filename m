@@ -2,77 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D66FC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 15:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93884C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 15:53:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC785233FD
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 15:52:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57987233F8
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 15:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbhAMPwX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 10:52:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37612 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726531AbhAMPwX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:52:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FDCF233F8;
-        Wed, 13 Jan 2021 15:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1610553102;
-        bh=O5Pnl+7KBSaSZ+JoISWRhpAZuhB1L9X/rp2n9iqSnKw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FBxg4wrsIrK9P+124nLG5JjUWDCsxgyAlfgYKf29oWA8QocFI1LBKiDsxN4rZMOeS
-         U/jrNU7sfZJkoPMc122qlWfnZgVBT7mY9UXLDjJrwAf3tI4Rkzr6pF2R0jKGrgEsCV
-         5pr1w+2Xlqzdtgo2pmpCrspE/W3nCY8f8X22MH/8=
-Date:   Wed, 13 Jan 2021 16:52:48 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: submitting-patches: Emphasise the requirement
- to Cc: stable when using Fixes: tag
-Message-ID: <X/8XUMW709ThubH1@kroah.com>
-References: <20210113142347.1263024-1-lee.jones@linaro.org>
+        id S1725773AbhAMPxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 10:53:44 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2335 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725902AbhAMPxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 10:53:44 -0500
+Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DGBh36nqTz67Zr0;
+        Wed, 13 Jan 2021 23:49:07 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Wed, 13 Jan 2021 16:53:01 +0100
+Received: from localhost (10.47.78.18) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 13 Jan
+ 2021 15:53:01 +0000
+Date:   Wed, 13 Jan 2021 15:52:22 +0000
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        <linux-iio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 18/24] include/linux/iio/dac/mcp4725.h: update a
+ microchip,mcp4725.yaml ref
+Message-ID: <20210113155222.00001fc5@Huawei.com>
+In-Reply-To: <ae1bc39a6c064bbce186a720a84a4f325bc2438c.1610535350.git.mchehab+huawei@kernel.org>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
+        <ae1bc39a6c064bbce186a720a84a4f325bc2438c.1610535350.git.mchehab+huawei@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210113142347.1263024-1-lee.jones@linaro.org>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.78.18]
+X-ClientProxiedBy: lhreml742-chm.china.huawei.com (10.201.108.192) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 02:23:47PM +0000, Lee Jones wrote:
-> Clear-up any confusion surrounding the Fixes: tag with regards to the
-> need to Cc: the stable mailing list when submitting stable patch
-> candidates.
+On Wed, 13 Jan 2021 11:59:19 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> Changeset 6ced946a4bba ("dt-bindings:iio:dac:microchip,mcp4725 yaml conversion")
+> renamed: Documentation/devicetree/bindings/iio/dac/mcp4725.txt
+> to: Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml.
 > 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> Update its cross-reference accordingly.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Thanks,
+
 > ---
->  Documentation/process/submitting-patches.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  include/linux/iio/dac/mcp4725.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 7c97ad580e7d0..636ef067c1565 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -554,7 +554,8 @@ is used to make it easy to determine where a bug originated, which can help
->  review a bug fix. This tag also assists the stable kernel team in determining
->  which stable kernel versions should receive your fix. This is the preferred
->  method for indicating a bug fixed by the patch. See :ref:`describe_changes`
-> -for more details.
-> +for more details. Attaching a Fixes: tag does not replace the requirement to
-> +Cc: stable@vger.kernel.org on all stable patch candidates.
+> diff --git a/include/linux/iio/dac/mcp4725.h b/include/linux/iio/dac/mcp4725.h
+> index e9801c8d49c0..1f7e53c506b6 100644
+> --- a/include/linux/iio/dac/mcp4725.h
+> +++ b/include/linux/iio/dac/mcp4725.h
+> @@ -15,7 +15,7 @@
+>   * @vref_buffered: Controls buffering of the external reference voltage.
+>   *
+>   * Vref related settings are available only on MCP4756. See
+> - * Documentation/devicetree/bindings/iio/dac/mcp4725.txt for more information.
+> + * Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml for more information.
+>   */
+>  struct mcp4725_platform_data {
+>  	bool use_vref;
 
-Want to just link to the "stable kernel rules" document here to show
-the proper way to do this is documented there?
-
-thanks,
-
-greg k-h
