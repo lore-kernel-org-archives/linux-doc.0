@@ -2,139 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E04C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6DFC4332B
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:51:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 407392078E
+	by mail.kernel.org (Postfix) with ESMTP id ABD2E23436
 	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 19:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728787AbhAMTvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 14:51:22 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:22807 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728757AbhAMTvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:51:22 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610567462; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=fmdHGVbp+4tw2+s9vPjb3eiPfcBMojAKFWUgjBhw8hU=;
- b=b0vtV8l+zp+TrqOF6EXc7xOCDp5BiCVj1u42OerFAsRXlFy7VscTz9NkWR5jJotS36gHizGc
- E1PHSrfgOF8P8c0tO31GH5jp967W3/8U7Be3My6c0U1TKpFh1z6uCjPMHb7imCoz0qTPRyji
- iwzpK2ZrO9GtQXzhKQzQuPBf3Aw=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5fff4f05d84bad3547491a76 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 13 Jan 2021 19:50:29
- GMT
-Sender: mdalam=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 5F7C3C43461; Wed, 13 Jan 2021 19:50:29 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: mdalam)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6FA37C433CA;
-        Wed, 13 Jan 2021 19:50:28 +0000 (UTC)
+        id S1728807AbhAMTva (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 14:51:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726599AbhAMTva (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 14:51:30 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028BDC0617A2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:50:18 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id b2so3256284edm.3
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 11:50:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hkaHio9VTNAaaJDmEyRQXcJxkwJ/XswHkEgfldp61ZI=;
+        b=DBMGxCUOdCPD0SifYoweomw1Y4FfNHp7XMpRyORz8ICzEC8hnO9+W2gxv7dcufnUdd
+         mXKHLNN2knZn79lKiaZvdkn9JBdhHK8YGSsYBTrNCdRjaCsWiITLit4uBUxaAIqmw96t
+         c4/3iPlmfgXuPO2mCRmuE/KMs3pQiHRU4epXJfyPJFXb8GNt5ruvjRnr9oSrC8xPfqRI
+         UolhQ3coOMcq1dKzP8kPDAIQSvn4JO9sDTe0s51fUJDPTeN4bWaG5+Ns0VRvHpzy8cgb
+         qFWHBtZcUByskLYs9X9XNcVDq8kGxX0QZOkkwxzA7CqvKd86pO8h5wloNkkbz38TsRiz
+         NEoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hkaHio9VTNAaaJDmEyRQXcJxkwJ/XswHkEgfldp61ZI=;
+        b=ewuEb5Uut//JW/GTABSIDrPDlE4LjncAeNxSTw9a3ZB08ff4G+reITV+uHEE45q3xg
+         8LH9YOThFriQgel6GJNFy2FrIwSDdczsn9a6ceaSBSijTMKyKM7XlKjRHLELHdO3NKxS
+         bsad/JX51n2F0KmFUCpgM8HVY/Jb1OXHZEuNzyYLSmxLC3/+sU1DrYqSn5gNbXGM8mop
+         vZXh/vEMqW/M4u/r/cWsK4smaO3ZAkjPF1DE903LJv7RTubaXJ8Nm0fWXGr1VyMMZeh0
+         Ayy/sqSr0sZK252KG1dOjhV0AbHaGNGP7I9AJp46eDGADuI1UAPNRiFaVSPtwvQObLZ6
+         OiMg==
+X-Gm-Message-State: AOAM533pqUXLBaEGm574RuwLJhdkMczuE5ocn4TVI1OdqXRrWCRimPPh
+        Qt3WQ3HlNevWtGmNopPN+w0yU+da97IOyIyLApZbMg==
+X-Google-Smtp-Source: ABdhPJxUwem33eQzEqaNtDEZLAOHpRjU0hOrw6ks7bEMUUESs7T5p/JZqZXOYsn7ezJOHVwn/vQhEdVylgMONGQxTP0=
+X-Received: by 2002:a50:b282:: with SMTP id p2mr3241176edd.210.1610567417733;
+ Wed, 13 Jan 2021 11:50:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 14 Jan 2021 01:20:28 +0530
-From:   mdalam@codeaurora.org
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
-        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
-        mdalam=codeaurora.org@codeaurora.org
-Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
- support
-In-Reply-To: <20210112101056.GI2771@vkoul-mobl>
-References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
- <20201221092355.GA3323@vkoul-mobl>
- <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
- <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
- <20210112101056.GI2771@vkoul-mobl>
-Message-ID: <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
-X-Sender: mdalam@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-9-pasha.tatashin@soleen.com> <20201218104655.GW32193@dhcp22.suse.cz>
+ <CA+CK2bCn++2Sk4-Eunibj6f+JoOL77uJQXGU2+dScHQ3RgC7_Q@mail.gmail.com> <20201218131449.GZ32193@dhcp22.suse.cz>
+In-Reply-To: <20201218131449.GZ32193@dhcp22.suse.cz>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 13 Jan 2021 14:49:41 -0500
+Message-ID: <CA+CK2bB9REcktfq=kh9MhvAwg8GPpK_tHx_LiruF0DCkMWHXmA@mail.gmail.com>
+Subject: Re: [PATCH v4 08/10] mm/gup: limit number of gup migration failures,
+ honor failures
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-01-12 15:40, Vinod Koul wrote:
-> On 12-01-21, 15:01, mdalam@codeaurora.org wrote:
->> On 2020-12-21 23:03, mdalam@codeaurora.org wrote:
->> > On 2020-12-21 14:53, Vinod Koul wrote:
->> > > Hello,
->> > >
->> > > On 17-12-20, 20:07, Md Sadre Alam wrote:
->> > > > This change will add support for LOCK & UNLOCK flag bit support
->> > > > on CMD descriptor.
->> > > >
->> > > > If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
->> > > > transaction wanted to lock the DMA controller for this transaction so
->> > > > BAM driver should set LOCK bit for the HW descriptor.
->> > > >
->> > > > If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester
->> > > > of this
->> > > > transaction wanted to unlock the DMA controller.so BAM driver
->> > > > should set
->> > > > UNLOCK bit for the HW descriptor.
->> > >
->> > > Can you explain why would we need to first lock and then unlock..? How
->> > > would this be used in real world.
->> > >
->> > > I have read a bit of documentation but is unclear to me. Also should
->> > > this be exposed as an API to users, sounds like internal to driver..?
->> > >
->> >
->> > IPQ5018 SoC having only one Crypto Hardware Engine. This Crypto Hardware
->> > Engine
->> > will be shared between A53 core & ubi32 core. There is two separate
->> > driver dedicated
->> > to A53 core and ubi32 core. So to use Crypto Hardware Engine
->> > parallelly for encryption/description
->> > we need bam locking mechanism. if one driver will submit the request
->> > for encryption/description
->> > to Crypto then first it has to set LOCK flag bit on command descriptor
->> > so that other pipes will
->> > get locked.
->> >
->> > The Pipe Locking/Unlocking will be only on command-descriptor. Upon
->> > encountering a command descriptor
-> 
-> Can you explain what is a cmd descriptor?
+On Fri, Dec 18, 2020 at 8:14 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Fri 18-12-20 07:43:15, Pavel Tatashin wrote:
+> > On Fri, Dec 18, 2020 at 5:46 AM Michal Hocko <mhocko@suse.com> wrote:
+> > >
+> > > On Thu 17-12-20 13:52:41, Pavel Tatashin wrote:
+> > > [...]
+> > > > +#define PINNABLE_MIGRATE_MAX 10
+> > > > +#define PINNABLE_ISOLATE_MAX 100
+> > >
+> > > Why would we need to limit the isolation retries. Those should always be
+> > > temporary failure unless I am missing something.
+> >
+> > Actually, during development, I was retrying isolate errors
+> > infinitely, but during testing found a hung where when FOLL_TOUCH
+> > without FOLL_WRITE is passed (fault in kernel without write flag), the
+> > zero page is faulted. The isolation of the zero page was failing every
+> > time, therefore the process was hanging.
+>
+> Why would you migrate zero page in the first place? Simply instantiate
+> it.
 
-   In BAM pipe descriptor structure there is a field called CMD (Command 
-descriptor).
-   CMD allows the SW to create descriptors of type Command which does not 
-generate any data transmissions
-   but configures registers in the Peripheral (write operations, and read 
-registers operations ).
-   Using command descriptor enables the SW to queue new configurations 
-between data transfers in advance.
+This is exactly the idea behind FOLL_WRITE; it causes zero pages to be
+created in the right zone right away, and no migration is necessary.
 
-> 
->> > with LOCK bit set, The BAM will lock all other pipes not related to
->> > the current pipe group, and keep
->> > handling the current pipe only until it sees the UNLOCK set then it
->> > will release all locked pipes.
->> > locked pipe will not fetch new descriptors even if it got event/events
->> > adding more descriptors for
->> > this pipe (locked pipe).
->> >
->> > No need to expose as an API to user because its internal to driver, so
->> > while preparing command descriptor
->> > just we have to update the LOCK/UNLOCK flag.
-> 
-> So IIUC, no api right? it would be internal to driver..?
+>
+> > Since then, I fixed this problem by adding FOLL_WRITE unconditionally
+> > to FOLL_LONGTERM, but I was worried about other possible bugs that
+> > would cause hangs, so decided to limit isolation errors. If you think
+> > it its not necessary, I can unlimit isolate retires.
+>
+> It should have a really good reason to exist. Worries about some corner
+> cases is definitely not a reason to put some awkward retry mechanism.
+> My historical experience is that these things are extremely hard to get
+> rid of later.
+>
+> > > I am not sure about the
+> > > PINNABLE_MIGRATE_MAX either. Why do we want to limit that? migrate_pages
+> > > already implements its retry logic why do you want to count retries on
+> > > top of that? I do agree that the existing logic is suboptimal because
+> >
+> > True, but again, just recently, I worked on a race bug where pages can
+> > end up in per-cpu list after lru_add_drain_all() but before isolation,
+> > so I think retry is necessary.
+>
+> There are ways to make sure pages are not ending on pcp list. Have a
+> look at how hotplug does that.
 
-   Yes its totally internal to deriver.
+Sounds good to me, I will remove PINNABLE_MIGRATE_MAX, and leave only
+PINNABLE_ISOLATE_MAX for transient isolation errors.
+
+>
+> > > the migration failure might be ephemeral or permanent but that should be
+> > > IMHO addressed at migrate_pages (resp. unmap_and_move) and simply report
+> > > failures that are permanent - e.g. any potential pre-existing long term
+> > > pin - if that is possible at all. If not what would cause permanent
+> > > migration failure? OOM?
+> >
+> > Yes, OOM is the main cause for migration failures.
+>
+> Then you can treat ENOMEM as a permanent failure.
+
+Sounds good.
