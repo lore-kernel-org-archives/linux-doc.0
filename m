@@ -2,137 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BECC433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:07:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32359C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C3FB20936
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:07:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E051E2251F
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 20:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728755AbhAMUG7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 15:06:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728757AbhAMUG7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 15:06:59 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97945C061794
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 12:06:18 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id t16so4811141ejf.13
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 12:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Atsr5jv8T9ZoJtbPK6SL546tOdJtaCS1oan7zJwQQ90=;
-        b=oGlnGhdttfZH9cF4FbW4sCgfSGQ6U3mer6sHR5EOFTWOBqoeG6j+KtZq2twcU7HQ9J
-         Nt1hwbL0wlFnzlGS0w028VPAJIMiUNwg+wEqndnRf+hnPIe9yvXiwV+wuTMSKENjUfh4
-         MhknEf3Zwn49LELA6GqYdRZOKNdzfAvfjihOR9IUwvoIfyCABq0fSz3LvD/nvTz7LB42
-         LpojBCPMJUBK9Cpl2HW4MYyAygvOdjb/FTq9NarqiB1GNz1kYUE0SZHFwduExzCZUmt/
-         EJWa2bwDWYTWm4Lsf/nSXzs8l25MC4Dvet1uuwLH0ZGaqgNIJLXkrTuaucVVY4tUMwxD
-         9jRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Atsr5jv8T9ZoJtbPK6SL546tOdJtaCS1oan7zJwQQ90=;
-        b=U7jdb9Ld9imizUSMeRNUJgaO6MqpOxsZBtgWK8ntxp51vV9uhsbtHqVfGceGVmKmmJ
-         Mv/+Ko6HqgifBne/uc553wVzT8L1fbq0ahYrogxQKP5w0Oo7VJSvevsj/tprW6t26E9g
-         NkkKrGqVMmVJ3R9D8pO5HMGtNzSCjFPSE0rdOnmLI87qfK7m0CY2aJOahea6OwYYmj8d
-         7rnsdURgx76itqfnNQlGaNebnTgTaDlyQBcjHyVOZHMVsndUEPj/j44/giN3pKM2Kb6U
-         etWXR5Qz7YGbNZrvpIul2x3ILPJkvePdAspQsId1S31J20a59rDdfD8r5l4+SSeA0zg8
-         qR/w==
-X-Gm-Message-State: AOAM5339n3fO6QFppK9E3nryHFENyS1BZWY3uBTGgLeqemnK/2UTtatc
-        lfEJrB2jSaD7QGscfB5kBnapPPXA4jygv8Zs+Sq+gg==
-X-Google-Smtp-Source: ABdhPJzUDzmZWA4lqsW8yXocmHnZp0KlbLU4jdTw5S1s0d7cWUsk+k6/wu+RPxqCYR56z3F8bKI2HBHwXfb+qrUg82Y=
-X-Received: by 2002:a17:907:1b27:: with SMTP id mp39mr2546538ejc.519.1610568377144;
- Wed, 13 Jan 2021 12:06:17 -0800 (PST)
+        id S1728776AbhAMUYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 15:24:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34190 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726599AbhAMUYb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 15:24:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 895C92251F;
+        Wed, 13 Jan 2021 20:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610569431;
+        bh=o9LaKhm5VN+gTQHPE6NXpf952MBuYH3ScPuKWsqVyEw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jP6FU9kt5cPvKnpO8sQEdkNqzuPVxDmgAKC1XaZMMYHdY0RkhJGHg7H2IT3gh4ESd
+         SSGlSH5EAfoGH62fTTFnbvT/ZMk2+mWwwnn9KypFr1J+HWUV2taYIv1k814HGr0aQu
+         5uY9BBMsR8Fm9lHIPyFnb4mMKJeC1F/J4cY8kLw3IlbSDC8v34Y7xHXhuUoOc4hIVy
+         8pEcAMXKLN2kop6FdbB/xsngGKc20CPok94PQ2nTBCcWfS+ME1XIuo1Kmfz6yYTAT7
+         ABiwQeTZnibFwdFFGWYZrmNVF03WhFlmDuausEQ7DVGpi7IGlRuYZO4gn57Qvsz201
+         mwUdXiHzJ5QYA==
+Date:   Wed, 13 Jan 2021 20:23:15 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210113202315.GI4641@sirena.org.uk>
+References: <20210113165743.3385-1-broonie@kernel.org>
+ <20210113192735.rg2fxwlfrzueinci@treble>
 MIME-Version: 1.0
-References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
- <20201217185243.3288048-9-pasha.tatashin@soleen.com> <20201217205048.GL5487@ziepe.ca>
- <CA+CK2bA4F+SipkReJzFjCSC-8kZdK4yrwCQZM+TvCTrqV2CGHg@mail.gmail.com>
- <20201218141927.GM5487@ziepe.ca> <CA+CK2bDULopw649ndBybA-ST5EoRMHULwcfQcSQVKT9r8zAtwQ@mail.gmail.com>
- <20210113195528.GD4605@ziepe.ca>
-In-Reply-To: <20210113195528.GD4605@ziepe.ca>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 13 Jan 2021 15:05:41 -0500
-Message-ID: <CA+CK2bDDUMOeCH8rQBL7fBdHCAUZBOykyXNL2N=hmxq7xi0giQ@mail.gmail.com>
-Subject: Re: [PATCH v4 08/10] mm/gup: limit number of gup migration failures,
- honor failures
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wZdghQXYJzyo6AGC"
+Content-Disposition: inline
+In-Reply-To: <20210113192735.rg2fxwlfrzueinci@treble>
+X-Cookie: Ignore previous fortune.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > > Oh, that existing logic is wrong too :( Another bug.
-> >
-> > I do not think there is a bug.
-> >
-> > > You can't skip pages in the pages[] array under the assumption they
-> > > are contiguous. ie the i+=step is wrong.
-> >
-> > If pages[i] is part of a compound page, the other parts of this page
-> > must be sequential in this array for this compound page
->
-> That is true only if the PMD points to the page. If the PTE points to
-> a tail page then there is no requirement that other PTEs are
-> contiguous with the compount page.
->
-> At this point we have no idea if the GUP logic got this compound page
-> as a head page in a PMD or as a tail page from a PTE, so we can't
-> assume a contiguous run of addresses.
 
-I see, I will fix this bug in an upstream as a separate patch in my
-series, and keep the fix when my fixes are applied.
+--wZdghQXYJzyo6AGC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> Look at split_huge_pmd() - it doesn't break up the compound page it
-> just converts the PMD to a PTE array and scatters the tail pages to
-> the PTE.
+On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
 
-Got it, unfortunately the fix will deoptimize the code by having to
-check every page if it is part of a previous compound page or not.
+> I think it's worth mentioning a little more about objtool.  There are a
+> few passing mentions of objtool's generation of metadata (i.e. ORC), but
+> objtool has another relevant purpose: stack validation.  That's
+> particularly important when it comes to frame pointers.
 
->
-> I understand Matt is pushing on this idea more by having compound
-> pages in the page cache, but still mapping tail pages when required.
->
-> > This is actually standard migration procedure, elsewhere in the kernel
-> > we migrate pages in exactly the same fashion: isolate and later
-> > migrate. The isolation works for LRU only pages.
->
-> But do other places cause a userspace visible random failure when LRU
-> isolation fails?
+> For some architectures like x86_64 and arm64 (but not powerpc/s390),
+> it's far too easy for a human to write asm and/or inline asm which
+> violates frame pointer protocol, silently causing the violater's callee
+> to get skipped in the unwind.  Such architectures need objtool
+> implemented for CONFIG_STACK_VALIDATION.
 
-Makes sense, I will remove maximum retries for isolation, and retry
-indefinitely, the same as it is done during memory hot-remove. So, we
-will fail only when migration fails.
+This basically boils down to just adding a statement saying "you may
+need to depend on objtool" I think?
 
->
-> I don't like it at all, what is the user supposed to do?
->
-> Jason
+> > +There are several ways an architecture may identify kernel code which is deemed
+> > +unreliable to unwind from, e.g.
+
+> > +* Using metadata created by objtool, with such code annotated with
+> > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+
+> I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
+> necessarily mean the code is unreliable, and objtool doesn't treat it as
+> such.  Its mention can probably be removed unless there was some other
+> point I'm missing.
+
+I was reading that as being a thing that the architecture could possibly
+do, especially as a first step - it does seem like a reasonable thing to
+consider using anyway.  I guess you could also use it the other way
+around and do additional checks for things that are supposed to be
+regular functions that you relax for SYM_CODE() sections.
+
+--wZdghQXYJzyo6AGC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl//VrMACgkQJNaLcl1U
+h9AmYggAgubIJVPHRw3lCOS+tyJn7EtvD/kscPl99nqk2qJB3cMyewl4IzbKT2aW
+rtpb5JWWFAXR4xBvkv6M2h7DUdrJwTJgd5ldh8DNojqoOAW3JnyTq9jI9VpCsxgu
+BD0KHZ33FyjdpxEPDR0iJWgKJ8guSUAt1+Q9Rj/GH0w/fhtJCmaFZZGql3a1q+2w
+U1qgxvNvVw2geTJuWx70DnaVQoiXrfasP6jd40FNWaAT0joElHYsfS/JhYyt34Rq
+K6AQsswSgMvOpE+7bp1C008TmAW6H4MJ2e5i8rr0jkF2KBFYbV0SDrRy10+DWxSM
+qyMtonaJw3qnuffJzlEsSStHaDjzTw==
+=kjap
+-----END PGP SIGNATURE-----
+
+--wZdghQXYJzyo6AGC--
