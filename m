@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20001C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3833C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB29922210
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 697A822210
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 11:00:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbhAMLAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727047AbhAMLAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 13 Jan 2021 06:00:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38264 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:38268 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726638AbhAMLAK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1726654AbhAMLAK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 13 Jan 2021 06:00:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7923F23136;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94DF32333F;
         Wed, 13 Jan 2021 10:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610535569;
-        bh=OzCLscW+xbktqDDGJ4jmCFt52UXDf5xySBxk2PLsgLo=;
+        bh=wLPtDikaEr2WKIz4STdFMo8JbsgQLRoWtqG1j7dtivs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HIaUzDxRm9Z6JJjhN1TptwwvzDnGsk293Z1eL3o0AnsrwOPIfM6/URhBFJjpJmL50
-         M/WRac6oo3Gcff3VryIS3PEdTBTAN/Vxed6j/RZLxqNvnXhND5pr/bY3qcVsCBRAxW
-         955wbNvIHVOht2wIVbcUZC42rq37CfxOpHc1P+CVtj5Uj0hlYgRBABkLro0AULNdxh
-         gc3wEP4bCeMwyKN4PXpDUrZoT8JpztQVAiNNyGYPa5i31rNRQ9ja5KM5m0gSf3sNxj
-         o83ddShL09xsh/zkTuy/K5LdqrgCmSyR7bl8nJrtiEy5otemSuucl0bCjpgtoaQHD0
-         h3zUGi4TUUIQg==
+        b=J5br75HKFNEdTlmPmoMKPHHZZf8vgUo9uoBlvh4/1+WT5Yek+el7vWTyRK8bhZBFh
+         6SmsRQVKUfJUDpZ0rK+8wJnbzj/PYxgT9lIc1ykbaR2kvbvQW3RXSQfBAXNaxUoeVH
+         j+xEHiKU2CZmk8WWdTLYprZNaY10zof1ff6FQqhxCS9y4K9xiZ0xtbMh/e1J5OMooc
+         WhjvXALnIkWcMirx8TX/mne/K/mBUwo7t416gd17TPRRcyZfgx6HtG8j2BgA6tXLuf
+         Xuye0aYZWpAXTOjGGf/ol/2SSADYlabIGec1h9WooQpYVDmbbQFXubtzLf7sTf/5XT
+         pst1hBaFV6tQg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzds7-00DpGF-E5; Wed, 13 Jan 2021 11:59:27 +0100
+        id 1kzds7-00DpFu-58; Wed, 13 Jan 2021 11:59:27 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/24] MAINTAINERS: update pni,rm3100.yaml reference
-Date:   Wed, 13 Jan 2021 11:59:12 +0100
-Message-Id: <bac1a7e1658cf255225d4f570703f4e3d6bb1c5b.1610535349.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/24] MAINTAINERS: update st,hts221.yaml reference
+Date:   Wed, 13 Jan 2021 11:59:04 +0100
+Message-Id: <c2f39f957d717a28b4e05a371d22a67ab20562f6.1610535349.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610535349.git.mchehab+huawei@kernel.org>
 References: <cover.1610535349.git.mchehab+huawei@kernel.org>
@@ -51,9 +51,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset f383069be33e ("dt-bindings:iio:magnetometer:pni,rm3100: txt to yaml conversion.")
-renamed: Documentation/devicetree/bindings/iio/magnetometer/pni,rm3100.txt
-to: Documentation/devicetree/bindings/iio/magnetometer/pni,rm3100.yaml.
+Changeset 9a6ac3138258 ("dt-bindings:iio:humidity:st,hts221 yaml conversion.")
+renamed: Documentation/devicetree/bindings/iio/humidity/hts221.txt
+to: Documentation/devicetree/bindings/iio/humidity/st,hts221.yaml.
 
 Update its cross-reference accordingly.
 
@@ -63,18 +63,18 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 12609dbe15a3..e4fee1b3d768 100644
+index 7578b9798bfe..b3fe85038eb8 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -14265,7 +14265,7 @@ PNI RM3100 IIO DRIVER
- M:	Song Qiang <songqiang1304521@gmail.com>
+@@ -8215,7 +8215,7 @@ M:	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>
  L:	linux-iio@vger.kernel.org
  S:	Maintained
--F:	Documentation/devicetree/bindings/iio/magnetometer/pni,rm3100.txt
-+F:	Documentation/devicetree/bindings/iio/magnetometer/pni,rm3100.yaml
- F:	drivers/iio/magnetometer/rm3100*
+ W:	http://www.st.com/
+-F:	Documentation/devicetree/bindings/iio/humidity/hts221.txt
++F:	Documentation/devicetree/bindings/iio/humidity/st,hts221.yaml
+ F:	drivers/iio/humidity/hts221*
  
- PNP SUPPORT
+ HUAWEI ETHERNET DRIVER
 -- 
 2.29.2
 
