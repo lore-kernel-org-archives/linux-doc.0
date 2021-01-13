@@ -2,178 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6652CC43381
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 09:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6A02C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 09:21:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E110D233A2
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 09:01:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33E40233CE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jan 2021 09:21:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbhAMJBU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 04:01:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727389AbhAMJBU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 04:01:20 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA67C061575;
-        Wed, 13 Jan 2021 01:00:39 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id v126so893492qkd.11;
-        Wed, 13 Jan 2021 01:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pbIjM7Y2l1QZG495FHuBObshGZMrXbccqmIZVjHdFFY=;
-        b=hbnoG52Fys9E2+Ad9ZZ027ZjhIAoLnyG42xdppfQ3gUSAahiq71f+njlW5c8pawrHF
-         no2oGIFoZiM/1K5kWxlW1kn6jIaQ/v4m0YGaA4H2cnobysRSmkEsxJNoXzX5oEotFpQy
-         S5OlsZ1A0k157geOjY0wW3xvdgvksKao8QANhNbT4b1shlfQC2OIQJBSPYUPIAipOzN6
-         NDkfEHm7adLHT0TedcIvzbTWJTkhaPDqFnraKZy2fqpn2f3bxyQKuALVJIf0YMottcVa
-         idan2jiwyQGOC3FKd3ZSioS7zSEfPij9sPlwqawBL9zIk27y1GTUwzLG68zMtUnKF9sf
-         opdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pbIjM7Y2l1QZG495FHuBObshGZMrXbccqmIZVjHdFFY=;
-        b=moxsgeO10B0ZwIH+vYs49/TUkTpm8az4G7hihjwm4GjJEt0Zwv8Z0YqiCeUWC/ab4e
-         /EtOB0SjvIYVf+w4o8nMzrGGVoKkcnXqAz5w75sRrW8iIPdktvZkB0CPFFIyzOEQ2IsH
-         EwOvmmStD3RHVKi4g8skHsLVZblkYoo7sG3isZJOmIUNTw9sWVLQaa/jYuMayqmyyort
-         t6eO6aaUloWzQtVo9rHcFN4IOqNjPbTZRmCGvymLmbjnqkSvsdTY7iaiMhst+kuojEvM
-         h/0eHN+fyfKfo18k3ebquqJFdHKLfYTUfS8dKbDiN+fVRZ5LwrUxDUFZKAYRRWJi9aqA
-         f5lA==
-X-Gm-Message-State: AOAM531JBVFjf0jpxPjeNMcO0pihrzkzUtzqpeA9OV8uEfImpqMThgNa
-        gUKERUTO4CYU/wtU4z1ZY/s+B9OhZ9ZFOd8eZSGhEanIxuQ=
-X-Google-Smtp-Source: ABdhPJwMJe+FCIqZLrOZSfzPVTml5CBTjec9zWLucfYDdoJxMHqxs+HusUGQjyg8xb3jZqVxHLgZURsaadYLTZ1tjo4=
-X-Received: by 2002:a37:a893:: with SMTP id r141mr930119qke.459.1610528439051;
- Wed, 13 Jan 2021 01:00:39 -0800 (PST)
+        id S1725924AbhAMJVP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 04:21:15 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45218 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725899AbhAMJVO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Jan 2021 04:21:14 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8F350ACF5;
+        Wed, 13 Jan 2021 09:20:32 +0000 (UTC)
+Date:   Wed, 13 Jan 2021 10:20:28 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v12 04/13] mm/hugetlb: Free the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <20210113092028.GB24816@linux>
+References: <20210106141931.73931-1-songmuchun@bytedance.com>
+ <20210106141931.73931-5-songmuchun@bytedance.com>
+ <20210112080453.GA10895@linux>
+ <CAMZfGtUqN2BZH28i9VJhRJ3VH3OGKBQ7hDUuX1-F5LcwbKk+4A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210112230310.GA149342@jelly>
-In-Reply-To: <20210112230310.GA149342@jelly>
-From:   Benjamin Tissoires <benjamin.tissoires@gmail.com>
-Date:   Wed, 13 Jan 2021 10:00:27 +0100
-Message-ID: <CAN+gG=ER7LndA9facg-EB-0VBdBBkpac+nYu+eOo7wDW6G6fBw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: input: define ABS_PRESSURE/ABS_MT_PRESSURE
- resolution as grams
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtUqN2BZH28i9VJhRJ3VH3OGKBQ7hDUuX1-F5LcwbKk+4A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 12:03 AM Peter Hutterer
-<peter.hutterer@who-t.net> wrote:
->
-> ABS_PRESSURE and ABS_MT_PRESSURE on touch devices usually represent
-> contact size (as a finger flattens with higher pressure the contact size
-> increases) and userspace translates the kernel pressure value back into
-> contact size. For example, libinput has pressure thresholds when a touch is
-> considered a palm (palm == large contact area -> high pressure). The values
-> themselves are on an arbitrary scale and device-specific.
->
-> On pressurepads however, the pressure axis may represent the real physical
-> pressure. Pressurepads are touchpads without a hinge but an actual pressure
-> sensor underneath the device instead, for example the Lenovo Yoga 9i.
->
-> A high-enough pressure is converted to a button click by the firmware.
-> Microsoft does not require a pressure axis to be present, see [1], so as seen
-> from userspace most pressurepads are identical to clickpads - one button and
-> INPUT_PROP_BUTTONPAD set.
->
-> However, pressurepads that export the pressure axis break userspace because
-> that axis no longer represents contact size, resulting in inconsistent touch
-> tracking, e.g. [2]. Userspace needs to know when a pressure axis represents
-> real pressure and the best way to do so is to define what the resolution
-> field means. Userspace can then treat data with a pressure resolution as
-> true pressure.
->
-> This patch documents that the pressure resolution is in units/gram. This
-> allows for fine-grained detail and tops out at roughly ~2000t, enough for the
-> devices we're dealing with. Grams is not a scientific pressure unit but the
-> alternative is:
-> - Pascal: defined as force per area and area is unreliable on many devices and
->   seems like the wrong option here anyway, especially for devices with a
->   single pressure sensor only.
-> - Newton: defined as mass * distance/acceleration and for the purposes of a
->   pressure axis, the distance is tricky to interpret and we get the data to
->   calculate acceleration from event timestamps anyway.
->
-> For the purposes of touch devices and digitizers, grams seems the best choice
-> and the easiest to interpret.
->
-> Bonus side effect: we can use the existing hwdb infrastructure in userspace to
-> fix devices that advertise false pressure.
->
-> [1] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#windows-precision-touchpad-input-reports
-> [2] https://gitlab.freedesktop.org/libinput/libinput/-/issues/562
->
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+On Tue, Jan 12, 2021 at 07:33:33PM +0800, Muchun Song wrote:
+> > It seems a bit odd to only pass "start" for the BUG_ON.
+> > Also, I kind of dislike the "addr += PAGE_SIZE" in vmemmap_pte_range.
+> >
+> > I wonder if adding a ".remap_start_addr" would make more sense.
+> > And adding it here with the vmemmap_remap_walk init.
+> 
+> How about introducing a new function which aims to get the reuse
+> page? In this case, we can drop the BUG_ON() and "addr += PAGE_SIZE"
+> which is in vmemmap_pte_range. The vmemmap_remap_range only
+> does the remapping.
 
-FWIW, and because I was involved in the initial discussion:
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+How would that look? 
+It might be good, dunno, but the point is, we should try to make the rules as
+simple as possible, dropping weird assumptions.
 
-Cheers,
-Benjamin
+Callers of vmemmap_remap_free should know three things:
 
-> ---
->  Documentation/input/event-codes.rst          | 15 +++++++++++++++
->  Documentation/input/multi-touch-protocol.rst |  4 ++++
->  2 files changed, 19 insertions(+)
->
-> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
-> index b24b5343f5eb..3118fc1c1e26 100644
-> --- a/Documentation/input/event-codes.rst
-> +++ b/Documentation/input/event-codes.rst
-> @@ -236,6 +236,21 @@ A few EV_ABS codes have special meanings:
->    - Used to describe multitouch input events. Please see
->      multi-touch-protocol.txt for details.
->
-> +* ABS_PRESSURE/ABS_MT_PRESSURE:
-> +
-> +   - For touch devices, many devices converted contact size into pressure.
-> +     A finger flattens with pressure, causing a larger contact area and thus
-> +     pressure and contact size are directly related. This is not the case
-> +     for other devices, for example digitizers and touchpads with a true
-> +     pressure sensor ("pressure pads").
-> +
-> +     A device should set the resolution of the axis to indicate whether the
-> +     pressure is in measurable units. If the resolution is zero, the
-> +     pressure data is in arbitrary units. If the resolution is nonzero, the
-> +     pressure data is in units/gram. For example, a value of 10 with a
-> +     resolution of 1 represents 10 gram, a value of 10 with a resolution on
-> +     1000 represents 10 microgram.
-> +
->  EV_SW
->  -----
->
-> diff --git a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
-> index 307fe22d9668..21c1e6a22888 100644
-> --- a/Documentation/input/multi-touch-protocol.rst
-> +++ b/Documentation/input/multi-touch-protocol.rst
-> @@ -260,6 +260,10 @@ ABS_MT_PRESSURE
->      of TOUCH and WIDTH for pressure-based devices or any device with a spatial
->      signal intensity distribution.
->
-> +    If the resolution is zero, the pressure data is in arbitrary units.
-> +    If the resolution is nonzero, the pressure data is in units/gram. See
-> +    :ref:`input-event-codes` for details.
-> +
->  ABS_MT_DISTANCE
->      The distance, in surface units, between the contact and the surface. Zero
->      distance means the contact is touching the surface. A positive number means
-> --
-> 2.29.2
->
+- Range to be remapped
+- Addr to remap to
+- Current implemantion needs addr to be remap to to be part of the complete
+  range
+
+right?
+
+-- 
+Oscar Salvador
+SUSE L3
