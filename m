@@ -2,123 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC73C433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA0E3C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:09:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01A34235E4
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:07:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CBE02242A
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:09:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729562AbhANCGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:06:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729109AbhANCGT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Jan 2021 21:06:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C0C9223442;
-        Thu, 14 Jan 2021 02:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610589938;
-        bh=NNgK5BZvTtLVTBZUqJP4R8eSarXLcVpD1VeEm8Vu678=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uEbV8/lm9F6iat9HimlHsiyPyU7AtTod+Gg+fJNZtrdkgZzZFz+9JsAWD2RYgolAy
-         zd23Qdv8WM3G/NHSLsEIu07x7B8V0NS0KLE2Cq6nAhkI1a2G7lDOnpvCG7UfwpERtY
-         YSAfuut5osfYLOXLZjDF6T/hbMCAB1kUSspXmMpxzmH0DDX0fSf55dZKV3bBFkThsY
-         AAUY/7Mz8S1jU4JIZahoaTywyTn/kTlM1YPf+vCrPm59ZUvORuNPcy/OlzXnc7K8at
-         qj3qmvqCUzX0XG7wNxM+Csrb3WyJBgHr4QRrdYADo3S7lpxoyTGZPyjinLwkQsZEkz
-         LINZx0hO334Bg==
-Date:   Thu, 14 Jan 2021 04:05:31 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
+        id S1726820AbhANCF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:05:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45493 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729332AbhAMW12 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:27:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610576761;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=keqTD1feRGxMu1i6ZV8LKC0UZKTn6b0VdBTOntJphMk=;
+        b=U8ogMtfe7qw8vZkDmFeGWnC38Z9R64K/iv/+6IQkHKX51hSUvyTZzE4ahF1NJfypjPaQ46
+        ChgN1Rn/aJLSnfjewyhvEPWIor/4qAiToWVTzgRP/DpoYHR72Bq/Eu377Mln1UOuQr/xys
+        qgmBF3dLNgckD/fAWo8lEHYYf8lRnUk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-j1KIj2juPlK1m70KZ2kQIQ-1; Wed, 13 Jan 2021 17:25:55 -0500
+X-MC-Unique: j1KIj2juPlK1m70KZ2kQIQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9754C1060B08;
+        Wed, 13 Jan 2021 22:25:47 +0000 (UTC)
+Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 36A425D71D;
+        Wed, 13 Jan 2021 22:25:45 +0000 (UTC)
+Date:   Wed, 13 Jan 2021 16:25:41 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <X/+m6+m2/snYj9Vc@kernel.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
- <1604419306-26105-3-git-send-email-sumit.garg@linaro.org>
- <X/x+N0fgrzIZTeNi@kernel.org>
- <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210113222541.ysvtievx4o5r42ym@treble>
+References: <20210113165743.3385-1-broonie@kernel.org>
+ <20210113192735.rg2fxwlfrzueinci@treble>
+ <20210113202315.GI4641@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
+In-Reply-To: <20210113202315.GI4641@sirena.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
-> Hi Jarkko,
+On Wed, Jan 13, 2021 at 08:23:15PM +0000, Mark Brown wrote:
+> On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
 > 
-> On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> >
-> > On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
-> > > Add support for TEE based trusted keys where TEE provides the functionality
-> > > to seal and unseal trusted keys using hardware unique key.
-> > >
-> > > Refer to Documentation/tee.txt for detailed information about TEE.
-> > >
-> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> >
-> > I haven't yet got QEMU environment working with aarch64, this produces
-> > just a blank screen:
-> >
-> > ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
-> >
-> > My BuildRoot fork for TPM and keyring testing is located over here:
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
-> >
-> > The "ARM version" is at this point in aarch64 branch. Over time I will
-> > define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
-> > in the master branch.
-> >
-> > To create identical images you just need to
-> >
-> > $ make tpmdd_defconfig && make
-> >
-> > Can you check if you see anything obviously wrong? I'm eager to test this
-> > patch set, and in bigger picture I really need to have ready to run
-> > aarch64 environment available.
+> > I think it's worth mentioning a little more about objtool.  There are a
+> > few passing mentions of objtool's generation of metadata (i.e. ORC), but
+> > objtool has another relevant purpose: stack validation.  That's
+> > particularly important when it comes to frame pointers.
 > 
-> I would rather suggest you to follow steps listed here [1] as to test
-> this feature on Qemu aarch64 we need to build firmwares such as TF-A,
-> OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
-> system [2]. And then it would be easier to migrate them to your
-> buildroot environment as well.
+> > For some architectures like x86_64 and arm64 (but not powerpc/s390),
+> > it's far too easy for a human to write asm and/or inline asm which
+> > violates frame pointer protocol, silently causing the violater's callee
+> > to get skipped in the unwind.  Such architectures need objtool
+> > implemented for CONFIG_STACK_VALIDATION.
 > 
-> [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
-> [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
-> 
-> -Sumit
+> This basically boils down to just adding a statement saying "you may
+> need to depend on objtool" I think?
 
-Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
+Right, but maybe it would be a short paragraph or two.
 
-After I've successfully tested 2/4, I'd suggest that you roll out one more
-version and CC the documentation patch to Elaine and Mini, and clearly
-remark in the commit message that TEE is a standard, with a link to the
-specification.
+> > > +There are several ways an architecture may identify kernel code which is deemed
+> > > +unreliable to unwind from, e.g.
+> 
+> > > +* Using metadata created by objtool, with such code annotated with
+> > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+> 
+> > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
+> > necessarily mean the code is unreliable, and objtool doesn't treat it as
+> > such.  Its mention can probably be removed unless there was some other
+> > point I'm missing.
+> 
+> I was reading that as being a thing that the architecture could possibly
+> do, especially as a first step - it does seem like a reasonable thing to
+> consider using anyway.  I guess you could also use it the other way
+> around and do additional checks for things that are supposed to be
+> regular functions that you relax for SYM_CODE() sections.
 
-/Jarkko
+Makes sense, but we have to be careful not to imply that objtool already
+does something like that :-)
+
+-- 
+Josh
+
