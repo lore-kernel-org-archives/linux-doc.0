@@ -2,107 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA0E3C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C27C4332B
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:12:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CBE02242A
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:09:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7A41235F8
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:12:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbhANCF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:05:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45493 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729332AbhAMW12 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:27:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610576761;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=keqTD1feRGxMu1i6ZV8LKC0UZKTn6b0VdBTOntJphMk=;
-        b=U8ogMtfe7qw8vZkDmFeGWnC38Z9R64K/iv/+6IQkHKX51hSUvyTZzE4ahF1NJfypjPaQ46
-        ChgN1Rn/aJLSnfjewyhvEPWIor/4qAiToWVTzgRP/DpoYHR72Bq/Eu377Mln1UOuQr/xys
-        qgmBF3dLNgckD/fAWo8lEHYYf8lRnUk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-j1KIj2juPlK1m70KZ2kQIQ-1; Wed, 13 Jan 2021 17:25:55 -0500
-X-MC-Unique: j1KIj2juPlK1m70KZ2kQIQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9754C1060B08;
-        Wed, 13 Jan 2021 22:25:47 +0000 (UTC)
-Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 36A425D71D;
-        Wed, 13 Jan 2021 22:25:45 +0000 (UTC)
-Date:   Wed, 13 Jan 2021 16:25:41 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210113222541.ysvtievx4o5r42ym@treble>
-References: <20210113165743.3385-1-broonie@kernel.org>
- <20210113192735.rg2fxwlfrzueinci@treble>
- <20210113202315.GI4641@sirena.org.uk>
+        id S1725747AbhANCMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:12:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729234AbhAMWAw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:00:52 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D94CC061794
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 14:00:11 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id dj23so990083edb.13
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 14:00:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
+        b=uT51003CLT7E627tBqLkwWrU1PVJGq2/ZMQqORYgP/O2pHjSbQU/+++0TXmm4i8is6
+         OARUSIgqWunXkWiEvn7QA6CKb35uF8Ku1QQbQxnLocI54fY87d1EbdIGaxJQgPGPPNpG
+         sKynEK0BQxUKiAsyo3I9mUReOW0Yrn9p14437+A6dsPP1Ah98uXS0jQMFvcovol60ZyS
+         mpErIteohbvU2Vbc+tBEoTDcHUGjD8plBHS/VvZ8bC2qUmYs/Fh4YqJFb8PwkbC7S/Rl
+         h50qDhicSqelFiRP/M/ZqC6YzDMO9fwpdFAwGPpyDIkmBqB7cEsEmSgmsxP3cOFv8Hau
+         BwqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
+        b=kbLIEm20JuoRgybK7gbm8Kn0laWXMbQ23o+uRiJu3e8oM4xQhJQ+LZk6K6hgjroDse
+         7L5Ni6poyX7kAxawOVcI81QdLBth3QPhuN0sTOjG6t5XbWe7yKBsehxKt8duQgSk2J/l
+         n48xB5IYviwptIeosTad3/PQS2yrk29Bl80IaM7afx6caQH0R5pnuDiTGL8KS5mWpQZu
+         HymLhtb+jjya57aBQA6bB/MJ3M1EazpECxQs14MDhHtIP25kAQ8cMy/YfYvYjYF4TOim
+         GWhNKjiNaU2MOjqt0lwMHCmXuX3EhKZQLChsNi+CIus6fd2iWPbtjUusyYEZ45tumSyj
+         UtpQ==
+X-Gm-Message-State: AOAM5308SCf8V683+x2walFI6O+T9ovMxjaedyDWmUasFocZ5ro3WREt
+        ASZqNdJDXg0KaABgU14A+3sfy6/zra3oixoI3qix
+X-Google-Smtp-Source: ABdhPJyE5JEDE4oM6JhTLtfMhJ6qJ3TrnMrYS6u1lrad/w+TvlD7eZ8Y1v59rsqWDpKMCpdfypcrgKeOBUbXOvRRpc4=
+X-Received: by 2002:a05:6402:513:: with SMTP id m19mr3469396edv.244.1610575209296;
+ Wed, 13 Jan 2021 14:00:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210113202315.GI4641@sirena.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
+ <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+In-Reply-To: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+From:   Bill Wendling <morbo@google.com>
+Date:   Wed, 13 Jan 2021 13:59:57 -0800
+Message-ID: <CAGG=3QVK9KvxDi7b51Fyh=NLKVQka8ZxJeWzchaiDM=78_X3Tw@mail.gmail.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 08:23:15PM +0000, Mark Brown wrote:
-> On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
-> 
-> > I think it's worth mentioning a little more about objtool.  There are a
-> > few passing mentions of objtool's generation of metadata (i.e. ORC), but
-> > objtool has another relevant purpose: stack validation.  That's
-> > particularly important when it comes to frame pointers.
-> 
-> > For some architectures like x86_64 and arm64 (but not powerpc/s390),
-> > it's far too easy for a human to write asm and/or inline asm which
-> > violates frame pointer protocol, silently causing the violater's callee
-> > to get skipped in the unwind.  Such architectures need objtool
-> > implemented for CONFIG_STACK_VALIDATION.
-> 
-> This basically boils down to just adding a statement saying "you may
-> need to depend on objtool" I think?
+On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> Hi Bill,
+>
+> On Tue, Jan 12, 2021 at 10:19:58PM -0800, Bill Wendling wrote:
+> > From: Sami Tolvanen <samitolvanen@google.com>
+> >
+> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
+> > profile, the kernel is instrumented with PGO counters, a representative
+> > workload is run, and the raw profile data is collected from
+> > /sys/kernel/debug/pgo/profraw.
+> >
+> > The raw profile data must be processed by clang's "llvm-profdata" tool
+> > before it can be used during recompilation:
+> >
+> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> >
+> > Multiple raw profiles may be merged during this step.
+> >
+> > The data can now be used by the compiler:
+> >
+> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
+> >
+> > This initial submission is restricted to x86, as that's the platform we
+> > know works. This restriction can be lifted once other platforms have
+> > been verified to work with PGO.
+> >
+> > Note that this method of profiling the kernel is clang-native, unlike
+> > the clang support in kernel/gcov.
+> >
+> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
+> >
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > Co-developed-by: Bill Wendling <morbo@google.com>
+> > Signed-off-by: Bill Wendling <morbo@google.com>
+> > Change-Id: Ic78e69c682286d3a44c4549a0138578c98138b77
+>
+> Small nit: This should be removed.
+>
+Grrr....The git hook keeps adding it in there. :-(
 
-Right, but maybe it would be a short paragraph or two.
+> I applied this patch on top of v5.11-rc3, built it with LLVM 12
+> (f1d5cbbdee5526bc86eac0a5652b115d9bc158e5 + D94470) with Microsoft's
+> WSL 5.4 config [1] + CONFIG_PGO_CLANG=y, and ran it on WSL2.
+>
+> $ zgrep PGO /proc/config.gz
+> # Profile Guided Optimization (PGO) (EXPERIMENTAL)
+> CONFIG_ARCH_SUPPORTS_PGO_CLANG=y
+> CONFIG_PGO_CLANG=y
+> # end of Profile Guided Optimization (PGO) (EXPERIMENTAL)
+>
+> However, I see an issue with actually using the data:
+>
+> $ sudo -s
+> # mount -t debugfs none /sys/kernel/debug
+> # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> # chown nathan:nathan vmlinux.profraw
+> # exit
+> $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+> error: No profiles could be merged.
+>
+> Am I holding it wrong? :) Note, this is virtualized, I do not have any
+> "real" x86 hardware that I can afford to test on right now.
+>
+> [1]: https://github.com/microsoft/WSL2-Linux-Kernel/raw/linux-msft-wsl-5.4.y/Microsoft/config-wsl
+>
+Could you send me the vmlinux.profraw file? (Don't CC this list.)
 
-> > > +There are several ways an architecture may identify kernel code which is deemed
-> > > +unreliable to unwind from, e.g.
-> 
-> > > +* Using metadata created by objtool, with such code annotated with
-> > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
-> 
-> > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
-> > necessarily mean the code is unreliable, and objtool doesn't treat it as
-> > such.  Its mention can probably be removed unless there was some other
-> > point I'm missing.
-> 
-> I was reading that as being a thing that the architecture could possibly
-> do, especially as a first step - it does seem like a reasonable thing to
-> consider using anyway.  I guess you could also use it the other way
-> around and do additional checks for things that are supposed to be
-> regular functions that you relax for SYM_CODE() sections.
-
-Makes sense, but we have to be careful not to imply that objtool already
-does something like that :-)
-
--- 
-Josh
-
+-bw
