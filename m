@@ -2,119 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B6DC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:21:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F4BC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:26:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60905239EC
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:21:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BA3E23447
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:26:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbhANIVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 03:21:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726204AbhANIVg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:21:36 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 15CF22343F;
-        Thu, 14 Jan 2021 08:20:55 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1kzxsC-007S2r-Pq; Thu, 14 Jan 2021 08:20:53 +0000
+        id S1727374AbhANI01 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:26:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727251AbhANI00 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 03:26:26 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9461EC061575
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 00:25:46 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzxws-00032n-W1; Thu, 14 Jan 2021 09:25:42 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kzxws-0005SP-Jl; Thu, 14 Jan 2021 09:25:42 +0100
+Message-ID: <e9101eaf68398db4ee607ea583606c744bbb4578.camel@pengutronix.de>
+Subject: Re: [PATCH v6 14/16] reset: core: fix a kernel-doc markup
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org
+Date:   Thu, 14 Jan 2021 09:25:42 +0100
+In-Reply-To: <8defd442bce0cf5524cf1cfbbd028eede90358a7.1610610937.git.mchehab+huawei@kernel.org>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org>
+         <8defd442bce0cf5524cf1cfbbd028eede90358a7.1610610937.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Thu, 14 Jan 2021 08:20:52 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Srinivas Ramana <sramana@codeaurora.org>
-Cc:     catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 0/3] arm64: cpufeature: Add filter function to control
-In-Reply-To: <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
-References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
- <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
- <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <7b53c01dd5afcb29679c3a9cf72407a9@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: sramana@codeaurora.org, catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-01-14 07:15, Srinivas Ramana wrote:
-> Hi Marc,
+Hi Mauro,
+
+On Thu, 2021-01-14 at 09:04 +0100, Mauro Carvalho Chehab wrote:
+> A function has a different name between their prototype
+> and its kernel-doc markup:
 > 
-> On 1/11/2021 5:40 AM, Marc Zyngier wrote:
->> Hi Srinivas,
->> 
->> On 2021-01-09 00:29, Srinivas Ramana wrote:
->>> This patchset adds a control function for cpufeature framework
->>> so that the feature can be controlled at runtime.
->>> 
->>> Defer PAC on boot core and use the filter function added to disable
->>> PAC from command line. This will help toggling the feature on systems
->>> that do not support PAC or where PAC needs to be disabled at runtime,
->>> without modifying the core kernel.
->>> 
->>> The idea of adding the filter function for cpufeature is taken from
->>> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-25-catalin.marinas@arm.com/ 
->>> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-24-catalin.marinas@arm.com/ 
->>> Srinivas Ramana (3):
->>>   arm64: Defer enabling pointer authentication on boot core
->>>   arm64: cpufeature: Add a filter function to cpufeature
->>>   arm64: Enable control of pointer authentication using early param
->>> 
->>>  Documentation/admin-guide/kernel-parameters.txt |  6 +++
->>>  arch/arm64/include/asm/cpufeature.h             |  8 +++-
->>>  arch/arm64/include/asm/pointer_auth.h           | 10 +++++
->>>  arch/arm64/include/asm/stackprotector.h         |  1 +
->>>  arch/arm64/kernel/cpufeature.c                  | 53 
->>> +++++++++++++++++++------
->>>  arch/arm64/kernel/head.S                        |  4 --
->>>  6 files changed, 64 insertions(+), 18 deletions(-)
->> 
->> I've been working for some time on a similar series to allow a feature
->> set to be disabled during the early boot phase, initially to prevent
->> booting a kernel with VHE, but the mechanism is generic enough to
->> deal with most architectural features.
->> 
->> I took the liberty to lift your first patch and to add it to my 
->> series[1],
->> further allowing PAuth to be disabled at boot time on top of BTI and 
->> VHE.
->> 
->> I'd appreciate your comments on this.
-> Thanks for sending this series. It seems to be more flexible compared
-> you what we did.
-> Following your discussion on allowing EXACT ftr_reg values.
+> 	../drivers/reset/core.c:888: warning: expecting prototype for device_reset(). Prototype was for __device_reset() instead
 > 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/reset/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Btw, do you have plan to add MTE in similar lines to control the 
-> feature?
-> We may be needing this on some systems.
+> diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+> index 34e89aa0fb5e..dbf881b586d9 100644
+> --- a/drivers/reset/core.c
+> +++ b/drivers/reset/core.c
+> @@ -875,8 +875,8 @@ struct reset_control *__devm_reset_control_get(struct device *dev,
+>  EXPORT_SYMBOL_GPL(__devm_reset_control_get);
+>  
+>  /**
+> - * device_reset - find reset controller associated with the device
+> - *                and perform reset
+> + * __device_reset - find reset controller associated with the device
+> + *                  and perform reset
+>   * @dev: device to be reset by the controller
+>   * @optional: whether it is optional to reset the device
+>   *
 
-I don't have any need for this at the moment, as my initial goal was
-to enable a different boot flow for VHE. The BTI "support" was added
-as a way to demonstrate the use of __read_sysreg_by_encoding(), and
-your patches were a good opportunity to converge on a single solution.
+Thank you, applied to reset/next.
 
-But if you write the patches that do that, I can add them to the series,
-and Catalin/Will can decide whether they want to take them.
-
-Thanks,
-
-         M.
--- 
-Jazz is not dead. It just smells funny...
+regards
+Philipp
