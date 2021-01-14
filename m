@@ -4,45 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42777C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F592C433E6
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:07:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F15F6233FD
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:07:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43FF1238EA
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:07:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728249AbhANIGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 03:06:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58994 "EHLO mail.kernel.org"
+        id S1728311AbhANIGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:06:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59010 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726897AbhANIGi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:06:38 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DC4FC23A5C;
+        id S1728117AbhANIGX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 03:06:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 498F923A21;
         Thu, 14 Jan 2021 08:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610611501;
-        bh=a0ruAOkURcxqf2cnrjaNfUo/uSsvM0xN/YXaNx+qrxI=;
+        s=k20201202; t=1610611500;
+        bh=lsHLlzifMdLeh1RjXgXq4YH0nFTVQMHUlzqRL8ytCbM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ejHD3cHRNzxG/8ISJyZJh80HrJaYCK4HaumrrcNaacs6SRbcLL4zss79d4QeXwVws
-         OyYH9UvRl5PpGrBsn1dXndiE3421jomppDFd60UgtbV5r2Zn0dNL2spUBvhZHrU8H7
-         5lTq7PjdIoGH8b+uYpbB3nZJA4TEfJfvFsZ1CaJFqwPKa9dKgrR0nQUckPFkyleNkV
-         R3lMKUF+S94QGGE1DxJI8lTzt5VVToZbuh+f5AqBZOyjl+3kgHjD2o9XuWUspQ/fne
-         7zUqQoVPdzydt26LD7PbBftXZvr2JqHoI3Jax+7OA9P6oK/ZnVvqACpbJTDiPv3/Y2
-         jwH+4Uv8i/B7A==
+        b=BVoPSYZeaO3+EqGZlYd47ZQh+7h2gGRbGYiMnF7O3RGWiop/ZL4bULR6Tj537YLtL
+         2uQRwbluVqEq4qyA7NJbCKAzUoBTwGoKhuPHGPUcgQwbhoyvbNUNru0VrpbR+kEYT+
+         hjKwjdupWkFlnmXj8Z0bVnSBQWq+o4z6OqCq2higqpK4jSZ7XOv8tF3DAicmp6zZCQ
+         eMj0t0MkxZsTPtWKAVe0F4tpTTyNkC/Zsf/TVsgRK89Ijkwutcax5Oa0NVnatprl/z
+         J6gxWLBrkLV0fx3dKG2MHKWIKs+NMxwHhgbyQa/qKu9wP4zNH6dURNHDphm3grayND
+         BtvwYA3/U7C7Q==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxcn-00EQ6P-M6; Thu, 14 Jan 2021 09:04:57 +0100
+        id 1kzxco-00EQ6m-5l; Thu, 14 Jan 2021 09:04:58 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v6 01/16] parport: fix a kernel-doc markup
-Date:   Thu, 14 Jan 2021 09:04:37 +0100
-Message-Id: <dc0778af8c466cc667409ead05876a5cfd3cbece.1610610937.git.mchehab+huawei@kernel.org>
+        Andy Lutomirski <luto@amacapital.net>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <shuah@kernel.org>, Will Drewry <wad@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v6 10/16] selftests: kselftest_harness.h: partially fix kernel-doc markups
+Date:   Thu, 14 Jan 2021 09:04:46 +0100
+Message-Id: <8383758160fdb4fcbb2ac56beeb874ca6dffc6b9.1610610937.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610937.git.mchehab+huawei@kernel.org>
 References: <cover.1610610937.git.mchehab+huawei@kernel.org>
@@ -53,73 +55,145 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel-doc markup inside share.c is actually for
-__parport_register_driver. The actual goal seems to be
-to document parport_register_driver().
+The kernel-doc markups on this file are weird: they don't
+follow what's specified at:
 
-So, fix the existing markup and add a new one.
+	Documentation/doc-guide/kernel-doc.rst
 
+In particular, markups should use this format:
+        identifier - description
+
+and not this:
+	identifier(args)
+
+The way the definitions are inside this file cause the
+parser to completely miss the identifier name of each
+function.
+
+This prevents improving the script to do some needed validation
+tests.
+
+Address this part. Yet, furter changes are needed in order
+for it to fully follow the specs.
+
+Acked-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/parport/share.c |  2 +-
- include/linux/parport.h | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ tools/testing/selftests/kselftest_harness.h | 26 ++++++++++++---------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/parport/share.c b/drivers/parport/share.c
-index 7fec4fefe151..62f8407923d4 100644
---- a/drivers/parport/share.c
-+++ b/drivers/parport/share.c
-@@ -243,7 +243,7 @@ static int port_detect(struct device *dev, void *dev_drv)
- }
+diff --git a/tools/testing/selftests/kselftest_harness.h b/tools/testing/selftests/kselftest_harness.h
+index edce85420d19..ae0f0f33b2a6 100644
+--- a/tools/testing/selftests/kselftest_harness.h
++++ b/tools/testing/selftests/kselftest_harness.h
+@@ -79,7 +79,7 @@
+ #endif
  
  /**
-- *	parport_register_driver - register a parallel port device driver
-+ *	__parport_register_driver - register a parallel port device driver
-  *	@drv: structure describing the driver
-  *	@owner: owner module of drv
-  *	@mod_name: module name string
-diff --git a/include/linux/parport.h b/include/linux/parport.h
-index 1fb508c19e83..f981f794c850 100644
---- a/include/linux/parport.h
-+++ b/include/linux/parport.h
-@@ -297,6 +297,37 @@ int __must_check __parport_register_driver(struct parport_driver *,
-  * parport_register_driver must be a macro so that KBUILD_MODNAME can
-  * be expanded
-  */
-+
-+/**
-+ *	parport_register_driver - register a parallel port device driver
-+ *	@driver: structure describing the driver
-+ *
-+ *	This can be called by a parallel port device driver in order
-+ *	to receive notifications about ports being found in the
-+ *	system, as well as ports no longer available.
-+ *
-+ *	If devmodel is true then the new device model is used
-+ *	for registration.
-+ *
-+ *	The @driver structure is allocated by the caller and must not be
-+ *	deallocated until after calling parport_unregister_driver().
-+ *
-+ *	If using the non device model:
-+ *	The driver's attach() function may block.  The port that
-+ *	attach() is given will be valid for the duration of the
-+ *	callback, but if the driver wants to take a copy of the
-+ *	pointer it must call parport_get_port() to do so.  Calling
-+ *	parport_register_device() on that port will do this for you.
-+ *
-+ *	The driver's detach() function may block.  The port that
-+ *	detach() is given will be valid for the duration of the
-+ *	callback, but if the driver wants to take a copy of the
-+ *	pointer it must call parport_get_port() to do so.
-+ *
-+ *
-+ *	Returns 0 on success. The non device model will always succeeds.
-+ *	but the new device model can fail and will return the error code.
-+ **/
- #define parport_register_driver(driver)             \
- 	__parport_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
+- * TH_LOG(fmt, ...)
++ * TH_LOG()
+  *
+  * @fmt: format string
+  * @...: optional arguments
+@@ -113,12 +113,16 @@
+ 			__FILE__, __LINE__, _metadata->name, ##__VA_ARGS__)
  
+ /**
+- * SKIP(statement, fmt, ...)
++ * SKIP()
+  *
+  * @statement: statement to run after reporting SKIP
+  * @fmt: format string
+  * @...: optional arguments
+  *
++ * .. code-block:: c
++ *
++ *     SKIP(statement, fmt, ...);
++ *
+  * This forces a "pass" after reporting why something is being skipped
+  * and runs "statement", which is usually "return" or "goto skip".
+  */
+@@ -136,7 +140,7 @@
+ } while (0)
+ 
+ /**
+- * TEST(test_name) - Defines the test function and creates the registration
++ * TEST() - Defines the test function and creates the registration
+  * stub
+  *
+  * @test_name: test name
+@@ -155,7 +159,7 @@
+ #define TEST(test_name) __TEST_IMPL(test_name, -1)
+ 
+ /**
+- * TEST_SIGNAL(test_name, signal)
++ * TEST_SIGNAL()
+  *
+  * @test_name: test name
+  * @signal: signal number
+@@ -195,7 +199,7 @@
+ 		struct __test_metadata __attribute__((unused)) *_metadata)
+ 
+ /**
+- * FIXTURE_DATA(datatype_name) - Wraps the struct name so we have one less
++ * FIXTURE_DATA() - Wraps the struct name so we have one less
+  * argument to pass around
+  *
+  * @datatype_name: datatype name
+@@ -212,7 +216,7 @@
+ #define FIXTURE_DATA(datatype_name) struct _test_data_##datatype_name
+ 
+ /**
+- * FIXTURE(fixture_name) - Called once per fixture to setup the data and
++ * FIXTURE() - Called once per fixture to setup the data and
+  * register
+  *
+  * @fixture_name: fixture name
+@@ -239,7 +243,7 @@
+ 	FIXTURE_DATA(fixture_name)
+ 
+ /**
+- * FIXTURE_SETUP(fixture_name) - Prepares the setup function for the fixture.
++ * FIXTURE_SETUP() - Prepares the setup function for the fixture.
+  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
+  *
+  * @fixture_name: fixture name
+@@ -265,7 +269,7 @@
+ 			__attribute__((unused)) *variant)
+ 
+ /**
+- * FIXTURE_TEARDOWN(fixture_name)
++ * FIXTURE_TEARDOWN()
+  * *_metadata* is included so that EXPECT_* and ASSERT_* work correctly.
+  *
+  * @fixture_name: fixture name
+@@ -286,7 +290,7 @@
+ 		FIXTURE_DATA(fixture_name) __attribute__((unused)) *self)
+ 
+ /**
+- * FIXTURE_VARIANT(fixture_name) - Optionally called once per fixture
++ * FIXTURE_VARIANT() - Optionally called once per fixture
+  * to declare fixture variant
+  *
+  * @fixture_name: fixture name
+@@ -305,7 +309,7 @@
+ #define FIXTURE_VARIANT(fixture_name) struct _fixture_variant_##fixture_name
+ 
+ /**
+- * FIXTURE_VARIANT_ADD(fixture_name, variant_name) - Called once per fixture
++ * FIXTURE_VARIANT_ADD() - Called once per fixture
+  * variant to setup and register the data
+  *
+  * @fixture_name: fixture name
+@@ -339,7 +343,7 @@
+ 		_##fixture_name##_##variant_name##_variant =
+ 
+ /**
+- * TEST_F(fixture_name, test_name) - Emits test registration and helpers for
++ * TEST_F() - Emits test registration and helpers for
+  * fixture-based test cases
+  *
+  * @fixture_name: fixture name
 -- 
 2.29.2
 
