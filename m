@@ -7,42 +7,43 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCE6C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A07C433DB
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:05:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 773C12343F
+	by mail.kernel.org (Postfix) with ESMTP id 1B154239EB
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:05:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727866AbhANIFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1727831AbhANIFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 14 Jan 2021 03:05:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58588 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:58584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727804AbhANIFk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727211AbhANIFk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 14 Jan 2021 03:05:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E6795239EB;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E43C8238EA;
         Thu, 14 Jan 2021 08:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610611500;
-        bh=2BuAo0SztALzq+4QXoe4fcw+TV6vLiGyckU2nh9AMTg=;
+        bh=8YHXF8LwX1TmwYygkprhErueMSfBozRvFPLxH1qoi5Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Jjq30fRkKJPCi+ynRJTUV5ICJEQ2ro4nM+gZnV6LVWKCVm7wH0aCG43HpNJLDbTIu
-         29CBULsMZt5vJ8WIjm1V02BdSHW9uAVQw7ciAwdXOpyNlf5QeH3pK4EqRGLpvuOu94
-         m7hLmGEi56bN7/YrZVae0BaKP6iu5w3kU56E3pCGDTVcUHNQmJ6Jl7X2yejSW5NOWg
-         Go+qXcb+m6QzfM7y0NVzDvAUfp5m3thzuhdjRln1CT5UYWXPko379rDTpPqSgNdlWu
-         ed6mOYq+HxOGOlMJY2Z+D8pp3Ym+RXCx4L8pcbZme6eRQLAfDM0CmUVrsOXlT2TlNQ
-         N5TPgnoF4W9hQ==
+        b=gs7qjjJkeGF8uLleroYhYg/5dscGsLzSDT+69GsZnwAw97R1eOkQVGfBdxGVRQWn2
+         Q7cA5ooVAToCvCcxltHd4d/TWCPb314W6SUMC244PxG3+FV1xHnVluWyzp+QupEqCq
+         a/hNpvoG+bGlFRN0gpT2uPXrvW7xjjhCUGZ3nQAdYA4JhklUK200KvWVWm5gMvd5ho
+         4zAFxLsp9GCtibcaybB8AmdzIL+mAO4vcEZonhPLfgBRXQdEAysfMGZ1YkpI2nOzpp
+         xJHiqIML5h4SqYkAnPTi7cjNbim+6JrVK4GqzrJBL27ItFTkR181GRmxrCmOs/P2jM
+         KavhgTUyoFdtQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxcn-00EQ6Y-Si; Thu, 14 Jan 2021 09:04:57 +0100
+        id 1kzxcn-00EQ6R-Nm; Thu, 14 Jan 2021 09:04:57 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Richard Gong <richard.gong@linux.intel.com>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v6 05/16] firmware: stratix10-svc: fix kernel-doc markups
-Date:   Thu, 14 Jan 2021 09:04:41 +0100
-Message-Id: <02a1eb47767e01e875d8840805b8b2d4f3c6bdee.1610610937.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 02/16] rapidio: fix kernel-doc a markup
+Date:   Thu, 14 Jan 2021 09:04:38 +0100
+Message-Id: <e23e64983788a51dd9099e2b0d881e1f64ecbc5b.1610610937.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610937.git.mchehab+huawei@kernel.org>
 References: <cover.1610610937.git.mchehab+huawei@kernel.org>
@@ -53,67 +54,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some common comments marked, instead, with kernel-doc
-notation, which won't work.
+Probaly this was due to a cut and paste issue.
 
-While here, rename an identifier, in order to match the
-function prototype below kernel-doc markup.
-
-Acked-by: Richard Gong <richard.gong@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/firmware/intel/stratix10-svc-client.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/rapidio/rio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/firmware/intel/stratix10-svc-client.h b/include/linux/firmware/intel/stratix10-svc-client.h
-index a93d85932eb9..ebc295647581 100644
---- a/include/linux/firmware/intel/stratix10-svc-client.h
-+++ b/include/linux/firmware/intel/stratix10-svc-client.h
-@@ -6,7 +6,7 @@
- #ifndef __STRATIX10_SVC_CLIENT_H
- #define __STRATIX10_SVC_CLIENT_H
- 
--/**
-+/*
-  * Service layer driver supports client names
-  *
-  * fpga: for FPGA configuration
-@@ -15,7 +15,7 @@
- #define SVC_CLIENT_FPGA			"fpga"
- #define SVC_CLIENT_RSU			"rsu"
- 
--/**
-+/*
-  * Status of the sent command, in bit number
-  *
-  * SVC_STATUS_OK:
-@@ -50,7 +50,7 @@
- #define SVC_STATUS_ERROR		5
- #define SVC_STATUS_NO_SUPPORT		6
- 
--/**
-+/*
-  * Flag bit for COMMAND_RECONFIG
-  *
-  * COMMAND_RECONFIG_FLAG_PARTIAL:
-@@ -58,7 +58,7 @@
-  */
- #define COMMAND_RECONFIG_FLAG_PARTIAL	1
- 
--/**
-+/*
-  * Timeout settings for service clients:
-  * timeout value used in Stratix10 FPGA manager driver.
-  * timeout value used in RSU driver
-@@ -218,7 +218,7 @@ void stratix10_svc_free_memory(struct stratix10_svc_chan *chan, void *kaddr);
- int stratix10_svc_send(struct stratix10_svc_chan *chan, void *msg);
+diff --git a/drivers/rapidio/rio.c b/drivers/rapidio/rio.c
+index c2b79736a92b..e74cf09eeff0 100644
+--- a/drivers/rapidio/rio.c
++++ b/drivers/rapidio/rio.c
+@@ -749,7 +749,7 @@ int rio_map_outb_region(struct rio_mport *mport, u16 destid, u64 rbase,
+ EXPORT_SYMBOL_GPL(rio_map_outb_region);
  
  /**
-- * intel_svc_done() - complete service request
-+ * stratix10_svc_done() - complete service request
-  * @chan: service channel assigned to the client
-  *
-  * This function is used by service client to inform service layer that
+- * rio_unmap_inb_region -- Unmap the inbound memory region
++ * rio_unmap_outb_region -- Unmap the inbound memory region
+  * @mport: Master port
+  * @destid: destination id mapping points to
+  * @rstart: RIO base address window translates to
 -- 
 2.29.2
 
