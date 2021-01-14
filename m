@@ -2,107 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A52E1C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:04:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E102FC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:06:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6ECAA2343F
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:04:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A07E823447
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729371AbhAMWdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 17:33:54 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:48526 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726636AbhAMWdM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:33:12 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DMO15C022373;
-        Wed, 13 Jan 2021 22:31:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=cbAaYYA369SOVtMavd6SqpAAxPSZNSJN5l6rUr3r578=;
- b=hw1PkC/sUHVQ3mQIsWe5wLnCnD2UBEsLkifv+QVZj58xK8X58jAvZHonkY4pgU3pvEDj
- Qbdg//OBSnnr5KhM1CRI+pUx8YpfyfYH6j9jCGSIiEjGCAW7ADrY1s+JbJ/rPaKRuNJ7
- PqW5Aff7qhKGiz3m9c3YZnYnV0paT2Loxi7cTh/BWnDyVYu5qdlqzBieH8mF1mYGr9+i
- WmNU4hCwh6GoY2StJhoj56q3c00HmJooyE3Mwy2Jczgsm0mtYCv1nuUF0ON7KkDArGIg
- 9BElpiJWUeQU2dZSNnu4fGH2edtGH636RDEeJH74U0UD8GUsWHc3t9/2mS/wRnSnNS1u Mg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 360kcywv8r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 Jan 2021 22:31:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DMTfZl061547;
-        Wed, 13 Jan 2021 22:31:11 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 360ke9591t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 Jan 2021 22:31:11 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DMUxqN029174;
-        Wed, 13 Jan 2021 22:31:00 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 13 Jan 2021 14:30:59 -0800
-Subject: Re: [PATCH v12 03/13] mm: Introduce VM_WARN_ON_PAGE macro
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
-        song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20210106141931.73931-1-songmuchun@bytedance.com>
- <20210106141931.73931-4-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <65b2103d-6198-3380-d36e-17dd774359bd@oracle.com>
-Date:   Wed, 13 Jan 2021 14:30:57 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1728146AbhANCGa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:06:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728177AbhANCGZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 21:06:25 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3C7C061795
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 18:05:45 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id x18so2130262pln.6
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 18:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2y4dk7RPy1+H0zBuDXTEaauzgo/RetPwOeAaLDfjsos=;
+        b=UpT9ATiPlrxe65QqRf52h7JcDgIOjOU50wd3rc5S9/fV1avkZ2eqPth/QvTvho4x9w
+         qsTlhFHkubqvIgFbgFHx92IbNW4Y3kv8zfzJfv4tAuMY/DtxjjfucLRzjFgpIcN82NFu
+         /FE54vyYFFQtcmNzhkpjpGtv04Mnk6SM9dkBZ53AhH9ruh4Qf2WIYv+Z+qI9BxN8s9QF
+         U/eGBztIpNLXb+49weYiN70xs4ZdpUMCKIIKsImGXNuVcKfiEPOAjj7VeNUV3hiuDx+0
+         rimY09LTPOCmJZLN0mvnpkZ5D3ycFug3NZKq8vIC086Xu565ybhjJ+ZeQ9cf78tGVMfE
+         1khg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2y4dk7RPy1+H0zBuDXTEaauzgo/RetPwOeAaLDfjsos=;
+        b=JPCjQu6xHcZMvhSacG4Ct+p8A3azs/0XukFxuWFaTIpoFl2AkzE0sbJ770nD9b+43c
+         /feFLcOUdIUv+qldDztC3LiL7sxi5sK2+RNUNErpEboLHvz3hQGVSESOaU5iqeU2mAfy
+         efxPRFxxu5Wb3qzcU7ViYpFqXa5qPHmoZ/3NMVZD35Zyrl7yn19UYszRmVzdPzWmKifk
+         VIoY3RlLmncijmE30yfDNel00yi7fmmk3EwUX3BWZwuvr0r6eh0GiJU1N64MjRfQsDmu
+         OeSZ6eDiKD3ssyS0AYF7VXZA15F8UglX0AnQnUaJ4I6NZXp664u+JLhu+CKUw/hMVDH4
+         aUcA==
+X-Gm-Message-State: AOAM531VsDZFzxsK6XhTYDGAirjBGdPJq2QyXiyw630q6lanxi2naAd6
+        9udX1xJCqpYvkUchTlu43mmK0ekl00BXpB7wNOs3OA==
+X-Google-Smtp-Source: ABdhPJzzbSwVqR4cFKreQ20J4RGA70jhmZkdQ+qNkNyV4tIa56erUcX5ihAZGP5O/T6NW0QfyYQS2oDli/oYDXvJh6s=
+X-Received: by 2002:a17:90a:9915:: with SMTP id b21mr2352305pjp.101.1610589944646;
+ Wed, 13 Jan 2021 18:05:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210106141931.73931-4-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130135
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0
- impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101130134
+References: <20210114003447.7363-1-natechancellor@gmail.com> <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com>
+In-Reply-To: <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 13 Jan 2021 18:05:32 -0800
+Message-ID: <CAKwvOdmr7RttdM25wWKiV8t+tzn8W-C_U6avwrQXQWphT8XhXQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported architectures
+To:     Nathan Chancellor <natechancellor@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/6/21 6:19 AM, Muchun Song wrote:
-> Very similar to VM_WARN_ON_ONCE_PAGE and VM_BUG_ON_PAGE, add
-> VM_WARN_ON_PAGE macro.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  include/linux/mmdebug.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On Wed, Jan 13, 2021 at 5:19 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Patch looks fine, but `make -j htmldocs` seems to be taking forever
+> for me so I can't render it. Is this a known issue?
+>
+> $ make -j htmldocs
 
-I was going to question the use/need for this macro in the following
-patch.  Looks like Oscar has already done that, and free_bootmem_page
-will now use VM_BUG_ON_PAGE.  So, this patch can be dropped.
+Just took a while, lots of warning spew (but not from this addition AFAICT).
+Reviewed-by: Nick Desaulniers <ndesaulnier@google.com>
+
+>
+> On Wed, Jan 13, 2021 at 4:35 PM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> >
+> > The most common question around building the Linux kernel with clang is
+> > "does it work?" and the answer has always been "it depends on your
+> > architecture, configuration, and LLVM version" with no hard answers for
+> > users wanting to experiment. LLVM support has significantly improved
+> > over the past couple of years, resulting in more architectures and
+> > configurations supported, and continuous integration has made it easier
+> > to see what works and what does not.
+> >
+> > Add a section that goes over what architectures are supported in the
+> > current kernel version, how they should be built (with just clang or the
+> > LLVM utilities as well), and the level of support they receive. This
+> > will make it easier for people to try out building their kernel with
+> > LLVM and reporting issues that come about from it.
+> >
+> > Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> > ---
+> >  Documentation/kbuild/llvm.rst | 44 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> >
+> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> > index 21c847890d03..b18401d2ba82 100644
+> > --- a/Documentation/kbuild/llvm.rst
+> > +++ b/Documentation/kbuild/llvm.rst
+> > @@ -63,6 +63,50 @@ They can be enabled individually. The full list of the parameters: ::
+> >  Currently, the integrated assembler is disabled by default. You can pass
+> >  ``LLVM_IAS=1`` to enable it.
+> >
+> > +Supported Architectures
+> > +-----------------------
+> > +
+> > +LLVM does not target all of the architectures that Linux supports and
+> > +just because a target is supported in LLVM does not mean that the kernel
+> > +will build or work without any issues. Below is a general summary of
+> > +architectures that currently work with ``CC=clang`` or ``LLVM=1``. Level
+> > +of support corresponds to "S" values in the MAINTAINERS files. If an
+> > +architecture is not present, it either means that LLVM does not target
+> > +it or there are known issues. Using the latest stable version of LLVM or
+> > +even the development tree will generally yield the best results.
+> > +An architecture's ``defconfig`` is generally expected to work well,
+> > +certain configurations may have problems that have not been uncovered
+> > +yet. Bug reports are always welcome at the issue tracker below!
+> > +
+> > +.. list-table::
+> > +   :widths: 10 10 10
+> > +   :header-rows: 1
+> > +
+> > +   * - Architecture
+> > +     - Level of support
+> > +     - ``make`` command
+> > +   * - arm
+> > +     - Supported
+> > +     - ``LLVM=1``
+> > +   * - arm64
+> > +     - Supported
+> > +     - ``LLVM=1``
+> > +   * - mips
+> > +     - Maintained
+> > +     - ``CC=clang``
+> > +   * - powerpc
+> > +     - Maintained
+> > +     - ``CC=clang``
+> > +   * - riscv
+> > +     - Maintained
+> > +     - ``CC=clang``
+> > +   * - s390
+> > +     - Maintained
+> > +     - ``CC=clang``
+> > +   * - x86
+> > +     - Supported
+> > +     - ``LLVM=1``
+> > +
+> >  Getting Help
+> >  ------------
+> >
+> >
+> > base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+> > --
+> > 2.30.0
+> >
+>
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
+
+
 
 -- 
-Mike Kravetz
+Thanks,
+~Nick Desaulniers
