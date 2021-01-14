@@ -2,130 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E90ABC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 762F2C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:22:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD144238E5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33C59239E7
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbhANHRB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:17:01 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:47668 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbhANHRB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 02:17:01 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610608602; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=FN3E/oAA1UAVugKo11WqqqWS0f5OjU9KG4IozIMrmA8=; b=pwMctx9Mi2sYRVx1Njniek/yJSJEiSA8vHE7tn409eqkR6so9MvN5mdklDZD0RTWZZ+nrybw
- OHVniw3u6oC/ImO+7BwDhTo0vk2pueY9HUHUXFOmy0J4JjTryAtabjFt2lefhRSLWKKbmaOu
- VmJQZgHnXpqnZFyxvRpplczi1f8=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
- 5fffefa5d84bad3547c4b635 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 14 Jan 2021 07:15:49
- GMT
-Sender: sramana=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id F3C48C43464; Thu, 14 Jan 2021 07:15:48 +0000 (UTC)
-Received: from [192.168.1.11] (cpe-70-95-74-122.san.res.rr.com [70.95.74.122])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: sramana)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BDD78C433C6;
-        Thu, 14 Jan 2021 07:15:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BDD78C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sramana@codeaurora.org
-Subject: Re: [PATCH 0/3] arm64: cpufeature: Add filter function to control
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
- <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
-From:   Srinivas Ramana <sramana@codeaurora.org>
-Message-ID: <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
-Date:   Wed, 13 Jan 2021 23:15:47 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S1727040AbhANHWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 02:22:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51524 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726266AbhANHWu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 02:22:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45AAF239CF;
+        Thu, 14 Jan 2021 07:22:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610608929;
+        bh=x4ASfSl6fNvoaHZTcA9U5vpjYi6k+c+UnmfBcNVRlbg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mJzvUksr9f794ozs47blsW0nhEkZ2Dc1SY0CbduyKJ3hh+keDXRwJ+or3Io7dIyhl
+         KWoIIrpavLASrvKbgVBM4ZUyZF+2nnwRYFVoTGBqLmnERfyHQYPagCpwgLS1E5FIZ/
+         a7iiKmuCWa87WIPYwL7ExCC0W6bDHcan7fhLPJORrL0Qgkm73NGpXQy6gktnnkdlVn
+         GOQpP07CA2Gw0PBUlCcXIRZFHntd66bQFUJRrWWrLFMoB9PkSHKKQyiJgU6zGSyew4
+         wJmR+c8gey9LqNpgQCkX6m8tClIxXZ0nnh1SGU/TS50nz71RHhLDs8doPEZZsoGVXV
+         nikQHRqBazKng==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kzwxK-00EOaD-8U; Thu, 14 Jan 2021 08:22:06 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
+Subject: [PATCH] rcu: better document kfree_rcu()
+Date:   Thu, 14 Jan 2021 08:22:02 +0100
+Message-Id: <2ec9a8bc8b411b04e2f541b285cc0a133a6d94de.1610608910.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marc,
+After changeset 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro"),
+kernel-doc now emits two warnings:
 
-On 1/11/2021 5:40 AM, Marc Zyngier wrote:
-> Hi Srinivas,
->
-> On 2021-01-09 00:29, Srinivas Ramana wrote:
->> This patchset adds a control function for cpufeature framework
->> so that the feature can be controlled at runtime.
->>
->> Defer PAC on boot core and use the filter function added to disable
->> PAC from command line. This will help toggling the feature on systems
->> that do not support PAC or where PAC needs to be disabled at runtime,
->> without modifying the core kernel.
->>
->> The idea of adding the filter function for cpufeature is taken from
->> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-25-catalin.marinas@arm.com/ 
->>
->> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-24-catalin.marinas@arm.com/ 
->>
->>
->> Srinivas Ramana (3):
->>   arm64: Defer enabling pointer authentication on boot core
->>   arm64: cpufeature: Add a filter function to cpufeature
->>   arm64: Enable control of pointer authentication using early param
->>
->>  Documentation/admin-guide/kernel-parameters.txt |  6 +++
->>  arch/arm64/include/asm/cpufeature.h             |  8 +++-
->>  arch/arm64/include/asm/pointer_auth.h           | 10 +++++
->>  arch/arm64/include/asm/stackprotector.h         |  1 +
->>  arch/arm64/kernel/cpufeature.c                  | 53 
->> +++++++++++++++++++------
->>  arch/arm64/kernel/head.S                        |  4 --
->>  6 files changed, 64 insertions(+), 18 deletions(-)
->
-> I've been working for some time on a similar series to allow a feature
-> set to be disabled during the early boot phase, initially to prevent
-> booting a kernel with VHE, but the mechanism is generic enough to
-> deal with most architectural features.
->
-> I took the liberty to lift your first patch and to add it to my 
-> series[1],
-> further allowing PAuth to be disabled at boot time on top of BTI and VHE.
->
-> I'd appreciate your comments on this.
-Thanks for sending this series. It seems to be more flexible compared 
-you what we did.
-Following your discussion on allowing EXACT ftr_reg values.
+	./include/linux/rcupdate.h:884: warning: Excess function parameter 'ptr' description in 'kfree_rcu'
+	./include/linux/rcupdate.h:884: warning: Excess function parameter 'rhf' description in 'kfree_rcu'
 
+What's happening here is that some macro magic was added in order
+to call two different versions of kfree_rcu(), being the first one
+with just one argument and a second one with two arguments.
 
-Btw, do you have plan to add MTE in similar lines to control the feature?
-We may be needing this on some systems.
->
-> Thanks,
->
->         M.
->
-> [1] https://lore.kernel.org/r/20210111132811.2455113-1-maz@kernel.org
+That makes harder to document the kfree_rcu() arguments, which
+also reflects on the documentation text.
 
+In order to make clearer that this macro accepts optional
+arguments, by using macro concatenation, changing its
+definition from:
+	#define kfree_rcu kvfree_rcu
 
-Thanks,
+to:
+	#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
 
--- Srinivas R
+That not only helps kernel-doc to understand the macro arguemnts,
+but also provides a better C definition that makes clearer that
+the first argument is mandatory and the second one is optional.
+
+Fixes: 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ include/linux/rcupdate.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+index bd04f722714f..5cc6deaa5df2 100644
+--- a/include/linux/rcupdate.h
++++ b/include/linux/rcupdate.h
+@@ -881,7 +881,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
+  * The BUILD_BUG_ON check must not involve any function calls, hence the
+  * checks are done in macros here.
+  */
+-#define kfree_rcu kvfree_rcu
++#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
+ 
+ /**
+  * kvfree_rcu() - kvfree an object after a grace period.
+-- 
+2.29.2
 
