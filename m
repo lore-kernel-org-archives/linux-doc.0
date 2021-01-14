@@ -2,164 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 496EDC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 13:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C783FC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:14:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B61E23A60
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 13:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EF8223A56
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:14:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbhANNvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 08:51:25 -0500
-Received: from mail-dm6nam11on2083.outbound.protection.outlook.com ([40.107.223.83]:20704
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727176AbhANNvZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 08:51:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eqKfwNt+uvKQKx4CkBVd2dzPV3rLnc57y8BUsonNUokOvUEIpPfaARNe3M0wwV84CgBFPvYXfJE2Kq99AYlTMaq1SnjAR93Y/3Tb3mWqtVAOn1Kbni3QT3iAimvLhaxObsBUxy/j2ZRXN31a7ydzWv9XxNcErHzopjnINRhieJIn4UCEGskjAxq5gdOEZBP/FoAa8/tNXNlBJo4V38+1domrJH+AmtbdvxpwcNYJKBf7y14A8T+mzyW76omA3y1f6Okqx475ItXIO0ankIl6Zz2xRiQry4u2aHhZvx6je4T00SxDDG8H1OSArTf1OSvldGkSaZDOJSSCRmpoqyTGXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGmAOGrwePVgeM3RyN6OaivcGxDO6Dc9y6Pvp69tflU=;
- b=KZTGy0q1vEXf6hr05keO9vRKUv5Y+MPUnWTMYSW9zJYPoRMF7IpBappSHOk85cn37keFQ8daPNF+Kcaucd4zDHA4saikyHFW/ZAL9RzYGGP2/wgf/C1vtIeN22CepRaipw3+vdFK9cIT4aFFoMUdQXlMTEWDxu5fDaeI5Wba6b6gNtPHU1NQidcvaPkJadNlIHA630it9LC12gSgUmzJ7K3qL8QmzWkxc4zesQgCcj7GG/4lPVn3MhASMGE1vZs4IqXPkpEVXXFNzmvtcCGCSGq5rtQHLiYU29COhnaE7nOPqZfjKRKjI02OZ0yo062mD8v10wu3ibCVKSietZZywQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGmAOGrwePVgeM3RyN6OaivcGxDO6Dc9y6Pvp69tflU=;
- b=iNISoM+mydXxdKHZGOlFIactuj4Rc89oLy2UDoJprMOgzUZLk9BhWV9g4UFEXFgoEOOEWiEyGMjULefJmzCdbXPTGFpy5DFZrbhMEZ4VkcvSW8rx8bcJeyax07XDGLPB2/HY0JLcAYlkI2e990862X4Dybv6HtDpO0eKbUnhxY4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
- 2021 13:50:31 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::44f:9f01:ece7:f0e5%3]) with mapi id 15.20.3763.011; Thu, 14 Jan 2021
- 13:50:31 +0000
-Subject: Re: [PATCH 06/10] drm: amd: amdgpu_dm.h: fix a wrong kernel-doc
- markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Aurabindo Pillai <aurabindo.pillai@amd.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        Eryk Brol <eryk.brol@amd.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Mikita Lipski <mikita.lipski@amd.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <cover.1610610444.git.mchehab+huawei@kernel.org>
- <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <aa22e626-e461-48a1-e905-9c1e7cf204de@amd.com>
-Date:   Thu, 14 Jan 2021 14:50:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM8P189CA0004.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::9) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+        id S1727313AbhANOOB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 09:14:01 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:42094 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727283AbhANOOB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 09:14:01 -0500
+Received: by mail-oi1-f169.google.com with SMTP id l200so5990078oig.9;
+        Thu, 14 Jan 2021 06:13:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6h5oUPZ53wfO7f92HycjGe1n6yQ3GPM+QRp+J+bOXQU=;
+        b=Aw59F8cOSQIhRwv5lKO0GGlQfy/4dEkpGqKbi/C7JXxBUhadSXxtx6i/MirgxUeOUT
+         W7RA8t7OWby6GsgnU/bfSxlGKoMgmlyBsXrlCfqx+sqClNuTEwy18pRh9DcTrJyLsqBo
+         3+5KPtcfQbIzTabSQiG04W3xpWbFvUKLkDybO5h1lszLr86QNYtlaEbQpz6ruaSwRJib
+         I//fatasxgtJYR3zEXCl81atlc2RNzdpJCu8aFbdkiBqMCo5I5TzdjGphT7Cy3OZ8kOK
+         uX+m9VYP8gUDLplZGqgvDHj4q9AqScfCmJvOhcjLGM5QhQc/XNmx/NmnuujzSt2GIpHQ
+         le/A==
+X-Gm-Message-State: AOAM532RfYz3wTJ3L+rRf9Dpc/TAB166vr99i4pwPZe421rPQm5xv/Bo
+        YzpKgtjFPQNu2TFM85jBMA==
+X-Google-Smtp-Source: ABdhPJxRzKOok/V/nC7yvIoQFv1kr5D7gm8HVf45a+LU/nY5SxSFQOxwkwYlL+jMqNwCCy9n20BtQw==
+X-Received: by 2002:aca:c592:: with SMTP id v140mr2687412oif.10.1610633599393;
+        Thu, 14 Jan 2021 06:13:19 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n13sm1064351otk.58.2021.01.14.06.13.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 06:13:18 -0800 (PST)
+Received: (nullmailer pid 2833114 invoked by uid 1000);
+        Thu, 14 Jan 2021 14:13:17 -0000
+Date:   Thu, 14 Jan 2021 08:13:17 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Troy Lee <troy_lee@aspeedtech.com>
+Cc:     openbmc@lists.ozlabs.org, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        chiawei_wang@aspeedtech.com, leetroy@gmail.com
+Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
+Message-ID: <20210114141317.GA2823834@robh.at.kernel.org>
+References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
+ <20210113070850.1184506-2-troy_lee@aspeedtech.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM8P189CA0004.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::9) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend Transport; Thu, 14 Jan 2021 13:50:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 177c3389-a9a0-440b-adf0-08d8b8935be5
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2353D75876C73C3F48737AAD83A80@BL0PR12MB2353.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oYUx1lZLpn2HqdqcNLC66nzv8aXFBX5Vy7xB31z7GXU0q/lJaoduYV23DWqOPLT/IqVGbVVA9+ysQKG1mL+SILUNfgWOeTr3HtLv9q4aXOMrirKTqL9wWHS+PYAdnOTLvNfUf4wnt/A2Tptv8fBTf2vNBEJepCHjP/4KKkR4TKXKTVp6qH2ptW+ii1xiG1+Tr++huXr94rxu4e5V6vYzdjV0zafiO/ECeWLt0r+HK7N2TM6l3nuZ3ndlmC4Mu8WeWkdrcMwNAmFq2Yv/BA5cY2Vk9QvzSNOOAHPKz140tqno+sgwaUNMzZCSFu+1kvf5Wlxn9eyM+NrReshmpMptkwyT/QSR67zeB3BA0eKxcnU2VyNpXwFvkSM8UM5YmnewsNvxcswj8HDOjBoAU9UBayJzVvRmBZ5dI8fB1Mhn4WuB3O3tgGyKeIb0zKQcfad7TkOMqs0ZcQRtFy3FHZmV7Ks4ye3LVgBWVz9AZShLpR4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(136003)(366004)(346002)(39860400002)(478600001)(110136005)(36756003)(54906003)(6486002)(52116002)(31686004)(316002)(8936002)(6666004)(31696002)(8676002)(2616005)(5660300002)(66946007)(16526019)(186003)(83380400001)(2906002)(66574015)(66476007)(4326008)(66556008)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?THJLTEg4L2tkRlBiaWlCdWlMZHR3eWNZaEpObU4yamp1bVh5UjdJOEQyVVpx?=
- =?utf-8?B?TzI1UHRxVEk4elp0dkNydjlvcVFwWkQ4OXdDc1RwSTI2K3hWSUYxdE9GS3Bz?=
- =?utf-8?B?d0JLZFpZRXE0ZE02Q3BEcW9hS2hCVHYvK2VZYVE1Y2NkQkJ1WGVRLy9FaWJR?=
- =?utf-8?B?U2RqQ2puR2h2dDM1Z05SWWZTNFJ6MVVncHZBUWVyRUM2Zm5KYTNQSlhEaTRL?=
- =?utf-8?B?cTNYMmZudzJwZW5XcU9mOU8yTmRhRiszNVVVM2FvRHpTWjVQaGZScmRJQkd1?=
- =?utf-8?B?NUtuTDlJWjhSTndYQUNWbCtQZXRwaWYvVUlGeTBzbmJHSFczWFVTV2NGSTFq?=
- =?utf-8?B?L2xKVGlXdjJkd0psc0Y2bE9DbzExRERIMzUrQ0NWdUNEc1I5MjJjRzhQM0RW?=
- =?utf-8?B?QmpYemdQQm8zSG9FVHVhOFN1TE1aR2doR1NWdG5hQXV1REhVTGxBSDk0VTVR?=
- =?utf-8?B?Nm54RWxYU2ZOV2MxeHFMK3RPKzN1V01jODhnWHFaK2RtSExid2huY2RXb2t6?=
- =?utf-8?B?dHlvaHI2U044UElXbCtpb2RiMVB0TU1zT3RFaTdVMk1xWEJMVDFoTTlZVVJq?=
- =?utf-8?B?QnR6MjRpRUtYV1JCcG5uZGVyZUNHVzNkdWlSdkVMV3JORWxiOUloWW1keFA5?=
- =?utf-8?B?aU5JV2RaR3VNRlk2QW5uRVBlR3NEVEZ0SjNzanp0cVlJQTlYUE93RXAxdWx2?=
- =?utf-8?B?SmtsM2VzKy9KUWdmSGdtRHlRTUhZYk9JVjVvRzdsUjY5c3hPaEExVTd3ZEE1?=
- =?utf-8?B?cTlFWllPalNCTjlDQkl2enViMEJULzN3M1JjQURhYlJxeWE2ODR4c3pRRTdS?=
- =?utf-8?B?bVlzcWVPY04wZGRpTXhHNGdpdnNvaFRWUlN0MEVkTGRuYTU1TU1PM3hkUzVF?=
- =?utf-8?B?NnFDT3pZTkhhZGlJeXpoWEltK1NoQ3dwUVNVaUFBVFE3TWVpQXNjdmcxdEVO?=
- =?utf-8?B?WWJSN0JPRWRIR2xCcG9qQUF3elJmQWloWEFadDVOUlAvT1VHK3ErZkVsRHJz?=
- =?utf-8?B?UjU2Uk93b0UxT2xvcndsbTV0VnJHdVdXWDBiZ2NiRGt0aTBjYUtCVjBFL3p4?=
- =?utf-8?B?eFQ4NEZnRXV4eGR2enU1b2VSOGt3WlBJSXRGTk9jYVVPR0pLbWZ2cExzU3lr?=
- =?utf-8?B?L2s1cVh4M3NGTlF3c0hjRGxNNFVTNjFYUVlZWnN5WlV0bk5KRTVYRHFjTzRH?=
- =?utf-8?B?RTlMVjkzcFdYNmc0TGtCM2lEV3dkOXd1QjlGQmdwY0E3NkVIRVlRdnpxYUdv?=
- =?utf-8?B?bTRQT2FCOHFXQUFEN3oyNWYxMnA1MEVjRC95Q0pZOWNVUU1Ua2hqamMrckhB?=
- =?utf-8?B?TEFkbFJRbkZFaDd2ODY2c2U2eGpJT1J4WUt2bi9WT0Voa2dFemM5a0tXVGVF?=
- =?utf-8?B?QWpoeWtjYitFZU9qNW1IbGlLdUVaVGNRMGt4blVxZVQ2c1pyY3h0MDRKOVJ4?=
- =?utf-8?Q?vQ3L8ROz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 13:50:31.1918
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 177c3389-a9a0-440b-adf0-08d8b8935be5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TQuF7sUHSR5ZaOT2I5xVNQxS8MgSC86FVZOtJk1Q9Dqwmw3SZ/rwtvxcHz7K8W3c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2353
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210113070850.1184506-2-troy_lee@aspeedtech.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am 14.01.21 um 08:53 schrieb Mauro Carvalho Chehab:
-> There's a missing colon, causing the markup to be ignored,
-> solving those warnings:
->
-> 	../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:340: warning: Incorrect use of kernel-doc format:          * @active_vblank_irq_count
-> 	../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:379: warning: Function parameter or member 'active_vblank_irq_count' not described in 'amdgpu_display_manager'
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+On Wed, Jan 13, 2021 at 07:08:45AM +0000, Troy Lee wrote:
+> We add binding for supporting a new AST2600 PWM/Fan hwmon driver.
+> 
+> Changes since v1:
+> - dt binding with DT schema format
+> 
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index f084e2fc9569..5ee1b766884e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -337,7 +337,7 @@ struct amdgpu_display_manager {
->   	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
->   
->   	/**
-> -	 * @active_vblank_irq_count
-> +	 * @active_vblank_irq_count:
->   	 *
->   	 * number of currently active vblank irqs
->   	 */
+>  .../hwmon/aspeed,ast2600-pwm-tachometer.yaml  | 137 ++++++++++++++++++
+>  1 file changed, 137 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> new file mode 100644
+> index 000000000000..b84076a4a338
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> @@ -0,0 +1,137 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/aspeed,ast2600-pwm-tachometer.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED AST2600 PWM and Fan Tacho controller device driver
+> +
+> +maintainers:
+> +  - Ryan Chen <ryan_chen@aspeedtech.com>
+> +
+> +description: |
+> +  The ASPEED PWM controller can support upto 16 PWM outputs. The ASPEED Fan Tacho
+> +  controller can support upto 16 Fan tachometer inputs.
+> +  There can be upto 16 fans supported. Each fan can have one PWM output and
+> +  one Fan tach inputs.
+> +
+> +properties:
+> +  compatible:
+> +    const: aspeed,ast2600-pwm-tachometer
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  "#cooling-cells":
+> +    const: 2
+> +
+> +  reg:
+> +    description:
+> +      Address and length of the register set for the device.
 
+No need for generic descriptions. That's every 'reg'.
+
+What you need is how many entries and what each one is if more than 1. 
+If only 1, then just 'maxItems: 1'
+
+> +
+> +  clocks:
+> +    description:
+> +      phandle to clock provider with the clock number in the second cell
+
+Same here.
+
+> +
+> +  resets:
+> +    description:
+> +      phandle to reset controller with the reset number in the second cell
+
+And here.
+
+> +
+> +patternProperties:
+> +  "@[0-9]+$":
+
+If every node is a fan and there are up to 16:
+
+^fan@[0-9a-f]$
+
+> +    type: object
+> +    description:
+> +      Under fan subnode there can upto 16 child nodes, with each child node
+> +      representing a fan. There are 16 fans each fan can have one PWM port and one
+> +      Fan tach inputs.
+> +      For PWM port can be configured cooling-levels to create cooling device.
+> +      Cooling device could be bound to a thermal zone for the thermal control.
+> +
+> +    properties:
+> +      reg:
+> +        minimum: 0
+> +        maximum: 15
+> +        description:
+> +          This property identify the PWM control channel of this fan.
+> +
+> +      fan-tach-ch:
+> +        $ref: /schemas/types.yaml#/definitions/uint8
+> +        minimum: 0
+> +        maximum: 15
+> +        description:
+> +          This property identify the fan tach input channel.
+> +
+> +      pulses-per-revolution:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        default: 2
+> +        minimum: 1
+> +        description:
+> +          Specify tacho pulse per revolution of the fan.
+> +
+> +      cooling-levels:
+> +        description:
+> +          PWM duty cycle values in a range from 0 to 255
+> +          which correspond to thermal cooling states.
+> +
+> +      aspeed,pwm-freq:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        default: 25000
+> +        minimum: 24
+> +        maximum: 780000
+> +        description:
+> +          Specify the frequency of PWM.
+
+Units? Use a unit suffix and then drop the $ref.
+
+> +
+> +      aspeed,inverse-pin:
+> +        type: boolean
+> +        description:
+> +          Inverse PWM output signal.
+> +
+> +      aspeed,falling-point:
+> +        $ref: /schemas/types.yaml#/definitions/uint8
+> +        default: 10
+> +        minimum: 0
+> +        maximum: 255
+
+0-255 is already the range of uint8, so drop.
+
+> +        description:
+> +          Initialize the pulse width.
+> +
+> +    required:
+> +      - fan-tach-ch
+> +      - reg
+> +
+> +    additionalProperties: true
+> +
+> +required:
+> + - compatible
+> + - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    pwm_tacho: pwm-tacho-controller@1e610000 {
+> +        compatible = "aspeed,ast2600-pwm-tachometer";
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        reg = <0x1e610000 0x100>;
+> +
+> +        fan@1 {
+> +            reg = <0x00>;
+> +            aspeed,pwm-freq = <25000>;
+> +            cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
+> +            fan-tach-ch = /bits/ 8 <0x00>;
+> +            pulses-per-revolution = <2>;
+> +        };
+> +
+> +        fan@2 {
+> +            reg = <0x01>;
+> +            aspeed,pwm-freq = <25000>;
+> +            cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
+> +            fan-tach-ch = /bits/ 8 <0x01>;
+> +            pulses-per-revolution = <2>;
+> +        };
+> +    };
+> +...
+> -- 
+> 2.25.1
+> 
