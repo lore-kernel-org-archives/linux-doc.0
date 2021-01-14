@@ -2,91 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF6DC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:11:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACD9C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:35:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7739323B55
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:11:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7190E23B46
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:35:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbhANSLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 13:11:04 -0500
-Received: from foss.arm.com ([217.140.110.172]:54246 "EHLO foss.arm.com"
+        id S1728185AbhANSeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 13:34:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50386 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726625AbhANSLE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 13:11:04 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34D6ED6E;
-        Thu, 14 Jan 2021 10:10:19 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.42.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD44B3F70D;
-        Thu, 14 Jan 2021 10:10:16 -0800 (PST)
-Date:   Thu, 14 Jan 2021 18:10:13 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1728146AbhANSeo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 13:34:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F08123B1A;
+        Thu, 14 Jan 2021 18:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610649243;
+        bh=7Ob49bvS1Q/8oWaAH0J5ILup9PX2XqAipLc7yfNBWQQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=r+a14GuoKoTvM9/sT6Xh84PMjrVlFhPaL6Z6BHikBPawau7xFoSVxuFgCNxSQSVNV
+         AQV/gP+K3mQmQTHwOoZLH+NkbNA3GkyD66Bj6lepNqMa0htEoLOt/md2BV2Qt/2LuZ
+         K/1YwARXGnlSVoMU7lokDHROuK3BvgzHeGkAheLPFhnKGp4EVC2x+EWsHf84Go4B/p
+         Wc9D6GQY05XcE9c5M1/u4cUdRLNCuTgYj8+Kt9cn+hzxFdmIJrdWXC6gP9mkNyrmUK
+         JKqbMzPz3usNAUSWv5w6sLqXUsCk+V2qATNm1c2Wz9o8uvsR6gbIaXgw1Qg5NPPcKM
+         C6z3TNLAqFJ5g==
+Date:   Thu, 14 Jan 2021 10:34:02 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jon Maloy <jmaloy@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210114181013.GE2739@C02TD0UTHF1T.local>
-References: <20210113165743.3385-1-broonie@kernel.org>
- <20210113192735.rg2fxwlfrzueinci@treble>
- <20210113202315.GI4641@sirena.org.uk>
- <20210113222541.ysvtievx4o5r42ym@treble>
+        "David S. Miller" <davem@davemloft.net>,
+        Ying Xue <ying.xue@windriver.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net
+Subject: Re: [PATCH v6 12/16] net: tip: fix a couple kernel-doc markups
+Message-ID: <20210114103402.31946ed4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <da52ef69-753a-7aa8-a2b1-1b5ef48df94e@redhat.com>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org>
+        <9d205b0e080153af0fbddee06ad0eb23457e1b1b.1610610937.git.mchehab+huawei@kernel.org>
+        <da52ef69-753a-7aa8-a2b1-1b5ef48df94e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210113222541.ysvtievx4o5r42ym@treble>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 04:25:41PM -0600, Josh Poimboeuf wrote:
-> On Wed, Jan 13, 2021 at 08:23:15PM +0000, Mark Brown wrote:
-> > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
-> > 
-> > > I think it's worth mentioning a little more about objtool.  There are a
-> > > few passing mentions of objtool's generation of metadata (i.e. ORC), but
-> > > objtool has another relevant purpose: stack validation.  That's
-> > > particularly important when it comes to frame pointers.
-> > 
-> > > For some architectures like x86_64 and arm64 (but not powerpc/s390),
-> > > it's far too easy for a human to write asm and/or inline asm which
-> > > violates frame pointer protocol, silently causing the violater's callee
-> > > to get skipped in the unwind.  Such architectures need objtool
-> > > implemented for CONFIG_STACK_VALIDATION.
-> > 
-> > This basically boils down to just adding a statement saying "you may
-> > need to depend on objtool" I think?
+On Thu, 14 Jan 2021 10:59:08 -0500 Jon Maloy wrote:
+> On 1/14/21 3:04 AM, Mauro Carvalho Chehab wrote:
+> > A function has a different name between their prototype
+> > and its kernel-doc markup:
+> >
+> > 	../net/tipc/link.c:2551: warning: expecting prototype for link_reset_stats(). Prototype was for tipc_link_reset_stats() instead
+> > 	../net/tipc/node.c:1678: warning: expecting prototype for is the general link level function for message sending(). Prototype was for tipc_node_xmit() instead
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > 
-> Right, but maybe it would be a short paragraph or two.
+> Acked-by: Jon Maloy <jmaloy@redhat.com>
 
-I reckon that's a top-level section between requirements and
-consideration along the lines of:
-
-3. Compile-time analysis
-========================
-
-To ensure that kernel code can be correctly unwound in all cases,
-architectures may need to verify that code has been compiled in a manner
-expected by the unwinder. For example, an unwinder may expect that
-functions manipulate the stack pointer in a limited way, or that all
-functions use specific prologue and epilogue sequences. Architectures
-with such requirements should verify the kernel compilation using
-objtool.
-
-In some cases, an unwinder may require metadata to correctly unwind.
-Where necessary, this metadata should be generated at build time using
-objtool.
-
-... perhaps elaborating a little further on the latter?
-
-Thanks,
-Mark.
+Thanks! Applied this one to net, the cfg80211 one does not apply to
+net, so I'll leave it to Johannes.
