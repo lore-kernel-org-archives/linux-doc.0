@@ -2,105 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82494C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 03:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF25C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 04:08:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33D8A23741
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 03:24:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 419C5238E4
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 04:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726492AbhANDYA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 22:24:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34886 "EHLO
+        id S1725871AbhANEID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 23:08:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727471AbhANDX6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 22:23:58 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35FFCC0617A3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 19:23:18 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id b10so4924321ljp.6
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 19:23:18 -0800 (PST)
+        with ESMTP id S1725890AbhANEID (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 23:08:03 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1C7C061794
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 20:07:22 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id i7so2890733pgc.8
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 20:07:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FEfB7z2Pg3tEbsUuKrEZpLqRqQiSI7cwvfIpRmMaPsg=;
-        b=ERDheW9rkL9QnlcBk+gjMEWNicKOrODmm03n00UhTyuOanz3yIf+tVQ2IhyWO8CwON
-         GKpMHZiqMwxQyAHoTp5gWGJ9T/9Cv+QqTqzD/Q0j7l6WJ3FK2LOR2lYJleXMUi/HaPtq
-         hAo0tLKKn2Q7t/UBKM4+ZCJT32+rgjpcSTro39e8R9WGksf2PWbqS4pLDiAzVnHdQwFS
-         cKqbNI76NaFU69m3LsyPmjdP3CzRq2oPRT9ho+fOAmBKu1eGIxoQiB5laGLfmKCFbLTh
-         A+1wPcGioLznXyUUcakh1ovdoJ4a55uHhp/zcRprrvdM7164eLO9rwAW7zpziuw26kme
-         wiUQ==
+         :cc;
+        bh=X2Xl39y4Q4WYR391MlcCTCVyfvuGNcf13HwTIUJuHYU=;
+        b=Qb6XObXve5bZJco/bp7C8Mjv/jUKToZR7oH0hrrN2m1NNs2nsHtpYaKPU8fp/cA+20
+         bLvRGonHREkJib6ytNaAoIqyHFr2XurADR8NF0iNI1VXLBEVJYw76gRnsD/grgJgr9G2
+         gbNuEJF/9cLexUS9ligs4J8FqBnWPDLG7wp8txFacdnwuQ2/wWk6l3Se5UC95be8hoX7
+         Rc9cO7J4SFemacU7exfa8XDg2ruPhqFS4Di1vdhES6ue6g8kZWPhKPB+drMoQHXIAfDf
+         yHUCExT3lAW9QXVZXLtx9LHQUsoOkFjL75qrSa2KSvzeKIo9ow4Aeik9xn6qrm887Zta
+         iB2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FEfB7z2Pg3tEbsUuKrEZpLqRqQiSI7cwvfIpRmMaPsg=;
-        b=OO4QwpFjxOKowVXCyiUNqAMdpXRWzNDRAWD2Yfp6Q6hiEkBumTexFGF1lcsWcmcAw3
-         erQQwmKdUq9OZXHxn3hI0E5U0LMBxQBBciMm+AifwAbDc4hEA6wIHhf0csfg2M+zOj8N
-         ZCpuxVd1XHLq9AKujpppHf0P1SDnyTEuonu7tiJ4UiPe0rRRL2SW13a02MALZ/24Hpd+
-         gHUwIr3n/IiHbFRZ+AdTyn5w2TFc7eQDgQIpRkni+hg7UDOPPHznj2wwW5h85Ar9oQwG
-         0ozXclJysdp3G7ui55o0WAjp1ypl3EfMyXzrAzDn2f/EIBvGGZBJRNqpKvhP81HxN1pb
-         QutA==
-X-Gm-Message-State: AOAM530ScvfolTCtIi82+eVf4UgIEeD0WqyLlm1t/nyTYSfyBTBGkAt0
-        lsrZSJIjbs0XF9KcFBocpwdd6fnK0EzHIDXfMRch5w==
-X-Google-Smtp-Source: ABdhPJzfRhrd1kMrfF3j3pfT5UxcaTNs6jz7zJ40MKXw+hJC73ejwL+h4IUubxMUXNGPVLdYIr3TdisY3PE9ZGevcmg=
-X-Received: by 2002:a2e:593:: with SMTP id 141mr2267937ljf.86.1610594596352;
- Wed, 13 Jan 2021 19:23:16 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=X2Xl39y4Q4WYR391MlcCTCVyfvuGNcf13HwTIUJuHYU=;
+        b=Yhfllm0m7SzxHKCgJnUdayzcSqJnP/l8/KQY8O5bA4YaCOMuHWVH+PdrV3Z2aaylhN
+         u+U3dBeI/05M+j1fRffGpxu382ZW2rsvVPzxtDJPFdAPoK5GLkRt56ymvjA9EjC3EtUl
+         WWP89WrXC2hHp4LVpM8gtbZV1HBsiatIfybIThfh3PgruKMQuWi6Hpl7gYVPnb5V56Hx
+         lFOr5sbnh1NOWA4wkLc92KrlshDAsCZmKMPW4ZOoFcs24BkkfRD2hR7F5cWVXwwtwu+F
+         Ay+wi2inv8WzFfZiTTdkaEWpAXz60ijAelOAjPCSSPryPBmN0zNFhDDwOR/Qa5ebdwxH
+         9f9w==
+X-Gm-Message-State: AOAM531PhHlPWNOX4vE8ny2UQpbmE1d2ocE/GHmu81sxV0Mlpv9cTlQ/
+        fQnkKmf25fK81GguV6D124+DndYMg+Z/S+gh4bm87Q==
+X-Google-Smtp-Source: ABdhPJweqXyNdG41CizOvJ+7nIJrbD+fB/8boMpyXoL1a0C896awy91uQFO6JUsSaWfp+KbH5/IpEmP/QY+ntvhF6/0=
+X-Received: by 2002:a63:5701:: with SMTP id l1mr5424394pgb.381.1610597242082;
+ Wed, 13 Jan 2021 20:07:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20201209192839.1396820-1-mic@digikod.net>
-In-Reply-To: <20201209192839.1396820-1-mic@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 14 Jan 2021 04:22:50 +0100
-Message-ID: <CAG48ez3DE8xgr_etVGV5eNjH2CXXo9MR7jTcu+_LCkJUchLXcQ@mail.gmail.com>
-Subject: Re: [PATCH v26 00/12] Landlock LSM
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
+References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
+ <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+In-Reply-To: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 13 Jan 2021 20:07:10 -0800
+Message-ID: <CAKwvOd=0wWz4o652EoZNvfu1L+fuhuGZusqpxiJ+561DtCh7Eg@mail.gmail.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 8:28 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> w=
-rote:
-> This patch series adds new built-time checks, a new test, renames some
-> variables and functions to improve readability, and shift syscall
-> numbers to align with -next.
+On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> However, I see an issue with actually using the data:
+>
+> $ sudo -s
+> # mount -t debugfs none /sys/kernel/debug
+> # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> # chown nathan:nathan vmlinux.profraw
+> # exit
+> $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+> error: No profiles could be merged.
+>
+> Am I holding it wrong? :) Note, this is virtualized, I do not have any
+> "real" x86 hardware that I can afford to test on right now.
 
-Sorry, I've finally gotten around to looking at v26 - I hadn't
-actually looked at v25 either yet. I think there's still one remaining
-small issue in the filesystem access logic, but I think that's very
-simple to fix, as long as we agree on what the expected semantics are.
-Otherwise it basically looks good, apart from some typos.
+Same.
 
-I think v27 will be the final version of this series. :) (And I'll try
-to actually look at that version much faster - I realize that waiting
-for code reviews this long sucks.)
+I think the magic calculation in this patch may differ from upstream
+llvm: https://github.com/llvm/llvm-project/blob/49142991a685bd427d7e877c29c77371dfb7634c/llvm/include/llvm/ProfileData/SampleProf.h#L96-L101
+
+vs this patch:
+
++ * Note: These internal LLVM definitions must match the compiler version.
++ * See llvm/include/llvm/ProfileData/InstrProfData.inc in LLVM's source code.
++ */
++
++#ifdef CONFIG_64BIT
++ #define LLVM_PRF_MAGIC \
++ ((u64)255 << 56 | \
++ (u64)'l' << 48 | \
++ (u64)'p' << 40 | \
++ (u64)'r' << 32 | \
++ (u64)'o' << 24 | \
++ (u64)'f' << 16 | \
++ (u64)'r' << 8  | \
++ (u64)129)
++#else
++ #define LLVM_PRF_MAGIC \
++ ((u64)255 << 56 | \
++ (u64)'l' << 48 | \
++ (u64)'p' << 40 | \
++ (u64)'r' << 32 | \
++ (u64)'o' << 24 | \
++ (u64)'f' << 16 | \
++ (u64)'R' << 8  | \
++ (u64)129)
++#endif
+
+-- 
+Thanks,
+~Nick Desaulniers
