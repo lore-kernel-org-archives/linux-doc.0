@@ -2,138 +2,263 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A40D4C432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEA27C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:38:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B00823A50
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:38:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A137723A5D
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728999AbhANLiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 06:38:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56086 "EHLO
+        id S1728266AbhANLif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 06:38:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726458AbhANLhj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 06:37:39 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 560D0C061573;
-        Thu, 14 Jan 2021 03:36:24 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id m10so6062361lji.1;
-        Thu, 14 Jan 2021 03:36:24 -0800 (PST)
+        with ESMTP id S1729002AbhANLhT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 06:37:19 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142D0C0613C1
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 03:36:32 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id w2so3154271pfc.13
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 03:36:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ifz4TFn+khIyJvPV2SClr7wzFb1XDFOLQogN3WDT4Qo=;
-        b=vec6UOjx8zMPDVURW15aoBpKh/YOCw+/knGaIavNdwPxU3OWYak8LDzulcTs5zVtew
-         hxZrKeyfzjRQP4386IexjECbrRs9D0bby2D6b9tkGA3eAGEGeRxBPZ7IIu1wP6WrJOW5
-         2rVn2AGXIFpJseayQG4rBXL5PtA+Z2Xz5Qi3W8rth5X6xExSUVQREtQG0t2qgLTiLszn
-         FUYbH5PPXTsBmGjHC2mjkWpvynbbWVK6w2WWp1JlIjOVvKe1Nvtchr+YCs5i2drylr8P
-         FemjYCjWE4bQpRyJ3ypv8K6KTO9dB18ORfwa2p+2ggCkMYXb/9hJm0AHdKgJSIIb896T
-         Z8kA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=P6pF8PwYGSaz1ZNaOhy9eKako4g3V/oIeMmrhtfC4/U=;
+        b=CsSujw74vjPO179JQOPKW/rS1joWHpCwXZ9woY1wPVme3WAmvsGEaiSIDOC4bPY383
+         kykq0E2awkeW2MtqV11hIbVbxB03xIhelK/YYPGyfPUALPSGp3c9NGmd59Yq7i8MEnPO
+         wopQhNlkjySWoJOrs5BRjRRmSrQNRpm/XRLArgaq3uozCcw7iHuY7U2b+H19oZwigSKW
+         k4HPflZ6HvALdn4p9tAu9hp51TciKpOLJ3b05FntKt4FigTQ7bP0172DyCJYcLosab0w
+         q4cIfYBBQh7bHa08WG+ogOs+OI9wPZCYCmWXH15OFc4XXn+lkywC9X4cDWv/f15H35/P
+         YS4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ifz4TFn+khIyJvPV2SClr7wzFb1XDFOLQogN3WDT4Qo=;
-        b=Gozbe9t56Rhq8LXuDtCVsWvsXTWqTFQjbaOMfFA2jge7mMmx/lU0pMrnwPoJv/Mz17
-         RojtNV4DzO+DgJGyYuZXhh10lEsUDNluUMJNkGcZ97uUyM33jTIrlkNf9ED9nOii6syR
-         n6h4NZTyzfEIinbaypzMG1lFlynmVbeewQAc6NyzAuvRjvpERKQtRxuS27qtv0K4b9MS
-         jHJ3gpY6+xqlyFeekptmI3rNijOawP2EBcsHU9cjUgar+3RHTKGW5jpJe+aR1nBKQmdD
-         LQ0yWcpzfLbaBpRpXpx2Q3hywqPgcqPR9KWcekE3FiznGrT0tvj37DfEMj5L4ofM4lUA
-         heeA==
-X-Gm-Message-State: AOAM532skFMQrc7CIEWo95UUN0NdsnxgSpKf+ptXGe35GpP2fJ44L6gg
-        R9QuTIp6wOkiAaxgiJ1iFso=
-X-Google-Smtp-Source: ABdhPJzAz+B2BPWZ8CjGGt6zXIGRXf90d4nFuPfWngg2W/+EI+kGLI0xddgXry2gSn6/mz3vOtd3EA==
-X-Received: by 2002:a2e:b4d4:: with SMTP id r20mr2923025ljm.445.1610624182794;
-        Thu, 14 Jan 2021 03:36:22 -0800 (PST)
-Received: from pc638.lan (h5ef52e3d.seluork.dyn.perspektivbredband.net. [94.245.46.61])
-        by smtp.gmail.com with ESMTPSA id n10sm431522ljg.139.2021.01.14.03.36.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 03:36:21 -0800 (PST)
-From:   Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc638.lan>
-Date:   Thu, 14 Jan 2021 12:36:19 +0100
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=P6pF8PwYGSaz1ZNaOhy9eKako4g3V/oIeMmrhtfC4/U=;
+        b=keZwHD9IpdM5H1sm0a3RMWPH9oftvDUV95QzYRJSrB00csqnTkc9+H1zharMDQe546
+         WwYEooVVRdeqe1IRJj5Cj2s2i9s30q7e7E2uxC7RVuSptwhMtJH4u+doJZR0i63XYp/a
+         5Bip1dBPu9GTcOZpHu/k6gMZIWyrJ+YPPg/9ZNUQxO+JZfCRfx5bhbUvv1GjEuQUSaBc
+         wdek1+Sn/1YT0qfvhXobr7C/61/b5YK7PDt2v+CmiD57NtqvSrdXce4KQtP/yNIANJfc
+         WAgrPZN2WmCIht9FNWXSbeaHXzGWz8YBVuvTrwaV7n09iBsYmrYq09/OcLk6UiM65A1s
+         4l9A==
+X-Gm-Message-State: AOAM530LTACSl5N4V6WcWcZGO2gcpRena9+jjKWxxFr1k6pmFkyPnX/p
+        GYMGvkkVFPDB10QdJCIw/g+U/w==
+X-Google-Smtp-Source: ABdhPJytxvrmQFEFVBn8jmaBSosHOxPCkaBSBW+Xc9VZXjkpx3bc9vjZ5mbLWyEbqDMQWC+mg3ixdg==
+X-Received: by 2002:a65:690e:: with SMTP id s14mr7095987pgq.302.1610624191657;
+        Thu, 14 Jan 2021 03:36:31 -0800 (PST)
+Received: from localhost ([122.172.85.111])
+        by smtp.gmail.com with ESMTPSA id s13sm5251972pfd.99.2021.01.14.03.36.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 14 Jan 2021 03:36:30 -0800 (PST)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Robert Richter <rric@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH] rcu: better document kfree_rcu()
-Message-ID: <20210114113619.GA49982@pc638.lan>
-References: <2ec9a8bc8b411b04e2f541b285cc0a133a6d94de.1610608910.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>
+Cc:     Viresh Kumar <viresh.kumar@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Arnd Bergmann <arnd@kernel.org>, oprofile-list@lists.sf.net,
+        William Cohen <wcohen@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        anmar.oueja@linaro.org, Christoph Hellwig <hch@infradead.org>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: [PATCH 14/18] arch: sparc: Remove CONFIG_OPROFILE support
+Date:   Thu, 14 Jan 2021 17:05:27 +0530
+Message-Id: <048b9e7918a847a6ad549350e30855a1b5d7c58e.1610622251.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+In-Reply-To: <cover.1610622251.git.viresh.kumar@linaro.org>
+References: <cover.1610622251.git.viresh.kumar@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ec9a8bc8b411b04e2f541b285cc0a133a6d94de.1610608910.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 08:22:02AM +0100, Mauro Carvalho Chehab wrote:
-> After changeset 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro"),
-> kernel-doc now emits two warnings:
-> 
-> 	./include/linux/rcupdate.h:884: warning: Excess function parameter 'ptr' description in 'kfree_rcu'
-> 	./include/linux/rcupdate.h:884: warning: Excess function parameter 'rhf' description in 'kfree_rcu'
-> 
-> What's happening here is that some macro magic was added in order
-> to call two different versions of kfree_rcu(), being the first one
-> with just one argument and a second one with two arguments.
-> 
-> That makes harder to document the kfree_rcu() arguments, which
-> also reflects on the documentation text.
-> 
-> In order to make clearer that this macro accepts optional
-> arguments, by using macro concatenation, changing its
-> definition from:
-> 	#define kfree_rcu kvfree_rcu
-> 
-> to:
-> 	#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
-> 
-> That not only helps kernel-doc to understand the macro arguemnts,
-> but also provides a better C definition that makes clearer that
-> the first argument is mandatory and the second one is optional.
-> 
-> Fixes: 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  include/linux/rcupdate.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> index bd04f722714f..5cc6deaa5df2 100644
-> --- a/include/linux/rcupdate.h
-> +++ b/include/linux/rcupdate.h
-> @@ -881,7 +881,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
->   * The BUILD_BUG_ON check must not involve any function calls, hence the
->   * checks are done in macros here.
->   */
-> -#define kfree_rcu kvfree_rcu
-> +#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
->  
->  /**
->   * kvfree_rcu() - kvfree an object after a grace period.
-> -- 
-> 2.29.2
-> 
-I think it is fair enough. I checked the "kernel-doc" and after this
-change it does not detect any violations which are in question.
+The "oprofile" user-space tools don't use the kernel OPROFILE support
+any more, and haven't in a long time. User-space has been converted to
+the perf interfaces.
 
-Tested-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Remove the old oprofile's architecture specific support.
 
---
-Vlad Rezki
+Suggested-by: Christoph Hellwig <hch@infradead.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ Documentation/kbuild/makefiles.rst   |  1 -
+ arch/sparc/Kconfig                   |  1 -
+ arch/sparc/Makefile                  |  1 -
+ arch/sparc/configs/sparc64_defconfig |  1 -
+ arch/sparc/oprofile/Makefile         | 10 ----
+ arch/sparc/oprofile/init.c           | 87 ----------------------------
+ 6 files changed, 101 deletions(-)
+ delete mode 100644 arch/sparc/oprofile/Makefile
+ delete mode 100644 arch/sparc/oprofile/init.c
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 9f6a11881951..d7b2e027c1f8 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1317,7 +1317,6 @@ a few targets.
+ 		libs-y                 += arch/sparc/lib/
+ 
+ 		drivers-$(CONFIG_PM) += arch/sparc/power/
+-		drivers-$(CONFIG_OPROFILE)	+= arch/sparc/oprofile/
+ 
+ 7.5 Architecture-specific boot images
+ -------------------------------------
+diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
+index c9c34dc52b7d..caf95e61162b 100644
+--- a/arch/sparc/Kconfig
++++ b/arch/sparc/Kconfig
+@@ -20,7 +20,6 @@ config SPARC
+ 	select OF_PROMTREE
+ 	select HAVE_ASM_MODVERSIONS
+ 	select HAVE_IDE
+-	select HAVE_OPROFILE
+ 	select HAVE_ARCH_KGDB if !SMP || SPARC64
+ 	select HAVE_ARCH_TRACEHOOK
+ 	select HAVE_ARCH_SECCOMP if SPARC64
+diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
+index 4a0919581697..bee99e65fe23 100644
+--- a/arch/sparc/Makefile
++++ b/arch/sparc/Makefile
+@@ -65,7 +65,6 @@ libs-y                 += arch/sparc/prom/
+ libs-y                 += arch/sparc/lib/
+ 
+ drivers-$(CONFIG_PM) += arch/sparc/power/
+-drivers-$(CONFIG_OPROFILE)	+= arch/sparc/oprofile/
+ 
+ boot := arch/sparc/boot
+ 
+diff --git a/arch/sparc/configs/sparc64_defconfig b/arch/sparc/configs/sparc64_defconfig
+index bde4d21a8ac8..d91eb6a76dd1 100644
+--- a/arch/sparc/configs/sparc64_defconfig
++++ b/arch/sparc/configs/sparc64_defconfig
+@@ -8,7 +8,6 @@ CONFIG_PERF_EVENTS=y
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_SLAB=y
+ CONFIG_PROFILING=y
+-CONFIG_OPROFILE=m
+ CONFIG_KPROBES=y
+ CONFIG_MODULES=y
+ CONFIG_MODULE_UNLOAD=y
+diff --git a/arch/sparc/oprofile/Makefile b/arch/sparc/oprofile/Makefile
+deleted file mode 100644
+index fe906e403d3a..000000000000
+--- a/arch/sparc/oprofile/Makefile
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_OPROFILE) += oprofile.o
+-
+-DRIVER_OBJS = $(addprefix ../../../drivers/oprofile/, \
+-		oprof.o cpu_buffer.o buffer_sync.o \
+-		event_buffer.o oprofile_files.o \
+-		oprofilefs.o oprofile_stats.o \
+-		timer_int.o )
+-
+-oprofile-y				:= $(DRIVER_OBJS) init.o
+diff --git a/arch/sparc/oprofile/init.c b/arch/sparc/oprofile/init.c
+deleted file mode 100644
+index 43730c9b1c86..000000000000
+--- a/arch/sparc/oprofile/init.c
++++ /dev/null
+@@ -1,87 +0,0 @@
+-/**
+- * @file init.c
+- *
+- * @remark Copyright 2002 OProfile authors
+- * @remark Read the file COPYING
+- *
+- * @author John Levon <levon@movementarian.org>
+- */
+-
+-#include <linux/kernel.h>
+-#include <linux/oprofile.h>
+-#include <linux/errno.h>
+-#include <linux/init.h>
+-#include <linux/param.h>	/* for HZ */
+- 
+-#ifdef CONFIG_SPARC64
+-#include <linux/notifier.h>
+-#include <linux/rcupdate.h>
+-#include <linux/kdebug.h>
+-#include <asm/nmi.h>
+-
+-static int profile_timer_exceptions_notify(struct notifier_block *self,
+-					   unsigned long val, void *data)
+-{
+-	struct die_args *args = data;
+-	int ret = NOTIFY_DONE;
+-
+-	switch (val) {
+-	case DIE_NMI:
+-		oprofile_add_sample(args->regs, 0);
+-		ret = NOTIFY_STOP;
+-		break;
+-	default:
+-		break;
+-	}
+-	return ret;
+-}
+-
+-static struct notifier_block profile_timer_exceptions_nb = {
+-	.notifier_call	= profile_timer_exceptions_notify,
+-};
+-
+-static int timer_start(void)
+-{
+-	if (register_die_notifier(&profile_timer_exceptions_nb))
+-		return 1;
+-	nmi_adjust_hz(HZ);
+-	return 0;
+-}
+-
+-
+-static void timer_stop(void)
+-{
+-	nmi_adjust_hz(1);
+-	unregister_die_notifier(&profile_timer_exceptions_nb);
+-	synchronize_rcu();  /* Allow already-started NMIs to complete. */
+-}
+-
+-static int op_nmi_timer_init(struct oprofile_operations *ops)
+-{
+-	if (atomic_read(&nmi_active) <= 0)
+-		return -ENODEV;
+-
+-	ops->start = timer_start;
+-	ops->stop = timer_stop;
+-	ops->cpu_type = "timer";
+-	printk(KERN_INFO "oprofile: Using perfctr NMI timer interrupt.\n");
+-	return 0;
+-}
+-#endif
+-
+-int __init oprofile_arch_init(struct oprofile_operations *ops)
+-{
+-	int ret = -ENODEV;
+-
+-#ifdef CONFIG_SPARC64
+-	ret = op_nmi_timer_init(ops);
+-	if (!ret)
+-		return ret;
+-#endif
+-
+-	return ret;
+-}
+-
+-void oprofile_arch_exit(void)
+-{
+-}
+-- 
+2.25.0.rc1.19.g042ed3e048af
+
