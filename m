@@ -2,126 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FD4C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:18:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D76C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:24:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06DFA23447
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:18:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1904C22ADF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728025AbhANCSU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:18:20 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:36732 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728701AbhANCSQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 21:18:16 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10E09vxB043707;
-        Thu, 14 Jan 2021 00:18:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=8fvI3uhDU/lFzBKxslGGP7n71gqZcVlfK/swNLvGpfc=;
- b=YEIfU30lASj8s4oEdpvFEcMZgaMpbjUuJP+p6CPOtp3Ss5fqSByAqZQRl+ZjmSBKSvC+
- yDmpRp0sE9YOEirX4wpQIAXHsDI4YyPMY2tdSZsG9WycCodjJ6WCIbDCXymlcXoo5IGL
- 2ye4wRyUgz+AkzeKU+u+Tf10guAPbE/d0sHdjJyDm9YNRalMro2fb8/CxHv/5YgQ5cV9
- 5abrJ7f3BgsDJYxw/4eOB6QnuN946XBhWtg7D/YiDL2RATp6Y7HMr5MnrpuaMZINVIUK
- wDcnPxH3YMQSfzTrs80YZ9kKqZXPAgLQwGKdJKNV9KnVmKMyuCuRZs5JptxDFm60xroP lQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 360kg1x6pd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Jan 2021 00:18:30 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10E0Am1G162851;
-        Thu, 14 Jan 2021 00:18:29 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 360kem9nsc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Jan 2021 00:18:29 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10E0INsW018524;
-        Thu, 14 Jan 2021 00:18:23 GMT
-Received: from [192.168.2.112] (/50.38.35.18)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 13 Jan 2021 16:18:22 -0800
-Subject: Re: [PATCH v12 12/13] mm/hugetlb: Gather discrete indexes of tail
- page
-To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
-        song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org
-References: <20210106141931.73931-1-songmuchun@bytedance.com>
- <20210106141931.73931-13-songmuchun@bytedance.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <c4afa795-c679-420b-a228-d7f08cf49d02@oracle.com>
-Date:   Wed, 13 Jan 2021 16:18:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1726904AbhANCYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:24:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbhANCYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 21:24:35 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F25C061575;
+        Wed, 13 Jan 2021 18:23:55 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id w1so3923574pjc.0;
+        Wed, 13 Jan 2021 18:23:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8m3H5QC/MlByR96wrIq8TBNeXOK8D2jl9OpLzaXEOXM=;
+        b=WsknhtEYMWb2HbUPemXtcY45PVhieKGmEHxaaIlQ7QUoD/CCcnhlu1QWchWKI/OTtf
+         HHf980xd59sONqZxvSCYNkHCGbznJ4sUuPHB3h8quces3YNrwXi/8ZQF7/NuTDooWLmH
+         IQx/tjJJPGyVH7jxwotlem/Zyda2uGiEaIIhT2DC21oyEnG2GC3jFeurA4yGoeqvIext
+         S+yG3YNWDEgTD4c0fSrSFypI0RTEeyt758UneRkiQ611eceQBru9DyUx8ImxAMUg+Loq
+         g3yo0GgQmHsXK4AmqhG4JlDekK+9uicxr9alhoM05nGIl5+YVxq1Xsran0+01MQ1JAcB
+         iB9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8m3H5QC/MlByR96wrIq8TBNeXOK8D2jl9OpLzaXEOXM=;
+        b=tfqD6led2BSlIXmKt31tEWmiCSJuDnHwZvXCkM3pNt+4U6FLba1kU4JPHgGBg0Miu1
+         0CTwnM1O1F8AkhWya973Iqa0nEzVQfBgWwfpIuBakFduX6k6ixHtTu2HLtgKGq9MA/nC
+         uMU/jNHEHPpDvNGC2DXjtEJcWbIOFXEffv+lCF6T3KuAQ17bmtwk1C+vsEdzTybG90Lu
+         cN5ErvbCnod7K6pNgaGmiIw5lEKhF1X+pjbmWI60nyXqvEwn6Bllo10HRF/XtHbuyeFj
+         onPDrcPIvM/0khONO1lZZXSmx4NWRgEB+mvSD8k6HhWUxGDmLoYfb9WvvwqY6CSfC0Rn
+         GWPQ==
+X-Gm-Message-State: AOAM533m+TYSAx+vnyPIEyYQLvuArrxTaDggsmGxVDe4bpU65aw38ZTD
+        7kkhVFye9FaV9weQtyWX/k0=
+X-Google-Smtp-Source: ABdhPJyrp53u1V+Rw9s2PJshoglaAcYbe7HYRmBm4YtRJUE4uR1nTalkrPlPcdm6NX8fgz8/cWzxwA==
+X-Received: by 2002:a17:90a:bf88:: with SMTP id d8mr2572623pjs.124.1610591034728;
+        Wed, 13 Jan 2021 18:23:54 -0800 (PST)
+Received: from Ryzen-9-3900X.localdomain (ip68-104-204-241.ph.ph.cox.net. [68.104.204.241])
+        by smtp.gmail.com with ESMTPSA id z5sm3680920pff.44.2021.01.13.18.23.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 18:23:53 -0800 (PST)
+Date:   Wed, 13 Jan 2021 19:23:52 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported
+ architectures
+Message-ID: <20210114022352.GA9913@Ryzen-9-3900X.localdomain>
+References: <20210114003447.7363-1-natechancellor@gmail.com>
+ <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com>
+ <CAKwvOdmr7RttdM25wWKiV8t+tzn8W-C_U6avwrQXQWphT8XhXQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210106141931.73931-13-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130147
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130147
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdmr7RttdM25wWKiV8t+tzn8W-C_U6avwrQXQWphT8XhXQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/6/21 6:19 AM, Muchun Song wrote:
-> For HugeTLB page, there are more metadata to save in the struct page.
-> But the head struct page cannot meet our needs, so we have to abuse
-> other tail struct page to store the metadata. In order to avoid
-> conflicts caused by subsequent use of more tail struct pages, we can
-> gather these discrete indexes of tail struct page. In this case, it
-> will be easier to add a new tail page index later.
-> 
-> There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-> page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
-> so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Reviewed-by: Oscar Salvador <osalvador@suse.de>
-> ---
->  include/linux/hugetlb.h        | 14 ++++++++++++++
->  include/linux/hugetlb_cgroup.h | 15 +++++++++------
->  mm/hugetlb.c                   | 25 ++++++++++++-------------
->  mm/hugetlb_vmemmap.c           |  8 ++++++++
->  4 files changed, 43 insertions(+), 19 deletions(-)
+On Wed, Jan 13, 2021 at 06:05:32PM -0800, Nick Desaulniers wrote:
+> On Wed, Jan 13, 2021 at 5:19 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Patch looks fine, but `make -j htmldocs` seems to be taking forever
+> > for me so I can't render it. Is this a known issue?
+> >
+> > $ make -j htmldocs
 
-My apologies!  I did not get to this patch in previous versions of the
-series.  My "RFC create hugetlb flags to consolidate state" was done
-before I even noticed your efforts here.
+A clean "make -skj24 htmldocs" takes me a little over three minutes or
+so on my Ryzen 9 3900X. Just to give some perspective.
 
-At least we agree the metadata could be better organized. :)
+> Just took a while, lots of warning spew (but not from this addition AFAICT).
+> Reviewed-by: Nick Desaulniers <ndesaulnier@google.com>
 
-IMO, using page.private of the head page to consolidate flags will be
-easier to manage.  So, I would like to use that.
+Thanks for the review!
 
-The BUILD_BUG_ON in this patch makes sense.
--- 
-Mike Kravetz
+Cheers,
+Nathan
