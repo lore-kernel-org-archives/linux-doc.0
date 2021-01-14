@@ -2,68 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7441DC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91C1AC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:37:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E1A023A56
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:14:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5977423A69
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728824AbhANOOM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 09:14:12 -0500
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:10275 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727283AbhANOOM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 09:14:12 -0500
-Date:   Thu, 14 Jan 2021 14:13:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail2; t=1610633608;
-        bh=1xVDP+DpaqaHjOhRD3Fsqb5+o8cs19izEhMuZCBEwqo=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=U2Hms97g1LH6vW09r/VQijPieVbd5M9KZwfFYnqZFw/WNKkybteyo212qly59QGy0
-         LSTanfzOSaut0zhy+9zyobjVH3TMApTgiDPYLRvVxKsvMl11EYZ3L32WPZmNp1NW4R
-         V3LVXh8W8ggu+nkW2g3ArIDh1UfjiisPsMf+bNXFhmgaOL72zTI3RVeSyGC3so683M
-         ic9bJj5ZZAlyotwvabcw0tx7AUVOZIas3d+CqwWozevv5SsR+VKJUMSPRTa0VE6TDl
-         83mfmm+irCRNF/pJUrFEAYtS9q2j3YP1SyubM6A2hFlaxL7vDwVysoOpObQNfEDw0b
-         FF4/qFMEONT5g==
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 15/16] drm: drm_crc: fix a kernel-doc markup
-Message-ID: <GS4SAPqf7Gl2MJ4pYYlRq38wmiYovdE5GErbY3GKxpiySr5i_FKHGWBMnA7MIDR64-bKHEJPfo7aqbzaDz4DCeoyCW97VVEOUAWGoK1pUHE=@emersion.fr>
-In-Reply-To: <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org> <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org> <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
+        id S1727892AbhANOg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 09:36:58 -0500
+Received: from ms.lwn.net ([45.79.88.28]:58170 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726175AbhANOg6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 09:36:58 -0500
+Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 44FAC6139;
+        Thu, 14 Jan 2021 14:36:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 44FAC6139
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1610634977; bh=F2VJ1UToobXEetmaLg/4ARcDoIjgtCQM7tPnz9vsCDU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Ltgp16RWcrip2SK0lkqlmCPKozGMg1UCjeH6yHfJKRdKBK6XFaubgmXpyr8Xixznr
+         TLNiCldjZl+/k0U6FXq7Nj51WUCsqg8MY9Nwq70GViyZZcqWX8BG76vOLxxLvTqVOQ
+         hOvUdqlVyrVTXktD0HTXNl8UZXNhqcSv54GCYeAO3fOGtK9wYxFITcg6STCjYzVVZ7
+         8gI7AVm7TwRYLNBTPyOUhtgcrcnMCXj1DlHBlG2BcG5SPmhGjm/Jg/oLCGjWO+y8Aq
+         PPciU0qH+n9LnaJLyMQBXL1kPUhUd1f/6luLB9xE+Llp5MbGaaiLKCeTHEu3ehKyDQ
+         I7HkGcyOWqp4w==
+Date:   Thu, 14 Jan 2021 07:36:15 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported
+ architectures
+Message-ID: <20210114073615.6b9add58@lwn.net>
+In-Reply-To: <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com>
+References: <20210114003447.7363-1-natechancellor@gmail.com>
+        <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, January 14th, 2021 at 9:06 AM, Simon Ser <contact@emersion.fr>=
- wrote:
+On Wed, 13 Jan 2021 17:19:59 -0800
+Nick Desaulniers <ndesaulniers@google.com> wrote:
 
-> On Thursday, January 14th, 2021 at 9:04 AM, Mauro Carvalho Chehab <mcheha=
-b+huawei@kernel.org> wrote:
->
-> > A function has a different name between their prototype
-> > and its kernel-doc markup:
-> >
-> > =09../include/drm/drm_crtc.h:1257: warning: expecting prototype for drm=
-_crtc_alloc_with_planes(). Prototype was for drmm_crtc_alloc_with_planes() =
-instead
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
-> Acked-by: Simon Ser <contact@emersion.fr>
+> Patch looks fine, but `make -j htmldocs` seems to be taking forever
+> for me so I can't render it. Is this a known issue?
+> 
+> $ make -j htmldocs
+>   SPHINX  htmldocs --> file:///android0/linux-next/Documentation/output
+> make[2]: Nothing to be done for 'html'.
+> WARNING: The kernel documentation build process
+>         support for Sphinx v3.0 and above is brand new. Be prepared for
+>         possible issues in the generated output.
 
-Pushed to drm-misc-next, thanks for the fix!
+Sphinx 3.x is *way* slower to build the docs, alas.  One of many
+"improvements" we got with that change.
+
+jon
