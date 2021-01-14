@@ -2,63 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B75C2C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3B6DC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:21:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D650233FD
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60905239EC
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727184AbhANII1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 03:08:27 -0500
-Received: from mail-03.mail-europe.com ([91.134.188.129]:53612 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726742AbhANII1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 03:08:27 -0500
-Date:   Thu, 14 Jan 2021 08:06:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail2; t=1610611621;
-        bh=oZoLOvB8GFNjTNukq9k4F1x8Zrh7VuJWPVVKWBKbx6E=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=QntvKbV1vbBi+N/094QDG70LEkXfRBGSma8e3IoD4jHW+TxXVRJbXS9E1IGSKVB4d
-         r1x0dNCfc3xC0p7aPRVYcrCXoU/zHBPHs6VcIudLRyY/D8YlQtBOAIlUwlLWFsLTy6
-         mmrHtEA0JagQIO6GtkHlDdNY/uA5IsOJr5urCGRkg+G8K4w/hmRuPgq8lufieWChJD
-         5TcCRFeHcuvG+KLwDvBouFhhnl7ADS8pN4F/SPg4uoyG/3rE7WKxn3YWUzTM7WuiUy
-         5RjlIBQoAGXy+1qVUL3Mhm74oiIaUtj7oCiQnrh+BFVUKoZzfMmZCwRP8ixSh6c4yY
-         2Kh9d84w2LHiw==
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 15/16] drm: drm_crc: fix a kernel-doc markup
-Message-ID: <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
-In-Reply-To: <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org> <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
+        id S1727778AbhANIVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:21:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726204AbhANIVg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 03:21:36 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 15CF22343F;
+        Thu, 14 Jan 2021 08:20:55 +0000 (UTC)
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1kzxsC-007S2r-Pq; Thu, 14 Jan 2021 08:20:53 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 14 Jan 2021 08:20:52 +0000
+From:   Marc Zyngier <maz@kernel.org>
+To:     Srinivas Ramana <sramana@codeaurora.org>
+Cc:     catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 0/3] arm64: cpufeature: Add filter function to control
+In-Reply-To: <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
+References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
+ <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
+ <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <7b53c01dd5afcb29679c3a9cf72407a9@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: sramana@codeaurora.org, catalin.marinas@arm.com, will@kernel.org, pajay@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, January 14th, 2021 at 9:04 AM, Mauro Carvalho Chehab <mchehab+=
-huawei@kernel.org> wrote:
+On 2021-01-14 07:15, Srinivas Ramana wrote:
+> Hi Marc,
+> 
+> On 1/11/2021 5:40 AM, Marc Zyngier wrote:
+>> Hi Srinivas,
+>> 
+>> On 2021-01-09 00:29, Srinivas Ramana wrote:
+>>> This patchset adds a control function for cpufeature framework
+>>> so that the feature can be controlled at runtime.
+>>> 
+>>> Defer PAC on boot core and use the filter function added to disable
+>>> PAC from command line. This will help toggling the feature on systems
+>>> that do not support PAC or where PAC needs to be disabled at runtime,
+>>> without modifying the core kernel.
+>>> 
+>>> The idea of adding the filter function for cpufeature is taken from
+>>> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-25-catalin.marinas@arm.com/ 
+>>> https://lore.kernel.org/linux-arm-kernel/20200515171612.1020-24-catalin.marinas@arm.com/ 
+>>> Srinivas Ramana (3):
+>>>   arm64: Defer enabling pointer authentication on boot core
+>>>   arm64: cpufeature: Add a filter function to cpufeature
+>>>   arm64: Enable control of pointer authentication using early param
+>>> 
+>>>  Documentation/admin-guide/kernel-parameters.txt |  6 +++
+>>>  arch/arm64/include/asm/cpufeature.h             |  8 +++-
+>>>  arch/arm64/include/asm/pointer_auth.h           | 10 +++++
+>>>  arch/arm64/include/asm/stackprotector.h         |  1 +
+>>>  arch/arm64/kernel/cpufeature.c                  | 53 
+>>> +++++++++++++++++++------
+>>>  arch/arm64/kernel/head.S                        |  4 --
+>>>  6 files changed, 64 insertions(+), 18 deletions(-)
+>> 
+>> I've been working for some time on a similar series to allow a feature
+>> set to be disabled during the early boot phase, initially to prevent
+>> booting a kernel with VHE, but the mechanism is generic enough to
+>> deal with most architectural features.
+>> 
+>> I took the liberty to lift your first patch and to add it to my 
+>> series[1],
+>> further allowing PAuth to be disabled at boot time on top of BTI and 
+>> VHE.
+>> 
+>> I'd appreciate your comments on this.
+> Thanks for sending this series. It seems to be more flexible compared
+> you what we did.
+> Following your discussion on allowing EXACT ftr_reg values.
+> 
+> 
+> Btw, do you have plan to add MTE in similar lines to control the 
+> feature?
+> We may be needing this on some systems.
 
-> A function has a different name between their prototype
-> and its kernel-doc markup:
->
-> =09../include/drm/drm_crtc.h:1257: warning: expecting prototype for drm_c=
-rtc_alloc_with_planes(). Prototype was for drmm_crtc_alloc_with_planes() in=
-stead
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+I don't have any need for this at the moment, as my initial goal was
+to enable a different boot flow for VHE. The BTI "support" was added
+as a way to demonstrate the use of __read_sysreg_by_encoding(), and
+your patches were a good opportunity to converge on a single solution.
 
-Acked-by: Simon Ser <contact@emersion.fr>
+But if you write the patches that do that, I can add them to the series,
+and Catalin/Will can decide whether they want to take them.
+
+Thanks,
+
+         M.
+-- 
+Jazz is not dead. It just smells funny...
