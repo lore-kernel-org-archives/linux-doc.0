@@ -4,45 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 019F7C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B802C4332D
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6F6D2343F
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4099B2343F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbhANIHT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 03:07:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59008 "EHLO mail.kernel.org"
+        id S1727274AbhANIHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:07:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727274AbhANIGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1728116AbhANIGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 14 Jan 2021 03:06:22 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E8B323A50;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21762239FF;
         Thu, 14 Jan 2021 08:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610611500;
-        bh=00mBMzyRTOVxMhGgyj2bmNtXZmJA9BKao9o6P+DjHaU=;
+        bh=WCkk3qjIarwJn0N59RAvMinFzr5jkiWLHm2feTCLHKs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=f3wmnVwLQPsHyvAj4sAJzEank3AB2Jlych6H+vzXZ8f9USDPXFavb/8RXGVLHwioU
-         YR+4H3A5kJIMPbJ6KXAXnTQMK5oDB9KWHCFQ1GPSEjYXpzlswiXfml4y7lOpkcvu3u
-         /fWQQXb/+oxk3RJaYdxSDD1B40QPOB3yiHpsDA9XK2ckYU0FF8cDm/lXAYpJwNlQCr
-         81ZE0WvGSxD0BQkrwdMUMb6MVgj19xkcGjJgKXHhI7kuRwJcO5yoTUqI/rwPIGE1To
-         RUV2lOdeyaS5U+r6/6G/J9ojUkg2LX6ffNRodIVjNw9LGnNnoYSP79H5AGnJqFuD52
-         t8E/RvtKTYMLg==
+        b=St6QSUILPjTuu4okjzypsvHNmdUBQAvwFuiNqHZzobbhfv3URHm8ZPagQGwE3rFLk
+         vEPuWUH0PvAHfb+hdxaprbvXPIuk4ilef9yJlKqDfEpNLQsTJj5VldbFPU99rVVqDX
+         dumc2ECCvKixWD1x2ODE1a5QdwLdxL/ACPzCgyzQryD0JXKdGUfZszi897SU2Pi1+4
+         ti2sLo6TYqf0YsOEZwEfhc6GRNhIVzfEWghGhEvbw2YYwCOQigvjJiG/YXY+A7fjrb
+         JzHVSka+MUdfqug4ENPvAY/ENnNQaJlKwqAYwpEcX4nWMlzKY3wmEdvM0sJ8zWwzpr
+         b87RMIJkBjeSw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxco-00EQ6y-EO; Thu, 14 Jan 2021 09:04:58 +0100
+        id 1kzxcn-00EQ6d-WB; Thu, 14 Jan 2021 09:04:58 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v6 14/16] reset: core: fix a kernel-doc markup
-Date:   Thu, 14 Jan 2021 09:04:50 +0100
-Message-Id: <8defd442bce0cf5524cf1cfbbd028eede90358a7.1610610937.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v6 07/16] lib/crc7: fix a kernel-doc markup
+Date:   Thu, 14 Jan 2021 09:04:43 +0100
+Message-Id: <1963266e84c6fb0154602f276b04887c85f80bd3.1610610937.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610937.git.mchehab+huawei@kernel.org>
 References: <cover.1610610937.git.mchehab+huawei@kernel.org>
@@ -54,30 +53,26 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 A function has a different name between their prototype
-and its kernel-doc markup:
-
-	../drivers/reset/core.c:888: warning: expecting prototype for device_reset(). Prototype was for __device_reset() instead
+and its kernel-doc markup.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/reset/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ lib/crc7.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index 34e89aa0fb5e..dbf881b586d9 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -875,8 +875,8 @@ struct reset_control *__devm_reset_control_get(struct device *dev,
- EXPORT_SYMBOL_GPL(__devm_reset_control_get);
+diff --git a/lib/crc7.c b/lib/crc7.c
+index 6a848d73e804..3848e313b722 100644
+--- a/lib/crc7.c
++++ b/lib/crc7.c
+@@ -51,7 +51,7 @@ const u8 crc7_be_syndrome_table[256] = {
+ EXPORT_SYMBOL(crc7_be_syndrome_table);
  
  /**
-- * device_reset - find reset controller associated with the device
-- *                and perform reset
-+ * __device_reset - find reset controller associated with the device
-+ *                  and perform reset
-  * @dev: device to be reset by the controller
-  * @optional: whether it is optional to reset the device
-  *
+- * crc7 - update the CRC7 for the data buffer
++ * crc7_be - update the CRC7 for the data buffer
+  * @crc:     previous CRC7 value
+  * @buffer:  data pointer
+  * @len:     number of bytes in the buffer
 -- 
 2.29.2
 
