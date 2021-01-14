@@ -2,125 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1C16C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A73CDC43381
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:32:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91FE323B5D
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:19:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70EB523B76
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727862AbhANTTE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 14:19:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727530AbhANTTE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 14:19:04 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A11DC061575
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 11:18:18 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id n142so9411049qkn.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 11:18:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=C4cTRyNK/dC7x750o61uCU/kZvdErxEIbD//IbSoOqo=;
-        b=IVs5API2ULJAzAHUSiRisWWxGFJGCovscCYfVU18XbamY7/WEof8Gym2BlSktJDXBo
-         AoCoxz2E3yLrkkdsNWUFxDbxQqY4B+CwmC4cfYwn409aRYG7qB1b5Y6WhgV7StJCej62
-         vfcM/W63g0sDQPGmSKZJ8JsXuiaegR5ZWDedA=
+        id S1728310AbhANTbv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 14:31:51 -0500
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:36317 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbhANTbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 14:31:51 -0500
+Received: by mail-oi1-f179.google.com with SMTP id 9so7126806oiq.3;
+        Thu, 14 Jan 2021 11:31:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=C4cTRyNK/dC7x750o61uCU/kZvdErxEIbD//IbSoOqo=;
-        b=nXOlJiLJSEyXMfjN9PBnZrFNShBAkSIhrPN3hEbCZ0o8hEkTcU36UxzMmsnXwG9J2I
-         0S90ANiDAtsA6NOOVIYDwx8K/jFK6pr0ArW9RfqXDOjglt60rJ6anKxD+dAT3sVV8SqF
-         WATaUcOPLzlwlRHBN+P4t9xNjt8UPsa11QlLHvjGKOkm0S4igw2cdfRrb/jl8cFj/mNN
-         ipm5Rj+BkrlOT774SCBzVnt5JkVkTgi9mynu934aeTLvipU4LJWxBMan6ChMR+EKFknp
-         xrc969n6Hi9cuzd6V7d4y7UeO+RGd3eGCg9LdzRqKXWMNX5+nvgufHsiiV1bA3O2dk4A
-         thMg==
-X-Gm-Message-State: AOAM532DXgBLO2dBiFvEruOVqWD1qk4idWTrTtkTu2l/JaGdEEf7JSx3
-        TRrwD5Hy7e6719VGLUj+djkk8w==
-X-Google-Smtp-Source: ABdhPJzmWOLSsFawh/iOlWprvRJZzLbN1iFPlFN/u1i8PPWL6QuikgUEMHCOEwWCGA62v07RPcSLwA==
-X-Received: by 2002:a37:e504:: with SMTP id e4mr8561054qkg.191.1610651897173;
-        Thu, 14 Jan 2021 11:18:17 -0800 (PST)
-Received: from chatter.i7.local ([89.36.78.230])
-        by smtp.gmail.com with ESMTPSA id m190sm3530840qkb.42.2021.01.14.11.18.16
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jCW/74dk4/r2pTUeRiZ/lnXm69baMKCS/KFRrpnvniY=;
+        b=q91N9MnWjUosYjc8G2O4ZDPBdOSWueuqySLX2MZQgmJpD/Nj4SzVVZiG5hL6XgsDBo
+         quxQBMTwS7i/P1YG4yhQ5NT39hpS3lxb2dOHJE2xnaEwXD3xQl1ct6ERCBdUNWerlpHE
+         JGyp3brubY23VQDNNuS9kSE4TfGsTcGDH6WVtxEx0vHkheTb/N5YqosG7mZoJsL7gWNu
+         fEyFJ67tTi5or4Yv/wp1l2v0Qlx1jlMNGlrSlvPFh0xcgNH2rbZUTw3wSG0yhVZWB1nb
+         /nGavetcWHhkisD80oNZFNnR20tcJvULEakZ6ylF8WTDjpt+GlGlGlrxk54ROdKE4Qzh
+         +46Q==
+X-Gm-Message-State: AOAM531T8hkMk64Dm02JZJq/PyzMe9qudf9mn6mWNxtVPxl2H8lx6Oc+
+        QSqXkIjIme0GhrPv4S5kvsJJ3ojmYA==
+X-Google-Smtp-Source: ABdhPJz81BTCFtHgx3zSCLgFeQQfXJoask7vf+brnMbnlpYkFgiiyvjdENxkrgkUXCeNWStSR65fkQ==
+X-Received: by 2002:aca:b20a:: with SMTP id b10mr3512096oif.75.1610652670139;
+        Thu, 14 Jan 2021 11:31:10 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 63sm1243184otx.2.2021.01.14.11.31.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 11:18:16 -0800 (PST)
-Date:   Thu, 14 Jan 2021 14:18:14 -0500
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
- bugzilla.kernel.org
-Message-ID: <20210114191814.g3se2svqxtod25xi@chatter.i7.local>
-Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210110121033.130504-1-linux@leemhuis.info>
- <20210111194822.4kvl2tx24anyu23k@chatter.i7.local>
- <fba45829-cac3-9f53-c753-0b08d813aa83@leemhuis.info>
- <877doht7bd.fsf@intel.com>
+        Thu, 14 Jan 2021 11:31:09 -0800 (PST)
+Received: (nullmailer pid 3432430 invoked by uid 1000);
+        Thu, 14 Jan 2021 19:31:08 -0000
+Date:   Thu, 14 Jan 2021 13:31:08 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Robert Marko <robert.marko@sartura.hr>
+Cc:     jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Luka Perkov <luka.perkov@sartura.hr>
+Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: Add TI TPS23861 bindings
+Message-ID: <20210114193108.GA3430334@robh.at.kernel.org>
+References: <20210111135708.3703175-1-robert.marko@sartura.hr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877doht7bd.fsf@intel.com>
+In-Reply-To: <20210111135708.3703175-1-robert.marko@sartura.hr>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 01:17:10PM +0200, Jani Nikula wrote:
-> >> Well, that said, a lot of stuff sent to the _proper_ mailing lists also never
-> >> receives a response
-> >
-> > Good point.
+On Mon, Jan 11, 2021 at 02:57:06PM +0100, Robert Marko wrote:
+> Document bindings for the Texas Instruments TPS23861 driver.
 > 
-> There's a school of thought that this is actually a feature. If there's
-> no attention, the reports on the list will just fade away and be
-> forgotten. Whereas in bugzilla, someone needs to actively resolve even
-> the ignored and forgotten bugs. (Or it needs to be automated.)
+> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+> Cc: Luka Perkov <luka.perkov@sartura.hr>
+> ---
+> Changes in v4:
+> * Correct shunt binding
+> 
+>  .../bindings/hwmon/ti,tps23861.yaml           | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+> new file mode 100644
+> index 000000000000..891eee9489aa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/ti,tps23861.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI TPS23861 PoE PSE
+> +
+> +maintainers:
+> +  - Robert Marko <robert.marko@sartura.hr>
+> +
+> +description: |
+> +  The TPS23861 is a IEEE 802.3at Quad Port Power-over-Ethernet PSE Controller.
+> +
+> +  Datasheets:
+> +  https://www.ti.com/lit/gpn/tps23861
+> +
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,tps23861
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  shunt-resistor-micro-ohms:
+> +    description: The value of curent sense resistor in microohms.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-FWIW, it's easy for me to script this, if there is consensus that a bug that
-hasn't seen any activity for longer than N months should be auto-closed with
-some apologetic comment like:
+Don't need a type $ref as that's already defined for anything with 
+units.
 
-    This bug has aged out and will be auto-closed. Sorry that it didn't work out.
-
-    If this issue is still present in recent kernel releases, you may need to
-    reach out directly to subsystem maintainers in order to get their attention
-    regarding this problem.
-
-    Please do not re-open this bug without the above step, as it will simply
-    get auto-closed again in the future.
-
-> Attending to a bug database of thousands of open bugs takes a huge
-> amount of effort, and if the bugs aren't being fixed, a lot of that
-> effort is just wasted. If a bug doesn't get fixed now (or soon-ish),
-> what are the chances it'll get fixed months or years down the line?
-
-Well, it's *possible* that someone comes across that bug during their research
-and adds enough additional information to get it fixed. However, this is
-extremely unlikely and it's better to just open a new bug anyway.
-
-> Just musing, has anyone else seen a shift in bug reports from "I'm part
-> of the community, and I want to help improve this stuff" towards "I'm a
-> customer and I demand support"? I don't think the kernel community can
-> really cater to the latter very well, and would be better directed at
-> distro bug trackers.
-
-I haven't seen any specific change like that. One good thing about bugzilla is
-that people who do file bugs have already overcome significant barriers to
-sign up and navigate the quaint, decades-old bugzilla interface -- so their
-bug reports tend to be generally well-written.
-
--K
+> +    default: 255000
+> +    minimum: 250000
+> +    maximum: 255000
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          tps23861@30 {
+> +              compatible = "ti,tps23861";
+> +              reg = <0x30>;
+> +              shunt-resistor-micro-ohms = <255000>;
+> +          };
+> +    };
+> -- 
+> 2.29.2
+> 
