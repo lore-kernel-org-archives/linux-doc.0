@@ -2,186 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 119D2C43381
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 21:32:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2F6C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 22:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E909F23A5E
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 21:32:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57C5723435
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 22:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbhANVcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 16:32:07 -0500
-Received: from mga05.intel.com ([192.55.52.43]:9695 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726239AbhANVcE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 16:32:04 -0500
-IronPort-SDR: y/7zOT31DbriTNFDOHxxKX6pCFUIGHTfR0Goxq8DiuEld5w3EjD0s7zy8D9obJ9EPLLyi0Ai52
- Fo+aI3nl190Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="263239475"
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="263239475"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 13:31:22 -0800
-IronPort-SDR: zaNIUsnETZZNyuncrsH7YHt5tvJm4J4nnqcUNk4jBEUhqq6aNCq4OGIf6w6IiUFchOrrsPxmZf
- DSZdWalWx9Ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="354049557"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Jan 2021 13:31:22 -0800
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 14 Jan 2021 13:31:22 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 14 Jan 2021 13:31:22 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Thu, 14 Jan 2021 13:31:21 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cHP0qVPo3v2zNDuzMBOZqMy0sK4+rNMecPlM82RAEQNoZRfNy7wvEcv1F1qB4pR7+xDHm5bkPyIBokJ+zaoUcnFhM7/YKEn550cGdob2IHhklK4GHcPSNlZv9wLEThJsCvCpDkX3MP434XEW0fUQDfcMT+2V9KpqAxRoiPxZOqlYkr5P95GayVmz0+TIU+EfE/5e4LAxhNIwdD1v1GQnHYgv8Rn/M9u9MuF4kyU7bqT7Doj2boABKrWYfDC+TfqAm8A+4kpqTz9zwwxYOe1Cv1S/AEAkJWjYQlGDH7S+/qdkwdCR5gy5qiYBs85QcmkHIHNbhjdjDm7aeZiBlHAdPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gH2PH5gxc0SjoP/LeEnuFXKnpjBChGeIMzQv/Dt4JFs=;
- b=NzXNKeOi/poKaSIH20W2M7rsvMIxoXEn0ZYOzdTIU0SxlOk6IgCxPmMQDNaWBJHgWlqx6RsxyAkSQyOY5vNXRyAQ0dxJM6SirYuCL+aKV//hJ7jDKpwxqahgunhXiuVZzVlNRuztHzK5N6vJz9UPpaFG1U8YwRjmro0PGTfyHmN4Uo8UYJy5CP4zFQDIxr1sgy94tWNq3b/LnqTctsBu3kKGH96dFu3Vv1WA6yGxvQnLtTiL0Dw7Dof7ODPMxI68kT24VpeI7O1w5NAGTtGfAweQ38fO9TSs8MP2n4UM3VjwfSIWYqORAO5P9EIKCkXYw0y7xNMCDi6DAF0GHKcjFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gH2PH5gxc0SjoP/LeEnuFXKnpjBChGeIMzQv/Dt4JFs=;
- b=FhLAyCY/FgpK7rMRm5Suv+mKcTF6VAr1wcsjDfsZ/sh/h0oy6A9ITl3KQ3I0L36z5/fOBqS8/PHj1h5KBMfsTdZXbUkw9ie8P42FIMSPgog4mWExnBqFOqmQP9dnWhnkaZtsdM2ydQAqWbkpFOB2JyTz1YRvQOow3+b1jxkOEYE=
-Received: from PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
- by PH0PR11MB4981.namprd11.prod.outlook.com (2603:10b6:510:39::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 14 Jan
- 2021 21:31:20 +0000
-Received: from PH0PR11MB4855.namprd11.prod.outlook.com
- ([fe80::d8ce:8971:4d20:c430]) by PH0PR11MB4855.namprd11.prod.outlook.com
- ([fe80::d8ce:8971:4d20:c430%6]) with mapi id 15.20.3763.011; Thu, 14 Jan 2021
- 21:31:20 +0000
-From:   "Bae, Chang Seok" <chang.seok.bae@intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-CC:     Borislav Petkov <bp@suse.de>, "luto@kernel.org" <luto@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "Liu, Jing2" <jing2.liu@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 21/21] x86/fpu/xstate: Introduce boot-parameters to
- control some state component support
-Thread-Topic: [PATCH v3 21/21] x86/fpu/xstate: Introduce boot-parameters to
- control some state component support
-Thread-Index: AQHW2UTqMFTBIOFRX0elOMp17XLu66oFAucAgCLDwIA=
-Date:   Thu, 14 Jan 2021 21:31:19 +0000
-Message-ID: <3AB31479-2394-4BFF-B309-F692E9135CE0@intel.com>
-References: <20201223155717.19556-1-chang.seok.bae@intel.com>
- <20201223155717.19556-22-chang.seok.bae@intel.com>
- <64c67e40-ecba-5d9b-7c4b-4c64ea62906a@infradead.org>
-In-Reply-To: <64c67e40-ecba-5d9b-7c4b-4c64ea62906a@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.4)
-authentication-results: infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.189.248.82]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a16095b6-6d31-4e12-2283-08d8b8d3bbbf
-x-ms-traffictypediagnostic: PH0PR11MB4981:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <PH0PR11MB498114428F1CDAB467D4032DD8A80@PH0PR11MB4981.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FQehml6Ayx3pa/NHDwQSISXQ7wWdV8mfs9qSyxliBaC00tFSBKHIGaIVcvdIf3Y+0Ul9YWB0u5mtA9aWMmEJgdHr3ygBaRi4E+z41jYakswALcY+zt7At95s9vvG7nYaCgciQq0Gpm8dYfI0Meu3lBweZnsNyX/KO3uzCu4S72pPm09lFiHKCbEQ4tjp/y2Su81p0Lw5r2BaATwCvSRM7Wrdh5601Y+1wIsCKlS22Pg7fHMiTLrUI/6LCmd5LODg2r7XA0SsmwMy/b9NMYZKHcCUaESNak2RoZVnOFoh8Bf3lGmwEF2z4Crh941GZ3aUsLEy5gjFGB1k3OinO8hQbR6kBjP4fwvZVgGHGHhaDwTihGMKu1Aaxk7C92VIYFaSfD+hyzfWwMV9QjeKiq/JJNWSmQZjwcU2YG7sulCXErvAV2Xe/S4BeDdM8JjLbmob
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4855.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(136003)(346002)(366004)(33656002)(5660300002)(26005)(6506007)(316002)(54906003)(6916009)(8936002)(36756003)(2906002)(86362001)(8676002)(4326008)(6512007)(53546011)(76116006)(66946007)(186003)(478600001)(66476007)(2616005)(71200400001)(66446008)(66556008)(6486002)(64756008)(83380400001)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?NPtJnarliJX9UTpHLQ/08Eg2hrAIEe0PBBPs908aIPqC8KiidDbs2haAqIHq?=
- =?us-ascii?Q?vU2mqXysQ0bv0Iye2sPpSCrsDvBhNTywjt5oExFJ2W6foYBzFAz3oW8hfD1O?=
- =?us-ascii?Q?cyXnr7lyfKVZfkY/QHel7FO+CjIVDI9j9SHcVnE1abtUsbKOtt/tBRj/6dc7?=
- =?us-ascii?Q?h3lR6plhJP8+IbxZ+pz1q5OcNXXxcOx9t8KfClrX82qpxmeOOhSf/KGi8EqW?=
- =?us-ascii?Q?Fr7kydfT/MhUuxudHKZEEU0aTVKbAQ7bfh5CZzLiIWqTQqQFk14Y7ovYyFF8?=
- =?us-ascii?Q?6wLIpkfvluB0MjqTWSTHOMvVIX4HL2SnIbABM3zhGimLYe280pDCEYn8WP53?=
- =?us-ascii?Q?HV4TJwPFJ8iWWceobgFcXwLO4jEaDUwlF9cUFF+egW2dA4semA3NHsfSRpMJ?=
- =?us-ascii?Q?XGoR9Nhy7rrPo1EF1soL6DbntOTs8rlq5C5m+sECcLQSTn3rgbWxDMLTrhP4?=
- =?us-ascii?Q?Sd47K+M8pDor18cRcBgoHQTyd5opRrpDsOn8FoFDKoDbZ7GqVIzK34SRWNzh?=
- =?us-ascii?Q?zkmoepGAK8KBJ5keZKBscBcuGcPoZazI8BtmOrz+o0lvSMGix/foZCqHRe9r?=
- =?us-ascii?Q?MeaantRZEAjsrODL/Ruwrbs+qhs03UnU4LDv+YtHgsjq90p/ScQACMQJ8AuI?=
- =?us-ascii?Q?ZLLH5sdMAmJZRH7KqWURz0rDFJhpIGhI6nr+hhpYvaxlcN8QKm0thX3BH7Fm?=
- =?us-ascii?Q?e5dU4sPmZ8cJYobLsJ//sOH8YYRdIrrlmVhsU6OT6bkd6mtFdEpOXxJE1Bii?=
- =?us-ascii?Q?zhEOkqBwl78SLMx1kmBotPS5RmFD/RHKK58Qfa6fHCu6x0gp3fq6lZlm/YuP?=
- =?us-ascii?Q?Ey2g5bZwF/ZGKYys3ukn7uLopHcawWkAqHTBv+++eo8vs8jGKV7fQjms74F6?=
- =?us-ascii?Q?0SEn8hrKP7jVWuEg09AfwIQVRAYAgaUi2QB8lCv/srO/laOJxEYfU0NhcBJi?=
- =?us-ascii?Q?1RgA13fCoFvz8r4hdSMh9sw9VpUQtIyExFrZHIhdgfxMRbuI+NQOIdccSIzl?=
- =?us-ascii?Q?OjxL?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DED39FD0EB253948AA0D03405BFDF618@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1730813AbhANWox (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 17:44:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730762AbhANWov (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 17:44:51 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28A2C0613ED
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 14:43:30 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id p13so8351959ljg.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 14:43:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=l0aLIrK9Ls3yChluxnDYpvoAFnbmuAeFSQRaGDSDK6s=;
+        b=Xp2UG1bDqZV6MWUIg3PXRWlOxm3AESTgyUaOByzy05KbBMIlWQTWhAjiAXqIJLco8n
+         CKATzDajP+/i7+U9T8QSEVzVCGM9KCooEF2Qog6oGaP7m4UbxqlPABfgxbuvEWJTi9CN
+         eqzQu31AW2vsl1w6jVkXxJ/M5h/fqc7PNe9pqO61lRW1/nWovu8unaTR5XmmIZkfZgwP
+         tr+Axa7VGzhhKFDPvqTzv2L+EqZ4C5BEDY31jsINoIDSNsVV2C0gKRsxVsVvX38Zs0wH
+         p15PatmNXOKYvYVm9VjZ1UxZrw3YprkBpqifeMBtnXs/ATFse8XhCqZ+GPH/cm/nlJcE
+         s4sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=l0aLIrK9Ls3yChluxnDYpvoAFnbmuAeFSQRaGDSDK6s=;
+        b=BO+X3dfFELp89q2870OjqMm1i02BqTJh5jw1Q7wijG9KfZQabJvty1vqm+5Ha5Ob55
+         SAGRXmC35RK7wvPgsb78vLDx/f5SI2ogrpr21TN5X6qTaiPb9ih2iiviuVfOVZ1lnYFC
+         Pb988sHkWWh7GG0n+VRED26/3L1Iujjy5imK7V0sHx8X2ZEproHsdFbmkntRGdmzzpEY
+         KkL10GGOF5GOhgoMsC6VZD2AHelcn0fOr3lBzxeSjaZpEMYS+F7ojg3E2azh5Tdezn1+
+         e42MSoMFVUGbB+02YsxU3bu1qjVGT9wFoApFb30eRMqtFxZt55zJ/9CzVj1Bfe814M3M
+         FOfg==
+X-Gm-Message-State: AOAM530DJv+Dcusa+3rV33MALg5Q+Gi26AwP6llMGfmCjvPc2NJpvcPU
+        WRom5U+zPxtRh4v3hdvZgrbh7BRZuRCIrdcsbvCRGw==
+X-Google-Smtp-Source: ABdhPJwmu2cBfmtpdruzglhRIadtD3T+wRN+tSM4C2y7Zg3rHsx1RPPVdIX6GIoHvdQgt3ctrnlKrS5mVOsEqS6Krko=
+X-Received: by 2002:a2e:50c:: with SMTP id 12mr4154104ljf.226.1610664208863;
+ Thu, 14 Jan 2021 14:43:28 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4855.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a16095b6-6d31-4e12-2283-08d8b8d3bbbf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2021 21:31:19.9365
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: i86DLPZhBU+KmTyMwU5tFuUNMx6eyShk6SjxEl731gDkcsGPB07bsG8k6qHWyda59WcaDlvy7o8vdpyksNzCwvMKp7nnIU7MfbA/j/jYjgg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4981
-X-OriginatorOrg: intel.com
+References: <20201209192839.1396820-1-mic@digikod.net> <20201209192839.1396820-8-mic@digikod.net>
+ <CAG48ez1wbAQwU-eoC9DngHyUM_5F01MJQpRnLaJFvfRUrnXBdA@mail.gmail.com> <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
+In-Reply-To: <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 14 Jan 2021 23:43:02 +0100
+Message-ID: <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
+Subject: Re: [PATCH v26 07/12] landlock: Support filesystem access-control
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jan 14, 2021 at 7:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 14/01/2021 04:22, Jann Horn wrote:
+> > On Wed, Dec 9, 2020 at 8:28 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.ne=
+t> wrote:
+> >> Thanks to the Landlock objects and ruleset, it is possible to identify
+> >> inodes according to a process's domain.  To enable an unprivileged
+> >> process to express a file hierarchy, it first needs to open a director=
+y
+> >> (or a file) and pass this file descriptor to the kernel through
+> >> landlock_add_rule(2).  When checking if a file access request is
+> >> allowed, we walk from the requested dentry to the real root, following
+> >> the different mount layers.  The access to each "tagged" inodes are
+> >> collected according to their rule layer level, and ANDed to create
+> >> access to the requested file hierarchy.  This makes possible to identi=
+fy
+> >> a lot of files without tagging every inodes nor modifying the
+> >> filesystem, while still following the view and understanding the user
+> >> has from the filesystem.
+> >>
+> >> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
+> >> keep the same struct inodes for the same inodes whereas these inodes a=
+re
+> >> in use.
+> >>
+> >> This commit adds a minimal set of supported filesystem access-control
+> >> which doesn't enable to restrict all file-related actions.  This is th=
+e
+> >> result of multiple discussions to minimize the code of Landlock to eas=
+e
+> >> review.  Thanks to the Landlock design, extending this access-control
+> >> without breaking user space will not be a problem.  Moreover, seccomp
+> >> filters can be used to restrict the use of syscall families which may
+> >> not be currently handled by Landlock.
+> > [...]
+> >> +static bool check_access_path_continue(
+> >> +               const struct landlock_ruleset *const domain,
+> >> +               const struct path *const path, const u32 access_reques=
+t,
+> >> +               u64 *const layer_mask)
+> >> +{
+> > [...]
+> >> +       /*
+> >> +        * An access is granted if, for each policy layer, at least on=
+e rule
+> >> +        * encountered on the pathwalk grants the access, regardless o=
+f their
+> >> +        * position in the layer stack.  We must then check not-yet-se=
+en layers
+> >> +        * for each inode, from the last one added to the first one.
+> >> +        */
+> >> +       for (i =3D 0; i < rule->num_layers; i++) {
+> >> +               const struct landlock_layer *const layer =3D &rule->la=
+yers[i];
+> >> +               const u64 layer_level =3D BIT_ULL(layer->level - 1);
+> >> +
+> >> +               if (!(layer_level & *layer_mask))
+> >> +                       continue;
+> >> +               if ((layer->access & access_request) !=3D access_reque=
+st)
+> >> +                       return false;
+> >> +               *layer_mask &=3D ~layer_level;
+> >
+> > Hmm... shouldn't the last 5 lines be replaced by the following?
+> >
+> > if ((layer->access & access_request) =3D=3D access_request)
+> >     *layer_mask &=3D ~layer_level;
+> >
+> > And then, since this function would always return true, you could
+> > change its return type to "void".
+> >
+> >
+> > As far as I can tell, the current version will still, if a ruleset
+> > looks like this:
+> >
+> > /usr read+write
+> > /usr/lib/ read
+> >
+> > reject write access to /usr/lib, right?
+>
+> If these two rules are from different layers, then yes it would work as
+> intended. However, if these rules are from the same layer the path walk
+> will not stop at /usr/lib but go down to /usr, which grants write
+> access.
 
-> On Dec 23, 2020, at 10:37, Randy Dunlap <rdunlap@infradead.org> wrote:
->=20
-> On 12/23/20 7:57 AM, Chang S. Bae wrote:
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documenta=
-tion/admin-guide/kernel-parameters.txt
->> index 44fde25bb221..a67ae04d43c5 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -6002,6 +6002,21 @@
->> 			which allow the hypervisor to 'idle' the guest on lock
->> 			contention.
->>=20
->> +	xstate.enable=3D	[X86-64]
->> +	xstate.disable=3D	[X86-64]
->> +			The kernel is compiled with a default xstate bitmask --
->> +			enabling it to use the XSAVE hardware to efficiently
->> +			save and restore thread states on context switch.
->> +			xstate.enable allows adding to that default mask at
->> +			boot-time without recompiling the kernel just to support
->> +			the new thread state. (Note that the kernel will ignore
->> +			any bits in the mask that do not correspond to features
->> +			that are actually available in CPUID)  xstate.disable
->=20
-> 			                               CPUID.)
->=20
->> +			allows clearing bits in the default mask, forcing the
->> +			kernel to forget that it supports the specified thread
->> +			state. When a bit set for both, the kernel takes
->> +			xstate.disable in a priority.
->=20
-> 			               as a priority.
-> ?
+I don't see why the code would do what you're saying it does. And an
+experiment seems to confirm what I said; I checked out landlock-v26,
+and the behavior I get is:
 
-Thank you. I fixed those typos in my tree.
+user@vm:~/landlock$ dd if=3D/dev/null of=3D/tmp/aaa
+0+0 records in
+0+0 records out
+0 bytes copied, 0.00106365 s, 0.0 kB/s
+user@vm:~/landlock$ LL_FS_RO=3D'/lib' LL_FS_RW=3D'/' ./sandboxer dd
+if=3D/dev/null of=3D/tmp/aaa
+0+0 records in
+0+0 records out
+0 bytes copied, 0.000491814 s, 0.0 kB/s
+user@vm:~/landlock$ LL_FS_RO=3D'/tmp' LL_FS_RW=3D'/' ./sandboxer dd
+if=3D/dev/null of=3D/tmp/aaa
+dd: failed to open '/tmp/aaa': Permission denied
+user@vm:~/landlock$
 
-Chang=
+Granting read access to /tmp prevents writing to it, even though write
+access was granted to /.
