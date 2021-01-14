@@ -2,187 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C85C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1BDC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:12:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8BB123B27
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:10:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 520C723B3E
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:12:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbhANQK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 11:10:27 -0500
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:19212 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725950AbhANQK0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 11:10:26 -0500
-Received: from pps.filterd (m0134423.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10EG8AiN009827;
-        Thu, 14 Jan 2021 16:09:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pps0720;
- bh=nbTSe2TPew7yYRQRa73fby2BSBCCEXeRRh0nfroLVm4=;
- b=IzG58anymel4U8D0YcqFf04JItZzD3Rbcb3hmljwjvdQZA5xAdITJ/YLzJNbUoKlvmha
- /ZFCdr9cmykUvVXSsbinCCzzd5FZTkZgP1/kJS+TP/4ejuk4cTgwnEoz+eZbN1GOICBQ
- dK5K2Pl3GSTL9x93lHu8RVzMgoRWmQHZwT8pvXvdyQ+4P9eW8VaNpJltKBR9z9uZxe8A
- jBdDKMdwHnqSoKFxohs/0QB899kSJwHucioeFa4J+I5N62kJ26Wy69AblBOdjoBkesFs
- 4c/2YxOnjsY85f+wRUOsCBGiXAVnlkBTT2looMcwuyQ1FNp29Ev42YV1i8hygYE+wbuC HA== 
-Received: from g2t2352.austin.hpe.com (g2t2352.austin.hpe.com [15.233.44.25])
-        by mx0b-002e3701.pphosted.com with ESMTP id 361fvrapn6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Jan 2021 16:09:30 +0000
-Received: from G1W8106.americas.hpqcorp.net (g1w8106.austin.hp.com [16.193.72.61])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by g2t2352.austin.hpe.com (Postfix) with ESMTPS id C2DB3C4;
-        Thu, 14 Jan 2021 16:09:29 +0000 (UTC)
-Received: from G9W8672.americas.hpqcorp.net (16.220.49.31) by
- G1W8106.americas.hpqcorp.net (16.193.72.61) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 14 Jan 2021 16:09:29 +0000
-Received: from G9W9210.americas.hpqcorp.net (2002:10dc:429b::10dc:429b) by
- G9W8672.americas.hpqcorp.net (2002:10dc:311f::10dc:311f) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Thu, 14 Jan 2021 16:09:28 +0000
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (15.241.52.12) by
- G9W9210.americas.hpqcorp.net (16.220.66.155) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Thu, 14 Jan 2021 16:09:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cRCdrjxJwAI/mBwbNjLZckgtYlk2HrafMJpmWjfmTa0Bi8ibKFXYgwiiLRqDcl/rcYfzKeUy0XE5tPCP+HWXboddOusRD3dLI5ZQlsdhKS6NgMiU+v4PUBBjulKTHnRllmGr62F0fUb3PUdMX5JyeUqSdUlIxuOQepXoRuJBhZrf9e/2vhNCs/yAyb4p0h1STmSCH3Rz34EkM7Qdwo90gV35jpDG1SAUbBfOFVF0H8Mm/MbU7ZETXg1csY4gPrOgifUADt8wEKLyWFkVEHrtSXTdfB3ine3Yk/9rkgDdbf2NUQbcPnmO+JUtIWT+l+oncBw9s5NSzqYg5qFXYejLbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nbTSe2TPew7yYRQRa73fby2BSBCCEXeRRh0nfroLVm4=;
- b=Uq4E8oFz0g9h3duxyGAbeCHsD6SZc/2bbkiyf9ZlvCoTwPKw6y9g2P2CNtb8ijAO5jJddQ8tfGpAbzeBJ6Eh4AH/6vX6cXGU1sssEJDMeWeYcHvvM3VvQ1AE1vkInpe7u2UjE/mRdkZX1I/5Ma7chF4MZel6/VMFe7yYgO50XS6obxZc1k3BBKcSLVruAsSEtuWbBnT5Jnlmy+CcvZuvinGHXuz74J5DBs44RrbNbiQ8EXrWT8ALu/H4UIiqAdCHTJ1LIay9edXtN79xKHbD81PVqCjJvbzJGAg1L5gsxcbVRzSQSNg4NEnGqvUU3mouihDPluKY2vrGdIF0jcdZxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hpe.com; dmarc=pass action=none header.from=hpe.com; dkim=pass
- header.d=hpe.com; arc=none
-Received: from AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:742b::18) by AT5PR8401MB0770.NAMPRD84.PROD.OUTLOOK.COM
- (2a01:111:e400:7423::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Thu, 14 Jan
- 2021 16:09:26 +0000
-Received: from AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::5050:a788:3fd6:f2cf]) by AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM
- ([fe80::5050:a788:3fd6:f2cf%11]) with mapi id 15.20.3742.012; Thu, 14 Jan
- 2021 16:09:26 +0000
-From:   "Ernst, Justin" <justin.ernst@hpe.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
-        "Cezary Rojewski" <cezary.rojewski@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Travis, Mike" <mike.travis@hpe.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 04/10] ABI: sysfs-firmware-sgi_uv
-Thread-Topic: [PATCH 04/10] ABI: sysfs-firmware-sgi_uv
-Thread-Index: AQHW6kprtbExhvpb20yqDp4UIy1lYKonRpJQ
-Date:   Thu, 14 Jan 2021 16:09:26 +0000
-Message-ID: <AT5PR8401MB1300C8F431AF7BA93617272287A80@AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM>
-References: <cover.1610610444.git.mchehab+huawei@kernel.org>
- <452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org>
-In-Reply-To: <452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=hpe.com;
-x-originating-ip: [165.225.61.83]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4497206a-287d-4464-8b95-08d8b8a6c43e
-x-ms-traffictypediagnostic: AT5PR8401MB0770:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AT5PR8401MB07709B9BFE5592EE7C8F854487A80@AT5PR8401MB0770.NAMPRD84.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:3631;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WiYcf5ANWmucQ39u9FJsuwlLw7sNEVXE+SBPsvLKY+bBhv78JU+yx29XIOAhpGFBsVD5YRteS2N5nvH565YR+5IzBN3SPFiGJhtAHUDyxtfcA89xCQJZVKfF83OCHKDAIo1gSYh9iGXGvihUYy+GV70AENJi0O3hD3zrT0cV5aEydmEAPeFGpIuLQd08WD+Ghb8n/c0Y+v5e/2TYUs9f0t5GEBETH9TLNhMU63P1PyPMSNI2WEEEQCOtrZcVGWTQ1RIl66Hi8W9GcmFxRe5yHgqdSnBLFtZVBHyOzsQ0NVbhWT7P/5uqxba0VZuWydV3SgwBIlQ+Hv/AmQsZsoTcWWS0nwaNsGbrCMPjgWlJ4XdyWSCEYuiAykT2iapsCZN1szN7xEL1nIBBeLVXvlrVOA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(376002)(136003)(396003)(39860400002)(366004)(346002)(2906002)(53546011)(55236004)(66556008)(83380400001)(76116006)(86362001)(64756008)(8676002)(8936002)(6506007)(478600001)(4326008)(26005)(33656002)(71200400001)(9686003)(55016002)(110136005)(66946007)(54906003)(66476007)(5660300002)(186003)(7696005)(316002)(52536014)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?raD4ySSxyzrRs9+u6lG0GI4ZabNp7Pqxm5+HqiLm+QHf0cAewuxqH3GpMqaP?=
- =?us-ascii?Q?db2hcH2NfwhFmcniN+URRTCd48Y0a7MbeeAhZAZuMPQUrNx6r9H+j3vy+/P3?=
- =?us-ascii?Q?IZmeEn32/UcXTMKKWudA71SQSgsSjGo+ex73ioKmDXheMeOlc+VjAxL458sR?=
- =?us-ascii?Q?PxO9Uyl5+xDIZbA7yf+lCUqVJheaNUfyumO1PzBNHfTY+2O8hTtj//zRNC4i?=
- =?us-ascii?Q?p4SkXqwu/lsmDsWbelpaZqjMrLk/uVN3Lyt/hz21f6M54pOCVeCA/mxyrGma?=
- =?us-ascii?Q?gsZlxWIJs068xNn2TK9hQUSnZD818YzbWig5eFI2zAJiuouLQSkwNrSbIcy/?=
- =?us-ascii?Q?hO2kcS0zH4DUjoEJ0qPx0WZzhZlM32wqpR/mPxQETTevYe9h6XUK9CYqB6I7?=
- =?us-ascii?Q?A0b9pNiSXM+ZyfCCqH2t8m+wOaLxz+lWI+1bRCrgKmlqaoDshFk284SJrkcZ?=
- =?us-ascii?Q?F6bl7PQC8F/VJpu0fTa+aSMTrrnE9Eh/Oo9/80qYVDkJt1hvuj/wblK8olz8?=
- =?us-ascii?Q?/pXGr/MvdnIq70uC45NwLCJZS+3g6q8C63PRGXcujyMwiBmerzeihvmGpB8n?=
- =?us-ascii?Q?QEiY0lFZrJei+5vpLz1+Pc6JqLpgVIgIvBrTZSIypCmMhLuddK4lj+MkLevP?=
- =?us-ascii?Q?i2aN2sBaxbljeaheU174VYEVS2icPJz/jeItrRRtA/4Ub4DqzNqtuh1uPILa?=
- =?us-ascii?Q?W85E75FnKSPL5Il4CkEzdM9XDIpX1ZBvBdDpo6PRASHPL11V96Oq1SU90Nsy?=
- =?us-ascii?Q?7LZTUqPtFQfMs/2DfohRQ3G6pyx6fIPHfvW0/QuIsnZm3ttgZFaf1Jm2SJpD?=
- =?us-ascii?Q?fYdjU9ARcz69pp5oC4enCgCg2zyyjrOmi1MJu0+mm8yIDLif8oeAKguUnDbA?=
- =?us-ascii?Q?gp/r5+Ny15olBY17HJPJsVlp7gE9o7rBW4L3pz0KOg1TH8gTmFAqDEu8KQ7e?=
- =?us-ascii?Q?dr5V9fxRmcxICkYhZUcWdRli8k+qCaZIaFvlPx62CtE=3D?=
-Content-Type: text/plain; charset="us-ascii"
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AT5PR8401MB1300.NAMPRD84.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4497206a-287d-4464-8b95-08d8b8a6c43e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2021 16:09:26.7711
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 105b2061-b669-4b31-92ac-24d304d195dc
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FJxBwT2i6A10oeUDU3/UmZjgCUMzz424QgOZrJXt8TvJ+7laJJ+N3Ggs56GKmVXhdC86Dg7oRm6AMICTcxsyKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AT5PR8401MB0770
-X-OriginatorOrg: hpe.com
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S1726220AbhANQMA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 11:12:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726954AbhANQMA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 11:12:00 -0500
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3314C061575
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 08:11:19 -0800 (PST)
+Received: by mail-ot1-x335.google.com with SMTP id r9so5612063otk.11
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 08:11:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
+        b=Zi8S4ocJOhLeZPI7DA82w2n/RGNymWj4EnipZ421KIVCN3q+pn6FHQlQjVv4fbVCTq
+         Arl+l+jzarPBMM/Q4vO6TR9DcPVhQMO9VvuyqHQXyLCv+FfsVMoypWDiVtBzddb+YuxA
+         K1x1YV7KyaUREwbkOGl2QJAf+Oot3y9DhjTh0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
+        b=RmYZYQ3jeHsICNH/HiW80DfGPplC+ZHTqv/caxN4JX4EcCXPaNaFABtP8Mzmw+k9Fq
+         BeRPUX97ZblWuR/6ENDLca1S+TYv1dHQKaEUxLqO5jGkrxDMETcMeLFMOqNBY+gI9mmP
+         Eu92qCpl0Bd4bxZTJDpIFapm43NhDutNSi3fwcMie0mKhV8gSeuPLFiDNK8kJ69q1eYB
+         ectMYp4nhsrnIy6ZLEL3SWLHtGDIiczf6aElm7TkvDmyBBTPZsLk87aepa8dysAPEdbA
+         oQXdcDUpDVN0jtztORTYEUcj8s1RYvCkg6jV0i8vvCn70WEWJH1cXVBoNT5n9HctYFH4
+         sVaQ==
+X-Gm-Message-State: AOAM532+7L9I9gPfedl2fckNJugvbgQdTeQZllK2yuizd0/ZCgm5oPOh
+        4o3c/M8atzUXWFacvqSax+g+0g+hZQ0Dj7iDAAYK3g==
+X-Google-Smtp-Source: ABdhPJzzz22o9OQD7ab1kI0cLaSVhXvWLJ9AS4BVjPKCWnUBdp3at3x0E09pBUvROlXehDbVAiUAp+GHsISnTag0oIg=
+X-Received: by 2002:a05:6830:1bef:: with SMTP id k15mr4945559otb.303.1610640679142;
+ Thu, 14 Jan 2021 08:11:19 -0800 (PST)
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-14_05:2021-01-14,2021-01-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
- clxscore=1011 phishscore=0 impostorscore=0 malwarescore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 mlxscore=0
- priorityscore=1501 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2101140091
+References: <20200916205434.GA10389@duo.ucw.cz> <87czyf5jjp.fsf@vps.thesusis.net>
+ <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
+ <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com> <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+In-Reply-To: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 14 Jan 2021 17:11:07 +0100
+Message-ID: <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Mauro Carvalho Chehab [mailto:mchehab@kernel.org] On Behalf Of Maur=
-o Carvalho Chehab
-> Sent: Thursday, January 14, 2021 1:54 AM
-> Subject: [PATCH 04/10] ABI: sysfs-firmware-sgi_uv
->=20
-> Add a missing blank line required to identify a literal block,
-> fixing this warning:
->=20
-> 	.../Documentation/ABI/testing/sysfs-firmware-sgi_uv:2: WARNING: Unexpect=
-ed indentation.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Daniel,
+>
+> CC linux-fbdev
+>
+> On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > > On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> wrote:
+> > > > > Could we pause this madness? Scrollback is still useful. I needed it
+> > > > > today... it was too small, so command results I was looking for
+> > > > > already scrolled away, but... life will be really painful with 0
+> > > > > scrollback.
+> > > >
+> > > > > You'll need it, too... as soon as you get oops and will want to see
+> > > > > errors just prior to that oops.
+> > > >
+> > > > > If it means I get to maintain it... I'm not happy about it but that's
+> > > > > better than no scrollback.
+> > > >
+> > > > Amen!  What self respecting admin installs a gui on servers?  What do we
+> > > > have to do to get this back in?  What was so buggy with this code that
+> > > > it needed to be removed?  Why was it such a burden to just leave it be?
+> > >
+> > > It really was buggy, with security implications. And we have no maintainers.
+> > >
+> > > So the scroll-back code can't come back until we have a maintainer and
+> > > a cleaner and simpler implementation.
+> > >
+> > > And no, maintaining it really doesn't mean "just get it back to the
+> > > old broken state".
+> > >
+> > > So far I haven't actually seen any patches, which means that it's not
+> > > coming back.
+> > >
+> > > The good news? If you have an actual text VGA console, that should
+> > > still work just fine.
+>
+> IIRC, all of this was written for systems lacking VGA text consoles
+> in the first place...
+>
+> > Also on anything that is remotely modern (i.e. runs a drm kernel
+> > modesetting driver undearneath the fbdev/fbcon stack) there's a pile
+> > more issues on top of just the scrollback/fbcon code being a mess.
+>
+> Would it help to remove DRM_FBDEV_EMULATION (instead)?
 
-Thanks for finding and fixing this. I was able to replicate the warning and=
- confirm the fix.
+It's a problem with the hardware. "Write some registers and done"
+isn't how display blocks work nowadays. So your proposal amounts to
+"no fbdev/fbcon for anything modern-ish".
 
-Reviewed-by: Justin Ernst <justin.ernst@hpe.com>
+Also I said "a pile more", most of the issues in fbcon/fbdev code
+apply for all drivers.
 
-> ---
->  Documentation/ABI/testing/sysfs-firmware-sgi_uv | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/ABI/testing/sysfs-firmware-sgi_uv b/Documentat=
-ion/ABI/testing/sysfs-
-> firmware-sgi_uv
-> index 637c668cbe45..b0f79a1d14b3 100644
-> --- a/Documentation/ABI/testing/sysfs-firmware-sgi_uv
-> +++ b/Documentation/ABI/testing/sysfs-firmware-sgi_uv
-> @@ -39,6 +39,7 @@ Description:
->=20
->  		The uv_type entry contains the hub revision number.
->  		This value can be used to identify the UV system version::
-> +
->  			"0.*" =3D Hubless UV ('*' is subtype)
->=20
->  			"3.0" =3D UV2
+> > Specifically the locking is somewhere between yolo and outright
+> > deadlocks. This holds even more so if the use case here is "I want
+> > scrollback for an oops". There's rough sketches for how it could be
+> > solved, but it's all very tricky work.
+>
+> When an oops happens, all bets are off.  At that point, all information
+> you can extract from the system is valuable, and additional locking
+> issues are moot.
+
+Except the first oops then scrolls aways because it's getting buried
+under further fail. Your locking needs to be minimally good enough to
+not make the situation worse.
+-Daniel
+
+> > Also adding dri-devel since defacto that's the only place where
+> > display people hang out nowadays.
+>
+> Please keep on CCing linux-fbdev, especially for patches removing
+> fbdev features.
+>
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
 > --
-> 2.29.2
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
