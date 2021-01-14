@@ -2,161 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9684AC43219
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC21C43331
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:54:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E1FA23A59
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:50:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70A1F23A58
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:54:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728623AbhANRuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 12:50:23 -0500
-Received: from foss.arm.com ([217.140.110.172]:53776 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729342AbhANRuW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 12:50:22 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCDB6D6E;
-        Thu, 14 Jan 2021 09:49:36 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.42.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 606D73F70D;
-        Thu, 14 Jan 2021 09:49:34 -0800 (PST)
-Date:   Thu, 14 Jan 2021 17:49:32 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210114174932.GD2739@C02TD0UTHF1T.local>
-References: <20210113165743.3385-1-broonie@kernel.org>
- <20210113192735.rg2fxwlfrzueinci@treble>
- <20210114115418.GB2739@C02TD0UTHF1T.local>
- <20210114143650.nsqhejalpk4k5qfl@treble>
+        id S1729099AbhANRyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 12:54:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727629AbhANRyh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 12:54:37 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2132DC061757
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 09:53:46 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id q20so3795799pfu.8
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 09:53:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xfaedLmNvLX9iXMcjLIGfzS3Dnirkc2r8wJOKSFLYxk=;
+        b=ZE7YhPIxnAH9wJH9MuGy59rsc1tN6Erf8CBdzJkGSZhX6hx9uAXE+UCZeP0qJKV7Zq
+         SxGTztF16oB7m1rKMjWwLhgi7fetSqmJUuzLjWcVusufL4s+2zQKE9dEonorB9JMdl89
+         QD6te7Ookv8gxjLQUH0ORn2RiDMf29EHEXgxCabyCB87N+MvDJBGt96tTlisRptCP+Q2
+         kkVsak/EyDGDG7PwtG5NkRFBA6W/zagK1OeIKdBwor+df5J9shu48OUQanwDnnKI8wpM
+         ERD3J3hpHgWZcP9TUMikiqWXDif0fb3S8ri/JcIEMzfN+lDKfqajY/o91QE5rKYp8GPL
+         c5Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xfaedLmNvLX9iXMcjLIGfzS3Dnirkc2r8wJOKSFLYxk=;
+        b=fSwAoDc0DyMjQdQJLKkW+NcHp2R3s4sDNFjO6LelGCQvoLEUm4dP9BGLfiMaGJL8Lb
+         nQ2Lcym+0OgACRO+1cw9A6uQJZP0HYCdOwzEqbLBh17O0Uo5pMdVsZ3XKYF/3NYtqs4r
+         yR9jNmHSRWv9ysLE+jWXJ1qwTTP0UXvPAbHpKhVR3sAk1C6gIzgFLPx8izuHxZdUmPOR
+         6USs1Yo7lECw3GoRME2FJBnEIckmRi4d/i2J46WChWvru8+m/kr0cM0NjqR92oKPOjnP
+         3PxAY8dAOStQbN8/qJsgyJDH8qb6z7p3xa45H7OlHer0zRxVKWHkDvMaCZmvZVWypQ8o
+         c3Iw==
+X-Gm-Message-State: AOAM530lafd3yJ4+Uhorv3q7NovApY7A5AUlFX/ec8HEMH5KMUzKuRdC
+        oexvFN68bKCJf8UftYQitMJu4sbWKZDW/9AliUq/VA==
+X-Google-Smtp-Source: ABdhPJyBUypb786yryp6blNciChZStI2I1CDCu88xcv+LslZfIragXD8PM08QyJtJO3hV9yIYpnsAwgnJGYyDZuEM30=
+X-Received: by 2002:a63:1142:: with SMTP id 2mr8639411pgr.263.1610646825496;
+ Thu, 14 Jan 2021 09:53:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210114143650.nsqhejalpk4k5qfl@treble>
+References: <20210114003447.7363-1-natechancellor@gmail.com>
+ <CAKwvOdnJ0VUjTX-cyLgtHvy68DHG1VMj7s0huk_FKh1E9pH9Cg@mail.gmail.com> <20210114073615.6b9add58@lwn.net>
+In-Reply-To: <20210114073615.6b9add58@lwn.net>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 14 Jan 2021 09:53:34 -0800
+Message-ID: <CAKwvOdmHsO-yqUuCFouy4jhDwLaL-5+K8JkJ0Jo5Q_UQEF_2rg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported architectures
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 08:36:50AM -0600, Josh Poimboeuf wrote:
-> On Thu, Jan 14, 2021 at 11:54:18AM +0000, Mark Rutland wrote:
-> > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
-> > > On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
-> > > > From: Mark Rutland <mark.rutland@arm.com>
-> > > > +There are several ways an architecture may identify kernel code which is deemed
-> > > > +unreliable to unwind from, e.g.
-> > > > +
-> > > > +* Using metadata created by objtool, with such code annotated with
-> > > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
-> > > 
-> > > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
-> > > necessarily mean the code is unreliable, and objtool doesn't treat it as
-> > > such.  Its mention can probably be removed unless there was some other
-> > > point I'm missing.
+On Thu, Jan 14, 2021 at 6:36 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Wed, 13 Jan 2021 17:19:59 -0800
+> Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> > Patch looks fine, but `make -j htmldocs` seems to be taking forever
+> > for me so I can't render it. Is this a known issue?
 > >
-> > > Also, s/STACKFRAME/STACK_FRAME/
+> > $ make -j htmldocs
+> >   SPHINX  htmldocs --> file:///android0/linux-next/Documentation/output
+> > make[2]: Nothing to be done for 'html'.
+> > WARNING: The kernel documentation build process
+> >         support for Sphinx v3.0 and above is brand new. Be prepared for
+> >         possible issues in the generated output.
+>
+> Sphinx 3.x is *way* slower to build the docs, alas.  One of many
+> "improvements" we got with that change.
 
-Given that (per the discussion below) STACK_FRAME_NON_STANDARD() also
-doesn't result in objtool producing anything special metadata (and such
-code is still expected to be unwindable), I believe we can delete this
-bullet point outright?
-
-> > When I wrote this, I was under the impression that (for x86) code marked
-> > as SYM_CODE_{START,END} wouldn't be considered as a function by objtool.
-> > Specifically SYM_FUNC_END() marks the function with SYM_T_FUNC whereas
-> > SYM_CODE_END() marks it with SYM_T_NONE, and IIRC I thought that objtool
-> > only generated ORC for SYM_T_FUNC functions, and hence anything else
-> > would be considered not unwindable due to the absence of ORC.
-> > 
-> > Just to check, is that understanding for x86 correct, or did I get that
-> > wrong?
-> 
-> Doh, I suppose you read the documentation ;-)
-
-I think I skimmed the objtool source, too, but it was a while back. ;)
-
-> I realize your understanding is pretty much consistent with
-> tools/objtool/Documentation/stack-validation.txt:
-> 
-> 2. Conversely, each section of code which is *not* callable should *not*
->    be annotated as an ELF function.  The ENDPROC macro shouldn't be used
->    in this case.
-> 
->    This rule is needed so that objtool can ignore non-callable code.
->    Such code doesn't have to follow any of the other rules.
-> 
-> But this statement is no longer true:
-> 
->   **This rule is needed so that objtool can ignore non-callable code.**
-> 
-> [ and it looks like the ENDPROC reference is also out of date ]
-
-Ok -- looks like that needs an update!
-
-> Since that document was written, around the time ORC was written we
-> realized objtool shouldn't ignore SYM_CODE after all.  That way we can
-> get full coverage for ORC (including interrupts/exceptions), as well as
-> some of the other validations like retpoline, uaccess, noinstr, etc.
-> 
-> Though it's still true that SYM_CODE doesn't have to follow the
-> function-specific rules, e.g. frame pointers.
-
-Ok; I suspect on the arm64 side we'll need to think a bit harder about
-what that means for us. I guess that'll influence or interact with
-whatever support we need specifically in objtool.
-
-> So now objtool requires that it be able to traverse and understand *all*
-> code, otherwise it will spit out "unreachable instruction" warnings.
-> But since SYM_CODE isn't a normal callable function, objtool doesn't
-> know to interpret it directly.  Therefore all SYM_CODE must be reachable
-> by objtool in some other way:
-> 
-> - either indirectly, via a jump from a SYM_FUNC; or
-> 
-> - via an UNWIND_HINT
-> 
-> (And that's true for both ORC and frame pointers.)
-> 
-> If you look closely at arch/x86/entry/entry_64.S you should be able to
-> see that's the case.
-
-Assuming you mean the UNWIND_HINT_EMPTY at the start of each exception
-entry point, I think I follow.
-
-> > If that's right, it might be worth splitting this into two points, e.g.
-> > 
-> > | * Using metadata created by objtool, with such code annotated with
-> > |   STACKFRAME_NON_STANDARD().
-> > |
-> > |
-> > | * Using ELF symbol attributes, with such code annotated with
-> > |   SYM_CODE_{START,END}, and not having a function type.
-> > 
-> > If that's wrong, I suspect there are latent issues here?
-> 
-> For ORC, UNWIND_HINT_EMPTY is used to annotate that some code is
-> non-unwindable.  (Note I have plans to split that into UNWIND_HINT_ENTRY
-> and UNWIND_HINT_UNDEFINED.)
-
-Interesting; where would the UNDEFINED case be used?
-
-> For frame pointers, the hints aren't used, other than by objtool to
-> follow the code flow as described above.  But objtool doesn't produce
-> any metadata for the FP unwinder.  Instead the FP unwinder makes such
-> determinations about unwindability at runtime.
-
-I suspect for arm64 with frame pointers we'll need a fair amount of
-special casing for the entry code; I'll have a think offline.
-
+Oh, man, yeah. Noticeably.  I had sworn I had run `make htmldocs`
+before.  Have you had a chance to report this regression upstream?
+-- 
 Thanks,
-Mark.
+~Nick Desaulniers
