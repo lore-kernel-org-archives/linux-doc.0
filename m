@@ -2,105 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762F2C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD95DC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:40:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33C59239E7
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:22:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DF44238A1
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:40:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727040AbhANHWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:22:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51524 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726266AbhANHWu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 02:22:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 45AAF239CF;
-        Thu, 14 Jan 2021 07:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610608929;
-        bh=x4ASfSl6fNvoaHZTcA9U5vpjYi6k+c+UnmfBcNVRlbg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=mJzvUksr9f794ozs47blsW0nhEkZ2Dc1SY0CbduyKJ3hh+keDXRwJ+or3Io7dIyhl
-         KWoIIrpavLASrvKbgVBM4ZUyZF+2nnwRYFVoTGBqLmnERfyHQYPagCpwgLS1E5FIZ/
-         a7iiKmuCWa87WIPYwL7ExCC0W6bDHcan7fhLPJORrL0Qgkm73NGpXQy6gktnnkdlVn
-         GOQpP07CA2Gw0PBUlCcXIRZFHntd66bQFUJRrWWrLFMoB9PkSHKKQyiJgU6zGSyew4
-         wJmR+c8gey9LqNpgQCkX6m8tClIxXZ0nnh1SGU/TS50nz71RHhLDs8doPEZZsoGVXV
-         nikQHRqBazKng==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kzwxK-00EOaD-8U; Thu, 14 Jan 2021 08:22:06 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
-Subject: [PATCH] rcu: better document kfree_rcu()
-Date:   Thu, 14 Jan 2021 08:22:02 +0100
-Message-Id: <2ec9a8bc8b411b04e2f541b285cc0a133a6d94de.1610608910.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S1727396AbhANHkE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 02:40:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727377AbhANHkD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 02:40:03 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2390C061786;
+        Wed, 13 Jan 2021 23:39:22 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id o6so9347296iob.10;
+        Wed, 13 Jan 2021 23:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=pDkl50wKKXvlnFEMyoCOA4eiXkVtCkofqFa11F/2prs=;
+        b=LZyONW5l41afxbiMWOMOs2HO+Ycvj/ZhU6K3xVqaHgQmQgTGvC1VQ1gc6kVTsnGFKJ
+         cmL7EHu+N03GO+52M3MV2CNuYp5od3c08tcT4hFsrAZpMZ3bmTUxl8b+L7yv4UNwPdU+
+         TvSw9dtuJ/2nVUNZlFoy1x22WzDToEqa8CQB8oUIaZRUkFbzU51MT90mThiwyeodhDZM
+         0f2nX0dcifQEi3DsWP81K2g5pcFZpilE/644iPlx2Ie6SraPNbekg18NWSylqf0BSYCt
+         /zrNRyt0B9abhw5pPdskxkXdremW4yHbcGPAr1aOBU+8Q9SfhmmByiTZ45JdMzj+IzMQ
+         pJTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=pDkl50wKKXvlnFEMyoCOA4eiXkVtCkofqFa11F/2prs=;
+        b=SMXAXCxx2a9ipsBYY9Fw+bNmiyoR2HgGBuVUcjdkLKQo2AXb9xM3itEqUI7ptHhG58
+         XJdsT9ntvH6ORA4owA5YBawiSTZQuxhOPX/8KyqEHK+Blv+wWnh53neF4wMRjSdaVfdG
+         NyByoa2JgoG/IS9TEFhXkKCflRxH01O+Qgzbz+ZKQv63wsbrA2Dk7p/BYSXA30KMiTkS
+         1kNH4r8d/czRl4ifGQ4Xl3F+F6BVUr073nC5Q2ttOF/spPLA2BSVHVpJTLJB1StvCgNR
+         zVia1aSMI6uzyT/VEWi+eZigYISGXjmUlu1O2Ahp/V2yFvtgmXZ0psuJmeHbyRn1ZTK0
+         x5MA==
+X-Gm-Message-State: AOAM5337QjXeKf3nFZpEZJNw19wStoy9J3UiIwcIKEmLF9nDds/XVdiS
+        kC0YuZT1uEzXv7lj6t69tazX+QAbZP8cBHtfB2I=
+X-Google-Smtp-Source: ABdhPJybXK0BLNSRQ7Ixe4ZXs/7KsiW13lw8MOehz5t9ImRNCgGZwZITi4quK9lNA4M+jLD8VYG7wr74zmhPCg8g1f8=
+X-Received: by 2002:a92:d990:: with SMTP id r16mr5718971iln.10.1610609962241;
+ Wed, 13 Jan 2021 23:39:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20210114003447.7363-1-natechancellor@gmail.com>
+In-Reply-To: <20210114003447.7363-1-natechancellor@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 14 Jan 2021 08:39:11 +0100
+Message-ID: <CA+icZUXyqRH_bR5xjwZ_GvHp8xoWOqJtCORBX34NX0y9u2JYcQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported architectures
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After changeset 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro"),
-kernel-doc now emits two warnings:
+On Thu, Jan 14, 2021 at 1:35 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> The most common question around building the Linux kernel with clang is
+> "does it work?" and the answer has always been "it depends on your
+> architecture, configuration, and LLVM version" with no hard answers for
+> users wanting to experiment. LLVM support has significantly improved
+> over the past couple of years, resulting in more architectures and
+> configurations supported, and continuous integration has made it easier
+> to see what works and what does not.
+>
+> Add a section that goes over what architectures are supported in the
+> current kernel version, how they should be built (with just clang or the
+> LLVM utilities as well), and the level of support they receive. This
+> will make it easier for people to try out building their kernel with
+> LLVM and reporting issues that come about from it.
+>
 
-	./include/linux/rcupdate.h:884: warning: Excess function parameter 'ptr' description in 'kfree_rcu'
-	./include/linux/rcupdate.h:884: warning: Excess function parameter 'rhf' description in 'kfree_rcu'
+Thanks, this was overdue and is definitely helpful for users and developers.
 
-What's happening here is that some macro magic was added in order
-to call two different versions of kfree_rcu(), being the first one
-with just one argument and a second one with two arguments.
+For x86 64bit:
 
-That makes harder to document the kfree_rcu() arguments, which
-also reflects on the documentation text.
+   Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-In order to make clearer that this macro accepts optional
-arguments, by using macro concatenation, changing its
-definition from:
-	#define kfree_rcu kvfree_rcu
+Together with "[PATCH] kbuild: check the minimum compiler version in
+Kconfig" this looks very good to me.
 
-to:
-	#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
+/o\
+- Sedat -
 
-That not only helps kernel-doc to understand the macro arguemnts,
-but also provides a better C definition that makes clearer that
-the first argument is mandatory and the second one is optional.
+[1] https://marc.info/?t=161059811000001&r=1&w=2
 
-Fixes: 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/linux/rcupdate.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index bd04f722714f..5cc6deaa5df2 100644
---- a/include/linux/rcupdate.h
-+++ b/include/linux/rcupdate.h
-@@ -881,7 +881,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
-  * The BUILD_BUG_ON check must not involve any function calls, hence the
-  * checks are done in macros here.
-  */
--#define kfree_rcu kvfree_rcu
-+#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
- 
- /**
-  * kvfree_rcu() - kvfree an object after a grace period.
--- 
-2.29.2
-
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+>  Documentation/kbuild/llvm.rst | 44 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index 21c847890d03..b18401d2ba82 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -63,6 +63,50 @@ They can be enabled individually. The full list of the parameters: ::
+>  Currently, the integrated assembler is disabled by default. You can pass
+>  ``LLVM_IAS=1`` to enable it.
+>
+> +Supported Architectures
+> +-----------------------
+> +
+> +LLVM does not target all of the architectures that Linux supports and
+> +just because a target is supported in LLVM does not mean that the kernel
+> +will build or work without any issues. Below is a general summary of
+> +architectures that currently work with ``CC=clang`` or ``LLVM=1``. Level
+> +of support corresponds to "S" values in the MAINTAINERS files. If an
+> +architecture is not present, it either means that LLVM does not target
+> +it or there are known issues. Using the latest stable version of LLVM or
+> +even the development tree will generally yield the best results.
+> +An architecture's ``defconfig`` is generally expected to work well,
+> +certain configurations may have problems that have not been uncovered
+> +yet. Bug reports are always welcome at the issue tracker below!
+> +
+> +.. list-table::
+> +   :widths: 10 10 10
+> +   :header-rows: 1
+> +
+> +   * - Architecture
+> +     - Level of support
+> +     - ``make`` command
+> +   * - arm
+> +     - Supported
+> +     - ``LLVM=1``
+> +   * - arm64
+> +     - Supported
+> +     - ``LLVM=1``
+> +   * - mips
+> +     - Maintained
+> +     - ``CC=clang``
+> +   * - powerpc
+> +     - Maintained
+> +     - ``CC=clang``
+> +   * - riscv
+> +     - Maintained
+> +     - ``CC=clang``
+> +   * - s390
+> +     - Maintained
+> +     - ``CC=clang``
+> +   * - x86
+> +     - Supported
+> +     - ``LLVM=1``
+> +
+>  Getting Help
+>  ------------
+>
+>
+> base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
+> --
+> 2.30.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210114003447.7363-1-natechancellor%40gmail.com.
