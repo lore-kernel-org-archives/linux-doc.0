@@ -2,193 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A85C43381
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 10:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED24C43381
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:37:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BBBF23A3B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 10:58:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44AD223A34
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 11:37:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbhANK6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 05:58:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
+        id S1726150AbhANLhc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 06:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728630AbhANK6i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 05:58:38 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA032C061574
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 02:57:57 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id q20so3124023pfu.8
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 02:57:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cept6yDgxD1Uvrl1z08HyfZGxWF+qA4CuNNCEN/9TzM=;
-        b=yiPxKRaazrQJhm62718dy5jL9EaBAIuTRkSQHSomn4R0VBrIU3J6k1Z45mE6OxLQua
-         dLFtmeFhBJGfByaRgSLfQ4KRSVykikS+QfdJC9ViPatOCWLJb/I/pn/Erle1WQc/sDT7
-         wPATSR+VHZd0wHjPVOWyvJlEFwPzreQbYFXVmZsUoe2yGW4cTZlmgiSOfq8OKs+fzzet
-         6d7s09enWsOtGSVjoTAk5vGe6itxuSoIe42v61o9cfQWVlRMHStezspGOEdgqtki2lYS
-         UYXD3pjurb2PEvLZlz+OGFVGGPWXpzxTkLbr143otO4TTWwCBeVKsDT3pjQohKjzJqCC
-         OFyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cept6yDgxD1Uvrl1z08HyfZGxWF+qA4CuNNCEN/9TzM=;
-        b=etdXPq/j4o7b3AIOPXtBzjRUg5kgqZk0FBFbd/9ERB/CFblkMBVuIFbEU8rs5Lx2W0
-         GxiqLh8HqD7yVyrzf4LOxPbqw5GClFXC0xvw1+plgKAghFUqUneKSSKy/LzfAFGYcgwB
-         mLwZgu24eG7uPbl60r/+8q1uYmdDVpgacpzIWQe5JFNBh4qge3l/Em9e6kuAxka/OfOz
-         xdkjnF9M57RsdMN5nIa/aZLTi23xt/WY0/w8qF2IQ4wfRX+nVgGNHXUnydu5w9qi2jZ+
-         KPlUQrF89+vbaqGsUnOorp2jQ97oP7e/F+ZA2M6u0RZrGCA3Yr77Q77Xl0ZWuPz3yqre
-         UCiw==
-X-Gm-Message-State: AOAM530Fyp6f2NAZV/n3zoWe9NZGkRt+TBO+CRocxWioCtFGXEaiqKVH
-        CcMDJivI1tIR/KFSceLHaGhCQV4Bxoll793EEa1i+w==
-X-Google-Smtp-Source: ABdhPJyyMBF7pLP/eCMLv2h2a9321/g/MkgMtV/7I8OMnLA3cgFxTgYwKtCr5oB//J+rkCRPpgkMXLkFK0uouXSl4/k=
-X-Received: by 2002:a63:1f21:: with SMTP id f33mr6986456pgf.31.1610621877319;
- Thu, 14 Jan 2021 02:57:57 -0800 (PST)
+        with ESMTP id S1729057AbhANLhZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 06:37:25 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00B20C0613D3;
+        Thu, 14 Jan 2021 03:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=UU0k9SPmZjW9mEpf/D9xPCViNO9X7LPn56+qCj377sI=; b=RPtXD4Mfl2So3qrv+fI7pONRpU
+        PeHSiy+AJ9GY0HmiHVWfmqFeMOQdQibiEmNFtFRTu01v/IYs494TP+o3Wd7/GuqHOKo7JaiCKTD8O
+        yDcOvlwtoeOC8RUc+z+FgeqJyLxBLCQNnlkhCZibtIpaVl9cGtk9AxM7F5tA7tGRhs+CVd0edBr+1
+        XRz1tmjtAO1SYVSFYkfKI4hljvmw3xCDvQbVD2SFGvKVlHuBm7SFw5MlgTcv28AtUbJ9MtoCljYC0
+        I6L+lx2RzmwlUTl3AIFIcKFz+k++aPcITbCJwcmMtDiYVyhCfrbN+R/SxT7JXtokSO+WkHGKOZU71
+        cQVzwDgw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l00vo-00007b-MY; Thu, 14 Jan 2021 11:36:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0E7CF3059DE;
+        Thu, 14 Jan 2021 12:36:46 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 027302BECE8A7; Thu, 14 Jan 2021 12:36:45 +0100 (CET)
+Date:   Thu, 14 Jan 2021 12:36:45 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Fangrui Song <maskray@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
+Message-ID: <YAAszZJ2GcIYZmB5@hirez.programming.kicks-ass.net>
+References: <20210112115421.GB13086@zn.tnic>
+ <20210112194625.4181814-1-ndesaulniers@google.com>
+ <20210112210154.GI4646@sirena.org.uk>
+ <20210113165923.acvycpcu5tzksbbi@treble>
+ <CAKwvOdnAMsYF-v1LAqttBV3e3rHhSFZmPcRRV0+v=+9AyMFgNA@mail.gmail.com>
+ <20210114103928.GB12284@zn.tnic>
 MIME-Version: 1.0
-References: <20210106141931.73931-1-songmuchun@bytedance.com>
- <20210106141931.73931-5-songmuchun@bytedance.com> <20210112080453.GA10895@linux>
-In-Reply-To: <20210112080453.GA10895@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 14 Jan 2021 18:57:16 +0800
-Message-ID: <CAMZfGtUOgD0vdj9E2mP2XFQWueW3ybWLRSyqUnQSdHZGGQHvqw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v12 04/13] mm/hugetlb: Free the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114103928.GB12284@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 4:05 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Wed, Jan 06, 2021 at 10:19:22PM +0800, Muchun Song wrote:
-> > Every HugeTLB has more than one struct page structure. We __know__ that
-> > we only use the first 4(HUGETLB_CGROUP_MIN_ORDER) struct page structures
-> > to store metadata associated with each HugeTLB.
-> >
-> > There are a lot of struct page structures associated with each HugeTLB
-> > page. For tail pages, the value of compound_head is the same. So we can
-> > reuse first page of tail page structures. We map the virtual addresses
-> > of the remaining pages of tail page structures to the first tail page
-> > struct, and then free these page frames. Therefore, we need to reserve
-> > two pages as vmemmap areas.
-> >
-> > When we allocate a HugeTLB page from the buddy, we can free some vmemmap
-> > pages associated with each HugeTLB page. It is more appropriate to do it
-> > in the prep_new_huge_page().
-> >
-> > The free_vmemmap_pages_per_hpage(), which indicates how many vmemmap
-> > pages associated with a HugeTLB page can be freed, returns zero for
-> > now, which means the feature is disabled. We will enable it once all
-> > the infrastructure is there.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->
-> My memory may betray me after vacation, so bear with me.
->
-> > +/*
-> > + * Any memory allocated via the memblock allocator and not via the
-> > + * buddy will be marked reserved already in the memmap. For those
-> > + * pages, we can call this function to free it to buddy allocator.
-> > + */
-> > +static inline void free_bootmem_page(struct page *page)
-> > +{
-> > +     unsigned long magic = (unsigned long)page->freelist;
-> > +
-> > +     /*
-> > +      * The reserve_bootmem_region sets the reserved flag on bootmem
-> > +      * pages.
-> > +      */
-> > +     VM_WARN_ON_PAGE(page_ref_count(page) != 2, page);
->
-> I have been thinking about this some more.
-> And while I think that this macro might have its room somewhere, I do not
-> think this is the case.
->
-> Here, if we see that page's refcount differs from 2 it means that we had an
-> earlier corruption.
-> Now, as a person that has dealt with debugging memory corruptions, I think it
-> is of no use to proceed further if such corruption happened, as this can lead
-> to problems somewhere else that can manifest in funny ways, and you will find
-> yourself scratching your head and trying to work out what happened.
->
-> I am aware that this is not the root of the problem here, as someone might have
-> had to decrease the refcount, but I would definitely change this to its
-> VM_BUG_ON_* variant.
->
-> > --- /dev/null
-> > +++ b/mm/hugetlb_vmemmap.c
->
-> [...]
->
-> > diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-> > new file mode 100644
-> > index 000000000000..6923f03534d5
-> > --- /dev/null
-> > +++ b/mm/hugetlb_vmemmap.h
->
-> [...]
->
-> > +/**
-> > + * vmemmap_remap_free - remap the vmemmap virtual address range [@start, @end)
-> > + *                   to the page which @reuse is mapped, then free vmemmap
-> > + *                   pages.
-> > + * @start:   start address of the vmemmap virtual address range.
-> > + * @end:     end address of the vmemmap virtual address range.
-> > + * @reuse:   reuse address.
-> > + */
-> > +void vmemmap_remap_free(unsigned long start, unsigned long end,
-> > +                     unsigned long reuse)
-> > +{
-> > +     LIST_HEAD(vmemmap_pages);
-> > +     struct vmemmap_remap_walk walk = {
-> > +             .remap_pte      = vmemmap_remap_pte,
-> > +             .reuse_addr     = reuse,
-> > +             .vmemmap_pages  = &vmemmap_pages,
-> > +     };
-> > +
-> > +     BUG_ON(start != reuse + PAGE_SIZE);
->
-> It seems a bit odd to only pass "start" for the BUG_ON.
-> Also, I kind of dislike the "addr += PAGE_SIZE" in vmemmap_pte_range.
->
-> I wonder if adding a ".remap_start_addr" would make more sense.
-> And adding it here with the vmemmap_remap_walk init.
+On Thu, Jan 14, 2021 at 11:39:28AM +0100, Borislav Petkov wrote:
+> From: Nick Desaulniers <ndesaulniers@google.com>
+> Date: Tue, 12 Jan 2021 11:46:24 -0800
+> Subject: [PATCH] x86/entry: Emit a symbol for register restoring thunk
+> 
+> Arnd found a randconfig that produces the warning:
+> 
+>   arch/x86/entry/thunk_64.o: warning: objtool: missing symbol for insn at
+>   offset 0x3e
+> 
+> when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
+> notes:
+> 
+>   With the LLVM assembler not generating section symbols, objtool has no
+>   way to reference this code when it generates ORC unwinder entries,
+>   because this code is outside of any ELF function.
+> 
+>   The limitation now being imposed by objtool is that all code must be
+>   contained in an ELF symbol.  And .L symbols don't create such symbols.
+> 
+>   So basically, you can use an .L symbol *inside* a function or a code
+>   segment, you just can't use the .L symbol to contain the code using a
+>   SYM_*_START/END annotation pair.
+> 
+> Fangrui notes that this optimization is helpful for reducing image size
+> when compiling with -ffunction-sections and -fdata-sections. I have
+> observed on the order of tens of thousands of symbols for the kernel
+> images built with those flags.
+> 
+> A patch has been authored against GNU binutils to match this behavior
+> of not generating unused section symbols ([1]), so this will
+> also become a problem for users of GNU binutils once they upgrade to 2.36.
+> 
+> Omit the .L prefix on a label so that the assembler will emit an entry
+> into the symbol table for the label, with STB_LOCAL binding. This
+> enables objtool to generate proper unwind info here with LLVM_IAS=1 or
+> GNU binutils 2.36+.
+> 
+>  [ bp: Massage commit message. ]
+> 
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Suggested-by: Josh Poimboeuf <jpoimboe@redhat.com>
+> Suggested-by: Borislav Petkov <bp@alien8.de>
+> Suggested-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
 
-How would vmemmap_pte_range look? If we introduce
-vmemmap_remap_walk, "addr += PAGE_SIZE" can drop?
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
->
->
-> --
-> Oscar Salvador
-> SUSE L3
+And while looking, I suppose we can delete the put_ret_addr_in_rdi crud,
+but that's another patch.
