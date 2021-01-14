@@ -2,119 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3216C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F985C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:58:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 985B923A7D
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:54:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48C8823A7D
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 14:58:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727181AbhANOxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 09:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbhANOxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 09:53:51 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACF5C061574;
-        Thu, 14 Jan 2021 06:53:10 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id v184so722948wma.1;
-        Thu, 14 Jan 2021 06:53:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vXE0mmnItBS+KOK1GpktK7ApVoMKmWB/4ok6x8HwdfM=;
-        b=jHKAOq//l2Pley5Km6YuU8Jma6GOwF+kNpi7TkY/zxiAoL8GRi2qrXlYbw3UlUZB/7
-         HAUsgaiHFnnp0CyG/6a2ZBGVqhM7kC0jEqafupGq00ScQq4jSlYaHMVY/sgdZSaAIdtD
-         pp6KHJ13IBJTw73SHxBdwmt+WtvxNS0v1CUSWJ4TlepWuszH8pXzQoHKDPI06wQ0JjZL
-         s5AeRvVpnH2sFCUXSLJ8CZxMbPrrD6fdvbbxSzoPCR3Ha9iMqX3hgvsi1Q8agZOEGl+N
-         M/bv/G5rx7kmr41TWvz4dLobEuNWq3UppgNrSjUSM9ZigeLxP8f3UUnEhJzj6oW09wxT
-         MSPg==
+        id S1727407AbhANO6H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 09:58:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31543 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727150AbhANO6G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 09:58:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610636199;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nbchwcZUiSag5BbIN49pWrX6UaO9j5xtOJpcOaVjMHM=;
+        b=ccqXN8xWJnTZBo+/bF0kFNDwwPHcakuR4/zF/KuFdNkIzNn34521p0NfU5hEgAPJrrMhu1
+        YsXkz/VKj2I59y4qa8cE2L4yqeDVlwfpC7G30w5T9e9y07atTOtEgnDq1s7zNfhYoBqu57
+        HB+BgWYkZNZ+vZz5en1OmjY9wOQVGw4=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-knbvc9SIO5OUmfBTjVJ8EQ-1; Thu, 14 Jan 2021 09:56:38 -0500
+X-MC-Unique: knbvc9SIO5OUmfBTjVJ8EQ-1
+Received: by mail-qk1-f198.google.com with SMTP id d7so4905553qkb.23
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 06:56:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vXE0mmnItBS+KOK1GpktK7ApVoMKmWB/4ok6x8HwdfM=;
-        b=S95kGPNzlH45ITIO6ijE5XzprRNfwtMnRKXq5L6AH/iU6BH+eFJoRx2QtaZF4/ctY4
-         d+mJbEB7qpAB750wdmRKKHhnU0iUBjgOXfisDT+1tECySjBlA8EFPhDmwfK3gvJWD0/3
-         MPMFl0PDsVoxlIF0nJ+6qD/CbT7ajeIwDeHNjjgDsQXqxkcxbnQN0h3qm1Mjjv63WkJ7
-         zb0+A2VpBrpgBgcgCpvH3CnfrNVSuRAGZRwHRvMrPEyvPFJawXhl0xiG7GRQ/3UzMQIl
-         BqFdx6UgVU3tq6OjfOElJ7DiC+AJHtAYgL/rkmhcdwBbF77iGOBoUGrt+kK6DQQAouXi
-         rR0w==
-X-Gm-Message-State: AOAM532twithCGWBe6LNGPUI/UvlZLNoXB4iqQ51JrtoYSTTDA0+UqlF
-        gKlyEvns+RSz9e6Rys7szDe2dVgxWYN2Gg==
-X-Google-Smtp-Source: ABdhPJxOolToRV7rsm7AM/M2dtx01MzWVdtFIzvgwYSxVJrhI5i4OC9R/mBmRffoi18w3syOBSwIkw==
-X-Received: by 2002:a1c:6283:: with SMTP id w125mr4271505wmb.155.1610635989142;
-        Thu, 14 Jan 2021 06:53:09 -0800 (PST)
-Received: from [192.168.2.202] (pd9e5aa30.dip0.t-ipconnect.de. [217.229.170.48])
-        by smtp.gmail.com with ESMTPSA id q15sm10441410wrw.75.2021.01.14.06.53.07
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=nbchwcZUiSag5BbIN49pWrX6UaO9j5xtOJpcOaVjMHM=;
+        b=Ph55HRVRd6ZUhrtXlLr+kgCcRV84jiy3zZBN/40MlQ+YYSld4zcs8NuWFXzfC2gwQ/
+         fUpQKJR1MEKA/NMWDL8NPuel7FKwTX3LqQXGSyusAFRoGnAD4jEY05N2U2A8Ok1JFVu0
+         c1Wctw8I+G5qUcucxlku8S4hXOJql0xKRU/0VLRg/SbOYgaWnyUxSsyqfP1ZFTS8j4BC
+         VBOotIfcgSEONyA1LT52l13sOkZGdPa8gghAf4ZlxjnJthYUrJcPVKAr29L6nhbzIdWy
+         a0o8DDrGn31vMB9gQD4UI5YIviEf5FpbFj0PuimRk+Li81E+5Z6ZdsfSOlsFrCbBGv96
+         4b8g==
+X-Gm-Message-State: AOAM5334gtH6bI+6fDAlA/RyDiXaCt4CQztti/qVWEgCGSvo0DztBcJ7
+        8D9Ln2N4V/KGNzNAkno9ro3bmZqjC0SKARFEhX0kclU+bpSPPAdBKN6TT6FMM83Y0nOaf15WScl
+        wQ5lmJ2BHD8f1fKWyroeT
+X-Received: by 2002:ae9:f819:: with SMTP id x25mr7421373qkh.429.1610636197638;
+        Thu, 14 Jan 2021 06:56:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxzC9kWhDdASoCrS9eh0meOVk1AAL4J2tGbvAlfoA4Q2l9zFniGWeZggsOmq/G+R7qqv44Idw==
+X-Received: by 2002:ae9:f819:: with SMTP id x25mr7421350qkh.429.1610636197397;
+        Thu, 14 Jan 2021 06:56:37 -0800 (PST)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id 6sm3114272qko.3.2021.01.14.06.56.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jan 2021 06:53:08 -0800 (PST)
-Subject: Re: [PATCH v6 16/16] platform/surface: aggregator: fix a kernel-doc
- markup
+        Thu, 14 Jan 2021 06:56:36 -0800 (PST)
+Subject: Re: [PATCH 05/10] docs: fpga: dfl.rst: Fix a couple building issues
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
- <4a6bf33cfbd06654d78294127f2b6d354d073089.1610610937.git.mchehab+huawei@kernel.org>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <a0cb2b1a-4546-7864-faaf-3a1db8223189@gmail.com>
-Date:   Thu, 14 Jan 2021 15:53:07 +0100
+        Jonathan Corbet <corbet@lwn.net>,
+        Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1610610444.git.mchehab+huawei@kernel.org>
+ <fca8e53692b1e57242e09fc3436cacd1961c8d8b.1610610444.git.mchehab+huawei@kernel.org>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <16cf60e2-74ec-8d51-cb78-0e5e614b5a4c@redhat.com>
+Date:   Thu, 14 Jan 2021 06:56:34 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <4a6bf33cfbd06654d78294127f2b6d354d073089.1610610937.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <fca8e53692b1e57242e09fc3436cacd1961c8d8b.1610610444.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/14/21 9:04 AM, Mauro Carvalho Chehab wrote:
-> A function has a different name between their prototype
-> and its kernel-doc markup:
-> 
-> 	../drivers/platform/surface/aggregator/ssh_request_layer.c:1065: warning: expecting prototype for ssh_rtl_tx_start(). Prototype was for ssh_rtl_start() instead
-> 
+
+On 1/13/21 11:53 PM, Mauro Carvalho Chehab wrote:
+> A title markup length is smaller than required;
+> A literal block is not marked as such.
+>
+> This fixes the warnings below:
+>
+>     .../Documentation/fpga/dfl.rst:505: WARNING: Title underline too short.
+>
+>     Location of DFLs on a PCI Device
+>     ===========================
+>     .../Documentation/fpga/dfl.rst:523: WARNING: Unexpected indentation.
+>     .../Documentation/fpga/dfl.rst:523: WARNING: Blank line required after table.
+>     .../Documentation/fpga/dfl.rst:524: WARNING: Block quote ends without a blank line; unexpected unindent.
+>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   drivers/platform/surface/aggregator/ssh_request_layer.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/surface/aggregator/ssh_request_layer.c b/drivers/platform/surface/aggregator/ssh_request_layer.c
-> index bb1c862411a2..25db4d638cfa 100644
-> --- a/drivers/platform/surface/aggregator/ssh_request_layer.c
-> +++ b/drivers/platform/surface/aggregator/ssh_request_layer.c
-> @@ -1056,7 +1056,7 @@ void ssh_rtl_destroy(struct ssh_rtl *rtl)
->   }
->   
->   /**
-> - * ssh_rtl_tx_start() - Start request transmitter and receiver.
-> + * ssh_rtl_start() - Start request transmitter and receiver.
->    * @rtl: The request transport layer.
->    *
->    * Return: Returns zero on success, a negative error code on failure.
-> 
+Lukas made an earlier change here
 
-Thanks! Looks good to me.
+https://lore.kernel.org/linux-fpga/alpine.DEB.2.22.394.2101111016480.2457315@rhweight-WRK1/
 
-Reviewed-by: Maximilian Luz <luzmaximilian@gmail.com>
+Tom
 
-There seems to be another issue similar to this, specifically the
-non-existing ssh_rtl_tx_start() and ssh_rtl_tx_start() are referenced.
-Both should point to to ssh_rtl_start() instead. I'll start working on a
-patch to fix that right away.
 
-Regards,
-Max
