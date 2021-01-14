@@ -4,101 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A78DCC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CD9C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:05:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 796D72343F
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:56:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D05ED2343F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727964AbhANHza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:55:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56966 "EHLO mail.kernel.org"
+        id S1727825AbhANIFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:05:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58582 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727837AbhANHzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 02:55:11 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D903823A00;
-        Thu, 14 Jan 2021 07:53:49 +0000 (UTC)
+        id S1727799AbhANIFk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 03:05:40 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D941B233FD;
+        Thu, 14 Jan 2021 08:04:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610610830;
-        bh=Pn6XxcDQzrINBOzWfuCPjR6eVnKqMplBjnAtKpJQysM=;
+        s=k20201202; t=1610611500;
+        bh=5EaFSJVMoXSfpvTjjhVPWpLF3hDhFzeeTdW6YGmNd+0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=liSg0ulZeuYiopEu9anfR0iY/egbm0973FapE/2LwyIjeykAwHVlyhe1pbNJF1YrX
-         WzjYuoSBkud/1iGThG9i60PcYEKzkKnC7q/f5P33MpVm5IFULiqohyaS5xTAoCyvVe
-         TIyslgcLu+Ivn2geGs0ySgUwkZ+drXHL81v9+qyd/bUA2b/db2sGnE4ANzOkPanSwT
-         F8yV4+N/9hEYie9jpmoJMPfKgsVyxA2B64myuieWbLs0DJFtlAXI9Wo/5e3l9ePfjp
-         g98Mi0XuIfGr1KUSUR2AONXyAZMbp71Xbd4efBd+8OP8vJ0bE+pBVFQHdJMgkai3Df
-         2fIYA2J8zjLfw==
+        b=pUMZBGRxDYUMHzXaZbEKm7PfRkXLg44YIWDWNQrvK6ESnkssZpO9IYTJQtFk4NopJ
+         i8I9heBfhxu1X1+f5zS22sZvRrR/J4uIsLoY+7vfXuuc7QMdtlZmKtN43RbRvXmDci
+         Bl2hkD1LEGKxeuEicc60b+QRO2zi/gWGhtQhZ6ceAvMpywdYUqwfIrM84oF+tSid0x
+         nhROEnl+Kgp3Q6cEBH2R8egRrV/uAT6w6o7jAlddJ6pawK4YoKpZNeEm4Rn06AjM9O
+         nK97h+rbbqEpcca45ah8JcgS3mlL+RSDAOHnOiYjUt7Q8FWlkrKdD9FECgZzxVsld7
+         HfRBoPwXcf6kA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxRz-00EPu3-3y; Thu, 14 Jan 2021 08:53:47 +0100
+        id 1kzxcn-00EQ6V-RN; Thu, 14 Jan 2021 09:04:57 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Harry Wei <harryxiyou@gmail.com>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] doc/zh_CN: fix Sphinx errors
-Date:   Thu, 14 Jan 2021 08:53:36 +0100
-Message-Id: <ad0badc92b4cda71384951e1e501e1babb6d8d4f.1610610444.git.mchehab+huawei@kernel.org>
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 04/16] pstore/zone: fix a kernel-doc markup
+Date:   Thu, 14 Jan 2021 09:04:40 +0100
+Message-Id: <a67ca4d12c3ef277dadb9e0d0df8450158e637cc.1610610937.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1610610444.git.mchehab+huawei@kernel.org>
-References: <cover.1610610444.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1610610937.git.mchehab+huawei@kernel.org>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The whitespacing with some translations are weird,
-which causes errors like this one:
+The documented struct is psz_head and not psz_buffer.
 
-	devel/v4l/docs/Documentation/translations/zh_CN/mips/ingenic-tcu.rst:61: WARNING: Malformed table.
-	Text in column margin in table line 6.
-
-	===========         =====
-	时钟                drivers/clk/ingenic/tcu.c
-	中断                drivers/irqchip/irq-ingenic-tcu.c
-	定时器              drivers/clocksource/ingenic-timer.c
-	OST                 drivers/clocksource/ingenic-ost.c
-	脉冲宽度调制器      drivers/pwm/pwm-jz4740.c
-	看门狗              drivers/watchdog/jz4740_wdt.c
-	===========         =====
-
-Fix it.
-
+Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/translations/zh_CN/mips/ingenic-tcu.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/pstore/zone.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst b/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
-index 72b5d409ed89..919ae1d4734e 100644
---- a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
-+++ b/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
-@@ -53,14 +53,14 @@
+diff --git a/fs/pstore/zone.c b/fs/pstore/zone.c
+index 5266ccbec007..7c8f8feac6c3 100644
+--- a/fs/pstore/zone.c
++++ b/fs/pstore/zone.c
+@@ -23,7 +23,7 @@
+ #include "internal.h"
  
- TCU硬件的功能分布在多个驱动程序：
- 
--===========         =====
-+==================  ===================================
- 时钟                drivers/clk/ingenic/tcu.c
- 中断                drivers/irqchip/irq-ingenic-tcu.c
- 定时器              drivers/clocksource/ingenic-timer.c
- OST                 drivers/clocksource/ingenic-ost.c
- 脉冲宽度调制器      drivers/pwm/pwm-jz4740.c
- 看门狗              drivers/watchdog/jz4740_wdt.c
--===========         =====
-+==================  ===================================
- 
- 因为可以从相同的寄存器控制属于不同驱动程序和框架的TCU的各种功能，所以
- 所有这些驱动程序都通过相同的控制总线通用接口访问它们的寄存器。
+ /**
+- * struct psz_head - header of zone to flush to storage
++ * struct psz_buffer - header of zone to flush to storage
+  *
+  * @sig: signature to indicate header (PSZ_SIG xor PSZONE-type value)
+  * @datalen: length of data in @data
 -- 
 2.29.2
 
