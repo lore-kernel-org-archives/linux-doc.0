@@ -2,166 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1BDC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5E7C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:46:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 520C723B3E
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:12:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8512123B40
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 16:46:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbhANQMA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 11:12:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726954AbhANQMA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 11:12:00 -0500
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3314C061575
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 08:11:19 -0800 (PST)
-Received: by mail-ot1-x335.google.com with SMTP id r9so5612063otk.11
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 08:11:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
-        b=Zi8S4ocJOhLeZPI7DA82w2n/RGNymWj4EnipZ421KIVCN3q+pn6FHQlQjVv4fbVCTq
-         Arl+l+jzarPBMM/Q4vO6TR9DcPVhQMO9VvuyqHQXyLCv+FfsVMoypWDiVtBzddb+YuxA
-         K1x1YV7KyaUREwbkOGl2QJAf+Oot3y9DhjTh0=
+        id S1726127AbhANQp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 11:45:58 -0500
+Received: from mail-pf1-f182.google.com ([209.85.210.182]:36845 "EHLO
+        mail-pf1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725935AbhANQp6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 11:45:58 -0500
+Received: by mail-pf1-f182.google.com with SMTP id b3so3689936pft.3;
+        Thu, 14 Jan 2021 08:45:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lI7DNB9PJvzlL1ZP9cY7fdOx2/ptLeVjeZhhrDDi7c4=;
-        b=RmYZYQ3jeHsICNH/HiW80DfGPplC+ZHTqv/caxN4JX4EcCXPaNaFABtP8Mzmw+k9Fq
-         BeRPUX97ZblWuR/6ENDLca1S+TYv1dHQKaEUxLqO5jGkrxDMETcMeLFMOqNBY+gI9mmP
-         Eu92qCpl0Bd4bxZTJDpIFapm43NhDutNSi3fwcMie0mKhV8gSeuPLFiDNK8kJ69q1eYB
-         ectMYp4nhsrnIy6ZLEL3SWLHtGDIiczf6aElm7TkvDmyBBTPZsLk87aepa8dysAPEdbA
-         oQXdcDUpDVN0jtztORTYEUcj8s1RYvCkg6jV0i8vvCn70WEWJH1cXVBoNT5n9HctYFH4
-         sVaQ==
-X-Gm-Message-State: AOAM532+7L9I9gPfedl2fckNJugvbgQdTeQZllK2yuizd0/ZCgm5oPOh
-        4o3c/M8atzUXWFacvqSax+g+0g+hZQ0Dj7iDAAYK3g==
-X-Google-Smtp-Source: ABdhPJzzz22o9OQD7ab1kI0cLaSVhXvWLJ9AS4BVjPKCWnUBdp3at3x0E09pBUvROlXehDbVAiUAp+GHsISnTag0oIg=
-X-Received: by 2002:a05:6830:1bef:: with SMTP id k15mr4945559otb.303.1610640679142;
- Thu, 14 Jan 2021 08:11:19 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/jWsiQ1w3u/g8oejbHAE82yi0Cw2WGPbx1yC69EielU=;
+        b=eaM/iayaQwPX7v7kZ6cjgLIwZJY6DccKtS5nc0yj0EJ5ViFUU1Gd09ZYyn87FCtM3Q
+         L1FAd6OeQEqxoa9hHIt1OxP49EZsRcNIh4K21dvl296G62HsOA6ej+eIU/Tv+LJoa75S
+         IsAM1WdKBDtbrB5+NzybRGBp3wpwMizXneNqppzxtJ3rQVIxN6wC7Vlz62lNRvmxe1XQ
+         Pi0bzenius2eLga0vwB3rge1gpog8zpNDoIvwE6lAIqUd9hprck8FXhMlzX3rPKUewaj
+         yRxCV0wfFjtnLa88OeJNKkNKyomYaPI+Xtk7G2pyxJ/PZAGT9w4RIWhwRbyCsWha63+z
+         IHYg==
+X-Gm-Message-State: AOAM530YigmXazrxswzZk68cIP98j980WQcfO2DUtVUT1BHkCr16WBYW
+        AD77LxQVK/kYHFbKfpkOuMs=
+X-Google-Smtp-Source: ABdhPJxyEG9pQ7fxWN/pfOiCVS8p+hIRD+x/Ymr7B4pv+077NnbZJfiPyWHn4B+lSMVevKaQU3wnTg==
+X-Received: by 2002:a65:4105:: with SMTP id w5mr8426668pgp.52.1610642717606;
+        Thu, 14 Jan 2021 08:45:17 -0800 (PST)
+Received: from localhost ([2601:647:5b00:1161:a4cc:eef9:fbc0:2781])
+        by smtp.gmail.com with ESMTPSA id q16sm5803974pfg.139.2021.01.14.08.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 08:45:16 -0800 (PST)
+Date:   Thu, 14 Jan 2021 08:45:15 -0800
+From:   Moritz Fischer <mdf@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, Wu Hao <hao.wu@intel.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>,
+        linux-fpga@vger.kernel.org, Tom Rix <trix@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH -next] fpga: dfl-pci: rectify ReST formatting
+Message-ID: <YAB1G9e4lCaKq0sq@epycbox.lan>
+References: <20210111112113.27242-1-lukas.bulwahn@gmail.com>
+ <X/x0j+hWRdJ6U/MG@kroah.com>
+ <CAKXUXMzR2J895_+ZsRqcJ___Pu0HnRfiiFFrGfehQe8J4kQrgg@mail.gmail.com>
+ <X/yVflU6ccIlAtgO@kroah.com>
 MIME-Version: 1.0
-References: <20200916205434.GA10389@duo.ucw.cz> <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com> <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-In-Reply-To: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 14 Jan 2021 17:11:07 +0100
-Message-ID: <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X/yVflU6ccIlAtgO@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Daniel,
->
-> CC linux-fbdev
->
-> On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > > On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> wrote:
-> > > > > Could we pause this madness? Scrollback is still useful. I needed it
-> > > > > today... it was too small, so command results I was looking for
-> > > > > already scrolled away, but... life will be really painful with 0
-> > > > > scrollback.
+Hi Greg,
+
+On Mon, Jan 11, 2021 at 07:14:22PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Jan 11, 2021 at 05:34:57PM +0100, Lukas Bulwahn wrote:
+> > On Mon, Jan 11, 2021 at 4:52 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, Jan 11, 2021 at 12:21:13PM +0100, Lukas Bulwahn wrote:
+> > > > Commit fa41d10589be ("fpga: dfl-pci: locate DFLs by PCIe vendor specific
+> > > > capability") provides documentation to the FPGA Device Feature List (DFL)
+> > > > Framework Overview, but introduced new documentation warnings:
 > > > >
-> > > > > You'll need it, too... as soon as you get oops and will want to see
-> > > > > errors just prior to that oops.
+> > > >   ./Documentation/fpga/dfl.rst:
+> > > >     505: WARNING: Title underline too short.
+> > > >     523: WARNING: Unexpected indentation.
+> > > >     523: WARNING: Blank line required after table.
+> > > >     524: WARNING: Block quote ends without a blank line; unexpected unindent.
 > > > >
-> > > > > If it means I get to maintain it... I'm not happy about it but that's
-> > > > > better than no scrollback.
+> > > > Rectify ReST formatting in ./Documentation/fpga/dfl.rst.
 > > > >
-> > > > Amen!  What self respecting admin installs a gui on servers?  What do we
-> > > > have to do to get this back in?  What was so buggy with this code that
-> > > > it needed to be removed?  Why was it such a burden to just leave it be?
+> > > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > > >
-> > > It really was buggy, with security implications. And we have no maintainers.
-> > >
-> > > So the scroll-back code can't come back until we have a maintainer and
-> > > a cleaner and simpler implementation.
-> > >
-> > > And no, maintaining it really doesn't mean "just get it back to the
-> > > old broken state".
-> > >
-> > > So far I haven't actually seen any patches, which means that it's not
-> > > coming back.
-> > >
-> > > The good news? If you have an actual text VGA console, that should
-> > > still work just fine.
->
-> IIRC, all of this was written for systems lacking VGA text consoles
-> in the first place...
->
-> > Also on anything that is remotely modern (i.e. runs a drm kernel
-> > modesetting driver undearneath the fbdev/fbcon stack) there's a pile
-> > more issues on top of just the scrollback/fbcon code being a mess.
->
-> Would it help to remove DRM_FBDEV_EMULATION (instead)?
+> > 
+> > > You forgot a Reported-by: tag for the person who notified you of this :(
+> > 
+> > Greg, would you believe that I run 'make htmldocs' on linux-next myself?
+> 
+> Sure, just seemed to match up with when Stephen reported this a few
+> hours earlier...
+> 
+> thanks,
+> 
+> greg k-h
 
-It's a problem with the hardware. "Write some registers and done"
-isn't how display blocks work nowadays. So your proposal amounts to
-"no fbdev/fbcon for anything modern-ish".
+Are you waiting for a resend on this? Just asking because we got three
+versions of this patch by now :)
 
-Also I said "a pile more", most of the issues in fbcon/fbdev code
-apply for all drivers.
+I haven't re-sent this since you were already on the thread.
 
-> > Specifically the locking is somewhere between yolo and outright
-> > deadlocks. This holds even more so if the use case here is "I want
-> > scrollback for an oops". There's rough sketches for how it could be
-> > solved, but it's all very tricky work.
->
-> When an oops happens, all bets are off.  At that point, all information
-> you can extract from the system is valuable, and additional locking
-> issues are moot.
-
-Except the first oops then scrolls aways because it's getting buried
-under further fail. Your locking needs to be minimally good enough to
-not make the situation worse.
--Daniel
-
-> > Also adding dri-devel since defacto that's the only place where
-> > display people hang out nowadays.
->
-> Please keep on CCing linux-fbdev, especially for patches removing
-> fbdev features.
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+- Moritz
