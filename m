@@ -2,157 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59273C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D430FC4332B
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:54:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11BD22310A
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:50:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 931672310A
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 01:54:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728557AbhANBtW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 20:49:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727834AbhANAfn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 19:35:43 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0205EC061786;
-        Wed, 13 Jan 2021 16:35:03 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id x126so2310733pfc.7;
-        Wed, 13 Jan 2021 16:35:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9a07HwA8hrHoGWjqCa9LIGmpHo9wPiO5hANO4XpbneU=;
-        b=QuGjfVfi20kU6iytMLkRF5hq73PukNbSStaPBz9RkC2qsnTr9gGdZdrObgaetKGqpw
-         F+N8E1B+u9sBA3LR6Awko7WzdqYuX+lKgIKtHAig8yURCMfxtVubQhEqLEMBRRmqx0SH
-         LJVNgdY79TEktoczw1JFw6XGaif/5a5kMQ8WCUNwX+Bz3kuJ2JnAWDzru3vtSG4OXUnu
-         W/86vFLS2L3f7AUVFJt6nQ793duG8cGaOWc4gxzJHZqirv/ue3LsD7D4IAbfk7rYS59v
-         kJeLa3wxL/q9CIvXWbvUIZXLONJ3QRLM2YNthvfxDJdmKpIvnjPFpqWMwH+VEQUaDz0L
-         tmAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9a07HwA8hrHoGWjqCa9LIGmpHo9wPiO5hANO4XpbneU=;
-        b=ae51WK0jfGEDMKjHIMJVHnLvSa6fD0dkAGp+kTdvqebkdS0hJJXhjY/njbBAF5Rl9w
-         l2eiQG0vEKt1f7a0kzWyM5Wuk/pXr6MhwlRS3pdERhBcK9y6hZRHSgwPyD1EO6zEoPPw
-         K7XUPQK5mKFOID07Nm8NoG0AqZ24WnBBptSIq2uIIkDC/BqlfIrqEqmaFRJBSRus8rRg
-         BLwB8An768uPvdrcgGLFJcEKuVTeOPb7jTfCNX8iG5JHD6H2FEXg9wbvPqPwITtuvL/Y
-         HtuS55T1igbbFh1S4t+fwZEaw8JFpigPGCl2ZFox9sM2Ai4+oqmYVlMyfC5nOLVnSfEr
-         ZPnw==
-X-Gm-Message-State: AOAM533cKE3uZa0/ATHO4VCvphOdrZA0Gmcjr2/5YST+GNwMlV/lzCx7
-        8xygd4qojXv634k/ZSvxwi8=
-X-Google-Smtp-Source: ABdhPJzu6D6O4GmQFu0dJCINRH3MLi6q/D9VJn7pPW7Inzy/Pnif67lrA7r7iD0g8jS96bSp0peRSQ==
-X-Received: by 2002:a62:7651:0:b029:1a5:929b:1681 with SMTP id r78-20020a6276510000b02901a5929b1681mr4709294pfc.27.1610584502401;
-        Wed, 13 Jan 2021 16:35:02 -0800 (PST)
-Received: from Ryzen-9-3900X.localdomain (ip68-104-204-241.ph.ph.cox.net. [68.104.204.241])
-        by smtp.gmail.com with ESMTPSA id 82sm3667890pfv.117.2021.01.13.16.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 16:35:01 -0800 (PST)
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH] Documentation/llvm: Add a section about supported architectures
-Date:   Wed, 13 Jan 2021 17:34:47 -0700
-Message-Id: <20210114003447.7363-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        id S1728285AbhANBxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 20:53:51 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:61505 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725844AbhANBxv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 20:53:51 -0500
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+        by twspam01.aspeedtech.com with ESMTP id 10E1Y8tB015352;
+        Thu, 14 Jan 2021 09:34:08 +0800 (GMT-8)
+        (envelope-from troy_lee@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 10E1UhIW015149;
+        Thu, 14 Jan 2021 09:30:43 +0800 (GMT-8)
+        (envelope-from troy_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 14 Jan
+ 2021 09:35:43 +0800
+Date:   Thu, 14 Jan 2021 01:35:35 +0000
+From:   Troy Lee <troy_lee@aspeedtech.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     Andrew Jeffery <andrew@aj.id.au>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        "leetroy@gmail.com" <leetroy@gmail.com>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Guenter Roeck <linux@roeck-us.net>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
+Message-ID: <20210114013535.GB2151879@aspeedtech.com>
+References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
+ <20210113070850.1184506-2-troy_lee@aspeedtech.com>
+ <1610552704.291941.2506185.nullmailer@robh.at.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <1610552704.291941.2506185.nullmailer@robh.at.kernel.org>
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 10E1UhIW015149
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The most common question around building the Linux kernel with clang is
-"does it work?" and the answer has always been "it depends on your
-architecture, configuration, and LLVM version" with no hard answers for
-users wanting to experiment. LLVM support has significantly improved
-over the past couple of years, resulting in more architectures and
-configurations supported, and continuous integration has made it easier
-to see what works and what does not.
+Hi Rob,
+The 01/13/2021 23:45, Rob Herring wrote:
+> On Wed, 13 Jan 2021 07:08:45 +0000, Troy Lee wrote:
+> > We add binding for supporting a new AST2600 PWM/Fan hwmon driver.
+> > 
+> > Changes since v1:
+> > - dt binding with DT schema format
+> > 
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> > ---
+> >  .../hwmon/aspeed,ast2600-pwm-tachometer.yaml  | 137 ++++++++++++++++++
+> >  1 file changed, 137 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> > 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml:108:2: [warning] wrong indentation: expected 2 but found 1 (indentation)
+> 
+> dtschema/dtc warnings/errors:
+> 
+> See https://patchwork.ozlabs.org/patch/1425628
+> 
+> This check can fail if there are any dependencies. The base for a patch
+> series is generally the most recent rc1.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit.
+> 
 
-Add a section that goes over what architectures are supported in the
-current kernel version, how they should be built (with just clang or the
-LLVM utilities as well), and the level of support they receive. This
-will make it easier for people to try out building their kernel with
-LLVM and reporting issues that come about from it.
+After install yamllint and ran 'make dt_binding_check' again, I can see
+the same issue. I'll fix it in v3 patch set.
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
- Documentation/kbuild/llvm.rst | 44 +++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
-
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 21c847890d03..b18401d2ba82 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -63,6 +63,50 @@ They can be enabled individually. The full list of the parameters: ::
- Currently, the integrated assembler is disabled by default. You can pass
- ``LLVM_IAS=1`` to enable it.
- 
-+Supported Architectures
-+-----------------------
-+
-+LLVM does not target all of the architectures that Linux supports and
-+just because a target is supported in LLVM does not mean that the kernel
-+will build or work without any issues. Below is a general summary of
-+architectures that currently work with ``CC=clang`` or ``LLVM=1``. Level
-+of support corresponds to "S" values in the MAINTAINERS files. If an
-+architecture is not present, it either means that LLVM does not target
-+it or there are known issues. Using the latest stable version of LLVM or
-+even the development tree will generally yield the best results.
-+An architecture's ``defconfig`` is generally expected to work well,
-+certain configurations may have problems that have not been uncovered
-+yet. Bug reports are always welcome at the issue tracker below!
-+
-+.. list-table::
-+   :widths: 10 10 10
-+   :header-rows: 1
-+
-+   * - Architecture
-+     - Level of support
-+     - ``make`` command
-+   * - arm
-+     - Supported
-+     - ``LLVM=1``
-+   * - arm64
-+     - Supported
-+     - ``LLVM=1``
-+   * - mips
-+     - Maintained
-+     - ``CC=clang``
-+   * - powerpc
-+     - Maintained
-+     - ``CC=clang``
-+   * - riscv
-+     - Maintained
-+     - ``CC=clang``
-+   * - s390
-+     - Maintained
-+     - ``CC=clang``
-+   * - x86
-+     - Supported
-+     - ``LLVM=1``
-+
- Getting Help
- ------------
- 
-
-base-commit: 7c53f6b671f4aba70ff15e1b05148b10d58c2837
--- 
-2.30.0
-
+Thanks,
+Troy Lee
