@@ -2,103 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D9BC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 15:55:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4FCC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 15:58:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D337F23A1E
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 15:55:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0F6B23A24
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 15:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729216AbhANPzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 10:55:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728608AbhANPzs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 10:55:48 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34ACC061574;
-        Thu, 14 Jan 2021 07:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=c2nISwHQ1sx1QefEbT/WP5EtkYbOPh92hLF5ZFROw5s=; b=Z7qUy0klmVjhHzu7z3/kBZZ980
-        BDKXGXlv1KfhzvOE8LNibSsP/SSpcv6nIiEaeVcHE28jt3hKYvGogPOfBXCmXDqT3Pa5iZV6ox00u
-        GEQEdu5l8wneIoXlP9FxK3yMAaenV8rfZZT2PyzgQk4rPDabTdzsGmRkbEgfyx4MkKFB3dNuTA/TC
-        xKg4PGtQn2obK2nOt6RtgADNbI1xAQFzhAsHOsUbcArN7b/zWl0Wg5z9F73mXwoViZsrWeeNmYwu0
-        fWhSKrztLVudzCnlHcsOfVwFwUpPIytO3A7/ryPjZsMFyM/Kz7k27jA73pN7BKjag9FW79YOtbfa4
-        EtpduV3g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l04vm-007kuA-SO; Thu, 14 Jan 2021 15:53:22 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0306D301324;
-        Thu, 14 Jan 2021 16:53:01 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D5EDC20079488; Thu, 14 Jan 2021 16:53:01 +0100 (CET)
-Date:   Thu, 14 Jan 2021 16:53:01 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Fangrui Song <maskray@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH] x86/entry: Remove put_ret_addr_in_rdi THUNK macro
- argument
-Message-ID: <YABo3bw8fPdjWZ+Y@hirez.programming.kicks-ass.net>
-References: <20210112115421.GB13086@zn.tnic>
- <20210112194625.4181814-1-ndesaulniers@google.com>
- <20210112210154.GI4646@sirena.org.uk>
- <20210113165923.acvycpcu5tzksbbi@treble>
- <CAKwvOdnAMsYF-v1LAqttBV3e3rHhSFZmPcRRV0+v=+9AyMFgNA@mail.gmail.com>
- <20210114103928.GB12284@zn.tnic>
- <YAAszZJ2GcIYZmB5@hirez.programming.kicks-ass.net>
- <20210114132809.GC12284@zn.tnic>
+        id S1726656AbhANP5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 10:57:47 -0500
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:40305 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726468AbhANP5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 10:57:47 -0500
+Received: by mail-oi1-f175.google.com with SMTP id p5so6364378oif.7;
+        Thu, 14 Jan 2021 07:57:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y0MoCmIyBbiEovesbLQa2skQFcnP2H8/At5+Yu5mU8k=;
+        b=YsKhjrLXwKErfBgaBy1BVhl0QW32+3Sl/dVWi+jSwMNiRtZtL7SnTq1gxmsMWj90mv
+         ZTIGQGAEwL/PdF2c4E0siPS7o4g7xsTIy6zIShyP3FtPcWmJmtr8Ak0ssb7ORakkXiNq
+         60Krg661CTBmieAq8r1v20T/4NmVwD8dbYT7UEj7DpYFU6c1deqfDNDw0/jZZ1bdwiqV
+         B1tcFiDJV12B2cwMPA/PdvdbtQsEq0fyilkLzxYclvT7GSv58urrET3/NqSnTnTWXrFC
+         EOIRNXHVUdKooZSLSucHKsp0Xen0cSwkveeLS5/axmYwtAYtq1tVOeGVhezoSPKftQzR
+         V2DQ==
+X-Gm-Message-State: AOAM532NHjdvC4aomEtudR4NEB6w+4H0RX0yF0TJoqy9nimLZKqrTGA9
+        WDSJJJ1K96IZbnDaSyRXPM4St+UpUCJ45heNliM=
+X-Google-Smtp-Source: ABdhPJz3tFPzEi+kqhb52Yw3+gOpoRqT4PX+G+XIAyHJZ4riIuUyvmmAAObS/i6xIg8FVvZgRnPMv5SNOvQoR8zuzzk=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr2906604oih.153.1610639809807;
+ Thu, 14 Jan 2021 07:56:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210114132809.GC12284@zn.tnic>
+References: <20200916205434.GA10389@duo.ucw.cz> <87czyf5jjp.fsf@vps.thesusis.net>
+ <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com> <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
+In-Reply-To: <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 14 Jan 2021 16:56:38 +0100
+Message-ID: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 02:28:09PM +0100, Borislav Petkov wrote:
-> On Thu, Jan 14, 2021 at 12:36:45PM +0100, Peter Zijlstra wrote:
-> > And while looking, I suppose we can delete the put_ret_addr_in_rdi crud,
-> > but that's another patch.
-> 
-> ---
-> From: Borislav Petkov <bp@suse.de>
-> Date: Thu, 14 Jan 2021 14:25:35 +0100
-> Subject: [PATCH] x86/entry: Remove put_ret_addr_in_rdi THUNK macro argument
-> 
-> That logic is unused since
-> 
->   320100a5ffe5 ("x86/entry: Remove the TRACE_IRQS cruft")
-> 
-> Remove it.
-> 
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Signed-off-by: Borislav Petkov <bp@suse.de>
+Hi Daniel,
 
-Acked-by; Peter Zijlstra (Intel) <peterz@infradead.org>
+CC linux-fbdev
+
+On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> > On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> wrote:
+> > > > Could we pause this madness? Scrollback is still useful. I needed it
+> > > > today... it was too small, so command results I was looking for
+> > > > already scrolled away, but... life will be really painful with 0
+> > > > scrollback.
+> > >
+> > > > You'll need it, too... as soon as you get oops and will want to see
+> > > > errors just prior to that oops.
+> > >
+> > > > If it means I get to maintain it... I'm not happy about it but that's
+> > > > better than no scrollback.
+> > >
+> > > Amen!  What self respecting admin installs a gui on servers?  What do we
+> > > have to do to get this back in?  What was so buggy with this code that
+> > > it needed to be removed?  Why was it such a burden to just leave it be?
+> >
+> > It really was buggy, with security implications. And we have no maintainers.
+> >
+> > So the scroll-back code can't come back until we have a maintainer and
+> > a cleaner and simpler implementation.
+> >
+> > And no, maintaining it really doesn't mean "just get it back to the
+> > old broken state".
+> >
+> > So far I haven't actually seen any patches, which means that it's not
+> > coming back.
+> >
+> > The good news? If you have an actual text VGA console, that should
+> > still work just fine.
+
+IIRC, all of this was written for systems lacking VGA text consoles
+in the first place...
+
+> Also on anything that is remotely modern (i.e. runs a drm kernel
+> modesetting driver undearneath the fbdev/fbcon stack) there's a pile
+> more issues on top of just the scrollback/fbcon code being a mess.
+
+Would it help to remove DRM_FBDEV_EMULATION (instead)?
+
+> Specifically the locking is somewhere between yolo and outright
+> deadlocks. This holds even more so if the use case here is "I want
+> scrollback for an oops". There's rough sketches for how it could be
+> solved, but it's all very tricky work.
+
+When an oops happens, all bets are off.  At that point, all information
+you can extract from the system is valuable, and additional locking
+issues are moot.
+
+> Also adding dri-devel since defacto that's the only place where
+> display people hang out nowadays.
+
+Please keep on CCing linux-fbdev, especially for patches removing
+fbdev features.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
