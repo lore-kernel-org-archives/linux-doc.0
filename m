@@ -2,97 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F0A6C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F127C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:41:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC18F23B31
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:06:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED64923B44
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:41:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbhANRGO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 12:06:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54126 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726212AbhANRGO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 12:06:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C14C23B1C;
-        Thu, 14 Jan 2021 17:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1610643933;
-        bh=hwf3Sj/6g5H0FgDr5lRz9hWS4NsLDeGdj2FQI3Njcdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kCHIxu1Ium/Rgyz9SefxLajRjTZIbQFN2FuB/rX1oEHn0mJkVmz7ZTNvVOHIKd6jG
-         MYb9a/yLBsC+WqGiW5yEWMm8/U1Di9efvc0l2YwFC6JC2xZSfONs0c4vdtuj31cSgB
-         +pJkSIM0retppMmDDkFcqgMIgoK4Qimua9I+m9zw=
-Date:   Thu, 14 Jan 2021 18:05:30 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, Wu Hao <hao.wu@intel.com>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>,
-        linux-fpga@vger.kernel.org, Tom Rix <trix@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH -next] fpga: dfl-pci: rectify ReST formatting
-Message-ID: <YAB52nrYo2MTdlzA@kroah.com>
-References: <20210111112113.27242-1-lukas.bulwahn@gmail.com>
- <X/x0j+hWRdJ6U/MG@kroah.com>
- <CAKXUXMzR2J895_+ZsRqcJ___Pu0HnRfiiFFrGfehQe8J4kQrgg@mail.gmail.com>
- <X/yVflU6ccIlAtgO@kroah.com>
- <YAB1G9e4lCaKq0sq@epycbox.lan>
+        id S1726374AbhANRlU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 12:41:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbhANRlU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 12:41:20 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D363FC061574;
+        Thu, 14 Jan 2021 09:40:39 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id x5so5917944otp.9;
+        Thu, 14 Jan 2021 09:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VIKbuTpzfW3yd3CewvFIKKZzMyKcmxzXmITP6uJRNoQ=;
+        b=RW8yunez+93efe/TW5NSL/34M/gxLz1QB79WnnEb18heEr5OxZ3liQt/d5A3Eilmcg
+         mWpwkMI2SVIYghs1p3SB6pFfuryDjLBquX454/zfVdLSGZvE96U259ONEFy/n1mTeI4U
+         uNVW/jjo3FiRy0jHwxD9OE16AU2bu8FsoIfCbekPdvwngU6tNzML4/js1ucATWJSrxIp
+         l2WCcXJi5Qd4v3jOBlpHDkZ4L1RGstctOZwCLlTm/HrMC0LnbuymeDTKq7OfLQ1Z1/9N
+         nNUtmMa5MrmcKnE0EA5oeIWIApRl6Y/X2CwmutbydI5AkcQlj8qmK4t2hULkhH0qgBQC
+         r03g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VIKbuTpzfW3yd3CewvFIKKZzMyKcmxzXmITP6uJRNoQ=;
+        b=BXrDk7P8cVqUsy6k1JTgpYdOqSFfboki5za0VRWCQ2hMWF0IOrcAICmJr3seNSiJ6t
+         OASwqgmbTYSaMJq3u1SvwO0RZDWi6eGTUpoEMNkYY+jXhdgZIJY+Q/CRjLIFK//9G012
+         hXdYskHl0MyfR1WQ+bfxVQTPNjUPooNUoQUt3koSeOUfZs5Asd+RPMKa9/fVZS5YReDB
+         OBu8jhnvEWrPiiECXU1oJESsKDo90zouKCBbRbgsoUMEX7cAs2PF4vUJPfVeW21I2ZxE
+         0qVoF65pecchai6YrCPuxFfS6LX9BeWAYyf+plW5KR5BYvn/cm8eiy0nfKyS1fQzLIOF
+         8/SA==
+X-Gm-Message-State: AOAM530QT1xOH6E1SG5imrqEnS5U1rj4iiYUi5G8N9MsCX5AJPdwAiS9
+        gM4Jjrs6lulCNGPsNUoh31Ey3w2ylbctbzuARXs=
+X-Google-Smtp-Source: ABdhPJyqNOLr77X30jXERcm8sC9peDvPrCuRMfLz2B02kVMs0kUcK0gIWbTM7DPn60u3B36XxDSMGKgEmBBbjPS0aiE=
+X-Received: by 2002:a05:6830:1b7b:: with SMTP id d27mr5547562ote.132.1610646039327;
+ Thu, 14 Jan 2021 09:40:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YAB1G9e4lCaKq0sq@epycbox.lan>
+References: <cover.1610610444.git.mchehab+huawei@kernel.org> <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
+In-Reply-To: <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 14 Jan 2021 12:40:28 -0500
+Message-ID: <CADnq5_NeVyxMnUx35qXdm6i7gLbn_uCSNTBHJbEkSM765QsxKg@mail.gmail.com>
+Subject: Re: [PATCH 06/10] drm: amd: amdgpu_dm.h: fix a wrong kernel-doc markup
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Eryk Brol <eryk.brol@amd.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Wayne Lin <Wayne.Lin@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        Aurabindo Pillai <aurabindo.pillai@amd.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Mikita Lipski <mikita.lipski@amd.com>,
+        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 08:45:15AM -0800, Moritz Fischer wrote:
-> Hi Greg,
-> 
-> On Mon, Jan 11, 2021 at 07:14:22PM +0100, Greg Kroah-Hartman wrote:
-> > On Mon, Jan 11, 2021 at 05:34:57PM +0100, Lukas Bulwahn wrote:
-> > > On Mon, Jan 11, 2021 at 4:52 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Mon, Jan 11, 2021 at 12:21:13PM +0100, Lukas Bulwahn wrote:
-> > > > > Commit fa41d10589be ("fpga: dfl-pci: locate DFLs by PCIe vendor specific
-> > > > > capability") provides documentation to the FPGA Device Feature List (DFL)
-> > > > > Framework Overview, but introduced new documentation warnings:
-> > > > >
-> > > > >   ./Documentation/fpga/dfl.rst:
-> > > > >     505: WARNING: Title underline too short.
-> > > > >     523: WARNING: Unexpected indentation.
-> > > > >     523: WARNING: Blank line required after table.
-> > > > >     524: WARNING: Block quote ends without a blank line; unexpected unindent.
-> > > > >
-> > > > > Rectify ReST formatting in ./Documentation/fpga/dfl.rst.
-> > > > >
-> > > > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > > >
-> > > 
-> > > > You forgot a Reported-by: tag for the person who notified you of this :(
-> > > 
-> > > Greg, would you believe that I run 'make htmldocs' on linux-next myself?
-> > 
-> > Sure, just seemed to match up with when Stephen reported this a few
-> > hours earlier...
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> 
-> Are you waiting for a resend on this? Just asking because we got three
-> versions of this patch by now :)
-> 
-> I haven't re-sent this since you were already on the thread.
+On Thu, Jan 14, 2021 at 2:53 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> There's a missing colon, causing the markup to be ignored,
+> solving those warnings:
+>
+>         ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:340: warning: Incorrect use of kernel-doc format:          * @active_vblank_irq_count
+>         ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:379: warning: Function parameter or member 'active_vblank_irq_count' not described in 'amdgpu_display_manager'
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I'll just take this one, for some reason I thought Lukas was going to
-resend, my fault...
+Thanks, actually applied the same patch from Lukas Bulwahn a couple of days ago.
 
-greg k-h
+Alex
+
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index f084e2fc9569..5ee1b766884e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -337,7 +337,7 @@ struct amdgpu_display_manager {
+>         const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
+>
+>         /**
+> -        * @active_vblank_irq_count
+> +        * @active_vblank_irq_count:
+>          *
+>          * number of currently active vblank irqs
+>          */
+> --
+> 2.29.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
