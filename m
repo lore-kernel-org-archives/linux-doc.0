@@ -2,69 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BACD9C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A1BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:38:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7190E23B46
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:35:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3694423B3E
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 18:38:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728185AbhANSeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 13:34:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50386 "EHLO mail.kernel.org"
+        id S1726287AbhANSiW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 13:38:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50812 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728146AbhANSeo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 13:34:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4F08123B1A;
-        Thu, 14 Jan 2021 18:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610649243;
-        bh=7Ob49bvS1Q/8oWaAH0J5ILup9PX2XqAipLc7yfNBWQQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=r+a14GuoKoTvM9/sT6Xh84PMjrVlFhPaL6Z6BHikBPawau7xFoSVxuFgCNxSQSVNV
-         AQV/gP+K3mQmQTHwOoZLH+NkbNA3GkyD66Bj6lepNqMa0htEoLOt/md2BV2Qt/2LuZ
-         K/1YwARXGnlSVoMU7lokDHROuK3BvgzHeGkAheLPFhnKGp4EVC2x+EWsHf84Go4B/p
-         Wc9D6GQY05XcE9c5M1/u4cUdRLNCuTgYj8+Kt9cn+hzxFdmIJrdWXC6gP9mkNyrmUK
-         JKqbMzPz3usNAUSWv5w6sLqXUsCk+V2qATNm1c2Wz9o8uvsR6gbIaXgw1Qg5NPPcKM
-         C6z3TNLAqFJ5g==
-Date:   Thu, 14 Jan 2021 10:34:02 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jon Maloy <jmaloy@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ying Xue <ying.xue@windriver.com>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v6 12/16] net: tip: fix a couple kernel-doc markups
-Message-ID: <20210114103402.31946ed4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <da52ef69-753a-7aa8-a2b1-1b5ef48df94e@redhat.com>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
-        <9d205b0e080153af0fbddee06ad0eb23457e1b1b.1610610937.git.mchehab+huawei@kernel.org>
-        <da52ef69-753a-7aa8-a2b1-1b5ef48df94e@redhat.com>
+        id S1726131AbhANSiW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 13:38:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A80423B1A;
+        Thu, 14 Jan 2021 18:37:39 +0000 (UTC)
+Date:   Thu, 14 Jan 2021 18:37:37 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Srinivas Ramana <sramana@codeaurora.org>, will@kernel.org,
+        pajay@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 0/3] arm64: cpufeature: Add filter function to control
+Message-ID: <20210114183737.GG16561@gaia>
+References: <1610152163-16554-1-git-send-email-sramana@codeaurora.org>
+ <6dfdf691b5ed57df81c4c61422949af5@misterjones.org>
+ <c028d65d-27c3-826a-b16c-407e9cf48aac@codeaurora.org>
+ <7b53c01dd5afcb29679c3a9cf72407a9@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7b53c01dd5afcb29679c3a9cf72407a9@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Jan 2021 10:59:08 -0500 Jon Maloy wrote:
-> On 1/14/21 3:04 AM, Mauro Carvalho Chehab wrote:
-> > A function has a different name between their prototype
-> > and its kernel-doc markup:
-> >
-> > 	../net/tipc/link.c:2551: warning: expecting prototype for link_reset_stats(). Prototype was for tipc_link_reset_stats() instead
-> > 	../net/tipc/node.c:1678: warning: expecting prototype for is the general link level function for message sending(). Prototype was for tipc_node_xmit() instead
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu, Jan 14, 2021 at 08:20:52AM +0000, Marc Zyngier wrote:
+> On 2021-01-14 07:15, Srinivas Ramana wrote:
+> > On 1/11/2021 5:40 AM, Marc Zyngier wrote:
+> > > On 2021-01-09 00:29, Srinivas Ramana wrote:
+> > > > This patchset adds a control function for cpufeature framework
+> > > > so that the feature can be controlled at runtime.
+> > > > 
+> > > > Defer PAC on boot core and use the filter function added to disable
+> > > > PAC from command line. This will help toggling the feature on systems
+> > > > that do not support PAC or where PAC needs to be disabled at runtime,
+> > > > without modifying the core kernel.
+[...]
+> > > I've been working for some time on a similar series to allow a feature
+> > > set to be disabled during the early boot phase, initially to prevent
+> > > booting a kernel with VHE, but the mechanism is generic enough to
+> > > deal with most architectural features.
+> > > 
+> > > I took the liberty to lift your first patch and to add it to my
+> > > series[1],
+> > > further allowing PAuth to be disabled at boot time on top of BTI and
+> > > VHE.
+> > > 
+> > > I'd appreciate your comments on this.
+> > 
+> > Thanks for sending this series. It seems to be more flexible compared
+> > you what we did.
+> > Following your discussion on allowing EXACT ftr_reg values.
+> > 
+> > Btw, do you have plan to add MTE in similar lines to control the
+> > feature?
+> > We may be needing this on some systems.
 > 
-> Acked-by: Jon Maloy <jmaloy@redhat.com>
+> I don't have any need for this at the moment, as my initial goal was
+> to enable a different boot flow for VHE. The BTI "support" was added
+> as a way to demonstrate the use of __read_sysreg_by_encoding(), and
+> your patches were a good opportunity to converge on a single solution.
+> 
+> But if you write the patches that do that, I can add them to the series,
+> and Catalin/Will can decide whether they want to take them.
 
-Thanks! Applied this one to net, the cfg80211 one does not apply to
-net, so I'll leave it to Johannes.
+For MTE it's trickier (probably similar to VHE) as we do the setup early
+in proc.S before we hit the cpufeature infrastructure.
+
+So far we haven't agreed on disabling MTE means - is it disabled
+completely (no Normal Tagged memory type) or we just need to disable tag
+checking? The former is required if we expect buggy hardware (SoC-level,
+not necessarily CPU). The latter, at least for the kernel, is already
+handled via the kasan.mode cmdline. For user, we can disable the tagged
+address ABI via sysctl (or kernel cmdline) and it indirectly disabled
+MTE since the C library detects this.
+
+-- 
+Catalin
