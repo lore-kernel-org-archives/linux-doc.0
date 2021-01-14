@@ -2,124 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F127C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:41:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9684AC43219
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:50:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED64923B44
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:41:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E1FA23A59
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 17:50:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726374AbhANRlU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 12:41:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49928 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbhANRlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 12:41:20 -0500
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D363FC061574;
-        Thu, 14 Jan 2021 09:40:39 -0800 (PST)
-Received: by mail-ot1-x332.google.com with SMTP id x5so5917944otp.9;
-        Thu, 14 Jan 2021 09:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VIKbuTpzfW3yd3CewvFIKKZzMyKcmxzXmITP6uJRNoQ=;
-        b=RW8yunez+93efe/TW5NSL/34M/gxLz1QB79WnnEb18heEr5OxZ3liQt/d5A3Eilmcg
-         mWpwkMI2SVIYghs1p3SB6pFfuryDjLBquX454/zfVdLSGZvE96U259ONEFy/n1mTeI4U
-         uNVW/jjo3FiRy0jHwxD9OE16AU2bu8FsoIfCbekPdvwngU6tNzML4/js1ucATWJSrxIp
-         l2WCcXJi5Qd4v3jOBlpHDkZ4L1RGstctOZwCLlTm/HrMC0LnbuymeDTKq7OfLQ1Z1/9N
-         nNUtmMa5MrmcKnE0EA5oeIWIApRl6Y/X2CwmutbydI5AkcQlj8qmK4t2hULkhH0qgBQC
-         r03g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VIKbuTpzfW3yd3CewvFIKKZzMyKcmxzXmITP6uJRNoQ=;
-        b=BXrDk7P8cVqUsy6k1JTgpYdOqSFfboki5za0VRWCQ2hMWF0IOrcAICmJr3seNSiJ6t
-         OASwqgmbTYSaMJq3u1SvwO0RZDWi6eGTUpoEMNkYY+jXhdgZIJY+Q/CRjLIFK//9G012
-         hXdYskHl0MyfR1WQ+bfxVQTPNjUPooNUoQUt3koSeOUfZs5Asd+RPMKa9/fVZS5YReDB
-         OBu8jhnvEWrPiiECXU1oJESsKDo90zouKCBbRbgsoUMEX7cAs2PF4vUJPfVeW21I2ZxE
-         0qVoF65pecchai6YrCPuxFfS6LX9BeWAYyf+plW5KR5BYvn/cm8eiy0nfKyS1fQzLIOF
-         8/SA==
-X-Gm-Message-State: AOAM530QT1xOH6E1SG5imrqEnS5U1rj4iiYUi5G8N9MsCX5AJPdwAiS9
-        gM4Jjrs6lulCNGPsNUoh31Ey3w2ylbctbzuARXs=
-X-Google-Smtp-Source: ABdhPJyqNOLr77X30jXERcm8sC9peDvPrCuRMfLz2B02kVMs0kUcK0gIWbTM7DPn60u3B36XxDSMGKgEmBBbjPS0aiE=
-X-Received: by 2002:a05:6830:1b7b:: with SMTP id d27mr5547562ote.132.1610646039327;
- Thu, 14 Jan 2021 09:40:39 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1610610444.git.mchehab+huawei@kernel.org> <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
-In-Reply-To: <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 14 Jan 2021 12:40:28 -0500
-Message-ID: <CADnq5_NeVyxMnUx35qXdm6i7gLbn_uCSNTBHJbEkSM765QsxKg@mail.gmail.com>
-Subject: Re: [PATCH 06/10] drm: amd: amdgpu_dm.h: fix a wrong kernel-doc markup
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-        Eryk Brol <eryk.brol@amd.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Wayne Lin <Wayne.Lin@amd.com>,
+        id S1728623AbhANRuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 12:50:23 -0500
+Received: from foss.arm.com ([217.140.110.172]:53776 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729342AbhANRuW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 12:50:22 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCDB6D6E;
+        Thu, 14 Jan 2021 09:49:36 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.42.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 606D73F70D;
+        Thu, 14 Jan 2021 09:49:34 -0800 (PST)
+Date:   Thu, 14 Jan 2021 17:49:32 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Aurabindo Pillai <aurabindo.pillai@amd.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Mikita Lipski <mikita.lipski@amd.com>,
-        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210114174932.GD2739@C02TD0UTHF1T.local>
+References: <20210113165743.3385-1-broonie@kernel.org>
+ <20210113192735.rg2fxwlfrzueinci@treble>
+ <20210114115418.GB2739@C02TD0UTHF1T.local>
+ <20210114143650.nsqhejalpk4k5qfl@treble>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114143650.nsqhejalpk4k5qfl@treble>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 2:53 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> There's a missing colon, causing the markup to be ignored,
-> solving those warnings:
->
->         ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:340: warning: Incorrect use of kernel-doc format:          * @active_vblank_irq_count
->         ../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:379: warning: Function parameter or member 'active_vblank_irq_count' not described in 'amdgpu_display_manager'
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu, Jan 14, 2021 at 08:36:50AM -0600, Josh Poimboeuf wrote:
+> On Thu, Jan 14, 2021 at 11:54:18AM +0000, Mark Rutland wrote:
+> > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
+> > > On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
+> > > > From: Mark Rutland <mark.rutland@arm.com>
+> > > > +There are several ways an architecture may identify kernel code which is deemed
+> > > > +unreliable to unwind from, e.g.
+> > > > +
+> > > > +* Using metadata created by objtool, with such code annotated with
+> > > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+> > > 
+> > > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
+> > > necessarily mean the code is unreliable, and objtool doesn't treat it as
+> > > such.  Its mention can probably be removed unless there was some other
+> > > point I'm missing.
+> >
+> > > Also, s/STACKFRAME/STACK_FRAME/
 
-Thanks, actually applied the same patch from Lukas Bulwahn a couple of days ago.
+Given that (per the discussion below) STACK_FRAME_NON_STANDARD() also
+doesn't result in objtool producing anything special metadata (and such
+code is still expected to be unwindable), I believe we can delete this
+bullet point outright?
 
-Alex
+> > When I wrote this, I was under the impression that (for x86) code marked
+> > as SYM_CODE_{START,END} wouldn't be considered as a function by objtool.
+> > Specifically SYM_FUNC_END() marks the function with SYM_T_FUNC whereas
+> > SYM_CODE_END() marks it with SYM_T_NONE, and IIRC I thought that objtool
+> > only generated ORC for SYM_T_FUNC functions, and hence anything else
+> > would be considered not unwindable due to the absence of ORC.
+> > 
+> > Just to check, is that understanding for x86 correct, or did I get that
+> > wrong?
+> 
+> Doh, I suppose you read the documentation ;-)
 
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index f084e2fc9569..5ee1b766884e 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -337,7 +337,7 @@ struct amdgpu_display_manager {
->         const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
->
->         /**
-> -        * @active_vblank_irq_count
-> +        * @active_vblank_irq_count:
->          *
->          * number of currently active vblank irqs
->          */
-> --
-> 2.29.2
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+I think I skimmed the objtool source, too, but it was a while back. ;)
+
+> I realize your understanding is pretty much consistent with
+> tools/objtool/Documentation/stack-validation.txt:
+> 
+> 2. Conversely, each section of code which is *not* callable should *not*
+>    be annotated as an ELF function.  The ENDPROC macro shouldn't be used
+>    in this case.
+> 
+>    This rule is needed so that objtool can ignore non-callable code.
+>    Such code doesn't have to follow any of the other rules.
+> 
+> But this statement is no longer true:
+> 
+>   **This rule is needed so that objtool can ignore non-callable code.**
+> 
+> [ and it looks like the ENDPROC reference is also out of date ]
+
+Ok -- looks like that needs an update!
+
+> Since that document was written, around the time ORC was written we
+> realized objtool shouldn't ignore SYM_CODE after all.  That way we can
+> get full coverage for ORC (including interrupts/exceptions), as well as
+> some of the other validations like retpoline, uaccess, noinstr, etc.
+> 
+> Though it's still true that SYM_CODE doesn't have to follow the
+> function-specific rules, e.g. frame pointers.
+
+Ok; I suspect on the arm64 side we'll need to think a bit harder about
+what that means for us. I guess that'll influence or interact with
+whatever support we need specifically in objtool.
+
+> So now objtool requires that it be able to traverse and understand *all*
+> code, otherwise it will spit out "unreachable instruction" warnings.
+> But since SYM_CODE isn't a normal callable function, objtool doesn't
+> know to interpret it directly.  Therefore all SYM_CODE must be reachable
+> by objtool in some other way:
+> 
+> - either indirectly, via a jump from a SYM_FUNC; or
+> 
+> - via an UNWIND_HINT
+> 
+> (And that's true for both ORC and frame pointers.)
+> 
+> If you look closely at arch/x86/entry/entry_64.S you should be able to
+> see that's the case.
+
+Assuming you mean the UNWIND_HINT_EMPTY at the start of each exception
+entry point, I think I follow.
+
+> > If that's right, it might be worth splitting this into two points, e.g.
+> > 
+> > | * Using metadata created by objtool, with such code annotated with
+> > |   STACKFRAME_NON_STANDARD().
+> > |
+> > |
+> > | * Using ELF symbol attributes, with such code annotated with
+> > |   SYM_CODE_{START,END}, and not having a function type.
+> > 
+> > If that's wrong, I suspect there are latent issues here?
+> 
+> For ORC, UNWIND_HINT_EMPTY is used to annotate that some code is
+> non-unwindable.  (Note I have plans to split that into UNWIND_HINT_ENTRY
+> and UNWIND_HINT_UNDEFINED.)
+
+Interesting; where would the UNDEFINED case be used?
+
+> For frame pointers, the hints aren't used, other than by objtool to
+> follow the code flow as described above.  But objtool doesn't produce
+> any metadata for the FP unwinder.  Instead the FP unwinder makes such
+> determinations about unwindability at runtime.
+
+I suspect for arm64 with frame pointers we'll need a fair amount of
+special casing for the entry code; I'll have a think offline.
+
+Thanks,
+Mark.
