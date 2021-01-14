@@ -7,54 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6792CC43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBADEC4332D
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23DFA238EA
+	by mail.kernel.org (Postfix) with ESMTP id 7590C23A53
 	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbhANHzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:55:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726510AbhANHzM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727851AbhANHzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 14 Jan 2021 02:55:12 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 317DC23A1D;
-        Thu, 14 Jan 2021 07:53:50 +0000 (UTC)
+Received: from mail.kernel.org ([198.145.29.99]:56960 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727450AbhANHzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 02:55:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DF22123A04;
+        Thu, 14 Jan 2021 07:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610610830;
-        bh=idK8XxiiyoaOs4dRWdbCzNyTgXtfNWQ9SoHpDwL3m2Y=;
+        bh=isoBxnGBMg6yz5uKMo7IvAKU8TSee/5z770+NgdHm70=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b8dswQE7d/kB9wq8ybsSfUBXKKkwU+3so8XJ12vaHCSCAOzrG/sIRTcotmO+FIOzz
-         1vYZ9ljGc1MW0Dj8OJg8cwTbG7ah/bKjkBpZS81UQc9bIZT7kpwEtysxp9kyeC8YNj
-         BMMhNdj1HDHIU9lKBErMLGWf4PUEUI/PXXdnQHHtLit/GTocSZ6mEiu4Nylnqtzsul
-         ksCxayncQ43o2mIIT9YzYNt5rl3Nf9z6BzewjVkiJbV7Q+HxaIxb1oeDssyR4stJ7v
-         EYAIbYlNrw8cYi6Lm52mUAvcyXiJjjdqMR0SlsYePai6Os9DQUGBzvjpx8uYG1+sIY
-         /zv635ZwB6Tmw==
+        b=pY+1jrde9X3m+ROhnvcbBYSzsRtm3lqFTylHhi99r/ZhP016donDrKiiXpfHC3a5A
+         LLu0bN5fyOWSgtoOCxahwXcqxMCb/1hKR4+TwSSLkZ8an58E3GWLfAytlekTyueTUR
+         W7T2DtYPKnJI/HgF2eadb/iEIz/6Xggrs3LlSvC0knxbv0OkfXKEdnSidwGLNy548p
+         8HpFhr0Ej3EMcfWFS2DLBZz0EeH8vnF0WMaH4SJJx2Yva34EgfsSJP2B5sQDYNAGhP
+         ANzsXccvph17dW2j8COL/sWB8aYsOqC1M/FVdaDpqxKqLUevfmRKNxa7Hh83LxZuHH
+         3QYRy/4k9nx5Q==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxRz-00EPuD-9C; Thu, 14 Jan 2021 08:53:47 +0100
+        id 1kzxRz-00EPuJ-CF; Thu, 14 Jan 2021 08:53:47 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Aurabindo Pillai <aurabindo.pillai@amd.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        Eryk Brol <eryk.brol@amd.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Mikita Lipski <mikita.lipski@amd.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/10] drm: amd: amdgpu_dm.h: fix a wrong kernel-doc markup
-Date:   Thu, 14 Jan 2021 08:53:41 +0100
-Message-Id: <8e16f3aa553786cd193e49882ce5131e3769afb8.1610610444.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 09/10] media: v4l2-subdev.rst: fix a missing whitespace
+Date:   Thu, 14 Jan 2021 08:53:44 +0100
+Message-Id: <ab7c2cc2535e93b650ccd8375e15ed0fe8f41e2c.1610610444.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610444.git.mchehab+huawei@kernel.org>
 References: <cover.1610610444.git.mchehab+huawei@kernel.org>
@@ -65,30 +53,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a missing colon, causing the markup to be ignored,
-solving those warnings:
+Solves this warning:
 
-	../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:340: warning: Incorrect use of kernel-doc format:          * @active_vblank_irq_count
-	../drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:379: warning: Function parameter or member 'active_vblank_irq_count' not described in 'amdgpu_display_manager'
+    .../Documentation/driver-api/media/v4l2-subdev.rst:125: WARNING: Inline interpreted text or phrase reference start-string without end-string.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 2 +-
+ Documentation/driver-api/media/v4l2-subdev.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index f084e2fc9569..5ee1b766884e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -337,7 +337,7 @@ struct amdgpu_display_manager {
- 	const struct gpu_info_soc_bounding_box_v1_0 *soc_bounding_box;
+diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+index 6d5c799c49fe..0e82c77cf3e2 100644
+--- a/Documentation/driver-api/media/v4l2-subdev.rst
++++ b/Documentation/driver-api/media/v4l2-subdev.rst
+@@ -123,7 +123,7 @@ Don't forget to cleanup the media entity before the sub-device is destroyed:
+ 	media_entity_cleanup(&sd->entity);
  
- 	/**
--	 * @active_vblank_irq_count
-+	 * @active_vblank_irq_count:
- 	 *
- 	 * number of currently active vblank irqs
- 	 */
+ If a sub-device driver implements sink pads, the subdev driver may set the
+-link_validate field in :c:type:`v4l2_subdev_pad_ops`to provide its own link
++link_validate field in :c:type:`v4l2_subdev_pad_ops` to provide its own link
+ validation function. For every link in the pipeline, the link_validate pad
+ operation of the sink end of the link is called. In both cases the driver is
+ still responsible for validating the correctness of the format configuration
 -- 
 2.29.2
 
