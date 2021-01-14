@@ -2,147 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C27C4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FD4C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:18:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7A41235F8
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:12:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06DFA23447
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725747AbhANCMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:12:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729234AbhAMWAw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 17:00:52 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D94CC061794
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 14:00:11 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id dj23so990083edb.13
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 14:00:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
-        b=uT51003CLT7E627tBqLkwWrU1PVJGq2/ZMQqORYgP/O2pHjSbQU/+++0TXmm4i8is6
-         OARUSIgqWunXkWiEvn7QA6CKb35uF8Ku1QQbQxnLocI54fY87d1EbdIGaxJQgPGPPNpG
-         sKynEK0BQxUKiAsyo3I9mUReOW0Yrn9p14437+A6dsPP1Ah98uXS0jQMFvcovol60ZyS
-         mpErIteohbvU2Vbc+tBEoTDcHUGjD8plBHS/VvZ8bC2qUmYs/Fh4YqJFb8PwkbC7S/Rl
-         h50qDhicSqelFiRP/M/ZqC6YzDMO9fwpdFAwGPpyDIkmBqB7cEsEmSgmsxP3cOFv8Hau
-         BwqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mT4FJ5faHT6kx4m/+VpI3KjNLQvDBDZDe9LTS609qwU=;
-        b=kbLIEm20JuoRgybK7gbm8Kn0laWXMbQ23o+uRiJu3e8oM4xQhJQ+LZk6K6hgjroDse
-         7L5Ni6poyX7kAxawOVcI81QdLBth3QPhuN0sTOjG6t5XbWe7yKBsehxKt8duQgSk2J/l
-         n48xB5IYviwptIeosTad3/PQS2yrk29Bl80IaM7afx6caQH0R5pnuDiTGL8KS5mWpQZu
-         HymLhtb+jjya57aBQA6bB/MJ3M1EazpECxQs14MDhHtIP25kAQ8cMy/YfYvYjYF4TOim
-         GWhNKjiNaU2MOjqt0lwMHCmXuX3EhKZQLChsNi+CIus6fd2iWPbtjUusyYEZ45tumSyj
-         UtpQ==
-X-Gm-Message-State: AOAM5308SCf8V683+x2walFI6O+T9ovMxjaedyDWmUasFocZ5ro3WREt
-        ASZqNdJDXg0KaABgU14A+3sfy6/zra3oixoI3qix
-X-Google-Smtp-Source: ABdhPJyE5JEDE4oM6JhTLtfMhJ6qJ3TrnMrYS6u1lrad/w+TvlD7eZ8Y1v59rsqWDpKMCpdfypcrgKeOBUbXOvRRpc4=
-X-Received: by 2002:a05:6402:513:: with SMTP id m19mr3469396edv.244.1610575209296;
- Wed, 13 Jan 2021 14:00:09 -0800 (PST)
+        id S1728025AbhANCSU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:18:20 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:36732 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728701AbhANCSQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 21:18:16 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10E09vxB043707;
+        Thu, 14 Jan 2021 00:18:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=8fvI3uhDU/lFzBKxslGGP7n71gqZcVlfK/swNLvGpfc=;
+ b=YEIfU30lASj8s4oEdpvFEcMZgaMpbjUuJP+p6CPOtp3Ss5fqSByAqZQRl+ZjmSBKSvC+
+ yDmpRp0sE9YOEirX4wpQIAXHsDI4YyPMY2tdSZsG9WycCodjJ6WCIbDCXymlcXoo5IGL
+ 2ye4wRyUgz+AkzeKU+u+Tf10guAPbE/d0sHdjJyDm9YNRalMro2fb8/CxHv/5YgQ5cV9
+ 5abrJ7f3BgsDJYxw/4eOB6QnuN946XBhWtg7D/YiDL2RATp6Y7HMr5MnrpuaMZINVIUK
+ wDcnPxH3YMQSfzTrs80YZ9kKqZXPAgLQwGKdJKNV9KnVmKMyuCuRZs5JptxDFm60xroP lQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 360kg1x6pd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 14 Jan 2021 00:18:30 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10E0Am1G162851;
+        Thu, 14 Jan 2021 00:18:29 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 360kem9nsc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 14 Jan 2021 00:18:29 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10E0INsW018524;
+        Thu, 14 Jan 2021 00:18:23 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 13 Jan 2021 16:18:22 -0800
+Subject: Re: [PATCH v12 12/13] mm/hugetlb: Gather discrete indexes of tail
+ page
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
+        song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20210106141931.73931-1-songmuchun@bytedance.com>
+ <20210106141931.73931-13-songmuchun@bytedance.com>
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <c4afa795-c679-420b-a228-d7f08cf49d02@oracle.com>
+Date:   Wed, 13 Jan 2021 16:18:20 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
- <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
-In-Reply-To: <20210113205547.GA21653@Ryzen-9-3900X.localdomain>
-From:   Bill Wendling <morbo@google.com>
-Date:   Wed, 13 Jan 2021 13:59:57 -0800
-Message-ID: <CAGG=3QVK9KvxDi7b51Fyh=NLKVQka8ZxJeWzchaiDM=78_X3Tw@mail.gmail.com>
-Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210106141931.73931-13-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101130147
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101130147
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Hi Bill,
->
-> On Tue, Jan 12, 2021 at 10:19:58PM -0800, Bill Wendling wrote:
-> > From: Sami Tolvanen <samitolvanen@google.com>
-> >
-> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > profile, the kernel is instrumented with PGO counters, a representative
-> > workload is run, and the raw profile data is collected from
-> > /sys/kernel/debug/pgo/profraw.
-> >
-> > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > before it can be used during recompilation:
-> >
-> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> >
-> > Multiple raw profiles may be merged during this step.
-> >
-> > The data can now be used by the compiler:
-> >
-> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> >
-> > This initial submission is restricted to x86, as that's the platform we
-> > know works. This restriction can be lifted once other platforms have
-> > been verified to work with PGO.
-> >
-> > Note that this method of profiling the kernel is clang-native, unlike
-> > the clang support in kernel/gcov.
-> >
-> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Co-developed-by: Bill Wendling <morbo@google.com>
-> > Signed-off-by: Bill Wendling <morbo@google.com>
-> > Change-Id: Ic78e69c682286d3a44c4549a0138578c98138b77
->
-> Small nit: This should be removed.
->
-Grrr....The git hook keeps adding it in there. :-(
+On 1/6/21 6:19 AM, Muchun Song wrote:
+> For HugeTLB page, there are more metadata to save in the struct page.
+> But the head struct page cannot meet our needs, so we have to abuse
+> other tail struct page to store the metadata. In order to avoid
+> conflicts caused by subsequent use of more tail struct pages, we can
+> gather these discrete indexes of tail struct page. In this case, it
+> will be easier to add a new tail page index later.
+> 
+> There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
+> page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
+> so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> ---
+>  include/linux/hugetlb.h        | 14 ++++++++++++++
+>  include/linux/hugetlb_cgroup.h | 15 +++++++++------
+>  mm/hugetlb.c                   | 25 ++++++++++++-------------
+>  mm/hugetlb_vmemmap.c           |  8 ++++++++
+>  4 files changed, 43 insertions(+), 19 deletions(-)
 
-> I applied this patch on top of v5.11-rc3, built it with LLVM 12
-> (f1d5cbbdee5526bc86eac0a5652b115d9bc158e5 + D94470) with Microsoft's
-> WSL 5.4 config [1] + CONFIG_PGO_CLANG=y, and ran it on WSL2.
->
-> $ zgrep PGO /proc/config.gz
-> # Profile Guided Optimization (PGO) (EXPERIMENTAL)
-> CONFIG_ARCH_SUPPORTS_PGO_CLANG=y
-> CONFIG_PGO_CLANG=y
-> # end of Profile Guided Optimization (PGO) (EXPERIMENTAL)
->
-> However, I see an issue with actually using the data:
->
-> $ sudo -s
-> # mount -t debugfs none /sys/kernel/debug
-> # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> # chown nathan:nathan vmlinux.profraw
-> # exit
-> $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
-> error: No profiles could be merged.
->
-> Am I holding it wrong? :) Note, this is virtualized, I do not have any
-> "real" x86 hardware that I can afford to test on right now.
->
-> [1]: https://github.com/microsoft/WSL2-Linux-Kernel/raw/linux-msft-wsl-5.4.y/Microsoft/config-wsl
->
-Could you send me the vmlinux.profraw file? (Don't CC this list.)
+My apologies!  I did not get to this patch in previous versions of the
+series.  My "RFC create hugetlb flags to consolidate state" was done
+before I even noticed your efforts here.
 
--bw
+At least we agree the metadata could be better organized. :)
+
+IMO, using page.private of the head page to consolidate flags will be
+easier to manage.  So, I would like to use that.
+
+The BUILD_BUG_ON in this patch makes sense.
+-- 
+Mike Kravetz
