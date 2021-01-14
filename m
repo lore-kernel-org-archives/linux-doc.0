@@ -4,77 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D73C43331
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A78DCC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:56:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F354523A77
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 796D72343F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbhANHz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:55:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56964 "EHLO mail.kernel.org"
+        id S1727964AbhANHza (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 02:55:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727839AbhANHzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1727837AbhANHzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 14 Jan 2021 02:55:11 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA624233FD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D903823A00;
         Thu, 14 Jan 2021 07:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610610830;
-        bh=TrTQY3hajtzLk4b1OtE5yfKC0rZRhinwUQjn/1F4J0M=;
+        bh=Pn6XxcDQzrINBOzWfuCPjR6eVnKqMplBjnAtKpJQysM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=szafSbjx4BpAyqfIGLJSc9RiCobHoiCKUGdi8h9VPYgM03qq9ITPDEoQjFXd+4e2F
-         wprL2LmT1ccAyVW/Yj8p8dQ6q8Tj0SjHxWbdEE03c0gP0Xyb1Sdl82fkv9OHl7jm74
-         58mQZA79eTj0sZynB1HGp5/J82ffaZRg+uqyg7HWfDQU9z655sZdNLPNvwslr/iFeS
-         jwNs0A3Bz/VGnIMxWLmBAW4wP1WdZo65cEyGaxFmee/AQg8S0v+SNFoKA10Ng03+D9
-         UXLUdbfeMW88C0kIBeVu+MsBpI8KHQTQBLWWR/q3Lox41iTBIgAmX37JzKLYctyWfN
-         pS4tAoDNd0oag==
+        b=liSg0ulZeuYiopEu9anfR0iY/egbm0973FapE/2LwyIjeykAwHVlyhe1pbNJF1YrX
+         WzjYuoSBkud/1iGThG9i60PcYEKzkKnC7q/f5P33MpVm5IFULiqohyaS5xTAoCyvVe
+         TIyslgcLu+Ivn2geGs0ySgUwkZ+drXHL81v9+qyd/bUA2b/db2sGnE4ANzOkPanSwT
+         F8yV4+N/9hEYie9jpmoJMPfKgsVyxA2B64myuieWbLs0DJFtlAXI9Wo/5e3l9ePfjp
+         g98Mi0XuIfGr1KUSUR2AONXyAZMbp71Xbd4efBd+8OP8vJ0bE+pBVFQHdJMgkai3Df
+         2fIYA2J8zjLfw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxRz-00EPu7-63; Thu, 14 Jan 2021 08:53:47 +0100
+        id 1kzxRz-00EPu3-3y; Thu, 14 Jan 2021 08:53:47 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+To:     Harry Wei <harryxiyou@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
         "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>, kvm@vger.kernel.org,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Yanteng Si <siyanteng@loongson.cn>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 03/10] KVM: x86: hyper-v: add a blank line to remove building warnings
-Date:   Thu, 14 Jan 2021 08:53:38 +0100
-Message-Id: <a5a20cd7ff9870b5316825fa1abad0b867832700.1610610444.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/10] doc/zh_CN: fix Sphinx errors
+Date:   Thu, 14 Jan 2021 08:53:36 +0100
+Message-Id: <ad0badc92b4cda71384951e1e501e1babb6d8d4f.1610610444.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610444.git.mchehab+huawei@kernel.org>
 References: <cover.1610610444.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-.../Documentation/virt/kvm/api.rst:4536: WARNING: Unexpected indentation.
-.../Documentation/virt/kvm/api.rst:4538: WARNING: Block quote ends without a blank line; unexpected unindent.
+The whitespacing with some translations are weird,
+which causes errors like this one:
 
-Fixes: c21d54f0307f ("KVM: x86: hyper-v: allow KVM_GET_SUPPORTED_HV_CPUID as a system ioctl")
+	devel/v4l/docs/Documentation/translations/zh_CN/mips/ingenic-tcu.rst:61: WARNING: Malformed table.
+	Text in column margin in table line 6.
+
+	===========         =====
+	时钟                drivers/clk/ingenic/tcu.c
+	中断                drivers/irqchip/irq-ingenic-tcu.c
+	定时器              drivers/clocksource/ingenic-timer.c
+	OST                 drivers/clocksource/ingenic-ost.c
+	脉冲宽度调制器      drivers/pwm/pwm-jz4740.c
+	看门狗              drivers/watchdog/jz4740_wdt.c
+	===========         =====
+
+Fix it.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/virt/kvm/api.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/translations/zh_CN/mips/ingenic-tcu.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index c136e254b496..c95572a66a7b 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4532,6 +4532,7 @@ userspace should not expect to get any particular value there.
- Note, vcpu version of KVM_GET_SUPPORTED_HV_CPUID is currently deprecated. Unlike
- system ioctl which exposes all supported feature bits unconditionally, vcpu
- version has the following quirks:
-+
- - HYPERV_CPUID_NESTED_FEATURES leaf and HV_X64_ENLIGHTENED_VMCS_RECOMMENDED
-   feature bit are only exposed when Enlightened VMCS was previously enabled
-   on the corresponding vCPU (KVM_CAP_HYPERV_ENLIGHTENED_VMCS).
+diff --git a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst b/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
+index 72b5d409ed89..919ae1d4734e 100644
+--- a/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
++++ b/Documentation/translations/zh_CN/mips/ingenic-tcu.rst
+@@ -53,14 +53,14 @@
+ 
+ TCU硬件的功能分布在多个驱动程序：
+ 
+-===========         =====
++==================  ===================================
+ 时钟                drivers/clk/ingenic/tcu.c
+ 中断                drivers/irqchip/irq-ingenic-tcu.c
+ 定时器              drivers/clocksource/ingenic-timer.c
+ OST                 drivers/clocksource/ingenic-ost.c
+ 脉冲宽度调制器      drivers/pwm/pwm-jz4740.c
+ 看门狗              drivers/watchdog/jz4740_wdt.c
+-===========         =====
++==================  ===================================
+ 
+ 因为可以从相同的寄存器控制属于不同驱动程序和框架的TCU的各种功能，所以
+ 所有这些驱动程序都通过相同的控制总线通用接口访问它们的寄存器。
 -- 
 2.29.2
 
