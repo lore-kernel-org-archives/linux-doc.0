@@ -2,88 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D82C4332B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B75C2C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F579233FD
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D650233FD
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 08:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728495AbhANIHg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 03:07:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58992 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728115AbhANIGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 03:06:22 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C4E5239EF;
-        Thu, 14 Jan 2021 08:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610611500;
-        bh=TOaEzhVsXDVk1gO2cAsdiDzBnKmJqIHSPZHY9Jw5cok=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SQZmHxX7eKw68Hc8gmGSxF9o4kjNJxK8amZxff24u8wi4l4Gzk0NRTjrcxvn+heOX
-         HzOuvTfirbcj9bZzh9QA6kPGVwZBnVJ8w41RRADSYOIMKHLNRojPhTKyBf9K8trMmX
-         3E1WWKKmFDetgA0DQh3tZYkjRokJOgAJob45bP5jtHdXteFe5zFGGAJXQXTLKQ2J9W
-         G87amplyCzrypDBRR9feDDEW4zBeMntQjaM8RlVJtnx1aA6ud9CfRSbPjjCLxLUDmj
-         xCPExztl/dCgGk8hunKgq0HCE6Sm30Uj2JQQxWev2oa9VBlPYL6aC+Z6oZdDhvvqya
-         L8RhpTQpj4jIQ==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kzxco-00EQ6g-1s; Thu, 14 Jan 2021 09:04:58 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v6 08/16] memblock: fix kernel-doc markups
-Date:   Thu, 14 Jan 2021 09:04:44 +0100
-Message-Id: <f3c65f61367993a607f9daf9dc1a3bdab1f0a040.1610610937.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1610610937.git.mchehab+huawei@kernel.org>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
+        id S1727184AbhANII1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 03:08:27 -0500
+Received: from mail-03.mail-europe.com ([91.134.188.129]:53612 "EHLO
+        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726742AbhANII1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 03:08:27 -0500
+Date:   Thu, 14 Jan 2021 08:06:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+        s=protonmail2; t=1610611621;
+        bh=oZoLOvB8GFNjTNukq9k4F1x8Zrh7VuJWPVVKWBKbx6E=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=QntvKbV1vbBi+N/094QDG70LEkXfRBGSma8e3IoD4jHW+TxXVRJbXS9E1IGSKVB4d
+         r1x0dNCfc3xC0p7aPRVYcrCXoU/zHBPHs6VcIudLRyY/D8YlQtBOAIlUwlLWFsLTy6
+         mmrHtEA0JagQIO6GtkHlDdNY/uA5IsOJr5urCGRkg+G8K4w/hmRuPgq8lufieWChJD
+         5TcCRFeHcuvG+KLwDvBouFhhnl7ADS8pN4F/SPg4uoyG/3rE7WKxn3YWUzTM7WuiUy
+         5RjlIBQoAGXy+1qVUL3Mhm74oiIaUtj7oCiQnrh+BFVUKoZzfMmZCwRP8ixSh6c4yY
+         2Kh9d84w2LHiw==
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From:   Simon Ser <contact@emersion.fr>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v6 15/16] drm: drm_crc: fix a kernel-doc markup
+Message-ID: <qe1toq6DLvoVNP7AaQXNqpa3qtfzGwKWuVz-uYiDIUcI0u0-xaQstZKPNqEbg9-lfHA0wN2yI_i-vQvoYJmoOS_v-XLO1pUfFE-9srEsxNY=@emersion.fr>
+In-Reply-To: <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org> <2439fb6713e9b2aa27a81f3269a4b0e8e7dfcd36.1610610937.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some identifiers have different names between their prototypes
-and the kernel-doc markup.
+On Thursday, January 14th, 2021 at 9:04 AM, Mauro Carvalho Chehab <mchehab+=
+huawei@kernel.org> wrote:
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/linux/memblock.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> A function has a different name between their prototype
+> and its kernel-doc markup:
+>
+> =09../include/drm/drm_crtc.h:1257: warning: expecting prototype for drm_c=
+rtc_alloc_with_planes(). Prototype was for drmm_crtc_alloc_with_planes() in=
+stead
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index b93c44b9121e..9cc6da7b513e 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -272,7 +272,7 @@ void __next_mem_pfn_range_in_zone(u64 *idx, struct zone *zone,
- 				  unsigned long *out_spfn,
- 				  unsigned long *out_epfn);
- /**
-- * for_each_free_mem_range_in_zone - iterate through zone specific free
-+ * for_each_free_mem_pfn_range_in_zone - iterate through zone specific free
-  * memblock areas
-  * @i: u64 used as loop variable
-  * @zone: zone in which all of the memory blocks reside
-@@ -292,7 +292,7 @@ void __next_mem_pfn_range_in_zone(u64 *idx, struct zone *zone,
- 	     __next_mem_pfn_range_in_zone(&i, zone, p_start, p_end))
- 
- /**
-- * for_each_free_mem_range_in_zone_from - iterate through zone specific
-+ * for_each_free_mem_pfn_range_in_zone_from - iterate through zone specific
-  * free memblock areas from a given point
-  * @i: u64 used as loop variable
-  * @zone: zone in which all of the memory blocks reside
--- 
-2.29.2
-
+Acked-by: Simon Ser <contact@emersion.fr>
