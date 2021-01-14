@@ -4,46 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9496DC43219
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7F4C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D2C8208E4
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:54:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6169023436
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 07:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbhANHyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 02:54:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56654 "EHLO mail.kernel.org"
+        id S1727841AbhANHzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 02:55:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56962 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726510AbhANHyb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Jan 2021 02:54:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD0A423A02;
+        id S1727567AbhANHzL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 14 Jan 2021 02:55:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1204239EC;
         Thu, 14 Jan 2021 07:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610610830;
-        bh=j46GC8EQ+wDuLjInlFgJe8KE3E7zAC95eawxVM4OyVI=;
+        bh=oyRypSip+Dc6mUsxTJ/NR8kO+Bc/LQvciK+2bI5BDPI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TBEIyN6xrBAwrDGRr7PolKZCEZ2IuCrm4dsYZ4EZOafK3gMz6ZlfuU5qKJrNT81sb
-         hFDqMkpUiMntg1wqigxZ8xYoDzrq4bIxDMB/PunIWYL/YdBq8vDSdJs1lgs0rrxGVx
-         r9ictQapiWVqYbP04m1qWmjPahn/drp34WBQKVkZTnefzPmsWxsdvHkbd+ipNPLpO/
-         Hia9VtOAtCehRhE9+dlbERyRVK/n8tL12UyP4pOKa/v92q5igI7Yz4dS7ns5BJo4f1
-         H788VGyg0HYe/qtjWCyrcQtT1s+wGp5mDYJNyWb+vCU7iPpSzrHwydg8YvdCJ9H2ct
-         C2m1YUoISr3xw==
+        b=fu6Y+8Z2c2jNzdxmHJcHGbjFIpriwkan8PSime9yLvdEOx3mbLiU6UpR6haB09q67
+         PkZpFljmQVwYCCpyilM/g3tMlxzNaePZG8QmYr7BU0nJFfklT2sqArPV6Hf3dBmWHj
+         OhUNr87N/xWawio1R2WJKXPkCOV7wnnxhePrx9zOiM7yhL0jUX1Si32+YAQjf4CMW+
+         LPSj31e36F+935DZspytxDTrVnIkxlpXd2LryUOsIMB3BO9FRBUyMrdLPF8y6eHGTq
+         Z7z8hRsZJLOFCpH5TDvc+mOQvbr31QV0UGOZRL7ADp9HG85c6I37uag1FDXqWDN66I
+         VvXn1JB+Txscw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzxRz-00EPu5-53; Thu, 14 Jan 2021 08:53:47 +0100
+        id 1kzxRz-00EPu9-78; Thu, 14 Jan 2021 08:53:47 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Chao Yu <chao@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
-        linux-f2fs-devel@lists.sourceforge.net,
+        "Jonathan Corbet" <corbet@lwn.net>, Borislav Petkov <bp@suse.de>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Justin Ernst <justin.ernst@hpe.com>,
+        Mike Travis <mike.travis@hpe.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 02/10] ABI: sysfs-fs-f2fs: fix a table identation
-Date:   Thu, 14 Jan 2021 08:53:37 +0100
-Message-Id: <52a3058459673bc190ca6044779ccea9146c7208.1610610444.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/10] ABI: sysfs-firmware-sgi_uv
+Date:   Thu, 14 Jan 2021 08:53:39 +0100
+Message-Id: <452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610610444.git.mchehab+huawei@kernel.org>
 References: <cover.1610610444.git.mchehab+huawei@kernel.org>
@@ -54,50 +57,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Solves this doc build error:
+Add a missing blank line required to identify a literal block,
+fixing this warning:
 
-.../Documentation/ABI/testing/sysfs-fs-f2fs:382: WARNING: Malformed table.
-Text in column margin in table line 15.
+	.../Documentation/ABI/testing/sysfs-firmware-sgi_uv:2: WARNING: Unexpected indentation.
 
-=====  ===================== =================================
-value  sb status macro       description
-0x1    SBI_IS_DIRTY          dirty flag for checkpoint
-0x2    SBI_IS_CLOSE          specify unmounting
-0x4    SBI_NEED_FSCK         need fsck.f2fs to fix
-0x8    SBI_POR_DOING         recovery is doing or not
-0x10   SBI_NEED_SB_WRITE     need to recover superblock
-0x20   SBI_NEED_CP           need to checkpoint
-0x40   SBI_IS_SHUTDOWN       shutdown by ioctl
-0x80   SBI_IS_RECOVERED      recovered orphan/data
-0x100  SBI_CP_DISABLED       CP was disabled last mount
-0x200  SBI_CP_DISABLED_QUICK CP was disabled quickly
-0x400  SBI_QUOTA_NEED_FLUSH  need to flush quota info in CP
-0x800  SBI_QUOTA_SKIP_FLUSH  skip flushing quota in current CP
-0x1000 SBI_QUOTA_NEED_REPAIR quota file may be corrupted
-0x2000 SBI_IS_RESIZEFS       resizefs is in process
-====== ===================== =================================
-
-Fixes: 969945899a35 ("f2fs: introduce sb_status sysfs node")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-fs-f2fs | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-firmware-sgi_uv | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index e5918c93f3bf..1ba8d533437a 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -383,8 +383,9 @@ Date:		December 2020
- Contact:	"Chao Yu" <yuchao0@huawei.com>
- Description:	Show status of f2fs superblock in real time.
+diff --git a/Documentation/ABI/testing/sysfs-firmware-sgi_uv b/Documentation/ABI/testing/sysfs-firmware-sgi_uv
+index 637c668cbe45..b0f79a1d14b3 100644
+--- a/Documentation/ABI/testing/sysfs-firmware-sgi_uv
++++ b/Documentation/ABI/testing/sysfs-firmware-sgi_uv
+@@ -39,6 +39,7 @@ Description:
  
--		=====  ===================== =================================
-+		====== ===================== =================================
- 		value  sb status macro       description
-+		====== ===================== =================================
- 		0x1    SBI_IS_DIRTY          dirty flag for checkpoint
- 		0x2    SBI_IS_CLOSE          specify unmounting
- 		0x4    SBI_NEED_FSCK         need fsck.f2fs to fix
+ 		The uv_type entry contains the hub revision number.
+ 		This value can be used to identify the UV system version::
++
+ 			"0.*" = Hubless UV ('*' is subtype)
+ 
+ 			"3.0" = UV2
 -- 
 2.29.2
 
