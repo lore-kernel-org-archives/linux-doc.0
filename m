@@ -2,139 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A73CDC43381
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5122CC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 20:05:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70EB523B76
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 19:32:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C07A2310F
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 20:05:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728310AbhANTbv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 14:31:51 -0500
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:36317 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbhANTbv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 14:31:51 -0500
-Received: by mail-oi1-f179.google.com with SMTP id 9so7126806oiq.3;
-        Thu, 14 Jan 2021 11:31:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jCW/74dk4/r2pTUeRiZ/lnXm69baMKCS/KFRrpnvniY=;
-        b=q91N9MnWjUosYjc8G2O4ZDPBdOSWueuqySLX2MZQgmJpD/Nj4SzVVZiG5hL6XgsDBo
-         quxQBMTwS7i/P1YG4yhQ5NT39hpS3lxb2dOHJE2xnaEwXD3xQl1ct6ERCBdUNWerlpHE
-         JGyp3brubY23VQDNNuS9kSE4TfGsTcGDH6WVtxEx0vHkheTb/N5YqosG7mZoJsL7gWNu
-         fEyFJ67tTi5or4Yv/wp1l2v0Qlx1jlMNGlrSlvPFh0xcgNH2rbZUTw3wSG0yhVZWB1nb
-         /nGavetcWHhkisD80oNZFNnR20tcJvULEakZ6ylF8WTDjpt+GlGlGlrxk54ROdKE4Qzh
-         +46Q==
-X-Gm-Message-State: AOAM531T8hkMk64Dm02JZJq/PyzMe9qudf9mn6mWNxtVPxl2H8lx6Oc+
-        QSqXkIjIme0GhrPv4S5kvsJJ3ojmYA==
-X-Google-Smtp-Source: ABdhPJz81BTCFtHgx3zSCLgFeQQfXJoask7vf+brnMbnlpYkFgiiyvjdENxkrgkUXCeNWStSR65fkQ==
-X-Received: by 2002:aca:b20a:: with SMTP id b10mr3512096oif.75.1610652670139;
-        Thu, 14 Jan 2021 11:31:10 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 63sm1243184otx.2.2021.01.14.11.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 11:31:09 -0800 (PST)
-Received: (nullmailer pid 3432430 invoked by uid 1000);
-        Thu, 14 Jan 2021 19:31:08 -0000
-Date:   Thu, 14 Jan 2021 13:31:08 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Marko <robert.marko@sartura.hr>
-Cc:     jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Luka Perkov <luka.perkov@sartura.hr>
-Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: Add TI TPS23861 bindings
-Message-ID: <20210114193108.GA3430334@robh.at.kernel.org>
-References: <20210111135708.3703175-1-robert.marko@sartura.hr>
+        id S1730443AbhANUFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 15:05:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23307 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730442AbhANUFC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 15:05:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610654615;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=HpNvJaw5SGQOpvSB4p7vktWYcMVdtuSl93krDsAW8gY=;
+        b=ERa95gOSlIt3Umm7DNFvFnSA1Sxks/1fiv49DsUlFq91Dc3PFuZwn6jOpA2p+TIidFdU4x
+        ZN8D9I2VRR56+vgOoGRnTi/S//LdPUV5iT1lPOkA2OvqfrzvM6CMj/6geWQppwttPbpPk4
+        QVQUENj6sMIFmqI6i9Ur8W8mLmZkpK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-Y5Do79eyPGWaOCQ76KT3qg-1; Thu, 14 Jan 2021 15:03:33 -0500
+X-MC-Unique: Y5Do79eyPGWaOCQ76KT3qg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7D1A803F41;
+        Thu, 14 Jan 2021 20:03:31 +0000 (UTC)
+Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EEF0E100AE41;
+        Thu, 14 Jan 2021 20:03:25 +0000 (UTC)
+Date:   Thu, 14 Jan 2021 14:03:16 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210114200316.2hc3wmsoyzafxzm2@treble>
+References: <20210113165743.3385-1-broonie@kernel.org>
+ <20210113192735.rg2fxwlfrzueinci@treble>
+ <20210114115418.GB2739@C02TD0UTHF1T.local>
+ <20210114143650.nsqhejalpk4k5qfl@treble>
+ <20210114174932.GD2739@C02TD0UTHF1T.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210111135708.3703175-1-robert.marko@sartura.hr>
+In-Reply-To: <20210114174932.GD2739@C02TD0UTHF1T.local>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 02:57:06PM +0100, Robert Marko wrote:
-> Document bindings for the Texas Instruments TPS23861 driver.
+On Thu, Jan 14, 2021 at 05:49:32PM +0000, Mark Rutland wrote:
+> On Thu, Jan 14, 2021 at 08:36:50AM -0600, Josh Poimboeuf wrote:
+> > On Thu, Jan 14, 2021 at 11:54:18AM +0000, Mark Rutland wrote:
+> > > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
+> > > > On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
+> > > > > From: Mark Rutland <mark.rutland@arm.com>
+> > > > > +There are several ways an architecture may identify kernel code which is deemed
+> > > > > +unreliable to unwind from, e.g.
+> > > > > +
+> > > > > +* Using metadata created by objtool, with such code annotated with
+> > > > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
+> > > > 
+> > > > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
+> > > > necessarily mean the code is unreliable, and objtool doesn't treat it as
+> > > > such.  Its mention can probably be removed unless there was some other
+> > > > point I'm missing.
+> > >
+> > > > Also, s/STACKFRAME/STACK_FRAME/
 > 
-> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> ---
-> Changes in v4:
-> * Correct shunt binding
-> 
->  .../bindings/hwmon/ti,tps23861.yaml           | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> new file mode 100644
-> index 000000000000..891eee9489aa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
-> +$id: http://devicetree.org/schemas/hwmon/ti,tps23861.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI TPS23861 PoE PSE
-> +
-> +maintainers:
-> +  - Robert Marko <robert.marko@sartura.hr>
-> +
-> +description: |
-> +  The TPS23861 is a IEEE 802.3at Quad Port Power-over-Ethernet PSE Controller.
-> +
-> +  Datasheets:
-> +  https://www.ti.com/lit/gpn/tps23861
-> +
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - ti,tps23861
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  shunt-resistor-micro-ohms:
-> +    description: The value of curent sense resistor in microohms.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+> Given that (per the discussion below) STACK_FRAME_NON_STANDARD() also
+> doesn't result in objtool producing anything special metadata (and such
+> code is still expected to be unwindable), I believe we can delete this
+> bullet point outright?
 
-Don't need a type $ref as that's already defined for anything with 
-units.
+With ORC, UNWIND_HINT_EMPTY can be used to mark missing ORC metadata,
+which the unwinder translates as unreliable.  So that may be worth
+mentioning.
 
-> +    default: 255000
-> +    minimum: 250000
-> +    maximum: 255000
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          tps23861@30 {
-> +              compatible = "ti,tps23861";
-> +              reg = <0x30>;
-> +              shunt-resistor-micro-ohms = <255000>;
-> +          };
-> +    };
-> -- 
-> 2.29.2
+> > I realize your understanding is pretty much consistent with
+> > tools/objtool/Documentation/stack-validation.txt:
+> > 
+> > 2. Conversely, each section of code which is *not* callable should *not*
+> >    be annotated as an ELF function.  The ENDPROC macro shouldn't be used
+> >    in this case.
+> > 
+> >    This rule is needed so that objtool can ignore non-callable code.
+> >    Such code doesn't have to follow any of the other rules.
+> > 
+> > But this statement is no longer true:
+> > 
+> >   **This rule is needed so that objtool can ignore non-callable code.**
+> > 
+> > [ and it looks like the ENDPROC reference is also out of date ]
 > 
+> Ok -- looks like that needs an update!
+
+Added to the TODO list!
+
+> > Since that document was written, around the time ORC was written we
+> > realized objtool shouldn't ignore SYM_CODE after all.  That way we can
+> > get full coverage for ORC (including interrupts/exceptions), as well as
+> > some of the other validations like retpoline, uaccess, noinstr, etc.
+> > 
+> > Though it's still true that SYM_CODE doesn't have to follow the
+> > function-specific rules, e.g. frame pointers.
+> 
+> Ok; I suspect on the arm64 side we'll need to think a bit harder about
+> what that means for us. I guess that'll influence or interact with
+> whatever support we need specifically in objtool.
+> 
+> > So now objtool requires that it be able to traverse and understand *all*
+> > code, otherwise it will spit out "unreachable instruction" warnings.
+> > But since SYM_CODE isn't a normal callable function, objtool doesn't
+> > know to interpret it directly.  Therefore all SYM_CODE must be reachable
+> > by objtool in some other way:
+> > 
+> > - either indirectly, via a jump from a SYM_FUNC; or
+
+This should say "via a jump from some code objtool already knows about:
+either a SYM_FUNC or a SYM_CODE with UNWIND_HINTs".
+
+> > 
+> > - via an UNWIND_HINT
+> > 
+> > (And that's true for both ORC and frame pointers.)
+> > 
+> > If you look closely at arch/x86/entry/entry_64.S you should be able to
+> > see that's the case.
+> 
+> Assuming you mean the UNWIND_HINT_EMPTY at the start of each exception
+> entry point, I think I follow.
+
+Also see for example common_interrupt_return(), which doesn't have an
+UNWIND_HINT right away, but is still reachable from other code which
+objtool already knows about via
+the 'swapgs_restore_regs_and_return_to_usermode' label.
+
+> > > If that's right, it might be worth splitting this into two points, e.g.
+> > > 
+> > > | * Using metadata created by objtool, with such code annotated with
+> > > |   STACKFRAME_NON_STANDARD().
+> > > |
+> > > |
+> > > | * Using ELF symbol attributes, with such code annotated with
+> > > |   SYM_CODE_{START,END}, and not having a function type.
+> > > 
+> > > If that's wrong, I suspect there are latent issues here?
+> > 
+> > For ORC, UNWIND_HINT_EMPTY is used to annotate that some code is
+> > non-unwindable.  (Note I have plans to split that into UNWIND_HINT_ENTRY
+> > and UNWIND_HINT_UNDEFINED.)
+> 
+> Interesting; where would the UNDEFINED case be used?
+
+UNDEFINED would be some code which is either unreachable (like the
+middle of a retpoline) or otherwise not annotated (like
+STACK_FRAME_NON_STANDARD).
+
+> > For frame pointers, the hints aren't used, other than by objtool to
+> > follow the code flow as described above.  But objtool doesn't produce
+> > any metadata for the FP unwinder.  Instead the FP unwinder makes such
+> > determinations about unwindability at runtime.
+> 
+> I suspect for arm64 with frame pointers we'll need a fair amount of
+> special casing for the entry code; I'll have a think offline.
+
+I'd be happy to help with this.  It may end up easier for me to learn
+your entry code than for you to learn the expectations of my tool ;-)
+
+-- 
+Josh
+
