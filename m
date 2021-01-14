@@ -2,110 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFFDC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 892BDC43381
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 03:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5244523719
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 02:52:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B47D23787
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 03:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbhANCwM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jan 2021 21:52:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
+        id S1727728AbhANDWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jan 2021 22:22:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725885AbhANCwJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 21:52:09 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAFFC061795
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 18:51:29 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id c22so2762279pgg.13
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 18:51:29 -0800 (PST)
+        with ESMTP id S1727184AbhANDWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jan 2021 22:22:46 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7772EC0617A2
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 19:21:58 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id o19so6033219lfo.1
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jan 2021 19:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vnXni1b9tGMKZsQyD1Z1Ra0F8lPxT5GkFopMevAsTu0=;
-        b=pYQzB/dtAMuKglYrXj3uUgOV5H3ciR8TqPH6rKxps2HsuY0YD/UJTUTueQ924tV67x
-         /nw9HW/y7yM+IdcquuDd6rg0qCOTGAyKdU4QdA3NnmK2VgnbP1SwW/2eIJr/f2z/KGg3
-         bxaEmS+PxFNRC3IjXGCYARb+tqBpoGLgDEK08LhlF/nnflVP+RHfgNAXtArQ4karKE7V
-         1TIbb8WdwuwY5l8k2HsX3cL+81dk1PaDAOTWANacxhnKOAW9UFbwmkA6bUQVA5Vjdo+A
-         pyr2iP7Phr7B2FPaJRCikMvev+yUXrThxLpEMR9/Xve5A6Ks/H+mR80dJk1Nma2a+mlB
-         shrQ==
+         :cc:content-transfer-encoding;
+        bh=vBKhWUt1LhGAbz4nnRDMUBnzWjuIyMjEZqvvewkWv1c=;
+        b=NaIVV7JM8xDZ1C/WCKEpyacKuGqEWPxP6vpebXWTWTzzL1T6CKyVM2e5z2n7D/dkwY
+         0shB76+ANbIpUlcIUeIlgXWuxwBl4Dyl25ILehT0lz0wm7yTqX9ZIbQXm/DJfYRSCTQq
+         /sA0p0frlZZqD8gLu4OIEuYj/VZyM0tLnHmDr5eYJQShu0NvHJqDf+OBxKv13kzaAZYX
+         BKPcpiI95E7gIXeB67td0Oc3RAzsdxKmv69JEPxyF4yL8cUJ9eCfNPAIO3k+pEHxYnVm
+         SlUg67QRFzYrVnG54RRpwBYMbN+Hw0PAn/grXz5aewJztLd/C/Rs7zXzpbzCt6BKz28m
+         3tgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vnXni1b9tGMKZsQyD1Z1Ra0F8lPxT5GkFopMevAsTu0=;
-        b=TWTyid5D8up3y2dXq/+k8Lz1HZIbRq8mc0qEN2MwvC20IC8G6Z1JBUePSqGvWj9gB8
-         jZy1mFK6W7qQJYlH1D4qXajJupx4Nq69ESKrBnet5Ah2EaT67abrPy98D57wJDWQVkLh
-         +Vn4kekICzxbAacKE0lxs+bi1GqRtAKT0TsoJVFiENRfBHRTbWZuIwNuEnhcuIo4DBAd
-         DdRIFYOrMXxzIDkZ+P+UoNc+luyJIsME82fWlPFISWhra2qcp690V95d6+rYxqNy4La9
-         wdXawkXfb6Xe84ErefzrfT10k4zpFUP+UKSidYI5IgbPYYswoUtJ8Q5lcecEyMn1twcB
-         Q5EQ==
-X-Gm-Message-State: AOAM5307B10Qmn8/F9zE7oAJnUlUQcVO6x6iUYNFgme5xI36Juc64l9O
-        quID2TEdM83IVZSahXyfHLHdThWKG9mBMRpbAQK6Yw==
-X-Google-Smtp-Source: ABdhPJwLV2qDiUvnfgyZ4ayaL3nSZneYZNcN8beH+tlzxWuA16IAcL/EsRR5kgOQtXyBkHSnxPqgyqr59MPA1D9rT60=
-X-Received: by 2002:a63:480f:: with SMTP id v15mr5111575pga.341.1610592688709;
- Wed, 13 Jan 2021 18:51:28 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vBKhWUt1LhGAbz4nnRDMUBnzWjuIyMjEZqvvewkWv1c=;
+        b=bNawxw1U2HT7EClyvVaW8thThEuRQNVk8yc46GexxGCkJpaZXtcIsMzJ8UMHhOrW2t
+         aqP3XN/Sw26KNwM4bXGYA4MiUyGGSeBeBKEPI5fVwTVZPQ20/v0AagVtqyloN/nyfIHd
+         qoG6J/C6PfO4xvsBkQGI+yXDZ1J/iXAuZATQwvAJAom0sQDe9NtXwUDBoKzSXMHJwIbB
+         Jb5y4EM1n1QGpiN3eykBHJXNJnqFUvyuWY59aclqmNx+JmBbGbqLjyuPndeSj5o91wF8
+         3FUG58xr73gDxS9rvK8fYp76G/G/2xOQy1n7glfdC5h6MKhozujDgGJamz4Q2W6m7eoB
+         rscA==
+X-Gm-Message-State: AOAM532ULNrQ9DnBxB/Z08cp2yzz7sUUzLTLPKjXjYpB96WCWmNh0j9Z
+        JqmqNXVn7swiAs9GOx4r1KFr9FYeDXITFEqc7ETk7g==
+X-Google-Smtp-Source: ABdhPJyC/YkIU5Vr2XJQiVDPrgVLFbaYhJ6+pm2t5TLIpN9FVFsVdXVKpsifVVwckoCM1Y2ngeh/f+jtPiuasry3Q0U=
+X-Received: by 2002:a19:8053:: with SMTP id b80mr2516185lfd.74.1610594516694;
+ Wed, 13 Jan 2021 19:21:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20210106141931.73931-1-songmuchun@bytedance.com>
- <20210106141931.73931-4-songmuchun@bytedance.com> <65b2103d-6198-3380-d36e-17dd774359bd@oracle.com>
-In-Reply-To: <65b2103d-6198-3380-d36e-17dd774359bd@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 14 Jan 2021 10:50:51 +0800
-Message-ID: <CAMZfGtXUx5y80f5JSgTnDdLUDouiKkWGy=b8R3OrNW8WCOr=hw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v12 03/13] mm: Introduce VM_WARN_ON_PAGE macro
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20201209192839.1396820-1-mic@digikod.net> <20201209192839.1396820-12-mic@digikod.net>
+In-Reply-To: <20201209192839.1396820-12-mic@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 14 Jan 2021 04:21:30 +0100
+Message-ID: <CAG48ez2yQNvcCrmCCBZKy_cxoZzNgremxWMia1YHsgaj4edqrA@mail.gmail.com>
+Subject: Re: [PATCH v26 11/12] samples/landlock: Add a sandbox manager example
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 6:31 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 1/6/21 6:19 AM, Muchun Song wrote:
-> > Very similar to VM_WARN_ON_ONCE_PAGE and VM_BUG_ON_PAGE, add
-> > VM_WARN_ON_PAGE macro.
-> >
-> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > ---
-> >  include/linux/mmdebug.h | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
->
-> I was going to question the use/need for this macro in the following
-> patch.  Looks like Oscar has already done that, and free_bootmem_page
-> will now use VM_BUG_ON_PAGE.  So, this patch can be dropped.
+On Wed, Dec 9, 2020 at 8:29 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> w=
+rote:
+> Add a basic sandbox tool to launch a command which can only access a
+> whitelist of file hierarchies in a read-only or read-write way.
 
-In the previous version, Oscar suggested I use WARN_ON instead of
-BUG_ON. But he realised we actually should use BUG_ON in this
-version. So I will drop this in the next version. Thanks.
+I have to admit that I didn't really look at this closely before
+because it's just sample code... but I guess I should. You can add
 
->
-> --
-> Mike Kravetz
+Reviewed-by: Jann Horn <jannh@google.com>
+
+if you fix the following nits:
+
+[...]
+> diff --git a/samples/Kconfig b/samples/Kconfig
+[...]
+> +config SAMPLE_LANDLOCK
+> +       bool "Build Landlock sample code"
+> +       depends on HEADERS_INSTALL
+> +       help
+> +         Build a simple Landlock sandbox manager able to launch a proces=
+s
+> +         restricted by a user-defined filesystem access control.
+
+nit: s/filesystem access control/filesystem access control policy/
+
+[...]
+> diff --git a/samples/landlock/sandboxer.c b/samples/landlock/sandboxer.c
+[...]
+> +/*
+> + * Simple Landlock sandbox manager able to launch a process restricted b=
+y a
+> + * user-defined filesystem access control.
+
+nit: s/filesystem access control/filesystem access control policy/
+
+[...]
+> +int main(const int argc, char *const argv[], char *const *const envp)
+> +{
+[...]
+> +       if (argc < 2) {
+[...]
+> +               fprintf(stderr, "* %s: list of paths allowed to be used i=
+n a read-only way.\n",
+> +                               ENV_FS_RO_NAME);
+> +               fprintf(stderr, "* %s: list of paths allowed to be used i=
+n a read-write way.\n",
+> +                               ENV_FS_RO_NAME);
+
+s/ENV_FS_RO_NAME/ENV_FS_RW_NAME/
+
+> +               fprintf(stderr, "\nexample:\n"
+> +                               "%s=3D\"/bin:/lib:/usr:/proc:/etc:/dev/ur=
+andom\" "
+> +                               "%s=3D\"/dev/null:/dev/full:/dev/zero:/de=
+v/pts:/tmp\" "
+> +                               "%s bash -i\n",
+> +                               ENV_FS_RO_NAME, ENV_FS_RW_NAME, argv[0]);
+> +               return 1;
+> +       }
+> +
+> +       ruleset_fd =3D landlock_create_ruleset(&ruleset_attr, sizeof(rule=
+set_attr), 0);
+> +       if (ruleset_fd < 0) {
+> +               perror("Failed to create a ruleset");
+> +               switch (errno) {
+
+(Just as a note: In theory perror() can change the value of errno, as
+far as I know - so AFAIK you'd theoretically have to do something
+like:
+
+int errno_ =3D errno;
+perror("...");
+switch (errno_) {
+ ...
+}
+
+I'll almost certainly work fine as-is in practice though.)
