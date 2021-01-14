@@ -2,189 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5122CC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 20:05:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB92C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 21:24:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C07A2310F
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 20:05:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B34523A52
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 21:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730443AbhANUFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 15:05:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23307 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730442AbhANUFC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 15:05:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610654615;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HpNvJaw5SGQOpvSB4p7vktWYcMVdtuSl93krDsAW8gY=;
-        b=ERa95gOSlIt3Umm7DNFvFnSA1Sxks/1fiv49DsUlFq91Dc3PFuZwn6jOpA2p+TIidFdU4x
-        ZN8D9I2VRR56+vgOoGRnTi/S//LdPUV5iT1lPOkA2OvqfrzvM6CMj/6geWQppwttPbpPk4
-        QVQUENj6sMIFmqI6i9Ur8W8mLmZkpK0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-Y5Do79eyPGWaOCQ76KT3qg-1; Thu, 14 Jan 2021 15:03:33 -0500
-X-MC-Unique: Y5Do79eyPGWaOCQ76KT3qg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7D1A803F41;
-        Thu, 14 Jan 2021 20:03:31 +0000 (UTC)
-Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EEF0E100AE41;
-        Thu, 14 Jan 2021 20:03:25 +0000 (UTC)
-Date:   Thu, 14 Jan 2021 14:03:16 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1729187AbhANVYA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 16:24:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726123AbhANVYA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 16:24:00 -0500
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED675C061757;
+        Thu, 14 Jan 2021 13:23:19 -0800 (PST)
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.94)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1l0A57-006O3k-Sa; Thu, 14 Jan 2021 22:23:01 +0100
+Message-ID: <8b6f763d3eba85f664fd05d7a3c7c311c0648da2.camel@sipsolutions.net>
+Subject: Re: [PATCH v6 12/16] net: tip: fix a couple kernel-doc markups
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jakub Kicinski <kuba@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210114200316.2hc3wmsoyzafxzm2@treble>
-References: <20210113165743.3385-1-broonie@kernel.org>
- <20210113192735.rg2fxwlfrzueinci@treble>
- <20210114115418.GB2739@C02TD0UTHF1T.local>
- <20210114143650.nsqhejalpk4k5qfl@treble>
- <20210114174932.GD2739@C02TD0UTHF1T.local>
+        "David S. Miller" <davem@davemloft.net>,
+        Ying Xue <ying.xue@windriver.com>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net
+Date:   Thu, 14 Jan 2021 22:22:58 +0100
+In-Reply-To: <20210114103402.31946ed4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <cover.1610610937.git.mchehab+huawei@kernel.org>
+         <9d205b0e080153af0fbddee06ad0eb23457e1b1b.1610610937.git.mchehab+huawei@kernel.org>
+         <da52ef69-753a-7aa8-a2b1-1b5ef48df94e@redhat.com>
+         <20210114103402.31946ed4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210114174932.GD2739@C02TD0UTHF1T.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 05:49:32PM +0000, Mark Rutland wrote:
-> On Thu, Jan 14, 2021 at 08:36:50AM -0600, Josh Poimboeuf wrote:
-> > On Thu, Jan 14, 2021 at 11:54:18AM +0000, Mark Rutland wrote:
-> > > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
-> > > > On Wed, Jan 13, 2021 at 04:57:43PM +0000, Mark Brown wrote:
-> > > > > From: Mark Rutland <mark.rutland@arm.com>
-> > > > > +There are several ways an architecture may identify kernel code which is deemed
-> > > > > +unreliable to unwind from, e.g.
-> > > > > +
-> > > > > +* Using metadata created by objtool, with such code annotated with
-> > > > > +  SYM_CODE_{START,END} or STACKFRAME_NON_STANDARD().
-> > > > 
-> > > > I'm not sure why SYM_CODE_{START,END} is mentioned here, but it doesn't
-> > > > necessarily mean the code is unreliable, and objtool doesn't treat it as
-> > > > such.  Its mention can probably be removed unless there was some other
-> > > > point I'm missing.
-> > >
-> > > > Also, s/STACKFRAME/STACK_FRAME/
-> 
-> Given that (per the discussion below) STACK_FRAME_NON_STANDARD() also
-> doesn't result in objtool producing anything special metadata (and such
-> code is still expected to be unwindable), I believe we can delete this
-> bullet point outright?
-
-With ORC, UNWIND_HINT_EMPTY can be used to mark missing ORC metadata,
-which the unwinder translates as unreliable.  So that may be worth
-mentioning.
-
-> > I realize your understanding is pretty much consistent with
-> > tools/objtool/Documentation/stack-validation.txt:
-> > 
-> > 2. Conversely, each section of code which is *not* callable should *not*
-> >    be annotated as an ELF function.  The ENDPROC macro shouldn't be used
-> >    in this case.
-> > 
-> >    This rule is needed so that objtool can ignore non-callable code.
-> >    Such code doesn't have to follow any of the other rules.
-> > 
-> > But this statement is no longer true:
-> > 
-> >   **This rule is needed so that objtool can ignore non-callable code.**
-> > 
-> > [ and it looks like the ENDPROC reference is also out of date ]
-> 
-> Ok -- looks like that needs an update!
-
-Added to the TODO list!
-
-> > Since that document was written, around the time ORC was written we
-> > realized objtool shouldn't ignore SYM_CODE after all.  That way we can
-> > get full coverage for ORC (including interrupts/exceptions), as well as
-> > some of the other validations like retpoline, uaccess, noinstr, etc.
-> > 
-> > Though it's still true that SYM_CODE doesn't have to follow the
-> > function-specific rules, e.g. frame pointers.
-> 
-> Ok; I suspect on the arm64 side we'll need to think a bit harder about
-> what that means for us. I guess that'll influence or interact with
-> whatever support we need specifically in objtool.
-> 
-> > So now objtool requires that it be able to traverse and understand *all*
-> > code, otherwise it will spit out "unreachable instruction" warnings.
-> > But since SYM_CODE isn't a normal callable function, objtool doesn't
-> > know to interpret it directly.  Therefore all SYM_CODE must be reachable
-> > by objtool in some other way:
-> > 
-> > - either indirectly, via a jump from a SYM_FUNC; or
-
-This should say "via a jump from some code objtool already knows about:
-either a SYM_FUNC or a SYM_CODE with UNWIND_HINTs".
-
-> > 
-> > - via an UNWIND_HINT
-> > 
-> > (And that's true for both ORC and frame pointers.)
-> > 
-> > If you look closely at arch/x86/entry/entry_64.S you should be able to
-> > see that's the case.
-> 
-> Assuming you mean the UNWIND_HINT_EMPTY at the start of each exception
-> entry point, I think I follow.
-
-Also see for example common_interrupt_return(), which doesn't have an
-UNWIND_HINT right away, but is still reachable from other code which
-objtool already knows about via
-the 'swapgs_restore_regs_and_return_to_usermode' label.
-
-> > > If that's right, it might be worth splitting this into two points, e.g.
+On Thu, 2021-01-14 at 10:34 -0800, Jakub Kicinski wrote:
+> On Thu, 14 Jan 2021 10:59:08 -0500 Jon Maloy wrote:
+> > On 1/14/21 3:04 AM, Mauro Carvalho Chehab wrote:
+> > > A function has a different name between their prototype
+> > > and its kernel-doc markup:
 > > > 
-> > > | * Using metadata created by objtool, with such code annotated with
-> > > |   STACKFRAME_NON_STANDARD().
-> > > |
-> > > |
-> > > | * Using ELF symbol attributes, with such code annotated with
-> > > |   SYM_CODE_{START,END}, and not having a function type.
+> > > 	../net/tipc/link.c:2551: warning: expecting prototype for link_reset_stats(). Prototype was for tipc_link_reset_stats() instead
+> > > 	../net/tipc/node.c:1678: warning: expecting prototype for is the general link level function for message sending(). Prototype was for tipc_node_xmit() instead
 > > > 
-> > > If that's wrong, I suspect there are latent issues here?
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > > 
-> > For ORC, UNWIND_HINT_EMPTY is used to annotate that some code is
-> > non-unwindable.  (Note I have plans to split that into UNWIND_HINT_ENTRY
-> > and UNWIND_HINT_UNDEFINED.)
+> > Acked-by: Jon Maloy <jmaloy@redhat.com>
 > 
-> Interesting; where would the UNDEFINED case be used?
+> Thanks! Applied this one to net, the cfg80211 one does not apply to
+> net, so I'll leave it to Johannes.
 
-UNDEFINED would be some code which is either unreachable (like the
-middle of a retpoline) or otherwise not annotated (like
-STACK_FRAME_NON_STANDARD).
+Right, that was diffed against -next, and I've got a fix pending that I
+didn't send yet.
 
-> > For frame pointers, the hints aren't used, other than by objtool to
-> > follow the code flow as described above.  But objtool doesn't produce
-> > any metadata for the FP unwinder.  Instead the FP unwinder makes such
-> > determinations about unwindability at runtime.
-> 
-> I suspect for arm64 with frame pointers we'll need a fair amount of
-> special casing for the entry code; I'll have a think offline.
+I've applied this now, thanks.
 
-I'd be happy to help with this.  It may end up easier for me to learn
-your entry code than for you to learn the expectations of my tool ;-)
-
--- 
-Josh
+johannes
 
