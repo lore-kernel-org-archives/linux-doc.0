@@ -2,118 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79CDC433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 11:44:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD14FC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 11:54:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCC9D23772
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 11:44:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 785F9233CF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 11:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbhAOLoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 06:44:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56586 "EHLO
+        id S1727198AbhAOLya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 06:54:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726983AbhAOLoU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 06:44:20 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3055AC061757;
-        Fri, 15 Jan 2021 03:43:40 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id r12so1494148ejb.9;
-        Fri, 15 Jan 2021 03:43:40 -0800 (PST)
+        with ESMTP id S1726375AbhAOLy3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 06:54:29 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 076B2C061757;
+        Fri, 15 Jan 2021 03:53:49 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id x20so12694390lfe.12;
+        Fri, 15 Jan 2021 03:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=/9sksIUuZatO+aX8p4iLJ2mKZetuSFmDz0PF+YiOHOI=;
-        b=YEJANZ1/9r+EPbKaQQTb3YhWamtM4DH9to+g8PWbIoYfCC2B9io/PF88pVRzv8fh61
-         Wapvntn5ABjZ4BADq3kEhzYrfLziVhaprSzQD1mSf1hjsxKCDAxUsCWMtzTpTyJwZ/Ql
-         2OKtFYFS//RkJM5MTRb5VHYlKtLi9PAgP2o50L/4C4rwV7bn6D8U0duHKDpPSdNh6r8E
-         fybYpMd8V3cr0MKirGnUYPOuP/QV5wYCu0q7b9Pr2IZ35zwJ6tnVquuJfw/sbV7u9O9h
-         oxFe7U6FfWf/79W+zxcUMZshS+fHCd56UJ7c8Y63FqlccwNeRBJ3ePAYCGUunR7p5scq
-         zUsg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=RR0DQBk0UH5GJ+gGJ37QS6mr1kwAekWxksm1RQHJmz0=;
+        b=PARlUPeh/akDo4VJd6AvJ8LUiqYQGVXO0k2kjLdmBqHFDBPL27pJnYXUN714qieO9i
+         ZhG3Npful4tKG0KaBk7NJWANfQi5Q+LE2dAMNdEhz1qwJrIikECmCBzWHtgc05qFm4bC
+         6jFNFu6bYDWfU+KZ+duzCONg1AQ+xQ/oeQ/u92Yriz87XlyWqVP25jK3JTFj7kX3Jcrz
+         x9bmwywNpcCraqYzPIr8vONHYg2zF6Snv4DAzLEQ5a11/mV+qRnrNbfujwZD+eSecj5D
+         tEsVa842pUrY2R0gVhPLB35L8UdsWaoBKUGuU/clV7RLoOhIeNybD9hdn7Mq7Q1IltG5
+         HSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=/9sksIUuZatO+aX8p4iLJ2mKZetuSFmDz0PF+YiOHOI=;
-        b=gglOrfA+8I24DrHzvEuG6tbrJE/4edqiRfnuKV92TRYxAVfDCJwn8cTirP1TFn82y6
-         xmRuQByCZw5VmlbxcI18DK2Xip3ONmUUoh7xGPA/FU8a3E84lGZ9nwA5QeySGv8YTQtr
-         3uRKeEu9le1gJ3e2vPqMvEAS1CeEdFvLO+VWCD4VDo5a3dsgf3AwXeZllGfdE+JRgqtw
-         1t56gfFmSJrVfIcXkaRHSPfGIAm/OJEKVBVfyY+tOtkDeKGiuUsp4ricc3DgUF7UiMNn
-         +PWh3LlNTtdNIejxTE64Mf8G50NJzEIG1mFvMAj/WO5PA9jhkhB/v8jDdnzHl/zUmz5W
-         cy/g==
-X-Gm-Message-State: AOAM533Oyl9Qcbs11KD2TLq1soIUl5OwbRm346SE8adn64O0cIAiC52j
-        DfudEo7spc8lxxBee0Zn/k8=
-X-Google-Smtp-Source: ABdhPJwET0Z8ZFGqMNHwdHfY36RdnFX6xRQgu56Fz+Cxj0NantVxngAd4EdKk1sELCE/DGiWkoU/OQ==
-X-Received: by 2002:a17:906:48c:: with SMTP id f12mr3397945eja.431.1610711018663;
-        Fri, 15 Jan 2021 03:43:38 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d39:a000:7c85:8e80:b862:a8bf])
-        by smtp.gmail.com with ESMTPSA id a2sm3184105ejt.46.2021.01.15.03.43.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RR0DQBk0UH5GJ+gGJ37QS6mr1kwAekWxksm1RQHJmz0=;
+        b=cYIrKRjzDx5w8w2hzsE9QYV+lZ/nJ/GuGHLW3JdqN1xyrOSQzlhbo5j5LcHplcj5Uo
+         TiZuGBy1QQiBhhqIJJ6I8l2tGM0DIxWRLzLihKxXj+KUfvidT57XA6sbu0QFgl6NrCsx
+         Xa8VR7ng47SzYpbwFlg03uNWGlg/kq5M3cLawp1qmjZCJ/JZYwQoVpBeDpBd5a8KtgdZ
+         1gPMTTxeoFDx86veUVJme21Z0ICfmWsVmxrziSG2pFapKyu/5JgrzIqhjPpu7AXHM/jT
+         J1DnjiUb/WJxzjX4qHZvnuU0ZpF468xeQMcf37mPFLCwIrS3jd0HF2kCwVPEKkd6sntb
+         pXfQ==
+X-Gm-Message-State: AOAM530pRwaKAGOpoXcQtjhjSnVAVsf5ClJCwRFEeudQwzh1aou+vN7E
+        FGS0On0KCsUGREmDH/xgVKw=
+X-Google-Smtp-Source: ABdhPJzRfzHCI5/IkkHgcRaWp6XoE68seMiDAmenu2w/55FcwPh14mqryLohHBMTMkH4GoDyLbNVtQ==
+X-Received: by 2002:ac2:52a8:: with SMTP id r8mr5404078lfm.17.1610711627550;
+        Fri, 15 Jan 2021 03:53:47 -0800 (PST)
+Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
+        by smtp.gmail.com with ESMTPSA id r9sm782240ljj.127.2021.01.15.03.53.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 03:43:37 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
-        Uma Shankar <uma.shankar@intel.com>,
-        Jani Nikula <jani.nikula@intel.com>,
-        intel-gfx@lists.freedesktop.org
-Cc:     David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] drm/dp_helper: tweak kerneldoc to address warning
-Date:   Fri, 15 Jan 2021 12:43:29 +0100
-Message-Id: <20210115114329.27152-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 15 Jan 2021 03:53:46 -0800 (PST)
+Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
+        by home.paul.comp (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 10FBrhfH004599;
+        Fri, 15 Jan 2021 14:53:44 +0300
+Received: (from paul@localhost)
+        by home.paul.comp (8.15.2/8.15.2/Submit) id 10FBrfwY004598;
+        Fri, 15 Jan 2021 14:53:41 +0300
+Date:   Fri, 15 Jan 2021 14:53:41 +0300
+From:   Paul Fertser <fercerpav@gmail.com>
+To:     Ernesto Corona <ernesto.corona@intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Steven Filary <steven.a.filary@intel.com>,
+        Amithash Prasad <amithash@fb.com>,
+        Jiri Pirko <jiri@mellanox.com>, Rgrs <rgrs@protonmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Patrick Williams <patrickw3@fb.com>,
+        Oleksandr Shamray <oleksandrs@mellanox.com>
+Subject: Re: [PATCH v29 3/6] Add Aspeed SoC 24xx and 25xx families JTAG
+ master driver
+Message-ID: <20210115115341.GC2971@home.paul.comp>
+References: <20200413222920.4722-1-ernesto.corona@intel.com>
+ <20200413222920.4722-4-ernesto.corona@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200413222920.4722-4-ernesto.corona@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 07c9b8634fb6 ("drm/dp_helper: Add helpers to configure PCONs
-RGB-YCbCr Conversion") introduces a warning with make htmldocs in
-./drivers/gpu/drm/drm_dp_helper.c:965 for
-drm_dp_downstream_rgb_to_ycbcr_conversion():
+Please note that JTAG_XFER_HW_MODE seems to be broken, at least it
+doesn't work in my testing with exactly the same userspace and
+hardware so I wasn't properly evaluating it.
 
-  warning: Excess function parameter 'colorspc' description
-  warning: Function parameter or member 'color_spc' not described
+On Mon, Apr 13, 2020 at 03:29:17PM -0700, Ernesto Corona wrote:
+> --- /dev/null
+> +++ b/drivers/jtag/jtag-aspeed.c
+...
+> +/*#define USE_INTERRUPTS*/
 
-Tweak the kerneldoc for drm_dp_downstream_rgb_to_ycbcr_conversion().
+I think if you implemented support for interrupts and DeviceTree
+provides the resource, then it should be enabled. If the support is
+untested or known to be buggy, it should be removed altogether and can
+be introduced later when the issues are sorted out.
 
-Fixes: 07c9b8634fb6 ("drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion")
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20210115
+> +struct aspeed_jtag {
+> +	void __iomem			*reg_base;
+> +	void __iomem			*scu_base;
 
-Jani, please pick this minor doc warning fixup.
+SCU is manipulated by a separate driver, it shouldn't be here.
 
- drivers/gpu/drm/drm_dp_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> +/*
+> + * This is the complete set TMS cycles for going from any TAP state to any
+> + * other TAP state, following a "shortest path" rule.
+> + */
+> +static const struct tms_cycle _tms_cycle_lookup[][16] = {
+> +/*	    TLR        RTI        SelDR      CapDR      SDR        Ex1DR*/
+> +/* TLR  */{{0x00, 0}, {0x00, 1}, {0x02, 2}, {0x02, 3}, {0x02, 4}, {0x0a, 4},
+> +/*	    PDR        Ex2DR      UpdDR      SelIR      CapIR      SIR*/
+> +	    {0x0a, 5}, {0x2a, 6}, {0x1a, 5}, {0x06, 3}, {0x06, 4}, {0x06, 5},
+> +/*	    Ex1IR      PIR        Ex2IR      UpdIR*/
+> +	    {0x16, 5}, {0x16, 6}, {0x56, 7}, {0x36, 6} },
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 3ecde451f523..d60e94ac6fdd 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -954,7 +954,7 @@ EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
-  *                                               RGB->YCbCr conversion capability
-  * @dpcd: DisplayPort configuration data
-  * @port_cap: downstream facing port capabilities
-- * @colorspc: Colorspace for which conversion cap is sought
-+ * @color_spc: Colorspace for which conversion cap is sought
-  *
-  * Returns: whether the downstream facing port can convert RGB->YCbCr for a given
-  * colorspace.
-@@ -3134,7 +3134,7 @@ int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8 pps_param[6])
- }
- EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
- 
--/*
-+/**
-  * drm_dp_pcon_convert_rgb_to_ycbcr() - Configure the PCon to convert RGB to Ycbcr
-  * @aux: displayPort AUX channel
-  * @color_spc: Color-space/s for which conversion is to be enabled, 0 for disable.
+This belongs to the generic JTAG architecture layer rather than an
+individual driver.
+
+> +static int aspeed_jtag_freq_set(struct jtag *jtag, u32 freq)
+> +{
+> +	struct aspeed_jtag *aspeed_jtag = jtag_priv(jtag);
+> +	unsigned long apb_frq;
+> +	u32 tck_val;
+> +	u16 div;
+> +
+> +	apb_frq = clk_get_rate(aspeed_jtag->pclk);
+> +	if (!apb_frq)
+> +		return -ENOTSUPP;
+> +
+> +	div = (apb_frq - 1) / freq;
+> +	tck_val = aspeed_jtag_read(aspeed_jtag, ASPEED_JTAG_TCK);
+> +	aspeed_jtag_write(aspeed_jtag,
+> +			  (tck_val & ~ASPEED_JTAG_TCK_DIVISOR_MASK) | div,
+> +			  ASPEED_JTAG_TCK);
+> +	return 0;
+> +}
+
+ASPEED datasheet says PCLK * 2 is used as the prescaler source, so
+this calculation is probably incorrect. This implementation seems to
+be also failing to check for the lower and upper limits and return an
+error in case the request can't be fulfilled.
+
+> +static inline void aspeed_jtag_slave(struct aspeed_jtag *aspeed_jtag)
+> +{
+> +	u32 scu_reg = readl(aspeed_jtag->scu_base);
+> +
+> +	writel(scu_reg | ASPEED_SCU_RESET_JTAG, aspeed_jtag->scu_base);
+> +}
+
+reset_control_(de)assert should be used instead of direct SCU
+manipulation, here and in all the other places too.
+
+> +static void aspeed_jtag_end_tap_state_sw(struct aspeed_jtag *aspeed_jtag,
+> +					 struct jtag_end_tap_state *endstate)
+> +{
+> +	/* SW mode from curent tap state -> to end_state */
+> +	if (endstate->reset) {
+> +		int i = 0;
+> +
+> +		for (i = 0; i < ASPEED_JTAG_RESET_CNTR; i++)
+> +			aspeed_jtag_tck_cycle(aspeed_jtag, 1, 0);
+> +		aspeed_jtag->status = JTAG_STATE_TLRESET;
+> +	}
+> +
+> +	aspeed_jtag_set_tap_state(aspeed_jtag, endstate->endstate);
+> +}
+
+endstate->tck is ignored.
+
+> +static int aspeed_jtag_status_set(struct jtag *jtag,
+> +				  struct jtag_end_tap_state *endstate)
+> +{
+> +	struct aspeed_jtag *aspeed_jtag = jtag_priv(jtag);
+> +
+> +	dev_dbg(aspeed_jtag->dev, "Set TAP state: %s\n",
+> +		end_status_str[endstate->endstate]);
+> +
+> +	if (!(aspeed_jtag->mode & JTAG_XFER_HW_MODE)) {
+> +		aspeed_jtag_end_tap_state_sw(aspeed_jtag, endstate);
+> +		return 0;
+> +	}
+> +
+> +	/* x TMS high + 1 TMS low */
+> +	if (endstate->reset) {
+> +		/* Disable sw mode */
+> +		aspeed_jtag_write(aspeed_jtag, 0, ASPEED_JTAG_SW);
+> +		mdelay(1);
+> +		aspeed_jtag_write(aspeed_jtag, ASPEED_JTAG_CTL_ENG_EN |
+> +				  ASPEED_JTAG_CTL_ENG_OUT_EN |
+> +				  ASPEED_JTAG_CTL_FORCE_TMS, ASPEED_JTAG_CTRL);
+> +		mdelay(1);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_SW_TDIO, ASPEED_JTAG_SW);
+> +		aspeed_jtag->status = JTAG_STATE_TLRESET;
+> +	}
+> +
+> +	return 0;
+> +}
+
+endstate->tck is ignored.
+
+> +static int aspeed_jtag_xfer_push_data_last(struct aspeed_jtag *aspeed_jtag,
+> +					   enum jtag_xfer_type type,
+> +					   u32 shift_bits,
+> +					   enum jtag_endstate endstate)
+> +{
+> +	int res = 0;
+> +
+> +	if (type == JTAG_SIR_XFER) {
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_IOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_INST,
+> +				  ASPEED_JTAG_CTRL);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_IOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_INST |
+> +				  ASPEED_JTAG_CTL_INST_EN,
+> +				  ASPEED_JTAG_CTRL);
+> +		res = aspeed_jtag_wait_instruction_complete(aspeed_jtag);
+> +	} else {
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_DOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_DATA,
+> +				  ASPEED_JTAG_CTRL);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_DOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_DATA |
+> +				  ASPEED_JTAG_CTL_DATA_EN,
+> +				  ASPEED_JTAG_CTRL);
+> +		res = aspeed_jtag_wait_data_complete(aspeed_jtag);
+> +	}
+> +	return res;
+> +}
+
+endstate is ignored.
+
+> +static int aspeed_jtag_init(struct platform_device *pdev,
+> +			    struct aspeed_jtag *aspeed_jtag)
+> +{
+> +	struct resource *res;
+> +	struct resource *scu_res;
+> +#ifdef USE_INTERRUPTS
+> +	int err;
+> +#endif
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	aspeed_jtag->reg_base = devm_ioremap_resource(aspeed_jtag->dev, res);
+> +	if (IS_ERR(aspeed_jtag->reg_base))
+> +		return -ENOMEM;
+> +
+> +	scu_res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	aspeed_jtag->scu_base = devm_ioremap_resource(aspeed_jtag->dev,
+> +						      scu_res);
+> +	if (IS_ERR(aspeed_jtag->scu_base))
+> +		return -ENOMEM;
+
+This always fails either because the second IORESOURCE_MEM wasn't
+specified at all (as per the provided example in the dt-bindings
+documentation) or because the SCU region is already claimed by the SCU
+driver (if you try to specify it). Apparently this version of the
+patch series wasn't run-time tested at all. The driver works if this
+is removed altogether because reset_control_(de)assert calls do the
+right thing.
+
 -- 
-2.17.1
-
+Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+mailto:fercerpav@gmail.com
