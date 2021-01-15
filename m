@@ -2,72 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCFCC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EFBC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:48:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FEFD2396D
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F9F8221FE
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:48:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730506AbhAOQii (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 11:38:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726402AbhAOQii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 11:38:38 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34420C0613C1;
-        Fri, 15 Jan 2021 08:37:58 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 48FF4614C;
-        Fri, 15 Jan 2021 16:37:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 48FF4614C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610728677; bh=8OCXLSQVLLtY+CaM+1GW8kkBfV3J/mP2yF5r3Gw5CX4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OnHKa6DR8rn0KB7nsQG/TQ5LY/wZPokH9t5Vq8lOtMDCIbnlUcgEYMVyzWHhpyST1
-         chGc5PXoX/dsYx8cSwTLMvXfHXxjNn1NkgOwbca2iPAiE453znWdcf+KEVsRWVy7Eo
-         i8a5Ne0JmV5/SNjeBODCPOOzWTN4M5Axnoq0XG9CYfjZoIlYi9lLRHXcnCcW9ouXSd
-         6OJ9gk+XT1sU2/rPc7kGnCwywbk0FB7WG+Q9TR01diSGhEhj7UCfD55sPwC0d6nLqJ
-         qsjztSu0bAXWu++O+clZrfLRf8mHTcXYTnObBQup0WBVA0NL1rNAS67rtzBDaFngCt
-         mavCxzUX7ypcg==
-Date:   Fri, 15 Jan 2021 09:37:56 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
-Message-ID: <20210115093756.5feaf63c@lwn.net>
-In-Reply-To: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
-References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
-Organization: LWN.net
+        id S1727513AbhAOQsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 11:48:09 -0500
+Received: from foss.arm.com ([217.140.110.172]:45098 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727457AbhAOQsI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jan 2021 11:48:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD964D6E;
+        Fri, 15 Jan 2021 08:47:22 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.41.13])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3A273F719;
+        Fri, 15 Jan 2021 08:47:20 -0800 (PST)
+Date:   Fri, 15 Jan 2021 16:47:18 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org, linux-doc@vgert.kernel.org
+Subject: Re: [PATCH v3] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210115164718.GE44111@C02TD0UTHF1T.local>
+References: <20210115142446.13880-1-broonie@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115142446.13880-1-broonie@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Jan 2021 07:12:38 +0100
-Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+Hi Mark,
 
-> We both, Mauro and I, have been submitting patches to address the
-> documentation warnings on linux-next. If it is okay with you, Mauro, I
-> would like to take responsibility for the task to send out the patches
-> to address all warnings on linux-next in make htmldocs and follow up
-> with all the discussions. I can also provide a short weekly summary
-> (probably always on Friday) on what is pending where and what I could
-> not resolve by myself.
-> 
-> Is that okay for you?
+On Fri, Jan 15, 2021 at 02:24:46PM +0000, Mark Brown wrote:
+> +.. Table of Contents:
+> +
+> +    1. Introduction
+> +    2. Requirements
+> +    3. Considerations
+> +       3.1 Identifying successful termination
+> +       3.2 Identifying unwindable code
+> +       3.3 Unwinding across interrupts and exceptions
+> +       3.4 Rewriting of return addresses
+> +       3.5 Obscuring of return addresses
+> +       3.6 Link register unreliability
+>
 
-I'm certainly not going to complain about warning fixes!  If you want to
-take up this work, all I can say is - I'm looking forward to the patches.
-Thanks for doing this.
+It looks like we forgot to update this with the addition of the new
+section 3, so this needs a trivial update to add that and fix the
+numbering.
 
-jon
+Otherwise this looks good; thanks for taking this off my hands! :)
+
+Mark.
