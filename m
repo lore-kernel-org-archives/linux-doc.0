@@ -2,197 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2F6C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 22:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E51B5C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 00:05:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57C5723435
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jan 2021 22:44:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B30CB23730
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 00:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730813AbhANWox (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 17:44:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730762AbhANWov (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 17:44:51 -0500
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28A2C0613ED
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 14:43:30 -0800 (PST)
-Received: by mail-lj1-x22d.google.com with SMTP id p13so8351959ljg.2
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 14:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=l0aLIrK9Ls3yChluxnDYpvoAFnbmuAeFSQRaGDSDK6s=;
-        b=Xp2UG1bDqZV6MWUIg3PXRWlOxm3AESTgyUaOByzy05KbBMIlWQTWhAjiAXqIJLco8n
-         CKATzDajP+/i7+U9T8QSEVzVCGM9KCooEF2Qog6oGaP7m4UbxqlPABfgxbuvEWJTi9CN
-         eqzQu31AW2vsl1w6jVkXxJ/M5h/fqc7PNe9pqO61lRW1/nWovu8unaTR5XmmIZkfZgwP
-         tr+Axa7VGzhhKFDPvqTzv2L+EqZ4C5BEDY31jsINoIDSNsVV2C0gKRsxVsVvX38Zs0wH
-         p15PatmNXOKYvYVm9VjZ1UxZrw3YprkBpqifeMBtnXs/ATFse8XhCqZ+GPH/cm/nlJcE
-         s4sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=l0aLIrK9Ls3yChluxnDYpvoAFnbmuAeFSQRaGDSDK6s=;
-        b=BO+X3dfFELp89q2870OjqMm1i02BqTJh5jw1Q7wijG9KfZQabJvty1vqm+5Ha5Ob55
-         SAGRXmC35RK7wvPgsb78vLDx/f5SI2ogrpr21TN5X6qTaiPb9ih2iiviuVfOVZ1lnYFC
-         Pb988sHkWWh7GG0n+VRED26/3L1Iujjy5imK7V0sHx8X2ZEproHsdFbmkntRGdmzzpEY
-         KkL10GGOF5GOhgoMsC6VZD2AHelcn0fOr3lBzxeSjaZpEMYS+F7ojg3E2azh5Tdezn1+
-         e42MSoMFVUGbB+02YsxU3bu1qjVGT9wFoApFb30eRMqtFxZt55zJ/9CzVj1Bfe814M3M
-         FOfg==
-X-Gm-Message-State: AOAM530DJv+Dcusa+3rV33MALg5Q+Gi26AwP6llMGfmCjvPc2NJpvcPU
-        WRom5U+zPxtRh4v3hdvZgrbh7BRZuRCIrdcsbvCRGw==
-X-Google-Smtp-Source: ABdhPJwmu2cBfmtpdruzglhRIadtD3T+wRN+tSM4C2y7Zg3rHsx1RPPVdIX6GIoHvdQgt3ctrnlKrS5mVOsEqS6Krko=
-X-Received: by 2002:a2e:50c:: with SMTP id 12mr4154104ljf.226.1610664208863;
- Thu, 14 Jan 2021 14:43:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20201209192839.1396820-1-mic@digikod.net> <20201209192839.1396820-8-mic@digikod.net>
- <CAG48ez1wbAQwU-eoC9DngHyUM_5F01MJQpRnLaJFvfRUrnXBdA@mail.gmail.com> <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
-In-Reply-To: <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 14 Jan 2021 23:43:02 +0100
-Message-ID: <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
-Subject: Re: [PATCH v26 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        id S1731137AbhAOAFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 19:05:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31241 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731129AbhAOAFi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 19:05:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610669051;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xQ0ErKvc7UzwqNKxM2CmsA5gF/0THDUFsSSbaFvNOvI=;
+        b=Ye4X8EEmdzAvtX8m3mK34Au4aE2rJlaAvmAzhBWRR09N76NIlZxv8jkYPaCjU0L8X4Kv5V
+        fu9zr6qaiT79zhvu9VLv9ma74CIIm6zS686+a7Hrez+MCbYbrsVx8cFs1jNkLxUc1MVdtb
+        1/IHPhyfF2FWCpHLQxGTOtSEdjD1ybs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-jopQxvanNzadbIv647B3qA-1; Thu, 14 Jan 2021 19:04:10 -0500
+X-MC-Unique: jopQxvanNzadbIv647B3qA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 425DE107ACF7;
+        Fri, 15 Jan 2021 00:04:08 +0000 (UTC)
+Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B534B19C45;
+        Fri, 15 Jan 2021 00:04:01 +0000 (UTC)
+Date:   Thu, 14 Jan 2021 18:03:59 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
+Message-ID: <20210115000359.dxzivd7hvqvhkqji@treble>
+References: <20210113165743.3385-1-broonie@kernel.org>
+ <20210113192735.rg2fxwlfrzueinci@treble>
+ <20210113202315.GI4641@sirena.org.uk>
+ <20210113222541.ysvtievx4o5r42ym@treble>
+ <20210114181013.GE2739@C02TD0UTHF1T.local>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210114181013.GE2739@C02TD0UTHF1T.local>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 7:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 14/01/2021 04:22, Jann Horn wrote:
-> > On Wed, Dec 9, 2020 at 8:28 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.ne=
-t> wrote:
-> >> Thanks to the Landlock objects and ruleset, it is possible to identify
-> >> inodes according to a process's domain.  To enable an unprivileged
-> >> process to express a file hierarchy, it first needs to open a director=
-y
-> >> (or a file) and pass this file descriptor to the kernel through
-> >> landlock_add_rule(2).  When checking if a file access request is
-> >> allowed, we walk from the requested dentry to the real root, following
-> >> the different mount layers.  The access to each "tagged" inodes are
-> >> collected according to their rule layer level, and ANDed to create
-> >> access to the requested file hierarchy.  This makes possible to identi=
-fy
-> >> a lot of files without tagging every inodes nor modifying the
-> >> filesystem, while still following the view and understanding the user
-> >> has from the filesystem.
-> >>
-> >> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
-> >> keep the same struct inodes for the same inodes whereas these inodes a=
-re
-> >> in use.
-> >>
-> >> This commit adds a minimal set of supported filesystem access-control
-> >> which doesn't enable to restrict all file-related actions.  This is th=
-e
-> >> result of multiple discussions to minimize the code of Landlock to eas=
-e
-> >> review.  Thanks to the Landlock design, extending this access-control
-> >> without breaking user space will not be a problem.  Moreover, seccomp
-> >> filters can be used to restrict the use of syscall families which may
-> >> not be currently handled by Landlock.
-> > [...]
-> >> +static bool check_access_path_continue(
-> >> +               const struct landlock_ruleset *const domain,
-> >> +               const struct path *const path, const u32 access_reques=
-t,
-> >> +               u64 *const layer_mask)
-> >> +{
-> > [...]
-> >> +       /*
-> >> +        * An access is granted if, for each policy layer, at least on=
-e rule
-> >> +        * encountered on the pathwalk grants the access, regardless o=
-f their
-> >> +        * position in the layer stack.  We must then check not-yet-se=
-en layers
-> >> +        * for each inode, from the last one added to the first one.
-> >> +        */
-> >> +       for (i =3D 0; i < rule->num_layers; i++) {
-> >> +               const struct landlock_layer *const layer =3D &rule->la=
-yers[i];
-> >> +               const u64 layer_level =3D BIT_ULL(layer->level - 1);
-> >> +
-> >> +               if (!(layer_level & *layer_mask))
-> >> +                       continue;
-> >> +               if ((layer->access & access_request) !=3D access_reque=
-st)
-> >> +                       return false;
-> >> +               *layer_mask &=3D ~layer_level;
-> >
-> > Hmm... shouldn't the last 5 lines be replaced by the following?
-> >
-> > if ((layer->access & access_request) =3D=3D access_request)
-> >     *layer_mask &=3D ~layer_level;
-> >
-> > And then, since this function would always return true, you could
-> > change its return type to "void".
-> >
-> >
-> > As far as I can tell, the current version will still, if a ruleset
-> > looks like this:
-> >
-> > /usr read+write
-> > /usr/lib/ read
-> >
-> > reject write access to /usr/lib, right?
->
-> If these two rules are from different layers, then yes it would work as
-> intended. However, if these rules are from the same layer the path walk
-> will not stop at /usr/lib but go down to /usr, which grants write
-> access.
+On Thu, Jan 14, 2021 at 06:10:13PM +0000, Mark Rutland wrote:
+> On Wed, Jan 13, 2021 at 04:25:41PM -0600, Josh Poimboeuf wrote:
+> > On Wed, Jan 13, 2021 at 08:23:15PM +0000, Mark Brown wrote:
+> > > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
+> > > 
+> > > > I think it's worth mentioning a little more about objtool.  There are a
+> > > > few passing mentions of objtool's generation of metadata (i.e. ORC), but
+> > > > objtool has another relevant purpose: stack validation.  That's
+> > > > particularly important when it comes to frame pointers.
+> > > 
+> > > > For some architectures like x86_64 and arm64 (but not powerpc/s390),
+> > > > it's far too easy for a human to write asm and/or inline asm which
+> > > > violates frame pointer protocol, silently causing the violater's callee
+> > > > to get skipped in the unwind.  Such architectures need objtool
+> > > > implemented for CONFIG_STACK_VALIDATION.
+> > > 
+> > > This basically boils down to just adding a statement saying "you may
+> > > need to depend on objtool" I think?
+> > 
+> > Right, but maybe it would be a short paragraph or two.
+> 
+> I reckon that's a top-level section between requirements and
+> consideration along the lines of:
+> 
+> 3. Compile-time analysis
+> ========================
+> 
+> To ensure that kernel code can be correctly unwound in all cases,
+> architectures may need to verify that code has been compiled in a manner
+> expected by the unwinder. For example, an unwinder may expect that
+> functions manipulate the stack pointer in a limited way, or that all
+> functions use specific prologue and epilogue sequences. Architectures
+> with such requirements should verify the kernel compilation using
+> objtool.
+> 
+> In some cases, an unwinder may require metadata to correctly unwind.
+> Where necessary, this metadata should be generated at build time using
+> objtool.
 
-I don't see why the code would do what you're saying it does. And an
-experiment seems to confirm what I said; I checked out landlock-v26,
-and the behavior I get is:
+Sounds good to me.
 
-user@vm:~/landlock$ dd if=3D/dev/null of=3D/tmp/aaa
-0+0 records in
-0+0 records out
-0 bytes copied, 0.00106365 s, 0.0 kB/s
-user@vm:~/landlock$ LL_FS_RO=3D'/lib' LL_FS_RW=3D'/' ./sandboxer dd
-if=3D/dev/null of=3D/tmp/aaa
-0+0 records in
-0+0 records out
-0 bytes copied, 0.000491814 s, 0.0 kB/s
-user@vm:~/landlock$ LL_FS_RO=3D'/tmp' LL_FS_RW=3D'/' ./sandboxer dd
-if=3D/dev/null of=3D/tmp/aaa
-dd: failed to open '/tmp/aaa': Permission denied
-user@vm:~/landlock$
+-- 
+Josh
 
-Granting read access to /tmp prevents writing to it, even though write
-access was granted to /.
