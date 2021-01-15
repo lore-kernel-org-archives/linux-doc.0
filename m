@@ -2,119 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 344A4C433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 12:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA2FC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 12:06:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02A3A221E2
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 12:04:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 541F223128
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 12:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726375AbhAOMEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 07:04:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60760 "EHLO
+        id S1727645AbhAOMGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 07:06:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726085AbhAOMEI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 07:04:08 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C068FC061757;
-        Fri, 15 Jan 2021 04:03:52 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id jx16so12894923ejb.10;
-        Fri, 15 Jan 2021 04:03:52 -0800 (PST)
+        with ESMTP id S1726981AbhAOMGs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 07:06:48 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF9DC061757;
+        Fri, 15 Jan 2021 04:06:08 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id q1so17583435ion.8;
+        Fri, 15 Jan 2021 04:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=DZKL8N3bCOLd5d6DHEQ8H/r2ag/CUrBRkfKsXkDdZC4=;
-        b=PH5nw1CRQzbcVNiXb/+ZTZ+co58w9pO7JBjqbwHzJc2SkQkCi2t9JsJUuJYDuNDHok
-         lgWIHNrXKQjb3BddFMR3ZuR0wZ5Vel68eSGj63YsXPTi51wjTUCeUCc0uCgmSkGa/xtA
-         KOx07y75aC8sgiQX9jVBC6bV6I3xmv7xGZv9NP8pv2WyfhraP5M1aeh6Vallki1P9GCd
-         f9PcE4SIFZxqGJdd3jEpq+6GgW3hrmGhWe7lCIfYqguVyIQbsQkTFO6N7bRe/1619X0f
-         0ZH/2mn9ABBlrxu2GAwaPLEKCOIjCW9TfOP7lHbfTMgZbPjNZinDRyhWHKJdOnDdq14Y
-         29Zg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=na1PUSYsGVLnNX7HLmjyBX8gmNyghDEM4Z5I4FTRdlA=;
+        b=WZvYRJ3RiaZHZgJyc9mNLm2rnOzE8QOVDq965/Rm3DixSxMc+EVIFsld+OmVkbkCUY
+         cH87kbyfcuKVxTuetQ+25uSc6lBZkOvX1HFipZOBkP3CUEnUk007zb0DgVr2Adib1cNt
+         crKTFcgGylH8S20V4gjS6enWt5riRX8B6nig76GpTINmMU9Tc8omexlNms6d5i/DJOPE
+         3yZt/jCJyavsnTujdGtlY2nPc+eraszYh5B8JVLSmWfJZp+czzm+LZw5mcwILubhVcDk
+         U7CLWOn//ZQS6hnHyuFrG2/EjmUpSj288nARBgIZCAvEgA2ajm7ngWLlv/rdN7j/zXKF
+         KgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=DZKL8N3bCOLd5d6DHEQ8H/r2ag/CUrBRkfKsXkDdZC4=;
-        b=EdBQWaIW1ERHiqFGCJsol/pVu697m/k6fNsiXvRAyTE2y9sRvRyIzXY+clrHYSEtiQ
-         qtCy37rjKIwlWO1+MegQfYnKkj3LDgMDK4gExzIe0a9orr5p3Zb2cNfsJM23RyEzpjxQ
-         64tHlYJabaKfq4xO8omO47vJ2lBbh2I7Om1PXRJta6rVyWjIwhpan9Xzh+5kO/eKJYNh
-         vOmihyDpQp+vfOtW+7Hbd6OPLz4q8Kn4MMiS26Y6LNekzkLRuMsztfDCiSS2AYmmInnx
-         gfdMJYu5cHXIIA7OT6JqiOO+y3URliXIgaZhG+WozSzG6ZX1dPw+C5vpusePA1DLAVUq
-         jLlA==
-X-Gm-Message-State: AOAM53112KkVgmqnBxE1E3c/Pf3udEIZLMrcl4n3Lwpo3bPD6ZSNQ5An
-        GsTtStg5eFcwi/JcmLlAdhw=
-X-Google-Smtp-Source: ABdhPJyPPqMVbBEXYP+7LoChiNf3GY+blJP0XXqz/DGs5XIuWOLFIH8d3yAEmudH9WjagMJorCBlyA==
-X-Received: by 2002:a17:906:d87:: with SMTP id m7mr8452658eji.108.1610712231381;
-        Fri, 15 Jan 2021 04:03:51 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d39:a000:7c85:8e80:b862:a8bf])
-        by smtp.gmail.com with ESMTPSA id m5sm3228350eja.11.2021.01.15.04.03.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 04:03:50 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=na1PUSYsGVLnNX7HLmjyBX8gmNyghDEM4Z5I4FTRdlA=;
+        b=inHPXFh+HloetPA+PEw4t3CYb8VJHYe3Up67mAPNUZlovhiqFMt6fir6JrZv7ieLwu
+         YCsx8/fQCcq1g20nddJQCO2x3hQMyjrZ3DRlbsP6ry0MSQZ8V3exY1og3Z7SbigczvG9
+         +0APBF+d4dOvsS3BiNYwEjTD30e++qctQU/8hXd/vZ7pLpvAE+gJ7mpw4vZ5eoCR4gQD
+         jmPNnL0N+/ZPuWD7Y36brTa5ez+Lc2sptzj0Pckwz6B5+SbXzPSSpIdg5muqMvaQrQLI
+         WaNn+suKoAUtOPFbuhoigbQCY3kYSHX/B2gC99V86QF5TaXrefCIdaNChRSO1rR9xPYv
+         V4Hw==
+X-Gm-Message-State: AOAM533WrkkKLHsirAzvCyFQO89fd1O53ObWYPzbQzxinwuzvxazNtzx
+        jlv23YwrJzdx1Js7PVBFekyBhJyEHXAtNxTSYTc=
+X-Google-Smtp-Source: ABdhPJxxAJKcnZHUMm9cZ8ePtFoOwNf/v7mPgWKulE4JiANqv5qr69rplXZAYNH9UdfBqE4zyJxfRXjMlHE7xIVGRMM=
+X-Received: by 2002:a92:cd8c:: with SMTP id r12mr10192718ilb.221.1610712367656;
+ Fri, 15 Jan 2021 04:06:07 -0800 (PST)
+MIME-Version: 1.0
+References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
+ <20210115104947.71d99e87@coco.lan>
+In-Reply-To: <20210115104947.71d99e87@coco.lan>
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Daniel Colascione <dancol@google.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Eric Biggers <ebiggers@google.com>,
-        Paul Moore <paul@paul-moore.com>, linux-fsdevel@vger.kernel.org
-Cc:     linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] fs: anon_inodes: rephrase to appropriate kernel-doc
-Date:   Fri, 15 Jan 2021 13:03:42 +0100
-Message-Id: <20210115120342.8849-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Date:   Fri, 15 Jan 2021 13:05:56 +0100
+Message-ID: <CAKXUXMxRp4tRbMi4+P6pW4Zom7vZ0hfAWX47+aQ7nunLmyYpUQ@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit e7e832ce6fa7 ("fs: add LSM-supporting anon-inode interface") adds
-more kerneldoc description, but also a few new warnings on
-anon_inode_getfd_secure() due to missing parameter descriptions.
+On Fri, Jan 15, 2021 at 10:49 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Hi Lukas,
+>
+> Em Fri, 15 Jan 2021 07:12:38 +0100
+> Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+>
+> > [reduced the recipient list to the main responsible ones and list]
+> >
+> > Hi Mauro, hi Jonathan,
+> >
+> > We both, Mauro and I, have been submitting patches to address the
+> > documentation warnings on linux-next. If it is okay with you, Mauro, I
+> > would like to take responsibility for the task to send out the patches
+> > to address all warnings on linux-next in make htmldocs and follow up
+> > with all the discussions. I can also provide a short weekly summary
+> > (probably always on Friday) on what is pending where and what I could
+> > not resolve by myself.
+> >
+> > Is that okay for you?
+> >
+> > If at some point I do not have the time to take care anymore, I will
+> > let you know.
+>
+> Yeah, sure!
+>
+> Anyway, after applying the patches I sent this week, the warnings
+> I'm getting are all due to the validation scripts I wrote. So, if
+> everything gets merged (either yours or my version), we'll have zero
+> Sphinx/kernel-doc warnings again.
+>
 
-Rephrase to appropriate kernel-doc for anon_inode_getfd_secure().
+It is a never ending story... I already have seen two new warnings on
+today's linux-next and sent out patches.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- fs/anon_inodes.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+> $ scripts/documentation-file-ref-check
+> $ scripts/get_abi.pl validate
 
-diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
-index 023337d65a03..a280156138ed 100644
---- a/fs/anon_inodes.c
-+++ b/fs/anon_inodes.c
-@@ -202,13 +202,20 @@ int anon_inode_getfd(const char *name, const struct file_operations *fops,
- EXPORT_SYMBOL_GPL(anon_inode_getfd);
- 
- /**
-- * Like anon_inode_getfd(), but creates a new !S_PRIVATE anon inode rather than
-- * reuse the singleton anon inode, and calls the inode_init_security_anon() LSM
-- * hook. This allows the inode to have its own security context and for a LSM
-- * to reject creation of the inode.  An optional @context_inode argument is
-- * also added to provide the logical relationship with the new inode.  The LSM
-- * may use @context_inode in inode_init_security_anon(), but a reference to it
-- * is not held.
-+ * anon_inode_getfd_secure - Like anon_inode_getfd(), but creates a new
-+ * !S_PRIVATE anon inode rather than reuse the singleton anon inode, and calls
-+ * the inode_init_security_anon() LSM hook. This allows the inode to have its
-+ * own security context and for a LSM to reject creation of the inode.
-+ *
-+ * @name:    [in]    name of the "class" of the new file
-+ * @fops:    [in]    file operations for the new file
-+ * @priv:    [in]    private data for the new file (will be file's private_data)
-+ * @flags:   [in]    flags
-+ * @context_inode:
-+ *           [in]    the logical relationship with the new inode (optional)
-+ *
-+ * The LSM may use @context_inode in inode_init_security_anon(), but a
-+ * reference to it is not held.
-  */
- int anon_inode_getfd_secure(const char *name, const struct file_operations *fops,
- 			    void *priv, int flags,
--- 
-2.17.1
+I will also try out those two scripts, but I cannot commit to
+follow-up on all of those yet. I am also looking into addressing all
+kerneldoc warnings, even if not pulled in by make htmldocs.
 
+Lukas
