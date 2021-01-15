@@ -2,69 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EFBC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8E2C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:51:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F9F8221FE
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:48:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F217122473
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 16:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbhAOQsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 11:48:09 -0500
-Received: from foss.arm.com ([217.140.110.172]:45098 "EHLO foss.arm.com"
+        id S1726809AbhAOQuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 11:50:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727457AbhAOQsI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 11:48:08 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD964D6E;
-        Fri, 15 Jan 2021 08:47:22 -0800 (PST)
-Received: from C02TD0UTHF1T.local (unknown [10.57.41.13])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3A273F719;
-        Fri, 15 Jan 2021 08:47:20 -0800 (PST)
-Date:   Fri, 15 Jan 2021 16:47:18 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1725910AbhAOQuu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jan 2021 11:50:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0966B222B3;
+        Fri, 15 Jan 2021 16:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610729409;
+        bh=4TPOAVSgQzirc/H2ZzkAHJamp1LB/G2EZTjrlQgOIPY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W9I5fyXDifpCokLdlk55lMXiZZdA6FEdy7X+0rBPXD58WQeNxYQC9Vq50pglm27wo
+         I0IT03Fd4XAKRs7443r00rHe+8xTml2A3GjthT/FY1j00c4TC4g/Bgt6YQiFvDwtzK
+         HF13w1f6PHYHa2+xq2Up0PC5qmZz5wQcn55VscpByT9cQPY4izRGWfVaOvQYWF3Q7+
+         6zsIbAUnh4wmzNHO5YgnunKg9t8wXFKaiyBv8FkjMqdyliQy887QaBflM7zJOrO0gO
+         cRyjUjCdjLdf3pGdyB66FmjeEgzo1Wl9GCsU95c1C0KeUmDhVXqr39INQQ72dO0PbW
+         TFGs1/HdHXd0A==
+Date:   Fri, 15 Jan 2021 16:50:04 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Quentin Perret <qperret@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org, linux-doc@vgert.kernel.org
-Subject: Re: [PATCH v3] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210115164718.GE44111@C02TD0UTHF1T.local>
-References: <20210115142446.13880-1-broonie@kernel.org>
+        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        android-kvm@google.com, kernel-team@android.com
+Subject: Re: [PATCH] KVM: Documentation: Fix spec for KVM_CAP_ENABLE_CAP_VM
+Message-ID: <20210115165004.GA14556@willie-the-truck>
+References: <20210108165349.747359-1-qperret@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210115142446.13880-1-broonie@kernel.org>
+In-Reply-To: <20210108165349.747359-1-qperret@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
+On Fri, Jan 08, 2021 at 04:53:49PM +0000, Quentin Perret wrote:
+> The documentation classifies KVM_ENABLE_CAP with KVM_CAP_ENABLE_CAP_VM
+> as a vcpu ioctl, which is incorrect. Fix it by specifying it as a VM
+> ioctl.
+> 
+> Fixes: e5d83c74a580 ("kvm: make KVM_CAP_ENABLE_CAP_VM architecture agnostic")
+> Signed-off-by: Quentin Perret <qperret@google.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 70254eaa5229..68898b623d86 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -1328,7 +1328,7 @@ documentation when it pops into existence).
+>  
+>  :Capability: KVM_CAP_ENABLE_CAP_VM
+>  :Architectures: all
+> -:Type: vcpu ioctl
+> +:Type: vm ioctl
+>  :Parameters: struct kvm_enable_cap (in)
+>  :Returns: 0 on success; -1 on error
 
-On Fri, Jan 15, 2021 at 02:24:46PM +0000, Mark Brown wrote:
-> +.. Table of Contents:
-> +
-> +    1. Introduction
-> +    2. Requirements
-> +    3. Considerations
-> +       3.1 Identifying successful termination
-> +       3.2 Identifying unwindable code
-> +       3.3 Unwinding across interrupts and exceptions
-> +       3.4 Rewriting of return addresses
-> +       3.5 Obscuring of return addresses
-> +       3.6 Link register unreliability
->
+I tripped over this as well, so:
 
-It looks like we forgot to update this with the addition of the new
-section 3, so this needs a trivial update to add that and fix the
-numbering.
+Acked-by: Will Deacon <will@kernel.org>
 
-Otherwise this looks good; thanks for taking this off my hands! :)
-
-Mark.
+Will
