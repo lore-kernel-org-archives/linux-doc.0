@@ -2,205 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E51D7C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 22:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57DF0C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 22:32:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD51922B2A
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 22:19:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FB3520DD4
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 22:32:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbhAOWT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 17:19:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52868 "EHLO
+        id S1726615AbhAOWcp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 17:32:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbhAOWT0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 17:19:26 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48464C061757
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 14:18:46 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id m6so6375546pfk.1
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 14:18:46 -0800 (PST)
+        with ESMTP id S1725918AbhAOWcp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 17:32:45 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C1FC061757
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 14:32:05 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id b3so6400297pft.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 14:32:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=lK6irOIZuEqc0zZFe+eyBQRg0ctV5nEW+XvBTkrNvKg=;
-        b=at3c+r+iqECyp24pqx4JptLnOdrvWe9hS8lLSd/ZbOfo/J9YDXju5d5ikRzyPu6Pnh
-         3LWU/Da1lR2ZP6ZC1rm4eyV/jn97tmRaAn4hWZDtgPbsthjMbmy1S8aZP8E3/qj5Q5Fe
-         3tGiWAqj7oH525wRpVg3rIsRXg29OYyxAaHKSe6qOiSLivwUHgLuzfq+MLSTYg6AmmSz
-         9QrJe7TThrxfWjtxfT93Sc6s2799TAMXNBdQz023ksijibSI65YPbpZFrSP1/lg0xGTI
-         pvVTw3+PKC7QUzphRtzDOzB6ksqBE3q7mkxLY3ui37AifjWf4tzxXrZoVf899HdmKAjo
-         R13g==
+        bh=ooOPbSdn2JKfhlBwxZ7D3PM2/XriIVf1HYoBmF9K00g=;
+        b=oQVolH9tri0XcGLaGNVO5l+bUWdV7hmgvZsCPUdMKTKaWe5ApiqR92YewV8yvUEOQx
+         VssCa4fu80HFbsqHdy5uc7/70gWkYeXpWiZ2SMgdum58EXspGSQmEYZ4JH/Mq/dp4dXK
+         ekU12eRbwW/MSggLvGAFDpz2urm2SNV0F8Qy7mI+v5965LqgedPDh7tBFZeEZUYdMPEI
+         D4YcraAaFPFRGWiMXAPS71GqFbrIHJ4NFtlKveP3tMsLPxiSCceoPNOSHIHUhtY6P0zH
+         Wj7SnlJCattg18e8x3rmoIwlsMm3CY48Pt1C8MB8E5ZR+D2duoNg7BjU+caafqyYmhQu
+         FnFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=lK6irOIZuEqc0zZFe+eyBQRg0ctV5nEW+XvBTkrNvKg=;
-        b=swhqCLDpZpeLTt2gyE7Au0VYz1Fy5KziOZPBsHIwprGTdm5pkO4D4i/Idyc99B9R2Z
-         zKhRvRUGHvUl5N/kAI6+ovK0pt5yDb01ZjTh4Tx5ip27OJQffQ2hNu22cYv8/9iIohIY
-         p731gj6CivZcyx9Nelg7KE6hsC6NXuW5QsjmfSHxYV8N0U2cuLKAc7kTCeIC8HLEet8N
-         dPUwZS4kq46fVdhx/K2pbVk9u7/zemnWMzA3kgADJQ0PtgV0pN+vI7CzUXa68RQ/xq+X
-         w8SdK45pkUJWFkfVmz3t4cAVm8FGps6QSSxKl6n1hwf15SZx2tQea59BCoAjbNWUENU6
-         Imqg==
-X-Gm-Message-State: AOAM531pMdy/qXipR+FOUFAcPCfrAS5f4VxgjaH49/783zo2rJR7rE1c
-        vG/4b6jGRgdyfA6RGSBg9EqxUg==
-X-Google-Smtp-Source: ABdhPJy2asxDxEdSZv3zuGSAVsZ9/dStbHstvsUeXsl4p2TVqleXD7JLhhltkUYwhvCqRpbwlfhlCQ==
-X-Received: by 2002:a63:db57:: with SMTP id x23mr14564215pgi.131.1610749125569;
-        Fri, 15 Jan 2021 14:18:45 -0800 (PST)
-Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
-        by smtp.gmail.com with ESMTPSA id y26sm3823634pgk.42.2021.01.15.14.18.44
+        bh=ooOPbSdn2JKfhlBwxZ7D3PM2/XriIVf1HYoBmF9K00g=;
+        b=E/EG9oZDe8OrbDzlnU37dR5MDsxBFM88rxPsjGVnYUaHIQ08ugiZHAwUodpNtoWNQ9
+         KJ4AaFAMWQUFF/PSRvVB+dOtYcQOrsXykwak1rcMuo/jklqDQ45JMekyQRVNzCTNb+7B
+         OIXqa2gH47dVmvjkczNkGYw3C3vas7mJ5jAzGPTZJicLn6jyRCnWGnkHUZemXhm50ZGP
+         OJTBxzwLxE3SWvy54zhnFjAVMlbyiPf7UIwhbMitkQDZ+MuQnkNvpFxkaR8s9Dao86Jy
+         qfqf/uTAEgYK+BYXWqD8bMRn6WG7crllvxheBBPlcTjeUm2OemI8ARTlB/XrV+d9IIDo
+         fVLQ==
+X-Gm-Message-State: AOAM533/1EeqjVSsQ59ar/dR4MEPqQV+b5LMChIsfWkOvnxp4ZQk5U8h
+        OuGg6r2NSEv5WK2fJsddm0r5cg==
+X-Google-Smtp-Source: ABdhPJy4xjBVHQad+LyI5n5tByZ0GKF5AwVOUQYdkNv+HctNbFa1PPbfz6/rcZSlGFplBtUzgVQgeA==
+X-Received: by 2002:a63:d855:: with SMTP id k21mr14754815pgj.399.1610749924356;
+        Fri, 15 Jan 2021 14:32:04 -0800 (PST)
+Received: from google.com ([2620:15c:f:10:1ea0:b8ff:fe73:50f5])
+        by smtp.gmail.com with ESMTPSA id a131sm9375775pfd.171.2021.01.15.14.32.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 14:18:44 -0800 (PST)
-Date:   Fri, 15 Jan 2021 14:18:40 -0800
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
-        lizefan@huawei.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, joro@8bytes.org,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
-Message-ID: <YAIUwGUPDmYfUm/a@google.com>
-References: <20210108012846.4134815-1-vipinsh@google.com>
- <20210108012846.4134815-2-vipinsh@google.com>
- <YAICLR8PBXxAcOMz@mtj.duckdns.org>
+        Fri, 15 Jan 2021 14:32:03 -0800 (PST)
+Date:   Fri, 15 Jan 2021 14:31:57 -0800
+From:   Sean Christopherson <seanjc@google.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Quentin Perret <qperret@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL VIRTUAL MACHINE (KVM)" <kvm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        android-kvm@google.com, kernel-team@android.com
+Subject: Re: [PATCH] KVM: Documentation: Fix spec for KVM_CAP_ENABLE_CAP_VM
+Message-ID: <YAIX3WkXSURLyj0S@google.com>
+References: <20210108165349.747359-1-qperret@google.com>
+ <20210115165004.GA14556@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YAICLR8PBXxAcOMz@mtj.duckdns.org>
+In-Reply-To: <20210115165004.GA14556@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 03:59:25PM -0500, Tejun Heo wrote:
-> Hello,
-> 
-> On Thu, Jan 07, 2021 at 05:28:45PM -0800, Vipin Sharma wrote:
-> > 1. encrpytion_ids.sev.max
-> > 	Sets the maximum usage of SEV IDs in the cgroup.
-> > 2. encryption_ids.sev.current
-> > 	Current usage of SEV IDs in the cgroup and its children.
-> > 3. encryption_ids.sev.stat
-> > 	Shown only at the root cgroup. Displays total SEV IDs available
-> > 	on the platform and current usage count.
-> 
-> Sorry, should have raised these earlier:
-> 
-> * Can we shorten the name to encids?
+On Fri, Jan 15, 2021, Will Deacon wrote:
+> On Fri, Jan 08, 2021 at 04:53:49PM +0000, Quentin Perret wrote:
+> > The documentation classifies KVM_ENABLE_CAP with KVM_CAP_ENABLE_CAP_VM
+> > as a vcpu ioctl, which is incorrect. Fix it by specifying it as a VM
+> > ioctl.
 
-Sure.
+On a related topic, x86 should report KVM_CAP_ENABLE_CAP as supported, it's had
+a vCPU version since commit 5c919412fe61 ("kvm/x86: Hyper-V synthetic interrupt
+controller").  I'll send a patch.
 
+> > Fixes: e5d83c74a580 ("kvm: make KVM_CAP_ENABLE_CAP_VM architecture agnostic")
+> > Signed-off-by: Quentin Perret <qperret@google.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 70254eaa5229..68898b623d86 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -1328,7 +1328,7 @@ documentation when it pops into existence).
+> >  
+> >  :Capability: KVM_CAP_ENABLE_CAP_VM
+> >  :Architectures: all
+> > -:Type: vcpu ioctl
+> > +:Type: vm ioctl
+> >  :Parameters: struct kvm_enable_cap (in)
+> >  :Returns: 0 on success; -1 on error
 > 
-> * Why is .sev a separate namespace? Isn't the controller supposed to cover
->   encryption ids across different implementations? It's not like multiple
->   types of IDs can be in use on the same machine, right?
+> I tripped over this as well, so:
 > 
+> Acked-by: Will Deacon <will@kernel.org>
 
-On AMD platform we have two types SEV and SEV-ES which can exists
-simultaneously and they have their own quota.
+The problem is that you read the documentation.  Who does that?
 
-> > Other ID types can be easily added in the controller in the same way.
-> 
-> I'm not sure this is necessarily a good thing.
-
-This is to just say that when Intel and PowerPC changes are ready it
-won't be difficult for them to add their controller.
-
-> 
-> > +/**
-> > + * enc_id_cg_uncharge_hierarchy() - Uncharge the enryption ID cgroup hierarchy.
-> > + * @start_cg: Starting cgroup.
-> > + * @stop_cg: cgroup at which uncharge stops.
-> > + * @type: type of encryption ID to uncharge.
-> > + * @amount: Charge amount.
-> > + *
-> > + * Uncharge the cgroup tree from the given start cgroup to the stop cgroup.
-> > + *
-> > + * Context: Any context. Expects enc_id_cg_lock to be held by the caller.
-> > + */
-> > +static void enc_id_cg_uncharge_hierarchy(struct encryption_id_cgroup *start_cg,
-> > +					 struct encryption_id_cgroup *stop_cg,
-> > +					 enum encryption_id_type type,
-> > +					 unsigned int amount)
-> > +{
-> > +	struct encryption_id_cgroup *i;
-> > +
-> > +	lockdep_assert_held(&enc_id_cg_lock);
-> > +
-> > +	for (i = start_cg; i != stop_cg; i = parent_enc(i)) {
-> > +		WARN_ON_ONCE(i->res[type].usage < amount);
-> > +		i->res[type].usage -= amount;
-> > +	}
-> > +	css_put(&start_cg->css);
-> 
-> I'm curious whether this is necessary given that a css can't be destroyed
-> while tasks are attached. Are there cases where this wouldn't hold true? If
-> so, it'd be great to have some comments on how that can happen.
-
-We are not moving charges when a task moves out. This can lead us to the
-cases where all of the tasks in the cgroup have moved out but it
-still has charges. In that scenarios cgroup can be deleted. Taking a
-reference will make sure cgroup is atleast present internally.
-
-Also, struct encryption_ic_cgroup has a reference to the cgroup which is
-used during uncharge call to correctly identify from which cgroup charge
-should be deducted.
-
-> 
-> > +/**
-> > + * enc_id_cg_max_write() - Update the maximum limit of the cgroup.
-> > + * @of: Handler for the file.
-> > + * @buf: Data from the user. It should be either "max", 0, or a positive
-> > + *	 integer.
-> > + * @nbytes: Number of bytes of the data.
-> > + * @off: Offset in the file.
-> > + *
-> > + * Uses cft->private value to determine for which enryption ID type results be
-> > + * shown.
-> > + *
-> > + * Context: Any context. Takes and releases enc_id_cg_lock.
-> > + * Return:
-> > + * * >= 0 - Number of bytes processed in the input.
-> > + * * -EINVAL - If buf is not valid.
-> > + * * -ERANGE - If number is bigger than unsigned int capacity.
-> > + * * -EBUSY - If usage can become more than max limit.
-> 
-> The aboves are stale, right?
-
--EBUSY is not valid anymore. We can now set max to be less than the usage. I
-will remove it in the next patch.
-
-> 
-> > +static int enc_id_cg_stat_show(struct seq_file *sf, void *v)
-> > +{
-> > +	unsigned long flags;
-> > +	enum encryption_id_type type = seq_cft(sf)->private;
-> > +
-> > +	spin_lock_irqsave(&enc_id_cg_lock, flags);
-> > +
-> > +	seq_printf(sf, "total %u\n", enc_id_capacity[type]);
-> > +	seq_printf(sf, "used %u\n", root_cg.res[type].usage);
-> 
-> Dup with .current and no need to show total on every cgroup, right?
-
-This is for the stat file which will only be seen in the root cgroup
-directory.  It is to know overall picture for the resource, what is the
-total capacity and what is the current usage. ".current" file is not
-shown on the root cgroup.
-
-This information is good for resource allocation in the cloud
-infrastructure.
-
-> 
-> Thanks.
-> 
-> -- 
-> tejun
+Reviewed-by: Sean Christopherson <seanjc@google.com> 
