@@ -2,92 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE69C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 08:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75837C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:12:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2C0A22287
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 08:10:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24A0523435
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:12:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbhAOIJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 03:09:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38786 "EHLO
+        id S1730252AbhAOJMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 04:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbhAOIJn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 03:09:43 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46182C061575;
-        Fri, 15 Jan 2021 00:09:03 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id h186so5014311pfe.0;
-        Fri, 15 Jan 2021 00:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=FiTUf7nc7yy9jR7tyMkjzq+KmoD8V4MoKYuzDq3AhDs=;
-        b=bRN84fqhW3ZLZOOrZ4/bA/aFz+50ftrD79WDwxox3efELymGM6/g+24Aoqp3K9oh+m
-         sWv4UFodQT80J5nYwrXZ96juDo6PRaMYaS7V0F71Xe3mvDxlinHAwJDQ7SY7FIUDfuU4
-         eUjwDwiaYKZ8EVhjE/AqLPRe9tXvqsofIVtc138nB5qbUvE2p7QBvJLDio7ZDVert6Um
-         +iHJxfVT5T3k6MrOg+x7Hgbn4k8k26ieZQhkpHxkYkq6e5gZRLNLIjDeIfoFOvgAG+tQ
-         SHrA/6MmU6r5DCHqpn3U25pChQ0e2UzH/ZfBjwjM3QFgDvepuWs4qIfWzXBxafQAyHM6
-         HP3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FiTUf7nc7yy9jR7tyMkjzq+KmoD8V4MoKYuzDq3AhDs=;
-        b=h7vVrjd07GmNtCvztq4m+OhrDAEeoSJo4z9uP8Z0GRrXNJ7h1pPOKO5v2adBTyOx8p
-         Nvq2YBz9CWESZ3X62luy6IJwsXQfUV00khN17cOBXT/uoCc95GIEum8IrSFt9whYdH2l
-         0brqc/SZQYXsj3+0/B3lkzUCuzROEMxVIyPFKQwazQtYmKGm8+IbTt8e7GQAD0Qupl+g
-         RueclLBKF7NINeDNJrmwKbEcDp6mOQmdOtVt4GtUTjWwHP0ie11IERYPg2hiFXoVU/49
-         umk/SfbLXGNkCZdcNW72BmI+E3OLA/CCwkxZjdaARLBrxWY7al9spJdfvAgZ8UfgAA0K
-         HxiA==
-X-Gm-Message-State: AOAM533ia/NiqXfICOwQn8U7Uf+aEhXjj+iO8Ru5GSZ1eQCJfHVFkQq+
-        Q/Dr6qY4dMu7JVf0SuwjZKlFP5NHGSji
-X-Google-Smtp-Source: ABdhPJyKOtSp/IgI/0Q8VQm9IhylA/Ykto/CggxRuIoDNfWraZRWfxqxO8Gx0H7QWtbL3+sxX1AmQA==
-X-Received: by 2002:a62:c504:0:b029:1a5:b198:18dc with SMTP id j4-20020a62c5040000b02901a5b19818dcmr11327505pfg.79.1610698142869;
-        Fri, 15 Jan 2021 00:09:02 -0800 (PST)
-Received: from localhost.localdomain ([216.52.21.4])
-        by smtp.gmail.com with ESMTPSA id x14sm7342534pfp.77.2021.01.15.00.09.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Jan 2021 00:09:02 -0800 (PST)
-From:   Praveen Chaudhary <praveen5582@gmail.com>
-X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
-To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: RE: [PATCH v1 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
-Date:   Fri, 15 Jan 2021 00:08:57 -0800
-Message-Id: <20210115080857.8978-1-pchaudhary@linkedin.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <e894509c-e081-3682-7cc4-a20812f41984@gmail.com>
-References: <e894509c-e081-3682-7cc4-a20812f41984@gmail.com>
+        with ESMTP id S1730254AbhAOJMA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 04:12:00 -0500
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DA8C0613C1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 01:11:15 -0800 (PST)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DHFl51bMyzMprtq;
+        Fri, 15 Jan 2021 10:10:25 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DHFl26L60zlppyv;
+        Fri, 15 Jan 2021 10:10:22 +0100 (CET)
+Subject: Re: [PATCH v26 07/12] landlock: Support filesystem access-control
+To:     Jann Horn <jannh@google.com>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20201209192839.1396820-1-mic@digikod.net>
+ <20201209192839.1396820-8-mic@digikod.net>
+ <CAG48ez1wbAQwU-eoC9DngHyUM_5F01MJQpRnLaJFvfRUrnXBdA@mail.gmail.com>
+ <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
+ <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <9be6481f-9c03-dd32-378f-20bc7c52315c@digikod.net>
+Date:   Fri, 15 Jan 2021 10:10:36 +0100
+User-Agent: 
 MIME-Version: 1.0
+In-Reply-To: <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi David
 
-Thanks a lot for Review,
+On 14/01/2021 23:43, Jann Horn wrote:
+> On Thu, Jan 14, 2021 at 7:54 PM Mickaël Salaün <mic@digikod.net> wrote:
+>> On 14/01/2021 04:22, Jann Horn wrote:
+>>> On Wed, Dec 9, 2020 at 8:28 PM Mickaël Salaün <mic@digikod.net> wrote:
+>>>> Thanks to the Landlock objects and ruleset, it is possible to identify
+>>>> inodes according to a process's domain.  To enable an unprivileged
+>>>> process to express a file hierarchy, it first needs to open a directory
+>>>> (or a file) and pass this file descriptor to the kernel through
+>>>> landlock_add_rule(2).  When checking if a file access request is
+>>>> allowed, we walk from the requested dentry to the real root, following
+>>>> the different mount layers.  The access to each "tagged" inodes are
+>>>> collected according to their rule layer level, and ANDed to create
+>>>> access to the requested file hierarchy.  This makes possible to identify
+>>>> a lot of files without tagging every inodes nor modifying the
+>>>> filesystem, while still following the view and understanding the user
+>>>> has from the filesystem.
+>>>>
+>>>> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
+>>>> keep the same struct inodes for the same inodes whereas these inodes are
+>>>> in use.
+>>>>
+>>>> This commit adds a minimal set of supported filesystem access-control
+>>>> which doesn't enable to restrict all file-related actions.  This is the
+>>>> result of multiple discussions to minimize the code of Landlock to ease
+>>>> review.  Thanks to the Landlock design, extending this access-control
+>>>> without breaking user space will not be a problem.  Moreover, seccomp
+>>>> filters can be used to restrict the use of syscall families which may
+>>>> not be currently handled by Landlock.
+>>> [...]
+>>>> +static bool check_access_path_continue(
+>>>> +               const struct landlock_ruleset *const domain,
+>>>> +               const struct path *const path, const u32 access_request,
+>>>> +               u64 *const layer_mask)
+>>>> +{
+>>> [...]
+>>>> +       /*
+>>>> +        * An access is granted if, for each policy layer, at least one rule
+>>>> +        * encountered on the pathwalk grants the access, regardless of their
+>>>> +        * position in the layer stack.  We must then check not-yet-seen layers
+>>>> +        * for each inode, from the last one added to the first one.
+>>>> +        */
+>>>> +       for (i = 0; i < rule->num_layers; i++) {
+>>>> +               const struct landlock_layer *const layer = &rule->layers[i];
+>>>> +               const u64 layer_level = BIT_ULL(layer->level - 1);
+>>>> +
+>>>> +               if (!(layer_level & *layer_mask))
+>>>> +                       continue;
+>>>> +               if ((layer->access & access_request) != access_request)
+>>>> +                       return false;
+>>>> +               *layer_mask &= ~layer_level;
+>>>
+>>> Hmm... shouldn't the last 5 lines be replaced by the following?
+>>>
+>>> if ((layer->access & access_request) == access_request)
+>>>     *layer_mask &= ~layer_level;
+>>>
+>>> And then, since this function would always return true, you could
+>>> change its return type to "void".
+>>>
+>>>
+>>> As far as I can tell, the current version will still, if a ruleset
+>>> looks like this:
+>>>
+>>> /usr read+write
+>>> /usr/lib/ read
+>>>
+>>> reject write access to /usr/lib, right?
+>>
+>> If these two rules are from different layers, then yes it would work as
+>> intended. However, if these rules are from the same layer the path walk
+>> will not stop at /usr/lib but go down to /usr, which grants write
+>> access.
+> 
+> I don't see why the code would do what you're saying it does. And an
+> experiment seems to confirm what I said; I checked out landlock-v26,
+> and the behavior I get is:
 
-I have raised v2 after addressing your review comments from
-https://lkml.org/lkml/2021/1/14/1400.
+There is a misunderstanding, I was responding to your proposition to
+modify check_access_path_continue(), not about the behavior of landlock-v26.
 
-List of changes in v2:
----
-1.) Replace accept_ra_defrtr_metric with ra_defrtr_metric.
-2.) Change Type to __u32 instead of __s32.
-3.) Change description in Documentation/networking/ip-sysctl.rst.
-4.) Use proc_douintvec instead of proc_dointvec.
-5.) Code style in ndisc_router_discovery().
-6.) Change Type to u32 instead of unsigned int.
----
+> 
+> user@vm:~/landlock$ dd if=/dev/null of=/tmp/aaa
+> 0+0 records in
+> 0+0 records out
+> 0 bytes copied, 0.00106365 s, 0.0 kB/s
+> user@vm:~/landlock$ LL_FS_RO='/lib' LL_FS_RW='/' ./sandboxer dd
+> if=/dev/null of=/tmp/aaa
+> 0+0 records in
+> 0+0 records out
+> 0 bytes copied, 0.000491814 s, 0.0 kB/s
+> user@vm:~/landlock$ LL_FS_RO='/tmp' LL_FS_RW='/' ./sandboxer dd
+> if=/dev/null of=/tmp/aaa
+> dd: failed to open '/tmp/aaa': Permission denied
+> user@vm:~/landlock$
+> 
+> Granting read access to /tmp prevents writing to it, even though write
+> access was granted to /.
+> 
 
-Thanks a lot again for help.
+It indeed works like this with landlock-v26. However, with your above
+proposition, it would work like this:
+
+$ LL_FS_RO='/tmp' LL_FS_RW='/' ./sandboxer dd if=/dev/null of=/tmp/aaa
+0+0 records in
+0+0 records out
+0 bytes copied, 0.000187265 s, 0.0 kB/s
+
+…which is not what users would expect I guess. :)
