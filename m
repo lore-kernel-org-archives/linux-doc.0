@@ -2,92 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9D0C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:25:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB052C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 18:12:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF59023A9D
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:25:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB82923A59
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 18:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729927AbhAORZF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 12:25:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
+        id S1727471AbhAOSLp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 13:11:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729489AbhAORZF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 12:25:05 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FF4C061795
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 09:23:43 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id b2so10377755edm.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 09:23:43 -0800 (PST)
+        with ESMTP id S1727229AbhAOSLo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 13:11:44 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E77C0613C1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 10:11:04 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id g24so10513022edw.9
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 10:11:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mJrsR9g+dyqkkVVvYtEu6xfD1Zo92dOcpjjoxvFadQo=;
-        b=ge+GnUbEBLY+2evuY9Uj+uaN2jIYKWBKeP45kxv0m+2jXjz3M/6ABWkT/cxfrrGRq1
-         4WNTMkLNR2uAeZ2AccElDyg/YHkMrBs/gGDoGct8UXXHPgz8PXATa6eEOBiANAdkuam1
-         rp+M7bSxWpd33oqT8kvS3U/BVZaLAyBg8GWwIsNdEKl63eBd3Rn+7qjvCaDpG6I6LmIz
-         ppYSC9rjrXDv9oNatkHLla47fsh0+pBergQGzDv+J33+ulldNGXUtGEltU+CgjYMpawp
-         IWlLnc68w4znX2PD84B4cD1COJHGuLzY3SuktMfTPpHDLoXv9Lwn5inJdv8LgtDK3SN3
-         jr3A==
+        bh=8SVfCmLEiWAiL0R631NmKWHiEv5/3BnE+DWgN7tCTHc=;
+        b=LT7meLxfsN9ZJj1NVem9T3FdAJp7+fYnVVLGwj0ymfrrDwmC+Cp8fY2m76Y9p9ZOUY
+         DrG9gQkiUneL7meMDl40kir9wD+lupIwVSgT2zkgrec2qM8QF5wKiFCI0BYssd/bujN9
+         7e9y5wg/6fUxw5exORuFv1NOXcQFRNhRudlb01jPO/RYYfgfBwicm3NBR1mKkmC6ntNv
+         z/v07mXjdkt/D3ipAVODDI918IZEOqRT/nREaddodPRN7hV3O2l5iLCwEZy4fZx+txr4
+         cJXdRlrTKCp+YAQeB4+j3QawjuhXB/UMPof/CfB1SrHkgf8zxD8gBjDC+QBEcFFkE46k
+         leqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mJrsR9g+dyqkkVVvYtEu6xfD1Zo92dOcpjjoxvFadQo=;
-        b=LL5Us2wfFY9+LYK33KsMc1CpaKaQnbtAotCIjE/9wF+2Rq7yb+rJyU2R9PijzvmMVc
-         ltM+PZaozmAAHLdT3ohWZoRwb2TCG+w3MyPmKiS6ATSoNWWX8c/+mk0RSHoQknDR3B+w
-         hvf1xoLdqukzBPL5DQJEE4dXQBvvP/OePZCd2m2qV/E6KcUwEGporhKNfIbgZ+HOFt7h
-         dIrO8q2MGkK/qL7xF9CcO5oHllB2/+Ld6r8JBHpaTU/2wV1TNIDJZ2SS0HEKvSfyECF3
-         MsM/KO1X+NnGbHP2O1d65XojPYYFIZUgTR0goN6rxCm6dm5eyngKtJwNnhLS6TZIfHjE
-         ED3g==
-X-Gm-Message-State: AOAM533aAxZxlQwqhdNjpwN7XiO0VHgb/jjtEklpeMItgPWfOZZWU6DW
-        EAM4cFd7Q8YSW0MMMiEgwlKNzua1LpXV3FU5Ay57
-X-Google-Smtp-Source: ABdhPJxNJ1+S8LITVO12epfE1LpA0SxxE+7Im+Q6DiX6C3VsYyEebNuKAcm5/5AsziFCv15wGpFl9G0psW/zml1Wnk0=
-X-Received: by 2002:a05:6402:ca1:: with SMTP id cn1mr10426635edb.128.1610731421674;
- Fri, 15 Jan 2021 09:23:41 -0800 (PST)
+        bh=8SVfCmLEiWAiL0R631NmKWHiEv5/3BnE+DWgN7tCTHc=;
+        b=HGf1tvN6ii76fK6Hzw9NBFCCK3zeN0s2OUb901q5Q4Z2Qjam+D1W+DATbxzlDR7xiX
+         zA9vJ5y+DWLuOKh2ncsNDhOyUFiO07jYHMpcY1wqJ3iQ9UfI+RatnvUpjop01y5bGsRh
+         72ivkeEe3ikeZNL2DC5et8Cn8/csJba9IqcOS1U7wQ6T2KXumZ9pYgR9T+3t0JmrqHzB
+         UYB231EAsjmTVuAqU1KIaU9bJK1XLYZMUjdfW/Xjdm6osfsEIJAqBfzqsqFU7Prt2wz1
+         h0PH3fpZQuYnAeC1ErN29hKXmErimUkA6nQNU6KjaukTltRcrlW9ZxVoGg8lZLd8LOE+
+         pCew==
+X-Gm-Message-State: AOAM533karypfYjS6JCYlKzTZpVF1AKWFjFFc4P2uy+9BfSmIWz0pZGC
+        hUzRvBSasOe9JbvR/7YwPHb1JU7CVIc95/Vroy7CNw==
+X-Google-Smtp-Source: ABdhPJxcm9uW7ZpupMY4AzchVg5VAJOLsBRme8D47yXaQiHft3XUpIVHGE9veIXESaC3fSpI9Az8dNQaliYFA4XPzxA=
+X-Received: by 2002:a05:6402:17:: with SMTP id d23mr10770454edu.341.1610734263068;
+ Fri, 15 Jan 2021 10:11:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20210115120342.8849-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20210115120342.8849-1-lukas.bulwahn@gmail.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Fri, 15 Jan 2021 12:23:28 -0500
-Message-ID: <CAHC9VhSfn9Ux_KcDysAH_vOWhiS3TvPYcXYZLg_5pr9Vee0f2g@mail.gmail.com>
-Subject: Re: [PATCH] fs: anon_inodes: rephrase to appropriate kernel-doc
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Daniel Colascione <dancol@google.com>,
-        Lokesh Gidra <lokeshgidra@google.com>,
-        Eric Biggers <ebiggers@google.com>,
-        linux-fsdevel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+References: <20201217185243.3288048-1-pasha.tatashin@soleen.com>
+ <20201217185243.3288048-9-pasha.tatashin@soleen.com> <20201217205048.GL5487@ziepe.ca>
+ <CA+CK2bA4F+SipkReJzFjCSC-8kZdK4yrwCQZM+TvCTrqV2CGHg@mail.gmail.com>
+ <20201218141927.GM5487@ziepe.ca> <CA+CK2bDULopw649ndBybA-ST5EoRMHULwcfQcSQVKT9r8zAtwQ@mail.gmail.com>
+ <20210113195528.GD4605@ziepe.ca> <CA+CK2bDDUMOeCH8rQBL7fBdHCAUZBOykyXNL2N=hmxq7xi0giQ@mail.gmail.com>
+In-Reply-To: <CA+CK2bDDUMOeCH8rQBL7fBdHCAUZBOykyXNL2N=hmxq7xi0giQ@mail.gmail.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Fri, 15 Jan 2021 13:10:27 -0500
+Message-ID: <CA+CK2bC=o1-qW5+d-Lud9qN1937PC4Jxf_oyxwVrKby=mH5WyQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/10] mm/gup: limit number of gup migration failures,
+ honor failures
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 7:03 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Wed, Jan 13, 2021 at 3:05 PM Pavel Tatashin
+<pasha.tatashin@soleen.com> wrote:
 >
-> Commit e7e832ce6fa7 ("fs: add LSM-supporting anon-inode interface") adds
-> more kerneldoc description, but also a few new warnings on
-> anon_inode_getfd_secure() due to missing parameter descriptions.
+> > > > Oh, that existing logic is wrong too :( Another bug.
+> > >
+> > > I do not think there is a bug.
+> > >
+> > > > You can't skip pages in the pages[] array under the assumption they
+> > > > are contiguous. ie the i+=step is wrong.
+> > >
+> > > If pages[i] is part of a compound page, the other parts of this page
+> > > must be sequential in this array for this compound page
+> >
+> > That is true only if the PMD points to the page. If the PTE points to
+> > a tail page then there is no requirement that other PTEs are
+> > contiguous with the compount page.
+> >
+> > At this point we have no idea if the GUP logic got this compound page
+> > as a head page in a PMD or as a tail page from a PTE, so we can't
+> > assume a contiguous run of addresses.
 >
-> Rephrase to appropriate kernel-doc for anon_inode_getfd_secure().
+> I see, I will fix this bug in an upstream as a separate patch in my
+> series, and keep the fix when my fixes are applied.
 >
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
->  fs/anon_inodes.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+> >
+> > Look at split_huge_pmd() - it doesn't break up the compound page it
+> > just converts the PMD to a PTE array and scatters the tail pages to
+> > the PTE.
 
-Merged into selinux/next with the other related LSM/SELinux anon-inode
-patches, thank you!
+Hi Jason,
 
--- 
-paul moore
-www.paul-moore.com
+I've been thinking about this some more. Again, I am not sure this is
+a bug. I understand split_huge_pmd() may split the PMD size page into
+PTEs and leave the compound page intact. However, in order for pages[]
+to have non sequential addresses in compound page, those PTEs must
+also be migrated after split_huge_pmd(), however when we migrate them
+we will either migrate the whole compound page or do
+split_huge_page_to_list() which will in turn do ClearPageCompound().
+Please let me know if I am missing something.
+
+Thank you,
+Pasha
+
+>
+> Got it, unfortunately the fix will deoptimize the code by having to
+> check every page if it is part of a previous compound page or not.
+>
+> >
+> > I understand Matt is pushing on this idea more by having compound
+> > pages in the page cache, but still mapping tail pages when required.
+> >
+> > > This is actually standard migration procedure, elsewhere in the kernel
+> > > we migrate pages in exactly the same fashion: isolate and later
+> > > migrate. The isolation works for LRU only pages.
+> >
+> > But do other places cause a userspace visible random failure when LRU
+> > isolation fails?
+>
+> Makes sense, I will remove maximum retries for isolation, and retry
+> indefinitely, the same as it is done during memory hot-remove. So, we
+> will fail only when migration fails.
+>
+> >
+> > I don't like it at all, what is the user supposed to do?
+> >
+> > Jason
