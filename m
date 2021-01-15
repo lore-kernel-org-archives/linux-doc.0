@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 580D0C4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9310C4332D
 	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3046D216C4
+	by mail.kernel.org (Postfix) with ESMTP id B9FC921D7A
 	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388512AbhAOUCt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 15:02:49 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:58981 "EHLO
+        id S2388716AbhAOUEE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 15:04:04 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:40155 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387598AbhAOUCr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:02:47 -0500
+        with ESMTP id S2388715AbhAOUDV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:03:21 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 7617D1C0007;
-        Fri, 15 Jan 2021 20:02:02 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id A247C1C0016;
+        Fri, 15 Jan 2021 20:02:20 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -47,10 +47,11 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [PATCH v5 05/16] media: sun6i-csi: Use common V4L2 format info for storage bpp
-Date:   Fri, 15 Jan 2021 21:01:30 +0100
-Message-Id: <20210115200141.1397785-6-paul.kocialkowski@bootlin.com>
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 13/16] dt-bindings: media: Add A83T MIPI CSI-2 bindings documentation
+Date:   Fri, 15 Jan 2021 21:01:38 +0100
+Message-Id: <20210115200141.1397785-14-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
 References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
@@ -60,102 +61,169 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V4L2 has a common helper which can be used for calculating the number
-of stored bits per pixels of a given (stored) image format.
+This introduces YAML bindings documentation for the A83T MIPI CSI-2
+controller.
 
-Use the helper-returned structure instead of our own switch/case list.
-Note that a few formats are not in that list so we keep them as
-special cases.
-
-The custom switch/case was also wrong concerning 10/12-bit Bayer
-formats, which are aligned to 16 bits in memory. Using the common
-helper fixes it.
-
-Fixes: 5cc7522d8965 ("media: sun6i: Add support for Allwinner CSI V3s")
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      | 55 +++++++------------
- 1 file changed, 20 insertions(+), 35 deletions(-)
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 147 ++++++++++++++++++
+ 1 file changed, 147 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index 7f3389c70794..7cd23cd74685 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -87,53 +87,38 @@ void sun6i_csi_update_buf_addr(struct sun6i_csi *csi, dma_addr_t addr);
-  */
- void sun6i_csi_set_stream(struct sun6i_csi *csi, bool enable);
- 
--/* get bpp form v4l2 pixformat */
-+/* get memory storage bpp from v4l2 pixformat */
- static inline int sun6i_csi_get_bpp(unsigned int pixformat)
- {
-+	const struct v4l2_format_info *info;
-+	unsigned int i;
-+	int bpp = 0;
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..e607fae7d85e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+@@ -0,0 +1,147 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	/* Handle special cases unknown to V4L2 format info first. */
- 	switch (pixformat) {
--	case V4L2_PIX_FMT_SBGGR8:
--	case V4L2_PIX_FMT_SGBRG8:
--	case V4L2_PIX_FMT_SGRBG8:
--	case V4L2_PIX_FMT_SRGGB8:
- 	case V4L2_PIX_FMT_JPEG:
- 		return 8;
--	case V4L2_PIX_FMT_SBGGR10:
--	case V4L2_PIX_FMT_SGBRG10:
--	case V4L2_PIX_FMT_SGRBG10:
--	case V4L2_PIX_FMT_SRGGB10:
--		return 10;
--	case V4L2_PIX_FMT_SBGGR12:
--	case V4L2_PIX_FMT_SGBRG12:
--	case V4L2_PIX_FMT_SGRBG12:
--	case V4L2_PIX_FMT_SRGGB12:
- 	case V4L2_PIX_FMT_HM12:
--	case V4L2_PIX_FMT_NV12:
--	case V4L2_PIX_FMT_NV21:
--	case V4L2_PIX_FMT_YUV420:
--	case V4L2_PIX_FMT_YVU420:
- 		return 12;
--	case V4L2_PIX_FMT_YUYV:
--	case V4L2_PIX_FMT_YVYU:
--	case V4L2_PIX_FMT_UYVY:
--	case V4L2_PIX_FMT_VYUY:
--	case V4L2_PIX_FMT_NV16:
--	case V4L2_PIX_FMT_NV61:
--	case V4L2_PIX_FMT_YUV422P:
--	case V4L2_PIX_FMT_RGB565:
- 	case V4L2_PIX_FMT_RGB565X:
- 		return 16;
--	case V4L2_PIX_FMT_RGB24:
--	case V4L2_PIX_FMT_BGR24:
--		return 24;
--	case V4L2_PIX_FMT_RGB32:
--	case V4L2_PIX_FMT_BGR32:
--		return 32;
--	default:
-+	}
++title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
 +
-+	info = v4l2_format_info(pixformat);
-+	if (!info) {
- 		WARN(1, "Unsupported pixformat: 0x%x\n", pixformat);
--		break;
-+		return 0;
-+	}
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 +
-+	for (i = 0; i < info->comp_planes; i++) {
-+		unsigned int hdiv = (i == 0) ? 1 : info->hdiv;
-+		unsigned int vdiv = (i == 0) ? 1 : info->vdiv;
++properties:
++  compatible:
++    const: allwinner,sun8i-a83t-mipi-csi2
 +
-+		/* We return bits per pixel while V4L2 format info is bytes. */
-+		bpp += 8 * info->bpp[i] / hdiv / vdiv;
- 	}
- 
--	return 0;
-+	return bpp;
- }
- 
- #endif /* __SUN6I_CSI_H__ */
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus Clock
++      - description: Module Clock
++      - description: MIPI-specific Clock
++      - description: Misc CSI Clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: mipi
++      - const: misc
++
++  resets:
++    maxItems: 1
++
++  # See ./video-interfaces.txt for details
++  ports:
++    type: object
++
++    properties:
++      port@0:
++        type: object
++        description: Input port, connect to a MIPI CSI-2 sensor
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            type: object
++
++            properties:
++              remote-endpoint: true
++
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - data-lanes
++              - remote-endpoint
++
++        required:
++          - endpoint
++
++        additionalProperties: false
++
++      port@1:
++        type: object
++        description: Output port, connect to a CSI controller
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            type: object
++
++            properties:
++              remote-endpoint: true
++
++            required:
++              - remote-endpoint
++
++        required:
++          - endpoint
++
++        additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
++    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
++
++    mipi_csi2: csi@1cb1000 {
++        compatible = "allwinner,sun8i-a83t-mipi-csi2";
++        reg = <0x01cb1000 0x1000>;
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_CSI>,
++                 <&ccu CLK_CSI_SCLK>,
++                 <&ccu CLK_MIPI_CSI>,
++                 <&ccu CLK_CSI_MISC>;
++        clock-names = "bus", "mod", "mipi", "misc";
++        resets = <&ccu RST_BUS_CSI>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            mipi_csi2_in: port@0 {
++                reg = <0>;
++
++                mipi_csi2_in_ov8865: endpoint {
++                    data-lanes = <1 2 3 4>;
++
++                    remote-endpoint = <&ov8865_out_mipi_csi2>;
++                };
++            };
++
++            mipi_csi2_out: port@1 {
++                reg = <1>;
++
++                mipi_csi2_out_csi: endpoint {
++                    remote-endpoint = <&csi_in_mipi_csi2>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.30.0
 
