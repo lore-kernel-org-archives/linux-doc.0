@@ -2,83 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5996CC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D35C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:22:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A06B23772
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D498223772
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728633AbhAORU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 12:20:56 -0500
-Received: from ms.lwn.net ([45.79.88.28]:37762 "EHLO ms.lwn.net"
+        id S1726483AbhAORV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 12:21:57 -0500
+Received: from mx.kolabnow.com ([95.128.36.40]:6678 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727049AbhAORU4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 12:20:56 -0500
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 70EC26144;
-        Fri, 15 Jan 2021 17:20:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 70EC26144
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1610731215; bh=oqtY8FiVdPzSIv0x1ovYAKgJlnLzyaUv/KHtQfpJhDU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HgJpJDItOsE06j+N7/+v5CzKXdhMg+fmiAp+75mQuLLAEo4XtBRu9XfzZ8wZZr8Wj
-         4cgyjc29cdWDsZoRQDfZotmkLJgQvcDzSzZfdLcq8EtC8NdcPncQwJ/X5fj0a7rx9C
-         DOWTA5HRPxEk3wubj8BGe4ru76bpYx43A7XPud2tYowdjfNg+6CQ9vwz+xfaZLORjI
-         hfuDIyKlUax/4rnsS/K2sfrb80qrXVmlgE/LFcrPL6cerBjn1fC4OF4nN6AIJ/bO2m
-         4uBnGkTLXCP26Xn7RktdLtnLJ6aSvdkgC7Fyp2OhvG70adg1O5zeuxcOFETJCA1u+U
-         B+vv4YTqYjBTg==
-Date:   Fri, 15 Jan 2021 10:20:14 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org, linux-doc@vgert.kernel.org
-Subject: Re: [PATCH v3] Documentation: livepatch: document reliable
- stacktrace
-Message-ID: <20210115102014.76e51309@lwn.net>
-In-Reply-To: <20210115171251.GF4384@sirena.org.uk>
-References: <20210115142446.13880-1-broonie@kernel.org>
-        <20210115164718.GE44111@C02TD0UTHF1T.local>
-        <20210115171251.GF4384@sirena.org.uk>
-Organization: LWN.net
+        id S1726402AbhAORV4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jan 2021 12:21:56 -0500
+X-Greylist: delayed 566 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Jan 2021 12:21:55 EST
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id DD8671051;
+        Fri, 15 Jan 2021 18:10:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1610730634; x=1612545035; bh=Wi+ong+4jO8mWnZAsRva1SBqZ/Ng1Q7Z1gy
+        YqkN3uEU=; b=cp38JiubcCj6ZSzaiw0DKeTtRRF6/YDV6eRsLgVx9d/SiXJzx8/
+        SoE6WE5XO9gBq3YzNybZ9vmX604fTb4ptdfKvCV5a0zADiT6/vlvvemAGZlZ/Olb
+        M3pqHiK9x5Lbh0+sdSJ0OoAHVuYF7zAQRI2DnXH8VPFcTXgss1pBnssrpUVWkmVh
+        7KHDQZXUzfOt2fFyK/VXjBAbxG1T054V1DcKrcfJU2MNZwehfufgNaQL3iy4+Ail
+        iv9+5Q0s8EREvN/4nU0QDvklbul74R/zmK1py/jPCiOJ8VluZsVvRxQ+TGZgpLp9
+        xWw0gmuqZlFdo9/vkS/gDtvJf13Jz0s7LfAP+jXAYJVQoihEiOmAexo7I/hSiJ43
+        RBeKLXU1gCDfjysXvn7zicfzEPpCw/Iv1HKgF8Pb//TTR2SgXl7OzzRboIYPOVGV
+        f+TtM7G2QOfbXGbA4SmPQ0DH9KmWo9+JDBY+Cu3PsF8PWsZuGEYmrkS9CLBcGG7/
+        /L4wu3rcas59IkWQja1ykucUvNObhIwacAQlOKOwUVUt1U9L9845h1dUSsAdGc06
+        9XNyKynNCW6ED9ljLqPdJnVcsPQZ7kgydn6xGSPtmoNDHwUQsEIs19Rgwm8BHlcT
+        8jij1a0omaxpMpe/4d4zMjkbXqkjWPwOh/2tAEuSbbhVFkx4oSbkryZg=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id uL4ZGzkPvEWG; Fri, 15 Jan 2021 18:10:34 +0100 (CET)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id B75EFA51;
+        Fri, 15 Jan 2021 18:10:33 +0100 (CET)
+Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 46839627;
+        Fri, 15 Jan 2021 18:10:32 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 15 Jan 2021 18:10:26 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Robert Richter <rric@kernel.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Arnd Bergmann <arnd@kernel.org>, oprofile-list@lists.sf.net,
+        William Cohen <wcohen@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        anmar.oueja@linaro.org, Christoph Hellwig <hch@infradead.org>,
+        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 17/18] drivers: Remove CONFIG_OPROFILE support
+In-Reply-To: <08ecfc3e3fe1a01ad1e360e4afb7ffc8666a2676.1610622251.git.viresh.kumar@linaro.org>
+References: <cover.1610622251.git.viresh.kumar@linaro.org>
+ <08ecfc3e3fe1a01ad1e360e4afb7ffc8666a2676.1610622251.git.viresh.kumar@linaro.org>
+Message-ID: <399fd39170e14b6113c2c6f465d7ba2d@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 15 Jan 2021 17:12:51 +0000
-Mark Brown <broonie@kernel.org> wrote:
-
-> On Fri, Jan 15, 2021 at 04:47:18PM +0000, Mark Rutland wrote:
-> > On Fri, Jan 15, 2021 at 02:24:46PM +0000, Mark Brown wrote:  
+On 2021-01-14 12:35, Viresh Kumar wrote:
+> The "oprofile" user-space tools don't use the kernel OPROFILE support
+> any more, and haven't in a long time. User-space has been converted to
+> the perf interfaces.
 > 
-> > > +    3. Considerations
-> > > +       3.1 Identifying successful termination  
+> Remove kernel's old oprofile support.
 > 
-> > It looks like we forgot to update this with the addition of the new
-> > section 3, so this needs a trivial update to add that and fix the
-> > numbering.  
-> 
-> Bah, I thought the point with structured documentation formats was that
-> tooling would handle stuff like this :/
+> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  Documentation/RCU/NMI-RCU.rst                 |   3 +-
+>  .../admin-guide/kernel-parameters.txt         |  14 -
+>  Documentation/process/magic-number.rst        |   1 -
+>  .../it_IT/process/magic-number.rst            |   1 -
 
-The tooling *will* handle it if you let it, it's a simple matter of
-replacing the hand-generated table of contents with a Sphinx directive.  I
-think that's generally the right thing to do, but it does have the
-downside of only putting the TOC in the generated docs.
+Of course that's OK for the italian transation
 
-Thanks,
-
-jon
+-- 
+Federico Vaga
