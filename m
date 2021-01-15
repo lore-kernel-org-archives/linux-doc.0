@@ -2,117 +2,494 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB0B0C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 18:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20883C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:02:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8E4D23A59
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 18:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C881723A58
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:02:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733294AbhAOSzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 13:55:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53618 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729147AbhAOSzb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 13:55:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 03BED21D7A;
-        Fri, 15 Jan 2021 18:54:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610736891;
-        bh=3nnubeEI0xseEwRL/nl1oqeiEPuHEudJ0BHZbkrzU8A=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=VJc4sEEUNMsOeTpGwtzoqH3bxcc8MgNd5Vm/NHbFLjl0mnNri4CkK1aLv3TCSypjJ
-         aXZSgjwGMtvudB2ciC2ti5G4jJATJqsbAZRaljutyJt4miv8yPrfpHwZvwtdICZGs/
-         5Qi9CqqspHqoJ6LhduDu/8geppmR/6pL2Fj1RfMP/abDsM5G2eZeYmXaE7TsDt54Ju
-         myc+r9cFVWe1Fq+h9msnm7XnXj/QvFfORHa3w4q/YskG4mncawKFt2u0JHyABgIfTP
-         zJ7VKrJQZCbghNVfQouFufA4Jo5pALSlRLyuyqk0611iAWqz73kENqmf91VeRRlEF9
-         0xqpZMB5AcZHQ==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id C9027352162B; Fri, 15 Jan 2021 10:54:50 -0800 (PST)
-Date:   Fri, 15 Jan 2021 10:54:50 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Uladzislau Rezki <urezki@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727278AbhAOUCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 15:02:39 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:34195 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726065AbhAOUCg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:02:36 -0500
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 6EE2F1C0004;
+        Fri, 15 Jan 2021 20:01:48 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org
-Subject: Re: [PATCH] rcu: better document kfree_rcu()
-Message-ID: <20210115185450.GM2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <2ec9a8bc8b411b04e2f541b285cc0a133a6d94de.1610608910.git.mchehab+huawei@kernel.org>
- <20210114113619.GA49982@pc638.lan>
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: [PATCH v5 00/16] Allwinner MIPI CSI-2 support for A31/V3s/A83T
+Date:   Fri, 15 Jan 2021 21:01:25 +0100
+Message-Id: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210114113619.GA49982@pc638.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 12:36:19PM +0100, Uladzislau Rezki wrote:
-> On Thu, Jan 14, 2021 at 08:22:02AM +0100, Mauro Carvalho Chehab wrote:
-> > After changeset 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro"),
-> > kernel-doc now emits two warnings:
-> > 
-> > 	./include/linux/rcupdate.h:884: warning: Excess function parameter 'ptr' description in 'kfree_rcu'
-> > 	./include/linux/rcupdate.h:884: warning: Excess function parameter 'rhf' description in 'kfree_rcu'
-> > 
-> > What's happening here is that some macro magic was added in order
-> > to call two different versions of kfree_rcu(), being the first one
-> > with just one argument and a second one with two arguments.
-> > 
-> > That makes harder to document the kfree_rcu() arguments, which
-> > also reflects on the documentation text.
-> > 
-> > In order to make clearer that this macro accepts optional
-> > arguments, by using macro concatenation, changing its
-> > definition from:
-> > 	#define kfree_rcu kvfree_rcu
-> > 
-> > to:
-> > 	#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
-> > 
-> > That not only helps kernel-doc to understand the macro arguemnts,
-> > but also provides a better C definition that makes clearer that
-> > the first argument is mandatory and the second one is optional.
-> > 
-> > Fixes: 5130b8fd0690 ("rcu: Introduce kfree_rcu() single-argument macro")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  include/linux/rcupdate.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-> > index bd04f722714f..5cc6deaa5df2 100644
-> > --- a/include/linux/rcupdate.h
-> > +++ b/include/linux/rcupdate.h
-> > @@ -881,7 +881,7 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
-> >   * The BUILD_BUG_ON check must not involve any function calls, hence the
-> >   * checks are done in macros here.
-> >   */
-> > -#define kfree_rcu kvfree_rcu
-> > +#define kfree_rcu(ptr, rhf...) kvfree_rcu(ptr, ## rhf)
-> >  
-> >  /**
-> >   * kvfree_rcu() - kvfree an object after a grace period.
-> > -- 
-> > 2.29.2
-> > 
-> I think it is fair enough. I checked the "kernel-doc" and after this
-> change it does not detect any violations which are in question.
-> 
-> Tested-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+This series introduces support for MIPI CSI-2, with the A31 controller that is
+found on most SoCs (A31, V3s and probably V5) as well as the A83T-specific
+controller. While the former uses the same MIPI D-PHY that is already supported
+for DSI, the latter embeds its own D-PHY.
 
-Queued, thank you both!
+In order to distinguish the use of the D-PHY between Rx mode (for MIPI CSI-2)
+and Tx mode (for MIPI DSI), a submode is introduced for D-PHY in the PHY API.
+This allows adding Rx support in the A31 D-PHY driver.
 
-							Thanx, Paul
+A few changes and fixes are applied to the A31 CSI controller driver, in order
+to support the MIPI CSI-2 use-case.
+
+Changes since v4:
+- Added patch to stop using v4l2_async_notifier_parse_fwnode_endpoints;
+- Fixed checkpatch strict issues (parenthesis alignment);
+- Fixed runtime PM call order and disable;
+- Fixed fwnode_handle_put order;
+- Brought back phy-names for A31 since it's mandatory according to the generic
+  PHY binding and needed by the code;
+- Added collected tags.
+
+Changes since v3:
+- Fixed single-item phys description in sun6i mipi csi-2 binding;
+- Fixed variables names in macros using container_of;
+- Fixed style issue with operators at the end of lines;
+- Reworked source endpoint/subdev assignment in sun6i-csi to handle
+  link_validate error case;
+- Removed unrelated dt change in sun8i-a83t mipi csi-2 driver;
+- Added collected tags.
+
+Changes since v2:
+- added Kconfig depend on PM since it's not optional;
+- removed phy-names for A31 MIPI CSI-2 controller;
+- removed v3s compatible in the A31 MIPI CSI-2 controller driver;
+- removed A31 CSI controller single-port binding deprecation;
+- removed empty dt port definitions;
+- fixed minor checkpatch warnings;
+- added collected tags;
+- added media-ctl output in cover letter.
+
+Changes since v1:
+- reworked fwnode and media graph on the CSI controller end to have one port
+  per interface, which solves the bus type representation issue;
+- removed unused IRQ handlers in the MIPI CSI-2 bridges;
+- avoided the use of devm_regmap_init_mmio_clk;
+- deasserted reset before enabling clocks;
+- fixed reported return code issues (ret |=, missing checks);
+- applied requested cosmetic changes (backward goto, etc);
+- switched over to runtime PM for the mipi csi-2 bridge drivers;
+- selected PHY_SUN6I_MIPI_DPHY in Kconfig for sun6i-mipi-csi2;
+- registered nodes with mipi csi-2 bridge subdevs;
+- used V4L2 format info instead of switch/case for sun6i-csi bpp;
+- fixed device-tree bindings as requested (useless properties, license);
+- fixed mipi bridge dt instances names;
+- added PHY API documentation about mode/power on order requirement;
+- fixed clock error return code in d-phy code;
+- fixed D-PHY mode check in d-phy code;
+- added MAINTAINERS entries for the new drivers;
+- added V4L2 compliance results;
+- added various comments and rework commit mesages as requested.
+
+Media ctl outputs for the testing setups are available below:
+
+# sun6i-csi + sun6i-mipi-csi2 + ov5648
+
+Media device information
+------------------------
+driver          sun6i-csi
+model           Allwinner Video Capture Device
+serial          
+bus info        platform:1cb0000.camera
+hw revision     0x0
+driver version  5.10.0
+
+Device topology
+- entity 1: sun6i-csi (2 pads, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+	pad1: Sink
+		<- "sun6i-mipi-csi2":1 [ENABLED]
+
+- entity 6: sun6i-mipi-csi2 (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:unknown/0x0]
+		<- "ov5648 0-0036":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		[fmt:unknown/0x0]
+		-> "sun6i-csi":1 [ENABLED]
+
+- entity 9: ov5648 0-0036 (1 pad, 1 link)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+	pad0: Source
+		[fmt:SBGGR8_1X8/2592x1944@1/15 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+		-> "sun6i-mipi-csi2":0 [ENABLED,IMMUTABLE]
+
+# sun6i-csi + sun8i-a83t-mipi-csi2 + ov8865
+
+Media device information
+------------------------
+driver          sun6i-csi
+model           Allwinner Video Capture Device
+serial          
+bus info        platform:1cb0000.camera
+hw revision     0x0
+driver version  5.10.0
+
+Device topology
+- entity 1: sun6i-csi (2 pads, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+	pad0: Sink
+	pad1: Sink
+		<- "sun8i-a83t-mipi-csi2":1 [ENABLED]
+
+- entity 6: sun8i-a83t-mipi-csi2 (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Sink
+		[fmt:unknown/0x0]
+		<- "ov8865 1-0036":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		[fmt:unknown/0x0]
+		-> "sun6i-csi":1 [ENABLED]
+
+- entity 9: ov8865 1-0036 (1 pad, 1 link)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev1
+	pad0: Source
+		[fmt:SBGGR10_1X10/3264x2448@1/30 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+		-> "sun8i-a83t-mipi-csi2":0 [ENABLED,IMMUTABLE]
+
+V4L2 compliance runs are available below:
+
+# sun6i-csi + sun6i-mipi-csi2 + ov5648
+
+v4l2-compliance SHA: not available, 32 bits
+
+Compliance test for sun6i-video device /dev/video0:
+
+Driver Info:
+	Driver name      : sun6i-video
+	Card type        : sun6i-csi
+	Bus info         : platform:camera
+	Driver version   : 5.10.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : sun6i-csi
+	Model            : Allwinner Video Capture Device
+	Serial           : 
+	Bus info         : platform:1cb0000.camera
+	Media version    : 5.10.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.10.0
+Interface Info:
+	ID               : 0x03000004
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : sun6i-csi
+	Function         : V4L2 I/O
+	Pad 0x01000002   : 0: Sink
+	Pad 0x01000003   : 1: Sink
+	  Link 0x0200000d: from remote pad 0x1000008 of entity 'sun6i-mipi-csi2': Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+		warn: v4l2-compliance.cpp(633): media bus_info 'platform:1cb0000.camera' differs from V4L2 bus_info 'platform:camera'
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+		warn: v4l2-compliance.cpp(633): media bus_info 'platform:1cb0000.camera' differs from V4L2 bus_info 'platform:camera'
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+		warn: v4l2-test-controls.cpp(92): Exposure: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Gain: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Exposure: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Gain: (max - min) % step != 0
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+		warn: v4l2-test-controls.cpp(368): Gain: returned control value 44 not a multiple of step
+		warn: v4l2-test-controls.cpp(368): Gain: returned control value 44 not a multiple of step
+		warn: v4l2-test-controls.cpp(368): Gain: returned control value 44 not a multiple of step
+		warn: v4l2-test-controls.cpp(368): Gain: returned control value 44 not a multiple of step
+	test VIDIOC_G/S_CTRL: OK
+		warn: v4l2-test-controls.cpp(555): Gain: returned control value 44 not a multiple of step
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 15 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+		fail: v4l2-test-buffers.cpp(755): q.export_bufs(node, q.g_type())
+	test VIDIOC_EXPBUF: FAIL
+	test Requests: OK (Not Supported)
+
+Total for sun6i-video device /dev/video0: 45, Succeeded: 44, Failed: 1, Warnings: 1
+
+# sun6i-csi + sun8i-a83t-mipi-csi2 + ov8865
+
+v4l2-compliance SHA: not available, 32 bits
+
+Compliance test for sun6i-video device /dev/video0:
+
+Driver Info:
+	Driver name      : sun6i-video
+	Card type        : sun6i-csi
+	Bus info         : platform:camera
+	Driver version   : 5.10.0
+	Capabilities     : 0x84200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04200001
+		Video Capture
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : sun6i-csi
+	Model            : Allwinner Video Capture Device
+	Serial           : 
+	Bus info         : platform:1cb0000.camera
+	Media version    : 5.10.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.10.0
+Interface Info:
+	ID               : 0x03000004
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000001 (1)
+	Name             : sun6i-csi
+	Function         : V4L2 I/O
+	Pad 0x01000002   : 0: Sink
+	Pad 0x01000003   : 1: Sink
+	  Link 0x0200000d: from remote pad 0x1000008 of entity 'sun8i-a83t-mipi-csi2': Data, Enabled
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+		warn: v4l2-compliance.cpp(633): media bus_info 'platform:1cb0000.camera' differs from V4L2 bus_info 'platform:camera'
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+		warn: v4l2-compliance.cpp(633): media bus_info 'platform:1cb0000.camera' differs from V4L2 bus_info 'platform:camera'
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+		warn: v4l2-test-controls.cpp(92): Exposure: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Gain: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Exposure: (max - min) % step != 0
+		warn: v4l2-test-controls.cpp(92): Gain: (max - min) % step != 0
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 11 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Total for sun6i-video device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 6
+
+Paul Kocialkowski (16):
+  docs: phy: Add a part about PHY mode and submode
+  phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
+  phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI
+    CSI-2
+  media: sun6i-csi: Stop using the deprecated fwnode endpoint parser
+  media: sun6i-csi: Use common V4L2 format info for storage bpp
+  media: sun6i-csi: Only configure the interface data width for parallel
+  dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+  media: sun6i-csi: Add support for MIPI CSI-2 bridge input
+  dt-bindings: media: Add A31 MIPI CSI-2 bindings documentation
+  media: sunxi: Add support for the A31 MIPI CSI-2 controller
+  ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+  MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge
+  dt-bindings: media: Add A83T MIPI CSI-2 bindings documentation
+  media: sunxi: Add support for the A83T MIPI CSI-2 controller
+  ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+  MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |  88 ++-
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 156 ++++
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 147 ++++
+ Documentation/driver-api/phy/phy.rst          |  18 +
+ MAINTAINERS                                   |  16 +
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  26 +
+ arch/arm/boot/dts/sun8i-v3s.dtsi              |  68 ++
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |   3 +-
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ drivers/media/platform/sunxi/Makefile         |   2 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 218 ++++--
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  65 +-
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |  57 +-
+ .../platform/sunxi/sun6i-csi/sun6i_video.h    |   7 +-
+ .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
+ .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 600 ++++++++++++++++
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 117 +++
+ .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  11 +
+ .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  92 +++
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 +
+ .../sun8i_a83t_mipi_csi2.c                    | 666 ++++++++++++++++++
+ .../sun8i_a83t_mipi_csi2.h                    | 197 ++++++
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 164 ++++-
+ include/linux/phy/phy-mipi-dphy.h             |  13 +
+ 26 files changed, 2651 insertions(+), 141 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+
+-- 
+2.30.0
+
