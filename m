@@ -7,100 +7,87 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D35C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:22:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9D0C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:25:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D498223772
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:22:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF59023A9D
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 17:25:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbhAORV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 12:21:57 -0500
-Received: from mx.kolabnow.com ([95.128.36.40]:6678 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726402AbhAORV4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 12:21:56 -0500
-X-Greylist: delayed 566 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Jan 2021 12:21:55 EST
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id DD8671051;
-        Fri, 15 Jan 2021 18:10:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1610730634; x=1612545035; bh=Wi+ong+4jO8mWnZAsRva1SBqZ/Ng1Q7Z1gy
-        YqkN3uEU=; b=cp38JiubcCj6ZSzaiw0DKeTtRRF6/YDV6eRsLgVx9d/SiXJzx8/
-        SoE6WE5XO9gBq3YzNybZ9vmX604fTb4ptdfKvCV5a0zADiT6/vlvvemAGZlZ/Olb
-        M3pqHiK9x5Lbh0+sdSJ0OoAHVuYF7zAQRI2DnXH8VPFcTXgss1pBnssrpUVWkmVh
-        7KHDQZXUzfOt2fFyK/VXjBAbxG1T054V1DcKrcfJU2MNZwehfufgNaQL3iy4+Ail
-        iv9+5Q0s8EREvN/4nU0QDvklbul74R/zmK1py/jPCiOJ8VluZsVvRxQ+TGZgpLp9
-        xWw0gmuqZlFdo9/vkS/gDtvJf13Jz0s7LfAP+jXAYJVQoihEiOmAexo7I/hSiJ43
-        RBeKLXU1gCDfjysXvn7zicfzEPpCw/Iv1HKgF8Pb//TTR2SgXl7OzzRboIYPOVGV
-        f+TtM7G2QOfbXGbA4SmPQ0DH9KmWo9+JDBY+Cu3PsF8PWsZuGEYmrkS9CLBcGG7/
-        /L4wu3rcas59IkWQja1ykucUvNObhIwacAQlOKOwUVUt1U9L9845h1dUSsAdGc06
-        9XNyKynNCW6ED9ljLqPdJnVcsPQZ7kgydn6xGSPtmoNDHwUQsEIs19Rgwm8BHlcT
-        8jij1a0omaxpMpe/4d4zMjkbXqkjWPwOh/2tAEuSbbhVFkx4oSbkryZg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id uL4ZGzkPvEWG; Fri, 15 Jan 2021 18:10:34 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id B75EFA51;
-        Fri, 15 Jan 2021 18:10:33 +0100 (CET)
-Received: from int-subm001.mykolab.com (unknown [10.9.37.1])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 46839627;
-        Fri, 15 Jan 2021 18:10:32 +0100 (CET)
+        id S1729927AbhAORZF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 12:25:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729489AbhAORZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 12:25:05 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FF4C061795
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 09:23:43 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id b2so10377755edm.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 09:23:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mJrsR9g+dyqkkVVvYtEu6xfD1Zo92dOcpjjoxvFadQo=;
+        b=ge+GnUbEBLY+2evuY9Uj+uaN2jIYKWBKeP45kxv0m+2jXjz3M/6ABWkT/cxfrrGRq1
+         4WNTMkLNR2uAeZ2AccElDyg/YHkMrBs/gGDoGct8UXXHPgz8PXATa6eEOBiANAdkuam1
+         rp+M7bSxWpd33oqT8kvS3U/BVZaLAyBg8GWwIsNdEKl63eBd3Rn+7qjvCaDpG6I6LmIz
+         ppYSC9rjrXDv9oNatkHLla47fsh0+pBergQGzDv+J33+ulldNGXUtGEltU+CgjYMpawp
+         IWlLnc68w4znX2PD84B4cD1COJHGuLzY3SuktMfTPpHDLoXv9Lwn5inJdv8LgtDK3SN3
+         jr3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mJrsR9g+dyqkkVVvYtEu6xfD1Zo92dOcpjjoxvFadQo=;
+        b=LL5Us2wfFY9+LYK33KsMc1CpaKaQnbtAotCIjE/9wF+2Rq7yb+rJyU2R9PijzvmMVc
+         ltM+PZaozmAAHLdT3ohWZoRwb2TCG+w3MyPmKiS6ATSoNWWX8c/+mk0RSHoQknDR3B+w
+         hvf1xoLdqukzBPL5DQJEE4dXQBvvP/OePZCd2m2qV/E6KcUwEGporhKNfIbgZ+HOFt7h
+         dIrO8q2MGkK/qL7xF9CcO5oHllB2/+Ld6r8JBHpaTU/2wV1TNIDJZ2SS0HEKvSfyECF3
+         MsM/KO1X+NnGbHP2O1d65XojPYYFIZUgTR0goN6rxCm6dm5eyngKtJwNnhLS6TZIfHjE
+         ED3g==
+X-Gm-Message-State: AOAM533aAxZxlQwqhdNjpwN7XiO0VHgb/jjtEklpeMItgPWfOZZWU6DW
+        EAM4cFd7Q8YSW0MMMiEgwlKNzua1LpXV3FU5Ay57
+X-Google-Smtp-Source: ABdhPJxNJ1+S8LITVO12epfE1LpA0SxxE+7Im+Q6DiX6C3VsYyEebNuKAcm5/5AsziFCv15wGpFl9G0psW/zml1Wnk0=
+X-Received: by 2002:a05:6402:ca1:: with SMTP id cn1mr10426635edb.128.1610731421674;
+ Fri, 15 Jan 2021 09:23:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 15 Jan 2021 18:10:26 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Robert Richter <rric@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Arnd Bergmann <arnd@kernel.org>, oprofile-list@lists.sf.net,
-        William Cohen <wcohen@redhat.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        anmar.oueja@linaro.org, Christoph Hellwig <hch@infradead.org>,
-        rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+References: <20210115120342.8849-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20210115120342.8849-1-lukas.bulwahn@gmail.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Fri, 15 Jan 2021 12:23:28 -0500
+Message-ID: <CAHC9VhSfn9Ux_KcDysAH_vOWhiS3TvPYcXYZLg_5pr9Vee0f2g@mail.gmail.com>
+Subject: Re: [PATCH] fs: anon_inodes: rephrase to appropriate kernel-doc
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Daniel Colascione <dancol@google.com>,
+        Lokesh Gidra <lokeshgidra@google.com>,
+        Eric Biggers <ebiggers@google.com>,
+        linux-fsdevel@vger.kernel.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 17/18] drivers: Remove CONFIG_OPROFILE support
-In-Reply-To: <08ecfc3e3fe1a01ad1e360e4afb7ffc8666a2676.1610622251.git.viresh.kumar@linaro.org>
-References: <cover.1610622251.git.viresh.kumar@linaro.org>
- <08ecfc3e3fe1a01ad1e360e4afb7ffc8666a2676.1610622251.git.viresh.kumar@linaro.org>
-Message-ID: <399fd39170e14b6113c2c6f465d7ba2d@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-01-14 12:35, Viresh Kumar wrote:
-> The "oprofile" user-space tools don't use the kernel OPROFILE support
-> any more, and haven't in a long time. User-space has been converted to
-> the perf interfaces.
-> 
-> Remove kernel's old oprofile support.
-> 
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+On Fri, Jan 15, 2021 at 7:03 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+>
+> Commit e7e832ce6fa7 ("fs: add LSM-supporting anon-inode interface") adds
+> more kerneldoc description, but also a few new warnings on
+> anon_inode_getfd_secure() due to missing parameter descriptions.
+>
+> Rephrase to appropriate kernel-doc for anon_inode_getfd_secure().
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
->  Documentation/RCU/NMI-RCU.rst                 |   3 +-
->  .../admin-guide/kernel-parameters.txt         |  14 -
->  Documentation/process/magic-number.rst        |   1 -
->  .../it_IT/process/magic-number.rst            |   1 -
+>  fs/anon_inodes.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 
-Of course that's OK for the italian transation
+Merged into selinux/next with the other related LSM/SELinux anon-inode
+patches, thank you!
 
 -- 
-Federico Vaga
+paul moore
+www.paul-moore.com
