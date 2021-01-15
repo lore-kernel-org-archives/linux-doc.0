@@ -2,182 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75837C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:12:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E69C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:50:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24A0523435
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:12:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90A9B2339D
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730252AbhAOJMC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 04:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52094 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730254AbhAOJMA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 04:12:00 -0500
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DA8C0613C1
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 01:11:15 -0800 (PST)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DHFl51bMyzMprtq;
-        Fri, 15 Jan 2021 10:10:25 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DHFl26L60zlppyv;
-        Fri, 15 Jan 2021 10:10:22 +0100 (CET)
-Subject: Re: [PATCH v26 07/12] landlock: Support filesystem access-control
-To:     Jann Horn <jannh@google.com>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20201209192839.1396820-1-mic@digikod.net>
- <20201209192839.1396820-8-mic@digikod.net>
- <CAG48ez1wbAQwU-eoC9DngHyUM_5F01MJQpRnLaJFvfRUrnXBdA@mail.gmail.com>
- <aeb3e152-8108-89d2-0577-4b130368f14f@digikod.net>
- <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <9be6481f-9c03-dd32-378f-20bc7c52315c@digikod.net>
-Date:   Fri, 15 Jan 2021 10:10:36 +0100
-User-Agent: 
+        id S1726934AbhAOJuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 04:50:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48864 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729491AbhAOJuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Jan 2021 04:50:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 745922339D;
+        Fri, 15 Jan 2021 09:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610704191;
+        bh=ccQQpv1EQRm7JTqn78apuDKOGdbuFQNKELG7Gs6unms=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=e9Yu5Ki3GQnEHo3bKa1Wl4H0voDOQER+v7j9sRAkIQcCaBgJCg5xT4MJ67uKE2iLC
+         zoTBkv22wN7Eb0f1EL96leQDvsP4KKYOX0LL4xUG30LxEZSJ0J7PPt9oCbv6luY4yp
+         WlCLaLrMJbUlUQyLttPH4s3wKDExHAFFpC5YyeDFbZxd293RRizD2uw8mbsaQ7d0ip
+         X07JgfwUIhSoRbgIZCDV4yBF4IzGEOvB5k4Ei14KbJNJMQ4aLcgixmnQnA1a/uMSym
+         mxez6qPMukwyMzyaEbv0SXVG1O9iynzv1eWGVfk3aXr0plFH12eOzk+3KqdAo91Z3z
+         GvncxCuAgivlg==
+Date:   Fri, 15 Jan 2021 10:49:47 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
+Message-ID: <20210115104947.71d99e87@coco.lan>
+In-Reply-To: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
+References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez2HJCFvmFALDYDYnufE755Dqh3JquAMf-1mnzmRrdKaoQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Lukas,
 
-On 14/01/2021 23:43, Jann Horn wrote:
-> On Thu, Jan 14, 2021 at 7:54 PM Mickaël Salaün <mic@digikod.net> wrote:
->> On 14/01/2021 04:22, Jann Horn wrote:
->>> On Wed, Dec 9, 2020 at 8:28 PM Mickaël Salaün <mic@digikod.net> wrote:
->>>> Thanks to the Landlock objects and ruleset, it is possible to identify
->>>> inodes according to a process's domain.  To enable an unprivileged
->>>> process to express a file hierarchy, it first needs to open a directory
->>>> (or a file) and pass this file descriptor to the kernel through
->>>> landlock_add_rule(2).  When checking if a file access request is
->>>> allowed, we walk from the requested dentry to the real root, following
->>>> the different mount layers.  The access to each "tagged" inodes are
->>>> collected according to their rule layer level, and ANDed to create
->>>> access to the requested file hierarchy.  This makes possible to identify
->>>> a lot of files without tagging every inodes nor modifying the
->>>> filesystem, while still following the view and understanding the user
->>>> has from the filesystem.
->>>>
->>>> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
->>>> keep the same struct inodes for the same inodes whereas these inodes are
->>>> in use.
->>>>
->>>> This commit adds a minimal set of supported filesystem access-control
->>>> which doesn't enable to restrict all file-related actions.  This is the
->>>> result of multiple discussions to minimize the code of Landlock to ease
->>>> review.  Thanks to the Landlock design, extending this access-control
->>>> without breaking user space will not be a problem.  Moreover, seccomp
->>>> filters can be used to restrict the use of syscall families which may
->>>> not be currently handled by Landlock.
->>> [...]
->>>> +static bool check_access_path_continue(
->>>> +               const struct landlock_ruleset *const domain,
->>>> +               const struct path *const path, const u32 access_request,
->>>> +               u64 *const layer_mask)
->>>> +{
->>> [...]
->>>> +       /*
->>>> +        * An access is granted if, for each policy layer, at least one rule
->>>> +        * encountered on the pathwalk grants the access, regardless of their
->>>> +        * position in the layer stack.  We must then check not-yet-seen layers
->>>> +        * for each inode, from the last one added to the first one.
->>>> +        */
->>>> +       for (i = 0; i < rule->num_layers; i++) {
->>>> +               const struct landlock_layer *const layer = &rule->layers[i];
->>>> +               const u64 layer_level = BIT_ULL(layer->level - 1);
->>>> +
->>>> +               if (!(layer_level & *layer_mask))
->>>> +                       continue;
->>>> +               if ((layer->access & access_request) != access_request)
->>>> +                       return false;
->>>> +               *layer_mask &= ~layer_level;
->>>
->>> Hmm... shouldn't the last 5 lines be replaced by the following?
->>>
->>> if ((layer->access & access_request) == access_request)
->>>     *layer_mask &= ~layer_level;
->>>
->>> And then, since this function would always return true, you could
->>> change its return type to "void".
->>>
->>>
->>> As far as I can tell, the current version will still, if a ruleset
->>> looks like this:
->>>
->>> /usr read+write
->>> /usr/lib/ read
->>>
->>> reject write access to /usr/lib, right?
->>
->> If these two rules are from different layers, then yes it would work as
->> intended. However, if these rules are from the same layer the path walk
->> will not stop at /usr/lib but go down to /usr, which grants write
->> access.
+Em Fri, 15 Jan 2021 07:12:38 +0100
+Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+
+> [reduced the recipient list to the main responsible ones and list]
 > 
-> I don't see why the code would do what you're saying it does. And an
-> experiment seems to confirm what I said; I checked out landlock-v26,
-> and the behavior I get is:
-
-There is a misunderstanding, I was responding to your proposition to
-modify check_access_path_continue(), not about the behavior of landlock-v26.
-
+> Hi Mauro, hi Jonathan,
 > 
-> user@vm:~/landlock$ dd if=/dev/null of=/tmp/aaa
-> 0+0 records in
-> 0+0 records out
-> 0 bytes copied, 0.00106365 s, 0.0 kB/s
-> user@vm:~/landlock$ LL_FS_RO='/lib' LL_FS_RW='/' ./sandboxer dd
-> if=/dev/null of=/tmp/aaa
-> 0+0 records in
-> 0+0 records out
-> 0 bytes copied, 0.000491814 s, 0.0 kB/s
-> user@vm:~/landlock$ LL_FS_RO='/tmp' LL_FS_RW='/' ./sandboxer dd
-> if=/dev/null of=/tmp/aaa
-> dd: failed to open '/tmp/aaa': Permission denied
-> user@vm:~/landlock$
+> We both, Mauro and I, have been submitting patches to address the
+> documentation warnings on linux-next. If it is okay with you, Mauro, I
+> would like to take responsibility for the task to send out the patches
+> to address all warnings on linux-next in make htmldocs and follow up
+> with all the discussions. I can also provide a short weekly summary
+> (probably always on Friday) on what is pending where and what I could
+> not resolve by myself.
 > 
-> Granting read access to /tmp prevents writing to it, even though write
-> access was granted to /.
+> Is that okay for you?
 > 
+> If at some point I do not have the time to take care anymore, I will
+> let you know.
 
-It indeed works like this with landlock-v26. However, with your above
-proposition, it would work like this:
+Yeah, sure!
 
-$ LL_FS_RO='/tmp' LL_FS_RW='/' ./sandboxer dd if=/dev/null of=/tmp/aaa
-0+0 records in
-0+0 records out
-0 bytes copied, 0.000187265 s, 0.0 kB/s
+Anyway, after applying the patches I sent this week, the warnings
+I'm getting are all due to the validation scripts I wrote. So, if 
+everything gets merged (either yours or my version), we'll have zero
+Sphinx/kernel-doc warnings again.
 
-…which is not what users would expect I guess. :)
+The script-validation warnings are:
+
+1. Broken cross references
+--------------------------
+
+$ scripts/documentation-file-ref-check
+Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+Warning: Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+Warning: Documentation/devicetree/bindings/input/adc-joystick.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+Warning: Documentation/devicetree/bindings/power/supply/da9150-charger.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+Warning: Documentation/virt/kvm/vcpu-requests.rst references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
+Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
+Warning: include/linux/rculist_nulls.h references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+Warning: tools/memory-model/Documentation/simple.txt references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+
+It sounds that part of the above is due to DT patches that weren't
+merged yet, but there are a few others that can be solved, but may
+require discussions with some Kernel developers/maintainers.
+
+2. Duplicated ABI definitions
+-----------------------------
+
+$ scripts/get_abi.pl validate
+Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
+Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
+Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
+Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
+Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
+Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
+Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
+Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
+Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  ./Documentation/ABI/testing/sysfs-bus-iio:599
+Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
+Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
+Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
+Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
+Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  ./Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
+Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
+Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  ./Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
+Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  ./Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
+Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
+
+Perhaps you could check with Jonathan Cameron some strategy to address
+the IIO warnings.
+
+Thanks,
+Mauro
