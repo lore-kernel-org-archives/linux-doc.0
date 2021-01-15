@@ -2,131 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E69C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E292C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 10:47:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90A9B2339D
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 09:50:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB64C236FB
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 10:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726934AbhAOJuX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 04:50:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48864 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729491AbhAOJuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:50:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 745922339D;
-        Fri, 15 Jan 2021 09:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610704191;
-        bh=ccQQpv1EQRm7JTqn78apuDKOGdbuFQNKELG7Gs6unms=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=e9Yu5Ki3GQnEHo3bKa1Wl4H0voDOQER+v7j9sRAkIQcCaBgJCg5xT4MJ67uKE2iLC
-         zoTBkv22wN7Eb0f1EL96leQDvsP4KKYOX0LL4xUG30LxEZSJ0J7PPt9oCbv6luY4yp
-         WlCLaLrMJbUlUQyLttPH4s3wKDExHAFFpC5YyeDFbZxd293RRizD2uw8mbsaQ7d0ip
-         X07JgfwUIhSoRbgIZCDV4yBF4IzGEOvB5k4Ei14KbJNJMQ4aLcgixmnQnA1a/uMSym
-         mxez6qPMukwyMzyaEbv0SXVG1O9iynzv1eWGVfk3aXr0plFH12eOzk+3KqdAo91Z3z
-         GvncxCuAgivlg==
-Date:   Fri, 15 Jan 2021 10:49:47 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
-Message-ID: <20210115104947.71d99e87@coco.lan>
-In-Reply-To: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
-References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730911AbhAOKrW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 05:47:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbhAOKrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 05:47:21 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA254C061757;
+        Fri, 15 Jan 2021 02:46:41 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id n8so1076721ljg.3;
+        Fri, 15 Jan 2021 02:46:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HFix5lhrDvWuvTYP+J9B23RG/cixkCW5Vh+giTcORR4=;
+        b=IfKiigvw7rabeBypXKMIk+HUS/nn4+nBWb+Q5dVSfhEH0O2Slqb2RczTz+6MU7p9wm
+         ttWhUOu3v8cUhJJan0fmOqejf2/w7xcZhoqkR46tyE0l1mMP86tSgW1q4Z31Wdj+fy3R
+         nuyrVHpgPaCdn+Losuyyk78q+NtJEcOrLE0rDEi4CMWChYeI+rq7VHIrOX7vZ32PiZNb
+         9m5ErrMvG2Qg7KcXOiWUY4rqNJWh5fizktu81DF7iCbKBb6l0y4k5Z1X/Rq19m6B3FEZ
+         vvnGMOcnhr6xu1cOBHQY7EPi32fZ6wCvOmBe7PUlJSXppDAefemAFo7hXsZBdoP+hljP
+         k5pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HFix5lhrDvWuvTYP+J9B23RG/cixkCW5Vh+giTcORR4=;
+        b=GDRFXxA8NbfcPMpB3IFejh6mo3IoM86VWvp343nF8tXCedF8qiPaYqRZ8qoz0qIu8h
+         LdEkkse03SZalducvksDUJ7bm0GvDzcqtIL2NKaTppRXrN7O7Hc1nuD2v1NPKCLEtPWz
+         IcjRTjNmR3/q5YxPYtBaj21pXZjDrJGTrf2c6r+ClszvhVWAQdR7Wk29fvbasAC8y7Pu
+         nRCFx/2Hsk7vZ0OgLeGo/wO5lqs7bxWoeib9n6RhIZl2NHHAIuRMgk/EjO4mBfBUnEk0
+         yM0iOfhHfbNXoploypBMs+PIPmKHG0JEEhTe12PJgxj3Pba9b1gXNVmj5u7gpOeXmwpd
+         dY6Q==
+X-Gm-Message-State: AOAM533f37LHgSbrCDxbi8FyUbNMW/ilb6QVSFdlA5ohBb+wsEdbc+ce
+        VqdjdSRMaP7LW43KS6x8AeM=
+X-Google-Smtp-Source: ABdhPJywQNSylPcjzVHIN5StuUgLOe9rq9AjfMuFfjtSMpvP39Hjj4VxWqmJJF0xcw/sff47Y2cGHg==
+X-Received: by 2002:a2e:a377:: with SMTP id i23mr5424974ljn.103.1610707600305;
+        Fri, 15 Jan 2021 02:46:40 -0800 (PST)
+Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
+        by smtp.gmail.com with ESMTPSA id 12sm853414lfm.235.2021.01.15.02.46.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jan 2021 02:46:39 -0800 (PST)
+Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
+        by home.paul.comp (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 10FAkao0004477;
+        Fri, 15 Jan 2021 13:46:37 +0300
+Received: (from paul@localhost)
+        by home.paul.comp (8.15.2/8.15.2/Submit) id 10FAkZc3004476;
+        Fri, 15 Jan 2021 13:46:35 +0300
+Date:   Fri, 15 Jan 2021 13:46:35 +0300
+From:   Paul Fertser <fercerpav@gmail.com>
+To:     Ernesto Corona <ernesto.corona@intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v29 0/6] JTAG driver introduction
+Message-ID: <20210115104635.GA2971@home.paul.comp>
+References: <20200413222920.4722-1-ernesto.corona@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200413222920.4722-1-ernesto.corona@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lukas,
+Hello,
 
-Em Fri, 15 Jan 2021 07:12:38 +0100
-Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+This is a multi-part review of the series, with general notes inline
+in this message, and specific points raised as replies to the
+individual patches.
 
-> [reduced the recipient list to the main responsible ones and list]
-> 
-> Hi Mauro, hi Jonathan,
-> 
-> We both, Mauro and I, have been submitting patches to address the
-> documentation warnings on linux-next. If it is okay with you, Mauro, I
-> would like to take responsibility for the task to send out the patches
-> to address all warnings on linux-next in make htmldocs and follow up
-> with all the discussions. I can also provide a short weekly summary
-> (probably always on Friday) on what is pending where and what I could
-> not resolve by myself.
-> 
-> Is that okay for you?
-> 
-> If at some point I do not have the time to take care anymore, I will
-> let you know.
+On Mon, Apr 13, 2020 at 03:29:14PM -0700, Ernesto Corona wrote:
+> We propose to implement general JTAG interface and infrastructure
+> to communicate with user layer application.
 
-Yeah, sure!
+Working with a Tioga Pass server platform I needed to use the JTAG
+master controller of an ASPEED AST2500 SoC to configure a Lattice
+LCMXO2-4000HC CPLD. I'm mentioning these fine details because that's
+the only proper runtime testing I performed, but my review is not
+limited to that.
 
-Anyway, after applying the patches I sent this week, the warnings
-I'm getting are all due to the validation scripts I wrote. So, if 
-everything gets merged (either yours or my version), we'll have zero
-Sphinx/kernel-doc warnings again.
+Being a long-time OpenOCD community member, I got familiar with many
+different facilities and protocols offered by hardware JTAG adapters,
+and of wide range of usecases as I was providing end-user
+support. This is my perspective when looking at these patches.
 
-The script-validation warnings are:
+I have to note that the current v29 version of the series is broken in
+several aspects:
 
-1. Broken cross references
---------------------------
+1. The aspeed driver fails probe(), see the driver review for details;
 
-$ scripts/documentation-file-ref-check
-Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-Warning: Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-Warning: Documentation/devicetree/bindings/input/adc-joystick.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-Warning: Documentation/devicetree/bindings/power/supply/da9150-charger.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-Warning: Documentation/virt/kvm/vcpu-requests.rst references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-Warning: include/linux/rculist_nulls.h references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
-Warning: tools/memory-model/Documentation/simple.txt references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+2. The uapi include header is unusable;
 
-It sounds that part of the above is due to DT patches that weren't
-merged yet, but there are a few others that can be solved, but may
-require discussions with some Kernel developers/maintainers.
+3. The offered userspace implementation wasn't updated to the latest
+API, but even with the changes to make it compile it's still a mess
+too horrible to be used in production;
 
-2. Duplicated ABI definitions
------------------------------
+Points 1 and 2 will be addressed in separate mails. To workaround
+point 3 I prepared a recipe with an additional patch[0] so that
+mlnx_cpldprog can be at least compiled and used for some minimal
+testing.
 
-$ scripts/get_abi.pl validate
-Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
-Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
-Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
-Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
-Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
-Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  ./Documentation/ABI/testing/sysfs-bus-iio:599
-Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
-Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
-Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
-Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
-Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  ./Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
-Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
-Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  ./Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
-Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  ./Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
-Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
+The shortcomings of mlnx_cpldprog are numerous:
 
-Perhaps you could check with Jonathan Cameron some strategy to address
-the IIO warnings.
+1. It doesn't consistently choose between hardware and bitbang modes;
 
-Thanks,
-Mauro
+2. Even though it checks TDO it doesn't print any errors on mismatch
+and continues playing back the SVF as if it's all right;
+
+3. It has JTAG speed hardcoded;
+
+4. It doesn't implement RUNTEST so with the CPLD I'm using it's always
+_not_ working properly, failing silently;
+
+5. It is just awfully slow, taking about 40 minutes to play back a
+file that takes 1.5 minutes with OpenOCD with the same hardware and
+kernel driver.
+
+So I added support for the proposed API to OpenOCD: patch that applies
+to the version in OpenBMC[1], patch for the latest version[2]. And
+since it can do much more than just playing back SVF I hope this can
+highlight some essential API shortcomings if it's meant to be
+generic. My impression is that in its current state it's not adequate
+for the purpose.
+
+[0] https://bitbucket.org/paulfertser/mlnx_cpldprog_bitbake
+[1] http://openocd.zylin.com/#/c/5976/
+[2] http://openocd.zylin.com/#/c/5975/
+-- 
+Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+mailto:fercerpav@gmail.com
