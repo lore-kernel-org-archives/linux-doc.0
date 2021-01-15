@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A201C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 21:02:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1030C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 21:42:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35CC023A75
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 21:02:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAA71239FC
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 21:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387950AbhAOVCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 16:02:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        id S1726507AbhAOVmq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 16:42:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388376AbhAOVB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 16:01:56 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06CBBC061796;
-        Fri, 15 Jan 2021 13:01:15 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id v5so7050790qtv.7;
-        Fri, 15 Jan 2021 13:01:14 -0800 (PST)
+        with ESMTP id S1726459AbhAOVmp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 16:42:45 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E0CC061793
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 13:42:05 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id n10so6828230pgl.10
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 13:42:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=b4f3UhQcs3db0KRbKmi1fEJZcKX6X448F2Q0YUA3YCg=;
-        b=mN2tL4d7EaI6xnuajdBvL5TsthjPSdFeFTAb8rFdHhUk9Uj/rgahmZB7MmEMctUuGZ
-         Fg8a1b+24UXmaUpf4tBkbpJuOuI1bdlTm/fiGQ85bvihYW96JAT44+jsgpr5FBSLdyb3
-         MX6S+KYcqkTqgTFXwdlADrWf/o41kcwBDUYN8qpTTmvQEJfBVpL+7ZjOgSo3czN0ktUS
-         nNX9YVumcl5V2w3Wap4mtr0AsIR29/fDDHSRC+nMR/zMiewki7afBE9xg+pfDF6Cuvjy
-         JGdYuBQekOeccVgdqtf1/QoItAgqShbR+EnnkPRzmEeYnr1+32kqMnrOxkLAAb95Qabi
-         3G6g==
+        bh=bgjnqtpec69vUmjqa2UifvxbYQW35/sgPsKU/7Bo9aI=;
+        b=OggvUw0Hm9klzCb2gWzL1xpvM4h0B34ZYVQsxN3wC/zdRTLky1sIVS+aP+RMem0Lx+
+         dhCHyUumtATf+63/HrQ39p6Plwn+OkdZ92Gyx3QGmotDVqQ0vYf+OMXeU1OQmZYDLp23
+         G67G8V+nMMaSDcNKFXoJsHO5cGVnEx6jZqJiA8UQp+Rg3CH83hN9RC4c94IlDyEIP/st
+         zg0JlRpy3X+IW2jLP5T+VNP8gpjIkw7faoZac0GCm/4Jn2YSbPTsHrfhyi9oLgSFjKtZ
+         f/L89Eha2I7pIfgNg69nuV+z1VE8VInqryQK7DnoxnSVe+pgyAvVhEv/BLD+I5uOc5dA
+         14Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=b4f3UhQcs3db0KRbKmi1fEJZcKX6X448F2Q0YUA3YCg=;
-        b=EQUXTTNe4aeSqDbYXf6Y4gZwXtqnXKrUAYQtSVQvDVp0TDw6AhW25goiVucA51zmtx
-         nRdnETxfdoB6x+swOgINV7vD95CMd7z6leXluiUGZqFsHRUuvBStNdaJ6adQqw2srGVa
-         BSmvEXHuSXVCoas1mlgYxmFHSN8R3DcJW3QkHEi6u72/eSPZzdEa4e3uYA3UqZPhNnPZ
-         2W+E4C9iygEkWLhuP/jzD6/g2M9uYT4fKDyGuESsHNC56bLtp6ouCvpQlaDV0/mezj7V
-         zak8r3elcMXC3nRjX+dhLf85UeFQREG7+1Y9NxEEXZ825R3ZUVD8HBVXHBmW7ca6juG6
-         u5tw==
-X-Gm-Message-State: AOAM533WVsywL7iVjfV5njj5LAWIae92Mc4BHeGYMLFv1QNqQjcTy0Vx
-        VV7U93lDVLHQk6/ntKP4XmY=
-X-Google-Smtp-Source: ABdhPJxCyeLO5Rttyu1nlPqULd/wARnfFYEFkxXElMkQCD2Ka1eVA33f6/5Bfv81NzMIBuMhSkGHlA==
-X-Received: by 2002:aed:2f67:: with SMTP id l94mr14087477qtd.201.1610744474123;
-        Fri, 15 Jan 2021 13:01:14 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:97cc])
-        by smtp.gmail.com with ESMTPSA id s8sm5436604qtq.32.2021.01.15.13.01.12
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bgjnqtpec69vUmjqa2UifvxbYQW35/sgPsKU/7Bo9aI=;
+        b=MOLfa52+gihxYj88HKbAO/vy9QqYdB8HvjHU6xh0fWIujTwY6LgvlAtjO7mnCYJ9p7
+         cwtEVxBqUvW+6JWcLn5kNOUjRrf6W5dLQIUei9zoXx6Jsteo0srH0V0D0uKJck1xMTBe
+         nTfVR+22aGHk1mzLl3fgLUr6FrSwgrLbWQ2vQUzltelgonC5Xew5CYwJ5SVHT+t31cbv
+         v8tssDAJM7ECHyPBpEVzjWQetPRe1ygDKu8pXKsKGM6bfN9Wx4gOGQDxXaTickPBlRAd
+         vlh2VAFn6rGI0HetvavCGHuLxeMsLq3SMzCzfJDoCBZNHRYRE0SQGSc/NhqAtS8TIB0u
+         cQ9Q==
+X-Gm-Message-State: AOAM533iI7l21z6iEyLMICFsoSL8xBfZOO5YSklUOLm1kLTnMzHMSDeD
+        kpBv84g6AKFy7wCf5sm7EdH9zg==
+X-Google-Smtp-Source: ABdhPJxDU0ySQcc7fvev8M9M1d13VC+GIj7HBHfRSvtrxjqTvfzYTvW0G31AsN1nGGS2Xfbxazi8WQ==
+X-Received: by 2002:a63:d305:: with SMTP id b5mr14631064pgg.452.1610746924450;
+        Fri, 15 Jan 2021 13:42:04 -0800 (PST)
+Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
+        by smtp.gmail.com with ESMTPSA id a5sm8911135pgl.41.2021.01.15.13.42.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 13:01:13 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Fri, 15 Jan 2021 16:00:26 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Vipin Sharma <vipinsh@google.com>
+        Fri, 15 Jan 2021 13:42:03 -0800 (PST)
+Date:   Fri, 15 Jan 2021 13:41:59 -0800
+From:   Vipin Sharma <vipinsh@google.com>
+To:     Tejun Heo <tj@kernel.org>
 Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
         eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
         lizefan@huawei.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
@@ -68,33 +68,38 @@ Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
         kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [Patch v4 2/2] cgroup: svm: Encryption IDs cgroup documentation.
-Message-ID: <YAICaoSyk2O2nU+P@mtj.duckdns.org>
+Message-ID: <YAIMJ9E8NneoAp8H@google.com>
 References: <20210108012846.4134815-1-vipinsh@google.com>
  <20210108012846.4134815-3-vipinsh@google.com>
+ <YAICaoSyk2O2nU+P@mtj.duckdns.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210108012846.4134815-3-vipinsh@google.com>
+In-Reply-To: <YAICaoSyk2O2nU+P@mtj.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 07, 2021 at 05:28:46PM -0800, Vipin Sharma wrote:
-> Documentation for both cgroup versions, v1 and v2, of Encryption IDs
-> controller. This new controller is used to track and limit usage of
-> hardware memory encryption capabilities on the CPUs.
+On Fri, Jan 15, 2021 at 04:00:26PM -0500, Tejun Heo wrote:
+> On Thu, Jan 07, 2021 at 05:28:46PM -0800, Vipin Sharma wrote:
+> > Documentation for both cgroup versions, v1 and v2, of Encryption IDs
+> > controller. This new controller is used to track and limit usage of
+> > hardware memory encryption capabilities on the CPUs.
+> > 
+> > Signed-off-by: Vipin Sharma <vipinsh@google.com>
+> > Reviewed-by: David Rientjes <rientjes@google.com>
+> > Reviewed-by: Dionna Glaze <dionnaglaze@google.com>
+> > ---
+> >  .../admin-guide/cgroup-v1/encryption_ids.rst  | 108 ++++++++++++++++++
+> >  Documentation/admin-guide/cgroup-v2.rst       |  78 ++++++++++++-
 > 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Reviewed-by: David Rientjes <rientjes@google.com>
-> Reviewed-by: Dionna Glaze <dionnaglaze@google.com>
-> ---
->  .../admin-guide/cgroup-v1/encryption_ids.rst  | 108 ++++++++++++++++++
->  Documentation/admin-guide/cgroup-v2.rst       |  78 ++++++++++++-
+> Given how trivial it is, I'm not gonna object to adding new v1 interface but
+> maybe just point to v2 doc from v1?
+> 
 
-Given how trivial it is, I'm not gonna object to adding new v1 interface but
-maybe just point to v2 doc from v1?
+Sure, I will just add the path to v2 doc in v1.
 
-Thanks.
-
--- 
-tejun
+> Thanks.
+> 
+> -- 
+> tejun
