@@ -2,29 +2,28 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91714C43142
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44EAC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60D6523A56
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 804F2216C4
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730391AbhAOUDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 15:03:21 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52889 "EHLO
+        id S2388470AbhAOUCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 15:02:45 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:33155 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388714AbhAOUDU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:03:20 -0500
+        with ESMTP id S1733215AbhAOUCo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:02:44 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 793801C0014;
-        Fri, 15 Jan 2021 20:02:18 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id DF73F1C0008;
+        Fri, 15 Jan 2021 20:01:59 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -49,9 +48,9 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [PATCH v5 12/16] MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge
-Date:   Fri, 15 Jan 2021 21:01:37 +0100
-Message-Id: <20210115200141.1397785-13-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 04/16] media: sun6i-csi: Stop using the deprecated fwnode endpoint parser
+Date:   Fri, 15 Jan 2021 21:01:29 +0100
+Message-Id: <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
 References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
@@ -61,32 +60,126 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add myself as maintainer of the A31 MIPI CSI-2 bridge media driver.
+The v4l2_async_notifier_parse_fwnode_endpoints helper is getting
+deprecated in favor of explicit parsing of the endpoints.
+
+Implement it instead of using this deprecated function.
+
+Since this was the last user of the helper, it should now be safe to
+remove.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 69 ++++++++++++-------
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  1 +
+ 2 files changed, 44 insertions(+), 26 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 57f9e3047227..a41c41f6387c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -710,6 +710,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
- F:	drivers/media/platform/sunxi/sun4i-csi/
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index c3b2f27b99d2..1a11a6174a17 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -693,28 +693,6 @@ static const struct v4l2_async_notifier_operations sun6i_csi_async_ops = {
+ 	.complete = sun6i_subdev_notify_complete,
+ };
  
-+ALLWINNER A31 MIPI CSI-2 BRIDGE
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-+F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
+-static int sun6i_csi_fwnode_parse(struct device *dev,
+-				  struct v4l2_fwnode_endpoint *vep,
+-				  struct v4l2_async_subdev *asd)
+-{
+-	struct sun6i_csi *csi = dev_get_drvdata(dev);
+-
+-	if (vep->base.port || vep->base.id) {
+-		dev_warn(dev, "Only support a single port with one endpoint\n");
+-		return -ENOTCONN;
+-	}
+-
+-	switch (vep->bus_type) {
+-	case V4L2_MBUS_PARALLEL:
+-	case V4L2_MBUS_BT656:
+-		csi->v4l2_ep = *vep;
+-		return 0;
+-	default:
+-		dev_err(dev, "Unsupported media bus type\n");
+-		return -ENOTCONN;
+-	}
+-}
+-
+ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi *csi)
+ {
+ 	media_device_unregister(&csi->media_dev);
+@@ -726,6 +704,48 @@ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi *csi)
+ 	media_device_cleanup(&csi->media_dev);
+ }
+ 
++static int sun6i_csi_v4l2_fwnode_init(struct sun6i_csi *csi)
++{
++	struct v4l2_fwnode_endpoint *endpoint = NULL;
++	struct fwnode_handle *handle = NULL;
++	int ret;
 +
- ALLWINNER CPUFREQ DRIVER
- M:	Yangtao Li <tiny.windzz@gmail.com>
- L:	linux-pm@vger.kernel.org
++	/* Parallel */
++
++	endpoint = &csi->v4l2_ep;
++	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi->dev), 0, 0,
++						 FWNODE_GRAPH_ENDPOINT_NEXT);
++	if (!handle)
++		return 0;
++
++	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
++	if (ret)
++		goto error;
++
++	if (endpoint->bus_type != V4L2_MBUS_PARALLEL &&
++	    endpoint->bus_type != V4L2_MBUS_BT656) {
++		dev_err(csi->dev, "Unsupported parallel media bus type\n");
++		ret = -ENOTCONN;
++		goto error;
++	}
++
++	ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
++							   handle,
++							   &csi->subdev);
++	if (ret)
++		goto error;
++
++	fwnode_handle_put(handle);
++
++	return 0;
++
++error:
++	if (handle)
++		fwnode_handle_put(handle);
++
++	return ret;
++}
++
+ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
+ {
+ 	int ret;
+@@ -760,10 +780,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
+ 	if (ret)
+ 		goto unreg_v4l2;
+ 
+-	ret = v4l2_async_notifier_parse_fwnode_endpoints(csi->dev,
+-							 &csi->notifier,
+-							 sizeof(struct v4l2_async_subdev),
+-							 sun6i_csi_fwnode_parse);
++	ret = sun6i_csi_v4l2_fwnode_init(csi);
+ 	if (ret)
+ 		goto clean_video;
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+index c626821aaedb..7f3389c70794 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+@@ -38,6 +38,7 @@ struct sun6i_csi {
+ 	struct v4l2_device		v4l2_dev;
+ 	struct media_device		media_dev;
+ 
++	struct v4l2_async_subdev	subdev;
+ 	struct v4l2_async_notifier	notifier;
+ 
+ 	/* video port settings */
 -- 
 2.30.0
 
