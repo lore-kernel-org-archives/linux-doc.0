@@ -2,111 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E51B5C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 00:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0FDC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 01:47:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B30CB23730
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 00:05:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07FF723A58
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 01:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731137AbhAOAFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jan 2021 19:05:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31241 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731129AbhAOAFi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 19:05:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610669051;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xQ0ErKvc7UzwqNKxM2CmsA5gF/0THDUFsSSbaFvNOvI=;
-        b=Ye4X8EEmdzAvtX8m3mK34Au4aE2rJlaAvmAzhBWRR09N76NIlZxv8jkYPaCjU0L8X4Kv5V
-        fu9zr6qaiT79zhvu9VLv9ma74CIIm6zS686+a7Hrez+MCbYbrsVx8cFs1jNkLxUc1MVdtb
-        1/IHPhyfF2FWCpHLQxGTOtSEdjD1ybs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-jopQxvanNzadbIv647B3qA-1; Thu, 14 Jan 2021 19:04:10 -0500
-X-MC-Unique: jopQxvanNzadbIv647B3qA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 425DE107ACF7;
-        Fri, 15 Jan 2021 00:04:08 +0000 (UTC)
-Received: from treble (ovpn-120-156.rdu2.redhat.com [10.10.120.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B534B19C45;
-        Fri, 15 Jan 2021 00:04:01 +0000 (UTC)
-Date:   Thu, 14 Jan 2021 18:03:59 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
+        id S1731586AbhAOBr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jan 2021 20:47:26 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:36929 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731536AbhAOBr0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jan 2021 20:47:26 -0500
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 10F1fQeI052501;
+        Fri, 15 Jan 2021 09:41:26 +0800 (GMT-8)
+        (envelope-from troy_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 15 Jan
+ 2021 09:46:31 +0800
+Date:   Fri, 15 Jan 2021 01:46:31 +0000
+From:   Troy Lee <troy_lee@aspeedtech.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
         Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210115000359.dxzivd7hvqvhkqji@treble>
-References: <20210113165743.3385-1-broonie@kernel.org>
- <20210113192735.rg2fxwlfrzueinci@treble>
- <20210113202315.GI4641@sirena.org.uk>
- <20210113222541.ysvtievx4o5r42ym@treble>
- <20210114181013.GE2739@C02TD0UTHF1T.local>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
+        "leetroy@gmail.com" <leetroy@gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: Add Aspeed AST2600 PWM/Fan
+Message-ID: <20210115014631.GA1391@aspeedtech.com>
+References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
+ <20210113070850.1184506-2-troy_lee@aspeedtech.com>
+ <20210114141317.GA2823834@robh.at.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20210114181013.GE2739@C02TD0UTHF1T.local>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210114141317.GA2823834@robh.at.kernel.org>
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 10F1fQeI052501
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 14, 2021 at 06:10:13PM +0000, Mark Rutland wrote:
-> On Wed, Jan 13, 2021 at 04:25:41PM -0600, Josh Poimboeuf wrote:
-> > On Wed, Jan 13, 2021 at 08:23:15PM +0000, Mark Brown wrote:
-> > > On Wed, Jan 13, 2021 at 01:33:13PM -0600, Josh Poimboeuf wrote:
-> > > 
-> > > > I think it's worth mentioning a little more about objtool.  There are a
-> > > > few passing mentions of objtool's generation of metadata (i.e. ORC), but
-> > > > objtool has another relevant purpose: stack validation.  That's
-> > > > particularly important when it comes to frame pointers.
-> > > 
-> > > > For some architectures like x86_64 and arm64 (but not powerpc/s390),
-> > > > it's far too easy for a human to write asm and/or inline asm which
-> > > > violates frame pointer protocol, silently causing the violater's callee
-> > > > to get skipped in the unwind.  Such architectures need objtool
-> > > > implemented for CONFIG_STACK_VALIDATION.
-> > > 
-> > > This basically boils down to just adding a statement saying "you may
-> > > need to depend on objtool" I think?
+Hi Rob,
+
+Thanks for reviewing.
+
+The 01/14/2021 22:13, Rob Herring wrote:
+> On Wed, Jan 13, 2021 at 07:08:45AM +0000, Troy Lee wrote:
+> > We add binding for supporting a new AST2600 PWM/Fan hwmon driver.
 > > 
-> > Right, but maybe it would be a short paragraph or two.
+> > Changes since v1:
+> > - dt binding with DT schema format
+> > 
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> > ---
+> >  .../hwmon/aspeed,ast2600-pwm-tachometer.yaml  | 137 ++++++++++++++++++
+> >  1 file changed, 137 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> > new file mode 100644
+> > index 000000000000..b84076a4a338
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-pwm-tachometer.yaml
+> > @@ -0,0 +1,137 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +
+> > +$id: http://devicetree.org/schemas/hwmon/aspeed,ast2600-pwm-tachometer.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ASPEED AST2600 PWM and Fan Tacho controller device driver
+> > +
+> > +maintainers:
+> > +  - Ryan Chen <ryan_chen@aspeedtech.com>
+> > +
+> > +description: |
+> > +  The ASPEED PWM controller can support upto 16 PWM outputs. The ASPEED Fan Tacho
+> > +  controller can support upto 16 Fan tachometer inputs.
+> > +  There can be upto 16 fans supported. Each fan can have one PWM output and
+> > +  one Fan tach inputs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: aspeed,ast2600-pwm-tachometer
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +  "#cooling-cells":
+> > +    const: 2
+> > +
+> > +  reg:
+> > +    description:
+> > +      Address and length of the register set for the device.
 > 
-> I reckon that's a top-level section between requirements and
-> consideration along the lines of:
+> No need for generic descriptions. That's every 'reg'.
 > 
-> 3. Compile-time analysis
-> ========================
+> What you need is how many entries and what each one is if more than 1. 
+> If only 1, then just 'maxItems: 1'
 > 
-> To ensure that kernel code can be correctly unwound in all cases,
-> architectures may need to verify that code has been compiled in a manner
-> expected by the unwinder. For example, an unwinder may expect that
-> functions manipulate the stack pointer in a limited way, or that all
-> functions use specific prologue and epilogue sequences. Architectures
-> with such requirements should verify the kernel compilation using
-> objtool.
+> > +
+> > +  clocks:
+> > +    description:
+> > +      phandle to clock provider with the clock number in the second cell
 > 
-> In some cases, an unwinder may require metadata to correctly unwind.
-> Where necessary, this metadata should be generated at build time using
-> objtool.
+> Same here.
+> 
+> > +
+> > +  resets:
+> > +    description:
+> > +      phandle to reset controller with the reset number in the second cell
+> 
+> And here.
+> 
+> > +
+> > +patternProperties:
+> > +  "@[0-9]+$":
+> 
+> If every node is a fan and there are up to 16:
+> 
+> ^fan@[0-9a-f]$
+> 
+I will update these in v3 patch set.
 
-Sounds good to me.
+> > +    type: object
+> > +    description:
+> > +      Under fan subnode there can upto 16 child nodes, with each child node
+> > +      representing a fan. There are 16 fans each fan can have one PWM port and one
+> > +      Fan tach inputs.
+> > +      For PWM port can be configured cooling-levels to create cooling device.
+> > +      Cooling device could be bound to a thermal zone for the thermal control.
+> > +
+> > +    properties:
+> > +      reg:
+> > +        minimum: 0
+> > +        maximum: 15
+> > +        description:
+> > +          This property identify the PWM control channel of this fan.
+> > +
+> > +      fan-tach-ch:
+> > +        $ref: /schemas/types.yaml#/definitions/uint8
+> > +        minimum: 0
+> > +        maximum: 15
+> > +        description:
+> > +          This property identify the fan tach input channel.
+> > +
+> > +      pulses-per-revolution:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > +        default: 2
+> > +        minimum: 1
+> > +        description:
+> > +          Specify tacho pulse per revolution of the fan.
+> > +
+> > +      cooling-levels:
+> > +        description:
+> > +          PWM duty cycle values in a range from 0 to 255
+> > +          which correspond to thermal cooling states.
+> > +
+> > +      aspeed,pwm-freq:
+> > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > +        default: 25000
+> > +        minimum: 24
+> > +        maximum: 780000
+> > +        description:
+> > +          Specify the frequency of PWM.
+> 
+> Units? Use a unit suffix and then drop the $ref.
+> 
+I'll change it to pwm-freq-hz.
 
--- 
-Josh
+> > +
+> > +      aspeed,inverse-pin:
+> > +        type: boolean
+> > +        description:
+> > +          Inverse PWM output signal.
+> > +
+> > +      aspeed,falling-point:
+> > +        $ref: /schemas/types.yaml#/definitions/uint8
+> > +        default: 10
+> > +        minimum: 0
+> > +        maximum: 255
+> 
+> 0-255 is already the range of uint8, so drop.
+> 
+I'll drop it in v3.
 
+Thanks,
+Troy Lee
+> > +        description:
+> > +          Initialize the pulse width.
+> > +
+> > +    required:
+> > +      - fan-tach-ch
+> > +      - reg
+> > +
+> > +    additionalProperties: true
+> > +
+> > +required:
+> > + - compatible
+> > + - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    pwm_tacho: pwm-tacho-controller@1e610000 {
+> > +        compatible = "aspeed,ast2600-pwm-tachometer";
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        reg = <0x1e610000 0x100>;
+> > +
+> > +        fan@1 {
+> > +            reg = <0x00>;
+> > +            aspeed,pwm-freq = <25000>;
+> > +            cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
+> > +            fan-tach-ch = /bits/ 8 <0x00>;
+> > +            pulses-per-revolution = <2>;
+> > +        };
+> > +
+> > +        fan@2 {
+> > +            reg = <0x01>;
+> > +            aspeed,pwm-freq = <25000>;
+> > +            cooling-levels = /bits/ 8 <125 151 177 203 229 255>;
+> > +            fan-tach-ch = /bits/ 8 <0x01>;
+> > +            pulses-per-revolution = <2>;
+> > +        };
+> > +    };
+> > +...
+> > -- 
+> > 2.25.1
+> > 
