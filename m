@@ -2,133 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17EFCC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 05:58:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C51C433E9
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 06:03:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5F19239EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 05:58:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2658723A40
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 06:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbhAOF6v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 00:58:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726019AbhAOF6u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Jan 2021 00:58:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 66736239EF;
-        Fri, 15 Jan 2021 05:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610690290;
-        bh=A2xQvZI3cYjFP3+C40z6oPKeq/38VezRg4M7YK6TvpI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ibY2R7ceYe8BqE2hj3mA8qlr2b7m8kLBYZN94Gn+IyG1ykTEfHq32oi7J3Hv7lrOc
-         1PuWhBRo9FLeuYe5eoX40NDoJvHMIVBNgH9cJ+1rQHwvkMk1/6pjNisMlHVLBPowp1
-         H54rJcRkH44Wwp1kEtO7qae8Q/HYEGhCdoYStdStZHF/cCDRZmvSMifAhAZMU6YJie
-         E+S5SkCCfwa40egM9HuwiQz5y+YBc8/z79BxZFTplR45BukmDpJns7WyqxHpFhWN9O
-         Q48TNyn+4wIijVkyGSwc+e6asL3nIINHvbhk+MSOoTs62AuaKwTBsD4srhbTmi9Y/M
-         9iL3BwSb7XH0w==
-Date:   Fri, 15 Jan 2021 11:28:06 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     mdalam@codeaurora.org
-Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
-        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
-        mdalam=codeaurora.org@codeaurora.org
-Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
- support
-Message-ID: <20210115055806.GE2771@vkoul-mobl>
-References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
- <20201221092355.GA3323@vkoul-mobl>
- <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
- <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
- <20210112101056.GI2771@vkoul-mobl>
- <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
+        id S1726200AbhAOGD1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 01:03:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726417AbhAOGD0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 01:03:26 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7987DC0613C1
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 22:02:45 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id p13so9179242ljg.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jan 2021 22:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MDmlV62xy2dTAa7jUaW4qdfTp5nhVCOQRSmVDFfq7CU=;
+        b=P3f/TC0N21PLslxgUMkEFSMq6IEjaNybcJJZ9sGTGnSYNOG2usJJTVflhsSmi4hqHR
+         KN06JeUoyNa7d3JQCTiClZLNTEcyDizNR63bHhj/nr66vJLqBVq0wsG6z/M0+ht2q9QW
+         aGskVR2SNoz2AmO8Ad2lStOC76v9OnGDq/QyQ+wISQgNLdZx7kcJkH+Uz2V+JXLJ78mW
+         BXRHu0W6VcWo1rVP/TqK9xCMkJE3QIgdaDSJqdhEcf7YqGQkxJ7SH9gRjTFEy9FslFfb
+         /4ZCr3zhKywmBqS6j721detK5gmAfBUoyFS5OZt72xdBTeJ81NKxZ0c6BjI9gc+8hXCC
+         1/QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MDmlV62xy2dTAa7jUaW4qdfTp5nhVCOQRSmVDFfq7CU=;
+        b=KWpcc/X048Drd0+70y2FljbUjhhdteacRDy5/7+UqRRuGmOD8N3wZxykBqXkXU3G4t
+         i82uppMYhc45SYF9DCCn9meobeKR2MTJ+xv2vVc6xcaFwfSTfVIf37Z77XCI0pLOnqYP
+         blMpCdNputY0Qi/cEl8ZXiJRKy+Rfb/AuRUuZiEaOP1820LVh8Jy0UVFrTK+rfC9TCt/
+         9VZxpRa+yl+eM7nL0Pu7Qbmemxc6KOIF+cxTdL5ATICOgqywf2i+JxADQSpWCgtkvKuZ
+         NcFSdtx56XigBl+O5yGwhPWacxd8Z2apV/ckuYx+Lm/A1+NOZUVNvw43mA7JesNRZOmA
+         ITxg==
+X-Gm-Message-State: AOAM53247xVG8evBSN3lh2HTPuAzaIWtQzFnV8ZfZMPzd1kyA+lMP7+g
+        5OYRIsVS1xY4lNPRU5oMtL8ZI+cIr1uHOwGIoWR8nw==
+X-Google-Smtp-Source: ABdhPJx95UKtrbv3RMWAwaHdwARhnz6c9CWvdsRsZhfDyk0HF1CL0Rx8irqQzcSP9Qi0gnaJ8BTByLuHRW09qLnJd7M=
+X-Received: by 2002:a2e:2242:: with SMTP id i63mr4467220lji.343.1610690563696;
+ Thu, 14 Jan 2021 22:02:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+ <1604419306-26105-3-git-send-email-sumit.garg@linaro.org> <X/x+N0fgrzIZTeNi@kernel.org>
+ <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com> <X/+m6+m2/snYj9Vc@kernel.org>
+In-Reply-To: <X/+m6+m2/snYj9Vc@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Fri, 15 Jan 2021 11:32:31 +0530
+Message-ID: <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
+Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14-01-21, 01:20, mdalam@codeaurora.org wrote:
-> On 2021-01-12 15:40, Vinod Koul wrote:
-> > On 12-01-21, 15:01, mdalam@codeaurora.org wrote:
-> > > On 2020-12-21 23:03, mdalam@codeaurora.org wrote:
-> > > > On 2020-12-21 14:53, Vinod Koul wrote:
-> > > > > Hello,
-> > > > >
-> > > > > On 17-12-20, 20:07, Md Sadre Alam wrote:
-> > > > > > This change will add support for LOCK & UNLOCK flag bit support
-> > > > > > on CMD descriptor.
-> > > > > >
-> > > > > > If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
-> > > > > > transaction wanted to lock the DMA controller for this transaction so
-> > > > > > BAM driver should set LOCK bit for the HW descriptor.
-> > > > > >
-> > > > > > If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester
-> > > > > > of this
-> > > > > > transaction wanted to unlock the DMA controller.so BAM driver
-> > > > > > should set
-> > > > > > UNLOCK bit for the HW descriptor.
-> > > > >
-> > > > > Can you explain why would we need to first lock and then unlock..? How
-> > > > > would this be used in real world.
-> > > > >
-> > > > > I have read a bit of documentation but is unclear to me. Also should
-> > > > > this be exposed as an API to users, sounds like internal to driver..?
-> > > > >
+On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
+> > Hi Jarkko,
+> >
+> > On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > >
+> > > On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
+> > > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > > to seal and unseal trusted keys using hardware unique key.
 > > > >
-> > > > IPQ5018 SoC having only one Crypto Hardware Engine. This Crypto Hardware
-> > > > Engine
-> > > > will be shared between A53 core & ubi32 core. There is two separate
-> > > > driver dedicated
-> > > > to A53 core and ubi32 core. So to use Crypto Hardware Engine
-> > > > parallelly for encryption/description
-> > > > we need bam locking mechanism. if one driver will submit the request
-> > > > for encryption/description
-> > > > to Crypto then first it has to set LOCK flag bit on command descriptor
-> > > > so that other pipes will
-> > > > get locked.
+> > > > Refer to Documentation/tee.txt for detailed information about TEE.
 > > > >
-> > > > The Pipe Locking/Unlocking will be only on command-descriptor. Upon
-> > > > encountering a command descriptor
-> > 
-> > Can you explain what is a cmd descriptor?
-> 
->   In BAM pipe descriptor structure there is a field called CMD (Command
-> descriptor).
->   CMD allows the SW to create descriptors of type Command which does not
-> generate any data transmissions
->   but configures registers in the Peripheral (write operations, and read
-> registers operations ).
->   Using command descriptor enables the SW to queue new configurations
-> between data transfers in advance.
+> > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > >
+> > > I haven't yet got QEMU environment working with aarch64, this produces
+> > > just a blank screen:
+> > >
+> > > ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
+> > >
+> > > My BuildRoot fork for TPM and keyring testing is located over here:
+> > >
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
+> > >
+> > > The "ARM version" is at this point in aarch64 branch. Over time I will
+> > > define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
+> > > in the master branch.
+> > >
+> > > To create identical images you just need to
+> > >
+> > > $ make tpmdd_defconfig && make
+> > >
+> > > Can you check if you see anything obviously wrong? I'm eager to test this
+> > > patch set, and in bigger picture I really need to have ready to run
+> > > aarch64 environment available.
+> >
+> > I would rather suggest you to follow steps listed here [1] as to test
+> > this feature on Qemu aarch64 we need to build firmwares such as TF-A,
+> > OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
+> > system [2]. And then it would be easier to migrate them to your
+> > buildroot environment as well.
+> >
+> > [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
+> > [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
+> >
+> > -Sumit
+>
+> Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
+>
 
-What and when is the CMD descriptor used for..?
+$ cat keyctl_change
+diff --git a/common.mk b/common.mk
+index aeb7b41..663e528 100644
+--- a/common.mk
++++ b/common.mk
+@@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
+ BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
+ BR2_PACKAGE_STRACE ?= y
+ BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
+$(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
++BR2_PACKAGE_KEYUTILS := y
 
-> > 
-> > > > with LOCK bit set, The BAM will lock all other pipes not related to
-> > > > the current pipe group, and keep
-> > > > handling the current pipe only until it sees the UNLOCK set then it
-> > > > will release all locked pipes.
-> > > > locked pipe will not fetch new descriptors even if it got event/events
-> > > > adding more descriptors for
-> > > > this pipe (locked pipe).
-> > > >
-> > > > No need to expose as an API to user because its internal to driver, so
-> > > > while preparing command descriptor
-> > > > just we have to update the LOCK/UNLOCK flag.
-> > 
-> > So IIUC, no api right? it would be internal to driver..?
-> 
->   Yes its totally internal to deriver.
+ # All BR2_* variables from the makefile or the environment are appended to
+ # ../out-br/extra.conf. All values are quoted "..." except y and n.
+diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
+index 368c18a..832ab74 100644
+--- a/kconfigs/qemu.conf
++++ b/kconfigs/qemu.conf
+@@ -20,3 +20,5 @@ CONFIG_9P_FS=y
+ CONFIG_9P_FS_POSIX_ACL=y
+ CONFIG_HW_RANDOM=y
+ CONFIG_HW_RANDOM_VIRTIO=y
++CONFIG_TRUSTED_KEYS=y
++CONFIG_ENCRYPTED_KEYS=y
 
-So no need for this patch then, right?
+> After I've successfully tested 2/4, I'd suggest that you roll out one more
+> version and CC the documentation patch to Elaine and Mini, and clearly
+> remark in the commit message that TEE is a standard, with a link to the
+> specification.
+>
 
--- 
-~Vinod
+Sure, I will roll out the next version after your testing.
+
+-Sumit
+
+> /Jarkko
