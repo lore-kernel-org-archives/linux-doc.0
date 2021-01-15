@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B44EAC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 784FCC4332E
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 804F2216C4
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6286A216C4
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 20:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388470AbhAOUCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 15:02:45 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:33155 "EHLO
+        id S2388539AbhAOUCv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 15:02:51 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:59217 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733215AbhAOUCo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:02:44 -0500
+        with ESMTP id S1728460AbhAOUCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 15:02:49 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id DF73F1C0008;
-        Fri, 15 Jan 2021 20:01:59 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id B95B51C000A;
+        Fri, 15 Jan 2021 20:02:04 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -47,139 +47,108 @@ Cc:     Yong Deng <yong.deng@magewell.com>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [PATCH v5 04/16] media: sun6i-csi: Stop using the deprecated fwnode endpoint parser
-Date:   Fri, 15 Jan 2021 21:01:29 +0100
-Message-Id: <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
+        <kevin.lhopital@bootlin.com>
+Subject: [PATCH v5 06/16] media: sun6i-csi: Only configure the interface data width for parallel
+Date:   Fri, 15 Jan 2021 21:01:31 +0100
+Message-Id: <20210115200141.1397785-7-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
 References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The v4l2_async_notifier_parse_fwnode_endpoints helper is getting
-deprecated in favor of explicit parsing of the endpoints.
+Bits related to the interface data width are only applicable to the
+parallel interface and are irrelevant when the CSI controller is taking
+input from the MIPI CSI-2 controller.
 
-Implement it instead of using this deprecated function.
+In prevision of adding support for this case, set these bits
+conditionally so there is no ambiguity. The conditional block is
+moved around before the interlaced conditional block for nicer code
+symmetry (conditional blocks first) while at it.
 
-Since this was the last user of the helper, it should now be safe to
-remove.
-
+Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 69 ++++++++++++-------
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  1 +
- 2 files changed, 44 insertions(+), 26 deletions(-)
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++--------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index c3b2f27b99d2..1a11a6174a17 100644
+index 1a11a6174a17..d06028f42534 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -693,28 +693,6 @@ static const struct v4l2_async_notifier_operations sun6i_csi_async_ops = {
- 	.complete = sun6i_subdev_notify_complete,
- };
+@@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 	unsigned char bus_width;
+ 	u32 flags;
+ 	u32 cfg;
++	bool input_parallel = false;
+ 	bool input_interlaced = false;
  
--static int sun6i_csi_fwnode_parse(struct device *dev,
--				  struct v4l2_fwnode_endpoint *vep,
--				  struct v4l2_async_subdev *asd)
--{
--	struct sun6i_csi *csi = dev_get_drvdata(dev);
--
--	if (vep->base.port || vep->base.id) {
--		dev_warn(dev, "Only support a single port with one endpoint\n");
--		return -ENOTCONN;
--	}
--
--	switch (vep->bus_type) {
--	case V4L2_MBUS_PARALLEL:
--	case V4L2_MBUS_BT656:
--		csi->v4l2_ep = *vep;
--		return 0;
--	default:
--		dev_err(dev, "Unsupported media bus type\n");
--		return -ENOTCONN;
--	}
--}
--
- static void sun6i_csi_v4l2_cleanup(struct sun6i_csi *csi)
- {
- 	media_device_unregister(&csi->media_dev);
-@@ -726,6 +704,48 @@ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi *csi)
- 	media_device_cleanup(&csi->media_dev);
- }
++	if (endpoint->bus_type == V4L2_MBUS_PARALLEL ||
++	    endpoint->bus_type == V4L2_MBUS_BT656)
++		input_parallel = true;
++
+ 	if (csi->config.field == V4L2_FIELD_INTERLACED
+ 	    || csi->config.field == V4L2_FIELD_INTERLACED_TB
+ 	    || csi->config.field == V4L2_FIELD_INTERLACED_BT)
+@@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
+ 		 CSI_IF_CFG_SRC_TYPE_MASK);
  
-+static int sun6i_csi_v4l2_fwnode_init(struct sun6i_csi *csi)
-+{
-+	struct v4l2_fwnode_endpoint *endpoint = NULL;
-+	struct fwnode_handle *handle = NULL;
-+	int ret;
-+
-+	/* Parallel */
-+
-+	endpoint = &csi->v4l2_ep;
-+	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(csi->dev), 0, 0,
-+						 FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!handle)
-+		return 0;
-+
-+	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
-+	if (ret)
-+		goto error;
-+
-+	if (endpoint->bus_type != V4L2_MBUS_PARALLEL &&
-+	    endpoint->bus_type != V4L2_MBUS_BT656) {
-+		dev_err(csi->dev, "Unsupported parallel media bus type\n");
-+		ret = -ENOTCONN;
-+		goto error;
++	if (input_parallel) {
++		switch (bus_width) {
++		case 8:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
++			break;
++		case 10:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
++			break;
++		case 12:
++			cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
++			break;
++		case 16: /* No need to configure DATA_WIDTH for 16bit */
++			break;
++		default:
++			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
++				 bus_width);
++			break;
++		}
 +	}
 +
-+	ret = v4l2_async_notifier_add_fwnode_remote_subdev(&csi->notifier,
-+							   handle,
-+							   &csi->subdev);
-+	if (ret)
-+		goto error;
-+
-+	fwnode_handle_put(handle);
-+
-+	return 0;
-+
-+error:
-+	if (handle)
-+		fwnode_handle_put(handle);
-+
-+	return ret;
-+}
-+
- static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
- {
- 	int ret;
-@@ -760,10 +780,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
- 	if (ret)
- 		goto unreg_v4l2;
+ 	if (input_interlaced)
+ 		cfg |= CSI_IF_CFG_SRC_TYPE_INTERLACED;
+ 	else
+@@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		break;
+ 	}
  
--	ret = v4l2_async_notifier_parse_fwnode_endpoints(csi->dev,
--							 &csi->notifier,
--							 sizeof(struct v4l2_async_subdev),
--							 sun6i_csi_fwnode_parse);
-+	ret = sun6i_csi_v4l2_fwnode_init(csi);
- 	if (ret)
- 		goto clean_video;
+-	switch (bus_width) {
+-	case 8:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
+-		break;
+-	case 10:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
+-		break;
+-	case 12:
+-		cfg |= CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
+-		break;
+-	case 16: /* No need to configure DATA_WIDTH for 16bit */
+-		break;
+-	default:
+-		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
+-		break;
+-	}
+-
+ 	regmap_write(sdev->regmap, CSI_IF_CFG_REG, cfg);
+ }
  
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index c626821aaedb..7f3389c70794 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -38,6 +38,7 @@ struct sun6i_csi {
- 	struct v4l2_device		v4l2_dev;
- 	struct media_device		media_dev;
- 
-+	struct v4l2_async_subdev	subdev;
- 	struct v4l2_async_notifier	notifier;
- 
- 	/* video port settings */
 -- 
 2.30.0
 
