@@ -2,379 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B7A4C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 23:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA88BC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 00:02:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6426623382
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jan 2021 23:10:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB7E723A5E
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 00:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbhAOXJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 18:09:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35336 "EHLO
+        id S1728657AbhAPACo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jan 2021 19:02:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727378AbhAOXJS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 18:09:18 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407F0C0613D3;
-        Fri, 15 Jan 2021 15:08:38 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id h10so6430001pfo.9;
-        Fri, 15 Jan 2021 15:08:38 -0800 (PST)
+        with ESMTP id S1728604AbhAPACn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 19:02:43 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13794C061793
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 16:02:03 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id b5so6152030pjl.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 16:02:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JaXLZjXXFnhMVA2+FbqIP6u4J9Ahi+w2pxMPPrFbQzE=;
-        b=NTeKknMnqCqnamqdg/daRz1qFSEhIRsrkCj0kD58fvuJ96IOeNBMP+drrJRvxTLs0/
-         uqhOXuWp7tCNyh6sCErhW6djqqf5M8ITglBtl7qfesJWGoJVjWOsqYBc5Xq5s0IGFxyS
-         MbnIdssLNu/clzuAmHRw3sNBj7KyDsBwInthQXZTn4hrcllgkRomPwDhX0bHppl3NN/g
-         RFfxAn/aHWSvQmOJxw3GSeJ+eMFWJ6xcQ9KKAtPkZxECNwwOPTT28Ard1ocpXv7TDkTY
-         Zw/67QezpqUG2CnnzOhotqt1Wg38QOasTB7zjbFrIhZ/2jO+Yl0WBPR7wd8WzQgLPl+z
-         h4qw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FY8VpQNfhIxBmUN0CCall3v72xLkiHt1IqHsb3quwR4=;
+        b=luKEj3UoOFPuOKbYwRLoqFsDstinvsZbmPyy851wXrrnY6L+VRXyETTqdGgw5hGxLP
+         q82oal/qKPyYEtADP0J+9+aBTHtWcStqg7f1d2isGuDnoxu5PU5w2R93MXCZlyflx7l7
+         2o23TrL3joPsXdxh4adFBgmxw8KI6tA70dzTICQIh6Z6okR/z0pWkGEKOZgja4fDXYdG
+         DyEQN0FCTeWyAWBEferv1Qib1rPFv4dHvg3qKJ+/zKLnUD9LMAW64+23msX/mrMix17s
+         vqPEIc6shaHkKBmGEJoepfmcUzY6UCsQYw68cMqc890Tb5k1Xwy/ExMW6A4K+8uwTgVs
+         azuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JaXLZjXXFnhMVA2+FbqIP6u4J9Ahi+w2pxMPPrFbQzE=;
-        b=G/8TlWhYwrogmtzcftbY+YcUZH3HtmjCKuSYP141vhU0ndK/pyVbIfy3ORNbkFLgSw
-         6EULO0hA9BjLfi0gofp1EDXO212ztJn/3pQrRkWr+lwv8y/Mav4pvExsHBGLnpDxysB5
-         oM/b3e1J2fVax2zNtA22wWe5r0+O3cVJ8s/JfkklZCJnOXQI83IhA6d87/2dwHSTqJJr
-         G6emm6buDKsNdmPxz5OgR4iKMqh95PD6G13bdeFruQexZ8zzQay3qzWFbiT65R3gSLKW
-         O/Jn/KOb8ntxuH+LNkH8Ve14AIA3OeE9NwgZaEfuLouPJ/yiCd3EL9lhZsbriXd9xo/z
-         2Ygg==
-X-Gm-Message-State: AOAM531WlfdDft9e75VlIJ3LO/OSvA+QjqLxlrFXU1esBcYle96xLpKg
-        sc6gn3qSQ3nkHIrEFcN2MQ==
-X-Google-Smtp-Source: ABdhPJzL+T0nJxQF4f1YQm7V2fQSJoQ7Y4KDwXP3pIgwqA44bbWEjyj/a2VmSQCwrTf82CTHShg0Mw==
-X-Received: by 2002:a63:e14a:: with SMTP id h10mr15116570pgk.297.1610752117575;
-        Fri, 15 Jan 2021 15:08:37 -0800 (PST)
-Received: from localhost.localdomain ([216.52.21.4])
-        by smtp.gmail.com with ESMTPSA id w90sm8877777pjw.10.2021.01.15.15.08.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Jan 2021 15:08:36 -0800 (PST)
-From:   Praveen Chaudhary <praveen5582@gmail.com>
-X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
-To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Zhenggen Xu <zxu@linkedin.com>, kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
-Date:   Fri, 15 Jan 2021 15:08:31 -0800
-Message-Id: <20210115230831.17309-1-pchaudhary@linkedin.com>
-X-Mailer: git-send-email 2.29.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FY8VpQNfhIxBmUN0CCall3v72xLkiHt1IqHsb3quwR4=;
+        b=s0//NO63ROZbtzotjXC4MED8QZaBJBww7HtH1oaH0qQ4XPEVqjTJPEwe9OW8lp1f+z
+         CIZ27Vz8hEYtNLP2AMRhbap9PHERMnCjWmXuSw5c23Ibd+lJ9hzLL+uAh247JnFkZa7s
+         iYPmuV2e4UM1phQxrXSjlWVmnXSTPqAFgUZeNWQ8XBcfX0GkttI1xZnbbRbb40x4Dg65
+         3CAaCdaf7cHi83QPTUejCb6CtE+51FkijCFFeTRPNnOJDtu+V5qtbDY4S2Y9FOI2i648
+         aaRotv9YbfXSR75Uowu+EaNUa0c+K5XNnpxukLyLscabSbHGqgTTOmqowoq23vJsstXM
+         KZGA==
+X-Gm-Message-State: AOAM532V5SKYa/W4xOteO/FwH4Lg6kxQ5WGh7Jr19gcIIhT2ZYp2ymOF
+        qckXihT5QbOTwDwCTop2V9soYTkR4rWIdbPSRx4kOg==
+X-Google-Smtp-Source: ABdhPJzv8hrDv7j8QxBRMT8DbWGNHAjn2SFadQCf6V/1mYcyv79IOw9cqliku5v7+LW/FEZaY2ZCORI+UiGpp+SD2WU=
+X-Received: by 2002:a17:90a:6ba4:: with SMTP id w33mr13549703pjj.32.1610755322387;
+ Fri, 15 Jan 2021 16:02:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210112053113.4180271-1-morbo@google.com> <20210113061958.886723-1-morbo@google.com>
+ <20210113205547.GA21653@Ryzen-9-3900X.localdomain> <CAKwvOd=0wWz4o652EoZNvfu1L+fuhuGZusqpxiJ+561DtCh7Eg@mail.gmail.com>
+In-Reply-To: <CAKwvOd=0wWz4o652EoZNvfu1L+fuhuGZusqpxiJ+561DtCh7Eg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 15 Jan 2021 16:01:51 -0800
+Message-ID: <CAKwvOd=rEngs-8DR6pagynYc5-=a06brTOOx5TT1TC+v7-3m2Q@mail.gmail.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Bill Wendling <morbo@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For IPv4, default route is learned via DHCPv4 and user is allowed to change
-metric using config etc/network/interfaces. But for IPv6, default route can
-be learned via RA, for which, currently a fixed metric value 1024 is used.
+On Wed, Jan 13, 2021 at 8:07 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> >
+> > However, I see an issue with actually using the data:
+> >
+> > $ sudo -s
+> > # mount -t debugfs none /sys/kernel/debug
+> > # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> > # chown nathan:nathan vmlinux.profraw
+> > # exit
+> > $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> > warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+> > error: No profiles could be merged.
+> >
+> > Am I holding it wrong? :) Note, this is virtualized, I do not have any
+> > "real" x86 hardware that I can afford to test on right now.
+>
+> Same.
+>
+> I think the magic calculation in this patch may differ from upstream
+> llvm: https://github.com/llvm/llvm-project/blob/49142991a685bd427d7e877c29c77371dfb7634c/llvm/include/llvm/ProfileData/SampleProf.h#L96-L101
 
-Ideally, user should be able to configure metric on default route for IPv6
-similar to IPv4. This fix adds sysctl for the same.
+Err...it looks like it was the padding calculation.  With that fixed
+up, we can query the profile data to get insights on the most heavily
+called functions.  Here's what my top 20 are (reset, then watch 10
+minutes worth of cat videos on youtube while running `find /` and
+sleeping at my desk).  Anything curious stand out to anyone?
 
-Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
-Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
+$ llvm-profdata show -topn=20 /tmp/vmlinux.profraw
+Instrumentation level: IR  entry_first = 0
+Total functions: 48970
+Maximum function count: 62070879
+Maximum internal block count: 83221158
+Top 20 functions with the largest internal block counts:
+  drivers/tty/n_tty.c:n_tty_write, max count = 83221158
+  rcu_read_unlock_strict, max count = 62070879
+  _cond_resched, max count = 25486882
+  rcu_all_qs, max count = 25451477
+  drivers/cpuidle/poll_state.c:poll_idle, max count = 23618576
+  _raw_spin_unlock_irqrestore, max count = 18874121
+  drivers/cpuidle/governors/menu.c:menu_select, max count = 18721624
+  _raw_spin_lock_irqsave, max count = 18509161
+  memchr, max count = 15525452
+  _raw_spin_lock, max count = 15484254
+  __mod_memcg_state, max count = 14604619
+  __mod_memcg_lruvec_state, max count = 14602783
+  fs/ext4/hash.c:str2hashbuf_signed, max count = 14098424
+  __mod_lruvec_state, max count = 12527154
+  __mod_node_page_state, max count = 12525172
+  native_sched_clock, max count = 8904692
+  sched_clock_cpu, max count = 8895832
+  sched_clock, max count = 8894627
+  kernel/entry/common.c:exit_to_user_mode_prepare, max count = 8289031
+  fpregs_assert_state_consistent, max count = 8287198
 
-Changes in v1.
----
-1.) Correct the call to rt6_add_dflt_router.
----
-
-Changes in v2.
-[Ref: lkml/2021/1/14/1400]
----
-1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
-2.) Change Type to __u32 instead of __s32.
-3.) Change description in Documentation/networking/ip-sysctl.rst.
-4.) Use proc_douintvec instead of proc_dointvec.
-5.) Code style in ndisc_router_discovery().
-6.) Change Type to u32 instead of unsigned int.
----
-
-Reported-by: kernel test robot <lkp@intel.com>
-
-Logs:
-----------------------------------------------------------------
-For IPv4:
-----------------------------------------------------------------
-
-Config in etc/network/interfaces
-----------------------------------------------------------------
-```
-auto eth0
-iface eth0 inet dhcp
-    metric 4261413864
-```
-
-IPv4 Kernel Route Table:
-----------------------------------------------------------------
-```
-$ ip route list
-default via 172.21.47.1 dev eth0 metric 4261413864
-```
-
-FRR Table, if a static route is configured.
-[In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
-----------------------------------------------------------------
-```
-Codes: K - kernel route, C - connected, S - static, R - RIP,
-       O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
-       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
-       > - selected route, * - FIB route
-
-S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
-K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
-```
-----------------------------------------------------------------
-
-***i.e. User can prefer Default Router learned via Routing Protocol in IPv4.***
-***Similar behavior is not possible for IPv6, without this fix.***
-
-----------------------------------------------------------------
-After fix [for IPv6]:
-----------------------------------------------------------------
-```
-sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
-```
-
-IP monitor: [When IPv6 RA is received]
-----------------------------------------------------------------
-```
-default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
-```
-
-Kernel IPv6 routing table
-----------------------------------------------------------------
-```
-$ ip -6 route list
-default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
-```
-
-FRR Table, if a static route is configured.
-[In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
-----------------------------------------------------------------
-```
-Codes: K - kernel route, C - connected, S - static, R - RIPng,
-       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
-       v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
-       > - selected route, * - FIB route
-
-S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
-K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
-```
-
-If the metric is changed later, the effect will be seen only when next IPv6
-RA is received, because the default route must be fully controlled by RA msg.
-Below metric is changed from 1996489705 to 1996489704.
-----------------------------------------------------------------
-```
-$ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
-net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
-```
-
-IP monitor:
-[On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
-----------------------------------------------------------------
-```
-Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
-default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
-```
----
- Documentation/networking/ip-sysctl.rst | 12 ++++++++++++
- include/linux/ipv6.h                   |  1 +
- include/net/ip6_route.h                |  3 ++-
- include/uapi/linux/ipv6.h              |  1 +
- include/uapi/linux/sysctl.h            |  1 +
- net/ipv6/addrconf.c                    | 10 ++++++++++
- net/ipv6/ndisc.c                       | 14 ++++++++++----
- net/ipv6/route.c                       |  5 +++--
- 8 files changed, 40 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index dd2b12a32b73..c4b8d4b8d213 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1871,6 +1871,18 @@ accept_ra_defrtr - BOOLEAN
- 		- enabled if accept_ra is enabled.
- 		- disabled if accept_ra is disabled.
- 
-+ra_defrtr_metric - INTEGER
-+	Route metric for default route learned in Router Advertisement. This value
-+	will be assigned as metric for the default route learned via IPv6 Router
-+	Advertisement. Takes affect only if accept_ra_defrtr' is enabled.
-+
-+	Possible values are:
-+		0:
-+			default value will be used for route metric
-+			i.e. IP6_RT_PRIO_USER 1024.
-+		1 to 0xFFFFFFFF:
-+			current value will be used for route metric.
-+
- accept_ra_from_local - BOOLEAN
- 	Accept RA with source-address that is found on local machine
- 	if the RA is otherwise proper and able to be accepted.
-diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
-index dda61d150a13..9d1f29f0c512 100644
---- a/include/linux/ipv6.h
-+++ b/include/linux/ipv6.h
-@@ -31,6 +31,7 @@ struct ipv6_devconf {
- 	__s32		max_desync_factor;
- 	__s32		max_addresses;
- 	__s32		accept_ra_defrtr;
-+	__u32		ra_defrtr_metric;
- 	__s32		accept_ra_min_hop_limit;
- 	__s32		accept_ra_pinfo;
- 	__s32		ignore_routes_with_linkdown;
-diff --git a/include/net/ip6_route.h b/include/net/ip6_route.h
-index 2a5277758379..f51a118bfce8 100644
---- a/include/net/ip6_route.h
-+++ b/include/net/ip6_route.h
-@@ -174,7 +174,8 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
- 				     struct net_device *dev);
- struct fib6_info *rt6_add_dflt_router(struct net *net,
- 				     const struct in6_addr *gwaddr,
--				     struct net_device *dev, unsigned int pref);
-+				     struct net_device *dev, unsigned int pref,
-+				     u32 defrtr_usr_metric);
- 
- void rt6_purge_dflt_routers(struct net *net);
- 
-diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
-index 13e8751bf24a..70603775fe91 100644
---- a/include/uapi/linux/ipv6.h
-+++ b/include/uapi/linux/ipv6.h
-@@ -189,6 +189,7 @@ enum {
- 	DEVCONF_ACCEPT_RA_RT_INFO_MIN_PLEN,
- 	DEVCONF_NDISC_TCLASS,
- 	DEVCONF_RPL_SEG_ENABLED,
-+	DEVCONF_RA_DEFRTR_METRIC,
- 	DEVCONF_MAX
- };
- 
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 458179df9b27..1e05d3caa712 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -571,6 +571,7 @@ enum {
- 	NET_IPV6_ACCEPT_SOURCE_ROUTE=25,
- 	NET_IPV6_ACCEPT_RA_FROM_LOCAL=26,
- 	NET_IPV6_ACCEPT_RA_RT_INFO_MIN_PLEN=27,
-+	NET_IPV6_RA_DEFRTR_METRIC=28,
- 	__NET_IPV6_MAX
- };
- 
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index eff2cacd5209..b13d3213e58f 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -205,6 +205,7 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
- 	.max_desync_factor	= MAX_DESYNC_FACTOR,
- 	.max_addresses		= IPV6_MAX_ADDRESSES,
- 	.accept_ra_defrtr	= 1,
-+	.ra_defrtr_metric = 0,
- 	.accept_ra_from_local	= 0,
- 	.accept_ra_min_hop_limit= 1,
- 	.accept_ra_pinfo	= 1,
-@@ -260,6 +261,7 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
- 	.max_desync_factor	= MAX_DESYNC_FACTOR,
- 	.max_addresses		= IPV6_MAX_ADDRESSES,
- 	.accept_ra_defrtr	= 1,
-+	.ra_defrtr_metric = 0,
- 	.accept_ra_from_local	= 0,
- 	.accept_ra_min_hop_limit= 1,
- 	.accept_ra_pinfo	= 1,
-@@ -5475,6 +5477,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
- 	array[DEVCONF_MAX_DESYNC_FACTOR] = cnf->max_desync_factor;
- 	array[DEVCONF_MAX_ADDRESSES] = cnf->max_addresses;
- 	array[DEVCONF_ACCEPT_RA_DEFRTR] = cnf->accept_ra_defrtr;
-+	array[DEVCONF_RA_DEFRTR_METRIC] = cnf->ra_defrtr_metric;
- 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] = cnf->accept_ra_min_hop_limit;
- 	array[DEVCONF_ACCEPT_RA_PINFO] = cnf->accept_ra_pinfo;
- #ifdef CONFIG_IPV6_ROUTER_PREF
-@@ -6667,6 +6670,13 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec,
- 	},
-+	{
-+		.procname	= "ra_defrtr_metric",
-+		.data		= &ipv6_devconf.ra_defrtr_metric,
-+		.maxlen		= sizeof(u32),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec,
-+	},
- 	{
- 		.procname	= "accept_ra_min_hop_limit",
- 		.data		= &ipv6_devconf.accept_ra_min_hop_limit,
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index 76717478f173..7a5b0ce6e6ea 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -1173,6 +1173,7 @@ static void ndisc_router_discovery(struct sk_buff *skb)
- 	struct neighbour *neigh = NULL;
- 	struct inet6_dev *in6_dev;
- 	struct fib6_info *rt = NULL;
-+	u32 defrtr_usr_metric;
- 	struct net *net;
- 	int lifetime;
- 	struct ndisc_options ndopts;
-@@ -1303,18 +1304,23 @@ static void ndisc_router_discovery(struct sk_buff *skb)
- 			return;
- 		}
- 	}
--	if (rt && lifetime == 0) {
-+	/* Set default route metric if specified by user */
-+	defrtr_usr_metric = in6_dev->cnf.ra_defrtr_metric;
-+	if (defrtr_usr_metric == 0)
-+		defrtr_usr_metric = IP6_RT_PRIO_USER;
-+	/* delete the route if lifetime is 0 or if metric needs change */
-+	if (rt && ((lifetime == 0) || (rt->fib6_metric != defrtr_usr_metric)))  {
- 		ip6_del_rt(net, rt, false);
- 		rt = NULL;
- 	}
- 
--	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, for dev: %s\n",
--		  rt, lifetime, skb->dev->name);
-+	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, metric: %d, for dev: %s\n",
-+		  rt, lifetime, defrtr_usr_metric, skb->dev->name);
- 	if (!rt && lifetime) {
- 		ND_PRINTK(3, info, "RA: adding default router\n");
- 
- 		rt = rt6_add_dflt_router(net, &ipv6_hdr(skb)->saddr,
--					 skb->dev, pref);
-+					 skb->dev, pref, defrtr_usr_metric);
- 		if (!rt) {
- 			ND_PRINTK(0, err,
- 				  "RA: %s failed to add default route\n",
-diff --git a/net/ipv6/route.c b/net/ipv6/route.c
-index 188e114b29b4..64fe5b51b0c2 100644
---- a/net/ipv6/route.c
-+++ b/net/ipv6/route.c
-@@ -4252,11 +4252,12 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
- struct fib6_info *rt6_add_dflt_router(struct net *net,
- 				     const struct in6_addr *gwaddr,
- 				     struct net_device *dev,
--				     unsigned int pref)
-+				     unsigned int pref,
-+				     u32 defrtr_usr_metric)
- {
- 	struct fib6_config cfg = {
- 		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
--		.fc_metric	= IP6_RT_PRIO_USER,
-+		.fc_metric	= defrtr_usr_metric ? : IP6_RT_PRIO_USER,
- 		.fc_ifindex	= dev->ifindex,
- 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
- 				  RTF_UP | RTF_EXPIRES | RTF_PREF(pref),
-
-base-commit: 139711f033f636cc78b6aaf7363252241b9698ef
 -- 
-2.29.0
-
+Thanks,
+~Nick Desaulniers
