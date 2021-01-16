@@ -2,169 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B698C433E9
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 04:33:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B02F6C433E6
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 05:08:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E55B23A9D
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 04:33:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 828E023A34
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 05:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725815AbhAPEdG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jan 2021 23:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
+        id S1726138AbhAPFIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Jan 2021 00:08:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729739AbhAPEdF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jan 2021 23:33:05 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DB6C061793
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 20:32:24 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id 15so7325515pgx.7
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jan 2021 20:32:24 -0800 (PST)
+        with ESMTP id S1725899AbhAPFIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jan 2021 00:08:47 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3DD2C061757;
+        Fri, 15 Jan 2021 21:08:06 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id q2so20741665iow.13;
+        Fri, 15 Jan 2021 21:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=78eb91iV6onC6q/hVFxGo4K1XPsW1qS27cVVQW2qr6s=;
-        b=AhCJrurJWr5qakhtTFitP0L+ZLAyEUUdfmPca3QpxNzNGFZrZqXzwK7rGFldzEKG/g
-         rJg/IJDxekMuO8bfkHTyYr74RzsMadcBKp3YR9g06tgDFSHtXj+chssKalfaIawkjxih
-         BRVvlJPQYIvd4KdUAxAhR4o75d35icXrZB/EFP+iGbzySEycNsF4pX+FdJ9wg3SoTuE5
-         rFtP8JHAXY+SgOM6dFnjOivvQw+GG6iyCeM1dcpiO6/ytRmGQmhhFtnGXUsk/g7/6di8
-         Vd538ChRdWi0U4cRJs4gB1uu7Phm5CVMgdVGwZ8UBewEAtTIVAqqGMDPKErXtfOpnTpg
-         SEvw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=nIQUS/B/jxToiqnwVuNwCI5mEHFlIKg/uOPqX0C2Wtw=;
+        b=BCEzZ30PpAdSDzvGeBNvIxjLUhqvauhhAl08F+tQoLc59jXBr1FvyFXf2eo3W/BYiE
+         3cIW6Dgr2xcqCjktlH3uGVpPq2sEsqEpa1SCF6vUCgqGGS/j3jhvtI7PqWTAiW7NqSzU
+         QtUg/wD0ASrA38VhyTUxa5gcEZnFmV9V8DAIKwvvZplU5kNlL7UGB9NWQ6RKC7dRUEu8
+         naxvkB1mwnLk/0AMJDMjQzDCGWq3ykhc+lTDyooONYwI/rvpHtXYgm7FlNsCuwL1hdPQ
+         DoM/OJHebKbfCYW3oQLXMLuB0SQOxJB5yb07dSWJPAOnSZlRlqquIJLLSTGAFamOaBV8
+         n8Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=78eb91iV6onC6q/hVFxGo4K1XPsW1qS27cVVQW2qr6s=;
-        b=tXWEDnpK/JLy8IKtK4bzuWNQs3ZrFVy9jP5SshwgX6jh0KCYBSj0LuTqK6hbB+9kop
-         ST7pa+LVArhDyzx7f28sIx5J0qjsgC6hTkA/w3jrqPbJ1zPR+oz7KOgX3vBlztNMLDFg
-         Soy+zxaFD7nUKoCPuPX/G++onhhnv323CjP04FfNzNOUSYcz6RPM0VbOOHY8jtH+eMg0
-         QpEvpxnmn+FdbnRc9sN3uCweMye5BigCtgwIlrW5n/k5+UpcKSN8ugK4Av9clDxyGVyp
-         bfQumbxVA9+cIjcJZ5psZNkI5YbtmvDeRN45WiP3YDbkFiC2DYDX06TdHNAUTMYV+pIK
-         M5nQ==
-X-Gm-Message-State: AOAM532gI+6JUfOee3inqjLgV1yAPEKsUzwOytsTb3fIwJrpU/58kZem
-        ioGfvDfs7HqVdMV4t36kMNu0fw==
-X-Google-Smtp-Source: ABdhPJyKP8sU4ECWM/iW0Xk589JXcKQYdttY9E5LYxNTDUNToqzSmjvyhu/nR8SzTobIC2lS6ErK0A==
-X-Received: by 2002:a62:7d90:0:b029:19d:917b:6c65 with SMTP id y138-20020a627d900000b029019d917b6c65mr16224433pfc.28.1610771544088;
-        Fri, 15 Jan 2021 20:32:24 -0800 (PST)
-Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
-        by smtp.gmail.com with ESMTPSA id a29sm9378348pfr.73.2021.01.15.20.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 20:32:23 -0800 (PST)
-Date:   Fri, 15 Jan 2021 20:32:19 -0800
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
-        lizefan@huawei.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, joro@8bytes.org,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
-Message-ID: <YAJsUyH2zspZxF2S@google.com>
-References: <20210108012846.4134815-1-vipinsh@google.com>
- <20210108012846.4134815-2-vipinsh@google.com>
- <YAICLR8PBXxAcOMz@mtj.duckdns.org>
- <YAIUwGUPDmYfUm/a@google.com>
- <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=nIQUS/B/jxToiqnwVuNwCI5mEHFlIKg/uOPqX0C2Wtw=;
+        b=tzrG70KG5s8FIDIm7ejwLPhyLRLXNzjc0yNybFj1B/2zlbBtcsNctXqOai7dwo7X/v
+         ILUS/MYjlDzWhy/mY+NkRlsOhCNn6qAg8MCy+f+WOs2eXtyL/2/YBc3aK0ZJiPhzDBBl
+         ZolcRPZDnYvM9MAwIHrQH12tcvSPzmSRqGVjH7TWqOvNGyvSAYgDv/mW+LBncC21k0Hx
+         q6qtTtQZ2ElR3khQQ0Xhmq0vC3Smkl1GyDZ8En8+E15/4A0oqDeL1kkbckq8+zFaB4qF
+         tUgTH2QmQos2NTNsA50759nr+1HquFfb8lXMuhP4XZBZUdGM0OLhZwcPuhIRC9Yaa3HN
+         GKTg==
+X-Gm-Message-State: AOAM531npuaIRTBohxD3W/gpAWTcoejWOroBq3x7Apjwh6e/tODpC0Dz
+        XG9pRBddJdT7+1oEiKbruv+cI6Ggf/EebYmSgZ4=
+X-Google-Smtp-Source: ABdhPJyPjV1sBVYh8T4dGG+mSL9ZbpSIEQVKTLnhQsLRDQrWB9TFmTVeAnntknYImejmwyotyR0/9/qNPDrdm+x1Pis=
+X-Received: by 2002:a92:8593:: with SMTP id f141mr9063480ilh.112.1610773685903;
+ Fri, 15 Jan 2021 21:08:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
+References: <CAKwvOd=rEngs-8DR6pagynYc5-=a06brTOOx5TT1TC+v7-3m2Q@mail.gmail.com>
+ <20210116001324.2865-1-nick.desaulniers@gmail.com>
+In-Reply-To: <20210116001324.2865-1-nick.desaulniers@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sat, 16 Jan 2021 06:07:54 +0100
+Message-ID: <CA+icZUW-H4LjVhJHSr2W3UJotvB6Eq1bFO_bQWT8=GQqcB4A1A@mail.gmail.com>
+Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Nick Desaulniers <nick.desaulniers@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        akpm@linux-foundation.org,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        masahiroy@kernel.org, Bill Wendling <morbo@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 10:43:32PM -0500, Tejun Heo wrote:
-> On Fri, Jan 15, 2021 at 02:18:40PM -0800, Vipin Sharma wrote:
-> > > * Why is .sev a separate namespace? Isn't the controller supposed to cover
-> > >   encryption ids across different implementations? It's not like multiple
-> > >   types of IDs can be in use on the same machine, right?
-> > > 
-> > 
-> > On AMD platform we have two types SEV and SEV-ES which can exists
-> > simultaneously and they have their own quota.
-> 
-> Can you please give a brief explanation of the two and lay out a scenario
-> where the two are being used / allocated disjointly?
-> 
+On Sat, Jan 16, 2021 at 1:13 AM Nick Desaulniers
+<nick.desaulniers@gmail.com> wrote:
+>
+> > On Wed, Jan 13, 2021 at 8:07 PM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > >
+> > > On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
+> > > <natechancellor@gmail.com> wrote:
+> > > >
+> > > > However, I see an issue with actually using the data:
+> > > >
+> > > > $ sudo -s
+> > > > # mount -t debugfs none /sys/kernel/debug
+> > > > # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
+> > > > # chown nathan:nathan vmlinux.profraw
+> > > > # exit
+> > > > $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
+> > > > warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
+> > > > error: No profiles could be merged.
+> > > >
+> > > > Am I holding it wrong? :) Note, this is virtualized, I do not have any
+> > > > "real" x86 hardware that I can afford to test on right now.
+> > >
+> > > Same.
+> > >
+> > > I think the magic calculation in this patch may differ from upstream
+> > > llvm: https://github.com/llvm/llvm-project/blob/49142991a685bd427d7e877c29c77371dfb7634c/llvm/include/llvm/ProfileData/SampleProf.h#L96-L101
+> >
+> > Err...it looks like it was the padding calculation.  With that fixed
+> > up, we can query the profile data to get insights on the most heavily
+> > called functions.  Here's what my top 20 are (reset, then watch 10
+> > minutes worth of cat videos on youtube while running `find /` and
+> > sleeping at my desk).  Anything curious stand out to anyone?
+>
+> Hello world from my personal laptop whose kernel was rebuilt with
+> profiling data!  Wow, I can run `find /` and watch cat videos on youtube
+> so fast!  Users will love this! /s
+>
+> Checking the sections sizes of .text.hot. and .text.unlikely. looks
+> good!
+>
 
-SEV-ES has stronger memory encryption gurantees compared to SEV, apart
-from encrypting the application memory it also encrypts register state
-among other things. In a single host ASIDs can be distributed between
-these two types by BIOS settings.
+Is that the latest status of Bill's patch?
 
-Currently, Google Cloud has Confidential VM machines offering using SEV.
-ASIDs are not compatible between SEV and SEV-ES, so a VM running on SEV
-cannot run on SEV-ES and vice versa
+Or do you have me a lore link?
 
-There are use cases for both types of VMs getting used in future.
+- Sedat -
 
-> > > > Other ID types can be easily added in the controller in the same way.
-> > > 
-> > > I'm not sure this is necessarily a good thing.
-> > 
-> > This is to just say that when Intel and PowerPC changes are ready it
-> > won't be difficult for them to add their controller.
-> 
-> I'm not really enthused about having per-hardware-type control knobs. None
-> of other controllers behave that way. Unless it can be abstracted into
-> something common, I'm likely to object.
+[1] https://github.com/gwelymernans/linux/commits/gwelymernans/linux
 
-There was a discussion in Patch v1 and consensus was to have individual
-files because it makes kernel implementation extremely simple.
 
-https://lore.kernel.org/lkml/alpine.DEB.2.23.453.2011131615510.333518@chino.kir.corp.google.com/#t
-
-> 
-> > > > +static int enc_id_cg_stat_show(struct seq_file *sf, void *v)
-> > > > +{
-> > > > +	unsigned long flags;
-> > > > +	enum encryption_id_type type = seq_cft(sf)->private;
-> > > > +
-> > > > +	spin_lock_irqsave(&enc_id_cg_lock, flags);
-> > > > +
-> > > > +	seq_printf(sf, "total %u\n", enc_id_capacity[type]);
-> > > > +	seq_printf(sf, "used %u\n", root_cg.res[type].usage);
-> > > 
-> > > Dup with .current and no need to show total on every cgroup, right?
-> > 
-> > This is for the stat file which will only be seen in the root cgroup
-> > directory.  It is to know overall picture for the resource, what is the
-> > total capacity and what is the current usage. ".current" file is not
-> > shown on the root cgroup.
-> 
-> Ah, missed the flags. It's odd for the usage to be presented in two
-> different ways tho. I think it'd make more sense w/ cgroup.current at root
-> level. Is the total number available somewhere else in the system?
-
-This information is not available anywhere else in the system. Only
-other way to get this value is to use CPUID instruction (0x8000001F) of
-the processor. Which also has disdvantage if sev module in kernel
-doesn't use all of the available ASIDs for its work (right now it uses
-all) then there will be a mismatch between what user get through their
-code and what is actually getting used in the kernel by sev.
-
-In cgroup v2, I didn't see current files for other cgroups in root
-folder that is why I didn't show that file in root folder.
-
-Will you be fine if I show two files in the root, something like:
-
-encids.sev.capacity
-encids.sev.current
-
-In non root folder, it will be:
-encids.sev.max
-encids.sev.current
-
-I still prefer encids.sev.stat, as it won't repeat same information in
-each cgroup but let me know what you think.
-
-Thanks
+> >
+> > $ llvm-profdata show -topn=20 /tmp/vmlinux.profraw
+> > Instrumentation level: IR  entry_first = 0
+> > Total functions: 48970
+> > Maximum function count: 62070879
+> > Maximum internal block count: 83221158
+> > Top 20 functions with the largest internal block counts:
+> >   drivers/tty/n_tty.c:n_tty_write, max count = 83221158
+> >   rcu_read_unlock_strict, max count = 62070879
+> >   _cond_resched, max count = 25486882
+> >   rcu_all_qs, max count = 25451477
+> >   drivers/cpuidle/poll_state.c:poll_idle, max count = 23618576
+> >   _raw_spin_unlock_irqrestore, max count = 18874121
+> >   drivers/cpuidle/governors/menu.c:menu_select, max count = 18721624
+> >   _raw_spin_lock_irqsave, max count = 18509161
+> >   memchr, max count = 15525452
+> >   _raw_spin_lock, max count = 15484254
+> >   __mod_memcg_state, max count = 14604619
+> >   __mod_memcg_lruvec_state, max count = 14602783
+> >   fs/ext4/hash.c:str2hashbuf_signed, max count = 14098424
+> >   __mod_lruvec_state, max count = 12527154
+> >   __mod_node_page_state, max count = 12525172
+> >   native_sched_clock, max count = 8904692
+> >   sched_clock_cpu, max count = 8895832
+> >   sched_clock, max count = 8894627
+> >   kernel/entry/common.c:exit_to_user_mode_prepare, max count = 8289031
+> >   fpregs_assert_state_consistent, max count = 8287198
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+> >
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210116001324.2865-1-nick.desaulniers%40gmail.com.
