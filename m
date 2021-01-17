@@ -2,357 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E08AC433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 20:25:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC5CC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:11:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1245D2087E
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jan 2021 20:25:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96772206E5
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:11:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbhAPUY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Jan 2021 15:24:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
+        id S1728463AbhAQKLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 05:11:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726788AbhAPUYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jan 2021 15:24:24 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBDFC061575
-        for <linux-doc@vger.kernel.org>; Sat, 16 Jan 2021 12:23:43 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id f4so18228282ejx.7
-        for <linux-doc@vger.kernel.org>; Sat, 16 Jan 2021 12:23:43 -0800 (PST)
+        with ESMTP id S1728499AbhAQKKZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 05:10:25 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B55C6C061573;
+        Sun, 17 Jan 2021 02:09:44 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id g12so19544948ejf.8;
+        Sun, 17 Jan 2021 02:09:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rwd0e1UxPf4jra+cHgWc0pdWvVXVnpNKf6ZNL9rziWo=;
-        b=V/PF3zTRAPSuMz/PY6z7EpaAAhzS/ekxEyEZfpEg1kBJha5i6wHIP1FCKE6xPTsDy1
-         0jdiAQBHRqf81tJsxzsv5soM3DHtdZMtttOiOrmkEXJAHP4b/w2bj32+jhuA8B9TUkEM
-         3Rc3/NLN3DdqBvZehqGaf6hjSdmZ/v73dazd9rh2l55qK/osRcxlFwWEy5EqeisOxlZ4
-         3zQ8JnD1gixwfDacfRngfeG2lL+0B9IZMOc9YhmAZkZlRNT0KiLGkics8+nH5zzg4kQR
-         dMXMYOYMdHXzTAeJIt1hnJg399o3rUz8pJEr+EPBZ3u0mQLv9bR3oNQcISIFVbFm4Y0s
-         LVsQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=GAlzQhKZYq1VTOxNcXW0n5p+sG1hEvl0LZsZTzmenZw=;
+        b=KcGIj3TOBx4vFM/uI02NNXxBBGDVYypGRfNq/+CHZCbmBR8rl5RM3upoB+pxGCBiFr
+         IQpftZXipOHJp8dW+GsenxTbFFqGzDu43O1376z9UCyuqVrwN279YfIcCgu9I574YFBz
+         ewqdqTP9/l47mTuV/8gOHCdeaVQTKJt1sO7h3se/93F4wcNKZCQJegfTyP6BgULJmrki
+         VlqLgO+OR/5FEJBhdJWlRmTocopGE0fUmYUZ9NsYFG2xoAn6nT1T8S79XSgen+kVQ6Cd
+         QiSQQjmDc2/eZpmhApJfzRqgw9lAg7Zrkh0IrSLtC3/Ms1WtGUUQoRMjs2Y3ni+nugAc
+         f7wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rwd0e1UxPf4jra+cHgWc0pdWvVXVnpNKf6ZNL9rziWo=;
-        b=E+7yVdxnDYoE3LV/9GUvlqwMgpI/NSrUbKSiYuScG9HPUbmbxFfeNQ1RAflnRZKjpY
-         DlfUSWw2DUvttURaHSYLI4wMHp4Gbnlltvh0C4t4T3Tjw7IQ5/BDJ5xJqSM2DQpWiVob
-         hY89+RwOcowavOOWCUXG3LnDqqgE3+ceqeqLbGYObfR8t4vDC4wPvyFSNVlumSL45S0j
-         mvwIIOFhe0Ko8l7GcgcUZo4woJcOVUdBL0xJ6i4Cfo0O/fVJbse4cd+Aa7I8wRoQsxnL
-         NZpKpE9EgWKXktVgoBD0+Wq0wFNscEh9uZhcmoKicK/vtNC0wU8doMO5tZ9nkeZIa1nc
-         RfDg==
-X-Gm-Message-State: AOAM532Tf9TqkK3rXZ105paRh3Pk5sq5sgcOcc43r4LtikZJriBqovke
-        lqN1w2yKDntpLdMW9tNZGof3FMEH/atFcFJRHQIy
-X-Google-Smtp-Source: ABdhPJzo0AP0RDAtCq2gyoETqDiGAA0T9hgndPM++Eqn8o3YPkx46pPWnmqch3+II54asGfiIz3fsWNxK2Z2Ll/Yqpc=
-X-Received: by 2002:a17:906:b002:: with SMTP id v2mr12976263ejy.531.1610828620606;
- Sat, 16 Jan 2021 12:23:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
-In-Reply-To: <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sat, 16 Jan 2021 12:23:29 -0800
-Message-ID: <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GAlzQhKZYq1VTOxNcXW0n5p+sG1hEvl0LZsZTzmenZw=;
+        b=V+ZaeLDgem/93f2nG6ZqKFearNCYiMMX84BUP3k8RZnN9lI6G0/dZ/22s6DqX4Tt4C
+         oDQPMSgWH2ECxBNnP9T24VVS2oY5GZGMGllqvMvYBLjGYhLe2rDZ2hk1ZFj6kkEOnm6m
+         WbBl1a8ju5aN7eBn2L48bctx9tBJAo5dxQaCWDXc7NF0LolEWnVEnvvW6uan6zhrWa83
+         NUQzk2sVk7s6C+0rTLnQqII0+rXnWzmCKMqYHwnjMxlpLjzQ3E9C/376U4NTI7iI6r1F
+         7XigVvl/5TVyQRxDoeZFSydRMSyjMe/g0rMABUX7+7mENUYQw6z7SkYBoPBE3hPqSgc/
+         TTCw==
+X-Gm-Message-State: AOAM531Mbk6NLL6YilQ+WVDAFKy0qPTWO9Modd1x+SuQUubedNg6xkNO
+        a0zN1ZwxHvjLVjnPuPyKDOQWtmAI+tbGAw==
+X-Google-Smtp-Source: ABdhPJzWLYmx+QpH4rtDbsvUgp0x5cAY1wyUYn9lBeZriTUA5LB74QM3ot9KxO1/pemYRXrnZIZ5uw==
+X-Received: by 2002:a17:907:7295:: with SMTP id dt21mr14718213ejc.518.1610878183481;
+        Sun, 17 Jan 2021 02:09:43 -0800 (PST)
+Received: from localhost.localdomain ([2a02:2450:10d2:194d:c06a:642a:2af4:1e16])
+        by smtp.gmail.com with ESMTPSA id s19sm9277855edx.7.2021.01.17.02.09.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Jan 2021 02:09:42 -0800 (PST)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     corbet@lwn.net
+Cc:     SeongJae Park <sjpark@amazon.de>, paulmck@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] docs: Update Korean translation
+Date:   Sun, 17 Jan 2021 11:09:28 +0100
+Message-Id: <20210117100931.9347-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 16, 2021 at 9:39 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> On Sat, Jan 16, 2021 at 10:44 AM 'Bill Wendling' via Clang Built Linux
-> <clang-built-linux@googlegroups.com> wrote:
-> >
-> > From: Sami Tolvanen <samitolvanen@google.com>
-> >
-> > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > profile, the kernel is instrumented with PGO counters, a representative
-> > workload is run, and the raw profile data is collected from
-> > /sys/kernel/debug/pgo/profraw.
-> >
-> > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > before it can be used during recompilation:
-> >
-> >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> >
-> > Multiple raw profiles may be merged during this step.
-> >
-> > The data can now be used by the compiler:
-> >
-> >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> >
-> > This initial submission is restricted to x86, as that's the platform we
-> > know works. This restriction can be lifted once other platforms have
-> > been verified to work with PGO.
-> >
-> > Note that this method of profiling the kernel is clang-native, unlike
-> > the clang support in kernel/gcov.
-> >
-> > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Co-developed-by: Bill Wendling <morbo@google.com>
-> > Signed-off-by: Bill Wendling <morbo@google.com>
-> > ---
-> > v2: - Added "__llvm_profile_instrument_memop" based on Nathan Chancellor's
-> >       testing.
-> >     - Corrected documentation, re PGO flags when using LTO, based on Fangrui
-> >       Song's comments.
-> > v3: - Added change log section based on Sedat Dilek's comments.
-> > v4: - Remove non-x86 Makfile changes and se "hweight64" instead of using our
-> >       own popcount implementation, based on Nick Desaulniers's comment.
-> > v5: - Correct padding calculation, discovered by Nathan Chancellor.
-> > ---
-> >  Documentation/dev-tools/index.rst     |   1 +
-> >  Documentation/dev-tools/pgo.rst       | 127 +++++++++
-> >  MAINTAINERS                           |   9 +
-> >  Makefile                              |   3 +
-> >  arch/Kconfig                          |   1 +
-> >  arch/x86/Kconfig                      |   1 +
-> >  arch/x86/boot/Makefile                |   1 +
-> >  arch/x86/boot/compressed/Makefile     |   1 +
-> >  arch/x86/crypto/Makefile              |   2 +
-> >  arch/x86/entry/vdso/Makefile          |   1 +
-> >  arch/x86/kernel/vmlinux.lds.S         |   2 +
-> >  arch/x86/platform/efi/Makefile        |   1 +
-> >  arch/x86/purgatory/Makefile           |   1 +
-> >  arch/x86/realmode/rm/Makefile         |   1 +
-> >  arch/x86/um/vdso/Makefile             |   1 +
-> >  drivers/firmware/efi/libstub/Makefile |   1 +
-> >  include/asm-generic/vmlinux.lds.h     |  44 +++
-> >  kernel/Makefile                       |   1 +
-> >  kernel/pgo/Kconfig                    |  35 +++
-> >  kernel/pgo/Makefile                   |   5 +
-> >  kernel/pgo/fs.c                       | 382 ++++++++++++++++++++++++++
-> >  kernel/pgo/instrument.c               | 185 +++++++++++++
-> >  kernel/pgo/pgo.h                      | 206 ++++++++++++++
-> >  scripts/Makefile.lib                  |  10 +
-> >  24 files changed, 1022 insertions(+)
-> >  create mode 100644 Documentation/dev-tools/pgo.rst
-> >  create mode 100644 kernel/pgo/Kconfig
-> >  create mode 100644 kernel/pgo/Makefile
-> >  create mode 100644 kernel/pgo/fs.c
-> >  create mode 100644 kernel/pgo/instrument.c
-> >  create mode 100644 kernel/pgo/pgo.h
-> >
-> > diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> > index f7809c7b1ba9e..8d6418e858062 100644
-> > --- a/Documentation/dev-tools/index.rst
-> > +++ b/Documentation/dev-tools/index.rst
-> > @@ -26,6 +26,7 @@ whole; patches welcome!
-> >     kgdb
-> >     kselftest
-> >     kunit/index
-> > +   pgo
-> >
-> >
-> >  .. only::  subproject and html
-> > diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
-> > new file mode 100644
-> > index 0000000000000..b7f11d8405b73
-> > --- /dev/null
-> > +++ b/Documentation/dev-tools/pgo.rst
-> > @@ -0,0 +1,127 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +===============================
-> > +Using PGO with the Linux kernel
-> > +===============================
-> > +
-> > +Clang's profiling kernel support (PGO_) enables profiling of the Linux kernel
-> > +when building with Clang. The profiling data is exported via the ``pgo``
-> > +debugfs directory.
-> > +
-> > +.. _PGO: https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> > +
-> > +
-> > +Preparation
-> > +===========
-> > +
-> > +Configure the kernel with:
-> > +
-> > +.. code-block:: make
-> > +
-> > +   CONFIG_DEBUG_FS=y
-> > +   CONFIG_PGO_CLANG=y
-> > +
-> > +Note that kernels compiled with profiling flags will be significantly larger
-> > +and run slower.
-> > +
-> > +Profiling data will only become accessible once debugfs has been mounted:
-> > +
-> > +.. code-block:: sh
-> > +
-> > +   mount -t debugfs none /sys/kernel/debug
-> > +
-> > +
-> > +Customization
-> > +=============
-> > +
-> > +You can enable or disable profiling for individual file and directories by
-> > +adding a line similar to the following to the respective kernel Makefile:
-> > +
-> > +- For a single file (e.g. main.o)
-> > +
-> > +  .. code-block:: make
-> > +
-> > +     PGO_PROFILE_main.o := y
-> > +
-> > +- For all files in one directory
-> > +
-> > +  .. code-block:: make
-> > +
-> > +     PGO_PROFILE := y
-> > +
-> > +To exclude files from being profiled use
-> > +
-> > +  .. code-block:: make
-> > +
-> > +     PGO_PROFILE_main.o := n
-> > +
-> > +and
-> > +
-> > +  .. code-block:: make
-> > +
-> > +     PGO_PROFILE := n
-> > +
-> > +Only files which are linked to the main kernel image or are compiled as kernel
-> > +modules are supported by this mechanism.
-> > +
-> > +
-> > +Files
-> > +=====
-> > +
-> > +The PGO kernel support creates the following files in debugfs:
-> > +
-> > +``/sys/kernel/debug/pgo``
-> > +       Parent directory for all PGO-related files.
-> > +
-> > +``/sys/kernel/debug/pgo/reset``
-> > +       Global reset file: resets all coverage data to zero when written to.
-> > +
-> > +``/sys/kernel/debug/profraw``
-> > +       The raw PGO data that must be processed with ``llvm_profdata``.
-> > +
-> > +
-> > +Workflow
-> > +========
-> > +
-> > +The PGO kernel can be run on the host or test machines. The data though should
-> > +be analyzed with Clang's tools from the same Clang version as the kernel was
-> > +compiled. Clang's tolerant of version skew, but it's easier to use the same
-> > +Clang version.
-> > +
-> > +The profiling data is useful for optimizing the kernel, analyzing coverage,
-> > +etc. Clang offers tools to perform these tasks.
-> > +
-> > +Here is an example workflow for profiling an instrumented kernel with PGO and
-> > +using the result to optimize the kernel:
-> > +
-> > +1) Install the kernel on the TEST machine.
-> > +
-> > +2) Reset the data counters right before running the load tests
-> > +
-> > +   .. code-block:: sh
-> > +
-> > +      $ echo 1 > /sys/kernel/debug/pgo/reset
-> > +
->
-> I do not get this...
->
-> # mount | grep debugfs
-> debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
->
-> After the load-test...?
->
-> echo 0 > /sys/kernel/debug/pgo/reset
->
-Writing anything to /sys/kernel/debug/pgo/reset will cause it to reset
-the profiling counters. I picked 1 (one) semi-randomly, but it could
-be any number, letter, your favorite short story, etc. You don't want
-to reset it before collecting the profiling data from your load tests
-though.
+From: SeongJae Park <sjpark@amazon.de>
 
-> > +3) Run the load tests.
-> > +
-> > +4) Collect the raw profile data
-> > +
-> > +   .. code-block:: sh
-> > +
-> > +      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
-> > +
->
-> This is only 4,9M small and seen from the date 5mins before I run the
-> echo-1 line.
->
-> # ll /sys/kernel/debug/pgo
-> insgesamt 0
-> drwxr-xr-x  2 root root 0 16. Jan 17:29 .
-> drwx------ 41 root root 0 16. Jan 17:29 ..
-> -rw-------  1 root root 0 16. Jan 17:29 profraw
-> --w-------  1 root root 0 16. Jan 18:19 reset
->
-> # cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
->
-> # ll /tmp/vmlinux.profraw
-> -rw------- 1 root root 4,9M 16. Jan 17:29 /tmp/vmlinux.profraw
->
-> For me there was no prof-data collected from my defconfig kernel-build.
->
-The /sys/kernel/debug/pgo/profraw file is read-only. Nothing writes to
-it, not even the kernel. All it does is serialize the profiling
-counters from a memory location in the kernel into a format that
-LLVM's tools can understand.
+This patchset updates Korean translation of 'howto.rst' and links
+the 'memory-barriers.txt' translation in the index rst file.
 
-> > +5) (Optional) Download the raw profile data to the HOST machine.
-> > +
-> > +6) Process the raw profile data
-> > +
-> > +   .. code-block:: sh
-> > +
-> > +      $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > +
->
-> Is that executed in /path/to/linux/git?
->
-The llvm-profdata tool is not in the linux source tree. You need to
-grab it from a clang distribution (or built from clang's git repo).
+SeongJae Park (3):
+  Documentation/kokr/howto: Replace HTTP links with HTTPS ones:
+    Documentation/process
+  docs/kokr: make reporting-bugs.rst obsolete
+  docs/kokr: Link memory-barriers.txt to rst
 
-> > +   Note that multiple raw profile data files can be merged during this step.
-> > +
-> > +7) Rebuild the kernel using the profile data (PGO disabled)
-> > +
-> > +   .. code-block:: sh
-> > +
-> > +      $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
->
-> How big is vmlinux.profdata (make defconfig)?
->
-I don't have numbers for this, but from what you listed here, it's ~5M
-in size. The size is proportional to the number of counters
-instrumented in the kernel.
+ Documentation/translations/ko_KR/howto.rst |  4 ++--
+ Documentation/translations/ko_KR/index.rst | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-> Do I need to do a full defconfig build or can I stop the build after
-> let me say 10mins?
->
-You should do a full rebuild. Make sure that PGO is disabled during the rebuild.
+-- 
+2.17.1
 
--bw
