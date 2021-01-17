@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B91C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E264AC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:15:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A11842070E
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:11:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C191C207AE
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 10:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728217AbhAQKL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 05:11:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
+        id S1728376AbhAQKPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 05:15:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728521AbhAQKK0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 05:10:26 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F37C061575;
-        Sun, 17 Jan 2021 02:09:45 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id dj23so11758316edb.13;
-        Sun, 17 Jan 2021 02:09:45 -0800 (PST)
+        with ESMTP id S1728531AbhAQKK2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 05:10:28 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D53C0613C1;
+        Sun, 17 Jan 2021 02:09:47 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id a10so2919291ejg.10;
+        Sun, 17 Jan 2021 02:09:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OPo7hvP+/MUBks3VqSm4dG2egtcdKq2kmsQrfS7xhVg=;
-        b=cqXQ6qamS92GRPLU79BnLNTsDZ3ocUffXSfH6PCqSW7T3C6O9qceUZ+qoGEsDZG92J
-         TV1aJkSwZ66IsVoidRpdjX3ss884fKAF6QG69x6LS0TysJPXDNQ2bioyRzXUQn3frGxH
-         9jtYJP8gEf0tk0h+gDsuwfyjSJN/YPvRv07qWJuGlcp2ae5CpJYgljE5DyPl+HV2S+SC
-         5ooX+JkKJ33/GOxEB5P/3+LlPp3E0tc9IqTpzJy3LvIvWVnIwKQKONrCAlGPq2Wuq/kz
-         QuP4Zsxn3ODVTnB62ODrSfYFvNpvw7j2aafffcOri4s5j2JyZxT1GRVDL46flegoX2av
-         QR0A==
+        bh=+OG0a9T+WFxLgbNsjTiDCSg5wdtztxUcxZ9XgUoXZoo=;
+        b=ROq6ZncoiQUl5p0D3gO2OGbFGP+YOLig6IES4Yt/CPcBar8m0VRFqLcTZF4qEbVial
+         MmdjsNDlg0PBtCZV939ZW4N90rW+m3/MNK2PveyQDLFarucbFA7qlpFhA7MzgMcT4Dkt
+         INUuWsyzACArQ0kV5vVDKvSGeF3542jmJ+zI7Qbion8nfIqVSXfAIyAh7b5gvo6iOQae
+         CngBFbZcT81aIuAZvgGFfttQzgNFJWdrSjf9UCJqnjzYOtOgqDI5arKyBeUj+DJVieLm
+         41TL2cHdSsYNPPgy0mKJJBEAB7MSJ9IotxYivqzTJ7fn94BQpUyx4TeaLtOc/7gBhJ9T
+         m1/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OPo7hvP+/MUBks3VqSm4dG2egtcdKq2kmsQrfS7xhVg=;
-        b=A5sAhhcJlZsNNV8rY/raYCK8VvcVecbtUR3ZDJ/++kaDT6GkbBoxTC6ccUq470ogPF
-         dRgmzAktHSYKFj00FVAQK5XI44fAr4TZCAciBMnJ5XTJkWtgr2NF/nhAGhjClsI7ll7/
-         GqoBKcJM43nA9O9pZITA/DXB/LPbsm4MUEr6I/7DEl6n9bPy4DhsXJBnWv/qAnzTZKXf
-         41UewTQ52pKa87savmr48ljWWDYC1SUv6Jk7MmulQgj3XhDqEMoCOtqa6711I1F1eD0t
-         q5pTySJllCekJninNR2FXwFHbQogf7k1qxhTUCv9FxfTCWzG2R6n1A5PiCf28IyUjuBF
-         r+Cg==
-X-Gm-Message-State: AOAM5301Xoi+hlakV7AQyiH2px/C+/O7eENoUe9UqWKApG8swp/PFOa8
-        ICg4yOnNoiU37RkSp/Fjw2c=
-X-Google-Smtp-Source: ABdhPJxBXptt7u94Tc/xLmhouSJ8/f1HhLFn/cB1tCyX5lDxv/++BpbPvQblUzSNQRFPk5sXuqfu3w==
-X-Received: by 2002:a05:6402:697:: with SMTP id f23mr16160920edy.318.1610878184474;
-        Sun, 17 Jan 2021 02:09:44 -0800 (PST)
+        bh=+OG0a9T+WFxLgbNsjTiDCSg5wdtztxUcxZ9XgUoXZoo=;
+        b=ruMoLhBYrOdfdDyNDPD7a3t5xwiqIH40XwfD0F4cenc299WLP7BBmWn5tHoHPvdw5t
+         QeWGYOTH5TXFoDxYnEOhWP0k+6LRzWnHFW3I4e/gVatPZqqRguVJ3MtbzTAWNdgWEOYQ
+         tJE0gh0M+ISjz8r6adG2h7onkj2lELJciDrZt6UvpH3L146kbt+rCan0HSB7zyZRR1Yi
+         K3R8LuF8TvIEoDhRukfeb4V9Xc16eNKyAFezM+FAIy+0jHOUjaX7UiVXNg+fXBYOyz4U
+         2+f0fjIoTswFnLFdD1/WSTxY5McmHt13UmBpL9fXfwUHHm8qWezMQhfKaG0SYzLukcV6
+         gdWw==
+X-Gm-Message-State: AOAM5322MdB9+uP7JpMf0EyblrAb1DPWIK08hzVIttJ/e0XOW88weGbh
+        cIJgLAx2cj3d/+dVbeXVFH8=
+X-Google-Smtp-Source: ABdhPJyxf6qxCc5XJJtyELC+0wnHq2/Kzgxj7mHzbzysTPZBIFxPR+vyDKxKWHAg6wtBGgHzgOhxtw==
+X-Received: by 2002:a17:906:a19:: with SMTP id w25mr14424067ejf.335.1610878186325;
+        Sun, 17 Jan 2021 02:09:46 -0800 (PST)
 Received: from localhost.localdomain ([2a02:2450:10d2:194d:c06a:642a:2af4:1e16])
-        by smtp.gmail.com with ESMTPSA id s19sm9277855edx.7.2021.01.17.02.09.43
+        by smtp.gmail.com with ESMTPSA id s19sm9277855edx.7.2021.01.17.02.09.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jan 2021 02:09:43 -0800 (PST)
+        Sun, 17 Jan 2021 02:09:45 -0800 (PST)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     corbet@lwn.net
 Cc:     SeongJae Park <sjpark@amazon.de>, paulmck@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] Documentation/kokr/howto: Replace HTTP links with HTTPS ones: Documentation/process
-Date:   Sun, 17 Jan 2021 11:09:29 +0100
-Message-Id: <20210117100931.9347-2-sj38.park@gmail.com>
+Subject: [PATCH 3/3] docs/kokr: Link memory-barriers.txt to rst
+Date:   Sun, 17 Jan 2021 11:09:31 +0100
+Message-Id: <20210117100931.9347-4-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210117100931.9347-1-sj38.park@gmail.com>
 References: <20210117100931.9347-1-sj38.park@gmail.com>
@@ -75,28 +75,38 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-Apply this commit to Korean:
-
-    e7b4311ebcac ("Replace HTTP links with HTTPS ones: Documentation/process")
+This commit links Korean translation of 'memory-barriers.txt' in the
+translations index rst file as the original version is linked in
+'Documentation/staging/index.rst'.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- Documentation/translations/ko_KR/howto.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/translations/ko_KR/index.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
-index 240d29be38f2..0a42ffdea918 100644
---- a/Documentation/translations/ko_KR/howto.rst
-+++ b/Documentation/translations/ko_KR/howto.rst
-@@ -583,7 +583,7 @@ Pat이라는 이름을 가진 여자가 있을 수도 있는 것이다. 리눅
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
+index 27995c4233de..b9e27d20b039 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -10,3 +10,18 @@
+    :maxdepth: 1
  
-    "The Perfect Patch"
- 
--    http://www.ozlabs.org/~akpm/stuff/tpp.txt
-+    https://www.ozlabs.org/~akpm/stuff/tpp.txt
- 
- 
- 이 모든 것을 하는 것은 매우 어려운 일이다. 완벽히 소화하는 데는 적어도 몇년이
+    howto
++
++
++리눅스 커널 메모리 배리어
++-------------------------
++
++.. raw:: latex
++
++    \footnotesize
++
++.. include:: ./memory-barriers.txt
++    :literal:
++
++.. raw:: latex
++
++    \normalsize
 -- 
 2.17.1
 
