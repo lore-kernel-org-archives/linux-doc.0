@@ -2,552 +2,397 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E44C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 11:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25525C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:14:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B110208A9
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 11:59:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFB582251E
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:14:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728499AbhAQL73 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 06:59:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52968 "EHLO
+        id S1728722AbhAQPNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 10:13:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728271AbhAQL70 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 06:59:26 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60899C061573;
-        Sun, 17 Jan 2021 03:58:46 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id u17so27454920iow.1;
-        Sun, 17 Jan 2021 03:58:46 -0800 (PST)
+        with ESMTP id S1728812AbhAQPNa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 10:13:30 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C17C061573
+        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 07:12:49 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id i63so1594356pfg.7
+        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 07:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=YIHiZ9vsaq2YcUvgwQND2F4kOeIbaD0+UeDe3ryHac0=;
-        b=LpqGxbB42jrMu5MLFS2+iOofk26k4eFBMMbkokN2ecsyz6LuM1JD9UqBV63uJ2dqWj
-         s3BVc9moQIsA+wraWd8tJV/6Y7YF61zOXo8qoRiQqD6VFJe+rAKC44sc+Ye3OT9+cytI
-         Aw6aD5BBZR/QAitz5/PnzEDZRXROG9lRJqGJGxbLqtGsF4V+LijKIUcDLRFERF74t1ZY
-         2W84OcsusPoqWI6KV3UIxbtP/e4URIfJJABbaeqZhGVYkm0USR/1rmBzX/3DTCFRWL5h
-         pxTfFu8u0HKjK6v4BByOq7BHocoZECJ5Yj4ohVHNJbMhbOVqIs7BTz4b+Gzmwq4cL8AX
-         9zvQ==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BKIGJG96Ep0Tp8JrftT810TNoJoDgZiOdGW5WiL40h0=;
+        b=D6lH8a5YsPunvOjx1S3fTOjXj2YKY6Fa842JIoz5QP9tjZzNP9Ja0ddFFdnfWr1KAF
+         KKcAQw6E18n8Cw+DgdbF+vadybAm8m+5Ma6Ypsjh34IIW1/u14XLSFvMIKLIfmbY9N5/
+         N+uFSYhgp1x9XuUTaK4BdGKQcPW+glKHjVvt75IvbVnHuWy6V+JPPneCYI60BkdXLrWp
+         8JOhQD4pkxP58o6Ci27E+sNIQ2VV26xIC3S1sk6zO6ZIIgXk1cLN7UGpExJ7m2IR/eOF
+         sIiompSreuUqy2nDXcGHQmFAi3+DS4C9V2nlMjLD/jFLrMrrszDPHQ9NGfqli7788ptX
+         endg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=YIHiZ9vsaq2YcUvgwQND2F4kOeIbaD0+UeDe3ryHac0=;
-        b=eNv5RAghailzg+u7utxm0hVk1Waxy74yTpOsijGcRScnW5y1WGypJvJOYuH6qm3Pjs
-         +uEmJ9I7K7Gu6wTxn+f6Ars1My1YeDVinYhkqnnwJiUSJSHDTHHzFZgkq7tfs5S9+5KX
-         angnVZMy1IfO2Esvp1cnaMrZxhprzgBnirOoD9Cru/S3haiCI0kB/S4KUixlmdo7DEAJ
-         jeap+Xx75dUAMAwoTCzGjDmLdmwW9OoM3I27hcgUE8kLG3oByiWY2Pj6fLLOoNUBnpHm
-         XR6IVYje/Z4jymE0K6NOi//WG+l5gUR5Y/SOI7i0HPOoniG8b8e7Y+pH0Y15qvSOznCZ
-         qmQQ==
-X-Gm-Message-State: AOAM530ky9sXD+nEFsik9H2eI9sDNGOdhMyL2YD5vslx2sS2vxcmZFFv
-        7J7PNx8m7MOTcGqcFRm9hpNID4yvZZ8KDOHxJ6A=
-X-Google-Smtp-Source: ABdhPJx7ToT0gv8mL+8XKYoN7ndb9tl+errYX+XY5MkJ3BxCUXQ3ltAKYMZHJjhsrLyFgF5r/8nY4jjN3/3u8izAWtM=
-X-Received: by 2002:a05:6e02:d0:: with SMTP id r16mr3389075ilq.112.1610884725584;
- Sun, 17 Jan 2021 03:58:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BKIGJG96Ep0Tp8JrftT810TNoJoDgZiOdGW5WiL40h0=;
+        b=H/VzHYCbH3Bz0O+p2kUNGAu5hXHg9f2OfAHFqlOlT9IAy7apSHZArjHeDct4hQwjan
+         1WieyHBN5WEHJsLOZuLLrgPttIPd3jZ9W2FPoUU+gmY0goHDwDWqa+xK9k0ql1stbhp9
+         qwtob3FqFss4hQYFTKDj0D4A13fDRR7gybTMw/voNhehIRiLDncTXErZdowvVeWfTzpZ
+         GsPpfn3oN6nsmKTO6VyAY9xHuQ5J2xGckYnz7Wgc2vFEGuUxus8kMZlFmtqiJKIu+Lxw
+         VPJc5feBbipl0V7rQGvU8NwipZbgC8KJgkzORNRic3e4wLdI6a33danEGeU5YXSzFP/P
+         X+mw==
+X-Gm-Message-State: AOAM531cUHOlZgWiaLmtZhuSgKk+YNvXEZot6AHZtY4umfre+QctFTGb
+        UWxsl3gELL/vy+aXgkJh1IQORg==
+X-Google-Smtp-Source: ABdhPJxRVYwdsKXeaefXQbEov519O+SLIMHXGdvh8uf4nwMrMiuAu4IxRq4/TpTSU1NCCpC9oFUhdw==
+X-Received: by 2002:a63:1315:: with SMTP id i21mr22007405pgl.370.1610896369104;
+        Sun, 17 Jan 2021 07:12:49 -0800 (PST)
+Received: from localhost.bytedance.net ([139.177.225.247])
+        by smtp.gmail.com with ESMTPSA id i22sm9247915pjv.35.2021.01.17.07.12.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 17 Jan 2021 07:12:48 -0800 (PST)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v13 00/12] Free some vmemmap pages of HugeTLB page
+Date:   Sun, 17 Jan 2021 23:10:41 +0800
+Message-Id: <20210117151053.24600-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com> <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
-In-Reply-To: <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Sun, 17 Jan 2021 12:58:34 +0100
-Message-ID: <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 17, 2021 at 12:42 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Sun, Jan 17, 2021 at 12:23 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Sun, Jan 17, 2021 at 11:53 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Sun, Jan 17, 2021 at 11:44 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > >
-> > > > On Sat, Jan 16, 2021 at 9:23 PM Bill Wendling <morbo@google.com> wrote:
-> > > > >
-> > > > > On Sat, Jan 16, 2021 at 9:39 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > > On Sat, Jan 16, 2021 at 10:44 AM 'Bill Wendling' via Clang Built Linux
-> > > > > > <clang-built-linux@googlegroups.com> wrote:
-> > > > > > >
-> > > > > > > From: Sami Tolvanen <samitolvanen@google.com>
-> > > > > > >
-> > > > > > > Enable the use of clang's Profile-Guided Optimization[1]. To generate a
-> > > > > > > profile, the kernel is instrumented with PGO counters, a representative
-> > > > > > > workload is run, and the raw profile data is collected from
-> > > > > > > /sys/kernel/debug/pgo/profraw.
-> > > > > > >
-> > > > > > > The raw profile data must be processed by clang's "llvm-profdata" tool
-> > > > > > > before it can be used during recompilation:
-> > > > > > >
-> > > > > > >   $ cp /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > > > > > >   $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > > > > > >
-> > > > > > > Multiple raw profiles may be merged during this step.
-> > > > > > >
-> > > > > > > The data can now be used by the compiler:
-> > > > > > >
-> > > > > > >   $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> > > > > > >
-> > > > > > > This initial submission is restricted to x86, as that's the platform we
-> > > > > > > know works. This restriction can be lifted once other platforms have
-> > > > > > > been verified to work with PGO.
-> > > > > > >
-> > > > > > > Note that this method of profiling the kernel is clang-native, unlike
-> > > > > > > the clang support in kernel/gcov.
-> > > > > > >
-> > > > > > > [1] https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> > > > > > >
-> > > > > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > > > > > Co-developed-by: Bill Wendling <morbo@google.com>
-> > > > > > > Signed-off-by: Bill Wendling <morbo@google.com>
-> > > > > > > ---
-> > > > > > > v2: - Added "__llvm_profile_instrument_memop" based on Nathan Chancellor's
-> > > > > > >       testing.
-> > > > > > >     - Corrected documentation, re PGO flags when using LTO, based on Fangrui
-> > > > > > >       Song's comments.
-> > > > > > > v3: - Added change log section based on Sedat Dilek's comments.
-> > > > > > > v4: - Remove non-x86 Makfile changes and se "hweight64" instead of using our
-> > > > > > >       own popcount implementation, based on Nick Desaulniers's comment.
-> > > > > > > v5: - Correct padding calculation, discovered by Nathan Chancellor.
-> > > > > > > ---
-> > > > > > >  Documentation/dev-tools/index.rst     |   1 +
-> > > > > > >  Documentation/dev-tools/pgo.rst       | 127 +++++++++
-> > > > > > >  MAINTAINERS                           |   9 +
-> > > > > > >  Makefile                              |   3 +
-> > > > > > >  arch/Kconfig                          |   1 +
-> > > > > > >  arch/x86/Kconfig                      |   1 +
-> > > > > > >  arch/x86/boot/Makefile                |   1 +
-> > > > > > >  arch/x86/boot/compressed/Makefile     |   1 +
-> > > > > > >  arch/x86/crypto/Makefile              |   2 +
-> > > > > > >  arch/x86/entry/vdso/Makefile          |   1 +
-> > > > > > >  arch/x86/kernel/vmlinux.lds.S         |   2 +
-> > > > > > >  arch/x86/platform/efi/Makefile        |   1 +
-> > > > > > >  arch/x86/purgatory/Makefile           |   1 +
-> > > > > > >  arch/x86/realmode/rm/Makefile         |   1 +
-> > > > > > >  arch/x86/um/vdso/Makefile             |   1 +
-> > > > > > >  drivers/firmware/efi/libstub/Makefile |   1 +
-> > > > > > >  include/asm-generic/vmlinux.lds.h     |  44 +++
-> > > > > > >  kernel/Makefile                       |   1 +
-> > > > > > >  kernel/pgo/Kconfig                    |  35 +++
-> > > > > > >  kernel/pgo/Makefile                   |   5 +
-> > > > > > >  kernel/pgo/fs.c                       | 382 ++++++++++++++++++++++++++
-> > > > > > >  kernel/pgo/instrument.c               | 185 +++++++++++++
-> > > > > > >  kernel/pgo/pgo.h                      | 206 ++++++++++++++
-> > > > > > >  scripts/Makefile.lib                  |  10 +
-> > > > > > >  24 files changed, 1022 insertions(+)
-> > > > > > >  create mode 100644 Documentation/dev-tools/pgo.rst
-> > > > > > >  create mode 100644 kernel/pgo/Kconfig
-> > > > > > >  create mode 100644 kernel/pgo/Makefile
-> > > > > > >  create mode 100644 kernel/pgo/fs.c
-> > > > > > >  create mode 100644 kernel/pgo/instrument.c
-> > > > > > >  create mode 100644 kernel/pgo/pgo.h
-> > > > > > >
-> > > > > > > diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> > > > > > > index f7809c7b1ba9e..8d6418e858062 100644
-> > > > > > > --- a/Documentation/dev-tools/index.rst
-> > > > > > > +++ b/Documentation/dev-tools/index.rst
-> > > > > > > @@ -26,6 +26,7 @@ whole; patches welcome!
-> > > > > > >     kgdb
-> > > > > > >     kselftest
-> > > > > > >     kunit/index
-> > > > > > > +   pgo
-> > > > > > >
-> > > > > > >
-> > > > > > >  .. only::  subproject and html
-> > > > > > > diff --git a/Documentation/dev-tools/pgo.rst b/Documentation/dev-tools/pgo.rst
-> > > > > > > new file mode 100644
-> > > > > > > index 0000000000000..b7f11d8405b73
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/dev-tools/pgo.rst
-> > > > > > > @@ -0,0 +1,127 @@
-> > > > > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > > > > +
-> > > > > > > +===============================
-> > > > > > > +Using PGO with the Linux kernel
-> > > > > > > +===============================
-> > > > > > > +
-> > > > > > > +Clang's profiling kernel support (PGO_) enables profiling of the Linux kernel
-> > > > > > > +when building with Clang. The profiling data is exported via the ``pgo``
-> > > > > > > +debugfs directory.
-> > > > > > > +
-> > > > > > > +.. _PGO: https://clang.llvm.org/docs/UsersManual.html#profile-guided-optimization
-> > > > > > > +
-> > > > > > > +
-> > > > > > > +Preparation
-> > > > > > > +===========
-> > > > > > > +
-> > > > > > > +Configure the kernel with:
-> > > > > > > +
-> > > > > > > +.. code-block:: make
-> > > > > > > +
-> > > > > > > +   CONFIG_DEBUG_FS=y
-> > > > > > > +   CONFIG_PGO_CLANG=y
-> > > > > > > +
-> > > > > > > +Note that kernels compiled with profiling flags will be significantly larger
-> > > > > > > +and run slower.
-> > > > > > > +
-> > > > > > > +Profiling data will only become accessible once debugfs has been mounted:
-> > > > > > > +
-> > > > > > > +.. code-block:: sh
-> > > > > > > +
-> > > > > > > +   mount -t debugfs none /sys/kernel/debug
-> > > > > > > +
-> > > > > > > +
-> > > > > > > +Customization
-> > > > > > > +=============
-> > > > > > > +
-> > > > > > > +You can enable or disable profiling for individual file and directories by
-> > > > > > > +adding a line similar to the following to the respective kernel Makefile:
-> > > > > > > +
-> > > > > > > +- For a single file (e.g. main.o)
-> > > > > > > +
-> > > > > > > +  .. code-block:: make
-> > > > > > > +
-> > > > > > > +     PGO_PROFILE_main.o := y
-> > > > > > > +
-> > > > > > > +- For all files in one directory
-> > > > > > > +
-> > > > > > > +  .. code-block:: make
-> > > > > > > +
-> > > > > > > +     PGO_PROFILE := y
-> > > > > > > +
-> > > > > > > +To exclude files from being profiled use
-> > > > > > > +
-> > > > > > > +  .. code-block:: make
-> > > > > > > +
-> > > > > > > +     PGO_PROFILE_main.o := n
-> > > > > > > +
-> > > > > > > +and
-> > > > > > > +
-> > > > > > > +  .. code-block:: make
-> > > > > > > +
-> > > > > > > +     PGO_PROFILE := n
-> > > > > > > +
-> > > > > > > +Only files which are linked to the main kernel image or are compiled as kernel
-> > > > > > > +modules are supported by this mechanism.
-> > > > > > > +
-> > > > > > > +
-> > > > > > > +Files
-> > > > > > > +=====
-> > > > > > > +
-> > > > > > > +The PGO kernel support creates the following files in debugfs:
-> > > > > > > +
-> > > > > > > +``/sys/kernel/debug/pgo``
-> > > > > > > +       Parent directory for all PGO-related files.
-> > > > > > > +
-> > > > > > > +``/sys/kernel/debug/pgo/reset``
-> > > > > > > +       Global reset file: resets all coverage data to zero when written to.
-> > > > > > > +
-> > > > > > > +``/sys/kernel/debug/profraw``
-> > > > > > > +       The raw PGO data that must be processed with ``llvm_profdata``.
-> > > > > > > +
-> > > > > > > +
-> > > > > > > +Workflow
-> > > > > > > +========
-> > > > > > > +
-> > > > > > > +The PGO kernel can be run on the host or test machines. The data though should
-> > > > > > > +be analyzed with Clang's tools from the same Clang version as the kernel was
-> > > > > > > +compiled. Clang's tolerant of version skew, but it's easier to use the same
-> > > > > > > +Clang version.
-> > > > > > > +
-> > > > > > > +The profiling data is useful for optimizing the kernel, analyzing coverage,
-> > > > > > > +etc. Clang offers tools to perform these tasks.
-> > > > > > > +
-> > > > > > > +Here is an example workflow for profiling an instrumented kernel with PGO and
-> > > > > > > +using the result to optimize the kernel:
-> > > > > > > +
-> > > > > > > +1) Install the kernel on the TEST machine.
-> > > > > > > +
-> > > > > > > +2) Reset the data counters right before running the load tests
-> > > > > > > +
-> > > > > > > +   .. code-block:: sh
-> > > > > > > +
-> > > > > > > +      $ echo 1 > /sys/kernel/debug/pgo/reset
-> > > > > > > +
-> > > > > >
-> > > > > > I do not get this...
-> > > > > >
-> > > > > > # mount | grep debugfs
-> > > > > > debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
-> > > > > >
-> > > > > > After the load-test...?
-> > > > > >
-> > > > > > echo 0 > /sys/kernel/debug/pgo/reset
-> > > > > >
-> > > > > Writing anything to /sys/kernel/debug/pgo/reset will cause it to reset
-> > > > > the profiling counters. I picked 1 (one) semi-randomly, but it could
-> > > > > be any number, letter, your favorite short story, etc. You don't want
-> > > > > to reset it before collecting the profiling data from your load tests
-> > > > > though.
-> > > > >
-> > > > > > > +3) Run the load tests.
-> > > > > > > +
-> > > > > > > +4) Collect the raw profile data
-> > > > > > > +
-> > > > > > > +   .. code-block:: sh
-> > > > > > > +
-> > > > > > > +      $ cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
-> > > > > > > +
-> > > > > >
-> > > > > > This is only 4,9M small and seen from the date 5mins before I run the
-> > > > > > echo-1 line.
-> > > > > >
-> > > > > > # ll /sys/kernel/debug/pgo
-> > > > > > insgesamt 0
-> > > > > > drwxr-xr-x  2 root root 0 16. Jan 17:29 .
-> > > > > > drwx------ 41 root root 0 16. Jan 17:29 ..
-> > > > > > -rw-------  1 root root 0 16. Jan 17:29 profraw
-> > > > > > --w-------  1 root root 0 16. Jan 18:19 reset
-> > > > > >
-> > > > > > # cp -a /sys/kernel/debug/pgo/profraw /tmp/vmlinux.profraw
-> > > > > >
-> > > > > > # ll /tmp/vmlinux.profraw
-> > > > > > -rw------- 1 root root 4,9M 16. Jan 17:29 /tmp/vmlinux.profraw
-> > > > > >
-> > > > > > For me there was no prof-data collected from my defconfig kernel-build.
-> > > > > >
-> > > > > The /sys/kernel/debug/pgo/profraw file is read-only. Nothing writes to
-> > > > > it, not even the kernel. All it does is serialize the profiling
-> > > > > counters from a memory location in the kernel into a format that
-> > > > > LLVM's tools can understand.
-> > > > >
-> > > > > > > +5) (Optional) Download the raw profile data to the HOST machine.
-> > > > > > > +
-> > > > > > > +6) Process the raw profile data
-> > > > > > > +
-> > > > > > > +   .. code-block:: sh
-> > > > > > > +
-> > > > > > > +      $ llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > > > > > > +
-> > > > > >
-> > > > > > Is that executed in /path/to/linux/git?
-> > > > > >
-> > > > > The llvm-profdata tool is not in the linux source tree. You need to
-> > > > > grab it from a clang distribution (or built from clang's git repo).
-> > > > >
-> > > > > > > +   Note that multiple raw profile data files can be merged during this step.
-> > > > > > > +
-> > > > > > > +7) Rebuild the kernel using the profile data (PGO disabled)
-> > > > > > > +
-> > > > > > > +   .. code-block:: sh
-> > > > > > > +
-> > > > > > > +      $ make LLVM=1 KCFLAGS=-fprofile-use=vmlinux.profdata ...
-> > > > > >
-> > > > > > How big is vmlinux.profdata (make defconfig)?
-> > > > > >
-> > > > > I don't have numbers for this, but from what you listed here, it's ~5M
-> > > > > in size. The size is proportional to the number of counters
-> > > > > instrumented in the kernel.
-> > > > >
-> > > > > > Do I need to do a full defconfig build or can I stop the build after
-> > > > > > let me say 10mins?
-> > > > > >
-> > > > > You should do a full rebuild. Make sure that PGO is disabled during the rebuild.
-> > > > >
-> > > >
-> > > > Thanks Bill for all the information.
-> > > >
-> > > > And sorry if I am so pedantic.
-> > > >
-> > > > I have installed my Debian system with Legacy-BIOS enabled.
-> > > >
-> > > > When I rebuild with KCFLAGS=-fprofile-use=vmlinux.profdata (LLVM=1 I
-> > > > have as a default) my system hangs on reboot.
-> > > >
-> > > > [ diffconfig ]
-> > > > $ scripts/diffconfig /boot/config-5.11.0-rc3-8-amd64-clang12-pgo
-> > > > /boot/config-5.11.0-rc3-9-amd64-clang12-pgo
-> > > > BUILD_SALT "5.11.0-rc3-8-amd64-clang12-pgo" -> "5.11.0-rc3-9-amd64-clang12-pgo"
-> > > > PGO_CLANG y -> n
-> > > >
-> > > > [ my make line ]
-> > > > $ cat ../start-build_5.11.0-rc3-9-amd64-clang12-pgo.txt
-> > > > dileks     63120   63095  0 06:47 pts/2    00:00:00 /usr/bin/perf_5.10
-> > > > stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
-> > > > LD=ld.lld LLVM=1 LLVM_IAS=1 PAHOLE=/opt/pahole/bin/pahole
-> > > > LOCALVERSION=-9-amd64-clang12-pgo KBUILD_VERBOSE=1
-> > > > KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=2021-01-17 bindeb-pkg
-> > > > KDEB_PKGVERSION=5.11.0~rc3-9~bullseye+dileks1
-> > > > KCFLAGS=-fprofile-use=vmlinux.profdata
-> > > >
-> > > > ( Yes, 06:47 a.m. in the morning :-). )
-> > > >
-> > > > When I boot with the rebuild Linux-kernel I see:
-> > > >
-> > > > Wrong EFI loader signature
-> > > > ...
-> > > > Decompressing
-> > > > Parsing EFI
-> > > > Performing Relocations done.
-> > > > Booting the Kernel.
-> > > >
-> > > > *** SYSTEM HANGS ***
-> > > > ( I waited for approx 1 min )
-> > > >
-> > > > I tried to turn UEFI support ON and OFF.
-> > > > No success.
-> > > >
-> > > > Does Clang-PGO support Legacy-BIOS or is something different wrong?
-> > > >
-> > > > Thanks.
-> > > >
-> > >
-> > > My bootloader is GRUB.
-> > >
-> > > In UEFI-BIOS settings there is no secure-boot disable option.
-> > > Just simple "Use UEFI BIOS" enabled|disabled.
-> > >
-> > > Installed Debian packages:
-> > >
-> > > ii grub-common 2.04-12
-> > > ii grub-pc 2.04-12
-> > > ii grub-pc-bin 2.04-12
-> > > ii grub2-common 2.04-12
-> > >
-> > > I found in the below link to do in grub-shell:
-> > >
-> > > set check_signatures=no
-> > >
-> > > But this is when grub-efi is installed.
-> > >
-> > > - Sedat -
-> > >
-> > > Link: https://unix.stackexchange.com/questions/126286/grub-efi-disable-signature-check
-> >
-> > Forget about that "Wrong EFI bootloader" - I see this with all other
-> > kernels (all boot fine).
-> >
-> > I tried in QEMU with and without KASLR:
-> >
-> > [ run_qemu.sh ]
-> > KPATH=$(pwd)
-> >
-> > APPEND="root=/dev/ram0 console=ttyS0 hung_task_panic=1 earlyprintk=ttyS0,115200"
-> > APPEND="$APPEND nokaslr"
-> >
-> > qemu-system-x86_64 -enable-kvm -M pc -kernel $KPATH/bzImage -initrd
-> > $KPATH/initrd.img -m 512 -net none -serial stdio -append "${APPEND}"
-> > [ /run_qemu.sh ]
-> >
-> > $ ./run_qemu.sh
-> > Probing EDD (edd=off to disable)... ok
-> > Wrong EFI loader signature.
-> > early console in extract_kernel
-> > input_data: 0x000000000289940d
-> > input_len: 0x000000000069804a
-> > output: 0x0000000001000000
-> > output_len: 0x0000000001ef2010
-> > kernel_total_size: 0x0000000001c2c000
-> > needed_size: 0x0000000002000000
-> > trampoline_32bit: 0x000000000009d000
-> >
-> >
-> > KASLR disabled: 'nokaslr' on cmdline.
-> >
-> >
-> > Decompressing Linux... Parsing ELF... No relocation needed... done.
-> > Booting the kernel.
-> >
-> > QEMU run stops, too.
-> >
->
-> I re-generated my initrd.img with GZIP as compressor (my default is ZSTD).
->
-> --- /etc/initramfs-tools/initramfs.conf 2021-01-17 12:35:30.823818501 +0100
-> +++ /etc/initramfs-tools/initramfs.conf.zstd    2020-09-21
-> 23:55:43.121735427 +0200
-> @@ -41,7 +41,7 @@ KEYMAP=n
-> # COMPRESS: [ gzip | bzip2 | lz4 | lzma | lzop | xz | zstd ]
-> #
->
-> -COMPRESS=gzip
-> +COMPRESS=zstd
->
-> #
-> # DEVICE: ...
->
-> root# KVER="5.11.0-rc3-9-amd64-clang12-pgo" ; update-initramfs -c -k $KVER
->
-> QEMU boot stops at the same stage.
->
-> Now, my head is empty...
->
-> Any comments?
->
+Hi all,
 
-( Just as a side note I have Nick's DWARF-v5 support enabled. )
+This patch series will free some vmemmap pages(struct page structures)
+associated with each hugetlbpage when preallocated to save memory.
 
-There is one EFI related warning in my build-log:
+In order to reduce the difficulty of the first version of code review.
+From this version, we disable PMD/huge page mapping of vmemmap if this
+feature was enabled. This accutualy eliminate a bunch of the complex code
+doing page table manipulation. When this patch series is solid, we cam add
+the code of vmemmap page table manipulation in the future.
 
-$ grep warning: build-log_5.11.0-rc3-9-amd64-clang12-pgo.txt
-dpkg-architecture: warning: specified GNU system type x86_64-linux-gnu
-does not match CC system type x86_64-pc-linux-gnu, try setting a
-correct CC environment variable
-warning: arch/x86/platform/efi/quirks.c: Function control flow change
-detected (hash mismatch) efi_arch_mem_reserve Hash =
-391331300655996873 [-Wbackend-plugin]
-warning: arch/x86/platform/efi/efi.c: Function control flow change
-detected (hash mismatch) efi_attr_is_visible Hash = 567185240781730690
-[-Wbackend-plugin]
-arch/x86/crypto/aegis128-aesni-glue.c:265:30: warning: unused variable
-'simd_alg' [-Wunused-variable]
-warning: lib/crypto/sha256.c: Function control flow change detected
-(hash mismatch) sha256_update Hash = 744640996947387358
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) memcmp Hash = 742261418966908927
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) bcmp Hash = 742261418966908927
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) strcmp Hash = 536873291001348520
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) strnlen Hash = 146835646621254984
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) simple_strtoull Hash =
-252792765950587360 [-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) strstr Hash = 391331303349076211
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) strchr Hash = 1063705159280644635
-[-Wbackend-plugin]
-warning: arch/x86/boot/compressed/string.c: Function control flow
-change detected (hash mismatch) kstrtoull Hash = 758414239132790022
-[-Wbackend-plugin]
-drivers/infiniband/hw/hfi1/platform.o: warning: objtool: tune_serdes()
-falls through to next function apply_tx_lanes()
+The struct page structures (page structs) are used to describe a physical
+page frame. By default, there is a one-to-one mapping from a page frame to
+it's corresponding page struct.
 
-Cannot say if this information is helpful.
+The HugeTLB pages consist of multiple base page size pages and is supported
+by many architectures. See hugetlbpage.rst in the Documentation directory
+for more details. On the x86 architecture, HugeTLB pages of size 2MB and 1GB
+are currently supported. Since the base page size on x86 is 4KB, a 2MB
+HugeTLB page consists of 512 base pages and a 1GB HugeTLB page consists of
+4096 base pages. For each base page, there is a corresponding page struct.
 
-- Sedat -
+Within the HugeTLB subsystem, only the first 4 page structs are used to
+contain unique information about a HugeTLB page. HUGETLB_CGROUP_MIN_ORDER
+provides this upper limit. The only 'useful' information in the remaining
+page structs is the compound_head field, and this field is the same for all
+tail pages.
+
+By removing redundant page structs for HugeTLB pages, memory can returned to
+the buddy allocator for other uses.
+
+When the system boot up, every 2M HugeTLB has 512 struct page structs which
+size is 8 pages(sizeof(struct page) * 512 / PAGE_SIZE).
+
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | -------------> |     2     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     3     | -------------> |     3     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     4     | -------------> |     4     |
+ |    2MB    |                     +-----------+                +-----------+
+ |           |                     |     5     | -------------> |     5     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     6     | -------------> |     6     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     7     | -------------> |     7     |
+ |           |                     +-----------+                +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
+
+The value of page->compound_head is the same for all tail pages. The first
+page of page structs (page 0) associated with the HugeTLB page contains the 4
+page structs necessary to describe the HugeTLB. The only use of the remaining
+pages of page structs (page 1 to page 7) is to point to page->compound_head.
+Therefore, we can remap pages 2 to 7 to page 1. Only 2 pages of page structs
+will be used for each HugeTLB page. This will allow us to free the remaining
+6 pages to the buddy allocator.
+
+Here is how things look after remapping.
+
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                   | | | | |
+ |           |                     |     3     | ------------------+ | | | |
+ |           |                     +-----------+                     | | | |
+ |           |                     |     4     | --------------------+ | | |
+ |    2MB    |                     +-----------+                       | | |
+ |           |                     |     5     | ----------------------+ | |
+ |           |                     +-----------+                         | |
+ |           |                     |     6     | ------------------------+ |
+ |           |                     +-----------+                           |
+ |           |                     |     7     | --------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
+
+When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
+vmemmap pages and restore the previous mapping relationship.
+
+Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
+to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
+pages.
+
+In this case, for the 1GB HugeTLB page, we can save 4094 pages. This is a
+very substantial gain. On our server, run some SPDK/QEMU applications which
+will use 1024GB hugetlbpage. With this feature enabled, we can save ~16GB
+(1G hugepage)/~12GB (2MB hugepage) memory.
+
+Because there are vmemmap page tables reconstruction on the freeing/allocating
+path, it increases some overhead. Here are some overhead analysis.
+
+1) Allocating 10240 2MB hugetlb pages.
+
+   a) With this patch series applied:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.166s
+   user     0m0.000s
+   sys      0m0.166s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [8K, 16K)           8360 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [16K, 32K)          1868 |@@@@@@@@@@@                                         |
+   [32K, 64K)            10 |                                                    |
+   [64K, 128K)            2 |                                                    |
+
+   b) Without this patch series:
+   # time echo 10240 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.066s
+   user     0m0.000s
+   sys      0m0.066s
+
+   # bpftrace -e 'kprobe:alloc_fresh_huge_page { @start[tid] = nsecs; } kretprobe:alloc_fresh_huge_page /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)           10176 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)             62 |                                                    |
+   [16K, 32K)             2 |                                                    |
+
+   Summarize: this feature is about ~2x slower than before.
+
+2) Freeing 10240 2MB hugetlb pages.
+
+   a) With this patch series applied:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.004s
+   user     0m0.000s
+   sys      0m0.002s
+
+   # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [16K, 32K)         10240 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+
+   b) Without this patch series:
+   # time echo 0 > /proc/sys/vm/nr_hugepages
+
+   real     0m0.077s
+   user     0m0.001s
+   sys      0m0.075s
+
+   # bpftrace -e 'kprobe:__free_hugepage { @start[tid] = nsecs; } kretprobe:__free_hugepage /@start[tid]/ { @latency = hist(nsecs - @start[tid]); delete(@start[tid]); }'
+   Attaching 2 probes...
+
+   @latency:
+   [4K, 8K)            9950 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+   [8K, 16K)            287 |@                                                   |
+   [16K, 32K)             3 |                                                    |
+
+   Summarize: The overhead of __free_hugepage is about ~2-4x slower than before.
+              But according to the allocation test above, I think that here is
+	      also ~2x slower than before.
+
+              But why the 'real' time of patched is smaller than before? Because
+	      In this patch series, the freeing hugetlb is asynchronous(through
+	      kwoker).
+
+Although the overhead has increased, the overhead is not significant. Like Mike
+said, "However, remember that the majority of use cases create hugetlb pages at
+or shortly after boot time and add them to the pool. So, additional overhead is
+at pool creation time. There is no change to 'normal run time' operations of
+getting a page from or returning a page to the pool (think page fault/unmap)".
+
+Todo:
+  - Free all of the tail vmemmap pages
+    Now for the 2MB HugrTLB page, we only free 6 vmemmap pages. we really can
+    free 7 vmemmap pages. In this case, we can see 8 of the 512 struct page
+    structures has beed set PG_head flag. If we can adjust compound_head()
+    slightly and make compound_head() return the real head struct page when
+    the parameter is the tail struct page but with PG_head flag set.
+
+    In order to make the code evolution route clearer. This feature can can be
+    a separate patch after this patchset is solid.
+
+  - Support for other architectures (e.g. aarch64).
+  - Enable PMD/huge page mapping of vmemmap even if this feature was enabled.
+
+Changelog in v12 -> v13:
+  - Remove VM_WARN_ON_PAGE macro.
+  - Add more comments in vmemmap_pte_range() and vmemmap_remap_free().
+
+  Thanks to Oscar and Mike's suggestions and review.
+
+Changelog in v11 -> v12:
+  - Move VM_WARN_ON_PAGE to a separate patch.
+  - Call __free_hugepage() with hugetlb_lock (See patch #5.) to serialize
+    with dissolve_free_huge_page(). It is to prepare for patch #9.
+  - Introduce PageHugeInflight. See patch #9.
+
+Changelog in v10 -> v11:
+  - Fix compiler error when !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+  - Rework some comments and commit changes.
+  - Rework vmemmap_remap_free() to 3 parameters.
+
+  Thanks to Oscar and Mike's suggestions and review.
+
+Changelog in v9 -> v10:
+  - Fix a bug in patch #11. Thanks to Oscar for pointing that out.
+  - Rework some commit log or comments. Thanks Mike and Oscar for the suggestions.
+  - Drop VMEMMAP_TAIL_PAGE_REUSE in the patch #3.
+
+  Thank you very much Mike and Oscar for reviewing the code.
+
+Changelog in v8 -> v9:
+  - Rework some code. Very thanks to Oscar.
+  - Put all the non-hugetlb vmemmap functions under sparsemem-vmemmap.c.
+
+Changelog in v7 -> v8:
+  - Adjust the order of patches.
+
+  Very thanks to David and Oscar. Your suggestions are very valuable.
+
+Changelog in v6 -> v7:
+  - Rebase to linux-next 20201130
+  - Do not use basepage mapping for vmemmap when this feature is disabled.
+  - Rework some patchs.
+    [PATCH v6 08/16] mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+    [PATCH v6 10/16] mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb page
+
+  Thanks to Oscar and Barry.
+
+Changelog in v5 -> v6:
+  - Disable PMD/huge page mapping of vmemmap if this feature was enabled.
+  - Simplify the first version code.
+
+Changelog in v4 -> v5:
+  - Rework somme comments and code in the [PATCH v4 04/21] and [PATCH v4 05/21].
+
+  Thanks to Mike and Oscar's suggestions.
+
+Changelog in v3 -> v4:
+  - Move all the vmemmap functions to hugetlb_vmemmap.c.
+  - Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we want to
+    disable this feature, we should disable it by a boot/kernel command line.
+  - Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+  - Initialize page table lock for vmemmap through core_initcall mechanism.
+
+  Thanks for Mike and Oscar's suggestions.
+
+Changelog in v2 -> v3:
+  - Rename some helps function name. Thanks Mike.
+  - Rework some code. Thanks Mike and Oscar.
+  - Remap the tail vmemmap page with PAGE_KERNEL_RO instead of PAGE_KERNEL.
+    Thanks Matthew.
+  - Add some overhead analysis in the cover letter.
+  - Use vmemap pmd table lock instead of a hugetlb specific global lock.
+
+Changelog in v1 -> v2:
+  - Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+  - Fix some typo and code style problems.
+  - Remove unused handle_vmemmap_fault().
+  - Merge some commits to one commit suggested by Mike.
+
+Muchun Song (12):
+  mm: memory_hotplug: factor out bootmem core functions to
+    bootmem_info.c
+  mm: hugetlb: introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+  mm: hugetlb: free the vmemmap pages associated with each HugeTLB page
+  mm: hugetlb: defer freeing of HugeTLB pages
+  mm: hugetlb: allocate the vmemmap pages associated with each HugeTLB
+    page
+  mm: hugetlb: set the PageHWPoison to the raw error page
+  mm: hugetlb: flush work when dissolving a HugeTLB page
+  mm: hugetlb: introduce PageHugeInflight
+  mm: hugetlb: add a kernel parameter hugetlb_free_vmemmap
+  mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
+  mm: hugetlb: gather discrete indexes of tail page
+  mm: hugetlb: optimize the code with the help of the compiler
+
+ Documentation/admin-guide/kernel-parameters.txt |  14 ++
+ Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+ arch/x86/mm/init_64.c                           |  13 +-
+ fs/Kconfig                                      |  18 ++
+ include/linux/bootmem_info.h                    |  65 ++++++
+ include/linux/hugetlb.h                         |  37 ++++
+ include/linux/hugetlb_cgroup.h                  |  15 +-
+ include/linux/memory_hotplug.h                  |  27 ---
+ include/linux/mm.h                              |   5 +
+ mm/Makefile                                     |   2 +
+ mm/bootmem_info.c                               | 124 +++++++++++
+ mm/hugetlb.c                                    | 218 +++++++++++++++++--
+ mm/hugetlb_vmemmap.c                            | 278 ++++++++++++++++++++++++
+ mm/hugetlb_vmemmap.h                            |  45 ++++
+ mm/memory_hotplug.c                             | 116 ----------
+ mm/sparse-vmemmap.c                             | 273 +++++++++++++++++++++++
+ mm/sparse.c                                     |   1 +
+ 17 files changed, 1082 insertions(+), 172 deletions(-)
+ create mode 100644 include/linux/bootmem_info.h
+ create mode 100644 mm/bootmem_info.c
+ create mode 100644 mm/hugetlb_vmemmap.c
+ create mode 100644 mm/hugetlb_vmemmap.h
+
+-- 
+2.11.0
+
