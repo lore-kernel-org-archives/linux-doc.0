@@ -2,44 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEB8C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 868F7C43331
 	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 049DD22525
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B9EE2251F
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729226AbhAQPla (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 10:41:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48914 "EHLO mail.kernel.org"
+        id S1729250AbhAQPld (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 10:41:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48964 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728983AbhAQPl0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729123AbhAQPl0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 17 Jan 2021 10:41:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5C68B2251F;
-        Sun, 17 Jan 2021 15:40:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 625C122573;
+        Sun, 17 Jan 2021 15:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610898035;
-        bh=lNeedfoU1xazCMUCyZKami6dsmuMB2stdtfRD5qR9zo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=JwgVJ//bE5AMOs/y9ppgdMzOirLkzHn4IVS6Pn9fMjNZq8aMeKMXWTlP6gorGRhkk
-         T/lB+rAM0Mdzhi4HuZZ07Kxt4NYOyqlXwqJWxy4zlwpgYIms8AsvAkfDKUd1q74hQl
-         sXTeMG3d9WpkgcpFbUkfIAGXwIt8NO5BaKcXIrxCtoUW30EcivlCP7Rtnz3L6TEUPN
-         lhGYuc96srK48dEgTDqbe39tTtLU4s+Zg4kRENAfJusyTMzmcGI0oEsgXvPoVMdNLl
-         0ADV/SzCkEGE7fIxpcfqVnLKRYWrBfo0+yQcyKI95DGSElPDwLAdx9T9yD8XcJJth9
-         IrfBn8Z3mjf7g==
+        s=k20201202; t=1610898041;
+        bh=WIChk+JRspU4kAtX+lA9BNOFiMqXhLWFFkMf7lQZ/as=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ELACkt2iG0PIQoy7KK4XcZf9yLJVRHm77oVPOM60vVJPfUi23tBEu0iXcxI+f9R0w
+         04XG7eryA+/PyYowYRXNBUneIDXlJPkQjtbr9cgAq3uN8oQqRUu6bVN+TdxWSOAOKU
+         fGD4cq7SPMpfBcbcGOdMHYOZ9McS4d8mdDKY/aOjw77ardUBibdZnR6RyO5QEtc+/h
+         ST/m3+NI8DwmYbD7OWxs50YV++MJ+3G36PducG0/6GPRFz7OduzwlqngO8zcsHjUmi
+         FM4LcT9zbzrFB0o526T0dVJCiErUe0ybN3HCJli9e/wLZ40ATTRmcBx6PyFBpcgHfE
+         SwOeyEL+KuMGQ==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [RFC PATCH 0/7] IIO ABI documentation duplication fixes
-Date:   Sun, 17 Jan 2021 15:38:09 +0000
-Message-Id: <20210117153816.696693-1-jic23@kernel.org>
+Subject: [RFC PATCH 4/7] iio:ABI docs: Fix issue around repeated definition of out_currentY_raw
+Date:   Sun, 17 Jan 2021 15:38:13 +0000
+Message-Id: <20210117153816.696693-5-jic23@kernel.org>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210117153816.696693-1-jic23@kernel.org>
+References: <20210117153816.696693-1-jic23@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -48,63 +50,103 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-The nature of IIO devices is that they are highly varied and occaisonly
-ABI is used in somewhat of a 'best fit' fashion.  This has lead to a
-situation where we had additional more specific ABI docs for some sysfs
-parameters in certain drivers.  Unfortunately the automated documentation
-building doesn't work well with this both issuing warnings and building
-a less than ideal output.
+This one is challenging as both the places this appears in specific drivers
+are making 'unusual' uses of what looks like a simple output current
+channel.
+As a side note, this was particular bit of ABI occurs in other drivers
+where the use is much more straight forward e.g. dac/ad5421
 
-So this series attempts to fix that up, mostly by moving the application
-specific parts, of properties that are documented in more than one place,
-into a higher level documentation file, sometimes with a device specific
-note. In a few cases this the result is a bit non-obvious hence the RFC.
-Roughly speaking I've put the more 'interesting' cases towards the end
-of the series.
+This patch attempts to make a best effort of adding it to the main docs but
+retaining enough information. Both of these drivers probably need
+specific documents being written to describe their unusual interfaces, but
+those should be in the main documentation, not under Documentation/ABI.
+That is a non trivial job so left for another time.
 
-It's worth noting that a general reorganzation, audit of missing docs
-etc is needed for the IIO ABI docs, but as that's a big job it may well
-take sometime to get it done. In the meantime let's deal with these
-issues.  Some of the drivers have complex enough ABI that we should probably
-have detailed docs for them in addition to Documentation/ABI.
+Fixes:
+$ scripts/get_abi.pl validate
+Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
 
-Note I haven't yet touched the remaining case of
-Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
+Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ Documentation/ABI/testing/sysfs-bus-iio               | 11 +++++++++++
+ .../ABI/testing/sysfs-bus-iio-health-afe440x          | 10 ++--------
+ .../ABI/testing/sysfs-bus-iio-light-lm3533-als        | 11 +++--------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-This is mainly because I don't really know enough about these devices
-to conclude exactly what a fused bit of docs should look like.
-Also worth noting that those are probably deprecated ABI anyway given
-the move of counters into their own subsystem.
-
-Jonathan Cameron (7):
-  iio:ABI docs: Fix up duplicate *_calibbias_* documentation for
-    icm42600
-  iio:ABI docs: Avoid repitition of triggerX/sampling_frequency
-  iio:ABI docs: Drop device specific docs for _powerdown for the adf4371
-  iio:ABI docs: Fix issue around repeated definition of out_currentY_raw
-  iio:ABI docs: Combine sysfs-bus-iio-humidity-hdc2010/hdc100x into one
-    file
-  iio:ABI docs: Combine the two instances of docs for sensor_sensitivity
-  iio:ABI docs: Move specific description of out_altvoltageX_frequency
-    to main docs.
-
- Documentation/ABI/testing/sysfs-bus-iio       | 45 +++++++++++++++++++
- .../ABI/testing/sysfs-bus-iio-distance-srf08  |  8 ----
- .../testing/sysfs-bus-iio-frequency-adf4371   | 33 --------------
- .../ABI/testing/sysfs-bus-iio-health-afe440x  | 10 +----
- ...umidity-hdc2010 => sysfs-bus-iio-humidity} |  3 +-
- .../testing/sysfs-bus-iio-humidity-hdc100x    |  9 ----
- .../ABI/testing/sysfs-bus-iio-icm42600        | 20 ---------
- .../testing/sysfs-bus-iio-light-lm3533-als    | 11 ++---
- .../ABI/testing/sysfs-bus-iio-proximity       | 14 ++++++
- .../testing/sysfs-bus-iio-proximity-as3935    |  9 ----
- .../ABI/testing/sysfs-bus-iio-timer-stm32     |  8 ----
- 11 files changed, 66 insertions(+), 104 deletions(-)
- rename Documentation/ABI/testing/{sysfs-bus-iio-humidity-hdc2010 => sysfs-bus-iio-humidity} (79%)
- delete mode 100644 Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x
- delete mode 100644 Documentation/ABI/testing/sysfs-bus-iio-icm42600
-
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 9b5ceb22363d..ed50f4b21dcc 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -631,6 +631,17 @@ Description:
+ 		specified and unique if the output corresponds to a single
+ 		channel.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
++Date:		May 2012
++KernelVersion:	3.5
++Contact:	Johan Hovold <jhovold@gmail.com>
++Description:
++		Set/get output current for channel Y. Units after application
++		of scale and offset are milliamps.
++		For some devices current channels are used to specify
++		current supplied to elements used in taking a measurement
++		of a different type. E.g. LED currents.
++
+ What:		/sys/bus/iio/devices/iio:deviceX/events
+ KernelVersion:	2.6.35
+ Contact:	linux-iio@vger.kernel.org
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x b/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
+index 66b621f10223..a8e04b41d9ff 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
++++ b/Documentation/ABI/testing/sysfs-bus-iio-health-afe440x
+@@ -18,6 +18,8 @@ Description:
+ 		respectively which simply helper channels containing the
+ 		calculated difference in the value of stage 1 - 2 and 3 - 4.
+ 		The values are expressed in 24-bit twos complement.
++		The LED current for the stage is controlled via
++		out_currentY_raw.
+ 
+ What:		/sys/bus/iio/devices/iio:deviceX/in_intensityY_offset
+ Date:		May 2016
+@@ -35,11 +37,3 @@ Contact:	Andrew F. Davis <afd@ti.com>
+ Description:
+ 		Get and set the resistance and the capacitance settings for the
+ 		Transimpedance Amplifier during the associated stage.
+-
+-What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
+-Date:		May 2016
+-KernelVersion:
+-Contact:	Andrew F. Davis <afd@ti.com>
+-Description:
+-		Get and set the LED current for the specified LED active during
+-		this stage. Y is the specific stage number.
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als b/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
+index 22c5ea670971..c476d48d0f82 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
++++ b/Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als
+@@ -41,14 +41,6 @@ Description:
+ 		Get the current light zone (0..4) as defined by the
+ 		in_illuminance0_threshY_{falling,rising} thresholds.
+ 
+-What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_raw
+-Date:		May 2012
+-KernelVersion:	3.5
+-Contact:	Johan Hovold <jhovold@gmail.com>
+-Description:
+-		Get output current for channel Y (0..255), that is,
+-		out_currentY_currentZ_raw, where Z is the current zone.
+-
+ What:		/sys/bus/iio/devices/iio:deviceX/out_currentY_currentZ_raw
+ Date:		May 2012
+ KernelVersion:	3.5
+@@ -59,3 +51,6 @@ Description:
+ 
+ 		These values correspond to the ALS-mapper target registers for
+ 		ALS-mapper Y + 1.
++
++		Note that out_currentY_raw provides the current for the
++		current zone.
 -- 
 2.30.0
 
