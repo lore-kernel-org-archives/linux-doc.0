@@ -4,42 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE62C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14318C4332B
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8852B22522
+	by mail.kernel.org (Postfix) with ESMTP id C219E2251F
 	for <linux-doc@archiver.kernel.org>; Sun, 17 Jan 2021 15:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729141AbhAQPl1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 10:41:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48940 "EHLO mail.kernel.org"
+        id S1729042AbhAQPl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 10:41:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48952 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729042AbhAQPlZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1729089AbhAQPlZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 17 Jan 2021 10:41:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 519222255F;
-        Sun, 17 Jan 2021 15:40:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D69F122571;
+        Sun, 17 Jan 2021 15:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610898038;
-        bh=8s+alTuwm7/hKtRMvDxP7RkD1eUO+qnS3pAay4zrGIk=;
+        s=k20201202; t=1610898040;
+        bh=RYkXWGHfhVE4eMgfzpphQMtyoLremfXqKTdnk7K4mE0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ipcv4uo+KkhSLMAxISwP16imVgPa7y2f5yfpOw6UyRBWhyQyCkv5z/WQaCCWdKb3T
-         TIiVBWfXvScZ6t+5HJH4JMgUeFMPnA1PFXW3E0fMGqh0wsp1IwrT/ND3MvYBlafu0F
-         KockJ5P5+ya7WuZrCk4g8cVCSvRgIjltbOkmY27gpKtpoeLTJADptyxh15rjq/5DGP
-         +cmjjI/poIgNMEtgSqlvG0k3Qea/LnZqQEhA3rRCFcnxiKpd8hqVto6wz0Y0zufqIi
-         ifkFJbBk+eGMWsCDIPMXa0oGju0I08PXQla2qew7IkTVAvRaW0Fia0R0ECxNWVExhG
-         ya4+vh9vk7pFg==
+        b=lcUyr7shWMexnQBdFt5rjTQ5Sg0xgS4pGGXEPz5rD/XvUUfqKdIxcmMBoD2O0+ruU
+         xvhikNRXss/dnlF72LtMQxpdhigDVyyiP6rTNuMibQquQHinC+0nHIpm/jwqgWndq0
+         gV1hzOJWfgM7RmKjof/winBkQx3EHChka2ljE2IaZAlYPoeEyEjxTeRJDnJyyVDvmm
+         68Xv6A+dZUctRizmPwFgT0sOp6xUxE5t8m9gdEn9HzK27K3zGkyOswJkhrrEIDFNcy
+         KFuXANQmNLF6dz/YbUHEfQhMjtfIOlD5nIUbyNkEAlMqNTosxP/Fexf8Je1JbPGT9W
+         P336N/Ojff3Ng==
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>
-Subject: [RFC PATCH 2/7] iio:ABI docs: Avoid repitition of triggerX/sampling_frequency
-Date:   Sun, 17 Jan 2021 15:38:11 +0000
-Message-Id: <20210117153816.696693-3-jic23@kernel.org>
+        Alexandru Ardelean <alexandru.ardelean@analog.com>
+Subject: [RFC PATCH 3/7] iio:ABI docs: Drop device specific docs for _powerdown for the adf4371
+Date:   Sun, 17 Jan 2021 15:38:12 +0000
+Message-Id: <20210117153816.696693-4-jic23@kernel.org>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210117153816.696693-1-jic23@kernel.org>
 References: <20210117153816.696693-1-jic23@kernel.org>
@@ -51,55 +51,37 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-The timer-stm32 provided a little more specific information than the main
-docs about the value of 0 corresponding to stopping sampling.  Given that
-this makes sense in general, move that statement over to the main docs
-and drop the version in sysfs-bus-iio-timer-stm32
+The interface is standard and the extra info provided on exactly what is
+being powered down is not of interest to most users.  Hence this doesn't
+need it's own documentation and can rely on the docs in sysfs-bus-iio
 
-Fixes
+Fixes:
 $ scripts/get_abi.pl validate
-/sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
+Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
 
-Cc: Fabrice Gasnier <fabrice.gasnier@st.com>
+Cc: Alexandru Ardelean <alexandru.ardelean@analog.com>
 Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- Documentation/ABI/testing/sysfs-bus-iio             | 2 ++
- Documentation/ABI/testing/sysfs-bus-iio-timer-stm32 | 8 --------
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371 | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-index d2dd9cc280f9..9b5ceb22363d 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio
-+++ b/Documentation/ABI/testing/sysfs-bus-iio
-@@ -55,6 +55,8 @@ Description:
- 		direct access interfaces, it may be found in any of the
- 		relevant directories.  If it affects all of the above
- 		then it is to be found in the base device directory.
-+		Note a value 0 where supported, will correspond to sampling
-+		stopping.
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371 b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371
+index 544548ee794c..457f75903963 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371
++++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371
+@@ -34,11 +34,3 @@ Description:
+ 		  out_altvoltage2_name: RF16x
+ 		  out_altvoltage3_name: RF32x
  
- What:		/sys/bus/iio/devices/iio:deviceX/sampling_frequency_available
- What:		/sys/bus/iio/devices/iio:deviceX/in_intensity_sampling_frequency_available
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32 b/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
-index c4a4497c249a..05074c4a65e2 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-timer-stm32
-@@ -90,14 +90,6 @@ Description:
- 		Reading returns the current master modes.
- 		Writing set the master mode
- 
--What:		/sys/bus/iio/devices/triggerX/sampling_frequency
--KernelVersion:	4.11
--Contact:	benjamin.gaignard@st.com
+-What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown
+-KernelVersion:
+-Contact:	linux-iio@vger.kernel.org
 -Description:
--		Reading returns the current sampling frequency.
--		Writing an value different of 0 set and start sampling.
--		Writing 0 stop sampling.
--
- What:		/sys/bus/iio/devices/iio:deviceX/in_count0_preset
- KernelVersion:	4.12
- Contact:	benjamin.gaignard@st.com
+-		This attribute allows the user to power down the PLL and it's
+-		RFOut buffers.
+-		Writing 1 causes the specified channel to power down.
+-		Clearing returns to normal operation.
 -- 
 2.30.0
 
