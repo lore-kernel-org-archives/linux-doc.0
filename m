@@ -2,67 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B332CC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:27:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8CAC433E9
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:31:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64A1422D08
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:27:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5F7B22E00
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:31:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437987AbhARU1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 15:27:05 -0500
-Received: from ms.lwn.net ([45.79.88.28]:40920 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437986AbhARU07 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Jan 2021 15:26:59 -0500
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 65E372AE;
-        Mon, 18 Jan 2021 20:26:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 65E372AE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611001568; bh=+A3bHHXAp+bngxz1bb5KJ0GvcDjSHupE8AYMS93O5us=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=a4W03KX2LM4h+o7+vReJuNIag6FKn6ZeUInoZpgZdSzp92yJWIKWEjGpbKE1cemRP
-         4BT88HzNkkDDF8FkG4kfcQb+g1IeohMybc9S9c5RukMxWAAyMyBWx+3lEJttZGhFJP
-         PtJnEeu2WcfR6YfT29l0rOnuLMcmtCn6WBCs+SfaLgP3VpwDwJV7C1sSdvz+nPl+Gh
-         INOf8D/VAO2N1pcv5E7enrIHv+/QS+a/S1yo2xaKWWj3x0icJFAd6kRWZC/e/oZhw6
-         SicEu3zfMvjmwISr5KkTXbrKPquI0q0gw3CbbcBEb0D66Q4UQl9aYPloyZdkQR2FUp
-         h8qtFs8JrVv+g==
-Date:   Mon, 18 Jan 2021 13:26:07 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Milan Lakhani <milan.lakhani@codethink.co.uk>
-Cc:     lukas.bulwahn@gmail.com, sudip.mukherjee@codethink.co.uk,
-        linux-kernel@vger.kernel.org, linux-safety@lists.elisa.tech,
-        linux-doc@vger.kernel.org, hch@lst.de
-Subject: Re: [PATCH] docs: Remove make headers_check from checklist
-Message-ID: <20210118132607.78d3c2d3@lwn.net>
-In-Reply-To: <1610458861-2832-1-git-send-email-milan.lakhani@codethink.co.uk>
-References: <1610458861-2832-1-git-send-email-milan.lakhani@codethink.co.uk>
-Organization: LWN.net
+        id S2388992AbhARKka (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 05:40:30 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:52279 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388390AbhARJKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 04:10:46 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 950255806CC;
+        Mon, 18 Jan 2021 04:09:53 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 18 Jan 2021 04:09:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=R1pGfxcuJnekXAz99rc1GrqcVhx
+        oC8FEezWd5X2V/wc=; b=HDdEhP7k0u7Kr0CuJmufFRjOKLQG+h1H/Oxx8zICiFS
+        m3XhURRkqWYGyESLH2ioYAOjyidK9mbPo9vxY7C0+MqQoOBumn2f8hFEmvlwxyIi
+        6H94opM/TGbkKAOuPqBeItwXPCx9tA9OsaE/DRoYGfvRicNtnYxIiCQWMT5O6rhc
+        q4/A0F0FdsXmOl1yzTsXXhVT0aRhnLEq92qjjEB8Gf7vwW0Ap8ExnihYOfBtjpv7
+        lWzlubCqjxfJTit+2kJzW2QU+SqfDT1YAjDK/eFAG+oQfKXM8pCaxAOrQ9QtmTmh
+        z0+SbeeLZNIMrZaa43fROYR/b1S/y711D4yqoeSBuow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=R1pGfx
+        cuJnekXAz99rc1GrqcVhxoC8FEezWd5X2V/wc=; b=Y91WYLV3bL70Fnuz0Lcrkg
+        fUcr3CPJUuNQQ/73hpLWF8xSfCtd12pU18VAeCUi0aD4hwLgn+ArVdtxGUUhETa5
+        4SUfET+eDvdHW6wFrmTiRuG/QwWPLGr+V7leHuH3dh2nwrseyF7hWiLnq9v/Fvod
+        JA+6SwrFTbYIMpbclZGNGVb8o74k3EQ0IJV1rYimtsn6Rl45zHolhTW3yszwAM2P
+        uQ67utqjjVGSYOkZE7MgPRAj7py4P3BI3L4UfnQ2sOkGXLvj5/iTD/1ZKDy+q9zU
+        B0MEfpIVDBfk/tRr3GMVz33PTJpwmq5BUQoNdKM3Lbif0ycVaEPV/0Hehs8P80kw
+        ==
+X-ME-Sender: <xms:XFAFYDeeKHtqy-FMSF4DaQn8bORgh2zjymAkiiOB_CXhA5VWsV8FyA>
+    <xme:XFAFYJPjGsMFddeIiiADXOVcfsrFS0vpvt-S4a31B31bWVoKp1AMPRF3nwqvnVevb
+    vgv5qPWXBkctAotxRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekucetufdoteggodetrfdotffvucfrrh
+    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
+    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
+    epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
+    kfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:XFAFYMhPzXcPrv8lXJzVW7dXtPA-e7CpLVEca5UyRw3QpqGAst5QxA>
+    <xmx:XFAFYE8UXLmhOM5_TUoJnDF_OcIwYiwGka2bKBlnybGgT4RFezqKEw>
+    <xmx:XFAFYPtjix0-ov_riM1aMc3_eD9VgYUVFUUc6vy48MAi7vRg1-GQHQ>
+    <xmx:YVAFYPcftKako6DbTRIDzIJlchl40QfeLNkJJ5sWyecWcUIioS8Odw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6A748240064;
+        Mon, 18 Jan 2021 04:09:48 -0500 (EST)
+Date:   Mon, 18 Jan 2021 10:09:46 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Subject: Re: [PATCH v5 04/16] media: sun6i-csi: Stop using the deprecated
+ fwnode endpoint parser
+Message-ID: <20210118090946.vysdaribva7jl4xi@gilmour>
+References: <20210115200141.1397785-1-paul.kocialkowski@bootlin.com>
+ <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="phzzxokt6uufvv73"
+Content-Disposition: inline
+In-Reply-To: <20210115200141.1397785-5-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 12 Jan 2021 13:41:01 +0000
-Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
 
-> Remove the make headers_check step from submit-checklist.rst as this is
-> no longer functional.
-> 
-> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
-> ---
->  Documentation/process/submit-checklist.rst | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+--phzzxokt6uufvv73
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks.
+Hi,
 
-jon
+Thanks for working on this
+
+On Fri, Jan 15, 2021 at 09:01:29PM +0100, Paul Kocialkowski wrote:
+> The v4l2_async_notifier_parse_fwnode_endpoints helper is getting
+> deprecated in favor of explicit parsing of the endpoints.
+>=20
+> Implement it instead of using this deprecated function.
+>=20
+> Since this was the last user of the helper, it should now be safe to
+> remove.
+>=20
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+--phzzxokt6uufvv73
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYAVQWgAKCRDj7w1vZxhR
+xePXAQCUCBAhygtdMlfSOyDe9FrqYWFDVy55JekmXn69swyY2AEAgRYKfDHOvKjp
+OK65VWBIaKANrwzOQ+puhKAQ4DMbLgs=
+=WFFY
+-----END PGP SIGNATURE-----
+
+--phzzxokt6uufvv73--
