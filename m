@@ -2,117 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B247C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 08:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD2D3C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 09:03:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE9B52253A
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 08:01:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BF8122228
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 09:03:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387438AbhARIBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 03:01:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733306AbhARIAy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 03:00:54 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA944C061573;
-        Mon, 18 Jan 2021 00:00:13 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id 6so8170194wri.3;
-        Mon, 18 Jan 2021 00:00:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=QrqziBluAm2S7jXEhlyaBX23uYOu5nIn+17iqFzqPgc=;
-        b=PoKTj57akzrAzBOa8fvLRnZicOvuIP3BcIDUm6snh/3aqOytbhsto0hj+3DpxwZuWd
-         demfto64a5AT8fDUlK0KIIUq6VDCKBryqDLDW/I45kUexbFy+eyH7Dob5BrcgQAaPuA8
-         avdA0wzGnqgHFIJhdnaqQlGGf6NJ8SEsjTjLOIjg3mYfFK0N2sKxOuNyM/RBkFW1vIt0
-         niCgRTGRFSSlcSFARrgjI8cWKlGHlVZc3IuXAh6+vTp5jbruNdbTiRF0NxPK/zTER3cq
-         o0WrL30jI+l+1kWLRSmsE5Zf4IbVAalV7oW+GAHSONCPNu4LpL57WHJioU6Z22TimKmE
-         ayOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=QrqziBluAm2S7jXEhlyaBX23uYOu5nIn+17iqFzqPgc=;
-        b=VoaRpxXEvhVZaOhedZghmx+Q8PcfoET/cBnNqZeWFa6ZxcUKHBdj2RNmycyO1Gd6nz
-         YWzb0K9jtYQBSeyS3V9rCgpaePBGRw+TernZKBUVVDtfk8wnd3vaqmLJMAqUQDQNOc8k
-         ccs9TF6GKcN8mWi12KkrfaU3kou8RZjyQlu9hk2f2cb3hVM+Cbs0zNqBI8+gExSpBRfT
-         DgM51qyUfrqIOWADvVC8VTtF5/CiW3hpV+8j5pp9kX4y650wvFawYeU5L8MhGsGYlL3K
-         DzO8pgb2bK+G15asBwb233bMPlMwgdbpLmdtRlIJyYSrv+K0qr8k0FO90teDzunUqPnR
-         Q52g==
-X-Gm-Message-State: AOAM533I8/tWyt9bDIONao0jxyhn+s1n9ZvY4LNFo6PeP+pVKs63+MZa
-        2BZUQJlUnlk/zqgbton4av8=
-X-Google-Smtp-Source: ABdhPJxPXOD2LCsasbBNvZyD+MIQMWFrvrBqRcYhmt58KixPQUATj7Mv6o5OThbKodVhcZs9avJ0/A==
-X-Received: by 2002:adf:b359:: with SMTP id k25mr25033448wrd.98.1610956812441;
-        Mon, 18 Jan 2021 00:00:12 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d3e:6800:ad77:727f:e0e1:17c4])
-        by smtp.gmail.com with ESMTPSA id i11sm23187419wmq.10.2021.01.18.00.00.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 00:00:11 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Brendan Jackman <jackmanb@google.com>,
-        Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>,
-        netdev@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH for bpf-next] docs: bpf: add minimal markup to address doc warning
-Date:   Mon, 18 Jan 2021 09:00:04 +0100
-Message-Id: <20210118080004.6367-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S2388238AbhARJCw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 04:02:52 -0500
+Received: from www.zeus03.de ([194.117.254.33]:33816 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388242AbhARJCo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jan 2021 04:02:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=sr3wPtySxQZ9UKbwTXISYdT8cfkn
+        nni3gqbD6XC81yk=; b=R+0itXAvQSnr82ghkhBVIrcHldOhKEfQ223x5NGBmXxx
+        x4rk3Dx62/yzrmZrFhHcq7RKuRomk/gq1nzOsFBGmaNyur74jWNtB7Xp/S8ovB0R
+        2ITxznfWGuWu9dnN7mlCp8u4In93G/rWoBlmpGX4JW+GyWFK1k8x5VL+A45cH6A=
+Received: (qmail 631839 invoked from network); 18 Jan 2021 10:02:02 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jan 2021 10:02:02 +0100
+X-UD-Smtp-Session: l3s3148p1@s8ez+Si5poYgAwDPXwacAOByz8F9Mgm1
+Date:   Mon, 18 Jan 2021 10:02:02 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-gpio@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] Documentation: gpio: Fix typo
+Message-ID: <20210118090202.GB1018@ninjato>
+References: <20201214155440.2950-1-wsa+renesas@sang-engineering.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8GpibOaaTibBMecb"
+Content-Disposition: inline
+In-Reply-To: <20201214155440.2950-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 91c960b00566 ("bpf: Rename BPF_XADD and prepare to encode other
-atomics in .imm") modified the BPF documentation, but missed some ReST
-markup.
 
-Hence, make htmldocs warns on Documentation/networking/filter.rst:1053:
+--8GpibOaaTibBMecb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  WARNING: Inline emphasis start-string without end-string.
+On Mon, Dec 14, 2020 at 04:54:40PM +0100, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
-Add some minimal markup to address this warning.
+Does this go via doc or gpio?
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20210118
+>  Documentation/driver-api/gpio/consumer.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/driver-api/gpio/consumer.rst b/Documentation/d=
+river-api/gpio/consumer.rst
+> index 423492d125b9..86e7676c5f0d 100644
+> --- a/Documentation/driver-api/gpio/consumer.rst
+> +++ b/Documentation/driver-api/gpio/consumer.rst
+> @@ -110,7 +110,7 @@ For a function using multiple GPIOs all of those can =
+be obtained with one call::
+> =20
+>  This function returns a struct gpio_descs which contains an array of
+>  descriptors.  It also contains a pointer to a gpiolib private structure =
+which,
+> -if passed back to get/set array functions, may speed up I/O proocessing::
+> +if passed back to get/set array functions, may speed up I/O processing::
+> =20
+>  	struct gpio_descs {
+>  		struct gpio_array *info;
+> --=20
+> 2.28.0
+>=20
 
-Brendan, please ack.
+--8GpibOaaTibBMecb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Alexei, please pick this minor cleanup patch on your bpf-next.
+-----BEGIN PGP SIGNATURE-----
 
- Documentation/networking/filter.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmAFTooACgkQFA3kzBSg
+KbZnfxAArATWuEwUGzQauV4T5ndWfdvsLC5DzvhpY20z3gyn81ZtlbZjQajeU3rN
+D4Du3xcxIq0tLnmWZ9BgisFshoUhhomFzLfDgsbCdz5iWJ8+dVFj8JSSSNj/mrx0
+tFWtRGEb92OhvnHPOqbT8Ypjy0bXE1uLelSiVpvfp1gnhW7GYAsgtDo7hbPUXhRt
+wIkhf+L7az6Y7HsiQK4jLFGAFAQdrD6O2AUqzE8FPiS0fdajrZ+QFlfO1OkcWeoa
+z9MwkHQ8aHBwJZI2X/gwdpPLvaLCexHqOTHxPPGsNVM+hfhmIw4J1MxEE3krockU
++0jBqsGeKerwbqM0Lc+8ViEfU+o6IunnII1tqeglbt9Ay04DWK/SAVflaONGMuN5
+yqgkQuRU0ynMNecx1GkFYVIMY1OBXKZyUuTeBzgBTcIssraH/N9bs7qLP7lbCwUE
+jftzArKNqp9WMBOXY0QUyE1M8uU+aFQvYGroKq4eId/DyDjnGBLqiUe3rIXZei5+
+XK3z66E+DjcY5OlzddYCHY4ZSslOfad01bfhJqhkZrf5rzre53Ed+6u5NkXLNwGG
+3ADsgthJFQ9kiaIfz+BKJUVesrihjj5LLyvzHj64CsmOsd2cxxdKtG0YSPKKkAvc
+JFw5qX7mvUdNA5kgn7QPNcEW14iv5obUA0DYmarKYFAcBm6Z3LY=
+=REJe
+-----END PGP SIGNATURE-----
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index f6d8f90e9a56..45f6fde1776c 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -1048,12 +1048,12 @@ Unlike classic BPF instruction set, eBPF has generic load/store operations::
- Where size is one of: BPF_B or BPF_H or BPF_W or BPF_DW.
- 
- It also includes atomic operations, which use the immediate field for extra
--encoding.
-+encoding::
- 
-    .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_W  | BPF_STX: lock xadd *(u32 *)(dst_reg + off16) += src_reg
-    .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_DW | BPF_STX: lock xadd *(u64 *)(dst_reg + off16) += src_reg
- 
--The basic atomic operations supported are:
-+The basic atomic operations supported are::
- 
-     BPF_ADD
-     BPF_AND
--- 
-2.17.1
-
+--8GpibOaaTibBMecb--
