@@ -2,165 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A48C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 12:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40259C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 14:03:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B74BC2231F
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 12:41:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9AEC22B4E
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 14:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404179AbhARMlL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 07:41:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58484 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404070AbhARMjz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 07:39:55 -0500
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA48BC061573;
-        Mon, 18 Jan 2021 04:39:13 -0800 (PST)
-Received: by mail-io1-xd2c.google.com with SMTP id e22so32431953iom.5;
-        Mon, 18 Jan 2021 04:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=/0ekt6oq+WlNqCRvHUlDFjjWLqrVQZ0WTiXLJub6TII=;
-        b=EuJrgbYOcyXpDYrS4gzh38ZbG5H31XHAgl/f+bwdQYi02raaP0x2yOu6thClppbaGe
-         176k2GtIJQRIuIclnFzmJSRQdqDlHVKvhReRhVrbV1zX7HH2N2wESKsI5hqjhK+XJojE
-         9/yxOMvHX3lSwzATnj5aThd5cuieVDGQp1+eDFc63NldL0Zkxig1aGSNpnt4CvODWPxs
-         R5Dtcl1cXF9rLBYFlUKGUcuqSuZbMHPCFCMNSNnRkfWZ95LuPgUXyFoAHZMxTBPsupdU
-         N3Fual2nqFL6cSPLndFT5VlETMfoO8fussQJymQ0ZdKP6TEEwLlzHVdmc2WDFuE5VsFV
-         DtZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=/0ekt6oq+WlNqCRvHUlDFjjWLqrVQZ0WTiXLJub6TII=;
-        b=nnR7oelH22vb1zr+Z1xyG4xeUp9M2Ux9H7nQPiKJSqhBLn1phMPVsoDBw3mr5cTJmT
-         N95YDFHop30F+gWWrEGYiDDVPlYS/me/IOYhEzFZ7yHsV+6ptcgnDqpkMfl9NHlBsZL9
-         qwy6rCs03Z/FH91qTTz1t1Jj+SGiYYWgDVoQ58UUUcvgPhzoa3cQwnJW3lgozhkwmZeT
-         GeW2bylM92P+riuY698KY1+kL3OizjvHFlM5yY8kUyLSeaWc4E7dnfSLGV/gu+XFeDA+
-         Rp1U20KSOGua7K0VsX4jTKN0BXReBvT7CCwd7WSdpl9DE8mbqq6crapLNvLyWbFq+B3L
-         ExoA==
-X-Gm-Message-State: AOAM530OB5XFTyiaBMzo01Lf3aiGxVDwPWUyhSknn12xkSNFzbDlUg04
-        mGJTqPfZdkKg1Y11oAMVTUN8GVq7FvMLc++kTxxXtnqiA1GFHw==
-X-Google-Smtp-Source: ABdhPJyKFkgMRRtDcUlteA7Z7Cb43j3RGyiiF4/1dj6xu/OkHFbEaMvPpMtTWNcJqIXXEtubJXeZ02fXeaYlgg9oMmE=
-X-Received: by 2002:a05:6e02:d0:: with SMTP id r16mr6888410ilq.112.1610973553097;
- Mon, 18 Jan 2021 04:39:13 -0800 (PST)
+        id S2392577AbhAROD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 09:03:28 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56934 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392403AbhARODW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Jan 2021 09:03:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1610978552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GJxA8ykhu2gJcqk6GIjIQ72lO2tZ7uSgCwBGZqoXgTY=;
+        b=bYTaeWSbgdDHExIvEQ8+GQF6by4jSVSrmqICY7FJrND8ciggg6rTz6zK9BPMZvoqMwBAkB
+        R9IojjnyCK0Lp26njKSe7gufb7odC0Wx3rjAWfjWUX/DWTtTgtxHfm/Nsga8CKYI1+jD7l
+        uz00RpOLxwA0X2u/TV2UI8p69DhGT8w=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7FD35ACBA;
+        Mon, 18 Jan 2021 14:02:32 +0000 (UTC)
+Date:   Mon, 18 Jan 2021 15:02:31 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v4] Documentation: livepatch: document reliable stacktrace
+Message-ID: <YAWU0D50KH4mVTgn@alley>
+References: <20210115171617.47273-1-broonie@kernel.org>
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
- <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com> <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
-In-Reply-To: <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 18 Jan 2021 13:39:01 +0100
-Message-ID: <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115171617.47273-1-broonie@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
->
-> On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > [ big snip ]
->
-> [More snippage.]
->
-> > [ CC Fangrui ]
-> >
-> > With the attached...
-> >
-> >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> > undefined symbols
-> >
-> > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> > For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
-> >
-> Thanks for confirming that this works with the above patch.
->
-> > @ Bill Nick Sami Nathan
-> >
-> > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
->
-> The integrated assembler and this option are more-or-less orthogonal
-> to each other. One can still use the GNU assembler with PGO. If you're
-> having an issue, it may be related to ClangBuiltLinux issue #1250.
->
-> > 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
-> >
-> I know Nick did several tests with PGO. He may have looked into it
-> already, but we can check.
->
+Hi Mark,
 
-Reproducible.
+first, thanks a lot for writing this.
 
-LLVM_IAS=1 + DWARF5 = Not bootable
+On Fri 2021-01-15 17:16:17, Mark Brown wrote:
+> From: Mark Rutland <mark.rutland@arm.com>
+> 
+> Add documentation for reliable stacktrace. This is intended to describe
+> the semantics and to be an aid for implementing architecture support for
+> HAVE_RELIABLE_STACKTRACE.
+> 
+> Unwinding is a subtle area, and architectures vary greatly in both
+> implementation and the set of concerns that affect them, so I've tried
+> to avoid making this too specific to any given architecture. I've used
+> examples from both x86_64 and arm64 to explain corner cases in more
+> detail, but I've tried to keep the descriptions sufficient for those who
+> are unfamiliar with the particular architecture.
+>
+> I've tried to give rationale for all the recommendations/requirements,
+> since that makes it easier to spot nearby issues, or when a check
+> happens to catch a few things at once.
 
-I will try:
+The above looks enough for the commit message. Well, Josh, typically
+asks for a directive style, example:
 
-LLVM_IAS=1 + DWARF4
+Instead of "I've tried to give rationale...", please use something like
+"The documentation gives rationale...".
 
-- Sedat -
+> I believe what I have written is
+> sound, but as some of this was reverse-engineered I may have missed
+> things worth noting.
+> 
+> I've made a few assumptions about preferred behaviour, notably:
+> 
+> * If you can reliably unwind through exceptions, you should (as x86_64
+>   does).
+> 
+> * It's fine to omit ftrace_return_to_handler and other return
+>   trampolines so long as these are not subject to patching and the
+>   original return address is reported. Most architectures do this for
+>   ftrace_return_handler, but not other return trampolines.
+> 
+> * For cases where link register unreliability could result in duplicate
+>   entries in the trace or an inverted trace, I've assumed this should be
+>   treated as unreliable. This specific case shouldn't matter to
+>   livepatching, but I assume that that we want a reliable trace to have
+>   the correct order.
 
-> > I would like to know what the impact of the Clang's Integrated
-> > Assembler and DWARF v5 are.
-> >
-> > I dropped both means...
-> >
-> > 1. Do not pass "LLVM_IAS=1" to make.
-> > 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
-> >
-> > ...for a successfull build and boot on bare metal.
-> >
->
-> [Next message]
->
-> > On each rebuild I need to pass to make ...?
-> >
-> >   LLVM=1 -fprofile-use=vmlinux.profdata
-> >
-> Yes.
->
-> > Did you try together with passing LLVM_IAS=1 to make?
->
-> One of my tests was with the integrated assembler enabled. Are you
-> finding issues with it?
->
-> The problem with using top-of-tree clang is that it's not necessarily
-> stable. You could try using the clang 11.x release (changing the
-> "CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
-> 110000").
->
-> -bw
+This looks like a background that is typically part of the cover
+leter. It mentions some Mark's doubts.
+
+Could anyone please answer whether the above assumptions are correct
+or not? We should remove them from the commit message. If any
+assumption is wrong, we should fix the documentation.
+
+Honestly, I am curious about the anwer. I am not familiar with
+these details of the reliable stacktrace ;-)
+
+
+Otherwise, it looks good to me on the first look. But I am not
+expert in this are, so I could not check the details effectively.
+
+Best Regards,
+Petr
