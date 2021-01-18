@@ -2,150 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C82C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 02:33:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DEEC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 03:52:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F26522581
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 02:33:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C87E224BD
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 03:52:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726859AbhARCdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 21:33:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730175AbhARCdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 21:33:18 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AEEC061574
-        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 18:32:38 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id s11so8569045edd.5
-        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 18:32:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
-        b=fu01MN1RBBEK4GjqxdZtdRWsxoe0l9gdxKc7VAXhfUw+tqXVYw6Oq+GVUbZqZioYee
-         N9PAsxghkj2YFg/oY2Kfd/aPAMevD0MMkPFwZVCRANgHNcOdnY9IYshUJI2yRtFJ64hW
-         Gkza/6nurwrZt6HTmS4djj7qoivCSpusIfO5NOPpDqePuVN+rSCRwwJ9ohen352cj+bR
-         LTuMgBLYNGITa5YwWJarpdUlAoXhDOrb8/ZjE5lwtaUmUPsdgglKrX+aendAxoUyz1L5
-         uBmgzrjKmHlNFy/MSMTacEjHvNPV+Ajgz13VDTg1/a5kATrlpS3NpWIivAhwrRC9XCY5
-         e4ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
-        b=CNqcVdKx4f656IPMqll5bq23KryKwI49p9JxNhk9oaLRNV2miRJBtzpZd89lFN5QfP
-         qyRzNApSyQOSZL6C3CB8lHYtKZaWT9V1agEcZr5xHkBtggiKwFHdWnk37nGnLPOblxH/
-         b/Co2PcB1AIzAgXH4DYNYMfyQJiKcOVDfeK7BWTOCjiRCEie236Sy7vM/XTWle0+KL9Q
-         37zT2FGgrr0Q+hOn1HJ7x9lIwXDgZDBDh6+Nzd4xaAY7hCSsAs3i+lKrA+FTbhDfiizQ
-         5BF1IyAdm1dt6or+nxhbXD8Mk6Q47r6ZSlYLr7KE+C0Ic5RoyXOyXcBfNW5gFpJBsZOF
-         TW6w==
-X-Gm-Message-State: AOAM532iLHzynCuUkMr9gFcWH+xNxNwoxpqce+AJpfiW4y2E+wlqBZJL
-        yF6vsaiHATgDgOeto8ueyV43llHa78acviuWSWOthg3U47hk
-X-Google-Smtp-Source: ABdhPJxghPKKFZfXRuqyf/ln2g2Vde9pBNxDQQMA4R+VxhCfUyDEYpwL6BrmysI20US1jRAcr454zHk78k+JbFhQuRg=
-X-Received: by 2002:aa7:c719:: with SMTP id i25mr13208470edq.197.1610937156426;
- Sun, 17 Jan 2021 18:32:36 -0800 (PST)
+        id S1731800AbhARDwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 22:52:35 -0500
+Received: from m43-15.mailgun.net ([69.72.43.15]:15246 "EHLO
+        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731752AbhARDwe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 22:52:34 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1610941932; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=6qAIVbxVqiKUhV3XLTDBhx1iSqJOiBlKfMz/NX8ydZ0=;
+ b=D+u4PkHG5bJn19WUqqHJmhXwmuC3IoN5eGUeIo3CPYAdz/cdNpUs5Q0iDuOxLXYHzK3rXpct
+ x+kEW8J+KUYuiNLWZwZkm5EbPgnj2IOsDHNtZ6TU7Ik1jN9KOApWvAUfUZLgK/PjRH54GEC6
+ +1G2MBN+wYDud5UaFQ6u2JQYpLw=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
+ 600505cefdec81ad1e03add0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 18 Jan 2021 03:51:42
+ GMT
+Sender: mdalam=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B1D89C433ED; Mon, 18 Jan 2021 03:51:41 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mdalam)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id BB663C433C6;
+        Mon, 18 Jan 2021 03:51:40 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com> <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
-In-Reply-To: <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
-From:   Bill Wendling <morbo@google.com>
-Date:   Sun, 17 Jan 2021 18:32:25 -0800
-Message-ID: <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 18 Jan 2021 09:21:40 +0530
+From:   mdalam@codeaurora.org
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
+        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
+        mdalam=codeaurora.org@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+In-Reply-To: <20210115055806.GE2771@vkoul-mobl>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <20201221092355.GA3323@vkoul-mobl>
+ <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
+ <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
+ <20210112101056.GI2771@vkoul-mobl>
+ <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
+ <20210115055806.GE2771@vkoul-mobl>
+Message-ID: <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
+X-Sender: mdalam@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> [ big snip ]
+On 2021-01-15 11:28, Vinod Koul wrote:
+> On 14-01-21, 01:20, mdalam@codeaurora.org wrote:
+>> On 2021-01-12 15:40, Vinod Koul wrote:
+>> > On 12-01-21, 15:01, mdalam@codeaurora.org wrote:
+>> > > On 2020-12-21 23:03, mdalam@codeaurora.org wrote:
+>> > > > On 2020-12-21 14:53, Vinod Koul wrote:
+>> > > > > Hello,
+>> > > > >
+>> > > > > On 17-12-20, 20:07, Md Sadre Alam wrote:
+>> > > > > > This change will add support for LOCK & UNLOCK flag bit support
+>> > > > > > on CMD descriptor.
+>> > > > > >
+>> > > > > > If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+>> > > > > > transaction wanted to lock the DMA controller for this transaction so
+>> > > > > > BAM driver should set LOCK bit for the HW descriptor.
+>> > > > > >
+>> > > > > > If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester
+>> > > > > > of this
+>> > > > > > transaction wanted to unlock the DMA controller.so BAM driver
+>> > > > > > should set
+>> > > > > > UNLOCK bit for the HW descriptor.
+>> > > > >
+>> > > > > Can you explain why would we need to first lock and then unlock..? How
+>> > > > > would this be used in real world.
+>> > > > >
+>> > > > > I have read a bit of documentation but is unclear to me. Also should
+>> > > > > this be exposed as an API to users, sounds like internal to driver..?
+>> > > > >
+>> > > >
+>> > > > IPQ5018 SoC having only one Crypto Hardware Engine. This Crypto Hardware
+>> > > > Engine
+>> > > > will be shared between A53 core & ubi32 core. There is two separate
+>> > > > driver dedicated
+>> > > > to A53 core and ubi32 core. So to use Crypto Hardware Engine
+>> > > > parallelly for encryption/description
+>> > > > we need bam locking mechanism. if one driver will submit the request
+>> > > > for encryption/description
+>> > > > to Crypto then first it has to set LOCK flag bit on command descriptor
+>> > > > so that other pipes will
+>> > > > get locked.
+>> > > >
+>> > > > The Pipe Locking/Unlocking will be only on command-descriptor. Upon
+>> > > > encountering a command descriptor
+>> >
+>> > Can you explain what is a cmd descriptor?
+>> 
+>>   In BAM pipe descriptor structure there is a field called CMD 
+>> (Command
+>> descriptor).
+>>   CMD allows the SW to create descriptors of type Command which does 
+>> not
+>> generate any data transmissions
+>>   but configures registers in the Peripheral (write operations, and 
+>> read
+>> registers operations ).
+>>   Using command descriptor enables the SW to queue new configurations
+>> between data transfers in advance.
+> 
+> What and when is the CMD descriptor used for..?
 
-[More snippage.]
+   CMD descriptor is mainly used for configuring controller register.
+   We can read/write controller register via BAM using CMD descriptor 
+only.
+   CMD descriptor use command pipe for the transaction.
+> 
+>> >
+>> > > > with LOCK bit set, The BAM will lock all other pipes not related to
+>> > > > the current pipe group, and keep
+>> > > > handling the current pipe only until it sees the UNLOCK set then it
+>> > > > will release all locked pipes.
+>> > > > locked pipe will not fetch new descriptors even if it got event/events
+>> > > > adding more descriptors for
+>> > > > this pipe (locked pipe).
+>> > > >
+>> > > > No need to expose as an API to user because its internal to driver, so
+>> > > > while preparing command descriptor
+>> > > > just we have to update the LOCK/UNLOCK flag.
+>> >
+>> > So IIUC, no api right? it would be internal to driver..?
+>> 
+>>   Yes its totally internal to deriver.
+> 
+> So no need for this patch then, right?
 
-> [ CC Fangrui ]
->
-> With the attached...
->
->    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> undefined symbols
->
-> ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> _GLOBAL_OFFSET_TABLE_ loading kernel modules".
->
-Thanks for confirming that this works with the above patch.
-
-> @ Bill Nick Sami Nathan
->
-> 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
-
-The integrated assembler and this option are more-or-less orthogonal
-to each other. One can still use the GNU assembler with PGO. If you're
-having an issue, it may be related to ClangBuiltLinux issue #1250.
-
-> 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
->
-I know Nick did several tests with PGO. He may have looked into it
-already, but we can check.
-
-> I would like to know what the impact of the Clang's Integrated
-> Assembler and DWARF v5 are.
->
-> I dropped both means...
->
-> 1. Do not pass "LLVM_IAS=1" to make.
-> 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
->
-> ...for a successfull build and boot on bare metal.
->
-
-[Next message]
-
-> On each rebuild I need to pass to make ...?
->
->   LLVM=1 -fprofile-use=vmlinux.profdata
->
-Yes.
-
-> Did you try together with passing LLVM_IAS=1 to make?
-
-One of my tests was with the integrated assembler enabled. Are you
-finding issues with it?
-
-The problem with using top-of-tree clang is that it's not necessarily
-stable. You could try using the clang 11.x release (changing the
-"CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
-110000").
-
--bw
+   This patch is needed , because if some hardware will shared between 
+multiple core
+   like A53 and ubi32 for example. In IPQ5018 there is only one crypto 
+engine and this will
+   be shared between A53 core and ubi32 core and in A53 core & ubi32 core 
+there are different
+   drivers is getting used. So if encryption/decryption request come at 
+same time from both the
+   driver then things will get messed up. So here we need LOCKING 
+mechanism. If first request is
+   from A53 core driver then this driver should lock all the pipes other 
+than pipe dedicated to
+   A53 core. So while preparing CMD descriptor driver should used this 
+flag "DMA_PREP_LOCK",
+   Since LOCK and UNLOCK flag bit we can set only on CMD descriptor. Once 
+request processed then
+   driver will set UNLOCK flag on CMD descriptor. Driver should use this 
+flag "DMA_PREP_UNLOCK"
+   while preparing CMD descriptor. Same logic will be apply for ubi32 
+core driver as well.
