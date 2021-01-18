@@ -2,212 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6470EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6B10C433E9
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 18:02:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 259B722CA0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:56:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C54C22CA0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 18:02:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436748AbhARR4I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 12:56:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436793AbhARRz4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 12:55:56 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF38EC061573;
-        Mon, 18 Jan 2021 09:55:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=VSy7n9nGa+8yIgiz5/4Q9YZDqz+WHE9uZBEMuw4LP60=; b=ElCtRKXWs00XlQ5Ju8PBSEsSCb
-        3CKHkgdNQu7e41t3Gwu6khGQbo7R7XI6ZZ6nOHwmCrH5tafVsX0+G1e+2II5ILaV4zQDNl6LvNSAf
-        k1xhJvevWgHmbH5bii13SgJRDA2Gv/2FfexFvnnyb1mgpy9MJDYKQZFoh0RUivM9eMxCsraYa2p9R
-        Jg4Mb4zn0txphL73yMA/ZsAguhFstS8Lu17S7jB6DxUL9EfvLUYpzyudmN0fpZ6wPIZ77YM7lJlEY
-        saWcR1bPA7nTD90KFEz5YAShJB9kepxCRmYpBXT91+34kLPPifqcqDTGm265vQ+0HuVZfjmuPe6u9
-        W2ZEIc9A==;
-Received: from [2601:1c0:6280:3f0::9abc]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l1YkN-0004ON-QQ; Mon, 18 Jan 2021 17:55:24 +0000
-Subject: Re: [Patch v5 2/2] cgroup: svm: Encryption IDs cgroup documentation.
-To:     Vipin Sharma <vipinsh@google.com>, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
-        pbonzini@redhat.com, seanjc@google.com, tj@kernel.org,
-        hannes@cmpxchg.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
-        corbet@lwn.net
-Cc:     joro@8bytes.org, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210116023204.670834-1-vipinsh@google.com>
- <20210116023204.670834-3-vipinsh@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2a009bd9-fde5-4911-3525-e28379fe3be2@infradead.org>
-Date:   Mon, 18 Jan 2021 09:55:12 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S2407443AbhARSCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 13:02:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38463 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2407374AbhARSCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 13:02:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610992868;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=cmWI9q0Yv6ws45Gm17M/evkneZf1hih8Ce1di6ywSvo=;
+        b=JeuprGzT6Uy+7ZziqQOg8DtV1TI8zIof0bmh6Y+cC3CnBq24GRvLbKp40mmJCHh2G/3Ed8
+        /zneb9S8VBsaL0tRTwRJ1sYx1BIJwf7YiAwC65guqdh11QRnLKjutNqSgupd8N7twB7zbS
+        Y8dfM4w29ajoquWeBKDev1xi/eMB7f8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-876FNId9MRuKl0FEUpEOUg-1; Mon, 18 Jan 2021 13:01:06 -0500
+X-MC-Unique: 876FNId9MRuKl0FEUpEOUg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C853D8030A2;
+        Mon, 18 Jan 2021 18:01:03 +0000 (UTC)
+Received: from treble (ovpn-116-102.rdu2.redhat.com [10.10.116.102])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id DBC865D9CD;
+        Mon, 18 Jan 2021 18:00:53 +0000 (UTC)
+Date:   Mon, 18 Jan 2021 12:00:46 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] Documentation: livepatch: Document reliable
+ stacktrace and minor cleanup
+Message-ID: <20210118175927.jjscqq24jbtqprc7@treble>
+References: <20210118173954.36577-1-broonie@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210116023204.670834-3-vipinsh@google.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210118173954.36577-1-broonie@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/15/21 6:32 PM, Vipin Sharma wrote:
-> Documentation of Encryption IDs controller. This new controller is used
-> to track and limit usage of hardware memory encryption capabilities on
-> the CPUs.
+On Mon, Jan 18, 2021 at 05:39:52PM +0000, Mark Brown wrote:
+> This series adds a document, mainly written by Mark Rutland, which makes
+> explicit the requirements for implementing reliable stacktrace in order
+> to aid architectures adding this feature.  It also updates the other
+> livepatching documents to use automatically generated tables of contents
+> following review comments on Mark's document.
 > 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Reviewed-by: David Rientjes <rientjes@google.com>
-> Reviewed-by: Dionna Glaze <dionnaglaze@google.com>
-> ---
->  .../admin-guide/cgroup-v1/encryption_ids.rst  |  1 +
->  Documentation/admin-guide/cgroup-v2.rst       | 78 ++++++++++++++++++-
->  2 files changed, 77 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/admin-guide/cgroup-v1/encryption_ids.rst
+> v5:
+>  - Tweaks to the commit message for the new document.
+>  - Convert new and existing documents to autogenerated tables of
+>    contents.
+> v4:
+>  - Renumber table of contents
+> v3:
+>  - Incorporated objtool section from Mark.
+>  - Deleted confusing notes about using annotations.
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v1/encryption_ids.rst b/Documentation/admin-guide/cgroup-v1/encryption_ids.rst
-> new file mode 100644
-> index 000000000000..8e9e9311daeb
-> --- /dev/null
-> +++ b/Documentation/admin-guide/cgroup-v1/encryption_ids.rst
-> @@ -0,0 +1 @@
-> +/Documentation/admin-guide/cgroup-v2.rst
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 63521cd36ce5..72993571de2e 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -63,8 +63,11 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
->         5-7-1. RDMA Interface Files
->       5-8. HugeTLB
->         5.8-1. HugeTLB Interface Files
-> -     5-8. Misc
-> -       5-8-1. perf_event
-> +     5-9. Encryption IDs
-> +       5.9-1 Encryption IDs Interface Files
-> +       5.9-2 Migration and Ownership
-> +     5-10. Misc
-> +       5-10-1. perf_event
->       5-N. Non-normative information
->         5-N-1. CPU controller root cgroup process behaviour
->         5-N-2. IO controller root cgroup process behaviour
-> @@ -2160,6 +2163,77 @@ HugeTLB Interface Files
->  	are local to the cgroup i.e. not hierarchical. The file modified event
->  	generated on this file reflects only the local events.
->  
-> +Encryption IDs
-> +--------------
-> +
-> +There are multiple hardware memory encryption capabilities provided by the
-> +hardware vendors, like Secure Encrypted Virtualization (SEV) and SEV Encrypted
-> +State (SEV-ES) from AMD.
-> +
-> +These features are being used in encrypting virtual machines (VMs) and user
-> +space programs. However, only a small number of keys/IDs can be used
-> +simultaneously.
-> +
-> +This limited availability of these IDs requires system admin to optimize
-
-                                                          admins
-
-> +allocation, control, and track the usage of the resources in the cloud
-> +infrastructure. This resource also needs to be protected from getting exhausted
-> +by some malicious program and causing starvation for other programs.
-> +
-> +Encryption IDs controller provides capability to register the resource for
-
-   The Encryption IDs controller provides the capability to register the resource for
-
-> +controlling and tracking through the cgroups.
-
-                            through cgroups.
-
-> +
-> +Encryption IDs Interface Files
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Each encryption ID type have their own interface files,
-
-                           has its own
-
-> +encids.[ID TYPE].{max, current, stat}, where "ID TYPE" can be sev and
-
-                                                                     or
-
-> +sev-es.
-> +
-> +  encids.[ID TYPE].stat
-> +        A read-only flat-keyed single value file. This file exists only in the
-> +        root cgroup.
-> +
-> +        It shows the total number of encryption IDs available and currently in
-> +        use on the platform::
-> +          # cat encids.sev.stat
-> +          total 509
-> +          used 0
-
-This is described above as a single-value file...
-
-Is the max value a hardware limit or a software (flexible) limit?
-
-
-> +
-> +  encids.[ID TYPE].max
-> +        A read-write file which exists on the non-root cgroups. File is used to
-> +        set maximum count of "[ID TYPE]" which can be used in the cgroup.
-> +
-> +        Limit can be set to max by::
-> +          # echo max > encids.sev.max
-> +
-> +        Limit can be set by::
-> +          # echo 100 > encids.sev.max
-> +
-> +        This file shows the max limit of the encryption ID in the cgroup::
-> +          # cat encids.sev.max
-> +          max
-> +
-> +        OR::
-> +          # cat encids.sev.max
-> +          100
-> +
-> +        Limits can be set more than the "total" capacity value in the
-> +        encids.[ID TYPE].stat file, however, the controller ensures
-> +        that the usage never exceeds the "total" and the max limit.
-> +
-> +  encids.[ID TYPE].current
-> +        A read-only single value file which exists on non-root cgroups.
-> +
-> +        Shows the total number of encrypted IDs being used in the cgroup.
-> +
-> +Migration and Ownership
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +An encryption ID is charged to the cgroup in which it is used first, and
-> +stays charged to that cgroup until that ID is freed. Migrating a process
-> +to a different cgroup do not move the charge to the destination cgroup
-
-                         does
-
-> +where the process has moved.
-> +
->  Misc
->  ----
->  
+> Mark Brown (1):
+>   Documentation: livepatch: Convert to automatically generated contents
 > 
+> Mark Rutland (1):
+>   Documentation: livepatch: document reliable stacktrace
 
+Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
 
 -- 
-~Randy
-You can't do anything without having to do something else first.
--- Belefant's Law
+Josh
+
