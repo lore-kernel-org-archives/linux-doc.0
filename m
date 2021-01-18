@@ -2,61 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2768C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 16:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27DB1C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 16:00:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C37A22AAA
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 16:00:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0338C22B4E
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 16:00:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406170AbhARQAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 11:00:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
+        id S2406185AbhARQAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 11:00:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406164AbhARP7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 10:59:50 -0500
-Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C95FC061575
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:59:07 -0800 (PST)
-Received: by mail-wr1-x449.google.com with SMTP id m20so8528290wrh.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:59:07 -0800 (PST)
+        with ESMTP id S2406179AbhARQAH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 11:00:07 -0500
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com [IPv6:2a00:1450:4864:20::34a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A75FEC0613D6
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:59:11 -0800 (PST)
+Received: by mail-wm1-x34a.google.com with SMTP id z12so4698855wmf.9
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=tg+3NwgpjPXKCAU0OOKW/4MEsOw9C1yX+SHheX6GzNo=;
-        b=OeEk33HaH6Hbiu6I+b1Q7FWYeeSPLEzZbksFKDPfTxJvMz2iziNXp8justgb+/qOO2
-         BmCttwyKayBP3uDNYOUfVlj70h4U62BnyWDdecRhbaiNKeULfiq0So6sBAE6CsF/IOtW
-         Yy6TW52Hv4v0RnU27FQzOf6ha3Ey7GE/vNnDFqJaPi1WSwUEzdaiRL3OPPHrEqYbLCDN
-         VK8ebVEgHFqFH7Evop0hPWI/SmRGX0JcRkqwiX6zWXcPQXSI+/ZvW6zcdlux8HW2w5KZ
-         TSdj/4ofx+XLW6B5MF+TKyrhDGKP5C47CVeyVsDxLS9F2b7KXXgQ9l+V6MIxdYtetGu+
-         kzZw==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=6OdTPYEA2p5+e67drhVq+n88z8c6ioQj4MZmywIDAFM=;
+        b=eMBuLjmixjlbs4KF0qZwuBWsre4MhQNj8gm7XxkbXIPimS+tmeY3wm5Tke/4fDyObv
+         J7FhRpPLOUyZ0NkB7PA9Whh3FFh/p4zRylDnczG+AOHircxNJd35i3cmWageo/SngS6F
+         +pW8+PP117T9sFvwjbYfoOL06tsyW6srmnXTBEbbhcpDTG7Hvn0dpBpV39Jx35cmxWr2
+         /qLfWcOFJHeCP6JN6sMRxyEmS4zkokORJhKHdr/XW8BoHiv8rm7yiZ0+2V6ABjqFxyNz
+         r9Z6s0Lbx39CdrnhmIkAPnCj/h3bH+OuVy3XNiwSKHvJtIqR/06iUUW9y7ilPymgagbD
+         8g2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=tg+3NwgpjPXKCAU0OOKW/4MEsOw9C1yX+SHheX6GzNo=;
-        b=knGUs/1/uNpMBeuDBuVpMRx9STykcPmVLYdyxOXQzTd+0BmUjm277xVkmjsYoeeoG8
-         t4AQr7PEWqBOqoqS5vyaP00XNQxA7SO/hyG2uREenVuAYkghN+0XWVPNuQfz0RdjavH5
-         N0yTlQex6zttExNx2M70HOJ0J2jKck7aPBhPI+sJNnuO+RRqZnxoRwcNnSyY8Q0G+a/j
-         DgeG+cam3rOZWGrB/tHRvomKqPayLWgifgu+cnQbaMYhdiLpZksYaN7WDiTqksf56bnR
-         wy8QzaXhBMC8ey8P7ajVt6rnZqR1M8fN7cDVfIVsuuGLR3dlYh9+ZIvzMjhS2R7ke3MI
-         2N2Q==
-X-Gm-Message-State: AOAM532qoHS+INDBAIptGqaJ1C1itpj4odjrJcItcsqopIoTUIO9u+Dq
-        ZPftBgmP6n05Fnv6SmpAh8DubJb66mN0Qw==
-X-Google-Smtp-Source: ABdhPJzdYAbwQUMFF8aREpbLcgNopt2loRgSAlU+AdqVByyRoMPeOOxoouLImEHuyt7wAIwdpW2ivErXPiz1Gg==
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=6OdTPYEA2p5+e67drhVq+n88z8c6ioQj4MZmywIDAFM=;
+        b=lAV6vAXov3VUJ6/1cyB7pcMQoe6rWOilUfnOWv6nstXPzghCYe4p+QQYxaupxQ9WsH
+         sD5yoTb6lUq7wZcKT8GnqtcNR8dPNI0iMAfSYckCusT9myD2oAjfNTLn3/WFfHhLDOo/
+         GswW/R8GHzZ5xcqCQ5JRCD7EAoSwVaig5p00pqhlnbFzpX3xE0NcPV1AirG7yZg8A6WF
+         yXNZBY/8b0FV/7i2HPnL77gC06y/ZFs2dOGUYmpn8Qel32H6QHZEIapdTbXv/WItv7KM
+         o+TuSuBTO7AVQ75hOk55SjpV4d0aYJW/1nYSGaTKoazlX0G9tScj3ILlFbcrHot+BBLi
+         ujng==
+X-Gm-Message-State: AOAM531JwL7/Cr+mSBirv9rDfEptJwwYelyBE6oz928OZNeVtdYMAm5a
+        Yqg4zuW9oY3+q1flMyUvbIesMT3gJjMvhA==
+X-Google-Smtp-Source: ABdhPJx33zg0bqJm2Kmy1Jtk2wZJhRlq1DTndo3IekH3vxXdp0oYMj9T3RZMul5MMDMPA5R/Y/vw0BsdArAwKg==
 Sender: "jackmanb via sendgmr" <jackmanb@beeg.c.googlers.com>
 X-Received: from beeg.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:11db])
- (user=jackmanb job=sendgmr) by 2002:a1c:2c89:: with SMTP id
- s131mr54945wms.0.1610985545503; Mon, 18 Jan 2021 07:59:05 -0800 (PST)
-Date:   Mon, 18 Jan 2021 15:57:33 +0000
-Message-Id: <20210118155735.532663-1-jackmanb@google.com>
+ (user=jackmanb job=sendgmr) by 2002:a1c:6208:: with SMTP id
+ w8mr82357wmb.24.1610985550410; Mon, 18 Jan 2021 07:59:10 -0800 (PST)
+Date:   Mon, 18 Jan 2021 15:57:35 +0000
+In-Reply-To: <20210118155735.532663-1-jackmanb@google.com>
+Message-Id: <20210118155735.532663-3-jackmanb@google.com>
 Mime-Version: 1.0
+References: <20210118155735.532663-1-jackmanb@google.com>
 X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH bpf-next v2 0/2] BPF docs fixups
+Subject: [PATCH bpf-next v2 2/2] docs: bpf: Clarify -mcpu=v3 requirement for
+ atomic ops
 From:   Brendan Jackman <jackmanb@google.com>
 To:     bpf@vger.kernel.org
 Cc:     Alexei Starovoitov <ast@kernel.org>,
@@ -73,25 +78,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Difference from v1->v2 [1]:
+Alexei pointed out [1] that this wording is pretty confusing. Here's
+an attempt to be more explicit and clear.
 
- * Split into 2 patches
+[1] https://lore.kernel.org/bpf/CAADnVQJVvwoZsE1K+6qRxzF7+6CvZNzygnoBW9tZNWJELk5c=Q@mail.gmail.com/T/#m07264fc18fdc43af02fc1320968afefcc73d96f4
 
- * Avoided unnecessary ': ::' in .rst source
+Signed-off-by: Brendan Jackman <jackmanb@google.com>
+---
+ Documentation/networking/filter.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- * Tweaked wording of the -mcpu=v3 bit a little more
-
-[1] https://lore.kernel.org/bpf/CA+i-1C1LVKjfQLBYk6siiqhxfy0jCR7UBcAmJ4jCED0A9aWsxA@mail.gmail.com/T/#t
-
-Brendan Jackman (2):
-  docs: bpf: Fixup atomics markup
-  docs: bpf: Clarify -mcpu=v3 requirement for atomic ops
-
- Documentation/networking/filter.rst | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
-
-
-base-commit: 232164e041e925a920bfd28e63d5233cfad90b73
---
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index 4c2bb4c6364d..b3f457802836 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -1081,9 +1081,10 @@ before is loaded back to ``R0``.
+ 
+ Note that 1 and 2 byte atomic operations are not supported.
+ 
+-Except ``BPF_ADD`` *without* ``BPF_FETCH`` (for legacy reasons), all 4 byte
+-atomic operations require alu32 mode. Clang enables this mode by default in
+-architecture v3 (``-mcpu=v3``). For older versions it can be enabled with
++Clang can generate atomic instructions by default when ``-mcpu=v3`` is
++enabled. If a lower version for ``-mcpu`` is set, the only atomic instruction
++Clang can generate is ``BPF_ADD`` *without* ``BPF_FETCH``. If you need to enable
++the atomics features, while keeping a lower ``-mcpu`` version, you can use
+ ``-Xclang -target-feature -Xclang +alu32``.
+ 
+ You may encounter ``BPF_XADD`` - this is a legacy name for ``BPF_ATOMIC``,
+-- 
 2.30.0.284.gd98b1dd5eaa7-goog
 
