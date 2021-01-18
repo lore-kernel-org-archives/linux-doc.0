@@ -2,165 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1E8C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 01:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C82C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 02:33:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB9682245C
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 01:00:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F26522581
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 02:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729629AbhARA77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 19:59:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49392 "EHLO
+        id S1726859AbhARCdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jan 2021 21:33:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730494AbhARA6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 19:58:34 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27337C061575;
-        Sun, 17 Jan 2021 16:57:44 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id h11so785965ioh.11;
-        Sun, 17 Jan 2021 16:57:44 -0800 (PST)
+        with ESMTP id S1730175AbhARCdS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 21:33:18 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AEEC061574
+        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 18:32:38 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id s11so8569045edd.5
+        for <linux-doc@vger.kernel.org>; Sun, 17 Jan 2021 18:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=KjZrDhBfyFEIBIpjwZNPtMmzhzpBnEvekoHmrifO6qE=;
-        b=VJm48GYzVt9Ws/DKUfWjTO0fkoNCocjfXJKF6MJGQ/TYES+3wNGeUkD9o8+tsSoWjb
-         EG11AzBA2ETNK8rUA5gUF5MHKLWeoYySDCry5cgUopNcTgLSCUrrbt30yrExYiRCzjkp
-         0YGWiYHzTqFOBN7sUbAer8zZyQt43Pa/tgV4IOxN+q6cy3zU+8vXJ7z3hmwjQt5uGmCf
-         Xqb/2swlOT2szNVlBF7fdUgARuOt75sGj7EslPc1VWOwxRW2wr0/OSlPJ2dTImv7GlTQ
-         ukXF2gzUPa4BKmEl9hnGoR1DgbXTnsHpBUToccljmBxIE1pXxbmz2bH/rlh/ST9l1QRn
-         aJ5w==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
+        b=fu01MN1RBBEK4GjqxdZtdRWsxoe0l9gdxKc7VAXhfUw+tqXVYw6Oq+GVUbZqZioYee
+         N9PAsxghkj2YFg/oY2Kfd/aPAMevD0MMkPFwZVCRANgHNcOdnY9IYshUJI2yRtFJ64hW
+         Gkza/6nurwrZt6HTmS4djj7qoivCSpusIfO5NOPpDqePuVN+rSCRwwJ9ohen352cj+bR
+         LTuMgBLYNGITa5YwWJarpdUlAoXhDOrb8/ZjE5lwtaUmUPsdgglKrX+aendAxoUyz1L5
+         uBmgzrjKmHlNFy/MSMTacEjHvNPV+Ajgz13VDTg1/a5kATrlpS3NpWIivAhwrRC9XCY5
+         e4ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=KjZrDhBfyFEIBIpjwZNPtMmzhzpBnEvekoHmrifO6qE=;
-        b=bFC54as4EsT4YhP62bt+fri5GOV5aYg5y9+k7qNqhBFDQ3oN7tc4kcGLi9nfRFQnRE
-         GBYFV46QO+AjnZlD1allXUKDX28kTBOPgTeLvdj81n9CE8MH7+cpuAW2pq6NQT+mOsm1
-         kJMeyaZ6hYf0erd+a4i6zAgh8gXXU+RZUP5vxqzSmAgvKD40wM8qAcG+P2eEA7tLo77D
-         /l9Fs4gvKzHGFmnX9m/YjnIvwFt9UFLmxRxQ/3BSrH0qqnRQ7p6uMfvxJ0GR1gzibFXP
-         G8PulyY2f5MYToGfpZOm8L83O+hKIhubiPCR0HbPOHwkHX2zYa4cL2KvUDiIKI/hZHd7
-         TY3A==
-X-Gm-Message-State: AOAM5324vxq/HkHGWeMqYoFUAFn01GE1ZPrXcYX+8uDNSIt9KoYPHZ9Q
-        2rMPZJEafr1cbLkZaNYMJ2ZDvKL1xuUm/gP/3/A=
-X-Google-Smtp-Source: ABdhPJwriuRMJWYfBFCubf7I+V0eUrhZWwyvHPF0HVzBOgk1W6SJfgqPQ/PS7hfD8yUcEvX+uTMgmnKJrPNHiqEoBlA=
-X-Received: by 2002:a6b:6a0e:: with SMTP id x14mr11619321iog.57.1610931463509;
- Sun, 17 Jan 2021 16:57:43 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iw3qguMN2HQw0dg4Ex4c2c9WaYKPlQtajPSFcrfomWk=;
+        b=CNqcVdKx4f656IPMqll5bq23KryKwI49p9JxNhk9oaLRNV2miRJBtzpZd89lFN5QfP
+         qyRzNApSyQOSZL6C3CB8lHYtKZaWT9V1agEcZr5xHkBtggiKwFHdWnk37nGnLPOblxH/
+         b/Co2PcB1AIzAgXH4DYNYMfyQJiKcOVDfeK7BWTOCjiRCEie236Sy7vM/XTWle0+KL9Q
+         37zT2FGgrr0Q+hOn1HJ7x9lIwXDgZDBDh6+Nzd4xaAY7hCSsAs3i+lKrA+FTbhDfiizQ
+         5BF1IyAdm1dt6or+nxhbXD8Mk6Q47r6ZSlYLr7KE+C0Ic5RoyXOyXcBfNW5gFpJBsZOF
+         TW6w==
+X-Gm-Message-State: AOAM532iLHzynCuUkMr9gFcWH+xNxNwoxpqce+AJpfiW4y2E+wlqBZJL
+        yF6vsaiHATgDgOeto8ueyV43llHa78acviuWSWOthg3U47hk
+X-Google-Smtp-Source: ABdhPJxghPKKFZfXRuqyf/ln2g2Vde9pBNxDQQMA4R+VxhCfUyDEYpwL6BrmysI20US1jRAcr454zHk78k+JbFhQuRg=
+X-Received: by 2002:aa7:c719:: with SMTP id i25mr13208470edq.197.1610937156426;
+ Sun, 17 Jan 2021 18:32:36 -0800 (PST)
 MIME-Version: 1.0
-References: <CAKwvOd=rEngs-8DR6pagynYc5-=a06brTOOx5TT1TC+v7-3m2Q@mail.gmail.com>
- <20210116001324.2865-1-nick.desaulniers@gmail.com>
-In-Reply-To: <20210116001324.2865-1-nick.desaulniers@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 18 Jan 2021 01:57:32 +0100
-Message-ID: <CA+icZUXsK8nfRQGatBoMAsjxhA=VEgZDsPsEg8o7i7yP+ko2Lg@mail.gmail.com>
-Subject: Re: [PATCH v4] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <nick.desaulniers@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        akpm@linux-foundation.org,
+References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
+ <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
+ <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
+ <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
+ <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
+ <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
+ <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
+ <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
+ <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
+ <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
+ <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
+ <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com> <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
+In-Reply-To: <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
+From:   Bill Wendling <morbo@google.com>
+Date:   Sun, 17 Jan 2021 18:32:25 -0800
+Message-ID: <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
+Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        masahiroy@kernel.org, Bill Wendling <morbo@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 16, 2021 at 1:13 AM Nick Desaulniers
-<nick.desaulniers@gmail.com> wrote:
+On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> > On Wed, Jan 13, 2021 at 8:07 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Wed, Jan 13, 2021 at 12:55 PM Nathan Chancellor
-> > > <natechancellor@gmail.com> wrote:
-> > > >
-> > > > However, I see an issue with actually using the data:
-> > > >
-> > > > $ sudo -s
-> > > > # mount -t debugfs none /sys/kernel/debug
-> > > > # cp -a /sys/kernel/debug/pgo/profraw vmlinux.profraw
-> > > > # chown nathan:nathan vmlinux.profraw
-> > > > # exit
-> > > > $ tc-build/build/llvm/stage1/bin/llvm-profdata merge --output=vmlinux.profdata vmlinux.profraw
-> > > > warning: vmlinux.profraw: Invalid instrumentation profile data (bad magic)
-> > > > error: No profiles could be merged.
-> > > >
-> > > > Am I holding it wrong? :) Note, this is virtualized, I do not have any
-> > > > "real" x86 hardware that I can afford to test on right now.
-> > >
-> > > Same.
-> > >
-> > > I think the magic calculation in this patch may differ from upstream
-> > > llvm: https://github.com/llvm/llvm-project/blob/49142991a685bd427d7e877c29c77371dfb7634c/llvm/include/llvm/ProfileData/SampleProf.h#L96-L101
-> >
-> > Err...it looks like it was the padding calculation.  With that fixed
-> > up, we can query the profile data to get insights on the most heavily
-> > called functions.  Here's what my top 20 are (reset, then watch 10
-> > minutes worth of cat videos on youtube while running `find /` and
-> > sleeping at my desk).  Anything curious stand out to anyone?
+> [ big snip ]
+
+[More snippage.]
+
+> [ CC Fangrui ]
 >
-> Hello world from my personal laptop whose kernel was rebuilt with
-> profiling data!  Wow, I can run `find /` and watch cat videos on youtube
-> so fast!  Users will love this! /s
+> With the attached...
 >
-> Checking the sections sizes of .text.hot. and .text.unlikely. looks
-> good!
+>    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
+> undefined symbols
+>
+> ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
+> For details see ClangBuiltLinux issue #1250 "Unknown symbol
+> _GLOBAL_OFFSET_TABLE_ loading kernel modules".
+>
+Thanks for confirming that this works with the above patch.
+
+> @ Bill Nick Sami Nathan
+>
+> 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
+
+The integrated assembler and this option are more-or-less orthogonal
+to each other. One can still use the GNU assembler with PGO. If you're
+having an issue, it may be related to ClangBuiltLinux issue #1250.
+
+> 2. Can you please try Nick's DWARF v5 support patchset v5 and
+> CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
+>
+I know Nick did several tests with PGO. He may have looked into it
+already, but we can check.
+
+> I would like to know what the impact of the Clang's Integrated
+> Assembler and DWARF v5 are.
+>
+> I dropped both means...
+>
+> 1. Do not pass "LLVM_IAS=1" to make.
+> 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
+>
+> ...for a successfull build and boot on bare metal.
 >
 
-On each rebuild I need to pass to make ...?
+[Next message]
 
-   LLVM=1 -fprofile-use=vmlinux.profdata
-
-Did you try together with passing LLVM_IAS=1 to make?
-
-- Sedat -
-
-
-> >
-> > $ llvm-profdata show -topn=20 /tmp/vmlinux.profraw
-> > Instrumentation level: IR  entry_first = 0
-> > Total functions: 48970
-> > Maximum function count: 62070879
-> > Maximum internal block count: 83221158
-> > Top 20 functions with the largest internal block counts:
-> >   drivers/tty/n_tty.c:n_tty_write, max count = 83221158
-> >   rcu_read_unlock_strict, max count = 62070879
-> >   _cond_resched, max count = 25486882
-> >   rcu_all_qs, max count = 25451477
-> >   drivers/cpuidle/poll_state.c:poll_idle, max count = 23618576
-> >   _raw_spin_unlock_irqrestore, max count = 18874121
-> >   drivers/cpuidle/governors/menu.c:menu_select, max count = 18721624
-> >   _raw_spin_lock_irqsave, max count = 18509161
-> >   memchr, max count = 15525452
-> >   _raw_spin_lock, max count = 15484254
-> >   __mod_memcg_state, max count = 14604619
-> >   __mod_memcg_lruvec_state, max count = 14602783
-> >   fs/ext4/hash.c:str2hashbuf_signed, max count = 14098424
-> >   __mod_lruvec_state, max count = 12527154
-> >   __mod_node_page_state, max count = 12525172
-> >   native_sched_clock, max count = 8904692
-> >   sched_clock_cpu, max count = 8895832
-> >   sched_clock, max count = 8894627
-> >   kernel/entry/common.c:exit_to_user_mode_prepare, max count = 8289031
-> >   fpregs_assert_state_consistent, max count = 8287198
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
-> >
+> On each rebuild I need to pass to make ...?
 >
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20210116001324.2865-1-nick.desaulniers%40gmail.com.
+>   LLVM=1 -fprofile-use=vmlinux.profdata
+>
+Yes.
+
+> Did you try together with passing LLVM_IAS=1 to make?
+
+One of my tests was with the integrated assembler enabled. Are you
+finding issues with it?
+
+The problem with using top-of-tree clang is that it's not necessarily
+stable. You could try using the clang 11.x release (changing the
+"CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
+110000").
+
+-bw
