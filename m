@@ -2,110 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C22C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:37:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E7EC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 21:57:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CD5D22D73
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 20:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E77F22DFB
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 21:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388708AbhARUhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 15:37:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48508 "EHLO
+        id S1732895AbhARV5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 16:57:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389038AbhARUg3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 15:36:29 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01531C061573;
-        Mon, 18 Jan 2021 12:35:47 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A99C08B2;
-        Mon, 18 Jan 2021 20:35:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A99C08B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611002146; bh=tJkzUZut+qC+Ma8BsoQlSQtj8cSJrHkUmQyEUz94aCw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=knhRbhC+LlOw5hKrPn8rLqFMelvFxci6qYtpQqcvdtav8+vXOCWb4isZnRwbV6J50
-         FThB6vOOfOwT387Aw9/5JqST6Wo6/c1c9kTgY3JTMdgEgUQjjiPB/ar/3El+Dy24hs
-         AIR2YCSVefyVCudeG1Qan2rzEHKOEGWqOQ3/Qeg+zua3K6+sOlKiMH1IQ0qkutuTuJ
-         rDrHjar7q8mxaw+abQn3nu5u/k85+CPnc+hFzBi6O/WJBbvve38SF7FFRGOh09Gjdc
-         Arkp3woFUaJbWvSoz5WyPw/4KAUuGz4d4JuFVOPlB5ZiQJRdtX77ySXqbDmXnLsncE
-         rzak7oci2MB+A==
-Date:   Mon, 18 Jan 2021 13:35:45 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 11/16] scripts: kernel-doc: validate kernel-doc
- markup with the actual names
-Message-ID: <20210118133545.05af2277@lwn.net>
-In-Reply-To: <081546f141a496d6cabb99a4adc140444c705e93.1610610937.git.mchehab+huawei@kernel.org>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
-        <081546f141a496d6cabb99a4adc140444c705e93.1610610937.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+        with ESMTP id S1732607AbhARV5d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 16:57:33 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0092C0613D3
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 13:56:52 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id rv9so6931635ejb.13
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 13:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oatfa8Uxac5y+QfNKWVhpzcqRMF9g7xn6+1Ypo2kSWs=;
+        b=G9OuzfiKkq0Itr91GvGyb6IuOc32itpL5+ewRZfC6Nb2iA8ft7wxwZztrsWj0HGIjk
+         9r44dpP8GQLoJIjc8ckScnATpIyG7Wwo0NyNO5dIowX0yhfAYwZ5aBRAmJzFxL/q6ffT
+         gyhbSu21s3NRgcIaIrnY/Zbojeb4tttsPVADFPyGqmjCnm2Zlzk/9OhMaaYlmlh55+vj
+         uQXshD/S9jx+efobBEnmEAg0k8+Vc9MQ5P39JR1EY9ERQ4joWJJwgSVlKgWCtiHkVRKX
+         LOyD71QPCsUTDBwIBHdndIrPlZ7pNEmOHt+W/DqMxvehJHCvOw6HQnoTzIhXmUa/Uxa2
+         QRlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oatfa8Uxac5y+QfNKWVhpzcqRMF9g7xn6+1Ypo2kSWs=;
+        b=LHY/eXFtJX7SPeveO7hEgMTDdsZPW35o1XB8Cvtvl/JmcpZMxeORymPf2Yeqj0PDej
+         8woXMdKuEiW5KX/nOmTLFTfLigSVhjB6siZXGKVvjfRnpQLZ9J6tgye2FIDJkRiTXrcE
+         AROwf1Zvvh6XU3hEqvCb59xNUVVwpxYIIFJYj+KqOEEe9KFzL4ezfUnLQAApNYNvLdG2
+         oNjA0cRup0FP9o0HO0eOJntCVSuEFOjn3LWEe1a3diOwKC3ElTmeyOAzpV7mk1h0GEjt
+         g3r+k9kXMo7J/LBaEloDIpU/f6nRtwdUnhW/1ExNZmcao98j3J4WCslrherbVKMKGBcS
+         D6eQ==
+X-Gm-Message-State: AOAM533XZim5jWOfjTXll125tZ91pnOk5663P33oudWv86aJBdDNmTOT
+        2x3dEdXUCKu/l7oMu7FR0jV2CrbA8UsXnf75Y0CS
+X-Google-Smtp-Source: ABdhPJwiTaEsKdexNKIoHB/eUfZQnzukIdscZm/if80Y4LpzPxBkFga14LG96UqrRR257lycf5KwAWK9fvWQ62ucVAY=
+X-Received: by 2002:a17:907:e9e:: with SMTP id ho30mr1073618ejc.529.1611007011377;
+ Mon, 18 Jan 2021 13:56:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
+ <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
+ <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
+ <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
+ <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
+ <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
+ <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
+ <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
+ <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
+ <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
+ <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
+ <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
+ <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
+ <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
+ <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com> <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
+In-Reply-To: <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
+From:   Bill Wendling <morbo@google.com>
+Date:   Mon, 18 Jan 2021 13:56:39 -0800
+Message-ID: <CAGG=3QUcaY1wzJhBD4ZGhPSNPik-kL0PuoE1SJqkFJEM_mkGYA@mail.gmail.com>
+Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 14 Jan 2021 09:04:47 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Mon, Jan 18, 2021 at 9:26 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >
+> > On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
+> > >
+> > > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > >
+> > > > [ big snip ]
+> > >
+> > > [More snippage.]
+> > >
+> > > > [ CC Fangrui ]
+> > > >
+> > > > With the attached...
+> > > >
+> > > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
+> > > > undefined symbols
+> > > >
+> > > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
+> > > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
+> > > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
+> > > >
+> > > Thanks for confirming that this works with the above patch.
+> > >
+> > > > @ Bill Nick Sami Nathan
+> > > >
+> > > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
+> > >
+> > > The integrated assembler and this option are more-or-less orthogonal
+> > > to each other. One can still use the GNU assembler with PGO. If you're
+> > > having an issue, it may be related to ClangBuiltLinux issue #1250.
+> > >
+> > > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
+> > > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
+> > > >
+> > > I know Nick did several tests with PGO. He may have looked into it
+> > > already, but we can check.
+> > >
+> >
+> > Reproducible.
+> >
+> > LLVM_IAS=1 + DWARF5 = Not bootable
+> >
+> > I will try:
+> >
+> > LLVM_IAS=1 + DWARF4
+> >
+>
+> I was not able to boot into such a built Linux-kernel.
+>
+PGO will have no effect on debugging data. If this is an issue with
+DWARF, then it's likely orthogonal to the PGO patch.
 
-> Kernel-doc currently expects that the kernel-doc markup to come
-> just before the function/enum/struct/union/typedef prototype.
-> 
-> Yet, if it find things like:
-> 
-> 	/**
-> 	 * refcount_add - add a value to a refcount
-> 	 * @i: the value to add to the refcount
-> 	 * @r: the refcount
-> 	 */
-> 	static inline void __refcount_add(int i, refcount_t *r, int *oldp);
-> 	static inline void refcount_add(int i, refcount_t *r);
-> 
-> Kernel-doc will do the wrong thing:
-> 
-> 	foobar.h:6: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-> 	.. c:function:: void __refcount_add (int i, refcount_t *r, int *oldp)
-> 
-> 	   add a value to a refcount
-> 
-> 	**Parameters**
-> 
-> 	``int i``
-> 	  the value to add to the refcount
-> 
-> 	``refcount_t *r``
-> 	  the refcount
-> 
-> 	``int *oldp``
-> 	  *undescribed*
-> 
-> Basically, it will document "__refcount_add" with the kernel-doc
-> markup for refcount_add.
-> 
-> If both functions have the same arguments, this won't even
-> produce any warning!
-> 
-> Add a logic to check if the kernel-doc identifier matches the actual
-> name of the C function or data structure that will be documented.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> For me worked: DWARF2 and LLVM_IAS=1 *not* set.
+>
+> Of course, this could be an issue with my system's LLVM/Clang.
+>
+> Debian clang version
+> 12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
+>
+Please use the official clang 11.0.1 release
+(https://releases.llvm.org/download.html), modifying the
+kernel/pgo/Kconfig as I suggested above. The reason we specify clang
+12 for the minimal version is because of an issue that was recently
+fixed.
 
-I've applied this one; it seems useful to have even if it creates more
-warnings that Stephen will duly email me about tomorrow...:)  I have parts
-1-10 set aside and will apply any that don't get picked up directly by the
-maintainers involved.
+> Can you give me a LLVM commit-id where you had success with LLVM_IAS=1
+> and especially CONFIG_DEBUG_INFO_DWARF5=y?
+> Success means I was able to boot in QEMU and/or bare metal.
+>
+The DWARF5 patch isn't in yet, so I don't want to rely upon it too much.
 
-Thanks,
-
-jon
+-bw
