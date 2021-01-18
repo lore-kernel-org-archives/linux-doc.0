@@ -2,254 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C8EC433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 05:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B247C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 08:01:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A86A922517
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 05:16:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE9B52253A
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 08:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730383AbhARFQ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 00:16:29 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:53362 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729550AbhARFQ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 00:16:29 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10I5EDZg092400;
-        Sun, 17 Jan 2021 23:14:13 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1610946853;
-        bh=+gi/Jq+nd9RIZp6n2ZgYICg1zNyAVeNliSL+KoAva6w=;
-        h=Subject:From:To:CC:References:Date:In-Reply-To;
-        b=fDgNQRn9HYoGB0dflc64noGhDPk7bmn+Qb2OqngASqaBcawjZoPuCBLCfQ9uPfzPg
-         COAeUQrwOZ+KNDJNB6l2OohhrPk6VU99zSxY/U9AgMKUNC/SID7LgwvyEl+SXx7iQM
-         VVmSv19eS7P6zq6TAw2q140mlibv9M7vVuglSDt8=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10I5EDiN036805
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sun, 17 Jan 2021 23:14:13 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sun, 17
- Jan 2021 23:14:12 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Sun, 17 Jan 2021 23:14:12 -0600
-Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10I5E2UW048025;
-        Sun, 17 Jan 2021 23:14:03 -0600
-Subject: Re: [PATCH v9 00/17] Implement NTB Controller using multiple PCI EP
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-To:     Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Vidya Sagar <vidyas@nvidia.com>,
-        Jesper Nilsson <jesper.nilsson@axis.com>,
-        Minghuan Lian <minghuan.Lian@nxp.com>,
-        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
-References: <20210104152909.22038-1-kishon@ti.com>
- <7a86ef75-e688-0db6-5bea-3c50fbffd3cb@ti.com>
-Message-ID: <089b55c8-473c-69ac-4d12-4389d0b832cd@ti.com>
-Date:   Mon, 18 Jan 2021 10:44:01 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <7a86ef75-e688-0db6-5bea-3c50fbffd3cb@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S2387438AbhARIBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 03:01:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733306AbhARIAy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 03:00:54 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA944C061573;
+        Mon, 18 Jan 2021 00:00:13 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id 6so8170194wri.3;
+        Mon, 18 Jan 2021 00:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=QrqziBluAm2S7jXEhlyaBX23uYOu5nIn+17iqFzqPgc=;
+        b=PoKTj57akzrAzBOa8fvLRnZicOvuIP3BcIDUm6snh/3aqOytbhsto0hj+3DpxwZuWd
+         demfto64a5AT8fDUlK0KIIUq6VDCKBryqDLDW/I45kUexbFy+eyH7Dob5BrcgQAaPuA8
+         avdA0wzGnqgHFIJhdnaqQlGGf6NJ8SEsjTjLOIjg3mYfFK0N2sKxOuNyM/RBkFW1vIt0
+         niCgRTGRFSSlcSFARrgjI8cWKlGHlVZc3IuXAh6+vTp5jbruNdbTiRF0NxPK/zTER3cq
+         o0WrL30jI+l+1kWLRSmsE5Zf4IbVAalV7oW+GAHSONCPNu4LpL57WHJioU6Z22TimKmE
+         ayOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QrqziBluAm2S7jXEhlyaBX23uYOu5nIn+17iqFzqPgc=;
+        b=VoaRpxXEvhVZaOhedZghmx+Q8PcfoET/cBnNqZeWFa6ZxcUKHBdj2RNmycyO1Gd6nz
+         YWzb0K9jtYQBSeyS3V9rCgpaePBGRw+TernZKBUVVDtfk8wnd3vaqmLJMAqUQDQNOc8k
+         ccs9TF6GKcN8mWi12KkrfaU3kou8RZjyQlu9hk2f2cb3hVM+Cbs0zNqBI8+gExSpBRfT
+         DgM51qyUfrqIOWADvVC8VTtF5/CiW3hpV+8j5pp9kX4y650wvFawYeU5L8MhGsGYlL3K
+         DzO8pgb2bK+G15asBwb233bMPlMwgdbpLmdtRlIJyYSrv+K0qr8k0FO90teDzunUqPnR
+         Q52g==
+X-Gm-Message-State: AOAM533I8/tWyt9bDIONao0jxyhn+s1n9ZvY4LNFo6PeP+pVKs63+MZa
+        2BZUQJlUnlk/zqgbton4av8=
+X-Google-Smtp-Source: ABdhPJxPXOD2LCsasbBNvZyD+MIQMWFrvrBqRcYhmt58KixPQUATj7Mv6o5OThbKodVhcZs9avJ0/A==
+X-Received: by 2002:adf:b359:: with SMTP id k25mr25033448wrd.98.1610956812441;
+        Mon, 18 Jan 2021 00:00:12 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d3e:6800:ad77:727f:e0e1:17c4])
+        by smtp.gmail.com with ESMTPSA id i11sm23187419wmq.10.2021.01.18.00.00.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jan 2021 00:00:11 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Brendan Jackman <jackmanb@google.com>,
+        Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@gmail.com>,
+        netdev@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH for bpf-next] docs: bpf: add minimal markup to address doc warning
+Date:   Mon, 18 Jan 2021 09:00:04 +0100
+Message-Id: <20210118080004.6367-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Commit 91c960b00566 ("bpf: Rename BPF_XADD and prepare to encode other
+atomics in .imm") modified the BPF documentation, but missed some ReST
+markup.
 
-On 04/01/21 9:16 pm, Kishon Vijay Abraham I wrote:
-> +MAINTAINERS for platforms supporting PCIe EP mode
-> 
-> Hi All,
-> 
-> I've looped you in since the platform you maintain supports PCIe EP
-> mode. This series builds NTB functionality on top of PCIe endpoint
-> framework. For NTB functionality it needs atleast two endpoint
-> instances. I'm trying to see if someone can help me test this series in
-> any of the platforms you support.
-> 
-> Even if your platform cannot enable NTB, if you can just apply this
-> patch series and test pci_epf_test that would be very much helpful.
-> 
-> Thanks in advance for your help.
+Hence, make htmldocs warns on Documentation/networking/filter.rst:1053:
 
-Gentle ping for providing your "Reviewed-by" and "Tested-by".
+  WARNING: Inline emphasis start-string without end-string.
 
-Thank You,
-Kishon
+Add some minimal markup to address this warning.
 
-> 
-> Best Regards,
-> Kishon
-> 
-> On 04/01/21 8:58 pm, Kishon Vijay Abraham I wrote:
->> This series is about implementing SW defined Non-Transparent Bridge (NTB)
->> using multiple endpoint (EP) instances. This series has been tested using
->> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
->> on the other end. However there is nothing platform specific for the NTB
->> functionality.
->>
->> This was presented in Linux Plumbers Conference. Link to presentation
->> and video can be found @ [1]
->> Created a video demo @ [9]
->>
->> RFC patch series can be found @ [2]
->> v1 patch series can be found @ [3]
->> v2 patch series can be found @ [4]
->> v3 patch series can be found @ [5]
->> v4 patch series can be found @ [6]
->> v5 patch series can be found @ [7]
->> v6 patch series can be found @ [8]
->> v7 patch series can be found @ [10]
->> v8 patch series can be found @ [11]
->>
->> Changes from v8:
->> 1) Do not use devm_request_irq/devm_free_irq as pci_free_irq_vectors()
->> has to be used after free_irq
->> 2) Drop "NTB: tool: Enable the NTB/PCIe link on the local or remote side
->> of bridge" as there is a debugfs entry to enable the link
->>  
->> Changes from v7:
->> 1) Used values stored in ctrl_reg_bar, peer_spad_reg_bar and db_reg_bar
->>    instead of hardcoded values in pci_iomap of ntb_hw_epf.c driver
->>
->> Changes from v6:
->> 1) Fixed issues when multiple NTB devices are creating using multiple
->>    functions
->> 2) Fixed issue with writing scratchpad register
->> 3) Created a video demo @ [9]
->>
->> Changes from v5:
->> 1) Fixed a formatting issue in Kconfig pointed out by Randy
->> 2) Checked for Error or Null in pci_epc_add_epf()
->>
->> Changes from v4:
->> 1) Fixed error condition checks in pci_epc_add_epf()
->>
->> Changes from v3:
->> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
->>
->> Changes from v2:
->> 1) Add support for the user to create sub-directory of 'EPF Device'
->>    directory (for endpoint function specific configuration using
->>    configfs).
->> 2) Add documentation for NTB specific attributes in configfs
->> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
->>    driver
->> 4) Other documentation fixes
->>
->> Changes from v1:
->> 1) As per Rob's comment, removed support for creating NTB function
->>    device from DT
->> 2) Add support to create NTB EPF device using configfs (added support in
->>    configfs to associate primary and secondary EPC with EPF.
->>
->> Changes from RFC:
->> 1) Converted the DT binding patches to YAML schema and merged the
->>    DT binding patches together
->> 2) NTB documentation is converted to .rst
->> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
->> 4) Added support for teardown of memory window and doorbell
->>    configuration
->> 5) Add support to provide support 64-bit memory window size from
->>    DT
->>
->> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
->> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
->> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
->> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
->> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
->> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
->> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
->> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
->> [9] -> https://youtu.be/dLKKxrg5-rY
->> [10] -> http://lore.kernel.org/r/20200930153519.7282-1-kishon@ti.com 
->> [11] -> http://lore.kernel.org/r/20201111153559.19050-1-kishon@ti.com
->>
->> Kishon Vijay Abraham I (17):
->>   Documentation: PCI: Add specification for the *PCI NTB* function
->>     device
->>   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
->>     BAR
->>   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
->>   PCI: endpoint: Make *_free_bar() to return error codes on failure
->>   PCI: endpoint: Remove unused pci_epf_match_device()
->>   PCI: endpoint: Add support to associate secondary EPC with EPF
->>   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
->>   PCI: endpoint: Add pci_epc_ops to map MSI irq
->>   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
->>     specific attrs
->>   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
->>     directory
->>   PCI: cadence: Implement ->msi_map_irq() ops
->>   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
->>   PCI: endpoint: Add EP function driver to provide NTB functionality
->>   PCI: Add TI J721E device to pci ids
->>   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
->>   Documentation: PCI: Add configfs binding documentation for pci-ntb
->>     endpoint function
->>   Documentation: PCI: Add userguide for PCI endpoint NTB function
->>
->>  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
->>  Documentation/PCI/endpoint/index.rst          |    3 +
->>  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
->>  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
->>  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
->>  drivers/misc/pci_endpoint_test.c              |    1 -
->>  drivers/ntb/hw/Kconfig                        |    1 +
->>  drivers/ntb/hw/Makefile                       |    1 +
->>  drivers/ntb/hw/epf/Kconfig                    |    6 +
->>  drivers/ntb/hw/epf/Makefile                   |    1 +
->>  drivers/ntb/hw/epf/ntb_hw_epf.c               |  754 ++++++
->>  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
->>  drivers/pci/endpoint/functions/Kconfig        |   12 +
->>  drivers/pci/endpoint/functions/Makefile       |    1 +
->>  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
->>  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
->>  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
->>  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
->>  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
->>  include/linux/pci-epc.h                       |   39 +-
->>  include/linux/pci-epf.h                       |   28 +-
->>  include/linux/pci_ids.h                       |    1 +
->>  22 files changed, 3932 insertions(+), 73 deletions(-)
->>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
->>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
->>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
->>  create mode 100644 drivers/ntb/hw/epf/Kconfig
->>  create mode 100644 drivers/ntb/hw/epf/Makefile
->>  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
->>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
->>
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on next-20210118
+
+Brendan, please ack.
+
+Alexei, please pick this minor cleanup patch on your bpf-next.
+
+ Documentation/networking/filter.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index f6d8f90e9a56..45f6fde1776c 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -1048,12 +1048,12 @@ Unlike classic BPF instruction set, eBPF has generic load/store operations::
+ Where size is one of: BPF_B or BPF_H or BPF_W or BPF_DW.
+ 
+ It also includes atomic operations, which use the immediate field for extra
+-encoding.
++encoding::
+ 
+    .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_W  | BPF_STX: lock xadd *(u32 *)(dst_reg + off16) += src_reg
+    .imm = BPF_ADD, .code = BPF_ATOMIC | BPF_DW | BPF_STX: lock xadd *(u64 *)(dst_reg + off16) += src_reg
+ 
+-The basic atomic operations supported are:
++The basic atomic operations supported are::
+ 
+     BPF_ADD
+     BPF_AND
+-- 
+2.17.1
+
