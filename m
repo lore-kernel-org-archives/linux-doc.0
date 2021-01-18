@@ -2,130 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C94C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DE8C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 15:46:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DAEA22CAD
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC38B22AAA
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 15:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404760AbhARO62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 09:58:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23986 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2405380AbhARO4N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 09:56:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610981687;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=a4fFJIs4FEO7n3SaQ79hr7vT0S2c5hk6pQH7CBXK3TE=;
-        b=BANy27iZ27MCPpMlNj7/rs+eilFdM8mJLLAr7nyi9O1M57fcWbgmu2DpM/9mP/7BcztMbJ
-        s2jzBCAJmwpdi565Xi8aA3mGcRyTRXllf/RqjsicKwQS73YJZF8hVH/n48gyYkf5Xeyk5k
-        itQSWOE9unV/eCp3xa8i8tgmfaqNS7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-PQIg1cB-NZ6yTiczm6emCg-1; Mon, 18 Jan 2021 09:54:45 -0500
-X-MC-Unique: PQIg1cB-NZ6yTiczm6emCg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89217806664;
-        Mon, 18 Jan 2021 14:54:43 +0000 (UTC)
-Received: from treble (ovpn-116-102.rdu2.redhat.com [10.10.116.102])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4089118038;
-        Mon, 18 Jan 2021 14:54:38 +0000 (UTC)
-Date:   Mon, 18 Jan 2021 08:54:36 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v4] Documentation: livepatch: document reliable stacktrace
-Message-ID: <20210118145436.3qceoxtn7rl2yllg@treble>
-References: <20210115171617.47273-1-broonie@kernel.org>
- <YAWU0D50KH4mVTgn@alley>
+        id S2390445AbhARPp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 10:45:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393517AbhARPo1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 10:44:27 -0500
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B551C061575
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:43:42 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id z22so6882708ioh.9
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jan 2021 07:43:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9u33B5kpdx78LRxtPzxqjXDA4O8vMwb9b3mNJEnT53c=;
+        b=K463mC5DkZYkZN1sdYteF8BEn4+WZfjSGyZ5gih+OpCjTeiv7CfmbB92JnSmLU9FFs
+         WvsumAb4sJiygLufQG4CyDBYL1MqkSNOXFBRfJdPw15GypkdbOLgeOBazewURA4xZbgc
+         OlJwCaHx/0dVf6DsYMA07M590tjagAx/wCi6EvhSvYpGCxglYXVTsLpx5erGjXpuTVuP
+         tTzD9CHdzHAL97EYo+9r/C08m99Jknp15513YhRK3BjPfZ5baUlqbOO9xHjUPdJhrkx3
+         wTxc4o0U0caSFtlx4gvKViteDNPHMVexybJXsQrw4574nERjcdFr8nahuQaSBk7vSzXa
+         JJHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9u33B5kpdx78LRxtPzxqjXDA4O8vMwb9b3mNJEnT53c=;
+        b=p1UfpZka1nYq/yNFnP4vCka3jhGyyyM0Zn7/NUWbW+1EKsxyYghCz8vNAuV6kkyf5M
+         pLbhZU/OLS0zuT9oggpMBRCdSYz0T8fUsyqU7Q+73tuKv9blZp2jxTI16fTKY39ZeNZ+
+         Lty/QjjaEDyfkJiLMUa0xOWKBcB/zFCutdzLxFGSDbiuEFgu9dRct3CRROgdrMPpZ/lz
+         lsqTgVY2yYKAQzMg55zNcNp3MhwsnsD6Uoy0T/1IT41A8HYORdPWve4Nh3+GXHDc34/l
+         31WnvzPiNGHVXvesx2lzpgCw1b948OvmLYNBi59DdIscW4/iW30q8edWVBXh7Lj/EuKC
+         i1xA==
+X-Gm-Message-State: AOAM533ltbQlDMS6WXn9ykwFUJS8K+4u5UC1YvEmEmg4QODdp7HXEMeb
+        +aVgDSbqlSvLWxv2p0Q0phhrT5hU7S0fh30yrSW2Eg==
+X-Google-Smtp-Source: ABdhPJxDyXaADFQRXUGcJ2y43BFgKdVm500B4s+VL7OQwM+f1n0E1PgN7J+UoNfmHAQ0FMFrJjr1R4ZLZ2P8kE6YdBQ=
+X-Received: by 2002:a02:1dca:: with SMTP id 193mr119411jaj.39.1610984621544;
+ Mon, 18 Jan 2021 07:43:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YAWU0D50KH4mVTgn@alley>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210118113643.232579-1-jackmanb@google.com> <20210118083306.4c16153d@lwn.net>
+In-Reply-To: <20210118083306.4c16153d@lwn.net>
+From:   Brendan Jackman <jackmanb@google.com>
+Date:   Mon, 18 Jan 2021 16:43:30 +0100
+Message-ID: <CA+i-1C1LVKjfQLBYk6siiqhxfy0jCR7UBcAmJ4jCED0A9aWsxA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] docs: bpf: Fixup atomics documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     bpf <bpf@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Florent Revest <revest@chromium.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 03:02:31PM +0100, Petr Mladek wrote:
-> Hi Mark,
-> 
-> first, thanks a lot for writing this.
-> 
-> On Fri 2021-01-15 17:16:17, Mark Brown wrote:
-> > From: Mark Rutland <mark.rutland@arm.com>
-> > 
-> > Add documentation for reliable stacktrace. This is intended to describe
-> > the semantics and to be an aid for implementing architecture support for
-> > HAVE_RELIABLE_STACKTRACE.
-> > 
-> > Unwinding is a subtle area, and architectures vary greatly in both
-> > implementation and the set of concerns that affect them, so I've tried
-> > to avoid making this too specific to any given architecture. I've used
-> > examples from both x86_64 and arm64 to explain corner cases in more
-> > detail, but I've tried to keep the descriptions sufficient for those who
-> > are unfamiliar with the particular architecture.
+Thanks for the review :)
+
+On Mon, 18 Jan 2021 at 16:33, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> On Mon, 18 Jan 2021 11:36:43 +0000
+> Brendan Jackman <jackmanb@google.com> wrote:
+>
+> > This fixues up the markup to fix a warning, be more consistent with
+> > use of monospace, and use the correct .rst syntax for <em> (* instead
+> > of _). It also clarifies the explanation of Clang's -mcpu
+> > requirements for this feature, Alexei pointed out that use of the
+> > word "version" was confusing here.
+>
+> This starts to sound like material for more than one patch...?
+
+Good point, I'll split the markup fixups and actual content change
+into separate patches.
+
+> > NB this conflicts with Lukas' patch at [1], here where I've added
+> > `::` to fix the warning, I also kept the original ':' which appears
+> > in the output text.
+>
+> And why did you do that?
+
+Hmm, indeed looks like that isn't necessary as long as there are no
+spaces between the previous character and the '::'.
+
+v2 incoming...
+
+> > [1] https://lore.kernel.org/bpf/CA+i-1C3cEXqxcXfD4sibQfx+dtmmzvOzruhk8J5pAw3g5v=KgA@mail.gmail.com/T/#t
 > >
-> > I've tried to give rationale for all the recommendations/requirements,
-> > since that makes it easier to spot nearby issues, or when a check
-> > happens to catch a few things at once.
-> 
-> The above looks enough for the commit message. Well, Josh, typically
-> asks for a directive style, example:
-> 
-> Instead of "I've tried to give rationale...", please use something like
-> "The documentation gives rationale...".
-
-True, we do try to use imperative form like "Try to give rationale...".
-
-Though documentation is less technical than code, so maybe technical
-language is less important.
-
-> > I believe what I have written is
-> > sound, but as some of this was reverse-engineered I may have missed
-> > things worth noting.
-> > 
-> > I've made a few assumptions about preferred behaviour, notably:
-> > 
-> > * If you can reliably unwind through exceptions, you should (as x86_64
-> >   does).
-> > 
-> > * It's fine to omit ftrace_return_to_handler and other return
-> >   trampolines so long as these are not subject to patching and the
-> >   original return address is reported. Most architectures do this for
-> >   ftrace_return_handler, but not other return trampolines.
-> > 
-> > * For cases where link register unreliability could result in duplicate
-> >   entries in the trace or an inverted trace, I've assumed this should be
-> >   treated as unreliable. This specific case shouldn't matter to
-> >   livepatching, but I assume that that we want a reliable trace to have
-> >   the correct order.
-> 
-> This looks like a background that is typically part of the cover
-> leter. It mentions some Mark's doubts.
-> 
-> Could anyone please answer whether the above assumptions are correct
-> or not? We should remove them from the commit message. If any
-> assumption is wrong, we should fix the documentation.
-
-Agreed, this section can probably be dropped.
-
--- 
-Josh
-
+> > Signed-off-by: Brendan Jackman <jackmanb@google.com>
+> > ---
+> >  Documentation/networking/filter.rst | 30 +++++++++++++++--------------
+> >  1 file changed, 16 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+> > index f6d8f90e9a56..ba03e90a9163 100644
+> > --- a/Documentation/networking/filter.rst
+> > +++ b/Documentation/networking/filter.rst
+> > @@ -1048,12 +1048,12 @@ Unlike classic BPF instruction set, eBPF has generic load/store operations::
+> >  Where size is one of: BPF_B or BPF_H or BPF_W or BPF_DW.
+> >
+> >  It also includes atomic operations, which use the immediate field for extra
+> > -encoding.
+> > +encoding: ::
+>
+> Things like this read really strangely.  Just say "encoding::" and be done
+> with it, please.
+>
+> Thanks,
+>
+> jon
