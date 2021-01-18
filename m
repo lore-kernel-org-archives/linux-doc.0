@@ -2,176 +2,254 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DEEC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 03:52:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C8EC433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 05:16:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C87E224BD
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 03:52:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A86A922517
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 05:16:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731800AbhARDwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jan 2021 22:52:35 -0500
-Received: from m43-15.mailgun.net ([69.72.43.15]:15246 "EHLO
-        m43-15.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731752AbhARDwe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jan 2021 22:52:34 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610941932; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=6qAIVbxVqiKUhV3XLTDBhx1iSqJOiBlKfMz/NX8ydZ0=;
- b=D+u4PkHG5bJn19WUqqHJmhXwmuC3IoN5eGUeIo3CPYAdz/cdNpUs5Q0iDuOxLXYHzK3rXpct
- x+kEW8J+KUYuiNLWZwZkm5EbPgnj2IOsDHNtZ6TU7Ik1jN9KOApWvAUfUZLgK/PjRH54GEC6
- +1G2MBN+wYDud5UaFQ6u2JQYpLw=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
- 600505cefdec81ad1e03add0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 18 Jan 2021 03:51:42
- GMT
-Sender: mdalam=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B1D89C433ED; Mon, 18 Jan 2021 03:51:41 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: mdalam)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BB663C433C6;
-        Mon, 18 Jan 2021 03:51:40 +0000 (UTC)
+        id S1730383AbhARFQ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 00:16:29 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:53362 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729550AbhARFQ3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 00:16:29 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10I5EDZg092400;
+        Sun, 17 Jan 2021 23:14:13 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1610946853;
+        bh=+gi/Jq+nd9RIZp6n2ZgYICg1zNyAVeNliSL+KoAva6w=;
+        h=Subject:From:To:CC:References:Date:In-Reply-To;
+        b=fDgNQRn9HYoGB0dflc64noGhDPk7bmn+Qb2OqngASqaBcawjZoPuCBLCfQ9uPfzPg
+         COAeUQrwOZ+KNDJNB6l2OohhrPk6VU99zSxY/U9AgMKUNC/SID7LgwvyEl+SXx7iQM
+         VVmSv19eS7P6zq6TAw2q140mlibv9M7vVuglSDt8=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10I5EDiN036805
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Sun, 17 Jan 2021 23:14:13 -0600
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sun, 17
+ Jan 2021 23:14:12 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Sun, 17 Jan 2021 23:14:12 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10I5E2UW048025;
+        Sun, 17 Jan 2021 23:14:03 -0600
+Subject: Re: [PATCH v9 00/17] Implement NTB Controller using multiple PCI EP
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Vidya Sagar <vidyas@nvidia.com>,
+        Jesper Nilsson <jesper.nilsson@axis.com>,
+        Minghuan Lian <minghuan.Lian@nxp.com>,
+        Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>
+CC:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+References: <20210104152909.22038-1-kishon@ti.com>
+ <7a86ef75-e688-0db6-5bea-3c50fbffd3cb@ti.com>
+Message-ID: <089b55c8-473c-69ac-4d12-4389d0b832cd@ti.com>
+Date:   Mon, 18 Jan 2021 10:44:01 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <7a86ef75-e688-0db6-5bea-3c50fbffd3cb@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Mon, 18 Jan 2021 09:21:40 +0530
-From:   mdalam@codeaurora.org
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
-        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
-        mdalam=codeaurora.org@codeaurora.org
-Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
- support
-In-Reply-To: <20210115055806.GE2771@vkoul-mobl>
-References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
- <20201221092355.GA3323@vkoul-mobl>
- <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
- <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
- <20210112101056.GI2771@vkoul-mobl>
- <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
- <20210115055806.GE2771@vkoul-mobl>
-Message-ID: <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
-X-Sender: mdalam@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-01-15 11:28, Vinod Koul wrote:
-> On 14-01-21, 01:20, mdalam@codeaurora.org wrote:
->> On 2021-01-12 15:40, Vinod Koul wrote:
->> > On 12-01-21, 15:01, mdalam@codeaurora.org wrote:
->> > > On 2020-12-21 23:03, mdalam@codeaurora.org wrote:
->> > > > On 2020-12-21 14:53, Vinod Koul wrote:
->> > > > > Hello,
->> > > > >
->> > > > > On 17-12-20, 20:07, Md Sadre Alam wrote:
->> > > > > > This change will add support for LOCK & UNLOCK flag bit support
->> > > > > > on CMD descriptor.
->> > > > > >
->> > > > > > If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
->> > > > > > transaction wanted to lock the DMA controller for this transaction so
->> > > > > > BAM driver should set LOCK bit for the HW descriptor.
->> > > > > >
->> > > > > > If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester
->> > > > > > of this
->> > > > > > transaction wanted to unlock the DMA controller.so BAM driver
->> > > > > > should set
->> > > > > > UNLOCK bit for the HW descriptor.
->> > > > >
->> > > > > Can you explain why would we need to first lock and then unlock..? How
->> > > > > would this be used in real world.
->> > > > >
->> > > > > I have read a bit of documentation but is unclear to me. Also should
->> > > > > this be exposed as an API to users, sounds like internal to driver..?
->> > > > >
->> > > >
->> > > > IPQ5018 SoC having only one Crypto Hardware Engine. This Crypto Hardware
->> > > > Engine
->> > > > will be shared between A53 core & ubi32 core. There is two separate
->> > > > driver dedicated
->> > > > to A53 core and ubi32 core. So to use Crypto Hardware Engine
->> > > > parallelly for encryption/description
->> > > > we need bam locking mechanism. if one driver will submit the request
->> > > > for encryption/description
->> > > > to Crypto then first it has to set LOCK flag bit on command descriptor
->> > > > so that other pipes will
->> > > > get locked.
->> > > >
->> > > > The Pipe Locking/Unlocking will be only on command-descriptor. Upon
->> > > > encountering a command descriptor
->> >
->> > Can you explain what is a cmd descriptor?
->> 
->>   In BAM pipe descriptor structure there is a field called CMD 
->> (Command
->> descriptor).
->>   CMD allows the SW to create descriptors of type Command which does 
->> not
->> generate any data transmissions
->>   but configures registers in the Peripheral (write operations, and 
->> read
->> registers operations ).
->>   Using command descriptor enables the SW to queue new configurations
->> between data transfers in advance.
-> 
-> What and when is the CMD descriptor used for..?
+Hi,
 
-   CMD descriptor is mainly used for configuring controller register.
-   We can read/write controller register via BAM using CMD descriptor 
-only.
-   CMD descriptor use command pipe for the transaction.
+On 04/01/21 9:16 pm, Kishon Vijay Abraham I wrote:
+> +MAINTAINERS for platforms supporting PCIe EP mode
 > 
->> >
->> > > > with LOCK bit set, The BAM will lock all other pipes not related to
->> > > > the current pipe group, and keep
->> > > > handling the current pipe only until it sees the UNLOCK set then it
->> > > > will release all locked pipes.
->> > > > locked pipe will not fetch new descriptors even if it got event/events
->> > > > adding more descriptors for
->> > > > this pipe (locked pipe).
->> > > >
->> > > > No need to expose as an API to user because its internal to driver, so
->> > > > while preparing command descriptor
->> > > > just we have to update the LOCK/UNLOCK flag.
->> >
->> > So IIUC, no api right? it would be internal to driver..?
->> 
->>   Yes its totally internal to deriver.
+> Hi All,
 > 
-> So no need for this patch then, right?
+> I've looped you in since the platform you maintain supports PCIe EP
+> mode. This series builds NTB functionality on top of PCIe endpoint
+> framework. For NTB functionality it needs atleast two endpoint
+> instances. I'm trying to see if someone can help me test this series in
+> any of the platforms you support.
+> 
+> Even if your platform cannot enable NTB, if you can just apply this
+> patch series and test pci_epf_test that would be very much helpful.
+> 
+> Thanks in advance for your help.
 
-   This patch is needed , because if some hardware will shared between 
-multiple core
-   like A53 and ubi32 for example. In IPQ5018 there is only one crypto 
-engine and this will
-   be shared between A53 core and ubi32 core and in A53 core & ubi32 core 
-there are different
-   drivers is getting used. So if encryption/decryption request come at 
-same time from both the
-   driver then things will get messed up. So here we need LOCKING 
-mechanism. If first request is
-   from A53 core driver then this driver should lock all the pipes other 
-than pipe dedicated to
-   A53 core. So while preparing CMD descriptor driver should used this 
-flag "DMA_PREP_LOCK",
-   Since LOCK and UNLOCK flag bit we can set only on CMD descriptor. Once 
-request processed then
-   driver will set UNLOCK flag on CMD descriptor. Driver should use this 
-flag "DMA_PREP_UNLOCK"
-   while preparing CMD descriptor. Same logic will be apply for ubi32 
-core driver as well.
+Gentle ping for providing your "Reviewed-by" and "Tested-by".
+
+Thank You,
+Kishon
+
+> 
+> Best Regards,
+> Kishon
+> 
+> On 04/01/21 8:58 pm, Kishon Vijay Abraham I wrote:
+>> This series is about implementing SW defined Non-Transparent Bridge (NTB)
+>> using multiple endpoint (EP) instances. This series has been tested using
+>> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+>> on the other end. However there is nothing platform specific for the NTB
+>> functionality.
+>>
+>> This was presented in Linux Plumbers Conference. Link to presentation
+>> and video can be found @ [1]
+>> Created a video demo @ [9]
+>>
+>> RFC patch series can be found @ [2]
+>> v1 patch series can be found @ [3]
+>> v2 patch series can be found @ [4]
+>> v3 patch series can be found @ [5]
+>> v4 patch series can be found @ [6]
+>> v5 patch series can be found @ [7]
+>> v6 patch series can be found @ [8]
+>> v7 patch series can be found @ [10]
+>> v8 patch series can be found @ [11]
+>>
+>> Changes from v8:
+>> 1) Do not use devm_request_irq/devm_free_irq as pci_free_irq_vectors()
+>> has to be used after free_irq
+>> 2) Drop "NTB: tool: Enable the NTB/PCIe link on the local or remote side
+>> of bridge" as there is a debugfs entry to enable the link
+>>  
+>> Changes from v7:
+>> 1) Used values stored in ctrl_reg_bar, peer_spad_reg_bar and db_reg_bar
+>>    instead of hardcoded values in pci_iomap of ntb_hw_epf.c driver
+>>
+>> Changes from v6:
+>> 1) Fixed issues when multiple NTB devices are creating using multiple
+>>    functions
+>> 2) Fixed issue with writing scratchpad register
+>> 3) Created a video demo @ [9]
+>>
+>> Changes from v5:
+>> 1) Fixed a formatting issue in Kconfig pointed out by Randy
+>> 2) Checked for Error or Null in pci_epc_add_epf()
+>>
+>> Changes from v4:
+>> 1) Fixed error condition checks in pci_epc_add_epf()
+>>
+>> Changes from v3:
+>> 1) Fixed Documentation edits suggested by Randy Dunlap <rdunlap@infradead.org>
+>>
+>> Changes from v2:
+>> 1) Add support for the user to create sub-directory of 'EPF Device'
+>>    directory (for endpoint function specific configuration using
+>>    configfs).
+>> 2) Add documentation for NTB specific attributes in configfs
+>> 3) Check for PCI_CLASS_MEMORY_RAM (PCIe class) before binding ntb_hw_epf
+>>    driver
+>> 4) Other documentation fixes
+>>
+>> Changes from v1:
+>> 1) As per Rob's comment, removed support for creating NTB function
+>>    device from DT
+>> 2) Add support to create NTB EPF device using configfs (added support in
+>>    configfs to associate primary and secondary EPC with EPF.
+>>
+>> Changes from RFC:
+>> 1) Converted the DT binding patches to YAML schema and merged the
+>>    DT binding patches together
+>> 2) NTB documentation is converted to .rst
+>> 3) One HOST can now interrupt the other HOST using MSI-X interrupts
+>> 4) Added support for teardown of memory window and doorbell
+>>    configuration
+>> 5) Add support to provide support 64-bit memory window size from
+>>    DT
+>>
+>> [1] -> https://linuxplumbersconf.org/event/4/contributions/395/
+>> [2] -> http://lore.kernel.org/r/20190926112933.8922-1-kishon@ti.com
+>> [3] -> http://lore.kernel.org/r/20200514145927.17555-1-kishon@ti.com
+>> [4] -> http://lore.kernel.org/r/20200611130525.22746-1-kishon@ti.com
+>> [5] -> http://lore.kernel.org/r/20200904075052.8911-1-kishon@ti.com
+>> [6] -> http://lore.kernel.org/r/20200915042110.3015-1-kishon@ti.com
+>> [7] -> http://lore.kernel.org/r/20200918064227.1463-1-kishon@ti.com
+>> [8] -> http://lore.kernel.org/r/20200924092519.17082-1-kishon@ti.com
+>> [9] -> https://youtu.be/dLKKxrg5-rY
+>> [10] -> http://lore.kernel.org/r/20200930153519.7282-1-kishon@ti.com 
+>> [11] -> http://lore.kernel.org/r/20201111153559.19050-1-kishon@ti.com
+>>
+>> Kishon Vijay Abraham I (17):
+>>   Documentation: PCI: Add specification for the *PCI NTB* function
+>>     device
+>>   PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit
+>>     BAR
+>>   PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+>>   PCI: endpoint: Make *_free_bar() to return error codes on failure
+>>   PCI: endpoint: Remove unused pci_epf_match_device()
+>>   PCI: endpoint: Add support to associate secondary EPC with EPF
+>>   PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+>>   PCI: endpoint: Add pci_epc_ops to map MSI irq
+>>   PCI: endpoint: Add pci_epf_ops for epf drivers to expose function
+>>     specific attrs
+>>   PCI: endpoint: Allow user to create sub-directory of 'EPF Device'
+>>     directory
+>>   PCI: cadence: Implement ->msi_map_irq() ops
+>>   PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+>>   PCI: endpoint: Add EP function driver to provide NTB functionality
+>>   PCI: Add TI J721E device to pci ids
+>>   NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+>>   Documentation: PCI: Add configfs binding documentation for pci-ntb
+>>     endpoint function
+>>   Documentation: PCI: Add userguide for PCI endpoint NTB function
+>>
+>>  .../PCI/endpoint/function/binding/pci-ntb.rst |   38 +
+>>  Documentation/PCI/endpoint/index.rst          |    3 +
+>>  .../PCI/endpoint/pci-endpoint-cfs.rst         |   10 +
+>>  .../PCI/endpoint/pci-ntb-function.rst         |  351 +++
+>>  Documentation/PCI/endpoint/pci-ntb-howto.rst  |  160 ++
+>>  drivers/misc/pci_endpoint_test.c              |    1 -
+>>  drivers/ntb/hw/Kconfig                        |    1 +
+>>  drivers/ntb/hw/Makefile                       |    1 +
+>>  drivers/ntb/hw/epf/Kconfig                    |    6 +
+>>  drivers/ntb/hw/epf/Makefile                   |    1 +
+>>  drivers/ntb/hw/epf/ntb_hw_epf.c               |  754 ++++++
+>>  .../pci/controller/cadence/pcie-cadence-ep.c  |   60 +-
+>>  drivers/pci/endpoint/functions/Kconfig        |   12 +
+>>  drivers/pci/endpoint/functions/Makefile       |    1 +
+>>  drivers/pci/endpoint/functions/pci-epf-ntb.c  | 2114 +++++++++++++++++
+>>  drivers/pci/endpoint/functions/pci-epf-test.c |   13 +-
+>>  drivers/pci/endpoint/pci-ep-cfs.c             |  176 +-
+>>  drivers/pci/endpoint/pci-epc-core.c           |  130 +-
+>>  drivers/pci/endpoint/pci-epf-core.c           |  105 +-
+>>  include/linux/pci-epc.h                       |   39 +-
+>>  include/linux/pci-epf.h                       |   28 +-
+>>  include/linux/pci_ids.h                       |    1 +
+>>  22 files changed, 3932 insertions(+), 73 deletions(-)
+>>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-ntb.rst
+>>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-function.rst
+>>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+>>  create mode 100644 drivers/ntb/hw/epf/Kconfig
+>>  create mode 100644 drivers/ntb/hw/epf/Makefile
+>>  create mode 100644 drivers/ntb/hw/epf/ntb_hw_epf.c
+>>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-ntb.c
+>>
