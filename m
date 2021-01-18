@@ -2,186 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98EACC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB40EC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:39:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60C8D22CA1
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:32:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9097A22CA1
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jan 2021 17:39:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393591AbhARRbm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jan 2021 12:31:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393711AbhARR1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 12:27:12 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90921C061757;
-        Mon, 18 Jan 2021 09:26:31 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id e22so10526767iog.6;
-        Mon, 18 Jan 2021 09:26:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=/PCeIqOYxF8DBChe/FqeIpuGpAycN06Z+LtSWgqflkc=;
-        b=j9j46G0XZfqSofwk4Dsv+ueKyn3hfButfT4eS5RoqR9b8au7bOzQV/fIvkp+6ghhRW
-         9csqyLm9Wo4MEsUVV751MX+8ijKvaQ5Y0L2dxSC8DdUQNYAfScH7ZXYbTMFOC26Ws747
-         /e/gOQeVXrDREYchVzBB8Ol2FbWZ6HMHZruoHa1bgY8f3tO+XBKzm95aRLFE8/x14TGb
-         WG5xYfNbflssucQEaSQZmctBfC3dIEcS5q/+70XuxE//n2OqfYkg2QQM8xAO1I2lQq/t
-         nEgxhxXaPZ5JhFZJvex4c3W4FpgBgy8+hAbY6x80Qmmc1QT0bvQAor6rQMzufRMct+9M
-         vQ5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=/PCeIqOYxF8DBChe/FqeIpuGpAycN06Z+LtSWgqflkc=;
-        b=swK7JBWJU9qO9UYIiQvZkXAaYwjN7/ERebzjY/ih53oRz82uFmj4E4qMiogxysGEFN
-         ppe5pptBiZ1s6dcBrToqvgTVYYA62Rhatw7ASixVulhd5VBJMXQS4kNAkGufkZb4m3Cg
-         82huZq+yltBduM/hDvph7zXuU/xk5JWX9pDdbOY2ygwukgQnj7a77JCrrZm7XaTCDf4D
-         8vuzssRnIgIiY2W58TpjxPIZlmrunY9a7b4Y5pS0nBQq7HOySmrDfRH3SxieJdwyWilJ
-         a9KLfUb8lwGs71OOwFZuW+MiDj6RP3OtRPkk3hLSzH9PyGl3P19JhuwhsKaZjWgkrLIM
-         VGDg==
-X-Gm-Message-State: AOAM532WspZLY5MlvVtyinx/U4vurOMX2a+3hWG3yVQ2VgOMUIUnR+gu
-        KDMtXUel6YnQwlPJ7tb0GJQVKoghQpNS0GIXAOM=
-X-Google-Smtp-Source: ABdhPJzNK3OvXGnwUMifX5fOt7Y8Kkq0tBzsOGNOWpg36vArYV7bZaW7nP8Zit8FiWvO5BxtAJQIh5Arj6jUqpSSPHc=
-X-Received: by 2002:a92:d990:: with SMTP id r16mr290889iln.10.1610990790846;
- Mon, 18 Jan 2021 09:26:30 -0800 (PST)
+        id S2407135AbhARRhe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jan 2021 12:37:34 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:11214 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2436605AbhARRhX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jan 2021 12:37:23 -0500
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+        by m0089730.ppops.net (8.16.0.43/8.16.0.43) with SMTP id 10IHYup4005887;
+        Mon, 18 Jan 2021 09:36:23 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=CjtVkCPiWjULQ5dYgeBSF7lTZHH8LxjK4w5/53+9qh0=;
+ b=WLi5x1bRh6tGA/O+89Cz1LwKABLU02H8QmZzWH7ltOHzQ9m+gdBA+mIoArkeD5huyZaD
+ xQASW1OXA90I5ta/WhLtzzwoTSQ6/gnWSzR54juUwKHsz5g8oF0ZdgkwgRGQs+5Fyf8K
+ dtLqT17EiZgVlU4dDE6/MwbwWSGkbVd9Muo= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by m0089730.ppops.net with ESMTP id 363vh583r9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 18 Jan 2021 09:36:22 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Mon, 18 Jan 2021 09:36:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bYdnRcNR5JczfTpQBX6gieHAGGKlvr0eX6Qx5OlYDtv1tdAi8V8lBVn/a6KBSnopC6gpvf34VdEZRnjV8XUIVRMGETXY02GWDxl2Eu03jZX/YEZ+ADkSxvcjgDvJCw5sdrWblViXTtQXW0HxsWRmGECYqtr16v/uGKbuQEwGK1UTxoCJYrwsoZhMBCzAnsUh8yutz6t+9+L8hZjacj+CP69tBx1xKZzoJte8CKn0J6IcDOgGNk4NLNXgCwfE5IQTRePVPw+7XC9qXzq7Kip5mSNkpdK5+eACdJgQmyZqAYAdATQi+ZSUNCDc/hnAcBp+pa7zEd4ymqJFREQCphq7MQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CjtVkCPiWjULQ5dYgeBSF7lTZHH8LxjK4w5/53+9qh0=;
+ b=IuDMyj5aqGVVB2t/Nybjsk1hYVXQ396gupE1v/UfvibtO2EkOjVjo8V/ZTTy6Wpk9FxjZr9nv3GTOT1AbtdqJ8NE8HX5C/1oKMICrD3c8E1f45GFeGM5pjM2Agz5Y/V482CO2SF1T0JND/NdkePlhrhYqWeWjND+CcCB0GRbsKxwnDnW0niwepPYAhl/wGlePPMkyFgYaI4GaIV1qVAXnyDIpLhLnfU56ecT60Wnj4MnFzpxHc30D7JlIPV524qUbPT0WDmuH1uZPkfpWbRsfXl4ttlhUp4VF+k6Ni3qI1ZJT841dVxW7F77QJBRs0T8tI0umyGoPTOIf2qU7R/CjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CjtVkCPiWjULQ5dYgeBSF7lTZHH8LxjK4w5/53+9qh0=;
+ b=eXEYWsDQtfSZgTc1xmq0D+PB1rcsKbSUHCdXD+kMVMt/zUSaxzHwCqVaL3vxCxQ4QePqm6kZ1WvaWF+ZWoyfRLaSQmWgprwPmvaf1WjIjeUCLXGyiVvNSBxRuFRd3kSaW5y3rUnFJr76mU15xUgWEHl7EfzSuxeixjRufTjWW2E=
+Authentication-Results: lwn.net; dkim=none (message not signed)
+ header.d=none;lwn.net; dmarc=none action=none header.from=fb.com;
+Received: from BYAPR15MB4088.namprd15.prod.outlook.com (2603:10b6:a02:c3::18)
+ by SJ0PR15MB4236.namprd15.prod.outlook.com (2603:10b6:a03:2cb::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Mon, 18 Jan
+ 2021 17:36:20 +0000
+Received: from BYAPR15MB4088.namprd15.prod.outlook.com
+ ([fe80::9ae:1628:daf9:4b03]) by BYAPR15MB4088.namprd15.prod.outlook.com
+ ([fe80::9ae:1628:daf9:4b03%7]) with mapi id 15.20.3763.014; Mon, 18 Jan 2021
+ 17:36:20 +0000
+Subject: Re: [PATCH bpf-next v2 2/2] docs: bpf: Clarify -mcpu=v3 requirement
+ for atomic ops
+To:     Brendan Jackman <jackmanb@google.com>, <bpf@vger.kernel.org>
+CC:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Florent Revest <revest@chromium.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20210118155735.532663-1-jackmanb@google.com>
+ <20210118155735.532663-3-jackmanb@google.com>
+From:   Yonghong Song <yhs@fb.com>
+Message-ID: <4cbd024b-b57e-e7ae-276a-a285c898bb30@fb.com>
+Date:   Mon, 18 Jan 2021 09:36:17 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
+In-Reply-To: <20210118155735.532663-3-jackmanb@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Originating-IP: [2620:10d:c090:400::5:4199]
+X-ClientProxiedBy: MW4PR03CA0340.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::15) To BYAPR15MB4088.namprd15.prod.outlook.com
+ (2603:10b6:a02:c3::18)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21d6::10cf] (2620:10d:c090:400::5:4199) by MW4PR03CA0340.namprd03.prod.outlook.com (2603:10b6:303:dc::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend Transport; Mon, 18 Jan 2021 17:36:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f210539c-bdce-43e6-24be-08d8bbd79134
+X-MS-TrafficTypeDiagnostic: SJ0PR15MB4236:
+X-Microsoft-Antispam-PRVS: <SJ0PR15MB4236B99D40E3C39EABAA29E0D3A40@SJ0PR15MB4236.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H/jIm0B6x2i/HUBgiXb5JvLewRjjD/2Ei5QRIvn3BnzjJcIwkYGESyLuz2ZUaajpEIHVtSP6D+A+DW+lk0Jl0TI8VbVN3Z8SL0i18ulOJjfC3tW9f1qd6OWk3OFqzeBJB3b3ehC8Z6jp8QOlv4G9/gFZvrSrOus2TPL58eXX2RQ2pnvHucLoUearQkQGSL6RQ0Gz8EUFEyadUS4evnTsPPHuz/JcK0RCffQFJV6veD7pDJe6F22aNXIl53dnU9zVDKGsG6VkRvJE75cH1VPY6DKqxZREHxXIgo56t9MYHpWBXaW7sud06h4ej35hTgGciAljZiIRX4SAfUugIWWM4LjjtJLCpF9iLc7aXxxWhMdQP6iLlncGFetngaZZysthytU4QcoXVh8bbfiebJJ0Bh/yIJQLuIIp+PjqOOs6VUb1RA34abCfk9mV7lFgsxS/fdRBq6aIUhHvceNuuV+PBpXPL7n48fjRwv2UTdSNdLI9oyhW1J4XQg7e1m/GMLA9x+0On5Td5WMmaMEtM+aXTxUFkygDLvutIA3hFFB8Y0oA2aU+21LHp2oIS8g6NgYw
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR15MB4088.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(346002)(136003)(366004)(376002)(4326008)(2616005)(478600001)(66476007)(66556008)(2906002)(66946007)(4744005)(186003)(31696002)(16526019)(5660300002)(36756003)(7416002)(6486002)(316002)(53546011)(54906003)(86362001)(8676002)(52116002)(966005)(31686004)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ODdWRW9rRXFtZ3VOOG9HdG5PT1RMMXA3Z3BJaUR5RUN1VVA4NjhFemZxMzNG?=
+ =?utf-8?B?cytPK1dKdFliNlVOcDEwV3pEVXExWWYvemxZOGNFZmJMVVN1UFdaZFBNQ2dq?=
+ =?utf-8?B?Z0pZZnZrOU5DUnB0aXhXR0VWdkwxN3pEOGxNTFhoZXJKQmEyV0Jia2NjajNl?=
+ =?utf-8?B?RFFNekJVY1JoT3RReHpmcFZpM3ZoSFB1ck5vekY2UlE0ZlRXbnBSNmNDNU41?=
+ =?utf-8?B?bDBpdVgyenZ4cGNwS1ZBc2xuY1NrcUZ2T2wzQXlUcStTVE9LQzVuaktGZXU2?=
+ =?utf-8?B?VmtFa3R5ZFE5YzlDYXZTUW9Memw4eHdUZGdlSVRsVzIvQm1ENXY5VjlvYVIx?=
+ =?utf-8?B?bjBXN2ttV3pMNXBtbm0zaG9nM2Q1OGRjOVdUSlFZYVUydk5YVGsvVmUxTFRm?=
+ =?utf-8?B?dWJwU3FYZ1V6UFNRaHF5Rlc1ZUdQQnRrUWpqV2lBZGo5eTdMR2k3aEFudmZw?=
+ =?utf-8?B?b1B6Wk5RR3BSYldib2FKaklPK0prNWw0di9uQUhWcks2MDY3TGVjUW9aVUFL?=
+ =?utf-8?B?bHBaL0ZhYk1KM24xVnZ4THpMRkpkYkFSMnYzUGMwNFNLbmZXL1Z1RG5qRmV2?=
+ =?utf-8?B?cklqMG00ZkROTHJucUIxME9FVFRwOTd2Z3RGSnpHK2JGVzJLZHQ0T0N1NSta?=
+ =?utf-8?B?dEY0bFNUcnZBcmlGT0ZXYUZOMDhyZW8yeFl4MExtVy9DSmRLcVAvRTd0QXZx?=
+ =?utf-8?B?VHJsMlIwTDJ0dVo3T3dSeTdwNDBqS1daNWgrWVdYdy9YaTlnd3NPWURTWkN5?=
+ =?utf-8?B?cDFpL1MxYjFNdVBNTXNVTHpERG81a1hldFhrYzJmRGlvVHQ2bWR2NTZjZ1pm?=
+ =?utf-8?B?M2pWNTZObHJ4dlRrN1gwTUlBU25GS0VnbTM4L0NzR0ZiUXk5eWdOck1TUmZ3?=
+ =?utf-8?B?aXpCZVFzTEhIRE8zVHNUcEhNam1Cb1VHQXBuRmxrMVRaZ0I0Vy9RTTVjZmdS?=
+ =?utf-8?B?MlFpMTlCVng1Mjh3U3ZQdk9YV2NjN3ovMkFTZkVFNmVpV294QkM1V3psRkt0?=
+ =?utf-8?B?RW8rajhpQmlIMjIzTkViaGE1dFVJSzZrQ0lzNGZUTTh0eTYvM29RTkVJZWxh?=
+ =?utf-8?B?b2QrUGtReTdyN3lBY2lKNVMrSWJ3TUNsa3dFZjVCYXdvREFxMmthbERUNC9y?=
+ =?utf-8?B?T0xwdEFWUHdzczI5cFlZK0Nscnp6M0kzU2J4KzBubktkWnhiT3pYYmJ2eFJ1?=
+ =?utf-8?B?WXBmVmdFeC84T1E5UDNkdnJNcmFrUmFleTh2MXRzMzcyaDJud3A4ZWMrcVhV?=
+ =?utf-8?B?UVU5OFdETlY3b3FBOGJwaFhPN2hOc2ZaaFFPMFhVdUV6a1dsMlJSbGY5YTZE?=
+ =?utf-8?B?R1FpU1YxMzhQeFU5OHRMaUE4V1BvdHFiUFFqbXMrcWI4NlU0TUJ4V2pRZ2k2?=
+ =?utf-8?B?UUJJRWNtbldtRGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f210539c-bdce-43e6-24be-08d8bbd79134
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB4088.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2021 17:36:20.7308
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sl7LLcASS2eAnt0qE3eAAciVBZsouExexUK66S86M6cJcduWnlyj7cz7alYJIelr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR15MB4236
+X-OriginatorOrg: fb.com
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
- <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
- <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com> <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
-In-Reply-To: <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 18 Jan 2021 18:26:19 +0100
-Message-ID: <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Bill Wendling <morbo@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-18_13:2021-01-18,2021-01-18 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=927
+ lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0 clxscore=1011
+ adultscore=0 bulkscore=0 mlxscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101180106
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
-> >
-> > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > [ big snip ]
-> >
-> > [More snippage.]
-> >
-> > > [ CC Fangrui ]
-> > >
-> > > With the attached...
-> > >
-> > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> > > undefined symbols
-> > >
-> > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
-> > >
-> > Thanks for confirming that this works with the above patch.
-> >
-> > > @ Bill Nick Sami Nathan
-> > >
-> > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
-> >
-> > The integrated assembler and this option are more-or-less orthogonal
-> > to each other. One can still use the GNU assembler with PGO. If you're
-> > having an issue, it may be related to ClangBuiltLinux issue #1250.
-> >
-> > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
-> > >
-> > I know Nick did several tests with PGO. He may have looked into it
-> > already, but we can check.
-> >
->
-> Reproducible.
->
-> LLVM_IAS=1 + DWARF5 = Not bootable
->
-> I will try:
->
-> LLVM_IAS=1 + DWARF4
->
 
-I was not able to boot into such a built Linux-kernel.
 
-For me worked: DWARF2 and LLVM_IAS=1 *not* set.
+On 1/18/21 7:57 AM, Brendan Jackman wrote:
+> Alexei pointed out [1] that this wording is pretty confusing. Here's
+> an attempt to be more explicit and clear.
+> 
+> [1] https://lore.kernel.org/bpf/CAADnVQJVvwoZsE1K+6qRxzF7+6CvZNzygnoBW9tZNWJELk5c=Q@mail.gmail.com/T/#m07264fc18fdc43af02fc1320968afefcc73d96f4
+> 
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-Of course, this could be an issue with my system's LLVM/Clang.
+Thanks for better description!
 
-Debian clang version
-12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
-
-Can you give me a LLVM commit-id where you had success with LLVM_IAS=1
-and especially CONFIG_DEBUG_INFO_DWARF5=y?
-Success means I was able to boot in QEMU and/or bare metal.
-
-Thanks.
-
-Regards,
-- Sedat -
-
->
-> > > I would like to know what the impact of the Clang's Integrated
-> > > Assembler and DWARF v5 are.
-> > >
-> > > I dropped both means...
-> > >
-> > > 1. Do not pass "LLVM_IAS=1" to make.
-> > > 2. Use default DWARF v2 (with Nick's patchset: CONFIG_DEBUG_INFO_DWARF2=y).
-> > >
-> > > ...for a successfull build and boot on bare metal.
-> > >
-> >
-> > [Next message]
-> >
-> > > On each rebuild I need to pass to make ...?
-> > >
-> > >   LLVM=1 -fprofile-use=vmlinux.profdata
-> > >
-> > Yes.
-> >
-> > > Did you try together with passing LLVM_IAS=1 to make?
-> >
-> > One of my tests was with the integrated assembler enabled. Are you
-> > finding issues with it?
-> >
-> > The problem with using top-of-tree clang is that it's not necessarily
-> > stable. You could try using the clang 11.x release (changing the
-> > "CLANG_VERSION >= 120000" in kernel/pgo/Kconfig/ to "CLANG_VERSION >=
-> > 110000").
-> >
-> > -bw
+Acked-by: Yonghong Song <yhs@fb.com>
