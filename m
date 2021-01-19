@@ -2,289 +2,384 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66561C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00402C4332D
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DA7A23108
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:19:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA02022D08
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbhASWTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 17:19:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41204 "EHLO
+        id S1727016AbhASWg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 17:36:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728210AbhASWSj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 17:18:39 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16F32C061757;
-        Tue, 19 Jan 2021 14:17:59 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id r4so11339349pls.11;
-        Tue, 19 Jan 2021 14:17:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=d4osgfp0iss0CDkLcixedPKYK/Iq16axn8OlnM1YIXw=;
-        b=Fi3DCz0wjHH1sza6IeNDPn+5tWFLsjaq57pR33zEBI93JXib3KyP2JtTqaYgshQtxm
-         3axyYUHEQNZGhnh9v/xdZOU0faz6TEujZpqroj+oxx3F2QI6VQ+sQ4GuN7FVWdPnxdzB
-         coo9NnH6QRmgIBVfQV15kEfR3ytTctGvB75dCA23/PUh5dvRZBQH4tCYa8+mPOsk7D2l
-         KofiCrp2JV4YyZP0cKhZFBb+LDhB0tZ6AfD0PYFwXOhpFyb7nk/Fy8vBDcmwkPWTO4hs
-         ZTBhS3s0fS89qLaDbwttrF1i/QsxTzbXkBUM81t2Eb1kk7MdN7ogcwk0UlVWBgDsmM/o
-         xTEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=d4osgfp0iss0CDkLcixedPKYK/Iq16axn8OlnM1YIXw=;
-        b=sZFUmVWcTpHhQtrghm1stoWwXTGpPCi4tCi4VX2HxQMXRAKcQnoCENP0gXF51/xzj7
-         gzngm1HRzkPlm4e/bSocYAb79BbTd7rQaq5h9Pz6M4xyaN8xvwuOlvhaLBqnl+3ZBm+4
-         LUHrlHm8R+sv14WyquFP2wJh611DDoK+djEpaoB6TM+T8+ZWLg6ytJ1cphNlOI+Lyfig
-         Qr2g58aZmMVykhlWtdEhUobS0Sc38+OrBacZy4fvbxSfrJ9oinZRDVJZ2ofnDUQ3VOKd
-         CUnkIPJ/eMGK6ZTQKKref3LzbzwXFxGfncc31aN5oHTi2JQjhHJa7Feilx5baIZNZOqX
-         8EvQ==
-X-Gm-Message-State: AOAM530sV3p11WMtiikbKeLu0T8fqw8tPbw89s3yc8ZjWccDPcE65s+/
-        6wkI6SG6XQeh+e+lYr06vQ==
-X-Google-Smtp-Source: ABdhPJzGHLFkruSDhqYZSJHyD4kO5OcPNosh18JDWSYIPuLliftVoSOLaNMSt4XAWfc1ASkXI8ypwg==
-X-Received: by 2002:a17:902:c3d2:b029:da:73c5:c589 with SMTP id j18-20020a170902c3d2b02900da73c5c589mr6711314plj.71.1611094678602;
-        Tue, 19 Jan 2021 14:17:58 -0800 (PST)
-Received: from ?IPv6:2600:1700:cda0:4340:501a:698e:f6c5:f47c? ([2600:1700:cda0:4340:501a:698e:f6c5:f47c])
-        by smtp.gmail.com with ESMTPSA id t2sm84159pga.45.2021.01.19.14.17.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Jan 2021 14:17:57 -0800 (PST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH v2 net-next 1/1] Allow user to set metric on default route
- learned via Router Advertisement.
-From:   praveen chaudhary <praveen5582@gmail.com>
-In-Reply-To: <0f64942e-debd-81bd-b29c-7d2728a5bd4b@gmail.com>
-Date:   Tue, 19 Jan 2021 14:17:49 -0800
-Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Zhenggen Xu <zxu@linkedin.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A2DE27CF-A988-4003-8A95-60CC101086DA@gmail.com>
-References: <20210115080203.8889-1-pchaudhary@linkedin.com>
- <0f64942e-debd-81bd-b29c-7d2728a5bd4b@gmail.com>
-To:     David Ahern <dsahern@gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
+        with ESMTP id S1727200AbhASWgK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 17:36:10 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036C4C061573;
+        Tue, 19 Jan 2021 14:35:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=OtL4sdAGsJ08z7fCxeCmMVsJDaQwBot6LG44qZyyGSk=; b=DXq12zrUsz5JbfiOkM3/P+/8RC
+        RVJssaknA/7T+p+K1KP2P7Sc4lQOv1swnQ+FwXP4oSwuCDe5IOLaHX2Ajp6t/wJbb6hzSJC01rsuX
+        MsegCFIS23WG4OTrofNGyE1GuKF6m4qq9rU/ObWUy1s5/taEm7+hlJHxrltuO/LgxeYAAcSU4wZnF
+        A7VGnrMdtgpDsxEbHE2gHVm+oogiA0eiKzPk3I+pxtKTmlN3wUySac8uDXl3G4h3VibiZHmo6sdcQ
+        ktwmyM50mI9O6KIwfVx7I02IwEs/kmZA6Wt0IaTHTExSlyJzLDwJIT8DR/+pLQCCByDxwzqDhTFqf
+        oTk/e/sA==;
+Received: from [2601:1c0:6280:3f0::9abc]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l1za7-0002Cl-CZ; Tue, 19 Jan 2021 22:34:36 +0000
+Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        kvm@vger.kernel.org, linux-s390@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, graf@amazon.com, arnd@arndb.de,
+        ebiederm@xmission.com, rppt@kernel.org, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jason@zx2c4.com, jannh@google.com,
+        w@1wt.eu, colmmacc@amazon.com, luto@kernel.org, tytso@mit.edu,
+        ebiggers@kernel.org, dwmw@amazon.co.uk, bonzini@gnu.org,
+        sblbir@amazon.com, raduweis@amazon.com, corbet@lwn.net,
+        mst@redhat.com, mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
+        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
+        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
+        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
+        oridgar@gmail.com, ghammer@redhat.com
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <1610453760-13812-2-git-send-email-acatan@amazon.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <2764a194-934c-5426-728a-cd755a6e395f@infradead.org>
+Date:   Tue, 19 Jan 2021 14:34:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <1610453760-13812-2-git-send-email-acatan@amazon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi--
+
+On 1/12/21 4:15 AM, Adrian Catangiu wrote:
+> - Background and problem
+> 
+
+> ---
+>  Documentation/misc-devices/sysgenid.rst | 240 +++++++++++++++++++++++++
+>  drivers/misc/Kconfig                    |  16 ++
+>  drivers/misc/Makefile                   |   1 +
+>  drivers/misc/sysgenid.c                 | 298 ++++++++++++++++++++++++++++++++
+>  include/uapi/linux/sysgenid.h           |  18 ++
+>  5 files changed, 573 insertions(+)
+>  create mode 100644 Documentation/misc-devices/sysgenid.rst
+>  create mode 100644 drivers/misc/sysgenid.c
+>  create mode 100644 include/uapi/linux/sysgenid.h
+> 
+> diff --git a/Documentation/misc-devices/sysgenid.rst b/Documentation/misc-devices/sysgenid.rst
+> new file mode 100644
+> index 0000000..0b31ccf
+> --- /dev/null
+> +++ b/Documentation/misc-devices/sysgenid.rst
+> @@ -0,0 +1,240 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========
+> +SYSGENID
+> +========
+> +
+> +The System Generation ID feature is required in virtualized or
+> +containerized environments by applications that work with local copies
+> +or caches of world-unique data such as random values, UUIDs,
+> +monotonically increasing counters, etc.
+> +Such applications can be negatively affected by VM or container
+> +snapshotting when the VM or container is either cloned or returned to
+> +an earlier point in time.
+> +
+> +The System Generation ID is a simple concept meant to alleviate the
+> +issue by providing a monotonically increasing counter that changes
+> +each time the VM or container is restored from a snapshot.
+> +The driver for it lives at ``drivers/misc/sysgenid.c``.
+> +
+> +The ``sysgenid`` driver exposes a monotonic incremental System
+> +Generation u32 counter via a char-dev FS interface accessible through
+> +``/dev/sysgenid`` that provides sync and async SysGen counter updates
+
+                                                                 update
+
+> +notifications. It also provides SysGen counter retrieval and
+> +confirmation mechanisms.
+> +
+> +The counter starts from zero when the driver is initialized and
+> +monotonically increments every time the system generation changes.
+> +
+> +The ``sysgenid`` driver exports the ``void sysgenid_bump_generation()``
+> +symbol which can be used by backend drivers to drive system generation
+> +changes based on hardware events.
+> +System generation changes can also be driven by userspace software
+> +through a dedicated driver ioctl.
+> +
+> +Userspace applications or libraries can (a)synchronously consume the
+> +system generation counter through the provided FS interface, to make
+> +any necessary internal adjustments following a system generation update.
+> +
+> +Driver FS interface:
+> +
+> +``open()``:
+> +  When the device is opened, a copy of the current Sys-Gen-Id (counter)
+> +  is associated with the open file descriptor. The driver now tracks
+> +  this file as an independent *watcher*. The driver tracks how many
+> +  watchers are aware of the latest Sys-Gen-Id counter and how many of
+> +  them are *outdated*; outdated being those that have lived through
+> +  a Sys-Gen-Id change but not yet confirmed the new generation counter.
+> +
+> +``read()``:
+> +  Read is meant to provide the *new* system generation counter when a
+> +  generation change takes place. The read operation blocks until the
+> +  associated counter is no longer up to date, at which point the new
+> +  counter is provided/returned.
+> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
+> +  *new* counter value available. The generation counter is considered
+> +  *new* for each open file descriptor that hasn't confirmed the new
+> +  value following a generation change. Therefore, once a generation
+> +  change takes place, all ``read()`` calls will immediately return the
+> +  new generation counter and will continue to do so until the
+> +  new value is confirmed back to the driver through ``write()``.
+> +  Partial reads are not allowed - read buffer needs to be at least
+> +  ``sizeof(unsigned)`` in size.
+
+Please use (unsigned int), not just (unsigned).
+(Linux style)
+
+> +
+> +``write()``:
+> +  Write is used to confirm the up-to-date Sys Gen counter back to the
+> +  driver.
+> +  Following a VM generation change, all existing watchers are marked
+> +  as *outdated*. Each file descriptor will maintain the *outdated*
+> +  status until a ``write()`` confirms the up-to-date counter back to
+> +  the driver.
+> +  Partial writes are not allowed - write buffer should be exactly
+> +  ``sizeof(unsigned)`` in size.
+
+ditto.
+
+> +
+> +``poll()``:
+> +  Poll is implemented to allow polling for generation counter updates.
+> +  Such updates result in ``EPOLLIN`` polling status until the new
+> +  up-to-date counter is confirmed back to the driver through a
+> +  ``write()``.
+> +
+> +``ioctl()``:
+> +  The driver also adds support for tracking count of open file
+> +  descriptors that haven't acknowledged a generation counter update,
+> +  as well as a mechanism for userspace to *force* a generation update:
+> +
+> +  - SYSGENID_GET_OUTDATED_WATCHERS: immediately returns the number of
+> +    *outdated* watchers - number of file descriptors that were open
+> +    during a system generation change, and which have not yet confirmed
+> +    the new generation counter.
+> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
+> +    watchers, or if a ``timeout`` argument is provided, until the
+> +    timeout expires.
+> +    If the current caller is *outdated* or a generation change happens
+> +    while waiting (thus making current caller *outdated*), the ioctl
+> +    returns ``-EINTR`` to signal the user to handle event and retry.
+> +  - SYSGENID_FORCE_GEN_UPDATE: forces a generation counter increment.
+> +    It takes a ``minimum-generation`` argument which represents the
+> +    minimum value the generation counter will be incremented to. For
+> +    example if current generation is ``5`` and ``SYSGENID_FORCE_GEN_UPDATE(8)``
+> +    is called, the generation counter will increment to ``8``.
+> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
+> +    or CAP_SYS_ADMIN capabilities.
+> +
+> +``mmap()``:
+> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
+> +  in size. The first 4 bytes of the mapped page will contain an
+> +  up-to-date u32 copy of the system generation counter.
+> +  The mapped memory can be used as a low-latency generation counter
+> +  probe mechanism in critical sections - see examples.
+> +
+> +``close()``:
+> +  Removes the file descriptor as a system generation counter *watcher*.
+> +
+> +Example application workflows
+> +-----------------------------
+> +
+> +1) Watchdog thread simplified example::
+> +
+> +	void watchdog_thread_handler(int *thread_active)
+> +	{
+> +		unsigned genid;
+
+		unsigned int genid;
+
+> +		int fd = open("/dev/sysgenid", O_RDWR | O_CLOEXEC, S_IRUSR | S_IWUSR);
+> +
+> +		do {
+> +			// read new gen ID - blocks until VM generation changes
+> +			read(fd, &genid, sizeof(genid));
+> +
+> +			// because of VM generation change, we need to rebuild world
+> +			reseed_app_env();
+> +
+> +			// confirm we're done handling gen ID update
+> +			write(fd, &genid, sizeof(genid));
+> +		} while (atomic_read(thread_active));
+> +
+> +		close(fd);
+> +	}
+> +
+> +2) ASYNC simplified example::
+> +
+> +	void handle_io_on_sysgenfd(int sysgenfd)
+> +	{
+> +		unsigned genid;
+
+		unsigned int genid;
+
+> +
+> +		// read new gen ID - we need it to confirm we've handled update
+> +		read(fd, &genid, sizeof(genid));
+> +
+> +		// because of VM generation change, we need to rebuild world
+> +		reseed_app_env();
+> +
+> +		// confirm we're done handling the gen ID update
+> +		write(fd, &genid, sizeof(genid));
+> +	}
+> +
+> +	int main() {
+> +		int epfd, sysgenfd;
+> +		struct epoll_event ev;
+> +
+> +		epfd = epoll_create(EPOLL_QUEUE_LEN);
+> +
+> +		sysgenfd = open("/dev/sysgenid",
+> +		               O_RDWR | O_CLOEXEC | O_NONBLOCK,
+> +		               S_IRUSR | S_IWUSR);
+> +
+> +		// register sysgenid for polling
+> +		ev.events = EPOLLIN;
+> +		ev.data.fd = sysgenfd;
+> +		epoll_ctl(epfd, EPOLL_CTL_ADD, sysgenfd, &ev);
+> +
+> +		// register other parts of your app for polling
+> +		// ...
+> +
+> +		while (1) {
+> +			// wait for something to do...
+> +			int nfds = epoll_wait(epfd, events,
+> +				MAX_EPOLL_EVENTS_PER_RUN,
+> +				EPOLL_RUN_TIMEOUT);
+> +			if (nfds < 0) die("Error in epoll_wait!");
+> +
+> +			// for each ready fd
+> +			for(int i = 0; i < nfds; i++) {
+> +				int fd = events[i].data.fd;
+> +
+> +				if (fd == sysgenfd)
+> +					handle_io_on_sysgenfd(sysgenfd);
+> +				else
+> +					handle_some_other_part_of_the_app(fd);
+> +			}
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +3) Mapped memory polling simplified example::
+> +
+> +	/*
+> +	 * app/library function that provides cached secrets
+> +	 */
+> +	char * safe_cached_secret(app_data_t *app)
+> +	{
+> +		char *secret;
+> +		volatile unsigned *const genid_ptr = get_sysgenid_mapping(app);
+
+		         unsigned int
+
+> +	again:
+> +		secret = __cached_secret(app);
+> +
+> +		if (unlikely(*genid_ptr != app->cached_genid)) {
+> +			app->cached_genid = *genid_ptr;
+> +			barrier();
+> +
+> +			// rebuild world then confirm the genid update (thru write)
+> +			rebuild_caches(app);
+> +
+> +			ack_sysgenid_update(app);
+> +
+> +			goto again;
+> +		}
+> +
+> +		return secret;
+> +	}
+> +
+> +4) Orchestrator simplified example::
+> +
+> +	/*
+> +	 * orchestrator - manages multiple applications and libraries used by
+> +	 * a service and tries to make sure all sensitive components gracefully
+> +	 * handle VM generation changes.
+> +	 * Following function is called on detection of a VM generation change.
+> +	 */
+> +	int handle_sysgen_update(int sysgen_fd, unsigned new_gen_id)
+
+	                                        unsigned int
+
+> +	{
+> +		// pause until all components have handled event
+> +		pause_service();
+> +
+> +		// confirm *this* watcher as up-to-date
+> +		write(sysgen_fd, &new_gen_id, sizeof(unsigned));
+
+		                                     unsigned int
+
+> +
+> +		// wait for all *others* for at most 5 seconds.
+> +		ioctl(sysgen_fd, VMGENID_WAIT_WATCHERS, 5000);
+> +
+> +		// all applications on the system have rebuilt worlds
+> +		resume_service();
+> +	}
 
 
-> On Jan 16, 2021, at 9:13 AM, David Ahern <dsahern@gmail.com> wrote:
->=20
-> On 1/15/21 1:02 AM, Praveen Chaudhary wrote:
->> For IPv4, default route is learned via DHCPv4 and user is allowed to =
-change
->> metric using config etc/network/interfaces. But for IPv6, default =
-route can
->> be learned via RA, for which, currently a fixed metric value 1024 is =
-used.
->>=20
->> Ideally, user should be able to configure metric on default route for =
-IPv6
->> similar to IPv4. This fix adds sysctl for the same.
->>=20
->> Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
->> Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
->>=20
->> Changes in v1.
->> ---
->=20
-> your trying to be too fancy in the log messages; everything after this
-> first '---' is dropped. Just Remove all of the '---' lines and '```' =
-tags.
->=20
+> diff --git a/include/uapi/linux/sysgenid.h b/include/uapi/linux/sysgenid.h
+> new file mode 100644
+> index 0000000..ea38fd3
+> --- /dev/null
+> +++ b/include/uapi/linux/sysgenid.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+> +
+> +#ifndef _UAPI_LINUX_SYSGENID_H
+> +#define _UAPI_LINUX_SYSGENID_H
+> +
+> +#include <linux/ioctl.h>
+> +
+> +#define SYSGENID_IOCTL 0x2d
 
-Removed all =E2=80=98=E2=80=94=E2=80=98 and =E2=80=98```=E2=80=99 in v3.
-
->> 1.) Correct the call to rt6_add_dflt_router.
->> ---
->>=20
->> Changes in v2.
->> [Refer: lkml.org/lkml/2021/1/14/1400]
->> ---
->> 1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
->> 2.) Change Type to __u32 instead of __s32.
->> 3.) Change description in Documentation/networking/ip-sysctl.rst.
->> 4.) Use proc_douintvec instead of proc_dointvec.
->> 5.) Code style in ndisc_router_discovery().
->> 6.) Change Type to u32 instead of unsigned int.
->> ---
->>=20
->> Logs:
->> ----------------------------------------------------------------
->> For IPv4:
->> ----------------------------------------------------------------
->>=20
->> Config in etc/network/interfaces
->> ----------------------------------------------------------------
->> ```
->> auto eth0
->> iface eth0 inet dhcp
->>    metric 4261413864
->=20
-> how does that work for IPv4? Is the metric passed to the dhclient and =
-it
-> inserts the route with the given metric or is a dhclient script used =
-to
-> replace the route after insert?
->=20
->=20
-
-Yes, DHCP client picks config under =E2=80=9Ciface eth0 inet dhcp=E2=80=9D=
- line and if metric is configured, then it adds the metric for all added =
-routes.
+Please document new IOCTL major/magic values in
+Documentation/userspace-api/ioctl/ioctl-number.rst.
 
 
->> diff --git a/Documentation/networking/ip-sysctl.rst =
-b/Documentation/networking/ip-sysctl.rst
->> index dd2b12a32b73..c4b8d4b8d213 100644
->> --- a/Documentation/networking/ip-sysctl.rst
->> +++ b/Documentation/networking/ip-sysctl.rst
->> @@ -1871,6 +1871,18 @@ accept_ra_defrtr - BOOLEAN
->> 		- enabled if accept_ra is enabled.
->> 		- disabled if accept_ra is disabled.
->>=20
->> +ra_defrtr_metric - INTEGER
->> +	Route metric for default route learned in Router Advertisement. =
-This value
->> +	will be assigned as metric for the default route learned via =
-IPv6 Router
->> +	Advertisement. Takes affect only if accept_ra_defrtr' is =
-enabled.
->=20
-> stray ' after accept_ra_defrtr
->=20
 
-Removed.
-
->> +
->> +	Possible values are:
->> +		0:
->> +			default value will be used for route metric
->> +			i.e. IP6_RT_PRIO_USER 1024.
->> +		1 to 0xFFFFFFFF:
->> +			current value will be used for route metric.
->> +
->> accept_ra_from_local - BOOLEAN
->> 	Accept RA with source-address that is found on local machine
->> 	if the RA is otherwise proper and able to be accepted.
->=20
->=20
->=20
->> diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
->> index eff2cacd5209..b13d3213e58f 100644
->> --- a/net/ipv6/addrconf.c
->> +++ b/net/ipv6/addrconf.c
->> @@ -205,6 +205,7 @@ static struct ipv6_devconf ipv6_devconf =
-__read_mostly =3D {
->> 	.max_desync_factor	=3D MAX_DESYNC_FACTOR,
->> 	.max_addresses		=3D IPV6_MAX_ADDRESSES,
->> 	.accept_ra_defrtr	=3D 1,
->> +	.ra_defrtr_metric =3D 0,
->=20
-> make the the '=3D' align column wise with the existing entries; seems =
-like
-> your new line is missing a tab
-
-Fixed.
-
->=20
->> 	.accept_ra_from_local	=3D 0,
->> 	.accept_ra_min_hop_limit=3D 1,
->> 	.accept_ra_pinfo	=3D 1,
->> @@ -260,6 +261,7 @@ static struct ipv6_devconf ipv6_devconf_dflt =
-__read_mostly =3D {
->> 	.max_desync_factor	=3D MAX_DESYNC_FACTOR,
->> 	.max_addresses		=3D IPV6_MAX_ADDRESSES,
->> 	.accept_ra_defrtr	=3D 1,
->> +	.ra_defrtr_metric =3D 0,
->=20
-> same here
-
-Fixed.
-
->=20
->> 	.accept_ra_from_local	=3D 0,
->> 	.accept_ra_min_hop_limit=3D 1,
->> 	.accept_ra_pinfo	=3D 1,
->> @@ -5475,6 +5477,7 @@ static inline void ipv6_store_devconf(struct =
-ipv6_devconf *cnf,
->> 	array[DEVCONF_MAX_DESYNC_FACTOR] =3D cnf->max_desync_factor;
->> 	array[DEVCONF_MAX_ADDRESSES] =3D cnf->max_addresses;
->> 	array[DEVCONF_ACCEPT_RA_DEFRTR] =3D cnf->accept_ra_defrtr;
->> +	array[DEVCONF_RA_DEFRTR_METRIC] =3D cnf->ra_defrtr_metric;
->> 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] =3D =
-cnf->accept_ra_min_hop_limit;
->> 	array[DEVCONF_ACCEPT_RA_PINFO] =3D cnf->accept_ra_pinfo;
->> #ifdef CONFIG_IPV6_ROUTER_PREF
->> @@ -6667,6 +6670,13 @@ static const struct ctl_table =
-addrconf_sysctl[] =3D {
->> 		.mode		=3D 0644,
->> 		.proc_handler	=3D proc_dointvec,
->> 	},
->> +	{
->> +		.procname	=3D "ra_defrtr_metric",
->> +		.data		=3D &ipv6_devconf.ra_defrtr_metric,
->> +		.maxlen		=3D sizeof(u32),
->> +		.mode		=3D 0644,
->> +		.proc_handler	=3D proc_douintvec,
->> +	},
->> 	{
->> 		.procname	=3D "accept_ra_min_hop_limit",
->> 		.data		=3D =
-&ipv6_devconf.accept_ra_min_hop_limit,
->> diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
->> index 76717478f173..2bffed49f5c0 100644
->> --- a/net/ipv6/ndisc.c
->> +++ b/net/ipv6/ndisc.c
->> @@ -1173,6 +1173,7 @@ static void ndisc_router_discovery(struct =
-sk_buff *skb)
->> 	struct neighbour *neigh =3D NULL;
->> 	struct inet6_dev *in6_dev;
->> 	struct fib6_info *rt =3D NULL;
->> +	u32 defrtr_usr_metric;
->> 	struct net *net;
->> 	int lifetime;
->> 	struct ndisc_options ndopts;
->> @@ -1303,18 +1304,23 @@ static void ndisc_router_discovery(struct =
-sk_buff *skb)
->> 			return;
->> 		}
->> 	}
->> -	if (rt && lifetime =3D=3D 0) {
->> +	/* Set default route metric if specified by user */
->> +	defrtr_usr_metric =3D in6_dev->cnf.accept_ra_defrtr_metric;
->=20
-> this tells me you did not compile this version of the patch since the
-> 'accept_' has been dropped. Always compile and test every patch before
-> sending.
-
-Yeah one patch was pushed bit early. Sorry about that. I will take care =
-of this now onwards.
-
-I have respined the Patch (v3) after addressing your review comments. =
-Build is done in our pipeline.
-Build logs: =
-https://dev.azure.com/sonicswitch/build/_build/results?buildId=3D1669&view=
-=3Dlogs&j=3D011e1ec8-6569-5e69-4f06-baf193d1351e
-
-Thanks a lot again for spending time for this Review,
-This feature will help SONiC OS [and others Linux flavors] for better =
-IPv6 support, so thanks again.
-
-
-Praveen=20
-https://github.com/praveen-li
-
-
+thanks.
+-- 
+~Randy
+"He closes his eyes and drops the goggles.  You can't get hurt
+by looking at a bitmap.  Or can you?"
+(Neal Stephenson: Snow Crash)
