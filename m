@@ -2,137 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1CEBC4332E
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C74E4C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C3312312B
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ED5C22D71
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbhASSo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 13:44:26 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:51850 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389596AbhASSiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 13:38:14 -0500
+        id S1726882AbhASSni (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 13:43:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392123AbhASSA2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 13:00:28 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D526CC0617BC
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 09:45:30 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id e7so22907010ljg.10
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 09:45:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1611081493; x=1642617493;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=KZM1YrJFzekGYZS1Tr/APAkkwA1kXNN/k2pjtWwyQc8=;
-  b=sDx1KMnWXAl7B0DGAbhFIwH5Ww8eaoMdVFGjzdF59GWxcFsZlzF/kIp6
-   Qp0MwsX/l4uWxhLU895MzHkwY/FOwEFZWwXl/KA6XTXd26Isv+ctkSz+D
-   UJwa8V/51K8UPkVkAz4KJCfOkCKtfA8oc2LSicb2vjPesc6xqeFqK9QYx
-   g=;
-X-IronPort-AV: E=Sophos;i="5.79,359,1602547200"; 
-   d="scan'208";a="113266096"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 19 Jan 2021 18:37:11 +0000
-Received: from EX13D31EUA004.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id 3A176A248E;
-        Tue, 19 Jan 2021 18:37:08 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.203) by
- EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 19 Jan 2021 18:36:51 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v23 03/15] mm/damon: Adaptively adjust regions
-Date:   Tue, 19 Jan 2021 19:36:36 +0100
-Message-ID: <20210119183636.327-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201215115448.25633-4-sjpark@amazon.com>
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rd3A8g1IdM0Da3ayDEEkpfl0IAd1dLONzNOBcV3ebWU=;
+        b=HgxRSY1UqbS9/rhXLTNfxHXeBBzedejKfHX0k4UFydcfqonYyGAaZOkwTPWns4jkPQ
+         esF/GfzCdXeprMZcR0ldlHasvbgdLzQUQKuoonWfyg/1PJiYiAQCs6nEFq4JCNR8UoZ6
+         L6PyL622kWecWT47tVu+mk1cmbD2RTPlWjumHdsO+G0rhUhQvmeVflWNxLMaEi1TcrFh
+         VEoIk82Z1RZibJHkxhJoWvXlijEayutV5Qeas5v5D4ueg87Fq9K4GiUyA/cnWqroNvz9
+         QaepTABYH2v3/iunQHx1HEYEiJL77LViNqhc0EsnX8b1A80s0ELoGjKZWBLJngIbcwTJ
+         w/cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rd3A8g1IdM0Da3ayDEEkpfl0IAd1dLONzNOBcV3ebWU=;
+        b=Vr8aEhuPV8LwZJnaj9AoTZrPHZcEQ0XJjr2G7aCUnxSkSzLTEH/cs62Ii+DCYB7Ry6
+         LAWbY0IzsywHaXZuLCKw3o+PAt6MK1OpR2S16KJju/plWM09YpQOoYG0pcRgDRjxn+jm
+         VbIbJG8JRobgcTGt7g2BWamL7QxUQ1jR6o8wu6PHv9/ryXGWFlEBfDqHERmntqslzrWt
+         ijFA6YDaIVp3PXCgkK/o/55SIeOcfaG5Q6DjW+2ZM6ViKORsZOsQgUTMPRQWkxLWiNzk
+         suJ7M+XxnYQa7gzFX4KIIUsdvZB/HTKM5UUPUaJyu+7GGdnFXZOUV4JEzPvJixDUBcFF
+         buvw==
+X-Gm-Message-State: AOAM5316930qXWMTitWza7nVLHvKiPEVtDpEadrGuOHHAL95ZjBYaJR7
+        Oj81GwoyfAjcIUmId48opShztZAeYCBxAOc1iCKKGQ==
+X-Google-Smtp-Source: ABdhPJyFFZcinaflCgiwdNd0xiMlKWjdDzL/Xpr4jPiXhnakZJ5AdohtfJ+lzfhFR9TjjIv+fAWjCZ2NgSAW2C3XYtE=
+X-Received: by 2002:a05:651c:328:: with SMTP id b8mr2402570ljp.106.1611078328902;
+ Tue, 19 Jan 2021 09:45:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.203]
-X-ClientProxiedBy: EX13D20UWA002.ant.amazon.com (10.43.160.176) To
- EX13D31EUA004.ant.amazon.com (10.43.165.161)
+References: <20210116023204.670834-1-vipinsh@google.com> <20210116023204.670834-3-vipinsh@google.com>
+ <2a009bd9-fde5-4911-3525-e28379fe3be2@infradead.org>
+In-Reply-To: <2a009bd9-fde5-4911-3525-e28379fe3be2@infradead.org>
+From:   Vipin Sharma <vipinsh@google.com>
+Date:   Tue, 19 Jan 2021 09:45:12 -0800
+Message-ID: <CAHVum0e8qY7Nt23wSXU7KON8qZ5c6gnNWf=i5BeYji2+735COw@mail.gmail.com>
+Subject: Re: [Patch v5 2/2] cgroup: svm: Encryption IDs cgroup documentation.
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Tom Lendacky <thomas.lendacky@amd.com>,
+        Brijesh <brijesh.singh@amd.com>, Jon <jon.grimm@amd.com>,
+        Eric <eric.vantassell@amd.com>, pbonzini@redhat.com,
+        Sean Christopherson <seanjc@google.com>,
+        Tejun Heo <tj@kernel.org>, hannes@cmpxchg.org,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>, corbet@lwn.net,
+        joro@8bytes.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        Jim Mattson <jmattson@google.com>, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        Matt Gingell <gingell@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Dionna Glaze <dionnaglaze@google.com>, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 15 Dec 2020 12:54:36 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+On Mon, Jan 18, 2021 at 9:55 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 1/15/21 6:32 PM, Vipin Sharma wrote:
+> > Documentation of Encryption IDs controller. This new controller is used
+> > to track and limit usage of hardware memory encryption capabilities on
+> > the CPUs.
+> >
+> > Signed-off-by: Vipin Sharma <vipinsh@google.com>
+> > Reviewed-by: David Rientjes <rientjes@google.com>
+> > Reviewed-by: Dionna Glaze <dionnaglaze@google.com>
+> > ---
+> >  .../admin-guide/cgroup-v1/encryption_ids.rst  |  1 +
+> >  Documentation/admin-guide/cgroup-v2.rst       | 78 ++++++++++++++++++-
+> >  2 files changed, 77 insertions(+), 2 deletions(-)
+> >  create mode 100644 Documentation/admin-guide/cgroup-v1/encryption_ids.rst
+> >
+> > diff --git a/Documentation/admin-guide/cgroup-v1/encryption_ids.rst b/Documentation/admin-guide/cgroup-v1/encryption_ids.rst
+> > new file mode 100644
+> > index 000000000000..8e9e9311daeb
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/cgroup-v1/encryption_ids.rst
+> > @@ -0,0 +1 @@
+> > +/Documentation/admin-guide/cgroup-v2.rst
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 63521cd36ce5..72993571de2e 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -63,8 +63,11 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
+> >         5-7-1. RDMA Interface Files
+> >       5-8. HugeTLB
+> >         5.8-1. HugeTLB Interface Files
+> > -     5-8. Misc
+> > -       5-8-1. perf_event
+> > +     5-9. Encryption IDs
+> > +       5.9-1 Encryption IDs Interface Files
+> > +       5.9-2 Migration and Ownership
+> > +     5-10. Misc
+> > +       5-10-1. perf_event
+> >       5-N. Non-normative information
+> >         5-N-1. CPU controller root cgroup process behaviour
+> >         5-N-2. IO controller root cgroup process behaviour
+> > @@ -2160,6 +2163,77 @@ HugeTLB Interface Files
+> >       are local to the cgroup i.e. not hierarchical. The file modified event
+> >       generated on this file reflects only the local events.
+> >
+> > +Encryption IDs
+> > +--------------
+> > +
+> > +There are multiple hardware memory encryption capabilities provided by the
+> > +hardware vendors, like Secure Encrypted Virtualization (SEV) and SEV Encrypted
+> > +State (SEV-ES) from AMD.
+> > +
+> > +These features are being used in encrypting virtual machines (VMs) and user
+> > +space programs. However, only a small number of keys/IDs can be used
+> > +simultaneously.
+> > +
+> > +This limited availability of these IDs requires system admin to optimize
+>
+>                                                           admins
+>
+> > +allocation, control, and track the usage of the resources in the cloud
+> > +infrastructure. This resource also needs to be protected from getting exhausted
+> > +by some malicious program and causing starvation for other programs.
+> > +
+> > +Encryption IDs controller provides capability to register the resource for
+>
+>    The Encryption IDs controller provides the capability to register the resource for
+>
+> > +controlling and tracking through the cgroups.
+>
+>                             through cgroups.
+>
+> > +
+> > +Encryption IDs Interface Files
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Each encryption ID type have their own interface files,
+>
+>                            has its own
+>
+> > +encids.[ID TYPE].{max, current, stat}, where "ID TYPE" can be sev and
+>
+>                                                                      or
+>
+> > +sev-es.
+> > +
+> > +  encids.[ID TYPE].stat
+> > +        A read-only flat-keyed single value file. This file exists only in the
+> > +        root cgroup.
+> > +
+> > +        It shows the total number of encryption IDs available and currently in
+> > +        use on the platform::
+> > +          # cat encids.sev.stat
+> > +          total 509
+> > +          used 0
+>
+> This is described above as a single-value file...
+>
+> Is the max value a hardware limit or a software (flexible) limit?
+>
+>
+> > +
+> > +  encids.[ID TYPE].max
+> > +        A read-write file which exists on the non-root cgroups. File is used to
+> > +        set maximum count of "[ID TYPE]" which can be used in the cgroup.
+> > +
+> > +        Limit can be set to max by::
+> > +          # echo max > encids.sev.max
+> > +
+> > +        Limit can be set by::
+> > +          # echo 100 > encids.sev.max
+> > +
+> > +        This file shows the max limit of the encryption ID in the cgroup::
+> > +          # cat encids.sev.max
+> > +          max
+> > +
+> > +        OR::
+> > +          # cat encids.sev.max
+> > +          100
+> > +
+> > +        Limits can be set more than the "total" capacity value in the
+> > +        encids.[ID TYPE].stat file, however, the controller ensures
+> > +        that the usage never exceeds the "total" and the max limit.
+> > +
+> > +  encids.[ID TYPE].current
+> > +        A read-only single value file which exists on non-root cgroups.
+> > +
+> > +        Shows the total number of encrypted IDs being used in the cgroup.
+> > +
+> > +Migration and Ownership
+> > +~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +An encryption ID is charged to the cgroup in which it is used first, and
+> > +stays charged to that cgroup until that ID is freed. Migrating a process
+> > +to a different cgroup do not move the charge to the destination cgroup
+>
+>                          does
+>
+> > +where the process has moved.
+> > +
+> >  Misc
+> >  ----
+> >
+> >
+>
+>
+> --
+> ~Randy
+> You can't do anything without having to do something else first.
+> -- Belefant's Law
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> Even somehow the initial monitoring target regions are well constructed
-> to fulfill the assumption (pages in same region have similar access
-> frequencies), the data access pattern can be dynamically changed.  This
-> will result in low monitoring quality.  To keep the assumption as much
-> as possible, DAMON adaptively merges and splits each region based on
-> their access frequency.
-> 
-> For each ``aggregation interval``, it compares the access frequencies of
-> adjacent regions and merges those if the frequency difference is small.
-> Then, after it reports and clears the aggregated access frequency of
-> each region, it splits each region into two or three regions if the
-> total number of regions will not exceed the user-specified maximum
-> number of regions after the split.
-> 
-> In this way, DAMON provides its best-effort quality and minimal overhead
-> while keeping the upper-bound overhead that users set.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> ---
->  include/linux/damon.h |  41 +++++---
->  mm/damon/core.c       | 220 ++++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 240 insertions(+), 21 deletions(-)
-> 
-[...]
-> diff --git a/mm/damon/core.c b/mm/damon/core.c
-> index 167487e75737..0f9beb60d9dd 100644
-> --- a/mm/damon/core.c
-> +++ b/mm/damon/core.c
-[...]
-> +
-> +/*
-> + * Split a region in two
-> + *
-> + * r		the region to be split
-> + * sz_r		size of the first sub-region that will be made
-> + */
-> +static void damon_split_region_at(struct damon_ctx *ctx,
-> +				  struct damon_region *r, unsigned long sz_r)
-> +{
-> +	struct damon_region *new;
-> +
-> +	new = damon_new_region(r->ar.start + sz_r, r->ar.end);
-
-Coverity Static Analysis Security Testing (SAST) by Synopsys, Inc. found that
-'damon_new_region()' could return NULL in case of memory allocation failure,
-but NULL check for 'new' is missed here.  I will add the check in the next
-version.
-
-> +	r->ar.end = new->ar.start;
-> +
-> +	damon_insert_region(new, r, damon_next_region(r));
-> +}
-[...]
-
-
-Thanks,
-SeongJae Park
+Thank you, I will fix them in the next patch.
