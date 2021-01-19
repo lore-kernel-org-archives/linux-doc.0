@@ -2,126 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73621C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1CEBC4332E
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24D4F22D08
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:17:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C3312312B
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 21:27:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729161AbhASVLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 16:11:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731245AbhASSsn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 13:48:43 -0500
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B20CC061757
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 10:47:53 -0800 (PST)
-Received: by mail-qv1-xf29.google.com with SMTP id s6so9641848qvn.6
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 10:47:53 -0800 (PST)
+        id S1728340AbhASSo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 13:44:26 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:51850 "EHLO
+        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389596AbhASSiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 13:38:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nQtsb6P16nylvkQXum2zCiAgwE4Ex40JE2Dh9jAvfm4=;
-        b=IgbjYkdW3djs51hNlHYO9VNfWTGH7/ufXErYK8Yl5Fx4LHKBiCA5yvBpi5pswU6XFY
-         /AvEogrwJhlnPNZo2DNdbX1IOJG2GiYh0+feUZ0R4klG4XZAc6U9+5MmZRBPrQne1eRl
-         G452lLO6pY/Fo6fC2F9FCnn3yaLId/rJfFrfTKQLFl8jwdjBqh4zgZXYViW02CW0ANyo
-         gowSMDAo7j5F470PRut9ZssTLsH80Q9O/a3ZCQ81CUxtIa7xwCoOseqoXKDb+u9eoT0P
-         pwk8Gz6xyifQ5kf4eKKBgt2/ryPGpVG8HJbCHX1/GZ3TSP7EmwIf2GiIvrrzKBXFr4Np
-         uIAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nQtsb6P16nylvkQXum2zCiAgwE4Ex40JE2Dh9jAvfm4=;
-        b=tgW8iKDSun6+xrmqh9TSph398j5vVUyy+NLmK/8unhVwoso4p9gwDh//kSUJOKjJwi
-         E+Gz38QUg5Ia8IcnXp8xbzSKa7ALhI9Ulhj+WRT8CE/QgzLTazsRHuXp5dnRDO7wksGR
-         MjjJzgrhOIdQ4Ot/PzJKnD2NTfEs5Lk9IIjmEMqZ6iYoGtOFCGXXiZAo6hiQkfXrCkpS
-         eIbI2wSrwtxQLZfIfPV5cSGgkl+l+iD4p6Cyua04E2Vn+357zBXn+jNGUz1K58H5dXb0
-         lyKMg35q0gxZPvlDVuxt0lJHXkAsBzYhFgNnd2tSfYnepQD0cCO+Rz7XlgCTgdL8uwqs
-         r8/Q==
-X-Gm-Message-State: AOAM533w88zzw8ntIlXAFKqe1ouKpqeED8CUDMYpAiEut3RrOlvfDQEK
-        pMJ0yE4P83kf7ETRMFumsemwsg==
-X-Google-Smtp-Source: ABdhPJzEG7viBlbUZNrXhEySKXWcNrfI5RfoT7MZqwFElxER/T6/kunL+TjK4dW1RsHYnK+4ZN5Vzg==
-X-Received: by 2002:ad4:42a5:: with SMTP id e5mr5599059qvr.37.1611082072927;
-        Tue, 19 Jan 2021 10:47:52 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id j7sm12802577qtb.87.2021.01.19.10.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 10:47:52 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l1w2h-003q3W-Vv; Tue, 19 Jan 2021 14:47:51 -0400
-Date:   Tue, 19 Jan 2021 14:47:51 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 08/14] mm/gup: do not allow zero page for pinned pages
-Message-ID: <20210119184751.GD4605@ziepe.ca>
-References: <20210119043920.155044-1-pasha.tatashin@soleen.com>
- <20210119043920.155044-9-pasha.tatashin@soleen.com>
- <20210119183013.GB4605@ziepe.ca>
- <CA+CK2bBKbht34Hkg9YvhwYAiAjd3NMd_+Eir9wfx+07V-Y2TTA@mail.gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1611081493; x=1642617493;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=KZM1YrJFzekGYZS1Tr/APAkkwA1kXNN/k2pjtWwyQc8=;
+  b=sDx1KMnWXAl7B0DGAbhFIwH5Ww8eaoMdVFGjzdF59GWxcFsZlzF/kIp6
+   Qp0MwsX/l4uWxhLU895MzHkwY/FOwEFZWwXl/KA6XTXd26Isv+ctkSz+D
+   UJwa8V/51K8UPkVkAz4KJCfOkCKtfA8oc2LSicb2vjPesc6xqeFqK9QYx
+   g=;
+X-IronPort-AV: E=Sophos;i="5.79,359,1602547200"; 
+   d="scan'208";a="113266096"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 19 Jan 2021 18:37:11 +0000
+Received: from EX13D31EUA004.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id 3A176A248E;
+        Tue, 19 Jan 2021 18:37:08 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.203) by
+ EX13D31EUA004.ant.amazon.com (10.43.165.161) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 19 Jan 2021 18:36:51 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 03/15] mm/damon: Adaptively adjust regions
+Date:   Tue, 19 Jan 2021 19:36:36 +0100
+Message-ID: <20210119183636.327-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201215115448.25633-4-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bBKbht34Hkg9YvhwYAiAjd3NMd_+Eir9wfx+07V-Y2TTA@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.203]
+X-ClientProxiedBy: EX13D20UWA002.ant.amazon.com (10.43.160.176) To
+ EX13D31EUA004.ant.amazon.com (10.43.165.161)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 01:34:26PM -0500, Pavel Tatashin wrote:
-> On Tue, Jan 19, 2021 at 1:30 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Mon, Jan 18, 2021 at 11:39:14PM -0500, Pavel Tatashin wrote:
-> > > Zero page should not be used for long term pinned pages. Once pages
-> > > are pinned their physical addresses cannot changed until they are unpinned.
-> > >
-> > > Guarantee to always return real pages when they are pinned by adding
-> > > FOLL_WRITE.
-> > >
-> > > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> > >  mm/gup.c | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > No, this will definitely break things
+On Tue, 15 Dec 2020 12:54:36 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-> What will break
-
-Things assuming GUP doesn't break COW, making all GUP WRITE was
-already tried and revered for some other reason
-
-> > Why does the zero page have to be movable?
+> Even somehow the initial monitoring target regions are well constructed
+> to fulfill the assumption (pages in same region have similar access
+> frequencies), the data access pattern can be dynamically changed.  This
+> will result in low monitoring quality.  To keep the assumption as much
+> as possible, DAMON adaptively merges and splits each region based on
+> their access frequency.
 > 
-> It is not even about being movable, we can't cow pinned pages returned
-> by GUP call, how can we use zero page for that?
+> For each ``aggregation interval``, it compares the access frequencies of
+> adjacent regions and merges those if the frequency difference is small.
+> Then, after it reports and clears the aggregated access frequency of
+> each region, it splits each region into two or three regions if the
+> total number of regions will not exceed the user-specified maximum
+> number of regions after the split.
+> 
+> In this way, DAMON provides its best-effort quality and minimal overhead
+> while keeping the upper-bound overhead that users set.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> ---
+>  include/linux/damon.h |  41 +++++---
+>  mm/damon/core.c       | 220 ++++++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 240 insertions(+), 21 deletions(-)
+> 
+[...]
+> diff --git a/mm/damon/core.c b/mm/damon/core.c
+> index 167487e75737..0f9beb60d9dd 100644
+> --- a/mm/damon/core.c
+> +++ b/mm/damon/core.c
+[...]
+> +
+> +/*
+> + * Split a region in two
+> + *
+> + * r		the region to be split
+> + * sz_r		size of the first sub-region that will be made
+> + */
+> +static void damon_split_region_at(struct damon_ctx *ctx,
+> +				  struct damon_region *r, unsigned long sz_r)
+> +{
+> +	struct damon_region *new;
+> +
+> +	new = damon_new_region(r->ar.start + sz_r, r->ar.end);
 
-The zero page is always zero, it is never written to. What does cow
-matter?
+Coverity Static Analysis Security Testing (SAST) by Synopsys, Inc. found that
+'damon_new_region()' could return NULL in case of memory allocation failure,
+but NULL check for 'new' is missed here.  I will add the check in the next
+version.
 
-Jason
+> +	r->ar.end = new->ar.start;
+> +
+> +	damon_insert_region(new, r, damon_next_region(r));
+> +}
+[...]
+
+
+Thanks,
+SeongJae Park
