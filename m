@@ -2,214 +2,349 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18014C10DC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4678FC07EBC
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED77923134
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2348A23131
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395153AbhASOJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:09:50 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2371 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404430AbhASKm3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 05:42:29 -0500
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DKlW25QX4z67dXw;
-        Tue, 19 Jan 2021 18:38:38 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 19 Jan 2021 11:41:46 +0100
-Received: from localhost (10.47.77.36) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 19 Jan
- 2021 10:41:45 +0000
-Date:   Tue, 19 Jan 2021 10:41:05 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     William Breathitt Gray <vilhelm.gray@gmail.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>,
-        "Fabrice Gasnier" <fabrice.gasnier@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
-Message-ID: <20210119104105.000010df@Huawei.com>
-In-Reply-To: <YAajkfaXPqkZUB/2@shinobu>
-References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
-        <20210115104947.71d99e87@coco.lan>
-        <20210115134720.000011f9@Huawei.com>
-        <20210117154218.634dd5fa@archlinux>
-        <YAajkfaXPqkZUB/2@shinobu>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S2395168AbhASOKH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:10:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392181AbhASMC1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 07:02:27 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7967C061573;
+        Tue, 19 Jan 2021 04:01:33 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id u11so21561340ljo.13;
+        Tue, 19 Jan 2021 04:01:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PHK3uW1ehoTt4Ezk23WVaqtB8sRn9EScRJCT+I2CDCg=;
+        b=j5KqUqdaxR5ds1qdQVSY21HmVLFqNWRHpQ93h1dIOSZlq95DUifWcfuq9qqM1wrW51
+         0dswE0xJIfEuYVWY3S5jmuboGxjqgmnnSU3NhCroWi7BL+5g38y2VQy1ASCuR26Xh9Zt
+         44q0m1mjvgmJ/DnPlZYZLvuhRXIT3How3HlPzTsaRWQJUfduocSdifIDr1GPj5DhjTjo
+         2GfLcCYJQPu9mejiozKRrjSV20IBzT4WAsiwiWOkcGxYa2e2Tncmv8lGKyB2VZICeqKa
+         508KCFpC715BvpCTuWbkBdqVCdZQjjxXDSZvf1K1S6dmG3AZkK4CF/r4UcBmZbcz413x
+         otAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PHK3uW1ehoTt4Ezk23WVaqtB8sRn9EScRJCT+I2CDCg=;
+        b=X5TTDQ9PyGYrJ+7BkBOb2TfSjgm8X9QIocvZbEF68gLAmpYlaQU8ko725jVFe6I5t4
+         dObHUXzt1PChtR12PHW9I4RUM55UvgE5rXQVEMH/WQOAHsz2JbWPo+gO+V1sSr1E+g0m
+         s6xiZy/4VyszfnhEvShn1YR1cAaEcbHtfVB5xC3MSaTBrtU/bjlMENge0h04k/ZLGZXQ
+         exacdMNovbJ1P7+u7vAw1GIPLgb/G/XbvxlEJlHMMM9GYjuOcx4xF1lJck3hhYUxMspX
+         pstc+T8Ax92IGzhsb5/XxKWnF+O2J8nV//HmJyvIypbRLM3t7Xd+S+2Dr8ayvczCNFOo
+         S4FA==
+X-Gm-Message-State: AOAM533HP0zvo3DF38ywd8zq7Tr7QNcVk+h69V8NwOQvIIqDs8vbrxWE
+        hF2BWS1LbEqZmndXpaBkn+I=
+X-Google-Smtp-Source: ABdhPJx2J6wH0qJd7AmGy+0XlynS4++mSwLDH6+MryViSsRT/ZFjo+B8XgtScYFBqiKY+wAf5Pd2Qw==
+X-Received: by 2002:a2e:720f:: with SMTP id n15mr1793803ljc.405.1611057691988;
+        Tue, 19 Jan 2021 04:01:31 -0800 (PST)
+Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
+        by smtp.gmail.com with ESMTPSA id k6sm168481ljj.130.2021.01.19.04.01.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 04:01:31 -0800 (PST)
+Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
+        by home.paul.comp (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id 10JC1RNx015506;
+        Tue, 19 Jan 2021 15:01:28 +0300
+Received: (from paul@localhost)
+        by home.paul.comp (8.15.2/8.15.2/Submit) id 10JC1QUN015505;
+        Tue, 19 Jan 2021 15:01:26 +0300
+Date:   Tue, 19 Jan 2021 15:01:26 +0300
+From:   Paul Fertser <fercerpav@gmail.com>
+To:     Ernesto Corona <ernesto.corona@intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Steven Filary <steven.a.filary@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Vadim Pasternak <vadimp@mellanox.com>,
+        Amithash Prasad <amithash@fb.com>,
+        Jiri Pirko <jiri@mellanox.com>, Rgrs <rgrs@protonmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Patrick Williams <patrickw3@fb.com>,
+        Oleksandr Shamray <oleksandrs@mellanox.com>
+Subject: Re: [PATCH v29 4/6] Documentation: jtag: Add ABI documentation
+Message-ID: <20210119120125.GD2971@home.paul.comp>
+References: <20200413222920.4722-1-ernesto.corona@intel.com>
+ <20200413222920.4722-5-ernesto.corona@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.77.36]
-X-ClientProxiedBy: lhreml735-chm.china.huawei.com (10.201.108.86) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200413222920.4722-5-ernesto.corona@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Jan 2021 18:17:05 +0900
-William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
+Hello,
 
-> On Sun, Jan 17, 2021 at 03:42:18PM +0000, Jonathan Cameron wrote:
-> > On Fri, 15 Jan 2021 13:47:20 +0000
-> > Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> >   
-> > > On Fri, 15 Jan 2021 10:49:47 +0100
-> > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > >   
-> > > > Hi Lukas,
-> > > > 
-> > > > Em Fri, 15 Jan 2021 07:12:38 +0100
-> > > > Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
-> > > >     
-> > > > > [reduced the recipient list to the main responsible ones and list]
-> > > > > 
-> > > > > Hi Mauro, hi Jonathan,
-> > > > > 
-> > > > > We both, Mauro and I, have been submitting patches to address the
-> > > > > documentation warnings on linux-next. If it is okay with you, Mauro, I
-> > > > > would like to take responsibility for the task to send out the patches
-> > > > > to address all warnings on linux-next in make htmldocs and follow up
-> > > > > with all the discussions. I can also provide a short weekly summary
-> > > > > (probably always on Friday) on what is pending where and what I could
-> > > > > not resolve by myself.
-> > > > > 
-> > > > > Is that okay for you?
-> > > > > 
-> > > > > If at some point I do not have the time to take care anymore, I will
-> > > > > let you know.      
-> > > > 
-> > > > Yeah, sure!
-> > > > 
-> > > > Anyway, after applying the patches I sent this week, the warnings
-> > > > I'm getting are all due to the validation scripts I wrote. So, if 
-> > > > everything gets merged (either yours or my version), we'll have zero
-> > > > Sphinx/kernel-doc warnings again.
-> > > > 
-> > > > The script-validation warnings are:
-> > > > 
-> > > > 1. Broken cross references
-> > > > --------------------------
-> > > > 
-> > > > $ scripts/documentation-file-ref-check
-> > > > Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-> > > > Warning: Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-> > > > Warning: Documentation/devicetree/bindings/input/adc-joystick.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-> > > > Warning: Documentation/devicetree/bindings/power/supply/da9150-charger.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
-> > > > Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-> > > > Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-> > > > Warning: Documentation/virt/kvm/vcpu-requests.rst references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
-> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
-> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> > > > Warning: include/linux/rculist_nulls.h references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
-> > > > Warning: tools/memory-model/Documentation/simple.txt references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
-> > > > 
-> > > > It sounds that part of the above is due to DT patches that weren't
-> > > > merged yet, but there are a few others that can be solved, but may
-> > > > require discussions with some Kernel developers/maintainers.
-> > > > 
-> > > > 2. Duplicated ABI definitions
-> > > > -----------------------------
-> > > > 
-> > > > $ scripts/get_abi.pl validate
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  ./Documentation/ABI/testing/sysfs-bus-iio:599
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
-> > > > Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  ./Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
-> > > > Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
-> > > > Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  ./Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
-> > > > Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  ./Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
-> > > > Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
-> > > > 
-> > > > Perhaps you could check with Jonathan Cameron some strategy to address
-> > > > the IIO warnings.    
-> > > 
-> > > I'm being a bit rubbish on those ones. All need a bit of thought...
-> > > 
-> > > I'll try to kill off a few of them this weekend as *touch wood* my
-> > > review queue is looking fairly short.  
-> > 
-> > As I mentioned in the cover letter for the series I've just sent out, I ran into
-> > a bit of an understanding gap around the two counter cases.  This isn't helped
-> > by the fact it is at least partly deprecated ABI given the counter subsystem
-> > has much richer ABI for these types of devices.
-> > 
-> > @Fabrice, Benjamin and William.
-> > What do we do about that one?
-> > 
-> > Thanks,
-> > 
-> > Jonathan  
-> 
-> I'd consider the IIO counter ABI as entirely deprecated -- the Counter
-> subsystem supports all the functionality that's provided by the IIO
-> counter ABI, as well as additional functionality that is missing. 
-> 
-> Regarding the iio:deviceX/in_count_quadrature_mode_available attribute:
-> superseded by the Counter subsystem counterX/countY/function attribute.
-> The IIO counter ABI allows users to select between a quadrature counting
-> mode or a non-quadrature counting mode; unfortunately, it does not
-> specify what kind of quadrature or what kind of non-quadrature counting
-> is actually being performed by the device.
-> 
-> Because the 104-quad-8 and stm32-lptimer-cnt drivers were the only ones
-> to use this attribute, they are luckily in sync -- both define the same
-> possible modes available: "quadrature" and "non-quadrature". You could
-> simply consolidate this attribute to the main sys-bus-iio file in order
-> to resolve this warning.
-> 
-> Given that it has already been superceded by the Counter subsystem, I'd
-> also be all right with just removing the IIO Counter ABI entirely from
-> the codebase, or alternatively setting a future date for removal.
+This review of the proposed API was written after independently
+developing and testing on hardware (only SVF playback to configure a
+CPLD) support for OpenOCD[0]. I also include points that come to mind
+from my prior experience using wide range of JTAG adapters with
+different targets.
 
-I agree that we should look to remove this ABI.  If we can establish no one
-is relying on it today then we can drop quickly.  If not it would be good
-to establish when we drop it.
+On Mon, Apr 13, 2020 at 03:29:18PM -0700, Ernesto Corona wrote:
+> --- /dev/null
+> +++ b/Documentation/jtag/jtag-summary.rst
+> +A JTAG interface is a special interface added to a chip.
+> +Depending on the version of JTAG, two, four, or five pins are added.
+> +
+> +The connector pins are:
+> + * TDI (Test Data In)
+> + * TDO (Test Data Out)
+> + * TCK (Test Clock)
+> + * TMS (Test Mode Select)
+> + * TRST (Test Reset) optional
 
-Fabrice, Benjami any thoughts on the stm32-lptimer-cnt?
+Generic JTAG API should also include SRST (system reset), it's
+essential when JTAG is used as a transport for different On-Chip-Debug
+protocols.
 
-I'm going to hazard a guess that there aren't many 104-quad-8 users
-that you don't know about William, so if you think we can immediately drop
-the interface from that, lets do so, whether or not we can clean up
-the stm32 one at the same time.
+> +Call flow example:
+> +::
+> +
+> +	User: open  -> /dev/jatgX -> JTAG core driver -> JTAG hardware specific driver
+> +	User: ioctl -> /dev/jtagX -> JTAG core driver -> JTAG hardware specific driver
+> +	User: close -> /dev/jatgX -> JTAG core driver -> JTAG hardware specific driver
 
-Jonathan
+s/jatg/jtag/
 
-> 
-> William Breathitt Gray
-> 
-> > > 
-> > > Jonathan
-> > >   
-> > > > 
-> > > > Thanks,
-> > > > Mauro    
-> > >   
-> >   
-> 
+Not sure about the semantics here, as open needs a filesystem path
+while the other two operations take a file descriptor.
 
+> --- /dev/null
+> +++ b/Documentation/jtag/jtagdev.rst
+> @@ -0,0 +1,194 @@
+> +==================
+> +JTAG userspace API
+> +==================
+> +JTAG master devices can be accessed through a character misc-device.
+> +
+> +Each JTAG master interface can be accessed by using /dev/jtagN.
+> +
+> +JTAG system calls set:
+> + * SIR (Scan Instruction Register, IEEE 1149.1 Instruction Register scan);
+> + * SDR (Scan Data Register, IEEE 1149.1 Data Register scan);
+
+These two are handled with JTAG_IOCXFER ioctl.
+
+> + * RUNTEST (Forces the IEEE 1149.1 bus to a run state for a specified number of clocks.
+
+This should be handled by JTAG_SIOCSTATE ioctl, apparently.
+
+ioctl itself is a system call here, the items mentioned are just
+different arguments to it, AFAICT.
+
+> +JTAG_SIOCFREQ
+> +~~~~~~~~~~~~~
+> +Set JTAG clock speed:
+> +::
+> +
+> +	unsigned int jtag_fd;
+> +	ioctl(jtag_fd, JTAG_SIOCFREQ, &frq);
+
+The example defining jtag_fd looks confusing. Not only it is usually a
+bad idea to use unsigned int for a file descriptor (as open() returns
+a signed one that should be checked for errors), but in this example
+it's not assigned anything. And "frq" is not specified at all, so it's
+unclear what type it really should be, and what measurement units are
+supposed to be used. And I'm still not sure it needs to be a
+pointer. It's also unclear how a userspace should tell if the
+frequency was successfully set or if it was probably out of range for
+the specific adapter (the ioctl should return a documented error in
+this case).
+
+> +JTAG_SIOCSTATE
+> +~~~~~~~~~~~~~~
+> +Force JTAG state machine to go into a TAPC state
+> +::
+> +
+> +	struct jtag_end_tap_state {
+> +		__u8	reset;
+> +		__u8	endstate;
+> +		__u8	tck;
+
+Limiting tck to 255 maximum is unreasonable.
+
+> +	};
+> +
+> +reset: one of below options
+> +::
+> +
+> +	JTAG_NO_RESET - go through selected endstate from current state
+> +	JTAG_FORCE_RESET - go through TEST_LOGIC/RESET state before selected endstate
+> +
+> +endstate: any state listed in jtag_endstate enum
+> +::
+> +
+> +	enum jtag_endstate {
+> +		JTAG_STATE_TLRESET,
+> +		JTAG_STATE_IDLE,
+> +		JTAG_STATE_SELECTDR,
+> +		JTAG_STATE_CAPTUREDR,
+> +		JTAG_STATE_SHIFTDR,
+> +		JTAG_STATE_EXIT1DR,
+> +		JTAG_STATE_PAUSEDR,
+> +		JTAG_STATE_EXIT2DR,
+> +		JTAG_STATE_UPDATEDR,
+> +		JTAG_STATE_SELECTIR,
+> +		JTAG_STATE_CAPTUREIR,
+> +		JTAG_STATE_SHIFTIR,
+> +		JTAG_STATE_EXIT1IR,
+> +		JTAG_STATE_PAUSEIR,
+> +		JTAG_STATE_EXIT2IR,
+> +		JTAG_STATE_UPDATEIR
+> +	};
+
+Even though there's no standard mapping between JTAG states and
+numbers, I would suggest to use the one documented by ARM[1] for their
+TAPSM register as was found in ARM7, ARM9 and other cores. Chances are
+that a userspace utility might have easier time converting between
+different encodings, at least it's the case for OpenOCD.
+
+> +tck: clock counter
+
+This is not nearly enough documentation for the parameter, IMHO. It
+doesn't work anyway in the current version so I had to add some
+bitbanging for CPLD configuration to work...
+
+> +Example:
+> +::
+> +
+> +	struct jtag_end_tap_state end_state;
+> +
+> +	end_state.endstate = JTAG_STATE_IDLE;
+> +	end_state.reset = 0;
+> +	end_state.tck = data_p->tck;
+> +	usleep(25 * 1000);
+> +	ioctl(jtag_fd, JTAG_SIOCSTATE, &end_state);
+
+usleep doesn't seem to be doing anything useful at all here.
+
+> +JTAG_GIOCSTATUS
+> +~~~~~~~~~~~~~~~
+> +Get JTAG TAPC current machine state
+> +::
+> +
+> +	unsigned int jtag_fd;
+> +	jtag_endstate endstate;
+> +	ioctl(jtag_fd, JTAG_GIOCSTATUS, &endstate);
+
+This should probably also include information about TRST and SRST states.
+
+> +JTAG_IOCXFER
+> +~~~~~~~~~~~~
+> +Send SDR/SIR transaction
+> +::
+> +
+> +	struct jtag_xfer {
+> +		__u8	type;
+> +		__u8	direction;
+> +		__u8	endstate;
+> +		__u8	padding;
+
+padding is both undocumented and unused.
+
+> +		__u32	length;
+> +		__u64	tdio;
+> +	};
+> +
+> +type: transfer type - JTAG_SIR_XFER/JTAG_SDR_XFER
+> +
+> +direction: xfer direction - JTAG_READ_XFER/JTAG_WRITE_XFER/JTAG_READ_WRITE_XFER
+> +
+> +length: xfer data length in bits
+
+I'm not sure if calling it just "length" is clear enough. Probably a
+better name would be "bitcount"?
+
+> +tdio : xfer data array
+
+It's not exactly obvious that this is a pointer to user buffer
+containing data to be shifted out. Bit and byte order are not
+specified.
+
+I also do not like the idea to reuse input buffer for output. It might
+be const in the user app, it might be used after the JTAG operation
+for logging or verification purposes etc. Are there other popular APIs
+that do not split input and output into their own buffers?
+
+> +JTAG_SIOCMODE
+> +~~~~~~~~~~~~~
+> +If hardware driver can support different running modes you can change it.
+> +
+> +Example:
+> +::
+> +
+> +	struct jtag_mode mode;
+> +	mode.feature = JTAG_XFER_MODE;
+> +	mode.mode = JTAG_XFER_HW_MODE;
+> +	ioctl(jtag_fd, JTAG_SIOCMODE, &mode);
+
+This is absolutely not generic enough, and struct jtag_mode is just
+odd. And not documented here, the example is not extensive.
+
+Please consider providing instead a generic function to pass arbitrary
+data to the adapter driver _and_ to get some information back from it.
+
+> +JTAG_IOCBITBANG
+> +~~~~~~~~~~~~~~~
+> +JTAG Bitbang low level operation.
+> +
+> +Example:
+> +::
+> +
+> +	struct tck_bitbang bitbang
+
+missing semicolon, missing declaration/documentation of the struct
+fields.
+
+> +	bitbang.tms = 1;
+> +	bitbang.tdi = 0;
+> +	ioctl(jtag_fd, JTAG_IOCBITBANG, &bitbang);
+> +	tdo = bitbang.tdo;
+
+This is ok, used it for implementing RUNTEST/STABLECLOCKS.
+
+
+Now follows the list of what I consider to be missing in this API if
+it's supposed to be generic enough to cover all regular JTAG devices:
+
+1. Multiple devices might be used at the same time, including
+hotplugging. This requires methods to somehow enumerate them, read
+serial numbers, probably allow matching on VID:PID for USB adapters;
+some people also want to be able to match based on "location"
+(e.g. USB bus topology, full path leading to the device).
+
+2. Bitbang-style control is often needed for SRST and TRST lines.
+
+3. Many adapters have LED(s) that host software is supposed to
+control.
+
+4. It'd be useful to have a way to emit a TMS sequence, e.g. modern
+ARM devices support both SWD and JTAG transports and a special
+sequence is needed to switch between them.
+
+[0] http://openocd.zylin.com/#/c/5975/
+[1] https://documentation-service.arm.com/static/5e8e27fcfd977155116a637f
+
+-- 
+Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+mailto:fercerpav@gmail.com
