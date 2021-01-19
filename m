@@ -2,103 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5FAC433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA67C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B128723109
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B7C823108
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395164AbhASOJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:09:59 -0500
-Received: from foss.arm.com ([217.140.110.172]:52144 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389029AbhASLbF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jan 2021 06:31:05 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F01DE1042;
-        Tue, 19 Jan 2021 03:30:05 -0800 (PST)
-Received: from e123427-lin.arm.com (unknown [10.57.35.195])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E06263F719;
-        Tue, 19 Jan 2021 03:30:03 -0800 (PST)
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>, Rob Herring <robh@kernel.org>,
-        Jon Mason <jdmason@kudzu.us>, Jonathan Corbet <corbet@lwn.net>,
+        id S2395160AbhASOJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:09:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731946AbhASLJO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 06:09:14 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E915BC061573;
+        Tue, 19 Jan 2021 03:07:06 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0bca00c2aa0e949335efb7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ca00:c2aa:e94:9335:efb7])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5CD181EC05DE;
+        Tue, 19 Jan 2021 12:07:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1611054425;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=CRGl/u4vxGN+WxlP0KAC1sbS3k8pNEXivCxE9nwD1Kg=;
+        b=FJmtEc/Bd8pzj81PNmZ8TxlCmQrZgNxGipGb9Q3em4Qa7ig24RPVseKjNGTSr0ayHmvp7e
+        6I4isDyPVd9MafYg6by2PO7hqhPsedzYpEHmyTPzmWB+6JTdqLnxxavrBbFqh0/jqC8eNN
+        e0w3yWpF+O83k6Wx68Y19M1XZzwAFDQ=
+Date:   Tue, 19 Jan 2021 12:06:59 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Tom Joseph <tjoseph@cadence.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-ntb@googlegroups.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 00/17] Implement NTB Controller using multiple PCI EP
-Date:   Tue, 19 Jan 2021 11:29:55 +0000
-Message-Id: <161105563975.29969.4677344444174224884.b4-ty@arm.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20210104152909.22038-1-kishon@ti.com>
-References: <20210104152909.22038-1-kishon@ti.com>
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 02/26] x86/cet/shstk: Add Kconfig option for
+ user-mode control-flow protection
+Message-ID: <20210119110659.GG27433@zn.tnic>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-3-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201229213053.16395-3-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 4 Jan 2021 20:58:52 +0530, Kishon Vijay Abraham I wrote:
-> This series is about implementing SW defined Non-Transparent Bridge (NTB)
-> using multiple endpoint (EP) instances. This series has been tested using
-> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
-> on the other end. However there is nothing platform specific for the NTB
-> functionality.
+On Tue, Dec 29, 2020 at 01:30:29PM -0800, Yu-cheng Yu wrote:
+> Shadow Stack provides protection against function return address
+> corruption.  It is active when the processor supports it, the kernel has
+> CONFIG_X86_CET_USER enabled, and the application is built for the feature.
+> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+> non-Shadow Stack applications continue to work, but without protection.
 > 
-> This was presented in Linux Plumbers Conference. Link to presentation
-> and video can be found @ [1]
-> Created a video demo @ [9]
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/Kconfig           | 22 ++++++++++++++++++++++
+>  arch/x86/Kconfig.assembler |  5 +++++
+>  2 files changed, 27 insertions(+)
 > 
-> [...]
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 7b6dd10b162a..72cff400b9ae 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -1950,6 +1950,28 @@ config X86_SGX
+>  
+>  	  If unsure, say N.
+>  
+> +config ARCH_HAS_SHADOW_STACK
+> +	def_bool n
+> +
+> +config X86_CET_USER
 
-Applied to pci/ntb to give it more visibility and testing, aiming
-for v5.12.
+That thing needs to be X86_CET. How many times do I need to type this
+before you do it?
 
-[01/17] Documentation: PCI: Add specification for the *PCI NTB* function device
-        https://git.kernel.org/lpieralisi/pci/c/75e6ac86ca
-[02/17] PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit BAR
-        https://git.kernel.org/lpieralisi/pci/c/b6c7a2a2b5
-[03/17] PCI: endpoint: Add helper API to get the 'next' unreserved BAR
-        https://git.kernel.org/lpieralisi/pci/c/43e293914d
-[04/17] PCI: endpoint: Make *_free_bar() to return error codes on failure
-        https://git.kernel.org/lpieralisi/pci/c/293e2c258c
-[05/17] PCI: endpoint: Remove unused pci_epf_match_device()
-        https://git.kernel.org/lpieralisi/pci/c/9a25bdab98
-[06/17] PCI: endpoint: Add support to associate secondary EPC with EPF
-        https://git.kernel.org/lpieralisi/pci/c/868fe90ea4
-[07/17] PCI: endpoint: Add support in configfs to associate two EPCs with EPF
-        https://git.kernel.org/lpieralisi/pci/c/632c92ec12
-[08/17] PCI: endpoint: Add pci_epc_ops to map MSI irq
-        https://git.kernel.org/lpieralisi/pci/c/310511a301
-[09/17] PCI: endpoint: Add pci_epf_ops for epf drivers to expose function specific attrs
-        https://git.kernel.org/lpieralisi/pci/c/34fb8ab2e3
-[10/17] PCI: endpoint: Allow user to create sub-directory of 'EPF Device' directory
-        https://git.kernel.org/lpieralisi/pci/c/3a5c112c7a
-[11/17] PCI: cadence: Implement ->msi_map_irq() ops
-        https://git.kernel.org/lpieralisi/pci/c/d5c3d2ae7c
-[12/17] PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
-        https://git.kernel.org/lpieralisi/pci/c/d3f4973104
-[13/17] PCI: endpoint: Add EP function driver to provide NTB functionality
-        https://git.kernel.org/lpieralisi/pci/c/7dc64244f9
-[14/17] PCI: Add TI J721E device to pci ids
-        https://git.kernel.org/lpieralisi/pci/c/17d49876c3
-[15/17] NTB: Add support for EPF PCI-Express Non-Transparent Bridge
-        https://git.kernel.org/lpieralisi/pci/c/5d0db3f429
-[16/17] Documentation: PCI: Add configfs binding documentation for pci-ntb endpoint function
-        https://git.kernel.org/lpieralisi/pci/c/099f07051e
-[17/17] Documentation: PCI: Add userguide for PCI endpoint NTB function
-        https://git.kernel.org/lpieralisi/pci/c/27f22f76c3
+-- 
+Regards/Gruss,
+    Boris.
 
-Thanks,
-Lorenzo
+https://people.kernel.org/tglx/notes-about-netiquette
