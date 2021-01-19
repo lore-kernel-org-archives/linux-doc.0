@@ -2,157 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB77C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 133D4C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB0D123131
+	by mail.kernel.org (Postfix) with ESMTP id D619323131
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390277AbhASOHn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:07:43 -0500
-Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:53624 "EHLO
-        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389322AbhASKCd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 05:02:33 -0500
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10JA0JM7030222;
-        Tue, 19 Jan 2021 02:01:33 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=pfpt0220;
- bh=5GgxiZeK4y1PapAD+Qbjvma7e7RoVRAtuInKsq8JrLg=;
- b=TZcWJnm0NjAXB0qer3R8obx6emkqtzKv4nbxqrveSrr9yfB6pLrCDNYRlOI6rut9ZXm+
- 8Gu1IoMCTkHAEHVLa/HnoX5EhejCekX9OQqapG6jA9mHOxym1FmWUgpp+vr6AUcp4zEP
- Kg10Cs509v8lkigiyIXzPKwudy66LunRgRewtqOKAQWSYkxN0+vPxvxZ0SAImgCRgjbH
- vVDwRlPqFRTwANYjotl0l1Z0yf7ioExCsnLEVX2tSKm6bmJTqe2Z7pzr0uCvLlywxBP4
- O9jnhy+9dkOdjHHKbif26y+wpvk4zCxEyA96lr2D1MOvoStPWra3bOXa/ZyjXLXMmc9y Nw== 
-Received: from dc5-exch01.marvell.com ([199.233.59.181])
-        by mx0a-0016f401.pphosted.com with ESMTP id 363xcue7uj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 19 Jan 2021 02:01:33 -0800
-Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 19 Jan
- 2021 02:01:32 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH04.marvell.com
- (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 19 Jan
- 2021 02:01:31 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 19 Jan 2021 02:01:31 -0800
-Received: from hyd1584.marvell.com (unknown [10.29.37.82])
-        by maili.marvell.com (Postfix) with ESMTP id B3C543F703F;
-        Tue, 19 Jan 2021 02:01:28 -0800 (PST)
-From:   George Cherian <george.cherian@marvell.com>
-To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     <kuba@kernel.org>, <davem@davemloft.net>, <sgoutham@marvell.com>,
-        <lcherian@marvell.com>, <gakula@marvell.com>,
-        <george.cherian@marvell.com>, <corbet@lwn.net>
-Subject: [PATCH net-next 2/2] docs: octeontx2: Add Documentation for NIX health reporters
-Date:   Tue, 19 Jan 2021 15:31:20 +0530
-Message-ID: <20210119100120.2614730-3-george.cherian@marvell.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210119100120.2614730-1-george.cherian@marvell.com>
-References: <20210119100120.2614730-1-george.cherian@marvell.com>
+        id S2395139AbhASOJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:09:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390707AbhASKbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jan 2021 05:31:25 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0CB002312D;
+        Tue, 19 Jan 2021 10:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611052242;
+        bh=h2qMavtnvnddHYsIZ0jOJ4lwQL4t55sNi0FQrUQUgKM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=M3zfuZHNh6pYqWuJkZ1ld1MPIlEvZwcI5SuVKpHdROd+NhQOzYSDSbqOGO0Nbwy5+
+         AG1tjF3fPZCxUBFOIt9pIgy4ccVEPcyPPD0zhFJOm06CK9DLC8cgq6JEliFLC0BK92
+         7fvmRcXw8pBgofzgtpXQQytFdN2ty5IhDMz3RDxY+4KLcAGfrRZ0I9IVPY1U6oR/zE
+         El+GyUAXHGtfDUQFme2Cb8RrRQmRGZuy20RvkU0NXQB2FkJEJVEEPeIEJtHu5eKxVO
+         nzOL/Uty/HmIk9TEX4d92H3zqqJkjeM1yxOEXzLG6u2CkXlY0YF1ln0jsLFgHncf5h
+         SVHKA0KmQOnJw==
+Date:   Tue, 19 Jan 2021 12:30:34 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
+Message-ID: <YAa0ys4YJcZtKdfF@kernel.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+ <1604419306-26105-3-git-send-email-sumit.garg@linaro.org>
+ <X/x+N0fgrzIZTeNi@kernel.org>
+ <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
+ <X/+m6+m2/snYj9Vc@kernel.org>
+ <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-19_02:2021-01-18,2021-01-19 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add devlink health reporter documentation for NIX block.
+On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
+> On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> >
+> > On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
+> > > Hi Jarkko,
+> > >
+> > > On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > >
+> > > > On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
+> > > > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > > > to seal and unseal trusted keys using hardware unique key.
+> > > > >
+> > > > > Refer to Documentation/tee.txt for detailed information about TEE.
+> > > > >
+> > > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > > >
+> > > > I haven't yet got QEMU environment working with aarch64, this produces
+> > > > just a blank screen:
+> > > >
+> > > > ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
+> > > >
+> > > > My BuildRoot fork for TPM and keyring testing is located over here:
+> > > >
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
+> > > >
+> > > > The "ARM version" is at this point in aarch64 branch. Over time I will
+> > > > define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
+> > > > in the master branch.
+> > > >
+> > > > To create identical images you just need to
+> > > >
+> > > > $ make tpmdd_defconfig && make
+> > > >
+> > > > Can you check if you see anything obviously wrong? I'm eager to test this
+> > > > patch set, and in bigger picture I really need to have ready to run
+> > > > aarch64 environment available.
+> > >
+> > > I would rather suggest you to follow steps listed here [1] as to test
+> > > this feature on Qemu aarch64 we need to build firmwares such as TF-A,
+> > > OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
+> > > system [2]. And then it would be easier to migrate them to your
+> > > buildroot environment as well.
+> > >
+> > > [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
+> > > [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
+> > >
+> > > -Sumit
+> >
+> > Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
+> >
+> 
+> $ cat keyctl_change
+> diff --git a/common.mk b/common.mk
+> index aeb7b41..663e528 100644
+> --- a/common.mk
+> +++ b/common.mk
+> @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
+>  BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
+>  BR2_PACKAGE_STRACE ?= y
+>  BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
+> $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
+> +BR2_PACKAGE_KEYUTILS := y
+> 
+>  # All BR2_* variables from the makefile or the environment are appended to
+>  # ../out-br/extra.conf. All values are quoted "..." except y and n.
+> diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
+> index 368c18a..832ab74 100644
+> --- a/kconfigs/qemu.conf
+> +++ b/kconfigs/qemu.conf
+> @@ -20,3 +20,5 @@ CONFIG_9P_FS=y
+>  CONFIG_9P_FS_POSIX_ACL=y
+>  CONFIG_HW_RANDOM=y
+>  CONFIG_HW_RANDOM_VIRTIO=y
+> +CONFIG_TRUSTED_KEYS=y
+> +CONFIG_ENCRYPTED_KEYS=y
+> 
+> > After I've successfully tested 2/4, I'd suggest that you roll out one more
+> > version and CC the documentation patch to Elaine and Mini, and clearly
+> > remark in the commit message that TEE is a standard, with a link to the
+> > specification.
+> >
+> 
+> Sure, I will roll out the next version after your testing.
 
-Signed-off-by: George Cherian <george.cherian@marvell.com>
----
- .../ethernet/marvell/octeontx2.rst            | 70 +++++++++++++++++++
- 1 file changed, 70 insertions(+)
+Thanks, I'll try this at instant, and give my feedback.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-index 61e850460e18..dd5cd69467be 100644
---- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-+++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-@@ -217,3 +217,73 @@ For example::
- 	 NPA_AF_ERR:
- 	        NPA Error Interrupt Reg : 4096
- 	        AQ Doorbell Error
-+
-+
-+NIX Reporters
-+-------------
-+The NIX reporters are responsible for reporting and recovering the following group of errors:
-+
-+1. GENERAL events
-+
-+   - Receive mirror/multicast packet drop due to insufficient buffer.
-+   - SMQ Flush operation.
-+
-+2. ERROR events
-+
-+   - Memory Fault due to WQE read/write from multicast/mirror buffer.
-+   - Receive multicast/mirror replication list error.
-+   - Receive packet on an unmapped PF.
-+   - Fault due to NIX_AQ_INST_S read or NIX_AQ_RES_S write.
-+   - AQ Doorbell Error.
-+
-+3. RAS events
-+
-+   - RAS Error Reporting for NIX Receive Multicast/Mirror Entry Structure.
-+   - RAS Error Reporting for WQE/Packet Data read from Multicast/Mirror Buffer..
-+   - RAS Error Reporting for NIX_AQ_INST_S/NIX_AQ_RES_S.
-+
-+4. RVU events
-+
-+   - Error due to unmapped slot.
-+
-+Sample Output::
-+
-+	~# ./devlink health
-+	pci/0002:01:00.0:
-+	  reporter hw_npa_intr
-+	    state healthy error 0 recover 0 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_npa_gen
-+	    state healthy error 0 recover 0 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_npa_err
-+	    state healthy error 0 recover 0 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_npa_ras
-+	    state healthy error 0 recover 0 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_nix_intr
-+	    state healthy error 1121 recover 1121 last_dump_date 2021-01-19 last_dump_time 05:42:26 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_nix_gen
-+	    state healthy error 949 recover 949 last_dump_date 2021-01-19 last_dump_time 05:42:43 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_nix_err
-+	    state healthy error 1147 recover 1147 last_dump_date 2021-01-19 last_dump_time 05:42:59 grace_period 0 auto_recover true auto_dump true
-+	  reporter hw_nix_ras
-+	    state healthy error 409 recover 409 last_dump_date 2021-01-19 last_dump_time 05:43:16 grace_period 0 auto_recover true auto_dump true
-+
-+Each reporter dumps the
-+
-+ - Error Type
-+ - Error Register value
-+ - Reason in words
-+
-+For example::
-+
-+	~# devlink health dump show pci/0002:01:00.0 reporter hw_nix_intr
-+	 NIX_AF_RVU:
-+	        NIX RVU Interrupt Reg : 1
-+	        Unmap Slot Error
-+	~# devlink health dump show pci/0002:01:00.0 reporter hw_nix_gen
-+	 NIX_AF_GENERAL:
-+	        NIX General Interrupt Reg : 1
-+	        Rx multicast pkt drop
-+	~# devlink health dump show pci/0002:01:00.0 reporter hw_nix_err
-+	 NIX_AF_ERR:
-+	        NIX Error Interrupt Reg : 64
-+	        Rx on unmapped PF_FUNC
--- 
-2.25.1
-
+/Jarkko
