@@ -2,105 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D25C432C3
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 18:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1664FC10F29
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 18:30:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF83F22CAD
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 18:30:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC3F723103
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 18:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392490AbhASSX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 13:23:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392309AbhASSWm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 13:22:42 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A72CC0613C1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 10:22:02 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id e15so14392136qte.9
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 10:22:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QB+qlyJrpIAY9PAVjnSSlEibl/VpzXPECBF8avvNf9g=;
-        b=ZpCwWJLwCV0bgOoVL6z7GNeJGgm4Ux+Pn0E59lHo+mYjHp2i9ibyDroLAo18CedooT
-         kFWXI2RiwNofDz7OzfpMir+6mOPzVoHJJk5PdgdsJ5ei66lQrPeyFvwv+QcS3UNtCO0t
-         2RFP05K/6+STlM5/b8Io3A+L3xuYA3g5q+gZAcQaSSDYMULQdlR85NzMPmd8ACUgE7RM
-         qsH98a4Sx8cX+CQpht1G3I6dzGiflHirrC61n6MhKJhhRwsk7UNDQ6DHfb7k8P9K/v3+
-         /KuKoV7IcO2i9d+7lQ8fiZxcxncF9vukjcoB36n4Z31WWTU9gMtM5Y295JWeXSWruOUx
-         ic0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QB+qlyJrpIAY9PAVjnSSlEibl/VpzXPECBF8avvNf9g=;
-        b=pByBAcfvE7GErSZ4HF4BOEzjF0sCuHHZtrplZrvaRxFkQiPF4pJti4vyePcfX0ZnvE
-         5FXbbcJ/ZplGxMV2Zf7HaZSE8RytnRiMBSKjjbTOMrrPTJ9LAElXatXnGd/XynXlaPAA
-         UOu/Dqpu6m25x4rkM7qi8BP8ZjWIuuf4SEekFxH+/gO3PMLByq858yNKHQpuXfC1P36U
-         tkzgpWhMNSU00GidOAR1xgrA0lbPGzHHQ618PBp0xDeq+SpouV5I/c4uzUOMEcg78ELL
-         fOE/zO8n9YZ3kY2fcNIKEf8LFs77fB7wdaHilku+FQhzT3sWUs4icf7CFic/melSpb6K
-         hJHA==
-X-Gm-Message-State: AOAM533RwlXZxphe044PtWuwN/666blr/FwSZWzDMMeqkyvhLSjZqpo7
-        Btk4CE9uceybslCsJ3OrAe/cuQ==
-X-Google-Smtp-Source: ABdhPJz2ZDCDvyVyZdPuux/jcDhvN+advwUUSodu2d8iZEb7w0r1BPV9yWMXcNjrYJ+DwwIBy9Vyyg==
-X-Received: by 2002:ac8:7394:: with SMTP id t20mr5567220qtp.72.1611080521652;
-        Tue, 19 Jan 2021 10:22:01 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id i3sm12711419qtd.95.2021.01.19.10.22.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 10:22:01 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l1vdg-003pV4-Mu; Tue, 19 Jan 2021 14:22:00 -0400
-Date:   Tue, 19 Jan 2021 14:22:00 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
-        david@redhat.com, osalvador@suse.de, dan.j.williams@intel.com,
-        sashal@kernel.org, tyhicks@linux.microsoft.com,
-        iamjoonsoo.kim@lge.com, mike.kravetz@oracle.com,
-        rostedt@goodmis.org, mingo@redhat.com, peterz@infradead.org,
-        mgorman@suse.de, willy@infradead.org, rientjes@google.com,
-        jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-        ira.weiny@intel.com, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 04/14] mm/gup: check for isolation errors
-Message-ID: <20210119182200.GZ4605@ziepe.ca>
-References: <20210119043920.155044-1-pasha.tatashin@soleen.com>
- <20210119043920.155044-5-pasha.tatashin@soleen.com>
+        id S2388296AbhASS1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 13:27:01 -0500
+Received: from mga11.intel.com ([192.55.52.93]:18071 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390060AbhASSLh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jan 2021 13:11:37 -0500
+IronPort-SDR: JW+2Ghkgf597jUJ+dJyEJhmVkeKeuLReUZnhTiV7ZwtE0KWk1uj8IRLcJ1lp0KKT76zdzRU4bP
+ b7W6pOXS4XCQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="175469449"
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="175469449"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 10:10:28 -0800
+IronPort-SDR: MW+Y7Gj0C/LBuROhQHYbzeTL9GqKCSiDMootWJB1BDgmJJ+fW+k+A/nIJvJFMnk3f3BkFyB4T4
+ CBQDqs25p7+g==
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="571089734"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.139.183]) ([10.209.139.183])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 10:10:25 -0800
+Subject: Re: [PATCH v17 02/26] x86/cet/shstk: Add Kconfig option for user-mode
+ control-flow protection
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-3-yu-cheng.yu@intel.com>
+ <20210119110659.GG27433@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <e249dad7-1a33-964c-ffa6-c7921564c813@intel.com>
+Date:   Tue, 19 Jan 2021 10:10:24 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210119043920.155044-5-pasha.tatashin@soleen.com>
+In-Reply-To: <20210119110659.GG27433@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 11:39:10PM -0500, Pavel Tatashin wrote:
-> It is still possible that we pin movable CMA pages if there are isolation
-> errors and cma_page_list stays empty when we check again.
+On 1/19/2021 3:06 AM, Borislav Petkov wrote:
+> On Tue, Dec 29, 2020 at 01:30:29PM -0800, Yu-cheng Yu wrote:
+>> Shadow Stack provides protection against function return address
+>> corruption.  It is active when the processor supports it, the kernel has
+>> CONFIG_X86_CET_USER enabled, and the application is built for the feature.
+>> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+>> non-Shadow Stack applications continue to work, but without protection.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> ---
+>>   arch/x86/Kconfig           | 22 ++++++++++++++++++++++
+>>   arch/x86/Kconfig.assembler |  5 +++++
+>>   2 files changed, 27 insertions(+)
+>>
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index 7b6dd10b162a..72cff400b9ae 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -1950,6 +1950,28 @@ config X86_SGX
+>>   
+>>   	  If unsure, say N.
+>>   
+>> +config ARCH_HAS_SHADOW_STACK
+>> +	def_bool n
+>> +
+>> +config X86_CET_USER
 > 
-> Check for isolation errors, and return success only when there are no
-> isolation errors, and cma_page_list is empty after checking.
+> That thing needs to be X86_CET. How many times do I need to type this
+> before you do it?
 > 
-> Because isolation errors are transient, we retry indefinitely.
-> 
-> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-> ---
->  mm/gup.c | 60 ++++++++++++++++++++++++++++++++------------------------
->  1 file changed, 34 insertions(+), 26 deletions(-)
 
-This should have a fixme too, this is a bug.
+Yes, I totally understand that now.  I was still thinking about 
+separately enabling user/kernel mode.  Perhaps I should have 
+communicated that thought before the change.  Sorry about that.  I will 
+update it.
 
-The patch looks OK, but I keep feeling this logic is all really
-overcomplicated...
-
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
+--
+Yu-cheng
