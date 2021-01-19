@@ -2,185 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69614C10DC2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18014C10DC1
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3903A23134
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED77923134
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 14:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395174AbhASOKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:10:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392367AbhASMFQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 07:05:16 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFC9C061574;
-        Tue, 19 Jan 2021 04:04:35 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0bca00c2aa0e949335efb7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ca00:c2aa:e94:9335:efb7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 7A35E1EC05E9;
-        Tue, 19 Jan 2021 13:04:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1611057871;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=/Pv8SRw220kJLxdDOBMETHVBBP03v/5o64vtmGCNBWM=;
-        b=aFehaN5VqYjE809Cxac/bMeLnYEeUHwYj7aStR7i3DSRTsYV1n9bR4MV51Fyepq+0KyUNv
-        Hgv6PDg2vj96bWjRz7a/bliHjv/5tAC5qZVCOD0B9zLErTlYWbS5i0lRdCXQZYuo82/mtf
-        TW846Qycog45LbPUY/XS3LDMejbLwp0=
-Date:   Tue, 19 Jan 2021 13:04:25 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v17 06/26] x86/cet: Add control-protection fault handler
-Message-ID: <20210119120425.GI27433@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-7-yu-cheng.yu@intel.com>
+        id S2395153AbhASOJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:09:50 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2371 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404430AbhASKm3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 05:42:29 -0500
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DKlW25QX4z67dXw;
+        Tue, 19 Jan 2021 18:38:38 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 19 Jan 2021 11:41:46 +0100
+Received: from localhost (10.47.77.36) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 19 Jan
+ 2021 10:41:45 +0000
+Date:   Tue, 19 Jan 2021 10:41:05 +0000
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     William Breathitt Gray <vilhelm.gray@gmail.com>
+CC:     Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        "Fabrice Gasnier" <fabrice.gasnier@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
+Message-ID: <20210119104105.000010df@Huawei.com>
+In-Reply-To: <YAajkfaXPqkZUB/2@shinobu>
+References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
+        <20210115104947.71d99e87@coco.lan>
+        <20210115134720.000011f9@Huawei.com>
+        <20210117154218.634dd5fa@archlinux>
+        <YAajkfaXPqkZUB/2@shinobu>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201229213053.16395-7-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.77.36]
+X-ClientProxiedBy: lhreml735-chm.china.huawei.com (10.201.108.86) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 01:30:33PM -0800, Yu-cheng Yu wrote:
-> @@ -606,6 +606,65 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->  	cond_local_irq_disable(regs);
->  }
->  
-> +#ifdef CONFIG_X86_CET_USER
-> +static const char * const control_protection_err[] = {
-> +	"unknown",
-> +	"near-ret",
-> +	"far-ret/iret",
-> +	"endbranch",
-> +	"rstorssp",
-> +	"setssbsy",
-> +};
-> +
-> +/*
-> + * When a control protection exception occurs, send a signal to the responsible
-> + * application.  Currently, control protection is only enabled for the user
-> + * mode.  This exception should not come from the kernel mode.
-> + */
+On Tue, 19 Jan 2021 18:17:05 +0900
+William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
 
-There's no "the user mode" or "the kernel mode" - just "user mode" or
-"kernel mode".
+> On Sun, Jan 17, 2021 at 03:42:18PM +0000, Jonathan Cameron wrote:
+> > On Fri, 15 Jan 2021 13:47:20 +0000
+> > Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
+> >   
+> > > On Fri, 15 Jan 2021 10:49:47 +0100
+> > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > >   
+> > > > Hi Lukas,
+> > > > 
+> > > > Em Fri, 15 Jan 2021 07:12:38 +0100
+> > > > Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
+> > > >     
+> > > > > [reduced the recipient list to the main responsible ones and list]
+> > > > > 
+> > > > > Hi Mauro, hi Jonathan,
+> > > > > 
+> > > > > We both, Mauro and I, have been submitting patches to address the
+> > > > > documentation warnings on linux-next. If it is okay with you, Mauro, I
+> > > > > would like to take responsibility for the task to send out the patches
+> > > > > to address all warnings on linux-next in make htmldocs and follow up
+> > > > > with all the discussions. I can also provide a short weekly summary
+> > > > > (probably always on Friday) on what is pending where and what I could
+> > > > > not resolve by myself.
+> > > > > 
+> > > > > Is that okay for you?
+> > > > > 
+> > > > > If at some point I do not have the time to take care anymore, I will
+> > > > > let you know.      
+> > > > 
+> > > > Yeah, sure!
+> > > > 
+> > > > Anyway, after applying the patches I sent this week, the warnings
+> > > > I'm getting are all due to the validation scripts I wrote. So, if 
+> > > > everything gets merged (either yours or my version), we'll have zero
+> > > > Sphinx/kernel-doc warnings again.
+> > > > 
+> > > > The script-validation warnings are:
+> > > > 
+> > > > 1. Broken cross references
+> > > > --------------------------
+> > > > 
+> > > > $ scripts/documentation-file-ref-check
+> > > > Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+> > > > Warning: Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+> > > > Warning: Documentation/devicetree/bindings/input/adc-joystick.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+> > > > Warning: Documentation/devicetree/bindings/power/supply/da9150-charger.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
+> > > > Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+> > > > Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+> > > > Warning: Documentation/virt/kvm/vcpu-requests.rst references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
+> > > > Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
+> > > > Warning: include/linux/rculist_nulls.h references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+> > > > Warning: tools/memory-model/Documentation/simple.txt references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
+> > > > 
+> > > > It sounds that part of the above is due to DT patches that weren't
+> > > > merged yet, but there are a few others that can be solved, but may
+> > > > require discussions with some Kernel developers/maintainers.
+> > > > 
+> > > > 2. Duplicated ABI definitions
+> > > > -----------------------------
+> > > > 
+> > > > $ scripts/get_abi.pl validate
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  ./Documentation/ABI/testing/sysfs-bus-iio:599
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
+> > > > Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  ./Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
+> > > > Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
+> > > > Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  ./Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
+> > > > Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  ./Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
+> > > > Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
+> > > > 
+> > > > Perhaps you could check with Jonathan Cameron some strategy to address
+> > > > the IIO warnings.    
+> > > 
+> > > I'm being a bit rubbish on those ones. All need a bit of thought...
+> > > 
+> > > I'll try to kill off a few of them this weekend as *touch wood* my
+> > > review queue is looking fairly short.  
+> > 
+> > As I mentioned in the cover letter for the series I've just sent out, I ran into
+> > a bit of an understanding gap around the two counter cases.  This isn't helped
+> > by the fact it is at least partly deprecated ABI given the counter subsystem
+> > has much richer ABI for these types of devices.
+> > 
+> > @Fabrice, Benjamin and William.
+> > What do we do about that one?
+> > 
+> > Thanks,
+> > 
+> > Jonathan  
+> 
+> I'd consider the IIO counter ABI as entirely deprecated -- the Counter
+> subsystem supports all the functionality that's provided by the IIO
+> counter ABI, as well as additional functionality that is missing. 
+> 
+> Regarding the iio:deviceX/in_count_quadrature_mode_available attribute:
+> superseded by the Counter subsystem counterX/countY/function attribute.
+> The IIO counter ABI allows users to select between a quadrature counting
+> mode or a non-quadrature counting mode; unfortunately, it does not
+> specify what kind of quadrature or what kind of non-quadrature counting
+> is actually being performed by the device.
+> 
+> Because the 104-quad-8 and stm32-lptimer-cnt drivers were the only ones
+> to use this attribute, they are luckily in sync -- both define the same
+> possible modes available: "quadrature" and "non-quadrature". You could
+> simply consolidate this attribute to the main sys-bus-iio file in order
+> to resolve this warning.
+> 
+> Given that it has already been superceded by the Counter subsystem, I'd
+> also be all right with just removing the IIO Counter ABI entirely from
+> the codebase, or alternatively setting a future date for removal.
 
-> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
-> +{
-> +	struct task_struct *tsk;
-> +
-> +	if (!user_mode(regs)) {
-> +		if (notify_die(DIE_TRAP, "control protection fault", regs,
-> +			       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-> +			return;
-> +		die("Upexpected/unsupported kernel control protection fault", regs, error_code);
+I agree that we should look to remove this ABI.  If we can establish no one
+is relying on it today then we can drop quickly.  If not it would be good
+to establish when we drop it.
 
-Isn't the machine supposed to panic() here and do no further progress?
+Fabrice, Benjami any thoughts on the stm32-lptimer-cnt?
 
-> +	}
-> +
-> +	cond_local_irq_enable(regs);
-> +
-> +	if (!boot_cpu_has(X86_FEATURE_CET))
-> +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
-> +
-> +	tsk = current;
-> +	tsk->thread.error_code = error_code;
-> +	tsk->thread.trap_nr = X86_TRAP_CP;
-> +
-> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-> +	    printk_ratelimit()) {
+I'm going to hazard a guess that there aren't many 104-quad-8 users
+that you don't know about William, so if you think we can immediately drop
+the interface from that, lets do so, whether or not we can clean up
+the stm32 one at the same time.
 
-WARNING: Prefer printk_ratelimited or pr_<level>_ratelimited to printk_ratelimit
-#136: FILE: arch/x86/kernel/traps.c:645:
-+	    printk_ratelimit()) {
+Jonathan
 
-Still not using checkpatch?
+> 
+> William Breathitt Gray
+> 
+> > > 
+> > > Jonathan
+> > >   
+> > > > 
+> > > > Thanks,
+> > > > Mauro    
+> > >   
+> >   
+> 
 
-> +		unsigned int max_err;
-> +		unsigned long ssp;
-> +
-> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
-> +		if ((error_code < 0) || (error_code > max_err))
-> +			error_code = 0;
-> +
-> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-> +		pr_info("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
-
-If anything, all this stuff should be pr_emerg().
-
-> +			tsk->comm, task_pid_nr(tsk),
-> +			regs->ip, regs->sp, ssp, error_code,
-> +			control_protection_err[error_code]);
-> +		print_vma_addr(KERN_CONT " in ", regs->ip);
-> +		pr_cont("\n");
-> +	}
-> +
-> +	force_sig_fault(SIGSEGV, SEGV_CPERR,
-> +			(void __user *)uprobe_get_trap_addr(regs));
-> +	cond_local_irq_disable(regs);
-> +}
-> +#endif
-> +
->  static bool do_int3(struct pt_regs *regs)
->  {
->  	int res;
-> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-> index d2597000407a..1c2ea91284a0 100644
-> --- a/include/uapi/asm-generic/siginfo.h
-> +++ b/include/uapi/asm-generic/siginfo.h
-> @@ -231,7 +231,8 @@ typedef struct siginfo {
->  #define SEGV_ADIPERR	7	/* Precise MCD exception */
->  #define SEGV_MTEAERR	8	/* Asynchronous ARM MTE error */
->  #define SEGV_MTESERR	9	/* Synchronous ARM MTE exception */
-> -#define NSIGSEGV	9
-> +#define SEGV_CPERR	10	/* Control protection fault */
-> +#define NSIGSEGV	10
-
-This looks like it needs documentation in this manpage:
-
-https://www.man7.org/linux/man-pages/man2/sigaction.2.html
-
-+ Michael.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
