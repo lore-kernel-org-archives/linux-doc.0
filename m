@@ -2,116 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72035C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 07:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E9B2C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 07:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 354C5230FE
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 07:56:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A0D6230FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 07:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725983AbhASHqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 02:46:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727511AbhASHod (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jan 2021 02:44:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E49CA2312D;
-        Tue, 19 Jan 2021 07:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611042232;
-        bh=LwmCI6DkrJei1b8r1Zp6vrx7jK2blz6c0T5Ie2QRjYU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=X8mdbWIH6Mm9kZKrfjaf5AYt1NelNyK/1tKwW5rJxD0gHKOqtlseU80MBHK+P+VvW
-         42HS0bz6vYgt5fgAWtuORqmeFSnEYrTk35s6SOX7dDyTeSLMuiMSKWTgskB4zIp5cN
-         XyqtA5fIqPXAQb+139dn+hxqU8ko6wufC3qlxR0yc5nEd1tdeWsFkSCjDBBPZ+tg/W
-         dFwCPLosNR4YbenWnjbXaw2fidiuEdIDTFz8GsEMzdGgjv69wXZgsD46baPCWwQtuG
-         8tX6Q6QmiAKw2tVV8lW6fGd2wUoHOfM9Rn1MvDmqobz8eRoZvUZPJFYhkjDPT99Cnx
-         A4ccrXEod5OnA==
-Date:   Tue, 19 Jan 2021 08:43:49 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S1727434AbhASH4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 02:56:07 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:39516 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727430AbhASHqr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jan 2021 02:46:47 -0500
+Received: from localhost.localdomain (unknown [112.3.198.184])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxFb02jgZgLE8HAA--.9009S2;
+        Tue, 19 Jan 2021 15:46:00 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 11/16] scripts: kernel-doc: validate kernel-doc
- markup with the actual names
-Message-ID: <20210119084328.749e415f@coco.lan>
-In-Reply-To: <20210118133545.05af2277@lwn.net>
-References: <cover.1610610937.git.mchehab+huawei@kernel.org>
-        <081546f141a496d6cabb99a4adc140444c705e93.1610610937.git.mchehab+huawei@kernel.org>
-        <20210118133545.05af2277@lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH 1/3] docs: zh_CN: add mips index.rst translation
+Date:   Tue, 19 Jan 2021 15:46:15 +0800
+Message-Id: <20210119074617.3109276-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxFb02jgZgLE8HAA--.9009S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wry5Xw1fuFW3ury7Cr1xZrb_yoWfWwc_Aw
+        n5XFWvkF42vFyxtFWxAr1UXryxCFZ29rn2kFn0y398W34DArZrJw1DWwn7ZF18WFWa9F45
+        CrWkWrn5JrnagjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbzkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+        6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
+        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+        AvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+        xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 18 Jan 2021 13:35:45 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+This patch translates Documentation/iio/index.rst into Chinese.
 
-> On Thu, 14 Jan 2021 09:04:47 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Kernel-doc currently expects that the kernel-doc markup to come
-> > just before the function/enum/struct/union/typedef prototype.
-> > 
-> > Yet, if it find things like:
-> > 
-> > 	/**
-> > 	 * refcount_add - add a value to a refcount
-> > 	 * @i: the value to add to the refcount
-> > 	 * @r: the refcount
-> > 	 */
-> > 	static inline void __refcount_add(int i, refcount_t *r, int *oldp);
-> > 	static inline void refcount_add(int i, refcount_t *r);
-> > 
-> > Kernel-doc will do the wrong thing:
-> > 
-> > 	foobar.h:6: warning: Function parameter or member 'oldp' not described in '__refcount_add'
-> > 	.. c:function:: void __refcount_add (int i, refcount_t *r, int *oldp)
-> > 
-> > 	   add a value to a refcount
-> > 
-> > 	**Parameters**
-> > 
-> > 	``int i``
-> > 	  the value to add to the refcount
-> > 
-> > 	``refcount_t *r``
-> > 	  the refcount
-> > 
-> > 	``int *oldp``
-> > 	  *undescribed*
-> > 
-> > Basically, it will document "__refcount_add" with the kernel-doc
-> > markup for refcount_add.
-> > 
-> > If both functions have the same arguments, this won't even
-> > produce any warning!
-> > 
-> > Add a logic to check if the kernel-doc identifier matches the actual
-> > name of the C function or data structure that will be documented.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> I've applied this one; 
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/iio/index.rst          | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/iio/index.rst
 
-Thanks!
+diff --git a/Documentation/translations/zh_CN/iio/index.rst b/Documentation/translations/zh_CN/iio/index.rst
+new file mode 100644
+index 000000000000..88b6ba5f233b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/iio/index.rst
+@@ -0,0 +1,20 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :doc:`../../../iio/index`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_index:
++
++
++========
++工业 I/O
++========
++
++.. toctree::
++   :maxdepth: 1
++
++   iio_configfs
++
++   ep93xx_adc
+-- 
+2.27.0
 
-> it seems useful to have even if it creates more
-> warnings that Stephen will duly email me about tomorrow...:)  I have parts
-> 1-10 set aside and will apply any that don't get picked up directly by the
-> maintainers involved.
-
-Yeah, new warnings are unavoidable, as new patches may be introducing
-extra issues. Hopefully, the new warning will help people to detect
-the issue earlier before submitting upstream.
-
-
-Thanks,
-Mauro
