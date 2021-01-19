@@ -2,384 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00402C4332D
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5FAC433E9
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA02022D08
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 22:40:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B128723109
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727016AbhASWg0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 17:36:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727200AbhASWgK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 17:36:10 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036C4C061573;
-        Tue, 19 Jan 2021 14:35:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=OtL4sdAGsJ08z7fCxeCmMVsJDaQwBot6LG44qZyyGSk=; b=DXq12zrUsz5JbfiOkM3/P+/8RC
-        RVJssaknA/7T+p+K1KP2P7Sc4lQOv1swnQ+FwXP4oSwuCDe5IOLaHX2Ajp6t/wJbb6hzSJC01rsuX
-        MsegCFIS23WG4OTrofNGyE1GuKF6m4qq9rU/ObWUy1s5/taEm7+hlJHxrltuO/LgxeYAAcSU4wZnF
-        A7VGnrMdtgpDsxEbHE2gHVm+oogiA0eiKzPk3I+pxtKTmlN3wUySac8uDXl3G4h3VibiZHmo6sdcQ
-        ktwmyM50mI9O6KIwfVx7I02IwEs/kmZA6Wt0IaTHTExSlyJzLDwJIT8DR/+pLQCCByDxwzqDhTFqf
-        oTk/e/sA==;
-Received: from [2601:1c0:6280:3f0::9abc]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l1za7-0002Cl-CZ; Tue, 19 Jan 2021 22:34:36 +0000
-Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
- driver
-To:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
-        kvm@vger.kernel.org, linux-s390@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, graf@amazon.com, arnd@arndb.de,
-        ebiederm@xmission.com, rppt@kernel.org, 0x7f454c46@gmail.com,
-        borntraeger@de.ibm.com, Jason@zx2c4.com, jannh@google.com,
-        w@1wt.eu, colmmacc@amazon.com, luto@kernel.org, tytso@mit.edu,
-        ebiggers@kernel.org, dwmw@amazon.co.uk, bonzini@gnu.org,
-        sblbir@amazon.com, raduweis@amazon.com, corbet@lwn.net,
-        mst@redhat.com, mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
-        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
-        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
-        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
-        oridgar@gmail.com, ghammer@redhat.com
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
- <1610453760-13812-2-git-send-email-acatan@amazon.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2764a194-934c-5426-728a-cd755a6e395f@infradead.org>
-Date:   Tue, 19 Jan 2021 14:34:17 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S2395164AbhASOJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:09:59 -0500
+Received: from foss.arm.com ([217.140.110.172]:52144 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389029AbhASLbF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jan 2021 06:31:05 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F01DE1042;
+        Tue, 19 Jan 2021 03:30:05 -0800 (PST)
+Received: from e123427-lin.arm.com (unknown [10.57.35.195])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E06263F719;
+        Tue, 19 Jan 2021 03:30:03 -0800 (PST)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>, Rob Herring <robh@kernel.org>,
+        Jon Mason <jdmason@kudzu.us>, Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Tom Joseph <tjoseph@cadence.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 00/17] Implement NTB Controller using multiple PCI EP
+Date:   Tue, 19 Jan 2021 11:29:55 +0000
+Message-Id: <161105563975.29969.4677344444174224884.b4-ty@arm.com>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20210104152909.22038-1-kishon@ti.com>
+References: <20210104152909.22038-1-kishon@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <1610453760-13812-2-git-send-email-acatan@amazon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 1/12/21 4:15 AM, Adrian Catangiu wrote:
-> - Background and problem
+On Mon, 4 Jan 2021 20:58:52 +0530, Kishon Vijay Abraham I wrote:
+> This series is about implementing SW defined Non-Transparent Bridge (NTB)
+> using multiple endpoint (EP) instances. This series has been tested using
+> 2 endpoint instances in J7 connected to J7 board on one end and DRA7 board
+> on the other end. However there is nothing platform specific for the NTB
+> functionality.
 > 
-
-> ---
->  Documentation/misc-devices/sysgenid.rst | 240 +++++++++++++++++++++++++
->  drivers/misc/Kconfig                    |  16 ++
->  drivers/misc/Makefile                   |   1 +
->  drivers/misc/sysgenid.c                 | 298 ++++++++++++++++++++++++++++++++
->  include/uapi/linux/sysgenid.h           |  18 ++
->  5 files changed, 573 insertions(+)
->  create mode 100644 Documentation/misc-devices/sysgenid.rst
->  create mode 100644 drivers/misc/sysgenid.c
->  create mode 100644 include/uapi/linux/sysgenid.h
+> This was presented in Linux Plumbers Conference. Link to presentation
+> and video can be found @ [1]
+> Created a video demo @ [9]
 > 
-> diff --git a/Documentation/misc-devices/sysgenid.rst b/Documentation/misc-devices/sysgenid.rst
-> new file mode 100644
-> index 0000000..0b31ccf
-> --- /dev/null
-> +++ b/Documentation/misc-devices/sysgenid.rst
-> @@ -0,0 +1,240 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========
-> +SYSGENID
-> +========
-> +
-> +The System Generation ID feature is required in virtualized or
-> +containerized environments by applications that work with local copies
-> +or caches of world-unique data such as random values, UUIDs,
-> +monotonically increasing counters, etc.
-> +Such applications can be negatively affected by VM or container
-> +snapshotting when the VM or container is either cloned or returned to
-> +an earlier point in time.
-> +
-> +The System Generation ID is a simple concept meant to alleviate the
-> +issue by providing a monotonically increasing counter that changes
-> +each time the VM or container is restored from a snapshot.
-> +The driver for it lives at ``drivers/misc/sysgenid.c``.
-> +
-> +The ``sysgenid`` driver exposes a monotonic incremental System
-> +Generation u32 counter via a char-dev FS interface accessible through
-> +``/dev/sysgenid`` that provides sync and async SysGen counter updates
+> [...]
 
-                                                                 update
+Applied to pci/ntb to give it more visibility and testing, aiming
+for v5.12.
 
-> +notifications. It also provides SysGen counter retrieval and
-> +confirmation mechanisms.
-> +
-> +The counter starts from zero when the driver is initialized and
-> +monotonically increments every time the system generation changes.
-> +
-> +The ``sysgenid`` driver exports the ``void sysgenid_bump_generation()``
-> +symbol which can be used by backend drivers to drive system generation
-> +changes based on hardware events.
-> +System generation changes can also be driven by userspace software
-> +through a dedicated driver ioctl.
-> +
-> +Userspace applications or libraries can (a)synchronously consume the
-> +system generation counter through the provided FS interface, to make
-> +any necessary internal adjustments following a system generation update.
-> +
-> +Driver FS interface:
-> +
-> +``open()``:
-> +  When the device is opened, a copy of the current Sys-Gen-Id (counter)
-> +  is associated with the open file descriptor. The driver now tracks
-> +  this file as an independent *watcher*. The driver tracks how many
-> +  watchers are aware of the latest Sys-Gen-Id counter and how many of
-> +  them are *outdated*; outdated being those that have lived through
-> +  a Sys-Gen-Id change but not yet confirmed the new generation counter.
-> +
-> +``read()``:
-> +  Read is meant to provide the *new* system generation counter when a
-> +  generation change takes place. The read operation blocks until the
-> +  associated counter is no longer up to date, at which point the new
-> +  counter is provided/returned.
-> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
-> +  *new* counter value available. The generation counter is considered
-> +  *new* for each open file descriptor that hasn't confirmed the new
-> +  value following a generation change. Therefore, once a generation
-> +  change takes place, all ``read()`` calls will immediately return the
-> +  new generation counter and will continue to do so until the
-> +  new value is confirmed back to the driver through ``write()``.
-> +  Partial reads are not allowed - read buffer needs to be at least
-> +  ``sizeof(unsigned)`` in size.
+[01/17] Documentation: PCI: Add specification for the *PCI NTB* function device
+        https://git.kernel.org/lpieralisi/pci/c/75e6ac86ca
+[02/17] PCI: endpoint: Make *_get_first_free_bar() take into account 64 bit BAR
+        https://git.kernel.org/lpieralisi/pci/c/b6c7a2a2b5
+[03/17] PCI: endpoint: Add helper API to get the 'next' unreserved BAR
+        https://git.kernel.org/lpieralisi/pci/c/43e293914d
+[04/17] PCI: endpoint: Make *_free_bar() to return error codes on failure
+        https://git.kernel.org/lpieralisi/pci/c/293e2c258c
+[05/17] PCI: endpoint: Remove unused pci_epf_match_device()
+        https://git.kernel.org/lpieralisi/pci/c/9a25bdab98
+[06/17] PCI: endpoint: Add support to associate secondary EPC with EPF
+        https://git.kernel.org/lpieralisi/pci/c/868fe90ea4
+[07/17] PCI: endpoint: Add support in configfs to associate two EPCs with EPF
+        https://git.kernel.org/lpieralisi/pci/c/632c92ec12
+[08/17] PCI: endpoint: Add pci_epc_ops to map MSI irq
+        https://git.kernel.org/lpieralisi/pci/c/310511a301
+[09/17] PCI: endpoint: Add pci_epf_ops for epf drivers to expose function specific attrs
+        https://git.kernel.org/lpieralisi/pci/c/34fb8ab2e3
+[10/17] PCI: endpoint: Allow user to create sub-directory of 'EPF Device' directory
+        https://git.kernel.org/lpieralisi/pci/c/3a5c112c7a
+[11/17] PCI: cadence: Implement ->msi_map_irq() ops
+        https://git.kernel.org/lpieralisi/pci/c/d5c3d2ae7c
+[12/17] PCI: cadence: Configure LM_EP_FUNC_CFG based on epc->function_num_map
+        https://git.kernel.org/lpieralisi/pci/c/d3f4973104
+[13/17] PCI: endpoint: Add EP function driver to provide NTB functionality
+        https://git.kernel.org/lpieralisi/pci/c/7dc64244f9
+[14/17] PCI: Add TI J721E device to pci ids
+        https://git.kernel.org/lpieralisi/pci/c/17d49876c3
+[15/17] NTB: Add support for EPF PCI-Express Non-Transparent Bridge
+        https://git.kernel.org/lpieralisi/pci/c/5d0db3f429
+[16/17] Documentation: PCI: Add configfs binding documentation for pci-ntb endpoint function
+        https://git.kernel.org/lpieralisi/pci/c/099f07051e
+[17/17] Documentation: PCI: Add userguide for PCI endpoint NTB function
+        https://git.kernel.org/lpieralisi/pci/c/27f22f76c3
 
-Please use (unsigned int), not just (unsigned).
-(Linux style)
-
-> +
-> +``write()``:
-> +  Write is used to confirm the up-to-date Sys Gen counter back to the
-> +  driver.
-> +  Following a VM generation change, all existing watchers are marked
-> +  as *outdated*. Each file descriptor will maintain the *outdated*
-> +  status until a ``write()`` confirms the up-to-date counter back to
-> +  the driver.
-> +  Partial writes are not allowed - write buffer should be exactly
-> +  ``sizeof(unsigned)`` in size.
-
-ditto.
-
-> +
-> +``poll()``:
-> +  Poll is implemented to allow polling for generation counter updates.
-> +  Such updates result in ``EPOLLIN`` polling status until the new
-> +  up-to-date counter is confirmed back to the driver through a
-> +  ``write()``.
-> +
-> +``ioctl()``:
-> +  The driver also adds support for tracking count of open file
-> +  descriptors that haven't acknowledged a generation counter update,
-> +  as well as a mechanism for userspace to *force* a generation update:
-> +
-> +  - SYSGENID_GET_OUTDATED_WATCHERS: immediately returns the number of
-> +    *outdated* watchers - number of file descriptors that were open
-> +    during a system generation change, and which have not yet confirmed
-> +    the new generation counter.
-> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
-> +    watchers, or if a ``timeout`` argument is provided, until the
-> +    timeout expires.
-> +    If the current caller is *outdated* or a generation change happens
-> +    while waiting (thus making current caller *outdated*), the ioctl
-> +    returns ``-EINTR`` to signal the user to handle event and retry.
-> +  - SYSGENID_FORCE_GEN_UPDATE: forces a generation counter increment.
-> +    It takes a ``minimum-generation`` argument which represents the
-> +    minimum value the generation counter will be incremented to. For
-> +    example if current generation is ``5`` and ``SYSGENID_FORCE_GEN_UPDATE(8)``
-> +    is called, the generation counter will increment to ``8``.
-> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
-> +    or CAP_SYS_ADMIN capabilities.
-> +
-> +``mmap()``:
-> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
-> +  in size. The first 4 bytes of the mapped page will contain an
-> +  up-to-date u32 copy of the system generation counter.
-> +  The mapped memory can be used as a low-latency generation counter
-> +  probe mechanism in critical sections - see examples.
-> +
-> +``close()``:
-> +  Removes the file descriptor as a system generation counter *watcher*.
-> +
-> +Example application workflows
-> +-----------------------------
-> +
-> +1) Watchdog thread simplified example::
-> +
-> +	void watchdog_thread_handler(int *thread_active)
-> +	{
-> +		unsigned genid;
-
-		unsigned int genid;
-
-> +		int fd = open("/dev/sysgenid", O_RDWR | O_CLOEXEC, S_IRUSR | S_IWUSR);
-> +
-> +		do {
-> +			// read new gen ID - blocks until VM generation changes
-> +			read(fd, &genid, sizeof(genid));
-> +
-> +			// because of VM generation change, we need to rebuild world
-> +			reseed_app_env();
-> +
-> +			// confirm we're done handling gen ID update
-> +			write(fd, &genid, sizeof(genid));
-> +		} while (atomic_read(thread_active));
-> +
-> +		close(fd);
-> +	}
-> +
-> +2) ASYNC simplified example::
-> +
-> +	void handle_io_on_sysgenfd(int sysgenfd)
-> +	{
-> +		unsigned genid;
-
-		unsigned int genid;
-
-> +
-> +		// read new gen ID - we need it to confirm we've handled update
-> +		read(fd, &genid, sizeof(genid));
-> +
-> +		// because of VM generation change, we need to rebuild world
-> +		reseed_app_env();
-> +
-> +		// confirm we're done handling the gen ID update
-> +		write(fd, &genid, sizeof(genid));
-> +	}
-> +
-> +	int main() {
-> +		int epfd, sysgenfd;
-> +		struct epoll_event ev;
-> +
-> +		epfd = epoll_create(EPOLL_QUEUE_LEN);
-> +
-> +		sysgenfd = open("/dev/sysgenid",
-> +		               O_RDWR | O_CLOEXEC | O_NONBLOCK,
-> +		               S_IRUSR | S_IWUSR);
-> +
-> +		// register sysgenid for polling
-> +		ev.events = EPOLLIN;
-> +		ev.data.fd = sysgenfd;
-> +		epoll_ctl(epfd, EPOLL_CTL_ADD, sysgenfd, &ev);
-> +
-> +		// register other parts of your app for polling
-> +		// ...
-> +
-> +		while (1) {
-> +			// wait for something to do...
-> +			int nfds = epoll_wait(epfd, events,
-> +				MAX_EPOLL_EVENTS_PER_RUN,
-> +				EPOLL_RUN_TIMEOUT);
-> +			if (nfds < 0) die("Error in epoll_wait!");
-> +
-> +			// for each ready fd
-> +			for(int i = 0; i < nfds; i++) {
-> +				int fd = events[i].data.fd;
-> +
-> +				if (fd == sysgenfd)
-> +					handle_io_on_sysgenfd(sysgenfd);
-> +				else
-> +					handle_some_other_part_of_the_app(fd);
-> +			}
-> +		}
-> +
-> +		return 0;
-> +	}
-> +
-> +3) Mapped memory polling simplified example::
-> +
-> +	/*
-> +	 * app/library function that provides cached secrets
-> +	 */
-> +	char * safe_cached_secret(app_data_t *app)
-> +	{
-> +		char *secret;
-> +		volatile unsigned *const genid_ptr = get_sysgenid_mapping(app);
-
-		         unsigned int
-
-> +	again:
-> +		secret = __cached_secret(app);
-> +
-> +		if (unlikely(*genid_ptr != app->cached_genid)) {
-> +			app->cached_genid = *genid_ptr;
-> +			barrier();
-> +
-> +			// rebuild world then confirm the genid update (thru write)
-> +			rebuild_caches(app);
-> +
-> +			ack_sysgenid_update(app);
-> +
-> +			goto again;
-> +		}
-> +
-> +		return secret;
-> +	}
-> +
-> +4) Orchestrator simplified example::
-> +
-> +	/*
-> +	 * orchestrator - manages multiple applications and libraries used by
-> +	 * a service and tries to make sure all sensitive components gracefully
-> +	 * handle VM generation changes.
-> +	 * Following function is called on detection of a VM generation change.
-> +	 */
-> +	int handle_sysgen_update(int sysgen_fd, unsigned new_gen_id)
-
-	                                        unsigned int
-
-> +	{
-> +		// pause until all components have handled event
-> +		pause_service();
-> +
-> +		// confirm *this* watcher as up-to-date
-> +		write(sysgen_fd, &new_gen_id, sizeof(unsigned));
-
-		                                     unsigned int
-
-> +
-> +		// wait for all *others* for at most 5 seconds.
-> +		ioctl(sysgen_fd, VMGENID_WAIT_WATCHERS, 5000);
-> +
-> +		// all applications on the system have rebuilt worlds
-> +		resume_service();
-> +	}
-
-
-> diff --git a/include/uapi/linux/sysgenid.h b/include/uapi/linux/sysgenid.h
-> new file mode 100644
-> index 0000000..ea38fd3
-> --- /dev/null
-> +++ b/include/uapi/linux/sysgenid.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +
-> +#ifndef _UAPI_LINUX_SYSGENID_H
-> +#define _UAPI_LINUX_SYSGENID_H
-> +
-> +#include <linux/ioctl.h>
-> +
-> +#define SYSGENID_IOCTL 0x2d
-
-Please document new IOCTL major/magic values in
-Documentation/userspace-api/ioctl/ioctl-number.rst.
-
-
-
-thanks.
--- 
-~Randy
-"He closes his eyes and drops the goggles.  You can't get hurt
-by looking at a bitmap.  Or can you?"
-(Neal Stephenson: Snow Crash)
+Thanks,
+Lorenzo
