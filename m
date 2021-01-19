@@ -3,111 +3,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA67C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D446FC433E6
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B7C823108
+	by mail.kernel.org (Postfix) with ESMTP id B779722E01
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395160AbhASOJy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 09:09:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
+        id S1732000AbhASOHT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 09:07:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731946AbhASLJO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 06:09:14 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E915BC061573;
-        Tue, 19 Jan 2021 03:07:06 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0bca00c2aa0e949335efb7.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ca00:c2aa:e94:9335:efb7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5CD181EC05DE;
-        Tue, 19 Jan 2021 12:07:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1611054425;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=CRGl/u4vxGN+WxlP0KAC1sbS3k8pNEXivCxE9nwD1Kg=;
-        b=FJmtEc/Bd8pzj81PNmZ8TxlCmQrZgNxGipGb9Q3em4Qa7ig24RPVseKjNGTSr0ayHmvp7e
-        6I4isDyPVd9MafYg6by2PO7hqhPsedzYpEHmyTPzmWB+6JTdqLnxxavrBbFqh0/jqC8eNN
-        e0w3yWpF+O83k6Wx68Y19M1XZzwAFDQ=
-Date:   Tue, 19 Jan 2021 12:06:59 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 02/26] x86/cet/shstk: Add Kconfig option for
- user-mode control-flow protection
-Message-ID: <20210119110659.GG27433@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-3-yu-cheng.yu@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201229213053.16395-3-yu-cheng.yu@intel.com>
+        with ESMTP id S2389193AbhASJyU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 04:54:20 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E630C0613CF;
+        Tue, 19 Jan 2021 01:53:36 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id f1so6624981edr.12;
+        Tue, 19 Jan 2021 01:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=/z2s2KReLWcfABIGgx+T2H5a0KcybizOYnqI2zx5L7g=;
+        b=JFAufC9TCuGfd1Drt91CAvfcPhG47NLebHKCfVKql2xRiKjEfFFGgHcAbmGjEr+VIF
+         7SmyfPNmpGoCDOGlEI/f7KrOQ871aaa/kE5N/JxmVXX3FZChwQViqa0DLCqbCZy24uey
+         FXNXql4fjl4DvEe/VJ47Y4UA3KJArzW5hs6WMNEavgYxX/HtpIDlgkdg9O77ycfLf0d5
+         PTqVCg1IplPzPCktfSjT71w2OFUACQGZaJ8ibLOk9xL9H/2+c6X5VyF6jvRNts4/UYmk
+         imXdCZu3uPEzTIPjYSW6cv8wwi6lxG5RbkMKgEgGX972RD4FqlyK1FbJdc9REzwogODq
+         jxsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=/z2s2KReLWcfABIGgx+T2H5a0KcybizOYnqI2zx5L7g=;
+        b=M+e8YC/FznoogW7WsU9TC8L2Wi3aTnnuME0GhWmIwcYPbRT+JIyPVwKRKCaPaNJWv6
+         Vmx2AVmJ5eOBq3CbzlOIiP9HygUZGroKYFGFviBoIKMuXpOCPPe9hFjbZxeN53V+dGtF
+         ERgfQh2fu2/eIgxqKNXGLsswvzpoBi3WrWydi06ZxWB3FUuHD7Q1RSDGsLszGR1AnWxI
+         2E1l7Y6nheUKp6Z/AWByRy9hxi//f/vs5BzUnUucH+gfUY+l+WQLBstZ1v1gaqUkta1s
+         NQhjkxd25sVxAy8VlttRNiCs0O49MuMU2fpceUAr7I224+Csfm9aS2mZoNlLBExUWAyX
+         u0WA==
+X-Gm-Message-State: AOAM533r6zbsvR9dEboyIyOdKn6NWCO//S5CJZUf7nzHktWAA9COCBuf
+        PnRPvqPyNIIw0yUbmsWJBvbQKeDFzGcBNw==
+X-Google-Smtp-Source: ABdhPJzTvs9qNX1hl10cmUhbLNpnvAeavuosxPgGvXWqx+5jlzBYNsL9oPc5zNREIvn6nAeMASpJxA==
+X-Received: by 2002:a05:6402:4d6:: with SMTP id n22mr2813409edw.27.1611050015274;
+        Tue, 19 Jan 2021 01:53:35 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2dee:e100:71f9:d08b:59b4:3a8f])
+        by smtp.gmail.com with ESMTPSA id cy13sm2834449edb.27.2021.01.19.01.53.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 01:53:34 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] arch/Kconfig: update a broken file reference
+Date:   Tue, 19 Jan 2021 10:53:26 +0100
+Message-Id: <20210119095326.13896-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 01:30:29PM -0800, Yu-cheng Yu wrote:
-> Shadow Stack provides protection against function return address
-> corruption.  It is active when the processor supports it, the kernel has
-> CONFIG_X86_CET_USER enabled, and the application is built for the feature.
-> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
-> non-Shadow Stack applications continue to work, but without protection.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/Kconfig           | 22 ++++++++++++++++++++++
->  arch/x86/Kconfig.assembler |  5 +++++
->  2 files changed, 27 insertions(+)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 7b6dd10b162a..72cff400b9ae 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -1950,6 +1950,28 @@ config X86_SGX
->  
->  	  If unsure, say N.
->  
-> +config ARCH_HAS_SHADOW_STACK
-> +	def_bool n
-> +
-> +config X86_CET_USER
+Commit adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
+added the config HAVE_64BIT_ALIGNED_ACCESS back into arch/Kconfig with this
+revert. In the meantime, commit c9b54d6f362c ("docs: move other kAPI
+documents to core-api") changed ./Documentation/unaligned-memory-access.txt
+to ./Documentation/core-api/unaligned-memory-access.rst.
 
-That thing needs to be X86_CET. How many times do I need to type this
-before you do it?
+Fortunately, ./scripts/documentation-file-ref-check detects this and warns
+about this broken reference.
 
+Update the file reference in arch/Kconfig.
+
+Fixes: adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on current master and next-20210118
+
+Steven, could you pick this fix to your commit or, at least, ack it so that
+Jonathan can pick it?
+
+ arch/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 24862d15f3a3..dc104b8270c0 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -156,8 +156,8 @@ config HAVE_64BIT_ALIGNED_ACCESS
+ 	  accesses are required to be 64 bit aligned in this way even
+ 	  though it is not a 64 bit architecture.
+ 
+-	  See Documentation/unaligned-memory-access.txt for more
+-	  information on the topic of unaligned memory accesses.
++	  See Documentation/core-api/unaligned-memory-access.rst for
++	  more information on the topic of unaligned memory accesses.
+ 
+ config HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	bool
 -- 
-Regards/Gruss,
-    Boris.
+2.17.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
