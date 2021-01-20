@@ -2,118 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A373C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4ADDC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:49:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA7722241
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:48:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D4FF22241
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:49:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731203AbhATBsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:48:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
+        id S1728312AbhATBtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:49:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728829AbhATBrz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:47:55 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94563C061573
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:47:14 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id u17so43874503iow.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:47:14 -0800 (PST)
+        with ESMTP id S1731138AbhATBpc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:45:32 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 141EBC0617BE
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:56 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id z6so8219636qtn.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5+WhwzNRDpmWcjMswnWq7E2yb90Yz7CDT/ASxX9uTR0=;
-        b=DRFzXjwMHdy+hp3QFZ75qgsM2DMUTCu6U75uWV2VOGqXS0/FMbGYG/AzxizWr/Scs5
-         Qc50Id8JeUBRxixIIvxskSBvu15A1fcg/gA5rLzShWXI4/XcZa1pe7sWgcneP8uhKh3S
-         FUoRfvO63ilUUXKt5pY7LrtBdxErGk3+hgJGWVPmy8C/Ojm9q2ygOcQONjivcqXQ4dgj
-         wEYXFWlZT162jiZh+r43cV0FYYz8J5+1qZk4No8XuJcJD+aPSbCGbyYLF00ylOjNjWiM
-         0phQoeusbKN85SOewFITjBGrJKePhWfB7vtIceeQuthp86eGwppeq605v9GVsu3ahi5T
-         vFbg==
+        d=soleen.com; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=miix9lKxirRpOuNX4BdilWnaWDaFk+PU2/sgOkhxLNo=;
+        b=lYygOTA+KAHv7NtuPasDaGIt71xKOlxiAoa1WxrVQXEnYPhkUH7EGQdiHLeyjEhif8
+         8c3ZsxCMtPrWMU/ov6L8u3O0mCXPorqVQaLdE0tPMcczfP/whu0vPYoavEs8FKWtL2F8
+         uGrzV+JkSCnF5lHyx2c8vP25Rg1vNmhWmPKkHAQAhfgfuJv3XpJOTzAYsGT9E8fzLTPW
+         rW+u2bVRr+uDSYin4PVdV2Y4cIzuesc9qrBaEbW5dJEArv7y05eBZmgY/12DZYnfODdv
+         GVitEbFgwqZnNAQTA82UrkKpYTRLustCzwaOFiegcmxfIujE1OXL95C54K37jFzmodoC
+         4y2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5+WhwzNRDpmWcjMswnWq7E2yb90Yz7CDT/ASxX9uTR0=;
-        b=CyewnRyGHeD8HgsnwBcwASX2LVg6FbvL++CaJCwbv4A50VaOMYVqu0O15TEZEJhIR0
-         aLFCGNS6IXoDMjgiwiRLDXOh4YTx0+smAXzrOsUKplOqp0PUfr1cHxWjTowi4R3cBZ04
-         k6lESdeN20itG2Wk0m9o+aL1kavoJInYK9l8o4HIOVT2e0vHQVXHh1PEZdf5zJTBFkme
-         0gKCzN4XiQ1SrI880BpBrOi3S0kOKXaOhgKwXHMZRNfYz+vuVoMHWu4iX8ntT7qJTcmR
-         Quv5HNqcNcESMYgC+OWIAuPLjuGmprGWPWWGm79VozHHihZwAI8CTGVslrpONKM/sV2B
-         MRQA==
-X-Gm-Message-State: AOAM530Ss7DEoSI1bItuRQdu2ythBksrH5omNN64H/q/bPgQJgrK6cmA
-        Wp7yvsTMuwDIddRpeLC/luwKpwMXqOVBpugGzAI=
-X-Google-Smtp-Source: ABdhPJy62kEQieTeSA2J6yIZv87/eimIurRXjgMBcYObkijzPEWlGzRbQX6wsV0E6cxHBZ9oOfiSoU4rOcHt2SGgrds=
-X-Received: by 2002:a02:969a:: with SMTP id w26mr5871142jai.96.1611107233884;
- Tue, 19 Jan 2021 17:47:13 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=miix9lKxirRpOuNX4BdilWnaWDaFk+PU2/sgOkhxLNo=;
+        b=toiTcTTV42Q3LVqfzS18rwbeKbkrUhrgws4ucyZi2PrIvm888Uk19wE57nogJAB5kU
+         M2I38+U+3Nr5HMKkC2lQC0Cl5lBHtKt8lTtSgSVq6qOAQDddMs/lhDAYgl48taBSXvNs
+         KOBWuhNeoY2Qw+A0B7gBJCW9fDfEcGodoRd60c9G6A8WNsDr89E/YYGb73unCmjkwz3m
+         u6yp6atklJ5Ao4hUws9hGjIgGSTV68PadXYwrm+Y/PuBmNDaLT2w7D+ReXAj8GI+EriD
+         gRStVN6YEV6bGYrmGGy4rlAfIJn6G8dsXBMPIIpxBokzpzTyN9+ewQiyMTId2aNn2eo6
+         evGA==
+X-Gm-Message-State: AOAM533dWoc1B1+xaPC7ADsLLTsmQkZMQZTK+kx2mFMUh1l4b6m8Ojx6
+        ydu/fhaa5KKgu8779kmKPD+RKw==
+X-Google-Smtp-Source: ABdhPJx0A29eKX1CWM9z/+Tj6EXcNW9tArI6zSakcVOtB6N+0Bp3baDoPWdXy51U+8aLV3SnasMPkw==
+X-Received: by 2002:ac8:6a06:: with SMTP id t6mr6840603qtr.155.1611107035309;
+        Tue, 19 Jan 2021 17:43:55 -0800 (PST)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 17:43:54 -0800 (PST)
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
+        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
+        dan.j.williams@intel.com, sashal@kernel.org,
+        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
+        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
+        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
+        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
+        linux-doc@vger.kernel.org, ira.weiny@intel.com,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH v6 12/14] mm/gup: longterm pin migration cleaup
+Date:   Tue, 19 Jan 2021 20:43:31 -0500
+Message-Id: <20210120014333.222547-13-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-References: <20210119074617.3109276-1-siyanteng@loongson.cn>
-In-Reply-To: <20210119074617.3109276-1-siyanteng@loongson.cn>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Wed, 20 Jan 2021 09:47:02 +0800
-Message-ID: <CAAhV-H6C+wWaSHe+zpsGJ=bGeRqsQK3aYJU3KTEB204dYMfHCw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: zh_CN: add mips index.rst translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Yanteng,
+When pages are longterm pinned, we must migrated them out of movable zone.
+The function that migrates them has a hidden loop with goto. The loop is
+to retry on isolation failures, and after successful migration.
 
-What is "MIPS" in the title??
+Make this code better by moving this loop to the caller.
 
-Huacai
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+---
+ mm/gup.c | 88 +++++++++++++++++++++++---------------------------------
+ 1 file changed, 36 insertions(+), 52 deletions(-)
 
-On Tue, Jan 19, 2021 at 3:46 PM Yanteng Si <siyanteng@loongson.cn> wrote:
->
-> This patch translates Documentation/iio/index.rst into Chinese.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/iio/index.rst          | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/iio/index.rst
->
-> diff --git a/Documentation/translations/zh_CN/iio/index.rst b/Documentati=
-on/translations/zh_CN/iio/index.rst
-> new file mode 100644
-> index 000000000000..88b6ba5f233b
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/iio/index.rst
-> @@ -0,0 +1,20 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../iio/index`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_index:
-> +
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +=E5=B7=A5=E4=B8=9A I/O
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   iio_configfs
-> +
-> +   ep93xx_adc
-> --
-> 2.27.0
->
+diff --git a/mm/gup.c b/mm/gup.c
+index c7abd5b37150..9a5d474b39c2 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1548,27 +1548,28 @@ struct page *get_dump_page(unsigned long addr)
+ }
+ #endif /* CONFIG_ELF_CORE */
+ 
+-static long check_and_migrate_movable_pages(struct mm_struct *mm,
+-					    unsigned long start,
+-					    unsigned long nr_pages,
++/*
++ * Check whether all pages are pinnable, if so return number of pages.  If some
++ * pages are not pinnable, migrate them, and unpin all pages. Return zero if
++ * pages were migrated, or if some pages were not successfully isolated.
++ * Return negative error if migration fails.
++ */
++static long check_and_migrate_movable_pages(unsigned long nr_pages,
+ 					    struct page **pages,
+-					    struct vm_area_struct **vmas,
+ 					    unsigned int gup_flags)
+ {
+-	unsigned long i, isolation_error_count;
+-	bool drain_allow;
++	unsigned long i;
++	unsigned long isolation_error_count = 0;
++	bool drain_allow = true;
+ 	LIST_HEAD(movable_page_list);
+-	long ret = nr_pages;
+-	struct page *prev_head, *head;
++	long ret = 0;
++	struct page *prev_head = NULL;
++	struct page *head;
+ 	struct migration_target_control mtc = {
+ 		.nid = NUMA_NO_NODE,
+ 		.gfp_mask = GFP_USER | __GFP_NOWARN,
+ 	};
+ 
+-check_again:
+-	prev_head = NULL;
+-	isolation_error_count = 0;
+-	drain_allow = true;
+ 	for (i = 0; i < nr_pages; i++) {
+ 		head = compound_head(pages[i]);
+ 		if (head == prev_head)
+@@ -1608,40 +1609,23 @@ static long check_and_migrate_movable_pages(struct mm_struct *mm,
+ 	 * in the correct zone.
+ 	 */
+ 	if (list_empty(&movable_page_list) && !isolation_error_count)
+-		return ret;
++		return nr_pages;
+ 
++	if (gup_flags & FOLL_PIN) {
++		unpin_user_pages(pages, nr_pages);
++	} else {
++		for (i = 0; i < nr_pages; i++)
++			put_page(pages[i]);
++	}
+ 	if (!list_empty(&movable_page_list)) {
+-		/*
+-		 * drop the above get_user_pages reference.
+-		 */
+-		if (gup_flags & FOLL_PIN)
+-			unpin_user_pages(pages, nr_pages);
+-		else
+-			for (i = 0; i < nr_pages; i++)
+-				put_page(pages[i]);
+-
+ 		ret = migrate_pages(&movable_page_list, alloc_migration_target,
+ 				    NULL, (unsigned long)&mtc, MIGRATE_SYNC,
+ 				    MR_LONGTERM_PIN);
+-		if (ret) {
+-			if (!list_empty(&movable_page_list))
+-				putback_movable_pages(&movable_page_list);
+-			return ret > 0 ? -ENOMEM : ret;
+-		}
+-
+-		/* We unpinned pages before migration, pin them again */
+-		ret = __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
+-					      NULL, gup_flags);
+-		if (ret <= 0)
+-			return ret;
+-		nr_pages = ret;
++		if (ret && !list_empty(&movable_page_list))
++			putback_movable_pages(&movable_page_list);
+ 	}
+ 
+-	/*
+-	 * check again because pages were unpinned, and we also might have
+-	 * had isolation errors and need more pages to migrate.
+-	 */
+-	goto check_again;
++	return ret > 0 ? -ENOMEM : ret;
+ }
+ 
+ /*
+@@ -1655,22 +1639,22 @@ static long __gup_longterm_locked(struct mm_struct *mm,
+ 				  struct vm_area_struct **vmas,
+ 				  unsigned int gup_flags)
+ {
+-	unsigned long flags = 0;
++	unsigned int flags;
+ 	long rc;
+ 
+-	if (gup_flags & FOLL_LONGTERM)
+-		flags = memalloc_pin_save();
+-
+-	rc = __get_user_pages_locked(mm, start, nr_pages, pages, vmas, NULL,
+-				     gup_flags);
++	if (!(gup_flags & FOLL_LONGTERM))
++		return __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
++					       NULL, gup_flags);
++	flags = memalloc_pin_save();
++	do {
++		rc = __get_user_pages_locked(mm, start, nr_pages, pages, vmas,
++					     NULL, gup_flags);
++		if (rc <= 0)
++			break;
++		rc = check_and_migrate_movable_pages(rc, pages, gup_flags);
++	} while (!rc);
++	memalloc_pin_restore(flags);
+ 
+-	if (gup_flags & FOLL_LONGTERM) {
+-		if (rc > 0)
+-			rc = check_and_migrate_movable_pages(mm, start, rc,
+-							     pages, vmas,
+-							     gup_flags);
+-		memalloc_pin_restore(flags);
+-	}
+ 	return rc;
+ }
+ 
+-- 
+2.25.1
+
