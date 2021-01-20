@@ -2,142 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B59C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0766C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:29:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 275992250E
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:03:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6070A2251D
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730935AbhATCDF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 21:03:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57684 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730769AbhATBop (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:44:45 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86448C0617A1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:46 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id z9so5346700qtv.6
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=9lkuj952gZlf+x4X5uCEePkXus+rlNAKcNGEDA8YLvg=;
-        b=Q0t8MucHzq07VAgjOeBxpDDYsIE7Lmts5Ml510aZJoJ9FO9ueC3634JdHUzWUpTg2H
-         SBn+aXqjlgiZK/8Cka3C65kmtm8+IgTgGF/w86ZboFD4soI4I1ony+ohgZRyvn3NQPyb
-         fFOo/5o7kL21OqGDNNBWoYnQqUSQ1JtcIHfNVxmiuK341+aI7pJaSeWYlJUZhghZ4XQR
-         6274sBYSUco4VGWEx8T71ToUSAzmngBf8l9EAn9nSdU0fnUH25IW4MQvMc7JD+9l7vNt
-         j9LvNCPuAOc0gFsRn3sCKNevjWnO6cSTY9wu37CzEzRJ5yGXcmSooQ+xqCQKohs2rAHF
-         svNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9lkuj952gZlf+x4X5uCEePkXus+rlNAKcNGEDA8YLvg=;
-        b=toL1tN8rMgeP0XlEwRJq/NqAisMeh6quPo5t7S8Ef1crw0jvXQ72ahG0M1YA/TmX3Z
-         hQpC9S1Cceo+jrQjQ5GgrWaxTZhgLmWI3F9GoOoJG7TCPjb+7BEWgftjtbdKc0G5CkwY
-         F2sqjxGJscsKrRTbeZ+CKKjlx70uYht6Zn8zcWgSsTgk01HhGWb/eB+79oxV+ATesYJ1
-         AafKo++xmYJO1kJKQV/WurZWtNW4Yf4Fc1OFpXK5ObEJERZvsuoXxkqGIaEjw6nZCRt7
-         4KOmTAvdKHwvGOVf8CN3PcmZcPRTTxerMTaNZIzyIbPMtAyRfOaw3pG5pYEnnRjE/FqA
-         OnXw==
-X-Gm-Message-State: AOAM530h/hzPw/QiXemvCgUoKJ39uGgtYpuql3hE1kK38rNlMQ7B+ULf
-        pS8/IoAduyvEnfNa1vouxoL8dQ==
-X-Google-Smtp-Source: ABdhPJxd4TBlTzGSVJy47qSy922MRq4TG3PdZv3O1/O9T6C2P7ICFr5jCeJguegPDpQDKG0RiMFxsA==
-X-Received: by 2002:a05:622a:42:: with SMTP id y2mr6695551qtw.186.1611107025776;
-        Tue, 19 Jan 2021 17:43:45 -0800 (PST)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 17:43:45 -0800 (PST)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
-        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
-        dan.j.williams@intel.com, sashal@kernel.org,
-        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
-        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
-        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
-        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
-        linux-doc@vger.kernel.org, ira.weiny@intel.com,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v6 06/14] mm: apply per-task gfp constraints in fast path
-Date:   Tue, 19 Jan 2021 20:43:25 -0500
-Message-Id: <20210120014333.222547-7-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210120014333.222547-1-pasha.tatashin@soleen.com>
-References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+        id S1731975AbhATC3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 21:29:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47270 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730641AbhATB3A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:29:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 57FEA2312D;
+        Wed, 20 Jan 2021 01:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611106045;
+        bh=RXasSzsPwlyqWugfoG3XkngjRibGw7leLfBysKrf8B4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pAg10lR56ClIYbZShGRFOUX0Bec9zxo05MTV2e9nwWrtZwb84D41mFbFmBSGUbiSa
+         J63fH3rjSWQ1aMVtN9ckEV6QE29PdU7HtdHhOZs6rr/K2iJuc7YWc0TnDG/3nGzTGA
+         gaK4JUUNqoHHOvd3fwFCAPWn/I5wDj02F8PJNc+wcANdloWvqFNioGuCNn/sqPrwqT
+         raOxghCYy6RF7o32bpQD39X7JA46EPVqDVAdM8TbncjugDyRC2RonTLCQKEKNkzlN9
+         r0pDic+Ff/znW9xiINU5xOmRD7f3YH5cZtwM5mpJ643VLJiI7tLsRFr/Q+CBwDLmCn
+         jcwwrRNOYJ4Dg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     David Woodhouse <dwmw@amazon.co.uk>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        xen-devel@lists.xenproject.org
+Subject: [PATCH AUTOSEL 5.4 15/26] x86/xen: Add xen_no_vector_callback option to test PCI INTX delivery
+Date:   Tue, 19 Jan 2021 20:26:52 -0500
+Message-Id: <20210120012704.770095-15-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210120012704.770095-1-sashal@kernel.org>
+References: <20210120012704.770095-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Function current_gfp_context() is called after fast path. However, soon we
-will add more constraints which will also limit zones based on context.
-Move this call into fast path, and apply the correct constraints for all
-allocations.
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Also update .reclaim_idx based on value returned by current_gfp_context()
-because it soon will modify the allowed zones.
+[ Upstream commit b36b0fe96af13460278bf9b173beced1bd15f85d ]
 
-Note:
-With this patch we will do one extra current->flags load during fast path,
-but we already load current->flags in fast-path:
+It's useful to be able to test non-vector event channel delivery, to make
+sure Linux will work properly on older Xen which doesn't have it.
 
-__alloc_pages_nodemask()
- prepare_alloc_pages()
-  current_alloc_flags(gfp_mask, *alloc_flags);
+It's also useful for those working on Xen and Xen-compatible hypervisors,
+because there are guest kernels still in active use which use PCI INTX
+even when vector delivery is available.
 
-Later, when we add the zone constrain logic to current_gfp_context() we
-will be able to remove current->flags load from current_alloc_flags, and
-therefore return fast-path to the current performance level.
-
-Suggested-by: Michal Hocko <mhocko@kernel.org>
-Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Acked-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Link: https://lore.kernel.org/r/20210106153958.584169-4-dwmw2@infradead.org
+Signed-off-by: Juergen Gross <jgross@suse.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- mm/page_alloc.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  4 ++++
+ arch/x86/xen/enlighten_hvm.c                    | 11 ++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 0114cdfe4aae..de9bcd08d002 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -4979,6 +4979,13 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
- 	}
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 74ba077e99e56..a19ae163c0589 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5452,6 +5452,10 @@
+ 			This option is obsoleted by the "nopv" option, which
+ 			has equivalent effect for XEN platform.
  
- 	gfp_mask &= gfp_allowed_mask;
-+	/*
-+	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
-+	 * resp. GFP_NOIO which has to be inherited for all allocation requests
-+	 * from a particular context which has been marked by
-+	 * memalloc_no{fs,io}_{save,restore}.
-+	 */
-+	gfp_mask = current_gfp_context(gfp_mask);
- 	alloc_mask = gfp_mask;
- 	if (!prepare_alloc_pages(gfp_mask, order, preferred_nid, nodemask, &ac, &alloc_mask, &alloc_flags))
- 		return NULL;
-@@ -4994,13 +5001,7 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
- 	if (likely(page))
- 		goto out;
++	xen_no_vector_callback
++			[KNL,X86,XEN] Disable the vector callback for Xen
++			event channel interrupts.
++
+ 	xen_scrub_pages=	[XEN]
+ 			Boolean option to control scrubbing pages before giving them back
+ 			to Xen, for use by other domains. Can be also changed at runtime
+diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
+index e138f7de52d20..6024fafed1642 100644
+--- a/arch/x86/xen/enlighten_hvm.c
++++ b/arch/x86/xen/enlighten_hvm.c
+@@ -175,6 +175,8 @@ static int xen_cpu_dead_hvm(unsigned int cpu)
+        return 0;
+ }
  
--	/*
--	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
--	 * resp. GFP_NOIO which has to be inherited for all allocation requests
--	 * from a particular context which has been marked by
--	 * memalloc_no{fs,io}_{save,restore}.
--	 */
--	alloc_mask = current_gfp_context(gfp_mask);
-+	alloc_mask = gfp_mask;
- 	ac.spread_dirty_pages = false;
++static bool no_vector_callback __initdata;
++
+ static void __init xen_hvm_guest_init(void)
+ {
+ 	if (xen_pv_domain())
+@@ -194,7 +196,7 @@ static void __init xen_hvm_guest_init(void)
  
- 	/*
+ 	xen_panic_handler_init();
+ 
+-	if (xen_feature(XENFEAT_hvm_callback_vector))
++	if (!no_vector_callback && xen_feature(XENFEAT_hvm_callback_vector))
+ 		xen_have_vector_callback = 1;
+ 
+ 	xen_hvm_smp_init();
+@@ -220,6 +222,13 @@ static __init int xen_parse_nopv(char *arg)
+ }
+ early_param("xen_nopv", xen_parse_nopv);
+ 
++static __init int xen_parse_no_vector_callback(char *arg)
++{
++	no_vector_callback = true;
++	return 0;
++}
++early_param("xen_no_vector_callback", xen_parse_no_vector_callback);
++
+ bool __init xen_hvm_need_lapic(void)
+ {
+ 	if (xen_pv_domain())
 -- 
-2.25.1
+2.27.0
 
