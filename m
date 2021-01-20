@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954F4C433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FECC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67B5B22B4B
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C95C02312B
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729313AbhATAUX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 19:20:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39228 "EHLO
+        id S1730076AbhATAU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:20:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729187AbhATAT2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:28 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A1DC0613D3;
-        Tue, 19 Jan 2021 16:18:32 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id my11so2214650pjb.1;
-        Tue, 19 Jan 2021 16:18:32 -0800 (PST)
+        with ESMTP id S1730751AbhATAT7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:59 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DDAC061795;
+        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id lw17so2215539pjb.0;
+        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tXzJgZeFW0MqXzTyG1CaFrbwaPZ1tQM/2q7+gv5S6M4=;
-        b=mIXcBx3kExnFoF3rAgXg8Y0Wu3FiLWLpnEXS/UczJOdkeL0yC1hqypRtVpXgGacxkM
-         jFXPPaebOVuteHEChay9KDmNeziCRTFDwPBe0G8qEWVc6Ajx6crLYnLLxo68GO6yg+op
-         +ZQPcjIEheoIfceVbvtgM2rHoRQTgIAWWEOsSR4+VNmhA+MvKh3SVqkSe3CpsQVPs1MB
-         ElUdO99Zv2hUhqifNRyDclRz0V/79CWbfIGu7qVORtMqlRfMz0R4QyjGf2E2hmDv425R
-         SxAu+WEkc0bc8kdw4dGzwxmge1QMdYiKJ8GWP6IqhpGMnQzybv5bwGMCncMKSbwx/KpZ
-         4snw==
+        bh=AdWaVN+/y4nB7k2Y/h5vFo2XQMYLD7PwO6KnTXo1gOs=;
+        b=tc1iJDBzwbPdk+USFLGiRAiPsr6L571rZa3SCif6sTOwoQRJRXez/OTOLccvPK3pkU
+         5ab1xxV1QurDk1JxI7Yv4IxskuIOSIzpdB8otapSda/VCvcU454FGalL9pPXpv0izXPD
+         +HDMlU0j0o0hZNSHAih7DYTeaxiNhRtinyid5QBhYcHuflDF2gECapHYNPkdzmlW/aUq
+         +LnQINaUPaw/Li6mThzwPrSUBSV6lZLcsAbu831MVkoRkutl/D6prMiTRVYlY0ySDwDb
+         CVTVD+kFdzfOjkdu3DCRgshK+p2MXJCRU428sXP2CXbbVy5CVrRJUAv2feqRw2qdDKJ5
+         uQJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tXzJgZeFW0MqXzTyG1CaFrbwaPZ1tQM/2q7+gv5S6M4=;
-        b=NCtjFupzPvWH6wjyZbunyWRSprzqu/RQ25LRpUVopDUtWSCmRFF0MAnPzOXkWVfQdn
-         vJpCwtVPc8eSnZLnny2DS0XUzDys8edM3LAqrEHn2MV10rXFozR+92H4p/lwxb8JsO0u
-         7kauzVQZEKahXt5IsYM70H8XRNm6u9jv93s2iveSDaKAxZ9Mq+VL8+jKcqZf3sfX9Xqs
-         qHK9F/p4npdKKXpK8uEHeu0QFEt7Nhdf3edcWrZ7p0TPtcpklHfF5NUHQbXBHbadiOaU
-         qZlpZWM151gjmdS94dvNwMb6C5eRJkFRmXupHj0i9COBPiF6Hc6m1fzN1cFX1mgQUYuj
-         uGGA==
-X-Gm-Message-State: AOAM533bVqP/kbUtLbHH0oJchtiCdqspFq/u/qjUsuUOkEFj6mgnuQ5/
-        IxlMh3AIDyYahhN1j8KfnA+RJfyxcTIEkw==
-X-Google-Smtp-Source: ABdhPJyMf2Cd2x3S3zyTUWMkt3ynfH0UwolTGEyYSNQB8hhpfpLD3enhfPGJVNDJiZw2p94aOAtlCA==
-X-Received: by 2002:a17:90a:34cb:: with SMTP id m11mr2394836pjf.59.1611101912193;
-        Tue, 19 Jan 2021 16:18:32 -0800 (PST)
+        bh=AdWaVN+/y4nB7k2Y/h5vFo2XQMYLD7PwO6KnTXo1gOs=;
+        b=YY7FgUBbJLUNYdlAH9CgsC4s19LWDc397JEgxgvKIsW1t3bRwTYMLk0w2e70rysZdM
+         TgUMd1xf4uQemVYRAI/e7S5EpX3sQPeDedL6JDNzlDw4y+qaNL6mLlf2Fndvs2nrIuOA
+         RXprd0J2ZU14VT9N+KjjQrcjwutdAMAjb0mRYseofvQJN9rgC1O5u055sZviYcmKqU5A
+         LL1SpzX5hVC2sO0cUGAGlQFNTuANSIupiMEtqhE3y+Jv+waNUUOtnYYvBNqkJm7kjpF0
+         aFnDB021CdMGRshaYV3m/+1yc4LyR4/OKJ81f8eZp5xr7C2NCdeJef22jVVU3gfWarDI
+         qM2Q==
+X-Gm-Message-State: AOAM5320NiNgF7pMDjOZvK5wuHu9Ox2uZgiacq2oYdcJbfPROzZ78zx3
+        TuilxPZvJIKb/resQEzhbjg=
+X-Google-Smtp-Source: ABdhPJx9VVeGndW2F1dr9mKWg8iyAVD4T5rpGnvT4t7mC1edQDfhQj0voOPiSNU1LuDrK5weMC63Iw==
+X-Received: by 2002:a17:902:a504:b029:da:fbca:d49 with SMTP id s4-20020a170902a504b02900dafbca0d49mr7245035plq.72.1611101918370;
+        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
 Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.31
+        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:18:31 -0800 (PST)
+        Tue, 19 Jan 2021 16:18:37 -0800 (PST)
 From:   Kir Kolyshkin <kolyshkin@gmail.com>
 To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
         Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 04/10] docs/scheduler/sched-bwc: add proper ref
-Date:   Tue, 19 Jan 2021 16:18:18 -0800
-Message-Id: <20210120001824.385168-5-kolyshkin@gmail.com>
+Subject: [PATCH 10/10] docs/admin-guide/cgroup-v2: fix mount opt rendering
+Date:   Tue, 19 Jan 2021 16:18:24 -0800
+Message-Id: <20210120001824.385168-11-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120001824.385168-1-kolyshkin@gmail.com>
 References: <20210120001824.385168-1-kolyshkin@gmail.com>
@@ -72,38 +72,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a proper reference instead of just using the file name.
+Due to an extra empty line between the option and its description
+it is rendered not like in other places.
+
+Remove the empty lines to fix.
 
 Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- Documentation/scheduler/sched-bwc.rst      | 3 ++-
- Documentation/scheduler/sched-rt-group.rst | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/cgroup-v2.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-index a44860d33ffc..dcec7440c222 100644
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -4,7 +4,8 @@ CFS Bandwidth Control
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 136902cd0e98..14a7523c46a4 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -174,7 +174,6 @@ disabling controllers in v1 and make them always available in v2.
+ cgroup v2 currently supports the following mount options.
  
- .. note::
-    This document only discusses CPU bandwidth control for SCHED_NORMAL.
--   The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst
-+   The SCHED_RT case is covered in
-+   :ref:`Documentation/scheduler/sched-rt-group.rst <sched-rt-group>`.
+   nsdelegate
+-
+ 	Consider cgroup namespaces as delegation boundaries.  This
+ 	option is system wide and can only be set on mount or modified
+ 	through remount from the init namespace.  The mount option is
+@@ -182,7 +181,6 @@ cgroup v2 currently supports the following mount options.
+ 	Delegation section for details.
  
- CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
- specification of the maximum CPU bandwidth available to a group or hierarchy.
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-index 655a096ec8fb..a3b4aa51c271 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -1,3 +1,5 @@
-+.. _sched-rt-group:
-+
- ==========================
- Real-Time group scheduling
- ==========================
+   memory_localevents
+-
+         Only populate memory.events with data for the current cgroup,
+         and not any subtrees. This is legacy behaviour, the default
+         behaviour without this option is to include subtree counts.
+@@ -191,7 +189,6 @@ cgroup v2 currently supports the following mount options.
+         option is ignored on non-init namespace mounts.
+ 
+   memory_recursiveprot
+-
+         Recursively apply memory.min and memory.low protection to
+         entire subtrees, without requiring explicit downward
+         propagation into leaf cgroups.  This allows protecting entire
 -- 
 2.29.2
 
