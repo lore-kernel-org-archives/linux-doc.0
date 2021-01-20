@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBB4C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:19:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5002C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A72722C9E
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:19:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C97B2253A
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730537AbhATATo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 19:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
+        id S1730756AbhATAUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730076AbhATAT2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:28 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F84C0613D6;
-        Tue, 19 Jan 2021 16:18:33 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id v19so14006143pgj.12;
-        Tue, 19 Jan 2021 16:18:33 -0800 (PST)
+        with ESMTP id S1727843AbhATAT7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:59 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03045C061794;
+        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id j12so6219676pfj.12;
+        Tue, 19 Jan 2021 16:18:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BDt3dRzzxyMOUVS7eh8bQyHtp1JLCsZLHuvxlUpRuiQ=;
-        b=nLjy6Gxfv1a4qY2nlC2Q1hEzRowvlssXmdDWcqH6bGPspja43Qfhxa7Ix0xWdumpK1
-         fqRacr0Kb8R5o0QBYPdYxbrWysEjuAX/uKmvA4Jal5djhdVZr47c2PAAwFwExDJn8DGz
-         sXn9eBhPSm1prO93M+BMkEIPoDoNgXceZJHFqmhyQGjhNLA71Nes4XsbcgtiKR6ue1fe
-         dKYZDs7VLYArrmlc0IScF7j5Px+C1lCsTHo9AxRPf81PciVHvIWxUzqkI+SDs3Xr3i38
-         R5Z6Y9+Uj0CFPdpS4LD960+wLMDwtkvbQ0UumajZGyMXdwb4y36b9QCkg5vinGXuWfvT
-         9Igw==
+        bh=WwtSrnSYMVvS4qlas+fFjqkRS4JIs0P9IHv9gWu1OEM=;
+        b=bDJtoahsaS1KxAdHsDXc1idqxnR6tE0o47LbSzTp5jc1sm8Dbu9Zn88FjPxjLoEvWM
+         1qN0QLKZwCvHsXdEShRVOjCFy/2pXIwMv6nFYQ/sEq4T6ZRG6xEIC1RWOkKe957cldIn
+         eos1TEWZPNMgNRQM8EgBbwgtGKZwvHS0GBeLCGadWosrirRlllo/XFqTC2o+4O8SwqwG
+         1KoMdZW+gH5NyJT+OymTG8hq0NfCO4qJlS73XmSBDPEQalWJCmCH/8vJ/GauRTwTMmDA
+         J3a2SkdW+dUTZKiTwe8v3kkd+wWUPUhpyjIoyy07LovKWE15RTYWSPU8hO1lrx6rbV5Y
+         +lkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BDt3dRzzxyMOUVS7eh8bQyHtp1JLCsZLHuvxlUpRuiQ=;
-        b=orO8Kq/pb6YGVNv1hLUNF5TtofBXMBb8WsP7alrWwPV7jl1vFjE4oyUZbrtOlj9tgw
-         u1h0K2GMhNUIWKYxFykfV9FIcoC/hs9Qq4DcFGlyHUST8PRC/GN7G+p7IY2x7k7kQt7n
-         QnNAB66Fx5j2ky04MhvOpWyANXxCcjSc9/p6FU3nmkryxjhCL6aVUNRkdpp9zKC2sxWx
-         qgeXID8idGdJqeiim0tfd/QnAmu7WhxNqx+iNQiGtdfFTB71XXS/VFVjoztGnd5u4LSm
-         RmGBZafwW66L2HDodoAk/baOXVdrNjthLPCerEDbp57TLOKx0gWyx+SmMCozZhGsYRlo
-         KkbA==
-X-Gm-Message-State: AOAM531mrFMcuHpismzZq6Pi4SDtYFiM+JFtS62dmOWczcu+ZF9RhPdw
-        /09phzt5IK4wJrUO9dESBok5Anq5T7jLmA==
-X-Google-Smtp-Source: ABdhPJzScD7Vi38wkKdYZPthdXPu4530hKaGLN6+ra/ZiJuYv9k6tEPGHprwJzpX9qcKDafDONVxaA==
-X-Received: by 2002:a63:e442:: with SMTP id i2mr6568758pgk.12.1611101913169;
-        Tue, 19 Jan 2021 16:18:33 -0800 (PST)
+        bh=WwtSrnSYMVvS4qlas+fFjqkRS4JIs0P9IHv9gWu1OEM=;
+        b=oE83A+RPvPjqgRwLq8HkStQXRtsGxMBj2PxcNMsZVW+O2a31dqB6HqJuoDAHHKYfW7
+         ZwtGMW1bkDTBnsigbuxh/pm1CmGt5B6Nm89yG39jANmCnVkaXjZK7N3UunFg+WCdLEJN
+         kbgvJha+0M07SQT81D56Z/D3GMEE67A87iHjvZEhOAQahzWFvl9NYLYjFm8SS60Dc9mD
+         l1D+oFlUWiGniIbnEdRcKAKrWp/WCcbNFGizzpY2vxt5IwDJyX4DNs3mdVSt48wJjUiQ
+         yD7AlBgIGT9hrS52L1xClwYZ43VOuf3+xmRZt5/eZxYKDIY3mHJpfxfoauCCs1N+8PF4
+         uwpg==
+X-Gm-Message-State: AOAM533DdL0neCUBlVACP8m6Z+CBRkjiN3xguN2tbtWDN4an7tKm0K2W
+        IQk9V9N08WaxkahWogLeg+8=
+X-Google-Smtp-Source: ABdhPJyPSof47RUM62dgKFkvuwECJclnV8XYewOdbo7qnoAfSRCq/W9jw5qEY/nLNLlGq+xx8YeGjw==
+X-Received: by 2002:a63:703:: with SMTP id 3mr6714834pgh.272.1611101917566;
+        Tue, 19 Jan 2021 16:18:37 -0800 (PST)
 Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.32
+        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:18:32 -0800 (PST)
+        Tue, 19 Jan 2021 16:18:37 -0800 (PST)
 From:   Kir Kolyshkin <kolyshkin@gmail.com>
 To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
         Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 05/10] docs/scheduler/sched-bwc: note/link cgroup v2
-Date:   Tue, 19 Jan 2021 16:18:19 -0800
-Message-Id: <20210120001824.385168-6-kolyshkin@gmail.com>
+Subject: [PATCH 09/10] docs/admin-guide/cgroup-v2: nit
+Date:   Tue, 19 Jan 2021 16:18:23 -0800
+Message-Id: <20210120001824.385168-10-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120001824.385168-1-kolyshkin@gmail.com>
 References: <20210120001824.385168-1-kolyshkin@gmail.com>
@@ -72,47 +72,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Improper Capitalization.
+
 Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 4 ++++
- Documentation/scheduler/sched-bwc.rst   | 5 +++++
- 2 files changed, 9 insertions(+)
+ Documentation/admin-guide/cgroup-v2.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index e0f6ff7cfa93..b55362454886 100644
+index 6f59f13f28d0..136902cd0e98 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1,3 +1,5 @@
-+.. _cgroup-v2:
-+
- ================
- Control Group v2
- ================
-@@ -954,6 +956,8 @@ All cgroup core files are prefixed with "cgroup."
- Controllers
- ===========
+@@ -2226,7 +2226,7 @@ Without cgroup namespace, the "/proc/$PID/cgroup" file shows the
+ complete path of the cgroup of a process.  In a container setup where
+ a set of cgroups and namespaces are intended to isolate processes the
+ "/proc/$PID/cgroup" file may leak potential system level information
+-to the isolated processes.  For Example::
++to the isolated processes.  For example::
  
-+.. _cgroup-v2-cpu:
-+
- CPU
- ---
- 
-diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-index dcec7440c222..963fde3993dc 100644
---- a/Documentation/scheduler/sched-bwc.rst
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -27,6 +27,11 @@ Management
- ----------
- Quota and period are managed within the cpu subsystem via cgroupfs.
- 
-+.. note::
-+   The cgroupfs files described in this section are only applicable
-+   to cgroup v1. For cgroup v2, see
-+   :ref:`Documentation/admin-guide/cgroupv2.rst <cgroup-v2-cpu>`.
-+
- - cpu.cfs_quota_us: the total available run-time within a period (in
-   microseconds)
- - cpu.cfs_period_us: the length of a period (in microseconds)
+   # cat /proc/self/cgroup
+   0::/batchjobs/container_id1
 -- 
 2.29.2
 
