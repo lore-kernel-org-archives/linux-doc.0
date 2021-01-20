@@ -2,91 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41587C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 17:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D476BC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:06:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1BD1223DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 17:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8416F221FC
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732361AbhATRqy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 12:46:54 -0500
-Received: from ms.lwn.net ([45.79.88.28]:57158 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727821AbhATRo1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Jan 2021 12:44:27 -0500
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 041346133;
-        Wed, 20 Jan 2021 17:43:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 041346133
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611164583; bh=t10z/9IsGKuL0EHjMm0YRCyX2MRbbRcllIYkA3Oblow=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=InB65MkkxlBevNgPOKeV8RBG//YJUhsA2r8PVWvyNp2Mw5g/HNf5JeJ4xBBrfpNeo
-         YLiRFHpJjNRbBK2QfAcWa0TIPN6QdapdsXeur7r+4kbN9572oTXcIUFMchzrhQsGEU
-         JQ1/Xhp0vafrkWbJZg2tqjanqpyh6jlrzQXz480/KsYbpLwDrlNOinLdq7MVyCC2sO
-         8vlZ/cJNL19q9y6bW+1P8ey8JE8ZPHBiVKBXNc2+JUKEG9gqrvg5s0gaAO/SNyorrS
-         OPybZ7wtWIQwUAJWcusMDEVgpkFhNQLzeCkxX9k36h+d2ob6LB/VVKBYBykRWTRHsk
-         1ynMQWpV/glHg==
-Date:   Wed, 20 Jan 2021 10:43:01 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kir Kolyshkin <kolyshkin@gmail.com>
-Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org
-Subject: Re: [PATCH 04/10] docs/scheduler/sched-bwc: add proper ref
-Message-ID: <20210120104301.2aeda8f9@lwn.net>
-In-Reply-To: <20210120001824.385168-5-kolyshkin@gmail.com>
-References: <20210120001824.385168-1-kolyshkin@gmail.com>
-        <20210120001824.385168-5-kolyshkin@gmail.com>
-Organization: LWN.net
+        id S1730601AbhATUGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 15:06:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732178AbhATT6S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 14:58:18 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CE2C061757;
+        Wed, 20 Jan 2021 11:57:37 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id y19so49305183iov.2;
+        Wed, 20 Jan 2021 11:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tFAzucvwTgKhltZQcovBVjnsARW7ZpX0kzW41n4VbCA=;
+        b=LLLxc5ua6JWaH0ovVLfPkZT5o4iQ+TYpBigrCwUQGCwHbVpCEBbQ4OaHwMjsE4fJlx
+         APHpFT1R8s4BbSRyGNnziHhXW7ZoBslo3mFokxG5zpaxInDmGTJR8rJYg8enzASu9Pv1
+         uSMPt7K8wc53s1bROHiOz/01NrdXGu6/QNqsxDiPBFtUzJZ7ZZLQmTQzShna4ZL2UESY
+         vLSJyUzWh4efUmmwfvt3PMTctTiGRwvdQ0BMFaPVKzYXSKlSXgnhv1fNG9LEXx3uZUTS
+         nnCfV36BsTSJsshKbA1CiHN0twFRT91JjmmbeGszC99A3dsrAiV8RRniXCEhFHmHbu7q
+         Oy/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tFAzucvwTgKhltZQcovBVjnsARW7ZpX0kzW41n4VbCA=;
+        b=UmEiEs2TTIp2JH8AzaT7y8xqOD0Ds2FmxaM5ubDMXrLCcRFcuYuWzdfidcDELKxDOn
+         CpLhrY46Y0mNThGd7lh6/rzsdbq4KTOWTYL2TiMlRR35fElDmnlROk+AA8/1UEBTGrS7
+         ofngUcWioTzBVB+g4Y6KtF1+iRU1MIB6aDj8m8MHfKBuJCH6EhQCTeS1HKVzKC1Z+bDy
+         jaSxnUcWM/HNKXzw5b2xrwDGpnzx/k+F7el6AtFEvP70fqv4UvrT3p/QUWo2GaTr8LwL
+         BpW0EjZLP0kKNiuI8XouzMT4+4sSgt3rDiUmhy+2bRhvz+/KLMLeXIaGiOT2K5E1Tkk9
+         xL1w==
+X-Gm-Message-State: AOAM5317H3XGGcMPpjPQ4KzZTgPhaoLewie9sFmjabLbOuungQSAIuxV
+        hYpFzJFABOUgZVIz7kPsPDPc2NSgc6jtSQaV2yI=
+X-Google-Smtp-Source: ABdhPJzkrs5gKJjCgGvS4n4G9ht49JRTpAbNNmjyY5M7srxT8Kg/bD5ZxXNomZJvU4LKP2s2zOsVsiIjg8TZcdcN4FU=
+X-Received: by 2002:a92:cd8c:: with SMTP id r12mr9091476ilb.221.1611172657270;
+ Wed, 20 Jan 2021 11:57:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20210120133946.2107897-1-jackmanb@google.com> <20210120133946.2107897-3-jackmanb@google.com>
+In-Reply-To: <20210120133946.2107897-3-jackmanb@google.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Wed, 20 Jan 2021 20:57:28 +0100
+Message-ID: <CAKXUXMxw4JP4q-iGTMsnS2j4KYfU7WDRTLbAdWu4DrvCa=R+NQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v3 2/2] docs: bpf: Clarify -mcpu=v3 requirement
+ for atomic ops
+To:     Brendan Jackman <jackmanb@google.com>
+Cc:     bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Florent Revest <revest@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Jan 2021 16:18:18 -0800
-Kir Kolyshkin <kolyshkin@gmail.com> wrote:
+On Wed, Jan 20, 2021 at 2:39 PM Brendan Jackman <jackmanb@google.com> wrote:
+>
+> Alexei pointed out [1] that this wording is pretty confusing. Here's
+> an attempt to be more explicit and clear.
+>
+> [1] https://lore.kernel.org/bpf/CAADnVQJVvwoZsE1K+6qRxzF7+6CvZNzygnoBW9tZNWJELk5c=Q@mail.gmail.com/T/#m07264fc18fdc43af02fc1320968afefcc73d96f4
+>
 
-> Add a proper reference instead of just using the file name.
-> 
-> Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
+It is common practice to use "Link: URL" to refer to other mail
+threads; and to use the "permalink":
+
+https://lore.kernel.org/bpf/CAADnVQJVvwoZsE1K+6qRxzF7+6CvZNzygnoBW9tZNWJELk5c=Q@mail.gmail.com/
+
+which is a bit shorter than the link you provided.
+
+If you follow that convention with "Link: URL", checkpatch.pl will not
+complain about this long line :)
+
+
+Lukas
+
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 > ---
->  Documentation/scheduler/sched-bwc.rst      | 3 ++-
->  Documentation/scheduler/sched-rt-group.rst | 2 ++
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-> index a44860d33ffc..dcec7440c222 100644
-> --- a/Documentation/scheduler/sched-bwc.rst
-> +++ b/Documentation/scheduler/sched-bwc.rst
-> @@ -4,7 +4,8 @@ CFS Bandwidth Control
->  
->  .. note::
->     This document only discusses CPU bandwidth control for SCHED_NORMAL.
-> -   The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst
-> +   The SCHED_RT case is covered in
-> +   :ref:`Documentation/scheduler/sched-rt-group.rst <sched-rt-group>`.
->  
->  CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
->  specification of the maximum CPU bandwidth available to a group or hierarchy.
-> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-> index 655a096ec8fb..a3b4aa51c271 100644
-> --- a/Documentation/scheduler/sched-rt-group.rst
-> +++ b/Documentation/scheduler/sched-rt-group.rst
-> @@ -1,3 +1,5 @@
-> +.. _sched-rt-group:
-> +
-
-So why do you need to do this?  The build system in recent kernels will
-generate that reference automatically without the extra markup.
-
-Thanks,
-
-jon
+>  Documentation/networking/filter.rst | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+> index 4c2bb4c6364d..b3f457802836 100644
+> --- a/Documentation/networking/filter.rst
+> +++ b/Documentation/networking/filter.rst
+> @@ -1081,9 +1081,10 @@ before is loaded back to ``R0``.
+>
+>  Note that 1 and 2 byte atomic operations are not supported.
+>
+> -Except ``BPF_ADD`` *without* ``BPF_FETCH`` (for legacy reasons), all 4 byte
+> -atomic operations require alu32 mode. Clang enables this mode by default in
+> -architecture v3 (``-mcpu=v3``). For older versions it can be enabled with
+> +Clang can generate atomic instructions by default when ``-mcpu=v3`` is
+> +enabled. If a lower version for ``-mcpu`` is set, the only atomic instruction
+> +Clang can generate is ``BPF_ADD`` *without* ``BPF_FETCH``. If you need to enable
+> +the atomics features, while keeping a lower ``-mcpu`` version, you can use
+>  ``-Xclang -target-feature -Xclang +alu32``.
+>
+>  You may encounter ``BPF_XADD`` - this is a legacy name for ``BPF_ATOMIC``,
+> --
+> 2.30.0.284.gd98b1dd5eaa7-goog
+>
