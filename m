@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DE9C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D5AC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:22:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 245F122573
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:21:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3BE422AAA
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:22:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727843AbhATAUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 19:20:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
+        id S1728496AbhATAUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:20:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730829AbhATAT7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:59 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDCDC061786;
-        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id cq1so1011119pjb.4;
-        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
+        with ESMTP id S1727340AbhATATN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:13 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8357AC061757;
+        Tue, 19 Jan 2021 16:18:29 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id m5so999287pjv.5;
+        Tue, 19 Jan 2021 16:18:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sl4zutZNTqwn4UHJVbcHFIYb+Z0yDoOK+cSVT1ECB74=;
-        b=FAHyInT2erztCE+Frd0/kZorfgt3mSLYhqmxotJ/K3i2LDdZRBYoJgcn7tUSgWTfzw
-         BM26+JwBeo60N8US3bSpEdk0HWvme3LbqCwswE8pgfQVNmFp0K/f+0uPeGFMA1YtbhRr
-         gPtTX0LU8yrS0yBRpSmlqo6gkoqnWv0tZUZSxJAVz1cDeRJLTnAzjMFKQk7ach94mZTv
-         IhwMzPZaTfj6atx/BgF2GVQxKZ0ffcHSdL3n2qTskwNnfmnwRR6vjNP5nlcBQ7rgOYAc
-         nlk8SUUZW7YU3fxXVhMeCpRj8vUniTNjl6SvKeuslH/OMGYmnKi0irIsPyh6Kfu0ZnOD
-         2OaA==
+        bh=XkdryAomM5az2Ze2NYd09JWowO5YjJiadHr5mNXL5/M=;
+        b=VP75uQaycjsESHMeLXbRrDjAb4Cqt4odG4boanj7vRVeuesb49E/ZOheLGtFdgZ6Pu
+         UutaIeCpF3tfV5s4Unrs4qhoGgGw5i53G2fwKFquvwnELcK35WEbs9fgdW8Z+sBJs/9u
+         5BjHCtcOu34bzeflTDxfKz6MItwT0b0RZIfSu4Vrs7r27ZS3NMTJkQczKfJEtXCui6o9
+         wiZKGBq45p/Wg2Xr3EytZu4fCxpmcZC7n7e6QTCO8qkYY191T+j1XsyaMv1syZYJveOo
+         lpORo4531azB5pI6wvGY5Q1+TN91vTf/dOCL+GnRy67TRZauS4tEBgcdj4+tH6rB9N06
+         56vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sl4zutZNTqwn4UHJVbcHFIYb+Z0yDoOK+cSVT1ECB74=;
-        b=K8iVdPZWrtf3Wh43dibG+TjDtxXsomUCCp7V7W5DUTHGDgM1zogn/7wBPkbQK+1pMc
-         KwhS7rYF+Xf/N/tKVk0IQC5YbqWd259vZKxhEBHrvxUgGHCCty9dXsryf3EHwSCtUvEZ
-         ahQCmoCNUw/UpJvz2aGMWSsoVbTbT2vB20ijguy3OB+SDwlmWDKQ5km4PHqB9dgYc4xP
-         krzLuOwpz7jHxz7rITZbt/1g0NX7p7v0ZzMKV/DpINKbdZcJLd/df2EnXwGgQp3kTZpp
-         TnJ19bSYzwRP2lzHIeMHq9cHrKtBQy27OTVrrLGbC/Z4ama8Di3ghIUGjhy1bXSs3Id1
-         1AqQ==
-X-Gm-Message-State: AOAM533nVSI/946+6OyVmf5G6WcI2I4lXBcY/ZdwR20VaxAlVLbED4s0
-        E3aIG4jslscJS6h6xW8io7w=
-X-Google-Smtp-Source: ABdhPJyViBpgQc/KCmE2lm/MYZNB+KArwT2IPYy4YDHGdGm3XCKd3JPPOLBh/fh4+hW/AfqKCfyKEA==
-X-Received: by 2002:a17:90b:1649:: with SMTP id il9mr2396241pjb.62.1611101915382;
-        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
+        bh=XkdryAomM5az2Ze2NYd09JWowO5YjJiadHr5mNXL5/M=;
+        b=uINl2BlnD70jdUMcSGnauMppd+sGMhO2ay6TzdPKhOfk3OGBvAqZwsDqXqy3CBOUE/
+         XgPOp2FjJS7Z+BaBz1mzKU3JE2Tx0kYeRbDRHzQYeGJuFoEWMZS0t3DVT9ju3JIkuTch
+         +eiPTyMinevJlyYpJD/+dqz0IV6MLcoBzwLOvg5OXTkw19DZIS+CMYQmbwGBhHzEXp+1
+         YvPaSCFgQomaUkGTtq4tJ0fLrjGSE1D8Zm4VqXpHHkW2iBYIgFyOCoPk5mb2fP68K1gB
+         GlY74JZnOR7nUD2oZJtEtMfti8L2albLMbY0lbEN6p5/mK8UQMEFC1ilsemZsNcIdcn6
+         HpDA==
+X-Gm-Message-State: AOAM530t60UHS3Ko9D22tXY63LvHqeYlpKloV/L1FIR1nSceRkq2uUL4
+        2+Cn6KL++Ue076dXLvUysBI=
+X-Google-Smtp-Source: ABdhPJwyW/RNAVzMZRdDgaNH8MphIG5lP+W8tDu2F9TXiy9jwUqS0Ehx+189bru27loSC19Gv8cjFA==
+X-Received: by 2002:a17:902:14f:b029:de:c703:3045 with SMTP id 73-20020a170902014fb02900dec7033045mr4916098plb.14.1611101909051;
+        Tue, 19 Jan 2021 16:18:29 -0800 (PST)
 Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.34
+        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:18:34 -0800 (PST)
+        Tue, 19 Jan 2021 16:18:28 -0800 (PST)
 From:   Kir Kolyshkin <kolyshkin@gmail.com>
 To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
         Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 07/10] docs/admin-guide: cgroup-v2: fix cgroup.type rendering
-Date:   Tue, 19 Jan 2021 16:18:21 -0800
-Message-Id: <20210120001824.385168-8-kolyshkin@gmail.com>
+Subject: [PATCH 01/10] docs/scheduler/sched-bwc: formatting fix
+Date:   Tue, 19 Jan 2021 16:18:15 -0800
+Message-Id: <20210120001824.385168-2-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120001824.385168-1-kolyshkin@gmail.com>
 References: <20210120001824.385168-1-kolyshkin@gmail.com>
@@ -72,26 +72,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Due to an extra vertical whitespace, this was not recognised
-as a definition list entry, and thus was not rendered like
-the rest of cgroupfs files.
+Since commit d6a3b247627a3 these three lines are merged into one by the
+RST processor, making it hard to read. Use bullet points to separate
+the entries, like it's done in other similar places.
 
 Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/scheduler/sched-bwc.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 073f976d44ea..c1b6ffc286cf 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -788,7 +788,6 @@ Core Interface Files
- All cgroup core files are prefixed with "cgroup."
+diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
+index 9801d6b284b1..4af4ee1f3600 100644
+--- a/Documentation/scheduler/sched-bwc.rst
++++ b/Documentation/scheduler/sched-bwc.rst
+@@ -25,9 +25,10 @@ Management
+ ----------
+ Quota and period are managed within the cpu subsystem via cgroupfs.
  
-   cgroup.type
--
- 	A read-write single value file which exists on non-root
- 	cgroups.
+-cpu.cfs_quota_us: the total available run-time within a period (in microseconds)
+-cpu.cfs_period_us: the length of a period (in microseconds)
+-cpu.stat: exports throttling statistics [explained further below]
++- cpu.cfs_quota_us: the total available run-time within a period (in
++  microseconds)
++- cpu.cfs_period_us: the length of a period (in microseconds)
++- cpu.stat: exports throttling statistics [explained further below]
+ 
+ The default values are::
  
 -- 
 2.29.2
