@@ -2,121 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 556C4C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C51C7C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:07:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07EE52336E
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:05:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 805BE23357
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:07:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733065AbhATOE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 09:04:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34430 "EHLO
+        id S2388894AbhATOFh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 09:05:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388457AbhATNDd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:03:33 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304D1C0613CF;
-        Wed, 20 Jan 2021 05:02:51 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id o10so3254997wmc.1;
-        Wed, 20 Jan 2021 05:02:51 -0800 (PST)
+        with ESMTP id S1731984AbhATNXG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:23:06 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3246C0613C1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:22:25 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id b64so25213399qkc.12
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZWXyCbP+U2boEa8uNybDlOvftZDrpKrYpE90tBdO/I=;
-        b=NfTkZ7D2/tplLqXUW2cnYbIE3URW+SkN8m+yTQJ4ZGSL+AYfg3hNlocXoPfV5b2Jhu
-         +ixXi6ZV5/XnLD7pIPYP8OHP9cINcTHBgEeRwUmW/Su7gxq1g1mUYGASMWz7C9zs4t6A
-         y50i3lmSRGUcW04c3vPsr1lCP+85UXzzT9jmE360jaQg3hWMEN+NntHB5lEVWQDFmeWd
-         05PieFO6nSf8h9OqFZJE4f0oe4wwY/a/6dTYkH9T5sLoIfguuDFs+ld/C8TREnpvs4V1
-         TKfQU6JwkunadeGlB65yq9UZR02vZ/doEr6MEl4ueGO3fR1IPRWnpQM16XVaDKNZWcIA
-         edAA==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TxOJ2i1obQZTYWUjOO4AH/QKsmg0DUJ9EGaechEIo20=;
+        b=IvzX1RMAtfsiwGFzzn5FfORQgcXPhllACg7D+ANj7TlWPd5qMsoyPmKGn1XhVA8NwM
+         tafb4+W9ckHIwIC2JBfwYCAPgXVbUIzt+6pL2UDYN50uqUst7fkRN9pWNY9xSsstQzUA
+         bb1vo+9Prb3OaiUP7mgZO7sGWE3g0yX548ApY/8loBpncFwLJA4OaUHs+Xei5i/ul45A
+         Poyg8uDGFCtY7vtgdHVF74Rvl9Rq59pDg4A1B9F/2weKRBdIUNb8ORuYNQnaTBdjr5Y+
+         abTearQ0KBLILW07vILaeT4ncQ5ARwtQ3rEQoueKnAru9qTf91hl1CGFQlLXQ2yJXPYo
+         ZxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZWXyCbP+U2boEa8uNybDlOvftZDrpKrYpE90tBdO/I=;
-        b=AQFtXNl5rfBx/So9lSG+abxlYZWmulAE2xQ4eVTNp5pg/kU7DJTsI3ep/DT/4vlupu
-         ajsftfDsyvpOZi0LqpwsrjQivtf9Bu8JuRziNERu5FAR03lCfxTU46ssdkiTgQG/ifLV
-         iwg4hmxdMw3fRwfVwWWOW+hEQnghtJbzQ6/4fgaoftIPKUf/b5UMF9HCDit/oc+CtF35
-         1V4WXY/QiXLPDnHc84ZZrybPEKbR8lVmHHazMT6XgGrpd0jjWv4cWk3hKaOwE21LpJme
-         mtESOWyMlAZlBQFMD6sTa5fLtCLH+VFSAASX1EGZTyNOFAck+zSXxhswxy+mqQy4mcdr
-         jwNA==
-X-Gm-Message-State: AOAM531xvaokxc9c9PoPkgC0evKlOmh9+7B1EdllJvku6CTWWgNuLJ60
-        KrnozHQ2lWZJ7b9grwqgHcY=
-X-Google-Smtp-Source: ABdhPJzmC7mqWGYQbuS7U2cZCI98+spNpj7nNT9OHLll9rJhgKCSZuk0YbuvOhoIj1W8MStOWoiV+Q==
-X-Received: by 2002:a1c:1d09:: with SMTP id d9mr4229892wmd.125.1611147769957;
-        Wed, 20 Jan 2021 05:02:49 -0800 (PST)
-Received: from curtine-Aspire-A515-55.lan ([2001:818:e279:2100:6955:745:9baf:484e])
-        by smtp.googlemail.com with ESMTPSA id m82sm4035221wmf.29.2021.01.20.05.02.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TxOJ2i1obQZTYWUjOO4AH/QKsmg0DUJ9EGaechEIo20=;
+        b=kIi2Mz4GwlYh8RqijW6x5Pw097OHhxpUTMojLDVvfGsxMUPKtgqs1eu/7hTq5PvGmf
+         z+By5BexWNpOvMYdXzMX4x5h+BJC5Wo7uNPEa+GI6/PzwEzN5xrBmfPrpbF90u8ew4wv
+         hFO/gG239wODSA6kDyfsX0aMJsl5bTAqEqTM22KkFKwITT6CbVp4a0lO8kdjacHBEyOU
+         Pxrx/POzLSqCBvHqDBcX6VEtMKm167bgkA0CE2PpQ8sAURxYl2KWY9lgxCIZAL6nH3Ns
+         s/VyMa8PQYt8K3hkrA0mnm2hxwYaHkdkxgTqxGgfUtxjkef5q886YF3/UEIi1X9gC4NC
+         HsUg==
+X-Gm-Message-State: AOAM530q2xus79ECwkM9a8fzIyX3/Hl1hBRCte/Y4tYaoMikkeUL2ihA
+        OWbKgYC2BBPn+Wf5RlIkzfwK2A==
+X-Google-Smtp-Source: ABdhPJxVh5jUl4y5I89LvXDP0n+KjibmY3MDSvd+QOMJtVbYZtAlkbEyk4UcJVKl2qWGnRtxmq5muA==
+X-Received: by 2002:a05:620a:125c:: with SMTP id a28mr9451371qkl.112.1611148945095;
+        Wed, 20 Jan 2021 05:22:25 -0800 (PST)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id r190sm1313094qka.54.2021.01.20.05.22.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:02:49 -0800 (PST)
-From:   Eric Curtin <ericcurtin17@gmail.com>
-Cc:     ericcurtin17@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and
-        infrastructure))
-Subject: [PATCH] Increase limit of max_user_watches from 1/25 to 1/16
-Date:   Wed, 20 Jan 2021 13:02:31 +0000
-Message-Id: <20210120130233.15932-1-ericcurtin17@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 20 Jan 2021 05:22:24 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1l2DRH-004Tyo-Ee; Wed, 20 Jan 2021 09:22:23 -0400
+Date:   Wed, 20 Jan 2021 09:22:23 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
+        david@redhat.com, osalvador@suse.de, dan.j.williams@intel.com,
+        sashal@kernel.org, tyhicks@linux.microsoft.com,
+        iamjoonsoo.kim@lge.com, mike.kravetz@oracle.com,
+        rostedt@goodmis.org, mingo@redhat.com, peterz@infradead.org,
+        mgorman@suse.de, willy@infradead.org, rientjes@google.com,
+        jhubbard@nvidia.com, linux-doc@vger.kernel.org,
+        ira.weiny@intel.com, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 10/14] memory-hotplug.rst: add a note about
+ ZONE_MOVABLE and page pinning
+Message-ID: <20210120132223.GH4605@ziepe.ca>
+References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+ <20210120014333.222547-11-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210120014333.222547-11-pasha.tatashin@soleen.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current default value for  max_user_watches  is the 1/16 (6.25%) of
-the available low memory, divided for the "watch" cost in bytes.
+On Tue, Jan 19, 2021 at 08:43:29PM -0500, Pavel Tatashin wrote:
+> +.. note::
+> +   Techniques that rely on long-term pinnings of memory (especially, RDMA and
+> +   vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
+> +   hot remove. Pinned pages cannot reside on ZONE_MOVABLE, to guarantee that
+> +   memory can still get hot removed - be aware that pinning can fail even if
+> +   there is plenty of free memory in ZONE_MOVABLE. In addition, using
+> +   ZONE_MOVABLE might make page pinning more expensive, because pages have to be
+> +   migrated off that zone first.
 
-Tools like inotify-tools and visual studio code, seem to hit these
-limits a little to easy.
+Just to point out, if anyone is using RDMA/etc with hotplug memory,
+this series is likekly going to be a major regression for those users.
 
-Also amending the documentation, it referred to an old value for this.
-
-Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
----
- Documentation/admin-guide/sysctl/fs.rst | 4 ++--
- fs/eventpoll.c                          | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index f48277a0a850..f7fe45e69c41 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -380,5 +380,5 @@ This configuration option sets the maximum number of "watches" that are
- allowed for each user.
- Each "watch" costs roughly 90 bytes on a 32bit kernel, and roughly 160 bytes
- on a 64bit one.
--The current default value for  max_user_watches  is the 1/32 of the available
--low memory, divided for the "watch" cost in bytes.
-+The current default value for  max_user_watches  is the 1/16 (6.25%) of the
-+available low memory, divided for the "watch" cost in bytes.
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index a829af074eb5..de9ef8f6d0b2 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -2352,9 +2352,9 @@ static int __init eventpoll_init(void)
- 
- 	si_meminfo(&si);
- 	/*
--	 * Allows top 4% of lomem to be allocated for epoll watches (per user).
-+	 * Allows top 6.25% of lomem to be allocated for epoll watches (per user).
- 	 */
--	max_user_watches = (((si.totalram - si.totalhigh) / 25) << PAGE_SHIFT) /
-+	max_user_watches = (((si.totalram - si.totalhigh) / 16) << PAGE_SHIFT) /
- 		EP_ITEM_COST;
- 	BUG_ON(max_user_watches < 0);
- 
--- 
-2.25.1
-
+Jason
