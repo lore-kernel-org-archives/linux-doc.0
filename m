@@ -2,128 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0766C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0298C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 03:04:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6070A2251D
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 02:29:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 987AD23109
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 03:04:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731975AbhATC3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 21:29:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730641AbhATB3A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:29:00 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57FEA2312D;
-        Wed, 20 Jan 2021 01:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611106045;
-        bh=RXasSzsPwlyqWugfoG3XkngjRibGw7leLfBysKrf8B4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pAg10lR56ClIYbZShGRFOUX0Bec9zxo05MTV2e9nwWrtZwb84D41mFbFmBSGUbiSa
-         J63fH3rjSWQ1aMVtN9ckEV6QE29PdU7HtdHhOZs6rr/K2iJuc7YWc0TnDG/3nGzTGA
-         gaK4JUUNqoHHOvd3fwFCAPWn/I5wDj02F8PJNc+wcANdloWvqFNioGuCNn/sqPrwqT
-         raOxghCYy6RF7o32bpQD39X7JA46EPVqDVAdM8TbncjugDyRC2RonTLCQKEKNkzlN9
-         r0pDic+Ff/znW9xiINU5xOmRD7f3YH5cZtwM5mpJ643VLJiI7tLsRFr/Q+CBwDLmCn
-         jcwwrRNOYJ4Dg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     David Woodhouse <dwmw@amazon.co.uk>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: [PATCH AUTOSEL 5.4 15/26] x86/xen: Add xen_no_vector_callback option to test PCI INTX delivery
-Date:   Tue, 19 Jan 2021 20:26:52 -0500
-Message-Id: <20210120012704.770095-15-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012704.770095-1-sashal@kernel.org>
-References: <20210120012704.770095-1-sashal@kernel.org>
+        id S2389548AbhATDEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 22:04:23 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:52397 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388263AbhATDEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 22:04:14 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R601e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UMI0Xb1_1611111761;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UMI0Xb1_1611111761)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 20 Jan 2021 11:02:43 +0800
+Subject: Re: [PATCH 2/3] doc/zh_CN: add mips ep93xx_adc.rst translation
+To:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Harry Wei <harryxiyou@gmail.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210119074617.3109276-1-siyanteng@loongson.cn>
+ <20210119074617.3109276-2-siyanteng@loongson.cn>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <0d47bd3e-e208-0ac6-aa31-75e5029b35d6@linux.alibaba.com>
+Date:   Wed, 20 Jan 2021 11:02:40 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20210119074617.3109276-2-siyanteng@loongson.cn>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-[ Upstream commit b36b0fe96af13460278bf9b173beced1bd15f85d ]
 
-It's useful to be able to test non-vector event channel delivery, to make
-sure Linux will work properly on older Xen which doesn't have it.
+在 2021/1/19 下午3:46, Yanteng Si 写道:
+> This patch translates Documentation/iio/ep93xx_adc.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/iio/ep93xx_adc.rst     | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/iio/ep93xx_adc.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/iio/ep93xx_adc.rst b/Documentation/translations/zh_CN/iio/ep93xx_adc.rst
+> new file mode 100644
+> index 000000000000..727a48d09090
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/iio/ep93xx_adc.rst
+> @@ -0,0 +1,46 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../iio/ep93xx_adc`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_ep93xx_adc:
+> +
+> +
+> +======================================
+> +Cirrus Logic EP93xx 模拟数字转换器驱动
+> +======================================
+> +
+> +1. 概述
+> +=======
+> +
+> +该驱动同时适用于具有5通道模拟数字转换器的低端 (EP9301, Ep9302) 设备和10通道
+> +触摸屏/模拟数字转换器的高端 (EP9307, EP9312, EP9315)设备。
+> +
+> +2. 通道编号
+> +===========
+> +
+> +EP9301和EP9302数据表定义了通道0..4的编号方案。虽然EP9307, EP9312和EP9315多
+> +了3个通道（一共8个），但是编号并没有定义。所以说最后三个通道是随机编号的。
+> +
+> +假设ep93xx_adc是IIO设备0，您将在以下位置找到以下条目
+> +/sys/bus/iio/devices/iio:device0/:
+> +
+> +  +-----------------+---------------+
+> +  | sysfs entry     | ball/pin name |
 
-It's also useful for those working on Xen and Xen-compatible hypervisors,
-because there are guest kernels still in active use which use PCI INTX
-even when vector delivery is available.
+better translate 'entry' and 'name' here?
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Link: https://lore.kernel.org/r/20210106153958.584169-4-dwmw2@infradead.org
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  4 ++++
- arch/x86/xen/enlighten_hvm.c                    | 11 ++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+Thanks
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 74ba077e99e56..a19ae163c0589 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5452,6 +5452,10 @@
- 			This option is obsoleted by the "nopv" option, which
- 			has equivalent effect for XEN platform.
- 
-+	xen_no_vector_callback
-+			[KNL,X86,XEN] Disable the vector callback for Xen
-+			event channel interrupts.
-+
- 	xen_scrub_pages=	[XEN]
- 			Boolean option to control scrubbing pages before giving them back
- 			to Xen, for use by other domains. Can be also changed at runtime
-diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
-index e138f7de52d20..6024fafed1642 100644
---- a/arch/x86/xen/enlighten_hvm.c
-+++ b/arch/x86/xen/enlighten_hvm.c
-@@ -175,6 +175,8 @@ static int xen_cpu_dead_hvm(unsigned int cpu)
-        return 0;
- }
- 
-+static bool no_vector_callback __initdata;
-+
- static void __init xen_hvm_guest_init(void)
- {
- 	if (xen_pv_domain())
-@@ -194,7 +196,7 @@ static void __init xen_hvm_guest_init(void)
- 
- 	xen_panic_handler_init();
- 
--	if (xen_feature(XENFEAT_hvm_callback_vector))
-+	if (!no_vector_callback && xen_feature(XENFEAT_hvm_callback_vector))
- 		xen_have_vector_callback = 1;
- 
- 	xen_hvm_smp_init();
-@@ -220,6 +222,13 @@ static __init int xen_parse_nopv(char *arg)
- }
- early_param("xen_nopv", xen_parse_nopv);
- 
-+static __init int xen_parse_no_vector_callback(char *arg)
-+{
-+	no_vector_callback = true;
-+	return 0;
-+}
-+early_param("xen_no_vector_callback", xen_parse_no_vector_callback);
-+
- bool __init xen_hvm_need_lapic(void)
- {
- 	if (xen_pv_domain())
--- 
-2.27.0
-
+> +  +=================+===============+
+> +  | in_voltage0_raw | YM            |
+> +  +-----------------+---------------+
+> +  | in_voltage1_raw | SXP           |
+> +  +-----------------+---------------+
+> +  | in_voltage2_raw | SXM           |
+> +  +-----------------+---------------+
+> +  | in_voltage3_raw | SYP           |
+> +  +-----------------+---------------+
+> +  | in_voltage4_raw | SYM           |
+> +  +-----------------+---------------+
+> +  | in_voltage5_raw | XP            |
+> +  +-----------------+---------------+
+> +  | in_voltage6_raw | XM            |
+> +  +-----------------+---------------+
+> +  | in_voltage7_raw | YP            |
+> +  +-----------------+---------------+
+> 
