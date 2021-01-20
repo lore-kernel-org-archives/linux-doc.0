@@ -2,128 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23FE9C433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 03:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F174DC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 04:25:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E178423110
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 03:34:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B390523131
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 04:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731962AbhATC3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 21:29:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47420 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730003AbhATB2R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:28:17 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D81AE2333B;
-        Wed, 20 Jan 2021 01:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611105995;
-        bh=sJhGEme1dz39LpSWoym7b5fWuUSGevs/wVnlhT0c6HE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mGQbE9eT+fbHSkrZwwq5IO2W3H/FeRVKvijaKLY7j7Ov67RFYWl6M3IkugULiaZxw
-         pXmhwJ5whdwp5a4LLxs5UFv09iJeQw/2iD97WGK/I/aAu2Z9B2S+56SMWoEpdsQnTe
-         lUNxwRKXzTSDGA79JFt+oF1Xt6APzTpONsZuy1N/aSWn8NaxgYI+MJ24OMv8HzAzT3
-         zrDO/YIpCb3IO9WQb64IEHtOhUp3zp9hclyxDELXZrw0W7ElHRYAA8zL6Jcbgwqs9q
-         J1CZV9occKup+9982ekd7/pBeLOdHNzT0Z0bu1nu5LMfXt5LTloWNm+vXVtLl/itVi
-         Q7wUkNS151mTQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     David Woodhouse <dwmw@amazon.co.uk>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: [PATCH AUTOSEL 5.10 25/45] x86/xen: Add xen_no_vector_callback option to test PCI INTX delivery
-Date:   Tue, 19 Jan 2021 20:25:42 -0500
-Message-Id: <20210120012602.769683-25-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
-References: <20210120012602.769683-1-sashal@kernel.org>
+        id S1731083AbhATEZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 23:25:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727140AbhATEXa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 23:23:30 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BEC1C061575;
+        Tue, 19 Jan 2021 20:22:43 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id x71so7931656oia.9;
+        Tue, 19 Jan 2021 20:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GP6CcfjV/nEcKJK3Rxlv4zO7l7XOzbH7ZH19Z8QJF8E=;
+        b=Vcth5JiSXjuEHV3SJWLTc9nv/u3U5+IPgeWg9LYr2lj7oCtkjGxId8yuC5GIa4rw9h
+         q3oIvUyQHXsbeBV1dgvUKkROI2nVhlN9aFhr+iB/DW+2QVG8TivGlMoYzlcG09cCNA62
+         vKIRA06CBPIG1i7tkFwPI5sjiIZA7Xrj6QjL90opwNum4WTc8vXUbx392ZwVca9xmH0K
+         eK7hX5gDGKnUhK3L+lzlnXqqMNpf66YbfyTBtV8vH2d2f7j5bWQ9eWtgp43RUsdqYr3O
+         p/RyRtcPn77FOgCRW1VCP3M1VRVVQFAIKxPizO/SMELy0YkoQHHcg/u5c+rgcroC9onH
+         IOvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GP6CcfjV/nEcKJK3Rxlv4zO7l7XOzbH7ZH19Z8QJF8E=;
+        b=PzjCwiQbLrY4UUSR6TVozfLwnCN/81IVYlWayfcpAP063WFnfZ5Y80kUrUcsTZez/A
+         umQ5ytsAo441XJfn4KnE/1UA1vo9jyxy4s0DYSAYtbI4gt9fxtJh8CNDc9/S3QRg5BMB
+         qG9ihCVmn8gbYx6vB2M6a8tGd5Woxhc5WwJLyiZsJFh89KbgThIzIgJp1IIdtltNeSG9
+         Rb23OYtCd18jsCQqCzUEw/ruL42yJ5TXR8vdRsLDepesKwRV6V2pVpC38NOGd+5Tfbeb
+         p2R0y8vSoX81AJsw9EBBfbbYQEOLIP7M0yHjTTjAdQ6AEY1lXswdSeGFOcK/dGtJMkid
+         NiBw==
+X-Gm-Message-State: AOAM5313yo2kFI1wheJv4pF+74URom7LBohO43lb9MaMd6oPlo3EX9km
+        1GN9Bjd+gFp//v3qF+BmCv8=
+X-Google-Smtp-Source: ABdhPJy7cUXT/3a2USlFCorl1HDBicSLZCXIdOyOaH/EPPttM5sW7Yg2soQ/slabJaZe6wm5dgC44w==
+X-Received: by 2002:aca:be54:: with SMTP id o81mr1806904oif.67.1611116562271;
+        Tue, 19 Jan 2021 20:22:42 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([8.20.123.12])
+        by smtp.googlemail.com with ESMTPSA id f3sm185743otq.42.2021.01.19.20.22.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jan 2021 20:22:41 -0800 (PST)
+Subject: Re: [PATCH v2 net-next 1/1] Allow user to set metric on default route
+ learned via Router Advertisement.
+To:     praveen chaudhary <praveen5582@gmail.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Zhenggen Xu <zxu@linkedin.com>
+References: <20210115080203.8889-1-pchaudhary@linkedin.com>
+ <0f64942e-debd-81bd-b29c-7d2728a5bd4b@gmail.com>
+ <A2DE27CF-A988-4003-8A95-60CC101086DA@gmail.com>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <7839be40-6555-3e5a-3459-c3f0e4726795@gmail.com>
+Date:   Tue, 19 Jan 2021 21:22:40 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <A2DE27CF-A988-4003-8A95-60CC101086DA@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On 1/19/21 3:17 PM, praveen chaudhary wrote:
+>>> ----------------------------------------------------------------
+>>> For IPv4:
+>>> ----------------------------------------------------------------
+>>>
+>>> Config in etc/network/interfaces
+>>> ----------------------------------------------------------------
+>>> ```
+>>> auto eth0
+>>> iface eth0 inet dhcp
+>>>    metric 4261413864
+>>
+>> how does that work for IPv4? Is the metric passed to the dhclient and it
+>> inserts the route with the given metric or is a dhclient script used to
+>> replace the route after insert?
+>>
+>>
+> 
+> Yes, DHCP client picks config under “iface eth0 inet dhcp” line and if metric is configured, then it adds the metric for all added routes.
 
-[ Upstream commit b36b0fe96af13460278bf9b173beced1bd15f85d ]
+As I recall ifupdown{2} forks dhclient as a process to handle dhcp
+config, and I believe there is a script that handles adding the default
+route with metric. Meaning ... it is not comparable to an RA.
 
-It's useful to be able to test non-vector event channel delivery, to make
-sure Linux will work properly on older Xen which doesn't have it.
+> 
+> Thanks a lot again for spending time for this Review,
+> This feature will help SONiC OS [and others Linux flavors] for better IPv6 support, so thanks again.
 
-It's also useful for those working on Xen and Xen-compatible hypervisors,
-because there are guest kernels still in active use which use PCI INTX
-even when vector delivery is available.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Link: https://lore.kernel.org/r/20210106153958.584169-4-dwmw2@infradead.org
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt |  4 ++++
- arch/x86/xen/enlighten_hvm.c                    | 11 ++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f6a1513dfb76c..26bfe7ae711b8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5965,6 +5965,10 @@
- 			This option is obsoleted by the "nopv" option, which
- 			has equivalent effect for XEN platform.
- 
-+	xen_no_vector_callback
-+			[KNL,X86,XEN] Disable the vector callback for Xen
-+			event channel interrupts.
-+
- 	xen_scrub_pages=	[XEN]
- 			Boolean option to control scrubbing pages before giving them back
- 			to Xen, for use by other domains. Can be also changed at runtime
-diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
-index 9e87ab010c82b..ec50b7423a4c8 100644
---- a/arch/x86/xen/enlighten_hvm.c
-+++ b/arch/x86/xen/enlighten_hvm.c
-@@ -188,6 +188,8 @@ static int xen_cpu_dead_hvm(unsigned int cpu)
-        return 0;
- }
- 
-+static bool no_vector_callback __initdata;
-+
- static void __init xen_hvm_guest_init(void)
- {
- 	if (xen_pv_domain())
-@@ -207,7 +209,7 @@ static void __init xen_hvm_guest_init(void)
- 
- 	xen_panic_handler_init();
- 
--	if (xen_feature(XENFEAT_hvm_callback_vector))
-+	if (!no_vector_callback && xen_feature(XENFEAT_hvm_callback_vector))
- 		xen_have_vector_callback = 1;
- 
- 	xen_hvm_smp_init();
-@@ -233,6 +235,13 @@ static __init int xen_parse_nopv(char *arg)
- }
- early_param("xen_nopv", xen_parse_nopv);
- 
-+static __init int xen_parse_no_vector_callback(char *arg)
-+{
-+	no_vector_callback = true;
-+	return 0;
-+}
-+early_param("xen_no_vector_callback", xen_parse_no_vector_callback);
-+
- bool __init xen_hvm_need_lapic(void)
- {
- 	if (xen_pv_domain())
--- 
-2.27.0
+I think SONiC is an abomination, so that is definitely not the
+motivation for my reviews. :-)
 
