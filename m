@@ -2,107 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44593C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 13:23:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 556C4C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:05:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0717823340
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 13:23:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07EE52336E
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 14:05:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730405AbhATNW4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 08:22:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38034 "EHLO
+        id S1733065AbhATOE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 09:04:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732561AbhATNUU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:20:20 -0500
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40234C0613C1
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:19:40 -0800 (PST)
-Received: by mail-qv1-xf31.google.com with SMTP id h21so1845815qvb.8
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:19:40 -0800 (PST)
+        with ESMTP id S2388457AbhATNDd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:03:33 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304D1C0613CF;
+        Wed, 20 Jan 2021 05:02:51 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id o10so3254997wmc.1;
+        Wed, 20 Jan 2021 05:02:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=JuQvGRvkQQfVRzn/FUI+haarmzYqzGiLWBP9Je4qZPE=;
-        b=QHJVd3T5Tsl7WmiiJ+h+AhTVu4iAWpt/4foFcd4/mjShCb05HeiGCXzKAj+Da/VDvV
-         QqCbyDX+iw+0+XERIeP1O2cu/DekTw4hKakyJ638PzTcE2mQiR/oPwKEsyQv81ntuBUA
-         IxtkYJu/+X8kTXcCLKn+qpX/46Ms6sZfYWWaIdX0MhJg6q5zRuogluR7m7+4GTW68pJy
-         CNJzr2I+/7YWY6RRVTZNzBKAWMuIFxMbyHZqzIQbmdcme9ixdyOYyqXa3nCZnV08TVmf
-         t1RQvZOApFqM68tMKYBli2pd1wrLaIUXypZac/PIJ2HSrwUtOfWNghJ1LMNXXysB4qCX
-         6JDg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aZWXyCbP+U2boEa8uNybDlOvftZDrpKrYpE90tBdO/I=;
+        b=NfTkZ7D2/tplLqXUW2cnYbIE3URW+SkN8m+yTQJ4ZGSL+AYfg3hNlocXoPfV5b2Jhu
+         +ixXi6ZV5/XnLD7pIPYP8OHP9cINcTHBgEeRwUmW/Su7gxq1g1mUYGASMWz7C9zs4t6A
+         y50i3lmSRGUcW04c3vPsr1lCP+85UXzzT9jmE360jaQg3hWMEN+NntHB5lEVWQDFmeWd
+         05PieFO6nSf8h9OqFZJE4f0oe4wwY/a/6dTYkH9T5sLoIfguuDFs+ld/C8TREnpvs4V1
+         TKfQU6JwkunadeGlB65yq9UZR02vZ/doEr6MEl4ueGO3fR1IPRWnpQM16XVaDKNZWcIA
+         edAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JuQvGRvkQQfVRzn/FUI+haarmzYqzGiLWBP9Je4qZPE=;
-        b=KBYLyzZ0bbG5PjuujworQ8xOmnL24O/e0HsIVWgP3AKTTqVCDuHc0dGkdpAnXceh6Y
-         W/PqQoZ2IbwPkRN07vWbPPrkyoDV+wMvLW9dGZoeb245RWG8zIfXqkwaiiFzMF5E0xw1
-         zUGdt0j0swS/2mUOPErUDT+bbOJ30TCN5a2ZcW1mxGlBgwXC2/8pZG9uYqiwBv5vtepN
-         TpO6fvTy/23zTvuqBkYQd4UXRglMHRUmbDD4FNeOR5BxL1eGT2/HSxqNBgIwcuPOianv
-         u8syo27/XvUxiZS7SlciGyxtKHuJrswk28zt0iw0Ignfa9AIWjHh/4P0CD9BbfEjuV/W
-         7cyA==
-X-Gm-Message-State: AOAM5310shxzvXqBCCR5iQggRzTB3arXmqEKWyZVudFjZjOGpWVcyUZs
-        dE3xh6Kpp/JlKDo94DIGROb7gw==
-X-Google-Smtp-Source: ABdhPJz4cQZ1YMTMG0FLUN0ZbA69O2/qIdTs4LRKLu+daL+1MgPSen3w52S63HZWxLilbEYISziQdA==
-X-Received: by 2002:a05:6214:1110:: with SMTP id e16mr9110666qvs.62.1611148779431;
-        Wed, 20 Jan 2021 05:19:39 -0800 (PST)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id b67sm1249374qkc.44.2021.01.20.05.19.38
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aZWXyCbP+U2boEa8uNybDlOvftZDrpKrYpE90tBdO/I=;
+        b=AQFtXNl5rfBx/So9lSG+abxlYZWmulAE2xQ4eVTNp5pg/kU7DJTsI3ep/DT/4vlupu
+         ajsftfDsyvpOZi0LqpwsrjQivtf9Bu8JuRziNERu5FAR03lCfxTU46ssdkiTgQG/ifLV
+         iwg4hmxdMw3fRwfVwWWOW+hEQnghtJbzQ6/4fgaoftIPKUf/b5UMF9HCDit/oc+CtF35
+         1V4WXY/QiXLPDnHc84ZZrybPEKbR8lVmHHazMT6XgGrpd0jjWv4cWk3hKaOwE21LpJme
+         mtESOWyMlAZlBQFMD6sTa5fLtCLH+VFSAASX1EGZTyNOFAck+zSXxhswxy+mqQy4mcdr
+         jwNA==
+X-Gm-Message-State: AOAM531xvaokxc9c9PoPkgC0evKlOmh9+7B1EdllJvku6CTWWgNuLJ60
+        KrnozHQ2lWZJ7b9grwqgHcY=
+X-Google-Smtp-Source: ABdhPJzmC7mqWGYQbuS7U2cZCI98+spNpj7nNT9OHLll9rJhgKCSZuk0YbuvOhoIj1W8MStOWoiV+Q==
+X-Received: by 2002:a1c:1d09:: with SMTP id d9mr4229892wmd.125.1611147769957;
+        Wed, 20 Jan 2021 05:02:49 -0800 (PST)
+Received: from curtine-Aspire-A515-55.lan ([2001:818:e279:2100:6955:745:9baf:484e])
+        by smtp.googlemail.com with ESMTPSA id m82sm4035221wmf.29.2021.01.20.05.02.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:19:38 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l2DOb-004Tve-SU; Wed, 20 Jan 2021 09:19:37 -0400
-Date:   Wed, 20 Jan 2021 09:19:37 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
-        david@redhat.com, osalvador@suse.de, dan.j.williams@intel.com,
-        sashal@kernel.org, tyhicks@linux.microsoft.com,
-        iamjoonsoo.kim@lge.com, mike.kravetz@oracle.com,
-        rostedt@goodmis.org, mingo@redhat.com, peterz@infradead.org,
-        mgorman@suse.de, willy@infradead.org, rientjes@google.com,
-        jhubbard@nvidia.com, linux-doc@vger.kernel.org,
-        ira.weiny@intel.com, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 12/14] mm/gup: longterm pin migration cleaup
-Message-ID: <20210120131937.GG4605@ziepe.ca>
-References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
- <20210120014333.222547-13-pasha.tatashin@soleen.com>
+        Wed, 20 Jan 2021 05:02:49 -0800 (PST)
+From:   Eric Curtin <ericcurtin17@gmail.com>
+Cc:     ericcurtin17@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and
+        infrastructure))
+Subject: [PATCH] Increase limit of max_user_watches from 1/25 to 1/16
+Date:   Wed, 20 Jan 2021 13:02:31 +0000
+Message-Id: <20210120130233.15932-1-ericcurtin17@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210120014333.222547-13-pasha.tatashin@soleen.com>
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 08:43:31PM -0500, Pavel Tatashin wrote:
-> When pages are longterm pinned, we must migrated them out of movable zone.
-> The function that migrates them has a hidden loop with goto. The loop is
-> to retry on isolation failures, and after successful migration.
-> 
-> Make this code better by moving this loop to the caller.
-> 
-> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
->  mm/gup.c | 88 +++++++++++++++++++++++---------------------------------
->  1 file changed, 36 insertions(+), 52 deletions(-)
+The current default value for  max_user_watches  is the 1/16 (6.25%) of
+the available low memory, divided for the "watch" cost in bytes.
 
-This looks OK, it is better
+Tools like inotify-tools and visual studio code, seem to hit these
+limits a little to easy.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Also amending the documentation, it referred to an old value for this.
 
-I really dislike we always have to go over the page list twice in pin
-mode
+Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
+---
+ Documentation/admin-guide/sysctl/fs.rst | 4 ++--
+ fs/eventpoll.c                          | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-The is_pinnable_page() and LRU isolation should really be done inside
-__get_user_pages_locked() as each page is added to the output list
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+index f48277a0a850..f7fe45e69c41 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -380,5 +380,5 @@ This configuration option sets the maximum number of "watches" that are
+ allowed for each user.
+ Each "watch" costs roughly 90 bytes on a 32bit kernel, and roughly 160 bytes
+ on a 64bit one.
+-The current default value for  max_user_watches  is the 1/32 of the available
+-low memory, divided for the "watch" cost in bytes.
++The current default value for  max_user_watches  is the 1/16 (6.25%) of the
++available low memory, divided for the "watch" cost in bytes.
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index a829af074eb5..de9ef8f6d0b2 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -2352,9 +2352,9 @@ static int __init eventpoll_init(void)
+ 
+ 	si_meminfo(&si);
+ 	/*
+-	 * Allows top 4% of lomem to be allocated for epoll watches (per user).
++	 * Allows top 6.25% of lomem to be allocated for epoll watches (per user).
+ 	 */
+-	max_user_watches = (((si.totalram - si.totalhigh) / 25) << PAGE_SHIFT) /
++	max_user_watches = (((si.totalram - si.totalhigh) / 16) << PAGE_SHIFT) /
+ 		EP_ITEM_COST;
+ 	BUG_ON(max_user_watches < 0);
+ 
+-- 
+2.25.1
 
-But that is more of a larger issue than this series
-
-Jason
