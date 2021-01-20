@@ -2,276 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B800C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A373C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:48:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0680322472
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:46:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CA7722241
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731308AbhATBqO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:46:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57828 "EHLO
+        id S1731203AbhATBsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:48:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731166AbhATBpd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:45:33 -0500
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3DF3C061384
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:57 -0800 (PST)
-Received: by mail-qk1-x735.google.com with SMTP id v126so23941336qkd.11
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:57 -0800 (PST)
+        with ESMTP id S1728829AbhATBrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:47:55 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94563C061573
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:47:14 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id u17so43874503iow.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=3DUtYyU36QJFeorLrEWXEkD9Kz6A6W0WvyEmvzL5b+A=;
-        b=AQIdH/C2LCCknEsPNzubYOJeO9+UuYnedlccVza/yS50gzNTkeA/8Kmg2opfauKeeE
-         6Yo5RoMXWOlcxCGr4o9HpLpnw+WlrfVf7H7JXq7PfL+Khj8vTm9MsNeIUdI8hl5+G8TV
-         u3FJ1CVBfBmlW6UlDBXY86gMsv2mb/E5MpucOeMLaGOpukTqzpGpAjQulAUdbSpLgyqK
-         1PzUnNrP+g0PTX8e8w1fZ4WPrGaWv7IeYSHCdCIY0KyULOxCW0c5FhNrPzvGyCEQMhSo
-         1+vmJKN3GKoRFPnOGxDiU6gXkli2yeNj/kovyn9VXWvVA1fOJrW5oj5IJqrrHBTgUoZe
-         T1kg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5+WhwzNRDpmWcjMswnWq7E2yb90Yz7CDT/ASxX9uTR0=;
+        b=DRFzXjwMHdy+hp3QFZ75qgsM2DMUTCu6U75uWV2VOGqXS0/FMbGYG/AzxizWr/Scs5
+         Qc50Id8JeUBRxixIIvxskSBvu15A1fcg/gA5rLzShWXI4/XcZa1pe7sWgcneP8uhKh3S
+         FUoRfvO63ilUUXKt5pY7LrtBdxErGk3+hgJGWVPmy8C/Ojm9q2ygOcQONjivcqXQ4dgj
+         wEYXFWlZT162jiZh+r43cV0FYYz8J5+1qZk4No8XuJcJD+aPSbCGbyYLF00ylOjNjWiM
+         0phQoeusbKN85SOewFITjBGrJKePhWfB7vtIceeQuthp86eGwppeq605v9GVsu3ahi5T
+         vFbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3DUtYyU36QJFeorLrEWXEkD9Kz6A6W0WvyEmvzL5b+A=;
-        b=GQ8Bk2Pru2jQhrxnmDexIw16HvO5C2g852fjMxRvsdl1an36xNpYWyHOfpqhPjIh4v
-         f8HcxjOMmTVMM1P6rGdZWpKpl3FEp+ciHenpsu7EZN6vuECQ+sXQmA1kJLYx/g5Z2JQw
-         cUFL2XowDOzhWdpYGa7XJjbFDEIHGoiBI6QGFR4it03hhdGoIYtENZX7KgcS6pxknSNi
-         /10AvQ6y6ojr4WYdw2MipFaFwz8yFOzlyTpcYyhtOBrGEfcbcAfaNEwv2ySUt3ul3+1p
-         L8TMJ9cPPMUATz5Vmg7x6/NtGyYVSUZ6fjgdqTAXdfAKzF9cQI1Q3fiJh3/JPH8EIKhZ
-         im7w==
-X-Gm-Message-State: AOAM530WpHcLqf0zX6Ceh5pYdMGzqX4ZO2R6CMFWlFdKCc7aM1gBxlsq
-        MLJSB7QqHzHtayqxPBa36OXYPw==
-X-Google-Smtp-Source: ABdhPJypgEvvYFnTlNyG6VBwXqgY2Tzm5v3xbnbyiHzHtXpJ8rTDHd84gpvkFj26kD1qxGdDyGHHvQ==
-X-Received: by 2002:a37:a658:: with SMTP id p85mr3347374qke.422.1611107036906;
-        Tue, 19 Jan 2021 17:43:56 -0800 (PST)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 17:43:56 -0800 (PST)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
-        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
-        dan.j.williams@intel.com, sashal@kernel.org,
-        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
-        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
-        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
-        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
-        linux-doc@vger.kernel.org, ira.weiny@intel.com,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v6 13/14] selftests/vm: test flag is broken
-Date:   Tue, 19 Jan 2021 20:43:32 -0500
-Message-Id: <20210120014333.222547-14-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210120014333.222547-1-pasha.tatashin@soleen.com>
-References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5+WhwzNRDpmWcjMswnWq7E2yb90Yz7CDT/ASxX9uTR0=;
+        b=CyewnRyGHeD8HgsnwBcwASX2LVg6FbvL++CaJCwbv4A50VaOMYVqu0O15TEZEJhIR0
+         aLFCGNS6IXoDMjgiwiRLDXOh4YTx0+smAXzrOsUKplOqp0PUfr1cHxWjTowi4R3cBZ04
+         k6lESdeN20itG2Wk0m9o+aL1kavoJInYK9l8o4HIOVT2e0vHQVXHh1PEZdf5zJTBFkme
+         0gKCzN4XiQ1SrI880BpBrOi3S0kOKXaOhgKwXHMZRNfYz+vuVoMHWu4iX8ntT7qJTcmR
+         Quv5HNqcNcESMYgC+OWIAuPLjuGmprGWPWWGm79VozHHihZwAI8CTGVslrpONKM/sV2B
+         MRQA==
+X-Gm-Message-State: AOAM530Ss7DEoSI1bItuRQdu2ythBksrH5omNN64H/q/bPgQJgrK6cmA
+        Wp7yvsTMuwDIddRpeLC/luwKpwMXqOVBpugGzAI=
+X-Google-Smtp-Source: ABdhPJy62kEQieTeSA2J6yIZv87/eimIurRXjgMBcYObkijzPEWlGzRbQX6wsV0E6cxHBZ9oOfiSoU4rOcHt2SGgrds=
+X-Received: by 2002:a02:969a:: with SMTP id w26mr5871142jai.96.1611107233884;
+ Tue, 19 Jan 2021 17:47:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210119074617.3109276-1-siyanteng@loongson.cn>
+In-Reply-To: <20210119074617.3109276-1-siyanteng@loongson.cn>
+From:   Huacai Chen <chenhuacai@gmail.com>
+Date:   Wed, 20 Jan 2021 09:47:02 +0800
+Message-ID: <CAAhV-H6C+wWaSHe+zpsGJ=bGeRqsQK3aYJU3KTEB204dYMfHCw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs: zh_CN: add mips index.rst translation
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In gup_test both gup_flags and test_flags use the same flags field.
-This is broken.
+Hi, Yanteng,
 
-Farther, in the actual gup_test.c all the passed gup_flags are erased and
-unconditionally replaced with FOLL_WRITE.
+What is "MIPS" in the title??
 
-Which means that test_flags are ignored, and code like this always
-performs pin dump test:
+Huacai
 
-155  			if (gup->flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
-156  				nr = pin_user_pages(addr, nr, gup->flags,
-157  						    pages + i, NULL);
-158  			else
-159  				nr = get_user_pages(addr, nr, gup->flags,
-160  						    pages + i, NULL);
-161  			break;
-
-Add a new test_flags field, to allow raw gup_flags to work.
-Add a new subcommand for DUMP_USER_PAGES_TEST to specify that pin test
-should be performed.
-Remove  unconditional overwriting of gup_flags via FOLL_WRITE. But,
-preserve the previous behaviour where FOLL_WRITE was the default flag,
-and add a new option "-W" to unset FOLL_WRITE.
-
-Rename flags with gup_flags.
-
-With the fix, dump works like this:
-
-root@virtme:/# gup_test  -c
----- page #0, starting from user virt addr: 0x7f8acb9e4000
-page:00000000d3d2ee27 refcount:2 mapcount:1 mapping:0000000000000000
-index:0x0 pfn:0x100bcf
-anon flags: 0x300000000080016(referenced|uptodate|lru|swapbacked)
-raw: 0300000000080016 ffffd0e204021608 ffffd0e208df2e88 ffff8ea04243ec61
-raw: 0000000000000000 0000000000000000 0000000200000000 0000000000000000
-page dumped because: gup_test: dump_pages() test
-DUMP_USER_PAGES_TEST: done
-
-root@virtme:/# gup_test  -c -p
----- page #0, starting from user virt addr: 0x7fd19701b000
-page:00000000baed3c7d refcount:1025 mapcount:1 mapping:0000000000000000
-index:0x0 pfn:0x108008
-anon flags: 0x300000000080014(uptodate|lru|swapbacked)
-raw: 0300000000080014 ffffd0e204200188 ffffd0e205e09088 ffff8ea04243ee71
-raw: 0000000000000000 0000000000000000 0000040100000000 0000000000000000
-page dumped because: gup_test: dump_pages() test
-DUMP_USER_PAGES_TEST: done
-
-Refcount shows the difference between pin vs no-pin case.
-Also change type of nr from int to long, as it counts number of pages.
-
-Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
----
- mm/gup_test.c                         | 23 ++++++++++-------------
- mm/gup_test.h                         |  3 ++-
- tools/testing/selftests/vm/gup_test.c | 15 +++++++++++----
- 3 files changed, 23 insertions(+), 18 deletions(-)
-
-diff --git a/mm/gup_test.c b/mm/gup_test.c
-index e3cf78e5873e..a6ed1c877679 100644
---- a/mm/gup_test.c
-+++ b/mm/gup_test.c
-@@ -94,7 +94,7 @@ static int __gup_test_ioctl(unsigned int cmd,
- {
- 	ktime_t start_time, end_time;
- 	unsigned long i, nr_pages, addr, next;
--	int nr;
-+	long nr;
- 	struct page **pages;
- 	int ret = 0;
- 	bool needs_mmap_lock =
-@@ -126,37 +126,34 @@ static int __gup_test_ioctl(unsigned int cmd,
- 			nr = (next - addr) / PAGE_SIZE;
- 		}
- 
--		/* Filter out most gup flags: only allow a tiny subset here: */
--		gup->flags &= FOLL_WRITE;
--
- 		switch (cmd) {
- 		case GUP_FAST_BENCHMARK:
--			nr = get_user_pages_fast(addr, nr, gup->flags,
-+			nr = get_user_pages_fast(addr, nr, gup->gup_flags,
- 						 pages + i);
- 			break;
- 		case GUP_BASIC_TEST:
--			nr = get_user_pages(addr, nr, gup->flags, pages + i,
-+			nr = get_user_pages(addr, nr, gup->gup_flags, pages + i,
- 					    NULL);
- 			break;
- 		case PIN_FAST_BENCHMARK:
--			nr = pin_user_pages_fast(addr, nr, gup->flags,
-+			nr = pin_user_pages_fast(addr, nr, gup->gup_flags,
- 						 pages + i);
- 			break;
- 		case PIN_BASIC_TEST:
--			nr = pin_user_pages(addr, nr, gup->flags, pages + i,
-+			nr = pin_user_pages(addr, nr, gup->gup_flags, pages + i,
- 					    NULL);
- 			break;
- 		case PIN_LONGTERM_BENCHMARK:
- 			nr = pin_user_pages(addr, nr,
--					    gup->flags | FOLL_LONGTERM,
-+					    gup->gup_flags | FOLL_LONGTERM,
- 					    pages + i, NULL);
- 			break;
- 		case DUMP_USER_PAGES_TEST:
--			if (gup->flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
--				nr = pin_user_pages(addr, nr, gup->flags,
-+			if (gup->test_flags & GUP_TEST_FLAG_DUMP_PAGES_USE_PIN)
-+				nr = pin_user_pages(addr, nr, gup->gup_flags,
- 						    pages + i, NULL);
- 			else
--				nr = get_user_pages(addr, nr, gup->flags,
-+				nr = get_user_pages(addr, nr, gup->gup_flags,
- 						    pages + i, NULL);
- 			break;
- 		default:
-@@ -187,7 +184,7 @@ static int __gup_test_ioctl(unsigned int cmd,
- 
- 	start_time = ktime_get();
- 
--	put_back_pages(cmd, pages, nr_pages, gup->flags);
-+	put_back_pages(cmd, pages, nr_pages, gup->test_flags);
- 
- 	end_time = ktime_get();
- 	gup->put_delta_usec = ktime_us_delta(end_time, start_time);
-diff --git a/mm/gup_test.h b/mm/gup_test.h
-index 90a6713d50eb..887ac1d5f5bc 100644
---- a/mm/gup_test.h
-+++ b/mm/gup_test.h
-@@ -21,7 +21,8 @@ struct gup_test {
- 	__u64 addr;
- 	__u64 size;
- 	__u32 nr_pages_per_call;
--	__u32 flags;
-+	__u32 gup_flags;
-+	__u32 test_flags;
- 	/*
- 	 * Each non-zero entry is the number of the page (1-based: first page is
- 	 * page 1, so that zero entries mean "do nothing") from the .addr base.
-diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
-index 6c6336dd3b7f..943cc2608dc2 100644
---- a/tools/testing/selftests/vm/gup_test.c
-+++ b/tools/testing/selftests/vm/gup_test.c
-@@ -37,13 +37,13 @@ int main(int argc, char **argv)
- {
- 	struct gup_test gup = { 0 };
- 	unsigned long size = 128 * MB;
--	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 0;
-+	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
- 	unsigned long cmd = GUP_FAST_BENCHMARK;
- 	int flags = MAP_PRIVATE;
- 	char *file = "/dev/zero";
- 	char *p;
- 
--	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwSH")) != -1) {
-+	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
- 		switch (opt) {
- 		case 'a':
- 			cmd = PIN_FAST_BENCHMARK;
-@@ -65,9 +65,13 @@ int main(int argc, char **argv)
- 			 */
- 			gup.which_pages[0] = 1;
- 			break;
-+		case 'p':
-+			/* works only with DUMP_USER_PAGES_TEST */
-+			gup.test_flags |= GUP_TEST_FLAG_DUMP_PAGES_USE_PIN;
-+			break;
- 		case 'F':
- 			/* strtol, so you can pass flags in hex form */
--			gup.flags = strtol(optarg, 0, 0);
-+			gup.gup_flags = strtol(optarg, 0, 0);
- 			break;
- 		case 'm':
- 			size = atoi(optarg) * MB;
-@@ -93,6 +97,9 @@ int main(int argc, char **argv)
- 		case 'w':
- 			write = 1;
- 			break;
-+		case 'W':
-+			write = 0;
-+			break;
- 		case 'f':
- 			file = optarg;
- 			break;
-@@ -140,7 +147,7 @@ int main(int argc, char **argv)
- 
- 	gup.nr_pages_per_call = nr_pages;
- 	if (write)
--		gup.flags |= FOLL_WRITE;
-+		gup.gup_flags |= FOLL_WRITE;
- 
- 	fd = open("/sys/kernel/debug/gup_test", O_RDWR);
- 	if (fd == -1) {
--- 
-2.25.1
-
+On Tue, Jan 19, 2021 at 3:46 PM Yanteng Si <siyanteng@loongson.cn> wrote:
+>
+> This patch translates Documentation/iio/index.rst into Chinese.
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/iio/index.rst          | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/iio/index.rst
+>
+> diff --git a/Documentation/translations/zh_CN/iio/index.rst b/Documentati=
+on/translations/zh_CN/iio/index.rst
+> new file mode 100644
+> index 000000000000..88b6ba5f233b
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/iio/index.rst
+> @@ -0,0 +1,20 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../iio/index`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_index:
+> +
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +=E5=B7=A5=E4=B8=9A I/O
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   iio_configfs
+> +
+> +   ep93xx_adc
+> --
+> 2.27.0
+>
