@@ -2,168 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B5AC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA1AC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:44:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69F7420449
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:32:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C5BF22472
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:44:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728373AbhATBcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:32:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49234 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728286AbhATBby (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:31:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 09B40206F9;
-        Wed, 20 Jan 2021 01:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611106273;
-        bh=1HkPn5jT7T+qZpeISImoewLL4KyY3IkZxz+hihW1ZXg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VjiUrvI6DCa3D9FgTg2N8RBQma5pmCVL54EtIdiGTGdMOlGUz27B5xOiGEui6cpM9
-         tUNIi5tTPpZYlzeXBMYsHIWJwUaOuAcOmOj0BFkzqTUR2XcqkzuoJyEdvSPN1RTtDM
-         enXztVS/o/zRCTmKHscCJQdup/3yraUt/xKRDzwbvxImhrLl6h+/oZigkAzfCW6wEi
-         7VhaPGU8TtwaThswmyak6o54B7juq+kRggr4iHv34iCEax0wdtf5rbXRust7fhJ/fk
-         Rs4sg/J4Zbs6W1HAACn6ctKIsbOqyFoIJBaffPaJ7X2oRJ8vuv5OYgYPmeXXUB1ap1
-         PkGaVJ2q0rmPw==
-Date:   Wed, 20 Jan 2021 03:31:06 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <YAeH2pb8szQyjusL@kernel.org>
-References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
- <1604419306-26105-3-git-send-email-sumit.garg@linaro.org>
- <X/x+N0fgrzIZTeNi@kernel.org>
- <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
- <X/+m6+m2/snYj9Vc@kernel.org>
- <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
- <YAa0ys4YJcZtKdfF@kernel.org>
+        id S1729482AbhATBoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:44:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729307AbhATBoR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:44:17 -0500
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE4DDC0613CF
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:36 -0800 (PST)
+Received: by mail-qk1-x72c.google.com with SMTP id n142so24034409qkn.2
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPD67UzCk98LAJ6Vu+XL6V48bUTmpnZw0NniS4q7Fus=;
+        b=YrxniE6SMmxLETdX5/ZkDdXkLspmOnyNxTqfdKpiXO8pSGFyZbXXn7MIaJ5y6R6oGY
+         XDS0Rrk0Kjwn7a2mXktkD3avg1myoTzcatzmmQaGBuoqhaN7MlZhybSrinyLhCWhlk7N
+         s6iPgiqDQCJ5WfBaDAMRggDPran7MBfjtalwdP2hAHSzejFbF3B/cFmtwtCE64oWMRzZ
+         vtl6O7G8B5AE/F6wdMQV60JM0j668itxxusI4w1nDO8qLB05OwmuciV2X8kz8B9kceOb
+         GebY8Y7P9HkTEjrtC0HNAoP8Rdk9y4/R7L5kvVVDD/h0tz0kPVIm2DeFpcaNDz8Nw4TI
+         lhhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fPD67UzCk98LAJ6Vu+XL6V48bUTmpnZw0NniS4q7Fus=;
+        b=U/xaglOP9v3FBtmh1Ov7D/5gDcxx8H1U6WD6A4kXDmAg5aQ43/dduAOET0AvEGwdm2
+         gjONko2iPmUCnagdYfouJHWz/RxYkcRgn0kjm0kd+WE5k9zCS3+E5jZT5Rr5eizD5AJW
+         N0ZVME36ajC7SeSF35NWokvRs0m6Y/gzWFHY1hyaLM7zxMfveGb+lKnoDHue5etuSxYc
+         srMbTwv+f9EdtVzkMCH6ndkwMoFSTvAXuiVwnwM1ixM7wnALtPIJ0+SAryZyxdsUouTL
+         vo5XJcK2edVfLXGmFOcvzwiaS5Onf+uU5l9dnzzObs3WEVViVyKp39O3+Mu0H4ntbF0h
+         smZg==
+X-Gm-Message-State: AOAM5303jcTkLeQFXL35ZXf9u6OgpMdRLAVYW27ievoAGfR4gKoeFLQe
+        j0LxSiJD5iH4n93FCPxgFxuNaQ==
+X-Google-Smtp-Source: ABdhPJwkg27Z+riB+yAiL8Y5v77a2a29WA0N50uAYVxh9YQvEjU4ReY/pYEWivhixSXk+9oF3GoiPQ==
+X-Received: by 2002:a37:628b:: with SMTP id w133mr7409379qkb.247.1611107015849;
+        Tue, 19 Jan 2021 17:43:35 -0800 (PST)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 17:43:35 -0800 (PST)
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
+        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
+        dan.j.williams@intel.com, sashal@kernel.org,
+        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
+        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
+        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
+        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
+        linux-doc@vger.kernel.org, ira.weiny@intel.com,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH v6 00/14] prohibit pinning pages in ZONE_MOVABLE
+Date:   Tue, 19 Jan 2021 20:43:19 -0500
+Message-Id: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YAa0ys4YJcZtKdfF@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 12:30:42PM +0200, Jarkko Sakkinen wrote:
-> On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
-> > On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >
-> > > On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
-> > > > Hi Jarkko,
-> > > >
-> > > > On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > > >
-> > > > > On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
-> > > > > > Add support for TEE based trusted keys where TEE provides the functionality
-> > > > > > to seal and unseal trusted keys using hardware unique key.
-> > > > > >
-> > > > > > Refer to Documentation/tee.txt for detailed information about TEE.
-> > > > > >
-> > > > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > > > >
-> > > > > I haven't yet got QEMU environment working with aarch64, this produces
-> > > > > just a blank screen:
-> > > > >
-> > > > > ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
-> > > > >
-> > > > > My BuildRoot fork for TPM and keyring testing is located over here:
-> > > > >
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
-> > > > >
-> > > > > The "ARM version" is at this point in aarch64 branch. Over time I will
-> > > > > define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
-> > > > > in the master branch.
-> > > > >
-> > > > > To create identical images you just need to
-> > > > >
-> > > > > $ make tpmdd_defconfig && make
-> > > > >
-> > > > > Can you check if you see anything obviously wrong? I'm eager to test this
-> > > > > patch set, and in bigger picture I really need to have ready to run
-> > > > > aarch64 environment available.
-> > > >
-> > > > I would rather suggest you to follow steps listed here [1] as to test
-> > > > this feature on Qemu aarch64 we need to build firmwares such as TF-A,
-> > > > OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
-> > > > system [2]. And then it would be easier to migrate them to your
-> > > > buildroot environment as well.
-> > > >
-> > > > [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
-> > > > [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
-> > > >
-> > > > -Sumit
-> > >
-> > > Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
-> > >
-> > 
-> > $ cat keyctl_change
-> > diff --git a/common.mk b/common.mk
-> > index aeb7b41..663e528 100644
-> > --- a/common.mk
-> > +++ b/common.mk
-> > @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
-> >  BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
-> >  BR2_PACKAGE_STRACE ?= y
-> >  BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
-> > $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
-> > +BR2_PACKAGE_KEYUTILS := y
-> > 
-> >  # All BR2_* variables from the makefile or the environment are appended to
-> >  # ../out-br/extra.conf. All values are quoted "..." except y and n.
-> > diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
-> > index 368c18a..832ab74 100644
-> > --- a/kconfigs/qemu.conf
-> > +++ b/kconfigs/qemu.conf
-> > @@ -20,3 +20,5 @@ CONFIG_9P_FS=y
-> >  CONFIG_9P_FS_POSIX_ACL=y
-> >  CONFIG_HW_RANDOM=y
-> >  CONFIG_HW_RANDOM_VIRTIO=y
-> > +CONFIG_TRUSTED_KEYS=y
-> > +CONFIG_ENCRYPTED_KEYS=y
-> > 
-> > > After I've successfully tested 2/4, I'd suggest that you roll out one more
-> > > version and CC the documentation patch to Elaine and Mini, and clearly
-> > > remark in the commit message that TEE is a standard, with a link to the
-> > > specification.
-> > >
-> > 
-> > Sure, I will roll out the next version after your testing.
-> 
-> Thanks, I'll try this at instant, and give my feedback.
+Changelog
+---------
+v6
+  Small update, but I wanted to send it out quicker, as it removes a
+  controversial patch and replaces it with something sane.
+- Removed forcing FOLL_WRITE for longterm gup, instead added a patch to
+  skip zero pages during migration.
+- Added reviewed-by's and minor log changes.
 
-I bump into this:
+v5
+- Added the following patches to the beginning of series, which are fixes
+   to the other existing problems with CMA migration code:
+	mm/gup: check every subpage of a compound page during isolation
+	mm/gup: return an error on migration failure
+	mm/gup: check for isolation errors also at the beginning of series
+	mm/gup: do not allow zero page for pinned pages
+- remove .gfp_mask/.reclaim_idx changes from mm/vmscan.c
+- update movable zone header comment in patch 8 instead of patch 3, fix
+  the comment
+- Added acked, sign-offs
+- Updated commit logs based on feedback
+- Addressed issues reported by Michal and Jason.
+- Remove:
+	#define PINNABLE_MIGRATE_MAX	10
+	#define PINNABLE_ISOLATE_MAX	100
+   Instead: fail on the first migration failure, and retry isolation
+   forever as their failures are transient.
 
-$ make run-only
-ln -sf /home/jarkko/devel/tpm/optee/build/../out-br/images/rootfs.cpio.gz /home/jarkko/devel/tpm/optee/build/../out/bin/
-ln: failed to create symbolic link '/home/jarkko/devel/tpm/optee/build/../out/bin/': No such file or directory
-make: *** [Makefile:194: run-only] Error 1
+- In self-set addressed some of the comments from John Hubbard, updated
+  commit logs, and added comments. Renamed gup->flags with gup->test_flags.
 
-/Jarkko
+v4
+- Address page migration comments. New patch:
+  mm/gup: limit number of gup migration failures, honor failures
+  Implements the limiting number of retries for migration failures, and
+  also check for isolation failures.
+  Added a test case into gup_test to verify that pages never long-term
+  pinned in a movable zone, and also added tests to fault both in kernel
+  and in userland.
+v3
+- Merged with linux-next, which contains clean-up patch from Jason,
+  therefore this series is reduced by two patches which did the same
+  thing.
+v2
+- Addressed all review comments
+- Added Reviewed-by's.
+- Renamed PF_MEMALLOC_NOMOVABLE to PF_MEMALLOC_PIN
+- Added is_pinnable_page() to check if page can be longterm pinned
+- Fixed gup fast path by checking is_in_pinnable_zone()
+- rename cma_page_list to movable_page_list
+- add a admin-guide note about handling pinned pages in ZONE_MOVABLE,
+  updated caveat about pinned pages from linux/mmzone.h
+- Move current_gfp_context() to fast-path
+
+---------
+When page is pinned it cannot be moved and its physical address stays
+the same until pages is unpinned.
+
+This is useful functionality to allows userland to implementation DMA
+access. For example, it is used by vfio in vfio_pin_pages().
+
+However, this functionality breaks memory hotplug/hotremove assumptions
+that pages in ZONE_MOVABLE can always be migrated.
+
+This patch series fixes this issue by forcing new allocations during
+page pinning to omit ZONE_MOVABLE, and also to migrate any existing
+pages from ZONE_MOVABLE during pinning.
+
+It uses the same scheme logic that is currently used by CMA, and extends
+the functionality for all allocations.
+
+For more information read the discussion [1] about this problem.
+[1] https://lore.kernel.org/lkml/CA+CK2bBffHBxjmb9jmSKacm0fJMinyt3Nhk8Nx6iudcQSj80_w@mail.gmail.com
+
+Previous versions:
+v1
+https://lore.kernel.org/lkml/20201202052330.474592-1-pasha.tatashin@soleen.com
+v2
+https://lore.kernel.org/lkml/20201210004335.64634-1-pasha.tatashin@soleen.com
+v3
+https://lore.kernel.org/lkml/20201211202140.396852-1-pasha.tatashin@soleen.com
+v4
+https://lore.kernel.org/lkml/20201217185243.3288048-1-pasha.tatashin@soleen.com
+v5
+https://lore.kernel.org/lkml/20210119043920.155044-1-pasha.tatashin@soleen.com
+
+Pavel Tatashin (14):
+  mm/gup: don't pin migrated cma pages in movable zone
+  mm/gup: check every subpage of a compound page during isolation
+  mm/gup: return an error on migration failure
+  mm/gup: check for isolation errors
+  mm cma: rename PF_MEMALLOC_NOCMA to PF_MEMALLOC_PIN
+  mm: apply per-task gfp constraints in fast path
+  mm: honor PF_MEMALLOC_PIN for all movable pages
+  mm/gup: do not migrate zero page
+  mm/gup: migrate pinned pages out of movable zone
+  memory-hotplug.rst: add a note about ZONE_MOVABLE and page pinning
+  mm/gup: change index type to long as it counts pages
+  mm/gup: longterm pin migration cleaup
+  selftests/vm: test flag is broken
+  selftests/vm: test faulting in kernel, and verify pinnable pages
+
+ .../admin-guide/mm/memory-hotplug.rst         |   9 +
+ include/linux/migrate.h                       |   1 +
+ include/linux/mm.h                            |  11 ++
+ include/linux/mmzone.h                        |  13 +-
+ include/linux/sched.h                         |   2 +-
+ include/linux/sched/mm.h                      |  27 +--
+ include/trace/events/migrate.h                |   3 +-
+ mm/gup.c                                      | 175 ++++++++----------
+ mm/gup_test.c                                 |  29 +--
+ mm/gup_test.h                                 |   3 +-
+ mm/hugetlb.c                                  |   4 +-
+ mm/page_alloc.c                               |  33 ++--
+ tools/testing/selftests/vm/gup_test.c         |  36 +++-
+ 13 files changed, 185 insertions(+), 161 deletions(-)
+
+-- 
+2.25.1
+
