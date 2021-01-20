@@ -2,118 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF6DC433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 16:54:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D89C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 17:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2A4F233FC
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 16:54:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5500E22CE3
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 17:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733178AbhATQxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 11:53:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55670 "EHLO mail.kernel.org"
+        id S2404181AbhATRSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 12:18:43 -0500
+Received: from verein.lst.de ([213.95.11.211]:56843 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391216AbhATQxN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Jan 2021 11:53:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9CE29233E2;
-        Wed, 20 Jan 2021 16:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611161553;
-        bh=xsI05bmwLj1zRx+KmWWXCXJkzOXhzGREQVg7HnKAUIw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nZ9WMx7zPratLelEOvpA5VtXVZMea3poexeSiovBl9MP4dOVrUj0Dnas9RR0G4G4r
-         YNh1o4hUpPG8zcBriyE6X5xyJObF4c4XxD6d1k3yW5MXiCtUT2NzTZ7HrO2oHuAUGM
-         Ud6btBokuIWXCDyaWD3NydAk14JqM211TiGsDSf4Lm8/vvDt7IpzN6eTNrNFdQO+gt
-         vqTprNRnIe3f9cJaEMj+GmoHGQiwQHzA8enEkfQwZVE7IyGqnh/F5WA7ImT8rr5nsq
-         lj6Ssk8xa19+Afp479BpLN3rlkqh7L5PzsWc1VadTu2XeElGZVRAQLPEEj1jCiVVNg
-         mNWCAtVgWYIGQ==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, live-patching@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>
-Subject: [PATCH v6 1/2] Documentation: livepatch: Convert to automatically generated contents
-Date:   Wed, 20 Jan 2021 16:47:13 +0000
-Message-Id: <20210120164714.16581-2-broonie@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210120164714.16581-1-broonie@kernel.org>
-References: <20210120164714.16581-1-broonie@kernel.org>
+        id S2391740AbhATRSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Jan 2021 12:18:39 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 2631968B05; Wed, 20 Jan 2021 18:17:49 +0100 (CET)
+Date:   Wed, 20 Jan 2021 18:17:48 +0100
+From:   ". Christoph Hellwig" <hch@lst.de>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     ". Christoph Hellwig" <hch@lst.de>,
+        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20210120171748.GA24290@lst.de>
+References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de> <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de> <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com> <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de> <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com> <20210111083614.GA27589@lst.de> <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
 MIME-Version: 1.0
-X-Patch-Hashes: v=1; h=sha256; i=B41P/NyBiZr52ZgLMD1EC67DEBuJtlCAf6fQniGZ1yU=; m=tK1rm+RY1gwZaaFyY+5e8pGndilbjqiFIBPrtci03jo=; p=2MUKXici6S/sAj84vYSavNtcg2sj4YeMK0QGWULmAu0=; g=119515872595811257e582bba7d8323e2f1210c3
-X-Patch-Sig: m=pgp; i=broonie@kernel.org; s=0xC3F436CA30F5D8EB; b=iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAIXpAACgkQJNaLcl1Uh9CKEwf+KAC 3/JP6ZAl7PX1lqbxnrs4bqsw4KCUj2su9lDlC/RmzMjaw5XRkp9WLvPXxTTIhOAF14GJ95yRuoBIu 9eQfJcCyuzcFCIjSYvoni8tEbpk/Zvcl7WQDMTuaaf3jnhR2cLkwOhJJEJtzhnvkNcyO6Zt9dcS1u +/tjj+VakJxtfhS/KaaH3RDoBJ4VPj4vxfomzQM7tKVkYi9tVFDZ/lwsje+FqMhbAfeTkJoXnlPds ZTA9AJy8+GLn9YlXaJTc7gOdF7G5EgplITgvy6GJvacs0heFkhyF54A5z1vp62I14nnDkPeTtnhL0 wmxgkUpjVdw38mYmqbj8RFeSTLV68Ag==
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Automatically generate the tables of contents for livepatch documentation
-files that have tables of contents rather than open coding them so things
-are a little easier to maintain.
+On Fri, Jan 15, 2021 at 02:08:14PM +0100, Ricardo Ribalda wrote:
+> > > Did you have time to look into this?
+> > >
+> > > No hurry, I just want to make sure that I didn't miss anything ;)
+> >
+> > Haven't managed to get to it, sorry.
+> 
+> No worries!, is there something we can do to help you with this?
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
----
- Documentation/livepatch/livepatch.rst         | 15 +--------------
- Documentation/livepatch/module-elf-format.rst | 10 ++--------
- 2 files changed, 3 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatch/livepatch.rst
-index c2c598c4ead8..68e3651e8af9 100644
---- a/Documentation/livepatch/livepatch.rst
-+++ b/Documentation/livepatch/livepatch.rst
-@@ -6,20 +6,7 @@ This document outlines basic information about kernel livepatching.
- 
- .. Table of Contents:
- 
--    1. Motivation
--    2. Kprobes, Ftrace, Livepatching
--    3. Consistency model
--    4. Livepatch module
--       4.1. New functions
--       4.2. Metadata
--    5. Livepatch life-cycle
--       5.1. Loading
--       5.2. Enabling
--       5.3. Replacing
--       5.4. Disabling
--       5.5. Removing
--    6. Sysfs
--    7. Limitations
-+.. contents:: :local:
- 
- 
- 1. Motivation
-diff --git a/Documentation/livepatch/module-elf-format.rst b/Documentation/livepatch/module-elf-format.rst
-index 8c6b894c4661..dbe9b400e39f 100644
---- a/Documentation/livepatch/module-elf-format.rst
-+++ b/Documentation/livepatch/module-elf-format.rst
-@@ -7,14 +7,8 @@ This document outlines the Elf format requirements that livepatch modules must f
- 
- .. Table of Contents
- 
--   1. Background and motivation
--   2. Livepatch modinfo field
--   3. Livepatch relocation sections
--      3.1 Livepatch relocation section format
--   4. Livepatch symbols
--      4.1 A livepatch module's symbol table
--      4.2 Livepatch symbol format
--   5. Symbol table and Elf section access
-+.. contents:: :local:
-+
- 
- 1. Background and motivation
- ============================
--- 
-2.20.1
-
+Not yet.  I hope to get to it in the next days, and then soon I'll
+need all the help you can give me for feedback and testing.
