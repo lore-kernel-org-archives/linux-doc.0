@@ -2,101 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFAC8C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:22:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BFF6C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:53:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 808C622C9E
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:22:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0450D23108
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:53:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725842AbhATAVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 19:21:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727819AbhATATN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:13 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F551C061575;
-        Tue, 19 Jan 2021 16:18:29 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id s15so11511443plr.9;
-        Tue, 19 Jan 2021 16:18:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FQMMF/2jUk+oPAGJT0QPqCY9ZpMVcAq7Q7ndO7jDZtc=;
-        b=A/KxEfurUyp8y+7s9StUSf3ir/9EoE/2c4lS5n1+IITvoJo8b3yTx+DDVUl6vNOf04
-         36Myvm6/6LlI6Vb9lZmtuzvRetaNBXglRY5umGTeuDe9iJwS1DAabFbaIgfSOz8+TUM3
-         MwNUWV5h1Mg4kc0TvYoM8CZylV81Qm5ps2dLqoHkLY8slD8KuYPTbX+5RB4iaP6rZscV
-         M/UyrBBwSYeMmuPJfgH1P7qxJRWUHapuWJvtKtqt220WdzJ4CMNDhsBnUYX/w6XlAHeZ
-         CXCpSVXyhDjAKtgKrR2JkPL/Sg8WRABGtc2OWiON/xRKfWwo9kNG7QZkDYHwS9AYLJOn
-         LGcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FQMMF/2jUk+oPAGJT0QPqCY9ZpMVcAq7Q7ndO7jDZtc=;
-        b=NIKgiAAbUku6ZUQrHx3BDVvIuVA8EBU8qe3WS5GFDmoPBs4DBg6q8OZwmtA8Ey1N+U
-         BRiZV8wneInta+68qfsFWegGb4Cn5z4fsIom0JQqA3L8kU/GXmqUlncOvCvLFOS464qq
-         95gJCuQleX6JPdfN4I1kjyK5aT2VQGJU/x6GWndr5SO3cvHRPiJVJ9rdpeIINv5E7eB5
-         oY4mRBL3rmuiE6tYZ8agl7VkO72Tv1bS8yXayIjVbzEDTA1CIT2662XDt2XmH1bn0FOv
-         79QKXu8RUE6rL2eKkBXhd0bd/GTxbSUJiTeDMQ7Tjsyj0Q+9eHoDbRffbI5tZNKS2MsX
-         D1Lg==
-X-Gm-Message-State: AOAM530RBfzn+JN0w+2IqaXPMt6x9OyZRG2hSd/O+ZnEZ4mqHI90AbxM
-        FrWQ52LHv5u5m71L13bC9djOeud+M1lCSg==
-X-Google-Smtp-Source: ABdhPJwcUqTK3hFUvP6JMosjoOfZTAE2ZIgww53VBjFm5h/zKHH2xrQsFoUNtQYvO6xMtdsRV94Pdg==
-X-Received: by 2002:a17:90a:f988:: with SMTP id cq8mr2446968pjb.71.1611101907979;
-        Tue, 19 Jan 2021 16:18:27 -0800 (PST)
-Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:18:27 -0800 (PST)
-From:   Kir Kolyshkin <kolyshkin@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
-        Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 00/10] docs: cgroup nits and fixes
-Date:   Tue, 19 Jan 2021 16:18:14 -0800
-Message-Id: <20210120001824.385168-1-kolyshkin@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        id S1731001AbhATAxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:53:11 -0500
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21119 "EHLO
+        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727025AbhATAxJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:53:09 -0500
+X-Greylist: delayed 1080 seconds by postgrey-1.27 at vger.kernel.org; Tue, 19 Jan 2021 19:53:08 EST
+ARC-Seal: i=1; a=rsa-sha256; t=1611102836; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=bvfuEVpT4XhGIRZ7H3qUEKRtb4ThDEDdXfu0fGNznNoBq6hR3zJmUh1tILm8GWsl8Ncxbw2QP3QKCJ4GG3oQY1SWipvLA6G4ubbe6sep+36uX0KcX2vOvsF3CbK+ouvcFBMTujldMqYtnx8UNPsBWJ817z2Qnxaem7kN1GLaLIU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1611102836; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=Gy6cxAGpQV06imIwuB7h3MwRSZjSFn29L4jucGrojIM=; 
+        b=XQhTC1LH6c79yVxqK8zC2C5CgP2MuAgUhz6d0ZmZ+dBHrUTvn8RfVbISO2NGH+Oe9IP0kiK4OUmFf2nrsyPWpbJyM4+ZNncEB18ELEw6q2VPLXEGEwx5YPHb2OiK/TuG5+k6upE0999/PUUMxVFwNoCTO0xJb7Jwd+WgRK/n0TU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com> header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1611102836;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=Gy6cxAGpQV06imIwuB7h3MwRSZjSFn29L4jucGrojIM=;
+        b=M18bUZgt44glWZutDwWxXMoUKnlHR3szHDABEv1f06QiOrszMJbrC5eSxYaGjY71
+        N8wIIuJa243I9uWPqrYABy00MzADpYLPbVCBvfKdP9qfllPFibUM97Y3F9/ROsszVSX
+        getsmT810S+BbVsH7VgnSy8+vUtsHKg1nbnvB2AE=
+Received: from [10.10.1.24] (c-73-129-147-140.hsd1.md.comcast.net [73.129.147.140]) by mx.zohomail.com
+        with SMTPS id 1611102834623926.0489869436618; Tue, 19 Jan 2021 16:33:54 -0800 (PST)
+Subject: Re: [PATCH 05/13] x86: Add early TPM1.2/TPM2.0 interface support for
+ Secure Launch
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Ross Philipson <ross.philipson@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
+        trenchboot-devel@googlegroups.com
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+ <1600959521-24158-6-git-send-email-ross.philipson@oracle.com>
+ <20200925054313.GB165011@linux.intel.com>
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Message-ID: <933d9f3e-a509-bff4-54fe-20af44dc3ed0@apertussolutions.com>
+Date:   Tue, 19 Jan 2021 19:33:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200925054313.GB165011@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These are mostly formatting fixes for a few cases where html
-looks plain wrong, plus a couple of added cross-references,
-and a typo.
+On 9/25/20 1:43 AM, Jarkko Sakkinen wrote:
+> On Thu, Sep 24, 2020 at 10:58:33AM -0400, Ross Philipson wrote:
+>> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+>>
+>> This commit introduces an abstraction for TPM1.2 and TPM2.0 devices
+>> above the TPM hardware interface.
+>>
+>> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> 
+> This is way, way too PoC. I wonder why there is no RFC tag.
+> 
+> Please also read section 2 of
+> 
+> https://www.kernel.org/doc/html/v5.8/process/submitting-patches.html
+> 
+> You should leverage existing TPM code in a way or another. Refine it so
+> that it scales for your purpose and then compile it into your thing
+> (just include the necesary C-files with relative paths).
+> 
+> How it is now is never going to fly.
+> 
+> /Jarkko
+> 
 
-All issues spotted while reading cgroup docs. Results are checked
-manually for both html and pdf, using both Sphinx 2.4.4 and 3.2.1
-for rendering.
+After attempts to engage in finding alternative approaches, it appears
+that the only welcomed approach for sending measurements from the
+compressed kernel would be a major rewrite of the mainline TPM driver to:
 
-All commits are against docs-next@52042e2db
+1. Abstract out the mainline kernel infrastructure that is used by the
+driver
 
-Kir Kolyshkin (10):
-  docs/scheduler/sched-bwc: formatting fix
-  docs/scheduler/sched-design-CFS: formatting fix
-  docs/scheduler/sched-bwc: fix note rendering
-  docs/scheduler/sched-bwc: add proper ref
-  docs/scheduler/sched-bwc: note/link cgroup v2
-  docs/admin-guide: cgroup-v2: typos and spaces
-  docs/admin-guide: cgroup-v2: fix cgroup.type rendering
-  doc/admin-guide/cgroup-v2: use tables
-  docs/admin-guide/cgroup-v2: nit
-  docs/admin-guide/cgroup-v2: fix mount opt rendering
+2. Find ways to introduce a minimal amount of the equivalent
+infrastructure into the compressed kernel, to make the driver code
+reusable within the compressed kernel.
 
- Documentation/admin-guide/cgroup-v2.rst      | 60 +++++++++++---------
- Documentation/scheduler/sched-bwc.rst        | 18 ++++--
- Documentation/scheduler/sched-design-CFS.rst |  6 +-
- Documentation/scheduler/sched-rt-group.rst   |  2 +
- 4 files changed, 50 insertions(+), 36 deletions(-)
+This approach would exceed the scope of changes we want to introduce to
+non-SecureLaunch code to enable direct DRTM launch for the Linux kernel.
 
--- 
-2.29.2
+After careful consideration and discussions with colleagues from the
+trusted computing community, an alternative has been crafted. We aim to
+submit a version 2 with the following approach:
 
+1. SecureLaunch will take measurements in the compressed kernel as we do
+in version 1, but instead of immediately sending them to the TPM, they
+will be stored in the DRTM TPM event log.
+
+2. When the SecureLaunch module in the mainline kernel comes on line, it
+can send measurements to the TPM using the mainline TPM driver.
+
+While it would be ideal to record measurements at the time they are
+taken, the mainline kernel is measured alongside the compressed kernel
+as a single measurement. This means the same measured entity stays in
+control, prior to execution by any other entity within the system.
+
+At a later date, if the TPM maintainers refactor the TPM driver for
+reuse within the compressed kernel, then the sending of measurements can
+be revisited.
+
+For individuals and distributions that may prefer to record DRTM
+measurements earlier, the TrenchBoot project will do its best to
+maintain an external patch to provide that capability to a mainline LTS
+kernel.
+
+V/r,
+Daniel P. Smith
