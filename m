@@ -2,95 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4EB2C43381
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D4DC433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:10:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7966323442
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:10:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D95F23441
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389841AbhATOFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 09:05:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732168AbhATN1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:27:41 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E085C061757;
-        Wed, 20 Jan 2021 05:26:58 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id j18so2850930wmi.3;
-        Wed, 20 Jan 2021 05:26:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OHRRPO4wN/P2q0ZLR4beYWp9qHKpPaj73nkxOvC3Ers=;
-        b=hXowP4uHpXXcPcKaGfaFquwDcKjxidGKe+vFD4paTTcRmYyL05vpBiH8LYfiavVZlg
-         mkT2XU02Q1xjXQsAX9ocJea7gEP6RUv6+WMfxqbR1ItPX08wlJIxvA/P5Lp+NOE6Iw8Y
-         FCOPCusYR60KRK0SYgIPtIaAcBjMIdhrnFI1nNVzdYN9T0irhaN+ytcbCULfYzdx6wWv
-         f+dbTAfmn8K2L1JgMI3+p3YqFfKy7HgyLSjJrCalIlidH5OAlEihOEQJDdFNAJZvq13h
-         4/zJ8PVu1oZLAZP6bp6hlwiXl39CP33kgzbd+jfii6YT297ouGlhW4nuhaE6RqOdRj2f
-         j++g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OHRRPO4wN/P2q0ZLR4beYWp9qHKpPaj73nkxOvC3Ers=;
-        b=o1SXJXg2Dk98BOu3vUhHXLXVbODIlMtLHuHihvxzJGq9HkiwwFfwQZn3RBOc5/K1YH
-         a946BzgR6jyvKpW4FhD/18XfRf8AJwERQZzUvCFMqcpbsht5jpHVmby9KLc9YaCA8F2Z
-         sR72jXqdfs0IR5FEiBNxf9Z1aEODrXlg/HCkJFypiR9urtM7adUaToe0KJL0g+4XtPNq
-         VuzpfZ+Oec/qqKgzsqIeH7GA3rr2m27nDKvYLNo7/bUGtzsH/qMtMwuPSs9+WR1uKG8o
-         yGtGzrjDyyn7VpI31/NMGE4TM01mWJt2JMYMadchHClRYaPjY8vP9uumOuTX5+9WAvku
-         QfJQ==
-X-Gm-Message-State: AOAM5311bE0LrvopUL1GB7o4nnCmVqkQsKjw8ev6wf7s9qgISlcMDSbO
-        pejKB0WSu2AuWl4ba7Z2o2I=
-X-Google-Smtp-Source: ABdhPJxx3yjb/mA8dgiHvOr4zSfQ6yicEnTRahPNc764k7lsk8TMu/AQCVMJ37YDKGFYVMLGHDN1Cw==
-X-Received: by 2002:a1c:6089:: with SMTP id u131mr4328541wmb.99.1611149217330;
-        Wed, 20 Jan 2021 05:26:57 -0800 (PST)
-Received: from curtine-Aspire-A515-55.lan ([2001:818:e279:2100:6955:745:9baf:484e])
-        by smtp.googlemail.com with ESMTPSA id a12sm4572619wrh.71.2021.01.20.05.26.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 05:26:56 -0800 (PST)
-From:   Eric Curtin <ericcurtin17@gmail.com>
-Cc:     ericcurtin17@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Update Documentation/admin-guide/sysctl/fs.rst
-Date:   Wed, 20 Jan 2021 13:26:47 +0000
-Message-Id: <20210120132648.19046-1-ericcurtin17@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S2388830AbhATOFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 09:05:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48956 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731290AbhATNLW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Jan 2021 08:11:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8DF81B76E;
+        Wed, 20 Jan 2021 13:10:14 +0000 (UTC)
+Date:   Wed, 20 Jan 2021 14:10:09 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, paulmck@kernel.org,
+        dave.hansen@linux.intel.com, anshuman.khandual@arm.com,
+        oneukum@suse.com, bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>, mingo@redhat.com,
+        mchehab+huawei@kernel.org, luto@kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        viro@zeniv.linux.org.uk, Peter Zijlstra <peterz@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Michal Hocko <mhocko@suse.com>, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        pawan.kumar.gupta@linux.intel.com,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>, David Hildenbrand <david@redhat.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v13 00/12] Free some vmemmap pages of HugeTLB page
+Message-ID: <20210120130959.GA7881@localhost.localdomain>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <CAMZfGtVkjS4TXpRWsmCDxXKxP7W+-D1EgTZt30h3b1Si1+u9pA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtVkjS4TXpRWsmCDxXKxP7W+-D1EgTZt30h3b1Si1+u9pA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-max_user_watches for epoll should say 1/25, rather than 1/32
+On Wed, Jan 20, 2021 at 08:52:50PM +0800, Muchun Song wrote:
+> Hi Oscar and Mike,
+> 
+> Any suggestions about this version? Looking forward to your
+> review. Thanks a lot.
 
-Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
----
- Documentation/admin-guide/sysctl/fs.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Muchun,
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index f48277a0a850..2a501c9ddc55 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -380,5 +380,5 @@ This configuration option sets the maximum number of "watches" that are
- allowed for each user.
- Each "watch" costs roughly 90 bytes on a 32bit kernel, and roughly 160 bytes
- on a 64bit one.
--The current default value for  max_user_watches  is the 1/32 of the available
--low memory, divided for the "watch" cost in bytes.
-+The current default value for  max_user_watches  is the 1/25 (4%) of the
-+available low memory, divided for the "watch" cost in bytes.
+I plan to keep reviewing it in the coming days (tomorrow or Friday).
+I glanced over patch#3 when you posted the series and nothing sticked out besides
+what you have already pointed out, but I will have a further look.
+
+thanks
+
+
+
+> 
+> >
+> > Changelog in v11 -> v12:
+> >   - Move VM_WARN_ON_PAGE to a separate patch.
+> >   - Call __free_hugepage() with hugetlb_lock (See patch #5.) to serialize
+> >     with dissolve_free_huge_page(). It is to prepare for patch #9.
+> >   - Introduce PageHugeInflight. See patch #9.
+> >
+> > Changelog in v10 -> v11:
+> >   - Fix compiler error when !CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
+> >   - Rework some comments and commit changes.
+> >   - Rework vmemmap_remap_free() to 3 parameters.
+> >
+> >   Thanks to Oscar and Mike's suggestions and review.
+> >
+> > Changelog in v9 -> v10:
+> >   - Fix a bug in patch #11. Thanks to Oscar for pointing that out.
+> >   - Rework some commit log or comments. Thanks Mike and Oscar for the suggestions.
+> >   - Drop VMEMMAP_TAIL_PAGE_REUSE in the patch #3.
+> >
+> >   Thank you very much Mike and Oscar for reviewing the code.
+> >
+> > Changelog in v8 -> v9:
+> >   - Rework some code. Very thanks to Oscar.
+> >   - Put all the non-hugetlb vmemmap functions under sparsemem-vmemmap.c.
+> >
+> > Changelog in v7 -> v8:
+> >   - Adjust the order of patches.
+> >
+> >   Very thanks to David and Oscar. Your suggestions are very valuable.
+> >
+> > Changelog in v6 -> v7:
+> >   - Rebase to linux-next 20201130
+> >   - Do not use basepage mapping for vmemmap when this feature is disabled.
+> >   - Rework some patchs.
+> >     [PATCH v6 08/16] mm/hugetlb: Free the vmemmap pages associated with each hugetlb page
+> >     [PATCH v6 10/16] mm/hugetlb: Allocate the vmemmap pages associated with each hugetlb page
+> >
+> >   Thanks to Oscar and Barry.
+> >
+> > Changelog in v5 -> v6:
+> >   - Disable PMD/huge page mapping of vmemmap if this feature was enabled.
+> >   - Simplify the first version code.
+> >
+> > Changelog in v4 -> v5:
+> >   - Rework somme comments and code in the [PATCH v4 04/21] and [PATCH v4 05/21].
+> >
+> >   Thanks to Mike and Oscar's suggestions.
+> >
+> > Changelog in v3 -> v4:
+> >   - Move all the vmemmap functions to hugetlb_vmemmap.c.
+> >   - Make the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP default to y, if we want to
+> >     disable this feature, we should disable it by a boot/kernel command line.
+> >   - Remove vmemmap_pgtable_{init, deposit, withdraw}() helper functions.
+> >   - Initialize page table lock for vmemmap through core_initcall mechanism.
+> >
+> >   Thanks for Mike and Oscar's suggestions.
+> >
+> > Changelog in v2 -> v3:
+> >   - Rename some helps function name. Thanks Mike.
+> >   - Rework some code. Thanks Mike and Oscar.
+> >   - Remap the tail vmemmap page with PAGE_KERNEL_RO instead of PAGE_KERNEL.
+> >     Thanks Matthew.
+> >   - Add some overhead analysis in the cover letter.
+> >   - Use vmemap pmd table lock instead of a hugetlb specific global lock.
+> >
+> > Changelog in v1 -> v2:
+> >   - Fix do not call dissolve_compound_page in alloc_huge_page_vmemmap().
+> >   - Fix some typo and code style problems.
+> >   - Remove unused handle_vmemmap_fault().
+> >   - Merge some commits to one commit suggested by Mike.
+> >
+> > Muchun Song (12):
+> >   mm: memory_hotplug: factor out bootmem core functions to
+> >     bootmem_info.c
+> >   mm: hugetlb: introduce a new config HUGETLB_PAGE_FREE_VMEMMAP
+> >   mm: hugetlb: free the vmemmap pages associated with each HugeTLB page
+> >   mm: hugetlb: defer freeing of HugeTLB pages
+> >   mm: hugetlb: allocate the vmemmap pages associated with each HugeTLB
+> >     page
+> >   mm: hugetlb: set the PageHWPoison to the raw error page
+> >   mm: hugetlb: flush work when dissolving a HugeTLB page
+> >   mm: hugetlb: introduce PageHugeInflight
+> >   mm: hugetlb: add a kernel parameter hugetlb_free_vmemmap
+> >   mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
+> >   mm: hugetlb: gather discrete indexes of tail page
+> >   mm: hugetlb: optimize the code with the help of the compiler
+> >
+> >  Documentation/admin-guide/kernel-parameters.txt |  14 ++
+> >  Documentation/admin-guide/mm/hugetlbpage.rst    |   3 +
+> >  arch/x86/mm/init_64.c                           |  13 +-
+> >  fs/Kconfig                                      |  18 ++
+> >  include/linux/bootmem_info.h                    |  65 ++++++
+> >  include/linux/hugetlb.h                         |  37 ++++
+> >  include/linux/hugetlb_cgroup.h                  |  15 +-
+> >  include/linux/memory_hotplug.h                  |  27 ---
+> >  include/linux/mm.h                              |   5 +
+> >  mm/Makefile                                     |   2 +
+> >  mm/bootmem_info.c                               | 124 +++++++++++
+> >  mm/hugetlb.c                                    | 218 +++++++++++++++++--
+> >  mm/hugetlb_vmemmap.c                            | 278 ++++++++++++++++++++++++
+> >  mm/hugetlb_vmemmap.h                            |  45 ++++
+> >  mm/memory_hotplug.c                             | 116 ----------
+> >  mm/sparse-vmemmap.c                             | 273 +++++++++++++++++++++++
+> >  mm/sparse.c                                     |   1 +
+> >  17 files changed, 1082 insertions(+), 172 deletions(-)
+> >  create mode 100644 include/linux/bootmem_info.h
+> >  create mode 100644 mm/bootmem_info.c
+> >  create mode 100644 mm/hugetlb_vmemmap.c
+> >  create mode 100644 mm/hugetlb_vmemmap.h
+> >
+> > --
+> > 2.11.0
+> >
+> 
+
 -- 
-2.25.1
-
+Oscar Salvador
+SUSE L3
