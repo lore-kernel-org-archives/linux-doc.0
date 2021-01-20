@@ -2,110 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6997C432C3
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 12:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BFEC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 12:46:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B264823340
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 12:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36F8F23340
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 12:46:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731491AbhATMiK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 07:38:10 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:34999 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388915AbhATLOk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 06:14:40 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0UMKGob5_1611141153;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UMKGob5_1611141153)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 20 Jan 2021 19:12:35 +0800
-Subject: Re: [PATCH v2 2/3] docs/zh_CN: add iio ep93xx_adc.rst translation
-To:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
+        id S2389866AbhATMhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 07:37:52 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:56444 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731076AbhATLCr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Jan 2021 06:02:47 -0500
+Received: from localhost.localdomain (unknown [112.3.198.184])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axdb2RDQhgVhEIAA--.10094S4;
+        Wed, 20 Jan 2021 19:01:41 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
         Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2 3/3] docs: zh_CN: add iio index.rst translation
+Date:   Wed, 20 Jan 2021 19:01:55 +0800
+Message-Id: <20210120110155.405589-3-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210120110155.405589-1-siyanteng@loongson.cn>
 References: <20210120110155.405589-1-siyanteng@loongson.cn>
- <20210120110155.405589-2-siyanteng@loongson.cn>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <0207817f-85e0-2aed-4fc9-c6928e767456@linux.alibaba.com>
-Date:   Wed, 20 Jan 2021 19:12:33 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210120110155.405589-2-siyanteng@loongson.cn>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Axdb2RDQhgVhEIAA--.10094S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7Wry5Xw1fuFW3ury7Cr1xZrb_yoWfArX_Aw
+        n5XFWkCr4jyF1xtFWxAr1UXry8CFZ7urn2kFn0y398W34UArZrJw1DWrn7XF18WFWa9F15
+        CrWkWrn5JrnIgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb-xFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY02
+        0Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+        ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
+        62IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
+        AFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
+        0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l4I8I3I
+        0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
+        GVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
+        0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0
+        rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
+        4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+This patch translates Documentation/iio/index.rst into Chinese.
 
-在 2021/1/20 下午7:01, Yanteng Si 写道:
-> This patch translates Documentation/iio/ep93xx_adc.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/iio/ep93xx_adc.rst     | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/iio/ep93xx_adc.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/iio/ep93xx_adc.rst b/Documentation/translations/zh_CN/iio/ep93xx_adc.rst
-> new file mode 100644
-> index 000000000000..727a48d09090
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/iio/ep93xx_adc.rst
-> @@ -0,0 +1,46 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../iio/ep93xx_adc`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_iio_ep93xx_adc:
-> +
-> +
-> +==================================
-> +思睿逻辑 EP93xx 模拟数字转换器驱动
-> +==================================
-> +
-> +1. 概述
-> +=======
-> +
-> +该驱动同时适用于具有5通道模拟数字转换器的低端 (EP9301, Ep9302) 设备和10通道
-> +触摸屏/模拟数字转换器的高端设备(EP9307, EP9312, EP9315)。
-> +
-> +2. 通道编号
-> +===========
-> +
-> +EP9301和EP9302数据表定义了通道0..4的编号方案。虽然EP9307, EP9312和EP9315多
-> +了3个通道（一共8个），但是编号并没有定义。所以说最后三个通道是随机编号的。
-> +
-> +如果ep93xx_adc是IIO设备0，您将在以下位置找到条目
-> +/sys/bus/iio/devices/iio:device0/:
-> +
-> +  +-----------------+---------------+
-> +  | sysfs 入口      | ball/pin 名称 |
-> +  +=================+===============+
-> +  | in_voltage0_raw | YM            |
-> +  +-----------------+---------------+
-> +  | in_voltage1_raw | SXP           |
-> +  +-----------------+---------------+
-> +  | in_voltage2_raw | SXM           |
-> +  +-----------------+---------------+
-> +  | in_voltage3_raw | SYP           |
-> +  +-----------------+---------------+
-> +  | in_voltage4_raw | SYM           |
-> +  +-----------------+---------------+
-> +  | in_voltage5_raw | XP            |
-> +  +-----------------+---------------+
-> +  | in_voltage6_raw | XM            |
-> +  +-----------------+---------------+
-> +  | in_voltage7_raw | YP            |
-> +  +-----------------+---------------+
-> 
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/iio/index.rst          | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/iio/index.rst
+
+diff --git a/Documentation/translations/zh_CN/iio/index.rst b/Documentation/translations/zh_CN/iio/index.rst
+new file mode 100644
+index 000000000000..88b6ba5f233b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/iio/index.rst
+@@ -0,0 +1,20 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :doc:`../../../iio/index`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_iio_index:
++
++
++========
++工业 I/O
++========
++
++.. toctree::
++   :maxdepth: 1
++
++   iio_configfs
++
++   ep93xx_adc
+-- 
+2.27.0
+
