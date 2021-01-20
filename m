@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FECC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59DE9C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:21:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C95C02312B
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:20:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 245F122573
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:21:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730076AbhATAU2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 19:20:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
+        id S1727843AbhATAUn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:20:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730751AbhATAT7 (ORCPT
+        with ESMTP id S1730829AbhATAT7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:19:59 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DDAC061795;
-        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id lw17so2215539pjb.0;
-        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDCDC061786;
+        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id cq1so1011119pjb.4;
+        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AdWaVN+/y4nB7k2Y/h5vFo2XQMYLD7PwO6KnTXo1gOs=;
-        b=tc1iJDBzwbPdk+USFLGiRAiPsr6L571rZa3SCif6sTOwoQRJRXez/OTOLccvPK3pkU
-         5ab1xxV1QurDk1JxI7Yv4IxskuIOSIzpdB8otapSda/VCvcU454FGalL9pPXpv0izXPD
-         +HDMlU0j0o0hZNSHAih7DYTeaxiNhRtinyid5QBhYcHuflDF2gECapHYNPkdzmlW/aUq
-         +LnQINaUPaw/Li6mThzwPrSUBSV6lZLcsAbu831MVkoRkutl/D6prMiTRVYlY0ySDwDb
-         CVTVD+kFdzfOjkdu3DCRgshK+p2MXJCRU428sXP2CXbbVy5CVrRJUAv2feqRw2qdDKJ5
-         uQJg==
+        bh=sl4zutZNTqwn4UHJVbcHFIYb+Z0yDoOK+cSVT1ECB74=;
+        b=FAHyInT2erztCE+Frd0/kZorfgt3mSLYhqmxotJ/K3i2LDdZRBYoJgcn7tUSgWTfzw
+         BM26+JwBeo60N8US3bSpEdk0HWvme3LbqCwswE8pgfQVNmFp0K/f+0uPeGFMA1YtbhRr
+         gPtTX0LU8yrS0yBRpSmlqo6gkoqnWv0tZUZSxJAVz1cDeRJLTnAzjMFKQk7ach94mZTv
+         IhwMzPZaTfj6atx/BgF2GVQxKZ0ffcHSdL3n2qTskwNnfmnwRR6vjNP5nlcBQ7rgOYAc
+         nlk8SUUZW7YU3fxXVhMeCpRj8vUniTNjl6SvKeuslH/OMGYmnKi0irIsPyh6Kfu0ZnOD
+         2OaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AdWaVN+/y4nB7k2Y/h5vFo2XQMYLD7PwO6KnTXo1gOs=;
-        b=YY7FgUBbJLUNYdlAH9CgsC4s19LWDc397JEgxgvKIsW1t3bRwTYMLk0w2e70rysZdM
-         TgUMd1xf4uQemVYRAI/e7S5EpX3sQPeDedL6JDNzlDw4y+qaNL6mLlf2Fndvs2nrIuOA
-         RXprd0J2ZU14VT9N+KjjQrcjwutdAMAjb0mRYseofvQJN9rgC1O5u055sZviYcmKqU5A
-         LL1SpzX5hVC2sO0cUGAGlQFNTuANSIupiMEtqhE3y+Jv+waNUUOtnYYvBNqkJm7kjpF0
-         aFnDB021CdMGRshaYV3m/+1yc4LyR4/OKJ81f8eZp5xr7C2NCdeJef22jVVU3gfWarDI
-         qM2Q==
-X-Gm-Message-State: AOAM5320NiNgF7pMDjOZvK5wuHu9Ox2uZgiacq2oYdcJbfPROzZ78zx3
-        TuilxPZvJIKb/resQEzhbjg=
-X-Google-Smtp-Source: ABdhPJx9VVeGndW2F1dr9mKWg8iyAVD4T5rpGnvT4t7mC1edQDfhQj0voOPiSNU1LuDrK5weMC63Iw==
-X-Received: by 2002:a17:902:a504:b029:da:fbca:d49 with SMTP id s4-20020a170902a504b02900dafbca0d49mr7245035plq.72.1611101918370;
-        Tue, 19 Jan 2021 16:18:38 -0800 (PST)
+        bh=sl4zutZNTqwn4UHJVbcHFIYb+Z0yDoOK+cSVT1ECB74=;
+        b=K8iVdPZWrtf3Wh43dibG+TjDtxXsomUCCp7V7W5DUTHGDgM1zogn/7wBPkbQK+1pMc
+         KwhS7rYF+Xf/N/tKVk0IQC5YbqWd259vZKxhEBHrvxUgGHCCty9dXsryf3EHwSCtUvEZ
+         ahQCmoCNUw/UpJvz2aGMWSsoVbTbT2vB20ijguy3OB+SDwlmWDKQ5km4PHqB9dgYc4xP
+         krzLuOwpz7jHxz7rITZbt/1g0NX7p7v0ZzMKV/DpINKbdZcJLd/df2EnXwGgQp3kTZpp
+         TnJ19bSYzwRP2lzHIeMHq9cHrKtBQy27OTVrrLGbC/Z4ama8Di3ghIUGjhy1bXSs3Id1
+         1AqQ==
+X-Gm-Message-State: AOAM533nVSI/946+6OyVmf5G6WcI2I4lXBcY/ZdwR20VaxAlVLbED4s0
+        E3aIG4jslscJS6h6xW8io7w=
+X-Google-Smtp-Source: ABdhPJyViBpgQc/KCmE2lm/MYZNB+KArwT2IPYy4YDHGdGm3XCKd3JPPOLBh/fh4+hW/AfqKCfyKEA==
+X-Received: by 2002:a17:90b:1649:: with SMTP id il9mr2396241pjb.62.1611101915382;
+        Tue, 19 Jan 2021 16:18:35 -0800 (PST)
 Received: from kir-rhat.lan (c-76-104-243-248.hsd1.wa.comcast.net. [76.104.243.248])
-        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.37
+        by smtp.gmail.com with ESMTPSA id y6sm227452pfn.123.2021.01.19.16.18.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 16:18:37 -0800 (PST)
+        Tue, 19 Jan 2021 16:18:34 -0800 (PST)
 From:   Kir Kolyshkin <kolyshkin@gmail.com>
 To:     corbet@lwn.net
 Cc:     linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
         Kir Kolyshkin <kolyshkin@gmail.com>
-Subject: [PATCH 10/10] docs/admin-guide/cgroup-v2: fix mount opt rendering
-Date:   Tue, 19 Jan 2021 16:18:24 -0800
-Message-Id: <20210120001824.385168-11-kolyshkin@gmail.com>
+Subject: [PATCH 07/10] docs/admin-guide: cgroup-v2: fix cgroup.type rendering
+Date:   Tue, 19 Jan 2021 16:18:21 -0800
+Message-Id: <20210120001824.385168-8-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120001824.385168-1-kolyshkin@gmail.com>
 References: <20210120001824.385168-1-kolyshkin@gmail.com>
@@ -72,44 +72,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Due to an extra empty line between the option and its description
-it is rendered not like in other places.
-
-Remove the empty lines to fix.
+Due to an extra vertical whitespace, this was not recognised
+as a definition list entry, and thus was not rendered like
+the rest of cgroupfs files.
 
 Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 3 ---
- 1 file changed, 3 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 136902cd0e98..14a7523c46a4 100644
+index 073f976d44ea..c1b6ffc286cf 100644
 --- a/Documentation/admin-guide/cgroup-v2.rst
 +++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -174,7 +174,6 @@ disabling controllers in v1 and make them always available in v2.
- cgroup v2 currently supports the following mount options.
+@@ -788,7 +788,6 @@ Core Interface Files
+ All cgroup core files are prefixed with "cgroup."
  
-   nsdelegate
+   cgroup.type
 -
- 	Consider cgroup namespaces as delegation boundaries.  This
- 	option is system wide and can only be set on mount or modified
- 	through remount from the init namespace.  The mount option is
-@@ -182,7 +181,6 @@ cgroup v2 currently supports the following mount options.
- 	Delegation section for details.
+ 	A read-write single value file which exists on non-root
+ 	cgroups.
  
-   memory_localevents
--
-         Only populate memory.events with data for the current cgroup,
-         and not any subtrees. This is legacy behaviour, the default
-         behaviour without this option is to include subtree counts.
-@@ -191,7 +189,6 @@ cgroup v2 currently supports the following mount options.
-         option is ignored on non-init namespace mounts.
- 
-   memory_recursiveprot
--
-         Recursively apply memory.min and memory.low protection to
-         entire subtrees, without requiring explicit downward
-         propagation into leaf cgroups.  This allows protecting entire
 -- 
 2.29.2
 
