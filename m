@@ -2,197 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A95D9C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:14:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D8CC433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 21:36:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51A5323441
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 20:14:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 036E0235F9
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 21:36:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389245AbhATUNa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 15:13:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42410 "EHLO
+        id S1728269AbhATV2R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 16:28:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728635AbhATUN0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 15:13:26 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB119C061575;
-        Wed, 20 Jan 2021 12:12:46 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id u11so8838324plg.13;
-        Wed, 20 Jan 2021 12:12:46 -0800 (PST)
+        with ESMTP id S1729013AbhATNlQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:41:16 -0500
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2BE0C061795
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:39:57 -0800 (PST)
+Received: by mail-wr1-x449.google.com with SMTP id y4so987327wrt.18
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=foCHEt7FF+EjVn9rkpAiAjBdZYjzS1bV8BzUmJzcbPo=;
-        b=Q9XdDX0MAlt5hi2UrISiWdD7xCVePjhFsVXJnccCCtHFjnbiaBb8EzicUF9OxrtCzI
-         2WRg7sPPfH+y4CNj+jB2/BTJq2iVbOevqICybIAa33UM+KnGbHaE7EiAHIvwfdoFvVU8
-         bTpnwz0XdbIfymXkdiWXMYPAACwx0ze6iBbDNEf0QjiSo1lLMOJM9PNdlvdE+Zgh46Qr
-         OVl8/R7kbmEJjoJD4leoSEsgqvE/R0VmlIProKI5vyyENFbYeRyXlcwzZqBAk+VZdvxy
-         nW3c2tR9gdukSkz8GJYpz6XhTRNF62710b5b3M0HBUXOdvzWWapqADGcKxAsjcoNIycY
-         eIcA==
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=6OdTPYEA2p5+e67drhVq+n88z8c6ioQj4MZmywIDAFM=;
+        b=ANN34zi07ugZKnGspUDX8SGtW0gJFAepbGvNv79YXL+On+puhP5NhSPFqMbN8791sA
+         +OpVHWkYimFLQYs5KnQaYv7MjAWS2Ul3AO2PWWUcbpB3s0mDPKyc6jmOhvURhuy9BCME
+         7kpqPpCOThFEQ5cUpS3oqyuDFVemFeDY5MopINLGdsmLvFRTquXUbYcHZqti718nZEHP
+         VRFHQ/vZK/p00SHoUyQydfK8pTOND8ZEXE7zo4WTonNz09z3ICvSOQgDbHijvLOxpsDi
+         r8cyrdeg6PviDgfUSKMZ1IrM0RZq83vxWevQNC5kHDZbU9VsdVIKMqJHihF82i8vSfQi
+         agXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=foCHEt7FF+EjVn9rkpAiAjBdZYjzS1bV8BzUmJzcbPo=;
-        b=uVTls6k6scFQ+l9csR+cWiQfN5srF/6YfqK9i8fkelpvVWB/L+VAMvisyRpbWWZMdk
-         BZyayydEsiMAxp1DdbRHG22zzzq3KZ04MvyofA01rts/NqeBSx8LD1zTY/HdBhCiz3S5
-         G4MZbug2hSPA8IgdJebTNVmyLd4lO4QIjI4UZM3Gj47n/X9NC6oDnC5rDS7K0G3jhj/H
-         nXJd6LDKCK1X/OxjPcu74m/CZfGcT8TtYuSAEszobV7IyFlCGZyEIkjKpbOgB63D8VSZ
-         uBOdNXFYl68tAyts/c+pfU80mBxzOXhtAucPjAht0abbqOs+dGX0xWYXK7hfKADYa1et
-         qn9w==
-X-Gm-Message-State: AOAM533yV85j7HwnJALxcB6xLcXIPPu21vPaL5BM8uh+1LSM2apX9H6n
-        tc17oByK+1ol4iIwDTFvmg3y2hytNbk=
-X-Google-Smtp-Source: ABdhPJxKt0KR2r/H1xrow2AhFhVvm9PkmwfZy4ZVoqnSA1JdlbNcpZr71L3A4LKR+0MirY6fItSETg==
-X-Received: by 2002:a17:90a:d145:: with SMTP id t5mr7548907pjw.104.1611173565876;
-        Wed, 20 Jan 2021 12:12:45 -0800 (PST)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:400::5:bed2])
-        by smtp.gmail.com with ESMTPSA id 186sm3015756pfx.100.2021.01.20.12.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 12:12:45 -0800 (PST)
-Date:   Wed, 20 Jan 2021 12:12:42 -0800
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Brendan Jackman <jackmanb@google.com>
-Cc:     bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=6OdTPYEA2p5+e67drhVq+n88z8c6ioQj4MZmywIDAFM=;
+        b=IlFTr4fjzcuFakiKS05u7IMC5WK6d9Cg4Bg8XDbTfVOhA6xP7IkjvjrEHTyiIKXjUF
+         Tlihkqgbj/hyLNaljgTSXlBoi6VJq+t48PxfW5HjTZu24aMMlm9tyfFrhx8Gt2B7gGsa
+         UZeaZmjMB8TaOLuxZXi1V1J3UTbzP2RGQ74O3QF4BbdD/tvhyZ4oGHgX4RaEqREEdGZG
+         vPTPW/FeoXbKzP9yU9duOljiRacQiEspsnH8hMg1fq1nYVaZ7x5MpjawJtH4lojtSNQd
+         dS0eMeYz7LOZLpZvvK5ZkZGFnD5XXg55IwNkmy1vQkx+ZEsKr8EgOkrhCRNeAKmx+7p8
+         2/wA==
+X-Gm-Message-State: AOAM532E1MZ7Be8n8AiT+gnJ0VDHCqSZAyNQQ/nafJLZnkExObac5d/L
+        HgjW/jWrRxdXoTdp1i8GP5wxaauo5/0xqA==
+X-Google-Smtp-Source: ABdhPJz+1pw/frS7iuoskUPl/0VZ5TsAWO9NiEYk8b+eCEfPZfzFbTli1vpPu9KhtHzz75ExuN5A1dfpBffEUg==
+Sender: "jackmanb via sendgmr" <jackmanb@beeg.c.googlers.com>
+X-Received: from beeg.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:11db])
+ (user=jackmanb job=sendgmr) by 2002:a1c:81cc:: with SMTP id
+ c195mr4398201wmd.70.1611149996346; Wed, 20 Jan 2021 05:39:56 -0800 (PST)
+Date:   Wed, 20 Jan 2021 13:39:46 +0000
+In-Reply-To: <20210120133946.2107897-1-jackmanb@google.com>
+Message-Id: <20210120133946.2107897-3-jackmanb@google.com>
+Mime-Version: 1.0
+References: <20210120133946.2107897-1-jackmanb@google.com>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH bpf-next v3 2/2] docs: bpf: Clarify -mcpu=v3 requirement for
+ atomic ops
+From:   Brendan Jackman <jackmanb@google.com>
+To:     bpf@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii.nakryiko@gmail.com>,
         KP Singh <kpsingh@chromium.org>,
         Florent Revest <revest@chromium.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next] bpf: Propagate memory bounds to registers in
- atomics w/ BPF_FETCH
-Message-ID: <20210120201242.nm35li5yxvo7ir35@ast-mbp.dhcp.thefacebook.com>
-References: <20210118160613.541020-1-jackmanb@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210118160613.541020-1-jackmanb@google.com>
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Brendan Jackman <jackmanb@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 04:06:13PM +0000, Brendan Jackman wrote:
-> When BPF_FETCH is set, atomic instructions load a value from memory
-> into a register. The current verifier code first checks via
-> check_mem_access whether we can access the memory, and then checks
-> via check_reg_arg whether we can write into the register.
-> 
-> For loads, check_reg_arg has the side-effect of marking the
-> register's value as unkonwn, and check_mem_access has the side effect
-> of propagating bounds from memory to the register.
-> 
-> Therefore with the current order, bounds information is thrown away,
-> but by simply reversing the order of check_reg_arg
-> vs. check_mem_access, we can instead propagate bounds smartly.
+Alexei pointed out [1] that this wording is pretty confusing. Here's
+an attempt to be more explicit and clear.
 
-I think such improvement makes sense, but please tweak commit log
-to mention that check_mem_access() is doing it only for stack pointers.
-Since "propagating from memory" is too generic. Most memory
-won't have such propagation.
+[1] https://lore.kernel.org/bpf/CAADnVQJVvwoZsE1K+6qRxzF7+6CvZNzygnoBW9tZNWJELk5c=Q@mail.gmail.com/T/#m07264fc18fdc43af02fc1320968afefcc73d96f4
 
-> A simple test is added with an infinite loop that can only be proved
-> unreachable if this propagation is present.
-> 
-> Note that in the test, the memory value has to be written with two
-> instructions:
-> 
-> 		BPF_MOV64_IMM(BPF_REG_0, 0),
-> 		BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -8),
-> 
-> instead of one:
-> 
-> 		BPF_ST_MEM(BPF_DW, BPF_REG_10, -8, 0),
-> 
-> Because BPF_ST_MEM doesn't seem to set the stack slot type to 0 when
-> storing an immediate.
+Signed-off-by: Brendan Jackman <jackmanb@google.com>
+---
+ Documentation/networking/filter.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-This bit is confusing in the commit log. Pls move it into test itself.
+diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
+index 4c2bb4c6364d..b3f457802836 100644
+--- a/Documentation/networking/filter.rst
++++ b/Documentation/networking/filter.rst
+@@ -1081,9 +1081,10 @@ before is loaded back to ``R0``.
+ 
+ Note that 1 and 2 byte atomic operations are not supported.
+ 
+-Except ``BPF_ADD`` *without* ``BPF_FETCH`` (for legacy reasons), all 4 byte
+-atomic operations require alu32 mode. Clang enables this mode by default in
+-architecture v3 (``-mcpu=v3``). For older versions it can be enabled with
++Clang can generate atomic instructions by default when ``-mcpu=v3`` is
++enabled. If a lower version for ``-mcpu`` is set, the only atomic instruction
++Clang can generate is ``BPF_ADD`` *without* ``BPF_FETCH``. If you need to enable
++the atomics features, while keeping a lower ``-mcpu`` version, you can use
+ ``-Xclang -target-feature -Xclang +alu32``.
+ 
+ You may encounter ``BPF_XADD`` - this is a legacy name for ``BPF_ATOMIC``,
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
->  kernel/bpf/verifier.c                         | 32 +++++++++++--------
->  .../selftests/bpf/verifier/atomic_bounds.c    | 18 +++++++++++
->  2 files changed, 36 insertions(+), 14 deletions(-)
->  create mode 100644 tools/testing/selftests/bpf/verifier/atomic_bounds.c
-> 
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 0f82d5d46e2c..0512695c70f4 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -3663,9 +3663,26 @@ static int check_atomic(struct bpf_verifier_env *env, int insn_idx, struct bpf_i
->  		return -EACCES;
->  	}
->  
-> +	if (insn->imm & BPF_FETCH) {
-> +		if (insn->imm == BPF_CMPXCHG)
-> +			load_reg = BPF_REG_0;
-> +		else
-> +			load_reg = insn->src_reg;
-> +
-> +		/* check and record load of old value */
-> +		err = check_reg_arg(env, load_reg, DST_OP);
-> +		if (err)
-> +			return err;
-> +	} else {
-> +		/* This instruction accesses a memory location but doesn't
-> +		 * actually load it into a register.
-> +		 */
-> +		load_reg = -1;
-> +	}
-> +
->  	/* check whether we can read the memory */
->  	err = check_mem_access(env, insn_idx, insn->dst_reg, insn->off,
-> -			       BPF_SIZE(insn->code), BPF_READ, -1, true);
-> +			       BPF_SIZE(insn->code), BPF_READ, load_reg, true);
->  	if (err)
->  		return err;
->  
-> @@ -3675,19 +3692,6 @@ static int check_atomic(struct bpf_verifier_env *env, int insn_idx, struct bpf_i
->  	if (err)
->  		return err;
->  
-> -	if (!(insn->imm & BPF_FETCH))
-> -		return 0;
-> -
-> -	if (insn->imm == BPF_CMPXCHG)
-> -		load_reg = BPF_REG_0;
-> -	else
-> -		load_reg = insn->src_reg;
-> -
-> -	/* check and record load of old value */
-> -	err = check_reg_arg(env, load_reg, DST_OP);
-> -	if (err)
-> -		return err;
-> -
->  	return 0;
->  }
->  
-> diff --git a/tools/testing/selftests/bpf/verifier/atomic_bounds.c b/tools/testing/selftests/bpf/verifier/atomic_bounds.c
-> new file mode 100644
-> index 000000000000..45030165ed63
-> --- /dev/null
-> +++ b/tools/testing/selftests/bpf/verifier/atomic_bounds.c
-> @@ -0,0 +1,18 @@
-> +{
-> +	"BPF_ATOMIC bounds propagation, mem->reg",
-> +	.insns = {
-> +		/* a = 0; */
-> +		BPF_MOV64_IMM(BPF_REG_0, 0),
-> +		BPF_STX_MEM(BPF_DW, BPF_REG_10, BPF_REG_0, -8),
-> +		/* b = atomic_fetch_add(&a, 1); */
-> +		BPF_MOV64_IMM(BPF_REG_1, 1),
-> +		BPF_ATOMIC_OP(BPF_DW, BPF_ADD | BPF_FETCH, BPF_REG_10, BPF_REG_1, -8),
-> +		/* Verifier should be able to tell that this infinite loop isn't reachable. */
-> +		/* if (b) while (true) continue; */
-> +		BPF_JMP_IMM(BPF_JNE, BPF_REG_1, 0, -1),
-> +		BPF_EXIT_INSN(),
-
-I think it's a bit unrealistic to use atomic_add to increment induction variable,
-but I don't mind, since the verifier side is simple.
-Could you add a C based test as well?
