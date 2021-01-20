@@ -2,174 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A884C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 07:15:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C569C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 07:24:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB17623142
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 07:15:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CEAD23142
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 07:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728251AbhATHOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 02:14:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44314 "EHLO
+        id S1727415AbhATHYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 02:24:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727931AbhATHOi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 02:14:38 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 769BBC0613C1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 23:13:57 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id m6so13955592pfk.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 23:13:57 -0800 (PST)
+        with ESMTP id S1726167AbhATHYV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 02:24:21 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2463AC061757
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 23:23:41 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id m10so24886893lji.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 23:23:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TTV6nYqcO5XSWys9zWm8wnK0Pv6PThaQer4+oGm8NGU=;
-        b=HIc1eaI5kMbParlqoxUe710DEIElJcljsyDbh1ppcnKJbXKV202dwYfKtT37vYEsJd
-         Igzd1+h2pYuRhJQincqk99FJ7Oi0Wm9IdIVFJ++zyiGx10XzKtS66jPCa7AxoVZejV2c
-         hURdb8ummwjbEbDuaQonFCLiiarN8aM8f0PmyI6fka/dVXK6rZWjpLBAs6H340vKVaCM
-         k7zNarmhmjrPX/jP+fmDQnR71WNX7fB8drCbiPH45F+dbEWVt+u6DIFOwR0CzZtXFah6
-         5gHgWAQ0EhY5hXY/+S3ovR79cyKl37oyqvG6K/KYsz8LzYyDSEyhL3ZxSK3FAohzXA2j
-         mG9g==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IUrgv0FBuTz3H165Mc6si/82NmlQEG5UHik5rW9EBXc=;
+        b=Z331GKUf4msxWQjIsscyU4jNlxcRf4pxDM2Uz6mDa89b78iB1MTaYFw1M7w11vF92h
+         HVH8eTSRaamzb/MxUh9KeqM6+MqnMJoUcHJ1m1kG+2YjSntSPaBT9NognuJtRcb91UlT
+         HhPHINiUeMpNd3RuTdek5oJDxNzSXUD4aQJifORFowq98JoRqV4EsmkMIV7kDllPo4Pa
+         tp11kBRk2uInvz0FwjBcJvo3wYzmh18/ZTOeEbyJTCQ6uPJUmWzfqZizWJeRYMoobGtM
+         N/dvWKYJ+EdJIrodZecOtXksqYriISceww1J4WD9M/s7kAFdeUkcqEthd8S4pQDbc2pj
+         fuPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TTV6nYqcO5XSWys9zWm8wnK0Pv6PThaQer4+oGm8NGU=;
-        b=hzxH/RFr2/gAIADW25lTbD6Er0+WzXhelPRrC8jH5DY7MpB6y+xFGYrk0CdUsJHfkp
-         JMNvJ5eomOxXrRPecqwNlAW9UM0b3WDdYWJfir1LZogZsZTEaJHvuYdcuDqjhdAtqmhL
-         jeyR8z9YMsXRUCsn1glemD1X7uvs4usYMAldms3+wFyyxrZCFLV3EQ7IRos5gPIP0lcA
-         6cYL+v3D28kIEY6O3fGIfekjF9uPNVzxovd3T/N60FX6A15CcUOjc4bmnDbeovciY9q/
-         7mpW3+4Jf8TJdgmW3hzq9CpXPt+7GiY/qkHFUp5ZLAiniBk51LVX8of3uxb8N/oZWWpq
-         CGmA==
-X-Gm-Message-State: AOAM531K/631MJ7wERuMB6b8D5AahEj9BnvW1COR2v4qw82HaOw0yADK
-        ANm1Cz2zRp6yk9FbxZHOiVtoPw==
-X-Google-Smtp-Source: ABdhPJxHfFS1B6tK3MqL4kaKYCFF1Y97lLLSpKRO8uCedQfY23jSDGtFL2myXiH+FWRM43uZ4XW4wg==
-X-Received: by 2002:a65:4983:: with SMTP id r3mr8245442pgs.288.1611126836639;
-        Tue, 19 Jan 2021 23:13:56 -0800 (PST)
-Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
-        by smtp.gmail.com with ESMTPSA id bt8sm6171170pjb.0.2021.01.19.23.13.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 23:13:55 -0800 (PST)
-Date:   Tue, 19 Jan 2021 23:13:51 -0800
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
-        lizefan@huawei.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, joro@8bytes.org,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
-Message-ID: <YAfYL7V6E4/P83Mg@google.com>
-References: <20210108012846.4134815-1-vipinsh@google.com>
- <20210108012846.4134815-2-vipinsh@google.com>
- <YAICLR8PBXxAcOMz@mtj.duckdns.org>
- <YAIUwGUPDmYfUm/a@google.com>
- <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
- <YAJsUyH2zspZxF2S@google.com>
- <YAb//EYCkZ7wnl6D@mtj.duckdns.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IUrgv0FBuTz3H165Mc6si/82NmlQEG5UHik5rW9EBXc=;
+        b=cJJyqS52oPi4n8F7UQrw3FYqXp8xnOVjXWrYgg3mgbd5wmX9aP+TFUI107OdbvvMga
+         L++kE/Ui6Qq/NHExKANNQSO6e0q1RpL1pYKQO6rhzjHv+/WTCaJQw0wHlnu5hqbhcGts
+         pAaXnOel2RCYXGgBnirt8F+bg8c8PIo5Z/h4FW2hSD3VJoQB3UwHJ7Dx0YLK5xuxECzj
+         Ohb2c8JudHXfP1v5fWogwfsULoKbtsSaP1lSlTG45Qs3LUoPdTj1z7k+Uq4rNE1RpM3H
+         E0so7xhFSzuia6IXotB0Y0mZnDxUidFiUJpY7coBqkEnmaTWH/dUUSf3gC6oVFnAqYFw
+         D7TA==
+X-Gm-Message-State: AOAM5307pjTy12AFEH1EftvwtVTjr1pGB9vc/KaZcXYtedN63YixlIZf
+        ggeYf/D8ff+sqSvxrI+MHKgf00MIC/iqmcIxa0tixg==
+X-Google-Smtp-Source: ABdhPJyckOX7g74YSWC/ebW0pan/8Eqz0VHarq+xR94sRitnHKl336t8hKlAqWXfY8EZ7wW8kJQ/ToXhb+NEXaFgrlI=
+X-Received: by 2002:a05:651c:1192:: with SMTP id w18mr3565930ljo.40.1611127419625;
+ Tue, 19 Jan 2021 23:23:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YAb//EYCkZ7wnl6D@mtj.duckdns.org>
+References: <1604419306-26105-1-git-send-email-sumit.garg@linaro.org>
+ <1604419306-26105-3-git-send-email-sumit.garg@linaro.org> <X/x+N0fgrzIZTeNi@kernel.org>
+ <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
+ <X/+m6+m2/snYj9Vc@kernel.org> <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
+ <YAa0ys4YJcZtKdfF@kernel.org> <YAeH2pb8szQyjusL@kernel.org>
+In-Reply-To: <YAeH2pb8szQyjusL@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 20 Jan 2021 12:53:28 +0530
+Message-ID: <CAFA6WYP5G6NfGk96ePOC+2kpD6B+4hz9nywyUM9Nh=dJDYMiuA@mail.gmail.com>
+Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 19, 2021 at 10:51:24AM -0500, Tejun Heo wrote:
-> Hello,
-> 
-> On Fri, Jan 15, 2021 at 08:32:19PM -0800, Vipin Sharma wrote:
-> > SEV-ES has stronger memory encryption gurantees compared to SEV, apart
-> > from encrypting the application memory it also encrypts register state
-> > among other things. In a single host ASIDs can be distributed between
-> > these two types by BIOS settings.
-> > 
-> > Currently, Google Cloud has Confidential VM machines offering using SEV.
-> > ASIDs are not compatible between SEV and SEV-ES, so a VM running on SEV
-> > cannot run on SEV-ES and vice versa
-> > 
-> > There are use cases for both types of VMs getting used in future.
-> 
-> Can you please elaborate? I skimmed through the amd manual and it seemed to
-> say that SEV-ES ASIDs are superset of SEV but !SEV-ES ASIDs. What's the use
-> case for mixing those two?
+On Wed, 20 Jan 2021 at 07:01, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Tue, Jan 19, 2021 at 12:30:42PM +0200, Jarkko Sakkinen wrote:
+> > On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
+> > > On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wro=
+te:
+> > > >
+> > > > On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
+> > > > > Hi Jarkko,
+> > > > >
+> > > > > On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org>=
+ wrote:
+> > > > > >
+> > > > > > On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
+> > > > > > > Add support for TEE based trusted keys where TEE provides the=
+ functionality
+> > > > > > > to seal and unseal trusted keys using hardware unique key.
+> > > > > > >
+> > > > > > > Refer to Documentation/tee.txt for detailed information about=
+ TEE.
+> > > > > > >
+> > > > > > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+> > > > > >
+> > > > > > I haven't yet got QEMU environment working with aarch64, this p=
+roduces
+> > > > > > just a blank screen:
+> > > > > >
+> > > > > > ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a=
+53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -se=
+rial stdio
+> > > > > >
+> > > > > > My BuildRoot fork for TPM and keyring testing is located over h=
+ere:
+> > > > > >
+> > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroo=
+t-tpmdd.git/
+> > > > > >
+> > > > > > The "ARM version" is at this point in aarch64 branch. Over time=
+ I will
+> > > > > > define tpmdd-x86_64 and tpmdd-aarch64 boards and everything wil=
+l be then
+> > > > > > in the master branch.
+> > > > > >
+> > > > > > To create identical images you just need to
+> > > > > >
+> > > > > > $ make tpmdd_defconfig && make
+> > > > > >
+> > > > > > Can you check if you see anything obviously wrong? I'm eager to=
+ test this
+> > > > > > patch set, and in bigger picture I really need to have ready to=
+ run
+> > > > > > aarch64 environment available.
+> > > > >
+> > > > > I would rather suggest you to follow steps listed here [1] as to =
+test
+> > > > > this feature on Qemu aarch64 we need to build firmwares such as T=
+F-A,
+> > > > > OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
+> > > > > system [2]. And then it would be easier to migrate them to your
+> > > > > buildroot environment as well.
+> > > > >
+> > > > > [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/0=
+00027.html
+> > > > > [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.=
+html#qemu-v8
+> > > > >
+> > > > > -Sumit
+> > > >
+> > > > Can you provide 'keyctl_change'? Otherwise, the steps are easy to f=
+ollow.
+> > > >
+> > >
+> > > $ cat keyctl_change
+> > > diff --git a/common.mk b/common.mk
+> > > index aeb7b41..663e528 100644
+> > > --- a/common.mk
+> > > +++ b/common.mk
+> > > @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?=3D $(OPTEE_OS_TA_DEV=
+_KIT_DIR)
+> > >  BR2_PACKAGE_OPTEE_TEST_SITE ?=3D $(OPTEE_TEST_PATH)
+> > >  BR2_PACKAGE_STRACE ?=3D y
+> > >  BR2_TARGET_GENERIC_GETTY_PORT ?=3D $(if
+> > > $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
+> > > +BR2_PACKAGE_KEYUTILS :=3D y
+> > >
+> > >  # All BR2_* variables from the makefile or the environment are appen=
+ded to
+> > >  # ../out-br/extra.conf. All values are quoted "..." except y and n.
+> > > diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
+> > > index 368c18a..832ab74 100644
+> > > --- a/kconfigs/qemu.conf
+> > > +++ b/kconfigs/qemu.conf
+> > > @@ -20,3 +20,5 @@ CONFIG_9P_FS=3Dy
+> > >  CONFIG_9P_FS_POSIX_ACL=3Dy
+> > >  CONFIG_HW_RANDOM=3Dy
+> > >  CONFIG_HW_RANDOM_VIRTIO=3Dy
+> > > +CONFIG_TRUSTED_KEYS=3Dy
+> > > +CONFIG_ENCRYPTED_KEYS=3Dy
+> > >
+> > > > After I've successfully tested 2/4, I'd suggest that you roll out o=
+ne more
+> > > > version and CC the documentation patch to Elaine and Mini, and clea=
+rly
+> > > > remark in the commit message that TEE is a standard, with a link to=
+ the
+> > > > specification.
+> > > >
+> > >
+> > > Sure, I will roll out the next version after your testing.
+> >
+> > Thanks, I'll try this at instant, and give my feedback.
+>
+> I bump into this:
+>
+> $ make run-only
+> ln -sf /home/jarkko/devel/tpm/optee/build/../out-br/images/rootfs.cpio.gz=
+ /home/jarkko/devel/tpm/optee/build/../out/bin/
+> ln: failed to create symbolic link '/home/jarkko/devel/tpm/optee/build/..=
+/out/bin/': No such file or directory
+> make: *** [Makefile:194: run-only] Error 1
+>
 
-For example, customers can be given options for which kind of protection they
-want to choose for their workloads based on factors like data protection
-requirement, cost, speed, etc.
+Could you check if the following directory tree is built after
+executing the below command?
 
-In terms of features SEV-ES is superset of SEV but that doesn't mean SEV
-ASIDs are superset of SEV ASIDs. SEV ASIDs cannot be used for SEV-ES VMs
-and similarly SEV-ES ASIDs cannot be used for SEV VMs. Once a system is
-booted, based on the BIOS settings each type will have their own
-capacity and that number cannot be changed until the next boot and BIOS
-changes.
+$ make -j`nproc`
+CFG_IN_TREE_EARLY_TAS=3Dtrusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
 
-We are not mixing the two types of ASIDs, they are separate and used
-separately.
+$ tree out/bin/
+out/bin/
+=E2=94=9C=E2=94=80=E2=94=80 bl1.bin -> /home/sumit/build/optee/build/../tru=
+sted-firmware-a/build/qemu/release/bl1.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl2.bin -> /home/sumit/build/optee/build/../tru=
+sted-firmware-a/build/qemu/release/bl2.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl31.bin ->
+/home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl31=
+.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl32.bin ->
+/home/sumit/build/optee/build/../optee_os/out/arm/core/tee-header_v2.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl32_extra1.bin ->
+/home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pager_v2.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl32_extra2.bin ->
+/home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pageable_v2.bin
+=E2=94=9C=E2=94=80=E2=94=80 bl33.bin ->
+/home/sumit/build/optee/build/../edk2/Build/ArmVirtQemuKernel-AARCH64/RELEA=
+SE_GCC49/FV/QEMU_EFI.fd
+=E2=94=9C=E2=94=80=E2=94=80 Image -> /home/sumit/build/optee/build/../linux=
+/arch/arm64/boot/Image
+=E2=94=94=E2=94=80=E2=94=80 rootfs.cpio.gz ->
+/home/sumit/build/optee/build/../out-br/images/rootfs.cpio.gz
 
-> 
-> > > > > > Other ID types can be easily added in the controller in the same way.
-> > > > > 
-> > > > > I'm not sure this is necessarily a good thing.
-> > > > 
-> > > > This is to just say that when Intel and PowerPC changes are ready it
-> > > > won't be difficult for them to add their controller.
-> > > 
-> > > I'm not really enthused about having per-hardware-type control knobs. None
-> > > of other controllers behave that way. Unless it can be abstracted into
-> > > something common, I'm likely to object.
-> > 
-> > There was a discussion in Patch v1 and consensus was to have individual
-> > files because it makes kernel implementation extremely simple.
-> > 
-> > https://lore.kernel.org/lkml/alpine.DEB.2.23.453.2011131615510.333518@chino.kir.corp.google.com/#t
-> 
-> I'm very reluctant to ack vendor specific interfaces for a few reasons but
-> most importantly because they usually indicate abstraction and/or the
-> underlying feature not being sufficiently developed and they tend to become
-> baggages after a while. So, here are my suggestions:
+0 directories, 9 files
 
-My first patch was only for SEV, but soon we got comments that this can
-be abstracted and used by TDX and SEID for their use cases.
+-Sumit
 
-I see this patch as providing an abstraction for simple accounting of
-resources used for creating secure execution contexts. Here, secure
-execution is achieved through different means. SEID, TDX, and SEV
-provide security using different features and capabilities. I am not
-sure if we will reach a point where all three and other vendors will use
-the same approach and technology for this purpose.
-
-Instead of each one coming up with their own resource tracking for their
-features, this patch is providing a common framework and cgroup for
-tracking these resources.
-
-> 
-> * If there can be a shared abstraction which hopefully makes intuitive
->   sense, that'd be ideal. It doesn't have to be one knob but it shouldn't be
->   something arbitrary to specific vendors.
-
-I think we should see these as features provided on a host. Tasks can
-be executed securely on a host with the guarantees provided by the
-specific feature (SEV, SEV-ES, TDX, SEID) used by the task.
-
-I don't think each H/W vendor can agree to a common set of security
-guarantees and approach.
-
-> 
-> * If we aren't there yet and vendor-specific interface is a must, attach
->   that part to an interface which is already vendor-aware.
-Sorry, I don't understand this approach. Can you please give more
-details about it?
-
-Thanks
-Vipin
+> /Jarkko
