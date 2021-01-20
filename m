@@ -2,136 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C0DCC4321A
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 23:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A3AC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 00:32:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 153592360D
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 23:42:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FCCF23770
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 00:32:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727481AbhATV2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 16:28:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42502 "EHLO
+        id S1731345AbhAUAcC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jan 2021 19:32:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728323AbhATNlP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 08:41:15 -0500
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C44CC061786
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:39:55 -0800 (PST)
-Received: by mail-qt1-x849.google.com with SMTP id z19so6901442qtv.20
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 05:39:55 -0800 (PST)
+        with ESMTP id S2404099AbhATXZ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jan 2021 18:25:28 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46FBC06134B
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 15:18:34 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id b8so41305plh.12
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jan 2021 15:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=27UXw1bxwiKbAXZ3HLN6FYGS/3ntG8PaBF+icLAaO9c=;
-        b=PnTByR6q94FxjkLS9Uu/r/DisoDcVMH+NWg7D10B2aZq/AH6hIPXNegm9Ds0S+SAOh
-         KLRelGJdq8kSbzSYRDu993erSUrPgKVSBB0c24i65pmANw8t7O20tTQIinhJwpGDWJNy
-         5GW9VTetU8Wzv2MuyA8SSHsOGQQxWxJ2qAF+9QWo1gV+pThNvzjdRm/nHuJs5ZaqngYE
-         0M6FxvAABS4MfaTPqIViNi4ii1bVFuFaWYJLlzJrelKKQoLsDLQay4C6VHDR38EPgxse
-         zfkwQJbP8TaGVNJOcUxP8rwXpnJgtxa/Iw2tYTFKc2ub0hhxwptMtRdtub6cI27jkkLS
-         6p9A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NCtWCoTo8mGZeKZotnt4ALec3dQ9/RkUFyVQNK1hMoE=;
+        b=NxCvtTTZAcHUjY80B8T/mRXR+ecVc3j49+/cThAhgIMNldAXEiEac1XjdCqjwr8KNN
+         EFQbyPbiLvLiFr1Vq5M65rOiTLar4w562qyOg8n7/djIcn6Sxvtl8sYS7yBydLTCmJwj
+         yxEKsR57CQ+eeJ51w9m+qmBkxNhu7Y09Wb+SLUBApFhMZLl4DnWR65Ef/2e8jEJ9sL/n
+         DKjbb0/eQQFSQ2OCj8ocfOhIQc6JKhcEmeGF0ld5PoaVuz+X1Zsyi2f5z+JyLv7b9gnL
+         z7Lho8Yw+GVs7q6rC4siRdgOeOgUYyaDl/s+stRG1t72bs4JORMfYs6Z+x5fNBRiWJdM
+         9vrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=27UXw1bxwiKbAXZ3HLN6FYGS/3ntG8PaBF+icLAaO9c=;
-        b=Nxe0p2XuuCWaMEkXlPnfyN7TzLxNDCC0ThKFL1N7yeTLszVE1wSz+HR0Iw9RJ9R66M
-         Hl0DxiuZo4ttyoE2JFz6soPuck0CnSAA5kDf5FoeXSJEVTuuvB6VrF/xO6KNxUfXA/BJ
-         CqjWkiLfyRrwh4aQetWeuv+2ultjyROv/Bog8YNRQD6tSTwnIldgoDX0mgT9WDK4Wx7L
-         pKXaI7jg87Aemuoh+/2CAyZTV9e+1QJFg8vRIHzMfZOqwdGtcEBNVcSMfP6zOdAsVxg5
-         GQbqvoxSK3Insnc+FRMC3STEcvWPLmliTFsgHYYbDF1kaNh4JaX1FxKj04No357kvZXN
-         e0+Q==
-X-Gm-Message-State: AOAM530Sen/bjd9OOjnypQlEnD91HR4jE/M2PfDLIVCRZgpT8t5zRR5P
-        APXfYhzZ0tHUcLWndLnJcyFsjuaM3Fje3Q==
-X-Google-Smtp-Source: ABdhPJykVpRhwtQiPMvkHREiKUg5Ra0CWUbH9E6q3jL2Sl8EtPPlEUrX0GiJX+oikJztnUALHWt0KJ023APJLA==
-Sender: "jackmanb via sendgmr" <jackmanb@beeg.c.googlers.com>
-X-Received: from beeg.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:11db])
- (user=jackmanb job=sendgmr) by 2002:a0c:b526:: with SMTP id
- d38mr9192365qve.7.1611149994304; Wed, 20 Jan 2021 05:39:54 -0800 (PST)
-Date:   Wed, 20 Jan 2021 13:39:45 +0000
-In-Reply-To: <20210120133946.2107897-1-jackmanb@google.com>
-Message-Id: <20210120133946.2107897-2-jackmanb@google.com>
-Mime-Version: 1.0
-References: <20210120133946.2107897-1-jackmanb@google.com>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH bpf-next v3 1/2] docs: bpf: Fixup atomics markup
-From:   Brendan Jackman <jackmanb@google.com>
-To:     bpf@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Florent Revest <revest@chromium.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Brendan Jackman <jackmanb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NCtWCoTo8mGZeKZotnt4ALec3dQ9/RkUFyVQNK1hMoE=;
+        b=F0LL1WVy+JMLQlguXQyywyNN2up95dOCum130Yzl3NBqWI7XIWolQHTsO25ownVDPc
+         BGAFhgomey54STyH2ufRdOLzu+iJ49VAYHPdDrJ8XfK9UHlTtEf686glQQnnofZW8Wyy
+         ALReI1j7Rpg4T7Zq27LjOnTrj4AvDYJl5i5c86cbMt9nnYKvw6V7mNkA8sTH+LiLUn3n
+         aUSlBUcB6rBqb+u8kRxWxBcvWfdZFSyMjeMxa0RcqVfsqAt+WDH8ckah0OamjXOJoz9s
+         6SmVVE87U/1+9yB44Tbj4Hdg26EQJG+tCJx4RkR1HeEAnZiqgQRKByR2DJprwoQQhr4g
+         JSIA==
+X-Gm-Message-State: AOAM531UW7o7sV47BvHUYA6mzfLYKGN32pcTGBMtJiQZrzqvZTPQbHhZ
+        dbx5+c9tHmyHPWG+Io4udQiqqQ==
+X-Google-Smtp-Source: ABdhPJzRDE4htyk7QPEMj8bZl6yWXO0FHI8XTpLWG/UTk5Qh/OejVMbcJ8DFH0WSdBb2VwaCDk8sQg==
+X-Received: by 2002:a17:902:f703:b029:de:9a3a:6902 with SMTP id h3-20020a170902f703b02900de9a3a6902mr11818514plo.68.1611184714108;
+        Wed, 20 Jan 2021 15:18:34 -0800 (PST)
+Received: from google.com ([2620:0:1008:10:1ea0:b8ff:fe75:b885])
+        by smtp.gmail.com with ESMTPSA id k141sm1067449pfd.9.2021.01.20.15.18.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jan 2021 15:18:33 -0800 (PST)
+Date:   Wed, 20 Jan 2021 15:18:29 -0800
+From:   Vipin Sharma <vipinsh@google.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, seanjc@google.com,
+        hannes@cmpxchg.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+        corbet@lwn.net, joro@8bytes.org, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
+Message-ID: <YAi6RcbxTSMmNssw@google.com>
+References: <20210108012846.4134815-1-vipinsh@google.com>
+ <20210108012846.4134815-2-vipinsh@google.com>
+ <YAICLR8PBXxAcOMz@mtj.duckdns.org>
+ <YAIUwGUPDmYfUm/a@google.com>
+ <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
+ <YAJsUyH2zspZxF2S@google.com>
+ <YAb//EYCkZ7wnl6D@mtj.duckdns.org>
+ <YAfYL7V6E4/P83Mg@google.com>
+ <YAhc8khTUc2AFDcd@mtj.duckdns.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YAhc8khTUc2AFDcd@mtj.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes up the markup to fix a warning, be more consistent with
-use of monospace, and use the correct .rst syntax for <em> (* instead
-of _).
+On Wed, Jan 20, 2021 at 11:40:18AM -0500, Tejun Heo wrote:
+> Hello,
+> 
+> On Tue, Jan 19, 2021 at 11:13:51PM -0800, Vipin Sharma wrote:
+> > > Can you please elaborate? I skimmed through the amd manual and it seemed to
+> > > say that SEV-ES ASIDs are superset of SEV but !SEV-ES ASIDs. What's the use
+> > > case for mixing those two?
+> > 
+> > For example, customers can be given options for which kind of protection they
+> > want to choose for their workloads based on factors like data protection
+> > requirement, cost, speed, etc.
+> 
+> So, I'm looking for is a bit more in-depth analysis than that. ie. What's
+> the downside of SEV && !SEV-ES and is the disticntion something inherently
+> useful?
 
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+I will leave this for AMD folks to respond, as they can give much better
+answer than me.
 
----
- Documentation/networking/filter.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+> > > I'm very reluctant to ack vendor specific interfaces for a few reasons but
+> > > most importantly because they usually indicate abstraction and/or the
+> > > underlying feature not being sufficiently developed and they tend to become
+> > > baggages after a while. So, here are my suggestions:
+> > 
+> > My first patch was only for SEV, but soon we got comments that this can
+> > be abstracted and used by TDX and SEID for their use cases.
+> > 
+> > I see this patch as providing an abstraction for simple accounting of
+> > resources used for creating secure execution contexts. Here, secure
+> > execution is achieved through different means. SEID, TDX, and SEV
+> > provide security using different features and capabilities. I am not
+> > sure if we will reach a point where all three and other vendors will use
+> > the same approach and technology for this purpose.
+> > 
+> > Instead of each one coming up with their own resource tracking for their
+> > features, this patch is providing a common framework and cgroup for
+> > tracking these resources.
+> 
+> What's implemented is a shared place where similar things can be thrown in
+> bu from user's perspective the underlying hardware feature isn't really
+> abstracted. It's just exposing whatever hardware knobs there are. If you
+> look at any other cgroup controllers, nothing is exposing this level of
+> hardware dependent details and I'd really like to keep it that way.
 
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 45f6fde1776c..4c2bb4c6364d 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -1066,12 +1066,12 @@ memory location addresed by ``dst_reg + off`` is atomically modified, with
- immediate, then these operations also overwrite ``src_reg`` with the
- value that was in memory before it was modified.
+RDMA cgroup expose hardware details to users. In rdma.{max, current}
+interface files we can see actual hardware names. Only difference
+compared to Encryption ID cgroup is that latter is exposing that detail
+via file names.
 
--The more special operations are:
-+The more special operations are::
+Will you prefer that encryption ID cgroup do things similar to RDMA
+cgroup? It can have 3 files
+1. encids.capacity (only on root)
+   Shows features (SEV, SEV-ES, TDX, SEID) available along with capacity
+   on the host.
+   $ cat encids.capacity
+   sev 400
+   sev-es 100
 
-     BPF_XCHG
+2. encids.max (only on non-root)
+   Allows setting of the max value of a feature in the cgroup.
+   It will only show max for features shown in the capacity file.
+   $ cat encids.max
+   sev max
+   sev-es 100
 
- This atomically exchanges ``src_reg`` with the value addressed by ``dst_reg +
--off``.
-+off``. ::
+3. encids.current (all levels)
+   Shows total getting used in the cgroup and its descendants.
+   $ cat encids.current
+   sev 3
+   sev-es 0
 
-     BPF_CMPXCHG
+> 
+> So, what I'm asking for is more in-depth analysis of the landscape and
+> inherent differences among different vendor implementations to see whether
+> there can be better approaches or we should just wait and see.
+> 
+> > > * If there can be a shared abstraction which hopefully makes intuitive
+> > >   sense, that'd be ideal. It doesn't have to be one knob but it shouldn't be
+> > >   something arbitrary to specific vendors.
+> > 
+> > I think we should see these as features provided on a host. Tasks can
+> > be executed securely on a host with the guarantees provided by the
+> > specific feature (SEV, SEV-ES, TDX, SEID) used by the task.
+> > 
+> > I don't think each H/W vendor can agree to a common set of security
+> > guarantees and approach.
+> 
+> Do TDX and SEID have multiple key types tho?
+To my limited knowledge I don't think so. I don't know their future
+plans.
 
-@@ -1081,18 +1081,19 @@ before is loaded back to ``R0``.
+> 
+> > > * If we aren't there yet and vendor-specific interface is a must, attach
+> > >   that part to an interface which is already vendor-aware.
+> > Sorry, I don't understand this approach. Can you please give more
+> > details about it?
+> 
+> Attaching the interface to kvm side, most likely, instead of exposing the
+> feature through cgroup.
+I am little confused, do you mean moving files from the kernel/cgroup/
+to kvm related directories or you are recommending not to use cgroup at
+all?  I hope it is the former :)
 
- Note that 1 and 2 byte atomic operations are not supported.
+Only issue with this is that TDX is not limited to KVM, they have
+potential use cases for MKTME without KVM.
 
--Except ``BPF_ADD`` _without_ ``BPF_FETCH`` (for legacy reasons), all 4 byte
-+Except ``BPF_ADD`` *without* ``BPF_FETCH`` (for legacy reasons), all 4 byte
- atomic operations require alu32 mode. Clang enables this mode by default in
- architecture v3 (``-mcpu=v3``). For older versions it can be enabled with
- ``-Xclang -target-feature -Xclang +alu32``.
-
--You may encounter BPF_XADD - this is a legacy name for BPF_ATOMIC, referring to
--the exclusive-add operation encoded when the immediate field is zero.
-+You may encounter ``BPF_XADD`` - this is a legacy name for ``BPF_ATOMIC``,
-+referring to the exclusive-add operation encoded when the immediate field is
-+zero.
-
--eBPF has one 16-byte instruction: BPF_LD | BPF_DW | BPF_IMM which consists
-+eBPF has one 16-byte instruction: ``BPF_LD | BPF_DW | BPF_IMM`` which consists
- of two consecutive ``struct bpf_insn`` 8-byte blocks and interpreted as single
- instruction that loads 64-bit immediate value into a dst_reg.
--Classic BPF has similar instruction: BPF_LD | BPF_W | BPF_IMM which loads
-+Classic BPF has similar instruction: ``BPF_LD | BPF_W | BPF_IMM`` which loads
- 32-bit immediate value into a register.
-
- eBPF verifier
---
-2.30.0.284.gd98b1dd5eaa7-goog
-
+Thanks
+Vipin
