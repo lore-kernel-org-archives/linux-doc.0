@@ -2,259 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B684C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF43C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:02:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 682EF23104
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jan 2021 23:48:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FDB422CE3
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 00:02:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729001AbhASXhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 18:37:01 -0500
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:18764 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393342AbhASOJT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 09:09:19 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10JE2XpC005713;
-        Tue, 19 Jan 2021 15:07:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=J7QJWM/jW9ss57xPTtzribUGpZQKJ8PyKQYG7P76TLU=;
- b=TUsSqNp5t9T6HtR/GwIryG1e3M+qyEHDc+syX+2YEMBL5Rxmw/c7YgDHw2ezmdisZDwf
- nzVB/cDE9KAIPBUKTLh4wcEHrfbbXMLDyy6WYQMHWDnGqORolzbejPaAAktXOMt0ixGQ
- ZWkWX/bVz9+Gwz8T8S/35meGw7lWPPueo4HjUmHfr/31fkgRgK8xUTh88ZSnQ7vXesRN
- UrsZYE0vDiRGQ3rrCDFTe/tGejcywro+82pptU0mkklTsqVTOln3znDkBMJggBbleHIR
- qoFxlXdI/8aY+feOA+L0U1czZcyOWO27FoI9UD+3nzzjwKOMENWYaR7VImZ+XWkiAykA gQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 363pg6r90c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 19 Jan 2021 15:07:21 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ADAFE10002A;
-        Tue, 19 Jan 2021 15:07:20 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97C77250739;
-        Tue, 19 Jan 2021 15:07:20 +0100 (CET)
-Received: from [10.211.11.124] (10.75.127.51) by SFHDAG2NODE3.st.com
- (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Jan
- 2021 15:07:19 +0100
-Subject: Re: [PATCH 00/10] Fix documentation warnings at linux-next
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>
-CC:     Jonathan Cameron <jic23@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Olivier MOYSAN <olivier.moysan@st.com>
-References: <CAKXUXMziQ2H7_oiVSxbt1=bDFkjLQYOiOgd00YGyDnCTVDhbqA@mail.gmail.com>
- <20210115104947.71d99e87@coco.lan> <20210115134720.000011f9@Huawei.com>
- <20210117154218.634dd5fa@archlinux> <YAajkfaXPqkZUB/2@shinobu>
- <20210119104105.000010df@Huawei.com>
-From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Message-ID: <bb6d9854-5b24-c1ff-c4cf-4f9e7bafbe11@foss.st.com>
-Date:   Tue, 19 Jan 2021 15:07:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727200AbhATACL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 19:02:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728645AbhATABx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 19:01:53 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 860E2C0613C1;
+        Tue, 19 Jan 2021 16:01:03 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1BFAA52BF;
+        Wed, 20 Jan 2021 00:01:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1BFAA52BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1611100863; bh=tn1wINqlscY/vHOgWAz1D25iKzRtrck2nKofvI8A/kI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=rFkD2YRmFgwXGihwHj/BER7Fu/rLxWwvkv8IhGNmeGl+RnJ7IDlBes0LuLupMvty5
+         fjZxFjosFKRJ+8MHMf5mvhfUWqf/xmFEmESej2UMtHDefHvuSXeLoGPsNM2GUNtlRM
+         ZXU6HmCMyjAqBfsww8Jcp/ck5L8alpGbOVaOERr7ZEkIoEZmQVBYWboB37eAaIUw+Z
+         tnrlwJeWmHUZRe688oByBJVuhS9tziMQerzBblnnALqR6G9bgLQR5LtGRB2NUtT2W0
+         QmYNSgJiiqnZECmt9VX+buUv/CmxFR4+BksuqcccCOCBYkxelqELZWTQKNN6XJhE9b
+         tdKN/XQchDuSA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Milan Lakhani <milan.lakhani@codethink.co.uk>,
+        lukas.bulwahn@gmail.com, sudip.mukherjee@codethink.co.uk,
+        linux-safety@lists.elisa.tech, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, harryxiyou@gmail.com,
+        alex.shi@linux.alibaba.com
+Cc:     Milan Lakhani <milan.lakhani@codethink.co.uk>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] docs: Change reference that was to removed file
+In-Reply-To: <1611051980-3834-1-git-send-email-milan.lakhani@codethink.co.uk>
+References: <1611051980-3834-1-git-send-email-milan.lakhani@codethink.co.uk>
+Date:   Tue, 19 Jan 2021 17:01:02 -0700
+Message-ID: <87y2gopjcx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210119104105.000010df@Huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.51]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-19_04:2021-01-18,2021-01-19 signatures=0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/19/21 11:41 AM, Jonathan Cameron wrote:
-> On Tue, 19 Jan 2021 18:17:05 +0900
-> William Breathitt Gray <vilhelm.gray@gmail.com> wrote:
-> 
->> On Sun, Jan 17, 2021 at 03:42:18PM +0000, Jonathan Cameron wrote:
->>> On Fri, 15 Jan 2021 13:47:20 +0000
->>> Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
->>>   
->>>> On Fri, 15 Jan 2021 10:49:47 +0100
->>>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
->>>>   
->>>>> Hi Lukas,
->>>>>
->>>>> Em Fri, 15 Jan 2021 07:12:38 +0100
->>>>> Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
->>>>>     
->>>>>> [reduced the recipient list to the main responsible ones and list]
->>>>>>
->>>>>> Hi Mauro, hi Jonathan,
->>>>>>
->>>>>> We both, Mauro and I, have been submitting patches to address the
->>>>>> documentation warnings on linux-next. If it is okay with you, Mauro, I
->>>>>> would like to take responsibility for the task to send out the patches
->>>>>> to address all warnings on linux-next in make htmldocs and follow up
->>>>>> with all the discussions. I can also provide a short weekly summary
->>>>>> (probably always on Friday) on what is pending where and what I could
->>>>>> not resolve by myself.
->>>>>>
->>>>>> Is that okay for you?
->>>>>>
->>>>>> If at some point I do not have the time to take care anymore, I will
->>>>>> let you know.      
->>>>>
->>>>> Yeah, sure!
->>>>>
->>>>> Anyway, after applying the patches I sent this week, the warnings
->>>>> I'm getting are all due to the validation scripts I wrote. So, if 
->>>>> everything gets merged (either yours or my version), we'll have zero
->>>>> Sphinx/kernel-doc warnings again.
->>>>>
->>>>> The script-validation warnings are:
->>>>>
->>>>> 1. Broken cross references
->>>>> --------------------------
->>>>>
->>>>> $ scripts/documentation-file-ref-check
->>>>> Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
->>>>> Warning: Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
->>>>> Warning: Documentation/devicetree/bindings/input/adc-joystick.yaml references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
->>>>> Warning: Documentation/devicetree/bindings/power/supply/da9150-charger.txt references a file that doesn't exist: Documentation/devicetree/bindings/iio/iio-bindings.txt
->>>>> Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
->>>>> Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
->>>>> Warning: Documentation/virt/kvm/vcpu-requests.rst references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
->>>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
->>>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
->>>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/intel,kmb_display.yaml
->>>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
->>>>> Warning: include/linux/rculist_nulls.h references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
->>>>> Warning: tools/memory-model/Documentation/simple.txt references a file that doesn't exist: Documentation/core-api/atomic_ops.rst
->>>>>
->>>>> It sounds that part of the above is due to DT patches that weren't
->>>>> merged yet, but there are a few others that can be solved, but may
->>>>> require discussions with some Kernel developers/maintainers.
->>>>>
->>>>> 2. Duplicated ABI definitions
->>>>> -----------------------------
->>>>>
->>>>> $ scripts/get_abi.pl validate
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  ./Documentation/ABI/testing/sysfs-bus-iio:398
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  ./Documentation/ABI/testing/sysfs-bus-iio:399
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  ./Documentation/ABI/testing/sysfs-bus-iio:599
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  ./Documentation/ABI/testing/sysfs-bus-iio:588
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  ./Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  ./Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
->>>>> Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  ./Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
->>>>> Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
->>>>> Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  ./Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
->>>>> Warning: /sys/class/leds/<led>/repeat is defined 2 times:  ./Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  ./Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
->>>>> Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  ./Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
->>>>>
->>>>> Perhaps you could check with Jonathan Cameron some strategy to address
->>>>> the IIO warnings.    
->>>>
->>>> I'm being a bit rubbish on those ones. All need a bit of thought...
->>>>
->>>> I'll try to kill off a few of them this weekend as *touch wood* my
->>>> review queue is looking fairly short.  
->>>
->>> As I mentioned in the cover letter for the series I've just sent out, I ran into
->>> a bit of an understanding gap around the two counter cases.  This isn't helped
->>> by the fact it is at least partly deprecated ABI given the counter subsystem
->>> has much richer ABI for these types of devices.
->>>
->>> @Fabrice, Benjamin and William.
->>> What do we do about that one?
->>>
->>> Thanks,
->>>
->>> Jonathan  
->>
->> I'd consider the IIO counter ABI as entirely deprecated -- the Counter
->> subsystem supports all the functionality that's provided by the IIO
->> counter ABI, as well as additional functionality that is missing. 
->>
->> Regarding the iio:deviceX/in_count_quadrature_mode_available attribute:
->> superseded by the Counter subsystem counterX/countY/function attribute.
->> The IIO counter ABI allows users to select between a quadrature counting
->> mode or a non-quadrature counting mode; unfortunately, it does not
->> specify what kind of quadrature or what kind of non-quadrature counting
->> is actually being performed by the device.
->>
->> Because the 104-quad-8 and stm32-lptimer-cnt drivers were the only ones
->> to use this attribute, they are luckily in sync -- both define the same
->> possible modes available: "quadrature" and "non-quadrature". You could
->> simply consolidate this attribute to the main sys-bus-iio file in order
->> to resolve this warning.
->>
->> Given that it has already been superceded by the Counter subsystem, I'd
->> also be all right with just removing the IIO Counter ABI entirely from
->> the codebase, or alternatively setting a future date for removal.
-> 
-> I agree that we should look to remove this ABI.  If we can establish no one
-> is relying on it today then we can drop quickly.  If not it would be good
-> to establish when we drop it.
-> 
-> Fabrice, Benjami any thoughts on the stm32-lptimer-cnt?
+Milan Lakhani <milan.lakhani@codethink.co.uk> writes:
 
-Hi Jonathan, William,
+[CC += Rob]
 
-I apologize for the late reply, being busy on other topics. I think the
-stm32 timer driver need some cleanup to remove this ABI:
+> There were two references to
+> Documentation/devicetree/booting-without-of.rst for dtb format
+> information. This file has been removed, so I have changed the links to
+> Documentation/devicetree/usage-model.rst for this information, which
+> itself points to https://elinux.org/Device_Tree_Usage for an overview of
+> the device tree data format.
+>
+> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
+> ---
+>  Documentation/arm/booting.rst                | 2 +-
+>  Documentation/translations/zh_CN/arm/Booting | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/arm/booting.rst b/Documentation/arm/booting.rst
+> index a226345..5392d01 100644
+> --- a/Documentation/arm/booting.rst
+> +++ b/Documentation/arm/booting.rst
+> @@ -128,7 +128,7 @@ it.  The recommended placement is in the first 16KiB of RAM.
+>  
+>  The boot loader must load a device tree image (dtb) into system ram
+>  at a 64bit aligned address and initialize it with the boot data.  The
+> -dtb format is documented in Documentation/devicetree/booting-without-of.rst.
+> +dtb format is documented in Documentation/devicetree/usage-model.rst.
 
-- stm32-lptimer-counter indeed is similar to 104-quad-8 driver. It still
-registers an IIO device with the "preset" attribute pointed out in the
-doc warning. Yes, the counter interface covers the same.
-So, I agree this ABI could be removed here. Still, I don't know if there
-are users for the IIO counter ABI.
-Dummy question... Is it needed to drop driver part and ABI, at the same
-time ?
+Except that ... usage-model.rst doesn't actually document the DTB
+format.  Perhaps we should instead substitute a link that does what's
+promised here?
 
-- stm32-timer-trigger driver which resides in iio, also registers preset
-attr being pointed out above. I'm more concerned there: I think some
-modes may depend on the preset attr, even for the trigger. Partial
-removal was done by Benjamin earlier (after stm32-timer-cnt addition).
-still I need to double check this.
+Thanks,
 
-At least dropping the stm32-lptimer-counter part, should avoid the
-Warning here. So it may probably be ok in the short term?
-
-Please advise,
-Best Regards,
-Fabrice
-
-> 
-> I'm going to hazard a guess that there aren't many 104-quad-8 users
-> that you don't know about William, so if you think we can immediately drop
-> the interface from that, lets do so, whether or not we can clean up
-> the stm32 one at the same time.
-> 
-> Jonathan
-> 
->>
->> William Breathitt Gray
->>
->>>>
->>>> Jonathan
->>>>   
->>>>>
->>>>> Thanks,
->>>>> Mauro    
->>>>   
->>>   
->>
-> 
+jon
