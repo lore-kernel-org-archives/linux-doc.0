@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E009C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B902AC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:45:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9D8D22472
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:45:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88BAE22472
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jan 2021 01:45:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731048AbhATBpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:45:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57806 "EHLO
+        id S1730975AbhATBp1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:45:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730975AbhATBpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:45:00 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD3CC061793
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:39 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id v126so23940833qkd.11
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:39 -0800 (PST)
+        with ESMTP id S1731057AbhATBpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jan 2021 20:45:21 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0E6C0617A6
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:49 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id c1so15280859qtc.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jan 2021 17:43:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
-        b=RmC0xQylQcmkuF5yjIv80DDW0RA/xoOl0q+pK7M85n5LLKQTrhG2INIIJSg26fxSgP
-         7kOH61xBi+5qAzjc7w69DfA5uqExX8xI5mO+zp2auZUWFUcy2LN1TmOwliOxS8hHzOCC
-         y6VcIC1sn42Eh9UE7GmJw6iFUl65UfIUlQtNh3Um4c8otaClWyHopxsMnOY2uRBqdsGF
-         04ZY8+ceSUF0OnjnmE4PqYrSRDJKoZ6xTREV9VwJxKSmDIn0dpPcpa8xYyjt8POuA6Ge
-         zhReara3vG9aSRD2JPLwsE4uj6cfzQDdUBmPLTUT810l7zuUU9Z7B8NMaN/vPSBAMZHj
-         yhow==
+        bh=NSfKwM0qZ2SADZukUCxIq1sGdroZk/z1DcleDkvNzS0=;
+        b=nwZcOBpa84trfXrteKEqUE6inVj0YqjUk38WoHG1YWmiX9GB48+raOTDXRxgSMrRrD
+         3+hcbwAWzpg1kIz9WU4lnCdM5yLF6ws1uwZpEUeIXvKuiSyOXqMTjpta674XbkCB2PPG
+         EtVp0+dIuQ9LBqPgRvEDVLOTXLqzO+WGPA7Bju+8Ipd81EMc9gF11nMnjbnTEBSOo2zd
+         RNvje6PkQSJZYYjJgh+d63zAybUugTeZkPKQaeJ8hUzEOwSOSfHrzVyqoJEg4qdFCOGT
+         cNjDXU9/8xmlcUdyJ56NeM4WLAixkJcHfaQi/mXBLJ2Xiwqg4JugrmRqtQCZ688ivXBP
+         UWhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
-        b=dkbZAnOuw7qe+ATjjU3P/tb94ZavS7wjF5I31QhmyUCbF3whJXUlkMMazfi6jZFN3g
-         Aj1C9YrA/xu1zDxop01qsbRrA6JCvPQhvJ6TM6yh3cwCqDRWiAj88jikkgh996wYBL2j
-         mRODQITm32+Vbw2y1kNq2H4LgWLq6yY0QkMyyeyXwjRxYck4OimSmUdPmMr3fj8jgn9r
-         +2Wxpu4b8ZV2gMRGf6GKtW1rT6CHcLMAYVblo2MWwQpzaZmGWoj2CU5EFDBkR7QpOnya
-         dtfQSK7Vy3sCjIvcKtBqHceCd6n59tX4Pgucr35ePipNPbRbh1VDuT99iIkRC5HQrbzk
-         SzeQ==
-X-Gm-Message-State: AOAM532nbHZFYNaXaQeAhMwWa/ME1pbifwRFv/eAgs+/5Bn+jB4qoX2r
-        M0ki0rQ+gU9lFU9rbqP4oJQwnw==
-X-Google-Smtp-Source: ABdhPJxqofjLc4ID+cJVT/cdrSIm0/gIX8GFxlbTBTnAtlB3KLAOZgKlTtLQIirWWKLqvIHpshfe2w==
-X-Received: by 2002:a37:9c4a:: with SMTP id f71mr7624514qke.495.1611107019093;
-        Tue, 19 Jan 2021 17:43:39 -0800 (PST)
+        bh=NSfKwM0qZ2SADZukUCxIq1sGdroZk/z1DcleDkvNzS0=;
+        b=aax++8R8sNWxTL7Omwmekw7vg3vooAL2qtaALRtf1HbOERgzYWvU4fn999bmpwb1i5
+         JCe3vqgQ6yQECRZ57DpTNakKSbhuXtyTE0nojtmGmBTH7N1wCBMjOXDzFTe743EWeHIZ
+         n4uC2SWVaOk1Pp0N6nkaS54zf/cIop03+sHl0BVbls4iemWM8EAU1ZVpZ9Pr4gmu5GSY
+         aD6MRduB8w7YLixAC+VHVstVTB4NsJS5WFWDRZmZbOAc63DJO6FdWnUUs4wpkrM8PI8g
+         DLg/y94xjddVPr/QR0m931psLpEVVOKj5On1QwSV3FO1ixfmUIg9aGnAT4T+0Kpf5pWG
+         J/FQ==
+X-Gm-Message-State: AOAM530NAgcQQWUco3Rwyh+gT4tAPPeo2Y1mCdQfzLIeap19dFkh5ZTW
+        1OoIfnRIKMqcnb1lFuSjqA9QSw==
+X-Google-Smtp-Source: ABdhPJxidf4yCDT6pOUeqmLOYnk4lX7EIE4O9btB7l4S+m+19nz9VZz6qrWMiOlPdTgzPfbD+pQrYw==
+X-Received: by 2002:ac8:4d93:: with SMTP id a19mr6930840qtw.356.1611107028992;
+        Tue, 19 Jan 2021 17:43:48 -0800 (PST)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.37
+        by smtp.gmail.com with ESMTPSA id a9sm391871qkk.39.2021.01.19.17.43.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 17:43:38 -0800 (PST)
+        Tue, 19 Jan 2021 17:43:48 -0800 (PST)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -66,9 +66,9 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org, ira.weiny@intel.com,
         linux-kselftest@vger.kernel.org
-Subject: [PATCH v6 02/14] mm/gup: check every subpage of a compound page during isolation
-Date:   Tue, 19 Jan 2021 20:43:21 -0500
-Message-Id: <20210120014333.222547-3-pasha.tatashin@soleen.com>
+Subject: [PATCH v6 08/14] mm/gup: do not migrate zero page
+Date:   Tue, 19 Jan 2021 20:43:27 -0500
+Message-Id: <20210120014333.222547-9-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210120014333.222547-1-pasha.tatashin@soleen.com>
 References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
@@ -78,78 +78,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When pages are isolated in check_and_migrate_movable_pages() we skip
-compound number of pages at a time. However, as Jason noted, it is
-not necessary correct that pages[i] corresponds to the pages that
-we skipped. This is because it is possible that the addresses in
-this range had split_huge_pmd()/split_huge_pud(), and these functions
-do not update the compound page metadata.
+On some platforms ZERO_PAGE(0) might end-up in a movable zone. Do not
+migrate zero page in gup during longterm pinning as migration of zero page
+is not allowed.
 
-The problem can be reproduced if something like this occurs:
+For example, in x86 QEMU with 16G of memory and kernelcore=5G parameter, I
+see the following:
 
-1. User faulted huge pages.
-2. split_huge_pmd() was called for some reason
-3. User has unmapped some sub-pages in the range
-4. User tries to longterm pin the addresses.
+Boot#1: zero_pfn  0x48a8d zero_pfn zone: ZONE_DMA32
+Boot#2: zero_pfn 0x20168d zero_pfn zone: ZONE_MOVABLE
 
-The resulting pages[i] might end-up having pages which are not compound
-size page aligned.
+On x86, empty_zero_page is declared in .bss and depending on the loader
+may end up in different physical locations during boots.
 
-Fixes: aa712399c1e8 ("mm/gup: speed up check_and_migrate_cma_pages() on huge page")
-Reported-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- mm/gup.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ include/linux/mmzone.h | 4 ++++
+ mm/gup.c               | 2 ++
+ 2 files changed, 6 insertions(+)
 
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index fc99e9241846..f67427a8f22b 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -427,6 +427,10 @@ enum zone_type {
+ 	 *    techniques might use alloc_contig_range() to hide previously
+ 	 *    exposed pages from the buddy again (e.g., to implement some sort
+ 	 *    of memory unplug in virtio-mem).
++	 * 6. ZERO_PAGE(0), kernelcore/movablecore setups might create
++	 *    situations where ZERO_PAGE(0) which is allocated differently
++	 *    on different platforms may end up in a movable zone. ZERO_PAGE(0)
++	 *    cannot be migrated.
+ 	 *
+ 	 * In general, no unmovable allocations that degrade memory offlining
+ 	 * should end up in ZONE_MOVABLE. Allocators (like alloc_contig_range())
 diff --git a/mm/gup.c b/mm/gup.c
-index 24f25b1e9103..16f10d5a9eb6 100644
+index 857b273e32ac..fdd5cda30a07 100644
 --- a/mm/gup.c
 +++ b/mm/gup.c
-@@ -1556,26 +1556,23 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
- 					unsigned int gup_flags)
- {
- 	unsigned long i;
--	unsigned long step;
- 	bool drain_allow = true;
- 	bool migrate_allow = true;
- 	LIST_HEAD(cma_page_list);
- 	long ret = nr_pages;
-+	struct page *prev_head, *head;
- 	struct migration_target_control mtc = {
- 		.nid = NUMA_NO_NODE,
- 		.gfp_mask = GFP_USER | __GFP_NOWARN,
- 	};
- 
- check_again:
--	for (i = 0; i < nr_pages;) {
--
--		struct page *head = compound_head(pages[i]);
--
--		/*
--		 * gup may start from a tail page. Advance step by the left
--		 * part.
--		 */
--		step = compound_nr(head) - (pages[i] - head);
-+	prev_head = NULL;
-+	for (i = 0; i < nr_pages; i++) {
-+		head = compound_head(pages[i]);
-+		if (head == prev_head)
-+			continue;
-+		prev_head = head;
- 		/*
- 		 * If we get a page from the CMA zone, since we are going to
- 		 * be pinning these entries, we might as well move them out
-@@ -1599,8 +1596,6 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
- 				}
- 			}
- 		}
--
--		i += step;
- 	}
- 
- 	if (!list_empty(&cma_page_list)) {
+@@ -1580,6 +1580,8 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 		 * of the CMA zone if possible.
+ 		 */
+ 		if (is_migrate_cma_page(head)) {
++			if (is_zero_pfn(page_to_pfn(head)))
++				continue;
+ 			if (PageHuge(head)) {
+ 				if (!isolate_huge_page(head, &cma_page_list))
+ 					isolation_error_count++;
 -- 
 2.25.1
 
