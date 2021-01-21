@@ -2,78 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5D7C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DD4C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:11:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5CEC823A5B
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:07:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4882623A56
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbhAUUH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 15:07:27 -0500
-Received: from ms.lwn.net ([45.79.88.28]:35700 "EHLO ms.lwn.net"
+        id S1726545AbhAUULW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 15:11:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52376 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbhAUSq0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:46:26 -0500
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AAA97615C;
-        Thu, 21 Jan 2021 18:44:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AAA97615C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611254700; bh=ohCI30gEmYwmhbDDDUE0YNczMwHC6QQw0UWJHKghkGY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Tbre4kwyqWH/Y3GrTBNCfMHd8K5c+nOh7d8mpLo8Q9G63QD5exwl8UMbcMuNtd4b/
-         ScqOyDdUHL3IzLaDy0oJ4L505CXx6wh8Mey9Ty7vXyf/HdM+GB83cK3SYfSxOKoda0
-         0J0piOCn2m/Kr0xzQw6PI4iYoO6GmXVGOvw91CmzXXBkP9YiCuxSI2IAhik8zrEr0O
-         8ZfDCJRCw4Y2JeZbFbCfBFlEnp9kSr3MXsoj/WAKWrgrwOWFeS60/fjvx3dIxK1NP3
-         X4nDmCkDZtqlD1EEaMq9TOLsveuZmS5GSQsZgrmB2SP0VFsTptfhv5Y/La5EHp7k3y
-         bBHnflrVcDjkw==
-Date:   Thu, 21 Jan 2021 11:44:58 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arch/Kconfig: update a broken file reference
-Message-ID: <20210121114458.614ee8da@lwn.net>
-In-Reply-To: <20210119095326.13896-1-lukas.bulwahn@gmail.com>
-References: <20210119095326.13896-1-lukas.bulwahn@gmail.com>
-Organization: LWN.net
+        id S1726067AbhAUUKt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jan 2021 15:10:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 835D123A5E;
+        Thu, 21 Jan 2021 20:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611259808;
+        bh=NVG38ZLu+Anij+JW/Lk7dyyHi6rcXm3ZIO5ByrJ7gHE=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=PRb+pQ02ya/yj4JGqHuK08Y3VZ6ktr0ajwRhnfvi3znOYiQLRQUnvh4PfqL+zWUfa
+         3gCzREzS57O4Td+JIej9X7O+X0g5J6FCLAT9v9vsUA8L0QMRCvZwjzC6uhUW+BRaCK
+         iBm9jTuWGNUV/1cqJCIBVJN3wk4kafHfhHIoYZd8RoHCAXWqs8TMxXts4JwJjGp61R
+         b6rGI/BW5XcLs1bY1Lgb4uzHVI1ciaX+sa9dNEJg39Fb0YlX8Ml/aiqbP/7bsjqYhs
+         sZs4Re6iemq0Q46gZ4ZzO8HKRKWmEXZqoq1nAp6CfZlHo41ZpEAABsHTYPD9k/SQFF
+         ZW3xIXOsbSe1Q==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/2] Add devlink health reporters for NIX block
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161125980846.10330.13299364305009726430.git-patchwork-notify@kernel.org>
+Date:   Thu, 21 Jan 2021 20:10:08 +0000
+References: <20210119100120.2614730-1-george.cherian@marvell.com>
+In-Reply-To: <20210119100120.2614730-1-george.cherian@marvell.com>
+To:     George Cherian <george.cherian@marvell.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, kuba@kernel.org, davem@davemloft.net,
+        sgoutham@marvell.com, lcherian@marvell.com, gakula@marvell.com,
+        corbet@lwn.net
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Jan 2021 10:53:26 +0100
-Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+Hello:
 
-> Commit adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
-> added the config HAVE_64BIT_ALIGNED_ACCESS back into arch/Kconfig with this
-> revert. In the meantime, commit c9b54d6f362c ("docs: move other kAPI
-> documents to core-api") changed ./Documentation/unaligned-memory-access.txt
-> to ./Documentation/core-api/unaligned-memory-access.rst.
-> 
-> Fortunately, ./scripts/documentation-file-ref-check detects this and warns
-> about this broken reference.
-> 
-> Update the file reference in arch/Kconfig.
-> 
-> Fixes: adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on current master and next-20210118
-> 
-> Steven, could you pick this fix to your commit or, at least, ack it so that
-> Jonathan can pick it?
+This series was applied to netdev/net-next.git (refs/heads/master):
 
-I've gone ahead and applied it, thanks.
+On Tue, 19 Jan 2021 15:31:18 +0530 you wrote:
+> Devlink health reporters are added for the NIX block.
+> 
+> Address Jakub's comment to add devlink support for error reporting.
+> https://www.spinics.net/lists/netdev/msg670712.html
+> 
+> This series is in continuation to
+> https://www.spinics.net/lists/netdev/msg707798.html
+> 
+> [...]
 
-jon
+Here is the summary with links:
+  - [net-next,1/2] octeontx2-af: Add devlink health reporters for NIX
+    https://git.kernel.org/netdev/net-next/c/5ed66306eab6
+  - [net-next,2/2] docs: octeontx2: Add Documentation for NIX health reporters
+    https://git.kernel.org/netdev/net-next/c/d41b3365bda7
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
