@@ -2,53 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF474C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:48:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5D7C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:07:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEF8123ABA
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:48:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CEC823A5B
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 20:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726449AbhAUTsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 14:48:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51908 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbhAUSro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 13:47:44 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA7FC0613ED
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 10:46:58 -0800 (PST)
+        id S1726043AbhAUUH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 15:07:27 -0500
+Received: from ms.lwn.net ([45.79.88.28]:35700 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725874AbhAUSq0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jan 2021 13:46:26 -0500
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9B1C1615C;
-        Thu, 21 Jan 2021 18:46:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B1C1615C
+        by ms.lwn.net (Postfix) with ESMTPSA id AAA97615C;
+        Thu, 21 Jan 2021 18:44:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AAA97615C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611254818; bh=PViKmR17LWz+Sl/ns1BtHaIpYHK3G3dIAJK29571lpk=;
+        t=1611254700; bh=ohCI30gEmYwmhbDDDUE0YNczMwHC6QQw0UWJHKghkGY=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=bHJv4pqvpwb5cg8GwKO+pNlVxyQQ1ZV/8XqJbvR2tkJiwmtk6Ai+YyJP4z7bFTK59
-         iVQp/RMbECeRLXouL346ygl4IbXc/hdNqIawvjvW7FH3vOi7ZVlROpJfQN4BO42D4f
-         IQixy/2PGybwx2hgb13LAO25Vu1YRLYyqNHeHW+3bMGX5bDUsdar8hHjGtaMbkciGj
-         CySbQU9mg+xmuZFrHUaVgIm+hlshB8nMqMceLIqe8hGxArTiPGddDCrXao5XaF5jsh
-         nfdN7zwWzTQ632wJohbO16hl8bhDfw3mXnh2vXi7jR1SVu10LVZEBnT/PSMbUTrH5E
-         tAGcQRRkTv9cA==
-Date:   Thu, 21 Jan 2021 11:46:56 -0700
+        b=Tbre4kwyqWH/Y3GrTBNCfMHd8K5c+nOh7d8mpLo8Q9G63QD5exwl8UMbcMuNtd4b/
+         ScqOyDdUHL3IzLaDy0oJ4L505CXx6wh8Mey9Ty7vXyf/HdM+GB83cK3SYfSxOKoda0
+         0J0piOCn2m/Kr0xzQw6PI4iYoO6GmXVGOvw91CmzXXBkP9YiCuxSI2IAhik8zrEr0O
+         8ZfDCJRCw4Y2JeZbFbCfBFlEnp9kSr3MXsoj/WAKWrgrwOWFeS60/fjvx3dIxK1NP3
+         X4nDmCkDZtqlD1EEaMq9TOLsveuZmS5GSQsZgrmB2SP0VFsTptfhv5Y/La5EHp7k3y
+         bBHnflrVcDjkw==
+Date:   Thu, 21 Jan 2021 11:44:58 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Lars Poeschel <poeschel@lemonage.de>,
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH] docs: iio: Correct a typo
-Message-ID: <20210121114656.55874140@lwn.net>
-In-Reply-To: <20210119030320.2860870-1-siyanteng@loongson.cn>
-References: <20210119030320.2860870-1-siyanteng@loongson.cn>
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arch/Kconfig: update a broken file reference
+Message-ID: <20210121114458.614ee8da@lwn.net>
+In-Reply-To: <20210119095326.13896-1-lukas.bulwahn@gmail.com>
+References: <20210119095326.13896-1-lukas.bulwahn@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -57,28 +52,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Jan 2021 11:03:20 +0800
-Yanteng Si <siyanteng@loongson.cn> wrote:
+On Tue, 19 Jan 2021 10:53:26 +0100
+Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 
-> There are two EP9312, one of them should be 9315
+> Commit adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
+> added the config HAVE_64BIT_ALIGNED_ACCESS back into arch/Kconfig with this
+> revert. In the meantime, commit c9b54d6f362c ("docs: move other kAPI
+> documents to core-api") changed ./Documentation/unaligned-memory-access.txt
+> to ./Documentation/core-api/unaligned-memory-access.rst.
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Fortunately, ./scripts/documentation-file-ref-check detects this and warns
+> about this broken reference.
+> 
+> Update the file reference in arch/Kconfig.
+> 
+> Fixes: adab66b71abf ("Revert: "ring-buffer: Remove HAVE_64BIT_ALIGNED_ACCESS"")
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
->  Documentation/iio/ep93xx_adc.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> applies cleanly on current master and next-20210118
 > 
-> diff --git a/Documentation/iio/ep93xx_adc.rst b/Documentation/iio/ep93xx_adc.rst
-> index 4fd8dea3f6b8..0af0e9040457 100644
-> --- a/Documentation/iio/ep93xx_adc.rst
-> +++ b/Documentation/iio/ep93xx_adc.rst
-> @@ -13,7 +13,7 @@ touchscreen/ADC module.
->  ====================
->  
->  Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
-> -EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
-> +EP9307, EP9312 and EP9315 have 3 channels more (total 8), but the numbering is
->  not defined. So the last three are numbered randomly, let's say.
+> Steven, could you pick this fix to your commit or, at least, ack it so that
+> Jonathan can pick it?
 
-Applied, thanks.
+I've gone ahead and applied it, thanks.
 
 jon
