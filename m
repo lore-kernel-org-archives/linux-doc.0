@@ -2,244 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8214CC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 15:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F6CC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 15:37:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A13823A1E
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 15:27:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD9A923A1E
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 15:37:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731887AbhAUP0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 10:26:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43296 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732749AbhAUPZk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jan 2021 10:25:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A4D0239FD;
-        Thu, 21 Jan 2021 15:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611242698;
-        bh=L0Pud472BRi3AshF8Fh1sZebxJpxTvi4JjsH97V1n0E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZrhjxAjc98/bKTQk+eMROsePSSRbA2Y3MH2aj7CeZoqoJBhDHUK6zjbfXjcOxmT1b
-         qoec7YI0r21Enc9SRmG6c+LyyzGdLs53sGd2b3Mxy1B/u331twBawkimCt80nlH11O
-         u3BYTQDD8XtJDhqr3nRa5Z3JzR1yN7JHkFDIobuakIkVrzg+rc3/Fd43LfnWsPlCNu
-         15NUhlRVTGbyjFpNRFCK3fJEDBHOFpSBQj1VZRiV5JnwBgWgGnwn3fS4d8nE438be8
-         t9W0L/7Ce4fd1L+yqnSBzaHPkkrtcnb8Ik1m3Mm/fi8m9miDzHoZ/hT5rTm5vMBUN5
-         jZpbp+mg4kPQA==
-Date:   Thu, 21 Jan 2021 17:24:56 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Jerome Forissier <jerome@forissier.org>
-Cc:     Sumit Garg <sumit.garg@linaro.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        op-tee@lists.trustedfirmware.org, Jonathan Corbet <corbet@lwn.net>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
+        id S1732764AbhAUPhQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 10:37:16 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:36934 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733034AbhAUPhE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 10:37:04 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10LFYII6146890;
+        Thu, 21 Jan 2021 15:35:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=8EEkYBvY8fbSdFP6aylnmPi0I4ePUFrr4CiDFcJK23w=;
+ b=LWOeLbm+9QhJopEnu8B+dl61YhhGdd7Czpv6JFBy3LBpwOjJVs+/wG8ilyEsgjR8ndbO
+ eELCqJP/gb9T9fryFi5bFAkNm1Fr9ycPh6jBD1Ne43UyngYrYGFI1UOOGFid6RcDWW8g
+ 5p7df5nyKkmVfT54MsAb4URqDgQTZOdIapg+EJqKIDbXf1NolK0J1BiA19Dw0ooOVZXC
+ D2NhJr+9n7Yjhvl+58vGkwaxVZGx8yRyEHcwZbZC6qpD4ISO89YeJjU4OPfQBf1NytQO
+ WG1mNAjm28ZvmBs6g1UHyC23+tZ8EwuftWb7RkoAFlbe3vWx6pMrC3PwczKtH9Nu3gvM GQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 3668qmyvg9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 21 Jan 2021 15:35:03 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10LFAtnQ180049;
+        Thu, 21 Jan 2021 15:33:02 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+        by userp3020.oracle.com with ESMTP id 3668qy9awk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 21 Jan 2021 15:33:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TIu1/8t+XuHVGCHMzYrcQWEJyW46DuR4nAwtQbR0ose6HBelGioPidBbodi4jraB9GGEWZ+2wD48b58MJuba4hx46tCTllxEB5JlsnFWdThiZklNSC1jMNz1kr2atxiRau3u3XMZr+kXqTvilZt2+GVqLPCCpBWcvBjlKFWN3Hxco9T8NN4tdrgNgX+Gy3Dm1OcNbrTFbwlbjD9+7o8VxThGqpr9lXwUwAHWWEzkuXfJ9uGOybErAA9aclrRfeRu33XqMsjMHR84Qm+Jgct2aK/wCm6gzdLxJdHKD77Z+5U+Yv34XFVxg4sA1TXOLZSLaRvtEOjpkB6Jb9By6zG1UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8EEkYBvY8fbSdFP6aylnmPi0I4ePUFrr4CiDFcJK23w=;
+ b=a1gkk2tTh82zTKBZYx12iTIr3qaWWCYzieM/PDGZPWoqFRlbdT+nROL62m6HUCFNPX96vaRLeO/bAyRHq7u3GO5/7pOGCmljwuvk7y38DxwRWjsUdqsRkRjBLtd1JFB/BHdUGMeBmW7vAAX14HUFKmxOTiW0RKH/sZ3Hz6w+ElpQXs044D/xYFu+ZzdC56GTvapi26vuGoG8r4hNwFgwfWwvptgMkQk2HcpmjpbbvPt67FfptTtciw28Pi1WAFbtVlTnSpIFtnL2OuT7y3lZhy7eMjBcTQRnIVEUUwrsc7EyRdfzxIrwviBznzqlUsIVGzQvrQGFTWhaUZQsk5VzQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8EEkYBvY8fbSdFP6aylnmPi0I4ePUFrr4CiDFcJK23w=;
+ b=H/xAOxjT+zzfOB0Aor6AIzYCh9qj3qZ69a6ud1vjd7D137T4rqVsElUGGtlHgKE0ansAl0yNj4s37cv3zk3ReLXCr4XG51JoSVch8FlKkceaj90JTmzEmBIfbaOrCs0mZYscJQkFgu2EPLr3fAvaItBZUE/Ghx956IwddyDc9f0=
+Received: from CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12)
+ by MWHPR1001MB2285.namprd10.prod.outlook.com (2603:10b6:301:2e::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.7; Thu, 21 Jan
+ 2021 15:32:57 +0000
+Received: from CO1PR10MB4722.namprd10.prod.outlook.com
+ ([fe80::50a1:9424:e4df:af22]) by CO1PR10MB4722.namprd10.prod.outlook.com
+ ([fe80::50a1:9424:e4df:af22%4]) with mapi id 15.20.3784.013; Thu, 21 Jan 2021
+ 15:32:56 +0000
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+To:     Dave Young <dyoung@redhat.com>,
+        Guilherme Piccoli <gpiccoli@canonical.com>
+Cc:     Kairui Song <kasong@redhat.com>,
+        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <YAmcyKnYCK+Y4IGW@kernel.org>
-References: <X/x+N0fgrzIZTeNi@kernel.org>
- <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
- <X/+m6+m2/snYj9Vc@kernel.org>
- <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
- <YAa0ys4YJcZtKdfF@kernel.org>
- <YAeH2pb8szQyjusL@kernel.org>
- <CAFA6WYP5G6NfGk96ePOC+2kpD6B+4hz9nywyUM9Nh=dJDYMiuA@mail.gmail.com>
- <01000177223f74d3-1eef7685-4a19-40d2-ace6-d4cd7f35579d-000000@email.amazonses.com>
- <dc3979e8-6bf0-adb7-164d-d50e805a048f@forissier.org>
- <YAmYu9FxWcLPhBhs@kernel.org>
+        "# v4 . 16+" <stable@vger.kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        =?UTF-8?Q?Diego_Elio_Petten=c3=b2?= <flameeyes@flameeyes.com>,
+        Olof Johansson <olof@lixom.net>,
+        Shawn Guo <shawnguo@kernel.org>,
+        John Donnelly <john.p.donnelly@oracle.com>
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+ <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
+ <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
+ <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
+ <CAHD1Q_yB1B4gu7EDqbZJ5dxAAkr-dVKa9yRDK-tE3oLeTTmLJQ@mail.gmail.com>
+ <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
+From:   john.p.donnelly@oracle.com
+Message-ID: <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
+Date:   Thu, 21 Jan 2021 09:32:50 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
+In-Reply-To: <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [47.220.66.60]
+X-ClientProxiedBy: CH2PR18CA0055.namprd18.prod.outlook.com
+ (2603:10b6:610:55::35) To CO1PR10MB4722.namprd10.prod.outlook.com
+ (2603:10b6:303:9e::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YAmYu9FxWcLPhBhs@kernel.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jpd-mac.local (47.220.66.60) by CH2PR18CA0055.namprd18.prod.outlook.com (2603:10b6:610:55::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12 via Frontend Transport; Thu, 21 Jan 2021 15:32:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b8ab371a-c393-48d6-e2f2-08d8be21d395
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2285:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB22857299E775521EB3E55E35C7A10@MWHPR1001MB2285.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ajnS0mZ2M3Gs9r41n5j9hiQcd3bMZn1zMSoCuz6LdzETDOIOWIjnLSE9ejRtj9Uq2xpEwyzwsLP0zVWo0j+RNJH9ZYzOxgEf4A+kUN6AmoJ48yG+buS+PtA4mlaKdEpA+beJzDqUdQilY9wajZH+6mJZhI6eNT2dAUvPXE5PuFRioHZQAGYHDA5Eqqf3W8vXu/PiEiaByZrkEAmNiAwC1mMtJ4e90I0WyIa3aUwQzuub0guj9hxQhtlET0MVP9pRe+lI0DmvJ6+P2uLJzDX5P9X9qBdg3W2zQgA4luBgAgwk5TGtwZ5TEugFnsx8blQbE39039r+uk0S4fQals4nnEaOO2xshfQBIYtpNap5sYNahQw/194+KqC/FPAiQqrbrjZCixkib/gGtZhfxDVk6FZTRb63pLGTIzeQSmIx2jg5emVOYKTQhZA6Q0480qhi
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4722.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(5660300002)(110136005)(36756003)(53546011)(31696002)(498600001)(54906003)(107886003)(8936002)(8676002)(6506007)(7416002)(16526019)(956004)(6512007)(86362001)(26005)(9686003)(4326008)(2616005)(66476007)(31686004)(6486002)(66946007)(66556008)(186003)(2906002)(7406005)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?a3JEa0QzZjBWaGJiV2JBZ3RRdytOeVBnYjBxQXcxTmd2NjJsU3JHVCtaMjl0?=
+ =?utf-8?B?NC9WSHRJQUxYS21Ja29WbnpqRkpLVm9aMXRoUUd5bG5GWTJJUEFtczhYVTRK?=
+ =?utf-8?B?M3E5WXA4MU1xRVhOTW5yMDZqcEdVcm02TDJaSldYMEp0UGk3c2toM2I1V3Br?=
+ =?utf-8?B?QW41VzUyVFlackYyYTZBYUdiTlRRdVR0VlFJS3R2cy81NzA4R2J5Y1dVbUx5?=
+ =?utf-8?B?aWZETkFSQXFQL2FoWStUVEpTM2lnRmlTRENnVFZPd1hMNlNYWjVMQnRYc1gz?=
+ =?utf-8?B?aVMvMUoyelNpTmlramZYdmRiZFJBeGMwcDZGQXVBbVpwb2w2cEM5SlB4aFBL?=
+ =?utf-8?B?enBKUVk3SExGZEJlVy9FZnBmSjkzZlp5aG1acjVLM05kb09LYStINW9hdUU0?=
+ =?utf-8?B?NkNjL0h3d3MxMjFBNzdaazhWcFVtVnlTSlBhUEFaUnFldXZ5V2RINWR5YVZ2?=
+ =?utf-8?B?TzFwazF1cEt2c3lkWGo1SEhETzVyYmtlZGVIWjNFL0tyeUhYNTZtajk2K3Zm?=
+ =?utf-8?B?cUFzK29lbWRIT0J1aVlHRTF5YUpLanBZUXg4MENtQ2VYU2NhbURIYy9ER2FZ?=
+ =?utf-8?B?b0JXTEZ2S0huYjYyNzZMYzNpTzFuSldJTzNjYjcvMEhKY2dGZllTZTFxcUVZ?=
+ =?utf-8?B?RnZ1QUwrQ01yUEo4TE9MK1dLNklMSVFFL0dvaEQrUStiZ29tVHZJMG9HakF0?=
+ =?utf-8?B?SzVxR1k3M21PdytjcDVOMVhCcWJ1TWlGd0RxV1VpVUxhMFhxdWMwOVM0eUgx?=
+ =?utf-8?B?OGhCaWtRQUZrcEFQSzJ1Nld0TFJGbms0cE9IcXRKWkhndXhwZThjSjl1V0pV?=
+ =?utf-8?B?VTRXYXZDTDZld3hsYjZDaHhBZU9QR1hYRStFN2h4Y2tFM1NGdXViaE9nMzFj?=
+ =?utf-8?B?TFNXZXJwZzBYb0Y0YzNIN0RYM0d5TDNXZGNsYUJlWmtQa3FwMFN0Mmdrcnhm?=
+ =?utf-8?B?NjdsTmtaNmtaUzJQOGhtcGd5Y0t1V1UxNHpRelVvVzdvZ1pmQlhmd3ZhcENT?=
+ =?utf-8?B?a3QzMGxZaC9EeFBkSDdZZ3JQbVlXUEJ4QWh3V0JKS1lnMFFrdEZQYVFoU1p2?=
+ =?utf-8?B?KytiUUF1MWg3WjVDa2NnRDh3bWhTczlQY2xwWi9lNUdEZ3NwaEdBY3ZqTkxO?=
+ =?utf-8?B?RFV5NmQzdjg3UWpDclY3U3NZTjJvc2pESzNjMEpZdkRmZUNDdlQrM25WNGdB?=
+ =?utf-8?B?SmpQNGlRYXR3aEFQbUxRdStjbG5hNUtSVXduaytrV1NteEw5MVhLRFpOTmZF?=
+ =?utf-8?B?bHVYcmcyWG9KRXV3WEJPbkVHdFNBYmVGVnFMN095dTNlanM4ZXY2QlY2TTFy?=
+ =?utf-8?Q?+T/e6vEjKuCJF35UEpdKh6I3kRQsJyIoCT?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8ab371a-c393-48d6-e2f2-08d8be21d395
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4722.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 15:32:56.8268
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s/bpvvowYX45ZJwsy5yxSv3KK3uXzMrvUyjo0Dd/uskI0o8twY5UnC7nytsfr7yOxSL+a0a3WagRrivgIDD49L4megK1+a8HvqNeU5K1qjM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2285
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9870 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101210086
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9870 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
+ phishscore=0 clxscore=1011 bulkscore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101210087
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 05:07:42PM +0200, Jarkko Sakkinen wrote:
-> On Thu, Jan 21, 2021 at 09:44:07AM +0100, Jerome Forissier wrote:
-> > 
-> > 
-> > On 1/21/21 1:02 AM, Jarkko Sakkinen via OP-TEE wrote:
-> > > On Wed, Jan 20, 2021 at 12:53:28PM +0530, Sumit Garg wrote:
-> > >> On Wed, 20 Jan 2021 at 07:01, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >>>
-> > >>> On Tue, Jan 19, 2021 at 12:30:42PM +0200, Jarkko Sakkinen wrote:
-> > >>>> On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
-> > >>>>> On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >>>>>>
-> > >>>>>> On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
-> > >>>>>>> Hi Jarkko,
-> > >>>>>>>
-> > >>>>>>> On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >>>>>>>>
-> > >>>>>>>> On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
-> > >>>>>>>>> Add support for TEE based trusted keys where TEE provides the functionality
-> > >>>>>>>>> to seal and unseal trusted keys using hardware unique key.
-> > >>>>>>>>>
-> > >>>>>>>>> Refer to Documentation/tee.txt for detailed information about TEE.
-> > >>>>>>>>>
-> > >>>>>>>>> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > >>>>>>>>
-> > >>>>>>>> I haven't yet got QEMU environment working with aarch64, this produces
-> > >>>>>>>> just a blank screen:
-> > >>>>>>>>
-> > >>>>>>>> ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
-> > >>>>>>>>
-> > >>>>>>>> My BuildRoot fork for TPM and keyring testing is located over here:
-> > >>>>>>>>
-> > >>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
-> > >>>>>>>>
-> > >>>>>>>> The "ARM version" is at this point in aarch64 branch. Over time I will
-> > >>>>>>>> define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
-> > >>>>>>>> in the master branch.
-> > >>>>>>>>
-> > >>>>>>>> To create identical images you just need to
-> > >>>>>>>>
-> > >>>>>>>> $ make tpmdd_defconfig && make
-> > >>>>>>>>
-> > >>>>>>>> Can you check if you see anything obviously wrong? I'm eager to test this
-> > >>>>>>>> patch set, and in bigger picture I really need to have ready to run
-> > >>>>>>>> aarch64 environment available.
-> > >>>>>>>
-> > >>>>>>> I would rather suggest you to follow steps listed here [1] as to test
-> > >>>>>>> this feature on Qemu aarch64 we need to build firmwares such as TF-A,
-> > >>>>>>> OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
-> > >>>>>>> system [2]. And then it would be easier to migrate them to your
-> > >>>>>>> buildroot environment as well.
-> > >>>>>>>
-> > >>>>>>> [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
-> > >>>>>>> [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
-> > >>>>>>>
-> > >>>>>>> -Sumit
-> > >>>>>>
-> > >>>>>> Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
-> > >>>>>>
-> > >>>>>
-> > >>>>> $ cat keyctl_change
-> > >>>>> diff --git a/common.mk b/common.mk
-> > >>>>> index aeb7b41..663e528 100644
-> > >>>>> --- a/common.mk
-> > >>>>> +++ b/common.mk
-> > >>>>> @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
-> > >>>>>  BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
-> > >>>>>  BR2_PACKAGE_STRACE ?= y
-> > >>>>>  BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
-> > >>>>> $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
-> > >>>>> +BR2_PACKAGE_KEYUTILS := y
-> > >>>>>
-> > >>>>>  # All BR2_* variables from the makefile or the environment are appended to
-> > >>>>>  # ../out-br/extra.conf. All values are quoted "..." except y and n.
-> > >>>>> diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
-> > >>>>> index 368c18a..832ab74 100644
-> > >>>>> --- a/kconfigs/qemu.conf
-> > >>>>> +++ b/kconfigs/qemu.conf
-> > >>>>> @@ -20,3 +20,5 @@ CONFIG_9P_FS=y
-> > >>>>>  CONFIG_9P_FS_POSIX_ACL=y
-> > >>>>>  CONFIG_HW_RANDOM=y
-> > >>>>>  CONFIG_HW_RANDOM_VIRTIO=y
-> > >>>>> +CONFIG_TRUSTED_KEYS=y
-> > >>>>> +CONFIG_ENCRYPTED_KEYS=y
-> > >>>>>
-> > >>>>>> After I've successfully tested 2/4, I'd suggest that you roll out one more
-> > >>>>>> version and CC the documentation patch to Elaine and Mini, and clearly
-> > >>>>>> remark in the commit message that TEE is a standard, with a link to the
-> > >>>>>> specification.
-> > >>>>>>
-> > >>>>>
-> > >>>>> Sure, I will roll out the next version after your testing.
-> > >>>>
-> > >>>> Thanks, I'll try this at instant, and give my feedback.
-> > >>>
-> > >>> I bump into this:
-> > >>>
-> > >>> $ make run-only
-> > >>> ln -sf /home/jarkko/devel/tpm/optee/build/../out-br/images/rootfs.cpio.gz /home/jarkko/devel/tpm/optee/build/../out/bin/
-> > >>> ln: failed to create symbolic link '/home/jarkko/devel/tpm/optee/build/../out/bin/': No such file or directory
-> > >>> make: *** [Makefile:194: run-only] Error 1
-> > >>>
-> > >>
-> > >> Could you check if the following directory tree is built after
-> > >> executing the below command?
-> > >>
-> > >> $ make -j`nproc`
-> > >> CFG_IN_TREE_EARLY_TAS=trusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
-> > >>
-> > >> $ tree out/bin/
-> > >> out/bin/
-> > >> ├── bl1.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl1.bin
-> > >> ├── bl2.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl2.bin
-> > >> ├── bl31.bin ->
-> > >> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl31.bin
-> > >> ├── bl32.bin ->
-> > >> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-header_v2.bin
-> > >> ├── bl32_extra1.bin ->
-> > >> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pager_v2.bin
-> > >> ├── bl32_extra2.bin ->
-> > >> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pageable_v2.bin
-> > >> ├── bl33.bin ->
-> > >> /home/sumit/build/optee/build/../edk2/Build/ArmVirtQemuKernel-AARCH64/RELEASE_GCC49/FV/QEMU_EFI.fd
-> > >> ├── Image -> /home/sumit/build/optee/build/../linux/arch/arm64/boot/Image
-> > >> └── rootfs.cpio.gz ->
-> > >> /home/sumit/build/optee/build/../out-br/images/rootfs.cpio.gz
-> > >>
-> > >> 0 directories, 9 files
-> > >>
-> > >> -Sumit
-> > > 
-> > > I actually spotted a build error that was unnoticed last time:
-> > > 
-> > > make[2]: Entering directory '/home/jarkko/devel/tpm/optee/edk2/BaseTools/Tests'
-> > > /bin/sh: 1: python: not found
-> > > 
-> > > I'd prefer not to install Python2. It has been EOL over a year.
-> > 
-> > AFAIK, everything should build fine with Python3. On my Ubuntu 20.04
-> > machine, this is accomplished by installing package "python-is-python3"
-> > (after uninstalling "python-is-python2" if need be).
-> > 
-> > $ ls -l /usr/bin/python
-> > lrwxrwxrwx 1 root root 7 Apr 15  2020 /usr/bin/python -> python3
+On 11/22/20 9:47 PM, Dave Young wrote:
+> Hi Guilherme,
+> On 11/22/20 at 12:32pm, Guilherme Piccoli wrote:
+>> Hi Dave and Kairui, thanks for your responses! OK, if that makes sense
+>> to you I'm fine with it. I'd just recommend to test recent kernels in
+>> multiple distros with the minimum "range" to see if 64M is enough for
+>> crashkernel, maybe we'd need to bump that.
 > 
-> Right, just found about this in unrelated context :-) [*]
+> Giving the different kernel configs and the different userspace
+> initramfs setup it is hard to get an uniform value for all distributions,
+> but we can have an interface/kconfig-option for them to provide a value like this patch
+> is doing. And it could be improved like Kairui said about some known
+> kernel added extra values later, probably some more improvements if
+> doable.
 > 
-> Hope this will work out...
+> Thanks
+> Dave
 > 
-> [*] https://github.com/surge-synthesizer/surge/pull/3655
 
-Now I get
+Hi.
 
-Traceback (most recent call last):
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 36, in <module>
-    allTests = GetAllTestsSuite()
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 33, in GetAllTestsSuite
-    return unittest.TestSuite([GetCTestSuite(), GetPythonTestSuite()])
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 25, in GetCTestSuite
-    import CToolsTests
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/CToolsTests.py", line 22, in <module>
-    import TianoCompress
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TianoCompress.py", line 69, in <module>
-    TheTestSuite = TestTools.MakeTheTestSuite(locals())
-  File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TestTools.py", line 43, in MakeTheTestSuite
-    for name, item in localItems.iteritems():
-AttributeError: 'dict' object has no attribute 'iteritems'
+Are we going to move forward with implementing this for X86 and Arm ?
 
-/Jarkko
+If other platform maintainers want to include this CONFIG option in 
+their configuration settings they have a starting point.
+
+Thank you,
+
+John.
+
+( I am not currently on many of the included dist lists  in this email, 
+so hopefully key contributors are included in this exchange )
