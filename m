@@ -2,184 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C01EC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:47:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2320CC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:50:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0DFF23A23
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:47:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D381623A3C
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:50:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732981AbhAUQrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 11:47:09 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:56965 "EHLO
-        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388069AbhAUQhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 11:37:51 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 52C6258052E;
-        Thu, 21 Jan 2021 11:36:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 21 Jan 2021 11:36:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-        YJdxl7AyCvWTYx/FjMErajpnwze1gn0rJs1EcbgXfwo=; b=hv9i9oYm8t2EEGgZ
-        Rg8zBM6SfuJwrknmfLal3HvjlkNDzJbtm7PgwWqE2198r32F3Uyl19++yK1FiFnY
-        YomFQuSeP1au66IAWwQEES+zU24v2Jt/Uj9jGs7gZ6GK6GyItrd/s6MtsuhDcPc6
-        xmZj4k2c+cnBumfPQJQh/uZC1MjD1huwBcUdeibhAEVo5sXIcefHeMxaBgIqTcGg
-        gsdURuGTOwSgzg8TD4YgXjhCX3ME99IkzpuS/P4WxmkENo2c/nd2w63QwzcU2RsR
-        JHNk3My73hYQtAXZvq3BP1TdxvTEqNhASRWX2/934swz/2+2w2wHiok8esIduAmX
-        xubo9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=YJdxl7AyCvWTYx/FjMErajpnwze1gn0rJs1EcbgXf
-        wo=; b=DhLfONsiVOMCw7tvUWhAloT5uPGlr+xPaLXsv2Xx6Go5lZ2nbP3giQxos
-        MJ7HIVXzNjFSW24HcsULZb+zVHBIQoy4Ja3B6lJAAD4gSgNRybAEHV/d/S+cux+Z
-        Fe1fWv9+NdMfkSYpR7qC2fRYDiljP1D2nh229q97sITzO18a/6WUAfI/ByXyBpkt
-        GiL0OhWo/7u0RFcjQzQu9duILNz+kKE/FzmPkjsBpyFPqHYglNqbHdUjpO38vriY
-        QaRouUSoKM65XHLSQ1SrYeKvEdc7WQr2KmSxbqfaP9BUJJiCVnwwHlmgr62Od99S
-        gF/SUf/eZNvaANg6g/4E/e1wUJGdw==
-X-ME-Sender: <xms:e60JYJtJYtqwjbnASxD2bS1RwRGUIMa6GjkVGeNroJ0HmjHA-x1t2A>
-    <xme:e60JYCe11NYqtr2ANTZ6LATLzXPoZzKTR2gfsoLAWowo3J7V1wWIYJrugILTVE3Kx
-    s7lfgxZDsNzV0aCifk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggdelfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
-    keeknecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:fK0JYMyDplySlZ42fVmhtxgLXXpIIIrVaAKOAmOHJlmBmpoGDpd2bg>
-    <xmx:fK0JYAPSQrolEYgxHSXEHWaKJQJbBnwOSzUFCOsChpcXNDpx22a-IA>
-    <xmx:fK0JYJ_hKci4D_MZMzoKKv8T1TsmE13kvtS__mWKEJMxPqtZUh5r6g>
-    <xmx:fK0JYFT3bUOliadDPXQ_6xQ3tyKVRGJmfHNj-X1thrfSeWVb8IMXGQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id BCF9B1080057;
-        Thu, 21 Jan 2021 11:36:11 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>
-Cc:     dri-devel@lists.freedesktop.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        id S2388266AbhAUQtQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 11:49:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43694 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732333AbhAUP6e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 10:58:34 -0500
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D0B1C06121F;
+        Thu, 21 Jan 2021 07:56:02 -0800 (PST)
+Received: by mail-qt1-x829.google.com with SMTP id e17so1855233qto.3;
+        Thu, 21 Jan 2021 07:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RgFdesqiZMPXxw2+lHkC+nOIxN2Hdy7A8pPSFD9aimI=;
+        b=vNyp82p47jqoLdij4TrB0pGsaHQMJ9ZtfFxJ3k/gjlPax2v0NfLp+MONyCPUjLEDR/
+         o8W7yrQU1d2o+rmTbByYaJrI/Gy8Et+KryvlEKvcjQIXeyZkBaufFhQW5LmnQhssI7aJ
+         /17MlJnHVYhq9JZUG8p83rGj4gC0Lx3T9zF0l7vm73Az1z8Rw9kbsB7O5nehtIZ8ywCr
+         l1EDbfGpQMaVGAlbZb39lFnaj3JKXxQf8zvITV7EFxPFOo1D0gbTbF1EER+qpHjLGh1n
+         5knJr4nJ6JQA1pDUbogmPleaktdT4HIREjqfogvE5YqYMUwLyxi0MO8ffxMxzJt92OG7
+         p0FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=RgFdesqiZMPXxw2+lHkC+nOIxN2Hdy7A8pPSFD9aimI=;
+        b=V6pLCoAQGJOf4thevys7gebQZS0XogtpTGZBerdzTLo4Mq5ZuncvgY4gJCT9EAI1CS
+         edmxSEgAdqnlHz1Jr2VKE/D4N1/tCKnVKRs277EYnSHOQHnL+UjMV/ip7yQbhYFGA1BE
+         zgm9pIJgpq1a3e1vuy6FoPq/XN8YwQ3xMQ3Zvt3D1vnRAJf7ogo3hRsTxV8uCQl0KJIw
+         C2vR666oq7W+GMF2lebcLd8dd/4YspVpOR2hEPUXeZlQu6t4w39tmRFdVr7NV7Py1NTC
+         mkgQCbVw2HdXzLQopmXlrON3h5yYWTb7TtbvaTZzGljPyqAyeRqgeiCNcTNQVI8KSEr/
+         LI4Q==
+X-Gm-Message-State: AOAM532j6B6wI8+wUx70AlkhqzLXnsYa42EugJqzJaXh1uRR3rL163vD
+        Soax7x9fa6QUVgeToGmygMY=
+X-Google-Smtp-Source: ABdhPJz3bv4Sx6a3QAdc23npXr+czyCvAz3QTroWX0XotZEPOoMQoRfUqriMdvA8T2IxXy/3vTvn5A==
+X-Received: by 2002:aed:3306:: with SMTP id u6mr234827qtd.386.1611244561576;
+        Thu, 21 Jan 2021 07:56:01 -0800 (PST)
+Received: from localhost ([2620:10d:c091:480::1:1f82])
+        by smtp.gmail.com with ESMTPSA id o56sm3856440qtb.0.2021.01.21.07.56.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 07:56:00 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 21 Jan 2021 10:55:13 -0500
+From:   Tejun Heo <tj@kernel.org>
+To:     Tom Lendacky <thomas.lendacky@amd.com>
+Cc:     Vipin Sharma <vipinsh@google.com>, brijesh.singh@amd.com,
+        jon.grimm@amd.com, eric.vantassell@amd.com, pbonzini@redhat.com,
+        seanjc@google.com, lizefan@huawei.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
+        joro@8bytes.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/11] drm/todo: Remove the drm_atomic_state todo item
-Date:   Thu, 21 Jan 2021 17:35:36 +0100
-Message-Id: <20210121163537.1466118-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121163537.1466118-1-maxime@cerno.tech>
-References: <20210121163537.1466118-1-maxime@cerno.tech>
+Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
+Message-ID: <YAmj4Q2J9htW2Fe8@mtj.duckdns.org>
+References: <20210108012846.4134815-1-vipinsh@google.com>
+ <20210108012846.4134815-2-vipinsh@google.com>
+ <YAICLR8PBXxAcOMz@mtj.duckdns.org>
+ <YAIUwGUPDmYfUm/a@google.com>
+ <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
+ <YAJsUyH2zspZxF2S@google.com>
+ <YAb//EYCkZ7wnl6D@mtj.duckdns.org>
+ <YAfYL7V6E4/P83Mg@google.com>
+ <YAhc8khTUc2AFDcd@mtj.duckdns.org>
+ <be699d89-1bd8-25ae-fc6f-1e356b768c75@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be699d89-1bd8-25ae-fc6f-1e356b768c75@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Only planes' prepare_fb and cleanup_fb, and encoders' atomic_check and
-atomic_mode_set hooks remain with an object state and not the global
-drm_atomic_state.
+Hello,
 
-prepare_fb and cleanup_fb operate by design on a given state and
-depending on the calling site can operate on either the old or new
-state, so it doesn't really make much sense to convert them.
+On Thu, Jan 21, 2021 at 08:55:07AM -0600, Tom Lendacky wrote:
+> The hardware will allow any SEV capable ASID to be run as SEV-ES, however,
+> the SEV firmware will not allow the activation of an SEV-ES VM to be
+> assigned to an ASID greater than or equal to the SEV minimum ASID value. The
+> reason for the latter is to prevent an !SEV-ES ASID starting out as an
+> SEV-ES guest and then disabling the SEV-ES VMCB bit that is used by VMRUN.
+> This would result in the downgrading of the security of the VM without the
+> VM realizing it.
+> 
+> As a result, you have a range of ASIDs that can only run SEV-ES VMs and a
+> range of ASIDs that can only run SEV VMs.
 
-The encoders' atomic_check and atomic_mode_set operate on the CRTC and
-connector state connected to them since encoders don't have a state of
-their own. Without those state pointers, we would need to get the CRTC
-through the drm_connector_state crtc pointer.
+I see. That makes sense. What's the downside of SEV-ES compared to SEV w/o
+ES? Are there noticeable performance / feature penalties or is the split
+mostly for backward compatibility?
 
-However, in order to get the drm_connector_state pointer, we would need
-to get the connector itself and while usually we have a single connector
-connected to the encoder, we can't really get it from the encoder at
-the moment since it could be behind any number of bridges.
+Thanks.
 
-While this could be addressed by (for example) listing all the
-connectors and finding the one that has the encoder as its source, it
-feels like an unnecessary rework for something that is slowly getting
-replaced by bridges.
-
-Since all the users that matter have been converted, let's remove the
-TODO item.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
----
-
-Changes from v1:
-  - New patch
----
- Documentation/gpu/todo.rst | 46 --------------------------------------
- 1 file changed, 46 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 009d8e6c7e3c..609794108f5a 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -440,52 +440,6 @@ Contact: Emil Velikov, respective driver maintainers
- 
- Level: Intermediate
- 
--Plumb drm_atomic_state all over
---------------------------------
--
--Currently various atomic functions take just a single or a handful of
--object states (eg. plane state). While that single object state can
--suffice for some simple cases, we often have to dig out additional
--object states for dealing with various dependencies between the individual
--objects or the hardware they represent. The process of digging out the
--additional states is rather non-intuitive and error prone.
--
--To fix that most functions should rather take the overall
--drm_atomic_state as one of their parameters. The other parameters
--would generally be the object(s) we mainly want to interact with.
--
--For example, instead of
--
--.. code-block:: c
--
--   int (*atomic_check)(struct drm_plane *plane, struct drm_plane_state *state);
--
--we would have something like
--
--.. code-block:: c
--
--   int (*atomic_check)(struct drm_plane *plane, struct drm_atomic_state *state);
--
--The implementation can then trivially gain access to any required object
--state(s) via drm_atomic_get_plane_state(), drm_atomic_get_new_plane_state(),
--drm_atomic_get_old_plane_state(), and their equivalents for
--other object types.
--
--Additionally many drivers currently access the object->state pointer
--directly in their commit functions. That is not going to work if we
--eg. want to allow deeper commit pipelines as those pointers could
--then point to the states corresponding to a future commit instead of
--the current commit we're trying to process. Also non-blocking commits
--execute locklessly so there are serious concerns with dereferencing
--the object->state pointers without holding the locks that protect them.
--Use of drm_atomic_get_new_plane_state(), drm_atomic_get_old_plane_state(),
--etc. avoids these problems as well since they relate to a specific
--commit via the passed in drm_atomic_state.
--
--Contact: Ville Syrjälä, Daniel Vetter
--
--Level: Intermediate
--
- Use struct dma_buf_map throughout codebase
- ------------------------------------------
- 
 -- 
-2.29.2
-
+tejun
