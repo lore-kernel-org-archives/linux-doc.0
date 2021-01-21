@@ -2,72 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3F2C4332D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D281C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36E0D23A1C
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECCC323A33
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbhAUTTg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 14:19:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
+        id S1727224AbhAUT3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 14:29:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbhAUTJy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 14:09:54 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12439C061788;
-        Thu, 21 Jan 2021 10:56:55 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 86074615D;
-        Thu, 21 Jan 2021 18:56:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 86074615D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611255414; bh=lBGcLtN3UNL5gr1BP+tAQ2KxSLmKSWTrpPek3ZhcEAQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=WGNRHEQdWkOCzSaE4PVU0Pmkn4fo1IUMXb+MFWMQ5Rcp8FMHFkYTgXW8IIWRJJNEr
-         lfPl2kFAG7iKXoAkQlD0B6BqEwNSuX4JNzJ7H8rhOvIM2GdPy0vaBzY9AGOKJS2k8N
-         ZXrtHsKlkesRMKMSnhWQQSCLQCbdWRLW/7leOqdhJUiqJe7gHL3b/sOzcLZUWPhcpV
-         xUT7lWkLgj8zrvS4M+4ZdWLkOy6hx31VQ3Rtpb9qDAbIpegMmYx+8pccSabHh20FIM
-         qAS101Yq+lEuD48uArfqbuVTnza/CMPjYW0b7SJsQZ1hKjXb1eCBvHiJbkpChHmJ+Q
-         7SzLwnenbg7WA==
-Date:   Thu, 21 Jan 2021 11:56:53 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>,
-        linux-afs@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] AFS: Documentation: fix a few typos in afs.rst
-Message-ID: <20210121115653.42f89325@lwn.net>
-In-Reply-To: <20210117213351.1075-1-rdunlap@infradead.org>
-References: <20210117213351.1075-1-rdunlap@infradead.org>
-Organization: LWN.net
+        with ESMTP id S1727073AbhAUT3F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 14:29:05 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9383C061756;
+        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id q205so3328783oig.13;
+        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=uIqOfM2nGNmNmW5GJyvb2PshT2T7EyDIFenfC9VbZOU=;
+        b=atyPr/ZW5t2Vmh8IYjskk56vqMkIZlf54X5VB04CS+lG7yxeVFwaYNEUbqr7RfjfVl
+         AFTDH1wxOoUuLIWtSKG0GNgIzjyn1e3WisT4OD3kT8cc8/tngthFA8CHlXOAnp+cguXo
+         lWgOBTQJPud3Qgv4HaDjUs19PIk169NpZ3xrja8eXzcGmCbPRsxsg7AOZtspWpldy0gk
+         LaqQCtkKThy9iMFR0cKrVXgjeLmk3yixSa54m+fUdOUheUUuxgDmtTwzaza47MFxui9u
+         A1JdNXY6M0RdxvoIpS8DKw6RkB6+JGZE9LeG6w1giWBF2DiGYsUOAG+g7eGlQLjkYDjA
+         tmew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=uIqOfM2nGNmNmW5GJyvb2PshT2T7EyDIFenfC9VbZOU=;
+        b=MKxAPjQ6ItN9Zi2aCFvn/t5gcEUpZEWZGFFIppo9beOR4LGMz6ul549H2vZWAVv+mF
+         q+v26n1Qhfj+eGk4KubsLZl/zZsm23YXX1k7Qnxz6C/xcfcVeXhFGluadpIFWJpRjiYw
+         5bw+Hb0TGLWbhSn2z2t12pvom6amQmV6rNjGZYVkGtqx0dvrufQaJwF8alxkVG891u14
+         lOFOi9jBgYe0NDpHsO7JRMmgqvQ2yRpkekfqgFLuuFCLMrKJIx/7hwXtalsFBHDZtgg9
+         Alk6Q2oIAFbcBga/1TXyqRmgl+K6X21M9Rqmt7hd4WtztqpzTghcsnEUmHQ0CMP5rZFV
+         M5FQ==
+X-Gm-Message-State: AOAM5325aWRKJA5WvgZ7wDt+cfp7vZyF5vp873dwSDZIHgDHTkYfnrGY
+        NXrLGQNvC6sewuQ3UdEwFxm53h+t408=
+X-Google-Smtp-Source: ABdhPJwmpUeOJD8jIymEPDsXht34jkpccZE07uKyfStQg796SoOxuF3uCfkUEbCCUIIeiRSSaBgYug==
+X-Received: by 2002:aca:5185:: with SMTP id f127mr861048oib.18.1611257304238;
+        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s69sm1238876oih.38.2021.01.21.11.28.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Jan 2021 11:28:23 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 21 Jan 2021 11:28:22 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 16/24] Documentation/hwmon/ina2xx.rst: update
+ ti,ina2xx.yaml reference
+Message-ID: <20210121192822.GA31091@roeck-us.net>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
+ <886bd248721b146d844d46e26ddd4cd277f51446.1610535350.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <886bd248721b146d844d46e26ddd4cd277f51446.1610535350.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 17 Jan 2021 13:33:51 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> Fix typos (punctuation, grammar, spelling) in afs.rst.
+On Wed, Jan 13, 2021 at 11:59:17AM +0100, Mauro Carvalho Chehab wrote:
+> Changeset 94f1ab944565 ("dt-bindings: hwmon: convert TI INA2xx bindings to dt-schema")
+> renamed: Documentation/devicetree/bindings/hwmon/ina2xx.txt
+> to: Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: linux-afs@lists.infradead.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/filesystems/afs.rst |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Update its cross-reference accordingly.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Applied, thanks.
+Applied.
 
-jon
+Thanks,
+Guenter
