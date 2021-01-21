@@ -2,52 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2480BC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA84C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:06:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D419523A61
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:04:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97C6F23A61
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725845AbhAUTEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 14:04:06 -0500
-Received: from ms.lwn.net ([45.79.88.28]:36258 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726823AbhAUSxq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:53:46 -0500
+        id S1726488AbhAUTF6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 14:05:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbhAUTFG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 14:05:06 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F06C06174A;
+        Thu, 21 Jan 2021 10:53:59 -0800 (PST)
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 91882615F;
-        Thu, 21 Jan 2021 18:52:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 91882615F
+        by ms.lwn.net (Postfix) with ESMTPSA id 11E34615F;
+        Thu, 21 Jan 2021 18:53:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 11E34615F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611255148; bh=TLHAsi6Ty8O0y2qbsmaLJjfL5054cf7/wZfX1o0btdA=;
+        t=1611255239; bh=e02AiBv2dimHcgaSNPw1CsMyR/DFcOwWiLR7VxxDTe0=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HdMTC+/pzgwibyhHpFXEgZz4hQnlDgiLzf9Ir8UAu9s7MeI5KvP1UQIeF8rFflVGa
-         9M++bSybS/4M0YWty863fPt/VmsUJxsK3x2URWh0RJh0B3snAmqy3MvdKyrPYuRpEg
-         CTFRLehmTWSxPfhN7x3SGe0wCSAO5B2xxi20zocEjFIXF2vJWwFevX4R3dgn4Q1gwB
-         evMHlfNrQmVbVAVLLxmEBy60zB2Ux53lh1gj94N8pYANebEk99GsHKbOTZt4sw2DTh
-         rbQksh9CB1mEc7xiRnurSG0IYif2UReHx3SHfiRBzaXi43UeUTw2gB/IzukM9QoHbT
-         vXJm+aqtme1hQ==
-Date:   Thu, 21 Jan 2021 11:52:26 -0700
+        b=cBTxDQi1SyC4H9VXIO0mGJFeHIsSffbYh0YCxno56GZRq3rNXs9TBHFLaMuvhjyKR
+         ugjkTPIGa8DIpZ62lmc6yaDTbW6whMsL2RAeE4pf6iL0k78G7QQwKDOp0ma3L4+cur
+         renPIoGDNePWkDzv0uoTKmlz1fc1U5BlrqBRSxo076vewczWgnsH9qGRUmrTD7vJQ+
+         76Sd5yAB56TLhELaYTNo0vB+6d2gplDSG3PKaaSAbko904++1l+MiFe46NTy97/1G9
+         G5Ix1MaqCsglf6t5xHsZDvzSlek3mJHNhYEgQZJiKxjQJhPAAXyk6p7mzAklLTdSaD
+         ZV1BIsIQa4nxg==
+Date:   Thu, 21 Jan 2021 11:53:57 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 0/2] Documentation: livepatch: Document reliable
- stacktrace and minor cleanup
-Message-ID: <20210121115226.565790ef@lwn.net>
-In-Reply-To: <20210120164714.16581-1-broonie@kernel.org>
-References: <20210120164714.16581-1-broonie@kernel.org>
+To:     Brendan Jackman <jackmanb@google.com>
+Cc:     bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Florent Revest <revest@chromium.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v3 0/2] BPF docs fixups
+Message-ID: <20210121115357.31f44f34@lwn.net>
+In-Reply-To: <20210120133946.2107897-1-jackmanb@google.com>
+References: <20210120133946.2107897-1-jackmanb@google.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,17 +59,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Jan 2021 16:47:12 +0000
-Mark Brown <broonie@kernel.org> wrote:
+On Wed, 20 Jan 2021 13:39:44 +0000
+Brendan Jackman <jackmanb@google.com> wrote:
 
-> This series adds a document, mainly written by Mark Rutland, which makes
-> explicit the requirements for implementing reliable stacktrace in order
-> to aid architectures adding this feature.  It also updates the other
-> livepatching documents to use automatically generated tables of contents
-> following review comments on Mark's document.
+> Difference from v2->v3 [1]:
+> 
+>  * Just fixed a commite message, rebased, and added Lukas' review tag - thanks
+>    Lukas!
+> 
+> Difference from v1->v2 [1]:
+> 
+>  * Split into 2 patches
+> 
+>  * Avoided unnecessary ': ::' in .rst source
+> 
+>  * Tweaked wording of the -mcpu=v3 bit a little more
+> 
+> [1] Previous versions:
+>     v1: https://lore.kernel.org/bpf/CA+i-1C1LVKjfQLBYk6siiqhxfy0jCR7UBcAmJ4jCED0A9aWsxA@mail.gmail.com/T/#t
+>     v2: https://lore.kernel.org/bpf/20210118155735.532663-1-jackmanb@google.com/T/#t
+> 
+> Brendan Jackman (2):
+>   docs: bpf: Fixup atomics markup
+>   docs: bpf: Clarify -mcpu=v3 requirement for atomic ops
+> 
+>  Documentation/networking/filter.rst | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
 
-So...is this deemed ready and, if so, do you want it to go through the
-docs tree or via some other path?
+I'm assuming these will go up through the BPF/networking trees; please let
+me know if I should pick them up instead.
 
 Thanks,
 
