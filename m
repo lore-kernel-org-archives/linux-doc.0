@@ -2,90 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D281C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 464B2C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:33:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECCC323A33
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:29:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18EF823A22
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 19:33:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727224AbhAUT3d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 14:29:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727073AbhAUT3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 14:29:05 -0500
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9383C061756;
-        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
-Received: by mail-oi1-x22d.google.com with SMTP id q205so3328783oig.13;
-        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=uIqOfM2nGNmNmW5GJyvb2PshT2T7EyDIFenfC9VbZOU=;
-        b=atyPr/ZW5t2Vmh8IYjskk56vqMkIZlf54X5VB04CS+lG7yxeVFwaYNEUbqr7RfjfVl
-         AFTDH1wxOoUuLIWtSKG0GNgIzjyn1e3WisT4OD3kT8cc8/tngthFA8CHlXOAnp+cguXo
-         lWgOBTQJPud3Qgv4HaDjUs19PIk169NpZ3xrja8eXzcGmCbPRsxsg7AOZtspWpldy0gk
-         LaqQCtkKThy9iMFR0cKrVXgjeLmk3yixSa54m+fUdOUheUUuxgDmtTwzaza47MFxui9u
-         A1JdNXY6M0RdxvoIpS8DKw6RkB6+JGZE9LeG6w1giWBF2DiGYsUOAG+g7eGlQLjkYDjA
-         tmew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uIqOfM2nGNmNmW5GJyvb2PshT2T7EyDIFenfC9VbZOU=;
-        b=MKxAPjQ6ItN9Zi2aCFvn/t5gcEUpZEWZGFFIppo9beOR4LGMz6ul549H2vZWAVv+mF
-         q+v26n1Qhfj+eGk4KubsLZl/zZsm23YXX1k7Qnxz6C/xcfcVeXhFGluadpIFWJpRjiYw
-         5bw+Hb0TGLWbhSn2z2t12pvom6amQmV6rNjGZYVkGtqx0dvrufQaJwF8alxkVG891u14
-         lOFOi9jBgYe0NDpHsO7JRMmgqvQ2yRpkekfqgFLuuFCLMrKJIx/7hwXtalsFBHDZtgg9
-         Alk6Q2oIAFbcBga/1TXyqRmgl+K6X21M9Rqmt7hd4WtztqpzTghcsnEUmHQ0CMP5rZFV
-         M5FQ==
-X-Gm-Message-State: AOAM5325aWRKJA5WvgZ7wDt+cfp7vZyF5vp873dwSDZIHgDHTkYfnrGY
-        NXrLGQNvC6sewuQ3UdEwFxm53h+t408=
-X-Google-Smtp-Source: ABdhPJwmpUeOJD8jIymEPDsXht34jkpccZE07uKyfStQg796SoOxuF3uCfkUEbCCUIIeiRSSaBgYug==
-X-Received: by 2002:aca:5185:: with SMTP id f127mr861048oib.18.1611257304238;
-        Thu, 21 Jan 2021 11:28:24 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s69sm1238876oih.38.2021.01.21.11.28.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 21 Jan 2021 11:28:23 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 21 Jan 2021 11:28:22 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 16/24] Documentation/hwmon/ina2xx.rst: update
- ti,ina2xx.yaml reference
-Message-ID: <20210121192822.GA31091@roeck-us.net>
-References: <cover.1610535349.git.mchehab+huawei@kernel.org>
- <886bd248721b146d844d46e26ddd4cd277f51446.1610535350.git.mchehab+huawei@kernel.org>
+        id S1726730AbhAUTdh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 14:33:37 -0500
+Received: from ms.lwn.net ([45.79.88.28]:36110 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726720AbhAUSvK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Jan 2021 13:51:10 -0500
+Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B3CB8615F;
+        Thu, 21 Jan 2021 18:50:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B3CB8615F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1611255027; bh=sbsHFAH86AOtDyGQjg0eGz0zupBshKqKdJPjqbJQxes=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HPswWyYZYZsL1icvgJcoR6ZqYXEs2j6Wg4kvSnoEdSyanBSWo6TaaYZs/ceqjdApG
+         Zf780Yc6P6E5E+lXTpnmmJPHRhXjeCdjCj0pWSyVidMXbiEXgV8KdBcWy0HDqxlHm+
+         fKD5SkrqCo5kx+aFLoziitXvlcxrW1bZf5tmTZvCYSHorM1luT3SvR9u6tV6+pfBFL
+         BUOJMMJQp5NQHyzZYs1rrJ3yVBolMk+UCMtkKXtg1pLhJg+W7Ps89r3e5gpF7bSTL3
+         vPHzcC2CLK93pFPZXqP6GZ2HePs1BJRuwbnSoH6lAy5d1ZxN8pYKOsSZeCBLiiPZvp
+         YgeimySvc0gZA==
+Date:   Thu, 21 Jan 2021 11:50:26 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: remove cn_index tag in mips
+Message-ID: <20210121115026.77f2afa2@lwn.net>
+In-Reply-To: <20210121024113.16344-1-alex.shi@linux.alibaba.com>
+References: <20210121024113.16344-1-alex.shi@linux.alibaba.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <886bd248721b146d844d46e26ddd4cd277f51446.1610535350.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 11:59:17AM +0100, Mauro Carvalho Chehab wrote:
-> Changeset 94f1ab944565 ("dt-bindings: hwmon: convert TI INA2xx bindings to dt-schema")
-> renamed: Documentation/devicetree/bindings/hwmon/ina2xx.txt
-> to: Documentation/devicetree/bindings/hwmon/ti,ina2xx.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On Thu, 21 Jan 2021 10:41:13 +0800
+Alex Shi <alex.shi@linux.alibaba.com> wrote:
 
-Applied.
+> It's a unused tag with a incorrect big name but just for mips arch.
+> So remove it.
+> 
+> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/translations/zh_CN/mips/index.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/mips/index.rst b/Documentation/translations/zh_CN/mips/index.rst
+> index 27a2eae8484a..b85033f9d67c 100644
+> --- a/Documentation/translations/zh_CN/mips/index.rst
+> +++ b/Documentation/translations/zh_CN/mips/index.rst
+> @@ -5,9 +5,6 @@
+>  :Original: :doc:`../../../mips/index`
+>  :Translator: Yanteng Si <siyanteng@loongson.cn>
+>  
+> -.. _cn_index:
+> -
+> -
 
-Thanks,
-Guenter
+Applied, thanks.
+
+jon
