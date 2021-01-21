@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE13C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1A3C433E9
 	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 05:56:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF2B12389B
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 05:56:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 139ED238EC
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 05:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726158AbhAUDdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jan 2021 22:33:22 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:49440 "EHLO loongson.cn"
+        id S1726229AbhAUFzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 00:55:49 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:53576 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2392390AbhAUBYi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Jan 2021 20:24:38 -0500
+        id S1726222AbhAUDdc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Jan 2021 22:33:32 -0500
 Received: from localhost.localdomain (unknown [112.3.198.184])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn7+V1whgk1cIAA--.13107S2;
-        Thu, 21 Jan 2021 09:23:34 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxZb3b9QhgpWUIAA--.10503S2;
+        Thu, 21 Jan 2021 11:32:45 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,29 +30,29 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 1/3] docs/zh_CN: add iio iio_configfs.rst translation
-Date:   Thu, 21 Jan 2021 09:23:50 +0800
-Message-Id: <20210121012352.449558-1-siyanteng@loongson.cn>
+Subject: [PATCH v4 1/3] docs/zh_CN: add iio iio_configfs.rst translation
+Date:   Thu, 21 Jan 2021 11:33:00 +0800
+Message-Id: <20210121033302.558935-1-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn7+V1whgk1cIAA--.13107S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF4DAr17tFWDuFyUGw4kZwb_yoWrWF15pF
-        sI9r97tFWUJFyrAF48KFy8WryfJrnayF4UJrWxXw1rt3s8Aryqkr4DtFWrJ397W392vF47
-        J34rCFyYvrsrCaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUyG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9AxZb3b9QhgpWUIAA--.10503S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF4DAr17tFWDuFyUGw4kZwb_yoWrWw45pF
+        sI9r97tFW8JFyrAF48KFy8WryfJrnayF4UJFWxXw1rt3s8Aryqkr4DtFWrJ397W392vF47
+        J34rCryYvrZrCaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJV
-        WxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
-        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-        xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-        cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-        AvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-        xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+        W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+        7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+        1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0E
+        wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+        80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+        I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+        k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+        1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -61,6 +61,7 @@ X-Mailing-List: linux-doc@vger.kernel.org
 This patch translates Documentation/iio/iio_configfs.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 ---
  .../translations/zh_CN/iio/iio_configfs.rst   | 102 ++++++++++++++++++
  1 file changed, 102 insertions(+)
@@ -114,6 +115,7 @@ index 000000000000..223bc732ce66
 +
 +IIO软件触发器为创建多种触发器类型提供了支持。 通常在include/linux/iio
 +/sw_trigger.h：中的接口下将新的触发器类型实现为单独的内核模块：
++::
 +
 +  /*
 +   * drivers/iio/trigger/iio-trig-sample.c
