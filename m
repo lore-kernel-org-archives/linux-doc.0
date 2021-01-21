@@ -2,36 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3463EC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 22:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F147CC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 22:23:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3AA123A5D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 22:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B91C1221E5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 22:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbhAUWRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 17:17:52 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:60174 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726119AbhAUWRs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 17:17:48 -0500
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-244-l2OEnG_AOqSZjOQ6quE8Sw-1; Thu, 21 Jan 2021 22:16:09 +0000
-X-MC-Unique: l2OEnG_AOqSZjOQ6quE8Sw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 21 Jan 2021 22:16:08 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Thu, 21 Jan 2021 22:16:08 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'Yu, Yu-cheng'" <yu-cheng.yu@intel.com>,
+        id S1727123AbhAUWXE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 17:23:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727250AbhAUWUs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 17:20:48 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3ADC06174A;
+        Thu, 21 Jan 2021 14:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=POte/V20qtU3wIuQT3uNCJADUsZhh5FbVb9IWDUrrs4=; b=uyVCjfYfVTODCwxqk/A+E0IzDf
+        uTCGX1kPCj0FSi4X0iiI3s1XaFSpaHk1pmrnJF55fdLum7tmdzkChJVzRzu2d/m4d1tUGB9bSJ7ip
+        WJGc1tiKWTbsDvIDdYiZiHi5CDoSxDUsOX6epa8G41U9vRXnwHxErti7FH0q3QqirdDKhMgbOqu8F
+        /+uMp9dXC7mR3lOu2iLAQctykCnmZFoI+asaBc52ukmyCwYCeS13Lbm0x9ORRI35UbCOtZQx7g8FE
+        OzcwW3w+E5YuQX8WfBC66vEYuEEH8jx45XX66lsbKh2ZGA2QfojjjlFh/D8SCnmW0tTOfgFVIFowE
+        6WwQ+5MQ==;
+Received: from [2601:1c0:6280:3f0::9abc]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l2iIn-0006iw-1d; Thu, 21 Jan 2021 22:19:41 +0000
+Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
+To:     David Laight <David.Laight@ACULAB.COM>,
+        "'Yu, Yu-cheng'" <yu-cheng.yu@intel.com>,
         Borislav Petkov <bp@alien8.de>
-CC:     "x86@kernel.org" <x86@kernel.org>,
+Cc:     "x86@kernel.org" <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -45,7 +53,7 @@ CC:     "x86@kernel.org" <x86@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        "Eugene Syromiatnikov" <esyr@redhat.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
         "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -54,60 +62,79 @@ CC:     "x86@kernel.org" <x86@kernel.org>,
         Nadav Amit <nadav.amit@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
-        "Weijiang Yang" <weijiang.yang@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: RE: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
-Thread-Topic: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
-Thread-Index: AQHW8DMjsVkr7OKTZEWf0jgz1DSfFaoyopGA
-Date:   Thu, 21 Jan 2021 22:16:08 +0000
-Message-ID: <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
 References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
  <20201229213053.16395-9-yu-cheng.yu@intel.com>
  <20210121184405.GE32060@zn.tnic>
  <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
-In-Reply-To: <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <9344cd90-1818-a716-91d2-2b85df01347b@infradead.org>
+Date:   Thu, 21 Jan 2021 14:19:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogWXUsIFl1LWNoZW5nIA0KPiANCj4gT24gMS8yMS8yMDIxIDEwOjQ0IEFNLCBCb3Jpc2xh
-diBQZXRrb3Ygd3JvdGU6DQo+ID4gT24gVHVlLCBEZWMgMjksIDIwMjAgYXQgMDE6MzA6MzVQTSAt
-MDgwMCwgWXUtY2hlbmcgWXUgd3JvdGU6DQo+IFsuLi5dDQo+ID4+IEBAIC0zNDMsNiArMzQ5LDE2
-IEBAIHN0YXRpYyBpbmxpbmUgcHRlX3QgcHRlX21rb2xkKHB0ZV90IHB0ZSkNCj4gPj4NCj4gPj4g
-ICBzdGF0aWMgaW5saW5lIHB0ZV90IHB0ZV93cnByb3RlY3QocHRlX3QgcHRlKQ0KPiA+PiAgIHsN
-Cj4gPj4gKwkvKg0KPiA+PiArCSAqIEJsaW5kbHkgY2xlYXJpbmcgX1BBR0VfUlcgbWlnaHQgYWNj
-aWRlbnRhbGx5IGNyZWF0ZQ0KPiA+PiArCSAqIGEgc2hhZG93IHN0YWNrIFBURSAoUlc9MCwgRGly
-dHk9MSkuICBNb3ZlIHRoZSBoYXJkd2FyZQ0KPiA+PiArCSAqIGRpcnR5IHZhbHVlIHRvIHRoZSBz
-b2Z0d2FyZSBiaXQuDQo+ID4+ICsJICovDQo+ID4+ICsJaWYgKGNwdV9mZWF0dXJlX2VuYWJsZWQo
-WDg2X0ZFQVRVUkVfU0hTVEspKSB7DQo+ID4+ICsJCXB0ZS5wdGUgfD0gKHB0ZS5wdGUgJiBfUEFH
-RV9ESVJUWSkgPj4gX1BBR0VfQklUX0RJUlRZIDw8IF9QQUdFX0JJVF9DT1c7DQo+ID4NCj4gPiBX
-aHkgdGhlIHVucmVhZGFibGUgc2hpZnRpbmcgd2hlbiB5b3UgY2FuIHNpbXBseSBkbzoNCj4gPg0K
-PiA+ICAgICAgICAgICAgICAgICAgaWYgKHB0ZS5wdGUgJiBfUEFHRV9ESVJUWSkNCj4gPiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgcHRlLnB0ZSB8PSBfUEFHRV9DT1c7DQo+ID4NCg0KPiA+ID8N
-Cj4gDQo+IEl0IGNsZWFycyBfUEFHRV9ESVJUWSBhbmQgc2V0cyBfUEFHRV9DT1cuICBUaGF0IGlz
-LA0KPiANCj4gaWYgKHB0ZS5wdGUgJiBfUEFHRV9ESVJUWSkgew0KPiAJcHRlLnB0ZSAmPSB+X1BB
-R0VfRElSVFk7DQo+IAlwdGUucHRlIHw9IF9QQUdFX0NPVzsNCj4gfQ0KPiANCj4gU28sIHNoaWZ0
-aW5nIG1ha2VzIHJlc3VsdGluZyBjb2RlIG1vcmUgZWZmaWNpZW50Lg0KDQpEb2VzIHRoZSBjb21w
-aWxlciBtYW5hZ2UgdG8gZG8gb25lIHNoaWZ0Pw0KDQpIb3cgY2FuIGl0IGNsZWFyIGFueXRoaW5n
-Pw0KVGhlcmUgaXMgb25seSBhbiB8PSBhZ2FpbnN0IHRoZSB0YXJnZXQuDQoNClNvbWV0aGluZyBo
-b3JyaWQgd2l0aCBePSBtaWdodCBzZXQgYW5kIGNsZWFyLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0
-ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBL
-ZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On 1/21/21 2:16 PM, David Laight wrote:
+> From: Yu, Yu-cheng 
+>>
+>> On 1/21/2021 10:44 AM, Borislav Petkov wrote:
+>>> On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
+>> [...]
+>>>> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
+>>>>
+>>>>   static inline pte_t pte_wrprotect(pte_t pte)
+>>>>   {
+>>>> +	/*
+>>>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>>>> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
+>>>> +	 * dirty value to the software bit.
+>>>> +	 */
+>>>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>>>> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
+>>>
+>>> Why the unreadable shifting when you can simply do:
+>>>
+>>>                  if (pte.pte & _PAGE_DIRTY)
+>>>                          pte.pte |= _PAGE_COW;
+>>>
+> 
+>>> ?
+>>
+>> It clears _PAGE_DIRTY and sets _PAGE_COW.  That is,
+>>
+>> if (pte.pte & _PAGE_DIRTY) {
+>> 	pte.pte &= ~_PAGE_DIRTY;
+>> 	pte.pte |= _PAGE_COW;
+>> }
+>>
+>> So, shifting makes resulting code more efficient.
+> 
+> Does the compiler manage to do one shift?
+> 
+> How can it clear anything?
 
+It could shift it off either end since there are both
+<< and >>.
+
+> There is only an |= against the target.
+> 
+> Something horrid with ^= might set and clear.
+
+
+-- 
+~Randy
+"He closes his eyes and drops the goggles.  You can't get hurt
+by looking at a bitmap.  Or can you?"
+(Neal Stephenson: Snow Crash)
