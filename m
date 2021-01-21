@@ -2,285 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 895ECC43381
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C01EC433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:47:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 427D623A55
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0DFF23A23
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jan 2021 16:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726993AbhAUQ2W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 11:28:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387838AbhAUQY3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 11:24:29 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC86C0613D6
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 08:23:48 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id i63so1962718wma.4
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 08:23:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=forissier-org.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zG4fhjKVJiNuv6SqQJL4fQU8mayLNazz740d5icTHSk=;
-        b=ACQBorxu3/kwafewpeR3kASLaNW2qE3a+LeKpdv3M3TLSCnWLdjLbiYm+U6tjQV+RE
-         ONy6LTJsNkMfU+MGdsm7xL5NqmfuKLFh3dXnZQWL0a9fSUos9Vn/jhVqCi8fwXEkaXOm
-         5r+qexj+CeJ4/QQuaWLRcx++MWLjWrFRcA0Hehd6iwC0yUiCQNK02Y8hmvyyuEk9Rq1v
-         r4BY60ZDPS+O6KufQY1Mm1oLPkkbwJCAs+zhkqu28cyPxoux8LhD31uZFLpShOmd/5N4
-         UL7P/WTIhQcMzzt/lHKN+qZneImjTFe6iL/lNR9+SiBQseOY7Gc21I8BWl+cMlEz2R3y
-         o7hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zG4fhjKVJiNuv6SqQJL4fQU8mayLNazz740d5icTHSk=;
-        b=R+qe/sSXQcx/kXf8wPVb9K7/S9jeRw+HmrIiP94M8NgDIHd5rUeJQg6XhSbbiCUlId
-         DOlrwKccIFl2zcwRK/GEVYZXiyQq7065lSBger9Qn2P1IBHNsl9j99OVp6ycf7ohQPFr
-         U6BUzUqCsDjSbjzpVvY4pG8OdRVpZ7dW76ZtiJBju6FglEo4rj+dvPUWKyF+KVyvDzrH
-         boeDgIGJ5LsnXn+OXAdXT+9h3w62F8/peIEpIuUIB/f4a75ytf4iYhxMoZ+2oykWnlrG
-         GuFs+Cpwf3DyQD1CYfjPOSuNGPZVzk0rxhwUEa3BQdQYEYdxamV6ROQbD9XosgBMStc4
-         kEaA==
-X-Gm-Message-State: AOAM531pSwDXBfrxmBzp5tWsX3mQGsPE3YYLTVAELXAQbBcVPJHmk9wv
-        6ekHcdoYgFOABJP2kE4i8IivTg==
-X-Google-Smtp-Source: ABdhPJy7Jlp7SoWm7votj5JQCx3T1dGKSThe0DyKuoodKhe3dXjGdBt2Qq4v/5CcRHsGUxbv38P4cw==
-X-Received: by 2002:a1c:2501:: with SMTP id l1mr129269wml.41.1611246227264;
-        Thu, 21 Jan 2021 08:23:47 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:3cb:7bb0:7932:cf59:b36c:1f60? ([2a01:e0a:3cb:7bb0:7932:cf59:b36c:1f60])
-        by smtp.gmail.com with ESMTPSA id w13sm9082040wrt.52.2021.01.21.08.23.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jan 2021 08:23:46 -0800 (PST)
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Sumit Garg <sumit.garg@linaro.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        op-tee@lists.trustedfirmware.org, Jonathan Corbet <corbet@lwn.net>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-References: <X/x+N0fgrzIZTeNi@kernel.org>
- <CAFA6WYOUvWAZtYfR4q8beZFkX-CtdxqwJaRQM+GHNMDfQiEWOA@mail.gmail.com>
- <X/+m6+m2/snYj9Vc@kernel.org>
- <CAFA6WYNyirit_AFhoE+XR9PHw=OjRgEdXDqz1uanj_SN2NXeMw@mail.gmail.com>
- <YAa0ys4YJcZtKdfF@kernel.org> <YAeH2pb8szQyjusL@kernel.org>
- <CAFA6WYP5G6NfGk96ePOC+2kpD6B+4hz9nywyUM9Nh=dJDYMiuA@mail.gmail.com>
- <01000177223f74d3-1eef7685-4a19-40d2-ace6-d4cd7f35579d-000000@email.amazonses.com>
- <dc3979e8-6bf0-adb7-164d-d50e805a048f@forissier.org>
- <YAmYu9FxWcLPhBhs@kernel.org> <YAmcyKnYCK+Y4IGW@kernel.org>
-From:   Jerome Forissier <jerome@forissier.org>
-Message-ID: <1486cfe8-bc30-1266-12bd-0049f2b64820@forissier.org>
-Date:   Thu, 21 Jan 2021 17:23:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1732981AbhAUQrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 11:47:09 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:56965 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388069AbhAUQhv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 11:37:51 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 52C6258052E;
+        Thu, 21 Jan 2021 11:36:12 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 21 Jan 2021 11:36:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+        YJdxl7AyCvWTYx/FjMErajpnwze1gn0rJs1EcbgXfwo=; b=hv9i9oYm8t2EEGgZ
+        Rg8zBM6SfuJwrknmfLal3HvjlkNDzJbtm7PgwWqE2198r32F3Uyl19++yK1FiFnY
+        YomFQuSeP1au66IAWwQEES+zU24v2Jt/Uj9jGs7gZ6GK6GyItrd/s6MtsuhDcPc6
+        xmZj4k2c+cnBumfPQJQh/uZC1MjD1huwBcUdeibhAEVo5sXIcefHeMxaBgIqTcGg
+        gsdURuGTOwSgzg8TD4YgXjhCX3ME99IkzpuS/P4WxmkENo2c/nd2w63QwzcU2RsR
+        JHNk3My73hYQtAXZvq3BP1TdxvTEqNhASRWX2/934swz/2+2w2wHiok8esIduAmX
+        xubo9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=YJdxl7AyCvWTYx/FjMErajpnwze1gn0rJs1EcbgXf
+        wo=; b=DhLfONsiVOMCw7tvUWhAloT5uPGlr+xPaLXsv2Xx6Go5lZ2nbP3giQxos
+        MJ7HIVXzNjFSW24HcsULZb+zVHBIQoy4Ja3B6lJAAD4gSgNRybAEHV/d/S+cux+Z
+        Fe1fWv9+NdMfkSYpR7qC2fRYDiljP1D2nh229q97sITzO18a/6WUAfI/ByXyBpkt
+        GiL0OhWo/7u0RFcjQzQu9duILNz+kKE/FzmPkjsBpyFPqHYglNqbHdUjpO38vriY
+        QaRouUSoKM65XHLSQ1SrYeKvEdc7WQr2KmSxbqfaP9BUJJiCVnwwHlmgr62Od99S
+        gF/SUf/eZNvaANg6g/4E/e1wUJGdw==
+X-ME-Sender: <xms:e60JYJtJYtqwjbnASxD2bS1RwRGUIMa6GjkVGeNroJ0HmjHA-x1t2A>
+    <xme:e60JYCe11NYqtr2ANTZ6LATLzXPoZzKTR2gfsoLAWowo3J7V1wWIYJrugILTVE3Kx
+    s7lfgxZDsNzV0aCifk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeggdelfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:fK0JYMyDplySlZ42fVmhtxgLXXpIIIrVaAKOAmOHJlmBmpoGDpd2bg>
+    <xmx:fK0JYAPSQrolEYgxHSXEHWaKJQJbBnwOSzUFCOsChpcXNDpx22a-IA>
+    <xmx:fK0JYJ_hKci4D_MZMzoKKv8T1TsmE13kvtS__mWKEJMxPqtZUh5r6g>
+    <xmx:fK0JYFT3bUOliadDPXQ_6xQ3tyKVRGJmfHNj-X1thrfSeWVb8IMXGQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id BCF9B1080057;
+        Thu, 21 Jan 2021 11:36:11 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>
+Cc:     dri-devel@lists.freedesktop.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 11/11] drm/todo: Remove the drm_atomic_state todo item
+Date:   Thu, 21 Jan 2021 17:35:36 +0100
+Message-Id: <20210121163537.1466118-11-maxime@cerno.tech>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210121163537.1466118-1-maxime@cerno.tech>
+References: <20210121163537.1466118-1-maxime@cerno.tech>
 MIME-Version: 1.0
-In-Reply-To: <YAmcyKnYCK+Y4IGW@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Only planes' prepare_fb and cleanup_fb, and encoders' atomic_check and
+atomic_mode_set hooks remain with an object state and not the global
+drm_atomic_state.
 
+prepare_fb and cleanup_fb operate by design on a given state and
+depending on the calling site can operate on either the old or new
+state, so it doesn't really make much sense to convert them.
 
-On 1/21/21 4:24 PM, Jarkko Sakkinen wrote:
-> On Thu, Jan 21, 2021 at 05:07:42PM +0200, Jarkko Sakkinen wrote:
->> On Thu, Jan 21, 2021 at 09:44:07AM +0100, Jerome Forissier wrote:
->>>
->>>
->>> On 1/21/21 1:02 AM, Jarkko Sakkinen via OP-TEE wrote:
->>>> On Wed, Jan 20, 2021 at 12:53:28PM +0530, Sumit Garg wrote:
->>>>> On Wed, 20 Jan 2021 at 07:01, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->>>>>>
->>>>>> On Tue, Jan 19, 2021 at 12:30:42PM +0200, Jarkko Sakkinen wrote:
->>>>>>> On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
->>>>>>>> On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->>>>>>>>>
->>>>>>>>> On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
->>>>>>>>>> Hi Jarkko,
->>>>>>>>>>
->>>>>>>>>> On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->>>>>>>>>>>
->>>>>>>>>>> On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
->>>>>>>>>>>> Add support for TEE based trusted keys where TEE provides the functionality
->>>>>>>>>>>> to seal and unseal trusted keys using hardware unique key.
->>>>>>>>>>>>
->>>>>>>>>>>> Refer to Documentation/tee.txt for detailed information about TEE.
->>>>>>>>>>>>
->>>>>>>>>>>> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
->>>>>>>>>>>
->>>>>>>>>>> I haven't yet got QEMU environment working with aarch64, this produces
->>>>>>>>>>> just a blank screen:
->>>>>>>>>>>
->>>>>>>>>>> ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
->>>>>>>>>>>
->>>>>>>>>>> My BuildRoot fork for TPM and keyring testing is located over here:
->>>>>>>>>>>
->>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
->>>>>>>>>>>
->>>>>>>>>>> The "ARM version" is at this point in aarch64 branch. Over time I will
->>>>>>>>>>> define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
->>>>>>>>>>> in the master branch.
->>>>>>>>>>>
->>>>>>>>>>> To create identical images you just need to
->>>>>>>>>>>
->>>>>>>>>>> $ make tpmdd_defconfig && make
->>>>>>>>>>>
->>>>>>>>>>> Can you check if you see anything obviously wrong? I'm eager to test this
->>>>>>>>>>> patch set, and in bigger picture I really need to have ready to run
->>>>>>>>>>> aarch64 environment available.
->>>>>>>>>>
->>>>>>>>>> I would rather suggest you to follow steps listed here [1] as to test
->>>>>>>>>> this feature on Qemu aarch64 we need to build firmwares such as TF-A,
->>>>>>>>>> OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
->>>>>>>>>> system [2]. And then it would be easier to migrate them to your
->>>>>>>>>> buildroot environment as well.
->>>>>>>>>>
->>>>>>>>>> [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
->>>>>>>>>> [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
->>>>>>>>>>
->>>>>>>>>> -Sumit
->>>>>>>>>
->>>>>>>>> Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
->>>>>>>>>
->>>>>>>>
->>>>>>>> $ cat keyctl_change
->>>>>>>> diff --git a/common.mk b/common.mk
->>>>>>>> index aeb7b41..663e528 100644
->>>>>>>> --- a/common.mk
->>>>>>>> +++ b/common.mk
->>>>>>>> @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
->>>>>>>>  BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
->>>>>>>>  BR2_PACKAGE_STRACE ?= y
->>>>>>>>  BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
->>>>>>>> $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
->>>>>>>> +BR2_PACKAGE_KEYUTILS := y
->>>>>>>>
->>>>>>>>  # All BR2_* variables from the makefile or the environment are appended to
->>>>>>>>  # ../out-br/extra.conf. All values are quoted "..." except y and n.
->>>>>>>> diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
->>>>>>>> index 368c18a..832ab74 100644
->>>>>>>> --- a/kconfigs/qemu.conf
->>>>>>>> +++ b/kconfigs/qemu.conf
->>>>>>>> @@ -20,3 +20,5 @@ CONFIG_9P_FS=y
->>>>>>>>  CONFIG_9P_FS_POSIX_ACL=y
->>>>>>>>  CONFIG_HW_RANDOM=y
->>>>>>>>  CONFIG_HW_RANDOM_VIRTIO=y
->>>>>>>> +CONFIG_TRUSTED_KEYS=y
->>>>>>>> +CONFIG_ENCRYPTED_KEYS=y
->>>>>>>>
->>>>>>>>> After I've successfully tested 2/4, I'd suggest that you roll out one more
->>>>>>>>> version and CC the documentation patch to Elaine and Mini, and clearly
->>>>>>>>> remark in the commit message that TEE is a standard, with a link to the
->>>>>>>>> specification.
->>>>>>>>>
->>>>>>>>
->>>>>>>> Sure, I will roll out the next version after your testing.
->>>>>>>
->>>>>>> Thanks, I'll try this at instant, and give my feedback.
->>>>>>
->>>>>> I bump into this:
->>>>>>
->>>>>> $ make run-only
->>>>>> ln -sf /home/jarkko/devel/tpm/optee/build/../out-br/images/rootfs.cpio.gz /home/jarkko/devel/tpm/optee/build/../out/bin/
->>>>>> ln: failed to create symbolic link '/home/jarkko/devel/tpm/optee/build/../out/bin/': No such file or directory
->>>>>> make: *** [Makefile:194: run-only] Error 1
->>>>>>
->>>>>
->>>>> Could you check if the following directory tree is built after
->>>>> executing the below command?
->>>>>
->>>>> $ make -j`nproc`
->>>>> CFG_IN_TREE_EARLY_TAS=trusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
->>>>>
->>>>> $ tree out/bin/
->>>>> out/bin/
->>>>> ├── bl1.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl1.bin
->>>>> ├── bl2.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl2.bin
->>>>> ├── bl31.bin ->
->>>>> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl31.bin
->>>>> ├── bl32.bin ->
->>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-header_v2.bin
->>>>> ├── bl32_extra1.bin ->
->>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pager_v2.bin
->>>>> ├── bl32_extra2.bin ->
->>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pageable_v2.bin
->>>>> ├── bl33.bin ->
->>>>> /home/sumit/build/optee/build/../edk2/Build/ArmVirtQemuKernel-AARCH64/RELEASE_GCC49/FV/QEMU_EFI.fd
->>>>> ├── Image -> /home/sumit/build/optee/build/../linux/arch/arm64/boot/Image
->>>>> └── rootfs.cpio.gz ->
->>>>> /home/sumit/build/optee/build/../out-br/images/rootfs.cpio.gz
->>>>>
->>>>> 0 directories, 9 files
->>>>>
->>>>> -Sumit
->>>>
->>>> I actually spotted a build error that was unnoticed last time:
->>>>
->>>> make[2]: Entering directory '/home/jarkko/devel/tpm/optee/edk2/BaseTools/Tests'
->>>> /bin/sh: 1: python: not found
->>>>
->>>> I'd prefer not to install Python2. It has been EOL over a year.
->>>
->>> AFAIK, everything should build fine with Python3. On my Ubuntu 20.04
->>> machine, this is accomplished by installing package "python-is-python3"
->>> (after uninstalling "python-is-python2" if need be).
->>>
->>> $ ls -l /usr/bin/python
->>> lrwxrwxrwx 1 root root 7 Apr 15  2020 /usr/bin/python -> python3
->>
->> Right, just found about this in unrelated context :-) [*]
->>
->> Hope this will work out...
->>
->> [*] https://github.com/surge-synthesizer/surge/pull/3655
-> 
-> Now I get
-> 
-> Traceback (most recent call last):
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 36, in <module>
->     allTests = GetAllTestsSuite()
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 33, in GetAllTestsSuite
->     return unittest.TestSuite([GetCTestSuite(), GetPythonTestSuite()])
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 25, in GetCTestSuite
->     import CToolsTests
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/CToolsTests.py", line 22, in <module>
->     import TianoCompress
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TianoCompress.py", line 69, in <module>
->     TheTestSuite = TestTools.MakeTheTestSuite(locals())
->   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TestTools.py", line 43, in MakeTheTestSuite
->     for name, item in localItems.iteritems():
-> AttributeError: 'dict' object has no attribute 'iteritems'
+The encoders' atomic_check and atomic_mode_set operate on the CRTC and
+connector state connected to them since encoders don't have a state of
+their own. Without those state pointers, we would need to get the CRTC
+through the drm_connector_state crtc pointer.
 
-Right. Same here after removing all traces of Python2 from my system :-/
+However, in order to get the drm_connector_state pointer, we would need
+to get the connector itself and while usually we have a single connector
+connected to the encoder, we can't really get it from the encoder at
+the moment since it could be behind any number of bridges.
 
-A couple of fixes are needed:
-1. EDK2 needs to be upgraded to tag or later [1]
-2. The PYTHON3_ENABLE environment variable needs to be set to TRUE [2]
+While this could be addressed by (for example) listing all the
+connectors and finding the one that has the encoder as its source, it
+feels like an unnecessary rework for something that is slowly getting
+replaced by bridges.
 
-[1] https://github.com/OP-TEE/manifest/pull/177
-[2] https://github.com/OP-TEE/build/pull/450
+Since all the users that matter have been converted, let's remove the
+TODO item.
 
-HTH,
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+---
+
+Changes from v1:
+  - New patch
+---
+ Documentation/gpu/todo.rst | 46 --------------------------------------
+ 1 file changed, 46 deletions(-)
+
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 009d8e6c7e3c..609794108f5a 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -440,52 +440,6 @@ Contact: Emil Velikov, respective driver maintainers
+ 
+ Level: Intermediate
+ 
+-Plumb drm_atomic_state all over
+--------------------------------
+-
+-Currently various atomic functions take just a single or a handful of
+-object states (eg. plane state). While that single object state can
+-suffice for some simple cases, we often have to dig out additional
+-object states for dealing with various dependencies between the individual
+-objects or the hardware they represent. The process of digging out the
+-additional states is rather non-intuitive and error prone.
+-
+-To fix that most functions should rather take the overall
+-drm_atomic_state as one of their parameters. The other parameters
+-would generally be the object(s) we mainly want to interact with.
+-
+-For example, instead of
+-
+-.. code-block:: c
+-
+-   int (*atomic_check)(struct drm_plane *plane, struct drm_plane_state *state);
+-
+-we would have something like
+-
+-.. code-block:: c
+-
+-   int (*atomic_check)(struct drm_plane *plane, struct drm_atomic_state *state);
+-
+-The implementation can then trivially gain access to any required object
+-state(s) via drm_atomic_get_plane_state(), drm_atomic_get_new_plane_state(),
+-drm_atomic_get_old_plane_state(), and their equivalents for
+-other object types.
+-
+-Additionally many drivers currently access the object->state pointer
+-directly in their commit functions. That is not going to work if we
+-eg. want to allow deeper commit pipelines as those pointers could
+-then point to the states corresponding to a future commit instead of
+-the current commit we're trying to process. Also non-blocking commits
+-execute locklessly so there are serious concerns with dereferencing
+-the object->state pointers without holding the locks that protect them.
+-Use of drm_atomic_get_new_plane_state(), drm_atomic_get_old_plane_state(),
+-etc. avoids these problems as well since they relate to a specific
+-commit via the passed in drm_atomic_state.
+-
+-Contact: Ville Syrjälä, Daniel Vetter
+-
+-Level: Intermediate
+-
+ Use struct dma_buf_map throughout codebase
+ ------------------------------------------
+ 
 -- 
-Jerome
+2.29.2
+
