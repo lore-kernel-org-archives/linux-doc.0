@@ -2,170 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCE1C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E192C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:42:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E867C23AC1
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:06:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 258BF23ABA
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:42:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729173AbhAVSGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 13:06:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55972 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728745AbhAVSGc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jan 2021 13:06:32 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F92223A6A;
-        Fri, 22 Jan 2021 18:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611338751;
-        bh=RWAadgTE3OBkC/7CFKgrnVcdGooeNarn5qiZczZ3+Ko=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TL6jaYn0mzvupgHkDmXIqa9iuhcFq3T13YmqLldcmDGL5osB8mbti6TlMo6wa6g9D
-         3PwJeNrHZRo+CBeWBC2PapF/ydLffUl/MD68ct0FA+iuKHUjdT1jDBuvfiKtldc3o0
-         vWdBYyCfAhGX7c8wmTKL3svn0q/lSp3y8CrdM2gGWQVKDwwATfhZ+dFt8xF9YTrKsR
-         0ChufAze2E5dUsJUdp4L8LHGvDzddpkCeT6k/B/gpqpBVI/eNAEx5AsDztIUJW4egA
-         OEjlE27f5bOY925CQ3oAI2NpMaWhplSzaTGJvy/suIKQlKmPD+E4GcHOfy0TBvAs30
-         3opMQxT7vie+Q==
-Date:   Fri, 22 Jan 2021 20:05:48 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Song Liu <song@kernel.org>, kernel@pengutronix.de,
-        Jan =?iso-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        Dmitry Baryshkov <dbaryshkov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        Sumit Garg <sumit.garg@linaro.org>
-Subject: Re: [PATCH 2/2] dm crypt: support using trusted keys
-Message-ID: <YAsT/N8CHHNTZcj3@kernel.org>
-References: <20210122084321.24012-1-a.fatoum@pengutronix.de>
- <20210122084321.24012-2-a.fatoum@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210122084321.24012-2-a.fatoum@pengutronix.de>
+        id S1729954AbhAVSlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 13:41:53 -0500
+Received: from mickerik.phytec.de ([195.145.39.210]:53988 "EHLO
+        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729136AbhAVSVT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 13:21:19 -0500
+X-Greylist: delayed 963 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 13:21:18 EST
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
+        q=dns/txt; i=@phytec.de; t=1611338654; x=1613930654;
+        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=b43XII4jJnJFqAsER8sZtwIeu6b8S9YogbUU4Zr4Dq4=;
+        b=bJGuVtlO7hPRsUj2xENhLS7uzQTVmLArQ8ElxXR9kKQIyRBpNedbSoNgG3fSI3Cq
+        mP3yNHD576Kgznm3tlvX/2WPvUZKTfGBmrcoaydSYPNPcqnZmxmsgV7DOM+WFs9r
+        nL+rNfi/FlcojgVhdgOXJlHUN8f0topnwRHo2oJ8vo8=;
+X-AuditID: c39127d2-0d3b770000001c86-f1-600b139dc3c9
+Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 1F.B6.07302.D931B006; Fri, 22 Jan 2021 19:04:14 +0100 (CET)
+Received: from augenblix2.phytec.de ([172.16.0.56])
+          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+          with ESMTP id 2021012219041356-181776 ;
+          Fri, 22 Jan 2021 19:04:13 +0100 
+From:   Robert Karszniewicz <r.karszniewicz@phytec.de>
+To:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Philipp Rudo <prudo@linux.ibm.com>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Robert Karszniewicz <r.karszniewicz@phytec.de>,
+        Robert Karszniewicz <avoidr@posteo.de>
+Subject: [PATCH] Documentation/Kbuild: Remove references to gcc-plugin.sh
+Date:   Fri, 22 Jan 2021 19:04:13 +0100
+Message-Id: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
+X-Mailer: git-send-email 2.7.4
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 22.01.2021 19:04:13,
+        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 22.01.2021 19:04:14,
+        Serialize complete at 22.01.2021 19:04:14
+X-TNEFEvaluated: 1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupiluLIzCtJLcpLzFFi42JZI8DApTtPmDvBoH0aq8XK0+vZLZ4caGe0
+        ONOda7GwbQmLxbz1Pxkt/uzawWTx8MENVouFZ6ItJk2fyOLA6TG74SKLx6ZVnWweExYdYPRY
+        3DeZ1eNum43Hr8OiHp83yQWwR3HZpKTmZJalFunbJXBl3L//gLlgE2/Fp+6f7A2MK7m7GDk5
+        JARMJE5d28raxcjFISSwlVFi6fvTzBDOeUaJg3+nM4NUsQFV7W6+BZYQEZjOKHFz5gGwFmaB
+        G4wS7Se6WECqhAU8JZZ8nQVmswioSvTNfc4OYvMCxd/umsYEsU9O4ua5TrBJEgKNTBLzvhxm
+        hUgISZxefJZ5AiPPAkaGVYxCuZnJ2alFmdl6BRmVJanJeimpmxiB4XV4ovqlHYx9czwOMTJx
+        MB5ilOBgVhLhfWTJkSDEm5JYWZValB9fVJqTWnyIUZqDRUmcdwNvSZiQQHpiSWp2ampBahFM
+        lomDU6qBMfveXt0Gvo6s7r8fVkydMy3e+oSw3nP1eZ+nJU/g2zvnvtrV9ctLlj7pCVn6i/lW
+        1y3ThLk1m1ewf16VH3v4o8NOT32Rzy7uja2R01dH3TtysaNB1vTMv7q1Mw9eaZPiSTodHvg8
+        RT3/2JOZ9j1PWQUXWWSvsN7xrs7w9Zmtzw82FGu8T/Dt5lRiKc5INNRiLipOBADd4Ds3HQIA
+        AA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 09:43:21AM +0100, Ahmad Fatoum wrote:
-> Commit 27f5411a718c ("dm crypt: support using encrypted keys") extended
-> dm-crypt to allow use of "encrypted" keys along with "user" and "logon".
-> 
-> Along the same lines, teach dm-crypt to support "trusted" keys as well.
-> 
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
+gcc-plugin.sh has been removed in commit
+1e860048c53e ("gcc-plugins: simplify GCC plugin-dev capability test").
 
-Is it possible to test run this with tmpfs? Would be a good test
-target for Sumit's ARM-TEE trusted keys patches.
+Signed-off-by: Robert Karszniewicz <r.karszniewicz@phytec.de>
+---
+ Documentation/kbuild/gcc-plugins.rst |  6 ------
+ scripts/dummy-tools/gcc              | 15 ---------------
+ 2 files changed, 21 deletions(-)
 
-https://lore.kernel.org/linux-integrity/1604419306-26105-1-git-send-email-sumit.garg@linaro.org/
+diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+index 4b1c10f88e30..63379d0150e3 100644
+--- a/Documentation/kbuild/gcc-plugins.rst
++++ b/Documentation/kbuild/gcc-plugins.rst
+@@ -47,12 +47,6 @@ Files
+ 	This is a compatibility header for GCC plugins.
+ 	It should be always included instead of individual gcc headers.
+ 
+-**$(src)/scripts/gcc-plugin.sh**
+-
+-	This script checks the availability of the included headers in
+-	gcc-common.h and chooses the proper host compiler to build the plugins
+-	(gcc-4.7 can be built by either gcc or g++).
+-
+ **$(src)/scripts/gcc-plugins/gcc-generate-gimple-pass.h,
+ $(src)/scripts/gcc-plugins/gcc-generate-ipa-pass.h,
+ $(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
+diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+index 33487e99d83e..a484de576e6f 100755
+--- a/scripts/dummy-tools/gcc
++++ b/scripts/dummy-tools/gcc
+@@ -74,18 +74,3 @@ if arg_contain -S "$@"; then
+ 		exit 0
+ 	fi
+ fi
+-
+-# For scripts/gcc-plugin.sh
+-if arg_contain -print-file-name=plugin "$@"; then
+-	plugin_dir=$(mktemp -d)
+-
+-	sed -n 's/.*#include "\(.*\)"/\1/p' $(dirname $0)/../gcc-plugins/gcc-common.h |
+-	while read header
+-	do
+-		mkdir -p $plugin_dir/include/$(dirname $header)
+-		touch $plugin_dir/include/$header
+-	done
+-
+-	echo $plugin_dir
+-	exit 0
+-fi
+-- 
+2.7.4
 
-/Jarkko
-
-> Unsure on whether target_type::version is something authors increment or
-> maintainers fix up. I can respin if needed.
-> 
-> Cc: Jan Lübbe <jlu@pengutronix.de>
-> Cc: linux-integrity@vger.kernel.org
-> Cc: keyrings@vger.kernel.org
-> Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>
-> ---
->  .../admin-guide/device-mapper/dm-crypt.rst    |  2 +-
->  drivers/md/Kconfig                            |  1 +
->  drivers/md/dm-crypt.c                         | 23 ++++++++++++++++++-
->  3 files changed, 24 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/device-mapper/dm-crypt.rst b/Documentation/admin-guide/device-mapper/dm-crypt.rst
-> index 1a6753b76dbb..aa2d04d95df6 100644
-> --- a/Documentation/admin-guide/device-mapper/dm-crypt.rst
-> +++ b/Documentation/admin-guide/device-mapper/dm-crypt.rst
-> @@ -67,7 +67,7 @@ Parameters::
->      the value passed in <key_size>.
->  
->  <key_type>
-> -    Either 'logon', 'user' or 'encrypted' kernel key type.
-> +    Either 'logon', 'user', 'encrypted' or 'trusted' kernel key type.
->  
->  <key_description>
->      The kernel keyring key description crypt target should look for
-> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
-> index 9e44c09f6410..f2014385d48b 100644
-> --- a/drivers/md/Kconfig
-> +++ b/drivers/md/Kconfig
-> @@ -270,6 +270,7 @@ config DM_CRYPT
->  	tristate "Crypt target support"
->  	depends on BLK_DEV_DM
->  	depends on (ENCRYPTED_KEYS || ENCRYPTED_KEYS=n)
-> +	depends on (TRUSTED_KEYS || TRUSTED_KEYS=n)
->  	select CRYPTO
->  	select CRYPTO_CBC
->  	select CRYPTO_ESSIV
-> diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
-> index 7eeb9248eda5..6c7c687e546c 100644
-> --- a/drivers/md/dm-crypt.c
-> +++ b/drivers/md/dm-crypt.c
-> @@ -37,6 +37,7 @@
->  #include <linux/key-type.h>
->  #include <keys/user-type.h>
->  #include <keys/encrypted-type.h>
-> +#include <keys/trusted-type.h>
->  
->  #include <linux/device-mapper.h>
->  
-> @@ -2452,6 +2453,22 @@ static int set_key_encrypted(struct crypt_config *cc, struct key *key)
->  	return 0;
->  }
->  
-> +static int set_key_trusted(struct crypt_config *cc, struct key *key)
-> +{
-> +	const struct trusted_key_payload *tkp;
-> +
-> +	tkp = key->payload.data[0];
-> +	if (!tkp)
-> +		return -EKEYREVOKED;
-> +
-> +	if (cc->key_size != tkp->key_len)
-> +		return -EINVAL;
-> +
-> +	memcpy(cc->key, tkp->key, cc->key_size);
-> +
-> +	return 0;
-> +}
-> +
->  static int crypt_set_keyring_key(struct crypt_config *cc, const char *key_string)
->  {
->  	char *new_key_string, *key_desc;
-> @@ -2484,6 +2501,10 @@ static int crypt_set_keyring_key(struct crypt_config *cc, const char *key_string
->  		   !strncmp(key_string, "encrypted:", key_desc - key_string + 1)) {
->  		type = &key_type_encrypted;
->  		set_key = set_key_encrypted;
-> +	} else if (IS_ENABLED(CONFIG_TRUSTED_KEYS) &&
-> +	           !strncmp(key_string, "trusted:", key_desc - key_string + 1)) {
-> +		type = &key_type_trusted;
-> +		set_key = set_key_trusted;
->  	} else {
->  		return -EINVAL;
->  	}
-> @@ -3555,7 +3576,7 @@ static void crypt_io_hints(struct dm_target *ti, struct queue_limits *limits)
->  
->  static struct target_type crypt_target = {
->  	.name   = "crypt",
-> -	.version = {1, 22, 0},
-> +	.version = {1, 23, 0},
->  	.module = THIS_MODULE,
->  	.ctr    = crypt_ctr,
->  	.dtr    = crypt_dtr,
-> -- 
-> 2.30.0
-> 
-> 
