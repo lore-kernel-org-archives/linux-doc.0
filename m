@@ -2,525 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D2AC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 15:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0A5C41621
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 17:21:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59DBA23AA1
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 15:07:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3362E23433
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 17:21:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728594AbhAVPGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 10:06:54 -0500
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:52908 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729102AbhAVPGk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 10:06:40 -0500
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10MEvCjp024039;
-        Fri, 22 Jan 2021 16:05:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=selector1;
- bh=DfGK4MbGjF89NcTEveRx/yqC3sgoowMDyokoNkQWT2I=;
- b=1Uv+MfS/ClVZjrvuXrJZKC8YFt5m42zrpk7SiH0ybjv7OND61xx8iT9hRcdgIh0ljf+n
- pcdrtYoLv43pP34uR8XC15JRQ4levYFX7/Sa/AGs53pfPHFuj/Je73ANWOYj+Y8NrNTF
- e+s4I78YbR1Vp4hhfikF9qLf9BPT3TffnhJq7bhF1ouf6WPvbR7AAOqhY67I0VIlyH04
- Jfpq5UxK7IKOobR1UpQXlVcB6OZrjVmI/q6MJdidQrKxohbAMsM4OgQFRWIbY9OnDehD
- eAKzT5mlnhpJGj7j+kcesBntcOoROWm7exVgwj7y/kMwe+3LdXJ3Irrl0ZRmPFjl5UHE EQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3668p5afgt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 22 Jan 2021 16:05:23 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 212B210002A;
-        Fri, 22 Jan 2021 16:05:21 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 03FA225D032;
-        Fri, 22 Jan 2021 16:05:21 +0100 (CET)
-Received: from localhost (10.75.127.48) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 22 Jan 2021 16:05:19
- +0100
-From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-To:     <jic23@kernel.org>, <vilhelm.gray@gmail.com>
-CC:     <mchehab+huawei@kernel.org>, <lukas.bulwahn@gmail.com>,
-        <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <alexandre.torgue@st.com>,
-        <fabrice.gasnier@st.com>, <olivier.moysan@st.com>,
-        <linux-iio@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: [PATCH] counter: stm32-lptimer-cnt: remove iio counter abi
-Date:   Fri, 22 Jan 2021 16:03:23 +0100
-Message-ID: <1611327803-882-1-git-send-email-fabrice.gasnier@foss.st.com>
-X-Mailer: git-send-email 2.7.4
+        id S1729036AbhAVP5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 10:57:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728872AbhAVP4Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 10:56:24 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4FCC06174A;
+        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id n42so5467081ota.12;
+        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lVwBZlqiYAkRijUO0G3Pdgufy3KTr/KU+bLABsRacK0=;
+        b=o3cV7KBYdJWHwjHBJpMCzihXhznKL1pW79F6twFp3Vr788Uig3i00AbOCbPit72oYv
+         wziGblz8dA+bIKUHN09rqDQeIurEs3dReqCnqMkXO0lhCp4wxaCXZ8sY1P4bPxvUS0vP
+         ykOWb0FR+uK7HBwROaw7vbCcrj2sPnXf8PM6h3+6eNuEcWONv2vlrVbcTYZ8WeENlg6u
+         fFcdAN0FxgFiGJaEjtDi0RiTeDIZPx6gdMKXcLUSdDwGvxaA2I8BaWZFyGALO+4i4p8U
+         BBUN9DCvY5QI1Or8qGcCak9BaO6hgzNlkt9gnK23K8/6KVvw5QUpx4YFdieJlUBNwLRb
+         DzXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lVwBZlqiYAkRijUO0G3Pdgufy3KTr/KU+bLABsRacK0=;
+        b=CBaCXNdBmqqoQ9cf+b1768tvVIPTVuSUljv3oW+QpBDMwvsM0xL2RwK3gYsIQQ/MTd
+         R1AL77/x6GxTMf/9cpdqWPUucGO5KYEsTdVciGpCp8TVhHr2e4Ql/kDDngiy/Nuu2v+g
+         jXOA9WdAyi1ByIE7ar1tYIB9DEAEEWG4unzI1dIU8bN8RLasJUqr679VaspEUajPkcHR
+         47o4vpwygbj8o39kxL1p3N+GEvDTPue6zqHkGVuhhRIWjFyKuyu25XWyBNOzi6oPa3Ac
+         wHGIdTUbZn/Ehm+mngwXt9pvgr1so5i0BeJSYbLuZpadqRj928iivDjInoVOOoeaeg7O
+         SR8w==
+X-Gm-Message-State: AOAM532gCeP0qbhEJsbo7BwUece6S39dMb8tZwI0I6YckkxP4iFcOLQq
+        xdH0gJvSSZ3FDRxsQd4O8zs=
+X-Google-Smtp-Source: ABdhPJx9oAWwSu666d9+RiZPNbctzTlb8yeHu4vEo52+ZLz0UdxaZBqtC1t4CxdlvDW68G/+B6SkAg==
+X-Received: by 2002:a05:6830:796:: with SMTP id w22mr1581370ots.297.1611330944051;
+        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([8.48.134.50])
+        by smtp.googlemail.com with ESMTPSA id y24sm1672792oos.44.2021.01.22.07.55.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jan 2021 07:55:43 -0800 (PST)
+Subject: Re: [PATCH v3 net-next 1/1] Allow user to set metric on default route
+ learned via Router Advertisement.
+To:     Praveen Chaudhary <praveen5582@gmail.com>, davem@davemloft.net,
+        kuba@kernel.org, corbet@lwn.net, kuznet@ms2.inr.ac.ru,
+        yoshfuji@linux-ipv6.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Zhenggen Xu <zxu@linkedin.com>
+References: <20210119212959.25917-1-pchaudhary@linkedin.com>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <1cc9e887-a984-c14a-451c-60a202c4cf20@gmail.com>
+Date:   Fri, 22 Jan 2021 08:55:41 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-22_11:2021-01-22,2021-01-22 signatures=0
+In-Reply-To: <20210119212959.25917-1-pchaudhary@linkedin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, the STM32 LP Timer counter driver registers into both IIO and
-counter subsystems, which is redundant.
+On 1/19/21 2:29 PM, Praveen Chaudhary wrote:
+> For IPv4, default route is learned via DHCPv4 and user is allowed to change
+> metric using config etc/network/interfaces. But for IPv6, default route can
+> be learned via RA, for which, currently a fixed metric value 1024 is used.
+> 
+> Ideally, user should be able to configure metric on default route for IPv6
+> similar to IPv4. This fix adds sysctl for the same.
+> 
+> Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
+> Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
+> 
+> Changes in v1.
+> 1.) Correct the call to rt6_add_dflt_router.
+> 
+> Changes in v2.
+> 1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
+> 2.) Change Type to __u32 instead of __s32.
+> 3.) Change description in Documentation/networking/ip-sysctl.rst.
+> 4.) Use proc_douintvec instead of proc_dointvec.
+> 5.) Code style in ndisc_router_discovery().
+> 6.) Change Type to u32 instead of unsigned int.
+> 
+> Changes in v3:
+> 1.) Removed '---' and '```' from description.
+> 2.) Remove stray ' after accept_ra_defrtr.
+> 3.) Fix tab in net/ipv6/addrconf.c.
+> 
+> Logs:
+> 
+> For IPv4:
+> 
+> Config in etc/network/interfaces:
+> auto eth0
+> iface eth0 inet dhcp
+>     metric 4261413864
+> 
+> IPv4 Kernel Route Table:
+> $ ip route list
+> default via 172.21.47.1 dev eth0 metric 4261413864
+> 
+> FRR Table, if a static route is configured:
+> [In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
+> Codes: K - kernel route, C - connected, S - static, R - RIP,
+>        O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
+>        T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+>        > - selected route, * - FIB route
+> 
+> S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
+> K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
+> 
+> i.e. User can prefer Default Router learned via Routing Protocol in IPv4.
+> Similar behavior is not possible for IPv6, without this fix.
+> 
+> After fix [for IPv6]:
+> sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
+> 
+> IP monitor: [When IPv6 RA is received]
+> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
+> 
+> Kernel IPv6 routing table
+> $ ip -6 route list
+> default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
+> 
+> FRR Table, if a static route is configured:
+> [In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
+> Codes: K - kernel route, C - connected, S - static, R - RIPng,
+>        O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+>        v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+>        > - selected route, * - FIB route
+> 
+> S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
+> K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
+> 
+> If the metric is changed later, the effect will be seen only when next IPv6
+> RA is received, because the default route must be fully controlled by RA msg.
+> Below metric is changed from 1996489705 to 1996489704.
+> 
+> $ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
+> net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
+> 
+> IP monitor:
+> [On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
+> 
+> Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
+> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
+> ---
+>  Documentation/networking/ip-sysctl.rst | 12 ++++++++++++
+>  include/linux/ipv6.h                   |  1 +
+>  include/net/ip6_route.h                |  3 ++-
+>  include/uapi/linux/ipv6.h              |  1 +
+>  include/uapi/linux/sysctl.h            |  1 +
+>  net/ipv6/addrconf.c                    | 10 ++++++++++
+>  net/ipv6/ndisc.c                       | 14 ++++++++++----
+>  net/ipv6/route.c                       |  5 +++--
+>  8 files changed, 40 insertions(+), 7 deletions(-)
+> 
 
-Remove the IIO counter ABI and IIO registration from the STM32 LP Timer
-counter driver since it's been superseded by the Counter subsystem
-as discussed in [1].
+LGTM. I can't think of a better way to do this than a sysctl. Shame that
+the metric/priority is not an RA option.
 
-Keep only the counter subsystem related part.
-Move a part of the ABI documentation into a driver comment.
-
-This also removes a duplicate ABI warning
-$ scripts/get_abi.pl validate
-...
-/sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:
-  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100
-  ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-
-[1] https://lkml.org/lkml/2021/1/19/347
-
-Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
----
- .../ABI/testing/sysfs-bus-iio-lptimer-stm32        |  62 -----
- drivers/counter/stm32-lptimer-cnt.c                | 297 +++------------------
- 2 files changed, 36 insertions(+), 323 deletions(-)
- delete mode 100644 Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32 b/Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32
-deleted file mode 100644
-index 73498ff..00000000
---- a/Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32
-+++ /dev/null
-@@ -1,62 +0,0 @@
--What:		/sys/bus/iio/devices/iio:deviceX/in_count0_preset
--KernelVersion:	4.13
--Contact:	fabrice.gasnier@st.com
--Description:
--		Reading returns the current preset value. Writing sets the
--		preset value. Encoder counts continuously from 0 to preset
--		value, depending on direction (up/down).
--
--What:		/sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available
--KernelVersion:	4.13
--Contact:	fabrice.gasnier@st.com
--Description:
--		Reading returns the list possible quadrature modes.
--
--What:		/sys/bus/iio/devices/iio:deviceX/in_count0_quadrature_mode
--KernelVersion:	4.13
--Contact:	fabrice.gasnier@st.com
--Description:
--		Configure the device counter quadrature modes:
--
--		- non-quadrature:
--			Encoder IN1 input servers as the count input (up
--			direction).
--
--		- quadrature:
--			Encoder IN1 and IN2 inputs are mixed to get direction
--			and count.
--
--What:		/sys/bus/iio/devices/iio:deviceX/in_count_polarity_available
--KernelVersion:	4.13
--Contact:	fabrice.gasnier@st.com
--Description:
--		Reading returns the list possible active edges.
--
--What:		/sys/bus/iio/devices/iio:deviceX/in_count0_polarity
--KernelVersion:	4.13
--Contact:	fabrice.gasnier@st.com
--Description:
--		Configure the device encoder/counter active edge:
--
--		- rising-edge
--		- falling-edge
--		- both-edges
--
--		In non-quadrature mode, device counts up on active edge.
--
--		In quadrature mode, encoder counting scenarios are as follows:
--
--		+---------+----------+--------------------+--------------------+
--		| Active  | Level on |      IN1 signal    |     IN2 signal     |
--		| edge    | opposite +----------+---------+----------+---------+
--		|         | signal   |  Rising  | Falling |  Rising  | Falling |
--		+---------+----------+----------+---------+----------+---------+
--		| Rising  | High ->  |   Down   |    -    |   Up     |    -    |
--		| edge    | Low  ->  |   Up     |    -    |   Down   |    -    |
--		+---------+----------+----------+---------+----------+---------+
--		| Falling | High ->  |    -     |   Up    |    -     |   Down  |
--		| edge    | Low  ->  |    -     |   Down  |    -     |   Up    |
--		+---------+----------+----------+---------+----------+---------+
--		| Both    | High ->  |   Down   |   Up    |   Up     |   Down  |
--		| edges   | Low  ->  |   Up     |   Down  |   Down   |   Up    |
--		+---------+----------+----------+---------+----------+---------+
-diff --git a/drivers/counter/stm32-lptimer-cnt.c b/drivers/counter/stm32-lptimer-cnt.c
-index fd6828e..9374396 100644
---- a/drivers/counter/stm32-lptimer-cnt.c
-+++ b/drivers/counter/stm32-lptimer-cnt.c
-@@ -12,8 +12,8 @@
- 
- #include <linux/bitfield.h>
- #include <linux/counter.h>
--#include <linux/iio/iio.h>
- #include <linux/mfd/stm32-lptimer.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-@@ -107,249 +107,27 @@ static int stm32_lptim_setup(struct stm32_lptim_cnt *priv, int enable)
- 	return regmap_update_bits(priv->regmap, STM32_LPTIM_CFGR, mask, val);
- }
- 
--static int stm32_lptim_write_raw(struct iio_dev *indio_dev,
--				 struct iio_chan_spec const *chan,
--				 int val, int val2, long mask)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--	int ret;
--
--	switch (mask) {
--	case IIO_CHAN_INFO_ENABLE:
--		if (val < 0 || val > 1)
--			return -EINVAL;
--
--		/* Check nobody uses the timer, or already disabled/enabled */
--		ret = stm32_lptim_is_enabled(priv);
--		if ((ret < 0) || (!ret && !val))
--			return ret;
--		if (val && ret)
--			return -EBUSY;
--
--		ret = stm32_lptim_setup(priv, val);
--		if (ret)
--			return ret;
--		return stm32_lptim_set_enable_state(priv, val);
--
--	default:
--		return -EINVAL;
--	}
--}
--
--static int stm32_lptim_read_raw(struct iio_dev *indio_dev,
--				struct iio_chan_spec const *chan,
--				int *val, int *val2, long mask)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--	u32 dat;
--	int ret;
--
--	switch (mask) {
--	case IIO_CHAN_INFO_RAW:
--		ret = regmap_read(priv->regmap, STM32_LPTIM_CNT, &dat);
--		if (ret)
--			return ret;
--		*val = dat;
--		return IIO_VAL_INT;
--
--	case IIO_CHAN_INFO_ENABLE:
--		ret = stm32_lptim_is_enabled(priv);
--		if (ret < 0)
--			return ret;
--		*val = ret;
--		return IIO_VAL_INT;
--
--	case IIO_CHAN_INFO_SCALE:
--		/* Non-quadrature mode: scale = 1 */
--		*val = 1;
--		*val2 = 0;
--		if (priv->quadrature_mode) {
--			/*
--			 * Quadrature encoder mode:
--			 * - both edges, quarter cycle, scale is 0.25
--			 * - either rising/falling edge scale is 0.5
--			 */
--			if (priv->polarity > 1)
--				*val2 = 2;
--			else
--				*val2 = 1;
--		}
--		return IIO_VAL_FRACTIONAL_LOG2;
--
--	default:
--		return -EINVAL;
--	}
--}
--
--static const struct iio_info stm32_lptim_cnt_iio_info = {
--	.read_raw = stm32_lptim_read_raw,
--	.write_raw = stm32_lptim_write_raw,
--};
--
--static const char *const stm32_lptim_quadrature_modes[] = {
--	"non-quadrature",
--	"quadrature",
--};
--
--static int stm32_lptim_get_quadrature_mode(struct iio_dev *indio_dev,
--					   const struct iio_chan_spec *chan)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	return priv->quadrature_mode;
--}
--
--static int stm32_lptim_set_quadrature_mode(struct iio_dev *indio_dev,
--					   const struct iio_chan_spec *chan,
--					   unsigned int type)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	if (stm32_lptim_is_enabled(priv))
--		return -EBUSY;
--
--	priv->quadrature_mode = type;
--
--	return 0;
--}
--
--static const struct iio_enum stm32_lptim_quadrature_mode_en = {
--	.items = stm32_lptim_quadrature_modes,
--	.num_items = ARRAY_SIZE(stm32_lptim_quadrature_modes),
--	.get = stm32_lptim_get_quadrature_mode,
--	.set = stm32_lptim_set_quadrature_mode,
--};
--
--static const char * const stm32_lptim_cnt_polarity[] = {
--	"rising-edge", "falling-edge", "both-edges",
--};
--
--static int stm32_lptim_cnt_get_polarity(struct iio_dev *indio_dev,
--					const struct iio_chan_spec *chan)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	return priv->polarity;
--}
--
--static int stm32_lptim_cnt_set_polarity(struct iio_dev *indio_dev,
--					const struct iio_chan_spec *chan,
--					unsigned int type)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	if (stm32_lptim_is_enabled(priv))
--		return -EBUSY;
--
--	priv->polarity = type;
--
--	return 0;
--}
--
--static const struct iio_enum stm32_lptim_cnt_polarity_en = {
--	.items = stm32_lptim_cnt_polarity,
--	.num_items = ARRAY_SIZE(stm32_lptim_cnt_polarity),
--	.get = stm32_lptim_cnt_get_polarity,
--	.set = stm32_lptim_cnt_set_polarity,
--};
--
--static ssize_t stm32_lptim_cnt_get_ceiling(struct stm32_lptim_cnt *priv,
--					   char *buf)
--{
--	return snprintf(buf, PAGE_SIZE, "%u\n", priv->ceiling);
--}
--
--static ssize_t stm32_lptim_cnt_set_ceiling(struct stm32_lptim_cnt *priv,
--					   const char *buf, size_t len)
--{
--	int ret;
--
--	if (stm32_lptim_is_enabled(priv))
--		return -EBUSY;
--
--	ret = kstrtouint(buf, 0, &priv->ceiling);
--	if (ret)
--		return ret;
--
--	if (priv->ceiling > STM32_LPTIM_MAX_ARR)
--		return -EINVAL;
--
--	return len;
--}
--
--static ssize_t stm32_lptim_cnt_get_preset_iio(struct iio_dev *indio_dev,
--					      uintptr_t private,
--					      const struct iio_chan_spec *chan,
--					      char *buf)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	return stm32_lptim_cnt_get_ceiling(priv, buf);
--}
--
--static ssize_t stm32_lptim_cnt_set_preset_iio(struct iio_dev *indio_dev,
--					      uintptr_t private,
--					      const struct iio_chan_spec *chan,
--					      const char *buf, size_t len)
--{
--	struct stm32_lptim_cnt *priv = iio_priv(indio_dev);
--
--	return stm32_lptim_cnt_set_ceiling(priv, buf, len);
--}
--
--/* LP timer with encoder */
--static const struct iio_chan_spec_ext_info stm32_lptim_enc_ext_info[] = {
--	{
--		.name = "preset",
--		.shared = IIO_SEPARATE,
--		.read = stm32_lptim_cnt_get_preset_iio,
--		.write = stm32_lptim_cnt_set_preset_iio,
--	},
--	IIO_ENUM("polarity", IIO_SEPARATE, &stm32_lptim_cnt_polarity_en),
--	IIO_ENUM_AVAILABLE("polarity", &stm32_lptim_cnt_polarity_en),
--	IIO_ENUM("quadrature_mode", IIO_SEPARATE,
--		 &stm32_lptim_quadrature_mode_en),
--	IIO_ENUM_AVAILABLE("quadrature_mode", &stm32_lptim_quadrature_mode_en),
--	{}
--};
--
--static const struct iio_chan_spec stm32_lptim_enc_channels = {
--	.type = IIO_COUNT,
--	.channel = 0,
--	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
--			      BIT(IIO_CHAN_INFO_ENABLE) |
--			      BIT(IIO_CHAN_INFO_SCALE),
--	.ext_info = stm32_lptim_enc_ext_info,
--	.indexed = 1,
--};
--
--/* LP timer without encoder (counter only) */
--static const struct iio_chan_spec_ext_info stm32_lptim_cnt_ext_info[] = {
--	{
--		.name = "preset",
--		.shared = IIO_SEPARATE,
--		.read = stm32_lptim_cnt_get_preset_iio,
--		.write = stm32_lptim_cnt_set_preset_iio,
--	},
--	IIO_ENUM("polarity", IIO_SEPARATE, &stm32_lptim_cnt_polarity_en),
--	IIO_ENUM_AVAILABLE("polarity", &stm32_lptim_cnt_polarity_en),
--	{}
--};
--
--static const struct iio_chan_spec stm32_lptim_cnt_channels = {
--	.type = IIO_COUNT,
--	.channel = 0,
--	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
--			      BIT(IIO_CHAN_INFO_ENABLE) |
--			      BIT(IIO_CHAN_INFO_SCALE),
--	.ext_info = stm32_lptim_cnt_ext_info,
--	.indexed = 1,
--};
--
- /**
-  * enum stm32_lptim_cnt_function - enumerates LPTimer counter & encoder modes
-  * @STM32_LPTIM_COUNTER_INCREASE: up count on IN1 rising, falling or both edges
-  * @STM32_LPTIM_ENCODER_BOTH_EDGE: count on both edges (IN1 & IN2 quadrature)
-+ *
-+ * In non-quadrature mode, device counts up on active edge.
-+ * In quadrature mode, encoder counting scenarios are as follows:
-+ * +---------+----------+--------------------+--------------------+
-+ * | Active  | Level on |      IN1 signal    |     IN2 signal     |
-+ * | edge    | opposite +----------+---------+----------+---------+
-+ * |         | signal   |  Rising  | Falling |  Rising  | Falling |
-+ * +---------+----------+----------+---------+----------+---------+
-+ * | Rising  | High ->  |   Down   |    -    |   Up     |    -    |
-+ * | edge    | Low  ->  |   Up     |    -    |   Down   |    -    |
-+ * +---------+----------+----------+---------+----------+---------+
-+ * | Falling | High ->  |    -     |   Up    |    -     |   Down  |
-+ * | edge    | Low  ->  |    -     |   Down  |    -     |   Up    |
-+ * +---------+----------+----------+---------+----------+---------+
-+ * | Both    | High ->  |   Down   |   Up    |   Up     |   Down  |
-+ * | edges   | Low  ->  |   Up     |   Down  |   Down   |   Up    |
-+ * +---------+----------+----------+---------+----------+---------+
-  */
- enum stm32_lptim_cnt_function {
- 	STM32_LPTIM_COUNTER_INCREASE,
-@@ -484,7 +262,7 @@ static ssize_t stm32_lptim_cnt_ceiling_read(struct counter_device *counter,
- {
- 	struct stm32_lptim_cnt *const priv = counter->priv;
- 
--	return stm32_lptim_cnt_get_ceiling(priv, buf);
-+	return snprintf(buf, PAGE_SIZE, "%u\n", priv->ceiling);
- }
- 
- static ssize_t stm32_lptim_cnt_ceiling_write(struct counter_device *counter,
-@@ -493,8 +271,22 @@ static ssize_t stm32_lptim_cnt_ceiling_write(struct counter_device *counter,
- 					     const char *buf, size_t len)
- {
- 	struct stm32_lptim_cnt *const priv = counter->priv;
-+	unsigned int ceiling;
-+	int ret;
-+
-+	if (stm32_lptim_is_enabled(priv))
-+		return -EBUSY;
-+
-+	ret = kstrtouint(buf, 0, &ceiling);
-+	if (ret)
-+		return ret;
-+
-+	if (ceiling > STM32_LPTIM_MAX_ARR)
-+		return -EINVAL;
-+
-+	priv->ceiling = ceiling;
- 
--	return stm32_lptim_cnt_set_ceiling(priv, buf, len);
-+	return len;
- }
- 
- static const struct counter_count_ext stm32_lptim_cnt_ext[] = {
-@@ -630,32 +422,19 @@ static int stm32_lptim_cnt_probe(struct platform_device *pdev)
- {
- 	struct stm32_lptimer *ddata = dev_get_drvdata(pdev->dev.parent);
- 	struct stm32_lptim_cnt *priv;
--	struct iio_dev *indio_dev;
--	int ret;
- 
- 	if (IS_ERR_OR_NULL(ddata))
- 		return -EINVAL;
- 
--	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*priv));
--	if (!indio_dev)
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
- 		return -ENOMEM;
- 
--	priv = iio_priv(indio_dev);
- 	priv->dev = &pdev->dev;
- 	priv->regmap = ddata->regmap;
- 	priv->clk = ddata->clk;
- 	priv->ceiling = STM32_LPTIM_MAX_ARR;
- 
--	/* Initialize IIO device */
--	indio_dev->name = dev_name(&pdev->dev);
--	indio_dev->dev.of_node = pdev->dev.of_node;
--	indio_dev->info = &stm32_lptim_cnt_iio_info;
--	if (ddata->has_encoder)
--		indio_dev->channels = &stm32_lptim_enc_channels;
--	else
--		indio_dev->channels = &stm32_lptim_cnt_channels;
--	indio_dev->num_channels = 1;
--
- 	/* Initialize Counter device */
- 	priv->counter.name = dev_name(&pdev->dev);
- 	priv->counter.parent = &pdev->dev;
-@@ -673,10 +452,6 @@ static int stm32_lptim_cnt_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, priv);
- 
--	ret = devm_iio_device_register(&pdev->dev, indio_dev);
--	if (ret)
--		return ret;
--
- 	return devm_counter_register(&pdev->dev, &priv->counter);
- }
- 
--- 
-2.7.4
-
+Reviewed-by: David Ahern <dsahern@kernel.org>
