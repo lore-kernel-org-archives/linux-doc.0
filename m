@@ -4,60 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F7FC433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 657CFC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:44:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F10F239EE
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:35:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11688223C8
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbhAVBfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 20:35:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55072 "EHLO
+        id S1726564AbhAVBnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 20:43:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbhAVBfV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 20:35:21 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B847AC06174A
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:34:40 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id m5so2824571pjv.5
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:34:40 -0800 (PST)
+        with ESMTP id S1726560AbhAVBnm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 20:43:42 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4329C0613D6
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:43:01 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id q20so2659700pfu.8
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=J3zUPc3/QcY2myKFIxXj5SI3ce2GEipGTyEZDOPm3Z0=;
-        b=fDlBOFIQ1ZnIVITy+QSWWFAgO/YYu9cZvfCQeBRQWNapdMdNMFUSRhiuMZPLC3UJ8d
-         L3lnVtSYU9/1oToby46J2Cw0y+z9UPOfzmw/DJKKR/8CdR4L2LPivctZvjXtuIhsqzx8
-         +Az0FIzLer9VTAgpYLKXVKCQ8+6ELlpXrDVmfmj8F4u7wmj8xQ4/DrB9Xip0qJcolohq
-         biILhYvr0lMgqw6d2tEv4qLaAQFqlShtNx5Jt11TC9qiqvlfdfQF0a0jkMFngmFiwfin
-         017QeCZdJRcIJao6QzHFCOkFNuF62eHAIfmsvRpgRZ8edinalxw4u7/eEnUPRH8uhuFR
-         CcZQ==
+        bh=JHmsyWW/3ORqzCCxIgYU3HZ6BJYN5rvOhQgY5Vhnihs=;
+        b=Cn+/rff9XjSf2PVRZ9I1XCBKIEto0f9KuoUnZTnmqqD1QOlEhW9ZnZite85Ce738Wi
+         8tocw6/MX2KaI+LYQUBK+8KNwsMiya4AOtiAzmjUNZCcjnW+pXKesWB7j7oaqfA8fmPn
+         f5q6fZzknZHyEX/A3sV1Q8bl3TaHZeOaxDmwfwOoSyMGENEcreRpMKO4hR8qNAZdyEN+
+         Nlzqmhi+G9ajLzflu/7YuqZZ8AIxDh7OgmCKeK0onxi5FroP4jZNtoUqnSGO6iZu/VWj
+         B/uvlnOmQJ1KmO8gg4jWUSWeN2NiBYX4wtlWKHETI+zFZPGwsA/PmAG6t9Qd1MXUNWsq
+         vlJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=J3zUPc3/QcY2myKFIxXj5SI3ce2GEipGTyEZDOPm3Z0=;
-        b=pp3c+XZU1qS8E1LR7daPXIyCtX7LeYjcBKE8P1cjsGKMn2KzzHZs2fXv256tSDQwlV
-         TfoAx88/PuWzbentAEH0uY8TLDS+Pz6YIZVwkacWtaUWsOm3exDfsA+sDImHWSfOaQOq
-         a4sFzAt1QHfgmywhoWbVIyX/sskyojyt4S5IowV1cjAdJ7TzpYEHuGkTfuDFOGGElkUd
-         OX94tchws0Ow/TA/O/tJx043z03L8VNxWA1BHEcudl3nqG+jenjgO+/wFptOpmqlalBK
-         S1mv2axzNaOKCI2/hQzd4YHy4GYwvd/wrSnJP2IYWF7Jk1rKQjJdRmtpQjR9sWC4gHVt
-         gM/g==
-X-Gm-Message-State: AOAM531mX2G75hN/avuaYFBfF0UGvTODBSkVlhi1uYJj9OhpU5hyr1NY
-        8XTfLVX55/4mG3129t1Z5cCYwpcqFyzWAj31JPYkMg==
-X-Google-Smtp-Source: ABdhPJymYGUU8oGmr6qrmeZ9fqTCbSmRgNuSYGskKCO6E7NWrPXmrTdbVqmTHt695NI72UklVVgWfgD4zTJtiM2zlik=
-X-Received: by 2002:a17:90b:228f:: with SMTP id kx15mr2605248pjb.32.1611279280043;
- Thu, 21 Jan 2021 17:34:40 -0800 (PST)
+        bh=JHmsyWW/3ORqzCCxIgYU3HZ6BJYN5rvOhQgY5Vhnihs=;
+        b=O2EVr4auK+tBElVMXivdBqW6V49qS6zgLy02JdjJzt5zdPkafPxm1N/Sbo7/Ya/kV7
+         cxYEd/GnVc9vtd6FHSiQ7x7EI7ZGTAyNWVpNftsLTzs/RKT0L7yXU1HIRg87Vh7mxsUT
+         z15Iwr0YJyYMTijOC00/SfPnDocfC4PicZZA49jdWw7Z0GELwfMBBitRYDJ1iTX5TVfy
+         44UIKBm7eyPj/RFnalUgd+lzE68ktpq7tnkO0fO1ff+rb+0Rz8Tg10eD9YM0/LrkB+/5
+         Co45dBbBmvVLWf/XWYJbecwB1lJVKuJwvwLh7UcoLRukVZI/iLn1LNNMMQtv/2sT1dRg
+         ubwQ==
+X-Gm-Message-State: AOAM530m5HX11SXB1HcvClA0Nby3cQg3x6fCFChRQ5TOTkrRvjwwWjlr
+        E2M/5lVKImL23kXmuClfgGOPq1knIl5fNbyBxaD+BA==
+X-Google-Smtp-Source: ABdhPJzJ1LehAQj3g0Au/DgMI3UZP7gu00iy/KoX+nhTCsE9nhsnY2k0RFL9OMEBX0CuzoXmdzNFrF1liYbS5euVww4=
+X-Received: by 2002:a62:7896:0:b029:1b6:7319:52a7 with SMTP id
+ t144-20020a6278960000b02901b6731952a7mr2450111pfc.30.1611279780913; Thu, 21
+ Jan 2021 17:43:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20210111081821.3041587-1-morbo@google.com> <CA+icZUW63tP7kzWCKofJH0E0xA7yLCYpSOYz_aw1D4mkhNhW=w@mail.gmail.com>
-In-Reply-To: <CA+icZUW63tP7kzWCKofJH0E0xA7yLCYpSOYz_aw1D4mkhNhW=w@mail.gmail.com>
+References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
+ <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
+ <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
+ <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
+ <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
+ <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
+ <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
+ <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
+ <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
+ <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
+ <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
+ <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
+ <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
+ <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
+ <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
+ <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
+ <CAGG=3QUcaY1wzJhBD4ZGhPSNPik-kL0PuoE1SJqkFJEM_mkGYA@mail.gmail.com> <CA+icZUU+OWW46CVq4Co-y7hckGjoV5bbqxS-G+HDqUDci_AzHw@mail.gmail.com>
+In-Reply-To: <CA+icZUU+OWW46CVq4Co-y7hckGjoV5bbqxS-G+HDqUDci_AzHw@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 21 Jan 2021 17:34:29 -0800
-Message-ID: <CAKwvOd==OfKHKzhWVGAQs5bFJ9qSbm8WRkX7qDF+FQd-p1gdNQ@mail.gmail.com>
-Subject: Re: [PATCH] pgo: add clang's Profile Guided Optimization infrastructure
+Date:   Thu, 21 Jan 2021 17:42:49 -0800
+Message-ID: <CAKwvOdkOOjDo+zFFz_T63FphZn2Lg7MW8vd7qd-yS_eB_yYdmA@mail.gmail.com>
+Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
 To:     Sedat Dilek <sedat.dilek@gmail.com>
 Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -67,40 +84,129 @@ Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
         Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>
+        Sami Tolvanen <samitolvanen@google.com>,
+        Fangrui Song <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 6:21 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+On Wed, Jan 20, 2021 at 6:03 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> Hi,
+> On Mon, Jan 18, 2021 at 10:56 PM Bill Wendling <morbo@google.com> wrote:
+> >
+> > On Mon, Jan 18, 2021 at 9:26 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > >
+> > > On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > >
+> > > > On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
+> > > > >
+> > > > > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > > > >
+> > > > > > [ big snip ]
+> > > > >
+> > > > > [More snippage.]
+> > > > >
+> > > > > > [ CC Fangrui ]
+> > > > > >
+> > > > > > With the attached...
+> > > > > >
+> > > > > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
+> > > > > > undefined symbols
+> > > > > >
+> > > > > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
+> > > > > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
+> > > > > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
+> > > > > >
+> > > > > Thanks for confirming that this works with the above patch.
+> > > > >
+> > > > > > @ Bill Nick Sami Nathan
+> > > > > >
+> > > > > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
+> > > > >
+> > > > > The integrated assembler and this option are more-or-less orthogonal
+> > > > > to each other. One can still use the GNU assembler with PGO. If you're
+> > > > > having an issue, it may be related to ClangBuiltLinux issue #1250.
+> > > > >
+> > > > > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
+> > > > > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
+> > > > > >
+> > > > > I know Nick did several tests with PGO. He may have looked into it
+> > > > > already, but we can check.
+> > > > >
+> > > >
+> > > > Reproducible.
+> > > >
+> > > > LLVM_IAS=1 + DWARF5 = Not bootable
+> > > >
+> > > > I will try:
+> > > >
+> > > > LLVM_IAS=1 + DWARF4
+> > > >
+> > >
+> > > I was not able to boot into such a built Linux-kernel.
+> > >
+> > PGO will have no effect on debugging data. If this is an issue with
+> > DWARF, then it's likely orthogonal to the PGO patch.
+> >
+> > > For me worked: DWARF2 and LLVM_IAS=1 *not* set.
+> > >
+> > > Of course, this could be an issue with my system's LLVM/Clang.
+> > >
+> > > Debian clang version
+> > > 12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
+> > >
+> > Please use the official clang 11.0.1 release
+> > (https://releases.llvm.org/download.html), modifying the
+> > kernel/pgo/Kconfig as I suggested above. The reason we specify clang
+> > 12 for the minimal version is because of an issue that was recently
+> > fixed.
+> >
 >
-> When I looked through the code I wondered why we do not add a
-> "CONFIG_PGO_CLANG_PROFDATA" which can be helpful when doing the PGO
-> rebuild with a vmlinux.profdata.
+> I downgraded to clang-11.1.0-rc1.
+> ( See attachment. )
 >
-> This introduces a "PGO_PROFDATA" to turn on/off to pass
-> "-fprofile-use=vmlinux.profdata" (see CFLAGS_PGO_CLANG_PROFDATA in
-> top-level Makefile).
+> Doing the first build with PGO enabled plus DWARF5 and LLVM_IAS=1 works.
 >
-> If we turn off via "PGO_PROFILE := n" in several Makefiles - we should
-> do the same and add "PGO_PROFDATA := n" to the same Makefiles?
+> But again after generating vmlinux.profdata and doing the PGO-rebuild
+> - the resulting Linux-kernel does NOT boot in QEMU or on bare metal.
+> With GNU/as I can boot.
 >
-> Please see the attached diff.
+> So this is independent of DWARF v4 or DWARF v5 (LLVM_IAS=1 and DWARF
+> v2 is not allowed).
+> There is something wrong (here) with passing LLVM_IAS=1 to make when
+> doing the PGO-rebuild.
+>
+> Can someone please verify and confirm that the PGO-rebuild with
+> LLVM_IAS=1 boots or boots not?
 
-This is a good idea; something that I brought up in initial code
-review (on github).  Would it be ok with you to land the core first,
-then follow up with this suggestion?
+I was able to build+boot with LLVM_IAS=1 on my personal laptop (no
+dwarf 5, just mainline+v5).
 
-Also, AutoFDO production builds are so incredibly similar to PGO
-builds that I could see a possible path forward:
-1. land PGO upstream
-2. adds docs for AutoFDO
-3. consider a config for hardcoding the location of the profiling data
-so that we don't need to specify it at the command line invocation of
-make.
+>
+> Thanks.
+>
+> - Sedat -
+>
+> > > Can you give me a LLVM commit-id where you had success with LLVM_IAS=1
+> > > and especially CONFIG_DEBUG_INFO_DWARF5=y?
+> > > Success means I was able to boot in QEMU and/or bare metal.
+> > >
+> > The DWARF5 patch isn't in yet, so I don't want to rely upon it too much.
+
+I agree, providing test results with patches that haven't landed yet
+can cloud the interpretation of results.  It would be helpful to drop
+local patch sets before trying this.
+
+If the resulting image still isn't working for you, can you please
+provide your config? Surely we'd be able to reproduce boot failures in
+QEMU?  Nothing comes to mind about a change of assemblers causing an
+issue; I would assume assembly cannot be instrumented by the compiler
+(even though the compiler is the "driver" of the assembler).
+
+The hash warnings are certainly curious.
+IndexedInstrProfReader::getInstrProfRecord() is the only place in LLVM
+sources that can emit that.
 -- 
 Thanks,
 ~Nick Desaulniers
