@@ -2,73 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA97DC433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 11:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4F0C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 14:11:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 981F22376F
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 11:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81DFF23ACA
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 14:11:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbhAVLz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 06:55:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53314 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728007AbhAVK7y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:59:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 621152246B;
-        Fri, 22 Jan 2021 10:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611313153;
-        bh=ToPFueIhXgEfx/oW5tXGyVwgF7YBY5yyAHNHMR2G0xU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=SyOhdn1Yxd69mDdaLrB5sZIcPLIJjXbcgQmJ7omvyscplZvo0hHGcvdHrYBENuRZH
-         cl74KtomsfjD/FAapiELLsd8h2QqHcGOnDc/TSZIJWI+0aMbuF24YnqY+QwXEoyppo
-         CKYbuBnObOvbzXH2OPHZmakfFEC+ODood3iPHVHbRFhDdSSVMyEWjqBIegj9o7qhkj
-         j1hOHJAoovJkbJeZr7/EBbE+8crdHrIBSEPLO+Xba37PkLcR5jwTj9d5FytG3pKML0
-         6ykHKEnZx0GSKoI79a5TqOUft8kSao/33ZHmS+EaWKzSVMYUXEm5I2mCmZWdTmajVp
-         lasGnkCo8O3Xw==
-Date:   Fri, 22 Jan 2021 11:59:09 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 0/2] Documentation: livepatch: Document reliable
- stacktrace and minor cleanup
-In-Reply-To: <20210121115226.565790ef@lwn.net>
-Message-ID: <nycvar.YFH.7.76.2101221158450.5622@cbobk.fhfr.pm>
-References: <20210120164714.16581-1-broonie@kernel.org> <20210121115226.565790ef@lwn.net>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1728302AbhAVOLA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 09:11:00 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:51656 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728141AbhAVOKQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 09:10:16 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10ME8IVL110496;
+        Fri, 22 Jan 2021 08:08:18 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1611324498;
+        bh=w4XabDkfYqLlpKtLwnIUmLYMQ/z5aYMl+m+dHwL0v8k=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=u3V0pMykhDgUZEJa1Dcxg7xSweOtPYaboOkgMlSYxfAinatt5Oumasnh9sDmrscyD
+         uJRTD05gzPBqiXEEVQaNGdciyLVlGgxgDeRxc8nVP+Gx1pPXXVVZodT449HRngtfSP
+         dv6EFYD+Akzg0V91ILj+8qnfcnpgdsY38Uib4G1A=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10ME8I6e072597
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 22 Jan 2021 08:08:18 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 22
+ Jan 2021 08:08:18 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 22 Jan 2021 08:08:18 -0600
+Received: from [10.250.235.36] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10ME8BrS073625;
+        Fri, 22 Jan 2021 08:08:13 -0600
+Subject: Re: [PATCH v9 17/17] Documentation: PCI: Add userguide for PCI
+ endpoint NTB function
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, Jon Mason <jdmason@kudzu.us>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Allen Hubbe <allenbh@gmail.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-ntb@googlegroups.com>
+References: <20210119181852.GA2495234@bjorn-Precision-5520>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <809ab02c-8cc2-86ea-0524-b9350d38c684@ti.com>
+Date:   Fri, 22 Jan 2021 19:38:11 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210119181852.GA2495234@bjorn-Precision-5520>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Jan 2021, Jonathan Corbet wrote:
+Hi Bjorn,
 
-> > This series adds a document, mainly written by Mark Rutland, which 
-> > makes explicit the requirements for implementing reliable stacktrace 
-> > in order to aid architectures adding this feature.  It also updates 
-> > the other livepatching documents to use automatically generated tables 
-> > of contents following review comments on Mark's document.
+On 20/01/21 12:04 am, Bjorn Helgaas wrote:
+> On Mon, Jan 04, 2021 at 08:59:09PM +0530, Kishon Vijay Abraham I wrote:
+>> Add documentation to help users use pci-epf-ntb function driver and
+>> existing host side NTB infrastructure for NTB functionality.
+>>
+>> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>>  Documentation/PCI/endpoint/index.rst         |   1 +
+>>  Documentation/PCI/endpoint/pci-ntb-howto.rst | 160 +++++++++++++++++++
+>>  2 files changed, 161 insertions(+)
+>>  create mode 100644 Documentation/PCI/endpoint/pci-ntb-howto.rst
+>>
+>> diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
+>> index 9cb6e5f3c4d5..38ea1f604b6d 100644
+>> --- a/Documentation/PCI/endpoint/index.rst
+>> +++ b/Documentation/PCI/endpoint/index.rst
+>> @@ -12,6 +12,7 @@ PCI Endpoint Framework
+>>     pci-test-function
+>>     pci-test-howto
+>>     pci-ntb-function
+>> +   pci-ntb-howto
+>>  
+>>     function/binding/pci-test
+>>     function/binding/pci-ntb
+>> diff --git a/Documentation/PCI/endpoint/pci-ntb-howto.rst b/Documentation/PCI/endpoint/pci-ntb-howto.rst
+>> new file mode 100644
+>> index 000000000000..b6e1073c9a39
+>> --- /dev/null
+>> +++ b/Documentation/PCI/endpoint/pci-ntb-howto.rst
+>> @@ -0,0 +1,160 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +===================================================================
+>> +PCI Non-Transparent Bridge (NTB) Endpoint Function (EPF) User Guide
+>> +===================================================================
+>> +
+>> +:Author: Kishon Vijay Abraham I <kishon@ti.com>
+>> +
+>> +This document is a guide to help users use pci-epf-ntb function driver
+>> +and ntb_hw_epf host driver for NTB functionality. The list of steps to
+>> +be followed in the host side and EP side is given below. For the hardware
+>> +configuration and internals of NTB using configurable endpoints see
+>> +Documentation/PCI/endpoint/pci-ntb-function.rst
+>> +
+>> +Endpoint Device
+>> +===============
+>> +
+>> +Endpoint Controller Devices
+>> +---------------------------
+>> +
+>> +For implementing NTB functionality at least two endpoint controller devices
+>> +are required.
+>> +To find the list of endpoint controller devices in the system::
 > 
-> So...is this deemed ready and, if so, do you want it to go through the
-> docs tree or via some other path?
+> Is the above one paragraph or two?  Reflow or add blank line as
+> appropriate.
 
-I am planning to take it through livepatching tree unless there are any 
-additional last-minutes comments.
+I'll add blank line above.
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Thanks
+Kishon
