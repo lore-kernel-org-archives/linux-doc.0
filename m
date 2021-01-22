@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8907C433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16256C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79C8B2388E
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF5BF2310A
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726743AbhAVDjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 22:39:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
+        id S1726760AbhAVDjS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 22:39:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726558AbhAVDic (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 22:38:32 -0500
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD1DC0613D6
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:52 -0800 (PST)
-Received: by mail-qv1-xf2f.google.com with SMTP id p5so2064083qvs.7
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:51 -0800 (PST)
+        with ESMTP id S1726735AbhAVDjQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 22:39:16 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFCD6C06178B
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:54 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id et9so2056771qvb.10
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=s59E/cH9Xmao+Y2rx3RINlo8VopyJ3wMUgW5EvdtGvw=;
-        b=mNjhvDvjEkATdmskggRHup5d3H9JzG+r0qK364cL39sHDm2qaVZAcThgxKFCK82fPK
-         HQHdB9Z+5xCT2S5q1h1fgHMC+U0wsezhUCY0yOcCUv6rgUsef2J3v/XLlciexWYep5Uy
-         wzQrqX2llQB9pC/zjmlqxUhy12YJUy081cZTE4uRp3ruyIvP/sO0X6QoXY3mLIfOywtS
-         FF8uwZ5F9Jl0wEuRabr+MShRRJFVY447nySO64CfCmdJQLx2UpsM2AL2Ps4WP0avu49h
-         iuzv1hYnmazOFEEuvbvC1bLgf+WmHXEbrKm8OcF0Iy5QrdFfE7quvkVsB8v8pHAgLImk
-         Y0fA==
+        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
+        b=kKgsB2CQMHOXl6l4NnSGe5x8rJ4GzuUTC3QLnAnOxmRV0udPKbmjL7p062AkZS+UCQ
+         JcFrcD6L7/q73D/9wTk2YqO/vgoufj9Qa9bYBPIQoAu3t4yWiex9dJrxPnF4uDSSO2at
+         r9kSbRoCXe+tdVibOB+fj048K9bjDmhsiqV7D96BW/Vzyq249oTbL9IcKkm5ob33YPoF
+         2LzFnR+tc1D+48ee4eifMemr6sbdymyI2uThLeEqDMxj5NyQhiQ1bvUKK2eO4wJyYbJC
+         LCUVZ1Ky9Cd0Q42m03lWChpT0eTIJtz/jqmfzggmxWTb5aeDoSMBTATbFpGytRbkLjCX
+         rTkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=s59E/cH9Xmao+Y2rx3RINlo8VopyJ3wMUgW5EvdtGvw=;
-        b=WsM0XiRHzVRUc9ivcGY9pfPHnHhulsbJiIbCkyO52Pya1eMMxUNQwDBmXz4i91i2oR
-         m37ikIc9s0CIS6Qf3CLDTZ+4x6fZ8+tji8Xnb24GUFu2bnFx+8TOPNUTB2bCmCxWCWWc
-         s6U62mNjViPRNn5Oml7sBQ3O8t8O3AD6tGSrsbbBEv4RV6AdFbUwZ2bsDSYFn9cPF/xi
-         E/cMMnbgQZTpqH7/vyfZCZkDHoTT7ptq0IHL9Nrx5/TN5X5xSGsbXcuKRRLoo4Hm/F0I
-         iRvxvbNhQgg6V7RD4bwv7IXzZrXOayQwlv3dweb2m0lUsVRd5KRjUo9cCuU/PEBhP+/Q
-         eHJA==
-X-Gm-Message-State: AOAM531qRCoDk8/sJzVq2lW85cjAH5ym/sQo6qZr60g6AFmULZbj667A
-        v6YmjLyuHif84v2Rjsi6SypHIw==
-X-Google-Smtp-Source: ABdhPJyL8MCvrzf3tavJE/2tM5z/Rcf6OM6sGOFEL2JaxzeltSw5Sv7EKR4Axm12m2FhAxcq5h/xUQ==
-X-Received: by 2002:a0c:eed3:: with SMTP id h19mr2816820qvs.18.1611286670609;
-        Thu, 21 Jan 2021 19:37:50 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
+        b=UcUyYtgVmoZuuSCg+g7AwZNnijlZ6pSmIlyjGfRL950JJxtUicDU4wOOLX/2XxZcjX
+         HXMg/fHYAkHv0ji0w5KxbN1ITH8rYgCGwFRaqJzEiV4e0jEmawDIV2eiuQ+idtbsZMuG
+         Uwzblp4G4WCOgqmpCSo/47uXgOx4nfEbFKudIo5h6ix7PVm10JHmP77Tz7ieiW0kIPod
+         kCaHDqBofHSlBM1MUIArNjcCZeUgUJ6gZaj9BrAGrczIl8tWZlVvR1vt3t3wEYjw786c
+         byLB7hipmBJ/KENNmJQ5z0mIjF0NySkx1fcimExGscjqZNDAXa1avswQMt2FLXOkNGm5
+         EwIA==
+X-Gm-Message-State: AOAM532IXzbSlq1ymuHqTGX53Z7ha9FRbU6PPtpMh6qatYp9WWjGIzxo
+        1gmNgtyPdK9gK9sJh4g4jvArNA==
+X-Google-Smtp-Source: ABdhPJxJMTjOenw+ATUsYhJ69O1yDrSPh4E8jsUEN0YT/PTJgh1bDXApROmgNCBkQbpkcliCDZ1x0Q==
+X-Received: by 2002:a05:6214:4e2:: with SMTP id cl2mr2601023qvb.27.1611286673934;
+        Thu, 21 Jan 2021 19:37:53 -0800 (PST)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id m85sm5426529qke.33.2021.01.21.19.37.48
+        by smtp.gmail.com with ESMTPSA id m85sm5426529qke.33.2021.01.21.19.37.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 19:37:49 -0800 (PST)
+        Thu, 21 Jan 2021 19:37:53 -0800 (PST)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -66,141 +66,90 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org, ira.weiny@intel.com,
         linux-kselftest@vger.kernel.org
-Subject: [PATCH v7 00/14] prohibit pinning pages in ZONE_MOVABLE
-Date:   Thu, 21 Jan 2021 22:37:34 -0500
-Message-Id: <20210122033748.924330-1-pasha.tatashin@soleen.com>
+Subject: [PATCH v7 02/14] mm/gup: check every subpage of a compound page during isolation
+Date:   Thu, 21 Jan 2021 22:37:36 -0500
+Message-Id: <20210122033748.924330-3-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210122033748.924330-1-pasha.tatashin@soleen.com>
+References: <20210122033748.924330-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changelog
----------
-v7
-- Added reviewed-by's
-- Fixed a compile bug on non-mmu builds reported by robot
+When pages are isolated in check_and_migrate_movable_pages() we skip
+compound number of pages at a time. However, as Jason noted, it is
+not necessary correct that pages[i] corresponds to the pages that
+we skipped. This is because it is possible that the addresses in
+this range had split_huge_pmd()/split_huge_pud(), and these functions
+do not update the compound page metadata.
 
-v6
-  Small update, but I wanted to send it out quicker, as it removes a
-  controversial patch and replaces it with something sane.
-- Removed forcing FOLL_WRITE for longterm gup, instead added a patch to
-  skip zero pages during migration.
-- Added reviewed-by's and minor log changes.
+The problem can be reproduced if something like this occurs:
 
-v5
-- Added the following patches to the beginning of series, which are fixes
-   to the other existing problems with CMA migration code:
-	mm/gup: check every subpage of a compound page during isolation
-	mm/gup: return an error on migration failure
-	mm/gup: check for isolation errors also at the beginning of series
-	mm/gup: do not allow zero page for pinned pages
-- remove .gfp_mask/.reclaim_idx changes from mm/vmscan.c
-- update movable zone header comment in patch 8 instead of patch 3, fix
-  the comment
-- Added acked, sign-offs
-- Updated commit logs based on feedback
-- Addressed issues reported by Michal and Jason.
-- Remove:
-	#define PINNABLE_MIGRATE_MAX	10
-	#define PINNABLE_ISOLATE_MAX	100
-   Instead: fail on the first migration failure, and retry isolation
-   forever as their failures are transient.
+1. User faulted huge pages.
+2. split_huge_pmd() was called for some reason
+3. User has unmapped some sub-pages in the range
+4. User tries to longterm pin the addresses.
 
-- In self-set addressed some of the comments from John Hubbard, updated
-  commit logs, and added comments. Renamed gup->flags with gup->test_flags.
+The resulting pages[i] might end-up having pages which are not compound
+size page aligned.
 
-v4
-- Address page migration comments. New patch:
-  mm/gup: limit number of gup migration failures, honor failures
-  Implements the limiting number of retries for migration failures, and
-  also check for isolation failures.
-  Added a test case into gup_test to verify that pages never long-term
-  pinned in a movable zone, and also added tests to fault both in kernel
-  and in userland.
-v3
-- Merged with linux-next, which contains clean-up patch from Jason,
-  therefore this series is reduced by two patches which did the same
-  thing.
-v2
-- Addressed all review comments
-- Added Reviewed-by's.
-- Renamed PF_MEMALLOC_NOMOVABLE to PF_MEMALLOC_PIN
-- Added is_pinnable_page() to check if page can be longterm pinned
-- Fixed gup fast path by checking is_in_pinnable_zone()
-- rename cma_page_list to movable_page_list
-- add a admin-guide note about handling pinned pages in ZONE_MOVABLE,
-  updated caveat about pinned pages from linux/mmzone.h
-- Move current_gfp_context() to fast-path
+Fixes: aa712399c1e8 ("mm/gup: speed up check_and_migrate_cma_pages() on huge page")
+Reported-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ mm/gup.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
----------
-When page is pinned it cannot be moved and its physical address stays
-the same until pages is unpinned.
-
-This is useful functionality to allows userland to implementation DMA
-access. For example, it is used by vfio in vfio_pin_pages().
-
-However, this functionality breaks memory hotplug/hotremove assumptions
-that pages in ZONE_MOVABLE can always be migrated.
-
-This patch series fixes this issue by forcing new allocations during
-page pinning to omit ZONE_MOVABLE, and also to migrate any existing
-pages from ZONE_MOVABLE during pinning.
-
-It uses the same scheme logic that is currently used by CMA, and extends
-the functionality for all allocations.
-
-For more information read the discussion [1] about this problem.
-[1] https://lore.kernel.org/lkml/CA+CK2bBffHBxjmb9jmSKacm0fJMinyt3Nhk8Nx6iudcQSj80_w@mail.gmail.com
-
-Previous versions:
-v1
-https://lore.kernel.org/lkml/20201202052330.474592-1-pasha.tatashin@soleen.com
-v2
-https://lore.kernel.org/lkml/20201210004335.64634-1-pasha.tatashin@soleen.com
-v3
-https://lore.kernel.org/lkml/20201211202140.396852-1-pasha.tatashin@soleen.com
-v4
-https://lore.kernel.org/lkml/20201217185243.3288048-1-pasha.tatashin@soleen.com
-v5
-https://lore.kernel.org/lkml/20210119043920.155044-1-pasha.tatashin@soleen.com
-v6
-https://lore.kernel.org/lkml/20210120014333.222547-1-pasha.tatashin@soleen.com
-
-
-Pavel Tatashin (14):
-  mm/gup: don't pin migrated cma pages in movable zone
-  mm/gup: check every subpage of a compound page during isolation
-  mm/gup: return an error on migration failure
-  mm/gup: check for isolation errors
-  mm cma: rename PF_MEMALLOC_NOCMA to PF_MEMALLOC_PIN
-  mm: apply per-task gfp constraints in fast path
-  mm: honor PF_MEMALLOC_PIN for all movable pages
-  mm/gup: do not migrate zero page
-  mm/gup: migrate pinned pages out of movable zone
-  memory-hotplug.rst: add a note about ZONE_MOVABLE and page pinning
-  mm/gup: change index type to long as it counts pages
-  mm/gup: longterm pin migration cleanup
-  selftests/vm: test flag is broken
-  selftests/vm: test faulting in kernel, and verify pinnable pages
-
- .../admin-guide/mm/memory-hotplug.rst         |   9 +
- include/linux/migrate.h                       |   1 +
- include/linux/mm.h                            |  11 ++
- include/linux/mmzone.h                        |  13 +-
- include/linux/pgtable.h                       |   3 +-
- include/linux/sched.h                         |   2 +-
- include/linux/sched/mm.h                      |  27 +--
- include/trace/events/migrate.h                |   3 +-
- mm/gup.c                                      | 176 ++++++++----------
- mm/gup_test.c                                 |  29 +--
- mm/gup_test.h                                 |   3 +-
- mm/hugetlb.c                                  |   4 +-
- mm/page_alloc.c                               |  33 ++--
- tools/testing/selftests/vm/gup_test.c         |  36 +++-
- 14 files changed, 191 insertions(+), 159 deletions(-)
-
+diff --git a/mm/gup.c b/mm/gup.c
+index 24f25b1e9103..16f10d5a9eb6 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1556,26 +1556,23 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 					unsigned int gup_flags)
+ {
+ 	unsigned long i;
+-	unsigned long step;
+ 	bool drain_allow = true;
+ 	bool migrate_allow = true;
+ 	LIST_HEAD(cma_page_list);
+ 	long ret = nr_pages;
++	struct page *prev_head, *head;
+ 	struct migration_target_control mtc = {
+ 		.nid = NUMA_NO_NODE,
+ 		.gfp_mask = GFP_USER | __GFP_NOWARN,
+ 	};
+ 
+ check_again:
+-	for (i = 0; i < nr_pages;) {
+-
+-		struct page *head = compound_head(pages[i]);
+-
+-		/*
+-		 * gup may start from a tail page. Advance step by the left
+-		 * part.
+-		 */
+-		step = compound_nr(head) - (pages[i] - head);
++	prev_head = NULL;
++	for (i = 0; i < nr_pages; i++) {
++		head = compound_head(pages[i]);
++		if (head == prev_head)
++			continue;
++		prev_head = head;
+ 		/*
+ 		 * If we get a page from the CMA zone, since we are going to
+ 		 * be pinning these entries, we might as well move them out
+@@ -1599,8 +1596,6 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 				}
+ 			}
+ 		}
+-
+-		i += step;
+ 	}
+ 
+ 	if (!list_empty(&cma_page_list)) {
 -- 
 2.25.1
 
