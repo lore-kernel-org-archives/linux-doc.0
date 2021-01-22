@@ -2,137 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AF5C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC7BEC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:26:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38C6823A54
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:25:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7415023A1E
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:26:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbhAVBYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 20:24:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49225 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725275AbhAVBYt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 20:24:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611278600;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=SJoWL2veJ5k/D7xEL6G5+QjIu4GFUmt+PwMfZPwuV6Y=;
-        b=IHjF9o7Uo8cEkboDHNNB9YRhCz1nQKlLJWTceT0WhYHLP8HViPBZ5gACg70pNWa97/Ogxl
-        LRB/4pSPZOcCpm6s98Xgxj/q0Glm6c4cs/zfHO3V2R6iPWo5ITrZ7plRkaOCS5qxArZTzM
-        7CCytTtZYPcmH73cclHl3UeSbTEx4Qw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-CGjKzgi4OAeR7HI75U9w6g-1; Thu, 21 Jan 2021 20:23:16 -0500
-X-MC-Unique: CGjKzgi4OAeR7HI75U9w6g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 901BC8145E1;
-        Fri, 22 Jan 2021 01:23:12 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-12-255.pek2.redhat.com [10.72.12.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 847B760BF3;
-        Fri, 22 Jan 2021 01:22:58 +0000 (UTC)
-Date:   Fri, 22 Jan 2021 09:22:54 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     john.p.donnelly@oracle.com
-Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
-        Kairui Song <kasong@redhat.com>,
-        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "# v4 . 16+" <stable@vger.kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>,
-        Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-Message-ID: <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
- <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
- <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
- <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
- <CAHD1Q_yB1B4gu7EDqbZJ5dxAAkr-dVKa9yRDK-tE3oLeTTmLJQ@mail.gmail.com>
- <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
- <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
+        id S1726367AbhAVB02 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 20:26:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53150 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbhAVB0Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 20:26:25 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921E4C0613D6
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:25:45 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id q7so2581315pgm.5
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gzcpU9W1/SZCeREWQKtCyU+h3ZnueYB6wsd7p8fQjUk=;
+        b=Ivg8s/ngCczJmDVLobjxa7s3o/QJ81lhVeiVs+r5I/EbmSTuoLcuzVzUEEim+zxauz
+         jW26PvAyV7m5WxC3OBo2G+OpV8nlBVlzuj+n495o9Fb7N0nH2Q/Axwg562mccRnVtwag
+         Zggzp+J/2P9RvXz8oXaQQS9aB/U1BQG1Kb3Wm/jWj4G5TKZZCi8K74Mfjeq6Qf1z7ee0
+         6k2e9QzVsAMLZLDg/w8kHSPKmClR83FXKMGZuUyiY+1X465rrUKAPpXQzRSuJcNbJn/w
+         FYXkJv2yLZYGKcnaZxekgSWbeT0Wp81bb/snOGx8tnAnv5sREa+vwu89V6iHG6igejfK
+         j7kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gzcpU9W1/SZCeREWQKtCyU+h3ZnueYB6wsd7p8fQjUk=;
+        b=ukFPf3lp+rd8UqM3/p6Jom9Nw0cfl7f/5mUZ+OaUpTE4jMt0Ms5mdDkngF5v3asu5o
+         dsZRxTZ0ar2iGILTQZJJINbtqwvpf7lN6uJVmvpx2WFBciTww+9yf/Z27AmmXk10EtzO
+         9BuMGhEWrRcI5X8yaWx6Wsz5B+eVinOJAUsSdzCy/l/AU7YOWEvdpOUxUWRYcSyl3Mxu
+         PJbF2MTQ3my/kkp/L1PbEG2DZ4bKvEC/KfTuzBR8zLtDytKrrPKTptufBJ4cvc1vlXRt
+         Y5n1fkZoH/P9WGWP2+dsEgUVPmfnKJ1TQP6YSn7Pq03WHu2pjiT/HicGYdRRnOU+CD6R
+         FpVw==
+X-Gm-Message-State: AOAM533CxiFDsKvvTbjwylMWCajI4QXLhBZ7glnedGHyx/X9SKG2fIgC
+        3wnxGQhOGitwhOb71iqmTg8XUA==
+X-Google-Smtp-Source: ABdhPJz+GxyLUjzXoM5lS4QZZBKCZKf+RG4oHs6YboJyi47q6HC87n/2b1yneFQqGoQx/ijLlNRyhA==
+X-Received: by 2002:aa7:8d12:0:b029:1ae:4344:3b4f with SMTP id j18-20020aa78d120000b02901ae43443b4fmr2283477pfe.16.1611278744790;
+        Thu, 21 Jan 2021 17:25:44 -0800 (PST)
+Received: from google.com ([2620:15c:f:10:1ea0:b8ff:fe73:50f5])
+        by smtp.gmail.com with ESMTPSA id h5sm5979532pgl.86.2021.01.21.17.25.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 17:25:44 -0800 (PST)
+Date:   Thu, 21 Jan 2021 17:25:36 -0800
+From:   Sean Christopherson <seanjc@google.com>
+To:     Tom Lendacky <thomas.lendacky@amd.com>
+Cc:     Tejun Heo <tj@kernel.org>, Vipin Sharma <vipinsh@google.com>,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, lizefan@huawei.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
+        joro@8bytes.org, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v4 1/2] cgroup: svm: Add Encryption ID controller
+Message-ID: <YAopkDN85GtWAj3a@google.com>
+References: <YAICLR8PBXxAcOMz@mtj.duckdns.org>
+ <YAIUwGUPDmYfUm/a@google.com>
+ <YAJg5MB/Qn5dRqmu@mtj.duckdns.org>
+ <YAJsUyH2zspZxF2S@google.com>
+ <YAb//EYCkZ7wnl6D@mtj.duckdns.org>
+ <YAfYL7V6E4/P83Mg@google.com>
+ <YAhc8khTUc2AFDcd@mtj.duckdns.org>
+ <be699d89-1bd8-25ae-fc6f-1e356b768c75@amd.com>
+ <YAmj4Q2J9htW2Fe8@mtj.duckdns.org>
+ <d11e58ec-4a8f-5b31-063a-b6b45d4ccdc5@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <d11e58ec-4a8f-5b31-063a-b6b45d4ccdc5@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi John,
-
-On 01/21/21 at 09:32am, john.p.donnelly@oracle.com wrote:
-> On 11/22/20 9:47 PM, Dave Young wrote:
-> > Hi Guilherme,
-> > On 11/22/20 at 12:32pm, Guilherme Piccoli wrote:
-> > > Hi Dave and Kairui, thanks for your responses! OK, if that makes sense
-> > > to you I'm fine with it. I'd just recommend to test recent kernels in
-> > > multiple distros with the minimum "range" to see if 64M is enough for
-> > > crashkernel, maybe we'd need to bump that.
+On Thu, Jan 21, 2021, Tom Lendacky wrote:
+> On 1/21/21 9:55 AM, Tejun Heo wrote:
+> > Hello,
 > > 
-> > Giving the different kernel configs and the different userspace
-> > initramfs setup it is hard to get an uniform value for all distributions,
-> > but we can have an interface/kconfig-option for them to provide a value like this patch
-> > is doing. And it could be improved like Kairui said about some known
-> > kernel added extra values later, probably some more improvements if
-> > doable.
+> > On Thu, Jan 21, 2021 at 08:55:07AM -0600, Tom Lendacky wrote:
+> > > The hardware will allow any SEV capable ASID to be run as SEV-ES, however,
+> > > the SEV firmware will not allow the activation of an SEV-ES VM to be
+> > > assigned to an ASID greater than or equal to the SEV minimum ASID value. The
+> > > reason for the latter is to prevent an !SEV-ES ASID starting out as an
+> > > SEV-ES guest and then disabling the SEV-ES VMCB bit that is used by VMRUN.
+> > > This would result in the downgrading of the security of the VM without the
+> > > VM realizing it.
+> > > 
+> > > As a result, you have a range of ASIDs that can only run SEV-ES VMs and a
+> > > range of ASIDs that can only run SEV VMs.
 > > 
-> > Thanks
-> > Dave
-> > 
+> > I see. That makes sense. What's the downside of SEV-ES compared to SEV w/o
+> > ES? Are there noticeable performance / feature penalties or is the split
+> > mostly for backward compatibility?
 > 
-> Hi.
-> 
-> Are we going to move forward with implementing this for X86 and Arm ?
-> 
-> If other platform maintainers want to include this CONFIG option in their
-> configuration settings they have a starting point.
+> SEV-ES is an incremental enhancement of SEV where the register state of the
+> guest is protected/encrypted. As with a lot of performance questions, the
+> answer is ...it depends. 
 
-I would expect this become arch independent.
+True, but the expected dual-usage is more about backwards compatibility than
+anything else.  Running an SEV-ES VM requires a heavily enlightened guest vBIOS
+and kernel, which means that a VM that was created as an SEV guest cannot easily
+be converted to an SEV-ES guest, and it would require cooperation from the guest
+(if it's even feasible?).
 
-Saeed, Kairui, would any of you like to update the patch?
+SEV-SNP, another incremental enhancement (on SEV-ES), further strengthens the
+argument for SEV and SEV-* coexistenence.  SEV-SNP and SEV-ES will share the
+same ASID range, so the question is really, "do we expect to run SEV guests and
+any flavor of SEV-* guests on the same platform".  And due to SEV-* not being
+directly backward compatible with SEV, the answer will eventually be "yes", as
+we'll want to keep running existing SEV guest while also spinning up new SEV-*
+guests.
 
-> 
-> Thank you,
-> 
-> John.
-> 
-> ( I am not currently on many of the included dist lists  in this email, so
-> hopefully key contributors are included in this exchange )
-> 
+That being said, it's certainly possible to abstract the different key types
+between AMD and Intel (assuming s390 won't use the cgroup due to it's plethora
+of keys).  TDX private keys are equivalent to SEV-ES ASIDs, and MKTME keys (if
+the kernel ever gains a user) could be thrown into the same bucket as SEV IDs,
+albeit with some minor mental gymnastics.
 
-Thanks
-Dave
+E.g. this mapping isn't horrendous:
 
+  encrpytion_ids.basic.*       == SEV   == MKTME
+  encrpytion_ids.enhanced.*    == SEV-* == TDX
+
+The names will likely be a bit vague, but I don't think they'll be so far off
+that it'd be impossible for someone with SEV/TDX knowledge to glean their intent.
+And realistically, if anyone gets to the point where they care about controlling
+SEV or TDX IDs, they've already plowed through hundreds of pages of dense
+documentation; having to read a few lines of cgroup docs to understand basic vs.
+enhanced probably won't faze them at all.
