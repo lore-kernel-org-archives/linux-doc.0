@@ -2,85 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF3DC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DEAC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 21:56:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 401DC23AF8
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:51:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA3A223B04
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 21:56:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728366AbhAVTvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 14:51:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730191AbhAVTYg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 14:24:36 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EE5C061793
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jan 2021 11:23:56 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id e6so4539311pjj.1
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jan 2021 11:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7qLtZEw46MuUNIjgfTBmQVdFoDCzD4gSGophFRfdj9c=;
-        b=bGs9+RQfEZapH5a6I/1sAlxe6lblz17BbDMoY8hk8D51nuXTqTlFFPMyDuDfmy6gET
-         rfbZANKErdA7BepjLInotLIqN/JDkxzqGrIafLjzcoaHk8W1PBvXutMoCveAieUleL3Q
-         h5iVo1yVNFeoJpjXCmXq7wvFHfJyDRr7p0jiI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7qLtZEw46MuUNIjgfTBmQVdFoDCzD4gSGophFRfdj9c=;
-        b=EixUCypw5q95DGmmdMzvSzM75MTqHQevWuliZ6dbsQe7L7RRR2AlY4F9EGpHc483V7
-         19v2VdojWv/kOTPpLlX1HRTzBa1xUTVsyEFNslcO2cYbAyRTy6JHrqGuv4Nhyzl5QIya
-         X3RqsC4BI+7aJHF78jlaMhD/51kK8h2dBPfrMWllQGAfDNPXG+Z++p94DAJfH1lcVIvx
-         7uwT6IoiTJWaGNRpX4+4uNC4Vla06Yan7IUXOB4ujE1PnMyTWZ3YgoNzm+iXXymjUrKa
-         +YzKes8iySLUWHB8Ns8N/NJCw502b5CfneLpvKMZ7FumJ2W81K2UDsOeVakwbBRn75uJ
-         +Y5A==
-X-Gm-Message-State: AOAM531PVf+Ywgbftie8u/K6RxJGtW8McQZjDR8r0U285XDazkIhEyjm
-        wXTd0qi1zKCJZ+7R3BtQCiMClg==
-X-Google-Smtp-Source: ABdhPJwWPLudcsSrSLClh8DTzDJxX4J0dgf3E1K4QJTquK5uVVrb0Hfo9aMXXqcH+ClQbrHFJWsa0Q==
-X-Received: by 2002:a17:90a:9414:: with SMTP id r20mr6874931pjo.222.1611343436131;
-        Fri, 22 Jan 2021 11:23:56 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v1sm10639957pjd.26.2021.01.22.11.23.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 11:23:55 -0800 (PST)
-Date:   Fri, 22 Jan 2021 11:23:54 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Robert Karszniewicz <r.karszniewicz@phytec.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+        id S1730166AbhAVV4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 16:56:13 -0500
+Received: from mga01.intel.com ([192.55.52.88]:50183 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730000AbhAVVzl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jan 2021 16:55:41 -0500
+IronPort-SDR: 9q3S4emmk4xclOw/YXm/yZII8Ovg/ah2F38SDUKp0EqM6nryCd3wUb4PA09QOpFP4aklCGwW0H
+ duX7C1HTlQhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="198274442"
+X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
+   d="scan'208";a="198274442"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:55 -0800
+IronPort-SDR: QgzfLeU+SScNpiuZ2ShHor3Mk1anNcKXZI/IncTCR7ogj4sTRd8kBKfwZPHV0PQyfLDml4sqvL
+ fM8zo+rax78Q==
+X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
+   d="scan'208";a="400976899"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.79.184]) ([10.212.79.184])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:54 -0800
+Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
+To:     David Laight <David.Laight@ACULAB.COM>,
+        'Randy Dunlap' <rdunlap@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Philipp Rudo <prudo@linux.ibm.com>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, Robert Karszniewicz <avoidr@posteo.de>
-Subject: Re: [PATCH] Documentation/Kbuild: Remove references to gcc-plugin.sh
-Message-ID: <202101221123.23BA3181@keescook>
-References: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-9-yu-cheng.yu@intel.com>
+ <20210121184405.GE32060@zn.tnic>
+ <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
+ <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
+ <9344cd90-1818-a716-91d2-2b85df01347b@infradead.org>
+ <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <1b9cd39a-fe66-d237-b847-2b62ff1477e7@intel.com>
+Date:   Fri, 22 Jan 2021 13:54:53 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
+In-Reply-To: <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 07:04:13PM +0100, Robert Karszniewicz wrote:
-> gcc-plugin.sh has been removed in commit
-> 1e860048c53e ("gcc-plugins: simplify GCC plugin-dev capability test").
+On 1/21/2021 2:32 PM, David Laight wrote:
+> From: Randy Dunlap
+>> Sent: 21 January 2021 22:19
+>>
+>> On 1/21/21 2:16 PM, David Laight wrote:
+>>> From: Yu, Yu-cheng
+>>>>
+>>>> On 1/21/2021 10:44 AM, Borislav Petkov wrote:
+>>>>> On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
+>>>> [...]
+>>>>>> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
+>>>>>>
+>>>>>>    static inline pte_t pte_wrprotect(pte_t pte)
+>>>>>>    {
+>>>>>> +	/*
+>>>>>> +	 * Blindly clearing _PAGE_RW might accidentally create
+>>>>>> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
+>>>>>> +	 * dirty value to the software bit.
+>>>>>> +	 */
+>>>>>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+>>>>>> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
+>>>>>
+>>>>> Why the unreadable shifting when you can simply do:
+>>>>>
+>>>>>                   if (pte.pte & _PAGE_DIRTY)
+>>>>>                           pte.pte |= _PAGE_COW;
+>>>>>
+>>>
+>>>>> ?
+>>>>
+>>>> It clears _PAGE_DIRTY and sets _PAGE_COW.  That is,
+>>>>
+>>>> if (pte.pte & _PAGE_DIRTY) {
+>>>> 	pte.pte &= ~_PAGE_DIRTY;
+>>>> 	pte.pte |= _PAGE_COW;
+>>>> }
+>>>>
+>>>> So, shifting makes resulting code more efficient.
+>>>
+>>> Does the compiler manage to do one shift?
+>>>
+>>> How can it clear anything?
+>>
+>> It could shift it off either end since there are both << and >>.
 > 
-> Signed-off-by: Robert Karszniewicz <r.karszniewicz@phytec.de>
+> It is still:
+> 	pte.pte |= xxxxxxx;
+> 
+>>> There is only an |= against the target.
+>>>
+>>> Something horrid with ^= might set and clear.
+> 
+> It could be 4 instructions:
+> 	is_dirty = pte.pte & PAGE_DIRTY;
+> 	pte.pte &= ~PAGE_DIRTY; // or pte.pte ^= is_dirty
+> 	is_cow = is_dirty << (BIT_COW - BIT_DIRTY); // or equivalent >>
+> 	pte.pte |= is_cow;
+> provided you've a three operand form for one of the first two instructions.
+> Something like ARM might manage to merge the last two as well.
+> But the register dependency chain length may matter more than
+> the number of instructions.
+> The above is likely to be three long.
 
-Thanks!
+I see what you are saying.  The patch is like...
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
+		pte = pte_clear_flags(pte, _PAGE_DIRTY);
+	}
 
--- 
-Kees Cook
+It is not necessary to do the shifting.  I will make it, simply,
+
+if (pte.pte & _PAGE_DIRTY) {
+	pte.pte &= ~PAGE_DIRTY;
+	pte.pte |= _PAGE_COW;
+}
+
+Thanks for your comments.
+
+--
+Yu-cheng
