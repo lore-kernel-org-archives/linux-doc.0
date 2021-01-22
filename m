@@ -2,143 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F24F5C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 815AAC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABF6523884
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BC542310A
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:39:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726644AbhAVDOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 22:14:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27236 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726149AbhAVDOd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 22:14:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611285187;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/QaNoqoevPF7/8oe2sGB4sw16sOzsJuLdFQitZNlslw=;
-        b=E4MqgQxNgUQVGeuZ1LkPGxD7OKYiON8wosNIBXudEcvg3dVGW3iqQFLj145Tm5PhZgs9RK
-        XwloKAiDPiM/VPwtRqrQ1lYJyYlT88su6cwBr45Jf+Xb8V1XCJHRFBvfB/WameDxc3nhgA
-        kYvpkXlDAzQ1KlFY/oowWbk503DjIOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324--DA1YC-sOGSQs-sLfxKiIw-1; Thu, 21 Jan 2021 22:13:03 -0500
-X-MC-Unique: -DA1YC-sOGSQs-sLfxKiIw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6BE5806664;
-        Fri, 22 Jan 2021 03:12:59 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-12-255.pek2.redhat.com [10.72.12.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F890627DD;
-        Fri, 22 Jan 2021 03:12:48 +0000 (UTC)
-Date:   Fri, 22 Jan 2021 11:12:44 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     john.p.donnelly@oracle.com
-Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
-        Kairui Song <kasong@redhat.com>,
-        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "# v4 . 16+" <stable@vger.kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>,
-        Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-Message-ID: <20210122031244.GA4717@dhcp-128-65.nay.redhat.com>
-References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
- <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
- <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
- <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
- <CAHD1Q_yB1B4gu7EDqbZJ5dxAAkr-dVKa9yRDK-tE3oLeTTmLJQ@mail.gmail.com>
- <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
- <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
- <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
+        id S1726646AbhAVDik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 22:38:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726623AbhAVDif (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 22:38:35 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA49C061786
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:53 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id d11so2056904qvo.11
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 19:37:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=uI6NShNpRZxuWFJgcFGIsf9y7F3FhEyQzIGIbDpR8GM=;
+        b=JPFxiIpXfQz7s+HD+h+h53MJjfdFcIIb3fRCeiOL2nLTb7mQbwL/mv5bD6YwNIDlb0
+         BFY7g1NGuXse+LEq41ouEsNL2gXTOwPaiR5GQExaxMEhuAeRYuHEyPmcy3TPLbX47vVE
+         LgK7fRS4bUQpOBiTm8HrFG94WE1pNF7hff5zWb4gSNw9ArUMMqrpPtxr2Hdd8IFn0nsq
+         otWlRvxKtojA55dd+CCjH/0X0/bnDxm6K27wzxRWifoK79oGb/3CRBxDgjMBTWxfPRFa
+         7uUcOuV7mfY5ILLAsCPM5yVmzUm+wvxNLL3fe7M9oDRQxMYtz25aXENgZkyKm7tT/eiJ
+         TkSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uI6NShNpRZxuWFJgcFGIsf9y7F3FhEyQzIGIbDpR8GM=;
+        b=RmnEPuAhWhTjCQVFu1ifOdtndhGqkR/7J/jY65Wn2FZv/gw5fxwJuqv+MSj3SLDoig
+         0tdP35L/Svg73dXOV6DQeBQyXj9SP8VFVm0vcxxlSISeRuzMbsx7K0rv1Dva96C8mknS
+         xkpssQ3pmBm8OOnZngO+znj008Hh5J2zLctaHU2w+y4JOcyFqpRM6HT9ch52sW5ssn2b
+         mlo9P2NRRGJyMMqUDlXZduETnxRRW4XvxY9WAvPUcX+Cv2shAVmPzoDLS/Ak0n/knvRn
+         LAaBOMdDWJuSDu5Bkc0Gi+ZbVXu1Q0ZxQWyl59FSoAnw/in4uP7ex/vLLefrxOlIBNTf
+         stGw==
+X-Gm-Message-State: AOAM533UB6eWy7cHFIrQ9yxEhbYtmWZfPqP8hMnYZcY3ASbmy5tN4dHU
+        r7wvBUJGeTbPtiCB5nGhJ65LtQ==
+X-Google-Smtp-Source: ABdhPJwSGFYJhC+Qib8qDxE3HBrhAWAJcwGgvgnJ2/IXoY6+kFqDz947kH5LHEFg/lVWRPLyadzxDg==
+X-Received: by 2002:ad4:4e09:: with SMTP id dl9mr2838296qvb.44.1611286672365;
+        Thu, 21 Jan 2021 19:37:52 -0800 (PST)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id m85sm5426529qke.33.2021.01.21.19.37.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 19:37:51 -0800 (PST)
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
+        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
+        dan.j.williams@intel.com, sashal@kernel.org,
+        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
+        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
+        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
+        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
+        linux-doc@vger.kernel.org, ira.weiny@intel.com,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH v7 01/14] mm/gup: don't pin migrated cma pages in movable zone
+Date:   Thu, 21 Jan 2021 22:37:35 -0500
+Message-Id: <20210122033748.924330-2-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210122033748.924330-1-pasha.tatashin@soleen.com>
+References: <20210122033748.924330-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/22/21 at 09:22am, Dave Young wrote:
-> Hi John,
-> 
-> On 01/21/21 at 09:32am, john.p.donnelly@oracle.com wrote:
-> > On 11/22/20 9:47 PM, Dave Young wrote:
-> > > Hi Guilherme,
-> > > On 11/22/20 at 12:32pm, Guilherme Piccoli wrote:
-> > > > Hi Dave and Kairui, thanks for your responses! OK, if that makes sense
-> > > > to you I'm fine with it. I'd just recommend to test recent kernels in
-> > > > multiple distros with the minimum "range" to see if 64M is enough for
-> > > > crashkernel, maybe we'd need to bump that.
-> > > 
-> > > Giving the different kernel configs and the different userspace
-> > > initramfs setup it is hard to get an uniform value for all distributions,
-> > > but we can have an interface/kconfig-option for them to provide a value like this patch
-> > > is doing. And it could be improved like Kairui said about some known
-> > > kernel added extra values later, probably some more improvements if
-> > > doable.
-> > > 
-> > > Thanks
-> > > Dave
-> > > 
-> > 
-> > Hi.
-> > 
-> > Are we going to move forward with implementing this for X86 and Arm ?
-> > 
-> > If other platform maintainers want to include this CONFIG option in their
-> > configuration settings they have a starting point.
-> 
-> I would expect this become arch independent.
+In order not to fragment CMA the pinned pages are migrated. However,
+they are migrated to ZONE_MOVABLE, which also should not have pinned pages.
 
-Clarify a bit, it can be a general config option under arch/Kconfig and
-just put the code in general arch independent part.
+Remove __GFP_MOVABLE, so pages can be migrated to zones where pinning
+is allowed.
 
-> 
-> Saeed, Kairui, would any of you like to update the patch?
-> 
-> > 
-> > Thank you,
-> > 
-> > John.
-> > 
-> > ( I am not currently on many of the included dist lists  in this email, so
-> > hopefully key contributors are included in this exchange )
-> > 
-> 
-> Thanks
-> Dave
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+---
+ mm/gup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/gup.c b/mm/gup.c
+index 3e086b073624..24f25b1e9103 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1563,7 +1563,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 	long ret = nr_pages;
+ 	struct migration_target_control mtc = {
+ 		.nid = NUMA_NO_NODE,
+-		.gfp_mask = GFP_USER | __GFP_MOVABLE | __GFP_NOWARN,
++		.gfp_mask = GFP_USER | __GFP_NOWARN,
+ 	};
+ 
+ check_again:
+-- 
+2.25.1
 
