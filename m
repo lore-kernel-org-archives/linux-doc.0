@@ -2,136 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C11C432C3
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:35:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF3DC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:51:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A57A23AFE
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 401DC23AF8
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 19:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728474AbhAVTRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 14:17:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55224 "EHLO
+        id S1728366AbhAVTvM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 14:51:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728497AbhAVTFl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 14:05:41 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71580C0617AA
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jan 2021 11:04:51 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <a.fatoum@pengutronix.de>)
-        id 1l31jk-0003zG-BI; Fri, 22 Jan 2021 20:04:48 +0100
-Subject: Re: [PATCH 2/2] dm crypt: support using trusted keys
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        Song Liu <song@kernel.org>, kernel@pengutronix.de,
-        =?UTF-8?Q?Jan_L=c3=bcbbe?= <jlu@pengutronix.de>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        Dmitry Baryshkov <dbaryshkov@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-        Sumit Garg <sumit.garg@linaro.org>
-References: <20210122084321.24012-1-a.fatoum@pengutronix.de>
- <20210122084321.24012-2-a.fatoum@pengutronix.de>
- <YAsT/N8CHHNTZcj3@kernel.org> <YAsW8DAt3vc68rLA@kernel.org>
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-Message-ID: <5d44e50e-4309-830b-79f6-f5d888b1ef69@pengutronix.de>
-Date:   Fri, 22 Jan 2021 20:04:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        with ESMTP id S1730191AbhAVTYg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 14:24:36 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86EE5C061793
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jan 2021 11:23:56 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id e6so4539311pjj.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jan 2021 11:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7qLtZEw46MuUNIjgfTBmQVdFoDCzD4gSGophFRfdj9c=;
+        b=bGs9+RQfEZapH5a6I/1sAlxe6lblz17BbDMoY8hk8D51nuXTqTlFFPMyDuDfmy6gET
+         rfbZANKErdA7BepjLInotLIqN/JDkxzqGrIafLjzcoaHk8W1PBvXutMoCveAieUleL3Q
+         h5iVo1yVNFeoJpjXCmXq7wvFHfJyDRr7p0jiI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7qLtZEw46MuUNIjgfTBmQVdFoDCzD4gSGophFRfdj9c=;
+        b=EixUCypw5q95DGmmdMzvSzM75MTqHQevWuliZ6dbsQe7L7RRR2AlY4F9EGpHc483V7
+         19v2VdojWv/kOTPpLlX1HRTzBa1xUTVsyEFNslcO2cYbAyRTy6JHrqGuv4Nhyzl5QIya
+         X3RqsC4BI+7aJHF78jlaMhD/51kK8h2dBPfrMWllQGAfDNPXG+Z++p94DAJfH1lcVIvx
+         7uwT6IoiTJWaGNRpX4+4uNC4Vla06Yan7IUXOB4ujE1PnMyTWZ3YgoNzm+iXXymjUrKa
+         +YzKes8iySLUWHB8Ns8N/NJCw502b5CfneLpvKMZ7FumJ2W81K2UDsOeVakwbBRn75uJ
+         +Y5A==
+X-Gm-Message-State: AOAM531PVf+Ywgbftie8u/K6RxJGtW8McQZjDR8r0U285XDazkIhEyjm
+        wXTd0qi1zKCJZ+7R3BtQCiMClg==
+X-Google-Smtp-Source: ABdhPJwWPLudcsSrSLClh8DTzDJxX4J0dgf3E1K4QJTquK5uVVrb0Hfo9aMXXqcH+ClQbrHFJWsa0Q==
+X-Received: by 2002:a17:90a:9414:: with SMTP id r20mr6874931pjo.222.1611343436131;
+        Fri, 22 Jan 2021 11:23:56 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id v1sm10639957pjd.26.2021.01.22.11.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 11:23:55 -0800 (PST)
+Date:   Fri, 22 Jan 2021 11:23:54 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Robert Karszniewicz <r.karszniewicz@phytec.de>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philipp Rudo <prudo@linux.ibm.com>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, Robert Karszniewicz <avoidr@posteo.de>
+Subject: Re: [PATCH] Documentation/Kbuild: Remove references to gcc-plugin.sh
+Message-ID: <202101221123.23BA3181@keescook>
+References: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
 MIME-Version: 1.0
-In-Reply-To: <YAsW8DAt3vc68rLA@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1611338653-175404-1-git-send-email-r.karszniewicz@phytec.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Jarkko,
-
-On 22.01.21 19:18, Jarkko Sakkinen wrote:
-> On Fri, Jan 22, 2021 at 08:05:51PM +0200, Jarkko Sakkinen wrote:
->> On Fri, Jan 22, 2021 at 09:43:21AM +0100, Ahmad Fatoum wrote:
->>> Commit 27f5411a718c ("dm crypt: support using encrypted keys") extended
->>> dm-crypt to allow use of "encrypted" keys along with "user" and "logon".
->>>
->>> Along the same lines, teach dm-crypt to support "trusted" keys as well.
->>>
->>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
->>> ---
->>
->> Is it possible to test run this with tmpfs? Would be a good test
->> target for Sumit's ARM-TEE trusted keys patches.
-
-I tested these on top of Sumit's patches with TPM and a CAAM blobifier
-backend, I am preparing. The system I am developing these patches against
-doesn't have a TEE.  Steps to test these changes:
-
-#!/bin/sh
-
-DEV=/dev/loop0
-ALGO=aes-cbc-essiv:sha256
-KEYNAME=kmk
-BLOCKS=20
-
-fallocate -l $((BLOCKS*512)) /tmp/loop0.img
-losetup -P $DEV /tmp/loop0.img
-mount -o remount,rw /
-KEY="$(keyctl add trusted $KEYNAME 'new 32' @s)"
-keyctl pipe $KEY >$HOME/kmk.blob
-
-TABLE="0 $BLOCKS crypt $ALGO :32:trusted:$KEYNAME 0 $DEV 0 1 allow_discards"
-echo $TABLE | dmsetup create mydev
-echo $TABLE | dmsetup load mydev
-dd if=/dev/zero of=/dev/mapper/mydev
-echo "It works!" 1<> /dev/mapper/mydev
-cryptsetup close mydev
-
-reboot
-
-DEV=/dev/loop0
-ALGO=aes-cbc-essiv:sha256
-KEYNAME=kmk
-BLOCKS=20
-
-losetup -P $DEV $HOME/loop0.img
-keyctl add trusted $KEYNAME "load $(cat $HOME/kmk.blob)" @s
-TABLE="0 $BLOCKS crypt $ALGO :32:trusted:$KEYNAME 0 $DEV 0 1 allow_discards"
-echo $TABLE | dmsetup create mydev
-echo $TABLE | dmsetup load mydev
-
-# should print that It works!
-hexdump -C /dev/mapper/mydev
-
->> https://lore.kernel.org/linux-integrity/1604419306-26105-1-git-send-email-sumit.garg@linaro.org/
+On Fri, Jan 22, 2021 at 07:04:13PM +0100, Robert Karszniewicz wrote:
+> gcc-plugin.sh has been removed in commit
+> 1e860048c53e ("gcc-plugins: simplify GCC plugin-dev capability test").
 > 
-> Also, I would hold merging *this* patch up until we are able to
-> test TEE trusted keys with TEE trusted keys.
+> Signed-off-by: Robert Karszniewicz <r.karszniewicz@phytec.de>
 
-Which blocks which? I tested this with TPM-Trusted keys, so it's usable
-as is. For convenient usage, it would be nice to have cryptsetup
-support for trusted and encrypted keys. I intended to look at this next week.
+Thanks!
 
-Cheers,
-Ahmad
-
-> 
-> /Jarkko
-> 
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Kees Cook
