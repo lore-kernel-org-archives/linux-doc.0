@@ -2,167 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17DEAC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 21:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0374C433E9
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 22:33:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA3A223B04
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 21:56:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 939DB23B44
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 22:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730166AbhAVV4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 16:56:13 -0500
-Received: from mga01.intel.com ([192.55.52.88]:50183 "EHLO mga01.intel.com"
+        id S1728510AbhAVTv1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 14:51:27 -0500
+Received: from vps.thesusis.net ([34.202.238.73]:50570 "EHLO vps.thesusis.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730000AbhAVVzl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 22 Jan 2021 16:55:41 -0500
-IronPort-SDR: 9q3S4emmk4xclOw/YXm/yZII8Ovg/ah2F38SDUKp0EqM6nryCd3wUb4PA09QOpFP4aklCGwW0H
- duX7C1HTlQhA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="198274442"
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="198274442"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:55 -0800
-IronPort-SDR: QgzfLeU+SScNpiuZ2ShHor3Mk1anNcKXZI/IncTCR7ogj4sTRd8kBKfwZPHV0PQyfLDml4sqvL
- fM8zo+rax78Q==
-X-IronPort-AV: E=Sophos;i="5.79,367,1602572400"; 
-   d="scan'208";a="400976899"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.79.184]) ([10.212.79.184])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2021 13:54:54 -0800
-Subject: Re: [PATCH v17 08/26] x86/mm: Introduce _PAGE_COW
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Randy Dunlap' <rdunlap@infradead.org>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-9-yu-cheng.yu@intel.com>
- <20210121184405.GE32060@zn.tnic>
- <b4d4bec7-504e-2443-4cf3-0801b179000f@intel.com>
- <cd9d04ab66d144b7942b5030d9813115@AcuMS.aculab.com>
- <9344cd90-1818-a716-91d2-2b85df01347b@infradead.org>
- <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <1b9cd39a-fe66-d237-b847-2b62ff1477e7@intel.com>
-Date:   Fri, 22 Jan 2021 13:54:53 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S1730624AbhAVT1X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jan 2021 14:27:23 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by vps.thesusis.net (Postfix) with ESMTP id 8D16F29A9E;
+        Fri, 22 Jan 2021 14:26:40 -0500 (EST)
+Received: from vps.thesusis.net ([127.0.0.1])
+        by localhost (vps.thesusis.net [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8wXz7EfBN6Kj; Fri, 22 Jan 2021 14:26:40 -0500 (EST)
+Received: by vps.thesusis.net (Postfix, from userid 1000)
+        id 387A529A9D; Fri, 22 Jan 2021 14:26:40 -0500 (EST)
+References: <20200916205434.GA10389@duo.ucw.cz> <87czyf5jjp.fsf@vps.thesusis.net> <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com> <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com> <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 26.3
+From:   Phillip Susi <phill@thesusis.net>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc\@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+Date:   Fri, 22 Jan 2021 13:55:04 -0500
+In-reply-to: <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+Message-ID: <87k0s4ai33.fsf@vps.thesusis.net>
 MIME-Version: 1.0
-In-Reply-To: <b6eda0f414f34634b4e1aca80c4b5d5d@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/21/2021 2:32 PM, David Laight wrote:
-> From: Randy Dunlap
->> Sent: 21 January 2021 22:19
->>
->> On 1/21/21 2:16 PM, David Laight wrote:
->>> From: Yu, Yu-cheng
->>>>
->>>> On 1/21/2021 10:44 AM, Borislav Petkov wrote:
->>>>> On Tue, Dec 29, 2020 at 01:30:35PM -0800, Yu-cheng Yu wrote:
->>>> [...]
->>>>>> @@ -343,6 +349,16 @@ static inline pte_t pte_mkold(pte_t pte)
->>>>>>
->>>>>>    static inline pte_t pte_wrprotect(pte_t pte)
->>>>>>    {
->>>>>> +	/*
->>>>>> +	 * Blindly clearing _PAGE_RW might accidentally create
->>>>>> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
->>>>>> +	 * dirty value to the software bit.
->>>>>> +	 */
->>>>>> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->>>>>> +		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
->>>>>
->>>>> Why the unreadable shifting when you can simply do:
->>>>>
->>>>>                   if (pte.pte & _PAGE_DIRTY)
->>>>>                           pte.pte |= _PAGE_COW;
->>>>>
->>>
->>>>> ?
->>>>
->>>> It clears _PAGE_DIRTY and sets _PAGE_COW.  That is,
->>>>
->>>> if (pte.pte & _PAGE_DIRTY) {
->>>> 	pte.pte &= ~_PAGE_DIRTY;
->>>> 	pte.pte |= _PAGE_COW;
->>>> }
->>>>
->>>> So, shifting makes resulting code more efficient.
->>>
->>> Does the compiler manage to do one shift?
->>>
->>> How can it clear anything?
->>
->> It could shift it off either end since there are both << and >>.
-> 
-> It is still:
-> 	pte.pte |= xxxxxxx;
-> 
->>> There is only an |= against the target.
->>>
->>> Something horrid with ^= might set and clear.
-> 
-> It could be 4 instructions:
-> 	is_dirty = pte.pte & PAGE_DIRTY;
-> 	pte.pte &= ~PAGE_DIRTY; // or pte.pte ^= is_dirty
-> 	is_cow = is_dirty << (BIT_COW - BIT_DIRTY); // or equivalent >>
-> 	pte.pte |= is_cow;
-> provided you've a three operand form for one of the first two instructions.
-> Something like ARM might manage to merge the last two as well.
-> But the register dependency chain length may matter more than
-> the number of instructions.
-> The above is likely to be three long.
 
-I see what you are saying.  The patch is like...
+Geert Uytterhoeven writes:
 
-	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-		pte.pte |= (pte.pte & _PAGE_DIRTY) >> _PAGE_BIT_DIRTY << _PAGE_BIT_COW;
-		pte = pte_clear_flags(pte, _PAGE_DIRTY);
-	}
+Judging from some of the comments in the code, it looks like you were
+one of the original authors of fbcon?  I haven't been able to find any
+of these sczbot crash reports, and am not sure how fuzzing syscalls
+would really affect this code ( it's not really handling a buch of
+ioctls or otherwise taking arguments from user space ) , but I am a bit
+confused as to why the softback was implemented the way that it was.
 
-It is not necessary to do the shifting.  I will make it, simply,
+vgacon simply copies the main buffer to vram in ->set_origin() and then
+changes the pointers to operate out of the much larger vram while that
+virtual terminal is active.  If I understand it correctly, it looks like
+fbcon instead opts to operate out of the main buffer but rescue lines as
+they are scrolled off and relocate them to the softback buffer.  This
+seems to be rather more convoluted.
 
-if (pte.pte & _PAGE_DIRTY) {
-	pte.pte &= ~PAGE_DIRTY;
-	pte.pte |= _PAGE_COW;
-}
+I'm thinking of re-implementing scrollback more like the way vgacon does
+it: allocate a big "vram" buffer and operate out of that.  Obviously
+->scroll() and ->scrolldelta() have to actually repaint the screen rather
+than simply change the pointer register, but that should be about the
+only difference.
 
-Thanks for your comments.
+I have also noticed that there was some code to use hardware panning of
+the video buffer rather than having to do a block bitblt to scroll the
+contents of the screen, but that it was disabled because virtually no
+video drivers actually implemented it?  That seems like a shame, but if
+it is so, then there's no sense carrying the dead code so I think I'll
+clean that up now.
 
---
-Yu-cheng
+Now that I look at it again, everything is simply always redrawn now
+instead of even doing a simple bitblt.  Daniel, you mentioned that
+almost nobody supports hardware acceleration, but even without any
+specific hardware support, surely even if bitblt() is implemented just
+as a memcpy(), it has to be faster than redrawing all of the characters
+doesn't it?  Getting rid of the panning if it isn't generally supported
+I can see, but I don't understand killing bitblt even if most devices
+don't accelerate it.
+
+In addition, I noticed that ->screen_pos() was changed to just return
+vc_origin+offset.  fbcon is the only console driver to implement
+->screenpos() and if not implemented, vt defaults to using
+vc_visible_origin+offset, so it looks like this function isn't needed at
+all anymore and ->screen_pos() can be removed from struct consw.
+
+Does this make sense or am I talking crazy?
