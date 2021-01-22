@@ -2,204 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10D08C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F24F5C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:14:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB30A238D7
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 01:53:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABF6523884
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 03:14:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbhAVBxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jan 2021 20:53:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726608AbhAVBx0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 20:53:26 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 691A3C0613ED
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:52:46 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id y8so2346937plp.8
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jan 2021 17:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vf1YWMphq7IfDQQZ2byHu6e71SFyteLzACu9Oza6zmY=;
-        b=tb5wF3uXiUdTbE6BLyQLy5kvrs957kxDCHIzkbtPRzumfJR373zp+3Dzh3LUQJrxrr
-         aqJggpQHp0JxZBOMJPoNzW9upIYVz38x+C+Osa8wigYdMjAnI1Sj6EgnArsY4+8xs9mm
-         KIt6OeefkuC1IeslgLSi11/+dHA9h0L1RzkmZ3GAdrNbcVtTHT/NWekbU/1wkU9yZTRE
-         9aX0TOg/xLP8SwgEhVeIqt4yXlaDb64VrKZpDQl0cPaMPBQ0D2Fxg9KU9CX2mDFzJ9AO
-         ruflRRY7FdksdohDGZgiudasVbrM7YuzneEnFMxPamnmCZsjNzuYCtLd3aXA0NFPT5Nf
-         Dzmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vf1YWMphq7IfDQQZ2byHu6e71SFyteLzACu9Oza6zmY=;
-        b=lOjx3gkGEChFYFn8vnr+s3DtzERb2l7R3s0zsgBjsPq0BffxNpClP+kd0Ua2S3KtJB
-         WppTjrH8L43QT7oKDRbCsfC5C1yZABtUuvQ+LCLqJwsX204oPMDjob2QFHcAJbVXGlYT
-         aXpYlCxbUeTECA5Gj4r+iQM9gCVPEzZzdrFKEiAIXavFZ9FD/Wya4IQlP+jJkwjxYoZ/
-         mWLUkAikCfbgnRJbMX+U5qFaRtmVp19oH9z5tcnA9YGz/fre/qWXLVK2rsqWKJvxP1hp
-         zlsRKcKeOvnVchbuz1XzLeOH9w7x8kgTOT1L/JOhyYqbmfT86t9eotN+WFbiBGY1yw6a
-         05pg==
-X-Gm-Message-State: AOAM53048cZviKX8hiSKpbejBz/fC5dNiGepTl+Igj5n8at0HVqDAMJR
-        p9LzsKVK36t8ieWISNGw+xl1arYBm9jYtKubnb4rF6WMpwE=
-X-Google-Smtp-Source: ABdhPJxmTUWx8uIcPZ3F6Um1ghqWYda9bzza9YgD/Mu07BxAsd1t4hHgtpjTvODP8ozFJUBkIYDbHvtv1DzUD9FXkIk=
-X-Received: by 2002:a17:90a:9915:: with SMTP id b21mr2540454pjp.101.1611280365695;
- Thu, 21 Jan 2021 17:52:45 -0800 (PST)
+        id S1726644AbhAVDOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jan 2021 22:14:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27236 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726149AbhAVDOd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jan 2021 22:14:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611285187;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/QaNoqoevPF7/8oe2sGB4sw16sOzsJuLdFQitZNlslw=;
+        b=E4MqgQxNgUQVGeuZ1LkPGxD7OKYiON8wosNIBXudEcvg3dVGW3iqQFLj145Tm5PhZgs9RK
+        XwloKAiDPiM/VPwtRqrQ1lYJyYlT88su6cwBr45Jf+Xb8V1XCJHRFBvfB/WameDxc3nhgA
+        kYvpkXlDAzQ1KlFY/oowWbk503DjIOU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324--DA1YC-sOGSQs-sLfxKiIw-1; Thu, 21 Jan 2021 22:13:03 -0500
+X-MC-Unique: -DA1YC-sOGSQs-sLfxKiIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6BE5806664;
+        Fri, 22 Jan 2021 03:12:59 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-255.pek2.redhat.com [10.72.12.255])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F890627DD;
+        Fri, 22 Jan 2021 03:12:48 +0000 (UTC)
+Date:   Fri, 22 Jan 2021 11:12:44 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     john.p.donnelly@oracle.com
+Cc:     Guilherme Piccoli <gpiccoli@canonical.com>,
+        Kairui Song <kasong@redhat.com>,
+        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec mailing list <kexec@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "# v4 . 16+" <stable@vger.kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>,
+        Olof Johansson <olof@lixom.net>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
+ and ARM
+Message-ID: <20210122031244.GA4717@dhcp-128-65.nay.redhat.com>
+References: <20201118232431.21832-1-saeed.mirzamohammadi@oracle.com>
+ <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
+ <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
+ <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
+ <CAHD1Q_yB1B4gu7EDqbZJ5dxAAkr-dVKa9yRDK-tE3oLeTTmLJQ@mail.gmail.com>
+ <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
+ <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
+ <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
 MIME-Version: 1.0
-References: <20210113061958.886723-1-morbo@google.com> <20210116094357.3620352-1-morbo@google.com>
- <CA+icZUUgTuD6fO_AZFs9KoRFS8FUmyhezvYeeoRX2dveG_ifDA@mail.gmail.com>
- <CAGG=3QXZTR_f9pKzAR=LrALmMzdDqsvWM_zrTXOb2PpiDGB-+A@mail.gmail.com>
- <CA+icZUWf05ek+DFsJNyBc-4cg0s6cVrn=rNJDyL4RJ6=fMO5NA@mail.gmail.com>
- <CA+icZUVD1AHaXYu4Ne8JhzmtMR5DReL4C=ZxKfA0hjLtbC79qQ@mail.gmail.com>
- <CA+icZUUTJbwmTYCDJhyRtif3BdsB_yzQ3bSdLR62EmttJf3Row@mail.gmail.com>
- <CA+icZUUfWR1v3GStn6t_6MYDmwTdJ_zDwBTe2jmQRg7aOA1Q2A@mail.gmail.com>
- <CA+icZUU-3i7Of71C6XaNmee7xD4y_DeoWJFvUHnMUyBaMN3Ywg@mail.gmail.com>
- <CA+icZUXmn15w=kSq2CZzQD5JggJw_9AEam=Sz13M0KpJ68MWZg@mail.gmail.com>
- <CA+icZUWUPCuLWCo=kuPr9YZ4-NZ3F8Fv1GzDXPbDevyWjaMrJg@mail.gmail.com>
- <CAGG=3QW+ayBzCxOusLyQ0-y5K5C_3hNXjara_pYOcxK8MseN9g@mail.gmail.com>
- <CA+icZUU1HihUFaEHzF69+01+Picg8aq6HAqHupxiRqyDGJ=Mpw@mail.gmail.com>
- <CA+icZUUuzA5JEXyVzKbVX+T3xeOdRAU6-mntbo+VwwTxqmN7LA@mail.gmail.com>
- <CAGG=3QWmOA+yM2GJF+cHUb7wUq6yiBpHasa-ry9OhAdvciDm6Q@mail.gmail.com>
- <CA+icZUVwbWDtGUzMEkitxYn2UvbZPnFTxfJyDOY46j6BTK0deQ@mail.gmail.com>
- <CA+icZUXa9wvSWe=21_gjAapoHpbgBmYzFpQjb=o_WRQgK+O4gA@mail.gmail.com>
- <CAGG=3QUcaY1wzJhBD4ZGhPSNPik-kL0PuoE1SJqkFJEM_mkGYA@mail.gmail.com>
- <CA+icZUU+OWW46CVq4Co-y7hckGjoV5bbqxS-G+HDqUDci_AzHw@mail.gmail.com>
- <CAKwvOdkOOjDo+zFFz_T63FphZn2Lg7MW8vd7qd-yS_eB_yYdmA@mail.gmail.com> <CA+icZUUWtKqEhaJSbbQomC+Mz+uRgkWu72vyxPbif0nG1Vvr3g@mail.gmail.com>
-In-Reply-To: <CA+icZUUWtKqEhaJSbbQomC+Mz+uRgkWu72vyxPbif0nG1Vvr3g@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 21 Jan 2021 17:52:34 -0800
-Message-ID: <CAKwvOdmKRzE8s1zrs4ApcJSn9SzCpGhaoFqqeKsn67SpH6OVgQ@mail.gmail.com>
-Subject: Re: [PATCH v5] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Bill Wendling <morbo@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Fangrui Song <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 5:49 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Fri, Jan 22, 2021 at 2:43 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Wed, Jan 20, 2021 at 6:03 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > >
-> > > On Mon, Jan 18, 2021 at 10:56 PM Bill Wendling <morbo@google.com> wrote:
-> > > >
-> > > > On Mon, Jan 18, 2021 at 9:26 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, Jan 18, 2021 at 1:39 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > >
-> > > > > > On Mon, Jan 18, 2021 at 3:32 AM Bill Wendling <morbo@google.com> wrote:
-> > > > > > >
-> > > > > > > On Sun, Jan 17, 2021 at 4:27 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > [ big snip ]
-> > > > > > >
-> > > > > > > [More snippage.]
-> > > > > > >
-> > > > > > > > [ CC Fangrui ]
-> > > > > > > >
-> > > > > > > > With the attached...
-> > > > > > > >
-> > > > > > > >    [PATCH v3] module: Ignore _GLOBAL_OFFSET_TABLE_ when warning for
-> > > > > > > > undefined symbols
-> > > > > > > >
-> > > > > > > > ...I was finally able to boot into a rebuild PGO-optimized Linux-kernel.
-> > > > > > > > For details see ClangBuiltLinux issue #1250 "Unknown symbol
-> > > > > > > > _GLOBAL_OFFSET_TABLE_ loading kernel modules".
-> > > > > > > >
-> > > > > > > Thanks for confirming that this works with the above patch.
-> > > > > > >
-> > > > > > > > @ Bill Nick Sami Nathan
-> > > > > > > >
-> > > > > > > > 1, Can you say something of the impact passing "LLVM_IAS=1" to make?
-> > > > > > >
-> > > > > > > The integrated assembler and this option are more-or-less orthogonal
-> > > > > > > to each other. One can still use the GNU assembler with PGO. If you're
-> > > > > > > having an issue, it may be related to ClangBuiltLinux issue #1250.
-> > > > > > >
-> > > > > > > > 2. Can you please try Nick's DWARF v5 support patchset v5 and
-> > > > > > > > CONFIG_DEBUG_INFO_DWARF5=y (see attachments)?
-> > > > > > > >
-> > > > > > > I know Nick did several tests with PGO. He may have looked into it
-> > > > > > > already, but we can check.
-> > > > > > >
-> > > > > >
-> > > > > > Reproducible.
-> > > > > >
-> > > > > > LLVM_IAS=1 + DWARF5 = Not bootable
-> > > > > >
-> > > > > > I will try:
-> > > > > >
-> > > > > > LLVM_IAS=1 + DWARF4
-> > > > > >
-> > > > >
-> > > > > I was not able to boot into such a built Linux-kernel.
-> > > > >
-> > > > PGO will have no effect on debugging data. If this is an issue with
-> > > > DWARF, then it's likely orthogonal to the PGO patch.
-> > > >
-> > > > > For me worked: DWARF2 and LLVM_IAS=1 *not* set.
-> > > > >
-> > > > > Of course, this could be an issue with my system's LLVM/Clang.
-> > > > >
-> > > > > Debian clang version
-> > > > > 12.0.0-++20210115111113+45ef053bd709-1~exp1~20210115101809.3724
-> > > > >
-> > > > Please use the official clang 11.0.1 release
-> > > > (https://releases.llvm.org/download.html), modifying the
-> > > > kernel/pgo/Kconfig as I suggested above. The reason we specify clang
-> > > > 12 for the minimal version is because of an issue that was recently
-> > > > fixed.
-> > > >
-> > >
-> > > I downgraded to clang-11.1.0-rc1.
-> > > ( See attachment. )
-> > >
-> > > Doing the first build with PGO enabled plus DWARF5 and LLVM_IAS=1 works.
-> > >
-> > > But again after generating vmlinux.profdata and doing the PGO-rebuild
-> > > - the resulting Linux-kernel does NOT boot in QEMU or on bare metal.
-> > > With GNU/as I can boot.
-> > >
-> > > So this is independent of DWARF v4 or DWARF v5 (LLVM_IAS=1 and DWARF
-> > > v2 is not allowed).
-> > > There is something wrong (here) with passing LLVM_IAS=1 to make when
-> > > doing the PGO-rebuild.
-> > >
-> > > Can someone please verify and confirm that the PGO-rebuild with
-> > > LLVM_IAS=1 boots or boots not?
-> >
-> > I was able to build+boot with LLVM_IAS=1 on my personal laptop (no
-> > dwarf 5, just mainline+v5).
-> >
->
-> To clarify:
->
-> I can build a PGO-enabled Linux-kernel and boot it.
-> Afterwards generate a vmlinux.profdata.
-> In a next step: A rebuild without PGO-Kconfig disabled + LLVM_IAS=1
-> does not boot.
+On 01/22/21 at 09:22am, Dave Young wrote:
+> Hi John,
+> 
+> On 01/21/21 at 09:32am, john.p.donnelly@oracle.com wrote:
+> > On 11/22/20 9:47 PM, Dave Young wrote:
+> > > Hi Guilherme,
+> > > On 11/22/20 at 12:32pm, Guilherme Piccoli wrote:
+> > > > Hi Dave and Kairui, thanks for your responses! OK, if that makes sense
+> > > > to you I'm fine with it. I'd just recommend to test recent kernels in
+> > > > multiple distros with the minimum "range" to see if 64M is enough for
+> > > > crashkernel, maybe we'd need to bump that.
+> > > 
+> > > Giving the different kernel configs and the different userspace
+> > > initramfs setup it is hard to get an uniform value for all distributions,
+> > > but we can have an interface/kconfig-option for them to provide a value like this patch
+> > > is doing. And it could be improved like Kairui said about some known
+> > > kernel added extra values later, probably some more improvements if
+> > > doable.
+> > > 
+> > > Thanks
+> > > Dave
+> > > 
+> > 
+> > Hi.
+> > 
+> > Are we going to move forward with implementing this for X86 and Arm ?
+> > 
+> > If other platform maintainers want to include this CONFIG option in their
+> > configuration settings they have a starting point.
+> 
+> I would expect this become arch independent.
 
-Does the rebuild produce the hash warnings previously reported?
+Clarify a bit, it can be a general config option under arch/Kconfig and
+just put the code in general arch independent part.
 
-Can you send your .config for this?
--- 
-Thanks,
-~Nick Desaulniers
+> 
+> Saeed, Kairui, would any of you like to update the patch?
+> 
+> > 
+> > Thank you,
+> > 
+> > John.
+> > 
+> > ( I am not currently on many of the included dist lists  in this email, so
+> > hopefully key contributors are included in this exchange )
+> > 
+> 
+> Thanks
+> Dave
+
