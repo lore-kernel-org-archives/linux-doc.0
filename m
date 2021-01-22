@@ -2,181 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0A5C41621
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 17:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCE1C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:06:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3362E23433
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 17:21:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E867C23AC1
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jan 2021 18:06:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729036AbhAVP5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 10:57:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728872AbhAVP4Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 10:56:24 -0500
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF4FCC06174A;
-        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
-Received: by mail-ot1-x332.google.com with SMTP id n42so5467081ota.12;
-        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lVwBZlqiYAkRijUO0G3Pdgufy3KTr/KU+bLABsRacK0=;
-        b=o3cV7KBYdJWHwjHBJpMCzihXhznKL1pW79F6twFp3Vr788Uig3i00AbOCbPit72oYv
-         wziGblz8dA+bIKUHN09rqDQeIurEs3dReqCnqMkXO0lhCp4wxaCXZ8sY1P4bPxvUS0vP
-         ykOWb0FR+uK7HBwROaw7vbCcrj2sPnXf8PM6h3+6eNuEcWONv2vlrVbcTYZ8WeENlg6u
-         fFcdAN0FxgFiGJaEjtDi0RiTeDIZPx6gdMKXcLUSdDwGvxaA2I8BaWZFyGALO+4i4p8U
-         BBUN9DCvY5QI1Or8qGcCak9BaO6hgzNlkt9gnK23K8/6KVvw5QUpx4YFdieJlUBNwLRb
-         DzXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lVwBZlqiYAkRijUO0G3Pdgufy3KTr/KU+bLABsRacK0=;
-        b=CBaCXNdBmqqoQ9cf+b1768tvVIPTVuSUljv3oW+QpBDMwvsM0xL2RwK3gYsIQQ/MTd
-         R1AL77/x6GxTMf/9cpdqWPUucGO5KYEsTdVciGpCp8TVhHr2e4Ql/kDDngiy/Nuu2v+g
-         jXOA9WdAyi1ByIE7ar1tYIB9DEAEEWG4unzI1dIU8bN8RLasJUqr679VaspEUajPkcHR
-         47o4vpwygbj8o39kxL1p3N+GEvDTPue6zqHkGVuhhRIWjFyKuyu25XWyBNOzi6oPa3Ac
-         wHGIdTUbZn/Ehm+mngwXt9pvgr1so5i0BeJSYbLuZpadqRj928iivDjInoVOOoeaeg7O
-         SR8w==
-X-Gm-Message-State: AOAM532gCeP0qbhEJsbo7BwUece6S39dMb8tZwI0I6YckkxP4iFcOLQq
-        xdH0gJvSSZ3FDRxsQd4O8zs=
-X-Google-Smtp-Source: ABdhPJx9oAWwSu666d9+RiZPNbctzTlb8yeHu4vEo52+ZLz0UdxaZBqtC1t4CxdlvDW68G/+B6SkAg==
-X-Received: by 2002:a05:6830:796:: with SMTP id w22mr1581370ots.297.1611330944051;
-        Fri, 22 Jan 2021 07:55:44 -0800 (PST)
-Received: from Davids-MacBook-Pro.local ([8.48.134.50])
-        by smtp.googlemail.com with ESMTPSA id y24sm1672792oos.44.2021.01.22.07.55.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 07:55:43 -0800 (PST)
-Subject: Re: [PATCH v3 net-next 1/1] Allow user to set metric on default route
- learned via Router Advertisement.
-To:     Praveen Chaudhary <praveen5582@gmail.com>, davem@davemloft.net,
-        kuba@kernel.org, corbet@lwn.net, kuznet@ms2.inr.ac.ru,
-        yoshfuji@linux-ipv6.org, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Zhenggen Xu <zxu@linkedin.com>
-References: <20210119212959.25917-1-pchaudhary@linkedin.com>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <1cc9e887-a984-c14a-451c-60a202c4cf20@gmail.com>
-Date:   Fri, 22 Jan 2021 08:55:41 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+        id S1729173AbhAVSGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jan 2021 13:06:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55972 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728745AbhAVSGc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Jan 2021 13:06:32 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F92223A6A;
+        Fri, 22 Jan 2021 18:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611338751;
+        bh=RWAadgTE3OBkC/7CFKgrnVcdGooeNarn5qiZczZ3+Ko=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TL6jaYn0mzvupgHkDmXIqa9iuhcFq3T13YmqLldcmDGL5osB8mbti6TlMo6wa6g9D
+         3PwJeNrHZRo+CBeWBC2PapF/ydLffUl/MD68ct0FA+iuKHUjdT1jDBuvfiKtldc3o0
+         vWdBYyCfAhGX7c8wmTKL3svn0q/lSp3y8CrdM2gGWQVKDwwATfhZ+dFt8xF9YTrKsR
+         0ChufAze2E5dUsJUdp4L8LHGvDzddpkCeT6k/B/gpqpBVI/eNAEx5AsDztIUJW4egA
+         OEjlE27f5bOY925CQ3oAI2NpMaWhplSzaTGJvy/suIKQlKmPD+E4GcHOfy0TBvAs30
+         3opMQxT7vie+Q==
+Date:   Fri, 22 Jan 2021 20:05:48 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Alasdair Kergon <agk@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
+        Song Liu <song@kernel.org>, kernel@pengutronix.de,
+        Jan =?iso-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        Dmitry Baryshkov <dbaryshkov@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+        Sumit Garg <sumit.garg@linaro.org>
+Subject: Re: [PATCH 2/2] dm crypt: support using trusted keys
+Message-ID: <YAsT/N8CHHNTZcj3@kernel.org>
+References: <20210122084321.24012-1-a.fatoum@pengutronix.de>
+ <20210122084321.24012-2-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20210119212959.25917-1-pchaudhary@linkedin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210122084321.24012-2-a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/19/21 2:29 PM, Praveen Chaudhary wrote:
-> For IPv4, default route is learned via DHCPv4 and user is allowed to change
-> metric using config etc/network/interfaces. But for IPv6, default route can
-> be learned via RA, for which, currently a fixed metric value 1024 is used.
+On Fri, Jan 22, 2021 at 09:43:21AM +0100, Ahmad Fatoum wrote:
+> Commit 27f5411a718c ("dm crypt: support using encrypted keys") extended
+> dm-crypt to allow use of "encrypted" keys along with "user" and "logon".
 > 
-> Ideally, user should be able to configure metric on default route for IPv6
-> similar to IPv4. This fix adds sysctl for the same.
+> Along the same lines, teach dm-crypt to support "trusted" keys as well.
 > 
-> Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
-> Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
-> 
-> Changes in v1.
-> 1.) Correct the call to rt6_add_dflt_router.
-> 
-> Changes in v2.
-> 1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
-> 2.) Change Type to __u32 instead of __s32.
-> 3.) Change description in Documentation/networking/ip-sysctl.rst.
-> 4.) Use proc_douintvec instead of proc_dointvec.
-> 5.) Code style in ndisc_router_discovery().
-> 6.) Change Type to u32 instead of unsigned int.
-> 
-> Changes in v3:
-> 1.) Removed '---' and '```' from description.
-> 2.) Remove stray ' after accept_ra_defrtr.
-> 3.) Fix tab in net/ipv6/addrconf.c.
-> 
-> Logs:
-> 
-> For IPv4:
-> 
-> Config in etc/network/interfaces:
-> auto eth0
-> iface eth0 inet dhcp
->     metric 4261413864
-> 
-> IPv4 Kernel Route Table:
-> $ ip route list
-> default via 172.21.47.1 dev eth0 metric 4261413864
-> 
-> FRR Table, if a static route is configured:
-> [In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
-> Codes: K - kernel route, C - connected, S - static, R - RIP,
->        O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
->        T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
->        > - selected route, * - FIB route
-> 
-> S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
-> K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
-> 
-> i.e. User can prefer Default Router learned via Routing Protocol in IPv4.
-> Similar behavior is not possible for IPv6, without this fix.
-> 
-> After fix [for IPv6]:
-> sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
-> 
-> IP monitor: [When IPv6 RA is received]
-> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
-> 
-> Kernel IPv6 routing table
-> $ ip -6 route list
-> default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
-> 
-> FRR Table, if a static route is configured:
-> [In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
-> Codes: K - kernel route, C - connected, S - static, R - RIPng,
->        O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
->        v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
->        > - selected route, * - FIB route
-> 
-> S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
-> K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
-> 
-> If the metric is changed later, the effect will be seen only when next IPv6
-> RA is received, because the default route must be fully controlled by RA msg.
-> Below metric is changed from 1996489705 to 1996489704.
-> 
-> $ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
-> net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
-> 
-> IP monitor:
-> [On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
-> 
-> Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
-> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 > ---
->  Documentation/networking/ip-sysctl.rst | 12 ++++++++++++
->  include/linux/ipv6.h                   |  1 +
->  include/net/ip6_route.h                |  3 ++-
->  include/uapi/linux/ipv6.h              |  1 +
->  include/uapi/linux/sysctl.h            |  1 +
->  net/ipv6/addrconf.c                    | 10 ++++++++++
->  net/ipv6/ndisc.c                       | 14 ++++++++++----
->  net/ipv6/route.c                       |  5 +++--
->  8 files changed, 40 insertions(+), 7 deletions(-)
+
+Is it possible to test run this with tmpfs? Would be a good test
+target for Sumit's ARM-TEE trusted keys patches.
+
+https://lore.kernel.org/linux-integrity/1604419306-26105-1-git-send-email-sumit.garg@linaro.org/
+
+/Jarkko
+
+> Unsure on whether target_type::version is something authors increment or
+> maintainers fix up. I can respin if needed.
 > 
-
-LGTM. I can't think of a better way to do this than a sysctl. Shame that
-the metric/priority is not an RA option.
-
-Reviewed-by: David Ahern <dsahern@kernel.org>
+> Cc: Jan L�bbe <jlu@pengutronix.de>
+> Cc: linux-integrity@vger.kernel.org
+> Cc: keyrings@vger.kernel.org
+> Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>
+> ---
+>  .../admin-guide/device-mapper/dm-crypt.rst    |  2 +-
+>  drivers/md/Kconfig                            |  1 +
+>  drivers/md/dm-crypt.c                         | 23 ++++++++++++++++++-
+>  3 files changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/device-mapper/dm-crypt.rst b/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> index 1a6753b76dbb..aa2d04d95df6 100644
+> --- a/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> +++ b/Documentation/admin-guide/device-mapper/dm-crypt.rst
+> @@ -67,7 +67,7 @@ Parameters::
+>      the value passed in <key_size>.
+>  
+>  <key_type>
+> -    Either 'logon', 'user' or 'encrypted' kernel key type.
+> +    Either 'logon', 'user', 'encrypted' or 'trusted' kernel key type.
+>  
+>  <key_description>
+>      The kernel keyring key description crypt target should look for
+> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+> index 9e44c09f6410..f2014385d48b 100644
+> --- a/drivers/md/Kconfig
+> +++ b/drivers/md/Kconfig
+> @@ -270,6 +270,7 @@ config DM_CRYPT
+>  	tristate "Crypt target support"
+>  	depends on BLK_DEV_DM
+>  	depends on (ENCRYPTED_KEYS || ENCRYPTED_KEYS=n)
+> +	depends on (TRUSTED_KEYS || TRUSTED_KEYS=n)
+>  	select CRYPTO
+>  	select CRYPTO_CBC
+>  	select CRYPTO_ESSIV
+> diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+> index 7eeb9248eda5..6c7c687e546c 100644
+> --- a/drivers/md/dm-crypt.c
+> +++ b/drivers/md/dm-crypt.c
+> @@ -37,6 +37,7 @@
+>  #include <linux/key-type.h>
+>  #include <keys/user-type.h>
+>  #include <keys/encrypted-type.h>
+> +#include <keys/trusted-type.h>
+>  
+>  #include <linux/device-mapper.h>
+>  
+> @@ -2452,6 +2453,22 @@ static int set_key_encrypted(struct crypt_config *cc, struct key *key)
+>  	return 0;
+>  }
+>  
+> +static int set_key_trusted(struct crypt_config *cc, struct key *key)
+> +{
+> +	const struct trusted_key_payload *tkp;
+> +
+> +	tkp = key->payload.data[0];
+> +	if (!tkp)
+> +		return -EKEYREVOKED;
+> +
+> +	if (cc->key_size != tkp->key_len)
+> +		return -EINVAL;
+> +
+> +	memcpy(cc->key, tkp->key, cc->key_size);
+> +
+> +	return 0;
+> +}
+> +
+>  static int crypt_set_keyring_key(struct crypt_config *cc, const char *key_string)
+>  {
+>  	char *new_key_string, *key_desc;
+> @@ -2484,6 +2501,10 @@ static int crypt_set_keyring_key(struct crypt_config *cc, const char *key_string
+>  		   !strncmp(key_string, "encrypted:", key_desc - key_string + 1)) {
+>  		type = &key_type_encrypted;
+>  		set_key = set_key_encrypted;
+> +	} else if (IS_ENABLED(CONFIG_TRUSTED_KEYS) &&
+> +	           !strncmp(key_string, "trusted:", key_desc - key_string + 1)) {
+> +		type = &key_type_trusted;
+> +		set_key = set_key_trusted;
+>  	} else {
+>  		return -EINVAL;
+>  	}
+> @@ -3555,7 +3576,7 @@ static void crypt_io_hints(struct dm_target *ti, struct queue_limits *limits)
+>  
+>  static struct target_type crypt_target = {
+>  	.name   = "crypt",
+> -	.version = {1, 22, 0},
+> +	.version = {1, 23, 0},
+>  	.module = THIS_MODULE,
+>  	.ctr    = crypt_ctr,
+>  	.dtr    = crypt_dtr,
+> -- 
+> 2.30.0
+> 
+> 
