@@ -2,193 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 256BBC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 03:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F4CC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 05:18:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8EB723B3E
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 03:59:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2512223AC2
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 05:18:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbhAWD7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jan 2021 22:59:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35320 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726413AbhAWD7U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jan 2021 22:59:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611374273;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WJ9Mm5Q1SkM9lfn4njziV+U6R5yBys70RfxEBh9Yi+c=;
-        b=aXJEsXFJSg4rz5+5shyekWgHF+5Zw9QoPYzan2ZgogQQT90FSJnhsltjb4GgKFCGdIQr8j
-        B2jd3R1d7GD1ucBesJX1LEij1lJI2xTAwB6OnXaOPJTuTZyZoI+WV1mAEto4v8d13g9r55
-        6WTdafDrzrY6rqqRbyl04V7dVMFpXn0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-602-3tQGP1XmNuKJg-RaQaU7Cw-1; Fri, 22 Jan 2021 22:57:51 -0500
-X-MC-Unique: 3tQGP1XmNuKJg-RaQaU7Cw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0958F8018A3;
-        Sat, 23 Jan 2021 03:57:48 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-12-54.pek2.redhat.com [10.72.12.54])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D90CA5DA2D;
-        Sat, 23 Jan 2021 03:57:36 +0000 (UTC)
-Date:   Sat, 23 Jan 2021 11:57:33 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>,
-        Guilherme Piccoli <gpiccoli@canonical.com>,
-        Kairui Song <kasong@redhat.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        id S1725876AbhAWFRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jan 2021 00:17:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45646 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbhAWFRY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 00:17:24 -0500
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C01C061786;
+        Fri, 22 Jan 2021 21:16:44 -0800 (PST)
+Received: by mail-oo1-xc29.google.com with SMTP id u7so1345916ooq.0;
+        Fri, 22 Jan 2021 21:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zxNG662Tpnsoz8s5rDmsMzt/BLhFhjnXV6eLd4EYb9o=;
+        b=OCm+4WEKTHVXtK6/TX7smrp79P/GGOR+w/7KiDo+8jeq/ksAy3rxssV1CuJv6tuYRl
+         p/AO5XsNXHgW2UOv1LjNUy9jyWYbacgs8146zP5RAQMwQaqZUA1i9cG4embLRK4R0loy
+         wmYN/xM2gMJOdX1ZsfjMYVohVMn6dGF3t1mDM/MU+TyX1a41Z8Asv1xFhaPkiztuxYOJ
+         uiHI7g1FFfKkgDaqzWQXf0NpL1tBARdtCv8A6VMZjiVCLg1OAmzEeOzXpuwqMUuJOWVO
+         E750pIbTaJ2CZXUxdY8Ex3g0JqKMUYhbBGDr4sMLnHictC8UXeMGtGB5K+dp7Z/v3w+5
+         g9Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zxNG662Tpnsoz8s5rDmsMzt/BLhFhjnXV6eLd4EYb9o=;
+        b=nkaObXN27mjp4XvW7kYn6qaaoqJgDqe6da9FrA02OH7RWCS71j8OlIncnSr/NJinWz
+         6EUwr6jhcNkpajh3DFFifp2kvskU8f5aG7mZvJvy5CfoVYORtH2JEBqiZnud1EMEs7CL
+         RcaIcOJUtdnK/DGJt4Ivcka24/zJ2NDdv4X105Co1oJ6bGEdmUgcaL+/J98k0biGTOTT
+         39BiQL4QyLmckJ/C+Jrv1OVXKzd7l30EBalHzIquKstXkeTMy8zGjan27SdN998M/Fq2
+         c7bqslauz4Iy9wTx1TEBp/ydV3ovALTJR5MXayT0VCpGqLrh02x1QlxeFVOzsIOwSY+u
+         Y13Q==
+X-Gm-Message-State: AOAM533hA5ovcNIg1U7fPGrIeJXLLEfU7JUNaSrGvojjQxA3iZ3/Bk2M
+        KuP/9PBb+MXYakKaGIe+Rww=
+X-Google-Smtp-Source: ABdhPJxA+4+j4HTMeDWLI8zan6VNkVXWGoDLVeWMHezRa95zOtEuJmLY0QZf0uyYNHswa/3PTASX8w==
+X-Received: by 2002:a4a:52d1:: with SMTP id d200mr813555oob.64.1611379003994;
+        Fri, 22 Jan 2021 21:16:43 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([8.48.134.50])
+        by smtp.googlemail.com with ESMTPSA id e14sm2628oou.19.2021.01.22.21.16.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jan 2021 21:16:43 -0800 (PST)
+Subject: Re: [PATCH v3 net-next 1/1] Allow user to set metric on default route
+ learned via Router Advertisement.
+To:     =?UTF-8?Q?Maciej_=c5=bbenczykowski?= <zenczykowski@gmail.com>
+Cc:     Praveen Chaudhary <praveen5582@gmail.com>,
+        David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
+        Linux NetDev <netdev@vger.kernel.org>,
         linux-doc@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org, Baoquan He <bhe@redhat.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec mailing list <kexec@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "# v4 . 16+" <stable@vger.kernel.org>,
-        Li Yang <leoyang.li@nxp.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.com>,
-        Olof Johansson <olof@lixom.net>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 1/1] kernel/crash_core.c - Add crashkernel=auto for x86
- and ARM
-Message-ID: <20210123035733.GA6865@dhcp-128-65.nay.redhat.com>
-References: <CACPcB9e8p5Ayw15aOe5ZNPOa7MF3+pzPdcaZgTc_E_TZYkgD6Q@mail.gmail.com>
- <AC36B9BC-654C-4FC1-8EA3-94B986639F1E@oracle.com>
- <CACPcB9d7kU1TYaF-g2GH16Wg=hrQu71sGDoC8uMFFMc6oW_duQ@mail.gmail.com>
- <CAHD1Q_yB1B4gu7EDqbZJ5dxAAkr-dVKa9yRDK-tE3oLeTTmLJQ@mail.gmail.com>
- <20201123034705.GA5908@dhcp-128-65.nay.redhat.com>
- <d6b5b7f3-ba38-be61-d3fe-975c3343a79d@oracle.com>
- <20210122012254.GA3174@dhcp-128-65.nay.redhat.com>
- <20210122031244.GA4717@dhcp-128-65.nay.redhat.com>
- <730EBE33-5571-49C0-AF38-08C49736EB70@oracle.com>
- <20210123035126.GA6539@dhcp-128-65.nay.redhat.com>
+        Zhenggen Xu <zxu@linkedin.com>
+References: <20210119212959.25917-1-pchaudhary@linkedin.com>
+ <1cc9e887-a984-c14a-451c-60a202c4cf20@gmail.com>
+ <CAHo-Oozz-mGNz4sphOJekNeAgGJCLmiZaiNccXjiQ02fQbfthQ@mail.gmail.com>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <bc855311-f348-430b-0d3c-9103d4fdbbb6@gmail.com>
+Date:   Fri, 22 Jan 2021 22:16:41 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210123035126.GA6539@dhcp-128-65.nay.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAHo-Oozz-mGNz4sphOJekNeAgGJCLmiZaiNccXjiQ02fQbfthQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/23/21 at 11:51am, Dave Young wrote:
-> Hi Saeed,
-> On 01/22/21 at 05:14pm, Saeed Mirzamohammadi wrote:
-> > Hi,
-> > 
-> > > On Jan 21, 2021, at 7:12 PM, Dave Young <dyoung@redhat.com> wrote:
-> > > 
-> > > On 01/22/21 at 09:22am, Dave Young wrote:
-> > >> Hi John,
-> > >> 
-> > >> On 01/21/21 at 09:32am, john.p.donnelly@oracle.com wrote:
-> > >>> On 11/22/20 9:47 PM, Dave Young wrote:
-> > >>>> Hi Guilherme,
-> > >>>> On 11/22/20 at 12:32pm, Guilherme Piccoli wrote:
-> > >>>>> Hi Dave and Kairui, thanks for your responses! OK, if that makes sense
-> > >>>>> to you I'm fine with it. I'd just recommend to test recent kernels in
-> > >>>>> multiple distros with the minimum "range" to see if 64M is enough for
-> > >>>>> crashkernel, maybe we'd need to bump that.
-> > >>>> 
-> > >>>> Giving the different kernel configs and the different userspace
-> > >>>> initramfs setup it is hard to get an uniform value for all distributions,
-> > >>>> but we can have an interface/kconfig-option for them to provide a value like this patch
-> > >>>> is doing. And it could be improved like Kairui said about some known
-> > >>>> kernel added extra values later, probably some more improvements if
-> > >>>> doable.
-> > >>>> 
-> > >>>> Thanks
-> > >>>> Dave
-> > >>>> 
-> > >>> 
-> > >>> Hi.
-> > >>> 
-> > >>> Are we going to move forward with implementing this for X86 and Arm ?
-> > >>> 
-> > >>> If other platform maintainers want to include this CONFIG option in their
-> > >>> configuration settings they have a starting point.
-> > >> 
-> > >> I would expect this become arch independent.
-> > > 
-> > > Clarify a bit, it can be a general config option under arch/Kconfig and
-> > > just put the code in general arch independent part.
-> > 
-> > Does this mean that we need to add the option to def_configs in all archs as well?
-> > 
-> 
-> I think we do not need to add defconfig, something like this will just work?
-> 
-> BTW, it should depend on CRASH_CORE instead of CRASH_DUMP, the logic of
-> parsing crashkernel is in kernel/crash_core.c
-> 
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index af14a567b493..fa6efeb52dc5 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -14,6 +14,11 @@ menu "General architecture-dependent options"
->  config CRASH_CORE
->  	bool
->  
-> +config CRASH_AUTO_STR
-> +	depends on CRASH_CORE
-> +	string "Memory reserved for crash kernel"
-> +	default "1G-:128M"
+On 1/22/21 9:02 PM, Maciej Żenczykowski wrote:
+> Why can't we get rid of the special case for 0 and simply make 1024 the
+> default value?
 
-People do not want to see the default value if they do not need kdump 
-so it would be better to add another kconfig option as a switch which is
-set default as off in bool state.
+That would work too.
 
-> +	... help text [snip] ...
-> +
->  config KEXEC_CORE
->  	select CRASH_CORE
->  	bool
 > 
-> [...]
+> As for making it an RA option: it's not clear how that would work, the
+> use case I see for this is for example two connections to the internet,
+> of which one is clearly better (higher throughput, lower latency, lower
+> packet loss, etc) then the other.
 > 
-> > Thanks,
-> > Saeed
-> > 
-> > > 
-> > >> 
-> > >> Saeed, Kairui, would any of you like to update the patch?
-> > >> 
-> > >>> 
-> > >>> Thank you,
-> > >>> 
-> > >>> John.
-> > >>> 
-> > >>> ( I am not currently on many of the included dist lists  in this email, so
-> > >>> hopefully key contributors are included in this exchange )
-> > >>> 
-> > >> 
-> > >> Thanks
-> > >> Dave
-> > 
-> 
-> Thanks
-> Dave
+> The upstream routers would have to somehow coordinate with each other
+> the metric values... that seems impossible to achieve in practice -
+> unless they do something like report expected down/up
+> bandwidth, latency, etc...  While some sort of policy on the machine
+> itself seems much more feasible (for example wired interface > wireless
+> interface > cell interface or something like that)
 
+I was thinking the admin of the network controls the RAs and knows which
+paths are preferred over the admin of the node receiving the RA (not
+practical for a mobile setup with cell vs wifi, but is for a DC which is
+the driving use case).
+
+But it takes an extension to IPv6/ndisc to add metric as an RA option,
+so not realistic in a reasonable time frame.
