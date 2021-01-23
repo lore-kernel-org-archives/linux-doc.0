@@ -2,275 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F01C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 10:50:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BFB6C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 13:14:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9590623381
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 10:50:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D5F42311B
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 13:14:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726908AbhAWKtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jan 2021 05:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbhAWKsS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 05:48:18 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA6AC061797;
-        Sat, 23 Jan 2021 02:47:19 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id q20so5474447pfu.8;
-        Sat, 23 Jan 2021 02:47:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qBbuWWuvn/SG2w43vbI4VPqGlPTRg3jqDlvja9eltTs=;
-        b=S6QzKFI0ju282I9hPcwJFwav3mGuMy6pQ+qAxMSTLYAUWPWFwrN4JvfDIq1ce6qBVY
-         3KKiSezNyY+5LN5h1frn/jQgR7smKbdH1pAlSQoYcKLTRbP0OowLeQKFwV975yNdzDTY
-         WzS8aL+sWU9md0CO+0q+tXErE7ln2DJc0vP71v6k1lhjvZL9/qcafjWsel5xD76d10Tz
-         k3r5RbqMWYy/jqeDH85l5LpFmNwbWa2sQdRu4X+IPtGane7QctN82Nq679PFJb1CAhLQ
-         xcUueitVOGF0PmxdtfYY4EwAGgfjq4GC9afUEC2r9OYIo+gziCumnzqSxbZ4zrWgtDje
-         Ciug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qBbuWWuvn/SG2w43vbI4VPqGlPTRg3jqDlvja9eltTs=;
-        b=NKE+RFJynbT4uw9zMnljN2HhJtHeNeLfb1UcIzCDQgp0BRb+x9AJqX2AnblwIa8y60
-         MbOwMo3TYPfoKzhlPVojavbBFWxGkb5nBijpTF6NagEjtFQdTcXolDup5BkU0OVOzcPD
-         uzxYybMm4rgRku6U2urzeSxnMX8F57qztA09IeOnNTnY5FEuguLVyJuTnOMvpysjq+Sj
-         u7PUkcJg3b0Wi7EethDCK7c9cm42yZG6LFJmhhHMD8dvpnfzl8eiKTflIvP+5Lmiu/8X
-         58k3tPWmR0eXThIP57njmoLa9s9bssaVr+8nqQlkJgtBEpKIt42pdokPyPJ7hC+jk5xb
-         Qxzg==
-X-Gm-Message-State: AOAM530EbKR8zwAr6Eh6Ube8xSuQp6mRJLHxU1Dg/6TeGnMY6id8x/kl
-        snNYZOOAMi3yqvD3QhJ4isA=
-X-Google-Smtp-Source: ABdhPJw6Z8JTi/+AeY7zYtjKUoE2tmR12os+pkrUF8O/m8TRLSNRv7rsxrB0hdoSBjr8Qgv+EhdQ/w==
-X-Received: by 2002:a62:8c85:0:b029:1bd:5441:6cb8 with SMTP id m127-20020a628c850000b02901bd54416cb8mr1423072pfd.29.1611398838973;
-        Sat, 23 Jan 2021 02:47:18 -0800 (PST)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id k5sm6334035pfi.31.2021.01.23.02.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jan 2021 02:47:18 -0800 (PST)
-From:   Coiby Xu <coiby.xu@gmail.com>
-To:     devel@driverdev.osuosl.org
-Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        GR-Linux-NIC-Dev@marvell.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S1725819AbhAWNOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jan 2021 08:14:39 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:45761 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725766AbhAWNOh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 08:14:37 -0500
+Received: from localhost.localdomain (softbank126026094251.bbtec.net [126.26.94.251]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 10NDBvPP016300;
+        Sat, 23 Jan 2021 22:11:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 10NDBvPP016300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611407519;
+        bh=Q7tcC4mt1Zp1/28EOjcXN8NS6DZeIM4iUSeIYyg4BP0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JBOL6/Ut1OXSMkNuqOkuP1mw3zKhyYpeOsl332jaZ2dhz6MaQF+1skS5IKyR0w3dX
+         sIggrNvWoGTSm6rD3ezdHYmpCLST+iBpJQ9NvPhEyGXCWSuw2Fet2mUJVsjX6v5a+h
+         eAQSQXm2nij2HCQhm6KCtdntWVb54GJBXngu7xr6d95uHe8bQ2xCMLuPyCgmssFVY/
+         3Lb1QDjBR8QLkbkiS3Er7V/eDG0BmkYk1euTzsw9GUPU6Txfot+YAIS2ujyU5BNQxG
+         DOJjOpP18RbwqOf0HgoVxoJ294CYSfJugE6ppoFBxZyLH6z4PJ5d7DxnICwXx1TqSq
+         6sJeFFc7dRxmw==
+X-Nifty-SrcIP: [126.26.94.251]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Robert Karszniewicz <r.karszniewicz@phytec.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
         Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 8/8] staging: qlge: add documentation for debugging qlge
-Date:   Sat, 23 Jan 2021 18:46:13 +0800
-Message-Id: <20210123104613.38359-9-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210123104613.38359-1-coiby.xu@gmail.com>
-References: <20210123104613.38359-1-coiby.xu@gmail.com>
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH] doc: gcc-plugins: drop more stale information
+Date:   Sat, 23 Jan 2021 22:11:52 +0900
+Message-Id: <20210123131152.734504-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instructions and examples on kernel data structures dumping and
-coredump.
+[1] Drop the version information
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+The range of the supported GCC versions are always changing. The
+current minimal GCC version is 4.9, and commit 1e860048c53e
+("gcc-plugins: simplify GCC plugin-dev capability test") removed the
+old code accordingly. We do not mention specific version ranges like
+"all gcc versions from 4.5 to 6.0" since we often forget to update the
+documentation when the minimal compiler version is raised.
+
+[2] Drop the C compiler statements
+
+Since commit 77342a02ff6e ("gcc-plugins: drop support for GCC <= 4.7")
+the GCC plugin infrastructure only supports g++.
+
+[3] Drop supported architectures
+
+As of v5.11-rc4, the infrastructure supports more architectures;
+arm, arm64, mips, powerpc, riscv, s390, um, and x86. (just grep
+"select HAVE_GCC_PLUGINS") Again, we often forget to update this
+document when a new architecture is supported. Let's just say
+"only some architectures".
+
+[4] Update the apt-get example
+
+We are discussing to bump the minimal version to GCC 5. Change the
+package example to gcc-10-plugin-dev while we are here.
+
+[5] Update the build target
+
+Since commit ce2fd53a10c7 ("kbuild: descend into scripts/gcc-plugins/
+via scripts/Makefile"), "make gcc-plugins" is not supported.
+"make scripts" builds all the enabled plugins, including some other
+tools.
+
+[6] Update the steps for adding a new plugin
+
+At first, all CONFIG options for GCC plugins were located in arch/Kconfig.
+After commit 45332b1bdfdc ("gcc-plugins: split out Kconfig entries to
+scripts/gcc-plugins/Kconfig"), scripts/gcc-plugins/Kconfig became the
+central place to collect plugin CONFIG options. In my understanding,
+this requirement no longer exists because commit 9f671e58159a ("security:
+Create "kernel hardening" config area") moved some of plugin CONFIG
+options to another file. Find an appropriate place to add the new CONFIG.
+I do not understand what was intended by the $(src)/ prefix. Remove it.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- .../networking/device_drivers/index.rst       |   1 +
- .../device_drivers/qlogic/index.rst           |  18 +++
- .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
- MAINTAINERS                                   |   6 +
- 4 files changed, 143 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
- create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
 
-diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
-index a3113ffd7a16..d8279de7bf25 100644
---- a/Documentation/networking/device_drivers/index.rst
-+++ b/Documentation/networking/device_drivers/index.rst
-@@ -15,6 +15,7 @@ Contents:
-    ethernet/index
-    fddi/index
-    hamradio/index
-+   qlogic/index
-    wan/index
-    wifi/index
+ Documentation/kbuild/gcc-plugins.rst | 30 ++++++++++++----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+index 63379d0150e3..7ea16f93db06 100644
+--- a/Documentation/kbuild/gcc-plugins.rst
++++ b/Documentation/kbuild/gcc-plugins.rst
+@@ -11,16 +11,13 @@ compiler [1]_. They are useful for runtime instrumentation and static analysis.
+ We can analyse, change and add further code during compilation via
+ callbacks [2]_, GIMPLE [3]_, IPA [4]_ and RTL passes [5]_.
  
-diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
-new file mode 100644
-index 000000000000..ad05b04286e4
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/index.rst
-@@ -0,0 +1,18 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+QLogic QLGE Device Drivers
-+===============================================
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   qlge
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
-new file mode 100644
-index 000000000000..0b888253d152
---- /dev/null
-+++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
-@@ -0,0 +1,118 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======================================
-+QLogic QLGE 10Gb Ethernet device driver
-+=======================================
-+
-+This driver use drgn and devlink for debugging.
-+
-+Dump kernel data structures in drgn
-+-----------------------------------
-+
-+To dump kernel data structures, the following Python script can be used
-+in drgn:
-+
-+.. code-block:: python
-+
-+	def align(x, a):
-+	    """the alignment a should be a power of 2
-+	    """
-+	    mask = a - 1
-+	    return (x+ mask) & ~mask
-+
-+	def struct_size(struct_type):
-+	    struct_str = "struct {}".format(struct_type)
-+	    return sizeof(Object(prog, struct_str, address=0x0))
-+
-+	def netdev_priv(netdevice):
-+	    NETDEV_ALIGN = 32
-+	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
-+
-+	name = 'xxx'
-+	qlge_device = None
-+	netdevices = prog['init_net'].dev_base_head.address_of_()
-+	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
-+	    if netdevice.name.string_().decode('ascii') == name:
-+	        print(netdevice.name)
-+
-+	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
-+
-+The struct ql_adapter will be printed in drgn as follows,
-+
-+    >>> ql_adapter
-+    (struct ql_adapter){
-+            .ricb = (struct ricb){
-+                    .base_cq = (u8)0,
-+                    .flags = (u8)120,
-+                    .mask = (__le16)26637,
-+                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
-+                    .ipv6_hash_key = (__le32 [10]){},
-+                    .ipv4_hash_key = (__le32 [4]){},
-+            },
-+            .flags = (unsigned long)0,
-+            .wol = (u32)0,
-+            .nic_stats = (struct nic_stats){
-+                    .tx_pkts = (u64)0,
-+                    .tx_bytes = (u64)0,
-+                    .tx_mcast_pkts = (u64)0,
-+                    .tx_bcast_pkts = (u64)0,
-+                    .tx_ucast_pkts = (u64)0,
-+                    .tx_ctl_pkts = (u64)0,
-+                    .tx_pause_pkts = (u64)0,
-+                    ...
-+            },
-+            .active_vlans = (unsigned long [64]){
-+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
-+                    18446619461681283072, 0, 42949673024, 2147483647,
-+            },
-+            .rx_ring = (struct rx_ring [17]){
-+                    {
-+                            .cqicb = (struct cqicb){
-+                                    .msix_vect = (u8)0,
-+                                    .reserved1 = (u8)0,
-+                                    .reserved2 = (u8)0,
-+                                    .flags = (u8)0,
-+                                    .len = (__le16)0,
-+                                    .rid = (__le16)0,
-+                                    ...
-+                            },
-+                            .cq_base = (void *)0x0,
-+                            .cq_base_dma = (dma_addr_t)0,
-+                    }
-+                    ...
-+            }
-+    }
-+
-+coredump via devlink
-+--------------------
-+
-+
-+And the coredump obtained via devlink in json format looks like,
-+
-+.. code:: shell
-+
-+	$ devlink health dump show DEVICE reporter coredump -p -j
-+	{
-+	    "Core Registers": {
-+	        "segment": 1,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "Test Logic Regs": {
-+	        "segment": 2,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    "RMII Registers": {
-+	        "segment": 3,
-+	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
-+	    },
-+	    ...
-+	    "Sem Registers": {
-+	        "segment": 50,
-+	        "values": [ 0,0,0,0 ]
-+	    }
-+	}
-+
-+When the module parameter qlge_force_coredump is set to be true, the MPI
-+RISC reset before coredumping. So coredumping will much longer since
-+devlink tool has to wait for 5 secs for the resetting to be
-+finished.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 79b400c97059..b8ab9340670b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14606,6 +14606,12 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/staging/qlge/
+-The GCC plugin infrastructure of the kernel supports all gcc versions from
+-4.5 to 6.0, building out-of-tree modules, cross-compilation and building in a
+-separate directory.
+-Plugin source files have to be compilable by both a C and a C++ compiler as well
+-because gcc versions 4.5 and 4.6 are compiled by a C compiler,
+-gcc-4.7 can be compiled by a C or a C++ compiler,
+-and versions 4.8+ can only be compiled by a C++ compiler.
++The GCC plugin infrastructure of the kernel supports building out-of-tree
++modules, cross-compilation and building in a separate directory.
++Plugin source files have to be compilable by a C++ compiler.
  
-+QLOGIC QLGE 10Gb ETHERNET DRIVER
-+M:	Coiby Xu <coiby.xu@gmail.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/qlogic/qlge.rst
-+
- QM1D1B0004 MEDIA DRIVER
- M:	Akihiro Tsukada <tskd08@gmail.com>
- L:	linux-media@vger.kernel.org
+-Currently the GCC plugin infrastructure supports only the x86, arm, arm64 and
+-powerpc architectures.
++Currently the GCC plugin infrastructure supports only some architectures.
++Grep "select HAVE_GCC_PLUGINS" to find out which architectures support
++GCC plugins.
+ 
+ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
+ 
+@@ -53,8 +50,7 @@ $(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
+ $(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
+ 
+ 	These headers automatically generate the registration structures for
+-	GIMPLE, SIMPLE_IPA, IPA and RTL passes. They support all gcc versions
+-	from 4.5 to 6.0.
++	GIMPLE, SIMPLE_IPA, IPA and RTL passes.
+ 	They should be preferred to creating the structures by hand.
+ 
+ 
+@@ -62,9 +58,9 @@ Usage
+ =====
+ 
+ You must install the gcc plugin headers for your gcc version,
+-e.g., on Ubuntu for gcc-4.9::
++e.g., on Ubuntu for gcc-10::
+ 
+-	apt-get install gcc-4.9-plugin-dev
++	apt-get install gcc-10-plugin-dev
+ 
+ Or on Fedora::
+ 
+@@ -76,7 +72,7 @@ Enable a GCC plugin based feature in the kernel config::
+ 
+ To compile only the plugin(s)::
+ 
+-	make gcc-plugins
++	make scripts
+ 
+ or just run the kernel make and compile the whole kernel with
+ the cyclomatic complexity GCC plugin.
+@@ -85,7 +81,7 @@ the cyclomatic complexity GCC plugin.
+ 4. How to add a new GCC plugin
+ ==============================
+ 
+-The GCC plugins are in $(src)/scripts/gcc-plugins/. You can use a file or a directory
+-here. It must be added to $(src)/scripts/gcc-plugins/Makefile,
+-$(src)/scripts/Makefile.gcc-plugins and $(src)/arch/Kconfig.
++The GCC plugins are in scripts/gcc-plugins/. You can use a file or a directory
++here. It must be added to /scripts/gcc-plugins/Makefile,
++scripts/Makefile.gcc-plugins and a relevant Kconfig file.
+ See the cyc_complexity_plugin.c (CONFIG_GCC_PLUGIN_CYC_COMPLEXITY) GCC plugin.
 -- 
-2.29.2
+2.27.0
 
