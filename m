@@ -2,112 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F4CC433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 05:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F01C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 10:50:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2512223AC2
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 05:18:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9590623381
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 10:50:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725876AbhAWFRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jan 2021 00:17:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45646 "EHLO
+        id S1726908AbhAWKtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jan 2021 05:49:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbhAWFRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 00:17:24 -0500
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94C01C061786;
-        Fri, 22 Jan 2021 21:16:44 -0800 (PST)
-Received: by mail-oo1-xc29.google.com with SMTP id u7so1345916ooq.0;
-        Fri, 22 Jan 2021 21:16:44 -0800 (PST)
+        with ESMTP id S1726897AbhAWKsS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 05:48:18 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA6AC061797;
+        Sat, 23 Jan 2021 02:47:19 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id q20so5474447pfu.8;
+        Sat, 23 Jan 2021 02:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zxNG662Tpnsoz8s5rDmsMzt/BLhFhjnXV6eLd4EYb9o=;
-        b=OCm+4WEKTHVXtK6/TX7smrp79P/GGOR+w/7KiDo+8jeq/ksAy3rxssV1CuJv6tuYRl
-         p/AO5XsNXHgW2UOv1LjNUy9jyWYbacgs8146zP5RAQMwQaqZUA1i9cG4embLRK4R0loy
-         wmYN/xM2gMJOdX1ZsfjMYVohVMn6dGF3t1mDM/MU+TyX1a41Z8Asv1xFhaPkiztuxYOJ
-         uiHI7g1FFfKkgDaqzWQXf0NpL1tBARdtCv8A6VMZjiVCLg1OAmzEeOzXpuwqMUuJOWVO
-         E750pIbTaJ2CZXUxdY8Ex3g0JqKMUYhbBGDr4sMLnHictC8UXeMGtGB5K+dp7Z/v3w+5
-         g9Ag==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qBbuWWuvn/SG2w43vbI4VPqGlPTRg3jqDlvja9eltTs=;
+        b=S6QzKFI0ju282I9hPcwJFwav3mGuMy6pQ+qAxMSTLYAUWPWFwrN4JvfDIq1ce6qBVY
+         3KKiSezNyY+5LN5h1frn/jQgR7smKbdH1pAlSQoYcKLTRbP0OowLeQKFwV975yNdzDTY
+         WzS8aL+sWU9md0CO+0q+tXErE7ln2DJc0vP71v6k1lhjvZL9/qcafjWsel5xD76d10Tz
+         k3r5RbqMWYy/jqeDH85l5LpFmNwbWa2sQdRu4X+IPtGane7QctN82Nq679PFJb1CAhLQ
+         xcUueitVOGF0PmxdtfYY4EwAGgfjq4GC9afUEC2r9OYIo+gziCumnzqSxbZ4zrWgtDje
+         Ciug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zxNG662Tpnsoz8s5rDmsMzt/BLhFhjnXV6eLd4EYb9o=;
-        b=nkaObXN27mjp4XvW7kYn6qaaoqJgDqe6da9FrA02OH7RWCS71j8OlIncnSr/NJinWz
-         6EUwr6jhcNkpajh3DFFifp2kvskU8f5aG7mZvJvy5CfoVYORtH2JEBqiZnud1EMEs7CL
-         RcaIcOJUtdnK/DGJt4Ivcka24/zJ2NDdv4X105Co1oJ6bGEdmUgcaL+/J98k0biGTOTT
-         39BiQL4QyLmckJ/C+Jrv1OVXKzd7l30EBalHzIquKstXkeTMy8zGjan27SdN998M/Fq2
-         c7bqslauz4Iy9wTx1TEBp/ydV3ovALTJR5MXayT0VCpGqLrh02x1QlxeFVOzsIOwSY+u
-         Y13Q==
-X-Gm-Message-State: AOAM533hA5ovcNIg1U7fPGrIeJXLLEfU7JUNaSrGvojjQxA3iZ3/Bk2M
-        KuP/9PBb+MXYakKaGIe+Rww=
-X-Google-Smtp-Source: ABdhPJxA+4+j4HTMeDWLI8zan6VNkVXWGoDLVeWMHezRa95zOtEuJmLY0QZf0uyYNHswa/3PTASX8w==
-X-Received: by 2002:a4a:52d1:: with SMTP id d200mr813555oob.64.1611379003994;
-        Fri, 22 Jan 2021 21:16:43 -0800 (PST)
-Received: from Davids-MacBook-Pro.local ([8.48.134.50])
-        by smtp.googlemail.com with ESMTPSA id e14sm2628oou.19.2021.01.22.21.16.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 21:16:43 -0800 (PST)
-Subject: Re: [PATCH v3 net-next 1/1] Allow user to set metric on default route
- learned via Router Advertisement.
-To:     =?UTF-8?Q?Maciej_=c5=bbenczykowski?= <zenczykowski@gmail.com>
-Cc:     Praveen Chaudhary <praveen5582@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
-        Linux NetDev <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Zhenggen Xu <zxu@linkedin.com>
-References: <20210119212959.25917-1-pchaudhary@linkedin.com>
- <1cc9e887-a984-c14a-451c-60a202c4cf20@gmail.com>
- <CAHo-Oozz-mGNz4sphOJekNeAgGJCLmiZaiNccXjiQ02fQbfthQ@mail.gmail.com>
-From:   David Ahern <dsahern@gmail.com>
-Message-ID: <bc855311-f348-430b-0d3c-9103d4fdbbb6@gmail.com>
-Date:   Fri, 22 Jan 2021 22:16:41 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qBbuWWuvn/SG2w43vbI4VPqGlPTRg3jqDlvja9eltTs=;
+        b=NKE+RFJynbT4uw9zMnljN2HhJtHeNeLfb1UcIzCDQgp0BRb+x9AJqX2AnblwIa8y60
+         MbOwMo3TYPfoKzhlPVojavbBFWxGkb5nBijpTF6NagEjtFQdTcXolDup5BkU0OVOzcPD
+         uzxYybMm4rgRku6U2urzeSxnMX8F57qztA09IeOnNTnY5FEuguLVyJuTnOMvpysjq+Sj
+         u7PUkcJg3b0Wi7EethDCK7c9cm42yZG6LFJmhhHMD8dvpnfzl8eiKTflIvP+5Lmiu/8X
+         58k3tPWmR0eXThIP57njmoLa9s9bssaVr+8nqQlkJgtBEpKIt42pdokPyPJ7hC+jk5xb
+         Qxzg==
+X-Gm-Message-State: AOAM530EbKR8zwAr6Eh6Ube8xSuQp6mRJLHxU1Dg/6TeGnMY6id8x/kl
+        snNYZOOAMi3yqvD3QhJ4isA=
+X-Google-Smtp-Source: ABdhPJw6Z8JTi/+AeY7zYtjKUoE2tmR12os+pkrUF8O/m8TRLSNRv7rsxrB0hdoSBjr8Qgv+EhdQ/w==
+X-Received: by 2002:a62:8c85:0:b029:1bd:5441:6cb8 with SMTP id m127-20020a628c850000b02901bd54416cb8mr1423072pfd.29.1611398838973;
+        Sat, 23 Jan 2021 02:47:18 -0800 (PST)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id k5sm6334035pfi.31.2021.01.23.02.47.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Jan 2021 02:47:18 -0800 (PST)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     devel@driverdev.osuosl.org
+Cc:     Benjamin Poirier <benjamin.poirier@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        GR-Linux-NIC-Dev@marvell.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org (open list:NETWORKING [GENERAL]),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v4 8/8] staging: qlge: add documentation for debugging qlge
+Date:   Sat, 23 Jan 2021 18:46:13 +0800
+Message-Id: <20210123104613.38359-9-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210123104613.38359-1-coiby.xu@gmail.com>
+References: <20210123104613.38359-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHo-Oozz-mGNz4sphOJekNeAgGJCLmiZaiNccXjiQ02fQbfthQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/22/21 9:02 PM, Maciej Żenczykowski wrote:
-> Why can't we get rid of the special case for 0 and simply make 1024 the
-> default value?
+Instructions and examples on kernel data structures dumping and
+coredump.
 
-That would work too.
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ .../networking/device_drivers/index.rst       |   1 +
+ .../device_drivers/qlogic/index.rst           |  18 +++
+ .../networking/device_drivers/qlogic/qlge.rst | 118 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ 4 files changed, 143 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/qlogic/index.rst
+ create mode 100644 Documentation/networking/device_drivers/qlogic/qlge.rst
 
-> 
-> As for making it an RA option: it's not clear how that would work, the
-> use case I see for this is for example two connections to the internet,
-> of which one is clearly better (higher throughput, lower latency, lower
-> packet loss, etc) then the other.
-> 
-> The upstream routers would have to somehow coordinate with each other
-> the metric values... that seems impossible to achieve in practice -
-> unless they do something like report expected down/up
-> bandwidth, latency, etc...  While some sort of policy on the machine
-> itself seems much more feasible (for example wired interface > wireless
-> interface > cell interface or something like that)
+diff --git a/Documentation/networking/device_drivers/index.rst b/Documentation/networking/device_drivers/index.rst
+index a3113ffd7a16..d8279de7bf25 100644
+--- a/Documentation/networking/device_drivers/index.rst
++++ b/Documentation/networking/device_drivers/index.rst
+@@ -15,6 +15,7 @@ Contents:
+    ethernet/index
+    fddi/index
+    hamradio/index
++   qlogic/index
+    wan/index
+    wifi/index
+ 
+diff --git a/Documentation/networking/device_drivers/qlogic/index.rst b/Documentation/networking/device_drivers/qlogic/index.rst
+new file mode 100644
+index 000000000000..ad05b04286e4
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++QLogic QLGE Device Drivers
++===============================================
++
++Contents:
++
++.. toctree::
++   :maxdepth: 2
++
++   qlge
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/networking/device_drivers/qlogic/qlge.rst b/Documentation/networking/device_drivers/qlogic/qlge.rst
+new file mode 100644
+index 000000000000..0b888253d152
+--- /dev/null
++++ b/Documentation/networking/device_drivers/qlogic/qlge.rst
+@@ -0,0 +1,118 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================================
++QLogic QLGE 10Gb Ethernet device driver
++=======================================
++
++This driver use drgn and devlink for debugging.
++
++Dump kernel data structures in drgn
++-----------------------------------
++
++To dump kernel data structures, the following Python script can be used
++in drgn:
++
++.. code-block:: python
++
++	def align(x, a):
++	    """the alignment a should be a power of 2
++	    """
++	    mask = a - 1
++	    return (x+ mask) & ~mask
++
++	def struct_size(struct_type):
++	    struct_str = "struct {}".format(struct_type)
++	    return sizeof(Object(prog, struct_str, address=0x0))
++
++	def netdev_priv(netdevice):
++	    NETDEV_ALIGN = 32
++	    return netdevice.value_() + align(struct_size("net_device"), NETDEV_ALIGN)
++
++	name = 'xxx'
++	qlge_device = None
++	netdevices = prog['init_net'].dev_base_head.address_of_()
++	for netdevice in list_for_each_entry("struct net_device", netdevices, "dev_list"):
++	    if netdevice.name.string_().decode('ascii') == name:
++	        print(netdevice.name)
++
++	ql_adapter = Object(prog, "struct ql_adapter", address=netdev_priv(qlge_device))
++
++The struct ql_adapter will be printed in drgn as follows,
++
++    >>> ql_adapter
++    (struct ql_adapter){
++            .ricb = (struct ricb){
++                    .base_cq = (u8)0,
++                    .flags = (u8)120,
++                    .mask = (__le16)26637,
++                    .hash_cq_id = (u8 [1024]){ 172, 142, 255, 255 },
++                    .ipv6_hash_key = (__le32 [10]){},
++                    .ipv4_hash_key = (__le32 [4]){},
++            },
++            .flags = (unsigned long)0,
++            .wol = (u32)0,
++            .nic_stats = (struct nic_stats){
++                    .tx_pkts = (u64)0,
++                    .tx_bytes = (u64)0,
++                    .tx_mcast_pkts = (u64)0,
++                    .tx_bcast_pkts = (u64)0,
++                    .tx_ucast_pkts = (u64)0,
++                    .tx_ctl_pkts = (u64)0,
++                    .tx_pause_pkts = (u64)0,
++                    ...
++            },
++            .active_vlans = (unsigned long [64]){
++                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52780853100545, 18446744073709551615,
++                    18446619461681283072, 0, 42949673024, 2147483647,
++            },
++            .rx_ring = (struct rx_ring [17]){
++                    {
++                            .cqicb = (struct cqicb){
++                                    .msix_vect = (u8)0,
++                                    .reserved1 = (u8)0,
++                                    .reserved2 = (u8)0,
++                                    .flags = (u8)0,
++                                    .len = (__le16)0,
++                                    .rid = (__le16)0,
++                                    ...
++                            },
++                            .cq_base = (void *)0x0,
++                            .cq_base_dma = (dma_addr_t)0,
++                    }
++                    ...
++            }
++    }
++
++coredump via devlink
++--------------------
++
++
++And the coredump obtained via devlink in json format looks like,
++
++.. code:: shell
++
++	$ devlink health dump show DEVICE reporter coredump -p -j
++	{
++	    "Core Registers": {
++	        "segment": 1,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "Test Logic Regs": {
++	        "segment": 2,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    "RMII Registers": {
++	        "segment": 3,
++	        "values": [ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ]
++	    },
++	    ...
++	    "Sem Registers": {
++	        "segment": 50,
++	        "values": [ 0,0,0,0 ]
++	    }
++	}
++
++When the module parameter qlge_force_coredump is set to be true, the MPI
++RISC reset before coredumping. So coredumping will much longer since
++devlink tool has to wait for 5 secs for the resetting to be
++finished.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 79b400c97059..b8ab9340670b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14606,6 +14606,12 @@ L:	netdev@vger.kernel.org
+ S:	Supported
+ F:	drivers/staging/qlge/
+ 
++QLOGIC QLGE 10Gb ETHERNET DRIVER
++M:	Coiby Xu <coiby.xu@gmail.com>
++L:	netdev@vger.kernel.org
++S:	Maintained
++F:	Documentation/networking/device_drivers/qlogic/qlge.rst
++
+ QM1D1B0004 MEDIA DRIVER
+ M:	Akihiro Tsukada <tskd08@gmail.com>
+ L:	linux-media@vger.kernel.org
+-- 
+2.29.2
 
-I was thinking the admin of the network controls the RAs and knows which
-paths are preferred over the admin of the node receiving the RA (not
-practical for a mobile setup with cell vs wifi, but is for a DC which is
-the driving use case).
-
-But it takes an extension to IPv6/ndisc to add metric as an RA option,
-so not realistic in a reasonable time frame.
