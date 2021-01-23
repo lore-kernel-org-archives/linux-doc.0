@@ -2,117 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC8A1C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 16:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97385C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 17:54:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89F2922C9F
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 16:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5088A22B48
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jan 2021 17:54:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbhAWQmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jan 2021 11:42:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726151AbhAWQmX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jan 2021 11:42:23 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB0CC06174A;
-        Sat, 23 Jan 2021 08:41:43 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id d18so460656oic.3;
-        Sat, 23 Jan 2021 08:41:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vueSC+/iHxlD6BCp8DMctqHGkQDoKDsYupUMZWpfOxw=;
-        b=YdtZKfuMUumnnm3nh8YqG8Kx1zv5QLrvU8r5dLdidK11ZMXe0WHwS8bg0nQIOmjo5e
-         MTBp+Un1gp9HksJx5B0b7u5+xVjtvKVqrzyOGOPzrLu678GrZp0bYAZNfp6PCuVO/af/
-         CrS1qeMehLKTNLxxsYfCpL2KYcEw1o8XdiR+QMrIIgoPucUGB4h0SxLg2E5dGoPGSxCB
-         +1Y/rd1gUzAOQkfKS/vpo3HRxbFsNel918SKC9WC17bytxkAk4AtJ2hkkGWh+Jsb4FY8
-         xVnRgZOAkMnqM7nqltBP1ixAcvvE2+bnNQjWwMtdBevijstOIs9ohi2iriezhu5O2enr
-         lSsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vueSC+/iHxlD6BCp8DMctqHGkQDoKDsYupUMZWpfOxw=;
-        b=mjb8Fxy4gxlhc/cYHw+VG+QRZIDWUv/VTJlQwW9sIBcVtlauQlqeh6iTy0mshbuGHy
-         PnIdxXQYeimYGy/xWTXaEQyVnVL2HnmAg+ra+uMdzk2kfdkXU6Y95oibbgtjdwTFOwpf
-         RDawgLW1TQg2GCLpRPlWf5DI8OrjOV61T+WZVcAkmd7TmvHdsZ0+vYnNiv/LNsN6EI74
-         9J+2YYdxfnNwHZgi2WhFZ4fJ/QLhL4oiQmJRW/JTfYEDNIY8vEcAt+DVZUi00c68YR2R
-         nhsNC1nlYbn+Iviomj3W2fRloZzHIpKLcMdDC6xXbejCfs1JR03aUQE2OoSlijXpG0R8
-         LaHg==
-X-Gm-Message-State: AOAM532I99WVZW2cyBXVf5a98B63PpXhEmYBntG18HyWnmIeiORM54Qd
-        IU54Uo2p2gPo1iWtzHNVrP0=
-X-Google-Smtp-Source: ABdhPJwlVfNoXpd6ANDrs4XJC9IkSAc/vChvrYla/9UjkjZtnWb9baX38ln06abRl3rP+aUua+zO+w==
-X-Received: by 2002:aca:3f07:: with SMTP id m7mr6395738oia.104.1611420102663;
-        Sat, 23 Jan 2021 08:41:42 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s24sm2422836oij.20.2021.01.23.08.41.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 23 Jan 2021 08:41:42 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sat, 23 Jan 2021 08:41:40 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Robert Marko <robert.marko@sartura.hr>
-Cc:     jdelvare@suse.com, robh+dt@kernel.org, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        Luka Perkov <luka.perkov@sartura.hr>
-Subject: Re: [PATCH v5 3/3] MAINTAINERS: Add entry for Texas Instruments
- TPS23861 PoE PSE
-Message-ID: <20210123164140.GA53781@roeck-us.net>
-References: <20210121134434.2782405-1-robert.marko@sartura.hr>
- <20210121134434.2782405-3-robert.marko@sartura.hr>
+        id S1725943AbhAWRxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jan 2021 12:53:50 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39526 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725765AbhAWRxt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 23 Jan 2021 12:53:49 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 14175AD18;
+        Sat, 23 Jan 2021 17:53:07 +0000 (UTC)
+Date:   Sat, 23 Jan 2021 18:52:59 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 03/12] mm: hugetlb: free the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <20210123175259.GA3555@localhost.localdomain>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-4-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210121134434.2782405-3-robert.marko@sartura.hr>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210117151053.24600-4-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 02:44:34PM +0100, Robert Marko wrote:
-> Add maintainers entry for the Texas Instruments TPS23861 PoE PSE driver.
+On Sun, Jan 17, 2021 at 11:10:44PM +0800, Muchun Song wrote:
+> Every HugeTLB has more than one struct page structure. We __know__ that
+> we only use the first 4(HUGETLB_CGROUP_MIN_ORDER) struct page structures
+> to store metadata associated with each HugeTLB.
 > 
-> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-
-For my reference:
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
-
-> ---
-> Changes in v4:
-> * Add documentation file
+> There are a lot of struct page structures associated with each HugeTLB
+> page. For tail pages, the value of compound_head is the same. So we can
+> reuse first page of tail page structures. We map the virtual addresses
+> of the remaining pages of tail page structures to the first tail page
+> struct, and then free these page frames. Therefore, we need to reserve
+> two pages as vmemmap areas.
 > 
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> When we allocate a HugeTLB page from the buddy, we can free some vmemmap
+> pages associated with each HugeTLB page. It is more appropriate to do it
+> in the prep_new_huge_page().
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f95e887e5d76..2a7f22587774 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17602,6 +17602,15 @@ F:	include/dt-bindings/soc/ti,sci_pm_domain.h
->  F:	include/linux/soc/ti/ti_sci_inta_msi.h
->  F:	include/linux/soc/ti/ti_sci_protocol.h
->  
-> +TEXAS INSTRUMENTS TPS23861 PoE PSE DRIVER
-> +M:	Robert Marko <robert.marko@sartura.hr>
-> +M:	Luka Perkov <luka.perkov@sartura.hr>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> +F:	Documentation/hwmon/tps23861.rst
-> +F:	drivers/hwmon/tps23861.c
+> The free_vmemmap_pages_per_hpage(), which indicates how many vmemmap
+> pages associated with a HugeTLB page can be freed, returns zero for
+> now, which means the feature is disabled. We will enable it once all
+> the infrastructure is there.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+
+Overall looks good to me.
+A few nits below, plus what Mike has already said.
+
+I was playing the other day (just for un) to see how hard would be to adapt
+this to ppc64 but did not have the time :-)
+
+> --- /dev/null
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -0,0 +1,211 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Free some vmemmap pages of HugeTLB
+> + *
+> + * Copyright (c) 2020, Bytedance. All rights reserved.
+> + *
+> + *     Author: Muchun Song <songmuchun@bytedance.com>
+> + *
+> + * The struct page structures (page structs) are used to describe a physical
+> + * page frame. By default, there is a one-to-one mapping from a page frame to
+> + * it's corresponding page struct.
+> + *
+> + * The HugeTLB pages consist of multiple base page size pages and is supported
+"HugeTLB pages ..."
+
+> + * When the system boot up, every HugeTLB page has more than one struct page
+> + * structs whose size is (unit: pages):
+              ^^^^ which?
+> + *
+> + *    struct_size = HugeTLB_Size / PAGE_SIZE * sizeof(struct page) / PAGE_SIZE
+> + *
+> + * Where HugeTLB_Size is the size of the HugeTLB page. We know that the size
+> + * of the HugeTLB page is always n times PAGE_SIZE. So we can get the following
+> + * relationship.
+> + *
+> + *    HugeTLB_Size = n * PAGE_SIZE
+> + *
+> + * Then,
+> + *
+> + *    struct_size = n * PAGE_SIZE / PAGE_SIZE * sizeof(struct page) / PAGE_SIZE
+> + *                = n * sizeof(struct page) / PAGE_SIZE
+> + *
+> + * We can use huge mapping at the pud/pmd level for the HugeTLB page.
+> + *
+> + * For the HugeTLB page of the pmd level mapping, then
+> + *
+> + *    struct_size = n * sizeof(struct page) / PAGE_SIZE
+> + *                = PAGE_SIZE / sizeof(pte_t) * sizeof(struct page) / PAGE_SIZE
+> + *                = sizeof(struct page) / sizeof(pte_t)
+> + *                = 64 / 8
+> + *                = 8 (pages)
+> + *
+> + * Where n is how many pte entries which one page can contains. So the value of
+> + * n is (PAGE_SIZE / sizeof(pte_t)).
+> + *
+> + * This optimization only supports 64-bit system, so the value of sizeof(pte_t)
+> + * is 8. And this optimization also applicable only when the size of struct page
+> + * is a power of two. In most cases, the size of struct page is 64 (e.g. x86-64
+> + * and arm64). So if we use pmd level mapping for a HugeTLB page, the size of
+> + * struct page structs of it is 8 pages whose size depends on the size of the
+> + * base page.
+> + *
+> + * For the HugeTLB page of the pud level mapping, then
+> + *
+> + *    struct_size = PAGE_SIZE / sizeof(pmd_t) * struct_size(pmd)
+> + *                = PAGE_SIZE / 8 * 8 (pages)
+> + *                = PAGE_SIZE (pages)
+
+I would try to condense above information and focus on what are the
+key points you want people to get.
+E.g: A 2MB HugeTLB page on x86_64 consists in 8 page frames while 1GB
+HugeTLB page consists in 4096.
+If you do not want to be that specific you can always write down the
+formula, and maybe put the X86_64 example at the end.
+But as I said, I would try to make it more brief.
+
+Maybe others disagree though.
+
+
+> + *
+> + * Where the struct_size(pmd) is the size of the struct page structs of a
+> + * HugeTLB page of the pmd level mapping.
+
+[...]
+
+> +void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> +{
+> +	unsigned long vmemmap_addr = (unsigned long)head;
+> +	unsigned long vmemmap_end, vmemmap_reuse;
 > +
->  THANKO'S RAREMONO AM/FM/SW RADIO RECEIVER USB DRIVER
->  M:	Hans Verkuil <hverkuil@xs4all.nl>
->  L:	linux-media@vger.kernel.org
+> +	if (!free_vmemmap_pages_per_hpage(h))
+> +		return;
+> +
+> +	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> +	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> +	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> +
+
+I would like to see a comment there explaining why those variables get
+they value they do.
+
+> +/**
+> + * vmemmap_remap_walk - walk vmemmap page table
+> + *
+> + * @remap_pte:		called for each non-empty PTE (lowest-level) entry.
+> + * @reuse_page:		the page which is reused for the tail vmemmap pages.
+> + * @reuse_addr:		the virtual address of the @reuse_page page.
+> + * @vmemmap_pages:	the list head of the vmemmap pages that can be freed.
+
+Let us align the tabs there.
+
+> +static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
+> +			      unsigned long end,
+> +			      struct vmemmap_remap_walk *walk)
+> +{
+> +	pte_t *pte;
+> +
+> +	pte = pte_offset_kernel(pmd, addr);
+> +
+> +	/*
+> +	 * The reuse_page is found 'first' in table walk before we start
+> +	 * remapping (which is calling @walk->remap_pte).
+> +	 */
+> +	if (walk->reuse_addr == addr) {
+> +		BUG_ON(pte_none(*pte));
+
+If it is found first, would not be
+
+        if (!walk->reuse_page) {
+                BUG_ON(walk->reuse_addr != addr)
+                ...
+        }
+
+more intuitive?
+
+
+> +static void vmemmap_remap_range(unsigned long start, unsigned long end,
+> +				struct vmemmap_remap_walk *walk)
+> +{
+> +	unsigned long addr = start;
+> +	unsigned long next;
+> +	pgd_t *pgd;
+> +
+> +	VM_BUG_ON(!IS_ALIGNED(start, PAGE_SIZE));
+> +	VM_BUG_ON(!IS_ALIGNED(end, PAGE_SIZE));
+> +
+> +	pgd = pgd_offset_k(addr);
+> +	do {
+> +		BUG_ON(pgd_none(*pgd));
+> +
+> +		next = pgd_addr_end(addr, end);
+> +		vmemmap_p4d_range(pgd, addr, next, walk);
+> +	} while (pgd++, addr = next, addr != end);
+> +
+> +	/*
+> +	 * We do not change the mapping of the vmemmap virtual address range
+> +	 * [@start, @start + PAGE_SIZE) which is belong to the reuse range.
+                                        "which belongs to"
+
+> +	 * So we not need to flush the TLB.
+> +	 */
+> +	flush_tlb_kernel_range(start - PAGE_SIZE, end);
+
+you already commented on on this one.
+
+> +/**
+> + * vmemmap_remap_free - remap the vmemmap virtual address range [@start, @end)
+> + *			to the page which @reuse is mapped, then free vmemmap
+> + *			pages.
+> + * @start:	start address of the vmemmap virtual address range.
+
+Well, it is the start address of the range we want to remap.
+Reading it made me think that it is really the __start__ address
+of the vmemmap range.
+
+> +void vmemmap_remap_free(unsigned long start, unsigned long end,
+> +			unsigned long reuse)
+> +{
+> +	LIST_HEAD(vmemmap_pages);
+> +	struct vmemmap_remap_walk walk = {
+> +		.remap_pte	= vmemmap_remap_pte,
+> +		.reuse_addr	= reuse,
+> +		.vmemmap_pages	= &vmemmap_pages,
+> +	};
+> +
+> +	/*
+> +	 * In order to make remapping routine most efficient for the huge pages,
+> +	 * the routine of vmemmap page table walking has the following rules
+> +	 * (see more details from the vmemmap_pte_range()):
+> +	 *
+> +	 * - The @reuse address is part of the range that we are walking.
+> +	 * - The @reuse address is the first in the complete range.
+> +	 *
+> +	 * So we need to make sure that @start and @reuse meet the above rules.
+
+You say that "reuse" and "start" need to meet some  rules, but in the
+paragraph above you only seem to point "reuse" rules?
+
+
+-- 
+Oscar Salvador
+SUSE L3
