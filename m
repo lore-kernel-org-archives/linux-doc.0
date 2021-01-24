@@ -2,133 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A41AC433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 06:53:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BB3C433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 08:10:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E62A522C7E
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 06:53:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CAFD22D3E
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 08:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbhAXGxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jan 2021 01:53:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34652 "EHLO
+        id S1726192AbhAXIKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jan 2021 03:10:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbhAXGxV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jan 2021 01:53:21 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC95BC061573;
-        Sat, 23 Jan 2021 22:52:40 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id j12so6375402pjy.5;
-        Sat, 23 Jan 2021 22:52:40 -0800 (PST)
+        with ESMTP id S1726038AbhAXIKN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jan 2021 03:10:13 -0500
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEBACC061573;
+        Sun, 24 Jan 2021 00:09:32 -0800 (PST)
+Received: by mail-ot1-x32f.google.com with SMTP id 36so9688198otp.2;
+        Sun, 24 Jan 2021 00:09:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pyjJjIjAwqBAqBYpe34f4z3YvzgZOMNZpkQlTpZrZjo=;
-        b=amjcQpwaeLj47+mpTvIPl2m2jIFuGy2mpjtYqeJrGqQj8Ms03hkUPOtOoOfoX94uCo
-         o9lG2QGUhsCoHTTzhy3saZ+Y2ItPWGttLcWUq6D2FAWOapo0XcOHulC3OOWhYlpSNwZv
-         6dCb3cHbtos8Z735z0/lnqrn5MMSmqzBpCs+KvZZ2et7Okh+wbCkhNFe+eXGAiykVTDw
-         4X1Gfm1vpa0icO0kdJNHo2TJpDRAhsTgQhwv/zAKi0AGVg5zb/m0gnWY0XuL/68ZXa+a
-         HulmH4xJbHb6Ozj+Pq02UEczJVwcVI1F8/U7Q6wByfbjnd5oCx4okTlWw15qLlWGpN86
-         wRkA==
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=OHJGHOC3Sd+miCKSV/eRBuVMrTeofMl4U/fP/gR69wQ=;
+        b=DrmPbtyGAy6ClKFd8ICGnfOkvG7cFnnTpO1iGU9ZfhCbtIG6JKLTE3+20pf3X2oriX
+         BiGk31Lbwu/uZRnuE0KNPugZW84JrfkBBtoBU/qpdQv89L/xQM+YUXLuaa+Vzrap4nnT
+         lCIBIyv7gBcBbClhcTOsn8fX+loxt72vhdsOvhuq8A364aZ2vdt/J+SK3iA4H9J+J+JZ
+         IiPWEOQYduFeMnrYRAYE4iXgxO/PA00F4hCnzFmGg4gSbrouaWbUDe9hsI4HAknkHWGW
+         uCC14ym7xbMor0ITZM9GbYHZ7f5uri8Sm2ApD/yAbRNp0HdItUV0DqzYdX8GHgta5nTB
+         IRTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pyjJjIjAwqBAqBYpe34f4z3YvzgZOMNZpkQlTpZrZjo=;
-        b=r37ln5IPfVTy4/3c7PkcdBeRV7XZCUCtX9gGeVqbJi7w7jsbg6nhr++p1+98b7DOLY
-         S0Ojc3MQ3yYPuiu4gQmZffPLBb9/5FF0wsHQ+o7Cb0/QDyBXe0Ah2E57o1DqW2E2p5k6
-         5vfwl+kfbt8s3rfbAzmXZrBcGQzDLGX6vMLabD1MLKlpPfBrU5fY8QJuBKz11B+fX71U
-         0cEj9KUMEd47MyH+m5Z9HhcK2qBNNkWyVUjrXhG566zB+K95Zlgb+DOGs+6yYIq654Cs
-         QC6xcWEufqreff+jzGLuvTNSK5+U3lnw/ACV80jHiH5MuDaEjc4uDJe4VbDvQ+KZU8mx
-         ZT0Q==
-X-Gm-Message-State: AOAM5303ZK3KnMbRkGQ0KHQ+btcLQfB/nOR2AWuaIVOUpMRUkX03aM2r
-        aloxxvJ8MlfgeqiXgXDExGI=
-X-Google-Smtp-Source: ABdhPJyxkV+O/+aWYQ10BwEq4a29+MEs/T0dQE+y09aAvRy0RqIED6p/FYfCfJQKuynTReotktv6Og==
-X-Received: by 2002:a17:90a:5a03:: with SMTP id b3mr2385204pjd.1.1611471160359;
-        Sat, 23 Jan 2021 22:52:40 -0800 (PST)
-Received: from shinobu (113x33x126x33.ap113.ftth.ucom.ne.jp. [113.33.126.33])
-        by smtp.gmail.com with ESMTPSA id f15sm14172870pja.24.2021.01.23.22.52.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jan 2021 22:52:39 -0800 (PST)
-Date:   Sun, 24 Jan 2021 15:52:31 +0900
-From:   William Breathitt Gray <vilhelm.gray@gmail.com>
-To:     Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc:     jic23@kernel.org, mchehab+huawei@kernel.org,
-        lukas.bulwahn@gmail.com, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        alexandre.torgue@st.com, fabrice.gasnier@st.com,
-        olivier.moysan@st.com, linux-iio@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] counter: stm32-lptimer-cnt: remove iio counter abi
-Message-ID: <YA0ZL2g/qX7tigJa@shinobu>
-References: <1611327803-882-1-git-send-email-fabrice.gasnier@foss.st.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Ifstk+I27HDRTTHT"
-Content-Disposition: inline
-In-Reply-To: <1611327803-882-1-git-send-email-fabrice.gasnier@foss.st.com>
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=OHJGHOC3Sd+miCKSV/eRBuVMrTeofMl4U/fP/gR69wQ=;
+        b=kAAY6LcD6kGM5CRWxxtmMdDkWF8XhrXSBa3m3AURlj20xOHC+y8McnnhGo2gmdPbQ+
+         X3HbIvw3TmU7fhquWlO84m/WlLjF2+dJ7M6A92HeDe3/uWt3tGtbxhA8HFarlaD0rriI
+         k1kjzQ9BRRqdSfIB/2lHdkabbEV1fHXKWZNA6b/ekVgFvIw6vTrVJ2UyWSnwAJXq2ZIm
+         Vn6KftuIAaaJJFiDzTIWP6dPn/1/Fig6mGcfD6EbkHZNJvoH36upPA7W/i20nuOGNZQu
+         0UDFvuRbjWW6l19xATzoaJ9vUkDaCXC1su/1FzWHR2jhTllNOSAPK+e7+XfMq6d7Zi+X
+         7boQ==
+X-Gm-Message-State: AOAM531Kx//B9TK4tImZ8qhXGDy6JFO2ds7qQlXO8uiyf5WwIr7lQx82
+        QIGBP1Tsa566VrkV1BjNtw==
+X-Google-Smtp-Source: ABdhPJx3SgnHSpPXLEUElhSnAkaPdGCB8G47/1f/dRCeJkKNXwl4yvGTLGkHrGkOFG5gWX1u+YOS9w==
+X-Received: by 2002:a9d:3e85:: with SMTP id b5mr8897391otc.8.1611475772109;
+        Sun, 24 Jan 2021 00:09:32 -0800 (PST)
+Received: from pchaudha-mn1.attlocal.net ([2600:1700:cda0:4340:5c00:a7a1:3ed7:5678])
+        by smtp.gmail.com with ESMTPSA id l8sm2879035ota.9.2021.01.24.00.09.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 24 Jan 2021 00:09:31 -0800 (PST)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH v3 net-next 1/1] Allow user to set metric on default route
+ learned via Router Advertisement.
+From:   praveen chaudhary <praveen5582@gmail.com>
+In-Reply-To: <2de4989b-5b72-cb0a-470f-9bd0dcb96e53@gmail.com>
+Date:   Sun, 24 Jan 2021 00:09:20 -0800
+Cc:     =?utf-8?Q?Maciej_=C5=BBenczykowski?= <zenczykowski@gmail.com>,
+        David Miller <davem@davemloft.net>, corbet@lwn.net,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki Yoshifuji <yoshfuji@linux-ipv6.org>,
+        Linux NetDev <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Zhenggen Xu <zxu@linkedin.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3ACC52AF-8992-4CD9-B89F-2529DA402A25@gmail.com>
+References: <20210119212959.25917-1-pchaudhary@linkedin.com>
+ <1cc9e887-a984-c14a-451c-60a202c4cf20@gmail.com>
+ <CAHo-Oozz-mGNz4sphOJekNeAgGJCLmiZaiNccXjiQ02fQbfthQ@mail.gmail.com>
+ <bc855311-f348-430b-0d3c-9103d4fdbbb6@gmail.com>
+ <20210123120001.50a3f676@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <2de4989b-5b72-cb0a-470f-9bd0dcb96e53@gmail.com>
+To:     David Ahern <dsahern@gmail.com>, Jakub Kicinski <kuba@kernel.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---Ifstk+I27HDRTTHT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 22, 2021 at 04:03:23PM +0100, Fabrice Gasnier wrote:
-> Currently, the STM32 LP Timer counter driver registers into both IIO and
-> counter subsystems, which is redundant.
+> On Jan 23, 2021, at 5:13 PM, David Ahern <dsahern@gmail.com> wrote:
 >=20
-> Remove the IIO counter ABI and IIO registration from the STM32 LP Timer
-> counter driver since it's been superseded by the Counter subsystem
-> as discussed in [1].
+> On 1/23/21 1:00 PM, Jakub Kicinski wrote:
+>> On Fri, 22 Jan 2021 22:16:41 -0700 David Ahern wrote:
+>>> On 1/22/21 9:02 PM, Maciej =C5=BBenczykowski wrote:
+>>>> Why can't we get rid of the special case for 0 and simply make 1024 =
+the
+>>>> default value? =20
+>>>=20
+>>> That would work too.
+>>=20
+>> Should we drop it then? Easier to bring it back than to change the
+>> interpretation later. It doesn't seem to serve any clear purpose =
+right
+>> now.
+>>=20
+>> (Praveen if you post v4 please take a look at the checkpatch --strict
+>> warnings and address the ones which make sense, e.g. drop the =
+brackets
+>> around comparisons, those are just noise, basic grasp of C operator
+>> precedence can be assumed in readers of kernel code).
+>>=20
 >=20
-> Keep only the counter subsystem related part.
-> Move a part of the ABI documentation into a driver comment.
+> let's do a v4.
 >=20
-> This also removes a duplicate ABI warning
-> $ scripts/get_abi.pl validate
-> ...
-> /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:
->   ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100
->   ./Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
+> Praveen: set the initial value to IP6_RT_PRIO_USER, do not allow 0,
+> remove the checks on value and don't forget to update documentation.
 >=20
-> [1] https://lkml.org/lkml/2021/1/19/347
->=20
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
-Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+Sure, I will respin V4, with above mentioned changes. Also, I will =
+address checkpatch --strict warnings.
 
-I'll also submit a patchset removing the IIO code from the 104-quad-8
-driver and the rest of the IIO counter ABI documentation.
+I wanted to set initial value to IP6_RT_PRIO_USER in v1, but avoided =
+till review for 2 simple coding reasons:
+1.) IP6_RT_PRIO_USER must be exposed in net/ipv6/addrconf.c by including =
+include/uapi/linux/ipv6_route.h.
+2.) If rt6_add_dflt_router() will be called from other files in future, =
+IP6_RT_PRIO_USER should be included in all those files as well, because =
+caller will pass most probably default value.
 
-William Breathitt Gray
+> Oh and cc me on the next otherwise the review depends on me finding =
+time
+> to scan netdev.
 
---Ifstk+I27HDRTTHT
-Content-Type: application/pgp-signature; name="signature.asc"
+Sure, I will cc you and will add =E2=80=9CReviewed by=E2=80=9D as well. =
+I will also send you the lkml link to v4.
+Thanks Jakub and you for reviewing this over the weekend.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmANGRkACgkQhvpINdm7
-VJJ4Iw//fPBOTOQrrg//Y+6Qf3vPDPUfv4B2MY4bu5RIja9Hw6jqw1OWFxsYLFeX
-TYm4Hl3K7RSsPfeWFcCgFdp/IvSK0CMH+nHuIPcwKxsE+E0cm4ExztexpmZUR5kD
-znjePAQzo9H2kYJEmQ26Vb718AzdkaWVWOVX736TT7ecZOMKngyJg2tZ6qK+9uI2
-KMRoJPzqfl1O3lVAWiCMI91fNggTxinxZyKKTMq15GTirPn2ZRbX8i9Nxxepskf0
-QHdze2Gz+lgwDJxOLfzohpF64DG7NcMSYvMbg9EsXTBc5gL72Fmfk2wgHhx/aeUP
-5byMCFTXfAZOQWaQN4CugKhcLy8Bxv/JAXH+BEqFeIt0PoJhPvJ0X62zTBmzswXS
-8jvGq8OTGwvFisJxyx4vZk8ODxWkVNwch7ItXc8/oj6NdgDfYaYUQpEKHYEvggvn
-73jVfSPFxAfouk5p8Lo2aFVokJ9lRn/rl/mW6Bwq0DS3nJ8vawX/PQfGx1y3MV/o
-cKE7kdq8ZPjXnijG8heeehweI6eRFuV/bcnFvN3GxlIv/hkCWdhZ0b67ZEiUz4uE
-yCp/WjCBBoQbkAwvf5Q+VWuycmFHVBRJ48I+PLOGKykeJO4C2Z5eQwEAnhaGcD9O
-VJ85gCrUdvzODq0fhpFWY3fXT4Xm1b0FMWtY8w2rshsQ6GToxzY=
-=WMsJ
------END PGP SIGNATURE-----
-
---Ifstk+I27HDRTTHT--
