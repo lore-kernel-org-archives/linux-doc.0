@@ -2,129 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE07C433E9
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 23:41:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E3CC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 23:56:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 246A222CA2
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 23:41:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E331C2083E
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 23:56:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbhAXXlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jan 2021 18:41:17 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14642 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725986AbhAXXlR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jan 2021 18:41:17 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B600e05730000>; Sun, 24 Jan 2021 15:40:35 -0800
-Received: from [10.2.52.243] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 24 Jan
- 2021 23:40:29 +0000
-Subject: Re: [PATCH v7 14/14] selftests/vm: test faulting in kernel, and
- verify pinnable pages
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <akpm@linux-foundation.org>, <vbabka@suse.cz>, <mhocko@suse.com>,
-        <david@redhat.com>, <osalvador@suse.de>,
-        <dan.j.williams@intel.com>, <sashal@kernel.org>,
-        <tyhicks@linux.microsoft.com>, <iamjoonsoo.kim@lge.com>,
-        <mike.kravetz@oracle.com>, <rostedt@goodmis.org>,
-        <mingo@redhat.com>, <jgg@ziepe.ca>, <peterz@infradead.org>,
-        <mgorman@suse.de>, <willy@infradead.org>, <rientjes@google.com>,
-        <linux-doc@vger.kernel.org>, <ira.weiny@intel.com>,
-        <linux-kselftest@vger.kernel.org>
-References: <20210122033748.924330-1-pasha.tatashin@soleen.com>
- <20210122033748.924330-15-pasha.tatashin@soleen.com>
- <532b1927-1b5d-83e8-f1f9-50cd5e72435f@nvidia.com>
-Message-ID: <27b83f2b-19ae-ca9c-3bf4-4c975610c9de@nvidia.com>
-Date:   Sun, 24 Jan 2021 15:40:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101
- Thunderbird/85.0
+        id S1726261AbhAXX40 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jan 2021 18:56:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbhAXX4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jan 2021 18:56:20 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81324C061574
+        for <linux-doc@vger.kernel.org>; Sun, 24 Jan 2021 15:55:40 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id y205so7393792pfc.5
+        for <linux-doc@vger.kernel.org>; Sun, 24 Jan 2021 15:55:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=mo+UVHt1CoQmQvrUMCO6S1rlAhtZtR0L+ZEK+84Qw8g=;
+        b=sG3T12ydF9lYKTPIyKnfP8cAFtU6F8Rb54+tzW47qzbjz/JsrkcBk8Y2Saq6h8aQ5v
+         R6r8EfKV1LReR+UgZqBb+pM20/pUfsExGCi9RECg9n6VrYm6xJlf7qCNH0NShwsBvPAl
+         1o5Fdui1KKtB923kQe+mvd1gGKONAOSMpGR2OIa4rFG6MzF0PPn1riM+bJUhBA2yvQH7
+         ZMqfp3v3zTYUeEeoHrY50nD/Uc/Dt/rqeIcwJpRglxHQNStis+M+j5TcLxuEJgRs1U6x
+         Zc0mJxMrRjPYyRUgH7e0uUsG1YLeMcEKf9gXMtbiYnOMXQNMAGPZCxFFkx8+D0gNLGcG
+         v3+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=mo+UVHt1CoQmQvrUMCO6S1rlAhtZtR0L+ZEK+84Qw8g=;
+        b=gM6HhqwFKVdCslfo7m/TOMCvylkRxqxjLswS+3efnV9DvZAsaIqiiZROdtH0qsafE8
+         sQwDjmMA7g6j8UCmwW3o2Ucz5JOjxr3zYVv8oVJVxYAwwfOfdzvp1RciTi4UlxPoVRaB
+         nq7CFA7nwG0sWKG5xmuz+jy1L710xbfLBK64gOl2yFUbxeAP0aOiRhEC5LonNJ4lBs9K
+         4HYryGnopO3/X3u1tfuWrh+fh2YRdm4hrWwYyS4gPugAjwenk8PHKvg+UaLTBsGC+cCG
+         aSntuB+/iqklagYyV3vrtw7t7x6ckCtNeLaONnPhIf5vncBChZ+INtu+A/1dcltYgsEl
+         t3TQ==
+X-Gm-Message-State: AOAM53286rrTRnpuhDXmFpsXLZKFMkpDQN9bKBFeAm+Mq8RDZ2QcVA3x
+        tQHL1wqwDonKerIyZD4fJk6uiQ==
+X-Google-Smtp-Source: ABdhPJy01xwkRYoN2vQlGT34vrtjfTkepwmGbGZ0Vrtg4HGs/lSk+F1g2X2CoUQDM9hFN8Xi8SBx0w==
+X-Received: by 2002:a63:e109:: with SMTP id z9mr2465934pgh.5.1611532539670;
+        Sun, 24 Jan 2021 15:55:39 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667] ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+        by smtp.gmail.com with ESMTPSA id x1sm15377868pgj.37.2021.01.24.15.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Jan 2021 15:55:38 -0800 (PST)
+Date:   Sun, 24 Jan 2021 15:55:37 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com,
+        Matthew Wilcox <willy@infradead.org>, osalvador@suse.de,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 04/12] mm: hugetlb: defer freeing of HugeTLB pages
+In-Reply-To: <20210117151053.24600-5-songmuchun@bytedance.com>
+Message-ID: <59d18082-248a-7014-b917-625d759c572@google.com>
+References: <20210117151053.24600-1-songmuchun@bytedance.com> <20210117151053.24600-5-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <532b1927-1b5d-83e8-f1f9-50cd5e72435f@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1611531635; bh=XQkygBxScpEBU48fVqAKT3kv/XOnxlp9Av6ePwDWzF0=;
-        h=Subject:From:To:References:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=JpsR9osUItkg8YBRzflqVwZXgcV5gn47CeJtsDWvz/KtkQDh51LykLqWxLoVfbbQM
-         WSQPfeju4Hk2GzTi6nHT7Q20M1YcpnWAwCetFuDjM/GUZHiMrnZ5umMw8+f+j0mcRq
-         lyQjEEp1UgTircf4W3OPAD6WiUgWEc6u16pMruHQqZ1UBg05KVpQoks1FvJJDmGZXI
-         bo/URk/s0d/bNjtMPzRQwAc/Net7ZmMRiFEhT/X0idQ85xYfjvvV9LzHc33L3QaCVw
-         WeQrTkGNeN5brJ94iVbwgWiX0VnyDkqikqtTNiILcXXkRGe1xCmPNry/FQBJwXPj5V
-         Oh41PMqIUCe/A==
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/24/21 3:18 PM, John Hubbard wrote:
-> On 1/21/21 7:37 PM, Pavel Tatashin wrote:
->> When pages are pinned they can be faulted in userland and migrated, and
->> they can be faulted right in kernel without migration.
->>
->> In either case, the pinned pages must end-up being pinnable (not movable=
-).
->>
->> Add a new test to gup_test, to help verify that the gup/pup
->> (get_user_pages() / pin_user_pages()) behavior with respect to pinnable
->> and movable pages is reasonable and correct. Specifically, provide a
->> way to:
->>
->> 1) Verify that only "pinnable" pages are pinned. This is checked
->> automatically for you.
->>
->> 2) Verify that gup/pup performance is reasonable. This requires
->> comparing benchmarks between doing gup/pup on pages that have been
->> pre-faulted in from user space, vs. doing gup/pup on pages that are not
->> faulted in until gup/pup time (via FOLL_TOUCH). This decision is
->> controlled with the new -z command line option.
->>
->> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
->> ---
->> =C2=A0 mm/gup_test.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 6 ++++++
->> =C2=A0 tools/testing/selftests/vm/gup_test.c | 23 +++++++++++++++++++---=
--
->> =C2=A0 2 files changed, 25 insertions(+), 4 deletions(-)
->>
->=20
-> This also looks good. I do see the WARN_ON_ONCE firing in
-> internal_get_user_pages_fast(), when running with *only* the new -z
-> option.
->=20
-> I'll poke around the rest of the patchset and see if that is expected
-> and normal, but either way the test code itself looks correct and seems
+On Sun, 17 Jan 2021, Muchun Song wrote:
 
-The warning that is firing in internal_get_user_pages_fast() is:
+> In the subsequent patch, we should allocate the vmemmap pages when
+> freeing HugeTLB pages. But update_and_free_page() is always called
+> with holding hugetlb_lock, so we cannot use GFP_KERNEL to allocate
+> vmemmap pages. However, we can defer the actual freeing in a kworker
+> to prevent from using GFP_ATOMIC to allocate the vmemmap pages.
+> 
+> The update_hpage_vmemmap_workfn() is where the call to allocate
+> vmemmmap pages will be inserted.
+> 
 
-	if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM |
-				       FOLL_FORCE | FOLL_PIN | FOLL_GET |
-				       FOLL_FAST_ONLY)))
-		return -EINVAL;
+I think it's reasonable to assume that userspace can release free hugetlb 
+pages from the pool on oom conditions when reclaim has become too 
+expensive.  This approach now requires that we can allocate vmemmap pages 
+in a potential oom condition as a prerequisite for freeing memory, which 
+seems less than ideal.
 
-...OK, so this is because "./gup_test -z" invokes get_user_pages_fast(),
-which so far does not allow passing in FOLL_TOUCH. Probably because there
-is nothing "fast" about touching and possibly faulting in pages. :)
+And, by doing this through a kworker, we can presumably get queued behind 
+another work item that requires memory to make forward progress in this 
+oom condition.
 
-So, again, the test code still looks correct, even though it's possible
-to pass in options that run into things that are rejected by gup.c
+Two thoughts:
 
+- We're going to be freeing the hugetlb page after we can allocate the 
+  vmemmap pages, so why do we need to allocate with GFP_KERNEL?  Can't we
+  simply dip into memory reserves using GFP_ATOMIC (and thus can be 
+  holding hugetlb_lock) because we know we'll be freeing more memory than
+  we'll be allocating?  I think requiring a GFP_KERNEL allocation to block
+  to free memory for vmemmap when we'll be freeing memory ourselves is
+  dubious.  This simplifies all of this.
 
+- If the answer is that we actually have to use GFP_KERNEL for other 
+  reasons, what are your thoughts on pre-allocating the vmemmap as opposed
+  to deferring to a kworker?  In other words, preallocate the necessary
+  memory with GFP_KERNEL and put it on a linked list in struct hstate 
+  before acquiring hugetlb_lock.
 
-thanks,
---=20
-John Hubbard
-NVIDIA
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+> ---
+>  mm/hugetlb.c         | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+>  mm/hugetlb_vmemmap.c | 12 ---------
+>  mm/hugetlb_vmemmap.h | 17 ++++++++++++
+>  3 files changed, 89 insertions(+), 14 deletions(-)
+> 
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 140135fc8113..c165186ec2cf 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1292,15 +1292,85 @@ static inline void destroy_compound_gigantic_page(struct page *page,
+>  						unsigned int order) { }
+>  #endif
+>  
+> -static void update_and_free_page(struct hstate *h, struct page *page)
+> +static void __free_hugepage(struct hstate *h, struct page *page);
+> +
+> +/*
+> + * As update_and_free_page() is always called with holding hugetlb_lock, so we
+> + * cannot use GFP_KERNEL to allocate vmemmap pages. However, we can defer the
+> + * actual freeing in a workqueue to prevent from using GFP_ATOMIC to allocate
+> + * the vmemmap pages.
+> + *
+> + * The update_hpage_vmemmap_workfn() is where the call to allocate vmemmmap
+> + * pages will be inserted.
+> + *
+> + * update_hpage_vmemmap_workfn() locklessly retrieves the linked list of pages
+> + * to be freed and frees them one-by-one. As the page->mapping pointer is going
+> + * to be cleared in update_hpage_vmemmap_workfn() anyway, it is reused as the
+> + * llist_node structure of a lockless linked list of huge pages to be freed.
+> + */
+> +static LLIST_HEAD(hpage_update_freelist);
+> +
+> +static void update_hpage_vmemmap_workfn(struct work_struct *work)
+>  {
+> -	int i;
+> +	struct llist_node *node;
+> +
+> +	node = llist_del_all(&hpage_update_freelist);
+> +
+> +	while (node) {
+> +		struct page *page;
+> +		struct hstate *h;
+> +
+> +		page = container_of((struct address_space **)node,
+> +				     struct page, mapping);
+> +		node = node->next;
+> +		page->mapping = NULL;
+> +		h = page_hstate(page);
+> +
+> +		spin_lock(&hugetlb_lock);
+> +		__free_hugepage(h, page);
+> +		spin_unlock(&hugetlb_lock);
+>  
+> +		cond_resched();
+
+Wouldn't it be better to hold hugetlb_lock for the iteration rather than 
+constantly dropping it and reacquiring it?  Use 
+cond_resched_lock(&hugetlb_lock) instead?
