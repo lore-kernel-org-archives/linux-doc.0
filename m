@@ -2,809 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A80DCC433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 15:25:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 781E9C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 18:28:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 575FB22EBD
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 15:25:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3867922C9F
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jan 2021 18:28:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbhAXPZG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jan 2021 10:25:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbhAXPYv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jan 2021 10:24:51 -0500
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA20C061573;
-        Sun, 24 Jan 2021 07:24:05 -0800 (PST)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DNxb76DwrzMpv4F;
-        Sun, 24 Jan 2021 16:23:15 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DNxb503mVzlh8T3;
-        Sun, 24 Jan 2021 16:23:12 +0100 (CET)
-Subject: Re: [PATCH v27 08/12] landlock: Add syscall implementations
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210121205119.793296-1-mic@digikod.net>
- <20210121205119.793296-9-mic@digikod.net>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <1c49937a-299b-8de1-9e94-48c1f8854512@digikod.net>
-Date:   Sun, 24 Jan 2021 16:22:54 +0100
-User-Agent: 
-MIME-Version: 1.0
-In-Reply-To: <20210121205119.793296-9-mic@digikod.net>
-Content-Type: text/plain; charset=utf-8
+        id S1726007AbhAXS2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jan 2021 13:28:36 -0500
+Received: from mga11.intel.com ([192.55.52.93]:22943 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725918AbhAXS2f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 24 Jan 2021 13:28:35 -0500
+IronPort-SDR: Xn1Wdv+dIqpWkroL4cIBQ3FVgexcsRfZqqC/4+48P/R0TnMSh2Ihl6i10Dyx5cv0PIOqxe5VVS
+ upHRTS5GIAqg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="176118858"
+X-IronPort-AV: E=Sophos;i="5.79,371,1602572400"; 
+   d="scan'208";a="176118858"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2021 10:27:53 -0800
+IronPort-SDR: LzuAT22CE4Vt4lQS/ZMlswcd22BWBSp+VlQAnaywfpMWKouzXhfNG49d5Dkt9H/LwpK5B4IQIS
+ Za1pwBUjc8bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,371,1602572400"; 
+   d="scan'208";a="428894612"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga001.jf.intel.com with ESMTP; 24 Jan 2021 10:27:53 -0800
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Sun, 24 Jan 2021 10:27:52 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sun, 24 Jan 2021 10:27:52 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.51) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Sun, 24 Jan 2021 10:27:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IKmEq31PTi8DOo7w2mhyWneDR/e3AbF1rmJQsOfBVAeuKZTf89+5NHFla2QSqtgkzi8R6ex4FfJEpby82poUKAVeFrJ56G0AWjjpAEJIiUjNxxFmugRTov6kzntVMNLEGJkBc6sGCLsDwvHfKuVvNdNYGZJKk9Nw2mMrMQGrBnUHTRiFq7Ia6lfUyrjWl+w8QK2vIpZdrFKpNtMJ+zPgwIVpaoQq5o2ja7E0ANQhATU7I6ykireDPvgA21lJ670o8mCePiR35lEp/4FfEAkScIUPgiDSDrTsYkyS+9eYLsQiT7MZyrNp/+lDdxg8bwLNZPh/HjD8o5RcYnk00/DtlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fRnvMwZanQIrDi8s0X0+GZ4kf7PwUBiLG0BrQwQPUa0=;
+ b=RWQ1eQ8SaprxZnIU9yylDuNiHJpthMBE/EVgb9UxHJBzZrkYlQSZndvhzm/kMSxKGdZwheqtw1BYjjtudPosXOr4yv+pYKgqq8Hl/FdQ+5zRlilXsO4ujaUkSMuDVmcoQEu8ap/vbv72Cfu5JAYmjbBOFztv4Oy7cIXjffI8Pi2DvXaHzqTz3C8D7wx/scXmntBLLzL0YCW2o8ZCnbpC0WtMRIaHIcFUNn0pF+sUI5kmAT7Xxs2Ssq+sgaZRW5rMeq4snG+bNB09cJWFZuJJtm8cPyslQYZ0w44uBC2v2SFT+LUAPXFaU/t/uvrxTxFx+FBLa6Jz0NcSmLNrSBdNRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fRnvMwZanQIrDi8s0X0+GZ4kf7PwUBiLG0BrQwQPUa0=;
+ b=kKwtH4RxUMZ/6YBtm7BHg1WKR7NAT3zVO3WQ+PFwKyzmpy63hhcbbmXR3brAK1B4s3Lbr4S3NQsCPSzoSWIK/qejK3c+/DNFByuJ9S/YOWonhiPIAz+BoXdsem/sJvaZF56zEvgPqbiCxzQ2VvbXEfMCOo00gMVUoMH4gK2J3RA=
+Received: from MWHPR11MB1406.namprd11.prod.outlook.com (2603:10b6:300:23::18)
+ by MWHPR11MB1520.namprd11.prod.outlook.com (2603:10b6:301:b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.16; Sun, 24 Jan
+ 2021 18:27:48 +0000
+Received: from MWHPR11MB1406.namprd11.prod.outlook.com
+ ([fe80::89f0:cbc3:d9c2:6e7a]) by MWHPR11MB1406.namprd11.prod.outlook.com
+ ([fe80::89f0:cbc3:d9c2:6e7a%7]) with mapi id 15.20.3784.017; Sun, 24 Jan 2021
+ 18:27:48 +0000
+From:   "Thokala, Srikanth" <srikanth.thokala@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        "mgross@linux.intel.com" <mgross@linux.intel.com>,
+        "markgross@kernel.org" <markgross@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>, "bp@suse.de" <bp@suse.de>,
+        "damien.lemoal@wdc.com" <damien.lemoal@wdc.com>,
+        "dragan.cvetic@xilinx.com" <dragan.cvetic@xilinx.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "leonard.crestez@nxp.com" <leonard.crestez@nxp.com>,
+        "palmerdabbelt@google.com" <palmerdabbelt@google.com>,
+        "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+        "peng.fan@nxp.com" <peng.fan@nxp.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v2 08/34] misc: xlink-pcie: Add documentation for XLink
+ PCIe driver
+Thread-Topic: [PATCH v2 08/34] misc: xlink-pcie: Add documentation for XLink
+ PCIe driver
+Thread-Index: AQHW5gTlrLsYBjhAWEGzNhJgwXX0t6ovaK8AgAdZb3A=
+Date:   Sun, 24 Jan 2021 18:27:47 +0000
+Message-ID: <MWHPR11MB14063D4E9312923FF5F9DFB885BE9@MWHPR11MB1406.namprd11.prod.outlook.com>
+References: <20210108212600.36850-1-mgross@linux.intel.com>
+ <20210108212600.36850-9-mgross@linux.intel.com>
+ <0e68a2f9-f02d-c777-d9b8-b1ad13555ab3@infradead.org>
+In-Reply-To: <0e68a2f9-f02d-c777-d9b8-b1ad13555ab3@infradead.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [122.167.96.157]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e08e2754-9471-4bcd-9eef-08d8c095c03f
+x-ms-traffictypediagnostic: MWHPR11MB1520:
+x-microsoft-antispam-prvs: <MWHPR11MB1520F24A8B916D8E6AD1B46B85BE9@MWHPR11MB1520.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fgXHAUvz0hywVJLGQVkbBwAuizRl1tboc0f3/ZOxQk2vOOIo5uFGlRlqoUbxqag4OmvZQJq0/ePTOpkCimISdZsfOaw+XPu55lXqpLga1JIh0yqUPUhfX3AZ/+NalZeQPmn5WXdVIjV4KULMvil0cWDuDkOk7Ht7jCePFDpJ8qPcbPTr7/fqPNpYdhp7dPbr3tx0RCdz0cCIvWVas04RvFWAM23u6mi8YzdrRLfECPKxHPlTgvTQFccFPVAch51UWCN8SGmgsqF9PYvA2kZJbMblSLfcDGvfSMaE3UmiWqB3/ROiUFtx2VLJ5yfwtGkVrjW/yLb7p/PcNWBEL+4vj3WeNxQrhNR7ugZ7rYT+PRGoErRJXK5sPt52RSOft2fgTRQLAQ7PH32kkTUs8K5gdX8GihBohxGkWrISEdc9pRtiF0j9J0NK/aPOmGaZ2Wcm
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1406.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(136003)(366004)(376002)(346002)(53546011)(478600001)(6506007)(8676002)(83380400001)(55016002)(26005)(66946007)(4326008)(76116006)(316002)(54906003)(110136005)(86362001)(5660300002)(66476007)(64756008)(66446008)(66556008)(52536014)(9686003)(921005)(33656002)(71200400001)(2906002)(186003)(7416002)(8936002)(7696005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?ajRkNDFpRHgrYjRHNlBOVkhpWUY3ZC9vNXFNTjI4bnRTN0JndndwSUUrRWhj?=
+ =?utf-8?B?Z1BPM29wZVY5emNkZTk3ZFlveFN5bXdMS1VHemt4MmE5dmtDRHAxbFB6eHhH?=
+ =?utf-8?B?MGlzZElaL0hGS0h5Z3V3WTNaQ201aWJSYVpFbTFvZnNMQWdQVTZpRDVOYWpp?=
+ =?utf-8?B?UFZLQld6ejNsQncveXYydnBQejAyUFFiUks1M3lrZXZsU1dzL3huc0JkRjlp?=
+ =?utf-8?B?KzFnQkllTWU4MnpjZnpVdEdzOTlmT0JIQk5zdk92VHlLb3J3dTNPRHRZVXZn?=
+ =?utf-8?B?MUg2UnVqWUlVNmU4ZEpsREQrVUdVZjlEMzQxL09lck1ONGFpUHR2TnFmbno5?=
+ =?utf-8?B?ZzFvSEU5NXpnMjdRYklTUlhVelhsZlUvYjJKd0VxKzlDdmZvN3BwSDBDTkxy?=
+ =?utf-8?B?d0JHZy80dWJMQzh1bWN4V0x5blFuVVJCeEhVWmxNS0xwckpkaHE3Z2U1aXk0?=
+ =?utf-8?B?cytDR3VSTExyL0UvMWp6SFNTTWdlSG1tWFdrMlprZ0RQN0JwQzBHdTBRWmI1?=
+ =?utf-8?B?LzZYZFJmR2kwR0hxZmwyTm42S2tBeVJoUXNySFFwdEhDY0U2UExTSFNRcjBU?=
+ =?utf-8?B?SklCTVhoR0NqbnY3RE1LWnNNY3J4OXNlNWkzN1JGanJnM1lHL0ltcUtiaUhr?=
+ =?utf-8?B?WlVVdUVhQ29ZMjQ3YTU2R055U2RWQ2ozVTV2RER6L3EwdmhzZ2Yxci95TUdM?=
+ =?utf-8?B?c0t2SmFlNVBiemh3SmpoKzlpQXBJTEVwaTdIcWpNU1hHZ09Bc1Y4cWo3ZEl5?=
+ =?utf-8?B?dEI3NUsrcCtOSlAxRU16U2pkSnJmalN4SHZXRlhBUWFPS1d6ajY1U1dEbGZM?=
+ =?utf-8?B?RFE0NWp5WFNkb3hXaG1RaFprMFdReXJFVjlBOW1BbnV6K1htc3o4Uktwbm9y?=
+ =?utf-8?B?VmVKNG10K2dOQ0ZoRnBsNFBqTlNvdzltZUlhdmRIQVpDdTU3Mi80WlhGWTZj?=
+ =?utf-8?B?a1EzeEdtVlN2c3ErQVZ6RlZUVURncWZ3cVhwMzdUY2hhMnlIN0FMRWdlT3ky?=
+ =?utf-8?B?YWVGSUZsSzVhbUYzRnJQZnpIV1ZQK1JLQ2NscC9MQ1Y3VzNCYUYxZTBXcGRa?=
+ =?utf-8?B?T1RMWW05SEdyaGhSMmZOcys2RGs3VVJBUDk5ZFVhWjFhNlBKcERwWmFJSnhR?=
+ =?utf-8?B?S2VnOUNZREE3ZlYzWkFnVkxGa0h6UTlCa25zREdlbEdkelQ5YWhKMC9nUDR2?=
+ =?utf-8?B?eWhEL0s4ejdLVHdSWmxxSVFNcHFHZDNhdDB1MUt6dFF3ZEFJazEvVUtmUTFi?=
+ =?utf-8?B?OTJxbjB0Ris0OXlvaG1PdUlRTkN5VFdySU94VzREQTZLdTlzbFEybG41V3Jk?=
+ =?utf-8?Q?Owjko8m8BqAZU=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1406.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e08e2754-9471-4bcd-9eef-08d8c095c03f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2021 18:27:47.9830
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IegNnBWXN3aNuKDT3n6zFgW8fW9423a0OZqZsRmfHhklg3xGEN6E1NnEtW/2OMcx9GAbDJE5AwByp+LDfOyiL3NqIrxIvY82Z8yWBO8sO1s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1520
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After further though, I think that the third syscall currently called
-"landlock_enforce_ruleset_self" may be better named
-"landlock_restrict_self". I want to keep the "self" part because, as
-explained in the changelog and previous discussions, we may want to be
-able to restrict other processes (e.g. with pidfd or cgroup) in the
-future with dedicated syscalls. "landlock_restrict_self" is shorter and
-follows the same semantic as the two other syscalls (i.e. verb + direct
-object). If needed, a future version of this syscall could extend "self"
-to the process (instead of the current thread) simply with a flag.
-What do you think of this renaming?
-
-
-On 21/01/2021 21:51, Mickaël Salaün wrote:
-> From: Mickaël Salaün <mic@linux.microsoft.com>
-> 
-> These 3 system calls are designed to be used by unprivileged processes
-> to sandbox themselves:
-> * landlock_create_ruleset(2): Creates a ruleset and returns its file
->   descriptor.
-> * landlock_add_rule(2): Adds a rule (e.g. file hierarchy access) to a
->   ruleset, identified by the dedicated file descriptor.
-> * landlock_enforce_ruleset_self(2): Enforces a ruleset on the current
->   thread and its future children (similar to seccomp).  This syscall has
->   the same usage restrictions as seccomp(2): the caller must have the
->   no_new_privs attribute set or have CAP_SYS_ADMIN in the current user
->   namespace.
-> 
-> All these syscalls have a "flags" argument (not currently used) to
-> enable extensibility.
-> 
-> Here are the motivations for these new syscalls:
-> * A sandboxed process may not have access to file systems, including
->   /dev, /sys or /proc, but it should still be able to add more
->   restrictions to itself.
-> * Neither prctl(2) nor seccomp(2) (which was used in a previous version)
->   fit well with the current definition of a Landlock security policy.
-> 
-> All passed structs (attributes) are checked at build time to ensure that
-> they don't contain holes and that they are aligned the same way for each
-> architecture.
-> 
-> See the user and kernel documentation for more details (provided by a
-> following commit):
-> * Documentation/userspace-api/landlock.rst
-> * Documentation/security/landlock.rst
-> 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Serge E. Hallyn <serge@hallyn.com>
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-> Reviewed-by: Jann Horn <jannh@google.com>
-> ---
-> 
-> Changes since v26:
-> * Rename landlock_enforce_ruleset_current(2) to
->   landlock_enforce_ruleset_self(2).  "current" makes sense for a kernel
->   developer, but much less from a user space developer stand point.
->   "self" is widely used to refer to the current task (e.g. /proc/self).
->   "current" may refer to temporal properties, which could be added later
->   to this syscall flags (cf. /proc/self/attr/{current,exec}).
-> * Simplify build_check_abi().
-> * Rename syscall.c to syscalls.c .
-> * Use less ambiguous comments.
-> * Fix spelling.
-> 
-> Changes since v25:
-> * Revert build_check_abi() as non-inline to trigger a warning if it is
->   not called.
-> * Use the new limit names.
-> 
-> Changes since v24:
-> * Add Reviewed-by: Jann Horn <jannh@google.com>
-> * Set build_check_abi() as inline.
-> 
-> Changes since v23:
-> * Rewrite get_ruleset_from_fd() to please the 0-DAY CI Kernel Test
->   Service that reported an uninitialized variable (false positive):
->   https://lore.kernel.org/linux-security-module/202011101854.zGbWwusK-lkp@intel.com/
->   Anyway, it is cleaner like this.
-> * Add a comment about E2BIG which can be returned by
->   landlock_enforce_ruleset_current(2) when there is no more room for
->   another stacked ruleset (i.e. domain).
-> 
-> Changes since v22:
-> * Replace security_capable() with ns_capable_noaudit() (suggested by
->   Jann Horn) and explicitly return EPERM.
-> * Fix landlock_enforce_ruleset_current(2)'s out_put_creds (spotted by
->   Jann Horn).
-> * Add __always_inline to copy_min_struct_from_user() to make its
->   BUILD_BUG_ON() checks reliable (suggested by Jann Horn).
-> * Simplify path assignation in get_path_from_fd() (suggested by Jann
->   Horn).
-> * Fix spelling (spotted by Jann Horn).
-> 
-> Changes since v21:
-> * Fix and improve comments.
-> 
-> Changes since v20:
-> * Remove two arguments to landlock_enforce_ruleset(2) (requested by Arnd
->   Bergmann) and rename it to landlock_enforce_ruleset_current(2): remove
->   the enum landlock_target_type and the target file descriptor (not used
->   for now).  A ruleset can only be enforced on the current thread.
-> * Remove the size argument in landlock_add_rule() (requested by Arnd
->   Bergmann).
-> * Remove landlock_get_features(2) (suggested by Arnd Bergmann).
-> * Simplify and rename copy_struct_if_any_from_user() to
->   copy_min_struct_from_user().
-> * Rename "options" to "flags" to allign with current syscalls.
-> * Rename some types and variables in a more consistent way.
-> * Fix missing type declarations in syscalls.h .
-> 
-> Changes since v19:
-> * Replace the landlock(2) syscall with 4 syscalls (one for each
->   command): landlock_get_features(2), landlock_create_ruleset(2),
->   landlock_add_rule(2) and landlock_enforce_ruleset(2) (suggested by
->   Arnd Bergmann).
->   https://lore.kernel.org/lkml/56d15841-e2c1-2d58-59b8-3a6a09b23b4a@digikod.net/
-> * Return EOPNOTSUPP (instead of ENOPKG) when Landlock is disabled.
-> * Add two new fields to landlock_attr_features to fit with the new
->   syscalls: last_rule_type and last_target_type.  This enable to easily
->   identify which types are supported.
-> * Pack landlock_attr_path_beneath struct because of the removed
->   ruleset_fd.
-> * Update documentation and fix spelling.
-> 
-> Changes since v18:
-> * Remove useless include.
-> * Remove LLATTR_SIZE() which was only used to shorten lines. Cf. commit
->   bdc48fa11e46 ("checkpatch/coding-style: deprecate 80-column warning").
-> 
-> Changes since v17:
-> * Synchronize syscall declaration.
-> * Fix comment.
-> 
-> Changes since v16:
-> * Add a size_attr_features field to struct landlock_attr_features for
->   self-introspection, and move the access_fs field to be more
->   consistent.
-> * Replace __aligned_u64 types of attribute fields with __u16, __s32,
->   __u32 and __u64, and check at build time that these structures does
->   not contain hole and that they are aligned the same way (8-bits) on
->   all architectures.  This shrinks the size of the userspace ABI, which
->   may be appreciated especially for struct landlock_attr_features which
->   could grow a lot in the future.  For instance, struct
->   landlock_attr_features shrinks from 72 bytes to 32 bytes.  This change
->   also enables to remove 64-bits to 32-bits conversion checks.
-> * Switch syscall attribute pointer and size arguments to follow similar
->   syscall argument order (e.g. bpf, clone3, openat2).
-> * Set LANDLOCK_OPT_* types to 32-bits.
-> * Allow enforcement of empty ruleset, which enables deny-all policies.
-> * Fix documentation inconsistency.
-> 
-> Changes since v15:
-> * Do not add file descriptors referring to internal filesystems (e.g.
->   nsfs) in a ruleset.
-> * Replace is_user_mountable() with in-place clean checks.
-> * Replace EBADR with EBADFD in get_ruleset_from_fd() and
->   get_path_from_fd().
-> * Remove ruleset's show_fdinfo() for now.
-> 
-> Changes since v14:
-> * Remove the security_file_open() check in get_path_from_fd(): an
->   opened FD should not be restricted here, and even less with this hook.
->   As a result, it is now allowed to add a path to a ruleset even if the
->   access to this path is not allowed (without O_PATH). This doesn't
->   change the fact that enforcing a ruleset can't grant any right, only
->   remove some rights.  The new layer levels add more consistent
->   restrictions.
-> * Check minimal landlock_attr_* size/content. This fix the case when
->   no data was provided and e.g., FD 0 was interpreted as ruleset_fd.
->   Now this leads to a returned -EINVAL.
-> * Fix credential double-free error case.
-> * Complete struct landlock_attr_size with size_attr_enforce.
-> * Fix undefined reference to syscall when Landlock is not selected.
-> * Remove f.file->f_path.mnt check (suggested by Al Viro).
-> * Add build-time checks.
-> * Move ABI checks from fs.c .
-> * Constify variables.
-> * Fix spelling.
-> * Add comments.
-> 
-> Changes since v13:
-> * New implementation, replacing the dependency on seccomp(2) and bpf(2).
-> ---
->  include/linux/syscalls.h      |   7 +
->  include/uapi/linux/landlock.h |  53 +++++
->  kernel/sys_ni.c               |   5 +
->  security/landlock/Makefile    |   2 +-
->  security/landlock/syscalls.c  | 429 ++++++++++++++++++++++++++++++++++
->  5 files changed, 495 insertions(+), 1 deletion(-)
->  create mode 100644 security/landlock/syscalls.c
-> 
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index 7688bc983de5..a12bcbbb7bd2 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -68,6 +68,8 @@ union bpf_attr;
->  struct io_uring_params;
->  struct clone_args;
->  struct open_how;
-> +struct landlock_ruleset_attr;
-> +enum landlock_rule_type;
->  
->  #include <linux/types.h>
->  #include <linux/aio_abi.h>
-> @@ -1037,6 +1039,11 @@ asmlinkage long sys_pidfd_send_signal(int pidfd, int sig,
->  				       siginfo_t __user *info,
->  				       unsigned int flags);
->  asmlinkage long sys_pidfd_getfd(int pidfd, int fd, unsigned int flags);
-> +asmlinkage long sys_landlock_create_ruleset(const struct landlock_ruleset_attr __user *attr,
-> +		size_t size, __u32 flags);
-> +asmlinkage long sys_landlock_add_rule(int ruleset_fd, enum landlock_rule_type rule_type,
-> +		const void __user *rule_attr, __u32 flags);
-> +asmlinkage long sys_landlock_enforce_ruleset_self(int ruleset_fd, __u32 flags);
->  
->  /*
->   * Architecture-specific system calls
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index f69877099c8e..d1fc6af3381e 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -9,6 +9,59 @@
->  #ifndef _UAPI_LINUX_LANDLOCK_H
->  #define _UAPI_LINUX_LANDLOCK_H
->  
-> +#include <linux/types.h>
-> +
-> +/**
-> + * struct landlock_ruleset_attr - Ruleset definition
-> + *
-> + * Argument of sys_landlock_create_ruleset().  This structure can grow in
-> + * future versions.
-> + */
-> +struct landlock_ruleset_attr {
-> +	/**
-> +	 * @handled_access_fs: Bitmask of actions (cf. `Filesystem flags`_)
-> +	 * that is handled by this ruleset and should then be forbidden if no
-> +	 * rule explicitly allow them.  This is needed for backward
-> +	 * compatibility reasons.
-> +	 */
-> +	__u64 handled_access_fs;
-> +};
-> +
-> +/**
-> + * enum landlock_rule_type - Landlock rule type
-> + *
-> + * Argument of sys_landlock_add_rule().
-> + */
-> +enum landlock_rule_type {
-> +	/**
-> +	 * @LANDLOCK_RULE_PATH_BENEATH: Type of a &struct
-> +	 * landlock_path_beneath_attr .
-> +	 */
-> +	LANDLOCK_RULE_PATH_BENEATH = 1,
-> +};
-> +
-> +/**
-> + * struct landlock_path_beneath_attr - Path hierarchy definition
-> + *
-> + * Argument of sys_landlock_add_rule().
-> + */
-> +struct landlock_path_beneath_attr {
-> +	/**
-> +	 * @allowed_access: Bitmask of allowed actions for this file hierarchy
-> +	 * (cf. `Filesystem flags`_).
-> +	 */
-> +	__u64 allowed_access;
-> +	/**
-> +	 * @parent_fd: File descriptor, open with ``O_PATH``, which identifies
-> +	 * the parent directory of a file hierarchy, or just a file.
-> +	 */
-> +	__s32 parent_fd;
-> +	/*
-> +	 * This struct is packed to avoid trailing reserved members.
-> +	 * Cf. security/landlock/syscalls.c:build_check_abi()
-> +	 */
-> +} __attribute__((packed));
-> +
->  /**
->   * DOC: fs_access
->   *
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index 19aa806890d5..5c39f34c1225 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -266,6 +266,11 @@ COND_SYSCALL(request_key);
->  COND_SYSCALL(keyctl);
->  COND_SYSCALL_COMPAT(keyctl);
->  
-> +/* security/landlock/syscall.c */
-> +COND_SYSCALL(landlock_create_ruleset);
-> +COND_SYSCALL(landlock_add_rule);
-> +COND_SYSCALL(landlock_enforce_ruleset_self);
-> +
->  /* arch/example/kernel/sys_example.c */
->  
->  /* mm/fadvise.c */
-> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
-> index 92e3d80ab8ed..7bbd2f413b3e 100644
-> --- a/security/landlock/Makefile
-> +++ b/security/landlock/Makefile
-> @@ -1,4 +1,4 @@
->  obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
->  
-> -landlock-y := setup.o object.o ruleset.o \
-> +landlock-y := setup.o syscalls.o object.o ruleset.o \
->  	cred.o ptrace.o fs.o
-> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-> new file mode 100644
-> index 000000000000..d6d2713cfd00
-> --- /dev/null
-> +++ b/security/landlock/syscalls.c
-> @@ -0,0 +1,429 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Landlock LSM - System call implementations and user space interfaces
-> + *
-> + * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-> + * Copyright © 2018-2020 ANSSI
-> + */
-> +
-> +#include <asm/current.h>
-> +#include <linux/anon_inodes.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/capability.h>
-> +#include <linux/compiler_types.h>
-> +#include <linux/dcache.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/fs.h>
-> +#include <linux/limits.h>
-> +#include <linux/mount.h>
-> +#include <linux/path.h>
-> +#include <linux/sched.h>
-> +#include <linux/security.h>
-> +#include <linux/stddef.h>
-> +#include <linux/syscalls.h>
-> +#include <linux/types.h>
-> +#include <linux/uaccess.h>
-> +#include <uapi/linux/landlock.h>
-> +
-> +#include "cred.h"
-> +#include "fs.h"
-> +#include "limits.h"
-> +#include "ruleset.h"
-> +#include "setup.h"
-> +
-> +/**
-> + * copy_min_struct_from_user - Safe future-proof argument copying
-> + *
-> + * Extend copy_struct_from_user() to check for consistent user buffer.
-> + *
-> + * @dst: Kernel space pointer or NULL.
-> + * @ksize: Actual size of the data pointed to by @dst.
-> + * @ksize_min: Minimal required size to be copied.
-> + * @src: User space pointer or NULL.
-> + * @usize: (Alleged) size of the data pointed to by @src.
-> + */
-> +static __always_inline int copy_min_struct_from_user(void *const dst,
-> +		const size_t ksize, const size_t ksize_min,
-> +		const void __user *const src, const size_t usize)
-> +{
-> +	/* Checks buffer inconsistencies. */
-> +	BUILD_BUG_ON(!dst);
-> +	if (!src)
-> +		return -EFAULT;
-> +
-> +	/* Checks size ranges. */
-> +	BUILD_BUG_ON(ksize <= 0);
-> +	BUILD_BUG_ON(ksize < ksize_min);
-> +	if (usize < ksize_min)
-> +		return -EINVAL;
-> +	if (usize > PAGE_SIZE)
-> +		return -E2BIG;
-> +
-> +	/* Copies user buffer and fills with zeros. */
-> +	return copy_struct_from_user(dst, ksize, src, usize);
-> +}
-> +
-> +/*
-> + * This function only contains arithmetic operations with constants, leading to
-> + * BUILD_BUG_ON().  The related code is evaluated and checked at build time,
-> + * but it is then ignored thanks to compiler optimizations.
-> + */
-> +static void build_check_abi(void)
-> +{
-> +	struct landlock_ruleset_attr ruleset_attr;
-> +	struct landlock_path_beneath_attr path_beneath_attr;
-> +	size_t ruleset_size, path_beneath_size;
-> +
-> +	/*
-> +	 * For each user space ABI structures, first checks that there is no
-> +	 * hole in them, then checks that all architectures have the same
-> +	 * struct size.
-> +	 */
-> +	ruleset_size = sizeof(ruleset_attr.handled_access_fs);
-> +	BUILD_BUG_ON(sizeof(ruleset_attr) != ruleset_size);
-> +	BUILD_BUG_ON(sizeof(ruleset_attr) != 8);
-> +
-> +	path_beneath_size = sizeof(path_beneath_attr.allowed_access);
-> +	path_beneath_size += sizeof(path_beneath_attr.parent_fd);
-> +	BUILD_BUG_ON(sizeof(path_beneath_attr) != path_beneath_size);
-> +	BUILD_BUG_ON(sizeof(path_beneath_attr) != 12);
-> +}
-> +
-> +/* Ruleset handling */
-> +
-> +static int fop_ruleset_release(struct inode *const inode,
-> +		struct file *const filp)
-> +{
-> +	struct landlock_ruleset *ruleset = filp->private_data;
-> +
-> +	landlock_put_ruleset(ruleset);
-> +	return 0;
-> +}
-> +
-> +static ssize_t fop_dummy_read(struct file *const filp, char __user *const buf,
-> +		const size_t size, loff_t *const ppos)
-> +{
-> +	/* Dummy handler to enable FMODE_CAN_READ. */
-> +	return -EINVAL;
-> +}
-> +
-> +static ssize_t fop_dummy_write(struct file *const filp,
-> +		const char __user *const buf, const size_t size,
-> +		loff_t *const ppos)
-> +{
-> +	/* Dummy handler to enable FMODE_CAN_WRITE. */
-> +	return -EINVAL;
-> +}
-> +
-> +/*
-> + * A ruleset file descriptor enables to build a ruleset by adding (i.e.
-> + * writing) rule after rule, without relying on the task's context.  This
-> + * reentrant design is also used in a read way to enforce the ruleset on the
-> + * current task.
-> + */
-> +static const struct file_operations ruleset_fops = {
-> +	.release = fop_ruleset_release,
-> +	.read = fop_dummy_read,
-> +	.write = fop_dummy_write,
-> +};
-> +
-> +/**
-> + * sys_landlock_create_ruleset - Create a new ruleset
-> + *
-> + * @attr: Pointer to a &struct landlock_ruleset_attr identifying the scope of
-> + *        the new ruleset.
-> + * @size: Size of the pointed &struct landlock_ruleset_attr (needed for
-> + *        backward and forward compatibility).
-> + * @flags: Must be 0.
-> + *
-> + * This system call enables to create a new Landlock ruleset, and returns the
-> + * related file descriptor on success.
-> + *
-> + * Possible returned errors are:
-> + *
-> + * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
-> + * - EINVAL: @flags is not 0, or unknown access, or too small @size;
-> + * - E2BIG or EFAULT: @attr or @size inconsistencies;
-> + * - ENOMSG: empty &landlock_ruleset_attr.handled_access_fs.
-> + */
-> +SYSCALL_DEFINE3(landlock_create_ruleset,
-> +		const struct landlock_ruleset_attr __user *const, attr,
-> +		const size_t, size, const __u32, flags)
-> +{
-> +	struct landlock_ruleset_attr ruleset_attr;
-> +	struct landlock_ruleset *ruleset;
-> +	int err, ruleset_fd;
-> +
-> +	/* Build-time checks. */
-> +	build_check_abi();
-> +
-> +	if (!landlock_initialized)
-> +		return -EOPNOTSUPP;
-> +
-> +	/* No flag for now. */
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	/* Copies raw user space buffer. */
-> +	err = copy_min_struct_from_user(&ruleset_attr, sizeof(ruleset_attr),
-> +			offsetofend(typeof(ruleset_attr), handled_access_fs),
-> +			attr, size);
-> +	if (err)
-> +		return err;
-> +
-> +	/* Checks content (and 32-bits cast). */
-> +	if ((ruleset_attr.handled_access_fs | LANDLOCK_MASK_ACCESS_FS) !=
-> +			LANDLOCK_MASK_ACCESS_FS)
-> +		return -EINVAL;
-> +
-> +	/* Checks arguments and transforms to kernel struct. */
-> +	ruleset = landlock_create_ruleset(ruleset_attr.handled_access_fs);
-> +	if (IS_ERR(ruleset))
-> +		return PTR_ERR(ruleset);
-> +
-> +	/* Creates anonymous FD referring to the ruleset. */
-> +	ruleset_fd = anon_inode_getfd("landlock-ruleset", &ruleset_fops,
-> +			ruleset, O_RDWR | O_CLOEXEC);
-> +	if (ruleset_fd < 0)
-> +		landlock_put_ruleset(ruleset);
-> +	return ruleset_fd;
-> +}
-> +
-> +/*
-> + * Returns an owned ruleset from a FD. It is thus needed to call
-> + * landlock_put_ruleset() on the return value.
-> + */
-> +static struct landlock_ruleset *get_ruleset_from_fd(const int fd,
-> +		const fmode_t mode)
-> +{
-> +	struct fd ruleset_f;
-> +	struct landlock_ruleset *ruleset;
-> +
-> +	ruleset_f = fdget(fd);
-> +	if (!ruleset_f.file)
-> +		return ERR_PTR(-EBADF);
-> +
-> +	/* Checks FD type and access right. */
-> +	if (ruleset_f.file->f_op != &ruleset_fops) {
-> +		ruleset = ERR_PTR(-EBADFD);
-> +		goto out_fdput;
-> +	}
-> +	if (!(ruleset_f.file->f_mode & mode)) {
-> +		ruleset = ERR_PTR(-EPERM);
-> +		goto out_fdput;
-> +	}
-> +	ruleset = ruleset_f.file->private_data;
-> +	landlock_get_ruleset(ruleset);
-> +
-> +out_fdput:
-> +	fdput(ruleset_f);
-> +	return ruleset;
-> +}
-> +
-> +/* Path handling */
-> +
-> +/*
-> + * @path: Must call put_path(@path) after the call if it succeeded.
-> + */
-> +static int get_path_from_fd(const s32 fd, struct path *const path)
-> +{
-> +	struct fd f;
-> +	int err = 0;
-> +
-> +	BUILD_BUG_ON(!__same_type(fd,
-> +		((struct landlock_path_beneath_attr *)NULL)->parent_fd));
-> +
-> +	/* Handles O_PATH. */
-> +	f = fdget_raw(fd);
-> +	if (!f.file)
-> +		return -EBADF;
-> +	/*
-> +	 * Only allows O_PATH file descriptor: enables to restrict ambient
-> +	 * filesystem access without requiring to open and risk leaking or
-> +	 * misusing a file descriptor.  Forbid internal filesystems (e.g.
-> +	 * nsfs), including pseudo filesystems that will never be mountable
-> +	 * (e.g. sockfs, pipefs).
-> +	 */
-> +	if (!(f.file->f_mode & FMODE_PATH) ||
-> +			(f.file->f_path.mnt->mnt_flags & MNT_INTERNAL) ||
-> +			(f.file->f_path.dentry->d_sb->s_flags & SB_NOUSER) ||
-> +			d_is_negative(f.file->f_path.dentry) ||
-> +			IS_PRIVATE(d_backing_inode(f.file->f_path.dentry))) {
-> +		err = -EBADFD;
-> +		goto out_fdput;
-> +	}
-> +	*path = f.file->f_path;
-> +	path_get(path);
-> +
-> +out_fdput:
-> +	fdput(f);
-> +	return err;
-> +}
-> +
-> +/**
-> + * sys_landlock_add_rule - Add a new rule to a ruleset
-> + *
-> + * @ruleset_fd: File descriptor tied to the ruleset that should be extended
-> + *		with the new rule.
-> + * @rule_type: Identify the structure type pointed to by @rule_attr (only
-> + *             LANDLOCK_RULE_PATH_BENEATH for now).
-> + * @rule_attr: Pointer to a rule (only of type &struct
-> + *             landlock_path_beneath_attr for now).
-> + * @flags: Must be 0.
-> + *
-> + * This system call enables to define a new rule and add it to an existing
-> + * ruleset.
-> + *
-> + * Possible returned errors are:
-> + *
-> + * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
-> + * - EINVAL: @flags is not 0, or inconsistent access in the rule (i.e.
-> + *   &landlock_path_beneath_attr.allowed_access is not a subset of the rule's
-> + *   accesses);
-> + * - EBADF: @ruleset_fd is not a file descriptor for the current thread;
-> + * - EBADFD: @ruleset_fd is not a ruleset file descriptor;
-> + * - EPERM: @ruleset_fd has no write access to the underlying ruleset;
-> + * - EFAULT: @rule_attr inconsistency.
-> + */
-> +SYSCALL_DEFINE4(landlock_add_rule,
-> +		const int, ruleset_fd, const enum landlock_rule_type, rule_type,
-> +		const void __user *const, rule_attr, const __u32, flags)
-> +{
-> +	struct landlock_path_beneath_attr path_beneath_attr;
-> +	struct path path;
-> +	struct landlock_ruleset *ruleset;
-> +	int res, err;
-> +
-> +	if (!landlock_initialized)
-> +		return -EOPNOTSUPP;
-> +
-> +	/* No flag for now. */
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	if (rule_type != LANDLOCK_RULE_PATH_BENEATH)
-> +		return -EINVAL;
-> +
-> +	/* Copies raw user space buffer, only one type for now. */
-> +	res = copy_from_user(&path_beneath_attr, rule_attr,
-> +			sizeof(path_beneath_attr));
-> +	if (res)
-> +		return -EFAULT;
-> +
-> +	/* Gets and checks the ruleset. */
-> +	ruleset = get_ruleset_from_fd(ruleset_fd, FMODE_CAN_WRITE);
-> +	if (IS_ERR(ruleset))
-> +		return PTR_ERR(ruleset);
-> +
-> +	/*
-> +	 * Checks that allowed_access matches the @ruleset constraints
-> +	 * (ruleset->fs_access_mask is automatically upgraded to 64-bits).
-> +	 * Allows empty allowed_access i.e., deny @ruleset->fs_access_mask .
-> +	 */
-> +	if ((path_beneath_attr.allowed_access | ruleset->fs_access_mask) !=
-> +			ruleset->fs_access_mask) {
-> +		err = -EINVAL;
-> +		goto out_put_ruleset;
-> +	}
-> +
-> +	/* Gets and checks the new rule. */
-> +	err = get_path_from_fd(path_beneath_attr.parent_fd, &path);
-> +	if (err)
-> +		goto out_put_ruleset;
-> +
-> +	/* Imports the new rule. */
-> +	err = landlock_append_fs_rule(ruleset, &path,
-> +			path_beneath_attr.allowed_access);
-> +	path_put(&path);
-> +
-> +out_put_ruleset:
-> +	landlock_put_ruleset(ruleset);
-> +	return err;
-> +}
-> +
-> +/* Enforcement */
-> +
-> +/**
-> + * sys_landlock_enforce_ruleset_self - Enforce a ruleset on the calling thread
-> + *
-> + * @ruleset_fd: File descriptor tied to the ruleset to merge with the target.
-> + * @flags: Must be 0.
-> + *
-> + * This system call enables to enforce a Landlock ruleset on the current
-> + * thread.  Enforcing a ruleset requires that the task has CAP_SYS_ADMIN in its
-> + * namespace or is running with no_new_privs.  This avoids scenarios where
-> + * unprivileged tasks can affect the behavior of privileged children.
-> + *
-> + * Possible returned errors are:
-> + *
-> + * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
-> + * - EINVAL: @flags is not 0.
-> + * - EBADF: @ruleset_fd is not a file descriptor for the current thread;
-> + * - EBADFD: @ruleset_fd is not a ruleset file descriptor;
-> + * - EPERM: @ruleset_fd has no read access to the underlying ruleset, or the
-> + *   current thread is not running with no_new_privs, or it doesn't have
-> + *   CAP_SYS_ADMIN in its namespace.
-> + * - E2BIG: The maximum number of stacked rulesets is reached for the current
-> + *   thread.
-> + */
-> +SYSCALL_DEFINE2(landlock_enforce_ruleset_self,
-> +		const int, ruleset_fd, const __u32, flags)
-> +{
-> +	struct landlock_ruleset *new_dom, *ruleset;
-> +	struct cred *new_cred;
-> +	struct landlock_cred_security *new_llcred;
-> +	int err;
-> +
-> +	if (!landlock_initialized)
-> +		return -EOPNOTSUPP;
-> +
-> +	/* No flag for now. */
-> +	if (flags)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Similar checks as for seccomp(2), except that an -EPERM may be
-> +	 * returned.
-> +	 */
-> +	if (!task_no_new_privs(current) &&
-> +			!ns_capable_noaudit(current_user_ns(), CAP_SYS_ADMIN))
-> +		return -EPERM;
-> +
-> +	/* Gets and checks the ruleset. */
-> +	ruleset = get_ruleset_from_fd(ruleset_fd, FMODE_CAN_READ);
-> +	if (IS_ERR(ruleset))
-> +		return PTR_ERR(ruleset);
-> +
-> +	/* Prepares new credentials. */
-> +	new_cred = prepare_creds();
-> +	if (!new_cred) {
-> +		err = -ENOMEM;
-> +		goto out_put_ruleset;
-> +	}
-> +	new_llcred = landlock_cred(new_cred);
-> +
-> +	/*
-> +	 * There is no possible race condition while copying and manipulating
-> +	 * the current credentials because they are dedicated per thread.
-> +	 */
-> +	new_dom = landlock_merge_ruleset(new_llcred->domain, ruleset);
-> +	if (IS_ERR(new_dom)) {
-> +		err = PTR_ERR(new_dom);
-> +		goto out_put_creds;
-> +	}
-> +
-> +	/* Replaces the old (prepared) domain. */
-> +	landlock_put_ruleset(new_llcred->domain);
-> +	new_llcred->domain = new_dom;
-> +
-> +	landlock_put_ruleset(ruleset);
-> +	return commit_creds(new_cred);
-> +
-> +out_put_creds:
-> +	abort_creds(new_cred);
-> +
-> +out_put_ruleset:
-> +	landlock_put_ruleset(ruleset);
-> +	return err;
-> +}
-> 
+SGkgUmFuZHksDQoNClRoYW5rIHlvdSBmb3IgdGhlIHJldmlldy4NCg0KPiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9y
+Zz4NCj4gU2VudDogV2VkbmVzZGF5LCBKYW51YXJ5IDIwLCAyMDIxIDE6MDYgQU0NCj4gVG86IG1n
+cm9zc0BsaW51eC5pbnRlbC5jb207IG1hcmtncm9zc0BrZXJuZWwub3JnOyBhcm5kQGFybmRiLmRl
+Ow0KPiBicEBzdXNlLmRlOyBkYW1pZW4ubGVtb2FsQHdkYy5jb207IGRyYWdhbi5jdmV0aWNAeGls
+aW54LmNvbTsNCj4gZ3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc7IGNvcmJldEBsd24ubmV0OyBs
+ZW9uYXJkLmNyZXN0ZXpAbnhwLmNvbTsNCj4gcGFsbWVyZGFiYmVsdEBnb29nbGUuY29tOyBwYXVs
+LndhbG1zbGV5QHNpZml2ZS5jb207IHBlbmcuZmFuQG54cC5jb207DQo+IHJvYmgrZHRAa2VybmVs
+Lm9yZzsgc2hhd25ndW9Aa2VybmVsLm9yZzsgamFzc2lzaW5naGJyYXJAZ21haWwuY29tDQo+IENj
+OiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBUaG9rYWxhLCBTcmlrYW50aA0KPiA8c3Jp
+a2FudGgudGhva2FsYUBpbnRlbC5jb20+OyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnDQo+IFN1
+YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMDgvMzRdIG1pc2M6IHhsaW5rLXBjaWU6IEFkZCBkb2N1bWVu
+dGF0aW9uIGZvcg0KPiBYTGluayBQQ0llIGRyaXZlcg0KPiANCj4gSGksDQo+IEhlcmUgYXJlIGEg
+ZmV3IGRvYyBjb21tZW50cyBmb3IgeW91Og0KPiANCj4gT24gMS84LzIxIDE6MjUgUE0sIG1ncm9z
+c0BsaW51eC5pbnRlbC5jb20gd3JvdGU6DQo+ID4gRnJvbTogU3Jpa2FudGggVGhva2FsYSA8c3Jp
+a2FudGgudGhva2FsYUBpbnRlbC5jb20+DQo+ID4NCj4gPiBQcm92aWRlIG92ZXJ2aWV3IG9mIFhM
+aW5rIFBDSWUgZHJpdmVyIGltcGxlbWVudGF0aW9uDQo+ID4NCj4gPiBDYzogSm9uYXRoYW4gQ29y
+YmV0IDxjb3JiZXRAbHduLm5ldD4NCj4gPiBDYzogbGludXgtZG9jQHZnZXIua2VybmVsLm9yZw0K
+PiA+IFJldmlld2VkLWJ5OiBNYXJrIEdyb3NzIDxtZ3Jvc3NAbGludXguaW50ZWwuY29tPg0KPiA+
+IFNpZ25lZC1vZmYtYnk6IFNyaWthbnRoIFRob2thbGEgPHNyaWthbnRoLnRob2thbGFAaW50ZWwu
+Y29tPg0KPiA+IC0tLQ0KPiA+ICBEb2N1bWVudGF0aW9uL3ZwdS9pbmRleC5yc3QgICAgICB8ICAx
+ICsNCj4gPiAgRG9jdW1lbnRhdGlvbi92cHUveGxpbmstcGNpZS5yc3QgfCA5MCArKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDkxIGluc2VydGlv
+bnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdnB1L3hsaW5rLXBj
+aWUucnN0DQo+ID4NCj4gDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdnB1L3hsaW5r
+LXBjaWUucnN0IGIvRG9jdW1lbnRhdGlvbi92cHUveGxpbmstDQo+IHBjaWUucnN0DQo+ID4gbmV3
+IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjJkODc3Yzk2NmIxZQ0K
+PiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3ZwdS94bGluay1wY2ll
+LnJzdA0KPiA+IEBAIC0wLDAgKzEsOTAgQEANCj4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZp
+ZXI6IEdQTC0yLjANCj4gPiArDQo+ID4gKz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+DQo+ID4gK0tlcm5lbCBkcml2ZXI6IFhsaW5rLXBjaWUgZHJpdmVyDQo+ID4gKz09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09DQo+ID4gK1N1cHBvcnRlZCBjaGlwczoNCj4gPiArICAqIElu
+dGVsIEVkZ2UuQUkgQ29tcHV0ZXIgVmlzaW9uIHBsYXRmb3JtczogS2VlbSBCYXkNCj4gPiArICAg
+IFN1ZmZpeDogQmF5DQo+ID4gKyAgICBTbGF2ZSBhZGRyZXNzOiA2MjQwDQo+ID4gKyAgICBEYXRh
+c2hlZXQ6IFB1YmxpY2x5IGF2YWlsYWJsZSBhdCBJbnRlbA0KPiA+ICsNCj4gPiArQXV0aG9yOiBT
+cmlrYW50aCBUaG9rYWxhIFNyaWthbnRoLlRob2thbGFAaW50ZWwuY29tDQo+ID4gKw0KPiA+ICtJ
+bnRyb2R1Y3Rpb24NCj4gPiArPT09PT09PT09PT09DQo+ID4gK1RoZSBYbGluay1wY2llIGRyaXZl
+ciBwcm92aWRlcyB0cmFuc3BvcnQgbGF5ZXIgaW1wbGVtZW50YXRpb24gZm9yDQo+ID4gK3RoZSBk
+YXRhIHRyYW5zZmVycyB0byBzdXBwb3J0IFhsaW5rIHByb3RvY29sIHN1YnN5c3RlbSBjb21tdW5p
+Y2F0aW9uDQo+IHdpdGggdGhlDQo+ID4gK3BlZXIgZGV2aWNlLiBpLmUsIGJldHdlZW4gcmVtb3Rl
+IGhvc3Qgc3lzdGVtIGFuZCBLZWVtIEJheSBkZXZpY2UuDQo+IA0KPiAgICAgICAgIGRldmljZSwg
+aS5lLiwNCg0KT2suDQoNCj4gDQo+ID4gKw0KPiA+ICtUaGUgS2VlbSBCYXkgZGV2aWNlIGlzIGFu
+IEFSTS1iYXNlZCBTT0MgdGhhdCBpbmNsdWRlcyBhIHZpc2lvbg0KPiBwcm9jZXNzaW5nDQo+ID4g
+K3VuaXQgKFZQVSkgYW5kIGRlZXAgbGVhcm5pbmcsIG5ldXJhbCBuZXR3b3JrIGNvcmUgaW4gdGhl
+IGhhcmR3YXJlLg0KPiA+ICtUaGUgWGxpbmstcGNpZSBkcml2ZXIgZXhwb3J0cyBhIGZ1bmN0aW9u
+YWwgZGV2aWNlIGVuZHBvaW50IHRvIHRoZSBLZWVtDQo+IEJheQ0KPiA+ICtkZXZpY2UgYW5kIHN1
+cHBvcnRzIHR3by13YXkgY29tbXVuaWNhdGlvbiB3aXRoIHRoZSBwZWVyIGRldmljZS4NCj4gPiAr
+DQo+ID4gK0hpZ2gtbGV2ZWwgYXJjaGl0ZWN0dXJlDQo+ID4gKz09PT09PT09PT09PT09PT09PT09
+PT09DQo+ID4gK1JlbW90ZSBIb3N0OiBJQSBDUFUNCj4gPiArTG9jYWwgSG9zdDogQVJNIENQVSAo
+S2VlbSBCYXkpOjoNCj4gPiArDQo+ID4gKyAgICAgICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IC0tLS0tLS0tLS0rDQo+
+ID4gKyAgICAgICAgfCAgUmVtb3RlIEhvc3QgSUEgQ1BVICAgICAgICAgICAgICB8IHwgTG9jYWwg
+SG9zdCBBUk0gQ1BVIChLZWVtDQo+IEJheSkgfCAgIHwNCj4gPiArDQo+ICs9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09Kz0rPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PSs9
+PT0rDQo+ID4gKyAgICAgICAgfCAgVXNlciBBcHAgICAgICAgICAgICAgICAgICAgICAgICB8IHwg
+VXNlciBBcHANCj4gfCAgIHwNCj4gPiArICAgICAgICArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLSstKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tKy0tLSsNCj4g
+PiArICAgICAgICB8ICAgWExpbmsgVUFQSSAgICAgICAgICAgICAgICAgICAgIHwgfCBYTGluayBV
+QVBJDQo+IHwgICB8DQo+ID4gKyAgICAgICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0rLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IC0tLS0tLSstLS0rDQo+ID4gKyAg
+ICAgICAgfCAgIFhMaW5rIENvcmUgICAgICAgICAgICAgICAgICAgICB8IHwgWExpbmsgQ29yZQ0K
+PiB8ICAgfA0KPiA+ICsgICAgICAgICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Ky0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0rLS0tKw0KPiA+ICsgICAgICAg
+IHwgICBYTGluayBQQ0llICAgICAgICAgICAgICAgICAgICAgfCB8IFhMaW5rIFBDSWUNCj4gfCAg
+IHwNCj4gPiArICAgICAgICArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstKy0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tKy0tLSsNCj4gPiArICAgICAgICB8ICAg
+WExpbmstUENJZSBSZW1vdGUgSG9zdCBkcml2ZXIgIHwgfCBYTGluay1QQ0llIExvY2FsIEhvc3QN
+Cj4gZHJpdmVyICB8ICAgfA0KPiA+ICsgICAgICAgICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tKy0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0rLS0tKw0KPiA+
+ICsgICAgICAgIHwtOi06LTotOi06LTotOi06LTotOi06LTotOi06LTotOi06fDp8Oi06LTotOi06
+LTotOi06LTotOi06LTotDQo+IDotOi06LTotOi06fA0KPiA+ICsgICAgICAgICstLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKy0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAt
+LS0tLS0rLS0tKw0KPiA+ICsgICAgICAgIHwgICAgIFBDSWUgSG9zdCBDb250cm9sbGVyICAgICAg
+ICAgfCB8IFBDSWUgRGV2aWNlIENvbnRyb2xsZXINCj4gfCBIV3wNCj4gPiArICAgICAgICArLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0NCj4gLS0tLS0tKy0tLSsNCj4gPiArICAgICAgICAgICAgICAgXiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4NCj4gPiArICAgICAgICAgICAgICAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiArICAgICAgICAg
+ICAgICAgfC0tLS0tLS0tLS0tLS0gUENJZSB4MiBMaW5rICAtLS0tLS0tLS0tLS0tLS0tLXwNCj4g
+PiArDQo+ID4gK1RoaXMgWExpbmsgUENJZSBkcml2ZXIgY29tcHJpc2VzIG9mIHR3byB2YXJpYW50
+czoNCj4gPiArKiBMb2NhbCBIb3N0IGRyaXZlcg0KPiA+ICsNCj4gPiArICAqIEludGVuZGVkIGZv
+ciBBUk0gQ1BVDQo+ID4gKyAgKiBJdCBpcyBiYXNlZCBvbiBQQ0kgRW5kcG9pbnQgRnJhbWV3b3Jr
+DQo+ID4gKyAgKiBEcml2ZXIgcGF0aDoge3RyZWV9L2RyaXZlcnMvbWlzYy9YbGluay1wY2llL2xv
+Y2FsX2hvc3QNCj4gPiArDQo+ID4gKyogUmVtb3RlIEhvc3QgZHJpdmVyDQo+ID4gKw0KPiA+ICsg
+ICAgICAgKiBJbnRlbmRlZCBmb3IgSUEgQ1BVDQo+ID4gKyAgICAgICAqIEl0IGlzIGEgUENJZSBl
+bmRwb2ludCBkcml2ZXINCj4gPiArICAgICAgICogRHJpdmVyIHBhdGg6IHt0cmVlfS9kcml2ZXJz
+L21pc2MvWGxpbmstcGNpZS9yZW1vdGVfaG9zdA0KPiA+ICsNCj4gPiArWExpbmsgUENJZSBjb21t
+dW5pY2F0aW9uIGJldHdlZW4gbG9jYWwgaG9zdCBhbmQgcmVtb3RlIGhvc3QgaXMgYWNoaWV2ZWQN
+Cj4gdGhyb3VnaA0KPiA+ICtyaW5nIGJ1ZmZlciBtYW5hZ2VtZW50IGFuZCBNU0kvRG9vcmJlbGwg
+aW50ZXJydXB0cy4NCj4gPiArDQo+ID4gK1RoZSBYbGluay1wY2llIGRyaXZlciBzdWJzeXN0ZW0g
+cmVnaXN0ZXJzIHRoZSBLZWVtIEJheSBkZXZpY2UgYXMgYW4NCj4gZW5kcG9pbnQNCj4gPiArZHJp
+dmVyIGFuZCBwcm92aWRlcyBzdGFuZGFyZCBsaW51eCBQQ0llIHN5c2ZzIGludGVyZmFjZSwgIw0K
+PiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBMaW51eA0KDQpPay4NCg0KPiBX
+aGF0IGlzIHRoZSAnIycgc2lnbiBmb3IgYWJvdmU/DQoNCkl0IGRlbm90ZXMgTGludXggcHJvbXB0
+OyBJIHdpbGwgY2hhbmdlIGl0IHRvIGJlIG1vcmUgbWVhbmluZ2Z1bC4NCg0KVGhhbmtzIQ0KU3Jp
+a2FudGgNCg0KPiANCj4gPiArL3N5cy9idXMvcGNpL2RldmljZXMveHh4eDp4eDp4eC4wLw0KPiA+
+ICsNCj4gPiArDQo+ID4gK1hMaW5rIHByb3RvY29sIHN1YnN5c3RlbQ0KPiA+ICs9PT09PT09PT09
+PT09PT09PT09PT09PT0NCj4gPiArWGxpbmsgaXMgYW4gYWJzdHJhY3RlZCBjb250cm9sIGFuZCBj
+b21tdW5pY2F0aW9uIHN1YnN5c3RlbSBiYXNlZCBvbg0KPiBjaGFubmVsDQo+ID4gK2lkZW50aWZp
+Y2F0aW9uLiBJdCBpcyBpbnRlbmRlZCB0byBzdXBwb3J0IFZQVSB0ZWNobm9sb2d5IGJvdGggYXQg
+U29DDQo+IGxldmVsIGFzDQo+ID4gK3dlbGwgYXMgYXQgSVAgbGV2ZWwsIG92ZXIgbXVsdGlwbGUg
+aW50ZXJmYWNlcy4NCj4gPiArDQo+ID4gKy0gVGhlIFhsaW5rIHN1YnN5c3RlbSBhYnN0cmFjdHMg
+c2V2ZXJhbCB0eXBlcyBvZiBjb21tdW5pY2F0aW9uIGNoYW5uZWxzDQo+ID4gKyAgdW5kZXJuZWF0
+aCwgYWxsb3dpbmcgdGhlIHVzYWdlIG9mIGRpZmZlcmVudCBpbnRlcmZhY2VzIHdpdGggdGhlDQo+
+ID4gKyAgc2FtZSBmdW5jdGlvbiBjYWxsIGludGVyZmFjZS4NCj4gPiArLSBUaGUgQ29tbXVuaWNh
+dGlvbiBjaGFubmVscyBhcmUgZnVsbC1kdXBsZXggcHJvdG9jb2wgY2hhbm5lbHMgYWxsb3dpbmcN
+Cj4gPiArICBjb25jdXJyZW50IGJpZGlyZWN0aW9uYWwgY29tbXVuaWNhdGlvbi4NCj4gPiArLSBU
+aGUgWGxpbmsgc3Vic3lzdGVtIGFsc28gc3VwcG9ydHMgY29udHJvbCBvcGVyYXRpb25zIHRvIFZQ
+VSBlaXRoZXINCj4gPiArICBmcm9tIHN0YW5kYWxvbmUgbG9jYWwgc3lzdGVtIG9yIGZyb20gcmVt
+b3RlIHN5c3RlbSBiYXNlZCBvbg0KPiBjb21tdW5pY2F0aW9uDQo+ID4gKyAgaW50ZXJmYWNlIHVu
+ZGVybmVhdGguDQo+ID4gKy0gVGhlIFhsaW5rIHN1YnN5c3RlbSBzdXBwb3J0cyB0aGUgZm9sbG93
+aW5nIGNvbW11bmljYXRpb24gaW50ZXJmYWNlczoNCj4gPiArICAgICogVVNCIENEQw0KPiA+ICsg
+ICAgKiBHaWdhYml0IEV0aGVybmV0DQo+ID4gKyAgICAqIFBDSWUNCj4gPiArICAgICogSVBDDQo+
+ID4NCj4gDQo+IA0KPiAtLQ0KPiB+UmFuZHkNCj4gIkhlIGNsb3NlcyBoaXMgZXllcyBhbmQgZHJv
+cHMgdGhlIGdvZ2dsZXMuICBZb3UgY2FuJ3QgZ2V0IGh1cnQNCj4gYnkgbG9va2luZyBhdCBhIGJp
+dG1hcC4gIE9yIGNhbiB5b3U/Ig0KPiAoTmVhbCBTdGVwaGVuc29uOiBTbm93IENyYXNoKQ0K
