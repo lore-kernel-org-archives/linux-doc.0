@@ -2,71 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 577A8C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22981C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 03:04:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D3AF22E03
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:53:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7D7422EBF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 03:04:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729238AbhAYOPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 09:15:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52310 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729348AbhAYOOd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 09:14:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 422612145D;
-        Mon, 25 Jan 2021 14:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611584032;
-        bh=aIUrp6lPa0cxDQK/ZAf5EpmucIVm0vBQmL73AHPDKPU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Eh2ujyYUqnzOJ4I/jJCXRqE+1JnBfD5VOoMqZcJxl442a2MK8hIbd3x8cwSsiUJQW
-         nd84VcfOtpfwLHpZphnEL3KrwoFCxaoVtvif0Zf17hP05b3xqSUY5VpqzLrdLo+BM4
-         a6290yP70K8ADVsGB3Jq+kO/TCbfoRMBrp02lMLfVA7zWVRm9/FjcI2ngK3XpMZT89
-         rkVYW5Q7jp77ihrQsl5Ojn+421gn/6QkKVQuYaLTea4VyLYBtHE3OiAq/hEpsavL0i
-         9Qeg2oXsRitFiKz2ZPEg5lRpux/gJQs2PevC2EjLlnFzbAgCv1W95zgxiioFtXDm3X
-         G8HIytwRFZL2Q==
-Received: by pali.im (Postfix)
-        id EB23E768; Mon, 25 Jan 2021 15:13:49 +0100 (CET)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Andrew Lunn <andrew@lunn.ch>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: arm: marvell: Fix dead link to Armada 37xx Product Brief
-Date:   Mon, 25 Jan 2021 15:13:41 +0100
-Message-Id: <20210125141341.32200-1-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S1728342AbhAYNAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 08:00:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56567 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728544AbhAYM64 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 07:58:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611579421;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=DrrsduXw40spa9C0cPD/Y3KujjjqBKpfWwF9zUNXpbE=;
+        b=StpZjeMxx7xC2CGUa30pgzVOFXbICm63Z0O6HaAKdVG/JBY0+4zvljvpfFB/j/H0oSS6P2
+        qwm3HDADRjFIG6BD5xvpVB9oRS3edjexRbJcP+rd0j3ywSx4kuUpVfU5AQ0St+JB6rMkzL
+        coNFCOTjMA+N1/orBMQpae8zjQhP0LM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-92-OndNxk3gOOqLsuKiAZjAQQ-1; Mon, 25 Jan 2021 06:43:34 -0500
+X-MC-Unique: OndNxk3gOOqLsuKiAZjAQQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFE6618C8C0E;
+        Mon, 25 Jan 2021 11:43:30 +0000 (UTC)
+Received: from [10.36.115.13] (ovpn-115-13.ams2.redhat.com [10.36.115.13])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2BE4D19C44;
+        Mon, 25 Jan 2021 11:43:24 +0000 (UTC)
+Subject: Re: [PATCH v13 09/12] mm: hugetlb: add a kernel parameter
+ hugetlb_free_vmemmap
+To:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        naoya.horiguchi@nec.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-10-songmuchun@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
+Date:   Mon, 25 Jan 2021 12:43:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210117151053.24600-10-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- Documentation/arm/marvell.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 17.01.21 16:10, Muchun Song wrote:
+> Add a kernel parameter hugetlb_free_vmemmap to enable the feature of
+> freeing unused vmemmap pages associated with each hugetlb page on boot.
 
-diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-index b16e6f7e8dbe..fa22a72d4391 100644
---- a/Documentation/arm/marvell.rst
-+++ b/Documentation/arm/marvell.rst
-@@ -183,7 +183,7 @@ EBU Armada family ARMv8
- 	http://www.marvell.com/embedded-processors/armada-3700/
- 
-   Product Brief:
--	http://www.marvell.com/embedded-processors/assets/PB-88F3700-FNL.pdf
-+	http://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-embedded-processors-armada-37xx-product-brief-2016-01.pdf
- 
-   Hardware Spec:
- 	http://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-embedded-processors-armada-37xx-hardware-specifications-2019-09.pdf
+The description completely lacks a description of the changes performed
+in arch/x86/mm/init_64.c.
+
+[...]
+
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/gfp.h>
+>  #include <linux/kcore.h>
+>  #include <linux/bootmem_info.h>
+> +#include <linux/hugetlb.h>
+>  
+>  #include <asm/processor.h>
+>  #include <asm/bios_ebda.h>
+> @@ -1557,7 +1558,8 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
+>  {
+>  	int err;
+>  
+> -	if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+> +	if (is_hugetlb_free_vmemmap_enabled() ||
+> +	    end - start < PAGES_PER_SECTION * sizeof(struct page))
+
+This looks irresponsible. You ignore any altmap, even though current
+altmap users (ZONE_DEVICE) will not actually result in applicable
+vmemmaps that huge pages could ever use.
+
+Why do you ignore the altmap completely? This has to be properly
+documented, but IMHO it's not even the right approach to mess with
+altmap here.
+
 -- 
-2.20.1
+Thanks,
+
+David / dhildenb
 
