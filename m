@@ -2,104 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 375D5C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F7AC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:32:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A0E222513
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:00:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DD1922B3F
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:32:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730081AbhAYRAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 12:00:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57184 "EHLO mail.kernel.org"
+        id S1730651AbhAYRc3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 12:32:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34296 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730040AbhAYQ7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 11:59:47 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D20220658;
-        Mon, 25 Jan 2021 16:58:13 +0000 (UTC)
+        id S1731024AbhAYRcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 12:32:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07B0022ADF;
+        Mon, 25 Jan 2021 17:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611593893;
-        bh=kxggTNC3zOxhHV9GLTZJpYh6V/gkPDghPdf7uj5wkPw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=jVMuSN0SY61xCC7u0zDSn/jSnsFgzsTUGp5JSDTBzhcWaCMIQ2MoYwXM5QE2EJUPn
-         NV83zDvBtzkSXiPReR9PAmDaJYHAXizXKfbIqpIGK8twTqxVDuJ87MEJkdtK8RJelH
-         EbVeMxySK4W7qFsCnKnYo/Na/YJtr3+vXRg8JcV/zy7dl/eiQV3nAGBMHZ6PXZiGE/
-         IT7BT9Oew/elXI8lF7EP6M2r2M/EGIMvqstXGIrgq0Ww5XuNttUiqkkoYRWQPhliud
-         DQhOTNx1/fcbSR++lvsfMHWKDtiK/rqTJ8Wp/FjeKLWZ9vYY2HRadkgXTIExYLmNUT
-         nFKE1MGqvlm8g==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id F2A0B3523742; Mon, 25 Jan 2021 08:58:12 -0800 (PST)
-Date:   Mon, 25 Jan 2021 08:58:12 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rcu-tasks: rectify kernel-doc for struct rcu_tasks
-Message-ID: <20210125165812.GZ2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20210125074105.29038-1-lukas.bulwahn@gmail.com>
+        s=k20201202; t=1611595882;
+        bh=tSl2j3Xo3oOZAF0XrbcXkB/VqG7UiW1dnFIFToLJEj8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ffo+o3AS5PKnvgXeTFf9HOjinHsxjyuD1GCTIisNJYXNtmdDF6+t2JkMuwGTaUZi5
+         uM+bQVCLy3tEQhx6QfIsQEjW6takV4e5kcgh5f3Rx9cC6etJd+3uM5odLMtasHrFDy
+         dVlJ+Ret+dD9u6LLUT9BCeX5FAo0RFmAlS4WXZWDyUO1YXR5a77Fo3USn7ZK7Q4eI+
+         zq42/1WcXheHa+Rur4IGR+AtvWUp4d/OhKS0PJCiRF/t5bT7ZLpSaNMYDQRBUIECOu
+         GE7MjEHYbMi52/TlZjOgbqHUW2gKiXcU1x3bw/8luHeP+dO7Byj7tMFZ7ohmRV8fjR
+         lYzKYhzv8Evtw==
+Date:   Mon, 25 Jan 2021 19:31:19 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     corbet@lwn.net,
+        =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
+        <nfraprado@protonmail.com>, Ben Widawsky <ben.widawsky@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: Make the description of return value readable
+Message-ID: <YA8AZ/pOhts/DneP@kernel.org>
+References: <20210125081905.145569-1-jarkko@kernel.org>
+ <20210125105353.5c695d42@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210125074105.29038-1-lukas.bulwahn@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210125105353.5c695d42@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 08:41:05AM +0100, Lukas Bulwahn wrote:
-> The command 'find ./kernel/rcu/ | xargs ./scripts/kernel-doc -none'
-> reported an issue with the kernel-doc of struct rcu_tasks.
+On Mon, Jan 25, 2021 at 10:53:53AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 25 Jan 2021 10:19:04 +0200
+> Jarkko Sakkinen <jarkko@kernel.org> escreveu:
 > 
-> Rectify the kernel-doc, such that no issues remain for ./kernel/rcu/.
+> > The description on how to describe return values is over-complicated, and
+> > hard to follow. For alien reason, the body of the section is a note, and
+> > the first paragraph speaks about 'Return', albeit the section name is
+> > actually 'Return:'.
+> > 
+> > To give a better help when both implementing and reviewing patches, provide
+> > a straight-forward guideline, how to decribe return values, instead of
+> > providing a note that starts by "blacklisting" one of the infinite possible
+> > options of doing it wrong.
+> > 
+> > This decreases the cumulative amount of time, which is probably
+> > substantial, on this otherwise somewhat trivial topic.
+> > 
+> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > ---
+> >  Documentation/doc-guide/kernel-doc.rst | 34 +++++++-------------------
+> >  1 file changed, 9 insertions(+), 25 deletions(-)
+> > 
+> > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> > index 79aaa55d6bcf..dc5e1722c150 100644
+> > --- a/Documentation/doc-guide/kernel-doc.rst
+> > +++ b/Documentation/doc-guide/kernel-doc.rst
+> > @@ -136,34 +136,18 @@ Examples::
+> >  Return values
+> >  ~~~~~~~~~~~~~
+> >  
+> > -The return value, if any, should be described in a dedicated section
+> > -named ``Return``.
+> > +The return value, if any, should be described in a dedicated section named
+> > +``Return:``.
+> >  
+> > -.. note::
+> > -
+> > -  #) The multi-line descriptive text you provide does *not* recognize
+> > -     line breaks, so if you try to format some text nicely, as in::
+> > -
+> > -	* Return:
+> > -	* 0 - OK
+> > -	* -EINVAL - invalid argument
+> > -	* -ENOMEM - out of memory
+> > -
+> > -     this will all run together and produce::
+> > -
+> > -	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
+> > -
+> > -     So, in order to produce the desired line breaks, you need to use a
+> > -     ReST list, e. g.::
+> > +In order to describe multiple return values, a ReST list should be used. That
+> > +way Sphinx knows how to line-up them properly::
+> >  
+> > -      * Return:
+> > -      * * 0		- OK to runtime suspend the device
+> > -      * * -EBUSY	- Device should not be runtime suspended
+> > +  * Return:
+> > +  * - 0:	The run-time is allowed to suspend the device.
+> > +  * - -EBUSY:	Device should not be suspended.
+> >  
+> > -  #) If the descriptive text you provide has lines that begin with
+> > -     some phrase followed by a colon, each of those phrases will be taken
+> > -     as a new section heading, which probably won't produce the desired
+> > -     effect.
+> > +Using a dash rather than asterisk an is probably a better idea, because it does
+> > +not meddle as much with the C-comments.
 > 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Well, there are different opinions with that regards... Some devs think that
+> using:
+> 
+> 	- -EBUSY
+> 
+> is confusing. I ended agreeing with that. That's why the recommendation is
+> to use an asterisk.
 
-Applied for the v5.13 merge window with the usual wordsmithing, thank you!
+Maybe then whitelisting two options would be the way to move forward?
 
-							Thanx, Paul
+> Thanks,
+> Mauro
 
-> ---
-> applies cleanly on v5.11-rc5 and next-20210122
-> 
-> Paul, please pick this minor kerneldoc cleanup.
-> 
->  kernel/rcu/tasks.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
-> index af7c19439f4e..17c8ebe131af 100644
-> --- a/kernel/rcu/tasks.h
-> +++ b/kernel/rcu/tasks.h
-> @@ -20,7 +20,7 @@ typedef void (*holdouts_func_t)(struct list_head *hop, bool ndrpt, bool *frptp);
->  typedef void (*postgp_func_t)(struct rcu_tasks *rtp);
->  
->  /**
-> - * Definition for a Tasks-RCU-like mechanism.
-> + * struct rcu_tasks - Definition for a Tasks-RCU-like mechanism.
->   * @cbs_head: Head of callback list.
->   * @cbs_tail: Tail pointer for callback list.
->   * @cbs_wq: Wait queue allowning new callback to get kthread's attention.
-> @@ -38,7 +38,7 @@ typedef void (*postgp_func_t)(struct rcu_tasks *rtp);
->   * @pregp_func: This flavor's pre-grace-period function (optional).
->   * @pertask_func: This flavor's per-task scan function (optional).
->   * @postscan_func: This flavor's post-task scan function (optional).
-> - * @holdout_func: This flavor's holdout-list scan function (optional).
-> + * @holdouts_func: This flavor's holdout-list scan function (optional).
->   * @postgp_func: This flavor's post-grace-period function (optional).
->   * @call_func: This flavor's call_rcu()-equivalent function.
->   * @name: This flavor's textual name.
-> -- 
-> 2.17.1
-> 
+/Jarkko
