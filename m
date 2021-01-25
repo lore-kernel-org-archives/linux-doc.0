@@ -2,104 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4538EC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B95CC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14E83207B1
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0726221EA
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388596AbhAZFzK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbhAYJbU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 04:31:20 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08194C061788;
-        Mon, 25 Jan 2021 00:18:12 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id y187so9889228wmd.3;
-        Mon, 25 Jan 2021 00:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=L0W9wzZk2KHjHBqzXgEillis1FzBzYM0WKoWJPRNyc0=;
-        b=uT80n4EuuiPnr573jqlyrWg4gtgjyZltb26yudbKIK9JjhPrZynPr7Y6XNRcCMARTN
-         5tIOlWEXkhrgvvANF9iiUrMNtVM1kDWaSe1SBOJkjBYYJtE4CcXCQ+kzDA/SJ0uE0kIW
-         qWEUbfpW3S8gCHAlBwRakCSBzDlZZY4JrWmJpxzfwbKJHK4PRZwVgWwVwOsRXzb35049
-         iqkyJHDcKvRTf8388GCUp3Q5jP7w1peIQIyHPi5kH+LIKYbjoK75AoLj2d/exIoeVVvf
-         VmSr8uBUpSE+LUi9ejMv9mU6/A0bacI2MPYBIhyzJUAPfLmXjvhBK8xrF0OstrPf+Yk0
-         ZUuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=L0W9wzZk2KHjHBqzXgEillis1FzBzYM0WKoWJPRNyc0=;
-        b=cB1jT+mPZWHwodQ/wxx8hlnBjL0AYuiCTeA9wry5QS13goSEfWvDe9/i3ObB0cDiNX
-         9soFLGjkDNM5wtz/n1HqEpsk/JHLKgVG5Q4+czJ7TKo2Ba/bKp4uRy68dc7UJiJ4r0tE
-         JqoocQ/BK/YnnO/dTpBrj1cHgCmFsncJcNJqyOvlrYhhz/RUm6tHkdgUY0DeE7RSd1+z
-         ZcY6Gqu5e+U6ZKecjFfVMMHiFzuXNmou6Mw55TAxLI/7gn2D6TtDixKlhb8ZxLn69KKv
-         5U7fQcENBb8bM2skc8MNE/XdxlgOxZC5XgqWIUa6c3uThEj2NukFu6RFdl3gKQjfFApY
-         1czA==
-X-Gm-Message-State: AOAM5308DX31zu/8MouzmSeT/HsMU5JPISwRTF5/vU+H51lbtFigKIdL
-        CBldFXkY+09fJDElENi3RKE=
-X-Google-Smtp-Source: ABdhPJwEfP+Mgrdx9WUqHhmI4d/faaRuR7bmvVT6RogtYoEwA2G4GhvbxRdjZ7k/stx8O1SdulvCow==
-X-Received: by 2002:a7b:c1c6:: with SMTP id a6mr342079wmj.23.1611562690743;
-        Mon, 25 Jan 2021 00:18:10 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d4b:4500:649e:f82b:bf2d:2571])
-        by smtp.gmail.com with ESMTPSA id b2sm5559333wmd.41.2021.01.25.00.18.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 00:18:10 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] printk: rectify kernel-doc for prb_rec_init_wr()
-Date:   Mon, 25 Jan 2021 09:17:48 +0100
-Message-Id: <20210125081748.19903-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727062AbhAZFzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43078 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726942AbhAYJ4j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 04:56:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3873222597;
+        Mon, 25 Jan 2021 09:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611568439;
+        bh=OOn7cmzw71J8lu3YYw6ES8LmbvuXLKRJR9o9mJxQkLc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tbvRBgTG48DsX8aTGhXT7RZuODV1evwh4xCr95tV4R9TzXJZAxmuA9AnVmG13jQ+5
+         PPtN2LRUYlp/oogxLh5KRxa+wdduJi8vKN8zzKxaK9CNlNOtyB2tEIjmOOyZj2HlFf
+         adYgLAX0MGmV5dzfq3tSomR87ZQzHh1QA23V345u30+JIbb3vMTqtang+2etUsfZnm
+         uzdH2kj7YlmIlPHOEZZKx9dySrc3J7fg6uqDl/ZKdzBUa1nymuHyBk21kw/7SBJWjP
+         x0eni/48tLa87cEm1JGV/JMdsiuItHQwsyWEsb4TVWZJun59witX3qqAvUapYkhg55
+         YE0LlnSp5F5GQ==
+Date:   Mon, 25 Jan 2021 10:53:53 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     corbet@lwn.net,
+        "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        Ben Widawsky <ben.widawsky@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: Make the description of return value
+ readable
+Message-ID: <20210125105353.5c695d42@coco.lan>
+In-Reply-To: <20210125081905.145569-1-jarkko@kernel.org>
+References: <20210125081905.145569-1-jarkko@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The command 'find ./kernel/printk/ | xargs ./scripts/kernel-doc -none'
-reported a mismatch with the kernel-doc of prb_rec_init_wr().
+Em Mon, 25 Jan 2021 10:19:04 +0200
+Jarkko Sakkinen <jarkko@kernel.org> escreveu:
 
-Rectify the kernel-doc, such that no issues remain for ./kernel/printk/.
+> The description on how to describe return values is over-complicated, and
+> hard to follow. For alien reason, the body of the section is a note, and
+> the first paragraph speaks about 'Return', albeit the section name is
+> actually 'Return:'.
+> 
+> To give a better help when both implementing and reviewing patches, provide
+> a straight-forward guideline, how to decribe return values, instead of
+> providing a note that starts by "blacklisting" one of the infinite possible
+> options of doing it wrong.
+> 
+> This decreases the cumulative amount of time, which is probably
+> substantial, on this otherwise somewhat trivial topic.
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+>  Documentation/doc-guide/kernel-doc.rst | 34 +++++++-------------------
+>  1 file changed, 9 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> index 79aaa55d6bcf..dc5e1722c150 100644
+> --- a/Documentation/doc-guide/kernel-doc.rst
+> +++ b/Documentation/doc-guide/kernel-doc.rst
+> @@ -136,34 +136,18 @@ Examples::
+>  Return values
+>  ~~~~~~~~~~~~~
+>  
+> -The return value, if any, should be described in a dedicated section
+> -named ``Return``.
+> +The return value, if any, should be described in a dedicated section named
+> +``Return:``.
+>  
+> -.. note::
+> -
+> -  #) The multi-line descriptive text you provide does *not* recognize
+> -     line breaks, so if you try to format some text nicely, as in::
+> -
+> -	* Return:
+> -	* 0 - OK
+> -	* -EINVAL - invalid argument
+> -	* -ENOMEM - out of memory
+> -
+> -     this will all run together and produce::
+> -
+> -	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
+> -
+> -     So, in order to produce the desired line breaks, you need to use a
+> -     ReST list, e. g.::
+> +In order to describe multiple return values, a ReST list should be used. That
+> +way Sphinx knows how to line-up them properly::
+>  
+> -      * Return:
+> -      * * 0		- OK to runtime suspend the device
+> -      * * -EBUSY	- Device should not be runtime suspended
+> +  * Return:
+> +  * - 0:	The run-time is allowed to suspend the device.
+> +  * - -EBUSY:	Device should not be suspended.
+>  
+> -  #) If the descriptive text you provide has lines that begin with
+> -     some phrase followed by a colon, each of those phrases will be taken
+> -     as a new section heading, which probably won't produce the desired
+> -     effect.
+> +Using a dash rather than asterisk an is probably a better idea, because it does
+> +not meddle as much with the C-comments.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on v5.11-rc5 and next-20210122
+Well, there are different opinions with that regards... Some devs think that
+using:
 
-John, please ack.
-Petr, please pick this minor typo fixup.
+	- -EBUSY
 
- kernel/printk/printk_ringbuffer.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+is confusing. I ended agreeing with that. That's why the recommendation is
+to use an asterisk.
 
-diff --git a/kernel/printk/printk_ringbuffer.h b/kernel/printk/printk_ringbuffer.h
-index 5dc9d022db07..73cc80e01cef 100644
---- a/kernel/printk/printk_ringbuffer.h
-+++ b/kernel/printk/printk_ringbuffer.h
-@@ -287,7 +287,7 @@ _DEFINE_PRINTKRB(name, descbits, avgtextbits, &_##name##_text[0])
- /* Writer Interface */
- 
- /**
-- * prb_rec_init_wd() - Initialize a buffer for writing records.
-+ * prb_rec_init_wr() - Initialize a buffer for writing records.
-  *
-  * @r:             The record to initialize.
-  * @text_buf_size: The needed text buffer size.
--- 
-2.17.1
-
+Thanks,
+Mauro
