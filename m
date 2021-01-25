@@ -2,213 +2,356 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6092AC43381
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 20:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F89C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:46:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CB872256F
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 20:59:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 299072083E
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732196AbhAYUzn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 15:55:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
+        id S1732612AbhAYVp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 16:45:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732134AbhAYTsf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 14:48:35 -0500
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69384C06174A
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 11:47:54 -0800 (PST)
-Received: by mail-qk1-x731.google.com with SMTP id k193so13705016qke.6
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 11:47:54 -0800 (PST)
+        with ESMTP id S1732418AbhAYVpS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 16:45:18 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF304C061573;
+        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id m6so9201533pfk.1;
+        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CMoxsSdJeiKGLfWOk88GY5/NPQjHlx6ONHSuZw3X3Sw=;
-        b=aCyk/qZeUY3TjhOjcrFr6KTfTio16UerfHW//cyQsd6jrP0nY/0P4spHYerV54jdLN
-         jjTFZYlQx6zKl9g++n77zFdWchLEg2TIrFdq1XCh0QdRBMYrqsMP5XeISahHj+WGS53q
-         eYd5CLqapEWai92rlAk6KJId2eN3Lan433b75VoHI8pAK3SOZrDG7JaHPZWiGHCk1IkB
-         gSgKcG1TMy4aaeE/IWWIjVWFzPzwkZKB23ZZkY0OUr8HxAak5MAk90bCFvHPzyV9lCB/
-         hwku4vIuU8q7eLAyU9a2rIOia7bq/IsYjua+cAUcjPrWI/fTz5iUG8Ohn2xKxDgLWp/9
-         qb4Q==
+        bh=lQQFftPeIGWJPfOFUyLAcLyeRJEgYdVIN6m17F1vIro=;
+        b=Sb49yV86zbWRJH5DWiEtUJ1O5akJ8WXt07WytHt7jQnppQDo/Cbv4coa4HdEmNPYcE
+         lkH1SLtrdMAvavmXbY+iG+e2TTZjTkkvb8igNCYtTJbmcocG1Tgy9ToJSgWUGpObEYKb
+         74pn206IYMPHZDSiZf2z5XUImLtEDLr6wzoJ4UdQUOeaJYuO9Q5MRV58lqvgAe5uTq4L
+         SHrrqmQm8onZffLPw3Y5VeTHXQRmZ2sjCs3RpiY6jNhmqeWEhtejfSl3h57BAby950QR
+         vr4W+gX+qNFB9HtRJZ59VimdyXoDEE4d2VQ5bi7DDxi2VV1zWBqEaCyKr37WtZmpwUir
+         DapA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=CMoxsSdJeiKGLfWOk88GY5/NPQjHlx6ONHSuZw3X3Sw=;
-        b=irDGQT2cyJOZ0eGxzjrLH+yTrZ4RR34mmTXgR/nd6MsCC8MkHz6pA4B7BygtTTQNJI
-         8YZ15B150vlcpStuisSgBw1wFz4Clpe9mnJFLJWj77R257U5p1HaXHwxnqf5mZY5TMcS
-         jhF2dqGrcFDAtya+mXukbNpuc3aa7r7xM3O/wc4Y/D9utRoulz1+KQhmowUQGjUHHmNh
-         D+pcjdMKDr8q+LLrAIDPM3T4uC3/3sg0l3T/CmrfToD88PbABTkhpZyLajF1v72yduqi
-         VtVcINLn4CfM2rmzV/vM0iorkuBppuqi+i2ryElsADeig59gejnoRqnt5gaUSkaRxL1h
-         7JxQ==
-X-Gm-Message-State: AOAM530l5nHYve3m5WBLBUr9nUj0edTu0oXLVHjiFGpG5rFx2JBAG536
-        26GIiQT4mHZK/UXzJyJod60o1g==
-X-Google-Smtp-Source: ABdhPJxzvfxTOHGDwvh/84iFt5c+Bn+Nj003aub6jxAznhEWqZBh/DUxPlFQCiwHAf31ElF0qX9L8w==
-X-Received: by 2002:a05:620a:13ae:: with SMTP id m14mr2316208qki.35.1611604073626;
-        Mon, 25 Jan 2021 11:47:53 -0800 (PST)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id c12sm12121569qtq.76.2021.01.25.11.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 11:47:53 -0800 (PST)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
-        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
-        dan.j.williams@intel.com, sashal@kernel.org,
-        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
-        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
-        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
-        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
-        linux-doc@vger.kernel.org, ira.weiny@intel.com,
-        linux-kselftest@vger.kernel.org, jmorris@namei.org
-Subject: [PATCH v8 00/14] prohibit pinning pages in ZONE_MOVABLE
-Date:   Mon, 25 Jan 2021 14:47:37 -0500
-Message-Id: <20210125194751.1275316-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.25.1
+        bh=lQQFftPeIGWJPfOFUyLAcLyeRJEgYdVIN6m17F1vIro=;
+        b=Mont9Uwwx/ZU3h/Znh4mXnwPNnXhMFaczAyp35RtohIhpZVPb1u1I6+CPGh/OsOAv4
+         8L6aJ6npjlPXJIjqHni51kQJsyWlqK5ieDzDRtti3/ctQkocJWoapMA8r0HIFEtOn/mc
+         RzoeiGV/jBIZZ1FLPKZa4QE+mNXXeUYJqCQGVocBpZYatf+HO4MaGNRYhA697cz4XESV
+         m9vEhxzd0m5DzJ6BCveLONgwZwhu0XDt2X+BE50SubEcWes8KNjHBdU0mAvvsP00RSrS
+         dWT+2LQCqXBLk7ajBDjdADJ9ZzFm2SlNwYOR7eXakLWeZvPOLjmWX+PsgO5gD6OyEqgx
+         p7Zg==
+X-Gm-Message-State: AOAM531lArTRQClqA6dfnkeuVb0UvNTGU7KyAWkudklDQWgq5jvXRSSW
+        EWvcda7aCbk19XfabMwTtUl+WuaASVrk
+X-Google-Smtp-Source: ABdhPJy+941WuW/+l9Et2f8GuU/Kn8kg8f9F/iXV9c+t26YPwY02PRBhiXPHXPujXZR/3+9r8MDpwg==
+X-Received: by 2002:a63:4d1:: with SMTP id 200mr2431144pge.362.1611611077290;
+        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
+Received: from localhost.localdomain ([216.52.21.4])
+        by smtp.gmail.com with ESMTPSA id f15sm295745pja.24.2021.01.25.13.44.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Jan 2021 13:44:36 -0800 (PST)
+From:   Praveen Chaudhary <praveen5582@gmail.com>
+X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
+To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     dsahern@gmail.com, Zhenggen Xu <zxu@linkedin.com>,
+        David Ahern <dsahern@kernel.org>
+Subject: [PATCH v4 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
+Date:   Mon, 25 Jan 2021 13:44:30 -0800
+Message-Id: <20210125214430.24079-1-pchaudhary@linkedin.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changelog
----------
-v8
-- Added reviewed by's from John Hubbard
-- Fixed subjects for selftests patches
-- Moved zero page check inside is_pinnable_page() as requested by Jason
-  Gunthorpe.
+For IPv4, default route is learned via DHCPv4 and user is allowed to change
+metric using config etc/network/interfaces. But for IPv6, default route can
+be learned via RA, for which, currently a fixed metric value 1024 is used.
 
-v7
-- Added reviewed-by's
-- Fixed a compile bug on non-mmu builds reported by robot
+Ideally, user should be able to configure metric on default route for IPv6
+similar to IPv4. This fix adds sysctl for the same.
 
-v6
-  Small update, but I wanted to send it out quicker, as it removes a
-  controversial patch and replaces it with something sane.
-- Removed forcing FOLL_WRITE for longterm gup, instead added a patch to
-  skip zero pages during migration.
-- Added reviewed-by's and minor log changes.
+Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
+Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
 
-v5
-- Added the following patches to the beginning of series, which are fixes
-   to the other existing problems with CMA migration code:
-	mm/gup: check every subpage of a compound page during isolation
-	mm/gup: return an error on migration failure
-	mm/gup: check for isolation errors also at the beginning of series
-	mm/gup: do not allow zero page for pinned pages
-- remove .gfp_mask/.reclaim_idx changes from mm/vmscan.c
-- update movable zone header comment in patch 8 instead of patch 3, fix
-  the comment
-- Added acked, sign-offs
-- Updated commit logs based on feedback
-- Addressed issues reported by Michal and Jason.
-- Remove:
-	#define PINNABLE_MIGRATE_MAX	10
-	#define PINNABLE_ISOLATE_MAX	100
-   Instead: fail on the first migration failure, and retry isolation
-   forever as their failures are transient.
+Reviewed-by: David Ahern <dsahern@kernel.org>
 
-- In self-set addressed some of the comments from John Hubbard, updated
-  commit logs, and added comments. Renamed gup->flags with gup->test_flags.
+Changes in v1.
+1.) Correct the call to rt6_add_dflt_router.
 
-v4
-- Address page migration comments. New patch:
-  mm/gup: limit number of gup migration failures, honor failures
-  Implements the limiting number of retries for migration failures, and
-  also check for isolation failures.
-  Added a test case into gup_test to verify that pages never long-term
-  pinned in a movable zone, and also added tests to fault both in kernel
-  and in userland.
-v3
-- Merged with linux-next, which contains clean-up patch from Jason,
-  therefore this series is reduced by two patches which did the same
-  thing.
-v2
-- Addressed all review comments
-- Added Reviewed-by's.
-- Renamed PF_MEMALLOC_NOMOVABLE to PF_MEMALLOC_PIN
-- Added is_pinnable_page() to check if page can be longterm pinned
-- Fixed gup fast path by checking is_in_pinnable_zone()
-- rename cma_page_list to movable_page_list
-- add a admin-guide note about handling pinned pages in ZONE_MOVABLE,
-  updated caveat about pinned pages from linux/mmzone.h
-- Move current_gfp_context() to fast-path
+Changes in v2.
+1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
+2.) Change Type to __u32 instead of __s32.
+3.) Change description in Documentation/networking/ip-sysctl.rst.
+4.) Use proc_douintvec instead of proc_dointvec.
+5.) Code style in ndisc_router_discovery().
+6.) Change Type to u32 instead of unsigned int.
 
----------
-When page is pinned it cannot be moved and its physical address stays
-the same until pages is unpinned.
+Changes in v3:
+1.) Removed '---' and '```' from description.
+2.) Remove stray ' after accept_ra_defrtr.
+3.) Fix tab in net/ipv6/addrconf.c.
 
-This is useful functionality to allows userland to implementation DMA
-access. For example, it is used by vfio in vfio_pin_pages().
+Changes in v4:
+1.) Remove special case of 0 and use IP6_RT_PRIO_USER as default.
+2.) Do not allow 0.
+3.) Change Documentation accordingly.
+4.) Remove extra brackets and compare with zero in ndisc_router_discovery().
+5.) Remove compare with zero in rt6_add_dflt_router().
 
-However, this functionality breaks memory hotplug/hotremove assumptions
-that pages in ZONE_MOVABLE can always be migrated.
+Logs:
 
-This patch series fixes this issue by forcing new allocations during
-page pinning to omit ZONE_MOVABLE, and also to migrate any existing
-pages from ZONE_MOVABLE during pinning.
+For IPv4:
 
-It uses the same scheme logic that is currently used by CMA, and extends
-the functionality for all allocations.
+Config in etc/network/interfaces:
+auto eth0
+iface eth0 inet dhcp
+    metric 4261413864
 
-For more information read the discussion [1] about this problem.
-[1] https://lore.kernel.org/lkml/CA+CK2bBffHBxjmb9jmSKacm0fJMinyt3Nhk8Nx6iudcQSj80_w@mail.gmail.com
+IPv4 Kernel Route Table:
+$ ip route list
+default via 172.21.47.1 dev eth0 metric 4261413864
 
-Previous versions:
-v1
-https://lore.kernel.org/lkml/20201202052330.474592-1-pasha.tatashin@soleen.com
-v2
-https://lore.kernel.org/lkml/20201210004335.64634-1-pasha.tatashin@soleen.com
-v3
-https://lore.kernel.org/lkml/20201211202140.396852-1-pasha.tatashin@soleen.com
-v4
-https://lore.kernel.org/lkml/20201217185243.3288048-1-pasha.tatashin@soleen.com
-v5
-https://lore.kernel.org/lkml/20210119043920.155044-1-pasha.tatashin@soleen.com
-v6
-https://lore.kernel.org/lkml/20210120014333.222547-1-pasha.tatashin@soleen.com
-v7
-https://lore.kernel.org/lkml/20210122033748.924330-1-pasha.tatashin@soleen.com
+FRR Table, if a static route is configured:
+[In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       > - selected route, * - FIB route
 
-Pavel Tatashin (14):
-  mm/gup: don't pin migrated cma pages in movable zone
-  mm/gup: check every subpage of a compound page during isolation
-  mm/gup: return an error on migration failure
-  mm/gup: check for isolation errors
-  mm cma: rename PF_MEMALLOC_NOCMA to PF_MEMALLOC_PIN
-  mm: apply per-task gfp constraints in fast path
-  mm: honor PF_MEMALLOC_PIN for all movable pages
-  mm/gup: do not migrate zero page
-  mm/gup: migrate pinned pages out of movable zone
-  memory-hotplug.rst: add a note about ZONE_MOVABLE and page pinning
-  mm/gup: change index type to long as it counts pages
-  mm/gup: longterm pin migration cleanup
-  selftests/vm: gup_test: fix test flag
-  selftests/vm: gup_test: test faulting in kernel, and verify pinnable
-    pages
+S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
+K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
 
- .../admin-guide/mm/memory-hotplug.rst         |   9 +
- include/linux/migrate.h                       |   1 +
- include/linux/mm.h                            |  12 ++
- include/linux/mmzone.h                        |  13 +-
- include/linux/pgtable.h                       |   3 +-
- include/linux/sched.h                         |   2 +-
- include/linux/sched/mm.h                      |  27 +--
- include/trace/events/migrate.h                |   3 +-
- mm/gup.c                                      | 174 ++++++++----------
- mm/gup_test.c                                 |  29 +--
- mm/gup_test.h                                 |   3 +-
- mm/hugetlb.c                                  |   4 +-
- mm/page_alloc.c                               |  33 ++--
- tools/testing/selftests/vm/gup_test.c         |  36 +++-
- 14 files changed, 190 insertions(+), 159 deletions(-)
+i.e. User can prefer Default Router learned via Routing Protocol in IPv4.
+Similar behavior is not possible for IPv6, without this fix.
 
+After fix [for IPv6]:
+sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
+
+IP monitor: [When IPv6 RA is received]
+default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
+
+Kernel IPv6 routing table
+$ ip -6 route list
+default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
+
+FRR Table, if a static route is configured:
+[In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
+Codes: K - kernel route, C - connected, S - static, R - RIPng,
+       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+       v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+       > - selected route, * - FIB route
+
+S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
+K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
+
+If the metric is changed later, the effect will be seen only when next IPv6
+RA is received, because the default route must be fully controlled by RA msg.
+Below metric is changed from 1996489705 to 1996489704.
+
+$ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
+net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
+
+IP monitor:
+[On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
+
+Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
+default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
+---
+ Documentation/networking/ip-sysctl.rst | 10 ++++++++++
+ include/linux/ipv6.h                   |  1 +
+ include/net/ip6_route.h                |  3 ++-
+ include/uapi/linux/ipv6.h              |  1 +
+ include/uapi/linux/sysctl.h            |  1 +
+ net/ipv6/addrconf.c                    | 11 +++++++++++
+ net/ipv6/ndisc.c                       | 12 ++++++++----
+ net/ipv6/route.c                       |  5 +++--
+ 8 files changed, 37 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index dd2b12a32b73..0e51ddd9a2f1 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1871,6 +1871,16 @@ accept_ra_defrtr - BOOLEAN
+ 		- enabled if accept_ra is enabled.
+ 		- disabled if accept_ra is disabled.
+ 
++ra_defrtr_metric - UNSIGNED INTEGER
++	Route metric for default route learned in Router Advertisement. This value
++	will be assigned as metric for the default route learned via IPv6 Router
++	Advertisement. Takes affect only if accept_ra_defrtr is enabled.
++
++	Possible values:
++		1 to 0xFFFFFFFF
++
++		Default: IP6_RT_PRIO_USER i.e. 1024.
++
+ accept_ra_from_local - BOOLEAN
+ 	Accept RA with source-address that is found on local machine
+ 	if the RA is otherwise proper and able to be accepted.
+diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
+index dda61d150a13..9d1f29f0c512 100644
+--- a/include/linux/ipv6.h
++++ b/include/linux/ipv6.h
+@@ -31,6 +31,7 @@ struct ipv6_devconf {
+ 	__s32		max_desync_factor;
+ 	__s32		max_addresses;
+ 	__s32		accept_ra_defrtr;
++	__u32		ra_defrtr_metric;
+ 	__s32		accept_ra_min_hop_limit;
+ 	__s32		accept_ra_pinfo;
+ 	__s32		ignore_routes_with_linkdown;
+diff --git a/include/net/ip6_route.h b/include/net/ip6_route.h
+index 2a5277758379..f51a118bfce8 100644
+--- a/include/net/ip6_route.h
++++ b/include/net/ip6_route.h
+@@ -174,7 +174,8 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
+ 				     struct net_device *dev);
+ struct fib6_info *rt6_add_dflt_router(struct net *net,
+ 				     const struct in6_addr *gwaddr,
+-				     struct net_device *dev, unsigned int pref);
++				     struct net_device *dev, unsigned int pref,
++				     u32 defrtr_usr_metric);
+ 
+ void rt6_purge_dflt_routers(struct net *net);
+ 
+diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
+index 13e8751bf24a..70603775fe91 100644
+--- a/include/uapi/linux/ipv6.h
++++ b/include/uapi/linux/ipv6.h
+@@ -189,6 +189,7 @@ enum {
+ 	DEVCONF_ACCEPT_RA_RT_INFO_MIN_PLEN,
+ 	DEVCONF_NDISC_TCLASS,
+ 	DEVCONF_RPL_SEG_ENABLED,
++	DEVCONF_RA_DEFRTR_METRIC,
+ 	DEVCONF_MAX
+ };
+ 
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 458179df9b27..1e05d3caa712 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -571,6 +571,7 @@ enum {
+ 	NET_IPV6_ACCEPT_SOURCE_ROUTE=25,
+ 	NET_IPV6_ACCEPT_RA_FROM_LOCAL=26,
+ 	NET_IPV6_ACCEPT_RA_RT_INFO_MIN_PLEN=27,
++	NET_IPV6_RA_DEFRTR_METRIC=28,
+ 	__NET_IPV6_MAX
+ };
+ 
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index eff2cacd5209..7aff1a81b7f5 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -205,6 +205,7 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
+ 	.max_desync_factor	= MAX_DESYNC_FACTOR,
+ 	.max_addresses		= IPV6_MAX_ADDRESSES,
+ 	.accept_ra_defrtr	= 1,
++	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
+ 	.accept_ra_from_local	= 0,
+ 	.accept_ra_min_hop_limit= 1,
+ 	.accept_ra_pinfo	= 1,
+@@ -260,6 +261,7 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
+ 	.max_desync_factor	= MAX_DESYNC_FACTOR,
+ 	.max_addresses		= IPV6_MAX_ADDRESSES,
+ 	.accept_ra_defrtr	= 1,
++	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
+ 	.accept_ra_from_local	= 0,
+ 	.accept_ra_min_hop_limit= 1,
+ 	.accept_ra_pinfo	= 1,
+@@ -5475,6 +5477,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
+ 	array[DEVCONF_MAX_DESYNC_FACTOR] = cnf->max_desync_factor;
+ 	array[DEVCONF_MAX_ADDRESSES] = cnf->max_addresses;
+ 	array[DEVCONF_ACCEPT_RA_DEFRTR] = cnf->accept_ra_defrtr;
++	array[DEVCONF_RA_DEFRTR_METRIC] = cnf->ra_defrtr_metric;
+ 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] = cnf->accept_ra_min_hop_limit;
+ 	array[DEVCONF_ACCEPT_RA_PINFO] = cnf->accept_ra_pinfo;
+ #ifdef CONFIG_IPV6_ROUTER_PREF
+@@ -6667,6 +6670,14 @@ static const struct ctl_table addrconf_sysctl[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= proc_dointvec,
+ 	},
++	{
++		.procname	= "ra_defrtr_metric",
++		.data		= &ipv6_devconf.ra_defrtr_metric,
++		.maxlen		= sizeof(u32),
++		.mode		= 0644,
++		.proc_handler	= proc_douintvec_minmax,
++		.extra1		= (void *)SYSCTL_ONE,
++	},
+ 	{
+ 		.procname	= "accept_ra_min_hop_limit",
+ 		.data		= &ipv6_devconf.accept_ra_min_hop_limit,
+diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
+index 76717478f173..c467c6419893 100644
+--- a/net/ipv6/ndisc.c
++++ b/net/ipv6/ndisc.c
+@@ -1173,6 +1173,7 @@ static void ndisc_router_discovery(struct sk_buff *skb)
+ 	struct neighbour *neigh = NULL;
+ 	struct inet6_dev *in6_dev;
+ 	struct fib6_info *rt = NULL;
++	u32 defrtr_usr_metric;
+ 	struct net *net;
+ 	int lifetime;
+ 	struct ndisc_options ndopts;
+@@ -1303,18 +1304,21 @@ static void ndisc_router_discovery(struct sk_buff *skb)
+ 			return;
+ 		}
+ 	}
+-	if (rt && lifetime == 0) {
++	/* Set default route metric as specified by user */
++	defrtr_usr_metric = in6_dev->cnf.ra_defrtr_metric;
++	/* delete the route if lifetime is 0 or if metric needs change */
++	if (rt && (lifetime == 0 || rt->fib6_metric != defrtr_usr_metric)) {
+ 		ip6_del_rt(net, rt, false);
+ 		rt = NULL;
+ 	}
+ 
+-	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, for dev: %s\n",
+-		  rt, lifetime, skb->dev->name);
++	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, metric: %d, for dev: %s\n",
++		  rt, lifetime, defrtr_usr_metric, skb->dev->name);
+ 	if (!rt && lifetime) {
+ 		ND_PRINTK(3, info, "RA: adding default router\n");
+ 
+ 		rt = rt6_add_dflt_router(net, &ipv6_hdr(skb)->saddr,
+-					 skb->dev, pref);
++					 skb->dev, pref, defrtr_usr_metric);
+ 		if (!rt) {
+ 			ND_PRINTK(0, err,
+ 				  "RA: %s failed to add default route\n",
+diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+index 188e114b29b4..41d8f801b75f 100644
+--- a/net/ipv6/route.c
++++ b/net/ipv6/route.c
+@@ -4252,11 +4252,12 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
+ struct fib6_info *rt6_add_dflt_router(struct net *net,
+ 				     const struct in6_addr *gwaddr,
+ 				     struct net_device *dev,
+-				     unsigned int pref)
++				     unsigned int pref,
++				     u32 defrtr_usr_metric)
+ {
+ 	struct fib6_config cfg = {
+ 		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
+-		.fc_metric	= IP6_RT_PRIO_USER,
++		.fc_metric	= defrtr_usr_metric,
+ 		.fc_ifindex	= dev->ifindex,
+ 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
+ 				  RTF_UP | RTF_EXPIRES | RTF_PREF(pref),
+
+base-commit: 139711f033f636cc78b6aaf7363252241b9698ef
 -- 
-2.25.1
+2.29.0
 
