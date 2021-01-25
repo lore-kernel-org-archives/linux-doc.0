@@ -2,133 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F7AC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AED4CC4332B
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:28:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DD1922B3F
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:32:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 611D9230FA
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:28:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730651AbhAYRc3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 12:32:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34296 "EHLO mail.kernel.org"
+        id S1726677AbhAYS2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 13:28:00 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:38444 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731024AbhAYRcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 12:32:03 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 07B0022ADF;
-        Mon, 25 Jan 2021 17:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611595882;
-        bh=tSl2j3Xo3oOZAF0XrbcXkB/VqG7UiW1dnFIFToLJEj8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ffo+o3AS5PKnvgXeTFf9HOjinHsxjyuD1GCTIisNJYXNtmdDF6+t2JkMuwGTaUZi5
-         uM+bQVCLy3tEQhx6QfIsQEjW6takV4e5kcgh5f3Rx9cC6etJd+3uM5odLMtasHrFDy
-         dVlJ+Ret+dD9u6LLUT9BCeX5FAo0RFmAlS4WXZWDyUO1YXR5a77Fo3USn7ZK7Q4eI+
-         zq42/1WcXheHa+Rur4IGR+AtvWUp4d/OhKS0PJCiRF/t5bT7ZLpSaNMYDQRBUIECOu
-         GE7MjEHYbMi52/TlZjOgbqHUW2gKiXcU1x3bw/8luHeP+dO7Byj7tMFZ7ohmRV8fjR
-         lYzKYhzv8Evtw==
-Date:   Mon, 25 Jan 2021 19:31:19 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     corbet@lwn.net,
-        =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
-        <nfraprado@protonmail.com>, Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: Make the description of return value readable
-Message-ID: <YA8AZ/pOhts/DneP@kernel.org>
-References: <20210125081905.145569-1-jarkko@kernel.org>
- <20210125105353.5c695d42@coco.lan>
+        id S1726630AbhAYS16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 13:27:58 -0500
+Received: from zn.tnic (p200300ec2f09db000456e0102ed32bc5.dip0.t-ipconnect.de [IPv6:2003:ec:2f09:db00:456:e010:2ed3:2bc5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BF1F61EC0104;
+        Mon, 25 Jan 2021 19:27:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1611599234;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=QN3ei/A8mfrH9ATVg5ntkb1LsnqB0BMG6fj7B9jab8Y=;
+        b=sgo0SEzlpyG+vZTbZ5zKg1uAiSwR4t01ASxw76IKDmIUwWEuBoa5rCNc5ZmAxln/A6motI
+        76ImTK0R6xY4xOzkkLZQ1FTGA+BIxjbxG04UAx6e6J4emK+UJGgciuRNxNxebOQEVvqkHx
+        02hyznf75NMUbtjLjxEu5EzAmOcIPPM=
+Date:   Mon, 25 Jan 2021 19:27:09 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <20210125182709.GC23290@zn.tnic>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-12-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210125105353.5c695d42@coco.lan>
+In-Reply-To: <20201229213053.16395-12-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 10:53:53AM +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 25 Jan 2021 10:19:04 +0200
-> Jarkko Sakkinen <jarkko@kernel.org> escreveu:
+On Tue, Dec 29, 2020 at 01:30:38PM -0800, Yu-cheng Yu wrote:
+> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
+> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
 > 
-> > The description on how to describe return values is over-complicated, and
-> > hard to follow. For alien reason, the body of the section is a note, and
-> > the first paragraph speaks about 'Return', albeit the section name is
-> > actually 'Return:'.
-> > 
-> > To give a better help when both implementing and reviewing patches, provide
-> > a straight-forward guideline, how to decribe return values, instead of
-> > providing a note that starts by "blacklisting" one of the infinite possible
-> > options of doing it wrong.
-> > 
-> > This decreases the cumulative amount of time, which is probably
-> > substantial, on this otherwise somewhat trivial topic.
-> > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> > ---
-> >  Documentation/doc-guide/kernel-doc.rst | 34 +++++++-------------------
-> >  1 file changed, 9 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> > index 79aaa55d6bcf..dc5e1722c150 100644
-> > --- a/Documentation/doc-guide/kernel-doc.rst
-> > +++ b/Documentation/doc-guide/kernel-doc.rst
-> > @@ -136,34 +136,18 @@ Examples::
-> >  Return values
-> >  ~~~~~~~~~~~~~
-> >  
-> > -The return value, if any, should be described in a dedicated section
-> > -named ``Return``.
-> > +The return value, if any, should be described in a dedicated section named
-> > +``Return:``.
-> >  
-> > -.. note::
-> > -
-> > -  #) The multi-line descriptive text you provide does *not* recognize
-> > -     line breaks, so if you try to format some text nicely, as in::
-> > -
-> > -	* Return:
-> > -	* 0 - OK
-> > -	* -EINVAL - invalid argument
-> > -	* -ENOMEM - out of memory
-> > -
-> > -     this will all run together and produce::
-> > -
-> > -	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
-> > -
-> > -     So, in order to produce the desired line breaks, you need to use a
-> > -     ReST list, e. g.::
-> > +In order to describe multiple return values, a ReST list should be used. That
-> > +way Sphinx knows how to line-up them properly::
-> >  
-> > -      * Return:
-> > -      * * 0		- OK to runtime suspend the device
-> > -      * * -EBUSY	- Device should not be runtime suspended
-> > +  * Return:
-> > +  * - 0:	The run-time is allowed to suspend the device.
-> > +  * - -EBUSY:	Device should not be suspended.
-> >  
-> > -  #) If the descriptive text you provide has lines that begin with
-> > -     some phrase followed by a colon, each of those phrases will be taken
-> > -     as a new section heading, which probably won't produce the desired
-> > -     effect.
-> > +Using a dash rather than asterisk an is probably a better idea, because it does
-> > +not meddle as much with the C-comments.
+> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
+> become a transient shadow stack PTE in two cases:
 > 
-> Well, there are different opinions with that regards... Some devs think that
-> using:
-> 
-> 	- -EBUSY
-> 
-> is confusing. I ended agreeing with that. That's why the recommendation is
-> to use an asterisk.
+> The first case is that some processors can start a write but end up seeing
+> a read-only PTE by the time they get to the Dirty bit, creating a transient
+> shadow stack PTE.  However, this will not occur on processors supporting
+> Shadow Stack, therefore we don't need a TLB flush here.
 
-Maybe then whitelisting two options would be the way to move forward?
+Who's "we"?
 
-> Thanks,
-> Mauro
+> The second case is that when the software, without atomic, tests & replaces
 
-/Jarkko
+"... when _PAGE_DIRTY is replaced with _PAGE_COW non-atomically, a transient
+shadow stack PTE can be created, as a result."
+
+> _PAGE_DIRTY with _PAGE_COW, a transient shadow stack PTE can exist.
+> This is prevented with cmpxchg.
+> 
+> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+> insights to the issue.  Jann Horn provided the cmpxchg solution.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  arch/x86/include/asm/pgtable.h | 52 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index 666c25ab9564..1c84f1ba32b9 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1226,6 +1226,32 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pte_t *ptep)
+>  {
+> +	/*
+> +	 * Some processors can start a write, but end up seeing a read-only
+> +	 * PTE by the time they get to the Dirty bit.  In this case, they
+> +	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
+> +	 * looks like a shadow stack PTE.
+> +	 *
+> +	 * However, this behavior has been improved
+
+Improved how?
+
+> and will not occur on
+> +	 * processors supporting Shadow Stack.  Without this guarantee, a
+
+Which guarantee? That it won't happen on CPUs which support SHSTK?
+
+> +	 * transition to a non-present PTE and flush the TLB would be
+
+s/flush the TLB/TLB flush/
+
+> +	 * needed.
+> +	 *
+> +	 * When changing a writable PTE to read-only and if the PTE has
+> +	 * _PAGE_DIRTY set, move that bit to _PAGE_COW so that the PTE is
+> +	 * not a shadow stack PTE.
+> +	 */
+
+This sentence doesn't belong here as it refers to what pte_wrprotect()
+does. You could expand the comment in pte_wrprotect() with this here as
+it is better.
+
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pte_t old_pte, new_pte;
+> +
+> +		do {
+> +			old_pte = READ_ONCE(*ptep);
+> +			new_pte = pte_wrprotect(old_pte);
+
+Maybe I'm missing something but those two can happen outside of the
+loop, no? Or is *ptep somehow changing concurrently while the loop is
+doing the CMPXCHG and you need to recreate it each time?
+
+IOW, you can generate upfront and do the empty loop...
+
+> +
+> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
+> +
+> +		return;
+> +	}
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+>  }
+>  
+> @@ -1282,6 +1308,32 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+>  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pmd_t *pmdp)
+>  {
+> +	/*
+> +	 * Some processors can start a write, but end up seeing a read-only
+> +	 * PMD by the time they get to the Dirty bit.  In this case, they
+> +	 * will set the Dirty bit, leaving a read-only, Dirty PMD which
+> +	 * looks like a Shadow Stack PMD.
+> +	 *
+> +	 * However, this behavior has been improved and will not occur on
+> +	 * processors supporting Shadow Stack.  Without this guarantee, a
+> +	 * transition to a non-present PMD and flush the TLB would be
+> +	 * needed.
+> +	 *
+> +	 * When changing a writable PMD to read-only and if the PMD has
+> +	 * _PAGE_DIRTY set, move that bit to _PAGE_COW so that the PMD is
+> +	 * not a shadow stack PMD.
+> +	 */
+
+Same comments as above.
+
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pmd_t old_pmd, new_pmd;
+> +
+> +		do {
+> +			old_pmd = READ_ONCE(*pmdp);
+> +			new_pmd = pmd_wrprotect(old_pmd);
+> +
+> +		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
+> +
+> +		return;
+> +	}
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+>  }
+>  
+> -- 
+> 2.21.0
+> 
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
