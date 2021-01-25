@@ -2,91 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C77C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 19:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA617C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 19:50:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26E8F22513
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 19:37:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AA7520708
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 19:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731970AbhAYThC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 14:37:02 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:43639 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731959AbhAYTgr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 14:36:47 -0500
-Received: by mail-ot1-f47.google.com with SMTP id v1so13898520ott.10;
-        Mon, 25 Jan 2021 11:36:32 -0800 (PST)
+        id S1731603AbhAYTu0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 14:50:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732000AbhAYTtf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 14:49:35 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D51C061793
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 11:47:59 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id r77so13526485qka.12
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 11:47:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=gHgQfTRvar1lIU9rNG4Q491ak9Bif38ih9mdt5Czeeg=;
+        b=c7sG1z0zx4IBwrpL9ujY99TSc8IAU20MGw/TaPpyT+YoiodG5nGIzUR/NTujP0u1kd
+         Rn3irH637aV9Tmqlkhd1csC9dMvLFqE/l4J73pOWLHBaE3rnkGsjFAYCS75cZmh9X/Lt
+         1TOlZeUR85/P6119/G1x0xgTxAB4RbFCyKLmQv712qp8Sftqrk4WSgdOJZ6OAba0d3o1
+         ThrDl65vkoeoFfWW3zq4GYnGO2B/aFe1mVY6tV2v2QtEZtBJOicRcxRAsE6gZMKuRVhD
+         YBiPHBxO83ut5cd4fxWVQPDYCMuccwOB2WH2d9CFF/jxKSQJLwOgPwjtb3L85cI7WFie
+         N16g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mH2q1AZz5irHrvq/3t1+Obhg0JHH2TFjERBNOT0hM0Q=;
-        b=kHRTcon5gkg8SRuDD2vKcTtr8mLEKrRVRfUepR+vwUkVTALUi0qhZHnOLAQfpGA8nO
-         v9hFkNl7ovck8fRU91TRDhgHikzmEieptoGufXz5mz1YGNtSACKppmmrX4NykT7g6VpR
-         72t+3vJcc+u7J78XwED+D5a2C8oh5EsKfGVxXkHybN9qVQHSWGWB9FEM/DWi+nLX3jDI
-         fi/m+93Lu8UikDho+vYay+J8XTaltFtYD7c5Mr/t5PlVy1HW3gqwXT9wuKDsQwC4MRgH
-         tgKLdFoaYykFv+KNMEqnUInQJdCd58X/AEALBrPPGHz2TVuuBu6/Y3R0DbWsc1CiCXvL
-         IyUg==
-X-Gm-Message-State: AOAM530SgHShS7lzmroF8duZEsmO+lmdV2ltjkhGO+gpcXiIMyQJFtVO
-        Rf6UVEG7ZrBo77I7NQdNfQ==
-X-Google-Smtp-Source: ABdhPJwBqs6kpkcYrx/aXfe/1e/07a9bQgMjrd1YtHP4Jbg6s9G1TE28GLJ8saSbZE8IZ5BXrEU1qg==
-X-Received: by 2002:a05:6830:2f3:: with SMTP id r19mr1513671ote.299.1611603366943;
-        Mon, 25 Jan 2021 11:36:06 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z4sm551224ooz.5.2021.01.25.11.36.05
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gHgQfTRvar1lIU9rNG4Q491ak9Bif38ih9mdt5Czeeg=;
+        b=DbcsLjGVTz9BWlxLYFSnllWAVb5YwRPJ2zB9BPwGmcmDzoCMYDO0QT7dNQ0yOnZ6wy
+         ts/32jgTlDjxEAwmbk/6But1H8Ej8LZmeCuRDERa2Rkpa0L3dU9lPGEHBQT4EIXuG7Ln
+         Lid9Vcn+Rn1wSVdZ8I7qcIe5YSGL5XjyJ3hmIDU/GLqiePoXcXJj+FqIPxRTkOoVwUZM
+         x9ee8xj/Mr2kYYF4Bwruzl1G0Fu54bH80NPRjdeuYBSQkkEABjN3jq5QSf77RIY/weef
+         3KuFmTZwmhTojWBjjRklaDGyEq0QR/6pVjQi6d1BBQQiXQfpr5gmnHrmS6Z3vxriff3h
+         aTmw==
+X-Gm-Message-State: AOAM533+NyBCS10tN9GdEtyH+C4hcPm5a+xmCUsE/7s1yHtaws6AfG7z
+        kNZ9kbWsdwP1nilfWoJcGnYY3g==
+X-Google-Smtp-Source: ABdhPJz3Za/JbaLs+6ZSMuUuylAr92cCaBZaN+5myWkrAXEtJPMKFBUlfdcIgUMufV3m8N/ZNiYoqg==
+X-Received: by 2002:a37:8703:: with SMTP id j3mr2422378qkd.455.1611604078581;
+        Mon, 25 Jan 2021 11:47:58 -0800 (PST)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id c12sm12121569qtq.76.2021.01.25.11.47.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 11:36:06 -0800 (PST)
-Received: (nullmailer pid 830007 invoked by uid 1000);
-        Mon, 25 Jan 2021 19:36:04 -0000
-Date:   Mon, 25 Jan 2021 13:36:04 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Bin Liu <bin.liu@mediatek.com>, David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>
-Subject: Re: [PATCH 22/24] dt-bindings: memory: mediatek: update mediatek,
- smi-larb.yaml references
-Message-ID: <20210125193604.GA829546@robh.at.kernel.org>
-References: <cover.1610535349.git.mchehab+huawei@kernel.org>
- <c70bd79b311a65babe7374eaf81974563400a943.1610535350.git.mchehab+huawei@kernel.org>
+        Mon, 25 Jan 2021 11:47:58 -0800 (PST)
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
+        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
+        dan.j.williams@intel.com, sashal@kernel.org,
+        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
+        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
+        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
+        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
+        linux-doc@vger.kernel.org, ira.weiny@intel.com,
+        linux-kselftest@vger.kernel.org, jmorris@namei.org
+Subject: [PATCH v8 03/14] mm/gup: return an error on migration failure
+Date:   Mon, 25 Jan 2021 14:47:40 -0500
+Message-Id: <20210125194751.1275316-4-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210125194751.1275316-1-pasha.tatashin@soleen.com>
+References: <20210125194751.1275316-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c70bd79b311a65babe7374eaf81974563400a943.1610535350.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Jan 2021 11:59:23 +0100, Mauro Carvalho Chehab wrote:
-> Changeset 27bb0e42855a ("dt-bindings: memory: mediatek: Convert SMI to DT schema")
-> renamed: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> to: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml.
-> 
-> Update its cross-references accordingly.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
->  .../devicetree/bindings/media/mediatek-jpeg-decoder.txt         | 2 +-
->  .../devicetree/bindings/media/mediatek-jpeg-encoder.txt         | 2 +-
->  Documentation/devicetree/bindings/media/mediatek-mdp.txt        | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
+When migration failure occurs, we still pin pages, which means
+that we may pin CMA movable pages which should never be the case.
 
-Applied, thanks!
+Instead return an error without pinning pages when migration failure
+happens.
+
+No need to retry migrating, because migrate_pages() already retries
+10 times.
+
+Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ mm/gup.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+
+diff --git a/mm/gup.c b/mm/gup.c
+index 16f10d5a9eb6..88ce41f41543 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1557,7 +1557,6 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ {
+ 	unsigned long i;
+ 	bool drain_allow = true;
+-	bool migrate_allow = true;
+ 	LIST_HEAD(cma_page_list);
+ 	long ret = nr_pages;
+ 	struct page *prev_head, *head;
+@@ -1608,17 +1607,15 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 			for (i = 0; i < nr_pages; i++)
+ 				put_page(pages[i]);
+ 
+-		if (migrate_pages(&cma_page_list, alloc_migration_target, NULL,
+-			(unsigned long)&mtc, MIGRATE_SYNC, MR_CONTIG_RANGE)) {
+-			/*
+-			 * some of the pages failed migration. Do get_user_pages
+-			 * without migration.
+-			 */
+-			migrate_allow = false;
+-
++		ret = migrate_pages(&cma_page_list, alloc_migration_target,
++				    NULL, (unsigned long)&mtc, MIGRATE_SYNC,
++				    MR_CONTIG_RANGE);
++		if (ret) {
+ 			if (!list_empty(&cma_page_list))
+ 				putback_movable_pages(&cma_page_list);
++			return ret > 0 ? -ENOMEM : ret;
+ 		}
++
+ 		/*
+ 		 * We did migrate all the pages, Try to get the page references
+ 		 * again migrating any new CMA pages which we failed to isolate
+@@ -1628,7 +1625,7 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+ 						   pages, vmas, NULL,
+ 						   gup_flags);
+ 
+-		if ((ret > 0) && migrate_allow) {
++		if (ret > 0) {
+ 			nr_pages = ret;
+ 			drain_allow = true;
+ 			goto check_again;
+-- 
+2.25.1
+
