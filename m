@@ -2,129 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B95CC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC23C433E9
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0726221EA
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5482B207B1
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727062AbhAZFzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43078 "EHLO mail.kernel.org"
+        id S2388951AbhAZFz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:27 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55492 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726942AbhAYJ4j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:56:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3873222597;
-        Mon, 25 Jan 2021 09:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611568439;
-        bh=OOn7cmzw71J8lu3YYw6ES8LmbvuXLKRJR9o9mJxQkLc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tbvRBgTG48DsX8aTGhXT7RZuODV1evwh4xCr95tV4R9TzXJZAxmuA9AnVmG13jQ+5
-         PPtN2LRUYlp/oogxLh5KRxa+wdduJi8vKN8zzKxaK9CNlNOtyB2tEIjmOOyZj2HlFf
-         adYgLAX0MGmV5dzfq3tSomR87ZQzHh1QA23V345u30+JIbb3vMTqtang+2etUsfZnm
-         uzdH2kj7YlmIlPHOEZZKx9dySrc3J7fg6uqDl/ZKdzBUa1nymuHyBk21kw/7SBJWjP
-         x0eni/48tLa87cEm1JGV/JMdsiuItHQwsyWEsb4TVWZJun59witX3qqAvUapYkhg55
-         YE0LlnSp5F5GQ==
-Date:   Mon, 25 Jan 2021 10:53:53 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     corbet@lwn.net,
-        "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: Make the description of return value
- readable
-Message-ID: <20210125105353.5c695d42@coco.lan>
-In-Reply-To: <20210125081905.145569-1-jarkko@kernel.org>
-References: <20210125081905.145569-1-jarkko@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727657AbhAYMKV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 07:10:21 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id B8AA2ACF4;
+        Mon, 25 Jan 2021 12:08:36 +0000 (UTC)
+Date:   Mon, 25 Jan 2021 13:08:32 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 09/12] mm: hugetlb: add a kernel parameter
+ hugetlb_free_vmemmap
+Message-ID: <20210125120827.GA29289@linux>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-10-songmuchun@bytedance.com>
+ <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 25 Jan 2021 10:19:04 +0200
-Jarkko Sakkinen <jarkko@kernel.org> escreveu:
-
-> The description on how to describe return values is over-complicated, and
-> hard to follow. For alien reason, the body of the section is a note, and
-> the first paragraph speaks about 'Return', albeit the section name is
-> actually 'Return:'.
+On Mon, Jan 25, 2021 at 12:43:23PM +0100, David Hildenbrand wrote:
+> > -	if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+> > +	if (is_hugetlb_free_vmemmap_enabled() ||
+> > +	    end - start < PAGES_PER_SECTION * sizeof(struct page))
 > 
-> To give a better help when both implementing and reviewing patches, provide
-> a straight-forward guideline, how to decribe return values, instead of
-> providing a note that starts by "blacklisting" one of the infinite possible
-> options of doing it wrong.
+> This looks irresponsible. You ignore any altmap, even though current
+> altmap users (ZONE_DEVICE) will not actually result in applicable
+> vmemmaps that huge pages could ever use.
 > 
-> This decreases the cumulative amount of time, which is probably
-> substantial, on this otherwise somewhat trivial topic.
+> Why do you ignore the altmap completely? This has to be properly
+> documented, but IMHO it's not even the right approach to mess with
+> altmap here.
+
+The goal was not to ignore altmap but to disable PMD mapping sections
+when the feature was enabled.
+Shame on me I did not notice that with this, altmap will be ignored.
+
+Something like below maybe:
+
+int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
+                struct vmem_altmap *altmap)
+{
+        int err;
+        bool populate_base_pages = false;
+
+        if ((end - start < PAGES_PER_SECTION * sizeof(struct page)) ||
+            (is_hugetlb_free_vmemmap_enabled() && !altmap))
+                populate_base_pages = true;
+
+        if (populate_base_pages) {
+                err = vmemmap_populate_basepages(start, end, node, NULL);
+        } else if (boot_cpu_has(X86_FEATURE_PSE)) {
+	....
+
+
 > 
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> ---
->  Documentation/doc-guide/kernel-doc.rst | 34 +++++++-------------------
->  1 file changed, 9 insertions(+), 25 deletions(-)
+> -- 
+> Thanks,
 > 
-> diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-> index 79aaa55d6bcf..dc5e1722c150 100644
-> --- a/Documentation/doc-guide/kernel-doc.rst
-> +++ b/Documentation/doc-guide/kernel-doc.rst
-> @@ -136,34 +136,18 @@ Examples::
->  Return values
->  ~~~~~~~~~~~~~
->  
-> -The return value, if any, should be described in a dedicated section
-> -named ``Return``.
-> +The return value, if any, should be described in a dedicated section named
-> +``Return:``.
->  
-> -.. note::
-> -
-> -  #) The multi-line descriptive text you provide does *not* recognize
-> -     line breaks, so if you try to format some text nicely, as in::
-> -
-> -	* Return:
-> -	* 0 - OK
-> -	* -EINVAL - invalid argument
-> -	* -ENOMEM - out of memory
-> -
-> -     this will all run together and produce::
-> -
-> -	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
-> -
-> -     So, in order to produce the desired line breaks, you need to use a
-> -     ReST list, e. g.::
-> +In order to describe multiple return values, a ReST list should be used. That
-> +way Sphinx knows how to line-up them properly::
->  
-> -      * Return:
-> -      * * 0		- OK to runtime suspend the device
-> -      * * -EBUSY	- Device should not be runtime suspended
-> +  * Return:
-> +  * - 0:	The run-time is allowed to suspend the device.
-> +  * - -EBUSY:	Device should not be suspended.
->  
-> -  #) If the descriptive text you provide has lines that begin with
-> -     some phrase followed by a colon, each of those phrases will be taken
-> -     as a new section heading, which probably won't produce the desired
-> -     effect.
-> +Using a dash rather than asterisk an is probably a better idea, because it does
-> +not meddle as much with the C-comments.
+> David / dhildenb
+> 
+> 
 
-Well, there are different opinions with that regards... Some devs think that
-using:
-
-	- -EBUSY
-
-is confusing. I ended agreeing with that. That's why the recommendation is
-to use an asterisk.
-
-Thanks,
-Mauro
+-- 
+Oscar Salvador
+SUSE L3
