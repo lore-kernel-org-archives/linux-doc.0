@@ -2,156 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0825AC433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 23:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1881C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 01:25:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D08242226A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 23:45:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F73123108
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 01:25:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732658AbhAYV2w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 16:28:52 -0500
-Received: from mga12.intel.com ([192.55.52.136]:40418 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732639AbhAYV2p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 16:28:45 -0500
-IronPort-SDR: qQemToLgMMZ59OKFRg4BQvDBfckkexbBzBk4PpAiPH126Dz75Y5yMs9dDGYIjhq25IYiX8ftK7
- Dg3uPJDK+Kow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="158982823"
-X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; 
-   d="scan'208";a="158982823"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 13:27:54 -0800
-IronPort-SDR: Zpt6kh4eRCAa6nhreOyas/x36owT9wmvFrJuKFK1hHDfdutyCbNqyanAiEN4kb+/4ZGudwMisH
- PLl97Bf6SEEg==
-X-IronPort-AV: E=Sophos;i="5.79,374,1602572400"; 
-   d="scan'208";a="429441203"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.60.232]) ([10.212.60.232])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 13:27:52 -0800
-Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-12-yu-cheng.yu@intel.com>
- <20210125182709.GC23290@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <8084836b-4990-90e8-5c9a-97a920f0239e@intel.com>
-Date:   Mon, 25 Jan 2021 13:27:51 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S2387455AbhAZBYy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 20:24:54 -0500
+Received: from mail-oi1-f182.google.com ([209.85.167.182]:39823 "EHLO
+        mail-oi1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731962AbhAYTgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 14:36:51 -0500
+Received: by mail-oi1-f182.google.com with SMTP id w124so16019191oia.6;
+        Mon, 25 Jan 2021 11:36:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2Mfcort+Cx9P/ImE6swOSzUGiaClCZE9b0/iAMA9F9Q=;
+        b=Ed+4ONi/9BozoSEDk4zDN/HceDnNYUYylrW8KrjkIUJ3/aTHTelLKQGYXSaecpJGQf
+         3pzf3ylIsxk38JdtC6OC0dWa5d98qT54O7EhNm1INsp3IqVEyYvS+IBfWbyKPwodq6bR
+         /x8CZ5TEKtSJeGMlqg/eR7WUous6j9GsC9P8VjoWJ3QV9Bnp1zIRU7z/UAh7h5eHwSZD
+         jaX5Xmgjm8Wix6z9DKEOtmmy3PXXsZF3En8bGipvpNtbCFJ4Umw7USXapoxEEXNxw3Ez
+         PV57u4TwWwd/NwQh2V9CAXo1UnNGiGdt6R5IeMSZ9M2UOckTiyM1mV6/KFdjpsGbVOTX
+         1MIQ==
+X-Gm-Message-State: AOAM531wmrLugZKTI0Z9IYTdOG6B1uLZ6yJ1q/GTVJIKQDO1dxg9AxEM
+        Mfpswzco+eHl/F30E5qixA==
+X-Google-Smtp-Source: ABdhPJyysfruDxF/asXQAzWaVXtu5DWsOOovw/zNgLHRPd5UvkSk/0vk7PCZ7tysXz5A/csbtH3I6A==
+X-Received: by 2002:aca:75d3:: with SMTP id q202mr1082002oic.36.1611603370750;
+        Mon, 25 Jan 2021 11:36:10 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k65sm3670668oia.19.2021.01.25.11.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 11:36:09 -0800 (PST)
+Received: (nullmailer pid 830149 invoked by uid 1000);
+        Mon, 25 Jan 2021 19:36:08 -0000
+Date:   Mon, 25 Jan 2021 13:36:08 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Alexandru Tachici <alexandru.tachici@analog.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        devicetree@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-iio@vger.kernel.org
+Subject: Re: [PATCH 23/24] dt-bindings:iio:adc: update adc.yaml reference
+Message-ID: <20210125193608.GB829546@robh.at.kernel.org>
+References: <cover.1610535349.git.mchehab+huawei@kernel.org>
+ <8e37dba8ae9099acd649bab8a1cf718caa4f3e6a.1610535350.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210125182709.GC23290@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8e37dba8ae9099acd649bab8a1cf718caa4f3e6a.1610535350.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/25/2021 10:27 AM, Borislav Petkov wrote:
-> On Tue, Dec 29, 2020 at 01:30:38PM -0800, Yu-cheng Yu wrote:
-
-[...]
-
->> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
->> index 666c25ab9564..1c84f1ba32b9 100644
->> --- a/arch/x86/include/asm/pgtable.h
->> +++ b/arch/x86/include/asm/pgtable.h
->> @@ -1226,6 +1226,32 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
->>   static inline void ptep_set_wrprotect(struct mm_struct *mm,
->>   				      unsigned long addr, pte_t *ptep)
->>   {
->> +	/*
->> +	 * Some processors can start a write, but end up seeing a read-only
->> +	 * PTE by the time they get to the Dirty bit.  In this case, they
->> +	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
->> +	 * looks like a shadow stack PTE.
->> +	 *
->> +	 * However, this behavior has been improved
+On Wed, 13 Jan 2021 11:59:24 +0100, Mauro Carvalho Chehab wrote:
+> Changeset b70d154d6558 ("dt-bindings:iio:adc: convert adc.txt to yaml")
+> renamed: Documentation/devicetree/bindings/iio/adc/adc.txt
+> to: Documentation/devicetree/bindings/iio/adc/adc.yaml.
 > 
-> Improved how?
-
-Processors supporting Shadow Stack will not set a read-only PTE's dirty 
-bit.  I will revise the comments.
-
->> and will not occur on
->> +	 * processors supporting Shadow Stack.  Without this guarantee, a
+> Update its cross-reference accordingly.
 > 
-> Which guarantee? That it won't happen on CPUs which support SHSTK?
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 
-Yes.
-
->> +	 * transition to a non-present PTE and flush the TLB would be
-> 
-> s/flush the TLB/TLB flush/
-> 
->> +	 * needed.
->> +	 *
->> +	 * When changing a writable PTE to read-only and if the PTE has
->> +	 * _PAGE_DIRTY set, move that bit to _PAGE_COW so that the PTE is
->> +	 * not a shadow stack PTE.
->> +	 */
-> 
-> This sentence doesn't belong here as it refers to what pte_wrprotect()
-> does. You could expand the comment in pte_wrprotect() with this here as
-> it is better.
-
-I will move this paragraph to pte_wrprotect().
-
-> 
->> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
->> +		pte_t old_pte, new_pte;
->> +
->> +		do {
->> +			old_pte = READ_ONCE(*ptep);
->> +			new_pte = pte_wrprotect(old_pte);
-> 
-> Maybe I'm missing something but those two can happen outside of the
-> loop, no? Or is *ptep somehow changing concurrently while the loop is
-> doing the CMPXCHG and you need to recreate it each time?
-> 
-> IOW, you can generate upfront and do the empty loop...
-
-*ptep can change concurrently.
-
-> 
->> +
->> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
->> +
->> +		return;
->> +	}
->>   	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
->>   }
->>   
-
-[...]
+Applied, thanks!
