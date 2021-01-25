@@ -2,100 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC23C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 745E6C433E6
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5482B207B1
+	by mail.kernel.org (Postfix) with ESMTP id 27FBE2223D
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388951AbhAZFz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:27 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55492 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727657AbhAYMKV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 07:10:21 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B8AA2ACF4;
-        Mon, 25 Jan 2021 12:08:36 +0000 (UTC)
-Date:   Mon, 25 Jan 2021 13:08:32 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v13 09/12] mm: hugetlb: add a kernel parameter
- hugetlb_free_vmemmap
-Message-ID: <20210125120827.GA29289@linux>
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-10-songmuchun@bytedance.com>
- <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
+        id S2388945AbhAZFzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:19 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:11411 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727440AbhAYKSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 05:18:04 -0500
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+        by twspam01.aspeedtech.com with ESMTP id 10P9viQf098151
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 17:57:44 +0800 (GMT-8)
+        (envelope-from troy_lee@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 10P9tsXQ098016;
+        Mon, 25 Jan 2021 17:55:54 +0800 (GMT-8)
+        (envelope-from troy_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 25 Jan
+ 2021 18:01:37 +0800
+Date:   Mon, 25 Jan 2021 10:01:19 +0000
+From:   Troy Lee <troy_lee@aspeedtech.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
+        <linux-aspeed@lists.ozlabs.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
+        "leetroy@gmail.com" <leetroy@gmail.com>
+Subject: Re: [PATCH v2 4/4] hwmon: Support Aspeed AST2600 PWM/Fan tachometer
+Message-ID: <20210125100119.GA2349720@aspeedtech.com>
+References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
+ <20210113070850.1184506-5-troy_lee@aspeedtech.com>
+ <20210123161405.GA50622@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210123161405.GA50622@roeck-us.net>
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 10P9tsXQ098016
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 12:43:23PM +0100, David Hildenbrand wrote:
-> > -	if (end - start < PAGES_PER_SECTION * sizeof(struct page))
-> > +	if (is_hugetlb_free_vmemmap_enabled() ||
-> > +	    end - start < PAGES_PER_SECTION * sizeof(struct page))
+Hi Guenter,
+
+The 01/24/2021 00:14, Guenter Roeck wrote:
+> On Wed, Jan 13, 2021 at 07:08:48AM +0000, Troy Lee wrote:
+> > Add Aspeed AST2600 PWM/Fan tacho driver. AST2600 has 16 PWM channel and
+> > 16 FAN tacho channel.
+> > 
+> > Changes since v1:
+> > - fixed review comments
+> > - fixed double-looped calculation of div_h and div_l
+> > - moving configuration to device tree
+> > - register hwmon driver with devm_hwmon_device_register_with_info()
+> > 
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > 
-> This looks irresponsible. You ignore any altmap, even though current
-> altmap users (ZONE_DEVICE) will not actually result in applicable
-> vmemmaps that huge pages could ever use.
+> checkpatch says:
 > 
-> Why do you ignore the altmap completely? This has to be properly
-> documented, but IMHO it's not even the right approach to mess with
-> altmap here.
-
-The goal was not to ignore altmap but to disable PMD mapping sections
-when the feature was enabled.
-Shame on me I did not notice that with this, altmap will be ignored.
-
-Something like below maybe:
-
-int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
-                struct vmem_altmap *altmap)
-{
-        int err;
-        bool populate_base_pages = false;
-
-        if ((end - start < PAGES_PER_SECTION * sizeof(struct page)) ||
-            (is_hugetlb_free_vmemmap_enabled() && !altmap))
-                populate_base_pages = true;
-
-        if (populate_base_pages) {
-                err = vmemmap_populate_basepages(start, end, node, NULL);
-        } else if (boot_cpu_has(X86_FEATURE_PSE)) {
-	....
-
-
+> total: 0 errors, 9 warnings, 26 checks, 779 lines checked
 > 
-> -- 
+> This is a bit much. Please run checkpatch --strict and fix the issues
+> it reports. Please also fix the issues reported by 0-day as well as
+> the issues reported by the bindings robot, and resubmit.
+> 
 > Thanks,
-> 
-> David / dhildenb
-> 
-> 
+> Guenter
 
--- 
-Oscar Salvador
-SUSE L3
+I'll fix the WARNINGs and CHECKs.
+
+Thanks,
+Troy Lee
