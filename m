@@ -2,97 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFA2C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F02DBC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:46:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FD9622D58
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:42:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A53D522AAA
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728378AbhAYQAE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 11:00:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36100 "EHLO
+        id S1730305AbhAYPn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 10:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730597AbhAYP7X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 10:59:23 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E58DC061793
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:58:43 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id g3so7881404plp.2
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:58:43 -0800 (PST)
+        with ESMTP id S1730282AbhAYPnR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 10:43:17 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F07C061221
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:39:31 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id n6so15861178edt.10
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:39:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ydjA7lxNDcY9m5HH4n1Isbc66o3HKVgUPIygbXwoUMM=;
-        b=bI02x67oVJOucPOxKOB9n3X6KcNxCqIpxk5n0fxC4X/uFlQaaUy+xP+qcDK0qgJA7t
-         mWFK2tKkiqtuWxZJvB44mpmemEF/S+YGxTW9vjz8KWnzcutGYJEs+vjezSfpdlvaat30
-         NrMsLYnxAPDb/60yNPxEjnOGe2XeZLZa2qteFs3BDDpQq8v+NYEA0j27JKKvD8Jo9hGB
-         m1FubjB+dKRDuIvGoJ5Krq3haj3y4rnOv+TQTyR+lsKZVtOzTkhokVPN9B3vqb9Kf/tF
-         OgnBEzoTN7wXg3qcCOF4/ajnPQb9aZOpN8ShjkT8r+GX28FyVyVD2Nsgv5WX9h7sZf9A
-         iVhw==
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Rra/deV4BpPfJHrSK+j1oedRvhTg8xlMYVP/CjTCdbo=;
+        b=oT2pKEpwEYuKqNalnjLTRHdVcq6t3+B3XXVLdpXKu3V4ApIJJzXxasqADy9EZXqUXh
+         n/BuUY/5ALgsbICzl3RIKCjVDYUHtIYek61hqI9KUL/2LNmRfnQ0GzO+XTL2MXbd3aK/
+         UsbqMjXr25onQ0szEsqlgipwxapnw7EPmLS3cPXyk2d8H28WIA52mQ7Yvol7ZM9ht9Zh
+         4+OwuM1jkeN51/bu6vR4JrA/Y4arNiozGdwTdv4f8cWHV411+H+g+HOBpzxam46DRzaS
+         2ThNiPt5XjxOw3h37ikX+KNHPGrNudfwkzs0vddCFZbZchOu9DDhuhN4cG8oBxIGQClP
+         mP6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ydjA7lxNDcY9m5HH4n1Isbc66o3HKVgUPIygbXwoUMM=;
-        b=R4KY85Mmqm0eBTV1slCMp3W0syAJcDux70P7nxuWsFN9BfwcX06oJFC5t6sa4NGPnP
-         oo2bSmnJv/QjybKS1o74Fy9QS8u2J1WrmAYTTReL1m8+mEg8FI173F2q7IihO2c0i1nB
-         ykkgeY0jdOKPFCcOGxK8/4O9DwDUKmVHqlr84A1q1UriEhwAHadFURj4HSJUn2pL9lzQ
-         /jWlj4VEGEKdt3a0i8gaIZcm9tdEq1PeTKWbk56eDZrMFopTqsVHwM0NImq7gWqcz482
-         eTWxrY3SI/bDkYkDDLtWlmG5a3L0hk+S2etGajZ1cuhuygqkbitD4aEr9pnDeMoqC8UN
-         7VUw==
-X-Gm-Message-State: AOAM530Yg/ZPsSR54xfXNCgcSczPen/MLK0NyVGOW3dVQIY1koHicvfg
-        +adzgJzHlgNWX8PZuPM8YtGPrCJIkkyBdw==
-X-Google-Smtp-Source: ABdhPJxvYFudM0/t7uvN4OEM1XLPVgOQbMzfZischKww36TwjmQpcH3dkzLr1QJ1pvzT7oKrjCpfaw==
-X-Received: by 2002:a17:90a:6f05:: with SMTP id d5mr843071pjk.145.1611590322691;
-        Mon, 25 Jan 2021 07:58:42 -0800 (PST)
-Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
-        by smtp.gmail.com with ESMTPSA id i25sm16942011pgb.33.2021.01.25.07.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Jan 2021 07:58:41 -0800 (PST)
-Subject: Re: [PATCH v3 0/7] no-copy bvec
-To:     Pavel Begunkov <asml.silence@gmail.com>,
-        linux-block@vger.kernel.org
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Ming Lei <ming.lei@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, io-uring@vger.kernel.org,
-        linux-kernel@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org
-References: <cover.1610170479.git.asml.silence@gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <b1d0ae2a-a4ca-2b41-b8df-4c8036afe781@kernel.dk>
-Date:   Mon, 25 Jan 2021 08:58:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Rra/deV4BpPfJHrSK+j1oedRvhTg8xlMYVP/CjTCdbo=;
+        b=mbqtz6QrojFTOpLsqiicYkjEJVKNz0BxclQvLB2d7FAD/I9hoGYCPXrMk/pus35JDq
+         mmRCuHbtMh3bj4RdEcCxpdvcdkKDLOVGrieKyQOKGZtSKRioyC1fufOxRYFqgO8bSUPh
+         jwig/IP4fR1AWRugY9eFEkhmaPVvLNlP09QLJMAXtLTt1cEqH/oejxWzA5sdA9QPf+uP
+         FiGfg1kf7zsNKpChhkkfOKP5xq5yJlVoIYk5KfdUVLobQjkKH9xDFr6uzigkUbavC+ns
+         5qfk06BHlvszSJvaxPDxYWbtNy95B7Z6WFqZFz0Yyawd89klIxNyK7fFT0nZsADLqk6D
+         zAZw==
+X-Gm-Message-State: AOAM530MSkZ5o68WN1xyWK+9j0PPz5EGjLs+HDF0YHp86L7+g/y9VYb6
+        ijJXbU6Lp+5KX6EhvUJ9a6JwD1iwzVcc5ixfyE9jFQ==
+X-Google-Smtp-Source: ABdhPJzFrqfAwV4lIbCCiVu+IspFq83jhqoaMG65PKSTrukGguTs7XiN5FLFH6wPnByDVaUokuQk0Sd4Y5Qva95xCmU=
+X-Received: by 2002:a05:6402:3508:: with SMTP id b8mr934395edd.341.1611589170542;
+ Mon, 25 Jan 2021 07:39:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1610170479.git.asml.silence@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
+ <20210120014333.222547-9-pasha.tatashin@soleen.com> <20210120131400.GF4605@ziepe.ca>
+ <CA+CK2bCu-uWWOxS_sPhfgzXTq-cqYFsHK_QFo7F+rStKpJJDRA@mail.gmail.com> <20210125142819.GU4605@ziepe.ca>
+In-Reply-To: <20210125142819.GU4605@ziepe.ca>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Mon, 25 Jan 2021 10:38:54 -0500
+Message-ID: <CA+CK2bBa+8dOatFgUB405yyKnSYfX-iaypzXpAhOmZN_KNBMhA@mail.gmail.com>
+Subject: Re: [PATCH v6 08/14] mm/gup: do not migrate zero page
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/9/21 9:02 AM, Pavel Begunkov wrote:
-> Currently, when iomap and block direct IO gets a bvec based iterator
-> the bvec will be copied, with all other accounting that takes much
-> CPU time and causes additional allocation for larger bvecs. The
-> patchset makes it to reuse the passed in iter bvec.
+On Mon, Jan 25, 2021 at 9:28 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Jan 20, 2021 at 09:26:41AM -0500, Pavel Tatashin wrote:
+>
+> > I thought about this, and it would code a little cleaner. But, the
+> > reason I did not is because zero_page is perfectly pinnable, it is not
+> > pinnable only when it is in a movable zone (and it should not be in a
+> > movable zones for other reasons as well), but that is another bug that
+> > needs to be resolved, and once that bug is resolved this condition can
+> > be removed from gup migration.
+>
+> My point is you've defined the zero page to be pinnable no matter what
+> zone it is in, so is_pinnable(zero_page) == true
 
-Applied, thanks.
+Sure, I will move it inside is_pinnable in the next update.
 
--- 
-Jens Axboe
+Thank you,
+Pasha
 
+>
+> Jason
