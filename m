@@ -2,160 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E13C4332B
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15BCAC4332E
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2BBE22B3F
+	by mail.kernel.org (Postfix) with ESMTP id EEA5622A84
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732335AbhAZFzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60773 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731782AbhAYTXW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 14:23:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611602515;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=UT03s/I31YRDKMUtBXKP7GcN0aALUMC3UXcsyLIGnNY=;
-        b=E+xvLT+2Gr4mr/Uj5DpEE4+hRlJu2hnbJebzGcdt8BuV6Z3UTGQMU9sYjkdZz+7M4xuFut
-        ZOIKlb5lO49Y91lt5s/Q38E4ZWWwPL9zCyxmtm+pfpziwD3lY1zz/v/YJ1hnh/xy4VSuHN
-        sE/gtUrwk4zRmI5sQ9Ksz8Eh78Tj3uU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-LvIX0ORjO2Oefu_NzbeS2w-1; Mon, 25 Jan 2021 14:21:54 -0500
-X-MC-Unique: LvIX0ORjO2Oefu_NzbeS2w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0752010054FF;
-        Mon, 25 Jan 2021 19:21:53 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 66AE95D9DB;
-        Mon, 25 Jan 2021 19:21:52 +0000 (UTC)
-From:   Prarit Bhargava <prarit@redhat.com>
-To:     linux-pci@vger.kernel.org
-Cc:     Prarit Bhargava <prarit@redhat.com>,
-        Myron Stowe <mstowe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: [PATCH] pci-driver: Add driver load messages
-Date:   Mon, 25 Jan 2021 14:21:46 -0500
-Message-Id: <20210125192146.1102523-1-prarit@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        id S1729626AbhAZFzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49096 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729798AbhAYOtj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 09:49:39 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8EFC061574;
+        Mon, 25 Jan 2021 06:48:57 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id y187so11308633wmd.3;
+        Mon, 25 Jan 2021 06:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=QKVPfv6NioAKXL2jIZ8ignJiUMCaI8h+exsQiu5IPPA=;
+        b=E0JEArhPC9PVqQSnyWc+a/zbPCrY7aFgkE83tMzyQlsm43jR/vImtUY2iYWfm8Y2J6
+         ncpXDMCTpG8UKHD0ttjoVG5ZH9IEDSpCqj1a1ZNsVGFx9aFepGwIRhpJVkoWKHP6NbOu
+         uBNZfso9/uu8TGJdn9BmccBh5qnJfbkCM6OPwbqRTJp7G62dN/axrDg/WXcnbXVXpXCi
+         jpEmF0bSSbb5B6BlE9x1k1Um3V1eKHc5oKvGV4FDBHJ5/dBPe3XKvUxU092Kgg3BTsnb
+         Eh779Yo+ymlSdAzgk/h0gmrfLk+PEYmNQAbCJ9MQdS2ZCmwgOJiGKSBmm5O3J0XYypI0
+         j86w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=QKVPfv6NioAKXL2jIZ8ignJiUMCaI8h+exsQiu5IPPA=;
+        b=iWZU4YFOHZiKu6Hqo8KIVcNnv2dYYZ7ELw9uS9aPjlv1NWHDyxajjRwkM2MGJcMDUn
+         qGJ6lHrMohO9XmBsTjPB1A7IYopmwb94CC1aL6Hv/DygUd8KIR6j7vgXZrV4xYw3mA/L
+         FT7pX/KKEgxXVAbjhon97/M/NlYqjpSun0V0TY8bu0FJgPBRw9h6qtLyeDx+ESg1viyu
+         tjghkaV7eXflwQdQT2pvoYN/gjSvFxeBBK8AognAB7WSeKSjh3Z1zZ8Rq8pJhcOqz2kC
+         6Xd6yLH9xPg56E5yvnvlpP8L2VqJfVz3tU0scPmMqho1MYp5cMAYbs2YLznXOUkMXsy2
+         JkUg==
+X-Gm-Message-State: AOAM532s+Sr7lDPUjuvg6WXWALmCGQMEEBX60aPYipn4MSN9kaspmk85
+        aiupJmtNi3eC3BDk4quO4YY=
+X-Google-Smtp-Source: ABdhPJwUHv9gCSik0AJygB1hBoPoE+LvC1chT3BIWydPVTXlqmNYUqnk0AhMSJ3iwcEYds+RtH3bhA==
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr473416wmg.172.1611586136014;
+        Mon, 25 Jan 2021 06:48:56 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d4b:4500:649e:f82b:bf2d:2571])
+        by smtp.gmail.com with ESMTPSA id b132sm21454499wmh.21.2021.01.25.06.48.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 06:48:55 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] kgdb: rectify kernel-doc for kgdb_unregister_io_module()
+Date:   Mon, 25 Jan 2021 15:48:47 +0100
+Message-Id: <20210125144847.21896-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are two situations where driver load messages are helpful.
+The command 'find ./kernel/debug/ | xargs ./scripts/kernel-doc -none'
+reported a typo in the kernel-doc of kgdb_unregister_io_module().
 
-1) Some drivers silently load on devices and debugging driver or system
-failures in these cases is difficult.  While some drivers (networking
-for example) may not completely initialize when the PCI driver probe() function
-has returned, it is still useful to have some idea of driver completion.
+Rectify the kernel-doc, such that no issues remain for ./kernel/debug/.
 
-2) Storage and Network device vendors have relatively short lives for
-some of their hardware.  Some devices may continue to function but are
-problematic due to out-of-date firmware or other issues.  Maintaining
-a database of the hardware is out-of-the-question in the kernel as it would
-require constant updating.  Outputting a message in the log would allow
-different OSes to determine if the problem hardware was truly supported or not.
-
-Add optional driver load messages from the PCI core that indicates which
-driver was loaded, on which slot, and on which device.
-
-Signed-off-by: Prarit Bhargava <prarit@redhat.com>
-Cc: Myron Stowe <mstowe@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- drivers/pci/pci-driver.c                        | 14 +++++++++++++-
- drivers/pci/pci.c                               |  2 ++
- drivers/pci/pci.h                               |  1 +
- 4 files changed, 18 insertions(+), 1 deletion(-)
+applies cleanly on v5.11-rc5 and next-20210122
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 23f209c8c19a..32ecee6a4ef0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3793,6 +3793,8 @@
- 		nomio		[S390] Do not use MIO instructions.
- 		norid		[S390] ignore the RID field and force use of
- 				one PCI domain per PCI function
-+		driver_load_messages
-+				Output driver load status messages.
+Jason, Daniel, please pick this minor typo fixup.
+
+ kernel/debug/debug_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
+index af6e8b4fb359..7f22c1c0ffe8 100644
+--- a/kernel/debug/debug_core.c
++++ b/kernel/debug/debug_core.c
+@@ -1166,7 +1166,7 @@ int kgdb_register_io_module(struct kgdb_io *new_dbg_io_ops)
+ EXPORT_SYMBOL_GPL(kgdb_register_io_module);
  
- 	pcie_aspm=	[PCIE] Forcibly enable or disable PCIe Active State Power
- 			Management.
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index 8b587fc97f7b..35d5b6973578 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -23,6 +23,8 @@
- #include "pci.h"
- #include "pcie/portdrv.h"
- 
-+bool driver_load_messages;
-+
- struct pci_dynid {
- 	struct list_head node;
- 	struct pci_device_id id;
-@@ -305,10 +307,20 @@ static long local_pci_probe(void *_ddi)
- 	 */
- 	pm_runtime_get_sync(dev);
- 	pci_dev->driver = pci_drv;
-+	if (driver_load_messages)
-+		pci_info(pci_dev, "loading on device [%0x:%0x]\n",
-+			 pci_dev->vendor, pci_dev->device);
- 	rc = pci_drv->probe(pci_dev, ddi->id);
--	if (!rc)
-+	if (!rc) {
-+		if (driver_load_messages)
-+			pci_info(pci_dev, "loaded on device [%0x:%0x]\n",
-+				 pci_dev->vendor, pci_dev->device);
- 		return rc;
-+	}
- 	if (rc < 0) {
-+		if (driver_load_messages)
-+			pci_info(pci_dev, "failed (%d) on device [%0x:%0x]\n",
-+				 rc, pci_dev->vendor, pci_dev->device);
- 		pci_dev->driver = NULL;
- 		pm_runtime_put_sync(dev);
- 		return rc;
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index e578d34095e9..c64b3b6e1e8d 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -6547,6 +6547,8 @@ static int __init pci_setup(char *str)
- 				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
- 			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
- 				disable_acs_redir_param = str + 18;
-+			} else if (!strncmp(str, "driver_load_messages", 24)) {
-+				driver_load_messages = true;
- 			} else {
- 				pr_err("PCI: Unknown option `%s'\n", str);
- 			}
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index f86cae9aa1f4..db1218e188ac 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -690,4 +690,5 @@ static inline int pci_acpi_program_hp_params(struct pci_dev *dev)
- extern const struct attribute_group aspm_ctrl_attr_group;
- #endif
- 
-+extern bool driver_load_messages;
- #endif /* DRIVERS_PCI_H */
+ /**
+- *	kkgdb_unregister_io_module - unregister KGDB IO module
++ *	kgdb_unregister_io_module - unregister KGDB IO module
+  *	@old_dbg_io_ops: the io ops vector
+  *
+  *	Unregister it with the KGDB core.
 -- 
-2.29.2
+2.17.1
 
