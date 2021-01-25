@@ -2,99 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC21EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 16:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 375D5C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:00:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88E4822583
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 16:18:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A0E222513
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 17:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbhAYQPb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 11:15:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730329AbhAYQO7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 11:14:59 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 315A5C0613D6;
-        Mon, 25 Jan 2021 08:14:19 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id m187so11458872wme.2;
-        Mon, 25 Jan 2021 08:14:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=dI/Ix4uYo26OWE2SXq060YPzR8/QtIeBAKFWXszmsGU=;
-        b=JvGqZ1efjE2YbTW45WdtPJQ5Uq4IVCJWAVFVHujMpxosf6N7Vw0QTJGq8VsjTQJMyN
-         Om+iJ39BoXCP0W1LkpqLZ7AXMlN143rJfw9K8lJCUH8Z7CIMErVBPRkKpfkxRpUticxc
-         eE3TVc0RnhblbTD7wC3mdqOBPpHzNHkuwoeL1NLvY8gTXp+RBBG4pmL2s1tgrF1un4Ry
-         q09VsfwjFzg9zuSlSoDPXjF2eLeRanFPSfkVclnC/jmJPTQwTfpggpd+fGga2C9jEbwm
-         +KydHrNEZB/Vv5yALgEZOUUpkklwQwGgiY0CGZfRpfjjTOuiMQUw5aFGJ5BQuB010WNO
-         jDYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=dI/Ix4uYo26OWE2SXq060YPzR8/QtIeBAKFWXszmsGU=;
-        b=kmyseYDPaSHSSJ6/1hefdmhSqUExFkaLW8fI+ZMQjl8MjwCY9VL0rRbckj756I9NFE
-         iCYhUtI/d75sIJ9pZlKGaPyuldGfYjW86zPLOr4sbERSLvKb50f716SpCIaiVDmAYRak
-         E/KUISQh/uLqx35NL1G8Cua1ud8dZdr7IPblbHc0ctTaIYGL4uBh+vr+N4FdvBpshcup
-         kexU+1jR2HwclL6DEb7HaKHEzCcqNtyT3VNptLsIMRx2L++IS8QcjuFYHZ0w2+hYWbDi
-         eEeBiS7NZyor9cJdo3Qv2z4NlUkXWiJy3Rd8NCYD7OxsgBebu4m3DvcpYKX3kejyCOfe
-         t4Yg==
-X-Gm-Message-State: AOAM530gaUANhB4rsuFUl0c9fHwDTjgQjbY9+jgvxrKom7DqpSJ50RAt
-        aBkr9yLoN7aG9GTPhK9kUhg=
-X-Google-Smtp-Source: ABdhPJw/WsyPY2DyzH3foeTV7gKmmtwfrZ2WrYbr3D0NVJHrMeRBMY3K8s0tqiJymivSwyLOmmhWEw==
-X-Received: by 2002:a1c:dec6:: with SMTP id v189mr815226wmg.172.1611591257889;
-        Mon, 25 Jan 2021 08:14:17 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d4b:4500:649e:f82b:bf2d:2571])
-        by smtp.gmail.com with ESMTPSA id s24sm21648629wmh.22.2021.01.25.08.14.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 08:14:17 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     David Howells <dhowells@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S1730081AbhAYRAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 12:00:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57184 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730040AbhAYQ7r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 11:59:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D20220658;
+        Mon, 25 Jan 2021 16:58:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611593893;
+        bh=kxggTNC3zOxhHV9GLTZJpYh6V/gkPDghPdf7uj5wkPw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=jVMuSN0SY61xCC7u0zDSn/jSnsFgzsTUGp5JSDTBzhcWaCMIQ2MoYwXM5QE2EJUPn
+         NV83zDvBtzkSXiPReR9PAmDaJYHAXizXKfbIqpIGK8twTqxVDuJ87MEJkdtK8RJelH
+         EbVeMxySK4W7qFsCnKnYo/Na/YJtr3+vXRg8JcV/zy7dl/eiQV3nAGBMHZ6PXZiGE/
+         IT7BT9Oew/elXI8lF7EP6M2r2M/EGIMvqstXGIrgq0Ww5XuNttUiqkkoYRWQPhliud
+         DQhOTNx1/fcbSR++lvsfMHWKDtiK/rqTJ8Wp/FjeKLWZ9vYY2HRadkgXTIExYLmNUT
+         nFKE1MGqvlm8g==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id F2A0B3523742; Mon, 25 Jan 2021 08:58:12 -0800 (PST)
+Date:   Mon, 25 Jan 2021 08:58:12 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Josh Triplett <josh@joshtriplett.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] watch_queue: rectify kernel-doc for init_watch()
-Date:   Mon, 25 Jan 2021 17:14:09 +0100
-Message-Id: <20210125161409.8478-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rcu-tasks: rectify kernel-doc for struct rcu_tasks
+Message-ID: <20210125165812.GZ2743@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20210125074105.29038-1-lukas.bulwahn@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210125074105.29038-1-lukas.bulwahn@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The command './scripts/kernel-doc -none kernel/watch_queue.c'
-reported a mismatch in the kernel-doc of init_watch().
+On Mon, Jan 25, 2021 at 08:41:05AM +0100, Lukas Bulwahn wrote:
+> The command 'find ./kernel/rcu/ | xargs ./scripts/kernel-doc -none'
+> reported an issue with the kernel-doc of struct rcu_tasks.
+> 
+> Rectify the kernel-doc, such that no issues remain for ./kernel/rcu/.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Rectify the kernel-doc, such that no issues remain for watch_queue.c.
+Applied for the v5.13 merge window with the usual wordsmithing, thank you!
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on v5.11-rc5 and next-20210122
+							Thanx, Paul
 
-David, please pick this minor kernel-doc fixup.
-
- kernel/watch_queue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
-index 0ef8f65bd2d7..9c9eb20dd2c5 100644
---- a/kernel/watch_queue.c
-+++ b/kernel/watch_queue.c
-@@ -413,7 +413,7 @@ static void put_watch(struct watch *watch)
- }
- 
- /**
-- * init_watch_queue - Initialise a watch
-+ * init_watch - Initialise a watch
-  * @watch: The watch to initialise.
-  * @wqueue: The queue to assign.
-  *
--- 
-2.17.1
-
+> ---
+> applies cleanly on v5.11-rc5 and next-20210122
+> 
+> Paul, please pick this minor kerneldoc cleanup.
+> 
+>  kernel/rcu/tasks.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
+> index af7c19439f4e..17c8ebe131af 100644
+> --- a/kernel/rcu/tasks.h
+> +++ b/kernel/rcu/tasks.h
+> @@ -20,7 +20,7 @@ typedef void (*holdouts_func_t)(struct list_head *hop, bool ndrpt, bool *frptp);
+>  typedef void (*postgp_func_t)(struct rcu_tasks *rtp);
+>  
+>  /**
+> - * Definition for a Tasks-RCU-like mechanism.
+> + * struct rcu_tasks - Definition for a Tasks-RCU-like mechanism.
+>   * @cbs_head: Head of callback list.
+>   * @cbs_tail: Tail pointer for callback list.
+>   * @cbs_wq: Wait queue allowning new callback to get kthread's attention.
+> @@ -38,7 +38,7 @@ typedef void (*postgp_func_t)(struct rcu_tasks *rtp);
+>   * @pregp_func: This flavor's pre-grace-period function (optional).
+>   * @pertask_func: This flavor's per-task scan function (optional).
+>   * @postscan_func: This flavor's post-task scan function (optional).
+> - * @holdout_func: This flavor's holdout-list scan function (optional).
+> + * @holdouts_func: This flavor's holdout-list scan function (optional).
+>   * @postgp_func: This flavor's post-grace-period function (optional).
+>   * @call_func: This flavor's call_rcu()-equivalent function.
+>   * @name: This flavor's textual name.
+> -- 
+> 2.17.1
+> 
