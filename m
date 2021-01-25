@@ -2,108 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C6AC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B0BC433E0
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:14:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D23E20724
+	by mail.kernel.org (Postfix) with ESMTP id 608F32079A
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729618AbhAZFzm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729455AbhAYO3m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 09:29:42 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6718CC0617A9
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 06:28:21 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id z6so9776771qtn.0
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 06:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gqrob1newlkQ15lRtU6auZ3RzaABmYXA8xpX2IglXFQ=;
-        b=dGX57SKqFdpXq5Em8dpxESukUDK+OYiiN20VisCm8Wi+VFYCGEzLwzJQYwF1wsuX7r
-         WjZJwHEvgvYAc4oAicLOOCAwPegzkAoCSLgLXVDWCGsrbRKY+vMoGhqIDIm/qcF3wyoX
-         b+hwihpHfWpDuJsB4/bB0oipat6DwE7Oql4xR1XMqYNVs6VvbUXm35h4WKvxzkvcdadX
-         kUDDTyr/b3yOo8C+AyPndWjFIf3sK4ivPmbG2qSZvbKM6s6BdVRmMkx02qk4qz5cKkBh
-         0E5bdtMqcDbzuKXs/tLLt3dvNzJfdlDzLp1x5LEheVzj+HrgZHJimVBItPJDW19vNXXO
-         8y2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gqrob1newlkQ15lRtU6auZ3RzaABmYXA8xpX2IglXFQ=;
-        b=hKOCFaA3cNnj54ZQ3fxq2Cn66zibRhvGuwFC+WBOB5G3FMRs1J0jr1yJGGXGuuiiQ0
-         6RYaSWn2KsOcxh0O7AEqJpDvTwhYAJIMwCdtrnKQbd1EBKCwj6iT0beeDnTBkv8KPjn+
-         I5IK4d2mRqhp6ZYvsrvW0C/yMykDTtRAlplyWbIvnpUyEDom0ZtD1WgkdUfJ18e94f/o
-         c3Swg4eAF9gY6rZj2uU8jsjmyzLDcI2QxyYTaylLcNU8RclsZZGjmOnModBL225Nobhc
-         CRWhNK6ELrQhnnZhzmAPu3wquouVvX+wPD3oBVpgdWivfIWDll2neO6pmDxelm6hx8dO
-         AkYg==
-X-Gm-Message-State: AOAM5312G2zYzxqkxOGb7m5vLn/B4Ao7xIv04J0qXQA/5XD+ZaMp7G3K
-        Ay9RUuBrpJkRB4CKmcIH+ywg3g==
-X-Google-Smtp-Source: ABdhPJzF2m7RRft4yyKJebF8jzkPIF+Jv8HIYEWXVMaMo2dw3cdqZZG9ubwMIkYD4CRazbEmFlt1hg==
-X-Received: by 2002:ac8:6edd:: with SMTP id f29mr654427qtv.213.1611584900594;
-        Mon, 25 Jan 2021 06:28:20 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id m64sm12086816qkb.90.2021.01.25.06.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:28:20 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1l42qp-006Vxe-HI; Mon, 25 Jan 2021 10:28:19 -0400
-Date:   Mon, 25 Jan 2021 10:28:19 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Tatashin <pasha.tatashin@soleen.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, mike.kravetz@oracle.com,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 08/14] mm/gup: do not migrate zero page
-Message-ID: <20210125142819.GU4605@ziepe.ca>
-References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
- <20210120014333.222547-9-pasha.tatashin@soleen.com>
- <20210120131400.GF4605@ziepe.ca>
- <CA+CK2bCu-uWWOxS_sPhfgzXTq-cqYFsHK_QFo7F+rStKpJJDRA@mail.gmail.com>
+        id S2388974AbhAZFzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52544 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729271AbhAYORd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Jan 2021 09:17:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F3CDC2145D;
+        Mon, 25 Jan 2021 14:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611584135;
+        bh=op5xHV1OhugM04UhmRRpoD5rSX9S94ZPnVmezEUehNk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Yrc/SaCgnKPdYJdPUOa0AdkIRA/584kvxde/CbqMAUrorztdFFSfnwpvC6biOrvTh
+         /OtuGYn9cNjwsni2eCCU+lgzZi3lq8TJ7lHxTSVH7fxPxF/HIz7EmjVX3UcBp3QTqJ
+         nYZ0d2YqtqNwKW2h4Oca9MhmNxVfJOQ2qymT6Q9rrl44UBXz5J0E7cN5vWl4UpTs+P
+         t6ot1mzRdApu+YyNBSPPJx3OavA0AfUgBw7e+vAzCVyv1xT90MWihpUEOvxCQlsfTP
+         nogUKPWw1S/ynfx0TcmPNyFoZ2Lhuo2I05XKRQfGXPdgI1jN/hf/Z7z2uFfIXEoYPf
+         pRWfTIoQLyMRw==
+Received: by pali.im (Postfix)
+        id B791B768; Mon, 25 Jan 2021 15:15:32 +0100 (CET)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Andrew Lunn <andrew@lunn.ch>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: arm: marvell: Update link to unrestricted Armada 38x Functional Spec
+Date:   Mon, 25 Jan 2021 15:15:29 +0100
+Message-Id: <20210125141529.32357-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bCu-uWWOxS_sPhfgzXTq-cqYFsHK_QFo7F+rStKpJJDRA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 09:26:41AM -0500, Pavel Tatashin wrote:
+On Marvell website is documentation accessible without need to register or
+fill any other forms.
 
-> I thought about this, and it would code a little cleaner. But, the
-> reason I did not is because zero_page is perfectly pinnable, it is not
-> pinnable only when it is in a movable zone (and it should not be in a
-> movable zones for other reasons as well), but that is another bug that
-> needs to be resolved, and once that bug is resolved this condition can
-> be removed from gup migration.
+Signed-off-by: Pali Rohár <pali@kernel.org>
+---
+ Documentation/arm/marvell.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My point is you've defined the zero page to be pinnable no matter what
-zone it is in, so is_pinnable(zero_page) == true
+diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+index fa22a72d4391..94cd73383594 100644
+--- a/Documentation/arm/marvell.rst
++++ b/Documentation/arm/marvell.rst
+@@ -127,7 +127,7 @@ EBU Armada family
+ 	- 88F6828 Armada 388
+ 
+     - Product infos:   http://www.marvell.com/embedded-processors/armada-38x/
+-    - Functional Spec: https://marvellcorp.wufoo.com/forms/marvell-armada-38x-functional-specifications/
++    - Functional Spec: http://www.marvell.com/content/dam/marvell/en/public-collateral/embedded-processors/marvell-embedded-processors-armada-38x-functional-specifications-2015-11.pdf
+ 
+   Core:
+ 	ARM Cortex-A9
+-- 
+2.20.1
 
-Jason
