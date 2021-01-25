@@ -2,356 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F89C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5756C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:58:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 299072083E
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:46:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9527D22510
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 21:58:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732612AbhAYVp3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 16:45:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732418AbhAYVpS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 16:45:18 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF304C061573;
-        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id m6so9201533pfk.1;
-        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lQQFftPeIGWJPfOFUyLAcLyeRJEgYdVIN6m17F1vIro=;
-        b=Sb49yV86zbWRJH5DWiEtUJ1O5akJ8WXt07WytHt7jQnppQDo/Cbv4coa4HdEmNPYcE
-         lkH1SLtrdMAvavmXbY+iG+e2TTZjTkkvb8igNCYtTJbmcocG1Tgy9ToJSgWUGpObEYKb
-         74pn206IYMPHZDSiZf2z5XUImLtEDLr6wzoJ4UdQUOeaJYuO9Q5MRV58lqvgAe5uTq4L
-         SHrrqmQm8onZffLPw3Y5VeTHXQRmZ2sjCs3RpiY6jNhmqeWEhtejfSl3h57BAby950QR
-         vr4W+gX+qNFB9HtRJZ59VimdyXoDEE4d2VQ5bi7DDxi2VV1zWBqEaCyKr37WtZmpwUir
-         DapA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lQQFftPeIGWJPfOFUyLAcLyeRJEgYdVIN6m17F1vIro=;
-        b=Mont9Uwwx/ZU3h/Znh4mXnwPNnXhMFaczAyp35RtohIhpZVPb1u1I6+CPGh/OsOAv4
-         8L6aJ6npjlPXJIjqHni51kQJsyWlqK5ieDzDRtti3/ctQkocJWoapMA8r0HIFEtOn/mc
-         RzoeiGV/jBIZZ1FLPKZa4QE+mNXXeUYJqCQGVocBpZYatf+HO4MaGNRYhA697cz4XESV
-         m9vEhxzd0m5DzJ6BCveLONgwZwhu0XDt2X+BE50SubEcWes8KNjHBdU0mAvvsP00RSrS
-         dWT+2LQCqXBLk7ajBDjdADJ9ZzFm2SlNwYOR7eXakLWeZvPOLjmWX+PsgO5gD6OyEqgx
-         p7Zg==
-X-Gm-Message-State: AOAM531lArTRQClqA6dfnkeuVb0UvNTGU7KyAWkudklDQWgq5jvXRSSW
-        EWvcda7aCbk19XfabMwTtUl+WuaASVrk
-X-Google-Smtp-Source: ABdhPJy+941WuW/+l9Et2f8GuU/Kn8kg8f9F/iXV9c+t26YPwY02PRBhiXPHXPujXZR/3+9r8MDpwg==
-X-Received: by 2002:a63:4d1:: with SMTP id 200mr2431144pge.362.1611611077290;
-        Mon, 25 Jan 2021 13:44:37 -0800 (PST)
-Received: from localhost.localdomain ([216.52.21.4])
-        by smtp.gmail.com with ESMTPSA id f15sm295745pja.24.2021.01.25.13.44.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Jan 2021 13:44:36 -0800 (PST)
-From:   Praveen Chaudhary <praveen5582@gmail.com>
-X-Google-Original-From: Praveen Chaudhary <pchaudhary@linkedin.com>
-To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
-        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     dsahern@gmail.com, Zhenggen Xu <zxu@linkedin.com>,
-        David Ahern <dsahern@kernel.org>
-Subject: [PATCH v4 net-next 1/1] Allow user to set metric on default route learned via Router Advertisement.
-Date:   Mon, 25 Jan 2021 13:44:30 -0800
-Message-Id: <20210125214430.24079-1-pchaudhary@linkedin.com>
-X-Mailer: git-send-email 2.29.0
+        id S1732871AbhAYV5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 16:57:45 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:37385 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733082AbhAYV5a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 16:57:30 -0500
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 10PLu2PO005199;
+        Tue, 26 Jan 2021 06:56:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 10PLu2PO005199
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611611762;
+        bh=k13xTgp4YHfTY2q/O6bg9I8kJdCvKuXvFQLmI3+RhI0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dK+2GFRbXjlPKnrgk8h81RgCsjUI9MVHCbCaBBuEVQjhvutSMBuEZXNBIWmWjKSdG
+         XiXo/6Mv9j7AFxAcohOluO0dJ0Ed5DUu86XQeptwtct8i9alY6b+PGo9Mmh+dOKBw2
+         7G1kNyOdVr+BTPCUuoinkmG23bwq5kxcqt2pK5epUH6NNIJpOIeVGQ5gtBNlEHNpPc
+         K5UwWWH2oEt3t60j54TwiN5r+kJjJGdFC40Ppuv3cH+p+NNxPRKoLmb8/Yy8+HlEzR
+         76zaYkHH8EZqBTfn/6Q9AnQFuMwQh7Rlr8f6CmfhJjFtkWO1cFlfijPsP3u0XGFY0B
+         acRIvx6RKTqRA==
+X-Nifty-SrcIP: [209.85.210.174]
+Received: by mail-pf1-f174.google.com with SMTP id q20so9185709pfu.8;
+        Mon, 25 Jan 2021 13:56:02 -0800 (PST)
+X-Gm-Message-State: AOAM532kAxYqbmUQKWe8VOBIEBKCjxlsNykuJA1C4WPRFDC2by/4qOQr
+        czUAzMiBDZqVkugmxDUfbaTgAhOQmRyOo3+Ynqs=
+X-Google-Smtp-Source: ABdhPJxdcIWBPAyh3WbuAUW/EWSOSODCsrlOwl2RnFKZ8jqnC8tLenx9emKykYOcLkOUSZ1xRTq+RAj98lrdZe1Yb2M=
+X-Received: by 2002:a63:1f1d:: with SMTP id f29mr2556604pgf.47.1611611761596;
+ Mon, 25 Jan 2021 13:56:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210123133333.736453-1-masahiroy@kernel.org>
+In-Reply-To: <20210123133333.736453-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 26 Jan 2021 06:55:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASV+JWG+1vuEqFUWUk=AW8TkwwSrEGaciOkJwQ8xU0+AQ@mail.gmail.com>
+Message-ID: <CAK7LNASV+JWG+1vuEqFUWUk=AW8TkwwSrEGaciOkJwQ8xU0+AQ@mail.gmail.com>
+Subject: Re: [PATCH v2] doc: gcc-plugins: drop more stale information
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Robert Karszniewicz <r.karszniewicz@phytec.de>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-hardening@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For IPv4, default route is learned via DHCPv4 and user is allowed to change
-metric using config etc/network/interfaces. But for IPv6, default route can
-be learned via RA, for which, currently a fixed metric value 1024 is used.
+On Sat, Jan 23, 2021 at 10:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> [1] Drop the version information
+>
+> The range of the supported GCC versions are always changing. The
+> current minimal GCC version is 4.9, and commit 1e860048c53e
+> ("gcc-plugins: simplify GCC plugin-dev capability test") removed the
+> old code accordingly.
+>
+> We do not need to mention specific version ranges like "all gcc versions
+> from 4.5 to 6.0" since we forget to update the documentation when we
+> raise the minimal compiler version.
+>
+> [2] Drop the C compiler statements
+>
+> Since commit 77342a02ff6e ("gcc-plugins: drop support for GCC <= 4.7")
+> the GCC plugin infrastructure only supports g++.
+>
+> [3] Drop supported architectures
+>
+> As of v5.11-rc4, the infrastructure supports more architectures;
+> arm, arm64, mips, powerpc, riscv, s390, um, and x86. (just grep
+> "select HAVE_GCC_PLUGINS") Again, we miss to update this document when a
+> new architecture is supported. Let's just say "only some architectures".
+>
+> [4] Update the apt-get example
+>
+> We are now discussing to bump the minimal version to GCC 5. The GCC 4.9
+> support will be removed sooner or later. Change the package example to
+> gcc-10-plugin-dev while we are here.
+>
+> [5] Update the build target
+>
+> Since commit ce2fd53a10c7 ("kbuild: descend into scripts/gcc-plugins/
+> via scripts/Makefile"), "make gcc-plugins" is not supported.
+> "make scripts" builds all the enabled plugins, including some other
+> tools.
+>
+> [6] Update the steps for adding a new plugin
+>
+> At first, all CONFIG options for GCC plugins were located in arch/Kconfig.
+> After commit 45332b1bdfdc ("gcc-plugins: split out Kconfig entries to
+> scripts/gcc-plugins/Kconfig"), scripts/gcc-plugins/Kconfig became the
+> central place to collect plugin CONFIG options. In my understanding,
+> this requirement no longer exists because commit 9f671e58159a ("security:
+> Create "kernel hardening" config area") moved some of plugin CONFIG
+> options to another file. Find an appropriate place to add the new CONFIG.
+>
+> The sub-directory support was never used by anyone, and removed by
+> commit c17d6179ad5a ("gcc-plugins: remove unused GCC_PLUGIN_SUBDIR").
+>
+> Remove the useless $(src)/ prefix.
 
-Ideally, user should be able to configure metric on default route for IPv6
-similar to IPv4. This fix adds sysctl for the same.
 
-Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
-Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
+Applied to linux-kbuild.
 
-Reviewed-by: David Ahern <dsahern@kernel.org>
 
-Changes in v1.
-1.) Correct the call to rt6_add_dflt_router.
 
-Changes in v2.
-1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
-2.) Change Type to __u32 instead of __s32.
-3.) Change description in Documentation/networking/ip-sysctl.rst.
-4.) Use proc_douintvec instead of proc_dointvec.
-5.) Code style in ndisc_router_discovery().
-6.) Change Type to u32 instead of unsigned int.
 
-Changes in v3:
-1.) Removed '---' and '```' from description.
-2.) Remove stray ' after accept_ra_defrtr.
-3.) Fix tab in net/ipv6/addrconf.c.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> Changes in v2:
+>   - Remove the info about sub-directory support
+>
+>  Documentation/kbuild/gcc-plugins.rst | 31 +++++++++++++---------------
+>  1 file changed, 14 insertions(+), 17 deletions(-)
+>
+> diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+> index 63379d0150e3..979887558e72 100644
+> --- a/Documentation/kbuild/gcc-plugins.rst
+> +++ b/Documentation/kbuild/gcc-plugins.rst
+> @@ -11,16 +11,13 @@ compiler [1]_. They are useful for runtime instrumentation and static analysis.
+>  We can analyse, change and add further code during compilation via
+>  callbacks [2]_, GIMPLE [3]_, IPA [4]_ and RTL passes [5]_.
+>
+> -The GCC plugin infrastructure of the kernel supports all gcc versions from
+> -4.5 to 6.0, building out-of-tree modules, cross-compilation and building in a
+> -separate directory.
+> -Plugin source files have to be compilable by both a C and a C++ compiler as well
+> -because gcc versions 4.5 and 4.6 are compiled by a C compiler,
+> -gcc-4.7 can be compiled by a C or a C++ compiler,
+> -and versions 4.8+ can only be compiled by a C++ compiler.
+> +The GCC plugin infrastructure of the kernel supports building out-of-tree
+> +modules, cross-compilation and building in a separate directory.
+> +Plugin source files have to be compilable by a C++ compiler.
+>
+> -Currently the GCC plugin infrastructure supports only the x86, arm, arm64 and
+> -powerpc architectures.
+> +Currently the GCC plugin infrastructure supports only some architectures.
+> +Grep "select HAVE_GCC_PLUGINS" to find out which architectures support
+> +GCC plugins.
+>
+>  This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
+>
+> @@ -53,8 +50,7 @@ $(src)/scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h,
+>  $(src)/scripts/gcc-plugins/gcc-generate-rtl-pass.h**
+>
+>         These headers automatically generate the registration structures for
+> -       GIMPLE, SIMPLE_IPA, IPA and RTL passes. They support all gcc versions
+> -       from 4.5 to 6.0.
+> +       GIMPLE, SIMPLE_IPA, IPA and RTL passes.
+>         They should be preferred to creating the structures by hand.
+>
+>
+> @@ -62,9 +58,9 @@ Usage
+>  =====
+>
+>  You must install the gcc plugin headers for your gcc version,
+> -e.g., on Ubuntu for gcc-4.9::
+> +e.g., on Ubuntu for gcc-10::
+>
+> -       apt-get install gcc-4.9-plugin-dev
+> +       apt-get install gcc-10-plugin-dev
+>
+>  Or on Fedora::
+>
+> @@ -76,7 +72,7 @@ Enable a GCC plugin based feature in the kernel config::
+>
+>  To compile only the plugin(s)::
+>
+> -       make gcc-plugins
+> +       make scripts
+>
+>  or just run the kernel make and compile the whole kernel with
+>  the cyclomatic complexity GCC plugin.
+> @@ -85,7 +81,8 @@ the cyclomatic complexity GCC plugin.
+>  4. How to add a new GCC plugin
+>  ==============================
+>
+> -The GCC plugins are in $(src)/scripts/gcc-plugins/. You can use a file or a directory
+> -here. It must be added to $(src)/scripts/gcc-plugins/Makefile,
+> -$(src)/scripts/Makefile.gcc-plugins and $(src)/arch/Kconfig.
+> +The GCC plugins are in scripts/gcc-plugins/. You need to put plugin source files
+> +right under scripts/gcc-plugins/. Creating subdirectories is not supported.
+> +It must be added to scripts/gcc-plugins/Makefile, scripts/Makefile.gcc-plugins
+> +and a relevant Kconfig file.
+>  See the cyc_complexity_plugin.c (CONFIG_GCC_PLUGIN_CYC_COMPLEXITY) GCC plugin.
+> --
+> 2.27.0
+>
 
-Changes in v4:
-1.) Remove special case of 0 and use IP6_RT_PRIO_USER as default.
-2.) Do not allow 0.
-3.) Change Documentation accordingly.
-4.) Remove extra brackets and compare with zero in ndisc_router_discovery().
-5.) Remove compare with zero in rt6_add_dflt_router().
 
-Logs:
-
-For IPv4:
-
-Config in etc/network/interfaces:
-auto eth0
-iface eth0 inet dhcp
-    metric 4261413864
-
-IPv4 Kernel Route Table:
-$ ip route list
-default via 172.21.47.1 dev eth0 metric 4261413864
-
-FRR Table, if a static route is configured:
-[In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
-Codes: K - kernel route, C - connected, S - static, R - RIP,
-       O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
-       T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
-       > - selected route, * - FIB route
-
-S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
-K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
-
-i.e. User can prefer Default Router learned via Routing Protocol in IPv4.
-Similar behavior is not possible for IPv6, without this fix.
-
-After fix [for IPv6]:
-sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
-
-IP monitor: [When IPv6 RA is received]
-default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
-
-Kernel IPv6 routing table
-$ ip -6 route list
-default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
-
-FRR Table, if a static route is configured:
-[In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
-Codes: K - kernel route, C - connected, S - static, R - RIPng,
-       O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
-       v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
-       > - selected route, * - FIB route
-
-S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
-K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
-
-If the metric is changed later, the effect will be seen only when next IPv6
-RA is received, because the default route must be fully controlled by RA msg.
-Below metric is changed from 1996489705 to 1996489704.
-
-$ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
-net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
-
-IP monitor:
-[On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
-
-Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
-default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
----
- Documentation/networking/ip-sysctl.rst | 10 ++++++++++
- include/linux/ipv6.h                   |  1 +
- include/net/ip6_route.h                |  3 ++-
- include/uapi/linux/ipv6.h              |  1 +
- include/uapi/linux/sysctl.h            |  1 +
- net/ipv6/addrconf.c                    | 11 +++++++++++
- net/ipv6/ndisc.c                       | 12 ++++++++----
- net/ipv6/route.c                       |  5 +++--
- 8 files changed, 37 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index dd2b12a32b73..0e51ddd9a2f1 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1871,6 +1871,16 @@ accept_ra_defrtr - BOOLEAN
- 		- enabled if accept_ra is enabled.
- 		- disabled if accept_ra is disabled.
- 
-+ra_defrtr_metric - UNSIGNED INTEGER
-+	Route metric for default route learned in Router Advertisement. This value
-+	will be assigned as metric for the default route learned via IPv6 Router
-+	Advertisement. Takes affect only if accept_ra_defrtr is enabled.
-+
-+	Possible values:
-+		1 to 0xFFFFFFFF
-+
-+		Default: IP6_RT_PRIO_USER i.e. 1024.
-+
- accept_ra_from_local - BOOLEAN
- 	Accept RA with source-address that is found on local machine
- 	if the RA is otherwise proper and able to be accepted.
-diff --git a/include/linux/ipv6.h b/include/linux/ipv6.h
-index dda61d150a13..9d1f29f0c512 100644
---- a/include/linux/ipv6.h
-+++ b/include/linux/ipv6.h
-@@ -31,6 +31,7 @@ struct ipv6_devconf {
- 	__s32		max_desync_factor;
- 	__s32		max_addresses;
- 	__s32		accept_ra_defrtr;
-+	__u32		ra_defrtr_metric;
- 	__s32		accept_ra_min_hop_limit;
- 	__s32		accept_ra_pinfo;
- 	__s32		ignore_routes_with_linkdown;
-diff --git a/include/net/ip6_route.h b/include/net/ip6_route.h
-index 2a5277758379..f51a118bfce8 100644
---- a/include/net/ip6_route.h
-+++ b/include/net/ip6_route.h
-@@ -174,7 +174,8 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
- 				     struct net_device *dev);
- struct fib6_info *rt6_add_dflt_router(struct net *net,
- 				     const struct in6_addr *gwaddr,
--				     struct net_device *dev, unsigned int pref);
-+				     struct net_device *dev, unsigned int pref,
-+				     u32 defrtr_usr_metric);
- 
- void rt6_purge_dflt_routers(struct net *net);
- 
-diff --git a/include/uapi/linux/ipv6.h b/include/uapi/linux/ipv6.h
-index 13e8751bf24a..70603775fe91 100644
---- a/include/uapi/linux/ipv6.h
-+++ b/include/uapi/linux/ipv6.h
-@@ -189,6 +189,7 @@ enum {
- 	DEVCONF_ACCEPT_RA_RT_INFO_MIN_PLEN,
- 	DEVCONF_NDISC_TCLASS,
- 	DEVCONF_RPL_SEG_ENABLED,
-+	DEVCONF_RA_DEFRTR_METRIC,
- 	DEVCONF_MAX
- };
- 
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 458179df9b27..1e05d3caa712 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -571,6 +571,7 @@ enum {
- 	NET_IPV6_ACCEPT_SOURCE_ROUTE=25,
- 	NET_IPV6_ACCEPT_RA_FROM_LOCAL=26,
- 	NET_IPV6_ACCEPT_RA_RT_INFO_MIN_PLEN=27,
-+	NET_IPV6_RA_DEFRTR_METRIC=28,
- 	__NET_IPV6_MAX
- };
- 
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index eff2cacd5209..7aff1a81b7f5 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -205,6 +205,7 @@ static struct ipv6_devconf ipv6_devconf __read_mostly = {
- 	.max_desync_factor	= MAX_DESYNC_FACTOR,
- 	.max_addresses		= IPV6_MAX_ADDRESSES,
- 	.accept_ra_defrtr	= 1,
-+	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
- 	.accept_ra_from_local	= 0,
- 	.accept_ra_min_hop_limit= 1,
- 	.accept_ra_pinfo	= 1,
-@@ -260,6 +261,7 @@ static struct ipv6_devconf ipv6_devconf_dflt __read_mostly = {
- 	.max_desync_factor	= MAX_DESYNC_FACTOR,
- 	.max_addresses		= IPV6_MAX_ADDRESSES,
- 	.accept_ra_defrtr	= 1,
-+	.ra_defrtr_metric	= IP6_RT_PRIO_USER,
- 	.accept_ra_from_local	= 0,
- 	.accept_ra_min_hop_limit= 1,
- 	.accept_ra_pinfo	= 1,
-@@ -5475,6 +5477,7 @@ static inline void ipv6_store_devconf(struct ipv6_devconf *cnf,
- 	array[DEVCONF_MAX_DESYNC_FACTOR] = cnf->max_desync_factor;
- 	array[DEVCONF_MAX_ADDRESSES] = cnf->max_addresses;
- 	array[DEVCONF_ACCEPT_RA_DEFRTR] = cnf->accept_ra_defrtr;
-+	array[DEVCONF_RA_DEFRTR_METRIC] = cnf->ra_defrtr_metric;
- 	array[DEVCONF_ACCEPT_RA_MIN_HOP_LIMIT] = cnf->accept_ra_min_hop_limit;
- 	array[DEVCONF_ACCEPT_RA_PINFO] = cnf->accept_ra_pinfo;
- #ifdef CONFIG_IPV6_ROUTER_PREF
-@@ -6667,6 +6670,14 @@ static const struct ctl_table addrconf_sysctl[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec,
- 	},
-+	{
-+		.procname	= "ra_defrtr_metric",
-+		.data		= &ipv6_devconf.ra_defrtr_metric,
-+		.maxlen		= sizeof(u32),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec_minmax,
-+		.extra1		= (void *)SYSCTL_ONE,
-+	},
- 	{
- 		.procname	= "accept_ra_min_hop_limit",
- 		.data		= &ipv6_devconf.accept_ra_min_hop_limit,
-diff --git a/net/ipv6/ndisc.c b/net/ipv6/ndisc.c
-index 76717478f173..c467c6419893 100644
---- a/net/ipv6/ndisc.c
-+++ b/net/ipv6/ndisc.c
-@@ -1173,6 +1173,7 @@ static void ndisc_router_discovery(struct sk_buff *skb)
- 	struct neighbour *neigh = NULL;
- 	struct inet6_dev *in6_dev;
- 	struct fib6_info *rt = NULL;
-+	u32 defrtr_usr_metric;
- 	struct net *net;
- 	int lifetime;
- 	struct ndisc_options ndopts;
-@@ -1303,18 +1304,21 @@ static void ndisc_router_discovery(struct sk_buff *skb)
- 			return;
- 		}
- 	}
--	if (rt && lifetime == 0) {
-+	/* Set default route metric as specified by user */
-+	defrtr_usr_metric = in6_dev->cnf.ra_defrtr_metric;
-+	/* delete the route if lifetime is 0 or if metric needs change */
-+	if (rt && (lifetime == 0 || rt->fib6_metric != defrtr_usr_metric)) {
- 		ip6_del_rt(net, rt, false);
- 		rt = NULL;
- 	}
- 
--	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, for dev: %s\n",
--		  rt, lifetime, skb->dev->name);
-+	ND_PRINTK(3, info, "RA: rt: %p  lifetime: %d, metric: %d, for dev: %s\n",
-+		  rt, lifetime, defrtr_usr_metric, skb->dev->name);
- 	if (!rt && lifetime) {
- 		ND_PRINTK(3, info, "RA: adding default router\n");
- 
- 		rt = rt6_add_dflt_router(net, &ipv6_hdr(skb)->saddr,
--					 skb->dev, pref);
-+					 skb->dev, pref, defrtr_usr_metric);
- 		if (!rt) {
- 			ND_PRINTK(0, err,
- 				  "RA: %s failed to add default route\n",
-diff --git a/net/ipv6/route.c b/net/ipv6/route.c
-index 188e114b29b4..41d8f801b75f 100644
---- a/net/ipv6/route.c
-+++ b/net/ipv6/route.c
-@@ -4252,11 +4252,12 @@ struct fib6_info *rt6_get_dflt_router(struct net *net,
- struct fib6_info *rt6_add_dflt_router(struct net *net,
- 				     const struct in6_addr *gwaddr,
- 				     struct net_device *dev,
--				     unsigned int pref)
-+				     unsigned int pref,
-+				     u32 defrtr_usr_metric)
- {
- 	struct fib6_config cfg = {
- 		.fc_table	= l3mdev_fib_table(dev) ? : RT6_TABLE_DFLT,
--		.fc_metric	= IP6_RT_PRIO_USER,
-+		.fc_metric	= defrtr_usr_metric,
- 		.fc_ifindex	= dev->ifindex,
- 		.fc_flags	= RTF_GATEWAY | RTF_ADDRCONF | RTF_DEFAULT |
- 				  RTF_UP | RTF_EXPIRES | RTF_PREF(pref),
-
-base-commit: 139711f033f636cc78b6aaf7363252241b9698ef
 -- 
-2.29.0
-
+Best Regards
+Masahiro Yamada
