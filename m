@@ -2,65 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F02DBC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F19C433E9
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A53D522AAA
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:46:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B97622E03
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 02:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730305AbhAYPn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 10:43:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S1729349AbhAYOTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 09:19:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730282AbhAYPnR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 10:43:17 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F07C061221
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:39:31 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id n6so15861178edt.10
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 07:39:31 -0800 (PST)
+        with ESMTP id S1729362AbhAYOTA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 09:19:00 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DD7C0613D6
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 06:18:18 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id ox12so18297290ejb.2
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 06:18:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Rra/deV4BpPfJHrSK+j1oedRvhTg8xlMYVP/CjTCdbo=;
-        b=oT2pKEpwEYuKqNalnjLTRHdVcq6t3+B3XXVLdpXKu3V4ApIJJzXxasqADy9EZXqUXh
-         n/BuUY/5ALgsbICzl3RIKCjVDYUHtIYek61hqI9KUL/2LNmRfnQ0GzO+XTL2MXbd3aK/
-         UsbqMjXr25onQ0szEsqlgipwxapnw7EPmLS3cPXyk2d8H28WIA52mQ7Yvol7ZM9ht9Zh
-         4+OwuM1jkeN51/bu6vR4JrA/Y4arNiozGdwTdv4f8cWHV411+H+g+HOBpzxam46DRzaS
-         2ThNiPt5XjxOw3h37ikX+KNHPGrNudfwkzs0vddCFZbZchOu9DDhuhN4cG8oBxIGQClP
-         mP6w==
+        bh=W8jVFguuT6m3F5w/xn5YSJGes8cxtxtvar1ZUvu/eoM=;
+        b=Jqrr5sIJHZI42XyeQSNtEGhk/iXqs8XvtEUmwFOySC5uU/nWPWlXqZXMheutWEKUq9
+         ztBO3zMX5+8VcQwOkMtEqp71gmApj74c3avAiqu8MNY8EH4L0FEiAmJGymk16irl0VmL
+         BoU6mFDqvtOwQ6PLtHfnGX461kpXxwvCrpsyMKh2tGv3D7aXI6qat6lwoSY2f/W3Zr9d
+         gXOGQ1HqM+BaQ9Fhn4h8+xPBkvX8SQxajAGgp7dvz9VZBZZ6wgEyhYVyo5fApBjrtBy2
+         uWHiCjI2V9i8m87Sq7SVmEVmCQ/8M5/m2gwpBELHJhXMS7kj8EMj3oLPh+s1p4EcRrYV
+         e9DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Rra/deV4BpPfJHrSK+j1oedRvhTg8xlMYVP/CjTCdbo=;
-        b=mbqtz6QrojFTOpLsqiicYkjEJVKNz0BxclQvLB2d7FAD/I9hoGYCPXrMk/pus35JDq
-         mmRCuHbtMh3bj4RdEcCxpdvcdkKDLOVGrieKyQOKGZtSKRioyC1fufOxRYFqgO8bSUPh
-         jwig/IP4fR1AWRugY9eFEkhmaPVvLNlP09QLJMAXtLTt1cEqH/oejxWzA5sdA9QPf+uP
-         FiGfg1kf7zsNKpChhkkfOKP5xq5yJlVoIYk5KfdUVLobQjkKH9xDFr6uzigkUbavC+ns
-         5qfk06BHlvszSJvaxPDxYWbtNy95B7Z6WFqZFz0Yyawd89klIxNyK7fFT0nZsADLqk6D
-         zAZw==
-X-Gm-Message-State: AOAM530MSkZ5o68WN1xyWK+9j0PPz5EGjLs+HDF0YHp86L7+g/y9VYb6
-        ijJXbU6Lp+5KX6EhvUJ9a6JwD1iwzVcc5ixfyE9jFQ==
-X-Google-Smtp-Source: ABdhPJzFrqfAwV4lIbCCiVu+IspFq83jhqoaMG65PKSTrukGguTs7XiN5FLFH6wPnByDVaUokuQk0Sd4Y5Qva95xCmU=
-X-Received: by 2002:a05:6402:3508:: with SMTP id b8mr934395edd.341.1611589170542;
- Mon, 25 Jan 2021 07:39:30 -0800 (PST)
+        bh=W8jVFguuT6m3F5w/xn5YSJGes8cxtxtvar1ZUvu/eoM=;
+        b=kRWq06murrbDy7hkoaXWdmazlK+lkXAdZdP/ltVXZR/8EsU5GESJBGpZYUjwx+DPy8
+         0PZLQDqThBj2iIO1sXhxtIAMouAuO9fUgsJdLRyEtotviuwddY2JkqQ4BNwBLHxwolE1
+         i3nJxub51cfAuo7NHIAWEhKwisZfXk/bn2bNdCVLymA9WlUwANQBJ46lAFgXEBk02lOI
+         lBHOamFj7Mr/XsPahqxIWDwuf02uE3gzhQGF4PCp0HnpPXRODdA20MR/DphdsSNQ/PmP
+         2CAxuhrokMdoOzQU0pTkb/+nTQQU42Y247XzeSo+lnQqDS3vNfmGkTc3w2wzQtSOazlg
+         zLNA==
+X-Gm-Message-State: AOAM532u6SRERCXW9FKRFfvmc+CdXg8nETVokreq98TJ3BxLbrl6puJw
+        OZlIiX32mW5yoZzAKcRwv8Ry+v8kMTvrAyoExUNg9A==
+X-Google-Smtp-Source: ABdhPJyFmVdvGQkBZJR1hzTzd01twOSBNqzI53I0lyChAkFmuaJJodTCQQkhpiXU1ebsMXmR6Bkn/iPV24G4dOgKnq0=
+X-Received: by 2002:a17:906:cedd:: with SMTP id si29mr539677ejb.426.1611584297565;
+ Mon, 25 Jan 2021 06:18:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20210120014333.222547-1-pasha.tatashin@soleen.com>
- <20210120014333.222547-9-pasha.tatashin@soleen.com> <20210120131400.GF4605@ziepe.ca>
- <CA+CK2bCu-uWWOxS_sPhfgzXTq-cqYFsHK_QFo7F+rStKpJJDRA@mail.gmail.com> <20210125142819.GU4605@ziepe.ca>
-In-Reply-To: <20210125142819.GU4605@ziepe.ca>
+References: <20210122033748.924330-1-pasha.tatashin@soleen.com>
+ <20210122033748.924330-15-pasha.tatashin@soleen.com> <532b1927-1b5d-83e8-f1f9-50cd5e72435f@nvidia.com>
+In-Reply-To: <532b1927-1b5d-83e8-f1f9-50cd5e72435f@nvidia.com>
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Mon, 25 Jan 2021 10:38:54 -0500
-Message-ID: <CA+CK2bBa+8dOatFgUB405yyKnSYfX-iaypzXpAhOmZN_KNBMhA@mail.gmail.com>
-Subject: Re: [PATCH v6 08/14] mm/gup: do not migrate zero page
-To:     Jason Gunthorpe <jgg@ziepe.ca>
+Date:   Mon, 25 Jan 2021 09:17:41 -0500
+Message-ID: <CA+CK2bDsGby9yAZpm_seh2c4WHDSuxwBOL6oS9W0ttNpSjT7Tw@mail.gmail.com>
+Subject: Re: [PATCH v7 14/14] selftests/vm: test faulting in kernel, and
+ verify pinnable pages
+To:     John Hubbard <jhubbard@nvidia.com>
 Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Vlastimil Babka <vbabka@suse.cz>,
@@ -73,12 +73,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
         Peter Zijlstra <peterz@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Matthew Wilcox <willy@infradead.org>,
         David Rientjes <rientjes@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Ira Weiny <ira.weiny@intel.com>,
         linux-kselftest@vger.kernel.org
@@ -87,24 +86,130 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 9:28 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Sun, Jan 24, 2021 at 6:18 PM John Hubbard <jhubbard@nvidia.com> wrote:
 >
-> On Wed, Jan 20, 2021 at 09:26:41AM -0500, Pavel Tatashin wrote:
+> On 1/21/21 7:37 PM, Pavel Tatashin wrote:
+> > When pages are pinned they can be faulted in userland and migrated, and
+> > they can be faulted right in kernel without migration.
+> >
+> > In either case, the pinned pages must end-up being pinnable (not movable).
+> >
+> > Add a new test to gup_test, to help verify that the gup/pup
+> > (get_user_pages() / pin_user_pages()) behavior with respect to pinnable
+> > and movable pages is reasonable and correct. Specifically, provide a
+> > way to:
+> >
+> > 1) Verify that only "pinnable" pages are pinned. This is checked
+> > automatically for you.
+> >
+> > 2) Verify that gup/pup performance is reasonable. This requires
+> > comparing benchmarks between doing gup/pup on pages that have been
+> > pre-faulted in from user space, vs. doing gup/pup on pages that are not
+> > faulted in until gup/pup time (via FOLL_TOUCH). This decision is
+> > controlled with the new -z command line option.
+> >
+> > Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+> > ---
+> >   mm/gup_test.c                         |  6 ++++++
+> >   tools/testing/selftests/vm/gup_test.c | 23 +++++++++++++++++++----
+> >   2 files changed, 25 insertions(+), 4 deletions(-)
+> >
 >
-> > I thought about this, and it would code a little cleaner. But, the
-> > reason I did not is because zero_page is perfectly pinnable, it is not
-> > pinnable only when it is in a movable zone (and it should not be in a
-> > movable zones for other reasons as well), but that is another bug that
-> > needs to be resolved, and once that bug is resolved this condition can
-> > be removed from gup migration.
+> This also looks good. I do see the WARN_ON_ONCE firing in
+> internal_get_user_pages_fast(), when running with *only* the new -z
+> option.
 >
-> My point is you've defined the zero page to be pinnable no matter what
-> zone it is in, so is_pinnable(zero_page) == true
+> I'll poke around the rest of the patchset and see if that is expected
+> and normal, but either way the test code itself looks correct and seems
+> to be passing my set of "run a bunch of different gup_test options" here,
+> so feel free to add:
+>
+> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
 
-Sure, I will move it inside is_pinnable in the next update.
+Thank you!
 
-Thank you,
 Pasha
 
 >
-> Jason
+> thanks,
+> --
+> John Hubbard
+> NVIDIA
+>
+> > diff --git a/mm/gup_test.c b/mm/gup_test.c
+> > index a6ed1c877679..d974dec19e1c 100644
+> > --- a/mm/gup_test.c
+> > +++ b/mm/gup_test.c
+> > @@ -52,6 +52,12 @@ static void verify_dma_pinned(unsigned int cmd, struct page **pages,
+> >
+> >                               dump_page(page, "gup_test failure");
+> >                               break;
+> > +                     } else if (cmd == PIN_LONGTERM_BENCHMARK &&
+> > +                             WARN(!is_pinnable_page(page),
+> > +                                  "pages[%lu] is NOT pinnable but pinned\n",
+> > +                                  i)) {
+> > +                             dump_page(page, "gup_test failure");
+> > +                             break;
+> >                       }
+> >               }
+> >               break;
+> > diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
+> > index 943cc2608dc2..1e662d59c502 100644
+> > --- a/tools/testing/selftests/vm/gup_test.c
+> > +++ b/tools/testing/selftests/vm/gup_test.c
+> > @@ -13,6 +13,7 @@
+> >
+> >   /* Just the flags we need, copied from mm.h: */
+> >   #define FOLL_WRITE  0x01    /* check pte is writable */
+> > +#define FOLL_TOUCH   0x02    /* mark page accessed */
+> >
+> >   static char *cmd_to_str(unsigned long cmd)
+> >   {
+> > @@ -39,11 +40,11 @@ int main(int argc, char **argv)
+> >       unsigned long size = 128 * MB;
+> >       int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
+> >       unsigned long cmd = GUP_FAST_BENCHMARK;
+> > -     int flags = MAP_PRIVATE;
+> > +     int flags = MAP_PRIVATE, touch = 0;
+> >       char *file = "/dev/zero";
+> >       char *p;
+> >
+> > -     while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
+> > +     while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHpz")) != -1) {
+> >               switch (opt) {
+> >               case 'a':
+> >                       cmd = PIN_FAST_BENCHMARK;
+> > @@ -110,6 +111,10 @@ int main(int argc, char **argv)
+> >               case 'H':
+> >                       flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
+> >                       break;
+> > +             case 'z':
+> > +                     /* fault pages in gup, do not fault in userland */
+> > +                     touch = 1;
+> > +                     break;
+> >               default:
+> >                       return -1;
+> >               }
+> > @@ -167,8 +172,18 @@ int main(int argc, char **argv)
+> >       else if (thp == 0)
+> >               madvise(p, size, MADV_NOHUGEPAGE);
+> >
+> > -     for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
+> > -             p[0] = 0;
+> > +     /*
+> > +      * FOLL_TOUCH, in gup_test, is used as an either/or case: either
+> > +      * fault pages in from the kernel via FOLL_TOUCH, or fault them
+> > +      * in here, from user space. This allows comparison of performance
+> > +      * between those two cases.
+> > +      */
+> > +     if (touch) {
+> > +             gup.gup_flags |= FOLL_TOUCH;
+> > +     } else {
+> > +             for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
+> > +                     p[0] = 0;
+> > +     }
+> >
+> >       /* Only report timing information on the *_BENCHMARK commands: */
+> >       if ((cmd == PIN_FAST_BENCHMARK) || (cmd == GUP_FAST_BENCHMARK) ||
+> >
+>
