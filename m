@@ -2,102 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15BCAC4332E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F22C4332D
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEA5622A84
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10BBC2079A
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 19:13:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729626AbhAZFzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49096 "EHLO
+        id S2388957AbhAZFzd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729798AbhAYOtj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 09:49:39 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F8EFC061574;
-        Mon, 25 Jan 2021 06:48:57 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id y187so11308633wmd.3;
-        Mon, 25 Jan 2021 06:48:57 -0800 (PST)
+        with ESMTP id S1728157AbhAYMkc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 07:40:32 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A62C06178C
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 04:32:08 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id w14so8304241pfi.2
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 04:32:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=QKVPfv6NioAKXL2jIZ8ignJiUMCaI8h+exsQiu5IPPA=;
-        b=E0JEArhPC9PVqQSnyWc+a/zbPCrY7aFgkE83tMzyQlsm43jR/vImtUY2iYWfm8Y2J6
-         ncpXDMCTpG8UKHD0ttjoVG5ZH9IEDSpCqj1a1ZNsVGFx9aFepGwIRhpJVkoWKHP6NbOu
-         uBNZfso9/uu8TGJdn9BmccBh5qnJfbkCM6OPwbqRTJp7G62dN/axrDg/WXcnbXVXpXCi
-         jpEmF0bSSbb5B6BlE9x1k1Um3V1eKHc5oKvGV4FDBHJ5/dBPe3XKvUxU092Kgg3BTsnb
-         Eh779Yo+ymlSdAzgk/h0gmrfLk+PEYmNQAbCJ9MQdS2ZCmwgOJiGKSBmm5O3J0XYypI0
-         j86w==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ECcZXTiq168nlNhR7ZlqDDfbZIIxsXgGrmSQrRFKW1k=;
+        b=Ph4WYGn2BsoGsFlVUnxP3hj1VCYxYacseAW5OCLeblJYeuG6yu8s2kOfPKEe1xrBHP
+         Kvmuq9KxZ2+muLC0d/R5BiHA2WC5v0Hv85KR6xMMw1JqzIxHpZPr1qPOO3HsD7aSUO0T
+         BmjzqkDTnMkNb47FKaRVXulU2QoYBXcFFYeLrtVufuq3/10W2RtYZftnMiSDr+up8FOo
+         RtVIBdv1rcBVrDMYWzRMFR5jn8g/XDdBEQ94kEIlQsf1K9d0Hs3Ge+yhC/YnCm0w5RM6
+         mNhCqldAM5m+kJLkSCaadYu4ZaczmwJS3OwlJ917t55v5AkhUyPwGOMyk8eO+44Z4bBZ
+         LkXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=QKVPfv6NioAKXL2jIZ8ignJiUMCaI8h+exsQiu5IPPA=;
-        b=iWZU4YFOHZiKu6Hqo8KIVcNnv2dYYZ7ELw9uS9aPjlv1NWHDyxajjRwkM2MGJcMDUn
-         qGJ6lHrMohO9XmBsTjPB1A7IYopmwb94CC1aL6Hv/DygUd8KIR6j7vgXZrV4xYw3mA/L
-         FT7pX/KKEgxXVAbjhon97/M/NlYqjpSun0V0TY8bu0FJgPBRw9h6qtLyeDx+ESg1viyu
-         tjghkaV7eXflwQdQT2pvoYN/gjSvFxeBBK8AognAB7WSeKSjh3Z1zZ8Rq8pJhcOqz2kC
-         6Xd6yLH9xPg56E5yvnvlpP8L2VqJfVz3tU0scPmMqho1MYp5cMAYbs2YLznXOUkMXsy2
-         JkUg==
-X-Gm-Message-State: AOAM532s+Sr7lDPUjuvg6WXWALmCGQMEEBX60aPYipn4MSN9kaspmk85
-        aiupJmtNi3eC3BDk4quO4YY=
-X-Google-Smtp-Source: ABdhPJwUHv9gCSik0AJygB1hBoPoE+LvC1chT3BIWydPVTXlqmNYUqnk0AhMSJ3iwcEYds+RtH3bhA==
-X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr473416wmg.172.1611586136014;
-        Mon, 25 Jan 2021 06:48:56 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d4b:4500:649e:f82b:bf2d:2571])
-        by smtp.gmail.com with ESMTPSA id b132sm21454499wmh.21.2021.01.25.06.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:48:55 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] kgdb: rectify kernel-doc for kgdb_unregister_io_module()
-Date:   Mon, 25 Jan 2021 15:48:47 +0100
-Message-Id: <20210125144847.21896-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ECcZXTiq168nlNhR7ZlqDDfbZIIxsXgGrmSQrRFKW1k=;
+        b=EWwahCQOz+2tOoUUzG8MP3fVwmXHGtHbLcqLXpURPlaCUD7FpGFiq3dkmxUb590niL
+         jcVaEZM1StyO5U4i3e7sBD+4FAOmLfJVwosProuvEGXHaus1Z0/Kj0d5c0Jqv+GHtgpb
+         Xd+i84yd/fgX8cMClbOXO2aAHC98OjYPNjBWdAVaQO7VaASyozK72gx6QF3CYn2ck0fH
+         s/HV/9nXVtRzn7cX1/dY3QlWPIC33iDx0XBNDv+hXD1sfbeUNXXCGxJVmO5PyhiUm4pm
+         WI7gn3JG4IzrVPrjq+4zCPCNzL8FMzTSGhU1CpSWiTswqRa7cM9x9iR+G2MFGdzmshk3
+         7GbA==
+X-Gm-Message-State: AOAM532NrfvTFTh4LHVgZ2C19BvPc1Y5Pw7DNKjQDc0tmM1zvfm83tAX
+        vO4QDuHcJI0G59iR+FgIYrvijHnj99+nYvC5QWNkNg==
+X-Google-Smtp-Source: ABdhPJxv7O9hvhAigWaoL82tnMBoDZgg+H4lyx4pRubFGd/QUUt0UnNO1EEo+PnyWnmbi+w8Cm1zJisMoarJUFLjK7E=
+X-Received: by 2002:a63:1f21:: with SMTP id f33mr419885pgf.31.1611577928305;
+ Mon, 25 Jan 2021 04:32:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-10-songmuchun@bytedance.com> <7550ebba-fdb5-0dc9-a517-dda56bd105d9@redhat.com>
+ <20210125120827.GA29289@linux>
+In-Reply-To: <20210125120827.GA29289@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 25 Jan 2021 20:31:31 +0800
+Message-ID: <CAMZfGtWaBSA7yHD218h0p_5+9OgCveYemF6xn3cKA6SopjhjVQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v13 09/12] mm: hugetlb: add a kernel
+ parameter hugetlb_free_vmemmap
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The command 'find ./kernel/debug/ | xargs ./scripts/kernel-doc -none'
-reported a typo in the kernel-doc of kgdb_unregister_io_module().
+On Mon, Jan 25, 2021 at 8:08 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Mon, Jan 25, 2021 at 12:43:23PM +0100, David Hildenbrand wrote:
+> > > -   if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+> > > +   if (is_hugetlb_free_vmemmap_enabled() ||
+> > > +       end - start < PAGES_PER_SECTION * sizeof(struct page))
+> >
+> > This looks irresponsible. You ignore any altmap, even though current
+> > altmap users (ZONE_DEVICE) will not actually result in applicable
+> > vmemmaps that huge pages could ever use.
+> >
+> > Why do you ignore the altmap completely? This has to be properly
+> > documented, but IMHO it's not even the right approach to mess with
+> > altmap here.
+>
+> The goal was not to ignore altmap but to disable PMD mapping sections
+> when the feature was enabled.
+> Shame on me I did not notice that with this, altmap will be ignored.
+>
+> Something like below maybe:
 
-Rectify the kernel-doc, such that no issues remain for ./kernel/debug/.
+Yeah, Thanks a lot.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on v5.11-rc5 and next-20210122
-
-Jason, Daniel, please pick this minor typo fixup.
-
- kernel/debug/debug_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/kernel/debug/debug_core.c b/kernel/debug/debug_core.c
-index af6e8b4fb359..7f22c1c0ffe8 100644
---- a/kernel/debug/debug_core.c
-+++ b/kernel/debug/debug_core.c
-@@ -1166,7 +1166,7 @@ int kgdb_register_io_module(struct kgdb_io *new_dbg_io_ops)
- EXPORT_SYMBOL_GPL(kgdb_register_io_module);
- 
- /**
-- *	kkgdb_unregister_io_module - unregister KGDB IO module
-+ *	kgdb_unregister_io_module - unregister KGDB IO module
-  *	@old_dbg_io_ops: the io ops vector
-  *
-  *	Unregister it with the KGDB core.
--- 
-2.17.1
-
+>
+> int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
+>                 struct vmem_altmap *altmap)
+> {
+>         int err;
+>         bool populate_base_pages = false;
+>
+>         if ((end - start < PAGES_PER_SECTION * sizeof(struct page)) ||
+>             (is_hugetlb_free_vmemmap_enabled() && !altmap))
+>                 populate_base_pages = true;
+>
+>         if (populate_base_pages) {
+>                 err = vmemmap_populate_basepages(start, end, node, NULL);
+>         } else if (boot_cpu_has(X86_FEATURE_PSE)) {
+>         ....
+>
+>
+> >
+> > --
+> > Thanks,
+> >
+> > David / dhildenb
+> >
+> >
+>
+> --
+> Oscar Salvador
+> SUSE L3
