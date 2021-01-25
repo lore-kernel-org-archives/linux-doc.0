@@ -2,210 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AED4CC4332B
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0CFCC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 611D9230FA
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:28:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACE5E224D1
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jan 2021 18:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726677AbhAYS2A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jan 2021 13:28:00 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:38444 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726630AbhAYS16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Jan 2021 13:27:58 -0500
-Received: from zn.tnic (p200300ec2f09db000456e0102ed32bc5.dip0.t-ipconnect.de [IPv6:2003:ec:2f09:db00:456:e010:2ed3:2bc5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BF1F61EC0104;
-        Mon, 25 Jan 2021 19:27:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1611599234;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=QN3ei/A8mfrH9ATVg5ntkb1LsnqB0BMG6fj7B9jab8Y=;
-        b=sgo0SEzlpyG+vZTbZ5zKg1uAiSwR4t01ASxw76IKDmIUwWEuBoa5rCNc5ZmAxln/A6motI
-        76ImTK0R6xY4xOzkkLZQ1FTGA+BIxjbxG04UAx6e6J4emK+UJGgciuRNxNxebOQEVvqkHx
-        02hyznf75NMUbtjLjxEu5EzAmOcIPPM=
-Date:   Mon, 25 Jan 2021 19:27:09 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1727131AbhAYStV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jan 2021 13:49:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730627AbhAYSsS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 13:48:18 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAEFEC06174A
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 10:47:33 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id j12so135309pjy.5
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 10:47:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :mime-version;
+        bh=ETq2ktZkANjUC7Me/RyH9n1tJakbH50bRmVCx0xOmwg=;
+        b=OwEBYQmaBsKbc7iDfMlqm2AWtZvRyFNZfh0RZHpJvnSTDzlpuc8InF121vKQkdAM9I
+         o48u7t/O1pHkbeuCyGvD7PBJxbfgQ1ZpGAs1P93++HXiembtNowP79kdpPL71MazE2Js
+         MOjKH7BVJPSFVTSk2iMDaDNbJ66ZVC/Oyudj3q0Ek98fFGw/iu9n0JPoBDNWgkY6JayK
+         ptMBDCpsyrA7UZQzBm4vtKw6TLFOGYqAjPF1awu+O3RoDAwgGvyeZMIY1Km951sUFv19
+         kr02qfCVRCvnVUjfbxLlg0eG0NaOULqteXBvwUnwOULESMD4hbmUWrAGjdwvS8W2jeE7
+         +Rfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:mime-version;
+        bh=ETq2ktZkANjUC7Me/RyH9n1tJakbH50bRmVCx0xOmwg=;
+        b=gNaYiS695qV8upR8VRzaf6km7VK2nGJ9f9GyQq/kTHzjbigSJbtM+msV8U+NhL0+CJ
+         mHhvhQ1vcNfSuvcLP5HAt/SjMSFJi7Yllc3vj3Anj+nyi1LSJNjveMwIIxhLJ2ocwVPQ
+         65hRicGIl1OVQUUvxalj9+Y6NXKnIcu1m9K4i5mddOFGuFazQzpP1lJYblkWM7eOMtwN
+         X395S4+xY6KZtb3rptkXSuB1xEp0Z5PZK1QLx8e7GwWw8FcL6x8c8neQfnwuyAboyCb9
+         41pGhIGK9ZIZOd2RAwIhrYt/bAVUy8WnrYMuC2Qav3WK0SvSTu0Hzu+hl064lwaVaKoo
+         hDhg==
+X-Gm-Message-State: AOAM530Qw7EAMIqlhIsMnWp25K6NgjTkFj0jf3MPJMFUGUcOFn5Cu4rr
+        39c5POJ3dUnBfwEUHHEYeR5Gkg==
+X-Google-Smtp-Source: ABdhPJwcJvhoNQhB4A5BKUQVkatkkHcE3W30AKdVI3lYpo5ilXK0mRFQaoESZtN23pj62Dq7kfxK8w==
+X-Received: by 2002:a17:90a:a394:: with SMTP id x20mr1593054pjp.24.1611600453220;
+        Mon, 25 Jan 2021 10:47:33 -0800 (PST)
+Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667] ([2620:15c:17:3:4a0f:cfff:fe51:6667])
+        by smtp.gmail.com with ESMTPSA id z16sm17086131pgj.51.2021.01.25.10.47.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 10:47:32 -0800 (PST)
+Date:   Mon, 25 Jan 2021 10:47:31 -0800 (PST)
+From:   David Rientjes <rientjes@google.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-Message-ID: <20210125182709.GC23290@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-12-yu-cheng.yu@intel.com>
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?Q?HORIGUCHI_NAOYA=28=E5=A0=80=E5=8F=A3_=E7=9B=B4=E4=B9=9F=29?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v13 02/12] mm: hugetlb: introduce a new
+ config HUGETLB_PAGE_FREE_VMEMMAP
+In-Reply-To: <CAMZfGtV5rcCq6EGFAG4joRfWht0=1WE6Oik7LgNUPr-_iNX4Xg@mail.gmail.com>
+Message-ID: <2d9bfd8d-a77f-6470-807c-1a71ffeac3ff@google.com>
+References: <20210117151053.24600-1-songmuchun@bytedance.com> <20210117151053.24600-3-songmuchun@bytedance.com> <472a58b9-12cb-3c3-d132-13dbae5174f0@google.com> <CAMZfGtUGT6UP3aBEGmMvahOu5akvqoVoiXQqQvAdY82P6VGiTg@mail.gmail.com> <eef4ff8b-f3e3-6ae0-bae8-243bd0c8add0@infradead.org>
+ <CAMZfGtV5rcCq6EGFAG4joRfWht0=1WE6Oik7LgNUPr-_iNX4Xg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201229213053.16395-12-yu-cheng.yu@intel.com>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 01:30:38PM -0800, Yu-cheng Yu wrote:
-> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
-> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+On Mon, 25 Jan 2021, Muchun Song wrote:
+
+> > >> I'm not sure I understand the rationale for providing this help text if
+> > >> this is def_bool depending on CONFIG_HUGETLB_PAGE.  Are you intending that
+> > >> this is actually configurable and we want to provide guidance to the admin
+> > >> on when to disable it (which it currently doesn't)?  If not, why have the
+> > >> help text?
+> > >
+> > > This is __not__ configurable. Seems like a comment to help others
+> > > understand this option. Like Randy said.
+> >
+> > Yes, it could be written with '#' (or "comment") comment syntax instead of as help text.
 > 
-> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
-> become a transient shadow stack PTE in two cases:
-> 
-> The first case is that some processors can start a write but end up seeing
-> a read-only PTE by the time they get to the Dirty bit, creating a transient
-> shadow stack PTE.  However, this will not occur on processors supporting
-> Shadow Stack, therefore we don't need a TLB flush here.
-
-Who's "we"?
-
-> The second case is that when the software, without atomic, tests & replaces
-
-"... when _PAGE_DIRTY is replaced with _PAGE_COW non-atomically, a transient
-shadow stack PTE can be created, as a result."
-
-> _PAGE_DIRTY with _PAGE_COW, a transient shadow stack PTE can exist.
-> This is prevented with cmpxchg.
-> 
-> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
-> insights to the issue.  Jann Horn provided the cmpxchg solution.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/include/asm/pgtable.h | 52 ++++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-> index 666c25ab9564..1c84f1ba32b9 100644
-> --- a/arch/x86/include/asm/pgtable.h
-> +++ b/arch/x86/include/asm/pgtable.h
-> @@ -1226,6 +1226,32 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
->  static inline void ptep_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pte_t *ptep)
->  {
-> +	/*
-> +	 * Some processors can start a write, but end up seeing a read-only
-> +	 * PTE by the time they get to the Dirty bit.  In this case, they
-> +	 * will set the Dirty bit, leaving a read-only, Dirty PTE which
-> +	 * looks like a shadow stack PTE.
-> +	 *
-> +	 * However, this behavior has been improved
-
-Improved how?
-
-> and will not occur on
-> +	 * processors supporting Shadow Stack.  Without this guarantee, a
-
-Which guarantee? That it won't happen on CPUs which support SHSTK?
-
-> +	 * transition to a non-present PTE and flush the TLB would be
-
-s/flush the TLB/TLB flush/
-
-> +	 * needed.
-> +	 *
-> +	 * When changing a writable PTE to read-only and if the PTE has
-> +	 * _PAGE_DIRTY set, move that bit to _PAGE_COW so that the PTE is
-> +	 * not a shadow stack PTE.
-> +	 */
-
-This sentence doesn't belong here as it refers to what pte_wrprotect()
-does. You could expand the comment in pte_wrprotect() with this here as
-it is better.
-
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pte_t old_pte, new_pte;
-> +
-> +		do {
-> +			old_pte = READ_ONCE(*ptep);
-> +			new_pte = pte_wrprotect(old_pte);
-
-Maybe I'm missing something but those two can happen outside of the
-loop, no? Or is *ptep somehow changing concurrently while the loop is
-doing the CMPXCHG and you need to recreate it each time?
-
-IOW, you can generate upfront and do the empty loop...
-
-> +
-> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
-> +
-> +		return;
-> +	}
->  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
->  }
->  
-> @@ -1282,6 +1308,32 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
->  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
->  				      unsigned long addr, pmd_t *pmdp)
->  {
-> +	/*
-> +	 * Some processors can start a write, but end up seeing a read-only
-> +	 * PMD by the time they get to the Dirty bit.  In this case, they
-> +	 * will set the Dirty bit, leaving a read-only, Dirty PMD which
-> +	 * looks like a Shadow Stack PMD.
-> +	 *
-> +	 * However, this behavior has been improved and will not occur on
-> +	 * processors supporting Shadow Stack.  Without this guarantee, a
-> +	 * transition to a non-present PMD and flush the TLB would be
-> +	 * needed.
-> +	 *
-> +	 * When changing a writable PMD to read-only and if the PMD has
-> +	 * _PAGE_DIRTY set, move that bit to _PAGE_COW so that the PMD is
-> +	 * not a shadow stack PMD.
-> +	 */
-
-Same comments as above.
-
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-> +		pmd_t old_pmd, new_pmd;
-> +
-> +		do {
-> +			old_pmd = READ_ONCE(*pmdp);
-> +			new_pmd = pmd_wrprotect(old_pmd);
-> +
-> +		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
-> +
-> +		return;
-> +	}
->  	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
->  }
->  
-> -- 
-> 2.21.0
+> Got it. I will update in the next version. Thanks.
 > 
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+I'm not sure that Kconfig is the right place to document functional 
+behavior of the kernel, especially for non-configurable options.  Seems 
+like this is already served by existing comments added by this patch 
+series in the files where the description is helpful.
