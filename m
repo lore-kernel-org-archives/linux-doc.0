@@ -2,29 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCFFDC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF0DC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 15:14:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B08C8230FD
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:59:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3B2123109
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 15:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391119AbhAZO7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 09:59:21 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55792 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391635AbhAZO7J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 09:59:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5FA2DAB9F;
-        Tue, 26 Jan 2021 14:58:27 +0000 (UTC)
-Date:   Tue, 26 Jan 2021 15:58:19 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
+        id S1728267AbhAZPNh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 10:13:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38406 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2392070AbhAZPMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 10:12:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611673871;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rKPAVmdSu3nxsiB9pgAVODRr/xR8Ner0j63a+nV5B7k=;
+        b=C5OA6TxpNsxJa5JKSy8j45Jjf3RE454bLZ4T6eJwuYdOUOSyv41vu++UVuFKopALvu6tIi
+        0DuouYwtNGwUr+GX5XD10a8ZXg8j/JHLCbcu794upWdD0XnW6seDRQLncmM52TFXCpNeGb
+        dN1Hr8ftqcank1UEML/EdtbCvht3MuE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-olBCcwDpMf-_8EC8eT48xQ-1; Tue, 26 Jan 2021 10:11:07 -0500
+X-MC-Unique: olBCcwDpMf-_8EC8eT48xQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE34193410C;
+        Tue, 26 Jan 2021 15:11:00 +0000 (UTC)
+Received: from [10.36.114.192] (ovpn-114-192.ams2.redhat.com [10.36.114.192])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 624EC1F0;
+        Tue, 26 Jan 2021 15:10:54 +0000 (UTC)
+To:     Oscar Salvador <osalvador@suse.de>
 Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
         mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -38,50 +55,76 @@ Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
         naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
- associated with each HugeTLB page
-Message-ID: <20210126145819.GB16870@linux>
 References: <20210117151053.24600-1-songmuchun@bytedance.com>
  <20210117151053.24600-6-songmuchun@bytedance.com>
  <20210126092942.GA10602@linux>
  <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
+ <20210126145819.GB16870@linux>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
+ associated with each HugeTLB page
+Message-ID: <259b9669-0515-01a2-d714-617011f87194@redhat.com>
+Date:   Tue, 26 Jan 2021 16:10:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210126145819.GB16870@linux>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 10:36:21AM +0100, David Hildenbrand wrote:
-> I think either keep it completely simple (only free vmemmap of hugetlb
-> pages allocated early during boot - which is what's not sufficient for
-> some use cases) or implement the full thing properly (meaning, solve
-> most challenging issues to get the basics running).
+On 26.01.21 15:58, Oscar Salvador wrote:
+> On Tue, Jan 26, 2021 at 10:36:21AM +0100, David Hildenbrand wrote:
+>> I think either keep it completely simple (only free vmemmap of hugetlb
+>> pages allocated early during boot - which is what's not sufficient for
+>> some use cases) or implement the full thing properly (meaning, solve
+>> most challenging issues to get the basics running).
+>>
+>> I don't want to have some easy parts of complex features merged (e.g.,
+>> breaking other stuff as you indicate below), and later finding out "it's
+>> not that easy" again and being stuck with it forever.
 > 
-> I don't want to have some easy parts of complex features merged (e.g.,
-> breaking other stuff as you indicate below), and later finding out "it's
-> not that easy" again and being stuck with it forever.
-
-Well, we could try to do an optimistic allocation, without tricky loopings.
-If that fails, refuse to shrink the pool at that moment.
-
-The user could always try to shrink it later via /proc/sys/vm/nr_hugepages
-interface.
-
-But I am just thinking out loud..
-
-> > Of course, this means that e.g: memory-hotplug (hot-remove) will not fully work
-> > when this in place, but well.
+> Well, we could try to do an optimistic allocation, without tricky loopings.
+> If that fails, refuse to shrink the pool at that moment.
 > 
-> Can you elaborate? Are we're talking about having hugepages in
-> ZONE_MOVABLE that are not migratable (and/or dissolvable) anymore? Than
-> a clear NACK from my side.
+> The user could always try to shrink it later via /proc/sys/vm/nr_hugepages
+> interface.
+> 
+> But I am just thinking out loud..
 
-Pretty much, yeah. 
+The real issue seems to be discarding the vmemmap on any memory that has 
+movability constraints - CMA and ZONE_MOVABLE; otherwise, as discussed, 
+we can reuse parts of the thingy we're freeing for the vmemmap. Not that 
+it would be ideal: that once-a-huge-page thing will never ever be a huge 
+page again - but if it helps with OOM in corner cases, sure.
 
+Possible simplification: don't perform the optimization for now with 
+free huge pages residing on ZONE_MOVABLE or CMA. Certainly not perfect: 
+what happens when migrating a huge page from ZONE_NORMAL to 
+(ZONE_MOVABLE|CMA)?
+
+> 
+>>> Of course, this means that e.g: memory-hotplug (hot-remove) will not fully work
+>>> when this in place, but well.
+>>
+>> Can you elaborate? Are we're talking about having hugepages in
+>> ZONE_MOVABLE that are not migratable (and/or dissolvable) anymore? Than
+>> a clear NACK from my side.
+> 
+> Pretty much, yeah.
+
+Note that we most likely soon have to tackle migrating/dissolving (free) 
+hugetlbfs pages from alloc_contig_range() context - e.g., for CMA 
+allocations. That's certainly something to keep in mind regarding any 
+approaches that already break offline_pages().
 
 -- 
-Oscar Salvador
-SUSE L3
+Thanks,
+
+David / dhildenb
+
