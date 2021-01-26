@@ -2,132 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C7DC4332B
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 17:17:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BB1C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 17:17:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD1792083E
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 17:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FAEA230FC
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 17:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389531AbhAZRPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 12:15:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58664 "EHLO mx2.suse.de"
+        id S2389567AbhAZRPb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 12:15:31 -0500
+Received: from smtp.asem.it ([151.1.184.197]:52086 "EHLO smtp.asem.it"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387605AbhAZHtG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 02:49:06 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CF3AEAD4E;
-        Tue, 26 Jan 2021 07:48:24 +0000 (UTC)
-Date:   Tue, 26 Jan 2021 08:48:20 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>,
-        David Hildenbrand <david@redhat.com>,
-        David Rientjes <rientjes@google.com>,
+        id S2389750AbhAZJ0X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jan 2021 04:26:23 -0500
+Received: from webmail.asem.it
+        by asem.it (smtp.asem.it)
+        (SecurityGateway 6.5.2)
+        with ESMTP id SG000732223.MSG 
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jan 2021 10:25:20 +0100S
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 26
+ Jan 2021 10:25:18 +0100
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Tue, 26 Jan 2021 10:25:18 +0100
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
- vmemmap pages associated with each HugeTLB page
-Message-ID: <20210126074815.GA8809@linux>
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-6-songmuchun@bytedance.com>
- <6a68fde-583d-b8bb-a2c8-fbe32e03b@google.com>
- <CAMZfGtXpg30RhrPm836S6Tr09ynKRPG=_DXtXt9sVTTponnC-g@mail.gmail.com>
- <CAMZfGtX19x8m+Bkvj+8Ue31m5L_4DmgtZevp2fd++JL7nuSzWw@mail.gmail.com>
- <552e8214-bc6f-8d90-0ed8-b3aff75d0e47@redhat.com>
- <CAMZfGtWK=zBri_zAx=uP_dLv2Kh-2_vfjAyN7XtESwqukg5Eug@mail.gmail.com>
- <b8ef43c1-e4b5-eae2-0cdf-1ce25accc36f@oracle.com>
+        Jonathan Neuschaefer <j.neuschaefer@gmx.net>
+CC:     <linux-mtd@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH v1] mtd: spi-nor: core: fix/remove references to spi-nor.c
+Date:   Tue, 26 Jan 2021 10:25:16 +0100
+Message-ID: <20210126092516.1431913-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8ef43c1-e4b5-eae2-0cdf-1ce25accc36f@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A782F22.600FDFFF.0009,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 03:25:35PM -0800, Mike Kravetz wrote:
-> IIUC, even non-gigantic hugetlb pages can exist in CMA.  They can be migrated
-> out of CMA if needed (except free pages in the pool, but that is a separate
-> issue David H already noted in another thread).
+The old file:
 
-Yeah, as discussed I am taking a look at that.
+drivers/mtd/spi-nor/spi-nor.c
+
+is not more present and now some of its code is
+contained in:
+
+drivers/mtd/spi-nor/core.c
+
+This patch fix/remove the references to the old
+spi-nor.c file.
+
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
+ Documentation/driver-api/mtd/spi-nor.rst | 2 +-
+ drivers/mtd/spi-nor/core.c               | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
+index 4a3adca417fd..bf2db371d3fb 100644
+--- a/Documentation/driver-api/mtd/spi-nor.rst
++++ b/Documentation/driver-api/mtd/spi-nor.rst
+@@ -61,7 +61,7 @@ Part III - How can drivers use the framework?
  
-> When we first started discussing this patch set, one suggestion was to force
-> hugetlb pool pages to be allocated at boot time and never permit them to be
-> freed back to the buddy allocator.  A primary reason for the suggestion was
-> to avoid this issue of needing to allocate memory when freeing a hugetlb page
-> to buddy.  IMO, that would be an unreasonable restriction for many existing
-> hugetlb use cases.
-
-AFAIK it was suggested as a way to simplify things in the first go of this
-patchset.
-Please note that the first versions of this patchset was dealing with PMD
-mapped vmemmap pages and overall it was quite convulated for a first
-version.
-Since then, things had simplified quite a lot (e.g: we went from 22 patches to 12),
-so I do not feel the need to force the pages to be allocated at boot time.
-
-> A simple thought is that we simply fail the 'freeing hugetlb page to buddy'
-> if we can not allocate the required vmemmap pages.  However, as David R says
-> freeing hugetlb pages to buddy is a reasonable way to free up memory in oom
-> situations.  However, failing the operation 'might' be better than looping
-> forever trying to allocate the pages needed?  As mentioned in the previous
-> patch, it would be better to use GFP_ATOMIC to at least dip into reserves if
-> we can.
-
-I also agree that GFP_ATOMIC might make some sense.
-If the system is under memory pressure, I think it is best if we go the extra
-mile in order to free up to 4096 pages or 512 pages.
-Otherwise we might have a nice hugetlb page we might not need and a lack of
-memory.
-
-> I think using pages of the hugetlb for vmemmap to cover pages of the hugetlb
-> is the only way we can guarantee success of freeing a hugetlb page to buddy.
-> However, this should only only be used when there is no other option and could
-> result in vmemmap pages residing in CMA or ZONE_MOVABLE.  I'm not sure how
-> much better this is than failing the free to buddy operation.
-
-And how would you tell when there is no other option?
-
-> I don't have a solution.  Just wanted to share some thoughts.
-> 
-> BTW, just thought of something else.  Consider offlining a memory section that
-> contains a free hugetlb page.  The offline code will try to disolve the hugetlb
-> page (free to buddy).  So, vmemmap pages will need to be allocated.  We will
-> try to allocate vmemap pages on the same node as the hugetlb page.  But, if
-> this memory section is the last of the node all the pages will have been
-> isolated and no allocations will succeed.  Is that a possible scenario, or am
-> I just having too many negative thoughts?
-
-IIUC, GFP_ATOMIC will reset ALLOC_CPUSET flags at some point and the nodemask will
-be cleared, so I guess the system will try to allocate from another node.
-But I am not sure about that one.
-
-I would like to hear Michal's thoughts on this.
-
-
+ The main API is spi_nor_scan(). Before you call the hook, a driver should
+ initialize the necessary fields for spi_nor{}. Please see
+-drivers/mtd/spi-nor/spi-nor.c for detail. Please also refer to spi-fsl-qspi.c
++drivers/mtd/spi-nor/core.c for detail. Please also refer to spi-fsl-qspi.c
+ when you want to write a new driver for a SPI NOR controller.
+ Another API is spi_nor_restore(), this is used to restore the status of SPI
+ flash chip such as addressing mode. Call it whenever detach the driver from
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index 20df44b753da..6ae7d4c2d2b6 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -3701,8 +3701,8 @@ static void spi_nor_shutdown(struct spi_mem *spimem)
+  * encourage new users to add support to the spi-nor library, and simply bind
+  * against a generic string here (e.g., "jedec,spi-nor").
+  *
+- * Many flash names are kept here in this list (as well as in spi-nor.c) to
+- * keep them available as module aliases for existing platforms.
++ * Many flash names are kept here in this list to keep them available
++ * as module aliases for existing platforms.
+  */
+ static const struct spi_device_id spi_nor_dev_ids[] = {
+ 	/*
 -- 
-Oscar Salvador
-SUSE L3
+2.25.1
+
