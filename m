@@ -2,73 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9ABC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 797FCC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:35:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D31523109
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:27:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C96E230FD
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:35:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404398AbhAZKvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 05:51:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56976 "EHLO mail.kernel.org"
+        id S2391521AbhAZMfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 07:35:18 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:37846 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404253AbhAZKvj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 05:51:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 871A4230FD;
-        Tue, 26 Jan 2021 10:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611658258;
-        bh=Xfyl0VQcIuqe4e956VVFqDmX5OfaPoi+OGgwbqduj08=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=m+ho0nCSB6XlRcFx0GW9VXbH0Hp/2ViCkA9BlS5LqN5OFmhEWi9cZU5htWmGu3SMS
-         /814gETtB06b8EhpNGKSdhxcwPe+eoFsaJuQcEdsiszgAq0asP0MYcACJciDP3wwME
-         UAYfosjlI/IvL3s0tpWaGDR7feEUvxsfKbGMsZSDh60PV/D7eojPY5DLefLm06u6Lb
-         YzM1hfswqdgKQBfCsQimXV+NECOW7Fz5r8OjuBDQqCcmf+2WcNghrjhiejrSwVpWHv
-         GoS/lX5BowAfGixianMRKGyFl2NhOV1tpjOM9WMjXxWnTdvLmbvtux4OiAxsMvwL7q
-         cNOvTmDq/5zgg==
-Date:   Tue, 26 Jan 2021 11:50:54 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-cc:     Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        linux-doc@vger.kernel.org, live-patching@vger.kernel.org
-Subject: Re: [PATCH v6 0/2] Documentation: livepatch: Document reliable
- stacktrace and minor cleanup
-In-Reply-To: <nycvar.YFH.7.76.2101221158450.5622@cbobk.fhfr.pm>
-Message-ID: <nycvar.YFH.7.76.2101261150400.5622@cbobk.fhfr.pm>
-References: <20210120164714.16581-1-broonie@kernel.org> <20210121115226.565790ef@lwn.net> <nycvar.YFH.7.76.2101221158450.5622@cbobk.fhfr.pm>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S2403968AbhAZKY5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Jan 2021 05:24:57 -0500
+Received: from zn.tnic (p200300ec2f0d1100bcf83db545f09974.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1100:bcf8:3db5:45f0:9974])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CB2CF1EC04DE;
+        Tue, 26 Jan 2021 11:24:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1611656648;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=gmVhkBSNYh2tQM3hLJDqtgcOU5M+oLAy/Q1t/J7w2Gk=;
+        b=FbU5kNmHpPusFNCpBVV5pBGxok6dOmS9QwJ6bVkKdPfT7PHs705uVSTLAyXV8gGzlJ8ux6
+        gUOiHGr/iUmtLqd1K9d8Y+Nk80FL78ISu5YOtpOcY0Tc8Zmt0wPfsOsYp34A402Kxg9lZA
+        GWVwADHhKN+WmOmtyVVFjcQe2CSNW4o=
+Date:   Tue, 26 Jan 2021 11:24:04 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <20210126102404.GA6514@zn.tnic>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-12-yu-cheng.yu@intel.com>
+ <20210125182709.GC23290@zn.tnic>
+ <8084836b-4990-90e8-5c9a-97a920f0239e@intel.com>
+ <20210125215558.GK23070@zn.tnic>
+ <c000e1fa-5da8-9316-ef9e-565d79308296@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c000e1fa-5da8-9316-ef9e-565d79308296@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 22 Jan 2021, Jiri Kosina wrote:
+On Mon, Jan 25, 2021 at 02:18:37PM -0800, Yu, Yu-cheng wrote:
+> For example, when a thread reads a W=1, D=0 PTE and before changing it to
+> W=0,D=0, another thread could have written to the page and the PTE is W=1,
+> D=1 now.  When try_cmpxchg() detects the difference, old_pte is read again.
 
-> > > This series adds a document, mainly written by Mark Rutland, which 
-> > > makes explicit the requirements for implementing reliable stacktrace 
-> > > in order to aid architectures adding this feature.  It also updates 
-> > > the other livepatching documents to use automatically generated tables 
-> > > of contents following review comments on Mark's document.
-> > 
-> > So...is this deemed ready and, if so, do you want it to go through the
-> > docs tree or via some other path?
-> 
-> I am planning to take it through livepatching tree unless there are any 
-> additional last-minutes comments.
+None of that is mentioned in the comment above it and if anything,
+*that* is what should be explained there - not some guarantee about some
+processors which doesn't even apply here.
 
-Now applied to for-5.12/doc branch. Thanks,
+Also, add the fact that try_cmpxchg() will update old_pte with any
+modified bits - D=1 for example - when it fails. As Peter just explained
+to me on IRC.
+
+Thx.
 
 -- 
-Jiri Kosina
-SUSE Labs
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
