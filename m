@@ -2,98 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 797FCC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40EFC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:57:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C96E230FD
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:35:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72C502224C
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 12:57:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391521AbhAZMfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 07:35:18 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:37846 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403968AbhAZKY5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 05:24:57 -0500
-Received: from zn.tnic (p200300ec2f0d1100bcf83db545f09974.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1100:bcf8:3db5:45f0:9974])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CB2CF1EC04DE;
-        Tue, 26 Jan 2021 11:24:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1611656648;
+        id S2392096AbhAZM4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 07:56:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45630 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404133AbhAZM4R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 07:56:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611665691;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=gmVhkBSNYh2tQM3hLJDqtgcOU5M+oLAy/Q1t/J7w2Gk=;
-        b=FbU5kNmHpPusFNCpBVV5pBGxok6dOmS9QwJ6bVkKdPfT7PHs705uVSTLAyXV8gGzlJ8ux6
-        gUOiHGr/iUmtLqd1K9d8Y+Nk80FL78ISu5YOtpOcY0Tc8Zmt0wPfsOsYp34A402Kxg9lZA
-        GWVwADHhKN+WmOmtyVVFjcQe2CSNW4o=
-Date:   Tue, 26 Jan 2021 11:24:04 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-Message-ID: <20210126102404.GA6514@zn.tnic>
-References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
- <20201229213053.16395-12-yu-cheng.yu@intel.com>
- <20210125182709.GC23290@zn.tnic>
- <8084836b-4990-90e8-5c9a-97a920f0239e@intel.com>
- <20210125215558.GK23070@zn.tnic>
- <c000e1fa-5da8-9316-ef9e-565d79308296@intel.com>
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=d/k87fvwAVxIbqpDlDjqYev8POnbfvLdlH/1Fc3eH7k=;
+        b=VWZZ8/Qo37R3/73dMaGgmDiwhZtRXVce3lWkESYcAHLK1pVUCpbEfeju7d32+H1ymwIPyG
+        h2aK3npbdCEjBWArHRYKYhTUZEqJGPTfihDyMntOvdNU1lA+qlOgn9Oh0A4e1CbaNbGJzf
+        QhQCBl/u5jESthhHp9NfRydyb5hV8Pk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-sr84HsX9PeyKyHEQrtn-uQ-1; Tue, 26 Jan 2021 07:54:49 -0500
+X-MC-Unique: sr84HsX9PeyKyHEQrtn-uQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E54801AAC;
+        Tue, 26 Jan 2021 12:54:47 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 404805D751;
+        Tue, 26 Jan 2021 12:54:47 +0000 (UTC)
+From:   Prarit Bhargava <prarit@redhat.com>
+To:     prarit@redhat.com
+Cc:     bhelgaas@google.com, corbet@lwn.net, leon@kernel.org,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        mstowe@redhat.com
+Subject: Re: [PATCH] pci-driver: Add driver load messages
+Date:   Tue, 26 Jan 2021 07:54:46 -0500
+Message-Id: <20210126125446.1118325-1-prarit@redhat.com>
+In-Reply-To: <20210126063935.GC1053290@unreal>
+References: <20210126063935.GC1053290@unreal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c000e1fa-5da8-9316-ef9e-565d79308296@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:18:37PM -0800, Yu, Yu-cheng wrote:
-> For example, when a thread reads a W=1, D=0 PTE and before changing it to
-> W=0,D=0, another thread could have written to the page and the PTE is W=1,
-> D=1 now.  When try_cmpxchg() detects the difference, old_pte is read again.
+  Leon Romanovsky <leon@kernel.org> wrote:
+> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
+> > There are two situations where driver load messages are helpful.
+> >
+> > 1) Some drivers silently load on devices and debugging driver or system
+> > failures in these cases is difficult.  While some drivers (networking
+> > for example) may not completely initialize when the PCI driver probe() function
+> > has returned, it is still useful to have some idea of driver completion.
+> 
+> Sorry, probably it is me, but I don't understand this use case.
+> Are you adding global to whole kernel command line boot argument to debug
+> what and when?
+> 
+> During boot:
+> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
+> If device fails, you should get an error from that device (fix the
+> device to return an error), or something immediately won't work and
+> you won't see it in sysfs.
+> 
 
-None of that is mentioned in the comment above it and if anything,
-*that* is what should be explained there - not some guarantee about some
-processors which doesn't even apply here.
+What if there is a panic during boot?  There's no way to get to sysfs.
+That's the case where this is helpful.
 
-Also, add the fact that try_cmpxchg() will update old_pte with any
-modified bits - D=1 for example - when it fails. As Peter just explained
-to me on IRC.
+> During run:
+> We have many other solutions to get debug prints during run, for example
+> tracing, which is possible to toggle dynamically.
+> 
+> Right now, my laptop will print 34 prints on boot and endless amount during
+> day-to-day usage.
+> 
+> ➜  kernel git:(rdma-next) ✗ lspci |wc -l
+> 34
+> 
+> >
+> > 2) Storage and Network device vendors have relatively short lives for
+> > some of their hardware.  Some devices may continue to function but are
+> > problematic due to out-of-date firmware or other issues.  Maintaining
+> > a database of the hardware is out-of-the-question in the kernel as it would
+> > require constant updating.  Outputting a message in the log would allow
+> > different OSes to determine if the problem hardware was truly supported or not.
+> 
+> And rely on some dmesg output as a true source of supported/not supported and
+> making this ABI which needs knob in command line. ?
 
-Thx.
+Yes.  The console log being saved would work as a true source of load
+messages to be interpreted by an OS tool.  But I see your point about the
+knob below...
 
--- 
-Regards/Gruss,
-    Boris.
+> 
+> >
+> > Add optional driver load messages from the PCI core that indicates which
+> > driver was loaded, on which slot, and on which device.
+> 
+> Why don't you add simple pr_debug(..) without any knob? You will be able
+> to enable/disable it through dynamic prints facility.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Good point.  I'll wait for more feedback and submit a v2 with pr_debug.
+
+P.
+
+> 
+> Thanks
+
