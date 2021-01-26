@@ -2,160 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435B7C43331
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A885C43219
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18D44221EA
+	by mail.kernel.org (Postfix) with ESMTP id C76A5223E4
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388976AbhAZFzr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:47 -0500
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:43333 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730147AbhAYPkC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 10:40:02 -0500
-Received: by mail-oi1-f175.google.com with SMTP id i25so3757279oie.10;
-        Mon, 25 Jan 2021 07:39:46 -0800 (PST)
+        id S1732417AbhAZFzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732115AbhAZDfj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 22:35:39 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB531C06174A;
+        Mon, 25 Jan 2021 19:34:58 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id x71so17133741oia.9;
+        Mon, 25 Jan 2021 19:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=loohkZAKsZDbkdCoMUXlVDMNQHJ6H2P6HeBaC1bU6Ik=;
+        b=FvjOcmkQnig6wqaFE0vVvA4SfhS35ilbcU9GvrL1i8uwn9pMAsv57VDLh2gAsiTe0B
+         7IB+xV7vcbb/77nkBmYVDYqC35uxGzcXumd+hvCkYbRuKtPfEnxDrN0yai1u/SLuhEee
+         Vscrfz7JG/HSsPu5a8FbrKzae7nlzgE+Ss23NXIaknsWUQEHZsfhscKfKQx0Vm9FIsMd
+         rOxT1LLjNQH42D7TBo1F+MQfDh9ieOHBxpl3JVhXPiNJRa2UTGs4LB6Q8DYOd8MRbqPP
+         WjpelirF64C8rx7S8Lig7RRG8WO8/cMjgK7TKdd70SxrUFjLZKsWrpeOHFBzH2baO4TX
+         jwjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xv2F8uEJDzNOELHmwTwNLPLNs8lRPkq+SnWZqNcKmSE=;
-        b=l0RiaogzJdbwI3BYj1NXzN9PA0A5mun/+03eFzsjANhlnWfE+LejPPZ85bnWGm8GEt
-         P8mwM89xcXvc3sOStSQsVTtRZ79DAVjUMUlAkEZrseS5/g6D6XBLED0tnaWoqFy8hhH6
-         kZ5wIL8bHBN7gcWHltYxXuJI8PZQwZkGUQvlRamY4clk7/9Nx2pjldLHcBoVopr3Q1lV
-         pB/dohKXuIPXa0TammoqpCckEiZuX66MChOceW0K0JJsh4qzvshOe+ASt8nKGRhHtEhx
-         WIAaG0PDEJuqD40HCs+/Q/+mZREE6GoN6+XGH1AOsnGT4DTWQvDRsnx0FfkfE0MguhkL
-         xiAg==
-X-Gm-Message-State: AOAM532xYGwCZyicwI041k9wISSwXBB4v3lc1Fad+4ndO0W3rSlPLyjb
-        rJox62RZq58+tphVi11bEtqA75vOzlRC9NnJQxQ=
-X-Google-Smtp-Source: ABdhPJwZj9WDxzrkp5B5fBpFQxEJMl3itE2IsPYlaaZPJaGCbLO05CDNwOR5DGdC23BcrNbXL/hWQx20i4ztPmfvMHc=
-X-Received: by 2002:aca:1219:: with SMTP id 25mr489984ois.54.1611589161153;
- Mon, 25 Jan 2021 07:39:21 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=loohkZAKsZDbkdCoMUXlVDMNQHJ6H2P6HeBaC1bU6Ik=;
+        b=BykWLPpejThdIX3xG0uv4qhSR9AGVGrPKDU415CY5ZGwSr1lbbLY0GOk8OCXBYcx3S
+         rSeBd6WnrPc/vB6XY9GJtvfL+P9xvTsjsLzrIWaHSZSyWg1XLuL6xI9yhMSX6qN9gQYp
+         2PEfq45SnTeyqFkxzrpBKXKnPEDnxPN0qxcxrx1DmEmsIG3b4ZSZ5WVm+1aiCwbzzmq5
+         6X7wqtUO6S90We/0BuWRxxP8bUufwLmYLG7PDDu+Jp8vpYYaIscU/XF2YXjPYfQWoBk/
+         IWRzAPn1HY6zd+a0BXbQNaW1jZdYLgAsOlA3pmIvgQ+akvrUvp80XdAOssAU/Ox8Va4K
+         3v4Q==
+X-Gm-Message-State: AOAM531Ifa6zkm2Rv6q6fLDaWgR8dcO3NvZecpi0QofCf68gdwPQt+H/
+        BVJ01lecSzDOlpiq61qBMCE=
+X-Google-Smtp-Source: ABdhPJxkre9Bvv2KxaUHEbRKlOwTJUMYFF6OgPmIFYpdWP36nVjKV/0ZUHQ/Z7V6OH5GHYBLVH6k8Q==
+X-Received: by 2002:aca:f382:: with SMTP id r124mr1978802oih.175.1611632098343;
+        Mon, 25 Jan 2021 19:34:58 -0800 (PST)
+Received: from Davids-MacBook-Pro.local ([2601:282:800:dc80:f5f4:6dbf:d358:29ee])
+        by smtp.googlemail.com with ESMTPSA id v2sm2129201ooq.25.2021.01.25.19.34.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Jan 2021 19:34:57 -0800 (PST)
+Subject: Re: [PATCH v4 net-next 1/1] Allow user to set metric on default route
+ learned via Router Advertisement.
+To:     Praveen Chaudhary <praveen5582@gmail.com>, davem@davemloft.net,
+        kuba@kernel.org, corbet@lwn.net, kuznet@ms2.inr.ac.ru,
+        yoshfuji@linux-ipv6.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Zhenggen Xu <zxu@linkedin.com>, David Ahern <dsahern@kernel.org>
+References: <20210125214430.24079-1-pchaudhary@linkedin.com>
+From:   David Ahern <dsahern@gmail.com>
+Message-ID: <21884a37-ee26-3c8c-690e-9ea29d77d8b9@gmail.com>
+Date:   Mon, 25 Jan 2021 20:34:56 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20200916205434.GA10389@duo.ucw.cz> <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com> <87k0s4ai33.fsf@vps.thesusis.net>
-In-Reply-To: <87k0s4ai33.fsf@vps.thesusis.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 25 Jan 2021 16:39:09 +0100
-Message-ID: <CAMuHMdVe-pS4wT++RDzF+EYd-_SC9naGJj8dzWbN6mt0yAnVxg@mail.gmail.com>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-To:     Phillip Susi <phill@thesusis.net>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210125214430.24079-1-pchaudhary@linkedin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Phillip,
+On 1/25/21 2:44 PM, Praveen Chaudhary wrote:
+> For IPv4, default route is learned via DHCPv4 and user is allowed to change
+> metric using config etc/network/interfaces. But for IPv6, default route can
+> be learned via RA, for which, currently a fixed metric value 1024 is used.
+> 
+> Ideally, user should be able to configure metric on default route for IPv6
+> similar to IPv4. This fix adds sysctl for the same.
+> 
+> Signed-off-by: Praveen Chaudhary <pchaudhary@linkedin.com>
+> Signed-off-by: Zhenggen Xu <zxu@linkedin.com>
+> 
+> Reviewed-by: David Ahern <dsahern@kernel.org>
+> 
+> Changes in v1.
+> 1.) Correct the call to rt6_add_dflt_router.
+> 
+> Changes in v2.
+> 1.) Replace accept_ra_defrtr_metric to ra_defrtr_metric.
+> 2.) Change Type to __u32 instead of __s32.
+> 3.) Change description in Documentation/networking/ip-sysctl.rst.
+> 4.) Use proc_douintvec instead of proc_dointvec.
+> 5.) Code style in ndisc_router_discovery().
+> 6.) Change Type to u32 instead of unsigned int.
+> 
+> Changes in v3:
+> 1.) Removed '---' and '```' from description.
+> 2.) Remove stray ' after accept_ra_defrtr.
+> 3.) Fix tab in net/ipv6/addrconf.c.
+> 
+> Changes in v4:
+> 1.) Remove special case of 0 and use IP6_RT_PRIO_USER as default.
+> 2.) Do not allow 0.
+> 3.) Change Documentation accordingly.
+> 4.) Remove extra brackets and compare with zero in ndisc_router_discovery().
+> 5.) Remove compare with zero in rt6_add_dflt_router().
+> 
+> Logs:
+> 
+> For IPv4:
+> 
+> Config in etc/network/interfaces:
+> auto eth0
+> iface eth0 inet dhcp
+>     metric 4261413864
+> 
+> IPv4 Kernel Route Table:
+> $ ip route list
+> default via 172.21.47.1 dev eth0 metric 4261413864
+> 
+> FRR Table, if a static route is configured:
+> [In real scenario, it is useful to prefer BGP learned default route over DHCPv4 default route.]
+> Codes: K - kernel route, C - connected, S - static, R - RIP,
+>        O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
+>        T - Table, v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+>        > - selected route, * - FIB route
+> 
+> S>* 0.0.0.0/0 [20/0] is directly connected, eth0, 00:00:03
+> K   0.0.0.0/0 [254/1000] via 172.21.47.1, eth0, 6d08h51m
+> 
+> i.e. User can prefer Default Router learned via Routing Protocol in IPv4.
+> Similar behavior is not possible for IPv6, without this fix.
+> 
+> After fix [for IPv6]:
+> sudo sysctl -w net.ipv6.conf.eth0.net.ipv6.conf.eth0.ra_defrtr_metric=1996489705
+> 
+> IP monitor: [When IPv6 RA is received]
+> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  pref high
+> 
+> Kernel IPv6 routing table
+> $ ip -6 route list
+> default via fe80::be16:65ff:feb3:ce8e dev eth0 proto ra metric 1996489705 expires 21sec hoplimit 64 pref high
+> 
+> FRR Table, if a static route is configured:
+> [In real scenario, it is useful to prefer BGP learned default route over IPv6 RA default route.]
+> Codes: K - kernel route, C - connected, S - static, R - RIPng,
+>        O - OSPFv3, I - IS-IS, B - BGP, N - NHRP, T - Table,
+>        v - VNC, V - VNC-Direct, A - Babel, D - SHARP,
+>        > - selected route, * - FIB route
+> 
+> S>* ::/0 [20/0] is directly connected, eth0, 00:00:06
+> K   ::/0 [119/1001] via fe80::xx16:xxxx:feb3:ce8e, eth0, 6d07h43m
+> 
+> If the metric is changed later, the effect will be seen only when next IPv6
+> RA is received, because the default route must be fully controlled by RA msg.
+> Below metric is changed from 1996489705 to 1996489704.
+> 
+> $ sudo sysctl -w net.ipv6.conf.eth0.ra_defrtr_metric=1996489704
+> net.ipv6.conf.eth0.ra_defrtr_metric = 1996489704
+> 
+> IP monitor:
+> [On next IPv6 RA msg, Kernel deletes prev route and installs new route with updated metric]
+> 
+> Deleted default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489705  expires 3sec hoplimit 64 pref high
+> default via fe80::xx16:xxxx:feb3:ce8e dev eth0 proto ra metric 1996489704  pref high
+> ---
+>  Documentation/networking/ip-sysctl.rst | 10 ++++++++++
+>  include/linux/ipv6.h                   |  1 +
+>  include/net/ip6_route.h                |  3 ++-
+>  include/uapi/linux/ipv6.h              |  1 +
+>  include/uapi/linux/sysctl.h            |  1 +
+>  net/ipv6/addrconf.c                    | 11 +++++++++++
+>  net/ipv6/ndisc.c                       | 12 ++++++++----
+>  net/ipv6/route.c                       |  5 +++--
+>  8 files changed, 37 insertions(+), 7 deletions(-)
+> 
 
-On Fri, Jan 22, 2021 at 8:26 PM Phillip Susi <phill@thesusis.net> wrote:
-> Geert Uytterhoeven writes:
-> Judging from some of the comments in the code, it looks like you were
-> one of the original authors of fbcon?  I haven't been able to find any
+Reviewed-by: David Ahern <dsahern@kernel.org>
 
-Indeed, a looooong time ago... Before DRM existed.
 
-> of these sczbot crash reports, and am not sure how fuzzing syscalls
-> would really affect this code ( it's not really handling a buch of
-> ioctls or otherwise taking arguments from user space ) , but I am a bit
-
-AFAIU, most of these are triggered by VT ioctls.
-There is an intimate relation between the VT and fbev subsystems: VT
-changes impact fbdev, and vice versa.
-
-Perhaps these should be decoupled, at the expense of worse user
-experience (i.e. the user needing to change both screen resolution and
-number of columns/rows of the text console)?
-
-> confused as to why the softback was implemented the way that it was.
->
-> vgacon simply copies the main buffer to vram in ->set_origin() and then
-> changes the pointers to operate out of the much larger vram while that
-> virtual terminal is active.  If I understand it correctly, it looks like
-> fbcon instead opts to operate out of the main buffer but rescue lines as
-> they are scrolled off and relocate them to the softback buffer.  This
-> seems to be rather more convoluted.
->
-> I'm thinking of re-implementing scrollback more like the way vgacon does
-> it: allocate a big "vram" buffer and operate out of that.  Obviously
-> ->scroll() and ->scrolldelta() have to actually repaint the screen rather
-> than simply change the pointer register, but that should be about the
-> only difference.
-
-I'm not that intimate familiar anymore with the current state of the
-code, but it used to be like this:
-  - vgacon used a VRAM buffer for the current VC, and multiple shadow
-    buffers to implement virtual consoles,
-  - fbcon always used the shadow buffers, with each update triggering
-    an update of the frame buffer (see below).
-
-As the text console buffer handling should be the same for vgacon and
-fbcon, I expect most scrollback bugs (if any) to be present in both.
-
-> I have also noticed that there was some code to use hardware panning of
-> the video buffer rather than having to do a block bitblt to scroll the
-> contents of the screen, but that it was disabled because virtually no
-> video drivers actually implemented it?  That seems like a shame, but if
-> it is so, then there's no sense carrying the dead code so I think I'll
-> clean that up now.
->
-> Now that I look at it again, everything is simply always redrawn now
-> instead of even doing a simple bitblt.  Daniel, you mentioned that
-> almost nobody supports hardware acceleration, but even without any
-> specific hardware support, surely even if bitblt() is implemented just
-> as a memcpy(), it has to be faster than redrawing all of the characters
-> doesn't it?  Getting rid of the panning if it isn't generally supported
-> I can see, but I don't understand killing bitblt even if most devices
-> don't accelerate it.
-
-There are multiple ways to implement scrolling:
-  1. If the hardware supports a larger virtual screen and panning, and
-     the virtual screen is enabled, most scrolling can be implemented by
-     panning, with a casual copy when reaching the bottom (or top) of
-     the virtual screen.
-     This mode is (was) available on most graphics hardware with
-     dedicated graphics memory.
-  2. If a 2D acceleration engine is available, copying (and
-     clearing/filling) can be implemented by rectangle copy/fill
-     operations.
-  3. Rectangle copy/fill by the CPU is always available.
-  4. Redrawing characters by the CPU is always available.
-
-Which option was used depended on the hardware: not all options are
-available everywhere, and some perform better than others.
-E.g. on PCI graphics cards, reading graphics memory by the CPU is
-usually very slow, so option 3 is much slower than option 4 (given a
-sufficiently fast CPU).
-AFAIU, option 2 is not suitable for modern systems with 3D acceleration.
-On the older (slower) systems (lacking VGA text mode) for which fbcon
-was originally written, option 4 is usually the slowest.
-
-Support for 1-3 were removed in commit 39aead8373b3c20b ("fbcon: Disable
-accelerated scrolling"), which claimed only 3 (DRM) drivers made use of
-this, ignoring the other 32 (fbdev) drivers making use of it.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
