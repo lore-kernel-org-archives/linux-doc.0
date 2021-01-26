@@ -2,180 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8061BC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 07:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2755C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 07:37:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42AF12072C
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 07:02:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B31D020663
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 07:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S316720AbhA0BBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 20:01:14 -0500
-Received: from mga12.intel.com ([192.55.52.136]:36222 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728570AbhAZFnV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 00:43:21 -0500
-IronPort-SDR: ZKu4/ddDIOav/A93RqVX5ALABgNgfKiK3sxSkvYnwlQWHCszkrEj6eQ8DvfJGMYGpiFpkxsHj3
- JzhiU5hlIbcA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="159028893"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="159028893"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 21:40:42 -0800
-IronPort-SDR: xvyPMvSUh/fyOkSPcwIoYXbC8xiiUtRwprTjYLqqaXvhfDCiqu2EigdkZoztMZMaJK9lwZg7XY
- a9KsSq5kK5hA==
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="353335763"
-Received: from smtp.ostc.intel.com ([10.54.29.231])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 21:40:42 -0800
-Received: from mtg-dev.jf.intel.com (mtg-dev.jf.intel.com [10.54.74.10])
-        by smtp.ostc.intel.com (Postfix) with ESMTP id 8DFB96372;
-        Mon, 25 Jan 2021 21:40:40 -0800 (PST)
-Received: by mtg-dev.jf.intel.com (Postfix, from userid 1000)
-        id 821F73630CF; Mon, 25 Jan 2021 21:40:40 -0800 (PST)
-From:   mgross@linux.intel.com
-To:     markgross@kernel.org, mgross@linux.intel.com, arnd@arndb.de,
-        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        palmerdabbelt@google.com, paul.walmsley@sifive.com,
-        peng.fan@nxp.com, robh+dt@kernel.org, shawnguo@kernel.org,
-        jassisinghbrar@gmail.com
-Cc:     linux-kernel@vger.kernel.org,
-        Srikanth Thokala <srikanth.thokala@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 08/34] misc: xlink-pcie: Add documentation for XLink PCIe driver
-Date:   Mon, 25 Jan 2021 21:40:10 -0800
-Message-Id: <20210126054036.61587-9-mgross@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210126054036.61587-1-mgross@linux.intel.com>
-References: <20210126054036.61587-1-mgross@linux.intel.com>
+        id S234038AbhA0HhY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 02:37:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S317425AbhA0AAJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 19:00:09 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF49C061226
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jan 2021 15:29:22 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id 16so6785640ioz.5
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jan 2021 15:29:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CBy1erHkLMBcGk0Q3oow7s6KaRas0EaJCp36zieGK9E=;
+        b=WkNRoEB8P5ECNzKdEHU1MaY1ENG6KFbiRYwxbKJgSn8K+bUaEv2F6ui/00GOkBbZw1
+         DpHQFu74uw5I0+o/wfDdMfhbHoEjtEnlpK5FUIHFg83cKzDTFbXIl50qxrcJjlMeI8oV
+         JPuFdPCN5FPGu20ODhMYQkx2qhQ0Hb0aqdWQI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CBy1erHkLMBcGk0Q3oow7s6KaRas0EaJCp36zieGK9E=;
+        b=TBVGQQv98NyvK825wz/08JYepFrX2awAda0EIDrPh4ITtc6KYm6Yqn40L1Mc4mdzSz
+         FenRKFCu2be6+TGdjk72cwG9Poq8fe5DsVWsyAgvx8ZsXY/LZ3E/WWTzi04iZ6Oe3Ea/
+         hp/eHvGmDrhaxuXfTB+3Kf/oNUzifOyqsUiBo/GHQJssEe7Ee9+HR/sAGYri3TrPsDbt
+         Zk+zjzNtXmw6kMgJZm4bHkKcH+4qaMBljhOHMctRgjx4aOsuHs5iZp75zlbsYgb0/SO4
+         udfwh41qKIro8DotzKt/whY30OuHikrBB48/Bu7UstpXw2jboZzTlZ+p77Emd8hHZJjt
+         7/Xw==
+X-Gm-Message-State: AOAM5329ud6mz0swfSLVp65qbOABbIIkdqj3UFVBL7Eim1wuqiZcTjdv
+        9G51rIcmvf2VMDdHH1WPvmyltn3Q79IhIg==
+X-Google-Smtp-Source: ABdhPJz6OqyfbB363T3JoQutt1o7RVgIBrpyUdgit1JeGNIZbn0VPfJ3YezLst4AECmNsKXs0GujnQ==
+X-Received: by 2002:a5d:934d:: with SMTP id i13mr5845006ioo.187.1611703761461;
+        Tue, 26 Jan 2021 15:29:21 -0800 (PST)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com. [209.85.166.43])
+        by smtp.gmail.com with ESMTPSA id c9sm94875ili.34.2021.01.26.15.29.20
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Jan 2021 15:29:20 -0800 (PST)
+Received: by mail-io1-f43.google.com with SMTP id d81so8715iof.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jan 2021 15:29:20 -0800 (PST)
+X-Received: by 2002:a05:6638:3012:: with SMTP id r18mr6700227jak.13.1611703759669;
+ Tue, 26 Jan 2021 15:29:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
+ <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
+ <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+ <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de>
+ <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com>
+ <20210111083614.GA27589@lst.de> <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
+ <20210126170659.GA9104@lst.de>
+In-Reply-To: <20210126170659.GA9104@lst.de>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 27 Jan 2021 00:29:08 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsz+9DJesOTJ5C5HGEH-wwuTmEd3c8yLoHjnDz=2+ndJw@mail.gmail.com>
+Message-ID: <CANiDSCsz+9DJesOTJ5C5HGEH-wwuTmEd3c8yLoHjnDz=2+ndJw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+To:     ". Christoph Hellwig" <hch@lst.de>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Srikanth Thokala <srikanth.thokala@intel.com>
+Hi Christoph
 
-Provide overview of XLink PCIe driver implementation
+Thanks for the series!
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mark Gross <mgross@linux.intel.com>
-Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
----
- Documentation/vpu/index.rst      |  1 +
- Documentation/vpu/xlink-pcie.rst | 90 ++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 Documentation/vpu/xlink-pcie.rst
+I have a couple of questions:
 
-diff --git a/Documentation/vpu/index.rst b/Documentation/vpu/index.rst
-index 7e290e048910..661cc700ee45 100644
---- a/Documentation/vpu/index.rst
-+++ b/Documentation/vpu/index.rst
-@@ -14,3 +14,4 @@ This documentation contains information for the Intel VPU stack.
-    :maxdepth: 2
- 
-    vpu-stack-overview
-+   xlink-pcie
-diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
-new file mode 100644
-index 000000000000..85a70990e9c9
---- /dev/null
-+++ b/Documentation/vpu/xlink-pcie.rst
-@@ -0,0 +1,90 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+Kernel driver: Xlink-pcie driver
-+================================
-+Supported chips:
-+  * Intel Edge.AI Computer Vision platforms: Keem Bay
-+    Suffix: Bay
-+    Slave address: 6240
-+    Datasheet: Publicly available at Intel
-+
-+Author: Srikanth Thokala Srikanth.Thokala@intel.com
-+
-+Introduction
-+============
-+The Xlink-pcie driver provides transport layer implementation for
-+the data transfers to support Xlink protocol subsystem communication with the
-+peer device, i.e., between remote host system and Keem Bay device.
-+
-+The Keem Bay device is an ARM-based SOC that includes a vision processing
-+unit (VPU) and deep learning, neural network core in the hardware.
-+The Xlink-pcie driver exports a functional device endpoint to the Keem Bay
-+device and supports two-way communication with the peer device.
-+
-+High-level architecture
-+=======================
-+Remote Host: IA CPU
-+Local Host: ARM CPU (Keem Bay)::
-+
-+        +------------------------------------------------------------------------+
-+        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
-+        +==================================+=+===============================+===+
-+        |  User App                        | | User App                      |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink UAPI                     | | XLink UAPI                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink Core                     | | XLink Core                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink PCIe                     | | XLink PCIe                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
-+        +----------------------------------+-+-------------------------------+---+
-+        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
-+        +----------------------------------+-+-------------------------------+---+
-+               ^                                             ^
-+               |                                             |
-+               |------------- PCIe x2 Link  -----------------|
-+
-+This XLink PCIe driver comprises of two variants:
-+* Local Host driver
-+
-+  * Intended for ARM CPU
-+  * It is based on PCI Endpoint Framework
-+  * Driver path: {tree}/drivers/misc/Xlink-pcie/local_host
-+
-+* Remote Host driver
-+
-+       * Intended for IA CPU
-+       * It is a PCIe endpoint driver
-+       * Driver path: {tree}/drivers/misc/Xlink-pcie/remote_host
-+
-+XLink PCIe communication between local host and remote host is achieved through
-+ring buffer management and MSI/Doorbell interrupts.
-+
-+The Xlink-pcie driver subsystem registers the Keem Bay device as an endpoint
-+driver and provides standard Linux PCIe sysfs interface:
-+'/sys/bus/pci/devices/xxxx:xx:xx.0/'
-+
-+
-+XLink protocol subsystem
-+========================
-+Xlink is an abstracted control and communication subsystem based on channel
-+identification. It is intended to support VPU technology both at SoC level as
-+well as at IP level, over multiple interfaces.
-+
-+- The Xlink subsystem abstracts several types of communication channels
-+  underneath, allowing the usage of different interfaces with the
-+  same function call interface.
-+- The Communication channels are full-duplex protocol channels allowing
-+  concurrent bidirectional communication.
-+- The Xlink subsystem also supports control operations to VPU either
-+  from standalone local system or from remote system based on communication
-+  interface underneath.
-+- The Xlink subsystem supports the following communication interfaces:
-+    * USB CDC
-+    * Gigabit Ethernet
-+    * PCIe
-+    * IPC
--- 
-2.17.1
+- Is there any platform where dma_alloc_noncontiguos can fail?
+This is, !ops->alloc_noncontiguous and !dev->coherent_dma_mask
+If yes then we need to add a function to let the driver know in
+advance that it has to use the coherent allocator (usb_alloc_coherent
+for uvc)
 
+- In dma_alloc_noncontiguos, on the dma_alloc_pages fallback. If we
+have a device where the dma happens in only one direction, could not
+get more performance with DMA_FROM/TO_DEVICE instead of
+DMA_BIDIRECTIONAL ?
+
+
+Then I have tried to use the API, and I have encountered a problem: on
+uvcvideo the device passed to the memory allocator is different for
+DMA_PAGES and NON_CONTIGUOUS:
+https://github.com/ribalda/linux/blob/042cd497739f71c8d4a83a67ee970369e2baca4a/drivers/media/usb/uvc/uvc_video.c#L1236
+
+I need to dig a bit tomorrow to figure out why this is, I have
+hardware to test both paths, so it should not be too difficult.
+
+
+Thanks again
+
+
+
+
+
+
+On Tue, Jan 26, 2021 at 6:07 PM . Christoph Hellwig <hch@lst.de> wrote:
+>
+> Please take a quick look at this branch:
+>
+> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_noncontiguous
+>
+> Warning: hot off the press, and only with the v4l conversion as that
+> seemed at little easier than uvcvideo.
+
+
+
+--
+Ricardo Ribalda
