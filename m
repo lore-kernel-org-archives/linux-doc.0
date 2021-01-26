@@ -2,203 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DDFBC43381
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF50C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:51:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 616E322B37
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:07:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD280230FC
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 14:51:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405696AbhAZOHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 09:07:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45227 "EHLO
+        id S2405602AbhAZOvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 09:51:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39179 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2392691AbhAZOHO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 09:07:14 -0500
+        by vger.kernel.org with ESMTP id S2391289AbhAZJiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 04:38:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611669930;
+        s=mimecast20190719; t=1611653799;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=2rB6XFaxGAxM8niWUVsZnQk0ABX9trnQ25Xy7weSpFw=;
-        b=P1iOX2mcmMTKgwSLdTY2a2u0dFcDob7pTB0sLFDp6IIdiGEgXlI9xUZ23mIid2SvygagpW
-        7mWsrpnxwQ9bks7Q5vzeWYH9vhK/0J8uN1o07cDV0zU1/ESsDyNxNdGtpQad2LQU2Em3ja
-        QpGJ+ADc4eFDOWbtz4zutGcHkV80SRc=
+        bh=oNqVieVd9v1G344GzpIPbD3/DSjB6v+2rop/NW6XtKU=;
+        b=hsyFOEe0ll0azuBECxMEHDIow/YZybt/koSsuzK6UkWagNzbGqEROgZeIoC84XfO87K1t+
+        ufA1P4KwjNLPstsQeezjLPEhnjVIsq0f/Ki0GWkUJz0biilMv0ePvquyBrIRIEuOiXgLXy
+        TqHKL41Xxg04ZUl6al22/FMrwPlbgpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-nvKC4CGjN-C2qPztRAdAJw-1; Tue, 26 Jan 2021 09:05:26 -0500
-X-MC-Unique: nvKC4CGjN-C2qPztRAdAJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-440-U-Izs0d0Oeif6_p39Ww8hw-1; Tue, 26 Jan 2021 04:36:33 -0500
+X-MC-Unique: U-Izs0d0Oeif6_p39Ww8hw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54554801AA7;
-        Tue, 26 Jan 2021 14:05:25 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 99CAB10021AA;
-        Tue, 26 Jan 2021 14:05:24 +0000 (UTC)
-Subject: Re: [PATCH] pci-driver: Add driver load messages
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     bhelgaas@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, mstowe@redhat.com
-References: <20210126063935.GC1053290@unreal>
- <20210126125446.1118325-1-prarit@redhat.com>
- <20210126131441.GG1053290@unreal>
- <616eb9a3-b855-316b-5091-8b8230208455@redhat.com>
- <20210126135324.GH1053290@unreal>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <1917ff0c-7d7a-9580-be8a-bb65a970c5bb@redhat.com>
-Date:   Tue, 26 Jan 2021 09:05:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BD021005504;
+        Tue, 26 Jan 2021 09:36:29 +0000 (UTC)
+Received: from [10.36.114.192] (ovpn-114-192.ams2.redhat.com [10.36.114.192])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1481D60871;
+        Tue, 26 Jan 2021 09:36:21 +0000 (UTC)
+Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
+ associated with each HugeTLB page
+To:     Oscar Salvador <osalvador@suse.de>,
+        Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-6-songmuchun@bytedance.com>
+ <20210126092942.GA10602@linux>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
+Date:   Tue, 26 Jan 2021 10:36:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210126135324.GH1053290@unreal>
+In-Reply-To: <20210126092942.GA10602@linux>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 1/26/21 8:53 AM, Leon Romanovsky wrote:
-> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
+On 26.01.21 10:29, Oscar Salvador wrote:
+> On Sun, Jan 17, 2021 at 11:10:46PM +0800, Muchun Song wrote:
+>> When we free a HugeTLB page to the buddy allocator, we should allocate the
+>> vmemmap pages associated with it. We can do that in the __free_hugepage()
+>> before freeing it to buddy.
 >>
->>
->> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
->>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
->>>>   Leon Romanovsky <leon@kernel.org> wrote:
->>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
->>>>>> There are two situations where driver load messages are helpful.
->>>>>>
->>>>>> 1) Some drivers silently load on devices and debugging driver or system
->>>>>> failures in these cases is difficult.  While some drivers (networking
->>>>>> for example) may not completely initialize when the PCI driver probe() function
->>>>>> has returned, it is still useful to have some idea of driver completion.
->>>>>
->>>>> Sorry, probably it is me, but I don't understand this use case.
->>>>> Are you adding global to whole kernel command line boot argument to debug
->>>>> what and when?
->>>>>
->>>>> During boot:
->>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
->>>>> If device fails, you should get an error from that device (fix the
->>>>> device to return an error), or something immediately won't work and
->>>>> you won't see it in sysfs.
->>>>>
->>>>
->>>> What if there is a panic during boot?  There's no way to get to sysfs.
->>>> That's the case where this is helpful.
->>>
->>> How? If you have kernel panic, it means you have much more worse problem
->>> than not-supported device. If kernel panic was caused by the driver, you
->>> will see call trace related to it. If kernel panic was caused by
->>> something else, supported/not supported won't help here.
->>
->> I still have no idea *WHICH* device it was that the panic occurred on.
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > 
-> The kernel panic is printed from the driver. There is one driver loaded
-> for all same PCI devices which are probed without relation to their
-> number.>
-> If you have host with ten same cards, you will see one driver and this
-> is where the problem and not in supported/not-supported device.
+> This series has grown a certain grade of madurity and improvment, but it seems
+> to me that we have been stuck in this patch (and patch#4) for quite some time.
+> 
+> Would it be acceptable for a first implementation to not let hugetlb pages to
+> be freed when this feature is in use?
+> This would simplify things for now, as we could get rid of patch#4 and patch#5.
+> We can always extend functionality once this has been merged, right?
 
-That's true, but you can also have different cards loading the same driver.
-See, for example, any PCI_IDs list in a driver.
+I think either keep it completely simple (only free vmemmap of hugetlb
+pages allocated early during boot - which is what's not sufficient for
+some use cases) or implement the full thing properly (meaning, solve
+most challenging issues to get the basics running).
 
-For example,
-
-10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
-20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader] (rev 02)
-
-Both load the megaraid driver and have different profiles within the driver.  I
-have no idea which one actually panicked until removing one card.
-
-It's MUCH worse when debugging new hardware and getting a panic from, for
-example, the uncore code which binds to a PCI mapped device.  One device might
-work and the next one doesn't.  And then you can multiply that by seeing *many*
-panics at once and trying to determine if the problem was on one specific
-socket, die, or core.
+I don't want to have some easy parts of complex features merged (e.g.,
+breaking other stuff as you indicate below), and later finding out "it's
+not that easy" again and being stuck with it forever.
 
 > 
->>>
->>>>
->>>>> During run:
->>>>> We have many other solutions to get debug prints during run, for example
->>>>> tracing, which is possible to toggle dynamically.
->>>>>
->>>>> Right now, my laptop will print 34 prints on boot and endless amount during
->>>>> day-to-day usage.
->>>>>
->>>>> ➜  kernel git:(rdma-next) ✗ lspci |wc -l
->>>>> 34
->>>>>
->>>>>>
->>>>>> 2) Storage and Network device vendors have relatively short lives for
->>>>>> some of their hardware.  Some devices may continue to function but are
->>>>>> problematic due to out-of-date firmware or other issues.  Maintaining
->>>>>> a database of the hardware is out-of-the-question in the kernel as it would
->>>>>> require constant updating.  Outputting a message in the log would allow
->>>>>> different OSes to determine if the problem hardware was truly supported or not.
->>>>>
->>>>> And rely on some dmesg output as a true source of supported/not supported and
->>>>> making this ABI which needs knob in command line. ?
->>>>
->>>> Yes.  The console log being saved would work as a true source of load
->>>> messages to be interpreted by an OS tool.  But I see your point about the
->>>> knob below...
->>>
->>> You will need much more stronger claim than the above if you want to proceed
->>> ABI path through dmesg prints.
->>>
->>
->> See my answer below.  I agree with you on the ABI statement.
->>
->>>>
->>>>>
->>>>>>
->>>>>> Add optional driver load messages from the PCI core that indicates which
->>>>>> driver was loaded, on which slot, and on which device.
->>>>>
->>>>> Why don't you add simple pr_debug(..) without any knob? You will be able
->>>>> to enable/disable it through dynamic prints facility.
->>>>
->>>> Good point.  I'll wait for more feedback and submit a v2 with pr_debug.
->>>
->>> Just to be clear, none of this can be ABI and any kernel print can
->>> be changed or removed any minute without any announcement.
->>
->> Yes, that's absolutely the case and I agree with you that nothing can guarantee
->> ABI of those pr_debug() statements.  They are *debug* after all.
-> 
-> You missed the point. ALL pr*() prints are not ABI, without relation to their level.
-> 
+> Of course, this means that e.g: memory-hotplug (hot-remove) will not fully work
+> when this in place, but well.
 
-Yes, I understood that.  I'm just emphasizing your ABI concern.
+Can you elaborate? Are we're talking about having hugepages in
+ZONE_MOVABLE that are not migratable (and/or dissolvable) anymore? Than
+a clear NACK from my side.
 
-P.
+-- 
+Thanks,
 
-> Thanks
-> 
->>
->> P.
->>
->>>
->>> Thanks
->>>
->>>>
->>>> P.
->>>>
->>>>>
->>>>> Thanks
->>>>
->>>
->>
-> 
+David / dhildenb
 
