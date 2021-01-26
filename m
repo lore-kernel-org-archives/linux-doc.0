@@ -2,101 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 745E6C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3197C432C3
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27FBE2223D
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C53C2223D
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 05:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388945AbhAZFzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:55:19 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:11411 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727440AbhAYKSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 05:18:04 -0500
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
-        by twspam01.aspeedtech.com with ESMTP id 10P9viQf098151
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jan 2021 17:57:44 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 10P9tsXQ098016;
-        Mon, 25 Jan 2021 17:55:54 +0800 (GMT-8)
-        (envelope-from troy_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 25 Jan
- 2021 18:01:37 +0800
-Date:   Mon, 25 Jan 2021 10:01:19 +0000
-From:   Troy Lee <troy_lee@aspeedtech.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ryan Chen <ryan_chen@aspeedtech.com>,
-        "open list:HARDWARE MONITORING" <linux-hwmon@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/ASPEED MACHINE SUPPORT" 
-        <linux-aspeed@lists.ozlabs.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        ChiaWei Wang <chiawei_wang@aspeedtech.com>,
-        "leetroy@gmail.com" <leetroy@gmail.com>
-Subject: Re: [PATCH v2 4/4] hwmon: Support Aspeed AST2600 PWM/Fan tachometer
-Message-ID: <20210125100119.GA2349720@aspeedtech.com>
-References: <20210113070850.1184506-1-troy_lee@aspeedtech.com>
- <20210113070850.1184506-5-troy_lee@aspeedtech.com>
- <20210123161405.GA50622@roeck-us.net>
+        id S1731782AbhAZFzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:55:50 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:11876 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730651AbhAZCIP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jan 2021 21:08:15 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DPqpT3CBsz7ZQW;
+        Tue, 26 Jan 2021 10:06:09 +0800 (CST)
+Received: from [10.174.179.117] (10.174.179.117) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 26 Jan 2021 10:07:11 +0800
+Subject: Re: [PATCH v13 02/12] mm: hugetlb: introduce a new config
+ HUGETLB_PAGE_FREE_VMEMMAP
+To:     Muchun Song <songmuchun@bytedance.com>
+CC:     <duanxiongchun@bytedance.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-fsdevel@vger.kernel.org>, <corbet@lwn.net>,
+        <mike.kravetz@oracle.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
+        <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
+        <peterz@infradead.org>, <viro@zeniv.linux.org.uk>,
+        <akpm@linux-foundation.org>, <paulmck@kernel.org>,
+        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+        <rdunlap@infradead.org>, <oneukum@suse.com>,
+        <anshuman.khandual@arm.com>, <jroedel@suse.de>,
+        <almasrymina@google.com>, <rientjes@google.com>,
+        <willy@infradead.org>, <osalvador@suse.de>, <mhocko@suse.com>,
+        <song.bao.hua@hisilicon.com>, <david@redhat.com>,
+        <naoya.horiguchi@nec.com>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-3-songmuchun@bytedance.com>
+From:   Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <474cca65-c184-293a-a71d-b373aae4dfb1@huawei.com>
+Date:   Tue, 26 Jan 2021 10:07:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210117151053.24600-3-songmuchun@bytedance.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20210123161405.GA50622@roeck-us.net>
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 10P9tsXQ098016
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.117]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guenter,
+Hi:
+On 2021/1/17 23:10, Muchun Song wrote:
+> The HUGETLB_PAGE_FREE_VMEMMAP option is used to enable the freeing
+> of unnecessary vmemmap associated with HugeTLB pages. The config
+> option is introduced early so that supporting code can be written
+> to depend on the option. The initial version of the code only
+> provides support for x86-64.
+> 
+> Like other code which frees vmemmap, this config option depends on
+> HAVE_BOOTMEM_INFO_NODE. The routine register_page_bootmem_info() is
+> used to register bootmem info. Therefore, make sure
+> register_page_bootmem_info is enabled if HUGETLB_PAGE_FREE_VMEMMAP
+> is defined.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+> ---
+>  arch/x86/mm/init_64.c |  2 +-
+>  fs/Kconfig            | 18 ++++++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 0a45f062826e..0435bee2e172 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -1225,7 +1225,7 @@ static struct kcore_list kcore_vsyscall;
+>  
+>  static void __init register_page_bootmem_info(void)
+>  {
+> -#ifdef CONFIG_NUMA
+> +#if defined(CONFIG_NUMA) || defined(CONFIG_HUGETLB_PAGE_FREE_VMEMMAP)
+>  	int i;
+>  
+>  	for_each_online_node(i)
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index 976e8b9033c4..e7c4c2a79311 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -245,6 +245,24 @@ config HUGETLBFS
+>  config HUGETLB_PAGE
+>  	def_bool HUGETLBFS
+>  
+> +config HUGETLB_PAGE_FREE_VMEMMAP
+> +	def_bool HUGETLB_PAGE
+> +	depends on X86_64
+> +	depends on SPARSEMEM_VMEMMAP
+> +	depends on HAVE_BOOTMEM_INFO_NODE
+> +	help
+> +	  The option HUGETLB_PAGE_FREE_VMEMMAP allows for the freeing of
+> +	  some vmemmap pages associated with pre-allocated HugeTLB pages.
+> +	  For example, on X86_64 6 vmemmap pages of size 4KB each can be
+> +	  saved for each 2MB HugeTLB page.  4094 vmemmap pages of size 4KB
+> +	  each can be saved for each 1GB HugeTLB page.
+> +
+> +	  When a HugeTLB page is allocated or freed, the vmemmap array
+> +	  representing the range associated with the page will need to be
+> +	  remapped.  When a page is allocated, vmemmap pages are freed
+> +	  after remapping.  When a page is freed, previously discarded
+> +	  vmemmap pages must be allocated before remapping.
+> +
+>  config MEMFD_CREATE
+>  	def_bool TMPFS || HUGETLBFS
+>  
+> 
 
-The 01/24/2021 00:14, Guenter Roeck wrote:
-> On Wed, Jan 13, 2021 at 07:08:48AM +0000, Troy Lee wrote:
-> > Add Aspeed AST2600 PWM/Fan tacho driver. AST2600 has 16 PWM channel and
-> > 16 FAN tacho channel.
-> > 
-> > Changes since v1:
-> > - fixed review comments
-> > - fixed double-looped calculation of div_h and div_l
-> > - moving configuration to device tree
-> > - register hwmon driver with devm_hwmon_device_register_with_info()
-> > 
-> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> 
-> checkpatch says:
-> 
-> total: 0 errors, 9 warnings, 26 checks, 779 lines checked
-> 
-> This is a bit much. Please run checkpatch --strict and fix the issues
-> it reports. Please also fix the issues reported by 0-day as well as
-> the issues reported by the bindings robot, and resubmit.
-> 
-> Thanks,
-> Guenter
+LGTM. Thanks.
 
-I'll fix the WARNINGs and CHECKs.
-
-Thanks,
-Troy Lee
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
