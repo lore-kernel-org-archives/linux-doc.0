@@ -2,107 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 195CCC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 18:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79774C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 18:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E11C822B37
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 18:52:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A40422B2C
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 18:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389438AbhAZROt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 12:14:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41634 "EHLO
+        id S2389378AbhAZROh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 12:14:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389582AbhAZHlf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 02:41:35 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15330C0617A7;
-        Mon, 25 Jan 2021 23:31:04 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id q12so21432869lfo.12;
-        Mon, 25 Jan 2021 23:31:03 -0800 (PST)
+        with ESMTP id S2389575AbhAZHkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 02:40:06 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4D1C061797;
+        Mon, 25 Jan 2021 23:25:41 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id t25so3033792pga.2;
+        Mon, 25 Jan 2021 23:25:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X+btyhdpzhml5CUOh/lebyOZ8pAmUTvpNwRnX6Tn5P8=;
-        b=PUEO9V3HWsSw67v/KkB+03UgqcgkxOc5c+bE+cLoQXxV4aHCMwTd4qdx8X6rL2L7pD
-         Z8iKljr1r8J+3tAFWG/2B/axH5KhHAy6ZrH/LbzBVttDpxd8vT4XckDIz18eeYi36aKg
-         uUKyE40LxM+63AP7oZ2Kcia3M5k9+3P2Kpj0GgD1zqlThk0RwCSj/rTnUFcdSglvMqzV
-         l1d4AuZL3lcR+NgozXLGL4sLD6V2mMcgbqYqRx6DVJmRXqpKiSrClNjcuj099ayAfKcy
-         u8Pk3mecPU/ZEI2Akn4fWBHb8ymibsD4TsKLPJ1XdycQTCz8iMOdCfml16Fh8r01Bkbt
-         DgqQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eYQjGrreBxAElr6Uc7E2xNYl1ZHh4lNeYv3YVnq1Azg=;
+        b=BYhvgjtyZnmRq/0OOKpD+u298xHkA/5FMpygS6NKJ0AK/dk/ZzlFCyiadPuQT21Bg+
+         4PQQkRyZKzFTq0qPj2KaLCx5BAtI2YjhGQr810HDMwaA3vL4OYzbQyi26FI8yBeAOpHr
+         oSvCEgoeuGOUZOjEyOtHyyUaDBWZUqWnylkDjljSeouJyF29w0c86CSXcf9HTA3rwfGm
+         +c8CJs5re387Wfc5BXfkbsP1CFoQRK1XvrEhzXwQZrWjwEHJaL+UvyX9RIlv4ivBRQqH
+         Th2UvzPpOlgYwmV1G+8i2UnBJ+KMtV5aTHpzmKWJgMKqXKKxSOVtvL+lilOEF5LUgWgJ
+         Z7aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X+btyhdpzhml5CUOh/lebyOZ8pAmUTvpNwRnX6Tn5P8=;
-        b=ENP/N/xPO7aqtjvWwdpgOPWhyCtlo1z2JAKvA5E7vu4YWo0oPsYqS3Kl80g5d29Cwf
-         t345pakSXAZ73De6oPcGFV46eL5L9SJOv62EC6O/PkG12aLwX+pDxi2O1UqfO5JkNlZc
-         3e3qCFhNLXxbOnG7KjQF0TQsb2jdpXFT/mh9BfYJq+Pdl0EaUnW/bXP9hY01ulQk50JK
-         OU0qXqdAg6U1z2IgLm+C6k6NZXSEjegHqkGoeHJHccypBdt8sjJ8JRwb6t1wdAhwLP47
-         aCHtdRdZKNAexjVJomUu+dAM1+fwI9AysXe8DvwbnxaPCDTbH+b6I/IwJmVeraNlMeUo
-         aFPw==
-X-Gm-Message-State: AOAM5305w2vaDk9/8SihC/1CZcSn5YKYYgW+6gZB4IZQzxX+ESRmeCRg
-        Ynw0ia5azhdPJodm8d+rFBZ00V6vDsj8cWC8N20=
-X-Google-Smtp-Source: ABdhPJzkhAOgX4GiBbn8bo4t9x/nhGhhC1OhrmM44AZ1GLTnIMev0SLZl+dVisgWw2jh5hXffL9EptNS/74Ql8Azrf8=
-X-Received: by 2002:ac2:44b1:: with SMTP id c17mr1776277lfm.556.1611646262495;
- Mon, 25 Jan 2021 23:31:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210126072443.33066-1-foxhlchen@gmail.com>
-In-Reply-To: <20210126072443.33066-1-foxhlchen@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eYQjGrreBxAElr6Uc7E2xNYl1ZHh4lNeYv3YVnq1Azg=;
+        b=uX0rjZO4IYjOY9dlw+4C9CoehC7wtKwOI7Dtjul9mX8epqqEG7KK+8AgR0puLF6yLE
+         8F3afZMARS4/HShk+/CT1x/EISfoioyzd7GlCLXB9HxtrAPSIa1WEhnQaNVMinIt6XLa
+         q2/EljGAmFBLVpAT9iLa+exjH4k0KLB3OIAbNjLG9In/HPlauOGz4uYQytPI0uO8kIK6
+         yHA/Yz2X9GZk4ewWLzyHwfOgUBUXF9ft/9DZT32CuL2QKyo3AxAPrBvctLL8RkECi8BC
+         MqhLuUhrqjPDllQDzhjFhlD6TkAyoZ5AYLQxIabF2DLy5rrU3kmosZL8RKST7IzVPHCE
+         dzXw==
+X-Gm-Message-State: AOAM531qgS7GiogROKxGz9fLommbbjyLXF6n8nQZ9iCFrTamwvQN4gQf
+        u2TxZsiUe1cQi1N/ZUwGBXM=
+X-Google-Smtp-Source: ABdhPJw779iXvaKTjbYXqgTFCTH7h+kyWKHt3/6+CBGwfc8AVjLc0oQommeyBIH9mR0jCF1vvgQh+A==
+X-Received: by 2002:a62:800d:0:b029:1bc:9cd1:8ee1 with SMTP id j13-20020a62800d0000b02901bc9cd18ee1mr4006255pfd.69.1611645941144;
+        Mon, 25 Jan 2021 23:25:41 -0800 (PST)
+Received: from cl-arch-kdev.. (cl-arch-kdev.xen.prgmr.com. [2605:2700:0:2:a800:ff:fed6:fc0d])
+        by smtp.gmail.com with ESMTPSA id l12sm1320256pjg.54.2021.01.25.23.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 23:25:40 -0800 (PST)
 From:   Fox Chen <foxhlchen@gmail.com>
-Date:   Tue, 26 Jan 2021 15:30:51 +0800
-Message-ID: <CAC2o3D+7edK-5dx_pEbq40r3WtLFMB_=HTXnJcjpus3GGbJ+WA@mail.gmail.com>
-Subject: Re: [PATCH 00/12] docs: path-lookup: Update pathlookup docs
-To:     corbet@lwn.net, vegard.nossum@oracle.com,
-        Al Viro <viro@zeniv.linux.org.uk>, rdunlap@infradead.org,
-        grandmaster@al2klimov.de
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To:     corbet@lwn.net, vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, grandmaster@al2klimov.de
+Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 12/12] docs: path-lookup: update symlink description
+Date:   Tue, 26 Jan 2021 15:24:43 +0800
+Message-Id: <20210126072443.33066-13-foxhlchen@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210126072443.33066-1-foxhlchen@gmail.com>
+References: <20210126072443.33066-1-foxhlchen@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 3:25 PM Fox Chen <foxhlchen@gmail.com> wrote:
->
-> The Path lookup is a very complex subject in VFS. The path-lookup
-> document provides a very detailed guidance to help people understand
-> how path lookup works in the kernel.This document was originally
-> written based on three lwn articles five years ago. As times goes by,
-> some of the content was outdated. This patchset is intended to update
-> the document to make it more relevant to current codebase.
->
->
-> Fox Chen (12):
->   docs: path-lookup: update follow_managed() part
->   docs: path-lookup: update path_to_nameidata() parth
->   docs: path-lookup: update path_mountpoint() part
->   docs: path-lookup: update do_last() part
->   docs: path-lookup: remove filename_mountpoint
->   docs: path-lookup: Add macro name to symlink limit description
->   docs: path-lookup: i_op->follow_link replaced with i_op->get_link
->   docs: path-lookup: update i_op->put_link and cookie description
->   docs: path-lookup: no get_link()
->   docs: path-lookup: update WALK_GET, WALK_PUT desc
->   docs: path-lookup: update get_link() ->follow_link description
->   docs: path-lookup: update symlink description
->
->  Documentation/filesystems/path-lookup.rst | 146 ++++++++++------------
->  1 file changed, 63 insertions(+), 83 deletions(-)
->
-> --
-> 2.30.0
->
+instead of lookup_real()/vfs_create(), i_op->lookup() and
+i_op->create() will be called directly.
 
+update vfs_open() logic
 
-To help review the patches, I annotated and highlighted changes using hypothesis
+should_follow_link is merged into lookup_last() or open_last_lookup()
+which returns symlink name instead of an integer.
 
-you can check the current docs:
-https://hyp.is/go?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ffilesystems%2Fpath-lookup.html&group=__world__
+Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+---
+ Documentation/filesystems/path-lookup.rst | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-the docs after patches applied:
-https://hyp.is/go?url=http%3A%2F%2Flinux-docs.54fox.com%2Flinux_docs%2Ffilesystems%2Fpath-lookup.html&group=__world__
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index 2bb3ca486acd..0c6fc296056c 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -1204,16 +1204,15 @@ the code.
+    it.  If the file was found in the dcache, then ``vfs_open()`` is used for
+    this.  If not, then ``lookup_open()`` will either call ``atomic_open()`` (if
+    the filesystem provides it) to combine the final lookup with the open, or
+-   will perform the separate ``lookup_real()`` and ``vfs_create()`` steps
++   will perform the separate ``i_op->lookup()`` and ``i_op->create()`` steps
+    directly.  In the later case the actual "open" of this newly found or
+    created file will be performed by ``vfs_open()``, just as if the name
+    were found in the dcache.
+ 
+ 2. ``vfs_open()`` can fail with ``-EOPENSTALE`` if the cached information
+-   wasn't quite current enough.  Rather than restarting the lookup from
+-   the top with ``LOOKUP_REVAL`` set, ``lookup_open()`` is called instead,
+-   giving the filesystem a chance to resolve small inconsistencies.
+-   If that doesn't work, only then is the lookup restarted from the top.
++   wasn't quite current enough.  If it's in RCU-walk -ECHILD will be returned
++   otherwise will return -ESTALE.  When -ESTALE is returned, the caller may
++   retry with LOOKUP_REVAL flag set.
+ 
+ 3. An open with O_CREAT **does** follow a symlink in the final component,
+    unlike other creation system calls (like ``mkdir``).  So the sequence::
+@@ -1223,8 +1222,8 @@ the code.
+ 
+    will create a file called ``/tmp/bar``.  This is not permitted if
+    ``O_EXCL`` is set but otherwise is handled for an O_CREAT open much
+-   like for a non-creating open: ``should_follow_link()`` returns ``1``, and
+-   so does ``do_last()`` so that ``trailing_symlink()`` gets called and the
++   like for a non-creating open: ``lookup_last()`` or ``open_last_lookup()``
++   returns a non ``Null`` value, and ``link_path_walk()`` gets called and the
+    open process continues on the symlink that was found.
+ 
+ Updating the access time
+-- 
+2.30.0
+
