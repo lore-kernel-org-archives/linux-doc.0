@@ -2,96 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3732C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 06:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83857C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 09:46:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6822E22B51
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 06:41:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4665223110
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 09:46:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbhAZGlX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 01:41:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729303AbhAZGkV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Jan 2021 01:40:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1975722228;
-        Tue, 26 Jan 2021 06:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611643180;
-        bh=81dmrWCqb+2VLXgV/3KvxluKegBm4QhjGHeoJkGi1gs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RMRds7dhkuwahSQd92jfhVR4QGXr/8X4Tp+QOY6Rve0duoK7Xf/j56vR3yfQSS4v5
-         JdVoWG8pxuSWrqVKiqnSUJm4BuWxMIFsTzFXTx2PryLi0Uv0sZmFYzvRYD7hrW5GTW
-         8IBMEC+xcUPYrESO0+TCOnlIRvXKa4TICfx7VbdRIfp90nI//jl6gemhWpVCvfeYNZ
-         G7qZWn2zXmM/MJ1A93Y2Tc2mfclSP7PXf0Ak6O1PNOVfps5SkyeTWUluzH7W+YNqQ0
-         PR2rW4tffwsyrAs6f2RQq97eTHoCI2YmwKIEHkRNS8eY2X24q2tBM1AQvbmaEejcmG
-         hgo0+c8L7xDRA==
-Date:   Tue, 26 Jan 2021 08:39:35 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Prarit Bhargava <prarit@redhat.com>
-Cc:     linux-pci@vger.kernel.org, Myron Stowe <mstowe@redhat.com>,
+        id S2390408AbhAZJqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 04:46:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731164AbhAZJqB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 04:46:01 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB13C06174A;
+        Tue, 26 Jan 2021 01:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=1CPjkpcybqu4UmrIlyT7CxahkHobB8NLRUbQkEtv9gU=; b=OepRa5e8f56TtZHozt6NKrD7SL
+        7NAzZdheLyCJJIT2t2Otw19/WTxOE2bbb5RBIxNNUYL+zRG/pNHRno6mX+rkJvNO+5Yfl+od1ZH1o
+        3rtGWLm8NGasKwlRHdpeezA4HOMoDdHUVBSWew6rjO8PcY92SL2J2eMftsMpOjTDBCJQCdqValhdr
+        AeFKcKWSzj40c2vTUCF4YaGOvldQpTO50q23BNz4zDOWcSz013OsCF6owkBOSq9xRDB1cv3Mej/HJ
+        Gyy1ToJDQEi70A8gQZw19NxIxi1aE5bMFjUNAYQSV8d2xd+oCk7UIetGWvGwjarlIS2tjnoQ4lhqc
+        TPsD0BSA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l4Kpx-005NSo-Qp; Tue, 26 Jan 2021 09:40:58 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 50941300DB4;
+        Tue, 26 Jan 2021 10:40:36 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 2A0E420297EDB; Tue, 26 Jan 2021 10:40:36 +0100 (CET)
+Date:   Tue, 26 Jan 2021 10:40:36 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] pci-driver: Add driver load messages
-Message-ID: <20210126063935.GC1053290@unreal>
-References: <20210125194138.1103155-1-prarit@redhat.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v17 11/26] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <YA/jlOuNpcPPNHA1@hirez.programming.kicks-ass.net>
+References: <20201229213053.16395-1-yu-cheng.yu@intel.com>
+ <20201229213053.16395-12-yu-cheng.yu@intel.com>
+ <20210125182709.GC23290@zn.tnic>
+ <YA/W63sob0keoD+i@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210125194138.1103155-1-prarit@redhat.com>
+In-Reply-To: <YA/W63sob0keoD+i@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
-> There are two situations where driver load messages are helpful.
->
-> 1) Some drivers silently load on devices and debugging driver or system
-> failures in these cases is difficult.  While some drivers (networking
-> for example) may not completely initialize when the PCI driver probe() function
-> has returned, it is still useful to have some idea of driver completion.
+On Tue, Jan 26, 2021 at 09:46:36AM +0100, Peter Zijlstra wrote:
+> On Mon, Jan 25, 2021 at 07:27:09PM +0100, Borislav Petkov wrote:
+> 
+> > > +		pte_t old_pte, new_pte;
+> > > +
+> > > +		do {
+> > > +			old_pte = READ_ONCE(*ptep);
+> > > +			new_pte = pte_wrprotect(old_pte);
+> > 
+> > Maybe I'm missing something but those two can happen outside of the
+> > loop, no? Or is *ptep somehow changing concurrently while the loop is
+> > doing the CMPXCHG and you need to recreate it each time?
+> > 
+> > IOW, you can generate upfront and do the empty loop...
+> > 
+> > > +
+> > > +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
+> > > +
+> > > +		return;
+> > > +	}
+> 
+> Empty loop would be wrong, but that wants to be written like:
+> 
+> 	old_pte = READ_ONCE(*ptep);
+> 	do {
+> 		new_pte = pte_wrprotect(old_pte);
+> 	} while (try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
 
-Sorry, probably it is me, but I don't understand this use case.
-Are you adding global to whole kernel command line boot argument to debug
-what and when?
+! went missing, too early, moar wake-up juice.
 
-During boot:
-If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
-If device fails, you should get an error from that device (fix the
-device to return an error), or something immediately won't work and
-you won't see it in sysfs.
-
-During run:
-We have many other solutions to get debug prints during run, for example
-tracing, which is possible to toggle dynamically.
-
-Right now, my laptop will print 34 prints on boot and endless amount during
-day-to-day usage.
-
-➜  kernel git:(rdma-next) ✗ lspci |wc -l
-34
-
->
-> 2) Storage and Network device vendors have relatively short lives for
-> some of their hardware.  Some devices may continue to function but are
-> problematic due to out-of-date firmware or other issues.  Maintaining
-> a database of the hardware is out-of-the-question in the kernel as it would
-> require constant updating.  Outputting a message in the log would allow
-> different OSes to determine if the problem hardware was truly supported or not.
-
-And rely on some dmesg output as a true source of supported/not supported and
-making this ABI which needs knob in command line. ?
-
->
-> Add optional driver load messages from the PCI core that indicates which
-> driver was loaded, on which slot, and on which device.
-
-Why don't you add simple pr_debug(..) without any knob? You will be able
-to enable/disable it through dynamic prints facility.
-
-Thanks
+> Since try_cmpxchg() will update old_pte on failure.
