@@ -2,139 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C33C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 15:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A867C4332D
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 16:39:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E387620829
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 15:58:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAD4122B3B
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jan 2021 16:39:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404121AbhAZP6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 10:58:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28814 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404263AbhAZP5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 10:57:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611676580;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qvg6GUvEnmAW96ByuvMGsJ8tE+9PZ78AQOUlu7dcYeM=;
-        b=HHv21YTl2h+Mlc4rScAlV3diadayic/+dioYehr+T79fqh3kCQjf2xGEqX0NW7yDYTA1Pg
-        scjbFQNkpzN7s1r8EASq8uNpXicUSfh9GjuQTakp0TojAt5DLLkynVZm59LVYDi6OTHPJV
-        N+PcPsmZWHrAZmfdpciSy8AThyf0VaQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-D7G1GSxJNte8KCAbmeW5BQ-1; Tue, 26 Jan 2021 10:56:16 -0500
-X-MC-Unique: D7G1GSxJNte8KCAbmeW5BQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A669B107ACE8;
-        Tue, 26 Jan 2021 15:56:12 +0000 (UTC)
-Received: from [10.36.114.192] (ovpn-114-192.ams2.redhat.com [10.36.114.192])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 66D3D6B8DD;
-        Tue, 26 Jan 2021 15:56:06 +0000 (UTC)
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-6-songmuchun@bytedance.com>
- <20210126092942.GA10602@linux>
- <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
- <20210126145819.GB16870@linux>
- <259b9669-0515-01a2-d714-617011f87194@redhat.com>
- <20210126153448.GA17455@linux>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
- associated with each HugeTLB page
-Message-ID: <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
-Date:   Tue, 26 Jan 2021 16:56:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1733168AbhAZHh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jan 2021 02:37:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389276AbhAZHfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 02:35:54 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 515CBC06174A;
+        Mon, 25 Jan 2021 23:25:26 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id d13so3561619plg.0;
+        Mon, 25 Jan 2021 23:25:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pNUJBlrIwi/dx2gLwcZE95T1Xw6o1KcL98iYN5h+rPw=;
+        b=mC2XAGiULOqSDQRQWOUNbJ+KdLYw/HxF0Vki9oXHJJ5CO5p03G3b2bYyvUtrEUp6Uu
+         oMd+K5xG2/t7pgFoco1dLPu9cqdf/ZSqy+W1Fzw2JfBmLlFFs/tSplFQi8Ro3churlHW
+         jM6OdcUaaw2gvbKuIkRZh+bqVPZGHjxzF5HZ17m7fAiI6xYLGNyTfJetj/jGfLAQf/uK
+         jQoNw/rnPNhS1Ezdw4ku3+8FRBs90n6/Dpxj4j1ACnONrl328ixzhX3fBCze0dhEEgGH
+         bBTvvtJHU/gg4i6tcgyB/ayXidxHtQm1KfIHGji5nvJvyr9ls3Zax+eisW7p7qWPqEic
+         buWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pNUJBlrIwi/dx2gLwcZE95T1Xw6o1KcL98iYN5h+rPw=;
+        b=TBHjiAYPyhKhKLeFjnKY6wbFLaZgr9GRER9whI/NoJyOm5eBNn0FWubGssV2NAa+/3
+         IW9aymHCT/MTcpaaIHKlH/2y+hujXOQ+HszP0AkNZshFE5wsWaJ7iTCyQlPqm8XbWB7j
+         A+8JbTX+y7pRUImJ/b8LsWi4aWtZy03Y7StwP3iqOfYTRdDeXHfd+CduPNP0gcL9Q5qZ
+         dyTJfr1kpuXkr79aQveAoig8LMAV1NMUPdUKmJe4hYkkn/WJ0hMBbcLjoW1mrN/BFhvn
+         RXv1S1Aub8SasxdRMtP8oZGPHUO5DTSU5J1+qJmKO3pKkO3qjUkQrf+VLZXeiEMVSdqv
+         rNoQ==
+X-Gm-Message-State: AOAM531+AGbjsn9czNYyaNJgdDoOh0XVSMXP3ayRCRjmR5MyzxtAv+fP
+        O2stYi94UHr/h3l/E2BXeR1SU7bhhpfn6YT/rM0=
+X-Google-Smtp-Source: ABdhPJwN6N+i/src3tUgwYpbR6iYzv3n+68WQY9iCrP+P8PpFtw00crvusYOns/r06xXOs1rZ9sUng==
+X-Received: by 2002:a17:90a:d249:: with SMTP id o9mr4663673pjw.78.1611645925892;
+        Mon, 25 Jan 2021 23:25:25 -0800 (PST)
+Received: from cl-arch-kdev.. (cl-arch-kdev.xen.prgmr.com. [2605:2700:0:2:a800:ff:fed6:fc0d])
+        by smtp.gmail.com with ESMTPSA id l12sm1320256pjg.54.2021.01.25.23.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 23:25:25 -0800 (PST)
+From:   Fox Chen <foxhlchen@gmail.com>
+To:     corbet@lwn.net, vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, grandmaster@al2klimov.de
+Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 01/12] docs: path-lookup: update follow_managed() part
+Date:   Tue, 26 Jan 2021 15:24:32 +0800
+Message-Id: <20210126072443.33066-2-foxhlchen@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210126072443.33066-1-foxhlchen@gmail.com>
+References: <20210126072443.33066-1-foxhlchen@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210126153448.GA17455@linux>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.01.21 16:34, Oscar Salvador wrote:
-> On Tue, Jan 26, 2021 at 04:10:53PM +0100, David Hildenbrand wrote:
->> The real issue seems to be discarding the vmemmap on any memory that has
->> movability constraints - CMA and ZONE_MOVABLE; otherwise, as discussed, we
->> can reuse parts of the thingy we're freeing for the vmemmap. Not that it
->> would be ideal: that once-a-huge-page thing will never ever be a huge page
->> again - but if it helps with OOM in corner cases, sure.
-> 
-> Yes, that is one way, but I am not sure how hard would it be to implement.
-> Plus the fact that as you pointed out, once that memory is used for vmemmap
-> array, we cannot use it again.
-> Actually, we would fragment the memory eventually?
-> 
->> Possible simplification: don't perform the optimization for now with free
->> huge pages residing on ZONE_MOVABLE or CMA. Certainly not perfect: what
->> happens when migrating a huge page from ZONE_NORMAL to (ZONE_MOVABLE|CMA)?
-> 
-> But if we do not allow theose pages to be in ZONE_MOVABLE or CMA, there is no
-> point in migrate them, right?
+No follow_managed() anymore, handle_mounts(),
+traverse_mounts(), will do the job.
+see commit: 9deed3ebca244663530782631834e706a86a8c8f
 
-Well, memory unplug "could" still work and migrate them and 
-alloc_contig_range() "could in the future" still want to migrate them 
-(virtio-mem, gigantic pages, powernv memtrace). Especially, the latter 
-two don't work with ZONE_MOVABLE/CMA. But, I mean, it would be fair 
-enough to say "there are no guarantees for 
-alloc_contig_range()/offline_pages() with ZONE_NORMAL, so we can break 
-these use cases when a magic switch is flipped and make these pages 
-non-migratable anymore".
+Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+---
+ Documentation/filesystems/path-lookup.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I assume compaction doesn't care about huge pages either way, not sure 
-about numa balancing etc.
-
-
-However, note that there is a fundamental issue with any approach that 
-allocates a significant amount of unmovable memory for user-space 
-purposes (excluding CMA allocations for unmovable stuff, CMA is 
-special): pairing it with ZONE_MOVABLE becomes very tricky as your user 
-space might just end up eating all kernel memory, although the system 
-still looks like there is plenty of free memory residing in 
-ZONE_MOVABLE. I mentioned that in the context of secretmem in a reduced 
-form as well.
-
-We theoretically have that issue with dynamic allocation of gigantic 
-pages, but it's something a user explicitly/rarely triggers and it can 
-be documented to cause problems well enough. We'll have the same issue 
-with GUP+ZONE_MOVABLE that Pavel is fixing right now - but GUP is 
-already known to be broken in various ways and that it has to be treated 
-in a special way. I'd like to limit the nasty corner cases.
-
-Of course, we could have smart rules like "don't online memory to 
-ZONE_MOVABLE automatically when the magic switch is active". That's just 
-ugly, but could work.
-
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index c482e1619e77..e778db767120 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -448,8 +448,8 @@ described.  If it finds a ``LAST_NORM`` component it first calls
+ filesystem to revalidate the result if it is that sort of filesystem.
+ If that doesn't get a good result, it calls "``lookup_slow()``" which
+ takes ``i_rwsem``, rechecks the cache, and then asks the filesystem
+-to find a definitive answer.  Each of these will call
+-``follow_managed()`` (as described below) to handle any mount points.
++to find a definitive answer.  In ``step_into()``, ``handle_mount()`` will be 
++called to handle any mount point.
+ 
+ In the absence of symbolic links, ``walk_component()`` creates a new
+ ``struct path`` containing a counted reference to the new dentry and a
+@@ -536,7 +536,7 @@ tree, but a few notes specifically related to path lookup are in order
+ here.
+ 
+ The Linux VFS has a concept of "managed" dentries which is reflected
+-in function names such as "``follow_managed()``".  There are three
++in function names such as "``traverse_mounts()``".  There are three
+ potentially interesting things about these dentries corresponding
+ to three different flags that might be set in ``dentry->d_flags``:
+ 
 -- 
-Thanks,
-
-David / dhildenb
+2.30.0
 
