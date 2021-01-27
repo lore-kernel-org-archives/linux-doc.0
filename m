@@ -2,68 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2999FC433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 10:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BDDC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 10:51:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB71E2074B
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 10:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEAB32074B
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 10:51:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236008AbhA0KtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 05:49:01 -0500
-Received: from www.zeus03.de ([194.117.254.33]:37962 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236099AbhA0KpF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 05:45:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=5UQI1LYAXwqFKXoEyvUNXKTsLtu
-        Vd5ntVDjhbm45UHA=; b=SJ7ZKIqlAOgho+MH/IHhASm5zXTJY6pTNWr2axH7F7W
-        pCynBfmsAo2hsKR2hFuiaQsr4ezhADbe0kB+rO4wiGjM/Qa0FE7SfsB3PYlqqhPZ
-        6IbMEhJ+4uIiM17YnAj5X8Vr7HyvWSUUaNtcfGAQHgIA9SbLcHAyIPKNF9o9SHtA
-        =
-Received: (qmail 4028315 invoked from network); 27 Jan 2021 11:43:51 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Jan 2021 11:43:51 +0100
-X-UD-Smtp-Session: l3s3148p1@LwJfct+5sr0gAwDPXyX1AEdA8SGgn5QT
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] Documentation: kernel-parameters: add missing '<'
-Date:   Wed, 27 Jan 2021 11:43:43 +0100
-Message-Id: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.28.0
+        id S236190AbhA0Kuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 05:50:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53460 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236225AbhA0Ksi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 05:48:38 -0500
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31353C061786
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 02:47:58 -0800 (PST)
+Received: by mail-lj1-x22f.google.com with SMTP id c18so1510018ljd.9
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 02:47:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=nt9pdiLty5VAzHiVzQ9Z0VE2Bkzi2Zy4BkFRJGQTy+s=;
+        b=RkI69ax2YOOuKLnURhraOk6rkuVkZAdIrcLC8ROzb78X3XKcsHv7ZkY1MlD4SJgGMv
+         mvSeWdPu6cvDFRvCbp1iTBbLA1Zl8F7eXpM479ayN+NeCBRjUZ9u4HUy3EzFV1sYTJcy
+         PYB/fNUbJlr64E477+47TxBf7b4ryCO7tAewLY6czi6NhEMjHxiI15j/4hIaqSUmrqvt
+         hnkovTZkaCRWB504JvBAbJB02VSyoiNAOfs8HPotmXVpd8A4rbeS6mMZhro1+rQDyfcn
+         ljPWQoMwPkLz6Wc1OU0ppRL02EqrNXZCGQXG1ygbkLlN+Jif1Tk4RsoVvqn8fhhDYg0j
+         bsvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nt9pdiLty5VAzHiVzQ9Z0VE2Bkzi2Zy4BkFRJGQTy+s=;
+        b=gLGkgUgV9+hLmyKPF05zWR7UNOWbXmsXuTzVFsfh2VQqS060DR/PgyL072l7BJUI4c
+         k1KnvsQTpI+H5aWPDQ6rVYau8fRbSRBchwiTq8IeNOfD6aszfm9S+MwG0ftUde8j9GMO
+         i/D/J4oLGk6cKqdntQyMbxTtIwk9uQYiCXcJeSP4DbmlpjXNo01ffPGt5lvHSvPnNh7c
+         UOgaidlBZTBgAYdBWnHK+TFnK8DLX+ObyFNIoziUUyMTf3F+slXAZvIkwoZCrhn742vg
+         HsG7C22N7j2QartYhp6JCHXcb/OKtiPF0MEoJfgyXn1grFzTCNhJRIDK0eqiXO5ygZ8v
+         ZEHw==
+X-Gm-Message-State: AOAM5318mJv6bE45HFfCI5N37nvQdLyk9iqe0KWNY/wWxDI0hsOapL6L
+        j5syOsAvYMYFxK2WqTv7168F8IeP936CIWoT0hLtDQ==
+X-Google-Smtp-Source: ABdhPJwad4Dbjby0b67biXG1UmzBFT032qoQOR80f/hQK6P7qLf8Q2hmv4TTfsdOlkWpWnRX5IIbsSeyI8gxECdjNcI=
+X-Received: by 2002:a2e:908e:: with SMTP id l14mr5465324ljg.226.1611744476438;
+ Wed, 27 Jan 2021 02:47:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+In-Reply-To: <20210126225138.1823266-1-kaleshsingh@google.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 27 Jan 2021 11:47:29 +0100
+Message-ID: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/admin-guide/kernel-parameters.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
++jeffv from Android
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 06fb1b4aa849..202fac80ea0c 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
- sized groups and for each group use some amount from the beginning of that
- group:
- 
--	<cpu number>-cpu number>:<used size>/<group size>
-+	<cpu number>-<cpu number>:<used size>/<group size>
- 
- For example one can add to the command line following parameter:
- 
--- 
-2.28.0
+On Tue, Jan 26, 2021 at 11:51 PM Kalesh Singh <kaleshsingh@google.com> wrot=
+e:
+> In order to measure how much memory a process actually consumes, it is
+> necessary to include the DMA buffer sizes for that process in the memory
+> accounting. Since the handle to DMA buffers are raw FDs, it is important
+> to be able to identify which processes have FD references to a DMA buffer=
+.
 
+Or you could try to let the DMA buffer take a reference on the
+mm_struct and account its size into the mm_struct? That would probably
+be nicer to work with than having to poke around in procfs separately
+for DMA buffers.
+
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
+
+That's not quite right. They can both also be accessed by the user
+owning the process. Also, fdinfo is a standard interface for
+inspecting process state that doesn't permit reading process memory or
+manipulating process state - so I think it would be fine to permit
+access to fdinfo under a PTRACE_MODE_READ_FSCRED check, just like the
+interface you're suggesting.
+
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD=
+.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+>
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. To include a process=E2=80=99s dmabuf usage as part of its memor=
+y state,
+> the data collection needs to be fast enough to reflect the memory state a=
+t
+> the time of such events.
+>
+> Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
+> privileges, this approach is not suitable for production builds.
+
+It should be easy to add enough information to /proc/<pid>/fdinfo/ so
+that you don't need to look at /proc/<pid>/fd/ anymore.
+
+> Granting
+> root privileges even to a system process increases the attack surface and
+> is highly undesirable. Additionally this is slow as it requires many
+> context switches for searching and getting the dma-buf info.
+
+What do you mean by "context switches"? Task switches or kernel/user
+transitions (e.g. via syscall)?
+
+> With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buffer
+> details can be queried using their unique inode numbers.
+>
+> This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interface.
+>
+> /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
+> every DMA buffer FD that the task has. Entries with the same inode
+> number can appear more than once, indicating the total FD references
+> for the associated DMA buffer.
+>
+> If a thread shares the same files as the group leader then its
+> dmabuf_fds file will be empty, as these dmabufs are reported by the
+> group leader.
+>
+> The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/maps)
+> and allows the efficient accounting of per-process DMA buffer usage witho=
+ut
+> requiring root privileges. (See data below)
+
+I'm not convinced that introducing a new procfs file for this is the
+right way to go. And the idea of having to poke into multiple
+different files in procfs and in sysfs just to be able to compute a
+proper memory usage score for a process seems weird to me. "How much
+memory is this process using" seems like the kind of question the
+kernel ought to be able to answer (and the kernel needs to be able to
+answer somewhat accurately so that its own OOM killer can do its job
+properly)?
