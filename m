@@ -2,162 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C6CC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 12:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD73C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 12:58:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49E3A207A2
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 12:54:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBD142079A
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 12:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234782AbhA0Mye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 07:54:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238055AbhA0Mwc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 07:52:32 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3AB1C06174A;
-        Wed, 27 Jan 2021 04:51:50 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id a20so1200447pjs.1;
-        Wed, 27 Jan 2021 04:51:50 -0800 (PST)
+        id S234291AbhA0M6I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 07:58:08 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:35094 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237868AbhA0M4E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 07:56:04 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10RCrrAf179790;
+        Wed, 27 Jan 2021 12:54:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=I8nloEIM2eeDdksqKS81N36dIN3RwKcITDznPxVWb7g=;
+ b=T74jCrT7VD6AFjQmN8J174tSoKU8XAuYTajqd9cl2BCBD2Uuvxfum2AUDSyTTQ/p+dRk
+ 8S3F8oAmlo4DKTxH8SVYdeIEzzuqmH28z+Bryd9B6yOF0rN4KQATUmF2fTTJ5ZE7gUii
+ OY4p6cBXjopplj6F0UdP/TZh04WGeo0/TgOVOwFRdM2U3Lpp/1/cTC86YzSobGsWsDha
+ OW4ShfaKyqvxgj3VNl8mH5Ixrz0Siu+nrdsv9+3NgTUZiv/mTuf2bpPiNEDSNmrzb4Rc
+ ZjeZ8Bbs1sY+BnOccufe+LU1VyEMyOHwCEUr9/zLb2tgfEE5d9gwGlrDqZIsRl9SVkQd vA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 368b7qxw32-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Jan 2021 12:54:50 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10RCUPXr192505;
+        Wed, 27 Jan 2021 12:54:50 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2171.outbound.protection.outlook.com [104.47.59.171])
+        by userp3030.oracle.com with ESMTP id 368wqxteya-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Jan 2021 12:54:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ni6OCLDaevTCp3U9Dyb+vk0upY+1EJB93MBKldENgzQWXvtSleoI/BP6n+w0wYDnoeT/rIv4NGQh0bLABqszGiFiaqFhb7+OdvCU5UGNyzaxHtmtWZMDisF6H1Nh0mWfTyJx2m6eLfSwQUH24qkSG/iaa9ASsMI4u3HVQoIUS1YZeHUo3cytwksklcTns8vi4qoNG9+OBlLRwBQMBUpKgmYZy42Xa4tJUyWJkekTnuG+SSyOABTqEB09P56G4oU8psPNUK7boGvlK3cbnW01HC+yPFBilzH09p2HVnqwoqK+YXSFbaD3tbe3RlAK5mbyw8/Iex4G+W7SJ7fRUDq4mQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I8nloEIM2eeDdksqKS81N36dIN3RwKcITDznPxVWb7g=;
+ b=OTdKz4RYYNbVR0Kwvb5CXcWINSPyk0tGkAx1X4GDHlcezZQDbi44mA82VF394ODflCpox5vRdaDxfULpfOrXj5TkEeKDfJ0x6Oz7fsTEfDE4zVveMthhxC9nZkN/aCEMHkw9NL5VDP3LNB6UdnZS3+Ukq40Ik5UWpVKiC8xXBu+z2Mb/gPga2K5WWnFFfGB2RRsJo5+EMDm6aA2qxJRloY5XEwBN1fg2UT2YtTkGfBGYhD3gtOAhKm8caW+4wWPahUkTMZb2+JppYrZph/XygvKnCnA6Ba4ip2PGlroyYTItdg/wDpNU3P4d7Yj+zqkUDO8tpOxm50poBJLQhRr15A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=AgqQhBKOPlB7DDmVKm31upDgAqlEXZFPIdQm63gX/8E=;
-        b=V4St0wI5fQKkXrZ74W0M3bU05pM5Oq4IcZbxR89XfPEjNctU+Jb8U7axZdD1r9xsf4
-         DgWYvvzln+j9ov0bZwsq6iCLVM6M2RsmVeTEB/pyDZHq89sNe4n74GNuyRnCV4AUk0KJ
-         Cm0aJ6xaSSu6gpNkTHqG35Jv9/5bcWwVx9DboiYqyNDBSWFno4PU+s5BPk10eh4RYg4N
-         sbOpeWhqRsXt02lLO7aQ9RDesvFJIRyLsk3R2vlK2QM6nuZb2SaYKo1FqlMxZAxIW+2u
-         64GHWw9ZvEm8oFasjVxw6hZzkCjgcP4qe4qFmZT41ob/DrtqjcegYyn9cjn+NWR7pm59
-         qENg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=AgqQhBKOPlB7DDmVKm31upDgAqlEXZFPIdQm63gX/8E=;
-        b=K2JYDdu/H8YafT80caXXLI59PQfkATOCU+HhSDgbESmzPkVbw6FmWt/CZ6pyrwVF3b
-         Cw/LXcbDWvus64eNinLAULfbHvXxjrx6jX5Clgp0gA6pGHfuqU82P9vNhqToQz0MUOK9
-         Sz1Btk8uwrtgiBSYbFSEBgJDiK6sZIkUgmq36ZkkdIhLSgGjmauEkwmNfxHT13XA2vtu
-         b713Wg6sfD5yyZbifKt6NaAtCL94gc245driGwz16oUZwIGiN02tHWumWTFynSIZA3CA
-         qm/sio+jhmf+hqRwdk4wEvC6r9/KWfMLXFET46m0UVgKLivSs5f4S9Az5bcyD/0IieGr
-         Q0MA==
-X-Gm-Message-State: AOAM531VUE72uFs4EcxhxVCT7IBbGTwMOvZ5HB20bjTw0h7evxOPicfb
-        qxSJOx/V36VwYTbNwgBUAZc=
-X-Google-Smtp-Source: ABdhPJzypEqDO3UkyOMukD6w2/snr04J/NQVEac1wKbepaUY+63ufUOw8R8KUA4FH6cJqBXR1eETug==
-X-Received: by 2002:a17:90a:670f:: with SMTP id n15mr5704625pjj.175.1611751910461;
-        Wed, 27 Jan 2021 04:51:50 -0800 (PST)
-Received: from lenovo ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id me3sm1954459pjb.32.2021.01.27.04.51.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 27 Jan 2021 04:51:49 -0800 (PST)
-Date:   Wed, 27 Jan 2021 20:51:26 +0800
-From:   Orson Zhai <orsonzhai@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Denis Efremov <efremov@linux.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sourabh Jain <sourabhjain@linux.ibm.com>,
-        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] include: sysfs: Add macro to assign show for RO
- attributes
-Message-ID: <20210127125126.GA7813@lenovo>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Joe Perches <joe@perches.com>, Denis Efremov <efremov@linux.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Sourabh Jain <sourabhjain@linux.ibm.com>,
-        Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1611721162-29982-1-git-send-email-orsonzhai@gmail.com>
- <YBEbRDOQhczI5/yC@kroah.com>
-MIME-Version: 1.0
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I8nloEIM2eeDdksqKS81N36dIN3RwKcITDznPxVWb7g=;
+ b=XeWY0JiJKgBNDVkZeyt8c+gl+lBZEsP30UbaoTg+qgHZwMkr3/W6h9Zse+RIgpxtvBn9IyQX6Ps0bkD6nWsE1VcLZ4Vogqd645BeIDhYMJkg8M63Kkgyn/Kvn/Ihzxs+3TlTShP2R080SM39j+IIH9BZjCLsxq80d1x2+uvHhic=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from BN6PR1001MB2228.namprd10.prod.outlook.com
+ (2603:10b6:405:2e::38) by BN0PR10MB5062.namprd10.prod.outlook.com
+ (2603:10b6:408:12c::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.15; Wed, 27 Jan
+ 2021 12:54:48 +0000
+Received: from BN6PR1001MB2228.namprd10.prod.outlook.com
+ ([fe80::cd38:2bd0:a5a8:64f2]) by BN6PR1001MB2228.namprd10.prod.outlook.com
+ ([fe80::cd38:2bd0:a5a8:64f2%6]) with mapi id 15.20.3742.014; Wed, 27 Jan 2021
+ 12:54:48 +0000
+Date:   Wed, 27 Jan 2021 13:54:40 +0100
+From:   Daniel Kiper <daniel.kiper@oracle.com>
+To:     Cao jin <jojing64@gmail.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, corbet@lwn.net
+Subject: Re: [PATCH] Documentation/x86/boot.rst: Correct the example of
+ SETUP_INDIRECT
+Message-ID: <20210127125440.ma4ir6w7gqahbxbz@tomti.i.net-space.pl>
+References: <20210127084911.63438-1-jojing64@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YBEbRDOQhczI5/yC@kroah.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20210127084911.63438-1-jojing64@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Originating-IP: [84.10.22.86]
+X-ClientProxiedBy: AM6PR04CA0062.eurprd04.prod.outlook.com
+ (2603:10a6:20b:f0::39) To BN6PR1001MB2228.namprd10.prod.outlook.com
+ (2603:10b6:405:2e::38)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from tomti.i.net-space.pl (84.10.22.86) by AM6PR04CA0062.eurprd04.prod.outlook.com (2603:10a6:20b:f0::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 12:54:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 44ab91fb-8de8-45c2-9044-08d8c2c2ba88
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5062:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN0PR10MB5062FDCAF10ACFC90A880B40E3BB9@BN0PR10MB5062.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lT0yRfZUhw6+71YIPWKrAPEp6goJLxbfE6Chce9mTkXzkbZt6JXepeEy7ivwuPcwnOJnk1lRwf4N8DDfXsWLGhpqBoZWOAjfz0DPnVnBOH73ateiixYjOUjFUbIvcLEK63y4BloM71XU8vMFUjTA7yblN1986iB+gVfOgTR4d4hif5HCXtmCXoikU1enigjKwVrsPuwIN/rxc5ktvGnHkjRUykHDtjwWC7X+y/rlB45GDQIvodWOCD1WRCZmiH4WkF+0R7cLrmEN6F2Gw0t19IdlFxBBvIfr9JRHSvilUZ6dSuznNgoRZsq61FXsooUrjgxR89RU9oxqO3VxjltG/g+dtdA04Hg4/EsT21krjjVjx2xZrkXSVgNwDOZup9oNrfrimsEMB4quguPah7szwgec/ZzklHjJJ2CReeMQ5mo2ZKbiIXhZcdC99zjCw0CcwM/eXExeC2S34diz3SSl6sCkj1DcTrRXhnMvxbS5FUC5kqWN5DLwwXsfF4S0WMv+6qEg9PIXZNEiyiGolg6Z5g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1001MB2228.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(136003)(39860400002)(346002)(376002)(396003)(44832011)(6916009)(8936002)(8676002)(6666004)(66476007)(7696005)(9686003)(6506007)(5660300002)(52116002)(86362001)(558084003)(4326008)(55016002)(186003)(2906002)(1076003)(16526019)(316002)(26005)(478600001)(66946007)(956004)(66556008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?G561ZYG9iXQm2E9wg7sN5Jj2ccIIHqpSvitEuhpqgkWsbXVqjTi2sDyq352n?=
+ =?us-ascii?Q?AsPYS6AOXGMBb/ur4+RcdXT982cBl/H5mKt/TPa4Jbb3IwhsAyINs1/WR7Zn?=
+ =?us-ascii?Q?j+q4ny1qyY5Q48QvdQQeqx8DKiGQcvGXvu1TEobmOrvxbm9U8f3eASTTG+cK?=
+ =?us-ascii?Q?Pulekej0G5CdBoczGcLmgleRE3HPRKcMojcA6dSG6oezChluFbCd4fFDHkUa?=
+ =?us-ascii?Q?MOXi21Ep4H4PqzImqDV8VQTZrtKkYP0A6GJ4WZY7OlA0QPX2vEUbM1cdnBG4?=
+ =?us-ascii?Q?RygMgrvSx6Tii7o6jam0GrKsZY8IZgWc2G6vpyVHn0d44U70xzckqywFKnI0?=
+ =?us-ascii?Q?SrgD3zfA7x2IuH7Y+Y+bPI6/0HPYwVkUEz2gMJ2l+8/zYtbEtRks+OBYJkYQ?=
+ =?us-ascii?Q?KL/5C5gPKKGVGc0TTNS153/8fSvxCa4NJHfy3uPitqKscGWX4UfBX+Zh6VGc?=
+ =?us-ascii?Q?g6xb49dDgIo+LqAVL5fn1tOkCZEIN9bDiJxd6xELK4T6o6e9Dhw/8kt7HbMW?=
+ =?us-ascii?Q?ULy/CG+5WRBbZzwEAvB0LmGILN2WPsGqd4onCOFfgmwLwQ/Q2F2JNlR4vzGF?=
+ =?us-ascii?Q?UFzPCrL8RoGMd9JN75BMNgfLK8ihj3VJcJ4/G4wqxNq1+sAyB4ZX87slU7BW?=
+ =?us-ascii?Q?wko7cemyFeklVUymzqJ5S9HEG9MtOQk4bgOZMOYYGDrVRPL7rC9kPCKLSUah?=
+ =?us-ascii?Q?Z2WdiGCi8xRr/A4QKOkGar1Q2i7Qotzt9/1aBCoqyNsjIdX9yaAQwWkQ3LRf?=
+ =?us-ascii?Q?DaPSfgDFNYjXU/ExExD5CbViol5oTfhj7zotcOXQDqpXT/gofmIb28yN51b+?=
+ =?us-ascii?Q?8TbMGI06LW4HAomixPAPrL1bsw18Cu7ZakcTB6CH3aKyEIx6s/nkfbQJ+Hf7?=
+ =?us-ascii?Q?bZBv1Rg/F7tstlZ/9RPBw53nodmvgvb5TL2fN7NM9ocYXQXflmN7PyiwOMxX?=
+ =?us-ascii?Q?XX5U2/FNuX1+sAfjfb42zLTfy/JJhcYUTnPteb4WoExeG9blVfrnO058dgXj?=
+ =?us-ascii?Q?8E/GydYtNWJ+M8yql35EGjK7VLDLZ1m9xAbyYykBlXifCpdb/g+SysdDqHkc?=
+ =?us-ascii?Q?pSyO+cYQ?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44ab91fb-8de8-45c2-9044-08d8c2c2ba88
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR1001MB2228.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 12:54:48.3780
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: skg2Vda+c9ZmGVq0RQtmVOZj6iCGx3YWUE/wwGjvhjiMKN2YrVBEWxdE7dllksJsbZsFDOutVrWZF0IAWcgBvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5062
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101270069
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9876 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 phishscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1011 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101270070
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 08:50:28AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 27, 2021 at 12:19:22PM +0800, Orson Zhai wrote:
-> > In some circumstances, multiple __ATTR_RO attributes need to be assigned
-> > with a single show function.
-> > 
-> > Add this macro to make life easier with simple code.
-> > 
-> > Signed-off-by: Orson Zhai <orsonzhai@gmail.com>
-> > ---
-> >  Documentation/filesystems/sysfs.rst | 2 ++
-> >  include/linux/sysfs.h               | 5 +++++
-> >  2 files changed, 7 insertions(+)
-> > 
-> > diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
-> > index 004d490..0e2274a 100644
-> > --- a/Documentation/filesystems/sysfs.rst
-> > +++ b/Documentation/filesystems/sysfs.rst
-> > @@ -141,6 +141,8 @@ __ATTR_RO_MODE(name, mode):
-> >  	         fore more restrictive RO access currently
-> >                   only use case is the EFI System Resource Table
-> >                   (see drivers/firmware/efi/esrt.c)
-> > +__ATTR_RO_SHOW(name, show):
-> > +		 assumes default mode 0444 with specified show.
-> >  __ATTR_RW(name):
-> >  	         assumes default name_show, name_store and setting
-> >                   mode to 0644.
-> > diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> > index 2caa34c..c851592 100644
-> > --- a/include/linux/sysfs.h
-> > +++ b/include/linux/sysfs.h
-> > @@ -117,6 +117,11 @@ struct attribute_group {
-> >  	.show	= _name##_show,						\
-> >  }
-> >  
-> > +#define __ATTR_RO_SHOW(_name, _show) {					\
-> > +	.attr	= { .name = __stringify(_name), .mode = 0444 },		\
-> > +	.show	= _show,						\
-> > +}
-> 
-> Do you have a real user for this?  Using "raw" kobject attributes is
+On Wed, Jan 27, 2021 at 04:49:11PM +0800, Cao jin wrote:
+> struct setup_data.len is the length of data field. In case of
+> SETUP_INDIRECT, it should be sizeof(setup_indirect).
+>
+> Signed-off-by: Cao jin <jojing64@gmail.com>
 
-Yes, I have found at least one user in current kernel code.
+Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 
-Please refer to [1].
-
-The author implemented a similar marcro __ATRR_MRO as mine, plus an
-__ATRR_MWO with specified restore.
-
-If this patch merged, I'd to replace his marcro with mine.
-
-> rare and should not be used often, so who needs this?
-
-Agree. But for some device drivers it might be useful without side effect.
-
-Another example is from Android increment-fs code out there.
-That driver has 3 sysfs attributes which shared with same show function
-which only prints "support" to userland.
-
-Best Regards,
-Orson
-
-> 
-> thanks,
-> 
-> greg k-h
-
-[1] https://elixir.bootlin.com/linux/v5.11-rc5/source/drivers/media/pci/ddbridge/ddbridge-core.c#L2735
+Daniel
