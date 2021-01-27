@@ -5,33 +5,33 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3256C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 21:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 289D5C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 21:30:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6745264DCD
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 21:29:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3E1F64DD1
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 21:30:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232321AbhA0V3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 16:29:34 -0500
-Received: from mga04.intel.com ([192.55.52.120]:48882 "EHLO mga04.intel.com"
+        id S232019AbhA0Va1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 16:30:27 -0500
+Received: from mga04.intel.com ([192.55.52.120]:48887 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1343644AbhA0V1S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 16:27:18 -0500
-IronPort-SDR: W+Fy59ll0RnEP6LNILAjltlE0VPR8DoBMvBUkVV5Zp/+hcgQF2dBQ8TQv8Uu8pIRAt9SsUNJ6S
- guyX9ETo86hQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9877"; a="177573122"
+        id S234507AbhA0V23 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 16:28:29 -0500
+IronPort-SDR: 2F6CrsWupO1jhER4jr8z922yOWKp9yZQm8s4MmIVumi+1sgNADHuAzG2cHUCFrISy8eU1UFzrG
+ VoF9gfg4ImNA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9877"; a="177573144"
 X-IronPort-AV: E=Sophos;i="5.79,380,1602572400"; 
-   d="scan'208";a="177573122"
+   d="scan'208";a="177573144"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 13:25:54 -0800
-IronPort-SDR: YCzfVF553ztppi71LE0YmndCnGJDfZPD5YxC/I09BMaJiHsvg05Fo2QtpLAgGjOh1pZYHf4RlP
- pFXWlnMsVz/w==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 13:25:56 -0800
+IronPort-SDR: A4Gcmb38MdT1UtYNYrK/Hp2wjJ6uWqJg0pZpdbMY/drs4r78YatA6pcAPC9xD8NnO0I0Jw2zr3
+ 6zHJCQPOLDBg==
 X-IronPort-AV: E=Sophos;i="5.79,380,1602572400"; 
-   d="scan'208";a="353948217"
+   d="scan'208";a="353948232"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 13:25:53 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 13:25:56 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,9 +60,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v18 10/25] x86/mm: Update pte_modify for _PAGE_COW
-Date:   Wed, 27 Jan 2021 13:25:09 -0800
-Message-Id: <20210127212524.10188-11-yu-cheng.yu@intel.com>
+Subject: [PATCH v18 14/25] x86/mm: Update maybe_mkwrite() for shadow stack
+Date:   Wed, 27 Jan 2021 13:25:13 -0800
+Message-Id: <20210127212524.10188-15-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210127212524.10188-1-yu-cheng.yu@intel.com>
 References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
@@ -72,84 +72,140 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The read-only and Dirty PTE has been used to indicate copy-on-write pages.
-However, newer x86 processors also regard a read-only and Dirty PTE as a
-shadow stack page.  In order to separate the two, the software-defined
-_PAGE_COW is created to replace _PAGE_DIRTY for the copy-on-write case, and
-pte_*() are updated.
+When serving a page fault, maybe_mkwrite() makes a PTE writable if its vma
+has VM_WRITE.
 
-Pte_modify() changes a PTE to 'newprot', but it doesn't use the pte_*().
-Introduce fixup_dirty_pte(), which sets a dirty PTE, based on _PAGE_RW,
-to either _PAGE_DIRTY or _PAGE_COW.
+A shadow stack vma has VM_SHSTK.  Its PTEs have _PAGE_DIRTY, but not
+_PAGE_WRITE.  In fork(), _PAGE_DIRTY is cleared to effect copy-on-write,
+and in page fault, _PAGE_DIRTY is restored and the shadow stack page is
+writable again.
 
-Apply the same changes to pmd_modify().
+Update maybe_mkwrite() by introducing arch_maybe_mkwrite(), which sets
+_PAGE_DIRTY for a shadow stack PTE.
+
+Apply the same changes to maybe_pmd_mkwrite().
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/pgtable.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ arch/x86/Kconfig        |  4 ++++
+ arch/x86/mm/pgtable.c   | 18 ++++++++++++++++++
+ include/linux/mm.h      |  2 ++
+ include/linux/pgtable.h | 24 ++++++++++++++++++++++++
+ mm/huge_memory.c        |  2 ++
+ 5 files changed, 50 insertions(+)
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 4b0ec61510dc..4a7fd3e5b7df 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -726,6 +726,21 @@ static inline pmd_t pmd_mkinvalid(pmd_t pmd)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 2d080a2335df..1204a6dcc0da 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1954,6 +1954,9 @@ config X86_SGX
+ config ARCH_HAS_SHADOW_STACK
+ 	def_bool n
  
- static inline u64 flip_protnone_guard(u64 oldval, u64 val, u64 mask);
++config ARCH_MAYBE_MKWRITE
++	def_bool n
++
+ config X86_CET
+ 	prompt "Intel Control-flow protection for user-mode"
+ 	def_bool n
+@@ -1961,6 +1964,7 @@ config X86_CET
+ 	depends on AS_WRUSS
+ 	select ARCH_USES_HIGH_VMA_FLAGS
+ 	select ARCH_HAS_SHADOW_STACK
++	select ARCH_MAYBE_MKWRITE
+ 	help
+ 	  Control-flow protection is a hardware security hardening feature
+ 	  that detects function-return address or jump target changes by
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index f6a9e2e36642..0f4fbf51a9fc 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -610,6 +610,24 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
+ }
+ #endif
  
-+static inline pteval_t fixup_dirty_pte(pteval_t pteval)
++#ifdef CONFIG_ARCH_MAYBE_MKWRITE
++pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
 +{
-+	pte_t pte = __pte(pteval);
-+
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && pte_dirty(pte)) {
-+		pte = pte_mkclean(pte);
-+
-+		if (pte_flags(pte) & _PAGE_RW)
-+			pte = pte_set_flags(pte, _PAGE_DIRTY);
-+		else
-+			pte = pte_set_flags(pte, _PAGE_COW);
-+	}
-+	return pte_val(pte);
++	if (likely(vma->vm_flags & VM_SHSTK))
++		pte = pte_mkwrite_shstk(pte);
++	return pte;
 +}
 +
- static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
++{
++	if (likely(vma->vm_flags & VM_SHSTK))
++		pmd = pmd_mkwrite_shstk(pmd);
++	return pmd;
++}
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
++
+ /**
+  * reserve_top_address - reserves a hole in the top of kernel address space
+  * @reserve - size of hole to reserve
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 7be5f8b874aa..abd756e426fc 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -993,6 +993,8 @@ static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
  {
- 	pteval_t val = pte_val(pte), oldval = val;
-@@ -736,16 +751,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
- 	 */
- 	val &= _PAGE_CHG_MASK;
- 	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
-+	val = fixup_dirty_pte(val);
- 	val = flip_protnone_guard(oldval, val, PTE_PFN_MASK);
- 	return __pte(val);
+ 	if (likely(vma->vm_flags & VM_WRITE))
+ 		pte = pte_mkwrite(pte);
++	else
++		pte = arch_maybe_mkwrite(pte, vma);
+ 	return pte;
  }
  
-+static inline int pmd_write(pmd_t pmd);
-+static inline pmdval_t fixup_dirty_pmd(pmdval_t pmdval)
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 8fcdfa52eb4b..d8452218d09b 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1439,6 +1439,30 @@ static inline bool arch_has_pfn_modify_check(void)
+ }
+ #endif /* !_HAVE_ARCH_PFN_MODIFY_ALLOWED */
+ 
++#ifdef CONFIG_MMU
++#ifdef CONFIG_ARCH_MAYBE_MKWRITE
++pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma);
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma);
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++
++#else /* !CONFIG_ARCH_MAYBE_MKWRITE */
++static inline pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
 +{
-+	pmd_t pmd = __pmd(pmdval);
-+
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && pmd_dirty(pmd)) {
-+		pmd = pmd_mkclean(pmd);
-+
-+		if (pmd_flags(pmd) & _PAGE_RW)
-+			pmd = pmd_set_flags(pmd, _PAGE_DIRTY);
-+		else
-+			pmd = pmd_set_flags(pmd, _PAGE_COW);
-+	}
-+	return pmd_val(pmd);
++	return pte;
 +}
 +
- static inline pmd_t pmd_modify(pmd_t pmd, pgprot_t newprot)
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
++{
++	return pmd;
++}
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++
++#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
++#endif /* CONFIG_MMU */
++
+ /*
+  * Architecture PAGE_KERNEL_* fallbacks
+  *
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 9237976abe72..bfec65c9308b 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -478,6 +478,8 @@ pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
  {
- 	pmdval_t val = pmd_val(pmd), oldval = val;
- 
- 	val &= _HPAGE_CHG_MASK;
- 	val |= check_pgprot(newprot) & ~_HPAGE_CHG_MASK;
-+	val = fixup_dirty_pmd(val);
- 	val = flip_protnone_guard(oldval, val, PHYSICAL_PMD_PAGE_MASK);
- 	return __pmd(val);
+ 	if (likely(vma->vm_flags & VM_WRITE))
+ 		pmd = pmd_mkwrite(pmd);
++	else
++		pmd = arch_maybe_pmd_mkwrite(pmd, vma);
+ 	return pmd;
  }
+ 
 -- 
 2.21.0
 
