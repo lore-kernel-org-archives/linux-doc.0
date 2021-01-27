@@ -2,293 +2,200 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B486EC433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:21:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83DA0C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:21:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1334760187
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:21:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CF8664DA5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:21:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235755AbhA0RUq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 12:20:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40706 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234165AbhA0RUU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 12:20:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 690DB60187;
-        Wed, 27 Jan 2021 17:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611767978;
-        bh=34HKEYL8Uu56NwWdQHHa7lTy6DQWGDrOdbZLSeUzLas=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CcfFkYALbXpYIR968k4K6VSsCwjYIKLLVO+TvoC+Uwp/6Mcl9+I7o6GUH6bpcgxzr
-         xjx6Ukd7k7EPj4FuuZorAxyP7AEZms03pxIi/r+8XCmB29XBl6kYFT+FuIFFNOu1Hi
-         8p2FFSNJTmgymdMUCY5weC7GKTkOGoQh8J2R32PZ/9E/yPS7KCOa01BGz59E2q0sX8
-         npXkHmlqBK9FwbDxsYK0CKrc9u4yjfxAfuZ9xhJzmupMsDW1DUFhGQnHhKc+OIqBDA
-         EjsYtWaWd26MsVU1+Rmu42B8MqRdBh3/WqBKDL4SYU2uQ6YyRSRqmeBhV5+GyaMIra
-         zQw1qZ9+a5YZQ==
-Date:   Wed, 27 Jan 2021 19:19:34 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jerome Forissier <jerome@forissier.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        op-tee@lists.trustedfirmware.org, Jonathan Corbet <corbet@lwn.net>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <YBGgpj1OgLihwSd0@kernel.org>
-References: <YAa0ys4YJcZtKdfF@kernel.org>
- <YAeH2pb8szQyjusL@kernel.org>
- <CAFA6WYP5G6NfGk96ePOC+2kpD6B+4hz9nywyUM9Nh=dJDYMiuA@mail.gmail.com>
- <01000177223f74d3-1eef7685-4a19-40d2-ace6-d4cd7f35579d-000000@email.amazonses.com>
- <dc3979e8-6bf0-adb7-164d-d50e805a048f@forissier.org>
- <YAmYu9FxWcLPhBhs@kernel.org>
- <YAmcyKnYCK+Y4IGW@kernel.org>
- <1486cfe8-bc30-1266-12bd-0049f2b64820@forissier.org>
- <YAsVenGkaqb8205f@kernel.org>
- <CAFA6WYPQ+LZyHKZJQb=3euTy8f8TO3HqCADojpZaHXgtzNj+fw@mail.gmail.com>
+        id S235414AbhA0RTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 12:19:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235607AbhA0RRP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 12:17:15 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C682C06178C
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 09:16:35 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id w18so1598206pfu.9
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 09:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+        b=dimGUWBu88dX8OdBPtqV1K4RlZBNMOe3qLaj2DFeriW0zXGvfLXQdvpDQW90G+pq8w
+         p6xdN0AtXLBzz2oPtDzXqxZIr8psZaQU+lB+nDni6Zl/WIpcblkhLxycbxPAvV8te05i
+         KsVIp+ePdyQmOMOK1htw20UOkkjeFnjUvviVoIEY2ofKY9lhBjfLrheC8MM/6mQmKGDo
+         lgZrbx94cvm3t6pqu1kCexYTDa1cFG519/QRDEJtzXaZ7GklAYFE3S3JdLgmQXJO7Olf
+         5tbc9e9YBFuaJlg9N990aaa1pAzjhautowBMkQc84YuILgD85YeIKeYhHvbjucdynQoo
+         2yeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=eZkRAFReyCaCfsUebKjqhppx54eZqZXUA8gRquKcsPU=;
+        b=KiWhKLdQ/qO7LTZYew3EJqN7Z/HA6ERG7CuIeB4o2PuulRKs1BOvDa0mSVznCbN4iu
+         IUoZZfQUj1Vry6DhTfS8ezhcTS+ShJKhX4aBiE2hvZYYSdQOr5bYA6O+PM0VDUVRR6W0
+         9rzxE41HddGVuhFjGTQ5SW0EdbyPw6GXJ5YNSpUa2aQ2g+XKd3kXPp23yHsqBP5Fw7KR
+         SCNIJasp9VNZrWNk5qhgAZu3+6JlzYGz/BEGRUzRg7NUlmL6IPfT2o6XOeej4Dmdursj
+         3GONPW9N5RP4MTv7VNaDorQfxN4m5BatydP/KOjJKOPx4hfRrg07B+TvFtXqrtUhA2fp
+         oZ1Q==
+X-Gm-Message-State: AOAM531+xb+rJdAtp4tDWX/+RSQidhlNwHBxSHVudSuMW/fr85m3J3TA
+        hTWNDtZZ7HQbhvzFtWG7n7CUSXe9V7lzyxa4pfFPJg==
+X-Google-Smtp-Source: ABdhPJxKQ8+LIsyyI6CfO9fy/6S4KtVkebVD7Kd1qkb+yv7kQN6fPglxpJCY+HhjUK+MV4uOLoP/VTT9u1mKmJvI5fg=
+X-Received: by 2002:a63:724a:: with SMTP id c10mr10790208pgn.124.1611767794770;
+ Wed, 27 Jan 2021 09:16:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFA6WYPQ+LZyHKZJQb=3euTy8f8TO3HqCADojpZaHXgtzNj+fw@mail.gmail.com>
+References: <20210126225138.1823266-1-kaleshsingh@google.com> <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+In-Reply-To: <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Wed, 27 Jan 2021 12:16:23 -0500
+Message-ID: <CAC_TJvfuFiDSWD+ud_rJJ6zFQjYhcK1Rfqyrne4OBB4ZfJ0oMQ@mail.gmail.com>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+To:     Jann Horn <jannh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:47:38PM +0530, Sumit Garg wrote:
-> Hi Jarkko,
-> 
-> On Fri, 22 Jan 2021 at 23:42, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+On Wed, Jan 27, 2021 at 5:47 AM Jann Horn <jannh@google.com> wrote:
+>
+> +jeffv from Android
+>
+> On Tue, Jan 26, 2021 at 11:51 PM Kalesh Singh <kaleshsingh@google.com> wr=
+ote:
+> > In order to measure how much memory a process actually consumes, it is
+> > necessary to include the DMA buffer sizes for that process in the memor=
+y
+> > accounting. Since the handle to DMA buffers are raw FDs, it is importan=
+t
+> > to be able to identify which processes have FD references to a DMA buff=
+er.
+>
+> Or you could try to let the DMA buffer take a reference on the
+> mm_struct and account its size into the mm_struct? That would probably
+> be nicer to work with than having to poke around in procfs separately
+> for DMA buffers.
+>
+> > Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> > /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
+>
+> That's not quite right. They can both also be accessed by the user
+> owning the process. Also, fdinfo is a standard interface for
+> inspecting process state that doesn't permit reading process memory or
+> manipulating process state - so I think it would be fine to permit
+> access to fdinfo under a PTRACE_MODE_READ_FSCRED check, just like the
+> interface you're suggesting.
+
+
+Hi everyone. Thank you for the feedback.
+
+I understand there is a deeper problem of accounting shared memory in
+the kernel, that=E2=80=99s not only specific to the DMA buffers. In this ca=
+se
+DMA buffers, I think Jann=E2=80=99s proposal is the cleanest way to attribu=
+te
+the shared buffers to processes. I can respin a patch modifying fdinfo
+as suggested, if this is not an issue from a security perspective.
+
+Thanks,
+Kalesh
+
+>
+>
+> >   1. Do a readlink on each FD.
+> >   2. If the target path begins with "/dmabuf", then the FD is a dmabuf =
+FD.
+> >   3. stat the file to get the dmabuf inode number.
+> >   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 > >
-> > On Thu, Jan 21, 2021 at 05:23:45PM +0100, Jerome Forissier wrote:
-> > >
-> > >
-> > > On 1/21/21 4:24 PM, Jarkko Sakkinen wrote:
-> > > > On Thu, Jan 21, 2021 at 05:07:42PM +0200, Jarkko Sakkinen wrote:
-> > > >> On Thu, Jan 21, 2021 at 09:44:07AM +0100, Jerome Forissier wrote:
-> > > >>>
-> > > >>>
-> > > >>> On 1/21/21 1:02 AM, Jarkko Sakkinen via OP-TEE wrote:
-> > > >>>> On Wed, Jan 20, 2021 at 12:53:28PM +0530, Sumit Garg wrote:
-> > > >>>>> On Wed, 20 Jan 2021 at 07:01, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > >>>>>>
-> > > >>>>>> On Tue, Jan 19, 2021 at 12:30:42PM +0200, Jarkko Sakkinen wrote:
-> > > >>>>>>> On Fri, Jan 15, 2021 at 11:32:31AM +0530, Sumit Garg wrote:
-> > > >>>>>>>> On Thu, 14 Jan 2021 at 07:35, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > >>>>>>>>>
-> > > >>>>>>>>> On Wed, Jan 13, 2021 at 04:47:00PM +0530, Sumit Garg wrote:
-> > > >>>>>>>>>> Hi Jarkko,
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> On Mon, 11 Jan 2021 at 22:05, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> On Tue, Nov 03, 2020 at 09:31:44PM +0530, Sumit Garg wrote:
-> > > >>>>>>>>>>>> Add support for TEE based trusted keys where TEE provides the functionality
-> > > >>>>>>>>>>>> to seal and unseal trusted keys using hardware unique key.
-> > > >>>>>>>>>>>>
-> > > >>>>>>>>>>>> Refer to Documentation/tee.txt for detailed information about TEE.
-> > > >>>>>>>>>>>>
-> > > >>>>>>>>>>>> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> I haven't yet got QEMU environment working with aarch64, this produces
-> > > >>>>>>>>>>> just a blank screen:
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> ./output/host/usr/bin/qemu-system-aarch64 -M virt -cpu cortex-a53 -smp 1 -kernel output/images/Image -initrd output/images/rootfs.cpio -serial stdio
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> My BuildRoot fork for TPM and keyring testing is located over here:
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/buildroot-tpmdd.git/
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> The "ARM version" is at this point in aarch64 branch. Over time I will
-> > > >>>>>>>>>>> define tpmdd-x86_64 and tpmdd-aarch64 boards and everything will be then
-> > > >>>>>>>>>>> in the master branch.
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> To create identical images you just need to
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> $ make tpmdd_defconfig && make
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> Can you check if you see anything obviously wrong? I'm eager to test this
-> > > >>>>>>>>>>> patch set, and in bigger picture I really need to have ready to run
-> > > >>>>>>>>>>> aarch64 environment available.
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> I would rather suggest you to follow steps listed here [1] as to test
-> > > >>>>>>>>>> this feature on Qemu aarch64 we need to build firmwares such as TF-A,
-> > > >>>>>>>>>> OP-TEE, UEFI etc. which are all integrated into OP-TEE Qemu build
-> > > >>>>>>>>>> system [2]. And then it would be easier to migrate them to your
-> > > >>>>>>>>>> buildroot environment as well.
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> [1] https://lists.trustedfirmware.org/pipermail/op-tee/2020-May/000027.html
-> > > >>>>>>>>>> [2] https://optee.readthedocs.io/en/latest/building/devices/qemu.html#qemu-v8
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> -Sumit
-> > > >>>>>>>>>
-> > > >>>>>>>>> Can you provide 'keyctl_change'? Otherwise, the steps are easy to follow.
-> > > >>>>>>>>>
-> > > >>>>>>>>
-> > > >>>>>>>> $ cat keyctl_change
-> > > >>>>>>>> diff --git a/common.mk b/common.mk
-> > > >>>>>>>> index aeb7b41..663e528 100644
-> > > >>>>>>>> --- a/common.mk
-> > > >>>>>>>> +++ b/common.mk
-> > > >>>>>>>> @@ -229,6 +229,7 @@ BR2_PACKAGE_OPTEE_TEST_SDK ?= $(OPTEE_OS_TA_DEV_KIT_DIR)
-> > > >>>>>>>>  BR2_PACKAGE_OPTEE_TEST_SITE ?= $(OPTEE_TEST_PATH)
-> > > >>>>>>>>  BR2_PACKAGE_STRACE ?= y
-> > > >>>>>>>>  BR2_TARGET_GENERIC_GETTY_PORT ?= $(if
-> > > >>>>>>>> $(CFG_NW_CONSOLE_UART),ttyAMA$(CFG_NW_CONSOLE_UART),ttyAMA0)
-> > > >>>>>>>> +BR2_PACKAGE_KEYUTILS := y
-> > > >>>>>>>>
-> > > >>>>>>>>  # All BR2_* variables from the makefile or the environment are appended to
-> > > >>>>>>>>  # ../out-br/extra.conf. All values are quoted "..." except y and n.
-> > > >>>>>>>> diff --git a/kconfigs/qemu.conf b/kconfigs/qemu.conf
-> > > >>>>>>>> index 368c18a..832ab74 100644
-> > > >>>>>>>> --- a/kconfigs/qemu.conf
-> > > >>>>>>>> +++ b/kconfigs/qemu.conf
-> > > >>>>>>>> @@ -20,3 +20,5 @@ CONFIG_9P_FS=y
-> > > >>>>>>>>  CONFIG_9P_FS_POSIX_ACL=y
-> > > >>>>>>>>  CONFIG_HW_RANDOM=y
-> > > >>>>>>>>  CONFIG_HW_RANDOM_VIRTIO=y
-> > > >>>>>>>> +CONFIG_TRUSTED_KEYS=y
-> > > >>>>>>>> +CONFIG_ENCRYPTED_KEYS=y
-> > > >>>>>>>>
-> > > >>>>>>>>> After I've successfully tested 2/4, I'd suggest that you roll out one more
-> > > >>>>>>>>> version and CC the documentation patch to Elaine and Mini, and clearly
-> > > >>>>>>>>> remark in the commit message that TEE is a standard, with a link to the
-> > > >>>>>>>>> specification.
-> > > >>>>>>>>>
-> > > >>>>>>>>
-> > > >>>>>>>> Sure, I will roll out the next version after your testing.
-> > > >>>>>>>
-> > > >>>>>>> Thanks, I'll try this at instant, and give my feedback.
-> > > >>>>>>
-> > > >>>>>> I bump into this:
-> > > >>>>>>
-> > > >>>>>> $ make run-only
-> > > >>>>>> ln -sf /home/jarkko/devel/tpm/optee/build/../out-br/images/rootfs.cpio.gz /home/jarkko/devel/tpm/optee/build/../out/bin/
-> > > >>>>>> ln: failed to create symbolic link '/home/jarkko/devel/tpm/optee/build/../out/bin/': No such file or directory
-> > > >>>>>> make: *** [Makefile:194: run-only] Error 1
-> > > >>>>>>
-> > > >>>>>
-> > > >>>>> Could you check if the following directory tree is built after
-> > > >>>>> executing the below command?
-> > > >>>>>
-> > > >>>>> $ make -j`nproc`
-> > > >>>>> CFG_IN_TREE_EARLY_TAS=trusted_keys/f04a0fe7-1f5d-4b9b-abf7-619b85b4ce8c
-> > > >>>>>
-> > > >>>>> $ tree out/bin/
-> > > >>>>> out/bin/
-> > > >>>>> ├── bl1.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl1.bin
-> > > >>>>> ├── bl2.bin -> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl2.bin
-> > > >>>>> ├── bl31.bin ->
-> > > >>>>> /home/sumit/build/optee/build/../trusted-firmware-a/build/qemu/release/bl31.bin
-> > > >>>>> ├── bl32.bin ->
-> > > >>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-header_v2.bin
-> > > >>>>> ├── bl32_extra1.bin ->
-> > > >>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pager_v2.bin
-> > > >>>>> ├── bl32_extra2.bin ->
-> > > >>>>> /home/sumit/build/optee/build/../optee_os/out/arm/core/tee-pageable_v2.bin
-> > > >>>>> ├── bl33.bin ->
-> > > >>>>> /home/sumit/build/optee/build/../edk2/Build/ArmVirtQemuKernel-AARCH64/RELEASE_GCC49/FV/QEMU_EFI.fd
-> > > >>>>> ├── Image -> /home/sumit/build/optee/build/../linux/arch/arm64/boot/Image
-> > > >>>>> └── rootfs.cpio.gz ->
-> > > >>>>> /home/sumit/build/optee/build/../out-br/images/rootfs.cpio.gz
-> > > >>>>>
-> > > >>>>> 0 directories, 9 files
-> > > >>>>>
-> > > >>>>> -Sumit
-> > > >>>>
-> > > >>>> I actually spotted a build error that was unnoticed last time:
-> > > >>>>
-> > > >>>> make[2]: Entering directory '/home/jarkko/devel/tpm/optee/edk2/BaseTools/Tests'
-> > > >>>> /bin/sh: 1: python: not found
-> > > >>>>
-> > > >>>> I'd prefer not to install Python2. It has been EOL over a year.
-> > > >>>
-> > > >>> AFAIK, everything should build fine with Python3. On my Ubuntu 20.04
-> > > >>> machine, this is accomplished by installing package "python-is-python3"
-> > > >>> (after uninstalling "python-is-python2" if need be).
-> > > >>>
-> > > >>> $ ls -l /usr/bin/python
-> > > >>> lrwxrwxrwx 1 root root 7 Apr 15  2020 /usr/bin/python -> python3
-> > > >>
-> > > >> Right, just found about this in unrelated context :-) [*]
-> > > >>
-> > > >> Hope this will work out...
-> > > >>
-> > > >> [*] https://github.com/surge-synthesizer/surge/pull/3655
-> > > >
-> > > > Now I get
-> > > >
-> > > > Traceback (most recent call last):
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 36, in <module>
-> > > >     allTests = GetAllTestsSuite()
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 33, in GetAllTestsSuite
-> > > >     return unittest.TestSuite([GetCTestSuite(), GetPythonTestSuite()])
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/RunTests.py", line 25, in GetCTestSuite
-> > > >     import CToolsTests
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/CToolsTests.py", line 22, in <module>
-> > > >     import TianoCompress
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TianoCompress.py", line 69, in <module>
-> > > >     TheTestSuite = TestTools.MakeTheTestSuite(locals())
-> > > >   File "/home/jarkko/Projects/tpm/optee/edk2/BaseTools/Tests/TestTools.py", line 43, in MakeTheTestSuite
-> > > >     for name, item in localItems.iteritems():
-> > > > AttributeError: 'dict' object has no attribute 'iteritems'
-> > >
-> > > Right. Same here after removing all traces of Python2 from my system :-/
-> > >
-> > > A couple of fixes are needed:
-> > > 1. EDK2 needs to be upgraded to tag or later [1]
-> > > 2. The PYTHON3_ENABLE environment variable needs to be set to TRUE [2]
-> > >
-> > > [1] https://github.com/OP-TEE/manifest/pull/177
-> > > [2] https://github.com/OP-TEE/build/pull/450
+> > Android captures per-process system memory state when certain low memor=
+y
+> > events (e.g a foreground app kill) occur, to identify potential memory
+> > hoggers. To include a process=E2=80=99s dmabuf usage as part of its mem=
+ory state,
+> > the data collection needs to be fast enough to reflect the memory state=
+ at
+> > the time of such events.
 > >
-> > BTW, Is to *really* impossible to test this with plain BuildRoot.  It's
-> > obvious that this forks BR internally.
+> > Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
+> > privileges, this approach is not suitable for production builds.
+>
+> It should be easy to add enough information to /proc/<pid>/fdinfo/ so
+> that you don't need to look at /proc/<pid>/fd/ anymore.
+>
+> > Granting
+> > root privileges even to a system process increases the attack surface a=
+nd
+> > is highly undesirable. Additionally this is slow as it requires many
+> > context switches for searching and getting the dma-buf info.
+>
+> What do you mean by "context switches"? Task switches or kernel/user
+> transitions (e.g. via syscall)?
+>
+> > With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buff=
+er
+> > details can be queried using their unique inode numbers.
 > >
-> > I mean even if I get this working once, this will feels like a clumsy way
-> > to test Aarch64 regularly. I use BuildRoot extensively for x86 testing. And
-> > it would be nice to be able to start doing regular ARM testing.
-> 
-> The main reason to guide you towards the OP-TEE build system is that
-> you will be able to build all the firmwares (TF-A, OP-TEE, edk2 etc.)
-> from source. If you don't need to rebuild those then I have prepared a
-> flash firmware binary blob for your testing (attached flash.bin). So
-> Qemu cmdline will look like:
-> 
-> $ qemu-system-aarch64 -nographic -s -machine virt,secure=on -cpu
-> cortex-a57 -kernel out/bin/Image -no-acpi -append
-> 'console=ttyAMA0,38400 keep_bootcon root=/dev/vda2' -initrd
-> out/bin/rootfs.cpio.gz -smp 2 -m 1024 -bios flash.bin -d unimp
-> 
-> Here you can use "Image" and "rootfs.cpio.gz" from your plain BR builds.
-> 
-> Give it a try and let me know if this works for you.
-
-Hi, sorry something happened with Evolution that I don't understand
-and it just sent the message quoted without my response. Should
-always stick to mutt.
-
-There's a bug in BuildRoot that prevents me testing right now, when
-you use LINUX_OVERRIDE_SRCDIR. BR developers are looking into that.
-
-I'll test this once there's a resolution for that.
-
-/Jarkko
+> > This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interfac=
+e.
+> >
+> > /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
+> > every DMA buffer FD that the task has. Entries with the same inode
+> > number can appear more than once, indicating the total FD references
+> > for the associated DMA buffer.
+> >
+> > If a thread shares the same files as the group leader then its
+> > dmabuf_fds file will be empty, as these dmabufs are reported by the
+> > group leader.
+> >
+> > The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/map=
+s)
+> > and allows the efficient accounting of per-process DMA buffer usage wit=
+hout
+> > requiring root privileges. (See data below)
+>
+> I'm not convinced that introducing a new procfs file for this is the
+> right way to go. And the idea of having to poke into multiple
+> different files in procfs and in sysfs just to be able to compute a
+> proper memory usage score for a process seems weird to me. "How much
+> memory is this process using" seems like the kind of question the
+> kernel ought to be able to answer (and the kernel needs to be able to
+> answer somewhat accurately so that its own OOM killer can do its job
+> properly)?
