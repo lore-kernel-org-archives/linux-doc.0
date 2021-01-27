@@ -2,468 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFF2C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BFCDC433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 18:27:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B10564DAB
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:37:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D93BB64DB1
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 18:27:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344006AbhA0RhM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 12:37:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343932AbhA0Rdi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 12:33:38 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94AA9C061573;
-        Wed, 27 Jan 2021 09:32:58 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id h6so3000222oie.5;
-        Wed, 27 Jan 2021 09:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Oz+/hcKZxIpJaMX8a8BFQY8IQewFeLmT4ZAvAqwd6ig=;
-        b=JmpUz8b2+/eGPi0g9usur5TmcWm0dZc0TErnAYt8LqUzfz2rdfoXfoOcNnKhkzUCBp
-         t4P2eZ27n70cM/obBZGVv2jQkjuIr4dzAvBsSaAm8+mid5lMGiyjlxQgjOxmYYf7pu1i
-         +5zDdG+RJajYyUZ7ReeRNlASuyZtdrTR1chtHTvuT+yQyuHQlTWZ6qAQeorAYeGYm89Z
-         F6TO3gb2qRXnVykxBPgxJpD/EnkVn2dTOOoMJkmtq5fctgr+rqcP6YjVQovVpXX+uT7z
-         liMJJQlna4jRWP3ZqyP8O8JkHnI9cdy1AmvVXttNqI891R19mEBtoaqRZ+dsjs1hUoU5
-         wvhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Oz+/hcKZxIpJaMX8a8BFQY8IQewFeLmT4ZAvAqwd6ig=;
-        b=s4mUFUJM6t5BQdQNME2twNvjNjE8YeHHBs7FDtMK+soLqVgXSRgkfUWtx5t9QLCRAr
-         jQeP15ofAwJH068cqyGXZxb1NLJCfJ9Jx5eZdoSLZJqciYhb1MNYhlWDdsknco2pBkpU
-         rFxBu9OFq4RG4T2pfUClGMogSGGqq7ZkjZlMzDwXm6fLZcWGNBLZEptc71I9c2fP+FvD
-         W1bLw2WPLf/2XugSwWy4i8uSJ/9QW5HTEJI4wdHU76oYM4Dy6xXNiDsCz/gV7biCxu4i
-         hQEuz/OOYk4bQXjHyw2+TTq4p+ypO3sQa5U69vxjXYzYptD7V3aTQUa+jkIP+x3v7Yih
-         AVwA==
-X-Gm-Message-State: AOAM531Ob+XSS+91uczO4ymS2bda2FgFeD+6FPBhEAe43Vy79COQkHLR
-        NcCkyw0Hm0PrQgnF/WPesNv3VEZkyfA=
-X-Google-Smtp-Source: ABdhPJwk3OyNzwKzu/MJGzCTXZ3ZrCm+jSiq9RlZLcdCy05OzhJwaKUkxHMjjDPglSnsEDitiFliZw==
-X-Received: by 2002:aca:b755:: with SMTP id h82mr3789287oif.5.1611768777878;
-        Wed, 27 Jan 2021 09:32:57 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id f6sm477510ote.28.2021.01.27.09.32.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 27 Jan 2021 09:32:56 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 27 Jan 2021 09:32:55 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Subject: Re: [PATCH 1/1] Add ST STPDDC60 pmbus driver
-Message-ID: <20210127173255.GA144627@roeck-us.net>
-References: <20210127084140.35626-1-erik.rosen@metormote.com>
- <20210127084140.35626-2-erik.rosen@metormote.com>
+        id S236266AbhA0S1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 13:27:24 -0500
+Received: from m42-8.mailgun.net ([69.72.42.8]:38007 "EHLO m42-8.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236383AbhA0S1T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 13:27:19 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1611772015; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=k7pNE/3vLZHCiBBDw12FPkHMI8j0bhqUkbbxxev4hhs=;
+ b=nYtYVvYc0Pncz83p8/e6FSfhB2bfAVVnufjGkMeo5LDgfwqHdhNP2kvdrgwe9YsTouOqbCUw
+ mJ1qBU9ze8msa0yHnIIg1cvJ4JtxYmgx3yWRUG9d5haNIT6rezWBe9mYI6W8A5tcFPseAtan
+ nsTzMLocqgfuGgKuD0MTXE8sUu0=
+X-Mailgun-Sending-Ip: 69.72.42.8
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 6011b050beacd1a2521fccfc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 27 Jan 2021 18:26:24
+ GMT
+Sender: mdalam=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id BB736C433CA; Wed, 27 Jan 2021 18:26:23 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: mdalam)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 84248C433C6;
+        Wed, 27 Jan 2021 18:26:22 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210127084140.35626-2-erik.rosen@metormote.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 27 Jan 2021 23:56:22 +0530
+From:   mdalam@codeaurora.org
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
+        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
+        mdalam=codeaurora.org@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+In-Reply-To: <20210119164511.GE2771@vkoul-mobl>
+References: <1608215842-15381-1-git-send-email-mdalam@codeaurora.org>
+ <20201221092355.GA3323@vkoul-mobl>
+ <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
+ <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
+ <20210112101056.GI2771@vkoul-mobl>
+ <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
+ <20210115055806.GE2771@vkoul-mobl>
+ <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
+ <20210119164511.GE2771@vkoul-mobl>
+Message-ID: <534308caab7c18730ad0cc25248d116f@codeaurora.org>
+X-Sender: mdalam@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 09:41:40AM +0100, Erik Rosen wrote:
-> Add ST STPDDC60 pmbus client driver.
+On 2021-01-19 22:15, Vinod Koul wrote:
+> On 18-01-21, 09:21, mdalam@codeaurora.org wrote:
+>> On 2021-01-15 11:28, Vinod Koul wrote:
+>> > On 14-01-21, 01:20, mdalam@codeaurora.org wrote:
+>> > > On 2021-01-12 15:40, Vinod Koul wrote:
+>> > > > On 12-01-21, 15:01, mdalam@codeaurora.org wrote:
+>> > > > > On 2020-12-21 23:03, mdalam@codeaurora.org wrote:
+>> > > > > > On 2020-12-21 14:53, Vinod Koul wrote:
+>> > > > > > > Hello,
+>> > > > > > >
+>> > > > > > > On 17-12-20, 20:07, Md Sadre Alam wrote:
+>> > > > > > > > This change will add support for LOCK & UNLOCK flag bit support
+>> > > > > > > > on CMD descriptor.
+>> > > > > > > >
+>> > > > > > > > If DMA_PREP_LOCK flag passed in prep_slave_sg then requester of this
+>> > > > > > > > transaction wanted to lock the DMA controller for this transaction so
+>> > > > > > > > BAM driver should set LOCK bit for the HW descriptor.
+>> > > > > > > >
+>> > > > > > > > If DMA_PREP_UNLOCK flag passed in prep_slave_sg then requester
+>> > > > > > > > of this
+>> > > > > > > > transaction wanted to unlock the DMA controller.so BAM driver
+>> > > > > > > > should set
+>> > > > > > > > UNLOCK bit for the HW descriptor.
+>> > > > > > >
+>> > > > > > > Can you explain why would we need to first lock and then unlock..? How
+>> > > > > > > would this be used in real world.
+>> > > > > > >
+>> > > > > > > I have read a bit of documentation but is unclear to me. Also should
+>> > > > > > > this be exposed as an API to users, sounds like internal to driver..?
+>> > > > > > >
+>> > > > > >
+>> > > > > > IPQ5018 SoC having only one Crypto Hardware Engine. This Crypto Hardware
+>> > > > > > Engine
+>> > > > > > will be shared between A53 core & ubi32 core. There is two separate
+>> > > > > > driver dedicated
+>> > > > > > to A53 core and ubi32 core. So to use Crypto Hardware Engine
+>> > > > > > parallelly for encryption/description
+>> > > > > > we need bam locking mechanism. if one driver will submit the request
+>> > > > > > for encryption/description
+>> > > > > > to Crypto then first it has to set LOCK flag bit on command descriptor
+>> > > > > > so that other pipes will
+>> > > > > > get locked.
+>> > > > > >
+>> > > > > > The Pipe Locking/Unlocking will be only on command-descriptor. Upon
+>> > > > > > encountering a command descriptor
+>> > > >
+>> > > > Can you explain what is a cmd descriptor?
+>> > >
+>> > >   In BAM pipe descriptor structure there is a field called CMD
+>> > > (Command
+>> > > descriptor).
+>> > >   CMD allows the SW to create descriptors of type Command which does
+>> > > not
+>> > > generate any data transmissions
+>> > >   but configures registers in the Peripheral (write operations, and
+>> > > read
+>> > > registers operations ).
+>> > >   Using command descriptor enables the SW to queue new configurations
+>> > > between data transfers in advance.
+>> >
+>> > What and when is the CMD descriptor used for..?
+>> 
+>>   CMD descriptor is mainly used for configuring controller register.
+>>   We can read/write controller register via BAM using CMD descriptor 
+>> only.
+>>   CMD descriptor use command pipe for the transaction.
 > 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-> ---
->  Documentation/hwmon/index.rst    |   1 +
->  Documentation/hwmon/stpddc60.rst |  79 +++++++++++++
->  MAINTAINERS                      |   7 ++
->  drivers/hwmon/pmbus/Kconfig      |  10 ++
->  drivers/hwmon/pmbus/Makefile     |   2 +
->  drivers/hwmon/pmbus/stpddc60.c   | 188 +++++++++++++++++++++++++++++++
->  6 files changed, 287 insertions(+)
->  create mode 100644 Documentation/hwmon/stpddc60.rst
->  create mode 100644 drivers/hwmon/pmbus/stpddc60.c
+> In which use cases would you need to issue cmd descriptors..?
+
+   In IPQ5018 there is only one Crypto engine and it will get shared 
+between
+   UBI32 core & A53 core. So here we need to use command descriptor 
+in-order to
+   perform LOCKING/UNLOCKING mechanism. Since LOCK/ULOCK flag we can set 
+only on
+   CMD descriptor.
 > 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index fcb870ce6286..94b4fcf182cd 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -169,6 +169,7 @@ Hardware Monitoring Kernel Drivers
->     smsc47m192
->     smsc47m1
->     sparx5-temp
-> +   stpddc60
->     tc654
->     tc74
->     thmc50
-> diff --git a/Documentation/hwmon/stpddc60.rst b/Documentation/hwmon/stpddc60.rst
-> new file mode 100644
-> index 000000000000..11d5a9977e80
-> --- /dev/null
-> +++ b/Documentation/hwmon/stpddc60.rst
-> @@ -0,0 +1,79 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver stpddc60
-> +======================
-> +
-> +Supported chips:
-> +
-> +  * ST STPDDC60
-> +
-> +    Prefix: 'stpddc60', 'bmr481'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://flexpowermodules.com/documents/fpm-techspec-bmr481
-> +
-> +Author: Erik Rosen <erik.rosen@metormote.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +This driver supports hardware monitoring for ST STPDDC60 controller chip and
-> +compatible modules.
-> +
-> +The driver is a client driver to the core PMBus driver. Please see
-> +Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-> +on PMBus client drivers.
-> +
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not auto-detect devices. You will have to instantiate the
-> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-> +details.
-> +
-> +The vout under- and over-voltage limits are read-only for this chip.
-> +
-> +
-> +Platform data support
-> +---------------------
-> +
-> +The driver supports standard PMBus driver platform data.
-> +
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following attributes are supported. Vin, iout and temp limits
-> +are read-write; all other attributes are read-only.
-> +
-> +======================= ========================================================
-> +in1_label		"vin"
-> +in1_input		Measured input voltage.
-> +in1_lcrit		Critical minimum input voltage.
-> +in1_crit		Critical maximum input voltage.
-> +in1_lcrit_alarm		Input voltage critical low alarm.
-> +in1_crit_alarm		Input voltage critical high alarm.
-> +
-> +in2_label		"vout1"
-> +in2_input		Measured output voltage.
-> +in2_lcrit		Critical minimum output Voltage.
-> +in2_crit		Critical maximum output voltage.
-> +in2_lcrit_alarm		Critical output voltage critical low alarm.
-> +in2_crit_alarm		Critical output voltage critical high alarm.
-> +
-> +curr1_label		"iout1"
-> +curr1_input		Measured output current.
-> +curr1_max		Maximum output current.
-> +curr1_max_alarm		Output current high alarm.
-> +curr1_crit		Critical maximum output current.
-> +curr1_crit_alarm	Output current critical high alarm.
-> +
-> +temp1_input		Measured maximum temperature of all phases.
-> +temp1_max		Maximum temperature limit.
-> +temp1_max_alarm		High temperature alarm.
-> +temp1_crit		Critical maximum temperature limit.
-> +temp1_crit_alarm	Critical maximum temperature alarm.
-> +======================= ========================================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 992fe3b0900a..e4c696f8eabe 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16819,6 +16819,13 @@ L:	linux-i2c@vger.kernel.org
->  S:	Maintained
->  F:	drivers/i2c/busses/i2c-stm32*
->  
-> +ST STPDDC60 DRIVER
-> +M:	Daniel Nilsson <daniel.nilsson@flex.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/stpddc60.rst
-> +F:	drivers/hwmon/pmbus/stpddc60.c
-> +
->  ST VL53L0X ToF RANGER(I2C) IIO DRIVER
->  M:	Song Qiang <songqiang1304521@gmail.com>
->  L:	linux-iio@vger.kernel.org
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 03606d4298a4..b2becdd84b11 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -247,6 +247,16 @@ config SENSORS_Q54SJ108A2
->  	  This driver can also be built as a module. If so, the module will
->  	  be called q54sj108a2.
->  
-> +config SENSORS_STPDDC60
-> +	tristate "ST STPDDC60"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for ST
-> +	  STPDDC60 Universal Digital Multicell Controller, as well as for
-> +	  Flex BMR481.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called stpddc60.
-> +
->  config SENSORS_TPS40422
->  	tristate "TI TPS40422"
->  	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index 6a4ba0fdc1db..ef468806238c 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -28,9 +28,11 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
->  obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
->  obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
->  obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
-> +obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
->  obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
->  obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
->  obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
->  obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
->  obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
->  obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
-> +
-> diff --git a/drivers/hwmon/pmbus/stpddc60.c b/drivers/hwmon/pmbus/stpddc60.c
-> new file mode 100644
-> index 000000000000..4e3ab260a3c2
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/stpddc60.c
-> @@ -0,0 +1,188 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for the STPDDC60 controller
-> + *
-> + * Copyright (c) 2021 Flextronics International Sweden AB.
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/pmbus.h>
-> +#include "pmbus.h"
-> +
-> +enum chips { stpddc60 };
-
-Seems pointless since it is not used.
-
-> +
-> +static const struct i2c_device_id stpddc60_id[] = {
-> +	{"stpddc60", stpddc60},
-> +	{"bmr481", stpddc60},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, stpddc60_id);
-> +
-> +static struct pmbus_driver_info stpddc60_info = {
-> +	.pages = 1,
-> +	.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-> +		| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-> +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
-> +		| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-> +		| PMBUS_HAVE_POUT,
-> +};
-> +
-> +/*
-> + * Convert VID value to milli-volt
-> + */
-> +static long stpddc60_vid2mv(int val)
-> +{
-> +	long rv = 0;
-> +
-> +	if (val >= 0x01)
-> +		rv = 250 + (val - 1) * 5;
-> +
-> +	return rv;
-> +}
-> +
-> +/*
-> + * Convert milli-volt to linear
-> + */
-> +static int stpddc60_mv2l(long mv)
-> +{
-> +	int rv;
-> +
-> +	rv = (mv << 8) / 1000;
-
-DIV_ROUND_CLOSEST(), maybe ?
-
-> +
-> +	return rv;
-> +}
-
-Pleae combine those two functions into one to directly convert VID to
-linear format. Having two functions is confusing and adds unnecessary
-complexity.
-
-> +
-> +/*
-> + * The VOUT_COMMAND register uses the VID format but the vout alarm limit
-> + * registers use the linear format so we override VOUT_MODE here to force
-> + * linear format for all registers.
-> + */
-> +static int stpddc60_read_byte_data(struct i2c_client *client, int page, int reg)
-> +{
-> +	int ret;
-> +
-> +	if (page > 0)
-> +		return -ENXIO;
-> +
-> +	switch (reg) {
-> +	case PMBUS_VOUT_MODE:
-> +		ret = 0x18;
-> +		break;
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Do the necessary conversions between VID and linear data format.
-> + */
-> +static int stpddc60_read_word_data(struct i2c_client *client, int page,
-> +				   int phase, int reg)
-> +{
-> +	int ret;
-> +
-> +	if (page > 0)
-> +		return -ENXIO;
-> +
-> +	switch (reg) {
-> +	case PMBUS_READ_VOUT:
-> +		ret = pmbus_read_word_data(client, page, phase, reg);
-> +		if (ret < 0)
-> +			return ret;
-> +		ret = stpddc60_mv2l(stpddc60_vid2mv(ret));
-
-It might possibly be simpler to just return the value reported
-by MFR_READ_VOUT. 
-
-> +		break;
-> +	case PMBUS_VOUT_OV_FAULT_LIMIT:
-> +	case PMBUS_VOUT_UV_FAULT_LIMIT:
-> +		ret = pmbus_read_word_data(client, page, phase, reg);
-> +		if (ret < 0)
-> +			return ret;
-> +		ret &= 0x07ff;
-
-This needs explanation. The BMR481 datasheet does not suggest that only
-11 bits are valid.
-
-> +		break;
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/*
-> + * The vout under- and over-voltage limits are readonly for this chip.
-> + */
-
-Not really. The BMR481 datasheet suggests that the value can be changed
-by writing to MFR_OV_LIMIT_OFFSET and MFR_UV_LIMIT_OFFSET.
-I am not saying that you should implement that if you don't want to,
-but I would suggest a better (more accurate) explanation.
-
-> +static int stpddc60_write_word_data(struct i2c_client *client, int page,
-> +				    int reg, u16 word)
-> +{
-> +	int ret;
-> +
-> +	if (page > 0)
-> +		return -ENXIO;
-> +
-> +	switch (reg) {
-> +	case PMBUS_VOUT_OV_FAULT_LIMIT:
-> +		ret = -EACCES;
-> +		break;
-> +	case PMBUS_VOUT_UV_FAULT_LIMIT:
-> +		ret = -EACCES;
-> +		break;
-> +	default:
-> +		ret = -ENODATA;
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int stpddc60_probe(struct i2c_client *client,
-> +			  const struct i2c_device_id *id)
-> +{
-> +	int status;
-> +	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
-> +	const struct i2c_device_id *mid;
-> +	struct pmbus_driver_info *info = &stpddc60_info;
-> +
-> +	if (!i2c_check_functionality(client->adapter,
-> +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-> +				     | I2C_FUNC_SMBUS_BLOCK_DATA))
-> +		return -ENODEV;
-> +
-> +	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
-> +	if (status < 0) {
-> +		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
-> +		return status;
-> +	}
-> +	for (mid = stpddc60_id; mid->name[0]; mid++) {
-> +		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
-> +			break;
-> +	}
-> +	if (!mid->name[0]) {
-> +		dev_err(&client->dev, "Unsupported device\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	info->read_byte_data = stpddc60_read_byte_data;
-> +	info->read_word_data = stpddc60_read_word_data;
-> +	info->write_word_data = stpddc60_write_word_data;
-> +
-> +	return pmbus_do_probe(client, info);
-> +}
-> +
-> +static struct i2c_driver stpddc60_driver = {
-> +	.driver = {
-> +		   .name = "stpddc60",
-> +		   },
-> +	.probe = stpddc60_probe,
-
-Please use the probe_new function callback (no id parameter).
-
-> +	.id_table = stpddc60_id,
-> +};
-> +
-> +module_i2c_driver(stpddc60_driver);
-> +
-> +MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
-> +MODULE_DESCRIPTION("PMBus driver for ST STPDDC60");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.20.1
+>> >
+>> > > >
+>> > > > > > with LOCK bit set, The BAM will lock all other pipes not related to
+>> > > > > > the current pipe group, and keep
+>> > > > > > handling the current pipe only until it sees the UNLOCK set then it
+>> > > > > > will release all locked pipes.
+>> > > > > > locked pipe will not fetch new descriptors even if it got event/events
+>> > > > > > adding more descriptors for
+>> > > > > > this pipe (locked pipe).
+>> > > > > >
+>> > > > > > No need to expose as an API to user because its internal to driver, so
+>> > > > > > while preparing command descriptor
+>> > > > > > just we have to update the LOCK/UNLOCK flag.
+>> > > >
+>> > > > So IIUC, no api right? it would be internal to driver..?
+>> > >
+>> > >   Yes its totally internal to deriver.
+>> >
+>> > So no need for this patch then, right?
+>> 
+>>   This patch is needed , because if some hardware will shared between
+>>   multiple core like A53 and ubi32 for example. In IPQ5018 there is
+>>   only one crypto engine and this will be shared between A53 core and
+>>   ubi32 core and in A53 core & ubi32 core there are different drivers
+>>   is getting used. So if encryption/decryption request come at same
+>>   time from both the driver then things will get messed up. So here we
+>>   need LOCKING mechanism.  If first request is from A53 core driver
+>>   then this driver should lock all the pipes other than pipe dedicated
+>>   to A53 core. So while preparing CMD descriptor driver should used
+>>   this flag "DMA_PREP_LOCK", Since LOCK and UNLOCK flag bit we can set
+>>   only on CMD descriptor. Once request processed then driver will set
+>>   UNLOCK flag on CMD descriptor. Driver should use this flag
+>>   "DMA_PREP_UNLOCK" while preparing CMD descriptor. Same logic will be
+>>   apply for ubi32 core driver as well.
 > 
+> Why cant this be applied at driver level, based on txn being issued it
+> can lock issue the txn and then unlock when done. I am not convinced 
+> yet
+> that this needs to be exported to users and can be managed by dmaengine
+> driver.
+
+   The actual LOCK/UNLOCK flag should be set on hardware command 
+descriptor.
+   so this flag setting should be done in DMA engine driver. The user of 
+the DMA
+   driver like (in case of IPQ5018) Crypto can use flag "DMA_PREP_LOCK" & 
+"DMA_PREP_UNLOCK"
+   while preparing CMD descriptor before submitting to the DMA engine. In 
+DMA engine driver
+   we are checking these flasgs on CMD descriptor and setting actual 
+LOCK/UNLOCK flag on hardware
+   descriptor.
+
+    if (flags & DMA_PREP_CMD) { <== check for descriptor type
+		if (flags & DMA_PREP_LOCK)
+			desc->flags |= cpu_to_le16(DESC_FLAG_LOCK); <== Actual LOCK flag 
+setting on HW descriptor.
+		if (flags & DMA_PREP_UNLOCK)
+			desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK); <== Actual UNLOCK flag 
+setting on HW descriptor.
+	}
+> 
+> Thanks
