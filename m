@@ -2,79 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C96DEC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 16:02:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A1DC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:00:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8876E207D8
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 16:02:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DCF264D9E
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236946AbhA0QCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 11:02:31 -0500
-Received: from verein.lst.de ([213.95.11.211]:53502 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236827AbhA0P4x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 10:56:53 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 5554C68AFE; Wed, 27 Jan 2021 16:56:08 +0100 (CET)
-Date:   Wed, 27 Jan 2021 16:56:08 +0100
-From:   ". Christoph Hellwig" <hch@lst.de>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     ". Christoph Hellwig" <hch@lst.de>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20210127155608.GA20272@lst.de>
-References: <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de> <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com> <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de> <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com> <20210111083614.GA27589@lst.de> <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com> <20210126170659.GA9104@lst.de> <CANiDSCsz+9DJesOTJ5C5HGEH-wwuTmEd3c8yLoHjnDz=2+ndJw@mail.gmail.com>
+        id S232758AbhA0RAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 12:00:11 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:18732 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234192AbhA0Q5z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 11:57:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1611766675; x=1643302675;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=i5zluJQ8Ep7MHqr2mjA7/P86f9akCWCX+vhcFXDo1AU=;
+  b=JMUVhCBndDaSn1y7adHTCK8wAbUfbFbi8KFDlT5kQwRB3zN3Vvfclzve
+   9sQDaS57ZhZdJX5O8254NIVoiwBL7u37EUnw2dEim3U+0wqMUzmCH+nAH
+   KewWxaN7vZymBhUcnUyRv4p9z0MjR/dOMsGXMzyop/DDHvG3WZCTixI3U
+   0=;
+X-IronPort-AV: E=Sophos;i="5.79,380,1602547200"; 
+   d="scan'208";a="106835424"
+Received: from sea3-co-svc-lb6-vlan2.sea.amazon.com (HELO email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.47.22.34])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 27 Jan 2021 16:57:08 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS id 6986AA18C3;
+        Wed, 27 Jan 2021 16:57:05 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.132) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 27 Jan 2021 16:56:48 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     Shakeel Butt <shakeelb@google.com>, <Jonathan.Cameron@huawei.com>,
+        "Andrea Arcangeli" <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual memory address spaces
+Date:   Wed, 27 Jan 2021 17:56:30 +0100
+Message-ID: <20210127165630.29904-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201224071111.11551-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsz+9DJesOTJ5C5HGEH-wwuTmEd3c8yLoHjnDz=2+ndJw@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.132]
+X-ClientProxiedBy: EX13D28UWC004.ant.amazon.com (10.43.162.24) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 12:29:08AM +0100, Ricardo Ribalda wrote:
-> - Is there any platform where dma_alloc_noncontiguos can fail?
-> This is, !ops->alloc_noncontiguous and !dev->coherent_dma_mask
-> If yes then we need to add a function to let the driver know in
-> advance that it has to use the coherent allocator (usb_alloc_coherent
-> for uvc)
+On Thu, 24 Dec 2020 08:11:11 +0100 SeongJae Park <sjpark@amazon.com> wrote:
 
-dev->coherent_dma_mask is set by the driver.  So the only reason why
-dma_alloc_noncontiguos will fail is because is because it can't
-allocate any memory.
-
-> - In dma_alloc_noncontiguos, on the dma_alloc_pages fallback. If we
-> have a device where the dma happens in only one direction, could not
-> get more performance with DMA_FROM/TO_DEVICE instead of
-> DMA_BIDIRECTIONAL ?
-
-Yes, we could probably do that.
-
+> On Wed, 23 Dec 2020 14:54:02 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 > 
+> > On Wed, Dec 23, 2020 at 8:47 AM SeongJae Park <sjpark@amazon.com> wrote:
+> > >
+> > [snip]
+> > > > [snip]
+> > > > > +
+> > > > > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
+> > > > > +                       unsigned long *page_sz)
+> > > > > +{
+> > > > > +       pte_t *pte = NULL;
+> > > > > +       pmd_t *pmd = NULL;
+> > > > > +       spinlock_t *ptl;
+> > > > > +       bool young = false;
+> > > > > +
+> > > > > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > > > > +               return false;
+> > > > > +
+> > > > > +       *page_sz = PAGE_SIZE;
+> > > > > +       if (pte) {
+> > > > > +               young = pte_young(*pte);
+> > > > > +               if (!young)
+> > > > > +                       young = !page_is_idle(pte_page(*pte));
+> > > > > +               pte_unmap_unlock(pte, ptl);
+> > > > > +               return young;
+> > > > > +       }
+> > > > > +
+> > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > > > +       young = pmd_young(*pmd);
+> > > > > +       if (!young)
+> > > > > +               young = !page_is_idle(pmd_page(*pmd));
+> > > > > +       spin_unlock(ptl);
+> > > > > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
+> > > > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> > > > > +
+> > > > > +       return young;
+> > > >
+> > > > You need mmu_notifier_test_young() here. Hmm I remember mentioning
+> > > > this in some previous version as well.
+> > >
+> > > Your question and my answer was as below:
+> > >
+> > >     > Don't you need mmu_notifier_clear_young() here?
+> > >
+> > >     I think we don't need it here because we only read the Accessed bit and PG_Idle
+> > >     if Accessed bit was not set.
+> > >
+> > > I should notice that you mean 'test_young()' but didn't, sorry.  I will add it
+> > > in the next version.
+> > >
+> > 
+> > I should have said mmu_notifier_test_young() instead of
+> > mmu_notifier_clear_young().
+> > 
+> > > >
+> > > > BTW have you tested this on a VM?
+> > >
+> > > Yes.  Indeed, I'm testing this on a QEMU/KVM environment.  You can get more
+> > > detail at: https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#setup
+> > >
+> > 
+> > Hmm without mmu_notifier_test_young() you should be missing the kvm
+> > mmu access updates. Can you please recheck if your eval is correctly
+> > seeing the memory accesses from the VM?
 > 
-> Then I have tried to use the API, and I have encountered a problem: on
-> uvcvideo the device passed to the memory allocator is different for
-> DMA_PAGES and NON_CONTIGUOUS:
-> https://github.com/ribalda/linux/blob/042cd497739f71c8d4a83a67ee970369e2baca4a/drivers/media/usb/uvc/uvc_video.c#L1236
-> 
-> I need to dig a bit tomorrow to figure out why this is, I have
-> hardware to test both paths, so it should not be too difficult.
+> Seems I didn't clearly answered, sorry.  My test setup installs the
+> DAMON-enabled kernel in a guest VM and run it for workloads in the guest,
+> rather than running DAMON in host to monitor accesses of VMs.  The MMU notifier
+> is for latter case, AFAIU, so my test setup didn't see the problem.
 
-I always found the USB dma alloc API a little weird, but we might have
-to follow the scheme of the usb coherent wrappers there.
+Just FYI.  I confirmed the mmu_notifier_test_young() added version works for
+the use case.  I tested it by running a program accessing 200MB memory in a
+QEMU/KVM guest having 120GB memory and monitoring the qemu process' virtual
+address space from the host using DAMON.  The 200MB memory region was clearly
+identifiable.
+
+Thanks,
+SeongJae Park
