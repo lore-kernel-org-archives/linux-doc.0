@@ -2,92 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66EF4C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 04:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA667C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 05:55:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FFE62070C
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 04:47:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD4152070E
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 05:55:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239544AbhA0Ep6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jan 2021 23:45:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45332 "EHLO
+        id S229817AbhA0FzL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 00:55:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S317767AbhA0BUZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 20:20:25 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED92C06174A;
-        Tue, 26 Jan 2021 17:11:21 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id v24so403597lfr.7;
-        Tue, 26 Jan 2021 17:11:21 -0800 (PST)
+        with ESMTP id S1343633AbhA0EUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jan 2021 23:20:30 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF01BC061573;
+        Tue, 26 Jan 2021 20:19:50 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id r38so690699pgk.13;
+        Tue, 26 Jan 2021 20:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IBgIKGl96dO2G/QCdWBSmqnevDXwJD1JJIM1datO2yw=;
-        b=pb459qXHiznpB214pj2TwZBt0H2OX2kDbyn4W8Q59DqvuFOb2mXcDI1LUS6FEEQzHE
-         dIB3O5IYQu3CdeXI/x2zsXHIXefHQlpkV8sQvnroMCvQAPnk8ueyH9yXvq7uIR/TGJbb
-         MMp/H+t4uTo55d8FlxT9MwpHGQVx0LZd53YqEPlSBn/AbT8F4YHCRHIxx1DHB5Ab/b0z
-         5OWw2H8frz9Odc9+tstlkvmhGA+8IkhJswl/riyHzTxfxBfiFmFHI1T+81CxQyuDbDxf
-         tIYolnExwPbMu9puo9V1pvWH6bTaD3hdUQcoLG/Ho+ecE3o9qMWXLj46nEpB3B5g/oUL
-         s/ig==
+        h=from:to:cc:subject:date:message-id;
+        bh=YGrPRxNt+RP6h4OeOrtja6PVCsuV/WKXvcTlJJ9DTbk=;
+        b=JLGEnAvhAwJZfHwdLlhmb0DSl4UZi3OZv3iWekFOGR3qFRUyW0DTs/gCwJjVdH9heU
+         g3IgtsRjNM8IbIG0d1R3jECKK4vMQQFCYaoC8iW/hEPmLOtYz9sBuh/rnlh7x8ieQRRk
+         SlvIypskATZnjm/Lvpye3dPgwr6E4tlcV8WjjUzJmDzgz0jmx8ZfAZF40RAAHTYiI2PE
+         /fpvQt9yoAMz03LPgmg76lrj4omYJPVJuIhIKoj5QTwLbnkgJsZwkDSyvSWM9+UtGRbp
+         LGaaekePubsHLZw3pC7kQtXYcpPAxlCbkIHqcniGQmG/7H3roHhg9QfUuKdRO5IOg6nG
+         FQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IBgIKGl96dO2G/QCdWBSmqnevDXwJD1JJIM1datO2yw=;
-        b=M+PL/RuXVCVt+iN5Xrqlz8RB/lWQrBLDgSdhkopASioxsUmzlm89OunP0MwTN7zp18
-         NXVAvckqmL4hMTWKEJM9CONGMYcgFV3z2p/giHQZEi4Q5a+WkCeNgXLpE1BJQLuOLYR5
-         5ll7cJkWfEK16j6h+YYZf5zz7DoqifmjTVNtu9z6cQg40HbWIfuTl9czbSaeLfnqkzFB
-         hoQ7aycFp4LON8jN0jhAeChvIuICsWZGF6GCkJCx/2lucCP3BLCNmR/i9syspog1pv1A
-         qd7z8vAUg2oru2EMg86FzXiqjET2DRFlpBXk6ZhftMfa+l5IlrAtwyqFUvZcaJSaPsZT
-         Z+bQ==
-X-Gm-Message-State: AOAM532QL5+/uIgUx4ZlS0sSOi15NacxLbxVwcdkpBoiTFVxkA9g8WjM
-        VxM1fQpHuhW2LORRKSf5roRvUULRiHnHXuNgW5U=
-X-Google-Smtp-Source: ABdhPJxae6EGAICnqt5xdFS+QeGHBG/qt7C/rjwsAgqzphrZ6mKvMlvXhmgOeYPQtJ2/s1a6RC2DALFo+C1seQmLZUY=
-X-Received: by 2002:ac2:5e2a:: with SMTP id o10mr3681331lfg.349.1611709879839;
- Tue, 26 Jan 2021 17:11:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20210126072443.33066-1-foxhlchen@gmail.com> <20210126072443.33066-2-foxhlchen@gmail.com>
- <YBAhFryculK1PmIJ@kroah.com>
-In-Reply-To: <YBAhFryculK1PmIJ@kroah.com>
-From:   Fox Chen <foxhlchen@gmail.com>
-Date:   Wed, 27 Jan 2021 09:11:08 +0800
-Message-ID: <CAC2o3D+W3AnV7cMnCPhd=BXVt-i7pbt6xba7Oy4Yg-DDRMUi5w@mail.gmail.com>
-Subject: Re: [PATCH 01/12] docs: path-lookup: update follow_managed() part
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     corbet@lwn.net, vegard.nossum@oracle.com,
-        Al Viro <viro@zeniv.linux.org.uk>, rdunlap@infradead.org,
-        grandmaster@al2klimov.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YGrPRxNt+RP6h4OeOrtja6PVCsuV/WKXvcTlJJ9DTbk=;
+        b=dDgzy0jBESRsnAk7JVQS2od2UFBI1bj5U7sCikZ4Px3Pz9mIOg1LKQk74iW/jotQIR
+         L8nvR1tQqaIUpyf2lGXHDg7heyOW1oYmf6BKpyvv4zkYQpHW5N6jDL4y+4Frl0MAUJE7
+         jmEDnLrSPwkMFk6LsRkshCx/bTnx+DECQMpNQhoRyQLgfI8IsZ8MnYJaTZ7Xc2mmoihH
+         ecZ3UFxpe821lKAOFysGubFuJ5/GL5NXs21oGOTWS8VQSE8VDCBnxd7loJsCGEvuD8jM
+         0JCWIiSgbR0gjS3g/idDO+Spaf6Hyq+AyO4wP7hiEbqHkyYFxAhAz3BPpjxMapF3ZJUa
+         aX/w==
+X-Gm-Message-State: AOAM531NC0+Khj/y4HZqliD/CX+QRCAHm4guZoS2osNP7m5Pe7wFLsLF
+        bPrWQoMwm33Nv0TeatVrNjU=
+X-Google-Smtp-Source: ABdhPJxvHUy9zmqIrHolYOlbR0sPQ4plZ3TiuVLdfBSVsXvKKm5tNo2PbB9tIOxKzV8McWg+Q5+WnA==
+X-Received: by 2002:aa7:80c6:0:b029:1b6:92ae:a199 with SMTP id a6-20020aa780c60000b02901b692aea199mr8403118pfn.71.1611721190388;
+        Tue, 26 Jan 2021 20:19:50 -0800 (PST)
+Received: from lenovo.spreadtrum.com ([117.18.48.82])
+        by smtp.gmail.com with ESMTPSA id m10sm397760pjs.25.2021.01.26.20.19.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Jan 2021 20:19:49 -0800 (PST)
+From:   Orson Zhai <orsonzhai@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Denis Efremov <efremov@linux.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Sourabh Jain <sourabhjain@linux.ibm.com>
+Cc:     Orson Zhai <orson.zhai@unisoc.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Orson Zhai <orsonzhai@gmail.com>
+Subject: [PATCH] include: sysfs: Add macro to assign show for RO attributes
+Date:   Wed, 27 Jan 2021 12:19:22 +0800
+Message-Id: <1611721162-29982-1-git-send-email-orsonzhai@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 10:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jan 26, 2021 at 03:24:32PM +0800, Fox Chen wrote:
-> > No follow_managed() anymore, handle_mounts(),
-> > traverse_mounts(), will do the job.
-> > see commit: 9deed3ebca244663530782631834e706a86a8c8f
->
-> When referencing commits in changelogs, please use the documented way,
-> which for this one would be 9deed3ebca24 ("new helper:
-> traverse_mounts()").  That enables us to read and understand them
-> better.
->
-> thanks,
->
-> greg k-h
+In some circumstances, multiple __ATTR_RO attributes need to be assigned
+with a single show function.
 
-Got it, I will wait to see any other things that need to be changed,
-then send in v2 together.
+Add this macro to make life easier with simple code.
 
+Signed-off-by: Orson Zhai <orsonzhai@gmail.com>
+---
+ Documentation/filesystems/sysfs.rst | 2 ++
+ include/linux/sysfs.h               | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-thanks,
-fox
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+index 004d490..0e2274a 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -141,6 +141,8 @@ __ATTR_RO_MODE(name, mode):
+ 	         fore more restrictive RO access currently
+                  only use case is the EFI System Resource Table
+                  (see drivers/firmware/efi/esrt.c)
++__ATTR_RO_SHOW(name, show):
++		 assumes default mode 0444 with specified show.
+ __ATTR_RW(name):
+ 	         assumes default name_show, name_store and setting
+                  mode to 0644.
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index 2caa34c..c851592 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -117,6 +117,11 @@ struct attribute_group {
+ 	.show	= _name##_show,						\
+ }
+ 
++#define __ATTR_RO_SHOW(_name, _show) {					\
++	.attr	= { .name = __stringify(_name), .mode = 0444 },		\
++	.show	= _show,						\
++}
++
+ #define __ATTR_RO_MODE(_name, _mode) {					\
+ 	.attr	= { .name = __stringify(_name),				\
+ 		    .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },		\
+-- 
+2.7.4
+
