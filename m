@@ -2,165 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A1DC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84562C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:05:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DCF264D9E
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:00:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F9BD64DD7
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 17:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232758AbhA0RAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 12:00:11 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:18732 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234192AbhA0Q5z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 11:57:55 -0500
+        id S235525AbhA0RFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 12:05:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235327AbhA0RDE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 12:03:04 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62217C061756
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 09:02:24 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id u11so2915986ljo.13
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 09:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1611766675; x=1643302675;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=i5zluJQ8Ep7MHqr2mjA7/P86f9akCWCX+vhcFXDo1AU=;
-  b=JMUVhCBndDaSn1y7adHTCK8wAbUfbFbi8KFDlT5kQwRB3zN3Vvfclzve
-   9sQDaS57ZhZdJX5O8254NIVoiwBL7u37EUnw2dEim3U+0wqMUzmCH+nAH
-   KewWxaN7vZymBhUcnUyRv4p9z0MjR/dOMsGXMzyop/DDHvG3WZCTixI3U
-   0=;
-X-IronPort-AV: E=Sophos;i="5.79,380,1602547200"; 
-   d="scan'208";a="106835424"
-Received: from sea3-co-svc-lb6-vlan2.sea.amazon.com (HELO email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.47.22.34])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 27 Jan 2021 16:57:08 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS id 6986AA18C3;
-        Wed, 27 Jan 2021 16:57:05 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.132) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 27 Jan 2021 16:56:48 +0000
-From:   SeongJae Park <sjpark@amazon.com>
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cH2HNFoWtmWpnWYeEkgVq7KIaf7LBJ3O9RpwqmgIKSA=;
+        b=mz5PDFTJyoJh/pyXtv5YLKAkeJPvhgWZ4xIUUoAvtBLEVzYk9nyIDv+wGNoXKh4Img
+         t1mLGgGAMfiUZCeoJZIn1ohcgMrhO48vDuCErg8HEJOmehktLiU8sO8YS/5TiTspPc5j
+         m+OCKAXkv8bjFaBRU5MNZsxu92R/U3xIeHD0zZioRKHMCtAmcJESSKr3tMoDI25xKIoM
+         BdRXLVPeg06O4uYFFcoyMy6vIL+8dAN8sN0Y40ZvFObmvDVtKIYbG4ja6GiWua+GHCZL
+         7/NrVww2ym7LOXu0cuFEjW5WMrjDmlnUms8KKHsWYmVG9r2arbXQgVW6MqEbiHoad6DW
+         tKVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cH2HNFoWtmWpnWYeEkgVq7KIaf7LBJ3O9RpwqmgIKSA=;
+        b=KCAZ0rTv+rZZqU+ZoEot0mCm7i53hsA8p8WZIi/312AWONyg7M029tdQEFVqhHo9kO
+         wGoSMvW6CFgrRwoNihtqqZK/E1gXN7jnE7WwqQAA3C5rnfAvOFbb1mNEydgoYGGuIg8P
+         4chVrWvintbTqLtt7++X0iJEe9ZGGiwpoXcYBa0eqNRo92bA71KzcgWSG+C/sv1x7EbU
+         alQwJz44H0UBXSUBszPVHamcUz9EReNWVVEWofyO/foWCYRdEfBNIX9mcB2qMEvjdaKS
+         JxTPRZOmzqKBAJr+hSToNAZbYDx/WRAUPQGuidXOw/VqDkjrQi4hyQBekSIWMR5T9jBW
+         +5Bw==
+X-Gm-Message-State: AOAM532eCpYqGk7d9J4OAjiNWlQI3Mlwia6pZGaptjKHx+IZfvXj+PAd
+        Q+y10PooO4okR0qY4aXuHPoUoJZcwepC8L/ilQe6nw==
+X-Google-Smtp-Source: ABdhPJzn3+brB6ijk7rnoncHsjbUhtCxiDrzyrub1UFfa0DwbZ0yKW/AEqV+N1JM57R5nuh2wtjRmyWYVYp2tkZOOho=
+X-Received: by 2002:a2e:9090:: with SMTP id l16mr6467976ljg.122.1611766942605;
+ Wed, 27 Jan 2021 09:02:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20201224071111.11551-1-sjpark@amazon.com> <20210127165630.29904-1-sjpark@amazon.com>
+In-Reply-To: <20210127165630.29904-1-sjpark@amazon.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Wed, 27 Jan 2021 09:02:11 -0800
+Message-ID: <CALvZod61Dx4emiV5H73mQcFN6WvmD4A2Z=sRfmN2qpBh3R-_kQ@mail.gmail.com>
+Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual
+ memory address spaces
 To:     SeongJae Park <sjpark@amazon.com>
-CC:     Shakeel Butt <shakeelb@google.com>, <Jonathan.Cameron@huawei.com>,
-        "Andrea Arcangeli" <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+Cc:     Jonathan.Cameron@huawei.com,
+        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
         Brendan Higgins <brendanhiggins@google.com>,
         Qian Cai <cai@lca.pw>,
         Colin Ian King <colin.king@canonical.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
         Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
         "Kirill A. Shutemov" <kirill@shutemov.name>,
         Mark Rutland <mark.rutland@arm.com>,
         Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Rik van Riel <riel@surriel.com>,
         David Rientjes <rientjes@google.com>,
         Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
-        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
+        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
+        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
-        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v23 05/15] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Wed, 27 Jan 2021 17:56:30 +0100
-Message-ID: <20210127165630.29904-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201224071111.11551-1-sjpark@amazon.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.132]
-X-ClientProxiedBy: EX13D28UWC004.ant.amazon.com (10.43.162.24) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
+        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 24 Dec 2020 08:11:11 +0100 SeongJae Park <sjpark@amazon.com> wrote:
-
-> On Wed, 23 Dec 2020 14:54:02 -0800 Shakeel Butt <shakeelb@google.com> wrote:
-> 
-> > On Wed, Dec 23, 2020 at 8:47 AM SeongJae Park <sjpark@amazon.com> wrote:
-> > >
-> > [snip]
-> > > > [snip]
-> > > > > +
-> > > > > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-> > > > > +                       unsigned long *page_sz)
-> > > > > +{
-> > > > > +       pte_t *pte = NULL;
-> > > > > +       pmd_t *pmd = NULL;
-> > > > > +       spinlock_t *ptl;
-> > > > > +       bool young = false;
-> > > > > +
-> > > > > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
-> > > > > +               return false;
-> > > > > +
-> > > > > +       *page_sz = PAGE_SIZE;
-> > > > > +       if (pte) {
-> > > > > +               young = pte_young(*pte);
-> > > > > +               if (!young)
-> > > > > +                       young = !page_is_idle(pte_page(*pte));
-> > > > > +               pte_unmap_unlock(pte, ptl);
-> > > > > +               return young;
-> > > > > +       }
-> > > > > +
-> > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> > > > > +       young = pmd_young(*pmd);
-> > > > > +       if (!young)
-> > > > > +               young = !page_is_idle(pmd_page(*pmd));
-> > > > > +       spin_unlock(ptl);
-> > > > > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-> > > > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-> > > > > +
-> > > > > +       return young;
+On Wed, Jan 27, 2021 at 8:57 AM SeongJae Park <sjpark@amazon.com> wrote:
+>
+> On Thu, 24 Dec 2020 08:11:11 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+>
+> > On Wed, 23 Dec 2020 14:54:02 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+> >
+> > > On Wed, Dec 23, 2020 at 8:47 AM SeongJae Park <sjpark@amazon.com> wrote:
 > > > >
-> > > > You need mmu_notifier_test_young() here. Hmm I remember mentioning
-> > > > this in some previous version as well.
-> > >
-> > > Your question and my answer was as below:
-> > >
-> > >     > Don't you need mmu_notifier_clear_young() here?
-> > >
-> > >     I think we don't need it here because we only read the Accessed bit and PG_Idle
-> > >     if Accessed bit was not set.
-> > >
-> > > I should notice that you mean 'test_young()' but didn't, sorry.  I will add it
-> > > in the next version.
-> > >
-> > 
-> > I should have said mmu_notifier_test_young() instead of
-> > mmu_notifier_clear_young().
-> > 
+> > > [snip]
+> > > > > [snip]
+> > > > > > +
+> > > > > > +static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
+> > > > > > +                       unsigned long *page_sz)
+> > > > > > +{
+> > > > > > +       pte_t *pte = NULL;
+> > > > > > +       pmd_t *pmd = NULL;
+> > > > > > +       spinlock_t *ptl;
+> > > > > > +       bool young = false;
+> > > > > > +
+> > > > > > +       if (follow_pte_pmd(mm, addr, NULL, &pte, &pmd, &ptl))
+> > > > > > +               return false;
+> > > > > > +
+> > > > > > +       *page_sz = PAGE_SIZE;
+> > > > > > +       if (pte) {
+> > > > > > +               young = pte_young(*pte);
+> > > > > > +               if (!young)
+> > > > > > +                       young = !page_is_idle(pte_page(*pte));
+> > > > > > +               pte_unmap_unlock(pte, ptl);
+> > > > > > +               return young;
+> > > > > > +       }
+> > > > > > +
+> > > > > > +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > > > > +       young = pmd_young(*pmd);
+> > > > > > +       if (!young)
+> > > > > > +               young = !page_is_idle(pmd_page(*pmd));
+> > > > > > +       spin_unlock(ptl);
+> > > > > > +       *page_sz = ((1UL) << HPAGE_PMD_SHIFT);
+> > > > > > +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+> > > > > > +
+> > > > > > +       return young;
+> > > > >
+> > > > > You need mmu_notifier_test_young() here. Hmm I remember mentioning
+> > > > > this in some previous version as well.
 > > > >
-> > > > BTW have you tested this on a VM?
+> > > > Your question and my answer was as below:
+> > > >
+> > > >     > Don't you need mmu_notifier_clear_young() here?
+> > > >
+> > > >     I think we don't need it here because we only read the Accessed bit and PG_Idle
+> > > >     if Accessed bit was not set.
+> > > >
+> > > > I should notice that you mean 'test_young()' but didn't, sorry.  I will add it
+> > > > in the next version.
+> > > >
 > > >
-> > > Yes.  Indeed, I'm testing this on a QEMU/KVM environment.  You can get more
-> > > detail at: https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#setup
+> > > I should have said mmu_notifier_test_young() instead of
+> > > mmu_notifier_clear_young().
 > > >
-> > 
-> > Hmm without mmu_notifier_test_young() you should be missing the kvm
-> > mmu access updates. Can you please recheck if your eval is correctly
-> > seeing the memory accesses from the VM?
-> 
-> Seems I didn't clearly answered, sorry.  My test setup installs the
-> DAMON-enabled kernel in a guest VM and run it for workloads in the guest,
-> rather than running DAMON in host to monitor accesses of VMs.  The MMU notifier
-> is for latter case, AFAIU, so my test setup didn't see the problem.
+> > > > >
+> > > > > BTW have you tested this on a VM?
+> > > >
+> > > > Yes.  Indeed, I'm testing this on a QEMU/KVM environment.  You can get more
+> > > > detail at: https://damonitor.github.io/doc/html/latest/vm/damon/eval.html#setup
+> > > >
+> > >
+> > > Hmm without mmu_notifier_test_young() you should be missing the kvm
+> > > mmu access updates. Can you please recheck if your eval is correctly
+> > > seeing the memory accesses from the VM?
+> >
+> > Seems I didn't clearly answered, sorry.  My test setup installs the
+> > DAMON-enabled kernel in a guest VM and run it for workloads in the guest,
+> > rather than running DAMON in host to monitor accesses of VMs.  The MMU notifier
+> > is for latter case, AFAIU, so my test setup didn't see the problem.
+>
+> Just FYI.  I confirmed the mmu_notifier_test_young() added version works for
+> the use case.  I tested it by running a program accessing 200MB memory in a
+> QEMU/KVM guest having 120GB memory and monitoring the qemu process' virtual
+> address space from the host using DAMON.  The 200MB memory region was clearly
+> identifiable.
+>
 
-Just FYI.  I confirmed the mmu_notifier_test_young() added version works for
-the use case.  I tested it by running a program accessing 200MB memory in a
-QEMU/KVM guest having 120GB memory and monitoring the qemu process' virtual
-address space from the host using DAMON.  The 200MB memory region was clearly
-identifiable.
+Thanks for confirming. I am still going over the whole series and will
+send out the emails in a couple of days.
 
-Thanks,
-SeongJae Park
+Shakeel
