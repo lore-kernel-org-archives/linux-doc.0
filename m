@@ -2,444 +2,419 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A072FC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 09:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB117C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 09:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FE2E20758
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 09:09:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 484582075B
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jan 2021 09:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbhA0JJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 04:09:24 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47384 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234367AbhA0JGS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 04:06:18 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611738329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Frtjky50lhuCvhdjT76CPWeRZ4wg+efgdrWBbOOrsRo=;
-        b=HEdTRyd7SvJg/XAQxhbRI7kwZArGDUP8Bfa5ruY6Zz9Lh5KvanjsFGFvcYG6e9Yk0sX6/n
-        g42Pxw2b/GcalFfAglpeh+HvgT/22fH/pleNNTn0H5tDOKQNrO70p+2tBQ/+gqeupvnPut
-        W9oZam+8xUskfiC8LH/7tPEML5Q4Acc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 0FEBFAD57;
-        Wed, 27 Jan 2021 09:05:29 +0000 (UTC)
-Date:   Wed, 27 Jan 2021 10:05:26 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, minchan@kernel.org, gregkh@linuxfoundation.org,
-        hridya@google.com, jannh@google.com, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>, Hui Su <sh_def@163.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <20210127090526.GB827@dhcp22.suse.cz>
-References: <20210126225138.1823266-1-kaleshsingh@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210126225138.1823266-1-kaleshsingh@google.com>
+        id S235122AbhA0Jqo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 04:46:44 -0500
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:31279 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234221AbhA0JAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 04:00:00 -0500
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id 77C22246930F
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jan 2021 09:42:43 +0100 (CET)
+Received: from s500.loopia.se (unknown [172.22.191.5])
+        by s807.loopia.se (Postfix) with ESMTP id 57CC32E29A02;
+        Wed, 27 Jan 2021 09:42:43 +0100 (CET)
+Received: from s474.loopia.se (unknown [172.22.191.6])
+        by s500.loopia.se (Postfix) with ESMTP id 42C9E1E32E90;
+        Wed, 27 Jan 2021 09:42:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s500.loopia.se ([172.22.191.6])
+        by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
+        with LMTP id QkIGDK_0Ygsc; Wed, 27 Jan 2021 09:42:42 +0100 (CET)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 94.234.44.220
+Received: from localhost.localdomain (unknown [94.234.44.220])
+        (Authenticated sender: carl@hgsystem.se)
+        by s500.loopia.se (Postfix) with ESMTPSA id D13251E32EB5;
+        Wed, 27 Jan 2021 09:42:41 +0100 (CET)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH 1/1] Add ST STPDDC60 pmbus driver
+Date:   Wed, 27 Jan 2021 09:41:40 +0100
+Message-Id: <20210127084140.35626-2-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
+In-Reply-To: <20210127084140.35626-1-erik.rosen@metormote.com>
+References: <20210127084140.35626-1-erik.rosen@metormote.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Cc linux-api as this is a new user interface]
+Add ST STPDDC60 pmbus client driver.
 
-On Tue 26-01-21 22:51:28, Kalesh Singh wrote:
-> In order to measure how much memory a process actually consumes, it is
-> necessary to include the DMA buffer sizes for that process in the memory
-> accounting. Since the handle to DMA buffers are raw FDs, it is important
-> to be able to identify which processes have FD references to a DMA buffer.
-> 
-> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
-> /proc/<pid>/fdinfo -- both of which are only root readable, as follows:
->   1. Do a readlink on each FD.
->   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
->   3. stat the file to get the dmabuf inode number.
->   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
-> 
-> Android captures per-process system memory state when certain low memory
-> events (e.g a foreground app kill) occur, to identify potential memory
-> hoggers. To include a process’s dmabuf usage as part of its memory state,
-> the data collection needs to be fast enough to reflect the memory state at
-> the time of such events.
-> 
-> Since reading /proc/<pid>/fd/ and /proc/<pid>/fdinfo/ requires root
-> privileges, this approach is not suitable for production builds. Granting
-> root privileges even to a system process increases the attack surface and
-> is highly undesirable. Additionally this is slow as it requires many
-> context switches for searching and getting the dma-buf info.
-> 
-> With the addition of per-buffer dmabuf stats in sysfs [1], the DMA buffer
-> details can be queried using their unique inode numbers.
-> 
-> This patch proposes adding a /proc/<pid>/task/<tid>/dmabuf_fds interface.
-> 
-> /proc/<pid>/task/<tid>/dmabuf_fds contains a list of inode numbers for
-> every DMA buffer FD that the task has. Entries with the same inode
-> number can appear more than once, indicating the total FD references
-> for the associated DMA buffer.
-> 
-> If a thread shares the same files as the group leader then its
-> dmabuf_fds file will be empty, as these dmabufs are reported by the
-> group leader.
-> 
-> The interface requires PTRACE_MODE_READ_FSCRED (same as /proc/<pid>/maps)
-> and allows the efficient accounting of per-process DMA buffer usage without
-> requiring root privileges. (See data below)
-> 
-> Performance Comparison:
-> -----------------------
-> 
-> The following data compares the time to capture the sizes of all DMA
-> buffers referenced by FDs for all processes on an arm64 android device.
-> 
-> -------------------------------------------------------
->                    |  Core 0 (Little)  |  Core 7 (Big) |
-> -------------------------------------------------------
-> >From <pid>/fdinfo  |      318 ms       |     145 ms    |
-> -------------------------------------------------------
-> Inodes from        |      114 ms       |      27 ms    |
-> dmabuf_fds;        |    (2.8x  ^)      |   (5.4x  ^)   |
-> data from sysfs    |                   |               |
-> -------------------------------------------------------
-> 
-> It can be inferred that in the worst case there is a 2.8x speedup for
-> determining per-process DMA buffer FD sizes, when using the proposed
-> interfaces.
-> 
-> [1] https://lore.kernel.org/dri-devel/20210119225723.388883-1-hridya@google.com/
-> 
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> ---
->  Documentation/filesystems/proc.rst |  30 ++++++
->  drivers/dma-buf/dma-buf.c          |   7 +-
->  fs/proc/Makefile                   |   1 +
->  fs/proc/base.c                     |   1 +
->  fs/proc/dma_bufs.c                 | 159 +++++++++++++++++++++++++++++
->  fs/proc/internal.h                 |   1 +
->  include/linux/dma-buf.h            |   5 +
->  7 files changed, 198 insertions(+), 6 deletions(-)
->  create mode 100644 fs/proc/dma_bufs.c
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 2fa69f710e2a..757dd47ab679 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -47,6 +47,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
->    3.10  /proc/<pid>/timerslack_ns - Task timerslack value
->    3.11	/proc/<pid>/patch_state - Livepatch patch operation state
->    3.12	/proc/<pid>/arch_status - Task architecture specific information
-> +  3.13	/proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
->  
->    4	Configuring procfs
->    4.1	Mount options
-> @@ -2131,6 +2132,35 @@ AVX512_elapsed_ms
->    the task is unlikely an AVX512 user, but depends on the workload and the
->    scheduling scenario, it also could be a false negative mentioned above.
->  
-> +3.13 /proc/<pid>/task/<tid>/dmabuf_fds - DMA buffers referenced by an FD
-> +-------------------------------------------------------------------------
-> +This file  exposes a list of the inode numbers for every DMA buffer
-> +FD that the task has.
-> +
-> +The same inode number can appear more than once, indicating the total
-> +FD references for the associated DMA buffer.
-> +
-> +The inode number can be used to lookup the DMA buffer information in
-> +the sysfs interface /sys/kernel/dmabuf/buffers/<inode-no>/.
-> +
-> +Example Output
-> +~~~~~~~~~~~~~~
-> +$ cat /proc/612/task/612/dmabuf_fds
-> +30972 30973 45678 49326
-> +
-> +Permission to access this file is governed by a ptrace access mode
-> +PTRACE_MODE_READ_FSCREDS.
-> +
-> +Threads can have different files when created without specifying
-> +the CLONE_FILES flag. For this reason the interface is presented as
-> +/proc/<pid>/task/<tid>/dmabuf_fds and not /proc/<pid>/dmabuf_fds.
-> +This simplifies kernel code and aggregation can be handled in
-> +userspace.
-> +
-> +If a thread has the same files as its group leader, then its dmabuf_fds
-> +file will be empty as these dmabufs are already reported by the
-> +group leader.
-> +
->  Chapter 4: Configuring procfs
->  =============================
->  
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 9ad6397aaa97..0660c06be4c6 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -29,8 +29,6 @@
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
->  
-> -static inline int is_dma_buf_file(struct file *);
-> -
->  struct dma_buf_list {
->  	struct list_head head;
->  	struct mutex lock;
-> @@ -434,10 +432,7 @@ static const struct file_operations dma_buf_fops = {
->  	.show_fdinfo	= dma_buf_show_fdinfo,
->  };
->  
-> -/*
-> - * is_dma_buf_file - Check if struct file* is associated with dma_buf
-> - */
-> -static inline int is_dma_buf_file(struct file *file)
-> +int is_dma_buf_file(struct file *file)
->  {
->  	return file->f_op == &dma_buf_fops;
->  }
-> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-> index bd08616ed8ba..91a67f43ddf4 100644
-> --- a/fs/proc/Makefile
-> +++ b/fs/proc/Makefile
-> @@ -16,6 +16,7 @@ proc-y	+= cmdline.o
->  proc-y	+= consoles.o
->  proc-y	+= cpuinfo.o
->  proc-y	+= devices.o
-> +proc-y	+= dma_bufs.o
->  proc-y	+= interrupts.o
->  proc-y	+= loadavg.o
->  proc-y	+= meminfo.o
-> diff --git a/fs/proc/base.c b/fs/proc/base.c
-> index b3422cda2a91..af15a60b9831 100644
-> --- a/fs/proc/base.c
-> +++ b/fs/proc/base.c
-> @@ -3598,6 +3598,7 @@ static const struct pid_entry tid_base_stuff[] = {
->  #ifdef CONFIG_SECCOMP_CACHE_DEBUG
->  	ONE("seccomp_cache", S_IRUSR, proc_pid_seccomp_cache),
->  #endif
-> +	REG("dmabuf_fds", 0444, proc_tid_dmabuf_fds_operations),
->  };
->  
->  static int proc_tid_base_readdir(struct file *file, struct dir_context *ctx)
-> diff --git a/fs/proc/dma_bufs.c b/fs/proc/dma_bufs.c
-> new file mode 100644
-> index 000000000000..46ea9cf968ed
-> --- /dev/null
-> +++ b/fs/proc/dma_bufs.c
-> @@ -0,0 +1,159 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Per-process DMA-BUF Stats
-> + *
-> + * Copyright (C) 2021 Google LLC.
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/fdtable.h>
-> +#include <linux/ptrace.h>
-> +#include <linux/seq_file.h>
-> +
-> +#include "internal.h"
-> +
-> +struct dmabuf_fds_private {
-> +	struct inode *inode;
-> +	struct task_struct *task;
-> +	struct file *dmabuf_file;
-> +};
-> +
-> +static loff_t *next_dmabuf(struct dmabuf_fds_private *priv,
-> +		loff_t *pos)
-> +{
-> +	struct fdtable *fdt;
-> +	struct file *file;
-> +
-> +	rcu_read_lock();
-> +	fdt = files_fdtable(priv->task->files);
-> +	for (; *pos < fdt->max_fds; ++*pos) {
-> +		file = files_lookup_fd_rcu(priv->task->files, (unsigned int) *pos);
-> +		if (file && is_dma_buf_file(file) && get_file_rcu(file)) {
-> +			priv->dmabuf_file = file;
-> +			break;
-> +		}
-> +	}
-> +	if (*pos >= fdt->max_fds)
-> +		pos = NULL;
-> +	rcu_read_unlock();
-> +
-> +	return pos;
-> +}
-> +
-> +static void *dmabuf_fds_seq_start(struct seq_file *s, loff_t *pos)
-> +{
-> +	struct dmabuf_fds_private *priv = s->private;
-> +	struct files_struct *group_leader_files;
-> +
-> +	priv->task = get_proc_task(priv->inode);
-> +
-> +	if (!priv->task)
-> +		return ERR_PTR(-ESRCH);
-> +
-> +	/* Hold task lock for duration that files need to be stable */
-> +	task_lock(priv->task);
-> +
-> +	/*
-> +	 * If this task is not the group leader but shares the same files, leave file empty.
-> +	 * These dmabufs are already reported in the group leader's dmabuf_fds.
-> +	 */
-> +	group_leader_files = priv->task->group_leader->files;
-> +	if (priv->task != priv->task->group_leader && priv->task->files == group_leader_files) {
-> +		task_unlock(priv->task);
-> +		put_task_struct(priv->task);
-> +		priv->task = NULL;
-> +		return NULL;
-> +	}
-> +
-> +	return next_dmabuf(priv, pos);
-> +}
-> +
-> +static void *dmabuf_fds_seq_next(struct seq_file *s, void *v, loff_t *pos)
-> +{
-> +	++*pos;
-> +	return next_dmabuf(s->private, pos);
-> +}
-> +
-> +static void dmabuf_fds_seq_stop(struct seq_file *s, void *v)
-> +{
-> +	struct dmabuf_fds_private *priv = s->private;
-> +
-> +	if (priv->task) {
-> +		task_unlock(priv->task);
-> +		put_task_struct(priv->task);
-> +
-> +	}
-> +	if (priv->dmabuf_file)
-> +		fput(priv->dmabuf_file);
-> +}
-> +
-> +static int dmabuf_fds_seq_show(struct seq_file *s, void *v)
-> +{
-> +	struct dmabuf_fds_private *priv = s->private;
-> +	struct file *file = priv->dmabuf_file;
-> +	struct dma_buf *dmabuf = file->private_data;
-> +
-> +	if (!dmabuf)
-> +		return -ESRCH;
-> +
-> +	seq_printf(s, "%8lu ", file_inode(file)->i_ino);
-> +
-> +	fput(priv->dmabuf_file);
-> +	priv->dmabuf_file = NULL;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct seq_operations proc_tid_dmabuf_fds_seq_ops = {
-> +	.start = dmabuf_fds_seq_start,
-> +	.next  = dmabuf_fds_seq_next,
-> +	.stop  = dmabuf_fds_seq_stop,
-> +	.show  = dmabuf_fds_seq_show
-> +};
-> +
-> +static int proc_dmabuf_fds_open(struct inode *inode, struct file *file,
-> +		     const struct seq_operations *ops)
-> +{
-> +	struct dmabuf_fds_private *priv;
-> +	struct task_struct *task;
-> +	bool allowed = false;
-> +
-> +	task = get_proc_task(inode);
-> +	if (!task)
-> +		return -ESRCH;
-> +
-> +	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
-> +	put_task_struct(task);
-> +
-> +	if (!allowed)
-> +		return -EACCES;
-> +
-> +	priv = __seq_open_private(file, ops, sizeof(*priv));
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->inode = inode;
-> +	priv->task = NULL;
-> +	priv->dmabuf_file = NULL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int proc_dmabuf_fds_release(struct inode *inode, struct file *file)
-> +{
-> +	return seq_release_private(inode, file);
-> +}
-> +
-> +static int tid_dmabuf_fds_open(struct inode *inode, struct file *file)
-> +{
-> +	return proc_dmabuf_fds_open(inode, file,
-> +			&proc_tid_dmabuf_fds_seq_ops);
-> +}
-> +
-> +const struct file_operations proc_tid_dmabuf_fds_operations = {
-> +	.open		= tid_dmabuf_fds_open,
-> +	.read		= seq_read,
-> +	.llseek		= seq_lseek,
-> +	.release	= proc_dmabuf_fds_release,
-> +};
-> +
-> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-> index f60b379dcdc7..4ca74220db9c 100644
-> --- a/fs/proc/internal.h
-> +++ b/fs/proc/internal.h
-> @@ -303,6 +303,7 @@ extern const struct file_operations proc_pid_smaps_operations;
->  extern const struct file_operations proc_pid_smaps_rollup_operations;
->  extern const struct file_operations proc_clear_refs_operations;
->  extern const struct file_operations proc_pagemap_operations;
-> +extern const struct file_operations proc_tid_dmabuf_fds_operations;
->  
->  extern unsigned long task_vsize(struct mm_struct *);
->  extern unsigned long task_statm(struct mm_struct *,
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index cf72699cb2bc..087e11f7f193 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -27,6 +27,11 @@ struct device;
->  struct dma_buf;
->  struct dma_buf_attachment;
->  
-> +/**
-> + * Check if struct file* is associated with dma_buf.
-> + */
-> +int is_dma_buf_file(struct file *file);
-> +
->  /**
->   * struct dma_buf_ops - operations possible on struct dma_buf
->   * @vmap: [optional] creates a virtual mapping for the buffer into kernel
-> -- 
-> 2.30.0.280.ga3ce27912f-goog
+Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+---
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/stpddc60.rst |  79 +++++++++++++
+ MAINTAINERS                      |   7 ++
+ drivers/hwmon/pmbus/Kconfig      |  10 ++
+ drivers/hwmon/pmbus/Makefile     |   2 +
+ drivers/hwmon/pmbus/stpddc60.c   | 188 +++++++++++++++++++++++++++++++
+ 6 files changed, 287 insertions(+)
+ create mode 100644 Documentation/hwmon/stpddc60.rst
+ create mode 100644 drivers/hwmon/pmbus/stpddc60.c
 
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fcb870ce6286..94b4fcf182cd 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -169,6 +169,7 @@ Hardware Monitoring Kernel Drivers
+    smsc47m192
+    smsc47m1
+    sparx5-temp
++   stpddc60
+    tc654
+    tc74
+    thmc50
+diff --git a/Documentation/hwmon/stpddc60.rst b/Documentation/hwmon/stpddc60.rst
+new file mode 100644
+index 000000000000..11d5a9977e80
+--- /dev/null
++++ b/Documentation/hwmon/stpddc60.rst
+@@ -0,0 +1,79 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver stpddc60
++======================
++
++Supported chips:
++
++  * ST STPDDC60
++
++    Prefix: 'stpddc60', 'bmr481'
++
++    Addresses scanned: -
++
++    Datasheet: https://flexpowermodules.com/documents/fpm-techspec-bmr481
++
++Author: Erik Rosen <erik.rosen@metormote.com>
++
++
++Description
++-----------
++
++This driver supports hardware monitoring for ST STPDDC60 controller chip and
++compatible modules.
++
++The driver is a client driver to the core PMBus driver. Please see
++Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
++on PMBus client drivers.
++
++
++Usage Notes
++-----------
++
++This driver does not auto-detect devices. You will have to instantiate the
++devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
++details.
++
++The vout under- and over-voltage limits are read-only for this chip.
++
++
++Platform data support
++---------------------
++
++The driver supports standard PMBus driver platform data.
++
++
++Sysfs entries
++-------------
++
++The following attributes are supported. Vin, iout and temp limits
++are read-write; all other attributes are read-only.
++
++======================= ========================================================
++in1_label		"vin"
++in1_input		Measured input voltage.
++in1_lcrit		Critical minimum input voltage.
++in1_crit		Critical maximum input voltage.
++in1_lcrit_alarm		Input voltage critical low alarm.
++in1_crit_alarm		Input voltage critical high alarm.
++
++in2_label		"vout1"
++in2_input		Measured output voltage.
++in2_lcrit		Critical minimum output Voltage.
++in2_crit		Critical maximum output voltage.
++in2_lcrit_alarm		Critical output voltage critical low alarm.
++in2_crit_alarm		Critical output voltage critical high alarm.
++
++curr1_label		"iout1"
++curr1_input		Measured output current.
++curr1_max		Maximum output current.
++curr1_max_alarm		Output current high alarm.
++curr1_crit		Critical maximum output current.
++curr1_crit_alarm	Output current critical high alarm.
++
++temp1_input		Measured maximum temperature of all phases.
++temp1_max		Maximum temperature limit.
++temp1_max_alarm		High temperature alarm.
++temp1_crit		Critical maximum temperature limit.
++temp1_crit_alarm	Critical maximum temperature alarm.
++======================= ========================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 992fe3b0900a..e4c696f8eabe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16819,6 +16819,13 @@ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+ F:	drivers/i2c/busses/i2c-stm32*
+ 
++ST STPDDC60 DRIVER
++M:	Daniel Nilsson <daniel.nilsson@flex.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/stpddc60.rst
++F:	drivers/hwmon/pmbus/stpddc60.c
++
+ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+ M:	Song Qiang <songqiang1304521@gmail.com>
+ L:	linux-iio@vger.kernel.org
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..b2becdd84b11 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -247,6 +247,16 @@ config SENSORS_Q54SJ108A2
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called q54sj108a2.
+ 
++config SENSORS_STPDDC60
++	tristate "ST STPDDC60"
++	help
++	  If you say yes here you get hardware monitoring support for ST
++	  STPDDC60 Universal Digital Multicell Controller, as well as for
++	  Flex BMR481.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called stpddc60.
++
+ config SENSORS_TPS40422
+ 	tristate "TI TPS40422"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..ef468806238c 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -28,9 +28,11 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+ obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+ obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
++obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+ obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
+ obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
+ obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+ obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
+ obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+ obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
++
+diff --git a/drivers/hwmon/pmbus/stpddc60.c b/drivers/hwmon/pmbus/stpddc60.c
+new file mode 100644
+index 000000000000..4e3ab260a3c2
+--- /dev/null
++++ b/drivers/hwmon/pmbus/stpddc60.c
+@@ -0,0 +1,188 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for the STPDDC60 controller
++ *
++ * Copyright (c) 2021 Flextronics International Sweden AB.
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/pmbus.h>
++#include "pmbus.h"
++
++enum chips { stpddc60 };
++
++static const struct i2c_device_id stpddc60_id[] = {
++	{"stpddc60", stpddc60},
++	{"bmr481", stpddc60},
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, stpddc60_id);
++
++static struct pmbus_driver_info stpddc60_info = {
++	.pages = 1,
++	.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
++		| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
++		| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
++		| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
++		| PMBUS_HAVE_POUT,
++};
++
++/*
++ * Convert VID value to milli-volt
++ */
++static long stpddc60_vid2mv(int val)
++{
++	long rv = 0;
++
++	if (val >= 0x01)
++		rv = 250 + (val - 1) * 5;
++
++	return rv;
++}
++
++/*
++ * Convert milli-volt to linear
++ */
++static int stpddc60_mv2l(long mv)
++{
++	int rv;
++
++	rv = (mv << 8) / 1000;
++
++	return rv;
++}
++
++/*
++ * The VOUT_COMMAND register uses the VID format but the vout alarm limit
++ * registers use the linear format so we override VOUT_MODE here to force
++ * linear format for all registers.
++ */
++static int stpddc60_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int ret;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_VOUT_MODE:
++		ret = 0x18;
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++/*
++ * Do the necessary conversions between VID and linear data format.
++ */
++static int stpddc60_read_word_data(struct i2c_client *client, int page,
++				   int phase, int reg)
++{
++	int ret;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_READ_VOUT:
++		ret = pmbus_read_word_data(client, page, phase, reg);
++		if (ret < 0)
++			return ret;
++		ret = stpddc60_mv2l(stpddc60_vid2mv(ret));
++		break;
++	case PMBUS_VOUT_OV_FAULT_LIMIT:
++	case PMBUS_VOUT_UV_FAULT_LIMIT:
++		ret = pmbus_read_word_data(client, page, phase, reg);
++		if (ret < 0)
++			return ret;
++		ret &= 0x07ff;
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++/*
++ * The vout under- and over-voltage limits are readonly for this chip.
++ */
++static int stpddc60_write_word_data(struct i2c_client *client, int page,
++				    int reg, u16 word)
++{
++	int ret;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_VOUT_OV_FAULT_LIMIT:
++		ret = -EACCES;
++		break;
++	case PMBUS_VOUT_UV_FAULT_LIMIT:
++		ret = -EACCES;
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++static int stpddc60_probe(struct i2c_client *client,
++			  const struct i2c_device_id *id)
++{
++	int status;
++	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
++	const struct i2c_device_id *mid;
++	struct pmbus_driver_info *info = &stpddc60_info;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_READ_BYTE_DATA
++				     | I2C_FUNC_SMBUS_BLOCK_DATA))
++		return -ENODEV;
++
++	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
++	if (status < 0) {
++		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
++		return status;
++	}
++	for (mid = stpddc60_id; mid->name[0]; mid++) {
++		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
++			break;
++	}
++	if (!mid->name[0]) {
++		dev_err(&client->dev, "Unsupported device\n");
++		return -ENODEV;
++	}
++
++	info->read_byte_data = stpddc60_read_byte_data;
++	info->read_word_data = stpddc60_read_word_data;
++	info->write_word_data = stpddc60_write_word_data;
++
++	return pmbus_do_probe(client, info);
++}
++
++static struct i2c_driver stpddc60_driver = {
++	.driver = {
++		   .name = "stpddc60",
++		   },
++	.probe = stpddc60_probe,
++	.id_table = stpddc60_id,
++};
++
++module_i2c_driver(stpddc60_driver);
++
++MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
++MODULE_DESCRIPTION("PMBus driver for ST STPDDC60");
++MODULE_LICENSE("GPL");
 -- 
-Michal Hocko
-SUSE Labs
+2.20.1
+
