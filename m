@@ -2,184 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71671C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 12:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFB74C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 13:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B26564DCE
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 12:39:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8C0564DD8
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 13:00:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231233AbhA1MjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 07:39:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231232AbhA1Mi7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 07:38:59 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C54C0613ED
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 04:38:18 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id w18so3895830pfu.9
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 04:38:18 -0800 (PST)
+        id S231964AbhA1M7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 07:59:38 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:62208 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231932AbhA1M7R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 07:59:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6WaOltVmRWY4A85dkkyKWm4CB5hPuoSl1c1lXUzFBBo=;
-        b=CtMUy+LGS6RZ6wo05NIVWOeVZapiGPFCG7S6qJhU2IbnzcVusdLgW/ZbNsskfVWrUN
-         MQywc7znYQ5UERN4AzrEKHe2ItHXgXNU5klDm31oxeP/khbY+vUSQryPVBBIAfEDw/Vv
-         3gTs3OJ9VpgcBuGYgOcVbeDMqBlEe0o+q3OSkydmSSa0Tv4WpFi3eaD3wE5ZpbL0crjv
-         gcdSagrLpFTsVhn1PVCAnGY9EaYJOiVYJDDn8QKGR432e9cmrI7pxQk3XQYVNmAj5Ajm
-         CgzxOmE5U8+7o8LkzGpeB3UemRiwygv/eyF+McqBGgVLBIXVvJtsjPIFFsjT6R04v3tk
-         hOaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6WaOltVmRWY4A85dkkyKWm4CB5hPuoSl1c1lXUzFBBo=;
-        b=ObjP44KmxkWQboBAwTsUWkunzn+fjpHo0xYbDX+mdBDVv9Ab67BzfKHqGhe/VnXw9W
-         ksv9ambkLgYaAiE4VZdbwYMNhA72Gd6p8t2LchcGl7QpEr7I5SbkOpTh+C5QYuZemMry
-         q6GS3qm/ZfGwPNQTMh/yy/Aubi0RaxVhqI/O/LEv5HSuC+Gsx6O4CXG49YUO65Iym5hj
-         k0st5bpeaFweV+By7YjzoiYs/lEAmlXwcro4WLCs28VPDVIatKmRji96uUYViOB+OPGk
-         EDScWizKAsfkC2e1PZBFtA40b+5LdeSaxiOQvzC2dt0cLhh1/Q7Rp6OQdZk25taeBCXV
-         CTtA==
-X-Gm-Message-State: AOAM5319Q9LSIGEMdfuVJzA26YUJE9HUGLQpywg4dlfjboU7St26Ha4B
-        Bv4IF7Z9WVdoHRwM2+4zhIjmro3hsVef1oza/u0sBA==
-X-Google-Smtp-Source: ABdhPJyw1u0Xr3B5Tu98ZrHbYMZERXsgmC0lR2sLTrtGK6j+NRKrFU5g/BHrH5XrtlG5N0b0Kqx1Q95yjO3O+N/Ejxk=
-X-Received: by 2002:a63:1f21:: with SMTP id f33mr16523781pgf.31.1611837498467;
- Thu, 28 Jan 2021 04:38:18 -0800 (PST)
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1611838756; x=1643374756;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=B56E1Awf7VEQPdUFQmhu23n9pP7LJrGNglTlfuHed+U=;
+  b=ERdJQ3q0L8dvF3APuLnziiKfn9NEKDpQpubh+o8HN7qA+Y+m5tQ3eLN1
+   3nfh847FpF1czOV4xRQu6/YTw8MIGNz+qhdLFcOtzXhlf95sZmPujaqcc
+   w7HXqVpJNWioN8ECo+IFIdgdl9Nk45NFKEyQx8R5rJm5GdFG4Mc+e3nAc
+   4=;
+X-IronPort-AV: E=Sophos;i="5.79,382,1602547200"; 
+   d="scan'208";a="82178107"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 28 Jan 2021 12:58:25 +0000
+Received: from EX13MTAUWC002.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com (Postfix) with ESMTPS id 6DE2AC0600;
+        Thu, 28 Jan 2021 12:58:22 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 28 Jan 2021 12:58:21 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.162.125) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 28 Jan 2021 12:58:14 +0000
+Subject: Re: [PATCH v4 0/2] System Generation ID driver and VMGENID backend
+To:     "Michael S. Tsirkin" <mst@redhat.com>,
+        "Catangiu, Adrian Costin" <acatan@amazon.com>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+        "Jason@zx2c4.com" <Jason@zx2c4.com>,
+        "jannh@google.com" <jannh@google.com>, "w@1wt.eu" <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "ebiggers@kernel.org" <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "areber@redhat.com" <areber@redhat.com>,
+        "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <20210112074658-mutt-send-email-mst@kernel.org>
+ <9952EF0C-CD1D-4EDB-BAB8-21F72C0BF90D@amazon.com>
+ <20210127074549-mutt-send-email-mst@kernel.org>
+From:   Alexander Graf <graf@amazon.de>
+Message-ID: <7bcd1cf3-d055-db46-95ea-5c023df2f184@amazon.de>
+Date:   Thu, 28 Jan 2021 13:58:12 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-6-songmuchun@bytedance.com> <20210126092942.GA10602@linux>
- <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com> <20210126145819.GB16870@linux>
- <259b9669-0515-01a2-d714-617011f87194@redhat.com> <20210126153448.GA17455@linux>
- <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com> <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
-In-Reply-To: <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 28 Jan 2021 20:37:41 +0800
-Message-ID: <CAMZfGtWCu95Qve8p9mH7C7rm=F+znsc8+VL_6Z-_k4e5hAHzhA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
- vmemmap pages associated with each HugeTLB page
-To:     David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210127074549-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [10.43.162.125]
+X-ClientProxiedBy: EX13D02UWC002.ant.amazon.com (10.43.162.6) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 6:36 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 26.01.21 16:56, David Hildenbrand wrote:
-> > On 26.01.21 16:34, Oscar Salvador wrote:
-> >> On Tue, Jan 26, 2021 at 04:10:53PM +0100, David Hildenbrand wrote:
-> >>> The real issue seems to be discarding the vmemmap on any memory that has
-> >>> movability constraints - CMA and ZONE_MOVABLE; otherwise, as discussed, we
-> >>> can reuse parts of the thingy we're freeing for the vmemmap. Not that it
-> >>> would be ideal: that once-a-huge-page thing will never ever be a huge page
-> >>> again - but if it helps with OOM in corner cases, sure.
-> >>
-> >> Yes, that is one way, but I am not sure how hard would it be to implement.
-> >> Plus the fact that as you pointed out, once that memory is used for vmemmap
-> >> array, we cannot use it again.
-> >> Actually, we would fragment the memory eventually?
-> >>
-> >>> Possible simplification: don't perform the optimization for now with free
-> >>> huge pages residing on ZONE_MOVABLE or CMA. Certainly not perfect: what
-> >>> happens when migrating a huge page from ZONE_NORMAL to (ZONE_MOVABLE|CMA)?
-> >>
-> >> But if we do not allow theose pages to be in ZONE_MOVABLE or CMA, there is no
-> >> point in migrate them, right?
-> >
-> > Well, memory unplug "could" still work and migrate them and
-> > alloc_contig_range() "could in the future" still want to migrate them
-> > (virtio-mem, gigantic pages, powernv memtrace). Especially, the latter
-> > two don't work with ZONE_MOVABLE/CMA. But, I mean, it would be fair
-> > enough to say "there are no guarantees for
-> > alloc_contig_range()/offline_pages() with ZONE_NORMAL, so we can break
-> > these use cases when a magic switch is flipped and make these pages
-> > non-migratable anymore".
-> >
-> > I assume compaction doesn't care about huge pages either way, not sure
-> > about numa balancing etc.
-> >
-> >
-> > However, note that there is a fundamental issue with any approach that
-> > allocates a significant amount of unmovable memory for user-space
-> > purposes (excluding CMA allocations for unmovable stuff, CMA is
-> > special): pairing it with ZONE_MOVABLE becomes very tricky as your user
-> > space might just end up eating all kernel memory, although the system
-> > still looks like there is plenty of free memory residing in
-> > ZONE_MOVABLE. I mentioned that in the context of secretmem in a reduced
-> > form as well.
-> >
-> > We theoretically have that issue with dynamic allocation of gigantic
-> > pages, but it's something a user explicitly/rarely triggers and it can
-> > be documented to cause problems well enough. We'll have the same issue
-> > with GUP+ZONE_MOVABLE that Pavel is fixing right now - but GUP is
-> > already known to be broken in various ways and that it has to be treated
-> > in a special way. I'd like to limit the nasty corner cases.
-> >
-> > Of course, we could have smart rules like "don't online memory to
-> > ZONE_MOVABLE automatically when the magic switch is active". That's just
-> > ugly, but could work.
-> >
->
-> Extending on that, I just discovered that only x86-64, ppc64, and arm64
-> really support hugepage migration.
->
-> Maybe one approach with the "magic switch" really would be to disable
-> hugepage migration completely in hugepage_migration_supported(), and
-> consequently making hugepage_movable_supported() always return false.
->
-> Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
-> migrated. The problem I describe would apply (careful with using
-> ZONE_MOVABLE), but well, it can at least be documented.
+Hey Michael!
 
-Thanks for your explanation.
+On 27.01.21 13:47, Michael S. Tsirkin wrote:
+> =
 
-All thinking seems to be introduced by encountering OOM. :-(
+> On Thu, Jan 21, 2021 at 10:28:16AM +0000, Catangiu, Adrian Costin wrote:
+>> On 12/01/2021, 14:49, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>>
+>>      On Tue, Jan 12, 2021 at 02:15:58PM +0200, Adrian Catangiu wrote:
+>>      > The first patch in the set implements a device driver which expos=
+es a
+>>      > read-only device /dev/sysgenid to userspace, which contains a
+>>      > monotonically increasing u32 generation counter. Libraries and
+>>      > applications are expected to open() the device, and then call rea=
+d()
+>>      > which blocks until the SysGenId changes. Following an update, rea=
+d()
+>>      > calls no longer block until the application acknowledges the new
+>>      > SysGenId by write()ing it back to the device. Non-blocking read()=
+ calls
+>>      > return EAGAIN when there is no new SysGenId available. Alternativ=
+ely,
+>>      > libraries can mmap() the device to get a single shared page which
+>>      > contains the latest SysGenId at offset 0.
+>>
+>>      Looking at some specifications, the gen ID might actually be located
+>>      at an arbitrary address. How about instead of hard-coding the offse=
+t,
+>>      we expose it e.g. in sysfs?
+>>
+>> The functionality is split between SysGenID which exposes an internal u32
+>> counter to userspace, and an (optional) VmGenID backend which drives
+>> SysGenID generation changes based on hw vmgenid updates.
+>>
+>> The hw UUID you're referring to (vmgenid) is not mmap-ed to userspace or
+>> otherwise exposed to userspace. It is only used internally by the vmgenid
+>> driver to find out about VM generation changes and drive the more generic
+>> SysGenID.
+>>
+>> The SysGenID u32 monotonic increasing counter is the one that is mmaped =
+to
+>> userspace, but it is a software counter. I don't see any value in using =
+a dynamic
+>> offset in the mmaped page. Offset 0 is fast and easy and most importantl=
+y it is
+>> static so no need to dynamically calculate or find it at runtime.
+> =
 
-In order to move forward and free the hugepage. We should add some
-restrictions below.
+> Well you are burning a whole page on it, using an offset the page
+> can be shared with other functionality.
 
-1. Only free the hugepage which is allocated from the ZONE_NORMAL.
-2. Disable hugepage migration when this feature is enabled.
-3. Using GFP_ATOMIC to allocate vmemmap pages firstly (it can reduce
-   memory fragmentation), if it fails, we use part of the hugepage to
-   remap.
+Currently, the SysGenID lives is one page owned by Linux that we share =
 
-Hi Oscar, Mike and David H
+out to multiple user space clients. So yes, we burn a single page of the =
 
-What's your opinion about this? Should we take this approach?
+system here.
 
-Thanks.
+If we put more data in that same page, what data would you put there? =
 
->
-> --
-> Thanks,
->
-> David / dhildenb
->
+Random other bits from other subsystems? At that point, we'd be =
+
+reinventing vdso all over again, no? Probably with the same problems.
+
+Which gets me to the second alternative: Reuse VDSO. The problem there =
+
+is that the VDSO is an extremely architecture specific mechanism. Any =
+
+new architecture we'd want to support would need multiple layers of =
+
+changes in multiple layers of both kernel and libc. I'd like to avoid =
+
+that if we can :).
+
+So that leaves us with either wasting a page per system or not having an =
+
+mmap() interface in the first place.
+
+The reason we have the mmap() interface is that it's be easier to =
+
+consume for libraries, that are not hooked into the main event loop.
+
+So, uh, what are you suggesting? :)
+
+
+Alex
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
