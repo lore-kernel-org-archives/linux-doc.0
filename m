@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CF7C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11ACEC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:25:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FF0F64DD3
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:21:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D087864DD0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229586AbhA1DVv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 22:21:51 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41626 "EHLO mx2.suse.de"
+        id S231128AbhA1DZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 22:25:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42416 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229528AbhA1DVu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 22:21:50 -0500
+        id S231124AbhA1DZT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 22:25:19 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 99583ACB7;
-        Thu, 28 Jan 2021 03:21:06 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id B70A5ABDA;
+        Thu, 28 Jan 2021 03:24:37 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de
-Date:   Thu, 28 Jan 2021 14:20:59 +1100
+Date:   Thu, 28 Jan 2021 14:24:31 +1100
 Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 01/12] docs: path-lookup: update follow_managed() part
-In-Reply-To: <20210126072443.33066-2-foxhlchen@gmail.com>
+Subject: Re: [PATCH 02/12] docs: path-lookup: update path_to_nameidata() parth
+In-Reply-To: <20210126072443.33066-3-foxhlchen@gmail.com>
 References: <20210126072443.33066-1-foxhlchen@gmail.com>
- <20210126072443.33066-2-foxhlchen@gmail.com>
-Message-ID: <87h7n1hhlw.fsf@notabene.neil.brown.name>
+ <20210126072443.33066-3-foxhlchen@gmail.com>
+Message-ID: <87eei5hhg0.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -48,70 +48,39 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Jan 26 2021, Fox Chen wrote:
 
-> No follow_managed() anymore, handle_mounts(),
-> traverse_mounts(), will do the job.
-> see commit: 9deed3ebca244663530782631834e706a86a8c8f
+> No path_to_namei() anymore, step_into() will be called.
+> Related commit: c99687a03a78775f77d57fe9b07af4c8ec3dd03c
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 > ---
->  Documentation/filesystems/path-lookup.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/filesystems/path-lookup.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index c482e1619e77..e778db767120 100644
+> index e778db767120..2ad96e1e3c49 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -448,8 +448,8 @@ described.  If it finds a ``LAST_NORM`` component it =
-first calls
->  filesystem to revalidate the result if it is that sort of filesystem.
->  If that doesn't get a good result, it calls "``lookup_slow()``" which
->  takes ``i_rwsem``, rechecks the cache, and then asks the filesystem
-> -to find a definitive answer.  Each of these will call
-> -``follow_managed()`` (as described below) to handle any mount points.
-> +to find a definitive answer.  In ``step_into()``, ``handle_mount()`` wil=
-l be=20
-> +called to handle any mount point.
-
-The text now introduces step_into() without any hint as to why that is
-relevant at this point.
-It is a bit awkward to explain succinctly because while lookup_fast and
-lookup_slow return a dentry which is passed to step_into(), handle_dots()
-calls step_into() itself.
-
-This is a general problem with this sort of documentation.  It weaves a
-story and when the code changes, you might need to completely re-weave
-the story.
-
-I don't have a good suggestion for how to fix this text, but at the
-least it needs to be made clear the walk_component() calls step_into(),
-either directly or via handle_dots().
-
->=20=20
->  In the absence of symbolic links, ``walk_component()`` creates a new
+> @@ -455,7 +455,7 @@ In the absence of symbolic links, ``walk_component()`=
+` creates a new
 >  ``struct path`` containing a counted reference to the new dentry and a
-> @@ -536,7 +536,7 @@ tree, but a few notes specifically related to path lo=
-okup are in order
->  here.
->=20=20
->  The Linux VFS has a concept of "managed" dentries which is reflected
-> -in function names such as "``follow_managed()``".  There are three
-> +in function names such as "``traverse_mounts()``".  There are three
+>  reference to the new ``vfsmount`` which is only counted if it is
+>  different from the previous ``vfsmount``.  It then calls
+> -``path_to_nameidata()`` to install the new ``struct path`` in the
+> +``step_into()`` to install the new ``struct path`` in the
+>  ``struct nameidata`` and drop the unneeded references.
 
-Here you've completely broken the story.  Saying
+The logic describe here is now embodied by the code in step_into(), so
+the change doesn't make the description any more correct.
 
-  The VFS has a concept of "managed" dentries which is reflected in
-  function names like "traverse_mounts()"
-
-makes no sense at all.
-Again, I cannot offer any quick fix.
+Possibly you need to change the hero of the story from walk_component()
+to step_into(), but that is just a guess.
 
 NeilBrown
 
 
->  potentially interesting things about these dentries corresponding
->  to three different flags that might be set in ``dentry->d_flags``:
 >=20=20
+>  This "hand-over-hand" sequencing of getting a reference to the new
 > --=20
 > 2.30.0
 
@@ -120,19 +89,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASLZsOHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigblPYQ//Y6coOk2lqWxVQzOZwNT9+fpXG+LxEuX1qLqy
-YvXoCrdMBlTb3w9zZtarnlp7OkxdsgIGmxMfJGSbJcCSsTQ9FlATnG2S5Ch7Y3wD
-8iBx5mZZPKPzwTwMwRQ9GwSFTP5+oWHQ9yy94ywOylzZTjrQw13kp8eN+aLXnt6Q
-ZzKz86wXanc7uo+nNeX6zuVsLB41T5C7s5AqXaiLJ3XL4YiiH+LyuGsNCpbKXbEm
-xOtmbsWhEB5kg0GwkiuWd2zRazhpIK9pal1JID3K2fyh2MEu26CNR0/ZBLeaamHM
-I5Vy5N2IZfPVCTTUw9ta1nCW8x+NIh7ybvGYsQ2hsG1CYJzTM+KDv4nlgk4cZOOu
-qztXFopoUTcOBAlEhUFCkwS7VfYilw2ybgk6AJwauljdzF5PPNoc4nOB2o+ysZoo
-7rmdQ9WZx98zdace4JvqcOXzr+qytalZ8h/oFtasfV7PiuDmGp/O0INmuvVXOcqj
-F8Arz70IDtzEwPhc9liTDPcqJL/NBx6Bcmns3EKSPMZ00hWaozLTlKXkL0UVHz/E
-7k3TJdimeO8HvFpTw2j8oEMkuJqAolutxGuSnSkqfDJZ6Iqcy0+c8Z5m9Hs6JJ6R
-MdN4oejU7RuHgG1VVhjrc4QrBmSN0axS2kbAszYtTjAZslN58AyA8k67bLMKVoaV
-friCJks=
-=d1+s
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASLm8OHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbnKphAAxI/39qkWqxQ0roEbx1nsbuSkTpV4xHN7DVjV
+GkODqSc4tE4P1ZEaereO2qeNf+d8mcZNBXZiBHxAD0nRYbsqeFYmETonmvhNJf8t
+hIjvwizHK1rDGt8W3S1lCyUlulUgGNIkOOVN6rYcOPHYOcBi2+IXdAGBIwlNyR7C
+c+y+kX9VRIQPoeDI58x4C8z3jomU6xXycHryiMrrQjuK9dJBpZ639EyfXfzeMlZe
+hdi97PYAO9a2peVmMM7wlrthscHON2Q1L3gWCMeHeUunlxL1lYqdAbeoTotS7HQi
+PphdCOT+1NWtekn5ab4iQbM9OBW+ha/52JRlqPTCTByxYC9zhUIHoBTWoP5tvTpN
+ENPVC9yxe4uIHYbiDACB5OBv3n4/Tk906M/EVmpxkN/no3QRBO+e4yWJ1DJMF0yR
+cQXW3jagaSILuOaF9PXI36gFQ0SUPKhmhRtW9TOcUl5MdIRJa/b4f2Q4tzKv5ELR
+s66kYW6gsHFaUsBspHJM12MErESKavhDcv8eHjZ4kz3cB9XiP+1eLcQnIXzrMo7d
+ORAKBBQqhHtSfL++wEfsjWwGwRKwJnhprNnzdvxVnqAVu8Bllcprcst/dorOwW3f
++7keauLWaeRjz3HHcPPDxWQxCJCpYR1N8akmLf75ExQ3Xy4hKMw51zvKJ8mYBVW8
+qVMhjIg=
+=xU/E
 -----END PGP SIGNATURE-----
 --=-=-=--
