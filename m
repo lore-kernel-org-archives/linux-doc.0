@@ -2,72 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D93EC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 671E9C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F91560C41
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:26:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39AE264DEF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbhA1W0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 17:26:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbhA1W0e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 17:26:34 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA41C06174A;
-        Thu, 28 Jan 2021 14:25:54 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 32A5E6173;
-        Thu, 28 Jan 2021 22:25:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32A5E6173
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611872754; bh=n3bNCZfvvOgSEPImncNtlfIjxMkprSYkS+VwNzrol2c=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=q1ov7O4elzTCF85UBBzc3qJuZsEN4SLnpEfF/o4L42dhLDaKLB/G6utplU/c7qe6c
-         CqztL/IiuueqHrznDWGyK1XgaHpgZc25ZL6Cr9tg0BrvAb7g1fD0xYJboqlk5jrT6o
-         zQ4vEAu7YNUE9MZgkNDfN0pV/CKzubqD440y5DCWpGs1bNOrUYGAZQb2q8XlEmXsdA
-         dIp9PEyWp1t6ErvOTYlvwkmSGugoayXrYMQGsdBj7j6zqsvPo7bzTLdvcq8rPinjaa
-         fc3RYma5OclWjS1dHdAJXcNawdHlm9d1Bjg4oZ39PS0pxZYWeqBESVzm9OnAAOhw5p
-         ttYRFqVZVoAeA==
-Date:   Thu, 28 Jan 2021 15:25:53 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Daniel Kiper <daniel.kiper@oracle.com>
-Cc:     Cao jin <jojing64@gmail.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com
-Subject: Re: [PATCH] Documentation/x86/boot.rst: Correct the example of
- SETUP_INDIRECT
-Message-ID: <20210128152553.0dec711e@lwn.net>
-In-Reply-To: <20210127125440.ma4ir6w7gqahbxbz@tomti.i.net-space.pl>
-References: <20210127084911.63438-1-jojing64@gmail.com>
-        <20210127125440.ma4ir6w7gqahbxbz@tomti.i.net-space.pl>
-Organization: LWN.net
+        id S231268AbhA1W3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 17:29:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:52292 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231185AbhA1W3w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 17:29:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C239FAC60;
+        Thu, 28 Jan 2021 22:29:10 +0000 (UTC)
+Date:   Thu, 28 Jan 2021 23:29:06 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
+ associated with each HugeTLB page
+Message-ID: <20210128222906.GA3826@localhost.localdomain>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-6-songmuchun@bytedance.com>
+ <20210126092942.GA10602@linux>
+ <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
+ <20210126145819.GB16870@linux>
+ <259b9669-0515-01a2-d714-617011f87194@redhat.com>
+ <20210126153448.GA17455@linux>
+ <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
+ <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Jan 2021 13:54:40 +0100
-Daniel Kiper <daniel.kiper@oracle.com> wrote:
-
-> On Wed, Jan 27, 2021 at 04:49:11PM +0800, Cao jin wrote:
-> > struct setup_data.len is the length of data field. In case of
-> > SETUP_INDIRECT, it should be sizeof(setup_indirect).
-> >
-> > Signed-off-by: Cao jin <jojing64@gmail.com>  
+On Wed, Jan 27, 2021 at 11:36:15AM +0100, David Hildenbrand wrote:
+> Extending on that, I just discovered that only x86-64, ppc64, and arm64
+> really support hugepage migration.
 > 
-> Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+> Maybe one approach with the "magic switch" really would be to disable
+> hugepage migration completely in hugepage_migration_supported(), and
+> consequently making hugepage_movable_supported() always return false.
 
-Applied, thanks.
+Ok, so migration would not fork for these pages, and since them would
+lay in !ZONE_MOVABLE there is no guarantee we can unplug the memory.
+Well, we really cannot unplug it unless the hugepage is not used
+(it can be dissolved at least).
 
-jon
+Now to the allocation-when-freeing.
+Current implementation uses GFP_ATOMIC(or wants to use) + forever loop.
+One of the problems I see with GFP_ATOMIC is that gives you access
+to memory reserves, but there are more users using those reserves.
+Then, worst-scenario case we need to allocate 16MB order-0 pages
+to free up 1GB hugepage, so the question would be whether reserves
+really scale to 16MB + more users accessing reserves.
+
+As I said, if anything I would go for an optimistic allocation-try
+, if we fail just refuse to shrink the pool.
+User can always try to shrink it later again via /sys interface.
+
+Since hugepages would not be longer in ZONE_MOVABLE/CMA and are not
+expected to be migratable, is that ok?
+
+Using the hugepage for the vmemmap array was brought up several times,
+but that would imply fragmenting memory over time.
+
+All in all seems to be overly complicated (I might be wrong).
+
+
+> Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
+> migrated. The problem I describe would apply (careful with using
+> ZONE_MOVABLE), but well, it can at least be documented.
+
+I am not a page allocator expert but cannot the allocation fallback
+to ZONE_MOVABLE under memory shortage on other zones?
+
+
+-- 
+Oscar Salvador
+SUSE L3
