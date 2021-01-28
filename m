@@ -2,118 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B53C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 01:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CF7C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:21:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 106E764DA1
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 01:24:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FF0F64DD3
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:21:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbhA1BYA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 20:24:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbhA1BX6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jan 2021 20:23:58 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0E6C061574;
-        Wed, 27 Jan 2021 17:23:17 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id f2so4366947ljp.11;
-        Wed, 27 Jan 2021 17:23:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pRE95trqB4FwG+o0AC+VFmG51xcWnnjNWWRbJ2+m+4o=;
-        b=XWnN3xek8sPxdM2T3x8Wj+pVQD42MXnmCxAbhf+8q9hWJNZMYH5W3p0ZysYcKEOGl1
-         JPeYFbAacDk5zibW2AKPxWZyhRJWViyFazuu3ytHhrJjCjxuH4m9jMM4qGGwM3YW/XrY
-         4HPDaZ5/0s+FOkRJXEpCIBnRAZMopPDankXTlgFyEEiJ9LgphYZlyld2TOyRu8P2DLI2
-         NNy9dxrIKB1yDcw1ELOH2l0qAYHcP5vYLYXnpxDtUq4KzWTswNkgFsFaNHm2gq5PFxkE
-         2uEwIT1NA5cCBqihbbuGQigLJN/EU5cjtiJlTLcpIs+tofiCUQ73OGPX8R0BNo3bnyMi
-         oz9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pRE95trqB4FwG+o0AC+VFmG51xcWnnjNWWRbJ2+m+4o=;
-        b=OBaAGgFHg7MqP6znTRVejpQkrnDBx2Y3/s+XvX88uXdhqr09uKiSG3ROeGEqODqeKi
-         gutuatsUbxPKWRSG6CCCUiFfUT0NJeRQpdkP3S2ZTZKScJ+M5PsMa45odFy5e5dxLnO8
-         R7Bs3eHJJ+HaGEC634N6ycK08mYo/Edcr6svgcjd66MD9PW1+qO+duInN8d3tALv0tqs
-         NutF1P0cyZ3zpkKYqtAzacIgWp+ETKBaMe3tnu9V8eBxzMt+kA3FhuvmkC/ZfFuQexDa
-         IkFUWKYFhnogLPWnSADyZ0iagWt6q4Ja8kpRPAMiZ+Q5Dp0HpXUb1oAtTebB0SlPuPNb
-         JKBg==
-X-Gm-Message-State: AOAM533UAkkWpXF8C8GxEJFQRDyWRdNNHwB3ZUoVRxNWZCHgRTlWSNsw
-        NjPCdoof+yjx1N8uI3FPAzVYTGdSjPqEbj0twBU=
-X-Google-Smtp-Source: ABdhPJwfwNYIvW0Y0XM9IfRSJrCg9c/xSWvyMyWVTmfwMYXIE50kJsAc7NqoZagKXYt9uOEPcksuE/yiFB4Yed5W5mA=
-X-Received: by 2002:a2e:9047:: with SMTP id n7mr1997482ljg.405.1611796995742;
- Wed, 27 Jan 2021 17:23:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20210126072443.33066-1-foxhlchen@gmail.com> <20210126133141.27eb1c9d@lwn.net>
-In-Reply-To: <20210126133141.27eb1c9d@lwn.net>
-From:   Fox Chen <foxhlchen@gmail.com>
-Date:   Thu, 28 Jan 2021 09:23:03 +0800
-Message-ID: <CAC2o3DJZL7QNcm7c=ijNbTWjHg+8k-mT_LK_d9Ctg8-LjC-A0g@mail.gmail.com>
-Subject: Re: [PATCH 00/12] docs: path-lookup: Update pathlookup docs
-To:     Neil Brown <neilb@suse.de>
-Cc:     vegard.nossum@oracle.com, Al Viro <viro@zeniv.linux.org.uk>,
-        rdunlap@infradead.org, Jonathan Corbet <corbet@lwn.net>,
-        grandmaster@al2klimov.de, linux-doc@vger.kernel.org,
+        id S229586AbhA1DVv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 22:21:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41626 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229528AbhA1DVu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 22:21:50 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 99583ACB7;
+        Thu, 28 Jan 2021 03:21:06 +0000 (UTC)
+From:   NeilBrown <neilb@suse.de>
+To:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
+        vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, grandmaster@al2klimov.de
+Date:   Thu, 28 Jan 2021 14:20:59 +1100
+Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 01/12] docs: path-lookup: update follow_managed() part
+In-Reply-To: <20210126072443.33066-2-foxhlchen@gmail.com>
+References: <20210126072443.33066-1-foxhlchen@gmail.com>
+ <20210126072443.33066-2-foxhlchen@gmail.com>
+Message-ID: <87h7n1hhlw.fsf@notabene.neil.brown.name>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 4:31 AM Jonathan Corbet <corbet@lwn.net> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 26 2021, Fox Chen wrote:
+
+> No follow_managed() anymore, handle_mounts(),
+> traverse_mounts(), will do the job.
+> see commit: 9deed3ebca244663530782631834e706a86a8c8f
 >
-> On Tue, 26 Jan 2021 15:24:31 +0800
-> Fox Chen <foxhlchen@gmail.com> wrote:
+> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+> ---
+>  Documentation/filesystems/path-lookup.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> > The Path lookup is a very complex subject in VFS. The path-lookup
-> > document provides a very detailed guidance to help people understand
-> > how path lookup works in the kernel.This document was originally
-> > written based on three lwn articles five years ago. As times goes by,
-> > some of the content was outdated. This patchset is intended to update
-> > the document to make it more relevant to current codebase.
-> >
-> >
-> > Fox Chen (12):
-> >   docs: path-lookup: update follow_managed() part
-> >   docs: path-lookup: update path_to_nameidata() parth
-> >   docs: path-lookup: update path_mountpoint() part
-> >   docs: path-lookup: update do_last() part
-> >   docs: path-lookup: remove filename_mountpoint
-> >   docs: path-lookup: Add macro name to symlink limit description
-> >   docs: path-lookup: i_op->follow_link replaced with i_op->get_link
-> >   docs: path-lookup: update i_op->put_link and cookie description
-> >   docs: path-lookup: no get_link()
-> >   docs: path-lookup: update WALK_GET, WALK_PUT desc
-> >   docs: path-lookup: update get_link() ->follow_link description
-> >   docs: path-lookup: update symlink description
-> >
-> >  Documentation/filesystems/path-lookup.rst | 146 ++++++++++------------
-> >  1 file changed, 63 insertions(+), 83 deletions(-)
->
-> Neil Brown (copied) is the original author of this document; I'd really
-> like his feedback on these changes.  Neil, the full set is at:
->
->         https://lore.kernel.org/lkml/20210126072443.33066-1-foxhlchen@gmail.com/
->
-> Thanks,
->
-> jon
+> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
+lesystems/path-lookup.rst
+> index c482e1619e77..e778db767120 100644
+> --- a/Documentation/filesystems/path-lookup.rst
+> +++ b/Documentation/filesystems/path-lookup.rst
+> @@ -448,8 +448,8 @@ described.  If it finds a ``LAST_NORM`` component it =
+first calls
+>  filesystem to revalidate the result if it is that sort of filesystem.
+>  If that doesn't get a good result, it calls "``lookup_slow()``" which
+>  takes ``i_rwsem``, rechecks the cache, and then asks the filesystem
+> -to find a definitive answer.  Each of these will call
+> -``follow_managed()`` (as described below) to handle any mount points.
+> +to find a definitive answer.  In ``step_into()``, ``handle_mount()`` wil=
+l be=20
+> +called to handle any mount point.
+
+The text now introduces step_into() without any hint as to why that is
+relevant at this point.
+It is a bit awkward to explain succinctly because while lookup_fast and
+lookup_slow return a dentry which is passed to step_into(), handle_dots()
+calls step_into() itself.
+
+This is a general problem with this sort of documentation.  It weaves a
+story and when the code changes, you might need to completely re-weave
+the story.
+
+I don't have a good suggestion for how to fix this text, but at the
+least it needs to be made clear the walk_component() calls step_into(),
+either directly or via handle_dots().
+
+>=20=20
+>  In the absence of symbolic links, ``walk_component()`` creates a new
+>  ``struct path`` containing a counted reference to the new dentry and a
+> @@ -536,7 +536,7 @@ tree, but a few notes specifically related to path lo=
+okup are in order
+>  here.
+>=20=20
+>  The Linux VFS has a concept of "managed" dentries which is reflected
+> -in function names such as "``follow_managed()``".  There are three
+> +in function names such as "``traverse_mounts()``".  There are three
+
+Here you've completely broken the story.  Saying
+
+  The VFS has a concept of "managed" dentries which is reflected in
+  function names like "traverse_mounts()"
+
+makes no sense at all.
+Again, I cannot offer any quick fix.
+
+NeilBrown
 
 
-FYI, To help review the patches I marked & annotated all the places
-I've changed.
+>  potentially interesting things about these dentries corresponding
+>  to three different flags that might be set in ``dentry->d_flags``:
+>=20=20
+> --=20
+> 2.30.0
 
-you can check the link:
-https://hyp.is/go?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2Fhtml%2Flatest%2Ffilesystems%2Fpath-lookup.html&group=__world__
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-thanks,
-fox
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASLZsOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigblPYQ//Y6coOk2lqWxVQzOZwNT9+fpXG+LxEuX1qLqy
+YvXoCrdMBlTb3w9zZtarnlp7OkxdsgIGmxMfJGSbJcCSsTQ9FlATnG2S5Ch7Y3wD
+8iBx5mZZPKPzwTwMwRQ9GwSFTP5+oWHQ9yy94ywOylzZTjrQw13kp8eN+aLXnt6Q
+ZzKz86wXanc7uo+nNeX6zuVsLB41T5C7s5AqXaiLJ3XL4YiiH+LyuGsNCpbKXbEm
+xOtmbsWhEB5kg0GwkiuWd2zRazhpIK9pal1JID3K2fyh2MEu26CNR0/ZBLeaamHM
+I5Vy5N2IZfPVCTTUw9ta1nCW8x+NIh7ybvGYsQ2hsG1CYJzTM+KDv4nlgk4cZOOu
+qztXFopoUTcOBAlEhUFCkwS7VfYilw2ybgk6AJwauljdzF5PPNoc4nOB2o+ysZoo
+7rmdQ9WZx98zdace4JvqcOXzr+qytalZ8h/oFtasfV7PiuDmGp/O0INmuvVXOcqj
+F8Arz70IDtzEwPhc9liTDPcqJL/NBx6Bcmns3EKSPMZ00hWaozLTlKXkL0UVHz/E
+7k3TJdimeO8HvFpTw2j8oEMkuJqAolutxGuSnSkqfDJZ6Iqcy0+c8Z5m9Hs6JJ6R
+MdN4oejU7RuHgG1VVhjrc4QrBmSN0axS2kbAszYtTjAZslN58AyA8k67bLMKVoaV
+friCJks=
+=d1+s
+-----END PGP SIGNATURE-----
+--=-=-=--
