@@ -7,43 +7,48 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D41FC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 23:40:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31B7C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 23:44:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0681764DE2
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 23:40:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92E0464DFC
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 23:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231483AbhA1Xkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 18:40:32 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51252 "EHLO ms.lwn.net"
+        id S231128AbhA1Xot (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 18:44:49 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51376 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231481AbhA1Xkb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jan 2021 18:40:31 -0500
+        id S231314AbhA1Xog (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 18:44:36 -0500
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0FE8A617B;
-        Thu, 28 Jan 2021 23:39:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FE8A617B
+        by ms.lwn.net (Postfix) with ESMTPSA id 224666173;
+        Thu, 28 Jan 2021 23:43:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 224666173
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611877191; bh=8uyQNTB/nB2LTiZ3Hy2ppDXqH+dcyz2L66J4VE+opFo=;
+        t=1611877417; bh=aM8jK69L2OObytiFwSPBUze10voMNgHvPClMSv8Seik=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TiQnY7YMWtLSfAJIfV8/aknVW3wDfaCFEEeRfwyQNbD6SpNxHSRNZc16R3x/Nai+x
-         1lWXU8daKcFmBlNwpLg51OF9NSEd1vFRZRMbS4EtC+Mz+1dSrsnzYc5Ea+diAoi+IF
-         HqW3EjzZRlIZOfZciUNxVCppZTskKSmE5PHwwtTYy9IQ94Z98SySyLSh7qQRZgty8a
-         2vJ/Vde5TElMb+N64SS96xqUw9SqZ970HfImB9tLi5U7RdNyPxmIdjQS/ReXAy/GeY
-         cfXfx8klEPztYjQ3z8w76lUA62/xWdr4SQetId//OUqrlLoZjCff1sMINHUQ0wrYEN
-         r2oROkP7GMvpg==
-Date:   Thu, 28 Jan 2021 16:39:49 -0700
+        b=Kj+PlQP46+U16dacGUjvC29DQZoQmKXSkuLgmhgw/o4i6nEp18N2uTmJPODZaL6K9
+         NVFPZArNOjoguezxg3AEcRw90ch569uv6X0uimDvpgw86neZFRzHsu1pty+zSiDYCg
+         ybaUZRbADpjN59S3fLLMvqVzbmN4Uj9IBtCuhc8/qJmtaeq861ea943iTyqyUfr0sp
+         S1FfpL7frMtmLPO3h//dviMZL5Opm3XftshmAVlWTMXW0foIVbP1vxhtBKt40Vots1
+         U6Fn1eJIP6MMmcpLncaq5M7yiyMhMlU6LyxTWHzESt2JekrojQ+L4DLIBruw5ALKhw
+         eIAqrSJDV4x5Q==
+Date:   Thu, 28 Jan 2021 16:43:36 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc:     linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH] scripts/kernel-doc: add internal hyperlink to DOC:
- sections
-Message-ID: <20210128163949.1f07186b@lwn.net>
-In-Reply-To: <20210118110813.1490-1-michal.wajdeczko@intel.com>
-References: <20210118110813.1490-1-michal.wajdeczko@intel.com>
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Ping Cheng <pinglinux@gmail.com>, linux-input@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: input: define
+ ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams
+Message-ID: <20210128164336.3be90423@lwn.net>
+In-Reply-To: <20210112230310.GA149342@jelly>
+References: <20210112230310.GA149342@jelly>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,45 +57,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 18 Jan 2021 12:08:13 +0100
-Michal Wajdeczko <michal.wajdeczko@intel.com> wrote:
+On Wed, 13 Jan 2021 09:03:10 +1000
+Peter Hutterer <peter.hutterer@who-t.net> wrote:
 
-> While DOC: section titles are not converted into RST headings
-> sections and are only decorated with strong emphasis markup,
-> nothing stops us from generating internal hyperlinks for them,
-> to mimic implicit hyperlinks to RST headings.
+> ABS_PRESSURE and ABS_MT_PRESSURE on touch devices usually represent
+> contact size (as a finger flattens with higher pressure the contact size
+> increases) and userspace translates the kernel pressure value back into
+> contact size. For example, libinput has pressure thresholds when a touch is
+> considered a palm (palm == large contact area -> high pressure). The values
+> themselves are on an arbitrary scale and device-specific.
 > 
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-
-So I've applied this, but ...
-
->  scripts/kernel-doc | 1 +
->  1 file changed, 1 insertion(+)
+> On pressurepads however, the pressure axis may represent the real physical
+> pressure. Pressurepads are touchpads without a hinge but an actual pressure
+> sensor underneath the device instead, for example the Lenovo Yoga 9i.
 > 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 6325bec3f66f..272f70c9fb13 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -833,6 +833,7 @@ sub output_blockhead_rst(%) {
->  	next if (defined($nosymbol_table{$section}));
->  
->  	if ($output_selection != OUTPUT_INCLUDE) {
-> +	    print ".. _$section:\n\n";
->  	    print "**$section**\n\n";
->  	}
+> A high-enough pressure is converted to a button click by the firmware.
+> Microsoft does not require a pressure axis to be present, see [1], so as seen
+> from userspace most pressurepads are identical to clickpads - one button and
+> INPUT_PROP_BUTTONPAD set.
+> 
+> However, pressurepads that export the pressure axis break userspace because
+> that axis no longer represents contact size, resulting in inconsistent touch
+> tracking, e.g. [2]. Userspace needs to know when a pressure axis represents
+> real pressure and the best way to do so is to define what the resolution
+> field means. Userspace can then treat data with a pressure resolution as
+> true pressure.
+> 
+> This patch documents that the pressure resolution is in units/gram. This
+> allows for fine-grained detail and tops out at roughly ~2000t, enough for the
+> devices we're dealing with. Grams is not a scientific pressure unit but the
+> alternative is:
+> - Pascal: defined as force per area and area is unreliable on many devices and
+>   seems like the wrong option here anyway, especially for devices with a
+>   single pressure sensor only.
+> - Newton: defined as mass * distance/acceleration and for the purposes of a
+>   pressure axis, the distance is tricky to interpret and we get the data to
+>   calculate acceleration from event timestamps anyway.
+> 
+> For the purposes of touch devices and digitizers, grams seems the best choice
+> and the easiest to interpret.
+> 
+> Bonus side effect: we can use the existing hwdb infrastructure in userspace to
+> fix devices that advertise false pressure.
+> 
+> [1] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#windows-precision-touchpad-input-reports
+> [2] https://gitlab.freedesktop.org/libinput/libinput/-/issues/562
+> 
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> ---
+>  Documentation/input/event-codes.rst          | 15 +++++++++++++++
+>  Documentation/input/multi-touch-protocol.rst |  4 ++++
+>  2 files changed, 19 insertions(+)
 
-...the placement within this if means that the section marker doesn't
-appear whenever a doc block is explicitly included with the :doc: modifier
-- which I think is much of the time.  I *think* the marker should be
-output unconditionally.
-
-Jani, you appear to be the culprit behind that particular "if", which
-seems a little questionable to me in general at the moment, but you must
-have had a good reason.  Do you see any reason why a section marker should
-be suppressed in the same way?
+It looks like nobody has picked this up, so I went ahead and applied it.
 
 Thanks,
 
