@@ -2,181 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEEFC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:01:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1574C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:13:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDAB664DE0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:01:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A0CB64DDB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:13:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbhA1VBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 16:01:38 -0500
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:43318 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229596AbhA1VBa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 16:01:30 -0500
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10SJi2ZI019317;
-        Thu, 28 Jan 2021 11:50:00 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=facebook; bh=qd5E1NrS1ByISztxeRK6ckQbJD5h4PhaeYEeqpNTELw=;
- b=e8utGTwJr7eG8ViVDWOZvJEsKEn+sPT4Ek53uERP6pydxE9Nrx5OPa49G8pDSag3Nuy+
- fltdI7ddNPFzj+VxjO7cZJTXbF6m1D5coiFJmTQIxxBVngBfnCprwz+9hVRxrg6PVA+K
- 1Rnxrj/e8PzzUGJtwFz4GSFREVlnH4ys7I4= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 36awcpu7y9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 28 Jan 2021 11:50:00 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Thu, 28 Jan 2021 11:49:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OM7TA49WrPVbvnyLJeLklu/EbcoFtfXKbWyltVgFgiRQgTpUQH4c0nz8uNHaoH9bErukBNomMWHU0FlpzzndE70obxCR/ChC0To8xaAZHkdjGOpekR5Wn7cQhcZaajuQQx4VfP3jX2Cp+39HjsdVhXdd3VemI0vll5ABBmajktfqnSDYRU3d8iV+uo5YdztaaqmRzSXtck6aRPbp69KbzHHxiWHISTlVE7XzzW/3f6sZvtN+nAc3iymNt1VbJo5R1w7nBEZRq3mEaIbonCvQMFONGFOOLsix3go4PlDu4mdT6al+P0KU6c/TRBwzKbTvzEyKZbBQdhgYDyPxBLdCKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qd5E1NrS1ByISztxeRK6ckQbJD5h4PhaeYEeqpNTELw=;
- b=HwBk6qPX24/wGldK9+1xJTsuSAN21ASnrzKintpBDTc3voMcpSO5pKntt6gDDLbQutrKoFItrOpL1EIR0GOrS9h4AqdGwxA/1kUAuTNQCguFcr2U1R9yc07N/CMvJjRgqxQy/+S3sXDcmgSAaFUrYONCPx7bs9ixDxMSTvfeLpvurz3xR5qOWDv/EBAra/1nfczNtiwcZq5MYT+NoPzkTGje3F6INDBEBTgKRc0kImoCYr2evZiF4a5L9D3+SsLv7yxwDuaeYzlnUrE1rhrSQSzaKx1QEnAp71zWgyPWSPmsd0A76nf9j4zMnc3N6H0orSOP+063rRpKA8vvmLfLKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qd5E1NrS1ByISztxeRK6ckQbJD5h4PhaeYEeqpNTELw=;
- b=EG8Pp4p11S+gwlO9n0Z124ffPj6tiTX2U+QP7mHVHq9DSlsiG72/f/2nCIoySbIbZjVhEtWrWFNUUsK/F/nWF0PaHZLPLiXniS7K0jx0KxeJv7d0P80RZ1Lzt+nTttV7dEdYoiESRQXcWGLw+glDCCa6yg9ZNrlcUZsw4e7h+sU=
-Authentication-Results: infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=none action=none header.from=fb.com;
-Received: from SN6PR1501MB2126.namprd15.prod.outlook.com (2603:10b6:805:5::14)
- by SN7PR15MB4176.namprd15.prod.outlook.com (2603:10b6:806:10c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Thu, 28 Jan
- 2021 19:49:59 +0000
-Received: from SN6PR1501MB2126.namprd15.prod.outlook.com
- ([fe80::e814:36cb:5723:8bf8]) by SN6PR1501MB2126.namprd15.prod.outlook.com
- ([fe80::e814:36cb:5723:8bf8%4]) with mapi id 15.20.3805.017; Thu, 28 Jan 2021
- 19:49:59 +0000
-Date:   Thu, 28 Jan 2021 11:49:51 -0800
-From:   Saravanan D <saravanand@fb.com>
-To:     Matthew Wilcox <willy@infradead.org>
-CC:     <x86@kernel.org>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
-        <peterz@infradead.org>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <kernel-team@fb.com>,
-        <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
-        <songliubraving@fb.com>
-Subject: Re: [PATCH V5] x86/mm: Tracking linear mapping split events
-Message-ID: <20210128194951.2sy3wt46ere4el3k@devvm1945.atn0.facebook.com>
-References: <20210128045153.GW308988@casper.infradead.org>
- <20210128104934.2916679-1-saravanand@fb.com>
- <20210128150444.GY308988@casper.infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128150444.GY308988@casper.infradead.org>
-X-Originating-IP: [2620:10d:c090:400::5:7429]
-X-ClientProxiedBy: MWHPR02CA0018.namprd02.prod.outlook.com
- (2603:10b6:300:4b::28) To SN6PR1501MB2126.namprd15.prod.outlook.com
- (2603:10b6:805:5::14)
+        id S229892AbhA1VND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 16:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44974 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229769AbhA1VNC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 16:13:02 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8BAC06174A
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 13:12:19 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id z21so5136173pgj.4
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 13:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ShMu7npMsBgX+goAZm1Y3mVWCkhJ62xJJYEjYPKDrdU=;
+        b=LcVHEujp7i48aNZYHLcFJ8QklAC3AIgHSsbQlZrkZQ+64grgK+DQvw+eh+88Q+0gVY
+         lzBTDitjgJpHE6HJkY3C7XlxVpKTCRP7IrJ1ZtZg0hePT/88PcBRvPgquw5iHZSgDD/q
+         bMNJECwtroQg8p+/pvUnpejtWE9TZevO0uROVJmRnQzbylehseDOHUOoezA80Whgr7LB
+         tW+0klbeJZXbYQ7tWJ6Oqiq6QMRO2ud9iuHgCaUvPi78saI2TLW679w/Z2Ny/793mScI
+         X+8IqNVSBZSH2YfYDSGUjz1wN6OrQnHeuitKgtkqW9hkWBsAKimgWGMoeH1iwxl3MBKF
+         kiMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ShMu7npMsBgX+goAZm1Y3mVWCkhJ62xJJYEjYPKDrdU=;
+        b=DCHg/LwChwJM8OCLzwOXGmxy3w0bwEY2ypnNKk2gg/vl6LDdVJXHjK3X1K0Z9SOVQK
+         k6DF6bzIoaHKmmlysou81iiD+NL7mn6KYkJOqtqrxYPD6P7xQfYl69U+KCdmbk4RZO1Y
+         k8nbrGXBGpyt2RGQP5oXHwg3XoXqqgnDhPHfXD09Rz7hZSbomXWbHNlhyH5LpunN+CP4
+         JL2k2HWx7a8WN6se24yzkeIne5j46vYFOsZD/q7PxGHZgPQG4fAWrpvHufIeLBYd+hpx
+         ItDjD/2tmqCioLIFQIfFoSeUiS3CH2VM2Z6EYO/pvgfOo8I5/0YtlO1jejhZqf6dSUTY
+         4c6A==
+X-Gm-Message-State: AOAM530NWZhrrfYyz54Uc2TrOaWtb5IjWZHQdcZv6i0kW/LM+lhXJ2FU
+        cwpxssnS/eo15XCyw0JnvnxWQSH+y0D5MnS8z6k2vw==
+X-Google-Smtp-Source: ABdhPJy4F/jL89P8PDg7r1B//1iPwDshae+6M7+f9u/A1MaB8hTVLWMN2F68VhVNDdSNiZcrt9fTh2YS5DrBPh09H4Y=
+X-Received: by 2002:a63:7e10:: with SMTP id z16mr1266474pgc.263.1611868338941;
+ Thu, 28 Jan 2021 13:12:18 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from devvm1945.atn0.facebook.com (2620:10d:c090:400::5:7429) by MWHPR02CA0018.namprd02.prod.outlook.com (2603:10b6:300:4b::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Thu, 28 Jan 2021 19:49:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f370b8f2-88c4-4b15-2d2a-08d8c3c5e4b3
-X-MS-TrafficTypeDiagnostic: SN7PR15MB4176:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN7PR15MB41768881CAA1FC149E131E21A2BA9@SN7PR15MB4176.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AHfRCm5DLtl1OE0oBEiJkSnHMnS6X/AO/efM5Nsu2HRMujulNuuaTSv2loclZjg3bs999ximOOK7uDc7WPDkPLnxzLdb/9/qyd68MaGDqdqcoNjwP+suDP+IINE9m8DWcFqb0FJp1tZMfjCQMafbw/i1YvpkKvKXiPfEmjUE24pwpkRms2duf2DqCWiXnIHub2NQ4tQHgUo7T4PbRqrgYFuGO5REfnDpMZm/eOpWYG8rugaKAjJwqSNCWaUjfGjQJEh2bpfMjQgLwQ5pBDpPl21lNVnE4zGJARg1Q4zibwE+Pxim8kLFUL2+PQwXkTE7zP6fW8r1XUdC84yvKZoQNTWx+5H6rDiVOpu5gD9yrPR3UejYpcWc1eTNOoiohrk8Izb7H63c5QGq4SwQlmV/w+LJ6wRT/J3r+qWMjPYKagg+4jMSajriMBfI6nKUscDzExLU/Bc8jd81t/M/yuIW3sWJI45xBEdJIxxEGEN9qRlWDCA/OvFZs9GyoSrYgEDkIWtqjCtMiB9lykQhPwz6fQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2126.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(396003)(376002)(39860400002)(366004)(136003)(9686003)(316002)(1076003)(55016002)(8676002)(52116002)(66946007)(66476007)(66556008)(7696005)(4326008)(2906002)(478600001)(86362001)(6506007)(16526019)(5660300002)(6666004)(8936002)(186003)(6916009);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?LMFfPP6YgVpH0HGzJBrOeUFgwvTm7qt63UAZ9OC1ZauMe0xK7Buj4cwp/Tpn?=
- =?us-ascii?Q?Sid6DihpdnTiaSL8s4w+MpjSKvD6ZiQqFhieg1MEEHr7Nf6pp7Yk8JPfuzZq?=
- =?us-ascii?Q?umoshvK8E+hoG+Tt71c/YWdKR18mq4maVatTT8dnCE6CTzHtf9LyhNIDCFVj?=
- =?us-ascii?Q?q6n3am07+DP3/ytCwdUPYmKtgR6oGLyFstw3UTY6GpVFi3A93TWpCVQzAZDx?=
- =?us-ascii?Q?Okvd/+b94zIBBrl2pTFFdN6rtllzrtVWv/1vzyTqYqG173t4FFeLz4A8zyu8?=
- =?us-ascii?Q?+ToLWF3yP02ijoZ6Evc/81vthDR3CgHGPwakmHryM8x8QCF+H2pbhx7TnaA5?=
- =?us-ascii?Q?OSxzJfRoP3OpVeyC18kN7wkKSb8yP01aHNJQR85a2yukJ6hHJlCwhYN79xWo?=
- =?us-ascii?Q?IYVcIOKwJOb1UqV15p1MAdppktywoCfjZHwd0/AxhByPj5dafzVPEd5iQ7O0?=
- =?us-ascii?Q?grJe7ebueZ9x6SaKDVdQXtZ8fR/61B8pgA0cmMlaKIJRZhesQVLdcObIhW94?=
- =?us-ascii?Q?fNTxt3VQ9t+PkKhA+5TuaulWsobk+CHV6MKVL4nKhixLUtrlbWsF3MFJa0p0?=
- =?us-ascii?Q?NA5U7fng4pQJ+TJ4LuDy+rEiHSdP7JSKMVtVZ1n7xy5Z5ZFcIZ/RwtGWHhmq?=
- =?us-ascii?Q?6U3e321CPCYWiE4R8sjRShbuPox8bBJxm2ivjlU5rRVBfy7j9j4u6SQO7Jak?=
- =?us-ascii?Q?Mr7IbwxbvnjGApSn37ZmzrNftLOJ/3J5bUaQ3TpvJ01F5Vadw5M4KFu9EJOX?=
- =?us-ascii?Q?1qs6oTpGks8ZPjCXNIOXlEGBkHEmXya6te5QVDnBZw1p34CODyVskd/HPJMC?=
- =?us-ascii?Q?cBuiykN0+j+Espi5yfhMHe0fPnaMcS31RfhGuagv5VG+6KVsuNQFJbEJ2IAa?=
- =?us-ascii?Q?dWqcUEctTHPOhl5ctXVaP3yNWijR9yrJ+vKAl4t+evXYGz+xp3jbVuaW1M/K?=
- =?us-ascii?Q?IOV0488yD6jh9Py9N/fyqPJ6hNTaVVMxX8vpSoH8w+hgiUqLrfxBfBtvt+gx?=
- =?us-ascii?Q?vcOhjoBIB8fO6B3L66p/QCAMRiZ1NxzHZXqr6sX2J78Wtm5f1IOM4wIh54Kh?=
- =?us-ascii?Q?Pi5ZXlVBBo4qPNBN748zdnB3HoDHgZPQH+cBmXdOrONr26eKU0E=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f370b8f2-88c4-4b15-2d2a-08d8c3c5e4b3
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2126.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 19:49:59.1233
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mYEKPwzwKfdYfoebHeF7eLozYNQt5361+piwXW0/2dL3MvlwgT32GuK2l6L1nIWyvHd4LEvcc5M6wSfVUBr1iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR15MB4176
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
- definitions=2021-01-28_12:2021-01-28,2021-01-28 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 malwarescore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101280095
-X-FB-Internal: deliver
+References: <20210121082451.2240540-1-morbo@google.com> <20210122101156.3257143-1-morbo@google.com>
+ <CAKwvOdm+3o8z2GivPjSJRa=c=UKdfkiY-79s6yn2BxJkFnoFTw@mail.gmail.com> <CA+icZUU=XfwqMcXYonQKcD4QgqTBW-mA+d_84b7cU2R3HYPOSQ@mail.gmail.com>
+In-Reply-To: <CA+icZUU=XfwqMcXYonQKcD4QgqTBW-mA+d_84b7cU2R3HYPOSQ@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 28 Jan 2021 13:12:06 -0800
+Message-ID: <CAKwvOdnUm2FqC0CEF3qFuMCaWoqiUMqr7ddMjA2UNsJugA9DNQ@mail.gmail.com>
+Subject: Re: [PATCH v7] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Bill Wendling <morbo@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mathew,
+On Thu, Jan 28, 2021 at 12:46 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> [ LLVM ]
+>
+> Today, I switched over to LLVM version 12.0.0-rc1.
+>
+>
+> [ Step #1: 5.11.0-rc5-5-amd64-clang12-pgo ]
+>
+> My first kernel was built with CONFIG_PGO_CLANG=y and LLVM=1 plus LLVM_IAS=1.
+>
+> [ start-build_5.11.0-rc5-5-amd64-clang12-pgo.txt ]
+> dileks    193090  193065  0 06:54 pts/2    00:00:00 /usr/bin/perf_5.10
+> stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
+> LD=ld.lld LLVM=1 LLVM_IAS=1 PAHOLE=/opt/pahole/bin/pahole
+> LOCALVERSION=-5-amd64-clang12-pgo KBUILD_VERBOSE=1
+> KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
+> KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
+> KDEB_PKGVERSION=5.11.0~rc5-5~bullseye+dileks1
+>
+> Config: config-5.11.0-rc5-5-amd64-clang12-pgo
+>
+>
+> [ Step #2: x86-64 defconfig & vmlinux.profdata ]
+>
+> Booted into 5.11.0-rc5-5-amd64-clang12-pgo and built an x86-64
+> defconfig to generate/merge a vmlinux.profdata file.
+>
+> [ start-build_x86-64-defconfig.txt ]
+> dileks     18430   15640  0 11:15 pts/2    00:00:00 make V=1 -j4
+> HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang LD=ld.lld LLVM=1
+> LLVM_IAS=1
+>
+> Script: profile_clang-pgo.sh
+> Config: dot-config.x86-64-defconfig
+>
+>
+> [ Step #3.1: 5.11.0-rc5-6-amd64-clang12-pgo & GNU-AS ]
+>
+> The first rebuild with CONFIG_PGO_CLANG=n and "LLVM=1
+> KCFLAGS=-fprofile-use=vmlinux.profdata".
+> I was able to boot into this one.
+> Used assembler: GNU-AS 2.35.1
+>
+> [ start-build_5.11.0-rc5-6-amd64-clang12-pgo.txt ]
+> dileks     65734   65709  0 11:54 pts/2    00:00:00 /usr/bin/perf_5.10
+> stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
+> LD=ld.lld PAHOLE=/opt/pahole/bin/pahole
+> LOCALVERSION=-6-amd64-clang12-pgo KBUILD_VERBOSE=1
+> KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
+> KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
+> KDEB_PKGVERSION=5.11.0~rc5-6~bullseye+dileks1 LLVM=1
+> KCFLAGS=-fprofile-use=vmlinux.profdata
+>
+> Config: config-5.11.0-rc5-6-amd64-clang12-pgo
+>
+>
+> [ Step #3.2: 5.11.0-rc5-7-amd64-clang12-pgo & Clang-IAS ]
+>
+> The second rebuild with CONFIG_PGO_CLANG=n and "LLVM=1
+> KCFLAGS=-fprofile-use=vmlinux.profdata" plus LLVM_IAS=1.
+> Compilable but NOT bootable in QEMU and on bare metal.
+> Used assembler: Clang-IAS v12.0.0-rc1
+>
+> [ start-build_5.11.0-rc5-7-amd64-clang12-pgo.txt ]
+> dileks      6545    6520  0 16:31 pts/2    00:00:00 /usr/bin/perf_5.10
+> stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
+> LD=ld.lld PAHOLE=/opt/pahole/bin/pahole
+> LOCALVERSION=-7-amd64-clang12-pgo KBUILD_VERBOSE=1
+> KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
+> KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
+> KDEB_PKGVERSION=5.11.0~rc5-7~bullseye+dileks1 LLVM=1
+> KCFLAGS=-fprofile-use=vmlinux.profdata LLVM_IAS=1
+>
+> Config: config-5.11.0-rc5-7-amd64-clang12-pgo
+>
+>
+> [ Conclusion ]
+>
+> The only statement I can tell you is a "PGO optimized" rebuild with
+> LLVM_IAS=1 is compilable but NOT bootable.
 
-> Is this tracing of userspace programs causing splits, or is it kernel
-> tracing?  Also, we have lots of kinds of tracing these days; are you
-> referring to kprobes?  tracepoints?  ftrace?  Something else?
+Thanks for the extensive testing and report. Can you compress, upload,
+and post a link to your kernel image? I would like to take it for a
+spin in QEMU and see if I can find what it's doing, then work
+backwards from there.
 
-It has to be kernel tracing (kprobes, tracepoints) as we are dealing with 
-direct mapping splits.
-
-Kernel's direct mapping
-`` ffff888000000000 | -119.5  TB | ffffc87fffffffff |   64 TB | direct
- mapping of all physical memory (page_offset_base)``
-
-The kernel text range
-``ffffffff80000000 |   -2    GB | ffffffff9fffffff |  512 MB | kernel
-text mapping, mapped to physical address 0``
-
-Source : Documentation/x86/x86_64/mm.rst
-
-Kernel code segment points to the same physical addresses already mapped 
-in the direct mapping range (0x20000000 = 512 MB)
-
-When we enable kernel tracing, we would have to modify attributes/permissions 
-of the text segment pages that are direct mapped causing them to split.
-
-When we track the direct_pages_count[] in arch/x86/mm/pat/set_memory.c
-There are only splits from higher levels. They never coalesce back.
-
-Splits when we turn on dynamic tracing
-....
-cat /proc/vmstat | grep -i direct_map_level
-direct_map_level2_splits 784
-direct_map_level3_splits 12
-bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @ [pid, comm] = count(); }'
-cat /proc/vmstat | grep -i
-direct_map_level
-direct_map_level2_splits 789
-direct_map_level3_splits 12
-....
-
+-- 
 Thanks,
-Saravanan D
+~Nick Desaulniers
