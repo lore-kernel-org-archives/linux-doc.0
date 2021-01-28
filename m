@@ -2,302 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA746C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 16:35:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B3CC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 16:45:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9313E64DF9
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 16:35:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36A9264E10
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 16:45:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhA1Qeu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 11:34:50 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19994 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232240AbhA1Qeg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 11:34:36 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B6012e7700003>; Thu, 28 Jan 2021 08:33:52 -0800
-Received: from [10.2.82.52] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 28 Jan
- 2021 16:33:47 +0000
-From:   Zi Yan <ziy@nvidia.com>
-To:     Saravanan D <saravanand@fb.com>,
-        Xing Zhengjun <zhengjun.xing@linux.intel.com>
-CC:     <x86@kernel.org>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
-        <peterz@infradead.org>, <corbet@lwn.net>, <willy@infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kernel-team@fb.com>,
-        <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
-        <songliubraving@fb.com>
+        id S231461AbhA1QpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 11:45:23 -0500
+Received: from mga12.intel.com ([192.55.52.136]:57328 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232680AbhA1QmE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 11:42:04 -0500
+IronPort-SDR: CD3bq3rV0YR8j8vAoy88Lh0xHI1OUL77q2F5IgpOCCxzokg/En9qGHD5st3Ggw7Z1gFv2m5ZrR
+ bkPotME4L/Bg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="159438457"
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="159438457"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 08:41:27 -0800
+IronPort-SDR: gi0oiZLlKIqpDVrmw/zdV263sqweNZeeqjXKsRXxdnjZtJB49mJEzBQlYe3hkvQDXLvaYTap50
+ 0zOJtS7e1u9Q==
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="388891748"
+Received: from emcabell-mobl.amr.corp.intel.com (HELO [10.212.164.154]) ([10.212.164.154])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 08:41:26 -0800
 Subject: Re: [PATCH V5] x86/mm: Tracking linear mapping split events
-Date:   Thu, 28 Jan 2021 11:33:44 -0500
-X-Mailer: MailMate (1.14r5757)
-Message-ID: <EBB7E363-FE25-453C-89C6-9FC4A90615B9@nvidia.com>
-In-Reply-To: <20210128104934.2916679-1-saravanand@fb.com>
+To:     Zi Yan <ziy@nvidia.com>, Saravanan D <saravanand@fb.com>,
+        Xing Zhengjun <zhengjun.xing@linux.intel.com>
+Cc:     x86@kernel.org, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, corbet@lwn.net, willy@infradead.org,
+        linux-kernel@vger.kernel.org, kernel-team@fb.com,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        songliubraving@fb.com
 References: <20210128045153.GW308988@casper.infradead.org>
  <20210128104934.2916679-1-saravanand@fb.com>
+ <EBB7E363-FE25-453C-89C6-9FC4A90615B9@nvidia.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <15a29679-ea0b-d1c8-1a1f-698d3db35293@intel.com>
+Date:   Thu, 28 Jan 2021 08:41:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed;
-        boundary="=_MailMate_5C1AD883-7825-4E80-8839-4199C78D1031_=";
-        micalg=pgp-sha512; protocol="application/pgp-signature"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1611851632; bh=Zfk97yaqogAjm1bMAkwOEzz49+gINLUYlKBn8vw3Osw=;
-        h=From:To:CC:Subject:Date:X-Mailer:Message-ID:In-Reply-To:
-         References:MIME-Version:Content-Type:X-Originating-IP:
-         X-ClientProxiedBy;
-        b=gNYwRdMgQ8lYtVxw+oZX3R99XIX0S5QPRGTgR9otFWlyO7DGbU8t7gSjZsvh+UWpN
-         HAuaLQIkls7Mm7/hMv/lmy8T8FGXCelkrTFNdRZVo2rNz5Sd0R7f3c9GwtqYovzeD4
-         lN09VN/DPGXTG0uh+YTJslEffLOIr9LKmKq0uMToUp7hIZwVGwKyQzs6jgc4tJG00K
-         4WLtNCtXLZCN52r2UJ+tCuSTAicE77JiKmmjkCENwkRunY8PBrGUSYlIb9SSHOIq6m
-         7Ur5vQ5+xkStdr4kt3RSHp/4fOllC9XsKG0kTsGezupvZmOZEt/URyzvJK6idjLbWf
-         PM/e4058uDKLQ==
+In-Reply-To: <EBB7E363-FE25-453C-89C6-9FC4A90615B9@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=_MailMate_5C1AD883-7825-4E80-8839-4199C78D1031_=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/28/21 8:33 AM, Zi Yan wrote:
+>> One of the many lasting (as we don't coalesce back) sources for
+>> huge page splits is tracing as the granular page
+>> attribute/permission changes would force the kernel to split code
+>> segments mapped to huge pages to smaller ones thereby increasing
+>> the probability of TLB miss/reload even after tracing has been
+>> stopped.
+> It is interesting to see this statement saying splitting kernel
+> direct mappings causes performance loss, when Zhengjun (cc’d) from
+> Intel recently posted a kernel direct mapping performance report[1]
+> saying 1GB mappings are good but not much better than 2MB and 4KB
+> mappings.
 
-On 28 Jan 2021, at 5:49, Saravanan D wrote:
+No, that's not what the report said.
 
-> To help with debugging the sluggishness caused by TLB miss/reload,
-> we introduce monotonic lifetime hugepage split event counts since
-> system state: SYSTEM_RUNNING to be displayed as part of
-> /proc/vmstat in x86 servers
->
-> The lifetime split event information will be displayed at the bottom of=
+*Overall*, there is no clear winner between 4k, 2M and 1G.  In other
+words, no one page size is best for *ALL* workloads.
 
-> /proc/vmstat
-> ....
-> swap_ra 0
-> swap_ra_hit 0
-> direct_map_level2_splits 94
-> direct_map_level3_splits 4
-> nr_unstable 0
-> ....
->
-> One of the many lasting (as we don't coalesce back) sources for huge pa=
-ge
-> splits is tracing as the granular page attribute/permission changes wou=
-ld
-> force the kernel to split code segments mapped to huge pages to smaller=
-
-> ones thereby increasing the probability of TLB miss/reload even after
-> tracing has been stopped.
-
-It is interesting to see this statement saying splitting kernel direct ma=
-ppings
-causes performance loss, when Zhengjun (cc=E2=80=99d) from Intel recently=
- posted
-a kernel direct mapping performance report[1] saying 1GB mappings are goo=
-d
-but not much better than 2MB and 4KB mappings.
-
-I would love to hear the stories from both sides. Or maybe I misunderstan=
-d
-anything.
-
-
-[1]https://lore.kernel.org/linux-mm/213b4567-46ce-f116-9cdf-bbd0c884eb3c@=
-linux.intel.com/
->
-> Documentation regarding linear mapping split events added to admin-guid=
-e
-> as requested in V3 of the patch.
->
-> Signed-off-by: Saravanan D <saravanand@fb.com>
-> ---
->  .../admin-guide/mm/direct_mapping_splits.rst  | 59 +++++++++++++++++++=
-
->  Documentation/admin-guide/mm/index.rst        |  1 +
->  arch/x86/mm/pat/set_memory.c                  |  8 +++
->  include/linux/vm_event_item.h                 |  4 ++
->  mm/vmstat.c                                   |  4 ++
->  5 files changed, 76 insertions(+)
->  create mode 100644 Documentation/admin-guide/mm/direct_mapping_splits.=
-rst
->
-> diff --git a/Documentation/admin-guide/mm/direct_mapping_splits.rst b/D=
-ocumentation/admin-guide/mm/direct_mapping_splits.rst
-> new file mode 100644
-> index 000000000000..298751391deb
-> --- /dev/null
-> +++ b/Documentation/admin-guide/mm/direct_mapping_splits.rst
-> @@ -0,0 +1,59 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Direct Mapping Splits
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Kernel maps all of physical memory in linear/direct mapped pages with
-> +translation of virtual kernel address to physical address is achieved
-> +through a simple subtraction of offset. CPUs maintain a cache of these=
-
-> +translations on fast caches called TLBs. CPU architectures like x86 al=
-low
-> +direct mapping large portions of memory into hugepages (2M, 1G, etc) i=
-n
-> +various page table levels.
-> +
-> +Maintaining huge direct mapped pages greatly reduces TLB miss pressure=
-=2E
-> +The splintering of huge direct pages into smaller ones does result in
-> +a measurable performance hit caused by frequent TLB miss and reloads.
-> +
-> +One of the many lasting (as we don't coalesce back) sources for huge p=
-age
-> +splits is tracing as the granular page attribute/permission changes wo=
-uld
-> +force the kernel to split code segments mapped to hugepages to smaller=
-
-> +ones thus increasing the probability of TLB miss/reloads even after
-> +tracing has been stopped.
-> +
-> +On x86 systems, we can track the splitting of huge direct mapped pages=
-
-> +through lifetime event counters in ``/proc/vmstat``
-> +
-> +	direct_map_level2_splits xxx
-> +	direct_map_level3_splits yyy
-> +
-> +where:
-> +
-> +direct_map_level2_splits
-> +	are 2M/4M hugepage split events
-> +direct_map_level3_splits
-> +	are 1G hugepage split events
-> +
-> +The distribution of direct mapped system memory in various page sizes
-> +post splits can be viewed through ``/proc/meminfo`` whose output
-> +will include the following lines depending upon supporting CPU
-> +architecture
-> +
-> +	DirectMap4k:    xxxxx kB
-> +	DirectMap2M:    yyyyy kB
-> +	DirectMap1G:    zzzzz kB
-> +
-> +where:
-> +
-> +DirectMap4k
-> +	is the total amount of direct mapped memory (in kB)
-> +	accessed through 4k pages
-> +DirectMap2M
-> +	is the total amount of direct mapped memory (in kB)
-> +	accessed through 2M pages
-> +DirectMap1G
-> +	is the total amount of direct mapped memory (in kB)
-> +	accessed through 1G pages
-> +
-> +
-> +-- Saravanan D, Jan 27, 2021
-> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/adm=
-in-guide/mm/index.rst
-> index 4b14d8b50e9e..9439780f3f07 100644
-> --- a/Documentation/admin-guide/mm/index.rst
-> +++ b/Documentation/admin-guide/mm/index.rst
-> @@ -38,3 +38,4 @@ the Linux memory management.
->     soft-dirty
->     transhuge
->     userfaultfd
-> +   direct_mapping_splits
-> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.=
-c
-> index 16f878c26667..a7b3c5f1d316 100644
-> --- a/arch/x86/mm/pat/set_memory.c
-> +++ b/arch/x86/mm/pat/set_memory.c
-> @@ -16,6 +16,8 @@
->  #include <linux/pci.h>
->  #include <linux/vmalloc.h>
->  #include <linux/libnvdimm.h>
-> +#include <linux/vmstat.h>
-> +#include <linux/kernel.h>
->
->  #include <asm/e820/api.h>
->  #include <asm/processor.h>
-> @@ -91,6 +93,12 @@ static void split_page_count(int level)
->  		return;
->
->  	direct_pages_count[level]--;
-> +	if (system_state =3D=3D SYSTEM_RUNNING) {
-> +		if (level =3D=3D PG_LEVEL_2M)
-> +			count_vm_event(DIRECT_MAP_LEVEL2_SPLIT);
-> +		else if (level =3D=3D PG_LEVEL_1G)
-> +			count_vm_event(DIRECT_MAP_LEVEL3_SPLIT);
-> +	}
->  	direct_pages_count[level - 1] +=3D PTRS_PER_PTE;
->  }
->
-> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_ite=
-m.h
-> index 18e75974d4e3..7c06c2bdc33b 100644
-> --- a/include/linux/vm_event_item.h
-> +++ b/include/linux/vm_event_item.h
-> @@ -120,6 +120,10 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWP=
-OUT,
->  #ifdef CONFIG_SWAP
->  		SWAP_RA,
->  		SWAP_RA_HIT,
-> +#endif
-> +#ifdef CONFIG_X86
-> +		DIRECT_MAP_LEVEL2_SPLIT,
-> +		DIRECT_MAP_LEVEL3_SPLIT,
->  #endif
->  		NR_VM_EVENT_ITEMS
->  };
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index f8942160fc95..a43ac4ac98a2 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -1350,6 +1350,10 @@ const char * const vmstat_text[] =3D {
->  	"swap_ra",
->  	"swap_ra_hit",
->  #endif
-> +#ifdef CONFIG_X86
-> +	"direct_map_level2_splits",
-> +	"direct_map_level3_splits",
-> +#endif
->  #endif /* CONFIG_VM_EVENT_COUNTERS || CONFIG_MEMCG */
->  };
->  #endif /* CONFIG_PROC_FS || CONFIG_SYSFS || CONFIG_NUMA || CONFIG_MEMC=
-G */
-> -- =
-
-> 2.24.1
-
-
-=E2=80=94
-Best Regards,
-Yan Zi
-
---=_MailMate_5C1AD883-7825-4E80-8839-4199C78D1031_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJDBAEBCgAtFiEEh7yFAW3gwjwQ4C9anbJR82th+ooFAmAS52kPHHppeUBudmlk
-aWEuY29tAAoJEJ2yUfNrYfqKA9sP/0ERLg9Vt66eIMmcmhavpAZahCwnfeRdh0v+
-zTJHkmzh1v/KBVqPlZKuWOVbmUIfubU0TzRhR5fm0UeiAkYVmiCdk4LI0ocZnJUD
-z2fRJqJLTUcidALId07oQmerHWeSBZt3pSTQPxRsopNZJDzL1t/tpM9ycP5A31vm
-p8+rY7kr2T5WAc7GCnwzRKZfXOX9223wLG3TVoMyxlVG8O55GiC9FfBbKQJWL0st
-STPEI+ZQ9m+wgI8SZCOE7ObPzZM3YrRNiVeHCc7ifpGPirUgq1KLpggIKT0X36S0
-p0OPPdUfaNv5xDCBvilnU6Ry7qrDnQy996AvxaUViCRwaSu7y61eVGh4lUkfavFA
-KwnRF+sBTtTH23hoKo9xYJhj3LI1SwWkDZGFM/9hxY3vI5qROH1gAXQQqO6FwVxU
-Jqnt85S2g7G6t68rUsr5M/K3+E0vRmFAKfFuf0D5Xdee/xhpLIpfHnqMhShQ+1Sv
-04AT5uwWrCbTZNl76nkUCmfQmKipxvvRnnHNKJLdxvpOwyu1+BnCG00HXTS8ku6F
-tIAuU4uAFKBvOW+nUV8756FxD5fklIM0r+fwFPsicHX8pUm1jisveUXWUJiOTLAS
-9rJVAjQHbzVFB/U6YW/acEdlvtaI2d2HRoWLy7okB3QdFobuOiYvRC2zxNLdG+Ob
-alIIwmV6
-=yDN8
------END PGP SIGNATURE-----
-
---=_MailMate_5C1AD883-7825-4E80-8839-4199C78D1031_=--
+There were *ABSOLUTELY* individual workloads in those tests that saw
+significant deltas between the direct map sizes.  There are also
+real-world workloads that feel the impact here.
