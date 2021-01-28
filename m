@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A581EC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 15:04:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87038C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 15:05:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D39264DFB
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 15:04:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41D9664DF9
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 15:05:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbhA1PEY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 10:04:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50384 "EHLO
+        id S232401AbhA1PE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 10:04:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232211AbhA1PEC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 10:04:02 -0500
+        with ESMTP id S232277AbhA1PEO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 10:04:14 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B154C061756;
-        Thu, 28 Jan 2021 07:03:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E027DC0613ED;
+        Thu, 28 Jan 2021 07:03:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=JmJ5AAeO5IhBGr/vCqCfTKy9ZVGFTS0PwUNjpSHPNIA=; b=btMv30pS82HD6TeEiv4wsHlDWc
-        vM0/8RQFIbJCK+P6q4FPXbFCiG69UhlRwK+QBIeGUiKfX/McL/o570hOyttRrdcULTHHWqF86YKv8
-        T1mOTo+E5B9wP6zJFkmSC8NvfrCJGcVBWI8GT8PlDhrzU/1ybl1E8XDUGJRYYqo29T9wY42LHWszN
-        jAoOhsX+zwZQUMW7iVRlwZI/XIMqry/+JLF6DbwEdmDFJK05eM1Lg1VaI2BffYGIdqwiJt53F8fmd
-        3azxJgBJi9xH91bPXQ6/GHCYQRndJNCLZVJsiXUKuqClyo95eJ7nI/BFN7NfvshRUzjpaAhgkyexV
-        nPU3Bf8g==;
+        bh=6h4Clr4yrvyrSY276Nk233XB/1n9S2aGkvEz85NFWNA=; b=KfBRW4pI01u3GQvXdslcgMQsFG
+        sCoM1TdFacyc8bszZAac77VCZKXVRdPuDZlW65VRprx8eYIU/4utKN9SW27AmrmtDIdQEng5F/Hdm
+        Tmltejx0op3G56rXsv5mr+Wsa02HmrlLpUUM8dlwkMExhgOBfjcLGZmqzpukHZfi9ZMqQT8arwC3L
+        NUoM13BC6tdhS/qajuSokdhi9DQfyVECgJ8dZWZXx8xKpepCKc162PfXUzk+pYdH5HbbmIE0VWrki
+        FeWeR0ZarhpB/ej+t4Ey060Qjaw/QuI3v3WLnJGUS1oDUEfAVxrhnLha655P0nu6X0DRb7N8A0LtR
+        ER4pjXZA==;
 Received: from [2001:4bb8:18c:25a3:5b32:95f:aa1f:ea4] (helo=localhost)
         by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l58pC-008bKy-Vy; Thu, 28 Jan 2021 15:03:12 +0000
+        id 1l58pK-008bLO-3x; Thu, 28 Jan 2021 15:03:19 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -44,9 +44,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         iommu@lists.linux-foundation.org
 Cc:     Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 3/6] dma-mapping: add a dma_alloc_noncontiguous API
-Date:   Thu, 28 Jan 2021 15:58:34 +0100
-Message-Id: <20210128145837.2250561-4-hch@lst.de>
+Subject: [PATCH 5/6] dma-iommu: implement ->alloc_noncontiguous
+Date:   Thu, 28 Jan 2021 15:58:36 +0100
+Message-Id: <20210128145837.2250561-6-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210128145837.2250561-1-hch@lst.de>
 References: <20210128145837.2250561-1-hch@lst.de>
@@ -57,303 +57,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new API that returns a potentiall virtually non-contigous sg_table
-and a DMA address.  This API is only properly implemented for dma-iommu
-and will simply return a contigious chunk as a fallback.
-
-The intent is that media drivers can use this API if either:
-
- - no kernel mapping or only temporary kernel mappings are required.
-   That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
- - a kernel mapping is required for cached and DMA mapped pages, but
-   the driver also needs the pages to e.g. map them to userspace.
-   In that sense it is a replacement for some aspects of the recently
-   removed and never fully implemented DMA_ATTR_NON_CONSISTENT
+Implement support for allocating a non-contiguous DMA region.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/core-api/dma-api.rst | 72 +++++++++++++++++++++++
- include/linux/dma-map-ops.h        | 20 +++++++
- include/linux/dma-mapping.h        | 34 +++++++++++
- kernel/dma/mapping.c               | 92 ++++++++++++++++++++++++++++++
- 4 files changed, 218 insertions(+)
+ drivers/iommu/dma-iommu.c | 47 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 157a474ae54416..1dd676a8217137 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -594,6 +594,78 @@ dev, size, dma_handle and dir must all be the same as those passed into
- dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
- dma_alloc_noncoherent().
- 
-+::
-+
-+	struct sg_table *
-+	dma_alloc_noncontiguous(struct device *dev, size_t size,
-+				dma_addr_t *dma_handle,
-+				enum dma_data_direction dir, gfp_t gfp)
-+
-+This routine allocates  <size> bytes of non-coherent and possibly non-contiguous
-+memory.  It returns a pointer to struct sg_table that describes the allocated
-+memory , or NULL if the allocation failed. The resulting memory can be used for
-+everything a struct page is suitable for.
-+
-+It also returns a <dma_handle> which may be cast to an unsigned integer the
-+same width as the bus and given to the device as the DMA address base of
-+the region.
-+
-+The dir parameter specified if data is read and/or written by the device,
-+see dma_map_single() for details.
-+
-+The gfp parameter allows the caller to specify the ``GFP_`` flags (see
-+kmalloc()) for the allocation, but rejects flags used to specify a memory
-+zone such as GFP_DMA or GFP_HIGHMEM.
-+
-+Before giving the memory to the device, dma_sync_sgtable_for_device() needs
-+to be called, and before reading memory written by the device,
-+dma_sync_sgtable_for_cpu(), just like for streaming DMA mappings that are
-+reused.
-+
-+::
-+
-+	void
-+	dma_free_noncontiguous(struct device *dev, size_t size,
-+			       struct sg_table *sgt, dma_addr_t dma_handle,
-+			       enum dma_data_direction dir)
-+
-+Free memory previously allocated using dma_alloc_noncontiguous().  dev, size,
-+dma_handle and dir must all be the same as those passed into
-+dma_alloc_noncontiguous().  sgt must be the pointer returned by
-+dma_alloc_noncontiguous().
-+
-+::
-+
-+	void *
-+	dma_vmap_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt)
-+
-+Return a contiguous kernel mapping for an allocation returned from
-+dma_alloc_noncontiguous().  dev and size must be the same as those passed into
-+dma_alloc_noncontiguous().  sgt must be the pointer returned by
-+dma_alloc_noncontiguous().
-+
-+::
-+
-+	void
-+	dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
-+
-+Unmap a kernel mapping returned by dma_vmap_noncontiguous().  dev must be the
-+same the one passed into dma_alloc_noncontiguous().  vaddr must be the pointer
-+returned by dma_vmap_noncontiguous().
-+
-+
-+::
-+
-+	int
-+	dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
-+			       size_t size, struct sg_table *sgt)
-+
-+Map an allocation returned from dma_alloc_noncontiguous() into a user address
-+space.  dev and size must be the same as those passed into
-+dma_alloc_noncontiguous().  sgt must be the pointer returned by
-+dma_alloc_noncontiguous().
-+
- ::
- 
- 	int
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 11e02537b9e01b..82efa36d8b09c4 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -22,6 +22,12 @@ struct dma_map_ops {
- 			gfp_t gfp);
- 	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
- 			dma_addr_t dma_handle, enum dma_data_direction dir);
-+	struct sg_table *(*alloc_noncontiguous)(struct device *dev, size_t size,
-+			dma_addr_t *dma_handle, enum dma_data_direction dir,
-+			gfp_t gfp);
-+	void (*free_noncontiguous)(struct device *dev, size_t size,
-+			struct sg_table *sgt, dma_addr_t dma_handle,
-+			enum dma_data_direction dir);
- 	int (*mmap)(struct device *, struct vm_area_struct *,
- 			void *, dma_addr_t, size_t, unsigned long attrs);
- 
-@@ -198,6 +204,20 @@ static inline int dma_mmap_from_global_coherent(struct vm_area_struct *vma,
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 65af875ba8495c..938a2856b4a455 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -756,6 +756,49 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 	return NULL;
  }
- #endif /* CONFIG_DMA_DECLARE_COHERENT */
  
-+/*
-+ * This is the actual return value from the ->alloc_noncontiguous method.
-+ * The users of the DMA API should only care about the sg_table, but to make
-+ * the DMA-API internal vmaping and freeing easier we stash away the page
-+ * array as well (except for the fallback case).  This can go away any time,
-+ * e.g. when a vmap-variant that takes a scatterlist comes along.
-+ */
-+struct dma_sgt_handle {
-+	struct sg_table sgt;
-+	struct page **pages;
-+};
-+#define sgt_handle(sgt) \
-+	container_of((sgt), struct dma_sgt_handle, sgt)
-+
- int dma_common_get_sgtable(struct device *dev, struct sg_table *sgt,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs);
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 4977a748cb9483..8694c938e7c271 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -144,6 +144,16 @@ u64 dma_get_required_mask(struct device *dev);
- size_t dma_max_mapping_size(struct device *dev);
- bool dma_need_sync(struct device *dev, dma_addr_t dma_addr);
- unsigned long dma_get_merge_boundary(struct device *dev);
-+struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
-+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
-+void dma_free_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt, dma_addr_t dma_handle,
-+		enum dma_data_direction dir);
-+void *dma_vmap_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt);
-+void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
-+int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
-+		size_t size, struct sg_table *sgt);
- #else /* CONFIG_HAS_DMA */
- static inline dma_addr_t dma_map_page_attrs(struct device *dev,
- 		struct page *page, size_t offset, size_t size,
-@@ -257,6 +267,30 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
- {
- 	return 0;
- }
-+static inline struct sg_table *dma_alloc_noncontiguous(struct device *dev,
++#ifdef CONFIG_DMA_REMAP
++static struct sg_table *iommu_dma_alloc_noncontiguous(struct device *dev,
 +		size_t size, dma_addr_t *dma_handle,
 +		enum dma_data_direction dir, gfp_t gfp)
 +{
-+	return NULL;
-+}
-+static inline void dma_free_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt, dma_addr_t dma_handle,
-+		enum dma_data_direction dir)
-+{
-+}
-+static inline void *dma_vmap_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt)
-+{
-+	return NULL;
-+}
-+static inline void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
-+{
-+}
-+static inline int dma_mmap_noncontiguous(struct device *dev,
-+		struct vm_area_struct *vma, size_t size, struct sg_table *sgt)
-+{
-+	return -EINVAL;
-+}
- #endif /* CONFIG_HAS_DMA */
- 
- struct page *dma_alloc_pages(struct device *dev, size_t size,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index c1e515496c067b..d34dfd2ba6e320 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -528,6 +528,98 @@ int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
- }
- EXPORT_SYMBOL_GPL(dma_mmap_pages);
- 
-+static struct sg_table *alloc_single_sgt(struct device *dev, size_t size,
-+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-+{
-+	struct sg_table *sgt;
-+	struct page *page;
++	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
++	struct dma_sgt_handle *sh;
 +
-+	sgt = kmalloc(sizeof(*sgt), gfp);
-+	if (!sgt)
++	sh = kmalloc(sizeof(*sh), gfp);
++	if (!sh)
 +		return NULL;
-+	if (sg_alloc_table(sgt, 1, gfp))
-+		goto out_free_sgt;
-+	page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
-+	if (!page)
-+		goto out_free_table;
-+	sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
-+	return sgt;
-+out_free_table:
-+	sg_free_table(sgt);
-+out_free_sgt:
-+	kfree(sgt);
++
++	sh->pages = __iommu_dma_alloc_noncontiguous(dev, size, &sh->sgt,
++						    dma_handle, gfp,
++						    PAGE_KERNEL, 0);
++	if (!sh->pages)
++		goto out_free_sh;
++
++	if (sg_alloc_table_from_pages(&sh->sgt, sh->pages, count, 0, size,
++				      GFP_KERNEL))
++		goto out_free_pages;
++
++	return &sh->sgt;
++
++out_free_pages:
++	__iommu_dma_free_pages(sh->pages, count);
++out_free_sh:
++	kfree(sh);
 +	return NULL;
 +}
 +
-+static void free_single_sgt(struct device *dev, size_t size,
++static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
 +		struct sg_table *sgt, dma_addr_t dma_handle,
 +		enum dma_data_direction dir)
 +{
-+	dma_free_pages(dev, size, sg_page(sgt->sgl), dma_handle, dir);
-+	sg_free_table(sgt);
-+	kfree(sgt);
++	struct dma_sgt_handle *sh = sgt_handle(sgt);
++
++	__iommu_dma_unmap(dev, dma_handle, size);
++	__iommu_dma_free_pages(sh->pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
++	sg_free_table(&sh->sgt);
 +}
++#endif /* CONFIG_DMA_REMAP */
 +
-+struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
-+		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+
-+	if (!ops || !ops->alloc_noncontiguous)
-+		return alloc_single_sgt(dev, size, dma_handle, dir, gfp);
-+	return ops->alloc_noncontiguous(dev, size, dma_handle, dir, gfp);
-+}
-+EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
-+
-+void dma_free_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt, dma_addr_t dma_handle,
-+		enum dma_data_direction dir)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+
-+	if (!ops || !ops->free_noncontiguous)
-+		free_single_sgt(dev, size, sgt, dma_handle, dir);
-+	else
-+		ops->free_noncontiguous(dev, size, sgt, dma_handle, dir);
-+}
-+EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
-+
-+void *dma_vmap_noncontiguous(struct device *dev, size_t size,
-+		struct sg_table *sgt)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+
-+	if (!ops || !ops->alloc_noncontiguous)
-+		return page_address(sg_page(sgt->sgl));
-+	return vmap(sgt_handle(sgt)->pages, count, VM_MAP, PAGE_KERNEL);
-+}
-+EXPORT_SYMBOL_GPL(dma_vmap_noncontiguous);
-+
-+void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+
-+	if (ops && ops->alloc_noncontiguous)
-+		vunmap(vaddr);
-+}
-+EXPORT_SYMBOL_GPL(dma_vunmap_noncontiguous);
-+
-+int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
-+		size_t size, struct sg_table *sgt)
-+{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
-+	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+
-+	if (!ops || !ops->alloc_noncontiguous)
-+		return dma_mmap_pages(dev, vma, size, sg_page(sgt->sgl));
-+
-+	if (vma->vm_pgoff >= count || vma_pages(vma) > count - vma->vm_pgoff)
-+		return -ENXIO;
-+	return vm_map_pages(vma, sgt_handle(sgt)->pages, count);
-+}
-+EXPORT_SYMBOL_GPL(dma_mmap_noncontiguous);
-+
- int dma_supported(struct device *dev, u64 mask)
+ static void iommu_dma_sync_single_for_cpu(struct device *dev,
+ 		dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
  {
- 	const struct dma_map_ops *ops = get_dma_ops(dev);
+@@ -1271,6 +1314,10 @@ static const struct dma_map_ops iommu_dma_ops = {
+ 	.free			= iommu_dma_free,
+ 	.alloc_pages		= dma_common_alloc_pages,
+ 	.free_pages		= dma_common_free_pages,
++#ifdef CONFIG_DMA_REMAP
++	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
++	.free_noncontiguous	= iommu_dma_free_noncontiguous,
++#endif
+ 	.mmap			= iommu_dma_mmap,
+ 	.get_sgtable		= iommu_dma_get_sgtable,
+ 	.map_page		= iommu_dma_map_page,
 -- 
 2.29.2
 
