@@ -2,336 +2,442 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCB7C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05AA2C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:47:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E530964E10
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:36:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB5AF64DD8
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:47:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233049AbhA1Rg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 12:36:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
+        id S232049AbhA1Rqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 12:46:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233095AbhA1Rfk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 12:35:40 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E50C06178A
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:34:58 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id l9so9027141ejx.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:34:58 -0800 (PST)
+        with ESMTP id S232956AbhA1RMf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 12:12:35 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFC0C0617AB
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:09:50 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id y187so5174619wmd.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:09:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Td9sExNDd3hj/YGqlp0vIv6OhdNcWQjkUwGW8vuRir4=;
-        b=Uxsak+vsn3Rw/EU2SZgEIQVPM3OzUdIJE5hu8Bx3o7qpu1H5FVVeEQmUjsdr949ggG
-         mdQ28e53aqaOx9uZMq4+rtNItHDyuNNlwpu9ZP9V31sOgRk41u+v0Vvo+OCBPV9sviSd
-         X7P1Ur16H4y2YrNVdrWXFMQpCFr28YUpLXZ+s=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=3UqDcOPos3RfyFog6UW+zpXtql+8t84NDiXfczxfeKg=;
+        b=jRjBlriQ+CJYgP7CPPTZS5uoNI07sOKGBHjlotnAv2h1M4zMmmMLIRQWgZ+tqe/dBF
+         9vzqAcD8o8vFJGVDXO3UrALUhYZXcjfWQc2dPZwG+9BULpZF/TOvwYNz1Vb9lwihhBdS
+         pUJskxNlUOJcuPZjYBHrPJCR3sBCtWvMul5+Nv0d4ykhDqvWZY5PRrOEKvwN39le1iUx
+         J+MLwtj4DuStM8qYkZA9BiQriE32Nue/YsX4pk096tMk+1YsO/2x4/AsQybYfC3otTs1
+         G7x9gzKAwApw9VUNiBvT+IHhkk/TIK6hQR5GI7ZseJXLCOXzk3ubqlv80ulcIhXIGoJA
+         m0eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Td9sExNDd3hj/YGqlp0vIv6OhdNcWQjkUwGW8vuRir4=;
-        b=ZZYiuFnqi+WAx2xQaj2VvQrZLQq385XNnwYfgPE6M1w1GGn0vKamt8dlNjnjGLGfR0
-         e47xuaYa6Ssskx97Whhbxg7w8/TOQjJ2mXFG1BKzp3UMupQnEAd7Wq7w5H1wjWjBNSlS
-         KxvEBeYAoQoWoArW2y/XE3EOii9846haia/SVcrnHA644uV4cioKOUohcFYS3U0BgSQi
-         twDtOk73mokozW24QPnbOY61epM8z1eXMqAdLdW8SzzUI5MG01I2yG8HhE2+scW0j7Cb
-         Gvw5sJ8TXJvyIjCuEQzjYfrVfPpjyMkY2rjtLT+oEkXcS5E6UIP0Iuc2/5ZcrtRdDIbQ
-         xGVQ==
-X-Gm-Message-State: AOAM531Uy4a6SDS8YIohpsTa4UlOXLvgq6M16SyTMIr5MFeXb1xSVeiS
-        jw1wEPt8iXgPc+bJa0GPWAOgQQ==
-X-Google-Smtp-Source: ABdhPJw9qYyucqyOBiK9u5qIq0+j3tWpNsrxZy0mgIeznTneTv94aRdIiWJSM4W+Ba8ABXsxW5F/Eg==
-X-Received: by 2002:a17:906:f755:: with SMTP id jp21mr527580ejb.22.1611855296992;
-        Thu, 28 Jan 2021 09:34:56 -0800 (PST)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id s18sm3489358edw.66.2021.01.28.09.34.55
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=3UqDcOPos3RfyFog6UW+zpXtql+8t84NDiXfczxfeKg=;
+        b=CV2IHg7YuBzHsnjg8sEB/l7TGrguAUm4vLBAZyM4AVSOzv5tXbwArMxLbdJ+3OVwpE
+         wv14BcCBV/FGNHd5i8ItwUFnqL0pyM25oWANtFIRUqJNyHFlANePA99huS0qrTm3ZMc/
+         uziZQY3UCSXgpO+3mA1FxWvhXO5hs8fKKiRpsWpATxhmdV+dvuiqUuOyjh2wJznj/5NE
+         F2lR8b0OpRwNbKZqakxkRSsKre3BjsU0kXfNJHxSlZvQxkdS8rO9U76csIkbqUV/6wrZ
+         SI5c13aPOFok0HDnqbNeTA/qTYZBd4qww3o0BhgUJLysOYWKUMZHeN9C1NK3vgkHwlsJ
+         czdQ==
+X-Gm-Message-State: AOAM5327rWNu2W1Z17S9Ph6iMwAXu4JfqFA1SnUIOIbR64L2e5YIOcMD
+        5IVK7mq0efgz2JUc8tmOsn8kEQ==
+X-Google-Smtp-Source: ABdhPJwH8M2kw2DzpPtmxGhRqYuHFVbDz7fp3pV/wtovxXrcj6vFBydEdMimg+PImCFPOovhFgv29w==
+X-Received: by 2002:a1c:3286:: with SMTP id y128mr241008wmy.104.1611853788861;
+        Thu, 28 Jan 2021 09:09:48 -0800 (PST)
+Received: from linaro.org ([2a00:23c5:6801:1801:40:2fca:953a:e6ba])
+        by smtp.gmail.com with ESMTPSA id p15sm7622355wrt.15.2021.01.28.09.09.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 09:34:55 -0800 (PST)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        iommu@lists.linux-foundation.org,
-        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v2 6/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Date:   Thu, 28 Jan 2021 18:34:54 +0100
-Message-Id: <20210128173454.255664-1-ribalda@chromium.org>
-X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 28 Jan 2021 09:09:48 -0800 (PST)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org,
+        suzuki.poulose@arm.com
+Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        Mike Leach <mike.leach@linaro.org>
+Subject: [PATCH v4 04/10] coresight: etm-perf: update to handle configuration selection
+Date:   Thu, 28 Jan 2021 17:09:30 +0000
+Message-Id: <20210128170936.9222-5-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210128170936.9222-1-mike.leach@linaro.org>
+References: <20210128170936.9222-1-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On architectures where the is no coherent caching such as ARM use the
-dma_alloc_noncontiguos API and handle manually the cache flushing using
-dma_sync_sgtable().
+Loaded coresight configurations are registered in the cs_etm\cs_config sub
+directory. This extends the etm-perf code to handle these registrations,
+and the cs_syscfg driver to perform the registration on load.
 
-With this patch on the affected architectures we can measure up to 20x
-performance improvement in uvc_video_copy_data_work().
-
-Eg: aarch64 with an external usb camera
-
-NON_CONTIGUOUS
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 67034480 : duration 33303
-FPS: 29.99
-URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
-header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
-latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
-decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
-raw decode speed: 9.931 Gbits/s
-raw URB handling speed: 1.025 Gbits/s
-throughput: 16.102 Mbits/s
-URB decode CPU usage 0.162600 %
-
-COHERENT
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 54683536 : duration 33302
-FPS: 29.99
-URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
-header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
-latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
-decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
-raw decode speed: 365.470 Mbits/s
-raw URB handling speed: 295.986 Mbits/s
-throughput: 13.136 Mbits/s
-URB decode CPU usage 3.594500 %
-
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
+ .../hwtracing/coresight/coresight-config.h    |   5 +-
+ .../hwtracing/coresight/coresight-etm-perf.c  | 164 +++++++++++++++---
+ .../hwtracing/coresight/coresight-etm-perf.h  |   8 +
+ .../hwtracing/coresight/coresight-syscfg.c    |  13 +-
+ 4 files changed, 166 insertions(+), 24 deletions(-)
 
-v2: 
-- Replace DMA_BIDIRECTIONAL with DMA_FROM_DEVICE
-- Add invalidate_kernel_vmap_range
-- Tested in an X86 notebook and an ARM Chromebook
-
- drivers/media/usb/uvc/uvc_video.c | 80 ++++++++++++++++++++++---------
- drivers/media/usb/uvc/uvcvideo.h  |  4 +-
- 2 files changed, 61 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a6a441d92b94..378fb5f29920 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -6,11 +6,13 @@
-  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+index 9d66e0071f38..98380b496046 100644
+--- a/drivers/hwtracing/coresight/coresight-config.h
++++ b/drivers/hwtracing/coresight/coresight-config.h
+@@ -154,7 +154,8 @@ struct cscfg_config_feat_ref {
+  * @nr_presets:	Number of sets of presets supplied by this configuration.
+  * @nr_total_params: Sum of all parameters declared by used features
+  * @presets:	Array of preset values.
+- *
++ * @id_ea:	Extended attribute for perf configid value
++ * @event_ea:	Extended attribute for perf event value
   */
+ struct cscfg_config_desc {
+ 	const char *name;
+@@ -165,6 +166,8 @@ struct cscfg_config_desc {
+ 	int nr_presets;
+ 	int nr_total_params;
+ 	const u64 *presets; /* nr_presets * nr_total_params */
++	struct dev_ext_attribute *id_ea;
++	struct dev_ext_attribute *event_ea;
+ };
  
-+#include <linux/highmem.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/usb.h>
-+#include <linux/usb/hcd.h>
- #include <linux/videodev2.h>
- #include <linux/vmalloc.h>
- #include <linux/wait.h>
-@@ -1097,6 +1099,26 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 	return data[0];
+ /**
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+index a608081bd446..e270bb1e0f7d 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.c
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+@@ -18,8 +18,10 @@
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
+ 
++#include "coresight-config.h"
+ #include "coresight-etm-perf.h"
+ #include "coresight-priv.h"
++#include "coresight-syscfg.h"
+ 
+ static struct pmu etm_pmu;
+ static bool etm_perf_up;
+@@ -32,8 +34,13 @@ PMU_FORMAT_ATTR(cycacc,		"config:" __stringify(ETM_OPT_CYCACC));
+ PMU_FORMAT_ATTR(contextid,	"config:" __stringify(ETM_OPT_CTXTID));
+ PMU_FORMAT_ATTR(timestamp,	"config:" __stringify(ETM_OPT_TS));
+ PMU_FORMAT_ATTR(retstack,	"config:" __stringify(ETM_OPT_RETSTK));
++/* preset - if sink ID is used as a configuration selector */
++PMU_FORMAT_ATTR(preset,		"config:0-3");
+ /* Sink ID - same for all ETMs */
+ PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
++/* config ID - set if a system configuration is selected */
++PMU_FORMAT_ATTR(configid,	"config2:32-63");
++
+ 
+ static struct attribute *etm_config_formats_attr[] = {
+ 	&format_attr_cycacc.attr,
+@@ -41,6 +48,8 @@ static struct attribute *etm_config_formats_attr[] = {
+ 	&format_attr_timestamp.attr,
+ 	&format_attr_retstack.attr,
+ 	&format_attr_sinkid.attr,
++	&format_attr_preset.attr,
++	&format_attr_configid.attr,
+ 	NULL,
+ };
+ 
+@@ -58,9 +67,29 @@ static const struct attribute_group etm_pmu_sinks_group = {
+ 	.attrs  = etm_config_sinks_attr,
+ };
+ 
++static struct attribute *etm_config_cscfg_attr[] = {
++	NULL,
++};
++
++static const struct attribute_group etm_pmu_cscfg_group = {
++	.name   = "configurations",
++	.attrs  = etm_config_cscfg_attr,
++};
++
++static struct attribute *etm_config_events_attr[] = {
++	NULL,
++};
++
++static const struct attribute_group etm_pmu_events_group = {
++	.name   = "events",
++	.attrs  = etm_config_events_attr,
++};
++
+ static const struct attribute_group *etm_pmu_attr_groups[] = {
+ 	&etm_pmu_format_group,
+ 	&etm_pmu_sinks_group,
++	&etm_pmu_cscfg_group,
++	&etm_pmu_events_group,
+ 	NULL,
+ };
+ 
+@@ -219,7 +248,7 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
+ 	INIT_WORK(&event_data->work, free_event_data);
+ 
+ 	/* First get the selected sink from user space. */
+-	if (event->attr.config2) {
++	if (event->attr.config2 & GENMASK_ULL(31, 0)) {
+ 		id = (u32)event->attr.config2;
+ 		sink = coresight_get_sink_by_id(id);
+ 	}
+@@ -537,21 +566,17 @@ static ssize_t etm_perf_sink_name_show(struct device *dev,
+ 	return scnprintf(buf, PAGE_SIZE, "0x%lx\n", (unsigned long)(ea->var));
  }
  
-+static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
-+{
-+	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
-+}
-+
-+static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
-+{
-+	struct device *dma_dev = dma_dev = stream_to_dmadev(uvc_urb->stream);
-+
-+	if (for_device) {
-+		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
-+					    DMA_FROM_DEVICE);
-+	} else {
-+		dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
-+					 DMA_FROM_DEVICE);
-+		invalidate_kernel_vmap_range(uvc_urb->buffer,
-+					     uvc_urb->stream->urb_size);
-+	}
-+}
-+
- /*
-  * uvc_video_decode_data_work: Asynchronous memcpy processing
-  *
-@@ -1118,6 +1140,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
- 		uvc_queue_buffer_release(op->buf);
- 	}
- 
-+	uvc_urb_dma_sync(uvc_urb, true);
-+
- 	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
- 	if (ret < 0)
- 		uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
-@@ -1539,10 +1563,12 @@ static void uvc_video_complete(struct urb *urb)
- 	 * Process the URB headers, and optionally queue expensive memcpy tasks
- 	 * to be deferred to a work queue.
- 	 */
-+	uvc_urb_dma_sync(uvc_urb, false);
- 	stream->decode(uvc_urb, buf, buf_meta);
- 
- 	/* If no async work is needed, resubmit the URB immediately. */
- 	if (!uvc_urb->async_operations) {
-+		uvc_urb_dma_sync(uvc_urb, true);
- 		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
- 		if (ret < 0)
- 			uvc_printk(KERN_ERR,
-@@ -1559,24 +1585,47 @@ static void uvc_video_complete(struct urb *urb)
-  */
- static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+-int etm_perf_add_symlink_sink(struct coresight_device *csdev)
++int etm_perf_add_symlink_group(struct device *dev,
++			       struct dev_ext_attribute **ext_attr,
++			       const char *name,
++			       const char *group_name)
  {
-+	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
- 	struct uvc_urb *uvc_urb;
+-	int ret;
++	struct dev_ext_attribute *ea;
+ 	unsigned long hash;
+-	const char *name;
++	int ret;
+ 	struct device *pmu_dev = etm_pmu.dev;
+-	struct device *dev = &csdev->dev;
+-	struct dev_ext_attribute *ea;
  
- 	for_each_uvc_urb(uvc_urb, stream) {
- 		if (!uvc_urb->buffer)
- 			continue;
+-	if (csdev->type != CORESIGHT_DEV_TYPE_SINK &&
+-	    csdev->type != CORESIGHT_DEV_TYPE_LINKSINK)
+-		return -EINVAL;
+-
+-	if (csdev->ea != NULL)
+-		return -EINVAL;
++	*ext_attr = NULL;
  
--#ifndef CONFIG_DMA_NONCOHERENT
--		usb_free_coherent(stream->dev->udev, stream->urb_size,
--				  uvc_urb->buffer, uvc_urb->dma);
--#else
--		kfree(uvc_urb->buffer);
--#endif
-+		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
-+		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
-+				       uvc_urb->dma, DMA_FROM_DEVICE);
-+
- 		uvc_urb->buffer = NULL;
- 	}
+ 	if (!etm_perf_up)
+ 		return -EPROBE_DEFER;
+@@ -560,7 +585,6 @@ int etm_perf_add_symlink_sink(struct coresight_device *csdev)
+ 	if (!ea)
+ 		return -ENOMEM;
  
- 	stream->urb_size = 0;
+-	name = dev_name(dev);
+ 	/* See function coresight_get_sink_by_id() to know where this is used */
+ 	hash = hashlen_hash(hashlen_string(NULL, name));
+ 
+@@ -574,31 +598,127 @@ int etm_perf_add_symlink_sink(struct coresight_device *csdev)
+ 	ea->var = (unsigned long *)hash;
+ 
+ 	ret = sysfs_add_file_to_group(&pmu_dev->kobj,
+-				      &ea->attr.attr, "sinks");
+-
++				      &ea->attr.attr, group_name);
+ 	if (!ret)
+-		csdev->ea = ea;
+-
++		*ext_attr = ea;
+ 	return ret;
  }
  
-+static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
-+				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+-void etm_perf_del_symlink_sink(struct coresight_device *csdev)
++int etm_perf_add_symlink_sink(struct coresight_device *csdev)
 +{
-+	struct device *dma_dev = stream_to_dmadev(stream);
++	const char *name;
++	struct device *dev = &csdev->dev;
 +
++	if (csdev->type != CORESIGHT_DEV_TYPE_SINK &&
++	    csdev->type != CORESIGHT_DEV_TYPE_LINKSINK)
++		return -EINVAL;
 +
-+	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-+					       &uvc_urb->dma, DMA_FROM_DEVICE,
-+					       gfp_flags);
-+	if (!uvc_urb->sgt)
-+		return false;
++	if (csdev->ea != NULL)
++		return -EINVAL;
 +
-+	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
-+						 uvc_urb->sgt);
-+	if (!uvc_urb->buffer) {
-+		dma_free_noncontiguous(dma_dev, stream->urb_size,
-+				       uvc_urb->sgt, uvc_urb->dma,
-+				       DMA_FROM_DEVICE);
-+		return false;
-+	}
-+
-+	return true;
++	name = dev_name(dev);
++	return etm_perf_add_symlink_group(dev, &csdev->ea, name, "sinks");
 +}
 +
++void etm_perf_del_symlink_group(struct dev_ext_attribute *ea, const char *group_name)
+ {
+ 	struct device *pmu_dev = etm_pmu.dev;
+-	struct dev_ext_attribute *ea = csdev->ea;
+ 
++	sysfs_remove_file_from_group(&pmu_dev->kobj,
++				     &ea->attr.attr, group_name);
++}
++
++void etm_perf_del_symlink_sink(struct coresight_device *csdev)
++{
+ 	if (csdev->type != CORESIGHT_DEV_TYPE_SINK &&
+ 	    csdev->type != CORESIGHT_DEV_TYPE_LINKSINK)
+ 		return;
+ 
+-	if (!ea)
++	if (!csdev->ea)
+ 		return;
+ 
+-	sysfs_remove_file_from_group(&pmu_dev->kobj,
+-				     &ea->attr.attr, "sinks");
++	etm_perf_del_symlink_group(csdev->ea, "sinks");
+ 	csdev->ea = NULL;
+ }
+ 
++/* string to contain the attribute value */
++#define CSCFG_EVENT_STR_SIZE	32
++
++static ssize_t etm_perf_cscfg_event_show(struct device *dev,
++					 struct device_attribute *dattr,
++					 char *buf)
++{
++	struct dev_ext_attribute *ea;
++
++	ea = container_of(dattr, struct dev_ext_attribute, attr);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", (const char *)(ea->var));
++}
++
++static int etm_perf_add_cscfg_event(struct device *dev, struct cscfg_config_desc *cs_cfg)
++{
++	struct dev_ext_attribute *ea;
++	unsigned long hash;
++	int ret;
++	struct device *pmu_dev = etm_pmu.dev;
++
++	ea = devm_kzalloc(dev, sizeof(*ea), GFP_KERNEL);
++	if (!ea)
++		return -ENOMEM;
++
++	hash = (unsigned long)cs_cfg->id_ea->var;
++
++	sysfs_attr_init(&ea->attr.attr);
++	ea->attr.attr.name = devm_kstrdup(dev, cs_cfg->name, GFP_KERNEL);
++	if (!ea->attr.attr.name)
++		return -ENOMEM;
++
++	/*
++	 * attribute value is "configid=<hash>".
++	 * this will be what perf evaluates when the config name is used
++	 * on the command line.
++	 */
++	ea->var = devm_kzalloc(dev, CSCFG_EVENT_STR_SIZE, GFP_KERNEL);
++	if (!ea->var)
++		return -ENOMEM;
++
++	scnprintf(ea->var, CSCFG_EVENT_STR_SIZE, "configid=0x%lx", hash);
++	ea->attr.attr.mode = 0444;
++	ea->attr.show = etm_perf_cscfg_event_show;
++
++	ret = sysfs_add_file_to_group(&pmu_dev->kobj,
++				      &ea->attr.attr, "events");
++	if (!ret)
++		cs_cfg->event_ea = ea;
++	return ret;
++}
++
++int etm_perf_add_symlink_cscfg(struct device *dev, struct cscfg_config_desc *cs_cfg)
++{
++	int err;
++
++	if (cs_cfg->id_ea != NULL)
++		return 0;
++
++	err = etm_perf_add_symlink_group(dev, &cs_cfg->id_ea,
++					 cs_cfg->name, "configurations");
++
++	if (!err)
++		err = etm_perf_add_cscfg_event(dev, cs_cfg);
++
++	return err;
++}
++
++void etm_perf_del_symlink_cscfg(struct cscfg_config_desc *cs_cfg)
++{
++	if (!cs_cfg->id_ea)
++		return;
++
++	etm_perf_del_symlink_group(cs_cfg->id_ea, "configurations");
++	etm_perf_del_symlink_group(cs_cfg->event_ea, "events");
++	cs_cfg->id_ea = NULL;
++	cs_cfg->event_ea = NULL;
++}
++
+ int __init etm_perf_init(void)
+ {
+ 	int ret;
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
+index 29d90dfeba31..3646a3837a0b 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.h
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
+@@ -11,6 +11,7 @@
+ #include "coresight-priv.h"
+ 
+ struct coresight_device;
++struct cscfg_config_desc;
+ 
  /*
-  * Allocate transfer buffers. This function can be called with buffers
-  * already allocated when resuming from suspend, in which case it will
-@@ -1607,19 +1656,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+  * In both ETMv3 and v4 the maximum number of address comparator implentable
+@@ -69,6 +70,9 @@ static inline void *etm_perf_sink_config(struct perf_output_handle *handle)
+ 		return data->snk_config;
+ 	return NULL;
+ }
++int etm_perf_add_symlink_cscfg(struct device *dev,
++			       struct cscfg_config_desc *cscfg_desc);
++void etm_perf_del_symlink_cscfg(struct cscfg_config_desc *cscfg_desc);
+ #else
+ static inline int etm_perf_symlink(struct coresight_device *csdev, bool link)
+ { return -EINVAL; }
+@@ -79,6 +83,10 @@ static inline void *etm_perf_sink_config(struct perf_output_handle *handle)
+ {
+ 	return NULL;
+ }
++int etm_perf_add_symlink_cscfg(struct device *dev,
++			       struct cscfg_config_desc *cscfg_desc)
++{ return -EINVAL; }
++void etm_perf_del_symlink_cscfg(struct cscfg_config_desc *cscfg_desc) {}
  
- 	/* Retry allocations until one succeed. */
- 	for (; npackets > 1; npackets /= 2) {
-+		stream->urb_size = psize * npackets;
- 		for (i = 0; i < UVC_URBS; ++i) {
- 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ #endif /* CONFIG_CORESIGHT */
  
--			stream->urb_size = psize * npackets;
--#ifndef CONFIG_DMA_NONCOHERENT
--			uvc_urb->buffer = usb_alloc_coherent(
--				stream->dev->udev, stream->urb_size,
--				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
--#else
--			uvc_urb->buffer =
--			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
--#endif
--			if (!uvc_urb->buffer) {
-+			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
- 				uvc_free_urb_buffers(stream);
- 				break;
- 			}
-@@ -1728,12 +1769,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
- 		urb->context = uvc_urb;
- 		urb->pipe = usb_rcvisocpipe(stream->dev->udev,
- 				ep->desc.bEndpointAddress);
--#ifndef CONFIG_DMA_NONCOHERENT
- 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = uvc_urb->dma;
--#else
--		urb->transfer_flags = URB_ISO_ASAP;
--#endif
- 		urb->interval = ep->desc.bInterval;
- 		urb->transfer_buffer = uvc_urb->buffer;
- 		urb->complete = uvc_video_complete;
-@@ -1793,10 +1830,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index 4b8e4e35e3e7..a070f135eca3 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -7,6 +7,7 @@
+ #include <linux/platform_device.h>
  
- 		usb_fill_bulk_urb(urb, stream->dev->udev, pipe,	uvc_urb->buffer,
- 				  size, uvc_video_complete, uvc_urb);
--#ifndef CONFIG_DMA_NONCOHERENT
- 		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = uvc_urb->dma;
--#endif
+ #include "coresight-config.h"
++#include "coresight-etm-perf.h"
+ #include "coresight-syscfg.h"
  
- 		uvc_urb->urb = urb;
+ /*
+@@ -100,6 +101,7 @@ static int cscfg_add_csdev_cfg(struct coresight_device *csdev,
+ 			dev_cfg->feats[dev_cfg->nr_feat++] = feat;
+ 		}
  	}
-@@ -1891,6 +1926,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
++
+ 	/* if matched features, add config to device.*/
+ 	if (dev_cfg) {
+ 		mutex_lock(&cscfg_csdev_mutex);
+@@ -290,8 +292,12 @@ static int cscfg_load_config(struct cscfg_config_desc *cfg_desc)
+ 	if (err)
+ 		return err;
  
- 	/* Submit the URBs. */
- 	for_each_uvc_urb(uvc_urb, stream) {
-+		uvc_urb_dma_sync(uvc_urb, true);
- 		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
- 		if (ret < 0) {
- 			uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a3dfacf069c4..a386114bd229 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -521,7 +521,8 @@ struct uvc_copy_op {
-  * @urb: the URB described by this context structure
-  * @stream: UVC streaming context
-  * @buffer: memory storage for the URB
-- * @dma: DMA coherent addressing for the urb_buffer
-+ * @dma: Allocated DMA handle
-+ * @sgt: sgt_table with the urb locations in memory
-  * @async_operations: counter to indicate the number of copy operations
-  * @copy_operations: work descriptors for asynchronous copy operations
-  * @work: work queue entry for asynchronous decode
-@@ -532,6 +533,7 @@ struct uvc_urb {
+-	list_add(&cfg_desc->item, &cscfg_mgr->data.config_desc_list);
++	/* add config to perf fs to allow selection */
++	err = etm_perf_add_symlink_cscfg(to_device_cscfg(), cfg_desc);
++	if (err)
++		return err;
  
- 	char *buffer;
- 	dma_addr_t dma;
-+	struct sg_table *sgt;
++	list_add(&cfg_desc->item, &cscfg_mgr->data.config_desc_list);
+ 	return 0;
+ }
  
- 	unsigned int async_operations;
- 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
+@@ -517,7 +523,12 @@ int cscfg_create_device(void)
+ 
+ void cscfg_clear_device(void)
+ {
++	struct cscfg_config_desc *cfg_desc;
++
+ 	mutex_lock(&cscfg_mutex);
++	list_for_each_entry(cfg_desc, &cscfg_mgr->data.config_desc_list, item) {
++		etm_perf_del_symlink_cscfg(cfg_desc);
++	}
+ 	device_unregister(to_device_cscfg());
+ 	mutex_unlock(&cscfg_mutex);
+ }
 -- 
-2.30.0.280.ga3ce27912f-goog
+2.17.1
 
