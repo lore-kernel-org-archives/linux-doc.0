@@ -2,49 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DCDC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D93EC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:26:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84A2560C41
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:25:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F91560C41
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbhA1WZ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 17:25:27 -0500
-Received: from ms.lwn.net ([45.79.88.28]:47318 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229561AbhA1WZ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jan 2021 17:25:27 -0500
+        id S231268AbhA1W0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 17:26:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229658AbhA1W0e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 17:26:34 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA41C06174A;
+        Thu, 28 Jan 2021 14:25:54 -0800 (PST)
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 604186173;
-        Thu, 28 Jan 2021 22:24:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 604186173
+        by ms.lwn.net (Postfix) with ESMTPSA id 32A5E6173;
+        Thu, 28 Jan 2021 22:25:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 32A5E6173
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611872686; bh=qQbtP2Dn03VQjBluckzrepkv+tQCQzx5n99qCMWXWfQ=;
+        t=1611872754; bh=n3bNCZfvvOgSEPImncNtlfIjxMkprSYkS+VwNzrol2c=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Qwc4/A9UtlSJz2lO2RrPNyO1yVZ8epYaYAgg7ex2y0/na13TyTSGMqL6swwTWfyaq
-         qTJXctnMpDJ101yIyKz+8BAcUMMLTL302yXr2X2QIr5ORMcmMArPTbgm30UaTv9TWb
-         1Xvj0rTpVL5YN2fnd/Fkp5PyCnKre71/Q7cETLGRLv9v5Tez5BKRourwnZrOoG4wtM
-         G7DgE4EVa6wqP6dkoHaR5kFrRkaK6SVkDPv68H4aFKUQZJXwEvZq7qCIzYvK4zrQyP
-         tAN8s0mIcJr5fUrIitd3wLhyWpQNrP4kPp3+iApKs07g2KtPmNAwPkS/bcbfIIm13p
-         nl3tJl3v7JeNQ==
-Date:   Thu, 28 Jan 2021 15:24:45 -0700
+        b=q1ov7O4elzTCF85UBBzc3qJuZsEN4SLnpEfF/o4L42dhLDaKLB/G6utplU/c7qe6c
+         CqztL/IiuueqHrznDWGyK1XgaHpgZc25ZL6Cr9tg0BrvAb7g1fD0xYJboqlk5jrT6o
+         zQ4vEAu7YNUE9MZgkNDfN0pV/CKzubqD440y5DCWpGs1bNOrUYGAZQb2q8XlEmXsdA
+         dIp9PEyWp1t6ErvOTYlvwkmSGugoayXrYMQGsdBj7j6zqsvPo7bzTLdvcq8rPinjaa
+         fc3RYma5OclWjS1dHdAJXcNawdHlm9d1Bjg4oZ39PS0pxZYWeqBESVzm9OnAAOhw5p
+         ttYRFqVZVoAeA==
+Date:   Thu, 28 Jan 2021 15:25:53 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] Documentation: kernel-parameters: add missing
- '<'
-Message-ID: <20210128152445.62402f73@lwn.net>
-In-Reply-To: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
-References: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
+To:     Daniel Kiper <daniel.kiper@oracle.com>
+Cc:     Cao jin <jojing64@gmail.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com
+Subject: Re: [PATCH] Documentation/x86/boot.rst: Correct the example of
+ SETUP_INDIRECT
+Message-ID: <20210128152553.0dec711e@lwn.net>
+In-Reply-To: <20210127125440.ma4ir6w7gqahbxbz@tomti.i.net-space.pl>
+References: <20210127084911.63438-1-jojing64@gmail.com>
+        <20210127125440.ma4ir6w7gqahbxbz@tomti.i.net-space.pl>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,29 +57,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Jan 2021 11:43:43 +0100
-Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
+On Wed, 27 Jan 2021 13:54:40 +0100
+Daniel Kiper <daniel.kiper@oracle.com> wrote:
 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, Jan 27, 2021 at 04:49:11PM +0800, Cao jin wrote:
+> > struct setup_data.len is the length of data field. In case of
+> > SETUP_INDIRECT, it should be sizeof(setup_indirect).
+> >
+> > Signed-off-by: Cao jin <jojing64@gmail.com>  
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-> index 06fb1b4aa849..202fac80ea0c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
->  sized groups and for each group use some amount from the beginning of that
->  group:
->  
-> -	<cpu number>-cpu number>:<used size>/<group size>
-> +	<cpu number>-<cpu number>:<used size>/<group size>
+> Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 
 Applied, thanks.
-
-(FWIW it looks like the original wasn't sent to me, so I didn't apply it
-then...)
 
 jon
