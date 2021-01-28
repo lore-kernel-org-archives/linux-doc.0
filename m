@@ -2,173 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAE38C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE02C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:22:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B072464DF0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5085964DD9
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhA1VUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 16:20:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbhA1VUT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 16:20:19 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998CAC061574;
-        Thu, 28 Jan 2021 13:19:39 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id u8so2023964ior.13;
-        Thu, 28 Jan 2021 13:19:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=8KacIPQbORj40QvqegzfTEzGvNMpxCBDGW80/SheMdk=;
-        b=uALI5RA+UDVO9yHlHg1R3fl2m3imATTzEiriaqP3VfyeMAPL2iBha5KO2Iw1Mc9cAO
-         qrmOEjZpf9KwUgQl6Ai7NYp4T5fmBhzII0hJMq6pwcM7rX3tb0v3PWO+cpdDONkxKcAo
-         B5C7W4AcZx7t8ffBYZ1a48Uv2IvkYKNE+TqKs6T/yyFx3TLy6Fr3qbwnE2zGd78z23Ch
-         iuTpYHzM8MXi3VGAKZwSSAJroXHRihgTI7hZw3NFpP3sBAFA2kVXPgviPvrq3yNR9Z60
-         /xmBDLlwbCOxBOoibx/AVqO85LStXaIcbl0MKtP8dp+IzLr/zNU/BpvZ0GZPR7Ju7XkO
-         UOKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=8KacIPQbORj40QvqegzfTEzGvNMpxCBDGW80/SheMdk=;
-        b=nkcFpnKJBH1D3OZ8WGQnjl/o7Xw19YRhoS3Po+AnOpWZCh/Ki8V94aL2VIFvP8QBoY
-         FkelOmbV1Kl7RX65YkQh5SeRqgtfc8UGWlwY4r+Sfg7MEXbWvJy1NtllzDl5zMSL3750
-         68UBG4sWLuU8xN5FWYXe2MJEIB58vQYLt4jVfS46xZZR5t5HOolMOpZQfsbQwSJG/4mh
-         8LHGZeP97f8RRFYDNOxtViZ68mnTq37TA/uj1No1WdrRi2253YQRKHEobfydsWI7nJ/B
-         WgA1ydqY6PZ+uXxEe1dalZOQ2DigYSE5sYBek+hr+DXqxL6+vbwhIrix5gzXo7MVcbr2
-         4nNA==
-X-Gm-Message-State: AOAM531A/HOQ0f9LYDCenWxtgxXkuVXjMcr3PBvgzSwWgdN7hibe3a93
-        5M1ottvzCNMgeG912BfZlkpi90OFrme2OiX+Za8=
-X-Google-Smtp-Source: ABdhPJxkeX+a0t3UEWcvRnCQEoX2qs85tdDKuKZlwXgE9TpII2Hd+h2Xs6BbQ1qihMSZekjtnFrhn1l9APmiElZ8zt8=
-X-Received: by 2002:a02:cc54:: with SMTP id i20mr1003818jaq.138.1611868779021;
- Thu, 28 Jan 2021 13:19:39 -0800 (PST)
+        id S231210AbhA1VWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 16:22:14 -0500
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:17066 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231429AbhA1VVz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 16:21:55 -0500
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 10SLFHuH005474;
+        Thu, 28 Jan 2021 13:21:02 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=facebook; bh=CdMacxditgD6YwVTPpBxnkNWyowFxcQx+XVxJPDijyg=;
+ b=GmrktdYFbJwAJST8IqAWFVw6XDYrlB/pQrXaPG8NCkCVdp+lQV7WlsH2i4N/xRWK6etj
+ GrQ0JH6ir7TgaaWH7PCWor1mZ+vmFlcXASypNGX8oXeDAvvswT2WKAVjRLyH2LaEpkqi
+ 24ndYILFaWIhXTamYr2ucYDEo1d2M4TVha4= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by mx0a-00082601.pphosted.com with ESMTP id 36b82t96hv-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 28 Jan 2021 13:21:02 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Thu, 28 Jan 2021 13:21:01 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g5Ro5hyZSr/D8fyWugIxpGhc3bFfL8y+ISBUo1j5XAGSyQ2G0vNszn9fMfoj1/Ry3elc5V7udScyEPJT42aQk/mCBhEMSnD2ih52HpAPoqpeXj1cRvm9Jc1DEY0WXM/8rJWxTdQ/MmqlYrblJT2j9ro3mfECJ3ZZ6vIqxnSuaiSO7GwAwo3QT3vm/oTHXMhoXbp2CZyWgftBmCk/8TESC9BusqniV6XdxkGZOxWOVcM6j1TfpilWWdkE4dObVufqkpbGmfkD/4Wx78+i265IXnndaUg8buma4XkJc/ByC26KyHMxJKH3xLd7nW7r8TVAhPDl8i+txYCLbbWM5O43Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CdMacxditgD6YwVTPpBxnkNWyowFxcQx+XVxJPDijyg=;
+ b=l/u2/tS2EBv700IZyNW46Y2JBvg3nHH339+U2GAHhZi1NEqlHwa6DSgX95qrrWQujcVeUxtz+DVMW66jKeoxCPflfAIC8CKVkOJYloxCPmIGuYnvVvFheoLXaKq4iiI8Sht1Y1am1xA1wpNTBjqNJyD85NVcaWK8E41aPKLgbkMNYGZ6wEmh4gbaANEXR69swmrYGYC0YchKfq20I+KK7INuLrLfVKe/Bl7AJWsjWxzBrbXll5tOkTXJOXlS9M6RJV4TxkHmkQ3zxqB20x/oph4QiDHulAfIfd3UP7WzhdRxAYE0oo3MtCCHE2h4voM7UCyKblvAvzuMq8PI3GAUXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CdMacxditgD6YwVTPpBxnkNWyowFxcQx+XVxJPDijyg=;
+ b=OkrW7sv0kM7zS1BBsUuobSBri3i/Oh2hjairQcB6LyAwgbI/XMyH36XaoCuACOuTzFBCHvFyIgAfz8WlK995KQQ1nQQywTrCkDgUtPTfcR2rWGF7YrHlbe2wXb6TwHNatLKB0VjurAFfL87joy6cBcXzU1KVzvq/i0fsLJNHjsA=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=fb.com;
+Received: from SN6PR1501MB2126.namprd15.prod.outlook.com (2603:10b6:805:5::14)
+ by SN6PR1501MB2031.namprd15.prod.outlook.com (2603:10b6:805:8::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 28 Jan
+ 2021 21:20:57 +0000
+Received: from SN6PR1501MB2126.namprd15.prod.outlook.com
+ ([fe80::e814:36cb:5723:8bf8]) by SN6PR1501MB2126.namprd15.prod.outlook.com
+ ([fe80::e814:36cb:5723:8bf8%4]) with mapi id 15.20.3805.017; Thu, 28 Jan 2021
+ 21:20:57 +0000
+Date:   Thu, 28 Jan 2021 13:20:48 -0800
+From:   Saravanan D <saravanand@fb.com>
+To:     Dave Hansen <dave.hansen@intel.com>
+CC:     <x86@kernel.org>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
+        <peterz@infradead.org>, <corbet@lwn.net>, <willy@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kernel-team@fb.com>,
+        <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+        <songliubraving@fb.com>
+Subject: Re: [PATCH V5] x86/mm: Tracking linear mapping split events
+Message-ID: <20210128212048.oopcyfdf4j2lc663@devvm1945.atn0.facebook.com>
+References: <20210128045153.GW308988@casper.infradead.org>
+ <20210128104934.2916679-1-saravanand@fb.com>
+ <3aec2d10-f4c3-d07a-356f-6f1001679181@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3aec2d10-f4c3-d07a-356f-6f1001679181@intel.com>
+X-Originating-IP: [2620:10d:c090:400::5:7429]
+X-ClientProxiedBy: CO2PR04CA0081.namprd04.prod.outlook.com
+ (2603:10b6:102:1::49) To SN6PR1501MB2126.namprd15.prod.outlook.com
+ (2603:10b6:805:5::14)
 MIME-Version: 1.0
-References: <20210121082451.2240540-1-morbo@google.com> <20210122101156.3257143-1-morbo@google.com>
- <CAKwvOdm+3o8z2GivPjSJRa=c=UKdfkiY-79s6yn2BxJkFnoFTw@mail.gmail.com>
- <CA+icZUU=XfwqMcXYonQKcD4QgqTBW-mA+d_84b7cU2R3HYPOSQ@mail.gmail.com> <CAKwvOdnUm2FqC0CEF3qFuMCaWoqiUMqr7ddMjA2UNsJugA9DNQ@mail.gmail.com>
-In-Reply-To: <CAKwvOdnUm2FqC0CEF3qFuMCaWoqiUMqr7ddMjA2UNsJugA9DNQ@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 28 Jan 2021 22:19:10 +0100
-Message-ID: <CA+icZUWJu0FWdRY0DMQxpYwjqq1WTB87y9u1-6t3YMmkR3UsBQ@mail.gmail.com>
-Subject: Re: [PATCH v7] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Bill Wendling <morbo@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from devvm1945.atn0.facebook.com (2620:10d:c090:400::5:7429) by CO2PR04CA0081.namprd04.prod.outlook.com (2603:10b6:102:1::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Thu, 28 Jan 2021 21:20:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 78eeafc7-f9d0-4159-7f69-08d8c3d29a48
+X-MS-TrafficTypeDiagnostic: SN6PR1501MB2031:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR1501MB2031B8A3AFB838D4B29A3FA1A2BA9@SN6PR1501MB2031.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dWfusrQtflQRYEGjEcjz29OlRDRGrMhINYLt5ORaGTMxjPK9xdVSw0Bqp/hVrub/5HjFHgkmu9hR8HJ+8rHZxuN83FkC0ogNT3NqYBpMs7FEnp+fi08jKVArOryojC0HXasLUV6xJfhi6turT2KyQ6ufL5dkKH7qU9JthkpCGvtEZ5itUjs81AQwSU2uR8PIpM/P6cHZidUpYyrlWeXvztIPIw4XFSVhZschO/0uq/Mhbr4cnEXqqTLMyyNggy6vNzEtqlHq8i/ziLbAqZqYxbP3WNMxzLjgORQW4eUzkQktQ5yDFUoc25MVDBVt5SRuXEKFvCvFSTZjyafQHipzYIvTNuHAxoEMj33D8UtZkCjLIpCRHHYlNQciGVhmdZLLxqo4nbUUQ0eiFhvG+6rZ5NgxBP3IxX8Hfegp5vxEJ5LEh3nyfAas9q4vHK3LnU3s09/YtaYhGTUiAv3TLUu8SC5TpyJ0QoeXgx7RUlBRK74FucmxdauOC0IUcHu6joiRxIPa72Nzz/VrEeBbpufBHA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2126.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(346002)(366004)(39860400002)(396003)(55016002)(7416002)(8936002)(6916009)(5660300002)(4326008)(83380400001)(86362001)(1076003)(6666004)(6506007)(16526019)(8676002)(2906002)(66946007)(66476007)(9686003)(316002)(66556008)(478600001)(7696005)(52116002)(186003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?8Tz/3P8VyTNjdoKGSCGPLOndrk1BGJxcLy/5iqA+HyI7H9CUbKHoTzWx4Llm?=
+ =?us-ascii?Q?n4oWc/QqBmFzUU71VDi5/QCtvPmRjtq6Jq4rsGOlBxvt51kLFo+Ot1mVYM8l?=
+ =?us-ascii?Q?t7L0fHcbM98G4uNFHZdJzaCfJChBPe1AK1AvIqSXqxei9dt0MT8IXNSCDY4v?=
+ =?us-ascii?Q?G1mMkKy1qSEIOKsN7u81qMApj9crhBWATbN95uRDVQSJkuLUSKMO22jzfngg?=
+ =?us-ascii?Q?pQStlPcjmRANDwQUwAKoFaEc6cGj2oVWjXNYQSTe66Jzgz86Y6YqlpdsWYk2?=
+ =?us-ascii?Q?GEpNy3Y7KUrp6wjcRVhHKG9XP5DFJbh5rfegCjWj8Lng6VfspX5fYeybweQl?=
+ =?us-ascii?Q?0I7Qdut4ozeqcdQlmJSAitp98ybve87YvY9xlEUojlwWzVW206bcrcH6PmXw?=
+ =?us-ascii?Q?9KNJXPt3UduKS4gbHViqVxJcCdW2MbbKIqrhzYmr4nzZzjbc8stLGdmSm5zx?=
+ =?us-ascii?Q?Gp3hUHvg4vGfxQ2B4eaxOy/Zb7Nxz5cYW6eLYwRkCLhrN4523kV/NJa6xgH0?=
+ =?us-ascii?Q?1RTi/Up5PBwGiYcxuj3iKCNKUavgu3WXoBd6HpMTYHO+fhsc94C5wkoOIyc/?=
+ =?us-ascii?Q?pj36NOA+DfC5D0K7T81KQZjT2kjPspOS3J+VQMtb6dCgCyj5llC5xztK4C35?=
+ =?us-ascii?Q?mfIWEFU3pIvPtB+zgBmJXRrDOEZNejy4A5GUTsKyA9MaDPGctPII1qaaf3dk?=
+ =?us-ascii?Q?3MSIPRg781L03LwPNw+sqVnF6gjMvfjO95EVmbPsO1Rz2ybTMNpizyJK6S/M?=
+ =?us-ascii?Q?G2VKam9m3W6VrE7j4WGC9anB+WxthoXiQGGzn5FiPdpFpfEtWe7X3Ocp6Wdk?=
+ =?us-ascii?Q?r13Qo9sLNAnt6leOFHfCrhWljZ4duyONbX1IXAJ0+TjY1iAs5WZ2F6MD0gQh?=
+ =?us-ascii?Q?tCz9is/85rJEKOSEVTIKKVtuLjlRyCRpfIN8yYVBaLjNLHNrvAUlp1/vIRQx?=
+ =?us-ascii?Q?OpmUpMXmE2w4pszlGnl6B5cRgDe2SSbIXdSe3qNTmAx5FLB9LKDTOXCspoNH?=
+ =?us-ascii?Q?IEb0R6foPkfsNCEOqnJnHptdhFhaT5nhHPoVzu/7XnPun8w1oIojN13sPvcw?=
+ =?us-ascii?Q?frLs5uztoszG5UrIcL796L1NhNaxYEa1TBsF7OcLa3mrubOPquY=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78eeafc7-f9d0-4159-7f69-08d8c3d29a48
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2126.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 21:20:57.4734
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: e28s1yYgHKvflHiTvarwp2SpmKAG8xewb8GGEDyeM5zWCwVHrG28vO6p6A93e7GYKTRtD1vbIf99xanuifK2EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR1501MB2031
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2021-01-28_12:2021-01-28,2021-01-28 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101280104
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 10:12 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Thu, Jan 28, 2021 at 12:46 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > [ LLVM ]
-> >
-> > Today, I switched over to LLVM version 12.0.0-rc1.
-> >
-> >
-> > [ Step #1: 5.11.0-rc5-5-amd64-clang12-pgo ]
-> >
-> > My first kernel was built with CONFIG_PGO_CLANG=y and LLVM=1 plus LLVM_IAS=1.
-> >
-> > [ start-build_5.11.0-rc5-5-amd64-clang12-pgo.txt ]
-> > dileks    193090  193065  0 06:54 pts/2    00:00:00 /usr/bin/perf_5.10
-> > stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
-> > LD=ld.lld LLVM=1 LLVM_IAS=1 PAHOLE=/opt/pahole/bin/pahole
-> > LOCALVERSION=-5-amd64-clang12-pgo KBUILD_VERBOSE=1
-> > KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
-> > KDEB_PKGVERSION=5.11.0~rc5-5~bullseye+dileks1
-> >
-> > Config: config-5.11.0-rc5-5-amd64-clang12-pgo
-> >
-> >
-> > [ Step #2: x86-64 defconfig & vmlinux.profdata ]
-> >
-> > Booted into 5.11.0-rc5-5-amd64-clang12-pgo and built an x86-64
-> > defconfig to generate/merge a vmlinux.profdata file.
-> >
-> > [ start-build_x86-64-defconfig.txt ]
-> > dileks     18430   15640  0 11:15 pts/2    00:00:00 make V=1 -j4
-> > HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang LD=ld.lld LLVM=1
-> > LLVM_IAS=1
-> >
-> > Script: profile_clang-pgo.sh
-> > Config: dot-config.x86-64-defconfig
-> >
-> >
-> > [ Step #3.1: 5.11.0-rc5-6-amd64-clang12-pgo & GNU-AS ]
-> >
-> > The first rebuild with CONFIG_PGO_CLANG=n and "LLVM=1
-> > KCFLAGS=-fprofile-use=vmlinux.profdata".
-> > I was able to boot into this one.
-> > Used assembler: GNU-AS 2.35.1
-> >
-> > [ start-build_5.11.0-rc5-6-amd64-clang12-pgo.txt ]
-> > dileks     65734   65709  0 11:54 pts/2    00:00:00 /usr/bin/perf_5.10
-> > stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
-> > LD=ld.lld PAHOLE=/opt/pahole/bin/pahole
-> > LOCALVERSION=-6-amd64-clang12-pgo KBUILD_VERBOSE=1
-> > KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
-> > KDEB_PKGVERSION=5.11.0~rc5-6~bullseye+dileks1 LLVM=1
-> > KCFLAGS=-fprofile-use=vmlinux.profdata
-> >
-> > Config: config-5.11.0-rc5-6-amd64-clang12-pgo
-> >
-> >
-> > [ Step #3.2: 5.11.0-rc5-7-amd64-clang12-pgo & Clang-IAS ]
-> >
-> > The second rebuild with CONFIG_PGO_CLANG=n and "LLVM=1
-> > KCFLAGS=-fprofile-use=vmlinux.profdata" plus LLVM_IAS=1.
-> > Compilable but NOT bootable in QEMU and on bare metal.
-> > Used assembler: Clang-IAS v12.0.0-rc1
-> >
-> > [ start-build_5.11.0-rc5-7-amd64-clang12-pgo.txt ]
-> > dileks      6545    6520  0 16:31 pts/2    00:00:00 /usr/bin/perf_5.10
-> > stat make V=1 -j4 HOSTCC=clang HOSTCXX=clang++ HOSTLD=ld.lld CC=clang
-> > LD=ld.lld PAHOLE=/opt/pahole/bin/pahole
-> > LOCALVERSION=-7-amd64-clang12-pgo KBUILD_VERBOSE=1
-> > KBUILD_BUILD_HOST=iniza KBUILD_BUILD_USER=sedat.dilek@gmail.com
-> > KBUILD_BUILD_TIMESTAMP=2021-01-28 bindeb-pkg
-> > KDEB_PKGVERSION=5.11.0~rc5-7~bullseye+dileks1 LLVM=1
-> > KCFLAGS=-fprofile-use=vmlinux.profdata LLVM_IAS=1
-> >
-> > Config: config-5.11.0-rc5-7-amd64-clang12-pgo
-> >
-> >
-> > [ Conclusion ]
-> >
-> > The only statement I can tell you is a "PGO optimized" rebuild with
-> > LLVM_IAS=1 is compilable but NOT bootable.
->
-> Thanks for the extensive testing and report. Can you compress, upload,
-> and post a link to your kernel image? I would like to take it for a
-> spin in QEMU and see if I can find what it's doing, then work
-> backwards from there.
->
+Hi Dave,
+> 
+> Eek.  There really doesn't appear to be a place in Documentation/ that
+> we've documented vmstat entries.
+> 
+> Maybe you can start:
+> 
+> 	Documentation/admin-guide/mm/vmstat.rst
+> 
+I was also very surprised that there does not exist documentation for
+vmstat, that lead me to add a page in admin-guide which now requires lot
+of caveats.
 
-Which files do you need?
-For QEMU: bzImage and initrd.img enough?
+Starting a new documentation for vmstat goes beyond the scope of this patch.
+I am inclined to remove Documentation from the next version [V6] of the patch.
 
-- Sedat -
+I presume that a detailed commit log [V6] explaining why direct mapped kernel
+page splis will never coalesce, how kernel tracing causes some of those
+splits and why it is worth tracking them can do the job.
+
+Proposed [V6] Commit Log:
+>>>
+To help with debugging the sluggishness caused by TLB miss/reload,
+we introduce monotonic hugepage [direct mapped] split event counts since
+system state: SYSTEM_RUNNING to be displayed as part of
+/proc/vmstat in x86 servers
+
+The lifetime split event information will be displayed at the bottom of
+/proc/vmstat
+....
+swap_ra 0
+swap_ra_hit 0
+direct_map_level2_splits 94
+direct_map_level3_splits 4
+nr_unstable 0
+....
+
+One of the many lasting sources of direct hugepage splits is kernel
+tracing (kprobes, tracepoints).
+
+Note that the kernel's code segment [512 MB] points to the same 
+physical addresses that have been already mapped in the kernel's 
+direct mapping range.
+
+Source : Documentation/x86/x86_64/mm.rst
+
+When we enable kernel tracing, the kernel has to modify attributes/permissions
+of the text segment hugepages that are direct mapped causing them to split.
+
+Kernel's direct mapped hugepages do not coalesce back after split and
+remain in place for the remainder of the lifetime.
+
+An instance of direct page splits when we turn on
+dynamic kernel tracing
+....
+cat /proc/vmstat | grep -i direct_map_level
+direct_map_level2_splits 784
+direct_map_level3_splits 12
+bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @ [pid, comm] =
+count(); }'
+cat /proc/vmstat | grep -i
+direct_map_level
+direct_map_level2_splits 789
+direct_map_level3_splits 12
+....
+<<<
+
+Thanks,
+Saravanan D
