@@ -2,40 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C86C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBFEC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 947FA64DD6
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:05:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F41864D9D
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231301AbhA1EFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 23:05:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53910 "EHLO mx2.suse.de"
+        id S229830AbhA1EOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 23:14:19 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60150 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231260AbhA1EEX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 23:04:23 -0500
+        id S229591AbhA1EOQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 23:14:16 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1EC0DAD29;
-        Thu, 28 Jan 2021 03:50:11 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id DA45EACE1;
+        Thu, 28 Jan 2021 03:58:10 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de
-Date:   Thu, 28 Jan 2021 14:50:04 +1100
+Date:   Thu, 28 Jan 2021 14:58:04 +1100
 Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/12] docs: path-lookup: update i_op->put_link and
- cookie description
-In-Reply-To: <20210126072443.33066-9-foxhlchen@gmail.com>
+Subject: Re: [PATCH 00/12] docs: path-lookup: Update pathlookup docs
+In-Reply-To: <20210126072443.33066-1-foxhlchen@gmail.com>
 References: <20210126072443.33066-1-foxhlchen@gmail.com>
- <20210126072443.33066-9-foxhlchen@gmail.com>
-Message-ID: <877dnxhg9f.fsf@notabene.neil.brown.name>
+Message-ID: <87zh0tg1bn.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -45,108 +42,65 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 --=-=-=
 Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
 On Tue, Jan 26 2021, Fox Chen wrote:
 
-> No inode->put_link operation anymore. We use delayed_call to
-> deal with link destruction. Cookie has been replaced with
-> struct delayed_call.
+> The Path lookup is a very complex subject in VFS. The path-lookup
+> document provides a very detailed guidance to help people understand
+> how path lookup works in the kernel.This document was originally
+> written based on three lwn articles five years ago. As times goes by,
+> some of the content was outdated. This patchset is intended to update
+> the document to make it more relevant to current codebase.
 >
-> Related commit: fceef393a538134f03b778c5d2519e670269342f
 >
-> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-> ---
->  Documentation/filesystems/path-lookup.rst | 31 +++++++----------------
->  1 file changed, 9 insertions(+), 22 deletions(-)
+> Fox Chen (12):
+>   docs: path-lookup: update follow_managed() part
+>   docs: path-lookup: update path_to_nameidata() parth
+>   docs: path-lookup: update path_mountpoint() part
+>   docs: path-lookup: update do_last() part
+>   docs: path-lookup: remove filename_mountpoint
+>   docs: path-lookup: Add macro name to symlink limit description
+>   docs: path-lookup: i_op->follow_link replaced with i_op->get_link
+>   docs: path-lookup: update i_op->put_link and cookie description
+>   docs: path-lookup: no get_link()
+>   docs: path-lookup: update WALK_GET, WALK_PUT desc
+>   docs: path-lookup: update get_link() ->follow_link description
+>   docs: path-lookup: update symlink description
 >
-> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
-lesystems/path-lookup.rst
-> index 0a362849b26f..8572300b5405 100644
-> --- a/Documentation/filesystems/path-lookup.rst
-> +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -1068,34 +1068,21 @@ method. This is called both in RCU-walk and REF-w=
-alk. In RCU-walk the
->  RCU-walk.  Much like the ``i_op->permission()`` method we
->  looked at previously, ``->get_link()`` would need to be careful that
->  all the data structures it references are safe to be accessed while
-> -holding no counted reference, only the RCU lock.  Though getting a
-> -reference with ``->follow_link()`` is not yet done in RCU-walk mode, the
-> -code is ready to release the reference when that does happen.
-> -
-> -This need to drop the reference to a symlink adds significant
-> -complexity.  It requires a reference to the inode so that the
-> -``i_op->put_link()`` inode operation can be called.  In REF-walk, that
-> -reference is kept implicitly through a reference to the dentry, so
-> -keeping the ``struct path`` of the symlink is easiest.  For RCU-walk,
-> -the pointer to the inode is kept separately.  To allow switching from
-> -RCU-walk back to REF-walk in the middle of processing nested symlinks
-> -we also need the seq number for the dentry so we can confirm that
-> -switching back was safe.
-> -
-> -Finally, when providing a reference to a symlink, the filesystem also
-> -provides an opaque "cookie" that must be passed to ``->put_link()`` so t=
-hat it
-> -knows what to free.  This might be the allocated memory area, or a
-> -pointer to the ``struct page`` in the page cache, or something else
-> -completely.  Only the filesystem knows what it is.
-> +holding no counted reference, only the RCU lock.
-> +
-> +Finally, a callback ``struct delayed_called`` will be passed to get_link,
-> +file systems can set their own put_link function and argument through
-> +``set_delayed_call``. Latter on, when vfs wants to put link, it will cal=
-l=20
 
-"Later", not "Latter".
+Thanks for doing this.  I've responded individually to several of the
+patches.  As you can see from my comments, there is often more to it
+than just changing function names.  In some places you have capture the
+more general nature of the change fairly well.  In other places the
+result is incoherent or confusion.
+Making small updates to this sort of documentation is not easy.  You
+need to step have and see the "big picture", to overall story-arc.
+Sometimes you can fit changes into that arc, sometimes you might need to
+restructure or re-tell the story.
 
-Also, I'm not sure that the "Finally" at the start of the sentence makes
-sense any more.  I think it was meant to introduce the final part of the
-"significant complexity", but now that significant complexity is gone.
-At least, I assume it is gone.  I haven't checked to code to see if
-maybe it has just been moved.
+This is part of why I haven't put much effort into the document -
+re-telling a story can be a lot of work.
 
 NeilBrown
-
-
-> +``do_delayed_call`` to invoke that callback function with the argument.
->=20=20
->  In order for the reference to each symlink to be dropped when the walk c=
-ompletes,
->  whether in RCU-walk or REF-walk, the symlink stack needs to contain,
->  along with the path remnants:
->=20=20
-> -- the ``struct path`` to provide a reference to the inode in REF-walk
-> -- the ``struct inode *`` to provide a reference to the inode in RCU-walk
-> +- the ``struct path`` to provide a reference to the previous path
-> +- the ``const char *`` to provide a reference to the to previous name
->  - the ``seq`` to allow the path to be safely switched from RCU-walk to R=
-EF-walk
-> -- the ``cookie`` that tells ``->put_path()`` what to put.
-> +- the ``struct delayed_call`` for later invocation.
->=20=20
->  This means that each entry in the symlink stack needs to hold five
->  pointers and an integer instead of just one pointer (the path
-> --=20
-> 2.30.0
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASNGwOHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbkL7Q//dZ5/EjCGIQRKw9uOxDHaZSeO71MNyeNXdnX+
-+HRaX/RyFy/BZF7Jv2rt49ulE6ZLpYeVXdJDciz9WKLKb7cJCDkG11GF6dxHOow5
-zQ97/XibWZZhNKJ0gtaYtun9bVMcdqQcRql9zLO1tis4TQMngdVJzMudWPDWndBc
-xfnykePCpqai/t+4HKkth5GYFfo3q0C0FsEv6DMm6rSl5lu/98PhEKEf+Ly9HVT6
-d8wkido6DVLSKW3uV5TpSSQ8RaapK+IWRS6AWizd7d1RtDYleLbJ1CSc1CondpZv
-qf7W7w1DEY9l2bZ0FrRfxoLra1wGiSyxXgncsAKRlkLte/KWniaZLWu6jidjbeaD
-zRAmFnR6ZHFNfQ6OySN6X7ag07kApiSyw+3rEBr0mF9h7E5cGbTHn0a2vjLHERsy
-OwqProHcaydHlvW6Yp9eafeARfpZgGpAU1LQXSNfWibsPKpOCDOUwcpUbkzJy8a+
-VL3uWsgnAPp+w3bsNu/El7x5XeDJ2EkkgzgKvBtjO5tGCFyy7e6Ni/D30sZeoUEd
-as2pbItAaZcTPutiQWB0HceajzPYoUEnoJubqsRqYJLnlSChAvLxpz8VGF9G0BRj
-6LyDDzCuw+Uj2G/0GKjdzgQ5MMnAywjEFUzk7WiTsn3k9SC+HhMRPg9CIMPdNXz0
-wf0GXmA=
-=HReH
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASNk0OHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbmNDA/+MSLmQTkUen1OKdCYdHDhCMLRtNAhfqRGocz6
+XIo9x6yPou79C2tRfIRefkS7JtlSbayQW0O4K829xYPWs3TbHuZt/FC1gwVfnocz
+9a89EZVH6tnw5ORgWCGu7fBsg0MiUgo+Y/udrZZ/WH6e0MZCri8RHAnNbadk8vlk
+1FJJTvdyK79X7Xzbxzg73T18VRryNEq8X48ZMYx+WJg7ghQVpZOEKD+07T5knwuo
+lek8G9h2/9hlkcNsMJdvqpa1DhXfzOZM200PvNd9wk0MZWFC/jSb//zPsaI+EsBk
+UNWBHhAck6Pa3mCMOksaUYWS8h6prjaMnZH58yiceVYX+8DJvErIf/jxkhmUdPAk
+UzyOqECZce1e5Bh7yhWY2lfmGUEbnxiO7o2NuSHeFN9XrjQXaxj80vHIRZ+nCvqJ
+s2R0qI8DHKcI2NUdPVoUSA3OI1hSpCnnZ5s/4b/JXxSoxfPJWHkDKf445MCGH/8/
+c9wKR/rYJSpxPfOA9nNc62IX/vltH+LB6VO7YXs5aS368FE19bkch8QI+NtKDf/9
+iDbwe6OzgQDZQUsoMEGyW4/7uIT4UoMQ8rEwUP5CJNn2hiCsELlzNM4MZi6Z+c1t
+9EtHPidJwQE/i7hPVqhoWqKQlRitD731tTAb3OUDMPeWOpR8D57YmolwLodYb2wS
+SqD7Efc=
+=/mOn
 -----END PGP SIGNATURE-----
 --=-=-=--
