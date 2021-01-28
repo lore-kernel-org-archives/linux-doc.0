@@ -2,68 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,
+	DATE_IN_FUTURE_06_12,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37192C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B513C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:13:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC21E64DA1
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2365F64DA1
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:13:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232385AbhA1IHJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 03:07:09 -0500
-Received: from verein.lst.de ([213.95.11.211]:56359 "EHLO verein.lst.de"
+        id S231499AbhA1IJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 03:09:12 -0500
+Received: from mga04.intel.com ([192.55.52.120]:16602 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232178AbhA1IG2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jan 2021 03:06:28 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 18E2068C4E; Thu, 28 Jan 2021 08:57:38 +0100 (CET)
-Date:   Thu, 28 Jan 2021 08:57:37 +0100
-From:   ". Christoph Hellwig" <hch@lst.de>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     ". Christoph Hellwig" <hch@lst.de>,
-        Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20210128075737.GA28741@lst.de>
-References: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com> <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de> <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com> <20210111083614.GA27589@lst.de> <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com> <20210126170659.GA9104@lst.de> <CANiDSCsz+9DJesOTJ5C5HGEH-wwuTmEd3c8yLoHjnDz=2+ndJw@mail.gmail.com> <20210127155608.GA20272@lst.de> <CANiDSCsHquQWgeGurmh83UDm3xPzkzaRTV0EOKQs=Q_a349f=Q@mail.gmail.com>
+        id S231744AbhA1IIh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 03:08:37 -0500
+IronPort-SDR: pk1OdI9ITonkx2UwJ1X5Le5lSh4E37oVNax9bSoG1nGaq4sKVtUpcXvs3Ow9j8mnOM+ZUO9qsc
+ SXL46mq1osgA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9877"; a="177632199"
+X-IronPort-AV: E=Sophos;i="5.79,381,1602572400"; 
+   d="scan'208";a="177632199"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 00:06:34 -0800
+IronPort-SDR: gwiJP6YaMxuscNhGYPs0q08Q4i/JkVYx3t24FPKwU8pngfnoy909ERwqCSOOScAVkG9IYu04mC
+ PrqVQUjmjn8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,381,1602572400"; 
+   d="scan'208";a="362770166"
+Received: from zhangyu-optiplex-7040.bj.intel.com ([10.238.154.148])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2021 00:06:33 -0800
+From:   Yu Zhang <yu.c.zhang@linux.intel.com>
+To:     pbonzini@redhat.com, kvm@vger.kernel.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] KVM: Documentation: Fix documentation for nested.
+Date:   Thu, 28 Jan 2021 23:47:47 +0800
+Message-Id: <20210128154747.4242-1-yu.c.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsHquQWgeGurmh83UDm3xPzkzaRTV0EOKQs=Q_a349f=Q@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 10:35:02PM +0100, Ricardo Ribalda wrote:
-> I have used the current API here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/ribalda/linux.git/log/?h=uvc-noncontiguous
-> 
-> And I think the result is very clean. Great work!
-> 
-> I have tested it in X86 and in arm64, with similar performance as the
-> previous patchset.
-> 
-> Maybe you want to cherry pick that commit into your series I can also
-> send the patch to the list for review if you prefer so.
-> 
-> At least in 5.11 rc5 I the same dmadev worked in arm64 and x86.
+Nested VMX was enabled by default in commit <1e58e5e59148> ("KVM:
+VMX: enable nested virtualization by default"), which was merged
+in Linux 4.20. This patch is to fix the documentation accordingly.
 
-Given that Sergey mentioned the v4l patchset needs more work I'll
-use your commit as the example for sending out my series.
+Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+---
+ Documentation/virt/kvm/nested-vmx.rst            | 6 ++++--
+ Documentation/virt/kvm/running-nested-guests.rst | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Thanks for all the work!
+diff --git a/Documentation/virt/kvm/nested-vmx.rst b/Documentation/virt/kvm/nested-vmx.rst
+index 6ab4e35..ac2095d 100644
+--- a/Documentation/virt/kvm/nested-vmx.rst
++++ b/Documentation/virt/kvm/nested-vmx.rst
+@@ -37,8 +37,10 @@ call L2.
+ Running nested VMX
+ ------------------
+ 
+-The nested VMX feature is disabled by default. It can be enabled by giving
+-the "nested=1" option to the kvm-intel module.
++The nested VMX feature is enabled by default since Linux kernel v4.20. For
++older Linux kernel, it can be enabled by giving the "nested=1" option to the
++kvm-intel module.
++
+ 
+ No modifications are required to user space (qemu). However, qemu's default
+ emulated CPU type (qemu64) does not list the "VMX" CPU feature, so it must be
+diff --git a/Documentation/virt/kvm/running-nested-guests.rst b/Documentation/virt/kvm/running-nested-guests.rst
+index d0a1fc7..bd70c69 100644
+--- a/Documentation/virt/kvm/running-nested-guests.rst
++++ b/Documentation/virt/kvm/running-nested-guests.rst
+@@ -74,7 +74,7 @@ few:
+ Enabling "nested" (x86)
+ -----------------------
+ 
+-From Linux kernel v4.19 onwards, the ``nested`` KVM parameter is enabled
++From Linux kernel v4.20 onwards, the ``nested`` KVM parameter is enabled
+ by default for Intel and AMD.  (Though your Linux distribution might
+ override this default.)
+ 
+-- 
+1.9.1
+
