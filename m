@@ -2,367 +2,336 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D14C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:15:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DCB7C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:36:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D634064E21
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:15:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E530964E10
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 17:36:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbhA1ROi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 12:14:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S233049AbhA1Rg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 12:36:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232955AbhA1RMf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 12:12:35 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AA6EC06121F
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:09:57 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id m1so1895248wml.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:09:57 -0800 (PST)
+        with ESMTP id S233095AbhA1Rfk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 12:35:40 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E50C06178A
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:34:58 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id l9so9027141ejx.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 09:34:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=5mcqqy82Ujzfkd4RAqTV/kkOcSpfwGBGe2qxfCGbTA4=;
-        b=flloVmPQDMv0LgnKDG4sLs/YArJgIGsVCKrlvJC//nruF/Ql2UwQSA5TqJl9b1AxeN
-         w5TqcDa1gDVWWl8NOVmlbEqmdmT7ztcBXVWMQAyYjHwljqISk5XrcFfDyOdnU6+vJ6tp
-         Y1MuEW0uZM0hD+F9fuvxIyKhrsZARojl/S+Jk1VKhXflVDoUbTfq71E9THHtSXmR0knB
-         KEcw+4th3+c55IQ7OTwENzkBWC3YRMNPCKlFEg6BzsVpyYE86bGDFJUcQCEM4bbKUVtE
-         0ZxJmAU1fEH2/WwdbLvGiImylcejw9Unwo60WHu4eaLzkdNc0jiUBMVhiIwrId061Xdn
-         4tfQ==
+        d=chromium.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Td9sExNDd3hj/YGqlp0vIv6OhdNcWQjkUwGW8vuRir4=;
+        b=Uxsak+vsn3Rw/EU2SZgEIQVPM3OzUdIJE5hu8Bx3o7qpu1H5FVVeEQmUjsdr949ggG
+         mdQ28e53aqaOx9uZMq4+rtNItHDyuNNlwpu9ZP9V31sOgRk41u+v0Vvo+OCBPV9sviSd
+         X7P1Ur16H4y2YrNVdrWXFMQpCFr28YUpLXZ+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=5mcqqy82Ujzfkd4RAqTV/kkOcSpfwGBGe2qxfCGbTA4=;
-        b=dyd4Ai4svY56E6vWMGN32siKkyBrrzYnKMeu21LQP4OumUnT70kRFD8S6N5MO75jPW
-         J5JPY3NJgZAKjOeOGDdL3ttzswUqeDZv2JyUGY43xbHwGSpyp1jynUAqOGO3n6SzuL4o
-         CU8QAYUFY+jpI/Y4eFZksFxp8+OJaK2k/qlF7b9kalDQyHq5GmmuLfLgHOQSQ025fbbV
-         mPnKGMoZae1aA/hV6grNodMlBhp0Iv9j/9WyrfWjVUxItpZgjd1UxV7PPmJleyqGA5/2
-         iTQROcupy9emGUnnZ1e8YE4LO487OoGZlewAxB9pE2cRi3iDy5vT3k1kn7SoWYO6FItH
-         BRHA==
-X-Gm-Message-State: AOAM532R6bTNKLRoy8ef0v3PKHPhdj6k+fBXLVFe9PChAzLicp/bk95s
-        3QEQbAVfD+VrdrAruh+FFdkeUw==
-X-Google-Smtp-Source: ABdhPJy+Q3uxGZqP/bMkphyvMCJUGbYc7+B7PgVJsGd4/jil4y76CZHkpAIP+IA47Mq24SWi3k2XOA==
-X-Received: by 2002:a1c:7906:: with SMTP id l6mr260809wme.22.1611853796099;
-        Thu, 28 Jan 2021 09:09:56 -0800 (PST)
-Received: from linaro.org ([2a00:23c5:6801:1801:40:2fca:953a:e6ba])
-        by smtp.gmail.com with ESMTPSA id p15sm7622355wrt.15.2021.01.28.09.09.55
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Td9sExNDd3hj/YGqlp0vIv6OhdNcWQjkUwGW8vuRir4=;
+        b=ZZYiuFnqi+WAx2xQaj2VvQrZLQq385XNnwYfgPE6M1w1GGn0vKamt8dlNjnjGLGfR0
+         e47xuaYa6Ssskx97Whhbxg7w8/TOQjJ2mXFG1BKzp3UMupQnEAd7Wq7w5H1wjWjBNSlS
+         KxvEBeYAoQoWoArW2y/XE3EOii9846haia/SVcrnHA644uV4cioKOUohcFYS3U0BgSQi
+         twDtOk73mokozW24QPnbOY61epM8z1eXMqAdLdW8SzzUI5MG01I2yG8HhE2+scW0j7Cb
+         Gvw5sJ8TXJvyIjCuEQzjYfrVfPpjyMkY2rjtLT+oEkXcS5E6UIP0Iuc2/5ZcrtRdDIbQ
+         xGVQ==
+X-Gm-Message-State: AOAM531Uy4a6SDS8YIohpsTa4UlOXLvgq6M16SyTMIr5MFeXb1xSVeiS
+        jw1wEPt8iXgPc+bJa0GPWAOgQQ==
+X-Google-Smtp-Source: ABdhPJw9qYyucqyOBiK9u5qIq0+j3tWpNsrxZy0mgIeznTneTv94aRdIiWJSM4W+Ba8ABXsxW5F/Eg==
+X-Received: by 2002:a17:906:f755:: with SMTP id jp21mr527580ejb.22.1611855296992;
+        Thu, 28 Jan 2021 09:34:56 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id s18sm3489358edw.66.2021.01.28.09.34.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 09:09:55 -0800 (PST)
-From:   Mike Leach <mike.leach@linaro.org>
-To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org,
-        suzuki.poulose@arm.com
-Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v4 10/10] coresight: docs: Add documentation for CoreSight config
-Date:   Thu, 28 Jan 2021 17:09:36 +0000
-Message-Id: <20210128170936.9222-11-mike.leach@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210128170936.9222-1-mike.leach@linaro.org>
-References: <20210128170936.9222-1-mike.leach@linaro.org>
+        Thu, 28 Jan 2021 09:34:55 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        iommu@lists.linux-foundation.org,
+        Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v2 6/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Date:   Thu, 28 Jan 2021 18:34:54 +0100
+Message-Id: <20210128173454.255664-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds documentation for the CoreSight System configuration manager.
+On architectures where the is no coherent caching such as ARM use the
+dma_alloc_noncontiguos API and handle manually the cache flushing using
+dma_sync_sgtable().
 
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
+With this patch on the affected architectures we can measure up to 20x
+performance improvement in uvc_video_copy_data_work().
+
+Eg: aarch64 with an external usb camera
+
+NON_CONTIGUOUS
+frames:  999
+packets: 999
+empty:   0 (0 %)
+errors:  0
+invalid: 0
+pts: 0 early, 0 initial, 999 ok
+scr: 0 count ok, 0 diff ok
+sof: 2048 <= sof <= 0, freq 0.000 kHz
+bytes 67034480 : duration 33303
+FPS: 29.99
+URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
+header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
+latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
+decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
+raw decode speed: 9.931 Gbits/s
+raw URB handling speed: 1.025 Gbits/s
+throughput: 16.102 Mbits/s
+URB decode CPU usage 0.162600 %
+
+COHERENT
+frames:  999
+packets: 999
+empty:   0 (0 %)
+errors:  0
+invalid: 0
+pts: 0 early, 0 initial, 999 ok
+scr: 0 count ok, 0 diff ok
+sof: 2048 <= sof <= 0, freq 0.000 kHz
+bytes 54683536 : duration 33302
+FPS: 29.99
+URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
+header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
+latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
+decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
+raw decode speed: 365.470 Mbits/s
+raw URB handling speed: 295.986 Mbits/s
+throughput: 13.136 Mbits/s
+URB decode CPU usage 3.594500 %
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- .../trace/coresight/coresight-config.rst      | 244 ++++++++++++++++++
- Documentation/trace/coresight/coresight.rst   |  16 ++
- 2 files changed, 260 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-config.rst
 
-diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
-new file mode 100644
-index 000000000000..3a4aa7bfa131
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-config.rst
-@@ -0,0 +1,244 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+CoreSight System Configuration Manager
-+======================================
-+
-+    :Author:   Mike Leach <mike.leach@linaro.org>
-+    :Date:     October 2020
-+
-+Introduction
-+============
-+
-+The CoreSight System Configuration manager is an API that allows the
-+programming of the CoreSight system with pre-defined configurations that
-+can then be easily enabled from sysfs or perf.
-+
-+Many CoreSight components can be programmed in complex ways - especially ETMs.
-+In addition, components can interact across the CoreSight system, often via
-+the cross trigger components such as CTI and CTM. These system settings can
-+be defined and enabled as named configurations.
-+
-+
-+Basic Concepts
-+==============
-+
-+This section introduces the basic concepts of a CoreSight system configuration.
-+
-+
-+Features
-+--------
-+
-+A feature is a named set of programming for a CoreSight device. The programming
-+is device dependent, and can be defined in terms of absolute register values,
-+resource usage and parameter values.
-+
-+The feature is defined using a descriptor. This descriptor is used to load onto
-+a matching device, either when the feature is loaded into the system, or when the
-+CoreSight device is registered with the configuration manager.
-+
-+The load process involves interpreting the descriptor into a set of register
-+accesses in the driver - the resource usage and parameter descriptions
-+translated into appropriate register accesses. This interpretation makes it easy
-+and efficient for the feature to be programmed onto the device when required.
-+
-+The feature will not be active on the device until the feature is enabled, and
-+the device itself is enabled. When the device is enabled then enabled features
-+will be programmed into the device hardware.
-+
-+A feature is enabled as part of a configuration being enabled on the system.
-+
-+
-+Parameter Value
-+~~~~~~~~~~~~~~~
-+
-+A parameter value is a named value that may be set by the user prior to the
-+feature being enabled that can adjust the behaviour of the operation programmed
-+by the feature.
-+
-+For example, this could be a count value in a programmed operation that repeats
-+at a given rate. When the feature is enabled then the current value of the
-+parameter is used in programming the device.
-+
-+The feature descriptor defines a default value for a parameter, which is used
-+if the user does not supply a new value.
-+
-+Users can update parameter values using the configfs API for the CoreSight
-+system - which is described below.
-+
-+The current value of the parameter is loaded into the device when the feature
-+is enabled on that device.
-+
-+
-+Configurations
-+--------------
-+
-+A configuration defines a set of features that are to be used in a trace
-+session where the configuration is selected. For any trace session only one
-+configuration may be selected.
-+
-+The features defined may be on any type of device that is registered
-+to support system configuration. A configuration may select features to be
-+enabled on a class of devices - i.e. any ETMv4, or specific devices, e.g. a
-+specific CTI on the system.
-+
-+As with the feature, a descriptor is used to define the configuration.
-+This will define the features that must be enabled as part of the configuration
-+as well as any preset values that can be used to override default parameter
-+values.
-+
-+
-+Preset Values
-+~~~~~~~~~~~~~
-+
-+Preset values are easily selectable sets of parameter values for the features
-+that the configuration uses. The number of values in a single preset set, equals
-+the sum of parameter values in the features used by the configuration.
-+
-+e.g. a configuration consists of 3 features, one has 2 parameters, one has
-+a single parameter, and another has no parameters. A single preset set will
-+therefore have 3 values.
-+
-+Presets are optionally defined by the configuration, up to 15 can be defined.
-+If no preset is selected, then the parameter values defined in the feature
-+are used as normal.
-+
-+
-+Operation
-+~~~~~~~~~
-+
-+The following steps take place in the operation of a configuration.
-+
-+1) In this example, the configuration is 'autofdo', which has an
-+   associated feature 'strobing' that works on ETMv4 CoreSight Devices.
-+
-+2) The configuration is enabled. For example 'perf' may select the
-+   configuration as part of its command line::
-+
-+    perf record -e cs_etm/autofdo/ myapp
-+
-+   which will enable the 'autofdo' configuration.
-+
-+3) perf starts tracing on the system. As each ETMv4 that perf uses for
-+   trace is enabled,  the configuration manager will check if the ETMv4
-+   has a feature that relates to the currently active configuration.
-+   In this case 'strobing' is enabled & programmed into the ETMv4.
-+
-+4) When the ETMv4 is disabled, any registers marked as needing to be
-+   saved will be read back.
-+
-+5) At the end of the perf session, the configuration will be disabled.
-+
-+
-+Viewing Configurations and Features
-+===================================
-+
-+The set of configurations and features that are currently loaded into the
-+system can be viewed using the configfs API.
-+
-+Mount configfs as normal and the 'coresight-syscfg' subsystem will appear::
-+
-+    $ ls /config
-+    coresight-syscfg  stp-policy
-+
-+This has two sub-directories::
-+
-+    $ cd coresight-syscfg/
-+    $ ls
-+    configurations  features
-+
-+The system has the configuration 'autofdo' built in. It may be examined as
-+follows::
-+
-+    $ cd configurations/
-+    $ ls
-+    autofdo
-+    $ cd autofdo/
-+    $ ls
-+    description   preset1  preset3  preset5  preset7  preset9
-+    feature_refs  preset2  preset4  preset6  preset8
-+    $ cat description
-+    Setup ETMs with strobing for autofdo
-+    $ cat feature_refs
-+    strobing
-+
-+Each preset declared has a preset<n> subdirectory declared. The values for
-+the preset can be examined::
-+
-+    $ cat preset1/values
-+    strobing.window = 0x1388 strobing.period = 0x2
-+    $ cat preset2/values
-+    strobing.window = 0x1388 strobing.period = 0x4
-+
-+The features referenced by the configuration can be examined in the features
-+directory::
-+
-+    $ cd ../../features/strobing/
-+    $ ls
-+    description  matches  nr_params  params
-+    $ cat description
-+    Generate periodic trace capture windows.
-+    parameter 'window': a number of CPU cycles (W)
-+    parameter 'period': trace enabled for W cycles every period x W cycles
-+    $ cat matches
-+    SRC_ETMV4
-+    $ cat nr_params
-+    2
-+
-+Move to the params directory to examine and adjust parameters::
-+
-+    cd params
-+    $ ls
-+    period  window
-+    $ cd period
-+    $ ls
-+    value
-+    $ cat value
-+    0x2710
-+    # echo 15000 > value
-+    # cat value
-+    0x3a98
-+
-+Parameters adjusted in this way are reflected in all device instances that have
-+loaded the feature.
-+
-+
-+Using Configurations in perf
-+============================
-+
-+The configurations loaded into the CoreSight configuration management are
-+also declared in the perf 'cs_etm' event infrastructure so that they can
-+be selected when running trace under perf::
-+
-+    $ ls /sys/devices/cs_etm
-+    configurations  format  perf_event_mux_interval_ms  sinks  type
-+    events  nr_addr_filters  power
-+
-+Key directories here are 'configurations' - which lists the loaded
-+configurations, and 'events' - a generic perf directory which allows
-+selection on the perf command line.::
-+
-+    $ ls configurations/
-+    autofdo
-+    $ cat configurations/autofdo
-+    0xa7c3dddd
-+
-+As with the sinks entries, this provides a hash of the configuration name.
-+The entry in the 'events' directory uses perfs built in syntax generator
-+to substitute the syntax for the name when evaluating the command::
-+
-+    $ ls events/
-+    autofdo
-+    $ cat events/autofdo
-+    configid=0xa7c3dddd
-+
-+The 'autofdo' configuration may be selected on the perf command line::
-+
-+    $ perf record -e cs_etm/autofdo/u --per-thread <application>
-+
-+A preset to override the current parameter values can also be selected::
-+
-+    $ perf record -e cs_etm/autofdo,preset=1/u --per-thread <application>
-+
-+When configurations are selected in this way, then the trace sink used is
-+automatically selected.
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 0b73acb44efa..0122d9bebf35 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -587,6 +587,20 @@ A separate documentation file is provided to explain the use of these devices.
- (:doc:`coresight-ect`) [#fourth]_.
+v2: 
+- Replace DMA_BIDIRECTIONAL with DMA_FROM_DEVICE
+- Add invalidate_kernel_vmap_range
+- Tested in an X86 notebook and an ARM Chromebook
+
+ drivers/media/usb/uvc/uvc_video.c | 80 ++++++++++++++++++++++---------
+ drivers/media/usb/uvc/uvcvideo.h  |  4 +-
+ 2 files changed, 61 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index a6a441d92b94..378fb5f29920 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -6,11 +6,13 @@
+  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+  */
  
++#include <linux/highmem.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/usb.h>
++#include <linux/usb/hcd.h>
+ #include <linux/videodev2.h>
+ #include <linux/vmalloc.h>
+ #include <linux/wait.h>
+@@ -1097,6 +1099,26 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 	return data[0];
+ }
  
-+CoreSight System Configuration
-+------------------------------
++static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
++{
++	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
++}
 +
-+CoreSight components can be complex devices with many programming options.
-+Furthermore, components can be programmed to interact with each other across the
-+complete system.
++static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
++{
++	struct device *dma_dev = dma_dev = stream_to_dmadev(uvc_urb->stream);
 +
-+A CoreSight System Configuration manager is provided to allow these complex programming
-+configurations to be selected and used easily from perf and sysfs.
++	if (for_device) {
++		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
++					    DMA_FROM_DEVICE);
++	} else {
++		dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
++					 DMA_FROM_DEVICE);
++		invalidate_kernel_vmap_range(uvc_urb->buffer,
++					     uvc_urb->stream->urb_size);
++	}
++}
 +
-+See the separate document for further information.
-+(:doc:`coresight-config`) [#fifth]_.
-+
-+
- .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
+ /*
+  * uvc_video_decode_data_work: Asynchronous memcpy processing
+  *
+@@ -1118,6 +1140,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+ 		uvc_queue_buffer_release(op->buf);
+ 	}
  
- .. [#second] Documentation/trace/stm.rst
-@@ -594,3 +608,5 @@ A separate documentation file is provided to explain the use of these devices.
- .. [#third] https://github.com/Linaro/perf-opencsd
- 
- .. [#fourth] Documentation/trace/coresight/coresight-ect.rst
++	uvc_urb_dma_sync(uvc_urb, true);
 +
-+.. [#fifth] Documentation/trace/coresight/coresight-config.rst
+ 	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+ 	if (ret < 0)
+ 		uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
+@@ -1539,10 +1563,12 @@ static void uvc_video_complete(struct urb *urb)
+ 	 * Process the URB headers, and optionally queue expensive memcpy tasks
+ 	 * to be deferred to a work queue.
+ 	 */
++	uvc_urb_dma_sync(uvc_urb, false);
+ 	stream->decode(uvc_urb, buf, buf_meta);
+ 
+ 	/* If no async work is needed, resubmit the URB immediately. */
+ 	if (!uvc_urb->async_operations) {
++		uvc_urb_dma_sync(uvc_urb, true);
+ 		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+ 		if (ret < 0)
+ 			uvc_printk(KERN_ERR,
+@@ -1559,24 +1585,47 @@ static void uvc_video_complete(struct urb *urb)
+  */
+ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ {
++	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
+ 	struct uvc_urb *uvc_urb;
+ 
+ 	for_each_uvc_urb(uvc_urb, stream) {
+ 		if (!uvc_urb->buffer)
+ 			continue;
+ 
+-#ifndef CONFIG_DMA_NONCOHERENT
+-		usb_free_coherent(stream->dev->udev, stream->urb_size,
+-				  uvc_urb->buffer, uvc_urb->dma);
+-#else
+-		kfree(uvc_urb->buffer);
+-#endif
++		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
++		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
++				       uvc_urb->dma, DMA_FROM_DEVICE);
++
+ 		uvc_urb->buffer = NULL;
+ 	}
+ 
+ 	stream->urb_size = 0;
+ }
+ 
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	struct device *dma_dev = stream_to_dmadev(stream);
++
++
++	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
++					       &uvc_urb->dma, DMA_FROM_DEVICE,
++					       gfp_flags);
++	if (!uvc_urb->sgt)
++		return false;
++
++	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
++						 uvc_urb->sgt);
++	if (!uvc_urb->buffer) {
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->sgt, uvc_urb->dma,
++				       DMA_FROM_DEVICE);
++		return false;
++	}
++
++	return true;
++}
++
+ /*
+  * Allocate transfer buffers. This function can be called with buffers
+  * already allocated when resuming from suspend, in which case it will
+@@ -1607,19 +1656,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 
+ 	/* Retry allocations until one succeed. */
+ 	for (; npackets > 1; npackets /= 2) {
++		stream->urb_size = psize * npackets;
+ 		for (i = 0; i < UVC_URBS; ++i) {
+ 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ 
+-			stream->urb_size = psize * npackets;
+-#ifndef CONFIG_DMA_NONCOHERENT
+-			uvc_urb->buffer = usb_alloc_coherent(
+-				stream->dev->udev, stream->urb_size,
+-				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+-#else
+-			uvc_urb->buffer =
+-			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+-#endif
+-			if (!uvc_urb->buffer) {
++			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+ 				uvc_free_urb_buffers(stream);
+ 				break;
+ 			}
+@@ -1728,12 +1769,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
+ 		urb->context = uvc_urb;
+ 		urb->pipe = usb_rcvisocpipe(stream->dev->udev,
+ 				ep->desc.bEndpointAddress);
+-#ifndef CONFIG_DMA_NONCOHERENT
+ 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_dma = uvc_urb->dma;
+-#else
+-		urb->transfer_flags = URB_ISO_ASAP;
+-#endif
+ 		urb->interval = ep->desc.bInterval;
+ 		urb->transfer_buffer = uvc_urb->buffer;
+ 		urb->complete = uvc_video_complete;
+@@ -1793,10 +1830,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+ 
+ 		usb_fill_bulk_urb(urb, stream->dev->udev, pipe,	uvc_urb->buffer,
+ 				  size, uvc_video_complete, uvc_urb);
+-#ifndef CONFIG_DMA_NONCOHERENT
+ 		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
+ 		urb->transfer_dma = uvc_urb->dma;
+-#endif
+ 
+ 		uvc_urb->urb = urb;
+ 	}
+@@ -1891,6 +1926,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+ 
+ 	/* Submit the URBs. */
+ 	for_each_uvc_urb(uvc_urb, stream) {
++		uvc_urb_dma_sync(uvc_urb, true);
+ 		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+ 		if (ret < 0) {
+ 			uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index a3dfacf069c4..a386114bd229 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -521,7 +521,8 @@ struct uvc_copy_op {
+  * @urb: the URB described by this context structure
+  * @stream: UVC streaming context
+  * @buffer: memory storage for the URB
+- * @dma: DMA coherent addressing for the urb_buffer
++ * @dma: Allocated DMA handle
++ * @sgt: sgt_table with the urb locations in memory
+  * @async_operations: counter to indicate the number of copy operations
+  * @copy_operations: work descriptors for asynchronous copy operations
+  * @work: work queue entry for asynchronous decode
+@@ -532,6 +533,7 @@ struct uvc_urb {
+ 
+ 	char *buffer;
+ 	dma_addr_t dma;
++	struct sg_table *sgt;
+ 
+ 	unsigned int async_operations;
+ 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 -- 
-2.17.1
+2.30.0.280.ga3ce27912f-goog
 
