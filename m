@@ -2,49 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42AC8C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BBBDC433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:47:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F075E64DED
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B944964DEF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231656AbhA1WpF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 17:45:05 -0500
-Received: from ms.lwn.net ([45.79.88.28]:48302 "EHLO ms.lwn.net"
+        id S231421AbhA1WrP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 17:47:15 -0500
+Received: from ms.lwn.net ([45.79.88.28]:48384 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231645AbhA1Wo0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Jan 2021 17:44:26 -0500
+        id S231646AbhA1WqV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 17:46:21 -0500
 Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 087F16178;
-        Thu, 28 Jan 2021 22:43:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 087F16178
+        by ms.lwn.net (Postfix) with ESMTPSA id 756CD6173;
+        Thu, 28 Jan 2021 22:45:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 756CD6173
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611873822; bh=67GimENfGGoxfIG5suESaGX/DNyL4yUs9MPaPa/XKCY=;
+        t=1611873938; bh=pKlA1wCqIPKqJF4CMFRPlVennY+CpW7wzlpMvVlXI1s=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=myWxMyg+YGMABkeWjiIeDvspCBLwnuOiEJfjNdr4ZOV5CSOM4DT0QKn/Ac0uaX/BH
-         /swK4x7SXrhvVd+qFySvX9DTR6P+R2opO9csBrtqL/jQV5jD9vp9NpnKtucfQbloZ/
-         LwRjzvR4HVv/Kmc4fgf90kWu7enozS7/D3YsiD3vAmVGwuWv3IDoGAVOfwkptvgrsO
-         sZHnkcpewN3wDQSBqdM3Abrg/Dv6eNH7GkkygufFk2dqvnM2Cdhgrxm6l6fa/QJtIw
-         vUwY1gs6vQmLEEYNKNZnK5fv6Pi3N0UFiwsVAEH7UxceR/5u5VPN1qYKUtClUweUOT
-         XoPe9xTc9RK5w==
-Date:   Thu, 28 Jan 2021 15:43:40 -0700
+        b=XoDWBYQfaxpSOgrZKc7nSVh2UXNLy4CjdCFmSmNlDOkB+NE5/YVEuV+Zd6OGecd8m
+         VTAEWi+wXWTfdXwrOS6VQ8QO3JtgjKtK4OryBQZvVre2R8olI5bWN5UbXhLzXvJMUJ
+         oGGCGOPUVpEgau+t/igHDW1x0yJCzG+3PPLPjKtmLPj4z843OoclkjqmORPvzMRPnA
+         2V5IC/qtAZwL78iVZmcpSHflTXBFiCxYJFI+wvX/6IKaL93kEYvSmI3lGHn8piHJOx
+         jgkMNEwQcqTvMwKB305gfas4505XH86QKa+a8Yfl5NjR0lIN9ljriV25UWN6YEayOH
+         Qz7nWFRO2rNmg==
+Date:   Thu, 28 Jan 2021 15:45:37 -0700
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Milan Lakhani <milan.lakhani@codethink.co.uk>
-Cc:     lukas.bulwahn@gmail.com, sudip.mukherjee@codethink.co.uk,
-        linux-safety@lists.elisa.tech, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, harryxiyou@gmail.com,
-        alex.shi@linux.alibaba.com, robh@kernel.org
-Subject: Re: [PATCH] docs: Update DTB format references
-Message-ID: <20210128154340.2b10a06f@lwn.net>
-In-Reply-To: <1611149511-4990-1-git-send-email-milan.lakhani@codethink.co.uk>
-References: <1611149511-4990-1-git-send-email-milan.lakhani@codethink.co.uk>
+To:     Eric Curtin <ericcurtin17@gmail.com>
+Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH] Update Documentation/admin-guide/sysctl/fs.rst
+Message-ID: <20210128154537.2ed50d06@lwn.net>
+In-Reply-To: <20210120132648.19046-1-ericcurtin17@gmail.com>
+References: <20210120132648.19046-1-ericcurtin17@gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,22 +52,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Jan 2021 13:31:51 +0000
-Milan Lakhani <milan.lakhani@codethink.co.uk> wrote:
+On Wed, 20 Jan 2021 13:26:47 +0000
+Eric Curtin <ericcurtin17@gmail.com> wrote:
 
-> There were two references to devicetree/booting-without-of.rst (which has
-> been removed) for DTB format information, and
-> devicetree/usage-model.rst pointed to
-> https://elinux.org/Device_Tree_Usage. Change all three of these references to
-> https://www.devicetree.org/specifications/.
+> max_user_watches for epoll should say 1/25, rather than 1/32
 > 
-> Signed-off-by: Milan Lakhani <milan.lakhani@codethink.co.uk>
+> Signed-off-by: Eric Curtin <ericcurtin17@gmail.com>
 > ---
->  Documentation/arm/booting.rst                | 2 +-
->  Documentation/devicetree/usage-model.rst     | 2 +-
->  Documentation/translations/zh_CN/arm/Booting | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+>  Documentation/admin-guide/sysctl/fs.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+> index f48277a0a850..2a501c9ddc55 100644
+> --- a/Documentation/admin-guide/sysctl/fs.rst
+> +++ b/Documentation/admin-guide/sysctl/fs.rst
+> @@ -380,5 +380,5 @@ This configuration option sets the maximum number of "watches" that are
+>  allowed for each user.
+>  Each "watch" costs roughly 90 bytes on a 32bit kernel, and roughly 160 bytes
+>  on a 64bit one.
+> -The current default value for  max_user_watches  is the 1/32 of the available
+> -low memory, divided for the "watch" cost in bytes.
+> +The current default value for  max_user_watches  is the 1/25 (4%) of the
+> +available low memory, divided for the "watch" cost in bytes.
 
-Applied, thanks.
+That does appear to be the way of it...patch applied, thanks.
 
 jon
