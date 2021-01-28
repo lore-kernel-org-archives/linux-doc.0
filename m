@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11ACEC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:25:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC77FC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:29:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D087864DD0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:25:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B280D64DD3
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 03:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbhA1DZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 22:25:23 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42416 "EHLO mx2.suse.de"
+        id S229545AbhA1D3m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 22:29:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43382 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231124AbhA1DZT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 22:25:19 -0500
+        id S231144AbhA1D3j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 22:29:39 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B70A5ABDA;
-        Thu, 28 Jan 2021 03:24:37 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id D9ED6ABDA;
+        Thu, 28 Jan 2021 03:28:57 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de
-Date:   Thu, 28 Jan 2021 14:24:31 +1100
+Date:   Thu, 28 Jan 2021 14:28:51 +1100
 Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/12] docs: path-lookup: update path_to_nameidata() parth
-In-Reply-To: <20210126072443.33066-3-foxhlchen@gmail.com>
+Subject: Re: [PATCH 03/12] docs: path-lookup: update path_mountpoint() part
+In-Reply-To: <20210126072443.33066-4-foxhlchen@gmail.com>
 References: <20210126072443.33066-1-foxhlchen@gmail.com>
- <20210126072443.33066-3-foxhlchen@gmail.com>
-Message-ID: <87eei5hhg0.fsf@notabene.neil.brown.name>
+ <20210126072443.33066-4-foxhlchen@gmail.com>
+Message-ID: <87bld9hh8s.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -48,39 +48,48 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Jan 26 2021, Fox Chen wrote:
 
-> No path_to_namei() anymore, step_into() will be called.
-> Related commit: c99687a03a78775f77d57fe9b07af4c8ec3dd03c
+> path_mountpoint() doesn't exist anymore. Have been folded
+> into path_lookup_at when flag is set with LOOKUP_MOUNTPOINT.
+> check out commit:161aff1d93abf0e5b5e9dbca88928998c155f677
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 > ---
->  Documentation/filesystems/path-lookup.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/filesystems/path-lookup.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index e778db767120..2ad96e1e3c49 100644
+> index 2ad96e1e3c49..4e77c8520fa9 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -455,7 +455,7 @@ In the absence of symbolic links, ``walk_component()`=
-` creates a new
->  ``struct path`` containing a counted reference to the new dentry and a
->  reference to the new ``vfsmount`` which is only counted if it is
->  different from the previous ``vfsmount``.  It then calls
-> -``path_to_nameidata()`` to install the new ``struct path`` in the
-> +``step_into()`` to install the new ``struct path`` in the
->  ``struct nameidata`` and drop the unneeded references.
+> @@ -492,7 +492,8 @@ not try to revalidate the mounted filesystem.  It eff=
+ectively
+>  contains, through a call to ``mountpoint_last()``, an alternate
+>  implementation of ``lookup_slow()`` which skips that step.  This is
+>  important when unmounting a filesystem that is inaccessible, such as
+> -one provided by a dead NFS server.
+> +one provided by a dead NFS server.  In the current kernel, path_mountpoi=
+nt
+> +has been merged into ``path_lookup_at()`` with a new flag LOOKUP_MOUNTPO=
+INT.
 
-The logic describe here is now embodied by the code in step_into(), so
-the change doesn't make the description any more correct.
+You've taken a very different approach here.  Rather than re-telling the
+story you have added a note (like a foot-note) that the details have
+changed, withouy trying to re-weave the story.  The is easier to get
+right, but doesn't produce as nice a result.
 
-Possibly you need to change the hero of the story from walk_component()
-to step_into(), but that is just a guess.
+Maybe this is a good approach, it depends on how much effort you are
+willing/able to spend on the task.
+
+IF you do stick with this approach:  it is "path_lookupat", not
+"path_lookup_at".
 
 NeilBrown
 
 
 >=20=20
->  This "hand-over-hand" sequencing of getting a reference to the new
+>  Finally ``path_openat()`` is used for the ``open()`` system call; it
+>  contains, in support functions starting with "``do_last()``", all the
 > --=20
 > 2.30.0
 
@@ -89,19 +98,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASLm8OHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbnKphAAxI/39qkWqxQ0roEbx1nsbuSkTpV4xHN7DVjV
-GkODqSc4tE4P1ZEaereO2qeNf+d8mcZNBXZiBHxAD0nRYbsqeFYmETonmvhNJf8t
-hIjvwizHK1rDGt8W3S1lCyUlulUgGNIkOOVN6rYcOPHYOcBi2+IXdAGBIwlNyR7C
-c+y+kX9VRIQPoeDI58x4C8z3jomU6xXycHryiMrrQjuK9dJBpZ639EyfXfzeMlZe
-hdi97PYAO9a2peVmMM7wlrthscHON2Q1L3gWCMeHeUunlxL1lYqdAbeoTotS7HQi
-PphdCOT+1NWtekn5ab4iQbM9OBW+ha/52JRlqPTCTByxYC9zhUIHoBTWoP5tvTpN
-ENPVC9yxe4uIHYbiDACB5OBv3n4/Tk906M/EVmpxkN/no3QRBO+e4yWJ1DJMF0yR
-cQXW3jagaSILuOaF9PXI36gFQ0SUPKhmhRtW9TOcUl5MdIRJa/b4f2Q4tzKv5ELR
-s66kYW6gsHFaUsBspHJM12MErESKavhDcv8eHjZ4kz3cB9XiP+1eLcQnIXzrMo7d
-ORAKBBQqhHtSfL++wEfsjWwGwRKwJnhprNnzdvxVnqAVu8Bllcprcst/dorOwW3f
-+7keauLWaeRjz3HHcPPDxWQxCJCpYR1N8akmLf75ExQ3Xy4hKMw51zvKJ8mYBVW8
-qVMhjIg=
-=xU/E
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASL3QOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbk7LBAAoHzg9hUgx9WXb5zNozeNQKVpGYXIKC4XWwAW
+E6DABgVNaeeh7KCzuInQ2LJocXyAejC4oPd6D45yEQSZJ90VBMicsnYYnQ7QphFL
+g4ahxIWyow8AGNZDRsWbnkZ3qOu9ebnPj+o5q5KzOIyvv/e20zfDAK5sLJSfzByt
+RSvNh2p/IQQC+onb7GlSUFWz38Vjw06+UrOajJGxVVTE8epN2xQT8ZGpsQC04O+h
+nGy/DVPvuTxWH4gHbolqCuh51sRERRZmNs9RHA3SCFYNcwXf+fMDnogOuAhNPiDM
+ZaubUJhGbQuYoGwN+AJnnXK5lagCj4+FkLkM54aleIhvPp1wCyJReZh82ORvEyie
++Eyw6d61xInhfz0OgWNylqS30VA8i3L006yId5oILJt2nj94QC02LO/v9khRw8wG
+SKMWwvgvMJDotcy+SH1dM40QsPFewp5tt+hjlbLabVcNamPt+gV57NVrmpkDaeyS
+qzUv7liyKcTx0BIyh/1awIJtE5Wlla0HgQRvYAHGCMYc3XtjlPPGc1tzzHUGyFZN
+xsaczIAJnbqndcWUjPqbkpfBmrLEilB6bt6E+/2efrFV7i8759h6P4QSsnF3VrNo
+/o/DvRlf58eiJxzVhhgiVIqiYll+g4+Wn2IdVLXE5IFY2XuR0ykvd0wTsSmYPYuw
+srTvWCY=
+=DlKb
 -----END PGP SIGNATURE-----
 --=-=-=--
