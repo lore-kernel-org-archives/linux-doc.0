@@ -2,37 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBFEC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E8EC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F41864D9D
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4133764DCD
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 04:14:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbhA1EOT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jan 2021 23:14:19 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60150 "EHLO mx2.suse.de"
+        id S231221AbhA1EOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jan 2021 23:14:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60148 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229591AbhA1EOQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Jan 2021 23:14:16 -0500
+        id S229728AbhA1EOR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Jan 2021 23:14:17 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id DA45EACE1;
-        Thu, 28 Jan 2021 03:58:10 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 73B49ABDA;
+        Thu, 28 Jan 2021 03:53:46 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de
-Date:   Thu, 28 Jan 2021 14:58:04 +1100
+Date:   Thu, 28 Jan 2021 14:53:40 +1100
 Cc:     Fox Chen <foxhlchen@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] docs: path-lookup: Update pathlookup docs
-In-Reply-To: <20210126072443.33066-1-foxhlchen@gmail.com>
+Subject: Re: [PATCH 07/12] docs: path-lookup: i_op->follow_link replaced
+ with i_op->get_link
+In-Reply-To: <20210126072443.33066-8-foxhlchen@gmail.com>
 References: <20210126072443.33066-1-foxhlchen@gmail.com>
-Message-ID: <87zh0tg1bn.fsf@notabene.neil.brown.name>
+ <20210126072443.33066-8-foxhlchen@gmail.com>
+Message-ID: <8735ylhg3f.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -42,65 +45,75 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 --=-=-=
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 On Tue, Jan 26 2021, Fox Chen wrote:
 
-> The Path lookup is a very complex subject in VFS. The path-lookup
-> document provides a very detailed guidance to help people understand
-> how path lookup works in the kernel.This document was originally
-> written based on three lwn articles five years ago. As times goes by,
-> some of the content was outdated. This patchset is intended to update
-> the document to make it more relevant to current codebase.
+> follow_link has been replaced by get_link() which can be
+> called in RCU mode.
 >
+> see commit: 6b2553918d8b4e6de9853fd6315bec7271a2e592
 >
-> Fox Chen (12):
->   docs: path-lookup: update follow_managed() part
->   docs: path-lookup: update path_to_nameidata() parth
->   docs: path-lookup: update path_mountpoint() part
->   docs: path-lookup: update do_last() part
->   docs: path-lookup: remove filename_mountpoint
->   docs: path-lookup: Add macro name to symlink limit description
->   docs: path-lookup: i_op->follow_link replaced with i_op->get_link
->   docs: path-lookup: update i_op->put_link and cookie description
->   docs: path-lookup: no get_link()
->   docs: path-lookup: update WALK_GET, WALK_PUT desc
->   docs: path-lookup: update get_link() ->follow_link description
->   docs: path-lookup: update symlink description
+> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+> ---
+>  Documentation/filesystems/path-lookup.rst | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >
+> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
+lesystems/path-lookup.rst
+> index 25d2a5a59f45..0a362849b26f 100644
+> --- a/Documentation/filesystems/path-lookup.rst
+> +++ b/Documentation/filesystems/path-lookup.rst
+> @@ -1062,13 +1062,11 @@ filesystem cannot successfully get a reference in=
+ RCU-walk mode, it
+>  must return ``-ECHILD`` and ``unlazy_walk()`` will be called to return to
+>  REF-walk mode in which the filesystem is allowed to sleep.
+>=20=20
+> -The place for all this to happen is the ``i_op->follow_link()`` inode
+> -method.  In the present mainline code this is never actually called in
+> -RCU-walk mode as the rewrite is not quite complete.  It is likely that
+> -in a future release this method will be passed an ``inode`` pointer when
+> -called in RCU-walk mode so it both (1) knows to be careful, and (2) has =
+the
+> -validated pointer.  Much like the ``i_op->permission()`` method we
+> -looked at previously, ``->follow_link()`` would need to be careful that
+> +The place for all this to happen is the ``i_op->get_link()`` inode
+> +method. This is called both in RCU-walk and REF-walk. In RCU-walk the
+> +``dentry*`` argument is NULL, ``->get_link()`` can return -ECHILD to drop
+> +RCU-walk.  Much like the ``i_op->permission()`` method we
 
-Thanks for doing this.  I've responded individually to several of the
-patches.  As you can see from my comments, there is often more to it
-than just changing function names.  In some places you have capture the
-more general nature of the change fairly well.  In other places the
-result is incoherent or confusion.
-Making small updates to this sort of documentation is not easy.  You
-need to step have and see the "big picture", to overall story-arc.
-Sometimes you can fit changes into that arc, sometimes you might need to
-restructure or re-tell the story.
-
-This is part of why I haven't put much effort into the document -
-re-telling a story can be a lot of work.
+The phrase "drop RCU-walk" isn't consistent with the rest of the text.
+It talks about "dropping down to REF-walk", so you could write "dropping
+out of RCU-walk", but not just "dropping RCU-walk".
 
 NeilBrown
+
+
+> +looked at previously, ``->get_link()`` would need to be careful that
+>  all the data structures it references are safe to be accessed while
+>  holding no counted reference, only the RCU lock.  Though getting a
+>  reference with ``->follow_link()`` is not yet done in RCU-walk mode, the
+> --=20
+> 2.30.0
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASNk0OHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbmNDA/+MSLmQTkUen1OKdCYdHDhCMLRtNAhfqRGocz6
-XIo9x6yPou79C2tRfIRefkS7JtlSbayQW0O4K829xYPWs3TbHuZt/FC1gwVfnocz
-9a89EZVH6tnw5ORgWCGu7fBsg0MiUgo+Y/udrZZ/WH6e0MZCri8RHAnNbadk8vlk
-1FJJTvdyK79X7Xzbxzg73T18VRryNEq8X48ZMYx+WJg7ghQVpZOEKD+07T5knwuo
-lek8G9h2/9hlkcNsMJdvqpa1DhXfzOZM200PvNd9wk0MZWFC/jSb//zPsaI+EsBk
-UNWBHhAck6Pa3mCMOksaUYWS8h6prjaMnZH58yiceVYX+8DJvErIf/jxkhmUdPAk
-UzyOqECZce1e5Bh7yhWY2lfmGUEbnxiO7o2NuSHeFN9XrjQXaxj80vHIRZ+nCvqJ
-s2R0qI8DHKcI2NUdPVoUSA3OI1hSpCnnZ5s/4b/JXxSoxfPJWHkDKf445MCGH/8/
-c9wKR/rYJSpxPfOA9nNc62IX/vltH+LB6VO7YXs5aS368FE19bkch8QI+NtKDf/9
-iDbwe6OzgQDZQUsoMEGyW4/7uIT4UoMQ8rEwUP5CJNn2hiCsELlzNM4MZi6Z+c1t
-9EtHPidJwQE/i7hPVqhoWqKQlRitD731tTAb3OUDMPeWOpR8D57YmolwLodYb2wS
-SqD7Efc=
-=/mOn
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmASNUQOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbmZRQ//XLYLM06bPmySmfV+5mnL2d0l4e+4B7qRfJ7a
+4Bj3/wPxQxNXCP2Ie2t4Y/sxyQS2/kDRiTN+RUd86rV4RYDrJC3ZKP51GhQK+DIy
+dHsYONxHCVlKMRBpkkD2KKungJcKTGPVCCIrs9s8AgStFgDAUyc5z0Wr5ucffCV9
+QjF1DQg97nCMAbhzH1DUO9QG6LMKdVcG2b9g4ujr9dhYeakbKBJWzDRRAh9mu8uH
+eN/StIztthsP6tWhK8W92L24Br+dOFm6NtLonuEQygMkMdIdigth9iY3k0Po1Hrz
+SajJ8M7YCPPjyuyEX80FxNDRIbfzjrT+49udFPi/63NJHxTP9AamaU719D77szn/
+AuDKLIjn0gpJUYgcJt13GxO8rfkuYq8S0CxqC7jezJo2BOFJM5yR6nd8ZTwYfk+r
+b5n21zUc+ycEPW0jbk7/hUTZobKRMd5z8xeOIbRRJLlrH3BB1NJItz7TL1cudJ68
+S+jk3jz0j/tk9F0dG1YiDX82KfEZTpipd31ffwfV9Mnj+PG7KvL0B2B7pumeAc9h
+lYTZW7bO7LkEOKgUTMmk+gXlbpljp4ohoFqQhY45SJlWjuLn0f5IL+VKj7FN/F2J
++Vk2nCl52syQZNr7LQVfPl2WPakC+v1Kqy//yJhOV8nHmjJ3LQXw2tzM7DeUlm/L
+0xDimpY=
+=4lEM
 -----END PGP SIGNATURE-----
 --=-=-=--
