@@ -2,201 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3813C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DCDC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:25:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD01F64DEB
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 21:40:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84A2560C41
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 22:25:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231531AbhA1Vj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 16:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbhA1Vjx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 16:39:53 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF8BC061573;
-        Thu, 28 Jan 2021 13:39:12 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id y19so7193030iov.2;
-        Thu, 28 Jan 2021 13:39:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=/CjtAu+M0Wiwb7WvO8Hl9jt0o2jkZcEdDdnm/nslick=;
-        b=cNJfHShSZNqv2p1/RS1cbidNNc1ZHk7+hWQ/pXoPuGzIFWn7//JcP9pjRelwaPuM8n
-         8MtbrLmWlBBmlRTFa6II47YAzv8VnDcyJlOCcKNukl66+mn6MkFCQ2494/2o9BFbbQPT
-         cVbWsDKdnEB/oJ4jeZL9gZfLTnGo6HgPAWJZ10nCxf3swM0pilVP4C217MqUiPSgIM3w
-         RcKPHbVuhHPmIYVlN0S+OmnUB1d/h0N/s9/vsiIghA9g4QZyM/QeYYDKU8sBuqy0qep2
-         9X/oDW1TfnK85pI/mnfDIQDOxWkJWyO7GaE6ziQVokC4TFiZ98JNvk/FYWe5zUUTCxZF
-         jh8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=/CjtAu+M0Wiwb7WvO8Hl9jt0o2jkZcEdDdnm/nslick=;
-        b=nRs4x8g2s0UGkw3T1NwjO1um6jqvt60UGofH9zSKCj8pVw76C7YSHPxNsd30XfhkUl
-         ihtqRU60Z2IfzDDecN7kp+4b7OtH1VEp0viO+ZpqC7/6+SmwS/yhxqiAv438E7GOAWiY
-         amOWZxw8dMouRZPFbjZlLWJqeweTd42+VCjH8ocFDnPzuBFFbNjQf6q5KIv4AV/A5FI+
-         MDV9Oy/rxGR8JZLAtFFVnLepq4+OHLU0cq7B/Df+u1++nl4TIe6NeOmPCGyAhhU5rKVE
-         Q4Osk2AnTAJhq3yRmFWpT+eJWDdKAMnOdyvDhJtiWyKVYULv6iykwnLnCBYs8FQBngQE
-         N+vQ==
-X-Gm-Message-State: AOAM531YQLDMTeQL0jXkP+lw7Wo4RcuAY6xj0ZPLbdfotQxbIfaK0PCQ
-        RPeLMVenuYcwq7TLIKYgdy0QGB6rsr4FfaEV+1N1O3osT20b8kGf
-X-Google-Smtp-Source: ABdhPJzMFqDbTyZ0mbvOAHSV8w+9kchEZ3F2bXMGeWdudZ253jzU13J5Bx3IMtxekV7DyA8uNTmcBV9o3a9ji+LKnAk=
-X-Received: by 2002:a05:6602:2b01:: with SMTP id p1mr1647556iov.156.1611869951999;
- Thu, 28 Jan 2021 13:39:11 -0800 (PST)
+        id S229596AbhA1WZ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 17:25:27 -0500
+Received: from ms.lwn.net ([45.79.88.28]:47318 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229561AbhA1WZ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Jan 2021 17:25:27 -0500
+Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 604186173;
+        Thu, 28 Jan 2021 22:24:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 604186173
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1611872686; bh=qQbtP2Dn03VQjBluckzrepkv+tQCQzx5n99qCMWXWfQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Qwc4/A9UtlSJz2lO2RrPNyO1yVZ8epYaYAgg7ex2y0/na13TyTSGMqL6swwTWfyaq
+         qTJXctnMpDJ101yIyKz+8BAcUMMLTL302yXr2X2QIr5ORMcmMArPTbgm30UaTv9TWb
+         1Xvj0rTpVL5YN2fnd/Fkp5PyCnKre71/Q7cETLGRLv9v5Tez5BKRourwnZrOoG4wtM
+         G7DgE4EVa6wqP6dkoHaR5kFrRkaK6SVkDPv68H4aFKUQZJXwEvZq7qCIzYvK4zrQyP
+         tAN8s0mIcJr5fUrIitd3wLhyWpQNrP4kPp3+iApKs07g2KtPmNAwPkS/bcbfIIm13p
+         nl3tJl3v7JeNQ==
+Date:   Thu, 28 Jan 2021 15:24:45 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] Documentation: kernel-parameters: add missing
+ '<'
+Message-ID: <20210128152445.62402f73@lwn.net>
+In-Reply-To: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
+References: <20210127104343.5647-1-wsa+renesas@sang-engineering.com>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20210121082451.2240540-1-morbo@google.com> <20210122101156.3257143-1-morbo@google.com>
- <CAKwvOdm+3o8z2GivPjSJRa=c=UKdfkiY-79s6yn2BxJkFnoFTw@mail.gmail.com>
- <CA+icZUU=XfwqMcXYonQKcD4QgqTBW-mA+d_84b7cU2R3HYPOSQ@mail.gmail.com>
- <CAKwvOdnUm2FqC0CEF3qFuMCaWoqiUMqr7ddMjA2UNsJugA9DNQ@mail.gmail.com>
- <CA+icZUWJu0FWdRY0DMQxpYwjqq1WTB87y9u1-6t3YMmkR3UsBQ@mail.gmail.com> <CAKwvOdnVic2MiVSkiTQGGKPFKtJrf=kt1LgjWejOK6mMtMiX3Q@mail.gmail.com>
-In-Reply-To: <CAKwvOdnVic2MiVSkiTQGGKPFKtJrf=kt1LgjWejOK6mMtMiX3Q@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 28 Jan 2021 22:39:00 +0100
-Message-ID: <CA+icZUUVpUban7Fka6xE9fXzgZT+SuFWeMfLELMNdKVD4O0TXA@mail.gmail.com>
-Subject: Re: [PATCH v7] pgo: add clang's Profile Guided Optimization infrastructure
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Bill Wendling <morbo@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 10:24 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Thu, Jan 28, 2021 at 1:19 PM Sedat Dilek <sedat.dilek@gmail.com> wrote=
-:
-> >
-> > On Thu, Jan 28, 2021 at 10:12 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Thu, Jan 28, 2021 at 12:46 PM Sedat Dilek <sedat.dilek@gmail.com> =
-wrote:
-> > > >
-> > > > [ LLVM ]
-> > > >
-> > > > Today, I switched over to LLVM version 12.0.0-rc1.
-> > > >
-> > > >
-> > > > [ Step #1: 5.11.0-rc5-5-amd64-clang12-pgo ]
-> > > >
-> > > > My first kernel was built with CONFIG_PGO_CLANG=3Dy and LLVM=3D1 pl=
-us LLVM_IAS=3D1.
-> > > >
-> > > > [ start-build_5.11.0-rc5-5-amd64-clang12-pgo.txt ]
-> > > > dileks    193090  193065  0 06:54 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld LLVM=3D1 LLVM_IAS=3D1 PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-5-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-5~bullseye+dileks1
-> > > >
-> > > > Config: config-5.11.0-rc5-5-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Step #2: x86-64 defconfig & vmlinux.profdata ]
-> > > >
-> > > > Booted into 5.11.0-rc5-5-amd64-clang12-pgo and built an x86-64
-> > > > defconfig to generate/merge a vmlinux.profdata file.
-> > > >
-> > > > [ start-build_x86-64-defconfig.txt ]
-> > > > dileks     18430   15640  0 11:15 pts/2    00:00:00 make V=3D1 -j4
-> > > > HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.lld CC=3Dclang LD=3Dld=
-.lld LLVM=3D1
-> > > > LLVM_IAS=3D1
-> > > >
-> > > > Script: profile_clang-pgo.sh
-> > > > Config: dot-config.x86-64-defconfig
-> > > >
-> > > >
-> > > > [ Step #3.1: 5.11.0-rc5-6-amd64-clang12-pgo & GNU-AS ]
-> > > >
-> > > > The first rebuild with CONFIG_PGO_CLANG=3Dn and "LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata".
-> > > > I was able to boot into this one.
-> > > > Used assembler: GNU-AS 2.35.1
-> > > >
-> > > > [ start-build_5.11.0-rc5-6-amd64-clang12-pgo.txt ]
-> > > > dileks     65734   65709  0 11:54 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-6-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-6~bullseye+dileks1 LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata
-> > > >
-> > > > Config: config-5.11.0-rc5-6-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Step #3.2: 5.11.0-rc5-7-amd64-clang12-pgo & Clang-IAS ]
-> > > >
-> > > > The second rebuild with CONFIG_PGO_CLANG=3Dn and "LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata" plus LLVM_IAS=3D1.
-> > > > Compilable but NOT bootable in QEMU and on bare metal.
-> > > > Used assembler: Clang-IAS v12.0.0-rc1
-> > > >
-> > > > [ start-build_5.11.0-rc5-7-amd64-clang12-pgo.txt ]
-> > > > dileks      6545    6520  0 16:31 pts/2    00:00:00 /usr/bin/perf_5=
-.10
-> > > > stat make V=3D1 -j4 HOSTCC=3Dclang HOSTCXX=3Dclang++ HOSTLD=3Dld.ll=
-d CC=3Dclang
-> > > > LD=3Dld.lld PAHOLE=3D/opt/pahole/bin/pahole
-> > > > LOCALVERSION=3D-7-amd64-clang12-pgo KBUILD_VERBOSE=3D1
-> > > > KBUILD_BUILD_HOST=3Diniza KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
-> > > > KBUILD_BUILD_TIMESTAMP=3D2021-01-28 bindeb-pkg
-> > > > KDEB_PKGVERSION=3D5.11.0~rc5-7~bullseye+dileks1 LLVM=3D1
-> > > > KCFLAGS=3D-fprofile-use=3Dvmlinux.profdata LLVM_IAS=3D1
-> > > >
-> > > > Config: config-5.11.0-rc5-7-amd64-clang12-pgo
-> > > >
-> > > >
-> > > > [ Conclusion ]
-> > > >
-> > > > The only statement I can tell you is a "PGO optimized" rebuild with
-> > > > LLVM_IAS=3D1 is compilable but NOT bootable.
-> > >
-> > > Thanks for the extensive testing and report. Can you compress, upload=
-,
-> > > and post a link to your kernel image? I would like to take it for a
-> > > spin in QEMU and see if I can find what it's doing, then work
-> > > backwards from there.
-> > >
-> >
-> > Which files do you need?
-> > For QEMU: bzImage and initrd.img enough?
->
-> bzImage should be enough; I'll use my own initrd.  If that boots for
-> me, maybe then I'll take a look with the initrd added.
->
+On Wed, 27 Jan 2021 11:43:43 +0100
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-You should receive an email with a link to my dropbox shared-folder
-"clang-pgo > for-nick".
-Please let me know if you were able to download.
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+> index 06fb1b4aa849..202fac80ea0c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.rst
+> +++ b/Documentation/admin-guide/kernel-parameters.rst
+> @@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
+>  sized groups and for each group use some amount from the beginning of that
+>  group:
+>  
+> -	<cpu number>-cpu number>:<used size>/<group size>
+> +	<cpu number>-<cpu number>:<used size>/<group size>
 
-Thanks, Sedat
-=EF=BF=BC
+Applied, thanks.
+
+(FWIW it looks like the original wasn't sent to me, so I didn't apply it
+then...)
+
+jon
