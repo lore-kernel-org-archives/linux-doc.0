@@ -2,127 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 834A7C43381
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A35A9C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 10:03:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E35364DD1
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 08:18:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 551FE6024A
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jan 2021 10:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231967AbhA1ISR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jan 2021 03:18:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44122 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231547AbhA1ISE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 03:18:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611821798;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pQjhFF8PA9KgrrHABCtOSMHOQHZwwUG/J8Os5OD+Pxg=;
-        b=hNcbxcUxX6UMc1RuVwuTBm6Fx6fB2ZIl+9Bz58KJC9zDVbpdVrseG8j/DoBPAIBsqch1qc
-        Tank4ZxQ71nr6egOMpj6wxGM7PMCJcS58Nz7ThCbQYofpiSSpN2y4rNpTu9UxKKtR+HCvR
-        KDwalIJFAcfJyL+TgPb61HyKUTH/FYw=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-ZH8p6GOWOoyCcBkEUXITfQ-1; Thu, 28 Jan 2021 03:16:35 -0500
-X-MC-Unique: ZH8p6GOWOoyCcBkEUXITfQ-1
-Received: by mail-ej1-f70.google.com with SMTP id z2so1840572ejf.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 00:16:35 -0800 (PST)
+        id S232290AbhA1KCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jan 2021 05:02:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231267AbhA1KCS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jan 2021 05:02:18 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E641AC061573;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id a8so6798090lfi.8;
+        Thu, 28 Jan 2021 02:01:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=aBdiFZ6Y4Kp+nOhlgpCK6Z6WTIvAH7uPf6Dw5GNH8lHwqAWrTPwgv7vL2KYjq02Vzf
+         shdsv89u8LsaAAr4C9B70PX49KyEWjk11sBOUQy5cKQC7sAnotKMqxOnFd5pwGXnuYyy
+         l4f3pSmC2a8RsLkHnRek405USQ2daHF00hHJonK1HWU4GiqNMZaAeTUGMoThii0wUOzP
+         NDy6YjY8kZgEdVBQIdn4njsH+p0ACV44wG9Nd5DeSV8KqfTab60BZgHhtRoUq+xmcC5v
+         I+zA3q+ohcTZQbquqDT8HBeN8YzAWKtplRBAFKkGxorn+I+YQQvbBqrzdDKBAsHw2dtU
+         037A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pQjhFF8PA9KgrrHABCtOSMHOQHZwwUG/J8Os5OD+Pxg=;
-        b=pQdKB7rGDpimIIqm5Af8DAXXTT7pHlP9aunIAtaM/cKhRQX7ekDQ//6oYXJnRmZqHF
-         qhz+o90CYiAUaRqpFHiFkmL2thBuGJYdqRCrItWgJmbAnvPO7E0vr+d2HrD1wSzdwUHW
-         PBTz9sASo55Aqbsq/KAHy2zrPD14wftA29BeuU4cPQkZuoOFqG2PBRVxLQP7mV0l8xWF
-         5a8qxlWcPUPpuBcE8VNfzHiHtLj3XzEnJ8rr4tZm46Q8c0vr9IzGFT4I636UUa/fN3Dc
-         6gu5LAe8Z6H1YiDn6L32hqZ9/TSnooyKXUNZ0REE5ifbUE0HMk4wWXmdcdXDIsZAnTZl
-         CV6A==
-X-Gm-Message-State: AOAM533ueup6pe95/5XtTlcyK/swvFDczvHPGY9xMZeBsX84Z9RdYOO/
-        PnV+Bf+tWl9kRX5lCCNBnSWQwo8esaOjE8AE7zH2cBonzkN6wJdM4iEPrwlilQo+1GoSJvpOOu3
-        v4wfXwGv5NhtAkc9TDxTg
-X-Received: by 2002:a17:906:e106:: with SMTP id gj6mr9622383ejb.337.1611821794826;
-        Thu, 28 Jan 2021 00:16:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwLuNIFyC7TLo0nrn4d8vGNT4D7BktAvk9O6gTR9IZCzuzI9c/ieVRS9b86mNYO///7R1HwVw==
-X-Received: by 2002:a17:906:e106:: with SMTP id gj6mr9622375ejb.337.1611821794649;
-        Thu, 28 Jan 2021 00:16:34 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id h16sm2722046edw.34.2021.01.28.00.16.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jan 2021 00:16:33 -0800 (PST)
-Subject: Re: [PATCH] KVM: Documentation: Fix documentation for nested.
-To:     Yu Zhang <yu.c.zhang@linux.intel.com>, kvm@vger.kernel.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210128154747.4242-1-yu.c.zhang@linux.intel.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1b5cf1ea-0ae9-acc2-d92f-c2f2da75f82f@redhat.com>
-Date:   Thu, 28 Jan 2021 09:16:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version;
+        bh=w7zs4vtlCOUzPk4JPVodMGjOwCX7vvMr8Eyh0CtBlKY=;
+        b=oQ8AleDfmz1mLGLP5QEKKcjP/PUKYwB+aS7fH3FwnANGjxJFk7GvskSnTPfULf4l6G
+         ckKJ7Mnh0jaD/gwNb+CTdSUR5v/Cs3yfzNVTCfRdG8HbpyVAn13ImK/J2cmSCu8Tqdpm
+         gD5PxQvVwLS5plNfehibC80jKLpAkPNsUGnjVKMnUJwolZVhlQxNtqjmv4csky1H+o5k
+         qj9ZVP3niZKz/dvjz3+CK8AcdU/qPB4tHRz0M6vhNK+IiSXxg84PfQfIkv+1z08DqtQO
+         GdlLd0NmJGDUDgl6mDfhOau77PJav3tMhP7bIOG6gzP8GuERcpIS5OdI+ZtlESzo0pZQ
+         g+5A==
+X-Gm-Message-State: AOAM532suIXNBBI2/3FAc6Z+AeTGtDhMDdeT/CaiQSSmcLpYu6P25wRr
+        oBSb/FOBW/dHJs1kJzJnpvA=
+X-Google-Smtp-Source: ABdhPJzKkeFNRZJelT7Yxb3Qx2K7wJW+lwf6EmPqVdUlg7UlihZ29bW2xvQP6sUABgj7ntHv7PIcuQ==
+X-Received: by 2002:a19:7507:: with SMTP id y7mr6874145lfe.334.1611828094763;
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id y20sm1830647ljh.124.2021.01.28.02.01.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 02:01:34 -0800 (PST)
+Date:   Thu, 28 Jan 2021 12:01:30 +0200
+From:   Pekka Paalanen <ppaalanen@gmail.com>
+To:     Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
+        Michel Lespinasse <walken@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <20210128120130.50aa9a74@eldfell>
+In-Reply-To: <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+        <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+        <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+        <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210128154747.4242-1-yu.c.zhang@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/EjrvI7yGo=jgR=BTk/_==YI"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/01/21 16:47, Yu Zhang wrote:
-> Nested VMX was enabled by default in commit <1e58e5e59148> ("KVM:
-> VMX: enable nested virtualization by default"), which was merged
-> in Linux 4.20. This patch is to fix the documentation accordingly.
-> 
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> ---
->   Documentation/virt/kvm/nested-vmx.rst            | 6 ++++--
->   Documentation/virt/kvm/running-nested-guests.rst | 2 +-
->   2 files changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/nested-vmx.rst b/Documentation/virt/kvm/nested-vmx.rst
-> index 6ab4e35..ac2095d 100644
-> --- a/Documentation/virt/kvm/nested-vmx.rst
-> +++ b/Documentation/virt/kvm/nested-vmx.rst
-> @@ -37,8 +37,10 @@ call L2.
->   Running nested VMX
->   ------------------
->   
-> -The nested VMX feature is disabled by default. It can be enabled by giving
-> -the "nested=1" option to the kvm-intel module.
-> +The nested VMX feature is enabled by default since Linux kernel v4.20. For
-> +older Linux kernel, it can be enabled by giving the "nested=1" option to the
-> +kvm-intel module.
-> +
->   
->   No modifications are required to user space (qemu). However, qemu's default
->   emulated CPU type (qemu64) does not list the "VMX" CPU feature, so it must be
-> diff --git a/Documentation/virt/kvm/running-nested-guests.rst b/Documentation/virt/kvm/running-nested-guests.rst
-> index d0a1fc7..bd70c69 100644
-> --- a/Documentation/virt/kvm/running-nested-guests.rst
-> +++ b/Documentation/virt/kvm/running-nested-guests.rst
-> @@ -74,7 +74,7 @@ few:
->   Enabling "nested" (x86)
->   -----------------------
->   
-> -From Linux kernel v4.19 onwards, the ``nested`` KVM parameter is enabled
-> +From Linux kernel v4.20 onwards, the ``nested`` KVM parameter is enabled
->   by default for Intel and AMD.  (Though your Linux distribution might
->   override this default.)
->   
-> 
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Queued, thanks.
+On Wed, 27 Jan 2021 12:01:55 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Paolo
+> Somewhat correct. This interface here really doesn't make sense since=20
+> the file descriptor representation of DMA-buf is only meant to be used=20
+> for short term usage.
+>=20
+> E.g. the idea is that you can export a DMA-buf fd from your device=20
+> driver, transfer that to another process and then import it again into a=
+=20
+> device driver.
+>=20
+> Keeping a long term reference to a DMA-buf fd sounds like a design bug=20
+> in userspace to me.
 
+Except keeping the fd is exactly what userspace must do if it wishes to
+re-use the buffer without passing a new fd over IPC again. Particularly
+Wayland compositors need to keep the client buffer dmabuf fd open after
+receiving it, so that they can re-import it to EGL to ensure updated
+contents are correctly flushed as EGL has no other API for it.
+
+That is my vague understanding, and what Weston implements. You can say
+it's a bad userspace API design in EGL, but what else can we do?
+
+However, in the particular case of Wayland, the shared dmabufs should
+be accounted to the Wayland client process. OOM-killing the client
+process will eventually free the dmabuf, also the Wayland server
+references to it. Killing the Wayland server (compositor, display
+server) OTOH is something that should not be done as long as there are
+e.g. Wayland clients to be killed.
+
+Unfortunately(?), Wayland clients do not have a reason to keep the
+dmabuf fd open themselves, so they probably close it as soon as it has
+been sent to a display server. So the process that should be OOM-killed
+does not have an open fd for the dmabuf (but probably has something
+else, but not an mmap for CPU). Buffer re-use in Wayland does not
+require re-sending the dmabuf fd over IPC.
+
+(In general, dmabufs are never mmapped for CPU. They are accessed by
+devices.)
+
+
+Thanks,
+pq
+
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmASi3oACgkQI1/ltBGq
+qqdcrA//X9uN75QyHDm8jqei3p8rmD/duy0jDCn6W2DbNy+6VM79pp8ZjqqdpeEp
+ZLe9ivqRVUOCUclKfiG2d0/vdgYwU2xnkWYSz0KUNP5pVE+4nZY3O/SA+SQcefkg
+KwfFhyM0XXm8eTVLVl5h+1dMMQ8tWkXpEwXqed4l0/478wepY8srMWoH3YRBxpiE
+q/PSkaWrRegUA8nYHp65kLVAAgP2kOeylAO/DmmtGye12AGMlNESNJHYuHPyc/wT
+Aos56muFTYYGhkICx+eqTsJBCr8mk32rFyIj/dinUcXUyvbj+sUt9eTZVAazsjjx
+NLC3zr3OSnKjQz2+kkXeGIHqTBCEWXFw3VHsPQLv7pf6XPqxJVoWtgHvzvTVduzo
+3Oxff1eYaBN54Evn1xLWLdEGhqc7wqH6RFYDnKhbOxWmBujXHpdF8Ge5xNfPauBP
+gFAtgtHJIyyu/j+CCCo1z25ToKsGTuiJnbXalIrlmWNeIq8m7XKZ3JjhR3WYZOJU
+MEOXDkeVcodCfo0ZueGvTj5meY6eJ1LIBdWBmT0h1/xA/fBocbRADBFgez42NN5s
+ro5soi7B49KRuSygUPsaSMnjpr32NwCIrQIzGtZQzgJVfRPSdke9ZD1wNle9jAXY
+B7ZbDZmlD1St8rxL+usyhRjZdUoKXjfG8d72ss37EHIhch+3CEQ=
+=oEE0
+-----END PGP SIGNATURE-----
+
+--Sig_/EjrvI7yGo=jgR=BTk/_==YI--
