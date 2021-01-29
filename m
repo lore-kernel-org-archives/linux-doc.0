@@ -2,110 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0D7C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 20:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E2BC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 20:34:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41AC364DE7
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 20:03:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2E4C60234
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 20:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232947AbhA2UDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 15:03:12 -0500
-Received: from mga04.intel.com ([192.55.52.120]:19665 "EHLO mga04.intel.com"
+        id S232808AbhA2Ucm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 15:32:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39532 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233182AbhA2UCB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jan 2021 15:02:01 -0500
-IronPort-SDR: nl1VEiwq3vgV+9YCdwMvy2DbTvzqgHTJaJEIDJkKVoXm270/sc3/92M+OHuiA3LrnHYnOKPOX7
- PvrD7Xxryp6w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="177914146"
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="177914146"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 12:00:47 -0800
-IronPort-SDR: c7w6gyxKcP32QMKgbQ7rCeCI3Gb7MxoZ3Mm5vf3g4Ta9XgJrcK7IZMEbWhNDXUP1fAoMRpPJG/
- 9+qDpl84HO3Q==
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="410850563"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.73.214]) ([10.212.73.214])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 12:00:46 -0800
-Subject: Re: [PATCH v18 02/25] x86/cet/shstk: Add Kconfig option for user-mode
- control-flow protection
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-3-yu-cheng.yu@intel.com>
- <40a5a9b5-9c83-473d-5f62-a16ecde50f2a@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <636174be-d49a-55bc-b996-79c7df9d5f1d@intel.com>
-Date:   Fri, 29 Jan 2021 12:00:46 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232600AbhA2Ub4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jan 2021 15:31:56 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01DAC64DDE;
+        Fri, 29 Jan 2021 20:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611952268;
+        bh=5AnV61gmXOfqHr//8NZNzBf/Xi7Rh8L5djBf5PwUuLY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NKoGt53qRrD5SS+3iIwf/HHFBvHh8Ag9JneHVZPzJc7T2eLtggp4k5xop9/Zmar/c
+         0y0YWhb22+/wAez9KE3caMaevB3IaA6ZHL36GpfWEsN0wBYhsZxv0ZeDJ+ijEplW8o
+         9qBG7SD0TPT9btO/EBBp79oCyyVwgyqv3ufcJpgVC4VaoDi36jg5dnue51k0iqazwi
+         ExSSk+ae3hKrK67Dj4pa/yMTfflsisLh1i2MEi+qmYHG9t5KcrP+GICtNgHG1GkFdf
+         ILb/jUgQbo69EoqPiTCv6rMyYxSsJPVh19RqWO1Tv7Zny3DHn3B1cAgmanBUUYD980
+         9ITQJ1EsVCMyQ==
+Date:   Fri, 29 Jan 2021 13:31:06 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH] Documentation/llvm: Add a section about supported
+ architectures
+Message-ID: <20210129203106.GA2658360@localhost>
+References: <20210114003447.7363-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <40a5a9b5-9c83-473d-5f62-a16ecde50f2a@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114003447.7363-1-natechancellor@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/2021 11:42 AM, Dave Hansen wrote:
-> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
->> +	help
->> +	  Control-flow protection is a hardware security hardening feature
->> +	  that detects function-return address or jump target changes by
->> +	  malicious code.
+On Wed, Jan 13, 2021 at 05:34:47PM -0700, Nathan Chancellor wrote:
+> The most common question around building the Linux kernel with clang is
+> "does it work?" and the answer has always been "it depends on your
+> architecture, configuration, and LLVM version" with no hard answers for
+> users wanting to experiment. LLVM support has significantly improved
+> over the past couple of years, resulting in more architectures and
+> configurations supported, and continuous integration has made it easier
+> to see what works and what does not.
 > 
-> It's not really one feature.  I also think it's not worth talking about
-> shadow stacks or indirect branch tracking in *here*.  Leave that for
-> Documentation/.
+> Add a section that goes over what architectures are supported in the
+> current kernel version, how they should be built (with just clang or the
+> LLVM utilities as well), and the level of support they receive. This
+> will make it easier for people to try out building their kernel with
+> LLVM and reporting issues that come about from it.
 > 
-> Just say:
-> 
-> 	Control-flow protection is a set of hardware features which
-> 	place additional restrictions on indirect branches.  These help
-> 	mitigate ROP attacks.
-> 
-> ... and add more in the IBT patches.
-> 
->>   Applications must be enabled to use it, and old
->> +	  userspace does not get protection "for free".
->> +	  Support for this feature is present on processors released in
->> +	  2020 or later.  Enabling this feature increases kernel text size
->> +	  by 3.7 KB.
-> 
-> Did any CPUs ever get released that have this?  If so, name them.  If
-> not, time to change this to 2021, I think.
-> 
+> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 
-Ok.  I will update this.
+Jonathan, did you need anything else from me on this, or does Masahiro
+need to pick this up?
 
-Yu-cheng
+Cheers,
+Nathan
