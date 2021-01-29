@@ -2,88 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771CFC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFF6C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:49:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0705461477
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:14:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38C6064E0C
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:49:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233374AbhA2VOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 16:14:15 -0500
-Received: from mga01.intel.com ([192.55.52.88]:55425 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232918AbhA2VON (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jan 2021 16:14:13 -0500
-IronPort-SDR: rS4XURAalZkPgLpfToHZEgxrW0ZODLXsiMsafLs/DchGJd5pAOASHuXF79bZwMCqhmhG5KtA1G
- iVxmFblmwtcQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="199332505"
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="199332505"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 13:13:31 -0800
-IronPort-SDR: YKpYFCq+rRt4zqUspD1JImoQHJ9ODV3X6/aXQ4uP4iER2tVzPmgw/RbyRy3mSTJpd8CYqX9jRr
- r0VhB8vP9R9A==
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="475532535"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.73.214]) ([10.212.73.214])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 13:13:29 -0800
-Subject: Re: [PATCH v18 02/25] x86/cet/shstk: Add Kconfig option for user-mode
- control-flow protection
-To:     Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@intel.com>
-Cc:     Andy Lutomirski <luto@amacapital.net>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <40a5a9b5-9c83-473d-5f62-a16ecde50f2a@intel.com>
- <86F8CE62-A94B-46BD-9A29-DBE1CC14AA83@amacapital.net>
- <58d5f029-ee8a-ca93-f0e6-0278db22e208@intel.com>
- <20210129204601.GG27841@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <9061f862-8711-2ca2-b737-8d171de2f0c2@intel.com>
-Date:   Fri, 29 Jan 2021 13:13:26 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232727AbhA2VtF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 16:49:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50474 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232535AbhA2VtC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 16:49:02 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED346C06174A
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 13:48:21 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id p15so6474476pjv.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 13:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nDCl0b2Dk+cS7GVWEWeoYxC8mwKbqEi6yIqTF9Oo/qE=;
+        b=eGTW4MG8Pl3TK+TMkm4WglBjmPDuVT8H+GAviEyFrguRE6MRa/GZZU7J398/6ZxFe0
+         xKPb6fAPxgSfXD/5KNroU2ifvPgvO1IC8xBnFPZzEvffhM+8Q1IErfcPS36GrEAidfn7
+         mZUNfyj0ahxaGDAbfudWd+sU+mGeZMHZfwwVpRbB+qDyxpH5crTLeJwY1PlaMWn6JFMS
+         NZ0bST5Evxu51geiAxpQM2AAPsjDwei/x21em74ddRcVbmAwrCX90CFifsFs6qZ1MfxK
+         MGUg4o5cVCabYzEtUhZy2YrZ/jRtkSNA0vITi/lAdQbWRMyGdCsUvL40t9Y8gL8BLvub
+         ckIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nDCl0b2Dk+cS7GVWEWeoYxC8mwKbqEi6yIqTF9Oo/qE=;
+        b=c4L3Z8zdQUtV95+g7o56Xa7exjQ1aZi/HBzkcSzFIiA8+qpcJ6wsI6bjvoScFUXKll
+         TJM2zllk8kE1nKV4i6kc9FZnRzMwn2B3rsT3ivonM2b8Rsnu1ZwiSCrpmKh0dDow7V6N
+         0oW5Hpaablh57m7TFi4lkiK/952PSoI4DOMb4ZMNaKBDl5BfwWBTjvy4LMbnGOIqCnS7
+         DPPhTRSh0/ZOHyPHAV6XAkjIx7QhQtO50PxG0N4c3N6kARwjdwcqxINbGMIzKoQ4bOWQ
+         leildOLuuzJ+FWVYboqNbw4yeplm9alH/E2HJrKGmUHorPNdepT3V0MJbbcc0yA3hTio
+         mfOA==
+X-Gm-Message-State: AOAM531G2WeuW6MkJAUIfSlKzS3dNlHX3kDzW2lFnO23kRxttR61LUxf
+        GK6AyG3IhhzRbAHWFRFmzpAezweN+CqCfEv+yLItfA==
+X-Google-Smtp-Source: ABdhPJyaUQFnwwGfCgFgWXfe9NvNBiQYNFxLJPMiY6STretlJGU4TmCaVSMStJjR790JfgkGm8fCqn5KCHfOCa2LqxE=
+X-Received: by 2002:a17:90a:8b82:: with SMTP id z2mr6338917pjn.25.1611956901187;
+ Fri, 29 Jan 2021 13:48:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210129204601.GG27841@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210121082451.2240540-1-morbo@google.com> <20210122101156.3257143-1-morbo@google.com>
+ <CAKwvOdm+3o8z2GivPjSJRa=c=UKdfkiY-79s6yn2BxJkFnoFTw@mail.gmail.com> <CA+icZUVbdbkboYNztXNtRDR+LH8yQbhZJ+Nw-h91TQRr=Z08Gw@mail.gmail.com>
+In-Reply-To: <CA+icZUVbdbkboYNztXNtRDR+LH8yQbhZJ+Nw-h91TQRr=Z08Gw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 29 Jan 2021 13:48:10 -0800
+Message-ID: <CAKwvOdmyerPPJo=m+13jtWR_kPwrmOeb89jh=qgGzEaPhKDOLA@mail.gmail.com>
+Subject: Re: [PATCH v7] pgo: add clang's Profile Guided Optimization infrastructure
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Bill Wendling <morbo@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/2021 12:46 PM, Borislav Petkov wrote:
-> On Fri, Jan 29, 2021 at 12:33:43PM -0800, Dave Hansen wrote:
->> In that case is there any reason to keep the "depends on CPU_SUP_INTEL"?
-> 
-> Probably not. I haven't heard of the AMD implementation being somehow
-> different from Intel's.
-> 
+On Thu, Jan 28, 2021 at 11:43 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+>
+> Some comments:
+>
+> [ hash mismatches ]
+>
+> Observed identical warnings when doing a rebuild with GAS or Clang-IAS.
+>
+> [ Importance of LLVM_IAS=1 working ]
+>
+> Clang-LTO and Clang-CFI depend both on LLVM_IAS=1 (see for example
+> "kbuild: add support for Clang LTO").
+> Sooner or later we will deal with this issue (hope it is not a local problem).
 
-Ok, I will remove it.
+If you're switching back and forth between GAS and IAS, then I would
+expect a hash error if you're trying to reuse profiling data from one
+with the other.  The profiling data is not portable when switching
+toolchains between when the profile was collected, and when it was
+used.
+-- 
+Thanks,
+~Nick Desaulniers
