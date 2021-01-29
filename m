@@ -2,156 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FCAC433E6
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFBCC433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 23:30:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0536864E13
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7B6964E10
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 23:30:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231144AbhAaQEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jan 2021 11:04:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhAaQEu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jan 2021 11:04:50 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B1FC061573
-        for <linux-doc@vger.kernel.org>; Sun, 31 Jan 2021 08:04:09 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id y8so951125ede.6
-        for <linux-doc@vger.kernel.org>; Sun, 31 Jan 2021 08:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ill5FtHsvnGnhyZq4PTZ+wfZWDbj85ydmjcR5hoQtSU=;
-        b=WA9qeWNS7cwGg8EThTQKocqoSAMpMXmdWEN96odCb1lDWcM2Sc6v0Qb7sDlmvA+l+I
-         A8f+UMiuSXRUXIbHorjezUUJhKowq2uMgSlOLaQKlQ2TE2CKW/8nPCtEsN+ULwFm0bCg
-         9/wX7BwKDdipxk5O1KYWXekm+8qe/E4QqrApq/d05iBQtDtZIXya1NS9k8a0s5lWncyh
-         g6ruf7EBD+cG/5qucNNMJ6+m+zjl1MiGsDM8tC4ZUV0lVOP0V6NdY9Qaskw+B2dxa5eF
-         WGMkCC6G04Cz0bCzZ3ggOUmnb142HmddZFEz3cJyHpOYgpANZbbHESkueT3GcqeRKuB9
-         a7HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ill5FtHsvnGnhyZq4PTZ+wfZWDbj85ydmjcR5hoQtSU=;
-        b=EtsVf++1nwjQXGjGJ5MkcHct6iGMylE04N3bS066WrsRNDbzbJ77Ndgxf1asO9Ctou
-         tt84pEPrcfsAY0j5KvoEh6QjukkF9qKO1rSZpZXKjkjUC1TR04jcV7+KvPvIZcQeldKJ
-         iYnzKQXbfg766WOriyxrl4M4+3YIb33Wj1gD+MZiufxvHszDEcTpw/vKw3/IJpjWFsa2
-         wwINrieaMoeszTBgHRYIABK8pVqId7sJEZfO/Dd7ei+R2ZvWSwF5uyks3neZnNra7uX4
-         dRzRF9HZJbj6rks0JPLrvKZVnCKKE39hTINAd/yyBF64TpR6X0FMcMZl58Q/XH/hnKXY
-         m0jQ==
-X-Gm-Message-State: AOAM5321q5kBFOKm38K7E6nW7Vy2ykQ8G2ZsHwje6mbHIHPHD6CZ1Ej8
-        uE2c5hyO+qKF5LcBPv0NT7famMru7vI7aakhdKDFSg==
-X-Google-Smtp-Source: ABdhPJyCGWQ/3ra4ZR4qn/M+OGAua47G1o3uToLGNFPGWhEhJk7alqSH8V206c7XvCeXq7s9hKIxxI4DTjqV9Fn0UKc=
-X-Received: by 2002:a05:6402:402:: with SMTP id q2mr14874940edv.116.1612109048337;
- Sun, 31 Jan 2021 08:04:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20210125194751.1275316-8-pasha.tatashin@soleen.com> <20210131130903.4875-1-lecopzer@gmail.com>
-In-Reply-To: <20210131130903.4875-1-lecopzer@gmail.com>
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-Date:   Sun, 31 Jan 2021 11:03:32 -0500
-Message-ID: <CA+CK2bC_LKeffiYq8eraM-rLBFPfUS1034eD6FKQo5eR7s28Ew@mail.gmail.com>
-Subject: Re: [PATCH v8 07/14] mm: honor PF_MEMALLOC_PIN for all movable pages
-To:     Lecopzer Chen <lecopzer@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        David Hildenbrand <david@redhat.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        James Morris <jmorris@namei.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
-        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+        id S229483AbhAaXae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jan 2021 18:30:34 -0500
+Received: from mga18.intel.com ([134.134.136.126]:61583 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229481AbhAaXab (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 31 Jan 2021 18:30:31 -0500
+IronPort-SDR: pmKc/tZhTpgT3P9B0D5hQ8rC8G6pc6dvgy5qRzLin4P9WqPifvgi4PH12/YEDOgGwpKzSqO/Tx
+ c3R4zJ+csC/Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="168296418"
+X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
+   d="scan'208";a="168296418"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 15:29:48 -0800
+IronPort-SDR: og/7a45m3PMzrZIZEp/p0vv3t/L7Qy70hJEoibrhnuKQ9ZEb0ErncdeKwQWVAdoy5lBO5YZrAD
+ ldsMhl7UdR6g==
+X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
+   d="scan'208";a="395426243"
+Received: from efiguero-mobl.amr.corp.intel.com (HELO [10.209.83.156]) ([10.209.83.156])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 15:29:47 -0800
+Subject: Re: [PATCH v18 05/25] x86/fpu/xstate: Introduce CET MSR and XSAVES
+ supervisor states
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Tyler Hicks <tyhicks@linux.microsoft.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>
+References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
+ <20210127212524.10188-6-yu-cheng.yu@intel.com>
+ <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
+ <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <0a5a80c0-afc7-5f91-9e28-a300e30f1ab3@intel.com>
+Date:   Fri, 29 Jan 2021 14:53:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 31, 2021 at 8:09 AM Lecopzer Chen <lecopzer@gmail.com> wrote:
->
->
-> Hi,
->
-> [...]
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index c93e801a45e9..3f17c73ad582 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -3807,16 +3807,13 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
-> >       return alloc_flags;
-> >  }
-> >
-> > -static inline unsigned int current_alloc_flags(gfp_t gfp_mask,
-> > -                                     unsigned int alloc_flags)
-> > +/* Must be called after current_gfp_context() which can change gfp_mask */
-> > +static inline unsigned int gpf_to_alloc_flags(gfp_t gfp_mask,
-> > +                                           unsigned int alloc_flags)
-> >  {
-> >  #ifdef CONFIG_CMA
-> > -     unsigned int pflags = current->flags;
-> > -
-> > -     if (!(pflags & PF_MEMALLOC_PIN) &&
-> > -         gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
-> > +     if (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
-> >               alloc_flags |= ALLOC_CMA;
-> > -
-> >  #endif
-> >       return alloc_flags;
-> >  }
-> > @@ -4472,7 +4469,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
-> >       } else if (unlikely(rt_task(current)) && !in_interrupt())
-> >               alloc_flags |= ALLOC_HARDER;
-> >
-> > -     alloc_flags = current_alloc_flags(gfp_mask, alloc_flags);
-> > +     alloc_flags = gpf_to_alloc_flags(gfp_mask, alloc_flags);
-> >
-> >       return alloc_flags;
-> >  }
-> > @@ -4774,7 +4771,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
-> >
-> >       reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
-> >       if (reserve_flags)
-> > -             alloc_flags = current_alloc_flags(gfp_mask, reserve_flags);
-> > +             alloc_flags = gpf_to_alloc_flags(gfp_mask, reserve_flags);
-> >
-> >       /*
-> >        * Reset the nodemask and zonelist iterators if memory policies can be
-> > @@ -4943,7 +4940,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
-> >       if (should_fail_alloc_page(gfp_mask, order))
-> >               return false;
-> >
-> > -     *alloc_flags = current_alloc_flags(gfp_mask, *alloc_flags);
-> > +     *alloc_flags = gpf_to_alloc_flags(gfp_mask, *alloc_flags);
->
-> I have a question, what is the abbreviation of "gpf" in the function
-> name gpf_to_alloc_flags()?
->
-> It seems that this function still use gfp_mask, is this supposed
-> to be gfp (Get Free Page)?
+On 1/29/21 2:35 PM, Yu, Yu-cheng wrote:
+>> Andy Cooper just mentioned on IRC about this nugget in the spec:
+>>
+>>     XRSTORS on CET state will do reserved bit and canonicality
+>>     checks on the state in similar manner as done by the WRMSR to
+>>     these state elements.
+>>
+>> We're using copy_kernel_to_xregs_err(), so the #GP *should* be OK.
+>> Could we prove this out in practice, please?
+>>>
+> Do we want to verify that setting reserved bits in CET XSAVES states
+> triggers GP?  Then, yes, I just verified it again.  Thanks for
+> reminding.  Do we have any particular case relating to this?
 
-Thank you for noticing this, it was accidental, I will rename the
-function gpf_to_alloc_flags() -> gfp_to_alloc_flags()
+I want to confirm that it triggers #GP and kills userspace without the
+kernel WARN'ing or otherwise being visibly unhappy.
 
->
-> Thanks,
-> Lecopzer
->
+What about the return-to-userspace path after a ptracer writes content
+to the CET fields?   I don't see the same tolerance for errors in
+__fpregs_load_activate(), for instance.
