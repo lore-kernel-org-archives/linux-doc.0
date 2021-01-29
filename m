@@ -2,46 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B354EC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 05:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 983C7C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:18:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A02164E02
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 05:13:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BD5564DFB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:18:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbhA2FM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 00:12:59 -0500
-Received: from verein.lst.de ([213.95.11.211]:59979 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231907AbhA2FMz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jan 2021 00:12:55 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 4F4AB68AFE; Fri, 29 Jan 2021 06:12:12 +0100 (CET)
-Date:   Fri, 29 Jan 2021 06:12:12 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] block: remove typo in kernel-doc of set_disk_ro()
-Message-ID: <20210129051212.GB2053@lst.de>
-References: <20210129045505.22743-1-lukas.bulwahn@gmail.com>
+        id S232098AbhA2GSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 01:18:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232000AbhA2GRh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 01:17:37 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F7BC061573
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:16:57 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id p15so5241699pjv.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:16:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IVLhRnuvVbWMIlCeZcR36K8LU3Zj15Td3oSsxTVm3dw=;
+        b=Si4B7X6KLGW5Z89xZzVDHl7Skoe89UmiKGduLwtiFh0G2ErduZLcoyhzxfb8G5ThI4
+         syF50PNuDAMILs8Gbg3zVHAZgxzjYwu3Uw/rNASkDR2t4GqLp1BCz97iLqdk77dYA4c3
+         2CkKQdm+NEK6TlvP3w9vWyB3cGnovx1bDqRVEFI1RGuFthcCxJwnq2yoH7dGXiwhK+NG
+         r0P2bc3WoSPjpzim4kOkGEgTHCPAxXV8ZbURzJNwTJ2lhdkX9bfbopWe/xjDpIAL3prB
+         c/pTLgzzEXjCsYV5TlheMKOfuCAisunpmi0HckFP+fJtJ5ubMdQc7AsA3gMnJSt8Jmkw
+         oBPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IVLhRnuvVbWMIlCeZcR36K8LU3Zj15Td3oSsxTVm3dw=;
+        b=CwjM5N2Ll5Tocn0yWRs/MNEdx7pPspxeZhoXhblVmQ/+FSGGidtkr52zHvW5KBYI+/
+         rzu+y9S0mQ4ejFx/L55e6bp4hA/k9DDIhtQSuC+ek1UANPLf1evLYOcxo7oiMp4Nr82p
+         csSx+xpzFA2YendH4O41hvdrs0L6Sejs0g6wrTT+4FJ8DcmliQQJp6QiTbMOuCs3JUzF
+         HknP9jvgKM0QItr84KyJwsN2Hrqy9V2d1NWjT+dCBPfE97Z7pr7r3bx2Z5/wcNk32eJG
+         8sDmPVfejccPE6kXUvV8RtziaAsGgG/DiUVHslM1B2n0fbe5ocB2WtODfRJGed9KVAsk
+         4wnA==
+X-Gm-Message-State: AOAM532KXa53lqwS+6okcwnOAxiPmmNr9ANfGMTBpmpsguq4VDW11UlJ
+        GN08hhRtZO97Ki08WAQIsOUIrj0TvwIkKnRXIjp/dA==
+X-Google-Smtp-Source: ABdhPJzlRocofXXUHhMpeg+wl6mPPzL5KoQPKYz1IbQOQ5+sTLmTyjhkh9y85ZPhI/SVxjYO862v/1WfnMigBDp1NyQ=
+X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
+ bj3-20020a1709028503b02900dc044f62d8mr2746955plb.34.1611901017151; Thu, 28
+ Jan 2021 22:16:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210129045505.22743-1-lukas.bulwahn@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-6-songmuchun@bytedance.com> <20210126092942.GA10602@linux>
+ <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com> <20210126145819.GB16870@linux>
+ <259b9669-0515-01a2-d714-617011f87194@redhat.com> <20210126153448.GA17455@linux>
+ <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com> <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
+ <20210128222906.GA3826@localhost.localdomain>
+In-Reply-To: <20210128222906.GA3826@localhost.localdomain>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 29 Jan 2021 14:16:19 +0800
+Message-ID: <CAMZfGtW7Bc-QhjW7MJyVwYXPEihbKyAE20NLgs3mVmgALh_X2A@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
+ vmemmap pages associated with each HugeTLB page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Looks good,
+On Fri, Jan 29, 2021 at 6:29 AM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Wed, Jan 27, 2021 at 11:36:15AM +0100, David Hildenbrand wrote:
+> > Extending on that, I just discovered that only x86-64, ppc64, and arm64
+> > really support hugepage migration.
+> >
+> > Maybe one approach with the "magic switch" really would be to disable
+> > hugepage migration completely in hugepage_migration_supported(), and
+> > consequently making hugepage_movable_supported() always return false.
+>
+> Ok, so migration would not fork for these pages, and since them would
+> lay in !ZONE_MOVABLE there is no guarantee we can unplug the memory.
+> Well, we really cannot unplug it unless the hugepage is not used
+> (it can be dissolved at least).
+>
+> Now to the allocation-when-freeing.
+> Current implementation uses GFP_ATOMIC(or wants to use) + forever loop.
+> One of the problems I see with GFP_ATOMIC is that gives you access
+> to memory reserves, but there are more users using those reserves.
+> Then, worst-scenario case we need to allocate 16MB order-0 pages
+> to free up 1GB hugepage, so the question would be whether reserves
+> really scale to 16MB + more users accessing reserves.
+>
+> As I said, if anything I would go for an optimistic allocation-try
+> , if we fail just refuse to shrink the pool.
+> User can always try to shrink it later again via /sys interface.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Yeah. It seems that this is the easy way to move on.
+
+Thanks.
+
+>
+> Since hugepages would not be longer in ZONE_MOVABLE/CMA and are not
+> expected to be migratable, is that ok?
+>
+> Using the hugepage for the vmemmap array was brought up several times,
+> but that would imply fragmenting memory over time.
+>
+> All in all seems to be overly complicated (I might be wrong).
+>
+>
+> > Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
+> > migrated. The problem I describe would apply (careful with using
+> > ZONE_MOVABLE), but well, it can at least be documented.
+>
+> I am not a page allocator expert but cannot the allocation fallback
+> to ZONE_MOVABLE under memory shortage on other zones?
+>
+>
+> --
+> Oscar Salvador
+> SUSE L3
