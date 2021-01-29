@@ -2,119 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F477C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 22:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC103C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 23:46:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 227CD64DE2
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 22:35:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5783D64DEB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 23:46:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231940AbhA2Wfp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 17:35:45 -0500
-Received: from mga06.intel.com ([134.134.136.31]:14537 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229683AbhA2Wfo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jan 2021 17:35:44 -0500
-IronPort-SDR: dHlICr/bBKjj/s6kKxzyPrmxQjDfeizy2EwZPRU2RWp7BtfsrcY6f4BI5H226Rcuxe9TwN/VY4
- yuLIUPGw77rg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="242012800"
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="242012800"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 14:35:02 -0800
-IronPort-SDR: 8bq6hIfAMNgX92hbK4qH5hwd3yObjl/bcMQWw41W0LvWjm/TbPqtXNvZDJ35ASTSZm5aUQZoW5
- 0tDrkCEfMImg==
-X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
-   d="scan'208";a="411753322"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.73.214]) ([10.212.73.214])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 14:35:01 -0800
-Subject: Re: [NEEDS-REVIEW] [PATCH v18 05/25] x86/fpu/xstate: Introduce CET
- MSR and XSAVES supervisor states
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-6-yu-cheng.yu@intel.com>
- <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
-Date:   Fri, 29 Jan 2021 14:35:01 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231202AbhA2Xqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 18:46:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229683AbhA2Xqd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 18:46:33 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0395C061574
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 15:45:52 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id v15so10486899wrx.4
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 15:45:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5tw1Hp7aX/S0VjTJJRisCjf0Avfnwz4zJamKEdO13Ig=;
+        b=ezvP0/016Ph5ZYnfV3u4UGjyoaDOxwpS+sXs/4ixvS88CT/B7PjjFHHij3nwLfOwVK
+         3qxpGR8l/UDiab0txk+CbJgw26ZUC5nx5lQlxGdc8FhoQuciqgO7abXBo3CrBkGAbmPR
+         xMleYfmOt6LJaBdAeWo9aZiUdj7x3L8UNmHwnpx6aoN4MfQ38PqkLVvwqn1glaTbwihc
+         NfNwuHDwz1B0Q+LB1guWnkcDxE6G6OeAh+HZdPZyt/rSlz2MDVBkhDCPDFAZHaZztLTq
+         2dD95NDRZtjjIiniw56Ryrpts0VtXjXnowPLVANUs3zm223hXzaWTsxkwjK2DqavU+mi
+         +J5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5tw1Hp7aX/S0VjTJJRisCjf0Avfnwz4zJamKEdO13Ig=;
+        b=nXLYGU8qG0nSPqIpdYYh1fVS+9WP5xguY1/l4eZRPa9tqtE4Bp1bw/rXdnStpGmz07
+         LpkH2Rl2rPBEX0HwbEJ9iOTaIcWt3N2OEZX0rl675Fx60FNv4Wjg/b1p2dbR+jlGtBer
+         AeKw81f8blBLQzO+57zVIGLmhcrJWkMA8uPOT7j7aNyCtQfRf/Jmbna5mZPFFjseOLXM
+         dylM0qa8O/y4p4Ca7I4aDreZtASRy8qI7IBb3/tT2C6VdQor7kFLHMbiG5zp1C7VVo4Z
+         9Oo0Qa/iwcPDBgEq/wTTv/GE2H/Qz5LzkXGVO87hH30n8kZynaLif97TG3XKoxWv5Xc1
+         E6kg==
+X-Gm-Message-State: AOAM532TkpKWyUHMN5FaPbRirmhi9UFS1kKuZ1UXQDJGaQYK2+V43EpD
+        XaO2H27We5jcK8EJFmKr00zaaXHS8gKPsQ==
+X-Google-Smtp-Source: ABdhPJwSrmsBUw0JVsO4Dn8CSCcWHNv+NHGbSr63pqQM0s1AODOPZTrqR81CgfE40eZthHDWMmFqeA==
+X-Received: by 2002:adf:cd83:: with SMTP id q3mr6963326wrj.225.1611963951497;
+        Fri, 29 Jan 2021 15:45:51 -0800 (PST)
+Received: from localhost.localdomain ([212.45.67.2])
+        by smtp.googlemail.com with ESMTPSA id x1sm12376230wmi.14.2021.01.29.15.45.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 29 Jan 2021 15:45:50 -0800 (PST)
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+To:     akpm@linux-foundation.org, linux-mm@kvack.org
+Cc:     vbabka@suse.cz, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Georgi Djakov <georgi.djakov@linaro.org>
+Subject: [PATCH] mm/page_owner: Record the timestamp of all pages during free
+Date:   Sat, 30 Jan 2021 01:45:48 +0200
+Message-Id: <20210129234548.10054-1-georgi.djakov@linaro.org>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-In-Reply-To: <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/2021 1:00 PM, Dave Hansen wrote:
-> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
->> @@ -135,6 +135,8 @@ enum xfeature {
->>   #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
->>   #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
->>   #define XFEATURE_MASK_PASID		(1 << XFEATURE_PASID)
->> +#define XFEATURE_MASK_CET_USER		(1 << XFEATURE_CET_USER)
->> +#define XFEATURE_MASK_CET_KERNEL	(1 << XFEATURE_CET_KERNEL)
->>   #define XFEATURE_MASK_LBR		(1 << XFEATURE_LBR)
->>   
->>   #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
->> @@ -237,6 +239,23 @@ struct pkru_state {
->>   	u32				pad;
->>   } __packed;
->>   
->> +/*
->> + * State component 11 is Control-flow Enforcement user states
->> + */
->> +struct cet_user_state {
->> +	u64 user_cet;			/* user control-flow settings */
->> +	u64 user_ssp;			/* user shadow stack pointer */
->> +};
-> 
-> Andy Cooper just mentioned on IRC about this nugget in the spec:
-> 
-> 	XRSTORS on CET state will do reserved bit and canonicality
-> 	checks on the state in similar manner as done by the WRMSR to
-> 	these state elements.
-> 
-> We're using copy_kernel_to_xregs_err(), so the #GP *should* be OK.
-> Could we prove this out in practice, please?
-> 
+Collect the time when each allocation is freed, to help with memory
+analysis with kdump/ramdump.
 
-Do we want to verify that setting reserved bits in CET XSAVES states 
-triggers GP?  Then, yes, I just verified it again.  Thanks for 
-reminding.  Do we have any particular case relating to this?
+Having another timestamp when we free the page helps for debugging
+page migration issues. For example both alloc and free timestamps
+being the same can gave hints that there is an issue with migrating
+memory, as opposed to a page just being dropped during migration.
 
---
-Yu-cheng
+Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
+---
+ Documentation/vm/page_owner.rst | 2 +-
+ mm/page_owner.c                 | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 4e67c2e9bbed..5d7a62c2be28 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -47,7 +47,7 @@ size change due to this facility.
+ 
+    text    data     bss     dec     hex filename
+    48800   2445     644   51889    cab1 mm/page_alloc.o
+-   6574     108      29    6711    1a37 mm/page_owner.o
++   6644     108      29    6777    1a79 mm/page_owner.o
+    1025       8       8    1041     411 mm/page_ext.o
+ 
+ Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index d15c7c4994f5..fbdf064e7494 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -27,6 +27,7 @@ struct page_owner {
+ 	depot_stack_handle_t handle;
+ 	depot_stack_handle_t free_handle;
+ 	u64 ts_nsec;
++	u64 free_ts_nsec;
+ 	pid_t pid;
+ };
+ 
+@@ -148,6 +149,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+ 	struct page_ext *page_ext;
+ 	depot_stack_handle_t handle = 0;
+ 	struct page_owner *page_owner;
++	u64 free_ts_nsec = local_clock();
+ 
+ 	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
+ 
+@@ -158,6 +160,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+ 		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+ 		page_owner = get_page_owner(page_ext);
+ 		page_owner->free_handle = handle;
++		page_owner->free_ts_nsec = free_ts_nsec;
+ 		page_ext = page_ext_next(page_ext);
+ 	}
+ }
+@@ -177,6 +180,7 @@ static inline void __set_page_owner_handle(struct page *page,
+ 		page_owner->last_migrate_reason = -1;
+ 		page_owner->pid = current->pid;
+ 		page_owner->ts_nsec = local_clock();
++		page_owner->free_ts_nsec = 0;
+ 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
+ 		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+ 
+@@ -243,6 +247,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+ 	new_page_owner->handle = old_page_owner->handle;
+ 	new_page_owner->pid = old_page_owner->pid;
+ 	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
++	new_page_owner->free_ts_nsec = old_page_owner->ts_nsec;
+ 
+ 	/*
+ 	 * We don't clear the bit on the oldpage as it's going to be freed
