@@ -2,98 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF371C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:08:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771CFC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:14:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C81C64E0A
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:08:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0705461477
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 21:14:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233234AbhA2VIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 16:08:40 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:57874 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233024AbhA2VIj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 16:08:39 -0500
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 10TL7k75010691;
-        Sat, 30 Jan 2021 06:07:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 10TL7k75010691
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1611954466;
-        bh=MoEJilFaLzSKvHTw5e08yZQI2j3F21oKcR5gUJEkaX0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fKeVJxheosdV+7JexPehOgHRV07rsT1lxrds87cQfJF6jEoWPU2jKrHm/S6mcTu8A
-         xGvzLeGH/4K5wf7J2oARwMYZodFpEU2UGyAY+5xlUjDOPZdeWl2GdiR0DxyGW7NwFA
-         vLVykxO0qeRAe+Y8Nk9Y20UHP0RytrpstNwKvtHgXJFYYP8UavxTuFKGOc2RCIvulX
-         GVweqFgQcLNAFA6STV6ZenMTg2MvXkG7JPGCYSkH8rEjPrxEB7N3jlue3VXC8/y855
-         1UBUjD0wpLC5d/X7YLcrR/nqvMj32koQbEHeeeNhPAuLUAGWS/Vh82sO/ZavmNCpjB
-         IqQikMFcuNkSA==
-X-Nifty-SrcIP: [209.85.215.175]
-Received: by mail-pg1-f175.google.com with SMTP id t25so7509020pga.2;
-        Fri, 29 Jan 2021 13:07:46 -0800 (PST)
-X-Gm-Message-State: AOAM533odsotM41sKbRAmjmA0SOE1AzYb4q+Kd2HwKeRiS2YzrZeug4n
-        NgEajSPmTSkwYc56IKMbOF9IB20nf2hnJNMV2d4=
-X-Google-Smtp-Source: ABdhPJzJbdhdkX3krl65PfrTjoe+/JaOQHdXZimYhG2bctSkBAVv4JyDk8LxYSPB3+lRZJHfkNhS+DKYJRLQsIvvw2E=
-X-Received: by 2002:a63:575e:: with SMTP id h30mr6319221pgm.7.1611954465639;
- Fri, 29 Jan 2021 13:07:45 -0800 (PST)
+        id S233374AbhA2VOP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 16:14:15 -0500
+Received: from mga01.intel.com ([192.55.52.88]:55425 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232918AbhA2VON (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jan 2021 16:14:13 -0500
+IronPort-SDR: rS4XURAalZkPgLpfToHZEgxrW0ZODLXsiMsafLs/DchGJd5pAOASHuXF79bZwMCqhmhG5KtA1G
+ iVxmFblmwtcQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="199332505"
+X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
+   d="scan'208";a="199332505"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 13:13:31 -0800
+IronPort-SDR: YKpYFCq+rRt4zqUspD1JImoQHJ9ODV3X6/aXQ4uP4iER2tVzPmgw/RbyRy3mSTJpd8CYqX9jRr
+ r0VhB8vP9R9A==
+X-IronPort-AV: E=Sophos;i="5.79,386,1602572400"; 
+   d="scan'208";a="475532535"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.73.214]) ([10.212.73.214])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 13:13:29 -0800
+Subject: Re: [PATCH v18 02/25] x86/cet/shstk: Add Kconfig option for user-mode
+ control-flow protection
+To:     Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@intel.com>
+Cc:     Andy Lutomirski <luto@amacapital.net>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <40a5a9b5-9c83-473d-5f62-a16ecde50f2a@intel.com>
+ <86F8CE62-A94B-46BD-9A29-DBE1CC14AA83@amacapital.net>
+ <58d5f029-ee8a-ca93-f0e6-0278db22e208@intel.com>
+ <20210129204601.GG27841@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <9061f862-8711-2ca2-b737-8d171de2f0c2@intel.com>
+Date:   Fri, 29 Jan 2021 13:13:26 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210114003447.7363-1-natechancellor@gmail.com> <20210129203106.GA2658360@localhost>
-In-Reply-To: <20210129203106.GA2658360@localhost>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 30 Jan 2021 06:07:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS28W+rjC=Y-6AusFynMGLX_RWPZPo37gGr=WRdR+TkkA@mail.gmail.com>
-Message-ID: <CAK7LNAS28W+rjC=Y-6AusFynMGLX_RWPZPo37gGr=WRdR+TkkA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: Add a section about supported architectures
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210129204601.GG27841@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 5:31 AM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Wed, Jan 13, 2021 at 05:34:47PM -0700, Nathan Chancellor wrote:
-> > The most common question around building the Linux kernel with clang is
-> > "does it work?" and the answer has always been "it depends on your
-> > architecture, configuration, and LLVM version" with no hard answers for
-> > users wanting to experiment. LLVM support has significantly improved
-> > over the past couple of years, resulting in more architectures and
-> > configurations supported, and continuous integration has made it easier
-> > to see what works and what does not.
-> >
-> > Add a section that goes over what architectures are supported in the
-> > current kernel version, how they should be built (with just clang or the
-> > LLVM utilities as well), and the level of support they receive. This
-> > will make it easier for people to try out building their kernel with
-> > LLVM and reporting issues that come about from it.
-> >
-> > Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
->
-> Jonathan, did you need anything else from me on this, or does Masahiro
-> need to pick this up?
->
-> Cheers,
-> Nathan
+On 1/29/2021 12:46 PM, Borislav Petkov wrote:
+> On Fri, Jan 29, 2021 at 12:33:43PM -0800, Dave Hansen wrote:
+>> In that case is there any reason to keep the "depends on CPU_SUP_INTEL"?
+> 
+> Probably not. I haven't heard of the AMD implementation being somehow
+> different from Intel's.
+> 
 
-
-Now I applied to linux-kbuild.
-Thanks for the reminder.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Ok, I will remove it.
