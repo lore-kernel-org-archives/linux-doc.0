@@ -2,151 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D360C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 18:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5F4C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 18:40:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5ACD64E09
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 18:39:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 224F364E08
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 18:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232418AbhA2Sjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 13:39:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24996 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232501AbhA2Sjk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 13:39:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611945493;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o6RgsnGWqDbRx7FOfKlaMYyztEsq7mThGPYbon8eyBE=;
-        b=eDGCAAQqRWVUA4eNbmoz7Qdx3LEYYkKekBsqjL3ommzPR0qFSMTshzAi/+VYQbZKz1iSTC
-        1VZE2fXmOASrXWAy4n8VfXKFagbcs/o7uImimBlswA25Wse/eoF+bVLHBK16+e//JCXZG8
-        TW2NrjilfU4wppKoCtvUD/tVF4/KDeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-FnU8NuaCP02giqCI5tvXtQ-1; Fri, 29 Jan 2021 13:38:09 -0500
-X-MC-Unique: FnU8NuaCP02giqCI5tvXtQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FC3581CBF3;
-        Fri, 29 Jan 2021 18:38:07 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 93A875D984;
-        Fri, 29 Jan 2021 18:38:05 +0000 (UTC)
-Subject: Re: [PATCH] pci-driver: Add driver load messages
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Leon Romanovsky <leon@kernel.org>, bhelgaas@google.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, mstowe@redhat.com
-References: <20210126151259.GA2886142@bjorn-Precision-5520>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <e2dfcabb-c62b-2823-b2a7-7d54799be183@redhat.com>
-Date:   Fri, 29 Jan 2021 13:38:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S231533AbhA2Skf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 13:40:35 -0500
+Received: from mail.v3.sk ([167.172.186.51]:56634 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231195AbhA2Skf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jan 2021 13:40:35 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 01D9BE0B3F;
+        Fri, 29 Jan 2021 18:35:47 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id c-6-AiePK1Yd; Fri, 29 Jan 2021 18:35:46 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 6D400E0B42;
+        Fri, 29 Jan 2021 18:35:46 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id mOmq7RCAJBYi; Fri, 29 Jan 2021 18:35:45 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 621D3E0B3D;
+        Fri, 29 Jan 2021 18:35:45 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Maen Suleiman <maen@marvell.com>, Lior Amsalem <alior@marvell.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Andrew Lunn <andrew@lunn.ch>, Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] docs: arm: Improvements to Marvell SoC documentation
+Date:   Fri, 29 Jan 2021 19:39:45 +0100
+Message-Id: <20210129183950.75405-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210126151259.GA2886142@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+please consider applying the patches chained to this message.
 
-On 1/26/21 10:12 AM, Bjorn Helgaas wrote:
-> Hi Prarit,
->
-> On Tue, Jan 26, 2021 at 09:05:23AM -0500, Prarit Bhargava wrote:
->> On 1/26/21 8:53 AM, Leon Romanovsky wrote:
->>> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
->>>> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
->>>>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
->>>>>>   Leon Romanovsky <leon@kernel.org> wrote:
->>>>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
->>>>>>>> There are two situations where driver load messages are helpful.
->>>>>>>>
->>>>>>>> 1) Some drivers silently load on devices and debugging driver or system
->>>>>>>> failures in these cases is difficult.  While some drivers (networking
->>>>>>>> for example) may not completely initialize when the PCI driver probe()
-function
->>>>>>>> has returned, it is still useful to have some idea of driver completion.
->>>>>>>
->>>>>>> Sorry, probably it is me, but I don't understand this use case.
->>>>>>> Are you adding global to whole kernel command line boot argument to debug
->>>>>>> what and when?
->>>>>>>
->>>>>>> During boot:
->>>>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
->>>>>>> If device fails, you should get an error from that device (fix the
->>>>>>> device to return an error), or something immediately won't work and
->>>>>>> you won't see it in sysfs.
->>>>>>
->>>>>> What if there is a panic during boot?  There's no way to get to sysfs.
->>>>>> That's the case where this is helpful.
->>>>>
->>>>> How? If you have kernel panic, it means you have much more worse problem
->>>>> than not-supported device. If kernel panic was caused by the driver, you
->>>>> will see call trace related to it. If kernel panic was caused by
->>>>> something else, supported/not supported won't help here.
->>>>
->>>> I still have no idea *WHICH* device it was that the panic occurred on.
->>>
->>> The kernel panic is printed from the driver. There is one driver loaded
->>> for all same PCI devices which are probed without relation to their
->>> number.>
->>> If you have host with ten same cards, you will see one driver and this
->>> is where the problem and not in supported/not-supported device.
->>
->> That's true, but you can also have different cards loading the same driver.
->> See, for example, any PCI_IDs list in a driver.
->>
->> For example,
->>
->> 10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
->> 20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader]
-(rev 02)
->>
->> Both load the megaraid driver and have different profiles within the
->> driver.  I have no idea which one actually panicked until removing
->> one card.
->>
->> It's MUCH worse when debugging new hardware and getting a panic
->> from, for example, the uncore code which binds to a PCI mapped
->> device.  One device might work and the next one doesn't.  And then
->> you can multiply that by seeing *many* panics at once and trying to
->> determine if the problem was on one specific socket, die, or core.
->
-> Would a dev_panic() interface that identified the device and driver
-> help with this?
+The objective is to deal with the a large amount of dead links to
+material that often comes handy in marvel.rst; and improve some details
+along the way.
 
-It would but,
+Thank you
+Lubo
 
->
-> For driver_load_messages, it doesn't seem necessarily PCI-specific.
-> If we want a message like that, maybe it could be in
-> driver_probe_device() or similar?  There are already a few pr_debug()
-> calls in that path.  There are some enabled by initcall_debug that
-> include the return value from the probe; would those be close to what
-> you're looking for?
-
-I think this drivers/base/dd.c:727 might suffice.  Let me try some tests
-with that and get back to you.
-
-Thanks for the pointers,
-
-P.
->
-> Bjorn
->
 
