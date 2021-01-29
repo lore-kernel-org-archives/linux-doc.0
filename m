@@ -4,70 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 983C7C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72391C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BD5564DFB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:18:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2394E64DD9
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 06:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232098AbhA2GSB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 01:18:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48588 "EHLO
+        id S232151AbhA2G6C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 01:58:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbhA2GRh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 01:17:37 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F7BC061573
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:16:57 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id p15so5241699pjv.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:16:57 -0800 (PST)
+        with ESMTP id S232039AbhA2G5y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 01:57:54 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B835CC061574
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:57:14 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id v19so6013770pgj.12
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jan 2021 22:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=IVLhRnuvVbWMIlCeZcR36K8LU3Zj15Td3oSsxTVm3dw=;
-        b=Si4B7X6KLGW5Z89xZzVDHl7Skoe89UmiKGduLwtiFh0G2ErduZLcoyhzxfb8G5ThI4
-         syF50PNuDAMILs8Gbg3zVHAZgxzjYwu3Uw/rNASkDR2t4GqLp1BCz97iLqdk77dYA4c3
-         2CkKQdm+NEK6TlvP3w9vWyB3cGnovx1bDqRVEFI1RGuFthcCxJwnq2yoH7dGXiwhK+NG
-         r0P2bc3WoSPjpzim4kOkGEgTHCPAxXV8ZbURzJNwTJ2lhdkX9bfbopWe/xjDpIAL3prB
-         c/pTLgzzEXjCsYV5TlheMKOfuCAisunpmi0HckFP+fJtJ5ubMdQc7AsA3gMnJSt8Jmkw
-         oBPA==
+        bh=TbuleYwe5NvwJojz+4aOt8A66WvfcU/0PeNJr1ClLeM=;
+        b=nBYq60FCybEbi705MaQVQBD560R6is7L09GfIIAOZ+XUgkuhtMr6vpKMGJYfpcP2/C
+         /tR+5bo1yUoVQkm/j3lecucbC/OOaG9/7VyuZcnzUSASJZXIsekF0oBlwGjtkJCVu2yg
+         zDnk/cm8mY41bA/lgcnAYb7WTgQ1pfvIUwwPI420UqWXkgit7AgWRG5v31gzxqf+ymtC
+         mN6WlsCyTyxgtc+HIY32Ty1o0RZYFpc43VTnLarPU94L3cdanP4M6ktWN/nc4CSr981d
+         DSkx0viJASulvmpQu++VsZtNqzNhJy2AQFQ1I0A7dMHtmAdv3Sbs9a7xNmorN+E46fUC
+         LJcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IVLhRnuvVbWMIlCeZcR36K8LU3Zj15Td3oSsxTVm3dw=;
-        b=CwjM5N2Ll5Tocn0yWRs/MNEdx7pPspxeZhoXhblVmQ/+FSGGidtkr52zHvW5KBYI+/
-         rzu+y9S0mQ4ejFx/L55e6bp4hA/k9DDIhtQSuC+ek1UANPLf1evLYOcxo7oiMp4Nr82p
-         csSx+xpzFA2YendH4O41hvdrs0L6Sejs0g6wrTT+4FJ8DcmliQQJp6QiTbMOuCs3JUzF
-         HknP9jvgKM0QItr84KyJwsN2Hrqy9V2d1NWjT+dCBPfE97Z7pr7r3bx2Z5/wcNk32eJG
-         8sDmPVfejccPE6kXUvV8RtziaAsGgG/DiUVHslM1B2n0fbe5ocB2WtODfRJGed9KVAsk
-         4wnA==
-X-Gm-Message-State: AOAM532KXa53lqwS+6okcwnOAxiPmmNr9ANfGMTBpmpsguq4VDW11UlJ
-        GN08hhRtZO97Ki08WAQIsOUIrj0TvwIkKnRXIjp/dA==
-X-Google-Smtp-Source: ABdhPJzlRocofXXUHhMpeg+wl6mPPzL5KoQPKYz1IbQOQ5+sTLmTyjhkh9y85ZPhI/SVxjYO862v/1WfnMigBDp1NyQ=
-X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
- bj3-20020a1709028503b02900dc044f62d8mr2746955plb.34.1611901017151; Thu, 28
- Jan 2021 22:16:57 -0800 (PST)
+        bh=TbuleYwe5NvwJojz+4aOt8A66WvfcU/0PeNJr1ClLeM=;
+        b=Rde/m6+trDA++960hc6Biz/Te86KeqoBym8XATzr/Jq15dWGHBN1xkRi2GS/uWumJn
+         eHiF2f5UPprMGOK7aGm0wnKnPDnueyfnITkP0txVcsJ5j7ttLNUBMT//Sr4mY7ybff4m
+         hDxOJFTEwLyfx3FyETUMnLtMeoBUsjj0b0hGFZDnBBEAvfH8HeIeZKmhnTcq1Kd0CTcl
+         xoEFSpiiobP06eeGDVq9txF4SiVLg/R4TD9XHhucXnJtaQa1002pqAPzN59ikkYryjEF
+         q7hc1x1/Q4rYYUUaryHfWlzBTstZuASivE4Q2KZyXlWSTVUIZCN8sU8ru4OGvnDztH7o
+         jWyQ==
+X-Gm-Message-State: AOAM532maIy6Kl08wGMO2TyTzQtuMaJZOLr8dZZ/wk2RIAgf2EFi+QSI
+        aGWQ2ELumD+zUTVo16p6miO6xGTgBk92s2oblvib9A==
+X-Google-Smtp-Source: ABdhPJzDbWkHuF3yE1SwKxbTcZlixSLpsO95Cov3oCPm9dJ66DrTvWGCs6cK7qWQRkEcJATRiILuvPSB1lQ5oFobVFE=
+X-Received: by 2002:a63:50a:: with SMTP id 10mr3283849pgf.273.1611903434093;
+ Thu, 28 Jan 2021 22:57:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20210117151053.24600-1-songmuchun@bytedance.com>
  <20210117151053.24600-6-songmuchun@bytedance.com> <20210126092942.GA10602@linux>
  <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com> <20210126145819.GB16870@linux>
  <259b9669-0515-01a2-d714-617011f87194@redhat.com> <20210126153448.GA17455@linux>
  <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com> <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
- <20210128222906.GA3826@localhost.localdomain>
-In-Reply-To: <20210128222906.GA3826@localhost.localdomain>
+ <CAMZfGtWCu95Qve8p9mH7C7rm=F+znsc8+VL_6Z-_k4e5hAHzhA@mail.gmail.com> <e200c17e-5c95-025e-37a7-af7cfbb05b18@oracle.com>
+In-Reply-To: <e200c17e-5c95-025e-37a7-af7cfbb05b18@oracle.com>
 From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Fri, 29 Jan 2021 14:16:19 +0800
-Message-ID: <CAMZfGtW7Bc-QhjW7MJyVwYXPEihbKyAE20NLgs3mVmgALh_X2A@mail.gmail.com>
+Date:   Fri, 29 Jan 2021 14:56:35 +0800
+Message-ID: <CAMZfGtWvDCaN7M9CHNx3O_OQvH8+HN_xg=uc3aUOUeqqB_--ZQ@mail.gmail.com>
 Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
  vmemmap pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
         bp@alien8.de, x86@kernel.org, hpa@zytor.com,
         dave.hansen@linux.intel.com, luto@kernel.org,
@@ -92,55 +91,123 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 6:29 AM Oscar Salvador <osalvador@suse.de> wrote:
+On Fri, Jan 29, 2021 at 9:04 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
 >
-> On Wed, Jan 27, 2021 at 11:36:15AM +0100, David Hildenbrand wrote:
-> > Extending on that, I just discovered that only x86-64, ppc64, and arm64
-> > really support hugepage migration.
+> On 1/28/21 4:37 AM, Muchun Song wrote:
+> > On Wed, Jan 27, 2021 at 6:36 PM David Hildenbrand <david@redhat.com> wrote:
+> >>
+> >> On 26.01.21 16:56, David Hildenbrand wrote:
+> >>> On 26.01.21 16:34, Oscar Salvador wrote:
+> >>>> On Tue, Jan 26, 2021 at 04:10:53PM +0100, David Hildenbrand wrote:
+> >>>>> The real issue seems to be discarding the vmemmap on any memory that has
+> >>>>> movability constraints - CMA and ZONE_MOVABLE; otherwise, as discussed, we
+> >>>>> can reuse parts of the thingy we're freeing for the vmemmap. Not that it
+> >>>>> would be ideal: that once-a-huge-page thing will never ever be a huge page
+> >>>>> again - but if it helps with OOM in corner cases, sure.
+> >>>>
+> >>>> Yes, that is one way, but I am not sure how hard would it be to implement.
+> >>>> Plus the fact that as you pointed out, once that memory is used for vmemmap
+> >>>> array, we cannot use it again.
+> >>>> Actually, we would fragment the memory eventually?
+> >>>>
+> >>>>> Possible simplification: don't perform the optimization for now with free
+> >>>>> huge pages residing on ZONE_MOVABLE or CMA. Certainly not perfect: what
+> >>>>> happens when migrating a huge page from ZONE_NORMAL to (ZONE_MOVABLE|CMA)?
+> >>>>
+> >>>> But if we do not allow theose pages to be in ZONE_MOVABLE or CMA, there is no
+> >>>> point in migrate them, right?
+> >>>
+> >>> Well, memory unplug "could" still work and migrate them and
+> >>> alloc_contig_range() "could in the future" still want to migrate them
+> >>> (virtio-mem, gigantic pages, powernv memtrace). Especially, the latter
+> >>> two don't work with ZONE_MOVABLE/CMA. But, I mean, it would be fair
+> >>> enough to say "there are no guarantees for
+> >>> alloc_contig_range()/offline_pages() with ZONE_NORMAL, so we can break
+> >>> these use cases when a magic switch is flipped and make these pages
+> >>> non-migratable anymore".
+> >>>
+> >>> I assume compaction doesn't care about huge pages either way, not sure
+> >>> about numa balancing etc.
+> >>>
+> >>>
+> >>> However, note that there is a fundamental issue with any approach that
+> >>> allocates a significant amount of unmovable memory for user-space
+> >>> purposes (excluding CMA allocations for unmovable stuff, CMA is
+> >>> special): pairing it with ZONE_MOVABLE becomes very tricky as your user
+> >>> space might just end up eating all kernel memory, although the system
+> >>> still looks like there is plenty of free memory residing in
+> >>> ZONE_MOVABLE. I mentioned that in the context of secretmem in a reduced
+> >>> form as well.
+> >>>
+> >>> We theoretically have that issue with dynamic allocation of gigantic
+> >>> pages, but it's something a user explicitly/rarely triggers and it can
+> >>> be documented to cause problems well enough. We'll have the same issue
+> >>> with GUP+ZONE_MOVABLE that Pavel is fixing right now - but GUP is
+> >>> already known to be broken in various ways and that it has to be treated
+> >>> in a special way. I'd like to limit the nasty corner cases.
+> >>>
+> >>> Of course, we could have smart rules like "don't online memory to
+> >>> ZONE_MOVABLE automatically when the magic switch is active". That's just
+> >>> ugly, but could work.
+> >>>
+> >>
+> >> Extending on that, I just discovered that only x86-64, ppc64, and arm64
+> >> really support hugepage migration.
+> >>
+> >> Maybe one approach with the "magic switch" really would be to disable
+> >> hugepage migration completely in hugepage_migration_supported(), and
+> >> consequently making hugepage_movable_supported() always return false.
+> >>
+> >> Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
+> >> migrated. The problem I describe would apply (careful with using
+> >> ZONE_MOVABLE), but well, it can at least be documented.
 > >
-> > Maybe one approach with the "magic switch" really would be to disable
-> > hugepage migration completely in hugepage_migration_supported(), and
-> > consequently making hugepage_movable_supported() always return false.
+> > Thanks for your explanation.
+> >
+> > All thinking seems to be introduced by encountering OOM. :-(
 >
-> Ok, so migration would not fork for these pages, and since them would
-> lay in !ZONE_MOVABLE there is no guarantee we can unplug the memory.
-> Well, we really cannot unplug it unless the hugepage is not used
-> (it can be dissolved at least).
+> Yes.  Or, I think about it as the problem of not being able to dissolve (free
+> to buddy) a hugetlb page.  We can not dissolve because we can not allocate
+> vmemmap for all sumpages.
 >
-> Now to the allocation-when-freeing.
-> Current implementation uses GFP_ATOMIC(or wants to use) + forever loop.
-> One of the problems I see with GFP_ATOMIC is that gives you access
-> to memory reserves, but there are more users using those reserves.
-> Then, worst-scenario case we need to allocate 16MB order-0 pages
-> to free up 1GB hugepage, so the question would be whether reserves
-> really scale to 16MB + more users accessing reserves.
+> > In order to move forward and free the hugepage. We should add some
+> > restrictions below.
+> >
+> > 1. Only free the hugepage which is allocated from the ZONE_NORMAL.
+> Corrected: Only vmemmap optimize hugepages in ZONE_NORMAL
 >
-> As I said, if anything I would go for an optimistic allocation-try
-> , if we fail just refuse to shrink the pool.
-> User can always try to shrink it later again via /sys interface.
+> > 2. Disable hugepage migration when this feature is enabled.
+>
+> I am not sure if we want to fully disable migration.  I may be misunderstanding
+> but the thought was to prevent migration between some movability types.  It
+> seems we should be able to migrate form ZONE_NORMAL to ZONE_NORMAL.
+>
+> Also, if we do allow huge pages without vmemmap optimization in MOVABLE or CMA
+> then we should allow those to be migrated to NORMAL?  Or is there a reason why
+> we should prevent that.
+>
+> > 3. Using GFP_ATOMIC to allocate vmemmap pages firstly (it can reduce
+> >    memory fragmentation), if it fails, we use part of the hugepage to
+> >    remap.
+>
+> I honestly am not sure about this.  This would only happen for pages in
+> NORMAL.  The only time using part of the huge page for vmemmap would help is
+> if we are trying to dissolve huge pages to free up memory for other uses.
+>
+> > What's your opinion about this? Should we take this approach?
+>
+> I think trying to solve all the issues that could happen as the result of
+> not being able to dissolve a hugetlb page has made this extremely complex.
+> I know this is something we need to address/solve.  We do not want to add
+> more unexpected behavior in corner cases.  However, I can not help but think
+> about similar issues today.  For example, if a huge page is in use in
+> ZONE_MOVABLE or CMA there is no guarantee that it can be migrated today.
+> Correct?  We may need to allocate another huge page for the target of the
+> migration, and there is no guarantee we can do that.
 
-Yeah. It seems that this is the easy way to move on.
+Yeah. Adding more restrictions makes things more complex. As you
+and Oscar said, refusing to free hugepage when allocating
+vmemmap pages fail may be an easy way now.
 
-Thanks.
-
->
-> Since hugepages would not be longer in ZONE_MOVABLE/CMA and are not
-> expected to be migratable, is that ok?
->
-> Using the hugepage for the vmemmap array was brought up several times,
-> but that would imply fragmenting memory over time.
->
-> All in all seems to be overly complicated (I might be wrong).
->
->
-> > Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
-> > migrated. The problem I describe would apply (careful with using
-> > ZONE_MOVABLE), but well, it can at least be documented.
->
-> I am not a page allocator expert but cannot the allocation fallback
-> to ZONE_MOVABLE under memory shortage on other zones?
->
->
 > --
-> Oscar Salvador
-> SUSE L3
+> Mike Kravetz
