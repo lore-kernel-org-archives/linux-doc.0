@@ -2,71 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1408C433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 01:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9290C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 08:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6378564E04
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 01:51:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1E7A64E26
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 08:58:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232709AbhA3Btt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 20:49:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232016AbhA3Bro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 20:47:44 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C4AC061573;
-        Fri, 29 Jan 2021 17:46:10 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: tonyk)
-        with ESMTPSA id 565531F45F7F
-From:   =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>
-Subject: [PATCH 1/2] docs: Make syscalls' helpers naming consistent
-Date:   Fri, 29 Jan 2021 22:45:46 -0300
-Message-Id: <20210130014547.123006-1-andrealmeid@collabora.com>
-X-Mailer: git-send-email 2.30.0
+        id S230237AbhA3I61 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 03:58:27 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:60628 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230368AbhA3FXf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 00:23:35 -0500
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 10U5Luqb015268
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jan 2021 14:21:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 10U5Luqb015268
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1611984117;
+        bh=UdMLDJAGaZpk8dCMmfVlvbmUIM62bF76xnRx7WCunCM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0jNgVnZO27BmM3bNHmbY0jsIFz6VhFZ+6WCRtaMpzuaHcdChwLUcwxOGSiCM71ghv
+         4R1dkCIap8bM69ARNshUierrUIjsMGg79qw7wmWQOLpkqNFsg3ys8I4RCBf70rxZPO
+         E7drJTaAg/TGIZQAZw8qtB21y7QyDAZNjApO3wgDPZBi8ai/wOrFAUNRaWBmxGCFXO
+         zieAUof3M+91bQdgnvQOUfmADgKjYyscJoAsMDjIzlcMKuZSb9Ij7vax6+12Ct1/Pu
+         BXzcUCfZ0RxLPN35TfGJagDFI+y4DiJTCXPhVzB6skemIRHW44QKi4rEMD0vRxmWio
+         N346loykQ4IhQ==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id e9so7461586pjj.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 21:21:56 -0800 (PST)
+X-Gm-Message-State: AOAM533LP/8nuA21R7h00qcEgwPU2iMYJwrZ3OSc2xgGytkIyGSvhMzO
+        5N10c6klLjglClY6g4BUwSjPUg/JLRyXT1A7Spg=
+X-Google-Smtp-Source: ABdhPJyZ/ZdP3qShk81jxNb3rEcIHysbunje9rrxa/krFWZnT/Vw8PkxADP3ZbGk2o+uT6AKKbHcF+GPF7kRxa4w5pA=
+X-Received: by 2002:a17:90a:5403:: with SMTP id z3mr7795605pjh.198.1611984115931;
+ Fri, 29 Jan 2021 21:21:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210130022337.11175-1-nicboul@gmail.com>
+In-Reply-To: <20210130022337.11175-1-nicboul@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 30 Jan 2021 14:21:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQQZqbsnByXkLFWhxJ6HP6QOozxTQsLuamavi57YrAuZA@mail.gmail.com>
+Message-ID: <CAK7LNAQQZqbsnByXkLFWhxJ6HP6QOozxTQsLuamavi57YrAuZA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix typo in Documentation/kbuild/modules.rst
+To:     Nicolas Bouliane <nicboul@gmail.com>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation explains the need to create internal syscalls' helpers,
-and that they should be called `kern_xyzzy()`. However, the comment at
-include/linux/syscall.h says that they should be named as
-`ksys_xyzzy()`, and so are all the helpers declared bellow it. Change the
-documentation to reflect this.
+On Sat, Jan 30, 2021 at 11:25 AM Nicolas Bouliane <nicboul@gmail.com> wrote:
+>
+> Signed-off-by: Nicolas Bouliane <nicboul@gmail.com>
 
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Fixes: 819671ff849b ("syscalls: define and explain goal to not call syscalls in the kernel")
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
----
- Documentation/process/adding-syscalls.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index a3ecb236576c..61bdaec188ea 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -501,7 +501,7 @@ table, but not from elsewhere in the kernel.  If the syscall functionality is
- useful to be used within the kernel, needs to be shared between an old and a
- new syscall, or needs to be shared between a syscall and its compatibility
- variant, it should be implemented by means of a "helper" function (such as
--``kern_xyzzy()``).  This kernel function may then be called within the
-+``ksys_xyzzy()``).  This kernel function may then be called within the
- syscall stub (``sys_xyzzy()``), the compatibility syscall stub
- (``compat_sys_xyzzy()``), and/or other kernel code.
- 
+
+The code is correct.
+'$$' is escaped '$', not a typo.
+
+NACK.
+
+
+
+
+> ---
+>  Documentation/kbuild/modules.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+> index a1f3eb7a43e2..44a18bccdd5a 100644
+> --- a/Documentation/kbuild/modules.rst
+> +++ b/Documentation/kbuild/modules.rst
+> @@ -205,7 +205,7 @@ module 8123.ko, which is built from the following files::
+>                 KDIR ?= /lib/modules/`uname -r`/build
+>
+>                 default:
+> -                       $(MAKE) -C $(KDIR) M=$$PWD
+> +                       $(MAKE) -C $(KDIR) M=$PWD
+>
+>                 # Module specific targets
+>                 genbin:
+> @@ -239,7 +239,7 @@ module 8123.ko, which is built from the following files::
+>                 KDIR ?= /lib/modules/`uname -r`/build
+>
+>                 default:
+> -                       $(MAKE) -C $(KDIR) M=$$PWD
+> +                       $(MAKE) -C $(KDIR) M=$PWD
+>
+>                 # Module specific targets
+>                 genbin:
+> @@ -268,7 +268,7 @@ module 8123.ko, which is built from the following files::
+>                 KDIR ?= /lib/modules/`uname -r`/build
+>
+>                 default:
+> -                       $(MAKE) -C $(KDIR) M=$$PWD
+> +                       $(MAKE) -C $(KDIR) M=$PWD
+>
+>                 # Module specific targets
+>                 genbin:
+> --
+> 2.25.1
+>
+
+
 -- 
-2.30.0
-
+Best Regards
+Masahiro Yamada
