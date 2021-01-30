@@ -2,133 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C83BC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 14:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCD8C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 16:45:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4141864E05
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 14:08:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1284561481
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 16:45:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbhA3OHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 09:07:46 -0500
-Received: from mail.v3.sk ([167.172.186.51]:42944 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229468AbhA3OHn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 30 Jan 2021 09:07:43 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id CFE99E0A80;
-        Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id w0XuzY4HszbM; Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 1365AE0B3B;
-        Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id NSS8llP6gogb; Sat, 30 Jan 2021 14:02:51 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 43FBFE0A80;
-        Sat, 30 Jan 2021 14:02:51 +0000 (UTC)
-Date:   Sat, 30 Jan 2021 15:06:52 +0100
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Maen Suleiman <maen@marvell.com>, Lior Amsalem <alior@marvell.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Andrew Lunn <andrew@lunn.ch>, Nicolas Pitre <nico@fluxnic.net>,
-        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] docs: arm: marvell: turn the automatic links into
- labels
-Message-ID: <20210130140652.GA190173@demiurge.local>
-References: <20210129183950.75405-1-lkundrak@v3.sk>
- <20210129183950.75405-2-lkundrak@v3.sk>
- <87tuqzwa0j.fsf@meer.lwn.net>
+        id S231202AbhA3QpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 11:45:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231138AbhA3QpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 11:45:23 -0500
+Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB3EC061574
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jan 2021 08:44:34 -0800 (PST)
+Received: by mail-ua1-x931.google.com with SMTP id a31so4305901uae.11
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jan 2021 08:44:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8dTgzuZEBtakb3Ls1Rwx8UrlJz4K0vLRzf+dxtiuLc0=;
+        b=f8VIFdq0/xiJyYgW5gHz1W5rlrNWZTShgstXT+6szr3w7U3Z20AOXKmUXkXzlTVHI1
+         4wRFRHRAGXRxkdVVjqsouywQv36/54Mbtr8WHQsgZ0p1Q2A+xEj9zoQA4IJP9EBctmjF
+         51rtK3F7+PHte3ErajhBqBh3H7vHFuPF81f8h4Yqs4G8T6YdN1OsCbztepxOLoXFdLvz
+         v39uEjgQF5BCwxzTVKDuwzWzhVsVEMKCz+xp6amH7wMdZbCOwAEZROKchJ0K9idTtgT9
+         NG5Ipm66RNR1FHGrQB2jSJX8pmJW+/VJY1/MOB5Dvmc+OI+AYZ6D+C6BVF412ZKSblmi
+         YJ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8dTgzuZEBtakb3Ls1Rwx8UrlJz4K0vLRzf+dxtiuLc0=;
+        b=MBCcQ4h0BirlFPdTmIF+W8j54u1n6szXKpGuPuWm5MgXJMmLVNm9GmVUYJyppCKZXr
+         l4hLjI20rxmdKJyuKDRseUP4loDCiyee0Qf+9CcmwmwUAY/EeUUyEUKn8EHorE9ogERa
+         d/EaIg85ewxrCOyb3b1gjiqs/3FkC1qDFUSxCQBppEWGKE1XLziMxee1GX8MIIS9Iedy
+         EWO2PKu0UPPQUPnYM94cXplLpO7BHs9ZsdPpW96WF0e8V8rJLI+StN1zObsyH0LRmUpE
+         ho+EhFu8dAjaKUZWkNVVrOX+qcMuXyFNWcS5j3C5VjXNqSe0VPbN8LtAnDVnJ6VCYA3s
+         P0Mw==
+X-Gm-Message-State: AOAM530pB4TBQrfMqEhwbsQgoYEITzLsgLIQhuDEyV+j5KUrVt1HSknD
+        vfqsozTAkkpPK5RpDVoUYoHwbdWvNBuLFlRX
+X-Google-Smtp-Source: ABdhPJxnui7oJ6u2SPaoG6OyYFuyb3fOFEnKwawSsYD6obvIuVrehcrX3RP5VnQKjU1EmPCYhrYVzw==
+X-Received: by 2002:ab0:2851:: with SMTP id c17mr5637698uaq.120.1612025073290;
+        Sat, 30 Jan 2021 08:44:33 -0800 (PST)
+Received: from ?IPv6:2800:484:5386:cf00:4903:bae6:1ea8:94f2? ([2800:484:5386:cf00:4903:bae6:1ea8:94f2])
+        by smtp.gmail.com with ESMTPSA id y74sm1537105vkd.39.2021.01.30.08.44.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Jan 2021 08:44:32 -0800 (PST)
+Subject: Re: [PATCH] kbuild: fix typo in Documentation/kbuild/modules.rst
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>
+References: <20210130022337.11175-1-nicboul@gmail.com>
+ <CAK7LNAQQZqbsnByXkLFWhxJ6HP6QOozxTQsLuamavi57YrAuZA@mail.gmail.com>
+From:   Nicolas Bouliane <nicboul@gmail.com>
+Message-ID: <8ce8f356-13ef-1685-89f0-382fa5b25d0a@gmail.com>
+Date:   Sat, 30 Jan 2021 11:44:30 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tuqzwa0j.fsf@meer.lwn.net>
+In-Reply-To: <CAK7LNAQQZqbsnByXkLFWhxJ6HP6QOozxTQsLuamavi57YrAuZA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 05:20:28PM -0700, Jonathan Corbet wrote:
-> Lubomir Rintel <lkundrak@v3.sk> writes:
-> 
-> > Lines ending with obscenely long URLs at the end don't look good.
-> >
-> > Even if these links are not that long at this point, they will be when
-> > replaced with an archive link in a subsequent patch -- let's prepare for
-> > that.
-> >
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > ---
-> >  Documentation/arm/marvel.rst | 209 ++++++++++++++++++++++++-----------
-> >  1 file changed, 143 insertions(+), 66 deletions(-)
-> >
-> > diff --git a/Documentation/arm/marvel.rst b/Documentation/arm/marvel.rst
-> > index 16ab2eb085b86..716551f9b60a1 100644
-> > --- a/Documentation/arm/marvel.rst
-> > +++ b/Documentation/arm/marvel.rst
-> > @@ -18,12 +18,12 @@ Orion family
-> >          - 88F5181L
-> >          - 88F5182
-> >  
-> > -               - Datasheet: http://www.embeddedarm.com/documentation/third-party/MV88F5182-datasheet.pdf
-> > -               - Programmer's User Guide: http://www.embeddedarm.com/documentation/third-party/MV88F5182-opensource-manual.pdf
-> > -               - User Manual: http://www.embeddedarm.com/documentation/third-party/MV88F5182-usermanual.pdf
-> > +               - Datasheet: `MV88F5182-datasheet.pdf`_
-> > +               - Programmer's User Guide: `MV88F5182-opensource-manual.pdf`_
-> > +               - User Manual: `MV88F5182-usermanual.pdf`_
-> >          - 88F5281
-> >  
-> > -               - Datasheet: http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
-> > +               - Datasheet: `marvel_88f5281_data_sheet.pdf`_
-> >          - 88F6183
-> >    Core:
-> >  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
-> > @@ -32,37 +32,42 @@ Orion family
-> >    Linux kernel plat directory:
-> >  	arch/arm/plat-orion
-> >  
-> > +.. _MV88F5182-datasheet.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-datasheet.pdf
-> > +.. _MV88F5182-opensource-manual.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-opensource-manual.pdf
-> > +.. _MV88F5182-usermanual.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-usermanual.pdf
-> > +.. _marvel_88f5281_data_sheet.pdf: http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
-> 
-> So I see what you're trying to do, but this has the effect of prettying
-> up the processed docs at the expense of making the plain-text version
-> harder to read.  Somebody who wants to find one of these datasheets from
-> the plain-text version has to skip further down in the file, hoping that
-> they pick out the right one among a set of long, similar URLs.
-> Honestly, I think we may be better off leaving them as they are.
-> Failing that, the right thing to do is to keep the lines defining the
-> URL labels right next to where they are referenced.
-> 
-> See what I'm getting at?
 
-Yes. I've been considering the same, but concluded it's a still a better
-idea to move the full URLs below because
 
-1.) at this point the links are broken anyway and the basename is the
-    only valuable part of the URL when looking for an actual document;
-    and the basename stays in place
-2.) the archive.org links that replace them in another patch are waaaay too
-    long even for very large displays
-
-However, even though I think this is perhaps marginally better, either
-way works for me. Thus, unless you change your mind about it, I'll follow
-up with a v2 that drops this patch and replaces the links in place.
-
-Thank you
-Lubo
-
+On 1/30/21 12:21 AM, Masahiro Yamada wrote:
+> On Sat, Jan 30, 2021 at 11:25 AM Nicolas Bouliane <nicboul@gmail.com> wrote:
+>>
+>> Signed-off-by: Nicolas Bouliane <nicboul@gmail.com>
 > 
-> Thanks,
 > 
-> jon
+> 
+> The code is correct.
+> '$$' is escaped '$', not a typo.
+> 
+> NACK.
+
+Oh ! I got confused, my apologies
+thank you for your reply
+
+Nick
