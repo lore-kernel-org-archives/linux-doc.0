@@ -5,26 +5,26 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92390C43381
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C552CC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:14:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63A4A64E02
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:13:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8355964E15
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231970AbhA3JNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 04:13:25 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11989 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbhA3JND (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 04:13:03 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DSQFX3nx7zjGPw;
-        Sat, 30 Jan 2021 15:05:04 +0800 (CST)
+        id S229921AbhA3JNh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 04:13:37 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:11948 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231194AbhA3JNM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 04:13:12 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DSQFj4bhkzjFJ6;
+        Sat, 30 Jan 2021 15:05:13 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Sat, 30 Jan 2021 15:06:11 +0800
+ 14.3.498.0; Sat, 30 Jan 2021 15:06:08 +0800
 From:   Chen Zhou <chenzhou10@huawei.com>
 To:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
         <dyoung@redhat.com>, <bhe@redhat.com>, <catalin.marinas@arm.com>,
@@ -39,9 +39,9 @@ CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>,
         John Donnelly <John.p.donnelly@oracle.com>
-Subject: [PATCH v14 10/11] arm64: kdump: add memory for devices by DT property linux,usable-memory-range
-Date:   Sat, 30 Jan 2021 15:10:24 +0800
-Message-ID: <20210130071025.65258-11-chenzhou10@huawei.com>
+Subject: [PATCH v14 07/11] arm64: kdump: introduce some macroes for crash kernel reservation
+Date:   Sat, 30 Jan 2021 15:10:21 +0800
+Message-ID: <20210130071025.65258-8-chenzhou10@huawei.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210130071025.65258-1-chenzhou10@huawei.com>
 References: <20210130071025.65258-1-chenzhou10@huawei.com>
@@ -54,103 +54,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When reserving crashkernel in high memory, some low memory is reserved
-for crash dump kernel devices and never mapped by the first kernel.
-This memory range is advertised to crash dump kernel via DT property
-under /chosen,
-	linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
+Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
+for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
+upper bound of high crash memory, use macroes instead.
 
-We reused the DT property linux,usable-memory-range and made the low
-memory region as the second range "BASE2 SIZE2", which keeps compatibility
-with existing user-space and older kdump kernels.
-
-Crash dump kernel reads this property at boot time and call memblock_add()
-to add the low memory region after memblock_cap_memory_range() has been
-called.
+Besides, keep consistent with x86, use CRASH_ALIGN as the lower bound
+of crash kernel reservation.
 
 Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 Tested-by: John Donnelly <John.p.donnelly@oracle.com>
 ---
- arch/arm64/mm/init.c | 43 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 33 insertions(+), 10 deletions(-)
+ arch/arm64/include/asm/kexec.h | 6 ++++++
+ arch/arm64/mm/init.c           | 6 +++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
+diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+index d24b527e8c00..3f6ecae0bc68 100644
+--- a/arch/arm64/include/asm/kexec.h
++++ b/arch/arm64/include/asm/kexec.h
+@@ -25,6 +25,12 @@
+ 
+ #define KEXEC_ARCH KEXEC_ARCH_AARCH64
+ 
++/* 2M alignment for crash kernel regions */
++#define CRASH_ALIGN	SZ_2M
++
++#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
++#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
++
+ #ifndef __ASSEMBLY__
+ 
+ /**
 diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index d20f5c444ebf..180a25b67f55 100644
+index 709d98fea90c..912f64f505f7 100644
 --- a/arch/arm64/mm/init.c
 +++ b/arch/arm64/mm/init.c
-@@ -68,6 +68,15 @@ static void __init reserve_crashkernel(void)
- }
- #endif
+@@ -84,8 +84,8 @@ static void __init reserve_crashkernel(void)
  
-+/*
-+ * The main usage of linux,usable-memory-range is for crash dump kernel.
-+ * Originally, the number of usable-memory regions is one. Now there may
-+ * be two regions, low region and high region.
-+ * To make compatibility with existing user-space and older kdump, the low
-+ * region is always the last range of linux,usable-memory-range if exist.
-+ */
-+#define MAX_USABLE_RANGES	2
-+
- #ifdef CONFIG_CRASH_DUMP
- static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
- 		const char *uname, int depth, void *data)
-@@ -201,9 +210,9 @@ early_param("mem", early_mem);
- static int __init early_init_dt_scan_usablemem(unsigned long node,
- 		const char *uname, int depth, void *data)
- {
--	struct memblock_region *usablemem = data;
--	const __be32 *reg;
--	int len;
-+	struct memblock_region *usable_rgns = data;
-+	const __be32 *reg, *endp;
-+	int len, nr = 0;
+ 	if (crash_base == 0) {
+ 		/* Current arm64 boot protocol requires 2MB alignment */
+-		crash_base = memblock_find_in_range(0, arm64_dma_phys_limit,
+-				crash_size, SZ_2M);
++		crash_base = memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MAX,
++				crash_size, CRASH_ALIGN);
+ 		if (crash_base == 0) {
+ 			pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+ 				crash_size);
+@@ -103,7 +103,7 @@ static void __init reserve_crashkernel(void)
+ 			return;
+ 		}
  
- 	if (depth != 1 || strcmp(uname, "chosen") != 0)
- 		return 0;
-@@ -212,22 +221,36 @@ static int __init early_init_dt_scan_usablemem(unsigned long node,
- 	if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
- 		return 1;
- 
--	usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
--	usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
-+	endp = reg + (len / sizeof(__be32));
-+	while ((endp - reg) >= (dt_root_addr_cells + dt_root_size_cells)) {
-+		usable_rgns[nr].base = dt_mem_next_cell(dt_root_addr_cells, &reg);
-+		usable_rgns[nr].size = dt_mem_next_cell(dt_root_size_cells, &reg);
-+
-+		if (++nr >= MAX_USABLE_RANGES)
-+			break;
-+	}
- 
- 	return 1;
- }
- 
- static void __init fdt_enforce_memory_region(void)
- {
--	struct memblock_region reg = {
--		.size = 0,
-+	struct memblock_region usable_rgns[MAX_USABLE_RANGES] = {
-+		{ .size = 0 },
-+		{ .size = 0 }
- 	};
- 
--	of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
-+	of_scan_flat_dt(early_init_dt_scan_usablemem, &usable_rgns);
- 
--	if (reg.size)
--		memblock_cap_memory_range(reg.base, reg.size);
-+	/*
-+	 * The first range of usable-memory regions is for crash dump
-+	 * kernel with only one region or for high region with two regions,
-+	 * the second range is dedicated for low region if exist.
-+	 */
-+	if (usable_rgns[0].size)
-+		memblock_cap_memory_range(usable_rgns[0].base, usable_rgns[0].size);
-+	if (usable_rgns[1].size)
-+		memblock_add(usable_rgns[1].base, usable_rgns[1].size);
- }
- 
- void __init arm64_memblock_init(void)
+-		if (!IS_ALIGNED(crash_base, SZ_2M)) {
++		if (!IS_ALIGNED(crash_base, CRASH_ALIGN)) {
+ 			pr_warn("cannot reserve crashkernel: base address is not 2MB aligned\n");
+ 			return;
+ 		}
 -- 
 2.20.1
 
