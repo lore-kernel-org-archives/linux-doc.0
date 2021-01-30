@@ -2,146 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0879DC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C03EC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:36:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2BCC64E12
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:24:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28E7F64E04
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 09:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbhA3JX7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 04:23:59 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11992 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231801AbhA3JXD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 04:23:03 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DSQFX3J9QzjGPt;
-        Sat, 30 Jan 2021 15:05:04 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Sat, 30 Jan 2021 15:06:10 +0800
-From:   Chen Zhou <chenzhou10@huawei.com>
-To:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
-        <dyoung@redhat.com>, <bhe@redhat.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <nsaenzjulienne@suse.de>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <bhsharma@redhat.com>,
-        <prabhakar.pkin@gmail.com>
-CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
-        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>, <chenzhou10@huawei.com>,
-        <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
-Subject: [PATCH v14 09/11] x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL config
-Date:   Sat, 30 Jan 2021 15:10:23 +0800
-Message-ID: <20210130071025.65258-10-chenzhou10@huawei.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210130071025.65258-1-chenzhou10@huawei.com>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
+        id S230455AbhA3Jfd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 04:35:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34538 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233370AbhA3DUz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Jan 2021 22:20:55 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 79C9F60233;
+        Sat, 30 Jan 2021 03:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611976806;
+        bh=fI4XzswaN5Y5SbCYv/UnpFluVbxxpIZnHVd/jTqTlwI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=jhX3JzI2zKoCr5Jxu1KbSHrDqTMl6D2Z7AJNPODPmcq9tEZDHIruGTCsQsJ8Z+p7X
+         BNz0cdF7v23eK5E5FW+l98/YLyviYuqaX5bMUh38qZ4V2cmkqB4W5ntQvDZkvMEW0V
+         f00lJzUU3rtf+u+RhaPL9sKAwPBluZtTV5a3+ZywXwRXxybiYZ6CivX5Fy3ckHVWw1
+         OuCa9OAmoJG44nHTsTfi46Hc6xWOBPmqGBmdFYievhZiup0u11c+mEIVkOQ1GlJAdc
+         PonL8/vjrmH9WXBrTT0/7aKZ2SFDpq2fNdE3Xy3kpgkBCxS/tj8fylI8r5R13k8Rbc
+         xHs5smM7DmQVA==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] docs: networking: timestamping: fix section title markup
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161197680640.13531.13955253891905307453.git-patchwork-notify@kernel.org>
+Date:   Sat, 30 Jan 2021 03:20:06 +0000
+References: <20210128111930.29473-1-jlu@pengutronix.de>
+In-Reply-To: <20210128111930.29473-1-jlu@pengutronix.de>
+To:     Jan Luebbe <jlu@pengutronix.de>
+Cc:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel@pengutronix.de
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We make the functions reserve_crashkernel[_low]() as generic for
-x86 and arm64. Since reserve_crashkernel[_low]() implementations
-are quite similar on other architectures as well, we can have more
-users of this later.
+Hello:
 
-So have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in arch/Kconfig and
-select this by X86 and ARM64.
+This patch was applied to netdev/net-next.git (refs/heads/master):
 
-Suggested-by: Mike Rapoport <rppt@kernel.org>
-Suggested-by: Baoquan He <bhe@redhat.com>
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
----
- arch/Kconfig        | 3 +++
- arch/arm64/Kconfig  | 1 +
- arch/x86/Kconfig    | 2 ++
- kernel/crash_core.c | 7 ++-----
- 4 files changed, 8 insertions(+), 5 deletions(-)
+On Thu, 28 Jan 2021 12:19:30 +0100 you wrote:
+> This section was missed during the conversion to ReST, so convert it in the
+> same style as the surrounding section titles.
+> 
+> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+> ---
+>  Documentation/networking/timestamping.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 24862d15f3a3..0ca1ff5bb157 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -24,6 +24,9 @@ config KEXEC_ELF
- config HAVE_IMA_KEXEC
- 	bool
- 
-+config ARCH_WANT_RESERVE_CRASH_KERNEL
-+	bool
-+
- config SET_FS
- 	bool
- 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index f39568b28ec1..09365c7ff469 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -82,6 +82,7 @@ config ARM64
- 	select ARCH_WANT_FRAME_POINTERS
- 	select ARCH_WANT_HUGE_PMD_SHARE if ARM64_4K_PAGES || (ARM64_16K_PAGES && !ARM64_VA_BITS_36)
- 	select ARCH_WANT_LD_ORPHAN_WARN
-+	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
- 	select ARCH_HAS_UBSAN_SANITIZE_ALL
- 	select ARM_AMBA
- 	select ARM_ARCH_TIMER
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 21f851179ff0..e6926fcb4a40 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -12,6 +12,7 @@ config X86_32
- 	depends on !64BIT
- 	# Options that are inherently 32-bit kernel only:
- 	select ARCH_WANT_IPC_PARSE_VERSION
-+	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
- 	select CLKSRC_I8253
- 	select CLONE_BACKWARDS
- 	select GENERIC_VDSO_32
-@@ -28,6 +29,7 @@ config X86_64
- 	select ARCH_HAS_GIGANTIC_PAGE
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_USE_CMPXCHG_LOCKREF
-+	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
- 	select HAVE_ARCH_SOFT_DIRTY
- 	select MODULES_USE_ELF_RELA
- 	select NEED_DMA_MAP_STATE
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 8479be270c0b..2c5783985db5 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -320,9 +320,7 @@ int __init parse_crashkernel_low(char *cmdline,
-  * --------- Crashkernel reservation ------------------------------
-  */
- 
--#ifdef CONFIG_KEXEC_CORE
--
--#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
-+#ifdef CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
- static int __init reserve_crashkernel_low(void)
- {
- #ifdef CONFIG_64BIT
-@@ -450,8 +448,7 @@ void __init reserve_crashkernel(void)
- 	crashk_res.start = crash_base;
- 	crashk_res.end   = crash_base + crash_size - 1;
- }
--#endif
--#endif /* CONFIG_KEXEC_CORE */
-+#endif /* CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL */
- 
- Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
- 			  void *data, size_t data_len)
--- 
-2.20.1
+Here is the summary with links:
+  - docs: networking: timestamping: fix section title markup
+    https://git.kernel.org/netdev/net-next/c/5daf83846cdb
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
