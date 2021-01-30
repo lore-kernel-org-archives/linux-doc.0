@@ -2,142 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC103C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 23:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE24C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 00:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5783D64DEB
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jan 2021 23:46:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08F3964E11
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 00:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231202AbhA2Xqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jan 2021 18:46:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47442 "EHLO
+        id S231694AbhA3ARU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jan 2021 19:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbhA2Xqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 18:46:33 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0395C061574
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 15:45:52 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id v15so10486899wrx.4
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jan 2021 15:45:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5tw1Hp7aX/S0VjTJJRisCjf0Avfnwz4zJamKEdO13Ig=;
-        b=ezvP0/016Ph5ZYnfV3u4UGjyoaDOxwpS+sXs/4ixvS88CT/B7PjjFHHij3nwLfOwVK
-         3qxpGR8l/UDiab0txk+CbJgw26ZUC5nx5lQlxGdc8FhoQuciqgO7abXBo3CrBkGAbmPR
-         xMleYfmOt6LJaBdAeWo9aZiUdj7x3L8UNmHwnpx6aoN4MfQ38PqkLVvwqn1glaTbwihc
-         NfNwuHDwz1B0Q+LB1guWnkcDxE6G6OeAh+HZdPZyt/rSlz2MDVBkhDCPDFAZHaZztLTq
-         2dD95NDRZtjjIiniw56Ryrpts0VtXjXnowPLVANUs3zm223hXzaWTsxkwjK2DqavU+mi
-         +J5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5tw1Hp7aX/S0VjTJJRisCjf0Avfnwz4zJamKEdO13Ig=;
-        b=nXLYGU8qG0nSPqIpdYYh1fVS+9WP5xguY1/l4eZRPa9tqtE4Bp1bw/rXdnStpGmz07
-         LpkH2Rl2rPBEX0HwbEJ9iOTaIcWt3N2OEZX0rl675Fx60FNv4Wjg/b1p2dbR+jlGtBer
-         AeKw81f8blBLQzO+57zVIGLmhcrJWkMA8uPOT7j7aNyCtQfRf/Jmbna5mZPFFjseOLXM
-         dylM0qa8O/y4p4Ca7I4aDreZtASRy8qI7IBb3/tT2C6VdQor7kFLHMbiG5zp1C7VVo4Z
-         9Oo0Qa/iwcPDBgEq/wTTv/GE2H/Qz5LzkXGVO87hH30n8kZynaLif97TG3XKoxWv5Xc1
-         E6kg==
-X-Gm-Message-State: AOAM532TkpKWyUHMN5FaPbRirmhi9UFS1kKuZ1UXQDJGaQYK2+V43EpD
-        XaO2H27We5jcK8EJFmKr00zaaXHS8gKPsQ==
-X-Google-Smtp-Source: ABdhPJwSrmsBUw0JVsO4Dn8CSCcWHNv+NHGbSr63pqQM0s1AODOPZTrqR81CgfE40eZthHDWMmFqeA==
-X-Received: by 2002:adf:cd83:: with SMTP id q3mr6963326wrj.225.1611963951497;
-        Fri, 29 Jan 2021 15:45:51 -0800 (PST)
-Received: from localhost.localdomain ([212.45.67.2])
-        by smtp.googlemail.com with ESMTPSA id x1sm12376230wmi.14.2021.01.29.15.45.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Jan 2021 15:45:50 -0800 (PST)
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-To:     akpm@linux-foundation.org, linux-mm@kvack.org
-Cc:     vbabka@suse.cz, corbet@lwn.net, linux-doc@vger.kernel.org,
+        with ESMTP id S232016AbhA3AQe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jan 2021 19:16:34 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B235BC06174A;
+        Fri, 29 Jan 2021 16:15:43 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 468C36142;
+        Sat, 30 Jan 2021 00:15:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 468C36142
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1611965742; bh=M2tjm2zvpwz+6McLyPCdVsfVAKOBKj8VqkTZQibMfiM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=BKy484P3LlfiDsc2tWkvciRrtHOVRbwBMWJs9fR9wf8Z0GIUTJmmf4ZvnkVv2F4Nu
+         xHCcvSKmFXbdZ/vqXNNW9CA5j06HY6O5MTc3PBAihx1tIjE8RdUSKkHNh2N9eGGSxH
+         vb8FB7yIhqpqR6+ZsEsDua4HiIF9XB5Irp2tmvSayEu62ABTz8Ba9CclgSkr2nKVWP
+         kHccip/bUrJL7RTZYji/NNKIIkkFugXj0kZ72pJWC+ZrjUIB79n5n3kUwpube4z7e/
+         tOS4mitZx4B9StbG0pd4377Bdjt3owntYUL9YGe/obxOaHxuaVvPeM4PRMTmRUOEd7
+         g8rHoO0ZCdyEA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Noa Sakurajin <noasakurajin@web.de>
+Cc:     Noa Sakurajin <noasakurajin@web.de>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Georgi Djakov <georgi.djakov@linaro.org>
-Subject: [PATCH] mm/page_owner: Record the timestamp of all pages during free
-Date:   Sat, 30 Jan 2021 01:45:48 +0200
-Message-Id: <20210129234548.10054-1-georgi.djakov@linaro.org>
-X-Mailer: git-send-email 2.29.0
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH] Updates Documentation/Makefile to use Python3 as fallback
+In-Reply-To: <20210129113544.25946-1-noasakurajin@web.de>
+References: <20210129113544.25946-1-noasakurajin@web.de>
+Date:   Fri, 29 Jan 2021 17:15:41 -0700
+Message-ID: <87y2gbwa8i.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Collect the time when each allocation is freed, to help with memory
-analysis with kdump/ramdump.
+Noa Sakurajin <noasakurajin@web.de> writes:
 
-Having another timestamp when we free the page helps for debugging
-page migration issues. For example both alloc and free timestamps
-being the same can gave hints that there is an issue with migrating
-memory, as opposed to a page just being dropped during migration.
+[CC += kbuild maintainers]
 
-Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
----
- Documentation/vm/page_owner.rst | 2 +-
- mm/page_owner.c                 | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+>  Before the command python was needed for the documentation to build.
+>  This patch checks if python is available and uses python3 as
+>  fallback.
+>
+>  This is needed because a lot of distribution (at least Ubuntu)
+>  only provide python3 and not python. scripts/sphinx-pre-install
+>  checks for python3 first and does not check if python exists
+>  which causes it to report that everything is installed even
+>  if the documentation build failed.
+>
+> Signed-off-by: Noa Sakurajin <noasakurajin@web.de>
+> ---
+>  Documentation/Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 61a7310b49e0..8a4a7df3b74a 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -75,7 +75,8 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+>        cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
+>  	PYTHONDONTWRITEBYTECODE=1 \
+>  	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(srctree)/$(src)/$5/$(SPHINX_CONF)) \
+> -	$(PYTHON) $(srctree)/scripts/jobserver-exec \
+> +	PY=$(shell command -v $(PYTHON) 2> /dev/null) \
+> +	$${PY:-"$(PYTHON3)"} $(srctree)/scripts/jobserver-exec \
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 4e67c2e9bbed..5d7a62c2be28 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -47,7 +47,7 @@ size change due to this facility.
- 
-    text    data     bss     dec     hex filename
-    48800   2445     644   51889    cab1 mm/page_alloc.o
--   6574     108      29    6711    1a37 mm/page_owner.o
-+   6644     108      29    6777    1a79 mm/page_owner.o
-    1025       8       8    1041     411 mm/page_ext.o
- 
- Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index d15c7c4994f5..fbdf064e7494 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -27,6 +27,7 @@ struct page_owner {
- 	depot_stack_handle_t handle;
- 	depot_stack_handle_t free_handle;
- 	u64 ts_nsec;
-+	u64 free_ts_nsec;
- 	pid_t pid;
- };
- 
-@@ -148,6 +149,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
- 	struct page_ext *page_ext;
- 	depot_stack_handle_t handle = 0;
- 	struct page_owner *page_owner;
-+	u64 free_ts_nsec = local_clock();
- 
- 	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
- 
-@@ -158,6 +160,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
- 		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
- 		page_owner = get_page_owner(page_ext);
- 		page_owner->free_handle = handle;
-+		page_owner->free_ts_nsec = free_ts_nsec;
- 		page_ext = page_ext_next(page_ext);
- 	}
- }
-@@ -177,6 +180,7 @@ static inline void __set_page_owner_handle(struct page *page,
- 		page_owner->last_migrate_reason = -1;
- 		page_owner->pid = current->pid;
- 		page_owner->ts_nsec = local_clock();
-+		page_owner->free_ts_nsec = 0;
- 		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
- 		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
- 
-@@ -243,6 +247,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
- 	new_page_owner->handle = old_page_owner->handle;
- 	new_page_owner->pid = old_page_owner->pid;
- 	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
-+	new_page_owner->free_ts_nsec = old_page_owner->ts_nsec;
- 
- 	/*
- 	 * We don't clear the bit on the oldpage as it's going to be freed
+So I see what you're trying to do, and we definitely want this to work.
+I susped this isn't the right fix, though; it could leave us open to
+similar issues elsewhere in the tree.
+
+Personally, I think that $(PYTHON) should get a working Python if it's
+installed, so I would suggest fixing the top-level Makefile to set it
+correctly.  Masahiro, thoughts on that?
+
+Alternatively, we could just say $(PYTHON3) and explicitly leave Python2
+behind; that needs to happen in the not-too-distant future regardless
+but we haven't decided to actually do it yet.
+
+Thanks,
+
+jon
