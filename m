@@ -2,181 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF277C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 10:05:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C83BC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 14:08:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9145A64E04
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 10:05:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4141864E05
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 14:08:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhA3KFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 05:05:38 -0500
-Received: from mga11.intel.com ([192.55.52.93]:25408 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233194AbhA3Crl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Jan 2021 21:47:41 -0500
-IronPort-SDR: rAosmi/eCJcjvg2irvDbSPrFhibh/lSmw1e7sm8UeLsWsrd4UeuBNGKaI8eo6OVDjGqUMryAYo
- 2vcbj+IYG+qw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="177000085"
-X-IronPort-AV: E=Sophos;i="5.79,387,1602572400"; 
-   d="scan'208";a="177000085"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 18:21:30 -0800
-IronPort-SDR: fYWIPAP77KQb9KhFT6x6lbuztG9kkio5XdOGEU5F2uffjI93VPQ5/03bzF9s0/QaIabOJmzoU6
- ldJNlVo/26pQ==
-X-IronPort-AV: E=Sophos;i="5.79,387,1602572400"; 
-   d="scan'208";a="579672318"
-Received: from smtp.ostc.intel.com ([10.54.29.231])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 18:21:29 -0800
-Received: from mtg-dev.jf.intel.com (mtg-dev.jf.intel.com [10.54.74.10])
-        by smtp.ostc.intel.com (Postfix) with ESMTP id B3187636D;
-        Fri, 29 Jan 2021 18:21:29 -0800 (PST)
-Received: by mtg-dev.jf.intel.com (Postfix, from userid 1000)
-        id A7D3A36367C; Fri, 29 Jan 2021 18:21:29 -0800 (PST)
-From:   mgross@linux.intel.com
-To:     markgross@kernel.org, mgross@linux.intel.com, arnd@arndb.de,
-        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net,
-        palmerdabbelt@google.com, paul.walmsley@sifive.com,
-        peng.fan@nxp.com, robh+dt@kernel.org, shawnguo@kernel.org,
-        jassisinghbrar@gmail.com
-Cc:     linux-kernel@vger.kernel.org,
-        Srikanth Thokala <srikanth.thokala@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v4 08/34] misc: xlink-pcie: Add documentation for XLink PCIe driver
-Date:   Fri, 29 Jan 2021 18:20:58 -0800
-Message-Id: <20210130022124.65083-44-mgross@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210130022124.65083-1-mgross@linux.intel.com>
-References: <20210130022124.65083-1-mgross@linux.intel.com>
+        id S229851AbhA3OHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 09:07:46 -0500
+Received: from mail.v3.sk ([167.172.186.51]:42944 "EHLO shell.v3.sk"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229468AbhA3OHn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 30 Jan 2021 09:07:43 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id CFE99E0A80;
+        Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id w0XuzY4HszbM; Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 1365AE0B3B;
+        Sat, 30 Jan 2021 14:02:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id NSS8llP6gogb; Sat, 30 Jan 2021 14:02:51 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 43FBFE0A80;
+        Sat, 30 Jan 2021 14:02:51 +0000 (UTC)
+Date:   Sat, 30 Jan 2021 15:06:52 +0100
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Maen Suleiman <maen@marvell.com>, Lior Amsalem <alior@marvell.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Andrew Lunn <andrew@lunn.ch>, Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] docs: arm: marvell: turn the automatic links into
+ labels
+Message-ID: <20210130140652.GA190173@demiurge.local>
+References: <20210129183950.75405-1-lkundrak@v3.sk>
+ <20210129183950.75405-2-lkundrak@v3.sk>
+ <87tuqzwa0j.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87tuqzwa0j.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Srikanth Thokala <srikanth.thokala@intel.com>
+On Fri, Jan 29, 2021 at 05:20:28PM -0700, Jonathan Corbet wrote:
+> Lubomir Rintel <lkundrak@v3.sk> writes:
+> 
+> > Lines ending with obscenely long URLs at the end don't look good.
+> >
+> > Even if these links are not that long at this point, they will be when
+> > replaced with an archive link in a subsequent patch -- let's prepare for
+> > that.
+> >
+> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> > ---
+> >  Documentation/arm/marvel.rst | 209 ++++++++++++++++++++++++-----------
+> >  1 file changed, 143 insertions(+), 66 deletions(-)
+> >
+> > diff --git a/Documentation/arm/marvel.rst b/Documentation/arm/marvel.rst
+> > index 16ab2eb085b86..716551f9b60a1 100644
+> > --- a/Documentation/arm/marvel.rst
+> > +++ b/Documentation/arm/marvel.rst
+> > @@ -18,12 +18,12 @@ Orion family
+> >          - 88F5181L
+> >          - 88F5182
+> >  
+> > -               - Datasheet: http://www.embeddedarm.com/documentation/third-party/MV88F5182-datasheet.pdf
+> > -               - Programmer's User Guide: http://www.embeddedarm.com/documentation/third-party/MV88F5182-opensource-manual.pdf
+> > -               - User Manual: http://www.embeddedarm.com/documentation/third-party/MV88F5182-usermanual.pdf
+> > +               - Datasheet: `MV88F5182-datasheet.pdf`_
+> > +               - Programmer's User Guide: `MV88F5182-opensource-manual.pdf`_
+> > +               - User Manual: `MV88F5182-usermanual.pdf`_
+> >          - 88F5281
+> >  
+> > -               - Datasheet: http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
+> > +               - Datasheet: `marvel_88f5281_data_sheet.pdf`_
+> >          - 88F6183
+> >    Core:
+> >  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
+> > @@ -32,37 +32,42 @@ Orion family
+> >    Linux kernel plat directory:
+> >  	arch/arm/plat-orion
+> >  
+> > +.. _MV88F5182-datasheet.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-datasheet.pdf
+> > +.. _MV88F5182-opensource-manual.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-opensource-manual.pdf
+> > +.. _MV88F5182-usermanual.pdf: http://www.embeddedarm.com/documentation/third-party/MV88F5182-usermanual.pdf
+> > +.. _marvel_88f5281_data_sheet.pdf: http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
+> 
+> So I see what you're trying to do, but this has the effect of prettying
+> up the processed docs at the expense of making the plain-text version
+> harder to read.  Somebody who wants to find one of these datasheets from
+> the plain-text version has to skip further down in the file, hoping that
+> they pick out the right one among a set of long, similar URLs.
+> Honestly, I think we may be better off leaving them as they are.
+> Failing that, the right thing to do is to keep the lines defining the
+> URL labels right next to where they are referenced.
+> 
+> See what I'm getting at?
 
-Provide overview of XLink PCIe driver implementation
+Yes. I've been considering the same, but concluded it's a still a better
+idea to move the full URLs below because
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mark Gross <mgross@linux.intel.com>
-Signed-off-by: Mark Gross <mgross@linux.intel.com>
-Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
----
- Documentation/vpu/index.rst      |  1 +
- Documentation/vpu/xlink-pcie.rst | 90 ++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
- create mode 100644 Documentation/vpu/xlink-pcie.rst
+1.) at this point the links are broken anyway and the basename is the
+    only valuable part of the URL when looking for an actual document;
+    and the basename stays in place
+2.) the archive.org links that replace them in another patch are waaaay too
+    long even for very large displays
 
-diff --git a/Documentation/vpu/index.rst b/Documentation/vpu/index.rst
-index 7e290e048910..661cc700ee45 100644
---- a/Documentation/vpu/index.rst
-+++ b/Documentation/vpu/index.rst
-@@ -14,3 +14,4 @@ This documentation contains information for the Intel VPU stack.
-    :maxdepth: 2
- 
-    vpu-stack-overview
-+   xlink-pcie
-diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
-new file mode 100644
-index 000000000000..85a70990e9c9
---- /dev/null
-+++ b/Documentation/vpu/xlink-pcie.rst
-@@ -0,0 +1,90 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
-+Kernel driver: Xlink-pcie driver
-+================================
-+Supported chips:
-+  * Intel Edge.AI Computer Vision platforms: Keem Bay
-+    Suffix: Bay
-+    Slave address: 6240
-+    Datasheet: Publicly available at Intel
-+
-+Author: Srikanth Thokala Srikanth.Thokala@intel.com
-+
-+Introduction
-+============
-+The Xlink-pcie driver provides transport layer implementation for
-+the data transfers to support Xlink protocol subsystem communication with the
-+peer device, i.e., between remote host system and Keem Bay device.
-+
-+The Keem Bay device is an ARM-based SOC that includes a vision processing
-+unit (VPU) and deep learning, neural network core in the hardware.
-+The Xlink-pcie driver exports a functional device endpoint to the Keem Bay
-+device and supports two-way communication with the peer device.
-+
-+High-level architecture
-+=======================
-+Remote Host: IA CPU
-+Local Host: ARM CPU (Keem Bay)::
-+
-+        +------------------------------------------------------------------------+
-+        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
-+        +==================================+=+===============================+===+
-+        |  User App                        | | User App                      |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink UAPI                     | | XLink UAPI                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink Core                     | | XLink Core                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink PCIe                     | | XLink PCIe                    |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
-+        +----------------------------------+-+-------------------------------+---+
-+        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
-+        +----------------------------------+-+-------------------------------+---+
-+        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
-+        +----------------------------------+-+-------------------------------+---+
-+               ^                                             ^
-+               |                                             |
-+               |------------- PCIe x2 Link  -----------------|
-+
-+This XLink PCIe driver comprises of two variants:
-+* Local Host driver
-+
-+  * Intended for ARM CPU
-+  * It is based on PCI Endpoint Framework
-+  * Driver path: {tree}/drivers/misc/Xlink-pcie/local_host
-+
-+* Remote Host driver
-+
-+       * Intended for IA CPU
-+       * It is a PCIe endpoint driver
-+       * Driver path: {tree}/drivers/misc/Xlink-pcie/remote_host
-+
-+XLink PCIe communication between local host and remote host is achieved through
-+ring buffer management and MSI/Doorbell interrupts.
-+
-+The Xlink-pcie driver subsystem registers the Keem Bay device as an endpoint
-+driver and provides standard Linux PCIe sysfs interface:
-+'/sys/bus/pci/devices/xxxx:xx:xx.0/'
-+
-+
-+XLink protocol subsystem
-+========================
-+Xlink is an abstracted control and communication subsystem based on channel
-+identification. It is intended to support VPU technology both at SoC level as
-+well as at IP level, over multiple interfaces.
-+
-+- The Xlink subsystem abstracts several types of communication channels
-+  underneath, allowing the usage of different interfaces with the
-+  same function call interface.
-+- The Communication channels are full-duplex protocol channels allowing
-+  concurrent bidirectional communication.
-+- The Xlink subsystem also supports control operations to VPU either
-+  from standalone local system or from remote system based on communication
-+  interface underneath.
-+- The Xlink subsystem supports the following communication interfaces:
-+    * USB CDC
-+    * Gigabit Ethernet
-+    * PCIe
-+    * IPC
--- 
-2.17.1
+However, even though I think this is perhaps marginally better, either
+way works for me. Thus, unless you change your mind about it, I'll follow
+up with a v2 that drops this patch and replaces the links in place.
 
+Thank you
+Lubo
+
+> 
+> Thanks,
+> 
+> jon
