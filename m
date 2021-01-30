@@ -2,95 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 294BAC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 18:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFDEAC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 19:06:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFE3A64E11
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 18:54:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A90D64E11
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jan 2021 19:06:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231641AbhA3SyR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 13:54:17 -0500
-Received: from smtprelay0111.hostedemail.com ([216.40.44.111]:59720 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230045AbhA3SyQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 13:54:16 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 0527D1E03;
-        Sat, 30 Jan 2021 18:53:35 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: point84_6108006275b3
-X-Filterd-Recvd-Size: 2154
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Sat, 30 Jan 2021 18:53:34 +0000 (UTC)
-Message-ID: <19fb55171ddc81293e149041c33fa6ce48daed7f.camel@perches.com>
-Subject: Re: [PATCH 01/29] coding-style.rst: Avoid comma statements
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <trivial@kernel.org>, linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Date:   Sat, 30 Jan 2021 10:53:32 -0800
-In-Reply-To: <2a97b738bba335434461a5a918053a49c1fb6af4.1598331148.git.joe@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
-         <2a97b738bba335434461a5a918053a49c1fb6af4.1598331148.git.joe@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S232181AbhA3TGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jan 2021 14:06:38 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:57923 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229990AbhA3TGh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 14:06:37 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 37AB55C0136;
+        Sat, 30 Jan 2021 14:05:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sat, 30 Jan 2021 14:05:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bernat.ch; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=p5QLBBi0PqJEVMh4blUcldzbA0
+        CV0zuQArtJpoYs/MU=; b=RT+X4LIvjVslThD4KMgf+j3VKAllgBKT6aMBKeGTy+
+        KiLA6WLDVPRz6NbQHCUNQVLkLJSROuIseCN/APXV/FI04ruxhxpQ0HYLeSpJUe8b
+        N7jZSC8ad6lrYjGY+JJ+O1EldldIRuDebrU8mSqJtkR8hnQt3HIpEByt52gT+VjT
+        9jezYsKLVKZ847C78IBsQ3aDkQ1YVnTLl8o6bd4jUkb+gjUqSBph+M69ytQIlefn
+        PJpSEr1uuCwFL5KQBzt8Ht3xpZ+Z9tDATX6UgRA/zRnOpfDvGqxVgiHgnFpWB2sg
+        sax8PWCQyxDsiAxlYcwQF68ZthA2zJT2iEphMK+FInXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=p5QLBBi0PqJEVMh4b
+        lUcldzbA0CV0zuQArtJpoYs/MU=; b=ZNhdQ8kHLmA0B2FUoSybFxooE9PJXU5A1
+        KnyF3UeFf4MzdTobRzpcMIq45ekr+whN6EUkHZAKd880gRpZ7CSgrG9Zc5CWhskt
+        nu7MH2wWrnopRi4aTZ13Cw/hWdK5ti5eKrT8MwNcVf+PCENyIPYIXcgKZhqnTkhT
+        JjFOU1kND78odx2kSSdGnBfwJkSdiyMomsZ5nNdwyf4EjIH3VGFLY/r0uSKJ0Gus
+        d+sRL4weQyvmnPtiLGo9nSfOyO49x1hGUt1KyjM4+V6iJsSgPfZA3pB8TsbKeQxD
+        rOjTRHg/UFkCaC3cSSYh/XnOexADQ84qSqByunX1YnBAMJIF4w01A==
+X-ME-Sender: <xms:-q0VYGrGqz5vTuW7C63Ou_geOSJf090r8Cs9oVbTxRU6MfW4z5HWZQ>
+    <xme:-q0VYErTFCEruRijrvsTSXGRrTPIta5MxCp5VXp5dtUU27IS0Tdln51_el5WFJco6
+    B41KQspMTiPTqRpOdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeggdduvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeggihhntggvnhht
+    uceuvghrnhgrthcuoehvihhntggvnhhtsegsvghrnhgrthdrtghhqeenucggtffrrghtth
+    gvrhhnpedvieffteeukedtleevfffhvdefgfdtffehtddukeetveffgfevtdefheevffeh
+    gfenucfkphepledtrdejledrudelledruddtudenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgrtheslhhufhhfhidrtgig
+X-ME-Proxy: <xmx:-q0VYLPKSrcrFxJdsb5fGjKnK-6IuO0tH5WliJSvLhkHsVFiQlrBJA>
+    <xmx:-q0VYF6M3Jhh_HaTiXXwGo9YHE8Y9IPiLFBADEZkULV4OsDVKKndjQ>
+    <xmx:-q0VYF7872LBx1sOa7a7vxXcQFgOc5IkqjaIg5gHZTmucsVRnMhiHQ>
+    <xmx:-60VYFH3DmfrtlV8wbx1c01slRTcu07vpU3f5YF1Flw80JHxtcLsUA>
+Received: from neo.luffy.cx (lfbn-idf1-1-1264-101.w90-79.abo.wanadoo.fr [90.79.199.101])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 34D0124005A;
+        Sat, 30 Jan 2021 14:05:30 -0500 (EST)
+Received: by neo.luffy.cx (Postfix, from userid 500)
+        id CBAE4D5E; Sat, 30 Jan 2021 20:05:28 +0100 (CET)
+From:   Vincent Bernat <vincent@bernat.ch>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Vincent Bernat <vincent@bernat.ch>
+Subject: [PATCH net] docs: networking: swap words in icmp_errors_use_inbound_ifaddr doc
+Date:   Sat, 30 Jan 2021 20:05:18 +0100
+Message-Id: <20210130190518.854806-1-vincent@bernat.ch>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2020-08-24 at 21:55 -0700, Joe Perches wrote:
-> Commas are not how statements are terminated.
-> Always use semicolons and braces if necessary.
+Signed-off-by: Vincent Bernat <vincent@bernat.ch>
+---
+ Documentation/networking/ip-sysctl.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ping?
-
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  Documentation/process/coding-style.rst | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 98227226c4e5..a1e061149e0d 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -69,9 +69,26 @@ something to hide:
->  	if (condition) do_this;
->  	  do_something_everytime;
->  
-> 
-> +Don't use commas to avoid using braces:
-> +
-> +.. code-block:: c
-> +
-> +	if (condition)
-> +		do_this(), do_that();
-> +
-> +Always uses braces for multiple statements:
-> +
-> +.. code-block:: c
-> +
-> +	if (condition) {
-> +		do_this();
-> +		do_that();
-> +	}
-> +
->  Don't put multiple assignments on a single line either.  Kernel coding style
->  is super simple.  Avoid tricky expressions.
->  
-> 
-> +
->  Outside of comments, documentation and except in Kconfig, spaces are never
->  used for indentation, and the above example is deliberately broken.
->  
-> 
-
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index dd2b12a32b73..48d9db9151ac 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1196,7 +1196,7 @@ icmp_errors_use_inbound_ifaddr - BOOLEAN
+ 
+ 	If non-zero, the message will be sent with the primary address of
+ 	the interface that received the packet that caused the icmp error.
+-	This is the behaviour network many administrators will expect from
++	This is the behaviour many network administrators will expect from
+ 	a router. And it can make debugging complicated network layouts
+ 	much easier.
+ 
+-- 
+2.30.0
 
