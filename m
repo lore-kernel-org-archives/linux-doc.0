@@ -2,119 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C35C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 00:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09C14C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 07:38:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABF8864E18
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 00:43:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7DEE64E09
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 07:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbhAaAn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jan 2021 19:43:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55990 "EHLO
+        id S229474AbhAaHhh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jan 2021 02:37:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231923AbhAaAn4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jan 2021 19:43:56 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85307C061573;
-        Sat, 30 Jan 2021 16:43:16 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id m6so9101397pfk.1;
-        Sat, 30 Jan 2021 16:43:16 -0800 (PST)
+        with ESMTP id S229949AbhAaHgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jan 2021 02:36:54 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB9D1C061573;
+        Sat, 30 Jan 2021 23:36:13 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id g10so13140792wrx.1;
+        Sat, 30 Jan 2021 23:36:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Bi+IsvsSXp0znUX7pYnup3aiWOEdAJ3KLmdVbOIabxQ=;
-        b=J9jHFxXGBJgjbToroef44LlnAzQD1QQ7lpDiqm9cbOf8XZhc7M2BaqLwTRP4ryGs3r
-         8OXEdXohWSG6xQ9JpiaZP9MmOEdYy5DYo/cthuejRkBKTDTthqOVRopkqb2QPC1VaszK
-         co9amzo8I3uvBvE3E3KLztQg0ZnZ61xSFicB9kfP27TppQ303oNdJrz7jqDYElmG9tFV
-         Y5i861nY/oNIs8jAqV9oFk1Pr0KvUyQV5RZXM2Zz1CWwQL5EJSBUmo3acyzcMvWCemH8
-         AebIjyr3IB3PpWXBjiCx6nli+lJWa5Pc8OkEfNdhXhcBHOJB6GjEP59X7G4FsBIFNIdx
-         dyVw==
+        h=from:to:cc:subject:date:message-id;
+        bh=+eDAtUV67eYS9CRNl6IR3Sz9HfgX28vWrmN15pZ52p8=;
+        b=g9BbxxLj8xpJGGA29mLW72H72WfU2vhvXSGtaUEtsG9E8AhJ1TBeHp3R6vT18Jz9Hq
+         Nr2zfEKKzK7IjO5WnNBzO18uC7Pu7BQeqAC4fx9Wzlt25nIC+PIDP/GKx19CmH3X5fwp
+         BDTjKVEF4dzz6flUwe45xxQNOesbvniKneTwFEFAFG8NQbWgVh3GUnS35TIYZRkx/Nlp
+         hSxAKs0RW5Mgbf4kiF619C/L7m5IDUb12d0xguIjsewdiBDEwFJeNEql5tvwUPRWsKNV
+         pOA6LHsnW3/idez8wDmXIxzQay+f5TXIE1sSW8GRAsb/brYfD3N7nFVhrEEYvT71y9Mi
+         Uyog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Bi+IsvsSXp0znUX7pYnup3aiWOEdAJ3KLmdVbOIabxQ=;
-        b=PwtBGjNfz74WG7rc2jn4PC/zuTJdh8kkkFbQGPO4ZviOj/gwzoukvOmDUlTTrsVBJn
-         KZSoIdjcBaF9HlBO4oXhHinLtg5NgBwApkKqGwUj3xfOpHl1tNuHHH5McDTgi2k9RO/S
-         j6U/VlPGPn39TppCfPk00Pmwd46N/RKEihkgUnEkFuIh4Olu1DxhRTJBFek1SiNOn5J9
-         4arL2drQlKhgqiAwkyg5icubUpX51xsMJ1mOJncad3KoUb/VcJ+0qCZlowQp3I/NAq7n
-         AtRj1u4zuhd6lgHPWi/BCFa+UWWlhta3/yLhKB799mCPezQIcQM0CjCCnRD1mNJZJhWD
-         DTNw==
-X-Gm-Message-State: AOAM533LskO9qsAZdmRR2aa28zk5UEuDE2UoCmU/0g6Paa5NjJT/L0Xb
-        rsKkgoE0i5iNqcD+q9FdgjY=
-X-Google-Smtp-Source: ABdhPJzk8ZLXXQ4Kl3C8+a4c6WQGnQQI1UFvKx32TJ2QWTh8g8/RUkbw/Q4/ME0vHc06OHKjbMzbKQ==
-X-Received: by 2002:a63:7748:: with SMTP id s69mr10772576pgc.81.1612053796058;
-        Sat, 30 Jan 2021 16:43:16 -0800 (PST)
-Received: from sol (106-69-169-43.dyn.iinet.net.au. [106.69.169.43])
-        by smtp.gmail.com with ESMTPSA id q2sm11820333pfj.32.2021.01.30.16.43.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+eDAtUV67eYS9CRNl6IR3Sz9HfgX28vWrmN15pZ52p8=;
+        b=QuXyMEuoSR91zx0016Rd4jf3R8s6mcg+4A85FlSKwqbYKX5tXpZOEDJAhtbIs179m9
+         WRlUE20AWZnBzBv4kYph8yRiUtxV0LMokTmmv/DdtnjlXXfZFUzbJShBxlnhDfd5kbuY
+         InyGoNymaEld/lAeemNPzgcU6EDz2cqIwBEZ6QsRcZmoTX6YEdlsnFt+VcH3n1dAodO4
+         pN/NqP3ihBcpRhFsw1p+BZTJtlByA9KLBjM8Gpo3noeqJYNu+aVndR/4tyCiI+yJxrXU
+         ZWJ9ClHjLNkm+qEJDpeyxLytRPvHLAS+1/r7BOz29gv7JbzWejGYpXPW0Guo7jSJGwm4
+         cdVA==
+X-Gm-Message-State: AOAM531FTCq0axrgofk4eYqBgYRd44xh+XJ80QuXgud1J9Fue0FB6MYI
+        1c+BwPAHyIiQzo/sbqJcqCo=
+X-Google-Smtp-Source: ABdhPJwehVRNuFP8iTmNJUAlD88gCjHpt0drUPfNTdkT+URywXh43xurLl4dWG8cZS6sGbzhbsbtyw==
+X-Received: by 2002:a05:6000:8c:: with SMTP id m12mr12579019wrx.101.1612078572447;
+        Sat, 30 Jan 2021 23:36:12 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2d29:6400:618b:2d13:c477:783d])
+        by smtp.gmail.com with ESMTPSA id l1sm4577170wmq.17.2021.01.30.23.36.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 16:43:15 -0800 (PST)
-Date:   Sun, 31 Jan 2021 08:43:08 +0800
-From:   Kent Gibson <warthog618@gmail.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 8/8] gpio: sim: new testing module
-Message-ID: <20210131004308.GA4687@sol>
-References: <20210129134624.9247-1-brgl@bgdev.pl>
- <20210129134624.9247-9-brgl@bgdev.pl>
- <YBQwUkQz3LrG5G4i@smile.fi.intel.com>
- <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
+        Sat, 30 Jan 2021 23:36:11 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH for -next] docs: drop removed pti_intel_mid from driver-api index
+Date:   Sun, 31 Jan 2021 08:36:04 +0100
+Message-Id: <20210131073604.7643-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 09:37:55PM +0100, Bartosz Golaszewski wrote:
-> On Fri, Jan 29, 2021 at 4:57 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > On Fri, Jan 29, 2021 at 02:46:24PM +0100, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > ...
-> >
+Commit 8ba59e9dee31 ("misc: pti: Remove driver for deprecated platform")
+removed ./Documentation/driver-api/pti_intel_mid.rst, but missed to remove
+it from the index at ./Documentation/driver-api/index.rst.
 
-[snip]
+Hence, make htmldocs warns:
 
-> > Honestly, I don't like the idea of Yet Another (custom) Parser in the kernel.
-> >
-> > Have you investigated existing parsers? We have cmdline.c, gpio-aggregator.c,
-> > etc. Besides the fact of test cases which are absent here. And who knows what
-> > we allow to be entered.
-> >
-> 
-> Yes, I looked all around the kernel to find something I could reuse
-> but failed to find anything useful for this particular purpose. If you
-> have something you could point me towards, I'm open to alternatives.
-> 
-> Once we agree on the form of the module, I'll port self-tests to using
-> it instead of gpio-mockup, so we'll have some tests in the tree.
-> 
+  WARNING: toctree contains reference to nonexisting document
+    'driver-api/pti_intel_mid'
 
-Given the existing selftests focus on testing the gpio-mockup itself, it
-would be more appropriate that you add separate tests for gpio-sim.
+Remove pti_intel_mid from driver-api index.
 
-As an end user I'm interested in the concrete example of driving gpio-sim
-that selftests would provide, so I'm looking forward to seeing that.
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on next-20210129
 
-Cheers,
-Kent.
+Greg, please pick this minor fixup on top of the commit above.
+
+ Documentation/driver-api/index.rst | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 9d9af54d68c5..66c4c01eeec6 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -93,7 +93,6 @@ available subsections can be seen below.
+    pps
+    ptp
+    phy/index
+-   pti_intel_mid
+    pwm
+    pldmfw/index
+    rfkill
+-- 
+2.17.1
+
