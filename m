@@ -2,244 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5E8C433E6
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 07:59:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FCAC433E6
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 291C664E25
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 07:59:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0536864E13
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbhAaHz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jan 2021 02:55:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34692 "EHLO
+        id S231144AbhAaQEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jan 2021 11:04:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbhAaHzf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jan 2021 02:55:35 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC200C06174A;
-        Sat, 30 Jan 2021 23:54:54 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id v15so13183977wrx.4;
-        Sat, 30 Jan 2021 23:54:54 -0800 (PST)
+        with ESMTP id S229474AbhAaQEu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jan 2021 11:04:50 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B1FC061573
+        for <linux-doc@vger.kernel.org>; Sun, 31 Jan 2021 08:04:09 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id y8so951125ede.6
+        for <linux-doc@vger.kernel.org>; Sun, 31 Jan 2021 08:04:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=TlnMMUHzs0gVAUol/fqoFC0sKz26EovlEEypljhkOAU=;
-        b=foo2wXFSFIblemDPocX9l0etI+cNHgr9kVmmBmln/H8p47AX3wT/g/iSYQLxl+Hetv
-         6wgUh3oGf0vGSWi/Rty1dk82UfLJ2ftOa1Af5M2DuiivB38jYKQXs738xRf1mFAAKBsJ
-         6PDxWculAvXNlI5G1lHibIBsGPUXWkGlDcSCRDIqmFWJEWLRQ3INh//laGhITv+Ekv/y
-         1bbWchJuosHwugWkds0Ecb0EnwpYuz7YFWqDH3cHuxvs3GZmKstXinf0cuttH/3iQPwB
-         C5FubnLJjdgCPbp+MbHDwqB04gZhADrMccQ3P54f44e0/wEdah912jL40tfooN/aMZQL
-         SZ/Q==
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ill5FtHsvnGnhyZq4PTZ+wfZWDbj85ydmjcR5hoQtSU=;
+        b=WA9qeWNS7cwGg8EThTQKocqoSAMpMXmdWEN96odCb1lDWcM2Sc6v0Qb7sDlmvA+l+I
+         A8f+UMiuSXRUXIbHorjezUUJhKowq2uMgSlOLaQKlQ2TE2CKW/8nPCtEsN+ULwFm0bCg
+         9/wX7BwKDdipxk5O1KYWXekm+8qe/E4QqrApq/d05iBQtDtZIXya1NS9k8a0s5lWncyh
+         g6ruf7EBD+cG/5qucNNMJ6+m+zjl1MiGsDM8tC4ZUV0lVOP0V6NdY9Qaskw+B2dxa5eF
+         WGMkCC6G04Cz0bCzZ3ggOUmnb142HmddZFEz3cJyHpOYgpANZbbHESkueT3GcqeRKuB9
+         a7HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=TlnMMUHzs0gVAUol/fqoFC0sKz26EovlEEypljhkOAU=;
-        b=f4jqaSxydzCnIzOv6NmWILBHbaCU4jthVnDnLRaiAPZ5IPeMa9Al3DbkiR/Dxqnu4V
-         N/JVCORArDiptxjPAGmXFIHH7aTB56OQFfAIqBuk8vjTQGMlE+cQ7ohyFy2zkJvtbTSl
-         UlRkem8S85wvOl1wbd/F32bPklaRs8qRvsYMrvevQxzFqXxVbol5UhUMdpCgYsdEQQvH
-         WwwlRl8jFS/b7LCm6Ja1p6+EQV9/pK+aeAuvn5RV6+srkTKcFh6Mk8ZOhrQ7Ed6zdLFk
-         j544poI+xejhNHIwl/Fh2WCan5kjZYiU7TnpBNCcsJGOTlF4+R02g/+RfoKOZwmkWm4O
-         q+Gg==
-X-Gm-Message-State: AOAM531vIdEAdldXVMRaTJ4KufFDQ+//TjrVPUI4AgfP0TGQYsy4Wd6X
-        roKNWNTyn8SQvoyeG6Vo9sQ=
-X-Google-Smtp-Source: ABdhPJyCI9dYQOzut+jklS1h+lO1K2qemD54AAaOVMN7mzWvqpHvoFKC4sQqYM9JDv2CCF9o0BMbZw==
-X-Received: by 2002:a05:6000:1202:: with SMTP id e2mr953534wrx.328.1612079693359;
-        Sat, 30 Jan 2021 23:54:53 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2d29:6400:618b:2d13:c477:783d])
-        by smtp.gmail.com with ESMTPSA id n16sm17687386wmi.5.2021.01.30.23.54.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 23:54:52 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH for -next] docs: hwmon: rectify table in max16601.rst
-Date:   Sun, 31 Jan 2021 08:54:45 +0100
-Message-Id: <20210131075445.21222-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ill5FtHsvnGnhyZq4PTZ+wfZWDbj85ydmjcR5hoQtSU=;
+        b=EtsVf++1nwjQXGjGJ5MkcHct6iGMylE04N3bS066WrsRNDbzbJ77Ndgxf1asO9Ctou
+         tt84pEPrcfsAY0j5KvoEh6QjukkF9qKO1rSZpZXKjkjUC1TR04jcV7+KvPvIZcQeldKJ
+         iYnzKQXbfg766WOriyxrl4M4+3YIb33Wj1gD+MZiufxvHszDEcTpw/vKw3/IJpjWFsa2
+         wwINrieaMoeszTBgHRYIABK8pVqId7sJEZfO/Dd7ei+R2ZvWSwF5uyks3neZnNra7uX4
+         dRzRF9HZJbj6rks0JPLrvKZVnCKKE39hTINAd/yyBF64TpR6X0FMcMZl58Q/XH/hnKXY
+         m0jQ==
+X-Gm-Message-State: AOAM5321q5kBFOKm38K7E6nW7Vy2ykQ8G2ZsHwje6mbHIHPHD6CZ1Ej8
+        uE2c5hyO+qKF5LcBPv0NT7famMru7vI7aakhdKDFSg==
+X-Google-Smtp-Source: ABdhPJyCGWQ/3ra4ZR4qn/M+OGAua47G1o3uToLGNFPGWhEhJk7alqSH8V206c7XvCeXq7s9hKIxxI4DTjqV9Fn0UKc=
+X-Received: by 2002:a05:6402:402:: with SMTP id q2mr14874940edv.116.1612109048337;
+ Sun, 31 Jan 2021 08:04:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20210125194751.1275316-8-pasha.tatashin@soleen.com> <20210131130903.4875-1-lecopzer@gmail.com>
+In-Reply-To: <20210131130903.4875-1-lecopzer@gmail.com>
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+Date:   Sun, 31 Jan 2021 11:03:32 -0500
+Message-ID: <CA+CK2bC_LKeffiYq8eraM-rLBFPfUS1034eD6FKQo5eR7s28Ew@mail.gmail.com>
+Subject: Re: [PATCH v8 07/14] mm: honor PF_MEMALLOC_PIN for all movable pages
+To:     Lecopzer Chen <lecopzer@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        David Hildenbrand <david@redhat.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        James Morris <jmorris@namei.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Tyler Hicks <tyhicks@linux.microsoft.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 90b0f71d62df ("hwmon: (pmbus/max16601) Determine and use number of
-populated phases") adjusts content in the table of
-./Documentation/hwmon/max16601.rst, but one row went beyond the column's
-length.
+On Sun, Jan 31, 2021 at 8:09 AM Lecopzer Chen <lecopzer@gmail.com> wrote:
+>
+>
+> Hi,
+>
+> [...]
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index c93e801a45e9..3f17c73ad582 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -3807,16 +3807,13 @@ alloc_flags_nofragment(struct zone *zone, gfp_t gfp_mask)
+> >       return alloc_flags;
+> >  }
+> >
+> > -static inline unsigned int current_alloc_flags(gfp_t gfp_mask,
+> > -                                     unsigned int alloc_flags)
+> > +/* Must be called after current_gfp_context() which can change gfp_mask */
+> > +static inline unsigned int gpf_to_alloc_flags(gfp_t gfp_mask,
+> > +                                           unsigned int alloc_flags)
+> >  {
+> >  #ifdef CONFIG_CMA
+> > -     unsigned int pflags = current->flags;
+> > -
+> > -     if (!(pflags & PF_MEMALLOC_PIN) &&
+> > -         gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
+> > +     if (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)
+> >               alloc_flags |= ALLOC_CMA;
+> > -
+> >  #endif
+> >       return alloc_flags;
+> >  }
+> > @@ -4472,7 +4469,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
+> >       } else if (unlikely(rt_task(current)) && !in_interrupt())
+> >               alloc_flags |= ALLOC_HARDER;
+> >
+> > -     alloc_flags = current_alloc_flags(gfp_mask, alloc_flags);
+> > +     alloc_flags = gpf_to_alloc_flags(gfp_mask, alloc_flags);
+> >
+> >       return alloc_flags;
+> >  }
+> > @@ -4774,7 +4771,7 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+> >
+> >       reserve_flags = __gfp_pfmemalloc_flags(gfp_mask);
+> >       if (reserve_flags)
+> > -             alloc_flags = current_alloc_flags(gfp_mask, reserve_flags);
+> > +             alloc_flags = gpf_to_alloc_flags(gfp_mask, reserve_flags);
+> >
+> >       /*
+> >        * Reset the nodemask and zonelist iterators if memory policies can be
+> > @@ -4943,7 +4940,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+> >       if (should_fail_alloc_page(gfp_mask, order))
+> >               return false;
+> >
+> > -     *alloc_flags = current_alloc_flags(gfp_mask, *alloc_flags);
+> > +     *alloc_flags = gpf_to_alloc_flags(gfp_mask, *alloc_flags);
+>
+> I have a question, what is the abbreviation of "gpf" in the function
+> name gpf_to_alloc_flags()?
+>
+> It seems that this function still use gfp_mask, is this supposed
+> to be gfp (Get Free Page)?
 
-Hence, make htmldocs warns:
+Thank you for noticing this, it was accidental, I will rename the
+function gpf_to_alloc_flags() -> gfp_to_alloc_flags()
 
-  Documentation/hwmon/max16601.rst:94: WARNING: Malformed table.
-
-Adjust the column length of that table for this longer row to fit.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on next-20210129
-
-Guenter, please pick this minor fixup for your hwmon-next tree.
-
- Documentation/hwmon/max16601.rst | 143 +++++++++++++++----------------
- 1 file changed, 71 insertions(+), 72 deletions(-)
-
-diff --git a/Documentation/hwmon/max16601.rst b/Documentation/hwmon/max16601.rst
-index d16792be7533..d265a2224354 100644
---- a/Documentation/hwmon/max16601.rst
-+++ b/Documentation/hwmon/max16601.rst
-@@ -53,75 +53,74 @@ Sysfs entries
- 
- The following attributes are supported.
- 
--======================= =======================================================
--in1_label		"vin1"
--in1_input		VCORE input voltage.
--in1_alarm		Input voltage alarm.
--
--in2_label		"vout1"
--in2_input		VCORE output voltage.
--in2_alarm		Output voltage alarm.
--
--curr1_label		"iin1"
--curr1_input		VCORE input current, derived from duty cycle and output
--			current.
--curr1_max		Maximum input current.
--curr1_max_alarm		Current high alarm.
--
--curr[P+2]_label		"iin1.P"
--curr[P+2]_input		VCORE phase P input current.
--
--curr[N+2]_label		"iin2"
--curr[N+2]_input		VCORE input current, derived from sensor element.
--			'N' is the number of enabled/populated phases.
--
--curr[N+3]_label		"iin3"
--curr[N+3]_input		VSA input current.
--
--curr[N+4]_label		"iout1"
--curr[N+4]_input		VCORE output current.
--curr[N+4]_crit		Critical output current.
--curr[N+4]_crit_alarm	Output current critical alarm.
--curr[N+4]_max		Maximum output current.
--curr[N+4]_max_alarm	Output current high alarm.
--
--curr[N+P+5]_label	"iout1.P"
--curr[N+P+5]_input	VCORE phase P output current.
--
--curr[2*N+5]_label	"iout3"
--curr[2*N+5]_input	VSA output current.
--curr[2*N+5]_highest	Historical maximum VSA output current.
--curr[2*N+5]_reset_history
--			Write any value to reset curr21_highest.
--curr[2*N+5]_crit	Critical output current.
--curr[2*N+5]_crit_alarm	Output current critical alarm.
--curr[2*N+5]_max		Maximum output current.
--curr[2*N+5]_max_alarm	Output current high alarm.
--
--power1_label		"pin1"
--power1_input		Input power, derived from duty cycle and output current.
--power1_alarm		Input power alarm.
--
--power2_label		"pin2"
--power2_input		Input power, derived from input current sensor.
--
--power3_label		"pout"
--power3_input		Output power.
--
--temp1_input		VCORE temperature.
--temp1_crit		Critical high temperature.
--temp1_crit_alarm	Chip temperature critical high alarm.
--temp1_max		Maximum temperature.
--temp1_max_alarm		Chip temperature high alarm.
--
--temp2_input		TSENSE_0 temperature
--temp3_input		TSENSE_1 temperature
--temp4_input		TSENSE_2 temperature
--temp5_input		TSENSE_3 temperature
--
--temp6_input		VSA temperature.
--temp6_crit		Critical high temperature.
--temp6_crit_alarm	Chip temperature critical high alarm.
--temp6_max		Maximum temperature.
--temp6_max_alarm		Chip temperature high alarm.
--======================= =======================================================
-+========================= =======================================================
-+in1_label		  "vin1"
-+in1_input		  VCORE input voltage.
-+in1_alarm		  Input voltage alarm.
-+
-+in2_label		  "vout1"
-+in2_input		  VCORE output voltage.
-+in2_alarm		  Output voltage alarm.
-+
-+curr1_label		  "iin1"
-+curr1_input		  VCORE input current, derived from duty cycle and output
-+			  current.
-+curr1_max		  Maximum input current.
-+curr1_max_alarm		  Current high alarm.
-+
-+curr[P+2]_label		  "iin1.P"
-+curr[P+2]_input		  VCORE phase P input current.
-+
-+curr[N+2]_label		  "iin2"
-+curr[N+2]_input		  VCORE input current, derived from sensor element.
-+			  'N' is the number of enabled/populated phases.
-+
-+curr[N+3]_label		  "iin3"
-+curr[N+3]_input		  VSA input current.
-+
-+curr[N+4]_label		  "iout1"
-+curr[N+4]_input		  VCORE output current.
-+curr[N+4]_crit		  Critical output current.
-+curr[N+4]_crit_alarm	  Output current critical alarm.
-+curr[N+4]_max		  Maximum output current.
-+curr[N+4]_max_alarm	  Output current high alarm.
-+
-+curr[N+P+5]_label	  "iout1.P"
-+curr[N+P+5]_input	  VCORE phase P output current.
-+
-+curr[2*N+5]_label	  "iout3"
-+curr[2*N+5]_input	  VSA output current.
-+curr[2*N+5]_highest	  Historical maximum VSA output current.
-+curr[2*N+5]_reset_history Write any value to reset curr21_highest.
-+curr[2*N+5]_crit	  Critical output current.
-+curr[2*N+5]_crit_alarm	  Output current critical alarm.
-+curr[2*N+5]_max		  Maximum output current.
-+curr[2*N+5]_max_alarm	  Output current high alarm.
-+
-+power1_label		  "pin1"
-+power1_input		  Input power, derived from duty cycle and output current.
-+power1_alarm		  Input power alarm.
-+
-+power2_label		  "pin2"
-+power2_input		  Input power, derived from input current sensor.
-+
-+power3_label		  "pout"
-+power3_input		  Output power.
-+
-+temp1_input		  VCORE temperature.
-+temp1_crit		  Critical high temperature.
-+temp1_crit_alarm	  Chip temperature critical high alarm.
-+temp1_max		  Maximum temperature.
-+temp1_max_alarm		  Chip temperature high alarm.
-+
-+temp2_input		  TSENSE_0 temperature
-+temp3_input		  TSENSE_1 temperature
-+temp4_input		  TSENSE_2 temperature
-+temp5_input		  TSENSE_3 temperature
-+
-+temp6_input		  VSA temperature.
-+temp6_crit		  Critical high temperature.
-+temp6_crit_alarm	  Chip temperature critical high alarm.
-+temp6_max		  Maximum temperature.
-+temp6_max_alarm		  Chip temperature high alarm.
-+========================= =======================================================
--- 
-2.17.1
-
+>
+> Thanks,
+> Lecopzer
+>
