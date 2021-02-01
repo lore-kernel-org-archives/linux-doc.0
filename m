@@ -2,113 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE037C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 06:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C28C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 08:38:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FC9064E24
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 06:51:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C42764E33
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 08:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbhBAGuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 01:50:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33434 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232172AbhBAGoC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 01:44:02 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EC9464E11;
-        Mon,  1 Feb 2021 06:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612161799;
-        bh=VWrcrRLqYlZ43SypcWSC4Ova6HDDDLuVvN9BU0monik=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aoy3nVlkmtWO6sr8qsxlqIrnH0enDrOBLP0XdomN8RSDqY0LPrQv4bUbRE4vtm+Sw
-         GKWz4mxX6zeIN1kOmkUcHwBhPuUX8tR/iCdC7boCQlH0eH+o1AqJUmIOevgBlGT6+h
-         Sx7j/lgSmF+gQx7FyIx2AbI5+TewLUGfsNDJS5fpo8WhVULrZg3WoiLg/SJmscFbWh
-         w91KGEXCDSlRdktdaVnWmp6WmCjhSEpBV1zoB3DZtTNIR1ovEZ0i7lKxizoYDCjMyR
-         DgNig9yf3sMfwW0dRjYYxYv4qC2xpkd0+iVD24ZMtuAJrmLrvkgyS+1DstZH3TLRHT
-         kHpbI1fFmLv8w==
-Date:   Mon, 1 Feb 2021 12:13:14 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     mdalam@codeaurora.org
-Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
-        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
-        mdalam=codeaurora.org@codeaurora.org
-Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
- support
-Message-ID: <20210201064314.GM2771@vkoul-mobl>
-References: <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
- <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
- <20210112101056.GI2771@vkoul-mobl>
- <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
- <20210115055806.GE2771@vkoul-mobl>
- <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
- <20210119164511.GE2771@vkoul-mobl>
- <534308caab7c18730ad0cc25248d116f@codeaurora.org>
- <20210201060508.GK2771@vkoul-mobl>
- <9d33d73682f24d92338757e1823ccd88@codeaurora.org>
+        id S232543AbhBAIia (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 03:38:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232552AbhBAIiX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 03:38:23 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786EFC061574
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 00:37:43 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id y9so1427755ejp.10
+        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 00:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xpUA4tQkXNeG9xtZvt8WotR4TDH6DJJdjLxiEPVNVP4=;
+        b=E25H5NyvBv+rR9x8HIOsCMCpG3jpr/TmGdn6lrOg1acyCXThOTfgeHQMo9txJ1oLcu
+         Cc9AcfS95/01gFk7GbSx0Yh93k7nzQcZ8+tAyPR380PEOS3lmf6WQASQKOFh7h9dvfg9
+         up1JkSwDtnD9l3ncrjfkkxfEuHvoUgk5RDhFItRW+UrbyJ23JeiVSQ1ghWSYUtZo4vtA
+         3dmx3IJrn7HkgOnriuKu8mPoE4GrlURv1jHaRUK9ct265ATmz6sUzX99ts689E7BS9NU
+         fLUfj0BSXiGAgggYLWm8h3DazLmip6bVzMOUv6/uJAhtqGFqJUMZZ7g2aDxgamDKSNBE
+         1+Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xpUA4tQkXNeG9xtZvt8WotR4TDH6DJJdjLxiEPVNVP4=;
+        b=kIjtyHJrkiGvfIXg9TjaeFUl+K34bxkesY1sOAaspKthkITU6s7G4FnBc6XwnH8r7n
+         2y1y/wnUZ77UXDXrYQnbiXQs0ZoSJXhFI4ZQM1u4zhO+mqFySD1VI9CSMg8mtnfpfg90
+         Db5CA850XoZvu7Wpt06jyAvFZiaVimboKlzgNjcFzfp4iJiCXENfpvCYip64tg+RdZsZ
+         GoWw7LIh3enbKBs7eindf0PjvkxcpQSFsNG294pnS9HLGXqja9v6dFvLF8gfqyu131zp
+         ari2Ep+sE0sznl1INSfIzSzA8r8f8ATAtbNp8P1bc6SdPSL+QCJ1pRJ5r3LFZigVF3nW
+         aEuQ==
+X-Gm-Message-State: AOAM532IlBbuN+1/Y3UoGTCJZv8SP4AiA2dFFgUlrxGk4Wawi6JHoJgT
+        tvHs45EVsNN+6xgtuRylgqGi+Z+LvOds/hCRda33mA==
+X-Google-Smtp-Source: ABdhPJwY2quGjJdmByP+gMuoEbYEH34iJnCL9i9KVMyKc4bRYauNJYZpzjBnXt2wBEzF3EzPvzdi26YZ8JANKfkXC1M=
+X-Received: by 2002:a17:906:eddd:: with SMTP id sb29mr7734704ejb.383.1612168661707;
+ Mon, 01 Feb 2021 00:37:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d33d73682f24d92338757e1823ccd88@codeaurora.org>
+References: <20210129134624.9247-1-brgl@bgdev.pl> <20210130212009.2uugdj6vmisegau2@pengutronix.de>
+In-Reply-To: <20210130212009.2uugdj6vmisegau2@pengutronix.de>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Mon, 1 Feb 2021 09:37:30 +0100
+Message-ID: <CAMRc=MdwoJCw1-BdNRnfRFaXYfZD0+vn_8yq0J+rshHqZMdDXQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] gpio: implement the configfs testing module
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Joel Becker <jlbec@evilplan.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01-02-21, 11:52, mdalam@codeaurora.org wrote:
-> On 2021-02-01 11:35, Vinod Koul wrote:
-> > On 27-01-21, 23:56, mdalam@codeaurora.org wrote:
+On Sat, Jan 30, 2021 at 10:20 PM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> Hello,
+>
+> On Fri, Jan 29, 2021 at 02:46:16PM +0100, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > This series adds a new GPIO testing module based on configfs committabl=
+e items
+> > and sysfs. The goal is to provide a testing driver that will be configu=
+rable
+> > at runtime (won't need module reload) and easily extensible. The contro=
+l over
+> > the attributes is also much more fine-grained than in gpio-mockup.
+> >
+> > I am aware that Uwe submitted a virtual driver called gpio-simulator so=
+me time
+> > ago and I was against merging it as it wasn't much different from gpio-=
+mockup.
+> > I would ideally want to have a single testing driver to maintain so I a=
+m
+> > proposing this module as a replacement for gpio-mockup but since selfte=
+sts
+> > and libgpiod depend on it and it also has users in the community, we ca=
+n't
+> > outright remove it until everyone switched to the new interface. As for=
+ Uwe's
+> > idea for linking two simulated chips so that one controls the other - w=
+hile
+> > I prefer to have an independent code path for controlling the lines (he=
+nce
+> > the sysfs attributes), I'm open to implementing it in this new driver. =
+It
+> > should be much more feature friendly thanks to configfs than gpio-mocku=
+p.
+>
+> Funny you still think about my simulator driver. I recently thought
 
-> > >   The actual LOCK/UNLOCK flag should be set on hardware command
-> > > descriptor.
-> > >   so this flag setting should be done in DMA engine driver. The user
-> > > of the
-> > > DMA
-> > >   driver like (in case of IPQ5018) Crypto can use flag
-> > > "DMA_PREP_LOCK" &
-> > > "DMA_PREP_UNLOCK"
-> > >   while preparing CMD descriptor before submitting to the DMA
-> > > engine. In DMA
-> > > engine driver
-> > >   we are checking these flasgs on CMD descriptor and setting actual
-> > > LOCK/UNLOCK flag on hardware
-> > >   descriptor.
-> > 
-> > 
-> > I am not sure I comprehend this yet.. when is that we would need to do
-> > this... is this for each txn submitted to dmaengine.. or something
-> > else..
-> 
->  Its not for each transaction submitted to dmaengine. We have to set this
-> only
->  once on CMD descriptor. So when A53 crypto driver need to change the crypto
-> configuration
->  then first it will lock the all other pipes using setting the LOCK flag bit
-> on CMD
->  descriptor and then it can start the transaction , on data descriptor this
-> flag will
->  not get set once all transaction will be completed the A53 crypto driver
-> release the lock on
->  all other pipes using UNLOCK flag on CMD descriptor. So LOCK/UNLOCK will be
-> only once and not for
->  the each transaction.
+It's because I always feel bad when I refuse to merge someone's hard work.
 
-Okay so why cant the bam driver check cmd descriptor and do lock/unlock
-as below, why do we need users to do this.
+> about reanimating it for my private use. The idea was to implement a
+> rotary-encoder driver (that contrast to
+> drivers/input/misc/rotary_encoder.c really implements an encoder and not
+> a decoder). With the two linked chips I can plug
+> drivers/input/misc/rotary_encoder.c on one side and my encoder on the
+> other to test both drivers completely in software.
+>
+> I didn't look into your driver yet, but getting such a driver into
+> mainline would be very welcome!
+>
 
-        if (flags & DMA_PREP_CMD) {
-                do_lock_bam();
+My idea for linking chips (although that's not implemented yet) is an
+attribute in each configfs group called 'link' or something like that,
+that would take as argument the name of the chip to link to making the
+'linker' the input and the 'linkee' the output.
 
-The point here is that this seems to be internal to dma and should be
-handled by dma driver.
+It would be tempting to use symbolic links too but I'm afraid this
+would need further extension of configfs.
 
-Also if we do this, it needs to be done for specific platforms..
+> I intend to look into your driver next week, but please don't hold back
+> on merging for my feedback.
+>
 
-Thanks
+Don't worry, I'm not really aiming at v5.12 with this.
 
--- 
-~Vinod
+> Best regards
+> Uwe
+>
+
+Bart
