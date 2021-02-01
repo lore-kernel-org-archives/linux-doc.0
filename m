@@ -2,209 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E6DC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 937B2C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:12:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C47264E3C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:01:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CB4164E9B
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbhBAQBd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 11:01:33 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60592 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229986AbhBAQB2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 11:01:28 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1612195241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S229881AbhBAQMN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 11:12:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55993 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231225AbhBAQMJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 11:12:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612195841;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FgQeYKE1QKuGiityccM1KmggR+uZuuxuVsWMYHrnw4k=;
-        b=FnzXQAtXbu8QFh3JrR8r/SYbXy7DfquKSC+JdHHLEWNaceru33gJ3WeIbxa15nSgitRt4b
-        AO2uN1RFwy36PlE98sWe1QKsuxVZ7Fv4iQuU8TpFGMMV95jO3+nvZDPLBgPoReckXDAWVd
-        hEljK5FMS7Ri2BelAoeDxxaFVYIW7NQ=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CAE0FABD5;
-        Mon,  1 Feb 2021 16:00:40 +0000 (UTC)
-Date:   Mon, 1 Feb 2021 17:00:39 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] Documentation: sysfs/memory: clarify some memory
- block device properties
-Message-ID: <YBglp/VvD8I6jM1x@dhcp22.suse.cz>
-References: <20210201105158.6393-1-david@redhat.com>
- <20210201105158.6393-3-david@redhat.com>
+        bh=LTkTHTZtrG7r7H93f6RfvQ2RYuYcKcR+efM5cQJVmzE=;
+        b=Z12kNr1PWDE/FtT+Ty9cEmb6H7F3H5f+yprq3Dz12duLmU1lLnTf/u2op2KPNc3AKrfAOD
+        H6BwPC0FcXNnVBzgxteVt1A32uUh/Wc69vVlPO3bguQrm/qIGcWfNbjlSPghL6cXtpMz8x
+        w3OsFkohklCPTkEtO/q1npnQxV41IbM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-Nv06uFrmOrOjzL9zhKXSug-1; Mon, 01 Feb 2021 11:10:39 -0500
+X-MC-Unique: Nv06uFrmOrOjzL9zhKXSug-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E0E107ACE8;
+        Mon,  1 Feb 2021 16:10:35 +0000 (UTC)
+Received: from [10.36.115.24] (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C679B60C66;
+        Mon,  1 Feb 2021 16:10:28 +0000 (UTC)
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-6-songmuchun@bytedance.com>
+ <20210126092942.GA10602@linux>
+ <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
+ <20210126145819.GB16870@linux>
+ <259b9669-0515-01a2-d714-617011f87194@redhat.com>
+ <20210126153448.GA17455@linux>
+ <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
+ <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
+ <CAMZfGtWCu95Qve8p9mH7C7rm=F+znsc8+VL_6Z-_k4e5hAHzhA@mail.gmail.com>
+ <e200c17e-5c95-025e-37a7-af7cfbb05b18@oracle.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
+ vmemmap pages associated with each HugeTLB page
+Message-ID: <41160c2e-817d-3ef2-0475-4db58827c1c3@redhat.com>
+Date:   Mon, 1 Feb 2021 17:10:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210201105158.6393-3-david@redhat.com>
+In-Reply-To: <e200c17e-5c95-025e-37a7-af7cfbb05b18@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 01-02-21 11:51:58, David Hildenbrand wrote:
-> In commit 53cdc1cb29e8 ("drivers/base/memory.c: indicate all memory blocks
-> as removable") we changed the output of the "removable" property of memory
-> devices to return "1" if and only if the kernel supports memory offlining.
+>> What's your opinion about this? Should we take this approach?
 > 
-> Let's update documentation, stating that the interface is legacy. Also
-> update documentation of the "state" property and "valid_zones"
-> properties.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Ilya Dryomov <idryomov@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> I think trying to solve all the issues that could happen as the result of
+> not being able to dissolve a hugetlb page has made this extremely complex.
+> I know this is something we need to address/solve.  We do not want to add
+> more unexpected behavior in corner cases.  However, I can not help but think
+> about similar issues today.  For example, if a huge page is in use in
+> ZONE_MOVABLE or CMA there is no guarantee that it can be migrated today.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+Yes, hugetlbfs is broken with alloc_contig_range() as e.g., used by CMA 
+and needs fixing. Then, similar problems as with hugetlbfs pages on 
+ZONE_MOVABLE apply.
 
-Thanks!
 
-> ---
->  .../ABI/testing/sysfs-devices-memory          | 53 ++++++++++++-------
->  .../admin-guide/mm/memory-hotplug.rst         | 16 +++---
->  2 files changed, 41 insertions(+), 28 deletions(-)
+hugetlbfs pages on ZONE_MOVABLE for memory unplug are problematic in 
+corner cases only I think:
+
+1. Not sufficient memory to allocate a destination page. Well, nothing 
+we can really do about that - just like trying to migrate any other 
+memory but running into -ENOMEM.
+
+2. Trying to dissolve a free huge page but running into reservation 
+limits. I think we should at least try allocating a new free huge page 
+before failing. To be tackled in the future.
+
+> Correct?  We may need to allocate another huge page for the target of the
+> migration, and there is no guarantee we can do that.
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
-> index 58dbc592bc57..d8b0f80b9e33 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-memory
-> +++ b/Documentation/ABI/testing/sysfs-devices-memory
-> @@ -13,13 +13,13 @@ What:		/sys/devices/system/memory/memoryX/removable
->  Date:		June 2008
->  Contact:	Badari Pulavarty <pbadari@us.ibm.com>
->  Description:
-> -		The file /sys/devices/system/memory/memoryX/removable
-> -		indicates whether this memory block is removable or not.
-> -		This is useful for a user-level agent to determine
-> -		identify removable sections of the memory before attempting
-> -		potentially expensive hot-remove memory operation
-> +		The file /sys/devices/system/memory/memoryX/removable is a
-> +		legacy interface used to indicated whether a memory block is
-> +		likely to be offlineable or not.  Newer kernel versions return
-> +		"1" if and only if the kernel supports memory offlining.
->  Users:		hotplug memory remove tools
->  		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
-> +		lsmem/chmem part of util-linux
->  
->  What:		/sys/devices/system/memory/memoryX/phys_device
->  Date:		September 2008
-> @@ -44,23 +44,25 @@ Date:		September 2008
->  Contact:	Badari Pulavarty <pbadari@us.ibm.com>
->  Description:
->  		The file /sys/devices/system/memory/memoryX/state
-> -		is read-write.  When read, its contents show the
-> -		online/offline state of the memory section.  When written,
-> -		root can toggle the the online/offline state of a removable
-> -		memory section (see removable file description above)
-> -		using the following commands::
-> +		is read-write.  When read, it returns the online/offline
-> +		state of the memory block.  When written, root can toggle
-> +		the online/offline state of a memory block using the following
-> +		commands::
->  
->  		  # echo online > /sys/devices/system/memory/memoryX/state
->  		  # echo offline > /sys/devices/system/memory/memoryX/state
->  
-> -		For example, if /sys/devices/system/memory/memory22/removable
-> -		contains a value of 1 and
-> -		/sys/devices/system/memory/memory22/state contains the
-> -		string "online" the following command can be executed by
-> -		by root to offline that section::
-> -
-> -		  # echo offline > /sys/devices/system/memory/memory22/state
-> -
-> +		On newer kernel versions, advanced states can be specified
-> +		when onlining to select a target zone: "online_movable"
-> +		selects the movable zone.  "online_kernel" selects the
-> +		applicable kernel zone (DMA, DMA32, or Normal).  However,
-> +		after successfully setting one of the advanced states,
-> +		reading the file will return "online"; the zone information
-> +		can be obtained via "valid_zones" instead.
-> +
-> +		While onlining is unlikely to fail, there are no guarantees
-> +		that offlining will succeed.  Offlining is more likely to
-> +		succeed if "valid_zones" indicates "Movable".
->  Users:		hotplug memory remove tools
->  		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
->  
-> @@ -70,8 +72,19 @@ Date:           July 2014
->  Contact:	Zhang Zhen <zhenzhang.zhang@huawei.com>
->  Description:
->  		The file /sys/devices/system/memory/memoryX/valid_zones	is
-> -		read-only and is designed to show which zone this memory
-> -		block can be onlined to.
-> +		read-only.
-> +
-> +		For online memory blocks, it returns in which zone memory
-> +		provided by a memory block is managed.  If multiple zones
-> +		apply (not applicable for hotplugged memory), "None" is returned
-> +		and the memory block cannot be offlined.
-> +
-> +		For offline memory blocks, it returns by which zone memory
-> +		provided by a memory block can be managed when onlining.
-> +		The first returned zone ("default") will be used when setting
-> +		the state of an offline memory block to "online".  Only one of
-> +		the kernel zones (DMA, DMA32, Normal) is applicable for a single
-> +		memory block.
->  
->  What:		/sys/devices/system/memoryX/nodeY
->  Date:		October 2009
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 245739f55ac7..5307f90738aa 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -162,14 +162,14 @@ Under each memory block, you can see 5 files:
->                      which will be performed on all sections in the block.
->  ``phys_device``	    read-only: legacy interface only ever used on s390x to
->  		    expose the covered storage increment.
-> -``removable``       read-only: contains an integer value indicating
-> -                    whether the memory block is removable or not
-> -                    removable.  A value of 1 indicates that the memory
-> -                    block is removable and a value of 0 indicates that
-> -                    it is not removable. A memory block is removable only if
-> -                    every section in the block is removable.
-> -``valid_zones``     read-only: designed to show which zones this memory block
-> -		    can be onlined to.
-> +``removable``	    read-only: legacy interface that indicated whether a memory
-> +		    block was likely to be offlineable or not.  Newer kernel
-> +		    versions return "1" if and only if the kernel supports
-> +		    memory offlining.
-> +``valid_zones``     read-only: designed to show by which zone memory provided by
-> +		    a memory block is managed, and to show by which zone memory
-> +		    provided by an offline memory block could be managed when
-> +		    onlining.
->  
->  		    The first column shows it`s default zone.
->  
-> -- 
-> 2.29.2
-> 
+
+I agree that 1. is similar to "cannot migrate because OOM".
+
+
+So thinking about it again, we don't actually seem to lose that much when
+
+a) Rejecting migration of a huge page when not being able to allocate 
+the vmemmap for our source page. Our system seems to be under quite some 
+memory pressure already. Migration could just fail because we fail to 
+allocate a migration target already.
+
+b) Rejecting to dissolve a huge page when not able to allocate the 
+vmemmap. Dissolving can fail already. And, again, our system seems to be 
+under quite some memory pressure already.
+
+c) Rejecting freeing huge pages when not able to allocate the vmemmap. I 
+guess the "only" surprise is that the user might now no longer get what 
+he asked for. This seems to be the "real change".
+
+
+So maybe little actually speaks against allowing for migration of such 
+huge pages and optimizing any huge page, besides rejecting freeing of 
+huge pages and surprising the user/admin.
+
+I guess while our system is under memory pressure CMA and ZONE_MOVABLE 
+are already no longer able to always keep their guarantees - until there 
+is no more memory pressure.
 
 -- 
-Michal Hocko
-SUSE Labs
+Thanks,
+
+David / dhildenb
+
