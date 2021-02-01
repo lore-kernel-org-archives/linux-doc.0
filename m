@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6E4C43381
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFD0C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:41:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20F8264EC1
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:40:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 674B664D5D
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:41:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231803AbhBAPkq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 10:40:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
+        id S229877AbhBAPk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 10:40:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231754AbhBAPkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:40:36 -0500
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD41EC06121E
-        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 07:38:44 -0800 (PST)
-Received: by mail-qk1-x72c.google.com with SMTP id v126so16568927qkd.11
-        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 07:38:44 -0800 (PST)
+        with ESMTP id S231785AbhBAPkq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:40:46 -0500
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B6EFC061A27
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 07:38:55 -0800 (PST)
+Received: by mail-qt1-x82a.google.com with SMTP id z22so12521530qto.7
+        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 07:38:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Qju3lH41NogqzBdz4Ys86o8JOXLDC8FcvWasnejN040=;
-        b=EMk6oqBeIporKVXptFBvwyl8xTDfx+fl/2jhb1TjJkIff6Vu9oWxrN6galvCgTsLH2
-         KsrRKtGcxld0AlvZz1Is2kNI/Am2VEqHdgNPkRM+aMkuZ5bV97v/K1h6h2nAlBhfJyKi
-         gKyGlvRMxyZ7BgAAb8JO1b9N+ryHBHixoPFfdhhbim+lO+mTRrAOW9YI7NYJk/imAwo9
-         IuJZ/vNWGoJO3sr8pEX7gRzm1X6AwJonyS2gfWF6nHfBS4sX/oY+woKORDEUhG+ISikO
-         x43kEwdJ5gSOr4sPcE4H9HiMatnMjWWxD8zfxufW0d8B8ZHb4vdJVAA4aO0ieAV5LUvH
-         VI6A==
+        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
+        b=exsx+5QFq+cRHRqiZa7rT587NP5KQIe61OMLBG++wUWQatrxxRLn5sZDzzTFFCp+xI
+         v9use1KTetxdp+cIA0jCaFEohKGm/5a75xIqwgxKqgb6U89WSmsAcpUOx1rwE4WJMpwP
+         5xTfpHdnJ8557hubYdMhersWyJ2keNNwYaAU5joQ78f2Ijz2YmTYWTSoqOH+qjSZPpsY
+         nnj4x4/uqqtnGJkk2dZ8ogHmYPHpBp/CmkRz/kSZttI6P4BEZIl4MP1J+5e/jcHEvp+4
+         3fwI46nd8yxjkHX2IaqAJ90yRI9VEzyuShg4qk1IIjX2yiEkziLksJtV9M2TU5Y5CPG+
+         OyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qju3lH41NogqzBdz4Ys86o8JOXLDC8FcvWasnejN040=;
-        b=pG/GW22mf5yd5mCjzvyjoTTAsQ5VB9trbOW0nQ0kXjHZp1vmeI15bwEbtyHOUGFC9C
-         MijbvI8WETV2vaJ8da7hoMzzMfPaJeFKYOjVB80NX0qYOO4W9yM9Gy+VZDqsn8AjUlj7
-         Y5/XP+Zloc/P9bUpZvYPkjcKvCzo1l6JsN7IuTBc4ubi2eEm/MQdc2hAXF6f6bwPvaFW
-         6Ih/anicdg88itLsrvbqiY5Q0UnLYgwcYRKZbBVDWckV8uC9LHkweMkIX/n/w8Re5i/Q
-         nC/KAu1heX4ohNC0sKvUo8y6mB01PK0PAsOr/mwGw/FFWliY8u+ezl5y3LmR6h2qGnpz
-         VLCw==
-X-Gm-Message-State: AOAM530kPOmWkXkMOskpSbe8nTodFWEXhAP/jbi6icgwOLItTrj5GNGt
-        7yV4qz8Mo7YUTsCDrxetsyA25w==
-X-Google-Smtp-Source: ABdhPJxYxTmEUPPRNgEfvKl+1N4Z3cVG7aMWWdgM95nPZ5soALAPcovsQU/GFxfDfiWr0ndVY8xSWg==
-X-Received: by 2002:a05:620a:13e2:: with SMTP id h2mr17102254qkl.495.1612193923906;
-        Mon, 01 Feb 2021 07:38:43 -0800 (PST)
+        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
+        b=PD0McC166CE1403yfcnQLhhrmgQQKxbmig4owHSpPVJEIZyEdfkCP+8URC9Hv6hOco
+         IG/NuTsLi+5x14VsPxnH3otQxlMkGH8uSlSTPSwMhWekgiuJKvz4JKHap8dfiS85t6Jt
+         SYXRT6NteBd2Dj9aSq/OPcI7g8+RMUsvMQ9n6zrDYrF/ghPpwm+YZTgdPfMxmQ75ZkQ6
+         Qq+OmM9WpVe5yt7Hd9C4AblkFp0eNd8ICuWgfIoAXJ8kYdDPXzCJGphs8s6gfl8LgGCR
+         XTFmv2PWOvH5v1L/Ok66moaJKzzZU8v6zIumZaNX9zpZ3BVV7zcTa/KfVmz+eylazfao
+         B4kw==
+X-Gm-Message-State: AOAM531dTciKuVNDPYM6Vs9ld/dqtynP/W1z5id7hEjB5gWc3AInPFlH
+        gAOOZ29vI6SjwrRhnCGk0cl3KA==
+X-Google-Smtp-Source: ABdhPJyhr6Rr78ckZxktTwltqLPaxIcTqiiGpt+FOipTh9Ailw7X8EyiMAch+pl7JmPmb69X7j7Y+g==
+X-Received: by 2002:ac8:5156:: with SMTP id h22mr16073194qtn.176.1612193934750;
+        Mon, 01 Feb 2021 07:38:54 -0800 (PST)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id 22sm14853307qke.123.2021.02.01.07.38.42
+        by smtp.gmail.com with ESMTPSA id 22sm14853307qke.123.2021.02.01.07.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 07:38:43 -0800 (PST)
+        Mon, 01 Feb 2021 07:38:54 -0800 (PST)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -66,9 +66,9 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org, ira.weiny@intel.com,
         linux-kselftest@vger.kernel.org, jmorris@namei.org
-Subject: [PATCH v9 08/14] mm/gup: do not migrate zero page
-Date:   Mon,  1 Feb 2021 10:38:21 -0500
-Message-Id: <20210201153827.444374-9-pasha.tatashin@soleen.com>
+Subject: [PATCH v9 14/14] selftests/vm: gup_test: test faulting in kernel, and verify pinnable pages
+Date:   Mon,  1 Feb 2021 10:38:27 -0500
+Message-Id: <20210201153827.444374-15-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210201153827.444374-1-pasha.tatashin@soleen.com>
 References: <20210201153827.444374-1-pasha.tatashin@soleen.com>
@@ -78,80 +78,107 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On some platforms ZERO_PAGE(0) might end-up in a movable zone. Do not
-migrate zero page in gup during longterm pinning as migration of zero page
-is not allowed.
+When pages are pinned they can be faulted in userland and migrated, and
+they can be faulted right in kernel without migration.
 
-For example, in x86 QEMU with 16G of memory and kernelcore=5G parameter, I
-see the following:
+In either case, the pinned pages must end-up being pinnable (not movable).
 
-Boot#1: zero_pfn  0x48a8d zero_pfn zone: ZONE_DMA32
-Boot#2: zero_pfn 0x20168d zero_pfn zone: ZONE_MOVABLE
+Add a new test to gup_test, to help verify that the gup/pup
+(get_user_pages() / pin_user_pages()) behavior with respect to pinnable
+and movable pages is reasonable and correct. Specifically, provide a
+way to:
 
-On x86, empty_zero_page is declared in .bss and depending on the loader
-may end up in different physical locations during boots.
+1) Verify that only "pinnable" pages are pinned. This is checked
+automatically for you.
 
-Also, move is_zero_pfn() my_zero_pfn() functions under CONFIG_MMU, because
-zero_pfn that they are using is declared in memory.c which is compiled
-with CONFIG_MMU.
+2) Verify that gup/pup performance is reasonable. This requires
+comparing benchmarks between doing gup/pup on pages that have been
+pre-faulted in from user space, vs. doing gup/pup on pages that are not
+faulted in until gup/pup time (via FOLL_TOUCH). This decision is
+controlled with the new -z command line option.
 
 Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
 ---
- include/linux/mm.h      | 3 ++-
- include/linux/mmzone.h  | 4 ++++
- include/linux/pgtable.h | 3 +--
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ mm/gup_test.c                         |  6 ++++++
+ tools/testing/selftests/vm/gup_test.c | 23 +++++++++++++++++++----
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index db228aa8d9f7..67716df9fe1f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1130,7 +1130,8 @@ static inline bool is_zone_movable_page(const struct page *page)
- /* MIGRATE_CMA and ZONE_MOVABLE do not allow pin pages */
- static inline bool is_pinnable_page(struct page *page)
- {
--	return !is_zone_movable_page(page) && !is_migrate_cma_page(page);
-+	return !(is_zone_movable_page(page) || is_migrate_cma_page(page)) ||
-+		is_zero_pfn(page_to_pfn(page));
- }
+diff --git a/mm/gup_test.c b/mm/gup_test.c
+index a6ed1c877679..d974dec19e1c 100644
+--- a/mm/gup_test.c
++++ b/mm/gup_test.c
+@@ -52,6 +52,12 @@ static void verify_dma_pinned(unsigned int cmd, struct page **pages,
  
- #ifdef CONFIG_DEV_PAGEMAP_OPS
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 87a7f9e2d1c2..aacbed98a1ed 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -427,6 +427,10 @@ enum zone_type {
- 	 *    techniques might use alloc_contig_range() to hide previously
- 	 *    exposed pages from the buddy again (e.g., to implement some sort
- 	 *    of memory unplug in virtio-mem).
-+	 * 6. ZERO_PAGE(0), kernelcore/movablecore setups might create
-+	 *    situations where ZERO_PAGE(0) which is allocated differently
-+	 *    on different platforms may end up in a movable zone. ZERO_PAGE(0)
-+	 *    cannot be migrated.
- 	 *
- 	 * In general, no unmovable allocations that degrade memory offlining
- 	 * should end up in ZONE_MOVABLE. Allocators (like alloc_contig_range())
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 1d3087753426..bad0f417adb3 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1118,6 +1118,7 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
- extern void untrack_pfn_moved(struct vm_area_struct *vma);
- #endif
+ 				dump_page(page, "gup_test failure");
+ 				break;
++			} else if (cmd == PIN_LONGTERM_BENCHMARK &&
++				WARN(!is_pinnable_page(page),
++				     "pages[%lu] is NOT pinnable but pinned\n",
++				     i)) {
++				dump_page(page, "gup_test failure");
++				break;
+ 			}
+ 		}
+ 		break;
+diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
+index 943cc2608dc2..1e662d59c502 100644
+--- a/tools/testing/selftests/vm/gup_test.c
++++ b/tools/testing/selftests/vm/gup_test.c
+@@ -13,6 +13,7 @@
  
-+#ifdef CONFIG_MMU
- #ifdef __HAVE_COLOR_ZERO_PAGE
- static inline int is_zero_pfn(unsigned long pfn)
- {
-@@ -1142,8 +1143,6 @@ static inline unsigned long my_zero_pfn(unsigned long addr)
- }
- #endif
+ /* Just the flags we need, copied from mm.h: */
+ #define FOLL_WRITE	0x01	/* check pte is writable */
++#define FOLL_TOUCH	0x02	/* mark page accessed */
  
--#ifdef CONFIG_MMU
--
- #ifndef CONFIG_TRANSPARENT_HUGEPAGE
- static inline int pmd_trans_huge(pmd_t pmd)
+ static char *cmd_to_str(unsigned long cmd)
  {
+@@ -39,11 +40,11 @@ int main(int argc, char **argv)
+ 	unsigned long size = 128 * MB;
+ 	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
+ 	unsigned long cmd = GUP_FAST_BENCHMARK;
+-	int flags = MAP_PRIVATE;
++	int flags = MAP_PRIVATE, touch = 0;
+ 	char *file = "/dev/zero";
+ 	char *p;
+ 
+-	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
++	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHpz")) != -1) {
+ 		switch (opt) {
+ 		case 'a':
+ 			cmd = PIN_FAST_BENCHMARK;
+@@ -110,6 +111,10 @@ int main(int argc, char **argv)
+ 		case 'H':
+ 			flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
+ 			break;
++		case 'z':
++			/* fault pages in gup, do not fault in userland */
++			touch = 1;
++			break;
+ 		default:
+ 			return -1;
+ 		}
+@@ -167,8 +172,18 @@ int main(int argc, char **argv)
+ 	else if (thp == 0)
+ 		madvise(p, size, MADV_NOHUGEPAGE);
+ 
+-	for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
+-		p[0] = 0;
++	/*
++	 * FOLL_TOUCH, in gup_test, is used as an either/or case: either
++	 * fault pages in from the kernel via FOLL_TOUCH, or fault them
++	 * in here, from user space. This allows comparison of performance
++	 * between those two cases.
++	 */
++	if (touch) {
++		gup.gup_flags |= FOLL_TOUCH;
++	} else {
++		for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
++			p[0] = 0;
++	}
+ 
+ 	/* Only report timing information on the *_BENCHMARK commands: */
+ 	if ((cmd == PIN_FAST_BENCHMARK) || (cmd == GUP_FAST_BENCHMARK) ||
 -- 
 2.25.1
 
