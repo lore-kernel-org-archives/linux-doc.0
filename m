@@ -2,200 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5050C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 20:24:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 132A6C433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 21:00:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69DDF64EC8
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 20:24:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D36A364ECC
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 21:00:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbhBAUY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 15:24:26 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40352 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229599AbhBAUYZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 15:24:25 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AB64BB1C6;
-        Mon,  1 Feb 2021 20:23:42 +0000 (UTC)
-Date:   Mon, 1 Feb 2021 21:23:39 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] Documentation: sysfs/memory: clarify some memory
- block device properties
-Message-ID: <20210201202339.GB3732@localhost.localdomain>
-References: <20210201181347.13262-1-david@redhat.com>
- <20210201181347.13262-3-david@redhat.com>
+        id S229959AbhBAVAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 16:00:33 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:40249 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229879AbhBAVAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 16:00:31 -0500
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 111KxSLi012988;
+        Tue, 2 Feb 2021 05:59:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 111KxSLi012988
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1612213169;
+        bh=kAlAHi/OGtvLm+bYrSQ8UHY37fzkJJ3uPPuK5hDluAs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=CDJyrsnKeA09Ip8ukvWIBazReG5HhM+cxCQAk7Y7cQ5O+wvJ3ckgvQ5yY1ZCE4Eet
+         ZThkVTyAQ7WK9ScoSsfyTeEkGrBMmMUC2uxGgMNerbBpA+kXkiFS4unCZpny9FN9Ew
+         44wZJYCZETIpQVJMhYyb2AItBIXS8/M6FBnU4K2qUHKf8QjbOH5ZEiQdQCX4LfxUdE
+         mqyuzUdC869wc/cksy+LIqVWh3tUqcmox+xspVxxRFE71N0eyLnh7SuqieMH9RLCG5
+         iLu9noLS+9Ixf/HIjR+VR+1hcQ/AFLwldFCkQ2jS3EAW2AGT8kcJA4s9GtrdWG7/3o
+         SxDABvdSrhuug==
+X-Nifty-SrcIP: [209.85.215.173]
+Received: by mail-pg1-f173.google.com with SMTP id n10so12910564pgl.10;
+        Mon, 01 Feb 2021 12:59:28 -0800 (PST)
+X-Gm-Message-State: AOAM531u0zgqseuZtvQtobrWxgvTDr1NOhw6GadkXEkRce4ASHsG36gX
+        TCpUF7EZEB10GTsf/z3OYmGxDdt1M99W1pwPCxc=
+X-Google-Smtp-Source: ABdhPJys0q96JhGd9rQK509mjBP+Td2+PvZmoi8hhx8MEYI4qlX/UXEaMXaykRrQo4Yg7kC2dDa6Gqg1a9cK56zqQfA=
+X-Received: by 2002:a63:ff09:: with SMTP id k9mr19001783pgi.175.1612213168125;
+ Mon, 01 Feb 2021 12:59:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210201181347.13262-3-david@redhat.com>
+References: <20210201010024.654526-1-masahiroy@kernel.org> <87r1lzvj3q.fsf@meer.lwn.net>
+In-Reply-To: <87r1lzvj3q.fsf@meer.lwn.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 2 Feb 2021 05:58:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQQ=kqhx6REix7j+ZndABjuCBEwp=yiQp71Z0fBrQZxog@mail.gmail.com>
+Message-ID: <CAK7LNAQQ=kqhx6REix7j+ZndABjuCBEwp=yiQp71Z0fBrQZxog@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove PYTHON variable
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tony Luck <tony.luck@intel.com>, linux-ia64@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 01, 2021 at 07:13:47PM +0100, David Hildenbrand wrote:
-> In commit 53cdc1cb29e8 ("drivers/base/memory.c: indicate all memory blocks
-> as removable") we changed the output of the "removable" property of memory
-> devices to return "1" if and only if the kernel supports memory offlining.
-> 
-> Let's update documentation, stating that the interface is legacy. Also
-> update documentation of the "state" property and "valid_zones"
-> properties.
-> 
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Ilya Dryomov <idryomov@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Tue, Feb 2, 2021 at 1:38 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Masahiro Yamada <masahiroy@kernel.org> writes:
+>
+> > Python retired in 2020, and some distributions do not provide the
+> > 'python' command any more.
+> >
+> > As in commit 51839e29cb59 ("scripts: switch explicitly to Python 3"),
+> > we need to use more specific 'python3' to invoke scripts even if they
+> > are written in a way compatible with both Python 2 and 3.
+> >
+> > This commit removes the variable 'PYTHON', and switches the existing
+> > users to 'PYTHON3'.
+> >
+> > BTW, PEP 394 (https://www.python.org/dev/peps/pep-0394/) is a helpful
+> > material.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+> So this will have the effect of making the docs build impossible for
+> folks who only have Python 2.
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-> ---
->  .../ABI/testing/sysfs-devices-memory          | 53 ++++++++++++-------
->  .../admin-guide/mm/memory-hotplug.rst         | 16 +++---
->  2 files changed, 41 insertions(+), 28 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
-> index 58dbc592bc57..d8b0f80b9e33 100644
-> --- a/Documentation/ABI/testing/sysfs-devices-memory
-> +++ b/Documentation/ABI/testing/sysfs-devices-memory
-> @@ -13,13 +13,13 @@ What:		/sys/devices/system/memory/memoryX/removable
->  Date:		June 2008
->  Contact:	Badari Pulavarty <pbadari@us.ibm.com>
->  Description:
-> -		The file /sys/devices/system/memory/memoryX/removable
-> -		indicates whether this memory block is removable or not.
-> -		This is useful for a user-level agent to determine
-> -		identify removable sections of the memory before attempting
-> -		potentially expensive hot-remove memory operation
-> +		The file /sys/devices/system/memory/memoryX/removable is a
-> +		legacy interface used to indicated whether a memory block is
-> +		likely to be offlineable or not.  Newer kernel versions return
-> +		"1" if and only if the kernel supports memory offlining.
->  Users:		hotplug memory remove tools
->  		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
-> +		lsmem/chmem part of util-linux
->  
->  What:		/sys/devices/system/memory/memoryX/phys_device
->  Date:		September 2008
-> @@ -44,23 +44,25 @@ Date:		September 2008
->  Contact:	Badari Pulavarty <pbadari@us.ibm.com>
->  Description:
->  		The file /sys/devices/system/memory/memoryX/state
-> -		is read-write.  When read, its contents show the
-> -		online/offline state of the memory section.  When written,
-> -		root can toggle the the online/offline state of a removable
-> -		memory section (see removable file description above)
-> -		using the following commands::
-> +		is read-write.  When read, it returns the online/offline
-> +		state of the memory block.  When written, root can toggle
-> +		the online/offline state of a memory block using the following
-> +		commands::
->  
->  		  # echo online > /sys/devices/system/memory/memoryX/state
->  		  # echo offline > /sys/devices/system/memory/memoryX/state
->  
-> -		For example, if /sys/devices/system/memory/memory22/removable
-> -		contains a value of 1 and
-> -		/sys/devices/system/memory/memory22/state contains the
-> -		string "online" the following command can be executed by
-> -		by root to offline that section::
-> -
-> -		  # echo offline > /sys/devices/system/memory/memory22/state
-> -
-> +		On newer kernel versions, advanced states can be specified
-> +		when onlining to select a target zone: "online_movable"
-> +		selects the movable zone.  "online_kernel" selects the
-> +		applicable kernel zone (DMA, DMA32, or Normal).  However,
-> +		after successfully setting one of the advanced states,
-> +		reading the file will return "online"; the zone information
-> +		can be obtained via "valid_zones" instead.
-> +
-> +		While onlining is unlikely to fail, there are no guarantees
-> +		that offlining will succeed.  Offlining is more likely to
-> +		succeed if "valid_zones" indicates "Movable".
->  Users:		hotplug memory remove tools
->  		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
->  
-> @@ -70,8 +72,19 @@ Date:           July 2014
->  Contact:	Zhang Zhen <zhenzhang.zhang@huawei.com>
->  Description:
->  		The file /sys/devices/system/memory/memoryX/valid_zones	is
-> -		read-only and is designed to show which zone this memory
-> -		block can be onlined to.
-> +		read-only.
-> +
-> +		For online memory blocks, it returns in which zone memory
-> +		provided by a memory block is managed.  If multiple zones
-> +		apply (not applicable for hotplugged memory), "None" is returned
-> +		and the memory block cannot be offlined.
-> +
-> +		For offline memory blocks, it returns by which zone memory
-> +		provided by a memory block can be managed when onlining.
-> +		The first returned zone ("default") will be used when setting
-> +		the state of an offline memory block to "online".  Only one of
-> +		the kernel zones (DMA, DMA32, Normal) is applicable for a single
-> +		memory block.
->  
->  What:		/sys/devices/system/memoryX/nodeY
->  Date:		October 2009
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index 245739f55ac7..5307f90738aa 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -162,14 +162,14 @@ Under each memory block, you can see 5 files:
->                      which will be performed on all sections in the block.
->  ``phys_device``	    read-only: legacy interface only ever used on s390x to
->  		    expose the covered storage increment.
-> -``removable``       read-only: contains an integer value indicating
-> -                    whether the memory block is removable or not
-> -                    removable.  A value of 1 indicates that the memory
-> -                    block is removable and a value of 0 indicates that
-> -                    it is not removable. A memory block is removable only if
-> -                    every section in the block is removable.
-> -``valid_zones``     read-only: designed to show which zones this memory block
-> -		    can be onlined to.
-> +``removable``	    read-only: legacy interface that indicated whether a memory
-> +		    block was likely to be offlineable or not.  Newer kernel
-> +		    versions return "1" if and only if the kernel supports
-> +		    memory offlining.
-> +``valid_zones``     read-only: designed to show by which zone memory provided by
-> +		    a memory block is managed, and to show by which zone memory
-> +		    provided by an offline memory block could be managed when
-> +		    onlining.
->  
->  		    The first column shows it`s default zone.
->  
-> -- 
-> 2.29.2
-> 
+Is this a problem?  Python 2 is EOL.
+
+Everybody who wants to use Python
+must install Python 3.
+
+
+Rather, people are screaming
+that the 'python' command does not exist.
+
+
+
+
+>  As I said before, this is a step that we
+> knew was coming, we just hadn't decided on the exact timing - I guess
+> this decides for us :)
+>
+> That said, I'll copy linux-doc to see if anybody screams.  I assume this
+> is a 5.12 change?
+
+
+No, I am planning to do this for 5.11
+(a pull request this week if there is no objection).
+
+
+
+
+
+
+
+
+> Thanks,
+>
+> jon
+>
+
 
 -- 
-Oscar Salvador
-SUSE L3
+Best Regards
+Masahiro Yamada
