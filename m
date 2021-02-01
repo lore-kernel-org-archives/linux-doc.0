@@ -2,157 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D81CC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 09:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45487C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:15:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D08C464EAA
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 09:25:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F002364E08
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:15:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232443AbhBAJZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 04:25:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232290AbhBAJZw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 04:25:52 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFFF1C061574
-        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 01:25:11 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l6VRq-0002Vs-QX; Mon, 01 Feb 2021 10:24:42 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l6VRo-000717-EJ; Mon, 01 Feb 2021 10:24:40 +0100
-Date:   Mon, 1 Feb 2021 10:24:36 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 0/8] gpio: implement the configfs testing module
-Message-ID: <20210201092436.srqgfemnchyuubsf@pengutronix.de>
-References: <20210129134624.9247-1-brgl@bgdev.pl>
- <20210130212009.2uugdj6vmisegau2@pengutronix.de>
- <CAMRc=MdwoJCw1-BdNRnfRFaXYfZD0+vn_8yq0J+rshHqZMdDXQ@mail.gmail.com>
+        id S233133AbhBAKOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 05:14:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:52352 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233117AbhBAKOP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Feb 2021 05:14:15 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E901BACB0;
+        Mon,  1 Feb 2021 10:13:32 +0000 (UTC)
+Subject: Re: [PATCH] mm/page_owner: Record the timestamp of all pages during
+ free
+To:     Georgi Djakov <georgi.djakov@linaro.org>,
+        akpm@linux-foundation.org, linux-mm@kvack.org
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210129234548.10054-1-georgi.djakov@linaro.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <735983e1-f439-8e77-7959-135164c517ed@suse.cz>
+Date:   Mon, 1 Feb 2021 11:13:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="65y6muqcwz6jdecn"
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdwoJCw1-BdNRnfRFaXYfZD0+vn_8yq0J+rshHqZMdDXQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <20210129234548.10054-1-georgi.djakov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/30/21 12:45 AM, Georgi Djakov wrote:
+> Collect the time when each allocation is freed, to help with memory
+> analysis with kdump/ramdump.
+> 
+> Having another timestamp when we free the page helps for debugging
+> page migration issues. For example both alloc and free timestamps
+> being the same can gave hints that there is an issue with migrating
+> memory, as opposed to a page just being dropped during migration.
 
---65y6muqcwz6jdecn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Besides crash dump analysis, we should also provide this timestamp in the
+page_owner file and dump_page()?
 
-On Mon, Feb 01, 2021 at 09:37:30AM +0100, Bartosz Golaszewski wrote:
-> On Sat, Jan 30, 2021 at 10:20 PM Uwe Kleine-K=F6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > Hello,
-> >
-> > On Fri, Jan 29, 2021 at 02:46:16PM +0100, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > >
-> > > This series adds a new GPIO testing module based on configfs committa=
-ble items
-> > > and sysfs. The goal is to provide a testing driver that will be confi=
-gurable
-> > > at runtime (won't need module reload) and easily extensible. The cont=
-rol over
-> > > the attributes is also much more fine-grained than in gpio-mockup.
-> > >
-> > > I am aware that Uwe submitted a virtual driver called gpio-simulator =
-some time
-> > > ago and I was against merging it as it wasn't much different from gpi=
-o-mockup.
-> > > I would ideally want to have a single testing driver to maintain so I=
- am
-> > > proposing this module as a replacement for gpio-mockup but since self=
-tests
-> > > and libgpiod depend on it and it also has users in the community, we =
-can't
-> > > outright remove it until everyone switched to the new interface. As f=
-or Uwe's
-> > > idea for linking two simulated chips so that one controls the other -=
- while
-> > > I prefer to have an independent code path for controlling the lines (=
-hence
-> > > the sysfs attributes), I'm open to implementing it in this new driver=
-=2E It
-> > > should be much more feature friendly thanks to configfs than gpio-moc=
-kup.
-> >
-> > Funny you still think about my simulator driver. I recently thought
->=20
-> It's because I always feel bad when I refuse to merge someone's hard work.
->=20
-> > about reanimating it for my private use. The idea was to implement a
-> > rotary-encoder driver (that contrast to
-> > drivers/input/misc/rotary_encoder.c really implements an encoder and not
-> > a decoder). With the two linked chips I can plug
-> > drivers/input/misc/rotary_encoder.c on one side and my encoder on the
-> > other to test both drivers completely in software.
-> >
-> > I didn't look into your driver yet, but getting such a driver into
-> > mainline would be very welcome!
-> >
->=20
-> My idea for linking chips (although that's not implemented yet) is an
-> attribute in each configfs group called 'link' or something like that,
-> that would take as argument the name of the chip to link to making the
-> 'linker' the input and the 'linkee' the output.
+> Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
+> ---
+>  Documentation/vm/page_owner.rst | 2 +-
+>  mm/page_owner.c                 | 5 +++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+> index 4e67c2e9bbed..5d7a62c2be28 100644
+> --- a/Documentation/vm/page_owner.rst
+> +++ b/Documentation/vm/page_owner.rst
+> @@ -47,7 +47,7 @@ size change due to this facility.
+>  
+>     text    data     bss     dec     hex filename
+>     48800   2445     644   51889    cab1 mm/page_alloc.o
+> -   6574     108      29    6711    1a37 mm/page_owner.o
+> +   6644     108      29    6777    1a79 mm/page_owner.o
+>     1025       8       8    1041     411 mm/page_ext.o
+>  
+>  Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+> diff --git a/mm/page_owner.c b/mm/page_owner.c
+> index d15c7c4994f5..fbdf064e7494 100644
+> --- a/mm/page_owner.c
+> +++ b/mm/page_owner.c
+> @@ -27,6 +27,7 @@ struct page_owner {
+>  	depot_stack_handle_t handle;
+>  	depot_stack_handle_t free_handle;
+>  	u64 ts_nsec;
+> +	u64 free_ts_nsec;
+>  	pid_t pid;
+>  };
+>  
+> @@ -148,6 +149,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+>  	struct page_ext *page_ext;
+>  	depot_stack_handle_t handle = 0;
+>  	struct page_owner *page_owner;
+> +	u64 free_ts_nsec = local_clock();
+>  
+>  	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
+>  
+> @@ -158,6 +160,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
+>  		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+>  		page_owner = get_page_owner(page_ext);
+>  		page_owner->free_handle = handle;
+> +		page_owner->free_ts_nsec = free_ts_nsec;
+>  		page_ext = page_ext_next(page_ext);
+>  	}
+>  }
+> @@ -177,6 +180,7 @@ static inline void __set_page_owner_handle(struct page *page,
+>  		page_owner->last_migrate_reason = -1;
+>  		page_owner->pid = current->pid;
+>  		page_owner->ts_nsec = local_clock();
+> +		page_owner->free_ts_nsec = 0;
 
-I still wonder why you prefer to drive the lines using configfs (or
-sysfs before). Using the idea of two interlinked chips and being able to
-use gpio functions on one side to modify the other side is (in my eyes)
-so simple and beautiful that it's obviously the right choice. But note I
-still didn't look into details so there might be stuff you can modify
-that wouldn't be possible with my idea. But obviously your mileage
-varies here.
+Might be more useful not to reset the time of previous free when the page is
+reallocated?
 
-Best regards
-Uwe
+>  		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
+>  		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
+>  
+> @@ -243,6 +247,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
+>  	new_page_owner->handle = old_page_owner->handle;
+>  	new_page_owner->pid = old_page_owner->pid;
+>  	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
+> +	new_page_owner->free_ts_nsec = old_page_owner->ts_nsec;
+>  
+>  	/*
+>  	 * We don't clear the bit on the oldpage as it's going to be freed
+> 
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---65y6muqcwz6jdecn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAXyNEACgkQwfwUeK3K
-7AnlOQf+PJp3sYhc7rZc/co0aN9yGRJUKxFqDOqbbeRv059P0vkaD7iZ9DRIXRkH
-HuK7Wn5WFKl42OncXTA7pIMJM5jMc22AgYEG8ttWTmxtI9nKK1MuACTWWMWhzvMv
-MWeFM8zo7PMOvC0Exkh1K52TA7zfhAJ6Lc6+GJtl9wfb1P4W/EbER6lGFu/dN7y2
-sGNG1+dl3RSkdPDGUTyKDX5c/xRir6pHwRwjkKQo3MxhJIwzWs9rh3WtPwsRKfL9
-UJmu09J9y4Y7L+nNk/7odCd0FwI4oxBfs9hL7Ic4V7Kfw94hFNF6J7fKGbHqgPe8
-Zb+PhZw6Rr0gY1O7EZmobl4Y0MHeXQ==
-=KxeP
------END PGP SIGNATURE-----
-
---65y6muqcwz6jdecn--
