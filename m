@@ -2,74 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F134C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74971C433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F00064EA9
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 334C764EA9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:39:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbhBAQiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 11:38:11 -0500
-Received: from verein.lst.de ([213.95.11.211]:41983 "EHLO verein.lst.de"
+        id S231282AbhBAQjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 11:39:17 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53584 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229680AbhBAQiL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 11:38:11 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id C42486736F; Mon,  1 Feb 2021 17:37:26 +0100 (CET)
-Date:   Mon, 1 Feb 2021 17:37:26 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 6/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20210201163726.GA8279@lst.de>
-References: <20210128145837.2250561-1-hch@lst.de> <20210128145837.2250561-7-hch@lst.de> <20210128150955.GA30563@lst.de> <CANiDSCtV8eiH7r6-mX3QhsYvJapqRfYufu4-iqmeiy6GiwwE_A@mail.gmail.com>
+        id S231186AbhBAQjQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Feb 2021 11:39:16 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 18D044CD5;
+        Mon,  1 Feb 2021 16:38:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 18D044CD5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1612197514; bh=TGcSUf0lCQ/GM/YUezjDHkafUZeyat41vsY8Hj++jkg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Yh0fwv3K0P8h3SG0LzNHciGTxfpgLBfNn9yB9DDKBoxe+GdVHVmPumFTch1ksK4ba
+         kML0ESzaPWelGX4/OnZZFrl2sbQUx+0dn/mKXCTnn+8Bc559lND6a5RqF+VZsZr0r/
+         erO9UfHXOVdfKGUg+N5DBg1KvlH8L7xGRK1uPXg71RLkmaIUjP3tg/3BC1mw9smsMh
+         GcuiFGEtUlUlWpPf7HalQNXOmfGhASLHc9+hkKIP/3YmQtHvtnb5moF0GiJj7QuguB
+         LZ3B7KwVHhugY3X+YaH16oafpoyuA6cZqdQfAwd0DGlxpL2a2wei0U3g6Pg1jiH5aE
+         HcRFQ0XvPvW6Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tony Luck <tony.luck@intel.com>, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] kbuild: remove PYTHON variable
+In-Reply-To: <20210201010024.654526-1-masahiroy@kernel.org>
+References: <20210201010024.654526-1-masahiroy@kernel.org>
+Date:   Mon, 01 Feb 2021 09:38:33 -0700
+Message-ID: <87r1lzvj3q.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCtV8eiH7r6-mX3QhsYvJapqRfYufu4-iqmeiy6GiwwE_A@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 06:00:57PM +0100, Ricardo Ribalda wrote:
-> > Given that we vmap the addresses this also needs
-> > flush_kernel_vmap_range / invalidate_kernel_vmap_range calls for
-> > VIVT architectures.
-> 
-> We only read from the device to the cpu. Then can we run only
-> invalidate_kernel_vmap_range() ?
-> 
-> something like ?
-> else {
->           dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt, DMA_FROM_DEVICE);
->            invalidate_kernel_vmap_range(uvc_urb->buffer,
-> uvc_urb->stream->urb_size );
-> }
+Masahiro Yamada <masahiroy@kernel.org> writes:
 
-Yes.  Right now we don't have a proper state machine for the
-*_kernel_vmap_range, but we should probably add one once usage of this
-grows.  Until then I need to respin my API patch to document how callers
-need to use *_kernel_vmap_range, as well as adding the so far missing
-dma-debug support.
+> Python retired in 2020, and some distributions do not provide the
+> 'python' command any more.
+>
+> As in commit 51839e29cb59 ("scripts: switch explicitly to Python 3"),
+> we need to use more specific 'python3' to invoke scripts even if they
+> are written in a way compatible with both Python 2 and 3.
+>
+> This commit removes the variable 'PYTHON', and switches the existing
+> users to 'PYTHON3'.
+>
+> BTW, PEP 394 (https://www.python.org/dev/peps/pep-0394/) is a helpful
+> material.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-As we're getting toward the end of the merge window I'll try to get this
-done ASAP.
+So this will have the effect of making the docs build impossible for
+folks who only have Python 2.  As I said before, this is a step that we
+knew was coming, we just hadn't decided on the exact timing - I guess
+this decides for us :)
 
-How should we plan to merge this code?  Do you have a tree you'd like
-to pick up the whole thing for?  Or should I create a dma-mapping
-tree branch that can be pulled in?
+That said, I'll copy linux-doc to see if anybody screams.  I assume this
+is a 5.12 change?
+
+Thanks,
+
+jon
+
