@@ -2,194 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 046DCC433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:51:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0F7C433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:53:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5B9C64EAA
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:51:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BE9361481
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231831AbhBAPvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 10:51:25 -0500
-Received: from mail29.static.mailgun.info ([104.130.122.29]:18680 "EHLO
-        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231714AbhBAPvC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:51:02 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1612194639; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=0JHy+RI+wqivBbAHeg6tMeuSs3uLzrkCav5CTvzzCWI=;
- b=GFI5/inGsOpGdCJeagOw9HaMU2wCqO7hOq466tpxFuLPkmNKtc8FCX6EVeD9Uo5oXWq46EVZ
- gPEwAneK1Asus+hW+8ypnYVQmDneFbcTeybd1fANOJvpvqbfG2TxZHxH9tN0xtXGUYqa1BL4
- C0Nh8ptz288J1hKOdCuCXFA0AEw=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 601823312d8ee3f99f68ae3c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 01 Feb 2021 15:50:09
- GMT
-Sender: mdalam=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 778F4C433C6; Mon,  1 Feb 2021 15:50:08 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        id S231434AbhBAPw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 10:52:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45480 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231902AbhBAPwu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:52:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612194684;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=k7JcQqia2+dIQ5jR2h/xA1wGbQRmVVlja2/HYWBBHWM=;
+        b=bDvejn226PM8OFlUvzXpUYG2O6lUEeWDNOCnc4TxQqEsi1qZWGO8KNtCSaZWGg4zeDlpcf
+        dbZuipXycvEHHTJ0eV/fjmdEWJkJr623gb+Ox7HGkDOrQOkfNsNq9Y45KQl0xzs5fgfiSx
+        coeBv0F9kUQVujhWCKV91Jw8NmrUVk0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-uXYghaC-NlG2uuwXgi1lcA-1; Mon, 01 Feb 2021 10:51:20 -0500
+X-MC-Unique: uXYghaC-NlG2uuwXgi1lcA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: mdalam)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 794ABC433CA;
-        Mon,  1 Feb 2021 15:50:07 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 01 Feb 2021 21:20:07 +0530
-From:   mdalam@codeaurora.org
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     corbet@lwn.net, agross@kernel.org, bjorn.andersson@linaro.org,
-        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B4781054FA3;
+        Mon,  1 Feb 2021 15:51:04 +0000 (UTC)
+Received: from [10.36.115.24] (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0F7F61346F;
+        Mon,  1 Feb 2021 15:50:55 +0000 (UTC)
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
-        mdalam=codeaurora.org@codeaurora.org
-Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
- support
-In-Reply-To: <20210201064314.GM2771@vkoul-mobl>
-References: <efcc74bbdf36b4ddbf764eb6b4ed99f2@codeaurora.org>
- <f7de0117c8ff2e61c09f58acdea0e5b0@codeaurora.org>
- <20210112101056.GI2771@vkoul-mobl>
- <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
- <20210115055806.GE2771@vkoul-mobl>
- <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
- <20210119164511.GE2771@vkoul-mobl>
- <534308caab7c18730ad0cc25248d116f@codeaurora.org>
- <20210201060508.GK2771@vkoul-mobl>
- <9d33d73682f24d92338757e1823ccd88@codeaurora.org>
- <20210201064314.GM2771@vkoul-mobl>
-Message-ID: <73c871d3d674607fafc7b79e602ec587@codeaurora.org>
-X-Sender: mdalam@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+References: <20210117151053.24600-1-songmuchun@bytedance.com>
+ <20210117151053.24600-6-songmuchun@bytedance.com>
+ <20210126092942.GA10602@linux>
+ <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
+ <20210126145819.GB16870@linux>
+ <259b9669-0515-01a2-d714-617011f87194@redhat.com>
+ <20210126153448.GA17455@linux>
+ <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
+ <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
+ <20210128222906.GA3826@localhost.localdomain>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
+ associated with each HugeTLB page
+Message-ID: <0f34d46b-cb42-0bbf-1d7e-0b4731bdb5e9@redhat.com>
+Date:   Mon, 1 Feb 2021 16:50:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20210128222906.GA3826@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-02-01 12:13, Vinod Koul wrote:
-> On 01-02-21, 11:52, mdalam@codeaurora.org wrote:
->> On 2021-02-01 11:35, Vinod Koul wrote:
->> > On 27-01-21, 23:56, mdalam@codeaurora.org wrote:
+On 28.01.21 23:29, Oscar Salvador wrote:
+> On Wed, Jan 27, 2021 at 11:36:15AM +0100, David Hildenbrand wrote:
+>> Extending on that, I just discovered that only x86-64, ppc64, and arm64
+>> really support hugepage migration.
+>>
+>> Maybe one approach with the "magic switch" really would be to disable
+>> hugepage migration completely in hugepage_migration_supported(), and
+>> consequently making hugepage_movable_supported() always return false.
 > 
->> > >   The actual LOCK/UNLOCK flag should be set on hardware command
->> > > descriptor.
->> > >   so this flag setting should be done in DMA engine driver. The user
->> > > of the
->> > > DMA
->> > >   driver like (in case of IPQ5018) Crypto can use flag
->> > > "DMA_PREP_LOCK" &
->> > > "DMA_PREP_UNLOCK"
->> > >   while preparing CMD descriptor before submitting to the DMA
->> > > engine. In DMA
->> > > engine driver
->> > >   we are checking these flasgs on CMD descriptor and setting actual
->> > > LOCK/UNLOCK flag on hardware
->> > >   descriptor.
->> >
->> >
->> > I am not sure I comprehend this yet.. when is that we would need to do
->> > this... is this for each txn submitted to dmaengine.. or something
->> > else..
->> 
->>  Its not for each transaction submitted to dmaengine. We have to set 
->> this
->> only
->>  once on CMD descriptor. So when A53 crypto driver need to change the 
->> crypto
->> configuration
->>  then first it will lock the all other pipes using setting the LOCK 
->> flag bit
->> on CMD
->>  descriptor and then it can start the transaction , on data descriptor 
->> this
->> flag will
->>  not get set once all transaction will be completed the A53 crypto 
->> driver
->> release the lock on
->>  all other pipes using UNLOCK flag on CMD descriptor. So LOCK/UNLOCK 
->> will be
->> only once and not for
->>  the each transaction.
+> Ok, so migration would not fork for these pages, and since them would
+> lay in !ZONE_MOVABLE there is no guarantee we can unplug the memory.
+> Well, we really cannot unplug it unless the hugepage is not used
+> (it can be dissolved at least).
 > 
-> Okay so why cant the bam driver check cmd descriptor and do lock/unlock
-> as below, why do we need users to do this.
+> Now to the allocation-when-freeing.
+> Current implementation uses GFP_ATOMIC(or wants to use) + forever loop.
+> One of the problems I see with GFP_ATOMIC is that gives you access
+> to memory reserves, but there are more users using those reserves.
+> Then, worst-scenario case we need to allocate 16MB order-0 pages
+> to free up 1GB hugepage, so the question would be whether reserves
+> really scale to 16MB + more users accessing reserves.
 > 
->         if (flags & DMA_PREP_CMD) {
->                 do_lock_bam();
-
-  User will not decide to do this LOCK/UNLOCK mechanism. It depends on 
-use case.
-  This LOCK/UNLOCK mechanism not required always. It needs only when 
-hardware will be shared
-  between different core with different driver.
-  The LOCK/UNLOCK flags provides SW to enter ordering between pipes 
-execution.
-  (Generally, the BAM pipes are total independent from each other and 
-work in parallel manner).
-  This LOCK/UNLOCK flags are part of actual pipe hardware descriptor.
-
-  Pipe descriptor having the following flags:
-  INT : Interrupt
-  EOT: End of transfer
-  EOB: End of block
-  NWD: Notify when done
-  CMD: Command
-  LOCK: Lock
-  UNLOCK: Unlock
-  etc.
-
-  Here the BAM driver is common driver for (QPIC, Crypto, QUP etc. in 
-IPQ5018)
-  So here only Crypto will be shared b/w multiple cores so For crypto 
-request only the LOCK/UNLOCK
-  mechanism required.
-  For other request like for QPIC driver, QUPT driver etc. its not 
-required. So Crypto driver has to raise the flag for
-  LOCK/UNLOCK while preparing CMD descriptor. The actual locking will 
-happen in BAM driver only using condition
-  if (flags & DMA_PREP_CMD) {
-      if (flags & DMA_PREP_LOCK)
-         desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
-  }
-
-  So Crypto driver should set this flag DMA_PREP_LOCK while preparing CMD 
-descriptor.
-  So LOCK should be set on actual hardware pipe descriptor with 
-descriptor type CMD.
-
+> As I said, if anything I would go for an optimistic allocation-try
+> , if we fail just refuse to shrink the pool.
+> User can always try to shrink it later again via /sys interface.
 > 
-> The point here is that this seems to be internal to dma and should be
-> handled by dma driver.
+> Since hugepages would not be longer in ZONE_MOVABLE/CMA and are not
+> expected to be migratable, is that ok?
 > 
-   This LOCK/UNLOK flags are part of actual hardware descriptor so this 
-should be handled by BAM driver only.
-   If we set condition like this
-   if (flags & DMA_PREP_CMD) {
-                 do_lock_bam();
-   Then LOCK/UNLOCK will be applied for all the CMD descriptor including 
-(QPIC driver, QUP driver , Crypto driver etc.).
-   So this is not our intension. So we need to set this LOCK/UNLOCK only 
-for the drivers it needs. So Crypto driver needs
-   locking mechanism so we will set LOCK/UNLOCK flag on Crypto driver 
-request only for other driver request like QPIC driver,
-   QUP driver will not set this.
-
-> Also if we do this, it needs to be done for specific platforms..
+> Using the hugepage for the vmemmap array was brought up several times,
+> but that would imply fragmenting memory over time.
 > 
+> All in all seems to be overly complicated (I might be wrong).
+> 
+> 
+>> Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
+>> migrated. The problem I describe would apply (careful with using
+>> ZONE_MOVABLE), but well, it can at least be documented.
+> 
+> I am not a page allocator expert but cannot the allocation fallback
+> to ZONE_MOVABLE under memory shortage on other zones?
 
+No, for now it's not done. Only movable allocations target ZONE_MOVABLE. 
+Doing so would be controversial: when would be the right point in time 
+to start spilling unmovable allocations into CMA/ZONE_MOVABLE? You 
+certainly want to try other things first (swapping, reclaim, 
+compaction), before breaking any guarantees regarding 
+hotunplug+migration/compaction you have with CMA/ZONE_MOVABLE. And even 
+if you would allow it, your workload would already suffer extremely.
 
+So it smells more like a setup issue. But then, who knows when 
+allocating huge pages (esp. at runtime) that there are such side effects 
+before actually running into them?
 
+We can make sure that all relevant archs support migration of ordinary 
+(!gigantic) huge pages (for now, only x86-64, ppc64/spapr, arm64), so we 
+can place them onto ZONE_MOVABLE. It gets harder with more special cases.
 
+Gigantic pages (without CMA) are more of a general issue, but at least 
+it's simple to document ("Careful when pairing ZONE_MOVABLE with 
+gigantic pages on !CMA").
 
+An unexpected high amount of unmovable memory is just extremely 
+difficult to handle with ZONE_MOVABLE; it's hard for the user/admin to 
+figure out that such restrictions actually apply.
 
+-- 
+Thanks,
 
-> Thanks
+David / dhildenb
+
