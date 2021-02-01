@@ -2,126 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45487C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CFFDC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:21:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F002364E08
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:15:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDA3E64E0F
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:21:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233133AbhBAKOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 05:14:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:52352 "EHLO mx2.suse.de"
+        id S232959AbhBAKV1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 05:21:27 -0500
+Received: from mga14.intel.com ([192.55.52.115]:28116 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233117AbhBAKOP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 05:14:15 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E901BACB0;
-        Mon,  1 Feb 2021 10:13:32 +0000 (UTC)
-Subject: Re: [PATCH] mm/page_owner: Record the timestamp of all pages during
- free
-To:     Georgi Djakov <georgi.djakov@linaro.org>,
-        akpm@linux-foundation.org, linux-mm@kvack.org
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210129234548.10054-1-georgi.djakov@linaro.org>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Message-ID: <735983e1-f439-8e77-7959-135164c517ed@suse.cz>
-Date:   Mon, 1 Feb 2021 11:13:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        id S232752AbhBAKVX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Feb 2021 05:21:23 -0500
+IronPort-SDR: INRPGqexD9NLwoLsUxjkSbA7fMm4CfYOXYfDAmmo81TtqluJ0tjyfDHaJk4eowneEcQRnko2ny
+ Gwa5bvBjpCOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="179886442"
+X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
+   d="scan'208";a="179886442"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 02:19:32 -0800
+IronPort-SDR: ZvShelBViC+QoJw7CsRqYxq9B+j6EaXC5vdg3U9jWMc0d6I96+YSrWotYUxx5uRUqJP5pADF3K
+ 9xpu7huXTtuw==
+X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
+   d="scan'208";a="506784591"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 02:19:29 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1l6WIo-0016BM-65; Mon, 01 Feb 2021 12:19:26 +0200
+Date:   Mon, 1 Feb 2021 12:19:26 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Joel Becker <jlbec@evilplan.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH 5/8] lib: bitmap: remove the 'extern' keyword from
+ function declarations
+Message-ID: <YBfVrj1BPCo+YAvH@smile.fi.intel.com>
+References: <20210129134624.9247-1-brgl@bgdev.pl>
+ <20210129134624.9247-6-brgl@bgdev.pl>
+ <YBQw3+K/6GDPK5xa@smile.fi.intel.com>
+ <CAMRc=Md74KunuEvVsofn9cqcoKEqprepKadPdZA+JV_GMH7X7g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210129234548.10054-1-georgi.djakov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=Md74KunuEvVsofn9cqcoKEqprepKadPdZA+JV_GMH7X7g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/30/21 12:45 AM, Georgi Djakov wrote:
-> Collect the time when each allocation is freed, to help with memory
-> analysis with kdump/ramdump.
+On Sat, Jan 30, 2021 at 09:25:08PM +0100, Bartosz Golaszewski wrote:
+> On Fri, Jan 29, 2021 at 4:59 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Fri, Jan 29, 2021 at 02:46:21PM +0100, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > The 'extern' keyword doesn't have any benefits in header files. Remove it.
+> >
+> > > +int __bitmap_equal(const unsigned long *bitmap1,
+> > > +                const unsigned long *bitmap2, unsigned int nbits);
+> >
+> > Why not
+> >
+> > int __bitmap_equal(const unsigned long *bitmap1, const unsigned long *bitmap2,
+> >                    unsigned int nbits);
+> >
+> > and so on?
+> >
+> > It's even in 80 limit.
+> >
 > 
-> Having another timestamp when we free the page helps for debugging
-> page migration issues. For example both alloc and free timestamps
-> being the same can gave hints that there is an issue with migrating
-> memory, as opposed to a page just being dropped during migration.
+> I feel like this is purely a matter of taste. No rules define exactly
+> how the lines should be broken. I prefer the longer part to be below,
+> it just looks better to my eyes.
 
-Besides crash dump analysis, we should also provide this timestamp in the
-page_owner file and dump_page()?
+In above case it's even logically better to split as I proposed.
 
-> Signed-off-by: Georgi Djakov <georgi.djakov@linaro.org>
-> ---
->  Documentation/vm/page_owner.rst | 2 +-
->  mm/page_owner.c                 | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 4e67c2e9bbed..5d7a62c2be28 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -47,7 +47,7 @@ size change due to this facility.
->  
->     text    data     bss     dec     hex filename
->     48800   2445     644   51889    cab1 mm/page_alloc.o
-> -   6574     108      29    6711    1a37 mm/page_owner.o
-> +   6644     108      29    6777    1a79 mm/page_owner.o
->     1025       8       8    1041     411 mm/page_ext.o
->  
->  Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-> diff --git a/mm/page_owner.c b/mm/page_owner.c
-> index d15c7c4994f5..fbdf064e7494 100644
-> --- a/mm/page_owner.c
-> +++ b/mm/page_owner.c
-> @@ -27,6 +27,7 @@ struct page_owner {
->  	depot_stack_handle_t handle;
->  	depot_stack_handle_t free_handle;
->  	u64 ts_nsec;
-> +	u64 free_ts_nsec;
->  	pid_t pid;
->  };
->  
-> @@ -148,6 +149,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
->  	struct page_ext *page_ext;
->  	depot_stack_handle_t handle = 0;
->  	struct page_owner *page_owner;
-> +	u64 free_ts_nsec = local_clock();
->  
->  	handle = save_stack(GFP_NOWAIT | __GFP_NOWARN);
->  
-> @@ -158,6 +160,7 @@ void __reset_page_owner(struct page *page, unsigned int order)
->  		__clear_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
->  		page_owner = get_page_owner(page_ext);
->  		page_owner->free_handle = handle;
-> +		page_owner->free_ts_nsec = free_ts_nsec;
->  		page_ext = page_ext_next(page_ext);
->  	}
->  }
-> @@ -177,6 +180,7 @@ static inline void __set_page_owner_handle(struct page *page,
->  		page_owner->last_migrate_reason = -1;
->  		page_owner->pid = current->pid;
->  		page_owner->ts_nsec = local_clock();
-> +		page_owner->free_ts_nsec = 0;
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Might be more useful not to reset the time of previous free when the page is
-reallocated?
-
->  		__set_bit(PAGE_EXT_OWNER, &page_ext->flags);
->  		__set_bit(PAGE_EXT_OWNER_ALLOCATED, &page_ext->flags);
->  
-> @@ -243,6 +247,7 @@ void __copy_page_owner(struct page *oldpage, struct page *newpage)
->  	new_page_owner->handle = old_page_owner->handle;
->  	new_page_owner->pid = old_page_owner->pid;
->  	new_page_owner->ts_nsec = old_page_owner->ts_nsec;
-> +	new_page_owner->free_ts_nsec = old_page_owner->ts_nsec;
->  
->  	/*
->  	 * We don't clear the bit on the oldpage as it's going to be freed
-> 
 
