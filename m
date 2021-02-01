@@ -2,209 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95245C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:16:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C5EC433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6331864DE1
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D768664E2C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232401AbhBASP7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 13:15:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53570 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232326AbhBASPk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 13:15:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612203252;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hw/bbefHCDlpt7rxB9SfB7fxyTWhrX+xQPiAEBdtMcc=;
-        b=g2p71+jjEI/BqVKtTlImnex7kOTvVpo92v+Zz3nquWCw7DY7J/zq64fqrIHAgunWnJIiJi
-        ZVmByN7qIe4W61LgrEZ7Jt3HnZoBHjMznl6Vd3DJzumiEkT1mvVC2RqeWSl+TKQonL+4pv
-        CXliVAQvAALP2iFmih2sbHTC9/HyC5E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-UMcO-sFEP7mPMII8WaFClA-1; Mon, 01 Feb 2021 13:14:07 -0500
-X-MC-Unique: UMcO-sFEP7mPMII8WaFClA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E70701060B70;
-        Mon,  1 Feb 2021 18:14:00 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EB0C85C8A7;
-        Mon,  1 Feb 2021 18:13:57 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] Documentation: sysfs/memory: clarify some memory block device properties
-Date:   Mon,  1 Feb 2021 19:13:47 +0100
-Message-Id: <20210201181347.13262-3-david@redhat.com>
-In-Reply-To: <20210201181347.13262-1-david@redhat.com>
-References: <20210201181347.13262-1-david@redhat.com>
+        id S232201AbhBAS3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 13:29:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231926AbhBAS26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 13:28:58 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F5BC0613D6
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 10:28:18 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id t29so12156852pfg.11
+        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 10:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZpTMPQ2QiuaE7YgK9D97So9gGS45ZWVWJvJLwPy7gVE=;
+        b=n7LNoaNuf95Q4NZEiOJJmi/AUUVJd8pv3Gq/pEbjwLx+2am/cNePL+YKe4qJwyyAvh
+         RaXG4rMwHv/Ac+OyaYaZUKTj1CnrkVyujna3JevD7q0jOIkimyNMTN1RDXOD2LonqJik
+         1AWFBndBZzdqO+wmI1yyhXRVSS62XmpNaPKYjRmdhlMKVQOmWw1utTN/Da3AbWqw6tlH
+         hJU7D3tMF9rac5YfYnTugcrshG5E1BM9QP/RHLV96Wy8+JyXeHUAL47G4P0LUuMviSeN
+         6wqCH7/Hl6QHAlXlLnV3BCzdRCU4nmPUTLF3YMXKtolEvIttx8LlzXsqwdG/07FtpfDL
+         4dvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZpTMPQ2QiuaE7YgK9D97So9gGS45ZWVWJvJLwPy7gVE=;
+        b=Eu5zs/mHXGWm/3vKP/gAMu0DiF/W8bKb5ac6gYNNjBuzZ29n7LcQw/s1Q5qVYwasiv
+         y1eP+DXr/AHkEsGyWXOz07OJoxRTOty+oork419dSCAqz4qswldKRZWCWW3dSPKBv9t3
+         TPKgI9lEBlNvAP9Bz7nozhujcsy3Y1w7Dn1pOsbJ85FoVhwugL2IkFDITKKjqDE0Jz4k
+         snCN74P1GFl3RF6Kpm79WOq9yW0qY/BFWOpScqhlM/7Omb3TnCgRTyhx6mBoWbOk799b
+         YxdGVN+gfrlzIpjYoPGYypj1axryJt/aF7jl108hZhoXUF5w7D2D0s1tXwAMyGigWiQ6
+         x4/A==
+X-Gm-Message-State: AOAM533uw3djzTTh3P3kB4f0SjxzCftbmerBb/CxqnMVenwbpFryO90e
+        VyRy/vPakranbZgO9GH9h23HTfhxwZZqgnEOXAAd6A==
+X-Google-Smtp-Source: ABdhPJyj+nqwhsWtSMAc77QUN3iH+51wGBli74byxlse5q8S9UBykrdYICOgPFkVfNbslN7hddoFuUFiqOa1DDwNkcc=
+X-Received: by 2002:a62:7896:0:b029:1b6:7319:52a7 with SMTP id
+ t144-20020a6278960000b02901b6731952a7mr17982053pfc.30.1612204097451; Mon, 01
+ Feb 2021 10:28:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210201010819.655597-1-masahiroy@kernel.org>
+In-Reply-To: <20210201010819.655597-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 1 Feb 2021 10:28:06 -0800
+Message-ID: <CAKwvOdnECGDFe=n6ms0Aj7FB0sN7ktZyk4dyVvV0UTgPvpuWpA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: switch some more scripts explicitly to Python 3
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-spdx@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In commit 53cdc1cb29e8 ("drivers/base/memory.c: indicate all memory blocks
-as removable") we changed the output of the "removable" property of memory
-devices to return "1" if and only if the kernel supports memory offlining.
+On Sun, Jan 31, 2021 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> For the same reason as commit 51839e29cb59 ("scripts: switch explicitly
+> to Python 3"), switch some more scripts, which I tested and confirmed
+> working on Python 3.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Let's update documentation, stating that the interface is legacy. Also
-update documentation of the "state" property and "valid_zones"
-properties.
+Thanks for the patch. It's time to move on from Python 2.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dave Hansen <dave.hansen@intel.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Ilya Dryomov <idryomov@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- .../ABI/testing/sysfs-devices-memory          | 53 ++++++++++++-------
- .../admin-guide/mm/memory-hotplug.rst         | 16 +++---
- 2 files changed, 41 insertions(+), 28 deletions(-)
+It looks like there's already a patch in -next for scripts/spdxcheck.py.
+("spdxcheck.py: Use Python 3") by Bert Vermeulen.
+https://lore.kernel.org/r/20210121085412.265400-1-bert@biot.com
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
-index 58dbc592bc57..d8b0f80b9e33 100644
---- a/Documentation/ABI/testing/sysfs-devices-memory
-+++ b/Documentation/ABI/testing/sysfs-devices-memory
-@@ -13,13 +13,13 @@ What:		/sys/devices/system/memory/memoryX/removable
- Date:		June 2008
- Contact:	Badari Pulavarty <pbadari@us.ibm.com>
- Description:
--		The file /sys/devices/system/memory/memoryX/removable
--		indicates whether this memory block is removable or not.
--		This is useful for a user-level agent to determine
--		identify removable sections of the memory before attempting
--		potentially expensive hot-remove memory operation
-+		The file /sys/devices/system/memory/memoryX/removable is a
-+		legacy interface used to indicated whether a memory block is
-+		likely to be offlineable or not.  Newer kernel versions return
-+		"1" if and only if the kernel supports memory offlining.
- Users:		hotplug memory remove tools
- 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
-+		lsmem/chmem part of util-linux
- 
- What:		/sys/devices/system/memory/memoryX/phys_device
- Date:		September 2008
-@@ -44,23 +44,25 @@ Date:		September 2008
- Contact:	Badari Pulavarty <pbadari@us.ibm.com>
- Description:
- 		The file /sys/devices/system/memory/memoryX/state
--		is read-write.  When read, its contents show the
--		online/offline state of the memory section.  When written,
--		root can toggle the the online/offline state of a removable
--		memory section (see removable file description above)
--		using the following commands::
-+		is read-write.  When read, it returns the online/offline
-+		state of the memory block.  When written, root can toggle
-+		the online/offline state of a memory block using the following
-+		commands::
- 
- 		  # echo online > /sys/devices/system/memory/memoryX/state
- 		  # echo offline > /sys/devices/system/memory/memoryX/state
- 
--		For example, if /sys/devices/system/memory/memory22/removable
--		contains a value of 1 and
--		/sys/devices/system/memory/memory22/state contains the
--		string "online" the following command can be executed by
--		by root to offline that section::
--
--		  # echo offline > /sys/devices/system/memory/memory22/state
--
-+		On newer kernel versions, advanced states can be specified
-+		when onlining to select a target zone: "online_movable"
-+		selects the movable zone.  "online_kernel" selects the
-+		applicable kernel zone (DMA, DMA32, or Normal).  However,
-+		after successfully setting one of the advanced states,
-+		reading the file will return "online"; the zone information
-+		can be obtained via "valid_zones" instead.
-+
-+		While onlining is unlikely to fail, there are no guarantees
-+		that offlining will succeed.  Offlining is more likely to
-+		succeed if "valid_zones" indicates "Movable".
- Users:		hotplug memory remove tools
- 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
- 
-@@ -70,8 +72,19 @@ Date:           July 2014
- Contact:	Zhang Zhen <zhenzhang.zhang@huawei.com>
- Description:
- 		The file /sys/devices/system/memory/memoryX/valid_zones	is
--		read-only and is designed to show which zone this memory
--		block can be onlined to.
-+		read-only.
-+
-+		For online memory blocks, it returns in which zone memory
-+		provided by a memory block is managed.  If multiple zones
-+		apply (not applicable for hotplugged memory), "None" is returned
-+		and the memory block cannot be offlined.
-+
-+		For offline memory blocks, it returns by which zone memory
-+		provided by a memory block can be managed when onlining.
-+		The first returned zone ("default") will be used when setting
-+		the state of an offline memory block to "online".  Only one of
-+		the kernel zones (DMA, DMA32, Normal) is applicable for a single
-+		memory block.
- 
- What:		/sys/devices/system/memoryX/nodeY
- Date:		October 2009
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index 245739f55ac7..5307f90738aa 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -162,14 +162,14 @@ Under each memory block, you can see 5 files:
-                     which will be performed on all sections in the block.
- ``phys_device``	    read-only: legacy interface only ever used on s390x to
- 		    expose the covered storage increment.
--``removable``       read-only: contains an integer value indicating
--                    whether the memory block is removable or not
--                    removable.  A value of 1 indicates that the memory
--                    block is removable and a value of 0 indicates that
--                    it is not removable. A memory block is removable only if
--                    every section in the block is removable.
--``valid_zones``     read-only: designed to show which zones this memory block
--		    can be onlined to.
-+``removable``	    read-only: legacy interface that indicated whether a memory
-+		    block was likely to be offlineable or not.  Newer kernel
-+		    versions return "1" if and only if the kernel supports
-+		    memory offlining.
-+``valid_zones``     read-only: designed to show by which zone memory provided by
-+		    a memory block is managed, and to show by which zone memory
-+		    provided by an offline memory block could be managed when
-+		    onlining.
- 
- 		    The first column shows it`s default zone.
- 
+What about:
+scripts/tracing/draw_functrace.py
+scripts/show_delta
+scripts/jobserver-exec
+
+Or do those need additional source level changes?
+
+> ---
+>
+>  scripts/clang-tools/gen_compile_commands.py | 2 +-
+>  scripts/clang-tools/run-clang-tools.py      | 2 +-
+>  scripts/spdxcheck.py                        | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> index 19963708bcf8..8ddb5d099029 100755
+> --- a/scripts/clang-tools/gen_compile_commands.py
+> +++ b/scripts/clang-tools/gen_compile_commands.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Copyright (C) Google LLC, 2018
+> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+> index fa7655c7cec0..f754415af398 100755
+> --- a/scripts/clang-tools/run-clang-tools.py
+> +++ b/scripts/clang-tools/run-clang-tools.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Copyright (C) Google LLC, 2020
+> diff --git a/scripts/spdxcheck.py b/scripts/spdxcheck.py
+> index bc87200f9c7c..cbdb5c83c08f 100755
+> --- a/scripts/spdxcheck.py
+> +++ b/scripts/spdxcheck.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/env python
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  # Copyright Thomas Gleixner <tglx@linutronix.de>
+>
+> --
+> 2.27.0
+>
+
+
 -- 
-2.29.2
-
+Thanks,
+~Nick Desaulniers
