@@ -2,155 +2,235 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A0F7C433E9
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB4BC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:00:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BE9361481
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:53:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36D2E61481
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 16:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbhBAPw4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 10:52:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45480 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231902AbhBAPwu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:52:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612194684;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        id S232137AbhBAP7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 10:59:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59136 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232046AbhBAP7S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Feb 2021 10:59:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1612195112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=k7JcQqia2+dIQ5jR2h/xA1wGbQRmVVlja2/HYWBBHWM=;
-        b=bDvejn226PM8OFlUvzXpUYG2O6lUEeWDNOCnc4TxQqEsi1qZWGO8KNtCSaZWGg4zeDlpcf
-        dbZuipXycvEHHTJ0eV/fjmdEWJkJr623gb+Ox7HGkDOrQOkfNsNq9Y45KQl0xzs5fgfiSx
-        coeBv0F9kUQVujhWCKV91Jw8NmrUVk0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-uXYghaC-NlG2uuwXgi1lcA-1; Mon, 01 Feb 2021 10:51:20 -0500
-X-MC-Unique: uXYghaC-NlG2uuwXgi1lcA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B4781054FA3;
-        Mon,  1 Feb 2021 15:51:04 +0000 (UTC)
-Received: from [10.36.115.24] (ovpn-115-24.ams2.redhat.com [10.36.115.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0F7F61346F;
-        Mon,  1 Feb 2021 15:50:55 +0000 (UTC)
-To:     Oscar Salvador <osalvador@suse.de>
-Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-6-songmuchun@bytedance.com>
- <20210126092942.GA10602@linux>
- <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
- <20210126145819.GB16870@linux>
- <259b9669-0515-01a2-d714-617011f87194@redhat.com>
- <20210126153448.GA17455@linux>
- <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
- <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
- <20210128222906.GA3826@localhost.localdomain>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v13 05/12] mm: hugetlb: allocate the vmemmap pages
- associated with each HugeTLB page
-Message-ID: <0f34d46b-cb42-0bbf-1d7e-0b4731bdb5e9@redhat.com>
-Date:   Mon, 1 Feb 2021 16:50:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        bh=nEETdCuVwVfGJZxiAb2PYpPPGynNVeuMsgxpxgU089I=;
+        b=mN/lnziNrRIeDyINHbyx7IsbreLHOARh7HY2puVrEj+63LUtR/+n8glVQU3iIHu7v3HeXV
+        G5VaZ0y8AVQEDAMDQQPS72c/3RymAlosz7qJiNdwDQMl0pz/F2pUZvVI6IUDG4mq9rUTC0
+        0DC7cLh52rpPXXBD/oG4GOw4VhuDUzc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E13AAACB7;
+        Mon,  1 Feb 2021 15:58:31 +0000 (UTC)
+Date:   Mon, 1 Feb 2021 16:58:25 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Tom Rix <trix@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] drivers/base/memory: don't store phys_device in
+ memory blocks
+Message-ID: <YBglIbIGc1tTuvG5@dhcp22.suse.cz>
+References: <20210201105158.6393-1-david@redhat.com>
+ <20210201105158.6393-2-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210128222906.GA3826@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210201105158.6393-2-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28.01.21 23:29, Oscar Salvador wrote:
-> On Wed, Jan 27, 2021 at 11:36:15AM +0100, David Hildenbrand wrote:
->> Extending on that, I just discovered that only x86-64, ppc64, and arm64
->> really support hugepage migration.
->>
->> Maybe one approach with the "magic switch" really would be to disable
->> hugepage migration completely in hugepage_migration_supported(), and
->> consequently making hugepage_movable_supported() always return false.
+On Mon 01-02-21 11:51:57, David Hildenbrand wrote:
+> No need to store the value for each and every memory block, as we can
+> easily query the value at runtime. Reshuffle the members to optimize the
+> memory layout. Also, let's clarify what the interface once was used for
+> and why it's legacy nowadays.
 > 
-> Ok, so migration would not fork for these pages, and since them would
-> lay in !ZONE_MOVABLE there is no guarantee we can unplug the memory.
-> Well, we really cannot unplug it unless the hugepage is not used
-> (it can be dissolved at least).
+> "phys_device" was used on s390x in older versions of lsmem[2]/chmem[3],
+> back when they were still part of s390x-tools. They were later replaced
+> by the variants in linux-utils. For example, RHEL6 and RHEL7 contain
+> lsmem/chmem from s390-utils. RHEL8 switched to versions from util-linux
+> on s390x [4].
 > 
-> Now to the allocation-when-freeing.
-> Current implementation uses GFP_ATOMIC(or wants to use) + forever loop.
-> One of the problems I see with GFP_ATOMIC is that gives you access
-> to memory reserves, but there are more users using those reserves.
-> Then, worst-scenario case we need to allocate 16MB order-0 pages
-> to free up 1GB hugepage, so the question would be whether reserves
-> really scale to 16MB + more users accessing reserves.
+> "phys_device" was added with sysfs support for memory hotplug in
+> commit 3947be1969a9 ("[PATCH] memory hotplug: sysfs and add/remove
+> functions") in 2005. It always returned 0.
 > 
-> As I said, if anything I would go for an optimistic allocation-try
-> , if we fail just refuse to shrink the pool.
-> User can always try to shrink it later again via /sys interface.
+> s390x started returning something != 0 on some setups (if sclp.rzm is
+> set by HW) in 2010 via commit 57b552ba0b2f ("memory hotplug/s390: set
+> phys_device").
 > 
-> Since hugepages would not be longer in ZONE_MOVABLE/CMA and are not
-> expected to be migratable, is that ok?
+> For s390x, it allowed for identifying which memory block devices belong
+> to the same storage increment (RZM). Only if all memory block devices
+> comprising a single storage increment were offline, the memory could
+> actually be removed in the hypervisor.
 > 
-> Using the hugepage for the vmemmap array was brought up several times,
-> but that would imply fragmenting memory over time.
+> Since commit e5d709bb5fb7 ("s390/memory hotplug: provide
+> memory_block_size_bytes() function") in 2013 a memory block devices
+> spans at least one storage increment - which is why the interface isn't
+> really helpful/used anymore (except by old lsmem/chmem tools).
 > 
-> All in all seems to be overly complicated (I might be wrong).
+> There were once RFC patches to make use of "phys_device" in ACPI context;
+> however, the underlying problem could be solved using different
+> interfaces [1].
 > 
-> 
->> Huge pages would never get placed onto ZONE_MOVABLE/CMA and cannot be
->> migrated. The problem I describe would apply (careful with using
->> ZONE_MOVABLE), but well, it can at least be documented.
-> 
-> I am not a page allocator expert but cannot the allocation fallback
-> to ZONE_MOVABLE under memory shortage on other zones?
+> [1] https://patchwork.kernel.org/patch/2163871/
+> [2] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/lsmem
+> [3] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/chmem
+> [4] https://bugzilla.redhat.com/show_bug.cgi?id=1504134
 
-No, for now it's not done. Only movable allocations target ZONE_MOVABLE. 
-Doing so would be controversial: when would be the right point in time 
-to start spilling unmovable allocations into CMA/ZONE_MOVABLE? You 
-certainly want to try other things first (swapping, reclaim, 
-compaction), before breaking any guarantees regarding 
-hotunplug+migration/compaction you have with CMA/ZONE_MOVABLE. And even 
-if you would allow it, your workload would already suffer extremely.
+Thanks for an excellent changelog!
+ 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dave Hansen <dave.hansen@intel.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Ilya Dryomov <idryomov@gmail.com>
+> Cc: Vaibhav Jain <vaibhav@linux.ibm.com>
+> Cc: Tom Rix <trix@redhat.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: linux-doc@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-So it smells more like a setup issue. But then, who knows when 
-allocating huge pages (esp. at runtime) that there are such side effects 
-before actually running into them?
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-We can make sure that all relevant archs support migration of ordinary 
-(!gigantic) huge pages (for now, only x86-64, ppc64/spapr, arm64), so we 
-can place them onto ZONE_MOVABLE. It gets harder with more special cases.
-
-Gigantic pages (without CMA) are more of a general issue, but at least 
-it's simple to document ("Careful when pairing ZONE_MOVABLE with 
-gigantic pages on !CMA").
-
-An unexpected high amount of unmovable memory is just extremely 
-difficult to handle with ZONE_MOVABLE; it's hard for the user/admin to 
-figure out that such restrictions actually apply.
+> ---
+>  .../ABI/testing/sysfs-devices-memory          |  5 ++--
+>  .../admin-guide/mm/memory-hotplug.rst         |  4 ++--
+>  drivers/base/memory.c                         | 23 ++++++++-----------
+>  include/linux/memory.h                        |  3 +--
+>  4 files changed, 15 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+> index 246a45b96d22..58dbc592bc57 100644
+> --- a/Documentation/ABI/testing/sysfs-devices-memory
+> +++ b/Documentation/ABI/testing/sysfs-devices-memory
+> @@ -26,8 +26,9 @@ Date:		September 2008
+>  Contact:	Badari Pulavarty <pbadari@us.ibm.com>
+>  Description:
+>  		The file /sys/devices/system/memory/memoryX/phys_device
+> -		is read-only and is designed to show the name of physical
+> -		memory device.  Implementation is currently incomplete.
+> +		is read-only;  it is a legacy interface only ever used on s390x
+> +		to expose the covered storage increment.
+> +Users:		Legacy s390-tools lsmem/chmem
+>  
+>  What:		/sys/devices/system/memory/memoryX/phys_index
+>  Date:		September 2008
+> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+> index 5c4432c96c4b..245739f55ac7 100644
+> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
+> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+> @@ -160,8 +160,8 @@ Under each memory block, you can see 5 files:
+>  
+>                      "online_movable", "online", "offline" command
+>                      which will be performed on all sections in the block.
+> -``phys_device``     read-only: designed to show the name of physical memory
+> -                    device.  This is not well implemented now.
+> +``phys_device``	    read-only: legacy interface only ever used on s390x to
+> +		    expose the covered storage increment.
+>  ``removable``       read-only: contains an integer value indicating
+>                      whether the memory block is removable or not
+>                      removable.  A value of 1 indicates that the memory
+> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+> index 901e379676be..16959d339172 100644
+> --- a/drivers/base/memory.c
+> +++ b/drivers/base/memory.c
+> @@ -290,20 +290,20 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
+>  }
+>  
+>  /*
+> - * phys_device is a bad name for this.  What I really want
+> - * is a way to differentiate between memory ranges that
+> - * are part of physical devices that constitute
+> - * a complete removable unit or fru.
+> - * i.e. do these ranges belong to the same physical device,
+> - * s.t. if I offline all of these sections I can then
+> - * remove the physical device?
+> + * Legacy interface that we cannot remove: s390x exposes the storage increment
+> + * covered by a memory block, allowing for identifying which memory blocks
+> + * comprise a storage increment. Since a memory block spans complete
+> + * storage increments nowadays, this interface is basically unused. Other
+> + * archs never exposed != 0.
+>   */
+>  static ssize_t phys_device_show(struct device *dev,
+>  				struct device_attribute *attr, char *buf)
+>  {
+>  	struct memory_block *mem = to_memory_block(dev);
+> +	unsigned long start_pfn = section_nr_to_pfn(mem->start_section_nr);
+>  
+> -	return sysfs_emit(buf, "%d\n", mem->phys_device);
+> +	return sysfs_emit(buf, "%d\n",
+> +			  arch_get_memory_phys_device(start_pfn));
+>  }
+>  
+>  #ifdef CONFIG_MEMORY_HOTREMOVE
+> @@ -488,11 +488,7 @@ static DEVICE_ATTR_WO(soft_offline_page);
+>  static DEVICE_ATTR_WO(hard_offline_page);
+>  #endif
+>  
+> -/*
+> - * Note that phys_device is optional.  It is here to allow for
+> - * differentiation between which *physical* devices each
+> - * section belongs to...
+> - */
+> +/* See phys_device_show(). */
+>  int __weak arch_get_memory_phys_device(unsigned long start_pfn)
+>  {
+>  	return 0;
+> @@ -589,7 +585,6 @@ static int init_memory_block(unsigned long block_id, unsigned long state)
+>  	mem->start_section_nr = block_id * sections_per_block;
+>  	mem->state = state;
+>  	start_pfn = section_nr_to_pfn(mem->start_section_nr);
+> -	mem->phys_device = arch_get_memory_phys_device(start_pfn);
+>  	mem->nid = NUMA_NO_NODE;
+>  
+>  	ret = register_memory(mem);
+> diff --git a/include/linux/memory.h b/include/linux/memory.h
+> index 439a89e758d8..4da95e684e20 100644
+> --- a/include/linux/memory.h
+> +++ b/include/linux/memory.h
+> @@ -27,9 +27,8 @@ struct memory_block {
+>  	unsigned long start_section_nr;
+>  	unsigned long state;		/* serialized by the dev->lock */
+>  	int online_type;		/* for passing data to online routine */
+> -	int phys_device;		/* to which fru does this belong? */
+> -	struct device dev;
+>  	int nid;			/* NID for this memory block */
+> +	struct device dev;
+>  };
+>  
+>  int arch_get_memory_phys_device(unsigned long start_pfn);
+> -- 
+> 2.29.2
+> 
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Michal Hocko
+SUSE Labs
