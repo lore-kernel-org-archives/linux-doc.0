@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC78C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE23DC433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:40:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C59A064E9E
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:39:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9FE964E9E
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:40:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbhBAPj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 10:39:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43786 "EHLO
+        id S231740AbhBAPkc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 10:40:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbhBAPjw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:39:52 -0500
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1198DC06178B
-        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 07:38:34 -0800 (PST)
-Received: by mail-qv1-xf34.google.com with SMTP id h21so8294428qvb.8
-        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 07:38:34 -0800 (PST)
+        with ESMTP id S231612AbhBAPkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:40:18 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26C7BC061223
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 07:38:48 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id l27so16595868qki.9
+        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 07:38:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
-        b=JQR2l5q2FxTXJmHbPFSlNGtyZOup8fe3+a/Jd1O4t6lh9Agl1DDavVvAYV0PKCw8aE
-         dT+2hLR/1yP4EA97ca5wit4g02UZdNZU6NYa7CZjnsrOFaQ8tY5bu/ZXNnm/f/Cn+yg2
-         xwTcRozwmj6g31VhQsy1n9qKLpBlAwyVHpnwVBKm77KNgfWOm6xJjIpTbfUIBzTEDHY4
-         YbOD7x8G/8MxBhG4ubKzQuDtDymfPOtB+gUJV0IA55CXBwqW81Nm8OMSeQM/3TJ3HLOM
-         q4GsqlbxPCUlBOCHwyVGHyWbq1327tlwOXN46Bh0/Ae+SNdkrzpwXue8BjcZMF5aIcix
-         K78g==
+        bh=z/iYHqVeCyWybAIwBASO/JRh5H6y4Wucaqn9XTIErdQ=;
+        b=AHmYYD8Uf8KGvHJW8MVVxXtqkqFhVxYZFo/y+SbSqwIYX7GwlLLiomi3JOJQZMdQAi
+         bKHwvo43JM0PXEP3sfVnKqBJBeWSB/zA0i74oMnO7Vnt4HH4WkHKaMRdEVax1hHfY0mV
+         81Y/qBf7AyFfx9jwAAz1y2vp5a5Q6AZUQCoWzocq0tB9KEs008vc6KUtfX6KYcZ5omgs
+         zxHNup5vu+iWU5dmfRSNBaliZfLlslxblr9TDrIgTrHWQ8YDWsgSsYD8YOC/uec+995p
+         7QWmM0BzAFryYjEhWRpFG/2hngYhbCy0ZpelZca2yEDQJnWpjCkT4FCCiTGYHFdADHNa
+         UEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/BFgBC6QAZDKdqJwclIw/UFhagKoK9nwCvAO/0D2vSo=;
-        b=cuBgPsWYF4HTVKjekOHz7Y7G9zz0ZFybHkfMmYUIW5SlCgDw2zr7LMaGTGTfpglhZB
-         +nOu9xaH1FbtqAjVq3gbyUKLk37JiSHH8pfLqHozsDOcTK8lMHiz6lBftCSi+aHqgW5o
-         dfVbNi2HjWMgXtj7OUAJ9OH2/oHBcKMwDtizlXLbjNBEpy3/fdRiTrZFRKT7gS8cFfn6
-         rVh69UO4dVT23hOTPwOwPsxn1j8VUiTuYQrJVqsm9vaxtj8EHMIl76OwXCyjot5k2cU7
-         EltCuqjuyiz5fQPwrd/pXJVlEzNz8WazG4iJsxHTAom1VQJME14O0TZHAPy+SGzqVmK3
-         JQFQ==
-X-Gm-Message-State: AOAM533zw7lzeMaTrXFwlxKbUzmwRVz7vR4CbAV8El2Xo1RBkiVxYtsP
-        2XznnAMo8EX/6izA+EomdICyLg==
-X-Google-Smtp-Source: ABdhPJzkIYa3T6/uQYHSoedmQ+YQr5pq7dhFvGtlP5lG7RzeiWLX+FQTg7qYdxso34nsemW0sghkXQ==
-X-Received: by 2002:a0c:b929:: with SMTP id u41mr15864576qvf.30.1612193913267;
-        Mon, 01 Feb 2021 07:38:33 -0800 (PST)
+        bh=z/iYHqVeCyWybAIwBASO/JRh5H6y4Wucaqn9XTIErdQ=;
+        b=f8hk6R19Gxrjl3idjPR10AdgYsA7k7aT/YgefhhC/fIwVLBo2SUZ5Pd2Y/ojNgah5N
+         bRK+c6RZkdBaU3ehMF3RKWx8My/lpb9Pw7u5nPNQZLFj/at+fKCmpt8Db2HVh674qe3N
+         VrEoBXSgYjhEiQ+pNNxqzJ/NbkUZT88PVX4CuxBrkRkKOMs8afxZFh7//B/WCTC6cGZw
+         iDS7yIi3dvgpe00Zx7BxprINSqyoNnNgY4XxHjr4pl1+5gwBVuwAsoEzVfiF4ET1H2Ve
+         FqLgCexlop3PaEKkL44ceEBbkWOMmd/WA2DPlSSsx84cWsEZhnutGi3ocx1j6vi5yDk4
+         TW6g==
+X-Gm-Message-State: AOAM530taSUFNJSVQmD3LeT++vynMQtYxtMDweogoUwmhuV7qaxxkcDT
+        v2qR3PWQLKnv5GTXDsYLbAxH9A==
+X-Google-Smtp-Source: ABdhPJydhT1EeSqCG81uSPKnUS/xT4UZSfZsofqpJUFGgxsGTeZgk0uM9rr5T/hAQj/7Ark0+s1gGg==
+X-Received: by 2002:a05:620a:745:: with SMTP id i5mr16954962qki.321.1612193927413;
+        Mon, 01 Feb 2021 07:38:47 -0800 (PST)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id 22sm14853307qke.123.2021.02.01.07.38.31
+        by smtp.gmail.com with ESMTPSA id 22sm14853307qke.123.2021.02.01.07.38.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Feb 2021 07:38:32 -0800 (PST)
+        Mon, 01 Feb 2021 07:38:46 -0800 (PST)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -66,9 +66,9 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org, ira.weiny@intel.com,
         linux-kselftest@vger.kernel.org, jmorris@namei.org
-Subject: [PATCH v9 02/14] mm/gup: check every subpage of a compound page during isolation
-Date:   Mon,  1 Feb 2021 10:38:15 -0500
-Message-Id: <20210201153827.444374-3-pasha.tatashin@soleen.com>
+Subject: [PATCH v9 10/14] memory-hotplug.rst: add a note about ZONE_MOVABLE and page pinning
+Date:   Mon,  1 Feb 2021 10:38:23 -0500
+Message-Id: <20210201153827.444374-11-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210201153827.444374-1-pasha.tatashin@soleen.com>
 References: <20210201153827.444374-1-pasha.tatashin@soleen.com>
@@ -78,78 +78,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When pages are isolated in check_and_migrate_movable_pages() we skip
-compound number of pages at a time. However, as Jason noted, it is
-not necessary correct that pages[i] corresponds to the pages that
-we skipped. This is because it is possible that the addresses in
-this range had split_huge_pmd()/split_huge_pud(), and these functions
-do not update the compound page metadata.
+Document the special handling of page pinning when ZONE_MOVABLE present.
 
-The problem can be reproduced if something like this occurs:
-
-1. User faulted huge pages.
-2. split_huge_pmd() was called for some reason
-3. User has unmapped some sub-pages in the range
-4. User tries to longterm pin the addresses.
-
-The resulting pages[i] might end-up having pages which are not compound
-size page aligned.
-
-Fixes: aa712399c1e8 ("mm/gup: speed up check_and_migrate_cma_pages() on huge page")
-Reported-by: Jason Gunthorpe <jgg@nvidia.com>
 Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
 ---
- mm/gup.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ Documentation/admin-guide/mm/memory-hotplug.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 24f25b1e9103..16f10d5a9eb6 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1556,26 +1556,23 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
- 					unsigned int gup_flags)
- {
- 	unsigned long i;
--	unsigned long step;
- 	bool drain_allow = true;
- 	bool migrate_allow = true;
- 	LIST_HEAD(cma_page_list);
- 	long ret = nr_pages;
-+	struct page *prev_head, *head;
- 	struct migration_target_control mtc = {
- 		.nid = NUMA_NO_NODE,
- 		.gfp_mask = GFP_USER | __GFP_NOWARN,
- 	};
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 5c4432c96c4b..c6618f99f765 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -357,6 +357,15 @@ creates ZONE_MOVABLE as following.
+    Unfortunately, there is no information to show which memory block belongs
+    to ZONE_MOVABLE. This is TBD.
  
- check_again:
--	for (i = 0; i < nr_pages;) {
--
--		struct page *head = compound_head(pages[i]);
--
--		/*
--		 * gup may start from a tail page. Advance step by the left
--		 * part.
--		 */
--		step = compound_nr(head) - (pages[i] - head);
-+	prev_head = NULL;
-+	for (i = 0; i < nr_pages; i++) {
-+		head = compound_head(pages[i]);
-+		if (head == prev_head)
-+			continue;
-+		prev_head = head;
- 		/*
- 		 * If we get a page from the CMA zone, since we are going to
- 		 * be pinning these entries, we might as well move them out
-@@ -1599,8 +1596,6 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
- 				}
- 			}
- 		}
--
--		i += step;
- 	}
++.. note::
++   Techniques that rely on long-term pinnings of memory (especially, RDMA and
++   vfio) are fundamentally problematic with ZONE_MOVABLE and, therefore, memory
++   hot remove. Pinned pages cannot reside on ZONE_MOVABLE, to guarantee that
++   memory can still get hot removed - be aware that pinning can fail even if
++   there is plenty of free memory in ZONE_MOVABLE. In addition, using
++   ZONE_MOVABLE might make page pinning more expensive, because pages have to be
++   migrated off that zone first.
++
+ .. _memory_hotplug_how_to_offline_memory:
  
- 	if (!list_empty(&cma_page_list)) {
+ How to offline memory
 -- 
 2.25.1
 
