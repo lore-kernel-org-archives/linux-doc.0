@@ -2,138 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7835BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 13:32:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77394C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:39:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27EA464EA2
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 13:32:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4985F64EA7
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 15:39:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbhBANcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 08:32:50 -0500
-Received: from mga01.intel.com ([192.55.52.88]:27060 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231653AbhBANct (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 08:32:49 -0500
-IronPort-SDR: VL4isOO8cYfueigfXzCozKqN+7mgRq5dahLvI3v7APfwQ5XzRN9eO503NI0xdsuzDUUKr3AXJo
- M56u98Fw7wwg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="199577187"
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="199577187"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 05:31:02 -0800
-IronPort-SDR: H9In4iRwQzn5oMIqePm/36S4CwyxKYZNadtrxiGynVPKXGEPSjyIsDuJxZiYM0s11xrfheEAgh
- VrenEZ1iqVSg==
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="412420491"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 05:30:59 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1l6ZI7-0018ma-SC; Mon, 01 Feb 2021 15:30:55 +0200
-Date:   Mon, 1 Feb 2021 15:30:55 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 8/8] gpio: sim: new testing module
-Message-ID: <YBgCj3SK5J7KIOnC@smile.fi.intel.com>
-References: <20210129134624.9247-1-brgl@bgdev.pl>
- <20210129134624.9247-9-brgl@bgdev.pl>
- <YBQwUkQz3LrG5G4i@smile.fi.intel.com>
- <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
- <YBfX38JBa0psBizQ@smile.fi.intel.com>
- <CAMRc=Mfgw5oA-TA2PN-Z+ape0POAtLwVeDJnzH1iuzKw5wYQ5Q@mail.gmail.com>
- <YBf4zjo7JJaw5iu1@smile.fi.intel.com>
- <CAMRc=MfzxmE-+SSOp6HoV1i7hZ3dNgGgrQCeDjUUkbeXJFOhzw@mail.gmail.com>
+        id S229984AbhBAPjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 10:39:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43628 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229835AbhBAPjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 10:39:11 -0500
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3792FC06174A
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 07:38:31 -0800 (PST)
+Received: by mail-qv1-xf31.google.com with SMTP id u20so4260983qvx.7
+        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 07:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9bU1Up0FC7SdQWjATnq7UWg9JjYnFz8n8ua3hGLmML4=;
+        b=EyDdQBdfXSMdQeEa8QlBf2ToEbcUjqBDm7wPl+7NaGGzIY6/ik9Y9HFeqJlYS/Q+J3
+         kOGMINOR1PNz0GbxjLeYTwSDV9rrNV+u59NZy1YXlobcPRi03X2vrVZY9tZvtZ/1wDm1
+         0LhJpBYsPz4NptsjglqYPW4YF19W1bHGSZ1ixVZn9ySAbHiMT8WQ9ElH6iFM8mi4pNbz
+         sMxOgaR4NxdlghqidaHhsB632k1m6AY9vwX/DxO/AOcytFC5G1lxu+2MZhNBiYijZ+KB
+         QkTlEysXgiqb48HTtKPraAp5nKjDGszAV6CKjZ9w6ky+jdJwOEW27IUPU23P3H5xjaKg
+         o8iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9bU1Up0FC7SdQWjATnq7UWg9JjYnFz8n8ua3hGLmML4=;
+        b=MTwxAfAziAmhuPbhesGNdv9scWgpcg1+rJ2ea/Pkyx11KmxjrGcdUuMYDcSb0NxR1K
+         mue//v0ibSll1SLNdpPzJsSjEyX/TOlF7+3FNfjx7bAs4bvwUeNIGgRt2zuDHzzUdOie
+         KSFzW3MV2X7ZrU0ZPLsSYCy+eonliuKfbQaxNQCIVIXskMPp+9ZFKC/4cm5m5QOABGJY
+         5LW4fazLnx2NSUyAKn5QWd+/qLAdcXPSjW3TsLPc+bIvsbICeRzvxa9izLwjUs1FnxIh
+         UJ1Zw6eJOnbQHgS3GVI/QfFZwuIvZWfqpHlmrqwnPHxXmvlSwyyN9SSjHEyoGZzKyVQS
+         +0mQ==
+X-Gm-Message-State: AOAM531ucsBDVAFVa+8lYrObUnkGGDlveitDmpir141ftxSxsvF+0wOS
+        YCd6SnwTm3W4v0NLfCJdLuzjMw==
+X-Google-Smtp-Source: ABdhPJx2nWtKYNuswyy75+v7jUsQvEyq8etQt6JLgRMYlvt9WXptVQUrQ+Kl/O+7yY6aEWEXeAKpRA==
+X-Received: by 2002:ad4:544b:: with SMTP id h11mr16025539qvt.24.1612193909854;
+        Mon, 01 Feb 2021 07:38:29 -0800 (PST)
+Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
+        by smtp.gmail.com with ESMTPSA id 22sm14853307qke.123.2021.02.01.07.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Feb 2021 07:38:29 -0800 (PST)
+From:   Pavel Tatashin <pasha.tatashin@soleen.com>
+To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
+        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
+        dan.j.williams@intel.com, sashal@kernel.org,
+        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
+        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
+        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
+        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
+        linux-doc@vger.kernel.org, ira.weiny@intel.com,
+        linux-kselftest@vger.kernel.org, jmorris@namei.org
+Subject: [PATCH v9 00/14] prohibit pinning pages in ZONE_MOVABLE
+Date:   Mon,  1 Feb 2021 10:38:13 -0500
+Message-Id: <20210201153827.444374-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MfzxmE-+SSOp6HoV1i7hZ3dNgGgrQCeDjUUkbeXJFOhzw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 01, 2021 at 01:53:16PM +0100, Bartosz Golaszewski wrote:
-> On Mon, Feb 1, 2021 at 1:49 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Mon, Feb 01, 2021 at 11:59:31AM +0100, Bartosz Golaszewski wrote:
-> > > On Mon, Feb 1, 2021 at 11:28 AM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Sat, Jan 30, 2021 at 09:37:55PM +0100, Bartosz Golaszewski wrote:
-> > > > > On Fri, Jan 29, 2021 at 4:57 PM Andy Shevchenko
-> > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > On Fri, Jan 29, 2021 at 02:46:24PM +0100, Bartosz Golaszewski wrote:
+Changelog
+---------
+v9
+- Renamed gpf_to_alloc_flags() to gfp_to_alloc_flags_cma(); thanks Lecopzer
+  Chen for noticing.
+- Fixed warning reported scripts/checkpatch.pl:
+  "Logical continuations should be on the previous line"
 
-...
+v8
+- Added reviewed by's from John Hubbard
+- Fixed subjects for selftests patches
+- Moved zero page check inside is_pinnable_page() as requested by Jason
+  Gunthorpe.
 
-> > > > > > > +struct gpio_sim_chip_config {
-> > > > > > > +     struct config_item item;
-> > > > > > > +
-> > > > > > > +     /*
-> > > > > > > +      * If pdev is NULL, the item is 'pending' (waiting for configuration).
-> > > > > > > +      * Once the pointer is assigned, the device has been created and the
-> > > > > > > +      * item is 'live'.
-> > > > > > > +      */
-> > > > > > > +     struct platform_device *pdev;
-> > > > > >
-> > > > > > Are you sure
-> > > > > >
-> > > > > >         struct device *dev;
-> > > > > >
-> > > > > > is not sufficient?
-> > > > > >
-> > > > >
-> > > > > It may be but I really prefer those simulated devices to be on the platform bus.
-> > > >
-> > > > My point here is that there is no need to keep specific bus devices type,
-> > > > because you may easily derive it from the struct device pointer. Basically if
-> > > > you are almost using struct device in your code (seems to me the case), you
-> > > > won't need to carry bus specific one and dereference it each time.
-> > >
-> > > But don't we need a bus to even register a device? I haven't checked
-> > > in a long time but IIRC it's mandatory.
-> > >
-> > > Let me give you a different argument - the platform device offers a
-> > > very simple API for registering devices with properties being
-> > > duplicated behind the scenes etc. It seems to me that registering a
-> > > bare struct device * would take more boiler-plate code for not much
-> > > gain.
-> >
-> > Yes, I'm not objecting the platform bus choice. I'm objecting the keeping of
-> > the pointer to the bus specific structure.
-> >
-> > There are helpers like to_platform_device() which make the bus specific
-> > pointers go away from the structures and easier code when you use exactly
-> > pointer to struct device rather than bus specific one.
-> >
-> 
-> Ok I get it. We almost never dereference it though. We do it in probe,
-> but there's no way around it. In sysfs callbacks we already get a
-> pointer to struct device. And when unregistering the platform device,
-> we need to pass it as struct platform_device anyway. I don't see any
-> gain from that and would prefer to keep it as is.
+v7
+- Added reviewed-by's
+- Fixed a compile bug on non-mmu builds reported by robot
 
-It's purely trade off, if you have more *dev in use, better to use *dev, if
-*pdev, then use it, although my practice shows that in most cases keeping bus
-specific pointer is an overkill.
+v6
+  Small update, but I wanted to send it out quicker, as it removes a
+  controversial patch and replaces it with something sane.
+- Removed forcing FOLL_WRITE for longterm gup, instead added a patch to
+  skip zero pages during migration.
+- Added reviewed-by's and minor log changes.
+
+v5
+- Added the following patches to the beginning of series, which are fixes
+   to the other existing problems with CMA migration code:
+	mm/gup: check every subpage of a compound page during isolation
+	mm/gup: return an error on migration failure
+	mm/gup: check for isolation errors also at the beginning of series
+	mm/gup: do not allow zero page for pinned pages
+- remove .gfp_mask/.reclaim_idx changes from mm/vmscan.c
+- update movable zone header comment in patch 8 instead of patch 3, fix
+  the comment
+- Added acked, sign-offs
+- Updated commit logs based on feedback
+- Addressed issues reported by Michal and Jason.
+- Remove:
+	#define PINNABLE_MIGRATE_MAX	10
+	#define PINNABLE_ISOLATE_MAX	100
+   Instead: fail on the first migration failure, and retry isolation
+   forever as their failures are transient.
+
+- In self-set addressed some of the comments from John Hubbard, updated
+  commit logs, and added comments. Renamed gup->flags with gup->test_flags.
+
+v4
+- Address page migration comments. New patch:
+  mm/gup: limit number of gup migration failures, honor failures
+  Implements the limiting number of retries for migration failures, and
+  also check for isolation failures.
+  Added a test case into gup_test to verify that pages never long-term
+  pinned in a movable zone, and also added tests to fault both in kernel
+  and in userland.
+v3
+- Merged with linux-next, which contains clean-up patch from Jason,
+  therefore this series is reduced by two patches which did the same
+  thing.
+v2
+- Addressed all review comments
+- Added Reviewed-by's.
+- Renamed PF_MEMALLOC_NOMOVABLE to PF_MEMALLOC_PIN
+- Added is_pinnable_page() to check if page can be longterm pinned
+- Fixed gup fast path by checking is_in_pinnable_zone()
+- rename cma_page_list to movable_page_list
+- add a admin-guide note about handling pinned pages in ZONE_MOVABLE,
+  updated caveat about pinned pages from linux/mmzone.h
+- Move current_gfp_context() to fast-path
+
+---------
+When page is pinned it cannot be moved and its physical address stays
+the same until pages is unpinned.
+
+This is useful functionality to allows userland to implementation DMA
+access. For example, it is used by vfio in vfio_pin_pages().
+
+However, this functionality breaks memory hotplug/hotremove assumptions
+that pages in ZONE_MOVABLE can always be migrated.
+
+This patch series fixes this issue by forcing new allocations during
+page pinning to omit ZONE_MOVABLE, and also to migrate any existing
+pages from ZONE_MOVABLE during pinning.
+
+It uses the same scheme logic that is currently used by CMA, and extends
+the functionality for all allocations.
+
+For more information read the discussion [1] about this problem.
+[1] https://lore.kernel.org/lkml/CA+CK2bBffHBxjmb9jmSKacm0fJMinyt3Nhk8Nx6iudcQSj80_w@mail.gmail.com
+
+Previous versions:
+v1
+https://lore.kernel.org/lkml/20201202052330.474592-1-pasha.tatashin@soleen.com
+v2
+https://lore.kernel.org/lkml/20201210004335.64634-1-pasha.tatashin@soleen.com
+v3
+https://lore.kernel.org/lkml/20201211202140.396852-1-pasha.tatashin@soleen.com
+v4
+https://lore.kernel.org/lkml/20201217185243.3288048-1-pasha.tatashin@soleen.com
+v5
+https://lore.kernel.org/lkml/20210119043920.155044-1-pasha.tatashin@soleen.com
+v6
+https://lore.kernel.org/lkml/20210120014333.222547-1-pasha.tatashin@soleen.com
+v7
+https://lore.kernel.org/lkml/20210122033748.924330-1-pasha.tatashin@soleen.com
+v8
+https://lore.kernel.org/lkml/20210125194751.1275316-1-pasha.tatashin@soleen.com
+
+Pavel Tatashin (14):
+  mm/gup: don't pin migrated cma pages in movable zone
+  mm/gup: check every subpage of a compound page during isolation
+  mm/gup: return an error on migration failure
+  mm/gup: check for isolation errors
+  mm cma: rename PF_MEMALLOC_NOCMA to PF_MEMALLOC_PIN
+  mm: apply per-task gfp constraints in fast path
+  mm: honor PF_MEMALLOC_PIN for all movable pages
+  mm/gup: do not migrate zero page
+  mm/gup: migrate pinned pages out of movable zone
+  memory-hotplug.rst: add a note about ZONE_MOVABLE and page pinning
+  mm/gup: change index type to long as it counts pages
+  mm/gup: longterm pin migration cleanup
+  selftests/vm: gup_test: fix test flag
+  selftests/vm: gup_test: test faulting in kernel, and verify pinnable
+    pages
+
+ .../admin-guide/mm/memory-hotplug.rst         |   9 +
+ include/linux/migrate.h                       |   1 +
+ include/linux/mm.h                            |  12 ++
+ include/linux/mmzone.h                        |  13 +-
+ include/linux/pgtable.h                       |   3 +-
+ include/linux/sched.h                         |   2 +-
+ include/linux/sched/mm.h                      |  27 +--
+ include/trace/events/migrate.h                |   3 +-
+ mm/gup.c                                      | 174 ++++++++----------
+ mm/gup_test.c                                 |  29 +--
+ mm/gup_test.h                                 |   3 +-
+ mm/hugetlb.c                                  |   4 +-
+ mm/page_alloc.c                               |  33 ++--
+ tools/testing/selftests/vm/gup_test.c         |  36 +++-
+ 14 files changed, 190 insertions(+), 159 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
