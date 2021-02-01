@@ -2,140 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-21.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C5EC433E9
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:29:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36A6C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:30:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D768664E2C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:29:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E1A264E2C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 18:30:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbhBAS3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 13:29:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231926AbhBAS26 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 13:28:58 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23F5BC0613D6
-        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 10:28:18 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id t29so12156852pfg.11
-        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 10:28:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZpTMPQ2QiuaE7YgK9D97So9gGS45ZWVWJvJLwPy7gVE=;
-        b=n7LNoaNuf95Q4NZEiOJJmi/AUUVJd8pv3Gq/pEbjwLx+2am/cNePL+YKe4qJwyyAvh
-         RaXG4rMwHv/Ac+OyaYaZUKTj1CnrkVyujna3JevD7q0jOIkimyNMTN1RDXOD2LonqJik
-         1AWFBndBZzdqO+wmI1yyhXRVSS62XmpNaPKYjRmdhlMKVQOmWw1utTN/Da3AbWqw6tlH
-         hJU7D3tMF9rac5YfYnTugcrshG5E1BM9QP/RHLV96Wy8+JyXeHUAL47G4P0LUuMviSeN
-         6wqCH7/Hl6QHAlXlLnV3BCzdRCU4nmPUTLF3YMXKtolEvIttx8LlzXsqwdG/07FtpfDL
-         4dvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZpTMPQ2QiuaE7YgK9D97So9gGS45ZWVWJvJLwPy7gVE=;
-        b=Eu5zs/mHXGWm/3vKP/gAMu0DiF/W8bKb5ac6gYNNjBuzZ29n7LcQw/s1Q5qVYwasiv
-         y1eP+DXr/AHkEsGyWXOz07OJoxRTOty+oork419dSCAqz4qswldKRZWCWW3dSPKBv9t3
-         TPKgI9lEBlNvAP9Bz7nozhujcsy3Y1w7Dn1pOsbJ85FoVhwugL2IkFDITKKjqDE0Jz4k
-         snCN74P1GFl3RF6Kpm79WOq9yW0qY/BFWOpScqhlM/7Omb3TnCgRTyhx6mBoWbOk799b
-         YxdGVN+gfrlzIpjYoPGYypj1axryJt/aF7jl108hZhoXUF5w7D2D0s1tXwAMyGigWiQ6
-         x4/A==
-X-Gm-Message-State: AOAM533uw3djzTTh3P3kB4f0SjxzCftbmerBb/CxqnMVenwbpFryO90e
-        VyRy/vPakranbZgO9GH9h23HTfhxwZZqgnEOXAAd6A==
-X-Google-Smtp-Source: ABdhPJyj+nqwhsWtSMAc77QUN3iH+51wGBli74byxlse5q8S9UBykrdYICOgPFkVfNbslN7hddoFuUFiqOa1DDwNkcc=
-X-Received: by 2002:a62:7896:0:b029:1b6:7319:52a7 with SMTP id
- t144-20020a6278960000b02901b6731952a7mr17982053pfc.30.1612204097451; Mon, 01
- Feb 2021 10:28:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20210201010819.655597-1-masahiroy@kernel.org>
-In-Reply-To: <20210201010819.655597-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 1 Feb 2021 10:28:06 -0800
-Message-ID: <CAKwvOdnECGDFe=n6ms0Aj7FB0sN7ktZyk4dyVvV0UTgPvpuWpA@mail.gmail.com>
-Subject: Re: [PATCH] scripts: switch some more scripts explicitly to Python 3
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S232320AbhBASaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 13:30:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49514 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232290AbhBASPe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 13:15:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612203247;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dAX7GueyVaG6m75iPVmdP5d6g/SwNUAfhVVHI21U71M=;
+        b=MwTXw/tUMamJemtpsc3VNlAkzUhPZO9EEmBkVo6xFGo7EdrFAE4u9VhDMrSCp8+KL1P80w
+        +2MpnRy9lZ0lxyLISjxWlwAoejlggjxrP/SYmqPfBvS95qzoRFsrR+6igZ1A2FhbUsp3Zx
+        Xdq6ZLNVcLSNU2okatrSVGhKNTuQACM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-BLBQQZBENLurE5KnNIZZPA-1; Mon, 01 Feb 2021 13:14:04 -0500
+X-MC-Unique: BLBQQZBENLurE5KnNIZZPA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BEDE106F8F7;
+        Mon,  1 Feb 2021 18:13:57 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0ADFB18219;
+        Mon,  1 Feb 2021 18:13:53 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-spdx@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Tom Rix <trix@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/2] drivers/base/memory: don't store phys_device in memory blocks
+Date:   Mon,  1 Feb 2021 19:13:46 +0100
+Message-Id: <20210201181347.13262-2-david@redhat.com>
+In-Reply-To: <20210201181347.13262-1-david@redhat.com>
+References: <20210201181347.13262-1-david@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 31, 2021 at 5:08 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> For the same reason as commit 51839e29cb59 ("scripts: switch explicitly
-> to Python 3"), switch some more scripts, which I tested and confirmed
-> working on Python 3.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+No need to store the value for each and every memory block, as we can
+easily query the value at runtime. Reshuffle the members to optimize the
+memory layout. Also, let's clarify what the interface once was used for
+and why it's legacy nowadays.
 
-Thanks for the patch. It's time to move on from Python 2.
+"phys_device" was used on s390x in older versions of lsmem[2]/chmem[3],
+back when they were still part of s390x-tools. They were later replaced
+by the variants in linux-utils. For example, RHEL6 and RHEL7 contain
+lsmem/chmem from s390-utils. RHEL8 switched to versions from util-linux
+on s390x [4].
 
-It looks like there's already a patch in -next for scripts/spdxcheck.py.
-("spdxcheck.py: Use Python 3") by Bert Vermeulen.
-https://lore.kernel.org/r/20210121085412.265400-1-bert@biot.com
+"phys_device" was added with sysfs support for memory hotplug in
+commit 3947be1969a9 ("[PATCH] memory hotplug: sysfs and add/remove
+functions") in 2005. It always returned 0.
 
-What about:
-scripts/tracing/draw_functrace.py
-scripts/show_delta
-scripts/jobserver-exec
+s390x started returning something != 0 on some setups (if sclp.rzm is
+set by HW) in 2010 via commit 57b552ba0b2f ("memory hotplug/s390: set
+phys_device").
 
-Or do those need additional source level changes?
+For s390x, it allowed for identifying which memory block devices belong
+to the same storage increment (RZM). Only if all memory block devices
+comprising a single storage increment were offline, the memory could
+actually be removed in the hypervisor.
 
-> ---
->
->  scripts/clang-tools/gen_compile_commands.py | 2 +-
->  scripts/clang-tools/run-clang-tools.py      | 2 +-
->  scripts/spdxcheck.py                        | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> index 19963708bcf8..8ddb5d099029 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env python
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # Copyright (C) Google LLC, 2018
-> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-> index fa7655c7cec0..f754415af398 100755
-> --- a/scripts/clang-tools/run-clang-tools.py
-> +++ b/scripts/clang-tools/run-clang-tools.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env python
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # Copyright (C) Google LLC, 2020
-> diff --git a/scripts/spdxcheck.py b/scripts/spdxcheck.py
-> index bc87200f9c7c..cbdb5c83c08f 100755
-> --- a/scripts/spdxcheck.py
-> +++ b/scripts/spdxcheck.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env python
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  # Copyright Thomas Gleixner <tglx@linutronix.de>
->
-> --
-> 2.27.0
->
+Since commit e5d709bb5fb7 ("s390/memory hotplug: provide
+memory_block_size_bytes() function") in 2013 a memory block device
+spans at least one storage increment - which is why the interface isn't
+really helpful/used anymore (except by old lsmem/chmem tools).
 
+There were once RFC patches to make use of "phys_device" in ACPI context;
+however, the underlying problem could be solved using different
+interfaces [1].
 
+[1] https://patchwork.kernel.org/patch/2163871/
+[2] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/lsmem
+[3] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/chmem
+[4] https://bugzilla.redhat.com/show_bug.cgi?id=1504134
+
+Acked-by: Michal Hocko <mhocko@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Ilya Dryomov <idryomov@gmail.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: Tom Rix <trix@redhat.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ .../ABI/testing/sysfs-devices-memory          |  5 ++--
+ .../admin-guide/mm/memory-hotplug.rst         |  4 +--
+ drivers/base/memory.c                         | 25 +++++++------------
+ include/linux/memory.h                        |  3 +--
+ 4 files changed, 15 insertions(+), 22 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+index 246a45b96d22..58dbc592bc57 100644
+--- a/Documentation/ABI/testing/sysfs-devices-memory
++++ b/Documentation/ABI/testing/sysfs-devices-memory
+@@ -26,8 +26,9 @@ Date:		September 2008
+ Contact:	Badari Pulavarty <pbadari@us.ibm.com>
+ Description:
+ 		The file /sys/devices/system/memory/memoryX/phys_device
+-		is read-only and is designed to show the name of physical
+-		memory device.  Implementation is currently incomplete.
++		is read-only;  it is a legacy interface only ever used on s390x
++		to expose the covered storage increment.
++Users:		Legacy s390-tools lsmem/chmem
+ 
+ What:		/sys/devices/system/memory/memoryX/phys_index
+ Date:		September 2008
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 5c4432c96c4b..245739f55ac7 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -160,8 +160,8 @@ Under each memory block, you can see 5 files:
+ 
+                     "online_movable", "online", "offline" command
+                     which will be performed on all sections in the block.
+-``phys_device``     read-only: designed to show the name of physical memory
+-                    device.  This is not well implemented now.
++``phys_device``	    read-only: legacy interface only ever used on s390x to
++		    expose the covered storage increment.
+ ``removable``       read-only: contains an integer value indicating
+                     whether the memory block is removable or not
+                     removable.  A value of 1 indicates that the memory
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 901e379676be..f35298425575 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -290,20 +290,20 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
+ }
+ 
+ /*
+- * phys_device is a bad name for this.  What I really want
+- * is a way to differentiate between memory ranges that
+- * are part of physical devices that constitute
+- * a complete removable unit or fru.
+- * i.e. do these ranges belong to the same physical device,
+- * s.t. if I offline all of these sections I can then
+- * remove the physical device?
++ * Legacy interface that we cannot remove: s390x exposes the storage increment
++ * covered by a memory block, allowing for identifying which memory blocks
++ * comprise a storage increment. Since a memory block spans complete
++ * storage increments nowadays, this interface is basically unused. Other
++ * archs never exposed != 0.
+  */
+ static ssize_t phys_device_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct memory_block *mem = to_memory_block(dev);
++	unsigned long start_pfn = section_nr_to_pfn(mem->start_section_nr);
+ 
+-	return sysfs_emit(buf, "%d\n", mem->phys_device);
++	return sysfs_emit(buf, "%d\n",
++			  arch_get_memory_phys_device(start_pfn));
+ }
+ 
+ #ifdef CONFIG_MEMORY_HOTREMOVE
+@@ -488,11 +488,7 @@ static DEVICE_ATTR_WO(soft_offline_page);
+ static DEVICE_ATTR_WO(hard_offline_page);
+ #endif
+ 
+-/*
+- * Note that phys_device is optional.  It is here to allow for
+- * differentiation between which *physical* devices each
+- * section belongs to...
+- */
++/* See phys_device_show(). */
+ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
+ {
+ 	return 0;
+@@ -574,7 +570,6 @@ int register_memory(struct memory_block *memory)
+ static int init_memory_block(unsigned long block_id, unsigned long state)
+ {
+ 	struct memory_block *mem;
+-	unsigned long start_pfn;
+ 	int ret = 0;
+ 
+ 	mem = find_memory_block_by_id(block_id);
+@@ -588,8 +583,6 @@ static int init_memory_block(unsigned long block_id, unsigned long state)
+ 
+ 	mem->start_section_nr = block_id * sections_per_block;
+ 	mem->state = state;
+-	start_pfn = section_nr_to_pfn(mem->start_section_nr);
+-	mem->phys_device = arch_get_memory_phys_device(start_pfn);
+ 	mem->nid = NUMA_NO_NODE;
+ 
+ 	ret = register_memory(mem);
+diff --git a/include/linux/memory.h b/include/linux/memory.h
+index 439a89e758d8..4da95e684e20 100644
+--- a/include/linux/memory.h
++++ b/include/linux/memory.h
+@@ -27,9 +27,8 @@ struct memory_block {
+ 	unsigned long start_section_nr;
+ 	unsigned long state;		/* serialized by the dev->lock */
+ 	int online_type;		/* for passing data to online routine */
+-	int phys_device;		/* to which fru does this belong? */
+-	struct device dev;
+ 	int nid;			/* NID for this memory block */
++	struct device dev;
+ };
+ 
+ int arch_get_memory_phys_device(unsigned long start_pfn);
 -- 
-Thanks,
-~Nick Desaulniers
+2.29.2
+
