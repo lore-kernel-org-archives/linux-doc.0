@@ -2,201 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B0BDC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBB1C433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:54:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3F0664E33
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:31:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AE3B64E2A
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 10:54:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232937AbhBAKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 05:30:46 -0500
-Received: from mga17.intel.com ([192.55.52.151]:18699 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233111AbhBAKal (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Feb 2021 05:30:41 -0500
-IronPort-SDR: N96PxczB/xvaorRrl2kmiwfq0W2EsFn6uv1M1qntQiNDxWd3j1kkSGUcWWjoIcWBzTrrTIi/Yp
- FaZ/nCB/hvrQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="160431215"
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="160431215"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 02:28:54 -0800
-IronPort-SDR: J9R3ax7MyC7rExwiEqkb+Wt6vqctsjzO7ltEF90QLwtAnN26ZUjP7j/QgSdYCViQbwKaaNaIFb
- s0LHX6Y8MR0A==
-X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="432282604"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 02:28:51 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1l6WRs-0016HE-0L; Mon, 01 Feb 2021 12:28:48 +0200
-Date:   Mon, 1 Feb 2021 12:28:47 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
+        id S233341AbhBAKyB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 05:54:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47736 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233216AbhBAKxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 05:53:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612176738;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JnHeDpI4bvTxudk3KhEYwjLYvMmvMtJjXyTPeOgb0Is=;
+        b=ByBtY7XFjieob04k1Q0ONjI4UYMqeLK6rhEdUnG5L0D6s8W12S73bZhRFdXLF3LQt6r7l2
+        tB/q2wsx56tTFYG2q8uuSJn2x4hC8l1M+3TJmkoUKQ75Vwt2F/bhc3if+Dd7lYahsLGtDk
+        alxF/VC9ovUkZQa5IR0Z/1l5/Bmi9LQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-Xh8r5YozM_-Og_jNIsx-ww-1; Mon, 01 Feb 2021 05:52:14 -0500
+X-MC-Unique: Xh8r5YozM_-Og_jNIsx-ww-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B30F801817;
+        Mon,  1 Feb 2021 10:52:12 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-24.ams2.redhat.com [10.36.115.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 700FB27CA9;
+        Mon,  1 Feb 2021 10:52:08 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 8/8] gpio: sim: new testing module
-Message-ID: <YBfX38JBa0psBizQ@smile.fi.intel.com>
-References: <20210129134624.9247-1-brgl@bgdev.pl>
- <20210129134624.9247-9-brgl@bgdev.pl>
- <YBQwUkQz3LrG5G4i@smile.fi.intel.com>
- <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v1 2/2] Documentation: sysfs/memory: clarify some memory block device properties
+Date:   Mon,  1 Feb 2021 11:51:58 +0100
+Message-Id: <20210201105158.6393-3-david@redhat.com>
+In-Reply-To: <20210201105158.6393-1-david@redhat.com>
+References: <20210201105158.6393-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 09:37:55PM +0100, Bartosz Golaszewski wrote:
-> On Fri, Jan 29, 2021 at 4:57 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Jan 29, 2021 at 02:46:24PM +0100, Bartosz Golaszewski wrote:
+In commit 53cdc1cb29e8 ("drivers/base/memory.c: indicate all memory blocks
+as removable") we changed the output of the "removable" property of memory
+devices to return "1" if and only if the kernel supports memory offlining.
 
-...
+Let's update documentation, stating that the interface is legacy. Also
+update documentation of the "state" property and "valid_zones"
+properties.
 
-> > > +static int gpio_sim_set_config(struct gpio_chip *gc,
-> > > +                               unsigned int offset, unsigned long config)
-> > > +{
-> > > +     struct gpio_sim_chip *chip = gpiochip_get_data(gc);
-> > > +
-> > > +     switch (pinconf_to_config_param(config)) {
-> >
-> > > +     case PIN_CONFIG_BIAS_PULL_UP:
-> > > +             return gpio_sim_apply_pull(chip, offset, 1);
-> > > +     case PIN_CONFIG_BIAS_PULL_DOWN:
-> > > +             return gpio_sim_apply_pull(chip, offset, 0);
-> >
-> > But aren't we got a parameter (1 or 0) from config? And hence
-> >
-> >         case PIN_CONFIG_BIAS_PULL_UP:
-> >         case PIN_CONFIG_BIAS_PULL_DOWN:
-> >                 return gpio_sim_apply_pull(chip, offset, <param>);
-> >
-> > ?
-> 
-> I believe this is more explicit and so easier to read if you don't
-> know the GPIO and pinctrl internals.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Ilya Dryomov <idryomov@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ .../ABI/testing/sysfs-devices-memory          | 53 ++++++++++++-------
+ .../admin-guide/mm/memory-hotplug.rst         | 16 +++---
+ 2 files changed, 41 insertions(+), 28 deletions(-)
 
-
-If we ever go to change meanings of the values in param, it will require to fix
-this occurrence which seems to me suboptimal.
-
-> > > +     default:
-> > > +             break;
-> > > +     }
-> > > +
-> > > +     return -ENOTSUPP;
-> > > +}
-
-...
-
-> > > +static ssize_t gpio_sim_sysfs_line_store(struct device *dev,
-> > > +                                      struct device_attribute *attr,
-> > > +                                      const char *buf, size_t len)
-> > > +{
-> > > +     struct gpio_sim_attribute *line_attr = to_gpio_sim_attr(attr);
-> > > +     struct gpio_sim_chip *chip = dev_get_drvdata(dev);
-> > > +     int ret, val;
-> >
-> > > +     ret = kstrtoint(buf, 0, &val);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +     if (val != 0 && val != 1)
-> > > +             return -EINVAL;
-> >
-> > kstrtobool() ?
-> >
-> 
-> No, we really only want 0 or 1, no yes, Y etc.
-
-Side note: But you allow 0x00001, for example...
-
-Then why not to use unsigned type from the first place and add a comment?
-
-> > > +     ret = gpio_sim_apply_pull(chip, line_attr->offset, val);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     return len;
-> > > +}
-
-...
-
-> > > +struct gpio_sim_chip_config {
-> > > +     struct config_item item;
-> > > +
-> > > +     /*
-> > > +      * If pdev is NULL, the item is 'pending' (waiting for configuration).
-> > > +      * Once the pointer is assigned, the device has been created and the
-> > > +      * item is 'live'.
-> > > +      */
-> > > +     struct platform_device *pdev;
-> >
-> > Are you sure
-> >
-> >         struct device *dev;
-> >
-> > is not sufficient?
-> >
-> 
-> It may be but I really prefer those simulated devices to be on the platform bus.
-
-My point here is that there is no need to keep specific bus devices type,
-because you may easily derive it from the struct device pointer. Basically if
-you are almost using struct device in your code (seems to me the case), you
-won't need to carry bus specific one and dereference it each time.
-
-> > > +     /*
-> > > +      * Each configfs filesystem operation is protected with the subsystem
-> > > +      * mutex. Each separate attribute is protected with the buffer mutex.
-> > > +      * This structure however can be modified by callbacks of different
-> > > +      * attributes so we need another lock.
-> > > +      */
-> > > +     struct mutex lock;
-> > > +
-> > > +     char label[32];
-> > > +     unsigned int num_lines;
-> > > +     char **line_names;
-> > > +     unsigned int num_line_names;
-> > > +};
-
-...
-
-> > Honestly, I don't like the idea of Yet Another (custom) Parser in the kernel.
-> >
-> > Have you investigated existing parsers? We have cmdline.c, gpio-aggregator.c,
-> > etc. Besides the fact of test cases which are absent here. And who knows what
-> > we allow to be entered.
-> >
-> 
-> Yes, I looked all around the kernel to find something I could reuse
-> but failed to find anything useful for this particular purpose. If you
-> have something you could point me towards, I'm open to alternatives.
-> 
-> Once we agree on the form of the module, I'll port self-tests to using
-> it instead of gpio-mockup, so we'll have some tests in the tree.
-
-I will look again when you send a new version, so I might give some hints.
-
+diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+index 58dbc592bc57..d8b0f80b9e33 100644
+--- a/Documentation/ABI/testing/sysfs-devices-memory
++++ b/Documentation/ABI/testing/sysfs-devices-memory
+@@ -13,13 +13,13 @@ What:		/sys/devices/system/memory/memoryX/removable
+ Date:		June 2008
+ Contact:	Badari Pulavarty <pbadari@us.ibm.com>
+ Description:
+-		The file /sys/devices/system/memory/memoryX/removable
+-		indicates whether this memory block is removable or not.
+-		This is useful for a user-level agent to determine
+-		identify removable sections of the memory before attempting
+-		potentially expensive hot-remove memory operation
++		The file /sys/devices/system/memory/memoryX/removable is a
++		legacy interface used to indicated whether a memory block is
++		likely to be offlineable or not.  Newer kernel versions return
++		"1" if and only if the kernel supports memory offlining.
+ Users:		hotplug memory remove tools
+ 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
++		lsmem/chmem part of util-linux
+ 
+ What:		/sys/devices/system/memory/memoryX/phys_device
+ Date:		September 2008
+@@ -44,23 +44,25 @@ Date:		September 2008
+ Contact:	Badari Pulavarty <pbadari@us.ibm.com>
+ Description:
+ 		The file /sys/devices/system/memory/memoryX/state
+-		is read-write.  When read, its contents show the
+-		online/offline state of the memory section.  When written,
+-		root can toggle the the online/offline state of a removable
+-		memory section (see removable file description above)
+-		using the following commands::
++		is read-write.  When read, it returns the online/offline
++		state of the memory block.  When written, root can toggle
++		the online/offline state of a memory block using the following
++		commands::
+ 
+ 		  # echo online > /sys/devices/system/memory/memoryX/state
+ 		  # echo offline > /sys/devices/system/memory/memoryX/state
+ 
+-		For example, if /sys/devices/system/memory/memory22/removable
+-		contains a value of 1 and
+-		/sys/devices/system/memory/memory22/state contains the
+-		string "online" the following command can be executed by
+-		by root to offline that section::
+-
+-		  # echo offline > /sys/devices/system/memory/memory22/state
+-
++		On newer kernel versions, advanced states can be specified
++		when onlining to select a target zone: "online_movable"
++		selects the movable zone.  "online_kernel" selects the
++		applicable kernel zone (DMA, DMA32, or Normal).  However,
++		after successfully setting one of the advanced states,
++		reading the file will return "online"; the zone information
++		can be obtained via "valid_zones" instead.
++
++		While onlining is unlikely to fail, there are no guarantees
++		that offlining will succeed.  Offlining is more likely to
++		succeed if "valid_zones" indicates "Movable".
+ Users:		hotplug memory remove tools
+ 		http://www.ibm.com/developerworks/wikis/display/LinuxP/powerpc-utils
+ 
+@@ -70,8 +72,19 @@ Date:           July 2014
+ Contact:	Zhang Zhen <zhenzhang.zhang@huawei.com>
+ Description:
+ 		The file /sys/devices/system/memory/memoryX/valid_zones	is
+-		read-only and is designed to show which zone this memory
+-		block can be onlined to.
++		read-only.
++
++		For online memory blocks, it returns in which zone memory
++		provided by a memory block is managed.  If multiple zones
++		apply (not applicable for hotplugged memory), "None" is returned
++		and the memory block cannot be offlined.
++
++		For offline memory blocks, it returns by which zone memory
++		provided by a memory block can be managed when onlining.
++		The first returned zone ("default") will be used when setting
++		the state of an offline memory block to "online".  Only one of
++		the kernel zones (DMA, DMA32, Normal) is applicable for a single
++		memory block.
+ 
+ What:		/sys/devices/system/memoryX/nodeY
+ Date:		October 2009
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 245739f55ac7..5307f90738aa 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -162,14 +162,14 @@ Under each memory block, you can see 5 files:
+                     which will be performed on all sections in the block.
+ ``phys_device``	    read-only: legacy interface only ever used on s390x to
+ 		    expose the covered storage increment.
+-``removable``       read-only: contains an integer value indicating
+-                    whether the memory block is removable or not
+-                    removable.  A value of 1 indicates that the memory
+-                    block is removable and a value of 0 indicates that
+-                    it is not removable. A memory block is removable only if
+-                    every section in the block is removable.
+-``valid_zones``     read-only: designed to show which zones this memory block
+-		    can be onlined to.
++``removable``	    read-only: legacy interface that indicated whether a memory
++		    block was likely to be offlineable or not.  Newer kernel
++		    versions return "1" if and only if the kernel supports
++		    memory offlining.
++``valid_zones``     read-only: designed to show by which zone memory provided by
++		    a memory block is managed, and to show by which zone memory
++		    provided by an offline memory block could be managed when
++		    onlining.
+ 
+ 		    The first column shows it`s default zone.
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.29.2
 
