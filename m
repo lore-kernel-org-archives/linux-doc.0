@@ -2,118 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7914CC433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 08:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D81CC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 09:25:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F73764E3D
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 08:39:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D08C464EAA
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 09:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232575AbhBAIjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 03:39:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37432 "EHLO
+        id S232443AbhBAJZw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 04:25:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232582AbhBAIip (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 03:38:45 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53529C061756
-        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 00:38:05 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id y9so1429468ejp.10
-        for <linux-doc@vger.kernel.org>; Mon, 01 Feb 2021 00:38:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z4AuE6zxjnO1SI9ppd5bfchNPmK3baNkX/gyPe+l0t8=;
-        b=kCyNznqU+jdacM7Tug3g2mt986OIGwhThXmFdCnBI5qvL7bKM0q4Ue4w33dvry2Nfg
-         BXAOVMrP8rpJ8JjScqAN/7PBO8mvhyP0pBwMr/d+fupexWDNqfFcZvC8GI/yRY8dV++t
-         rU1epvmkKxi3+FCTCONM/tSZE8Z85GGn6xwDdwvdAEX+uB5Del88TU5AolPYq6bZlD6i
-         /irA7W60+faSJVy3yuvhPdkFqBkmr2g/k/Mv1R2PhlBAWIfMWzRLle196mjwzbztwmpU
-         Wx2k4ajd+LAFv7YufsWTAdDV4ywpoS4iqi6G2Kwxv0F1orO3G9NJZLBB+zj+nu3MlOBK
-         K1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=z4AuE6zxjnO1SI9ppd5bfchNPmK3baNkX/gyPe+l0t8=;
-        b=mtN8Zkd8a6aBqw+PaBZe0fGHgR7Ap1R4PYkMm/9ig3uBgmZNWg/kl6ZrKEkmxd22I7
-         78AeXAjN2EazCg1ggxs3F2qBTtSHAnPgTNgnQEM54Z7dKRo2bsibb1+YExrm5xPBqmDX
-         flj8xdjTgzaN4KLjbwkp/avoMMoH1rRNAUAiygYl7FczZZ21kIt0oRNr+LlgOm8+w+Yv
-         JhE0rRDZGRsg7J5ww51SxnGQXgY90o8aWerUdV5GxhDwet0MgL/XloZMaWuYE2lV6qnx
-         /OT+1wD3AZSLvI8GxOxRsLVNvaSMyZhxlNq3gk+gciREJGdzW5Ytw2DVezRHj8VX2J5g
-         X2kA==
-X-Gm-Message-State: AOAM531jm3sn8OR2I4CU/EZBDp9y8qobqxcCvNsiCn4ij7TvX6jClZgZ
-        MZnFcnNjil4LtXrLufW37trxr1UGUrgbBILCrEGWrQ==
-X-Google-Smtp-Source: ABdhPJw7iZgXyHCD35LZFETL5VROJDAs+q4uynErDBWz1W4mY47jjlfbaQN0o2fztKMogr1ympEDX0yMLs5fnR2rmu0=
-X-Received: by 2002:a17:906:4707:: with SMTP id y7mr4854532ejq.445.1612168684094;
- Mon, 01 Feb 2021 00:38:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20210129134624.9247-1-brgl@bgdev.pl> <20210129134624.9247-9-brgl@bgdev.pl>
- <YBQwUkQz3LrG5G4i@smile.fi.intel.com> <CAMRc=MeSy4zWOAGxfoBih62WxAXuOLtkK3ROyt+4LuqLvDxtaQ@mail.gmail.com>
- <20210131004308.GA4687@sol>
-In-Reply-To: <20210131004308.GA4687@sol>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 1 Feb 2021 09:37:53 +0100
-Message-ID: <CAMRc=Me+Cg1WdV4eaggigBy4ZtnOLmaQ_c34kKv-iWU6Qtg9uQ@mail.gmail.com>
-Subject: Re: [PATCH 8/8] gpio: sim: new testing module
-To:     Kent Gibson <warthog618@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        with ESMTP id S232290AbhBAJZw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 04:25:52 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFFF1C061574
+        for <linux-doc@vger.kernel.org>; Mon,  1 Feb 2021 01:25:11 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l6VRq-0002Vs-QX; Mon, 01 Feb 2021 10:24:42 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l6VRo-000717-EJ; Mon, 01 Feb 2021 10:24:40 +0100
+Date:   Mon, 1 Feb 2021 10:24:36 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Joel Becker <jlbec@evilplan.org>,
         Christoph Hellwig <hch@lst.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         linux-doc <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 0/8] gpio: implement the configfs testing module
+Message-ID: <20210201092436.srqgfemnchyuubsf@pengutronix.de>
+References: <20210129134624.9247-1-brgl@bgdev.pl>
+ <20210130212009.2uugdj6vmisegau2@pengutronix.de>
+ <CAMRc=MdwoJCw1-BdNRnfRFaXYfZD0+vn_8yq0J+rshHqZMdDXQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="65y6muqcwz6jdecn"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MdwoJCw1-BdNRnfRFaXYfZD0+vn_8yq0J+rshHqZMdDXQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 31, 2021 at 1:43 AM Kent Gibson <warthog618@gmail.com> wrote:
->
-> On Sat, Jan 30, 2021 at 09:37:55PM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Jan 29, 2021 at 4:57 PM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > On Fri, Jan 29, 2021 at 02:46:24PM +0100, Bartosz Golaszewski wrote:
-> > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > ...
-> > >
->
-> [snip]
->
-> > > Honestly, I don't like the idea of Yet Another (custom) Parser in the kernel.
-> > >
-> > > Have you investigated existing parsers? We have cmdline.c, gpio-aggregator.c,
-> > > etc. Besides the fact of test cases which are absent here. And who knows what
-> > > we allow to be entered.
-> > >
-> >
-> > Yes, I looked all around the kernel to find something I could reuse
-> > but failed to find anything useful for this particular purpose. If you
-> > have something you could point me towards, I'm open to alternatives.
-> >
-> > Once we agree on the form of the module, I'll port self-tests to using
-> > it instead of gpio-mockup, so we'll have some tests in the tree.
-> >
->
-> Given the existing selftests focus on testing the gpio-mockup itself, it
-> would be more appropriate that you add separate tests for gpio-sim.
->
-> As an end user I'm interested in the concrete example of driving gpio-sim
-> that selftests would provide, so I'm looking forward to seeing that.
->
-> Cheers,
-> Kent.
 
-Makes sense, I'll add tests in v2.
+--65y6muqcwz6jdecn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Bartosz
+On Mon, Feb 01, 2021 at 09:37:30AM +0100, Bartosz Golaszewski wrote:
+> On Sat, Jan 30, 2021 at 10:20 PM Uwe Kleine-K=F6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > Hello,
+> >
+> > On Fri, Jan 29, 2021 at 02:46:16PM +0100, Bartosz Golaszewski wrote:
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > This series adds a new GPIO testing module based on configfs committa=
+ble items
+> > > and sysfs. The goal is to provide a testing driver that will be confi=
+gurable
+> > > at runtime (won't need module reload) and easily extensible. The cont=
+rol over
+> > > the attributes is also much more fine-grained than in gpio-mockup.
+> > >
+> > > I am aware that Uwe submitted a virtual driver called gpio-simulator =
+some time
+> > > ago and I was against merging it as it wasn't much different from gpi=
+o-mockup.
+> > > I would ideally want to have a single testing driver to maintain so I=
+ am
+> > > proposing this module as a replacement for gpio-mockup but since self=
+tests
+> > > and libgpiod depend on it and it also has users in the community, we =
+can't
+> > > outright remove it until everyone switched to the new interface. As f=
+or Uwe's
+> > > idea for linking two simulated chips so that one controls the other -=
+ while
+> > > I prefer to have an independent code path for controlling the lines (=
+hence
+> > > the sysfs attributes), I'm open to implementing it in this new driver=
+=2E It
+> > > should be much more feature friendly thanks to configfs than gpio-moc=
+kup.
+> >
+> > Funny you still think about my simulator driver. I recently thought
+>=20
+> It's because I always feel bad when I refuse to merge someone's hard work.
+>=20
+> > about reanimating it for my private use. The idea was to implement a
+> > rotary-encoder driver (that contrast to
+> > drivers/input/misc/rotary_encoder.c really implements an encoder and not
+> > a decoder). With the two linked chips I can plug
+> > drivers/input/misc/rotary_encoder.c on one side and my encoder on the
+> > other to test both drivers completely in software.
+> >
+> > I didn't look into your driver yet, but getting such a driver into
+> > mainline would be very welcome!
+> >
+>=20
+> My idea for linking chips (although that's not implemented yet) is an
+> attribute in each configfs group called 'link' or something like that,
+> that would take as argument the name of the chip to link to making the
+> 'linker' the input and the 'linkee' the output.
+
+I still wonder why you prefer to drive the lines using configfs (or
+sysfs before). Using the idea of two interlinked chips and being able to
+use gpio functions on one side to modify the other side is (in my eyes)
+so simple and beautiful that it's obviously the right choice. But note I
+still didn't look into details so there might be stuff you can modify
+that wouldn't be possible with my idea. But obviously your mileage
+varies here.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--65y6muqcwz6jdecn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAXyNEACgkQwfwUeK3K
+7AnlOQf+PJp3sYhc7rZc/co0aN9yGRJUKxFqDOqbbeRv059P0vkaD7iZ9DRIXRkH
+HuK7Wn5WFKl42OncXTA7pIMJM5jMc22AgYEG8ttWTmxtI9nKK1MuACTWWMWhzvMv
+MWeFM8zo7PMOvC0Exkh1K52TA7zfhAJ6Lc6+GJtl9wfb1P4W/EbER6lGFu/dN7y2
+sGNG1+dl3RSkdPDGUTyKDX5c/xRir6pHwRwjkKQo3MxhJIwzWs9rh3WtPwsRKfL9
+UJmu09J9y4Y7L+nNk/7odCd0FwI4oxBfs9hL7Ic4V7Kfw94hFNF6J7fKGbHqgPe8
+Zb+PhZw6Rr0gY1O7EZmobl4Y0MHeXQ==
+=KxeP
+-----END PGP SIGNATURE-----
+
+--65y6muqcwz6jdecn--
