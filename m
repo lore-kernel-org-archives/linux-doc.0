@@ -2,143 +2,304 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFBCC433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 23:30:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71290C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 00:34:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7B6964E10
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jan 2021 23:30:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C15C64E06
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Feb 2021 00:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbhAaXae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jan 2021 18:30:34 -0500
-Received: from mga18.intel.com ([134.134.136.126]:61583 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229481AbhAaXab (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 31 Jan 2021 18:30:31 -0500
-IronPort-SDR: pmKc/tZhTpgT3P9B0D5hQ8rC8G6pc6dvgy5qRzLin4P9WqPifvgi4PH12/YEDOgGwpKzSqO/Tx
- c3R4zJ+csC/Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="168296418"
-X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
-   d="scan'208";a="168296418"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 15:29:48 -0800
-IronPort-SDR: og/7a45m3PMzrZIZEp/p0vv3t/L7Qy70hJEoibrhnuKQ9ZEb0ErncdeKwQWVAdoy5lBO5YZrAD
- ldsMhl7UdR6g==
-X-IronPort-AV: E=Sophos;i="5.79,391,1602572400"; 
-   d="scan'208";a="395426243"
-Received: from efiguero-mobl.amr.corp.intel.com (HELO [10.209.83.156]) ([10.209.83.156])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2021 15:29:47 -0800
-Subject: Re: [PATCH v18 05/25] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-6-yu-cheng.yu@intel.com>
- <7793b36e-6386-3f2e-36ca-b7ca988a88c9@intel.com>
- <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <0a5a80c0-afc7-5f91-9e28-a300e30f1ab3@intel.com>
-Date:   Fri, 29 Jan 2021 14:53:12 -0800
+        id S230186AbhBAAdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jan 2021 19:33:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229594AbhBAAdo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jan 2021 19:33:44 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB62C061574;
+        Sun, 31 Jan 2021 16:33:04 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id 36so14677804otp.2;
+        Sun, 31 Jan 2021 16:33:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=naabQ3LDMj1KAaDshnmXOYpnudubEfEt40WDmN+Kv50=;
+        b=U63NQJLnp+avsf+kEXeQnofgUYDawGaP4s4ziogPxaCzqTTmqMT8B70x64m+cxHU08
+         CjcqyfBS/+9kCikGh1wObzS+j2lxdFNj5nF/YB2vwhwc5ftKBvPmXEAAvp0RBUQ83H/Z
+         v4GXLGQ6QzIi9kECjgMBCS61flMfiSXqUTeJEDYBKi8qC2XMF98hE2wgl7Rm/yjQvZdj
+         pML8RMRbxZfXmOVUg0dCow3Pjj+gPmXZvWsNhuY2fmr/oyoLczrdGoK68EJ8I70hWY04
+         Xdsgik48DmYAMfm24V71nRUS1za+hG69/9TYmmJIICdqr9yWlMU3M8jKRjv3VRmpqAeo
+         iXpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=naabQ3LDMj1KAaDshnmXOYpnudubEfEt40WDmN+Kv50=;
+        b=Nmlf0b57cjkD/qIhXBiYkMNUDYZsGvmxFcjXPSfb+acHIGnKc2qOMuHfdfe1rqfHjX
+         nn8tyn+d+RCU2I5fJR8137LNxhjOdyw4d6nkCVCbLB4DXW/qZV6L2VKol9CWjWmT42p7
+         WiJGKYQZPpnl4ewqVUomh+YxShjZvPeHNgk/eLf1vVp0vzoJKm6lxA+oYCk6vanWoSuG
+         uPwm3CAc4vfX538RlzcXdx32hb57slTUP1plA8p4uOzkaH5zuDbBHzTWwf5Vojgs4MbM
+         8fv+tikM43XhQgp28vVtOMbpKltU7uJGgw0G/NGgoNLkpyadkKpeq0/2HJS0rST9XiJg
+         HmWA==
+X-Gm-Message-State: AOAM532kGqsxUXeuZ4jJlKoSMmgkC/SBPEzxHOFWnp2/GiOLUhQlbi0r
+        5akvVjgU+oz6z7W0mpMmfr97gtk/1eY=
+X-Google-Smtp-Source: ABdhPJwZmLPWwOzrZ9aLZe+pNwn/B+yLcb4ip4Sba6o3sPdhmPiQOeNppjWuuxYA8JSxW/0SMaZwwg==
+X-Received: by 2002:a9d:65d4:: with SMTP id z20mr10503384oth.349.1612139583204;
+        Sun, 31 Jan 2021 16:33:03 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s49sm3295273otb.39.2021.01.31.16.33.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Jan 2021 16:33:02 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH for -next] docs: hwmon: rectify table in max16601.rst
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-hwmon@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210131075445.21222-1-lukas.bulwahn@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <fc93b27b-f223-7af1-51f7-c510ce6fbb63@roeck-us.net>
+Date:   Sun, 31 Jan 2021 16:33:00 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <43f264df-2f3a-ea4c-c737-85cdc6714bd8@intel.com>
+In-Reply-To: <20210131075445.21222-1-lukas.bulwahn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/21 2:35 PM, Yu, Yu-cheng wrote:
->> Andy Cooper just mentioned on IRC about this nugget in the spec:
->>
->>     XRSTORS on CET state will do reserved bit and canonicality
->>     checks on the state in similar manner as done by the WRMSR to
->>     these state elements.
->>
->> We're using copy_kernel_to_xregs_err(), so the #GP *should* be OK.
->> Could we prove this out in practice, please?
->>>
-> Do we want to verify that setting reserved bits in CET XSAVES states
-> triggers GP?  Then, yes, I just verified it again.  Thanks for
-> reminding.  Do we have any particular case relating to this?
+On 1/30/21 11:54 PM, Lukas Bulwahn wrote:
+> Commit 90b0f71d62df ("hwmon: (pmbus/max16601) Determine and use number of
+> populated phases") adjusts content in the table of
+> ./Documentation/hwmon/max16601.rst, but one row went beyond the column's
+> length.
+> 
+> Hence, make htmldocs warns:
+> 
+>   Documentation/hwmon/max16601.rst:94: WARNING: Malformed table.
+> 
+> Adjust the column length of that table for this longer row to fit.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> applies cleanly on next-20210129
+> 
+> Guenter, please pick this minor fixup for your hwmon-next tree.
 
-I want to confirm that it triggers #GP and kills userspace without the
-kernel WARN'ing or otherwise being visibly unhappy.
+I already made the same change and squashed it into the original patch.
 
-What about the return-to-userspace path after a ptracer writes content
-to the CET fields?   I don't see the same tolerance for errors in
-__fpregs_load_activate(), for instance.
+Thanks,
+Guenter
+
+> 
+>  Documentation/hwmon/max16601.rst | 143 +++++++++++++++----------------
+>  1 file changed, 71 insertions(+), 72 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/max16601.rst b/Documentation/hwmon/max16601.rst
+> index d16792be7533..d265a2224354 100644
+> --- a/Documentation/hwmon/max16601.rst
+> +++ b/Documentation/hwmon/max16601.rst
+> @@ -53,75 +53,74 @@ Sysfs entries
+>  
+>  The following attributes are supported.
+>  
+> -======================= =======================================================
+> -in1_label		"vin1"
+> -in1_input		VCORE input voltage.
+> -in1_alarm		Input voltage alarm.
+> -
+> -in2_label		"vout1"
+> -in2_input		VCORE output voltage.
+> -in2_alarm		Output voltage alarm.
+> -
+> -curr1_label		"iin1"
+> -curr1_input		VCORE input current, derived from duty cycle and output
+> -			current.
+> -curr1_max		Maximum input current.
+> -curr1_max_alarm		Current high alarm.
+> -
+> -curr[P+2]_label		"iin1.P"
+> -curr[P+2]_input		VCORE phase P input current.
+> -
+> -curr[N+2]_label		"iin2"
+> -curr[N+2]_input		VCORE input current, derived from sensor element.
+> -			'N' is the number of enabled/populated phases.
+> -
+> -curr[N+3]_label		"iin3"
+> -curr[N+3]_input		VSA input current.
+> -
+> -curr[N+4]_label		"iout1"
+> -curr[N+4]_input		VCORE output current.
+> -curr[N+4]_crit		Critical output current.
+> -curr[N+4]_crit_alarm	Output current critical alarm.
+> -curr[N+4]_max		Maximum output current.
+> -curr[N+4]_max_alarm	Output current high alarm.
+> -
+> -curr[N+P+5]_label	"iout1.P"
+> -curr[N+P+5]_input	VCORE phase P output current.
+> -
+> -curr[2*N+5]_label	"iout3"
+> -curr[2*N+5]_input	VSA output current.
+> -curr[2*N+5]_highest	Historical maximum VSA output current.
+> -curr[2*N+5]_reset_history
+> -			Write any value to reset curr21_highest.
+> -curr[2*N+5]_crit	Critical output current.
+> -curr[2*N+5]_crit_alarm	Output current critical alarm.
+> -curr[2*N+5]_max		Maximum output current.
+> -curr[2*N+5]_max_alarm	Output current high alarm.
+> -
+> -power1_label		"pin1"
+> -power1_input		Input power, derived from duty cycle and output current.
+> -power1_alarm		Input power alarm.
+> -
+> -power2_label		"pin2"
+> -power2_input		Input power, derived from input current sensor.
+> -
+> -power3_label		"pout"
+> -power3_input		Output power.
+> -
+> -temp1_input		VCORE temperature.
+> -temp1_crit		Critical high temperature.
+> -temp1_crit_alarm	Chip temperature critical high alarm.
+> -temp1_max		Maximum temperature.
+> -temp1_max_alarm		Chip temperature high alarm.
+> -
+> -temp2_input		TSENSE_0 temperature
+> -temp3_input		TSENSE_1 temperature
+> -temp4_input		TSENSE_2 temperature
+> -temp5_input		TSENSE_3 temperature
+> -
+> -temp6_input		VSA temperature.
+> -temp6_crit		Critical high temperature.
+> -temp6_crit_alarm	Chip temperature critical high alarm.
+> -temp6_max		Maximum temperature.
+> -temp6_max_alarm		Chip temperature high alarm.
+> -======================= =======================================================
+> +========================= =======================================================
+> +in1_label		  "vin1"
+> +in1_input		  VCORE input voltage.
+> +in1_alarm		  Input voltage alarm.
+> +
+> +in2_label		  "vout1"
+> +in2_input		  VCORE output voltage.
+> +in2_alarm		  Output voltage alarm.
+> +
+> +curr1_label		  "iin1"
+> +curr1_input		  VCORE input current, derived from duty cycle and output
+> +			  current.
+> +curr1_max		  Maximum input current.
+> +curr1_max_alarm		  Current high alarm.
+> +
+> +curr[P+2]_label		  "iin1.P"
+> +curr[P+2]_input		  VCORE phase P input current.
+> +
+> +curr[N+2]_label		  "iin2"
+> +curr[N+2]_input		  VCORE input current, derived from sensor element.
+> +			  'N' is the number of enabled/populated phases.
+> +
+> +curr[N+3]_label		  "iin3"
+> +curr[N+3]_input		  VSA input current.
+> +
+> +curr[N+4]_label		  "iout1"
+> +curr[N+4]_input		  VCORE output current.
+> +curr[N+4]_crit		  Critical output current.
+> +curr[N+4]_crit_alarm	  Output current critical alarm.
+> +curr[N+4]_max		  Maximum output current.
+> +curr[N+4]_max_alarm	  Output current high alarm.
+> +
+> +curr[N+P+5]_label	  "iout1.P"
+> +curr[N+P+5]_input	  VCORE phase P output current.
+> +
+> +curr[2*N+5]_label	  "iout3"
+> +curr[2*N+5]_input	  VSA output current.
+> +curr[2*N+5]_highest	  Historical maximum VSA output current.
+> +curr[2*N+5]_reset_history Write any value to reset curr21_highest.
+> +curr[2*N+5]_crit	  Critical output current.
+> +curr[2*N+5]_crit_alarm	  Output current critical alarm.
+> +curr[2*N+5]_max		  Maximum output current.
+> +curr[2*N+5]_max_alarm	  Output current high alarm.
+> +
+> +power1_label		  "pin1"
+> +power1_input		  Input power, derived from duty cycle and output current.
+> +power1_alarm		  Input power alarm.
+> +
+> +power2_label		  "pin2"
+> +power2_input		  Input power, derived from input current sensor.
+> +
+> +power3_label		  "pout"
+> +power3_input		  Output power.
+> +
+> +temp1_input		  VCORE temperature.
+> +temp1_crit		  Critical high temperature.
+> +temp1_crit_alarm	  Chip temperature critical high alarm.
+> +temp1_max		  Maximum temperature.
+> +temp1_max_alarm		  Chip temperature high alarm.
+> +
+> +temp2_input		  TSENSE_0 temperature
+> +temp3_input		  TSENSE_1 temperature
+> +temp4_input		  TSENSE_2 temperature
+> +temp5_input		  TSENSE_3 temperature
+> +
+> +temp6_input		  VSA temperature.
+> +temp6_crit		  Critical high temperature.
+> +temp6_crit_alarm	  Chip temperature critical high alarm.
+> +temp6_max		  Maximum temperature.
+> +temp6_max_alarm		  Chip temperature high alarm.
+> +========================= =======================================================
+> 
+
