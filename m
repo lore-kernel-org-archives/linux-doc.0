@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBBAC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5409C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B22764F5D
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86D2764F61
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbhBBMFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 07:05:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42706 "EHLO mail.kernel.org"
+        id S230000AbhBBMFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 07:05:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42830 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229483AbhBBMFH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Feb 2021 07:05:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 12CDA64F53;
-        Tue,  2 Feb 2021 12:04:26 +0000 (UTC)
+        id S229838AbhBBMFr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Feb 2021 07:05:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 03FBB64F59;
+        Tue,  2 Feb 2021 12:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612267466;
-        bh=vpa76DJVw3u2hImBgcGY2RefNVrkqI+c8q81hUCChG8=;
+        s=korg; t=1612267506;
+        bh=pcdoe1DrKHD3Bwf2RFsP9xvIVVfOPMNoDN8q0w8roxI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IgUfc5NoKYN48z3xn3H9Z2AYFDRkw6a/uH5nFMZS5cIBCXMCVRf6GQGuNGkyMaH4G
-         Fcfl8CYT2GXLLKm/8Tgov0ejWOyQPSvbiZq2uL6aaBcU1Eh2lOQOPnow+TsTFU4tuA
-         tDZoAwHYvXTfc2sFlK2NPw4+AgpSPcWPEQtblr24=
-Date:   Tue, 2 Feb 2021 13:04:22 +0100
+        b=A0ae1b/pWSdDNkafpa10XayGTpss1WE2C/oUxQ/C+pgaHH+DkJxCBp01imgl/pJdo
+         qeAsaKZ1hUpPlt3FoLlvMbAmCRvZ//T1efViXEZBj2P7k+FyW1FNHZCdfVja/rTu5Y
+         0eiYzGEukHN42R3WA2g/7sVF3cHTF6Bq3FrZxL20=
+Date:   Tue, 2 Feb 2021 13:05:01 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Adrian Catangiu <acatan@amazon.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -46,7 +46,7 @@ Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         ghammer@redhat.com
 Subject: Re: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id
  driver
-Message-ID: <YBk/xskdrwqTOyM9@kroah.com>
+Message-ID: <YBk/7YzxqPJM3Bm8@kroah.com>
 References: <1612200294-17561-1-git-send-email-acatan@amazon.com>
  <1612200294-17561-2-git-send-email-acatan@amazon.com>
 MIME-Version: 1.0
@@ -58,9 +58,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Mon, Feb 01, 2021 at 07:24:53PM +0200, Adrian Catangiu wrote:
-> +config SYSGENID
-> +	tristate "System Generation ID driver"
-> +	default N
+> +EXPORT_SYMBOL(sysgenid_bump_generation);
 
-"N" is always the default, no need to list it again :(
+EXPORT_SYMBOL_GPL()?  I have to ask...
 
