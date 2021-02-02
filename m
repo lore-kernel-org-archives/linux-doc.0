@@ -2,297 +2,314 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8094DC433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EB81C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:52:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B8EA64ECA
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:45:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CDEA64F54
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:52:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbhBBJpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 04:45:00 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:40603 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbhBBJnk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:43:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1612259018; x=1643795018;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=5iWY4HJnwN3LSwYQfeTHsayARu02XJfx0fqQlr0TWJk=;
-  b=mMvsRIcAfqU9Np/VzHvuV0ngjhiRW3X6IsEcWJF3+wRAvclDH7dzUxqZ
-   UqDnlaJZPekLn5NKnf2MIq0ZbNMi903/tAPKa5VlMrWeWvGhblASRfl2T
-   mJtz9eLU36Y1X75ykcZjLCbdl3fRKvPCCsTTvUmzm94pQO+wjj1IIAML3
-   M=;
-X-IronPort-AV: E=Sophos;i="5.79,394,1602547200"; 
-   d="scan'208";a="108048878"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-baacba05.us-west-2.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 02 Feb 2021 09:40:21 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2b-baacba05.us-west-2.amazon.com (Postfix) with ESMTPS id 82434A06B0;
-        Tue,  2 Feb 2021 09:40:10 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.32) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 2 Feb 2021 09:39:52 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     Shakeel Butt <shakeelb@google.com>
-CC:     SeongJae Park <sjpark@amazon.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        <Jonathan.Cameron@huawei.com>,
-        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
-        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
-        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
-        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v23 03/15] mm/damon: Adaptively adjust regions
-Date:   Tue, 2 Feb 2021 10:39:37 +0100
-Message-ID: <20210202093937.5411-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod4xsjCjokKeEfoBQt0A2sbs2z58ChArDsaMeAjfu10+Qg@mail.gmail.com>
+        id S230029AbhBBJwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 04:52:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229611AbhBBJwK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:52:10 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925BCC06174A;
+        Tue,  2 Feb 2021 01:51:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=C4gwfxOJ/vXre3lN9UufmmjUIasSmHttFaQ+GpK794U=; b=WLYQ6ATISrWnytFZgqVHcBywtp
+        qW19X7wWNafG/J/XPvNuvxTO05RlagTk2At59gRvsoHW1OMB6epZJDjbLtpiRzIJX7bpdKZ/oI5dB
+        MDduPa7nJTfJQVHO9RCoExXFSKGxDMCAKP5qX9DB58bi///dgemhhyfxc98P9cjdp2wYnugju8Mhc
+        aiAwdFnZ7S7+gJDbrpiK8Zc0h2ee33P9kqB/fFng3+ZKQi/MAp62iEbcACNrkT9xl/UzJWc8OIq6K
+        0Bif+vWkjvzQw6CIkPKqe2M3du/OzOwYoEpE2W6eXeCLthc5nMigNplUGSAZGXsynpFX8Jiac+Sc4
+        cOAhQfZA==;
+Received: from [2001:4bb8:198:6bf4:7f38:755e:a6e0:73e9] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l6sL5-00F0wB-6r; Tue, 02 Feb 2021 09:51:15 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        iommu@lists.linux-foundation.org
+Cc:     Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 1/7] dma-mapping: remove the {alloc,free}_noncoherent methods
+Date:   Tue,  2 Feb 2021 10:51:04 +0100
+Message-Id: <20210202095110.1215346-2-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210202095110.1215346-1-hch@lst.de>
+References: <20210202095110.1215346-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.162.32]
-X-ClientProxiedBy: EX13D18UWC001.ant.amazon.com (10.43.162.105) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 1 Feb 2021 09:37:33 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+It turns out allowing non-contigous allocations here was a rather bad
+idea, as we'll now need to define ways to get the pages for mmaping
+or dma_buf sharing.  Revert this change and stick to the original
+concept.  A different API for the use case of non-contigous allocations
+will be added back later.
 
-> On Tue, Dec 15, 2020 at 3:57 AM SeongJae Park <sjpark@amazon.com> wrote:
-> >
-> > From: SeongJae Park <sjpark@amazon.de>
-> >
-> > Even somehow the initial monitoring target regions are well constructed
-> > to fulfill the assumption (pages in same region have similar access
-> > frequencies), the data access pattern can be dynamically changed.  This
-> > will result in low monitoring quality.  To keep the assumption as much
-> > as possible, DAMON adaptively merges and splits each region based on
-> > their access frequency.
-> >
-> > For each ``aggregation interval``, it compares the access frequencies of
-> > adjacent regions and merges those if the frequency difference is small.
-> > Then, after it reports and clears the aggregated access frequency of
-> > each region, it splits each region into two or three regions if the
-> > total number of regions will not exceed the user-specified maximum
-> > number of regions after the split.
-> 
-> Should there be any concerns regarding the number of regions
-> oscillating even when the access pattern of the application is not
-> changing? Does the system converge to equilibrium state or does it not
-> matter?
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ Documentation/core-api/dma-api.rst | 64 ++++++++++--------------------
+ drivers/iommu/dma-iommu.c          | 30 --------------
+ include/linux/dma-map-ops.h        |  5 ---
+ include/linux/dma-mapping.h        | 17 ++++++--
+ kernel/dma/mapping.c               | 40 -------------------
+ 5 files changed, 35 insertions(+), 121 deletions(-)
 
-DAMON will continue splitting regions, but all the changes will be reverted by
-merging.  Because callbacks are called after merging finished, this would not
-matter.
+diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+index 75cb757bbff00a..e6d23f117308df 100644
+--- a/Documentation/core-api/dma-api.rst
++++ b/Documentation/core-api/dma-api.rst
+@@ -528,16 +528,14 @@ an I/O device, you should not be using this part of the API.
+ 
+ ::
+ 
+-	void *
+-	dma_alloc_noncoherent(struct device *dev, size_t size,
+-			dma_addr_t *dma_handle, enum dma_data_direction dir,
+-			gfp_t gfp)
++	struct page *
++	dma_alloc_pages(struct device *dev, size_t size, dma_addr_t *dma_handle,
++			enum dma_data_direction dir, gfp_t gfp)
+ 
+-This routine allocates a region of <size> bytes of consistent memory.  It
+-returns a pointer to the allocated region (in the processor's virtual address
+-space) or NULL if the allocation failed.  The returned memory may or may not
+-be in the kernel direct mapping.  Drivers must not call virt_to_page on
+-the returned memory region.
++This routine allocates a region of <size> bytes of non-coherent memory.  It
++returns a pointer to first struct page for the region, or NULL if the
++allocation failed. The resulting struct page can be used for everything a
++struct page is suitable for.
+ 
+ It also returns a <dma_handle> which may be cast to an unsigned integer the
+ same width as the bus and given to the device as the DMA address base of
+@@ -558,51 +556,33 @@ reused.
+ ::
+ 
+ 	void
+-	dma_free_noncoherent(struct device *dev, size_t size, void *cpu_addr,
++	dma_free_pages(struct device *dev, size_t size, struct page *page,
+ 			dma_addr_t dma_handle, enum dma_data_direction dir)
+ 
+-Free a region of memory previously allocated using dma_alloc_noncoherent().
+-dev, size and dma_handle and dir must all be the same as those passed into
+-dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
+-dma_alloc_noncoherent().
++Free a region of memory previously allocated using dma_alloc_pages().
++dev, size, dma_handle and dir must all be the same as those passed into
++dma_alloc_pages().  page must be the pointer returned by dma_alloc_pages().
+ 
+ ::
+ 
+-	struct page *
+-	dma_alloc_pages(struct device *dev, size_t size, dma_addr_t *dma_handle,
+-			enum dma_data_direction dir, gfp_t gfp)
+-
+-This routine allocates a region of <size> bytes of non-coherent memory.  It
+-returns a pointer to first struct page for the region, or NULL if the
+-allocation failed. The resulting struct page can be used for everything a
+-struct page is suitable for.
+-
+-It also returns a <dma_handle> which may be cast to an unsigned integer the
+-same width as the bus and given to the device as the DMA address base of
+-the region.
+-
+-The dir parameter specified if data is read and/or written by the device,
+-see dma_map_single() for details.
+-
+-The gfp parameter allows the caller to specify the ``GFP_`` flags (see
+-kmalloc()) for the allocation, but rejects flags used to specify a memory
+-zone such as GFP_DMA or GFP_HIGHMEM.
++	void *
++	dma_alloc_noncoherent(struct device *dev, size_t size,
++			dma_addr_t *dma_handle, enum dma_data_direction dir,
++			gfp_t gfp)
+ 
+-Before giving the memory to the device, dma_sync_single_for_device() needs
+-to be called, and before reading memory written by the device,
+-dma_sync_single_for_cpu(), just like for streaming DMA mappings that are
+-reused.
++This routine is a convenient wrapper around dma_alloc_pages that returns the
++kernel virtual address for the allocated memory instead of the page structure.
+ 
+ ::
+ 
+ 	void
+-	dma_free_pages(struct device *dev, size_t size, struct page *page,
++	dma_free_noncoherent(struct device *dev, size_t size, void *cpu_addr,
+ 			dma_addr_t dma_handle, enum dma_data_direction dir)
+ 
+-Free a region of memory previously allocated using dma_alloc_pages().
+-dev, size and dma_handle and dir must all be the same as those passed into
+-dma_alloc_noncoherent().  page must be the pointer returned by
+-dma_alloc_pages().
++Free a region of memory previously allocated using dma_alloc_noncoherent().
++dev, size, dma_handle and dir must all be the same as those passed into
++dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
++dma_alloc_noncoherent().
+ 
+ ::
+ 
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 4078358ed66ea8..255533faf90599 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1197,34 +1197,6 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
+ 	return cpu_addr;
+ }
+ 
+-#ifdef CONFIG_DMA_REMAP
+-static void *iommu_dma_alloc_noncoherent(struct device *dev, size_t size,
+-		dma_addr_t *handle, enum dma_data_direction dir, gfp_t gfp)
+-{
+-	if (!gfpflags_allow_blocking(gfp)) {
+-		struct page *page;
+-
+-		page = dma_common_alloc_pages(dev, size, handle, dir, gfp);
+-		if (!page)
+-			return NULL;
+-		return page_address(page);
+-	}
+-
+-	return iommu_dma_alloc_remap(dev, size, handle, gfp | __GFP_ZERO,
+-				     PAGE_KERNEL, 0);
+-}
+-
+-static void iommu_dma_free_noncoherent(struct device *dev, size_t size,
+-		void *cpu_addr, dma_addr_t handle, enum dma_data_direction dir)
+-{
+-	__iommu_dma_unmap(dev, handle, size);
+-	__iommu_dma_free(dev, size, cpu_addr);
+-}
+-#else
+-#define iommu_dma_alloc_noncoherent		NULL
+-#define iommu_dma_free_noncoherent		NULL
+-#endif /* CONFIG_DMA_REMAP */
+-
+ static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+ 		unsigned long attrs)
+@@ -1295,8 +1267,6 @@ static const struct dma_map_ops iommu_dma_ops = {
+ 	.free			= iommu_dma_free,
+ 	.alloc_pages		= dma_common_alloc_pages,
+ 	.free_pages		= dma_common_free_pages,
+-	.alloc_noncoherent	= iommu_dma_alloc_noncoherent,
+-	.free_noncoherent	= iommu_dma_free_noncoherent,
+ 	.mmap			= iommu_dma_mmap,
+ 	.get_sgtable		= iommu_dma_get_sgtable,
+ 	.map_page		= iommu_dma_map_page,
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 70fcd0f610ea48..11e02537b9e01b 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -22,11 +22,6 @@ struct dma_map_ops {
+ 			gfp_t gfp);
+ 	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+ 			dma_addr_t dma_handle, enum dma_data_direction dir);
+-	void *(*alloc_noncoherent)(struct device *dev, size_t size,
+-			dma_addr_t *dma_handle, enum dma_data_direction dir,
+-			gfp_t gfp);
+-	void (*free_noncoherent)(struct device *dev, size_t size, void *vaddr,
+-			dma_addr_t dma_handle, enum dma_data_direction dir);
+ 	int (*mmap)(struct device *, struct vm_area_struct *,
+ 			void *, dma_addr_t, size_t, unsigned long attrs);
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 2e49996a8f391a..fbfa3f5abd9498 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -263,10 +263,19 @@ struct page *dma_alloc_pages(struct device *dev, size_t size,
+ 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+ void dma_free_pages(struct device *dev, size_t size, struct page *page,
+ 		dma_addr_t dma_handle, enum dma_data_direction dir);
+-void *dma_alloc_noncoherent(struct device *dev, size_t size,
+-		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+-void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+-		dma_addr_t dma_handle, enum dma_data_direction dir);
++
++static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
++{
++	struct page *page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
++	return page ? page_address(page) : NULL;
++}
++
++static inline void dma_free_noncoherent(struct device *dev, size_t size,
++		void *vaddr, dma_addr_t dma_handle, enum dma_data_direction dir)
++{
++	dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
++}
+ 
+ static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index f87a89d086544b..68992e35c8c3a7 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -515,46 +515,6 @@ void dma_free_pages(struct device *dev, size_t size, struct page *page,
+ }
+ EXPORT_SYMBOL_GPL(dma_free_pages);
+ 
+-void *dma_alloc_noncoherent(struct device *dev, size_t size,
+-		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+-{
+-	const struct dma_map_ops *ops = get_dma_ops(dev);
+-	void *vaddr;
+-
+-	if (!ops || !ops->alloc_noncoherent) {
+-		struct page *page;
+-
+-		page = dma_alloc_pages(dev, size, dma_handle, dir, gfp);
+-		if (!page)
+-			return NULL;
+-		return page_address(page);
+-	}
+-
+-	size = PAGE_ALIGN(size);
+-	vaddr = ops->alloc_noncoherent(dev, size, dma_handle, dir, gfp);
+-	if (vaddr)
+-		debug_dma_map_page(dev, virt_to_page(vaddr), 0, size, dir,
+-				   *dma_handle);
+-	return vaddr;
+-}
+-EXPORT_SYMBOL_GPL(dma_alloc_noncoherent);
+-
+-void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+-		dma_addr_t dma_handle, enum dma_data_direction dir)
+-{
+-	const struct dma_map_ops *ops = get_dma_ops(dev);
+-
+-	if (!ops || !ops->free_noncoherent) {
+-		dma_free_pages(dev, size, virt_to_page(vaddr), dma_handle, dir);
+-		return;
+-	}
+-
+-	size = PAGE_ALIGN(size);
+-	debug_dma_unmap_page(dev, dma_handle, size, dir);
+-	ops->free_noncoherent(dev, size, vaddr, dma_handle, dir);
+-}
+-EXPORT_SYMBOL_GPL(dma_free_noncoherent);
+-
+ int dma_supported(struct device *dev, u64 mask)
+ {
+ 	const struct dma_map_ops *ops = get_dma_ops(dev);
+-- 
+2.29.2
 
-> 
-> >
-> > In this way, DAMON provides its best-effort quality and minimal overhead
-> > while keeping the upper-bound overhead that users set.
-> >
-> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-> > ---
-> >  include/linux/damon.h |  41 +++++---
-> >  mm/damon/core.c       | 220 ++++++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 240 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/include/linux/damon.h b/include/linux/damon.h
-> > index 7d4685adc8a9..f446f8433599 100644
-> > --- a/include/linux/damon.h
-> > +++ b/include/linux/damon.h
-> > @@ -12,6 +12,9 @@
-> >  #include <linux/time64.h>
-> >  #include <linux/types.h>
-> >
-> > +/* Minimal region size.  Every damon_region is aligned by this. */
-> > +#define DAMON_MIN_REGION       PAGE_SIZE
-> > +
-> >  /**
-> >   * struct damon_addr_range - Represents an address region of [@start, @end).
-> >   * @start:     Start address of the region (inclusive).
-> > @@ -86,6 +89,8 @@ struct damon_ctx;
-> >   * prepared for the next access check.
-> >   * @check_accesses should check the accesses to each region that made after the
-> >   * last preparation and update the number of observed accesses of each region.
-> > + * It should also return max number of observed accesses that made as a result
-> > + * of its update.
-> 
-> Why?
-
-To get the max access count without additional iteration of regions.  The count
-will be used to calculate merge/split threshold.  I will add this explanation
-in the next version.
-
-The additional iteration would not be a real performance bottleneck for usual
-case, so I we could make this optimization later.  However, because making such
-optimization with callback interface would cause some backward compatibility
-issue, I'd like to do this now.
-
-> 
-> >   * @reset_aggregated should reset the access monitoring results that aggregated
-> >   * by @check_accesses.
-> >   * @target_valid should check whether the target is still valid for the
-[...]
-> >
-> > +unsigned int damon_nr_regions(struct damon_target *t)
-> > +{
-> > +       struct damon_region *r;
-> > +       unsigned int nr_regions = 0;
-> > +
-> > +       damon_for_each_region(r, t)
-> > +               nr_regions++;
-> 
-> Why not just add the region_count filed in damon_target?
-
-Just to make the code simpler.  We can easily optimize in the way if this turns
-out to be a real performance bottleneck.
-
-> 
-> > +
-> > +       return nr_regions;
-> > +}
-> > +
-> >  struct damon_ctx *damon_new_ctx(enum damon_target_type type)
-> >  {
-> >         struct damon_ctx *ctx;
-> > @@ -128,8 +143,12 @@ struct damon_ctx *damon_new_ctx(enum damon_target_type type)
-> >         mutex_init(&ctx->kdamond_lock);
-> >
-> >         ctx->target_type = type;
-> > -       if (type != DAMON_ARBITRARY_TARGET)
-> > -               INIT_LIST_HEAD(&ctx->region_targets);
-> > +       if (type != DAMON_ARBITRARY_TARGET) {
-> > +               ctx->min_nr_regions = 10;
-> > +               ctx->max_nr_regions = 1000;
-> 
-> IMO these settings/heuristics should be part of the virtual address
-> space monitor primitives and not be in the core monitor.
-
-These are just default values.  For the adpative regions adjustment, I think we
-agreed on adding it in the core for now.
-
-> 
-> > +
-> > +               INIT_LIST_HEAD(&ctx->adaptive_targets);
-> > +       }
-> >
-> >         return ctx;
-> >  }
-[...]
-> > +
-> > +/*
-> > + * Split every target region into randomly-sized small regions
-> > + *
-> > + * This function splits every target region into random-sized small regions if
-> > + * current total number of the regions is equal or smaller than half of the
-> > + * user-specified maximum number of regions.  This is for maximizing the
-> > + * monitoring accuracy under the dynamically changeable access patterns.  If a
-> > + * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
-> > + * it.
-> > + */
-> > +static void kdamond_split_regions(struct damon_ctx *ctx)
-> > +{
-> > +       struct damon_target *t;
-> > +       unsigned int nr_regions = 0;
-> > +       static unsigned int last_nr_regions;
-> > +       int nr_subregions = 2;
-> > +
-> > +       damon_for_each_target(t, ctx)
-> > +               nr_regions += damon_nr_regions(t);
-> > +
-> > +       if (nr_regions > ctx->max_nr_regions / 2)
-> > +               return;
-> 
-> Shouldn't the limits on region be per-target instead of for the whole context?
-
-I think this makes the monitoring overhead upperbound setting simpler.  If we
-need to set per-target monitoring upperbound, we can use multiple contexts for
-each target.
-
-> 
-> > +
-> > +       /* Maybe the middle of the region has different access frequency */
-> > +       if (last_nr_regions == nr_regions &&
-> > +                       nr_regions < ctx->max_nr_regions / 3)
-> > +               nr_subregions = 3;
-> > +
-> > +       damon_for_each_target(t, ctx)
-> > +               damon_split_regions_of(ctx, t, nr_subregions);
-> > +
-> > +       last_nr_regions = nr_regions;
-> > +}
-> > +
-> >  /*
-> >   * Check whether it is time to check and apply the target monitoring regions
-> >   *
-> > @@ -391,6 +588,8 @@ static int kdamond_fn(void *data)
-> >         struct damon_ctx *ctx = (struct damon_ctx *)data;
-> >         struct damon_target *t;
-> >         struct damon_region *r, *next;
-> > +       unsigned int max_nr_accesses = 0;
-> > +       unsigned long sz_limit = 0;
-> >
-> >         pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
-> >
-> > @@ -399,6 +598,8 @@ static int kdamond_fn(void *data)
-> >         if (ctx->callback.before_start && ctx->callback.before_start(ctx))
-> >                 set_kdamond_stop(ctx);
-> >
-> > +       sz_limit = damon_region_sz_limit(ctx);
-> > +
-> >         while (!kdamond_need_stop(ctx)) {
-> >                 if (ctx->primitive.prepare_access_checks)
-> >                         ctx->primitive.prepare_access_checks(ctx);
-> > @@ -409,14 +610,20 @@ static int kdamond_fn(void *data)
-> >                 usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
-> >
-> >                 if (ctx->primitive.check_accesses)
-> > -                       ctx->primitive.check_accesses(ctx);
-> > +                       max_nr_accesses = ctx->primitive.check_accesses(ctx);
-> >
-> >                 if (kdamond_aggregate_interval_passed(ctx)) {
-> > +                       if (ctx->target_type != DAMON_ARBITRARY_TARGET)
-> > +                               kdamond_merge_regions(ctx,
-> > +                                               max_nr_accesses / 10,
-> 
-> What's the reason behind this 10?
-
-It came from my gut feeling and it is still there because it worked well with
-my test workloads.  I think we could change that or allow users adjustable if
-problematic case is found later.
-
-
-Thanks,
-SeongJae Park
-[...]
