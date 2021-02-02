@@ -2,82 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E95AC433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 18:15:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63507C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 22:59:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40E2B64F96
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 18:15:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CCA264F66
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 22:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233783AbhBBSPA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 13:15:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37940 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233763AbhBBOGs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:06:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612274721;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LXlNwCxVBCnWTgIRZ67SF78i3D9tADdgI1TeYfcOFjI=;
-        b=dgfbRFdLIqHdS62N7VsVilDe//MOtUhcLT1rlT+X0TvcOPCghhgGzb21VGp4/NFVetQmT6
-        y2V5E2ogIK6nLN24FGqbLzWFV5AstEOoLxqTU/s85rhGSe8HOUoG9T6EoINqDCYwxTgNd8
-        wpJmABfEriE+X3VSLY3Md2BiBluiHa4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-2uLMyJOzOa2ezpnI4z5s0g-1; Tue, 02 Feb 2021 09:05:17 -0500
-X-MC-Unique: 2uLMyJOzOa2ezpnI4z5s0g-1
-Received: by mail-ej1-f69.google.com with SMTP id bx12so2733538ejc.15
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:05:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LXlNwCxVBCnWTgIRZ67SF78i3D9tADdgI1TeYfcOFjI=;
-        b=ubegBaJ4ZN03TEsCHxI8TTfhRv1/5SaA5Mg9d2HUECK4yMeHKbe3fejwzFo2TNM9aK
-         eh9U2y+us8G6TReA3TxEM8QZSxL3C6Lj4Ox960wSUM6+GC2lnXImGf+3bQvDUKTiKZHz
-         HYmVIs8JdweB3AqoV1mMx4Z4lmLUaNZ2LoOvnFDcyIWlN1vVQfgxmD8CMVlSH6YVpiNR
-         GbRbJqPlUy/tw14YrMecwGAbRxz8PvGHBqiCmnZEvYOR88PI+3aIyS9yYfBnDDSOc8N+
-         WZ5BGwekQVGY1TsojdC+uSqOdUxhb3gkQWNwK4CpCOR2XeJT/H2vGL9K7RulpvELBcQ9
-         lv/w==
-X-Gm-Message-State: AOAM532dErJUCjEXwysB7Ko6PdjAqh7uW3Y8CqLrpnrkmWXbWt+kfVru
-        6eEJkz3drx4ca/sFhbz9f0Im6Cp6pWioFVpHhbTEiXoR0tSs9mltWuSIT1JOrAgvNfew4oA8IbL
-        0m6JcPUB9nvkKUxvIvSA8
-X-Received: by 2002:a17:906:780c:: with SMTP id u12mr22282921ejm.125.1612274715974;
-        Tue, 02 Feb 2021 06:05:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQ/DyaGLIBeJhjBFt5cegtfQ7kGKj1VDMfIj8k1n8QaRu28f438c65QA8HfxsXqI6Pm6fGcw==
-X-Received: by 2002:a17:906:780c:: with SMTP id u12mr22282903ejm.125.1612274715788;
-        Tue, 02 Feb 2021 06:05:15 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id ec18sm9321262ejb.24.2021.02.02.06.05.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Feb 2021 06:05:15 -0800 (PST)
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: rectify length of title
- underline
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Nitin Joshi <njoshi1@lenovo.com>,
-        platform-driver-x86@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210129040849.26740-1-lukas.bulwahn@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3b91a535-b818-09be-456b-c728838612dc@redhat.com>
-Date:   Tue, 2 Feb 2021 15:05:14 +0100
+        id S232975AbhBBW7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 17:59:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52922 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232681AbhBBW7l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 17:59:41 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D0AC0613D6;
+        Tue,  2 Feb 2021 14:59:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=ENue7s30/AVYjJ+FLuK3utBLdl7fX7Wgo1RZFpgH4vM=; b=iCpPPCirUc9RhjKzpwe3y4FP9W
+        Er4hHDaCbraQPxNrWmL2Yao94VNYmaPyexKnej4DgMa6blaJPt+pVpsgTWVPOEstB1gcQYPe73aAF
+        v9VazIjrtXW9X/ChFtnTI+IpgqygQ3asQ16cZidy4PTIwoXo5z32Kxd87vp9zAXjdKA3kpFJuLBJE
+        geVlY2+N3EIhy5WY1aMvzjCXYGfmzbKT5mCqHMujL6Fv8rV2q4Zib9vzCFy9tEuqFUS1QvISsZGHe
+        WLRuK+q8+3pouAGoC2JuWkD8JsJGjQyF2NKqJlTbJhN+2kMaeBEtjP/6600EQAYF8StNRlB7VhEEF
+        rYfAw2Fg==;
+Received: from [2601:1c0:6280:3f0::2a53]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l74cg-0001Wj-VY; Tue, 02 Feb 2021 22:58:15 +0000
+Subject: Re: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        kvm@vger.kernel.org, linux-s390@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, graf@amazon.com, arnd@arndb.de,
+        ebiederm@xmission.com, rppt@kernel.org, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jason@zx2c4.com, jannh@google.com,
+        w@1wt.eu, colmmacc@amazon.com, luto@kernel.org, tytso@mit.edu,
+        ebiggers@kernel.org, dwmw@amazon.co.uk, bonzini@gnu.org,
+        sblbir@amazon.com, raduweis@amazon.com, corbet@lwn.net,
+        mst@redhat.com, mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
+        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
+        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
+        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
+        oridgar@gmail.com, ghammer@redhat.com
+References: <1612200294-17561-1-git-send-email-acatan@amazon.com>
+ <1612200294-17561-2-git-send-email-acatan@amazon.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5290f6f5-396f-aa47-3b74-8d50c2434a04@infradead.org>
+Date:   Tue, 2 Feb 2021 14:58:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210129040849.26740-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <1612200294-17561-2-git-send-email-acatan@amazon.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -85,61 +67,167 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi--
 
-On 1/29/21 5:08 AM, Lukas Bulwahn wrote:
-> Commit d7cbe2773aed ("platform/x86: thinkpad_acpi: set keyboard language")
-> adds information on keyboard setting to the thinkpad documentation, but
-> made the subsection title underline too short.
+On 2/1/21 9:24 AM, Adrian Catangiu wrote:
+> - Background and problem
 > 
-> Hence, make htmldocs warns:
-> 
->   Documentation/admin-guide/laptops/thinkpad-acpi.rst:1472: \
->     WARNING: Title underline too short.
-> 
-> Rectify length of subsection title underline.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> The System Generation ID feature is required in virtualized or
+> containerized environments by applications that work with local copies
+> or caches of world-unique data such as random values, uuids,
+> monotonically increasing counters, etc.
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+  ... if those applications want to comply with <some MS spec>.
 
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
+> Such applications can be negatively affected by VM or container
+> snapshotting when the VM or container is either cloned or returned to
+> an earlier point in time.
 
 
+> Signed-off-by: Adrian Catangiu <acatan@amazon.com>
 > ---
-> applies cleanly on next-20210128
+>  Documentation/misc-devices/sysgenid.rst            | 236 ++++++++++++++++
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>  MAINTAINERS                                        |   8 +
+>  drivers/misc/Kconfig                               |  16 ++
+>  drivers/misc/Makefile                              |   1 +
+>  drivers/misc/sysgenid.c                            | 307 +++++++++++++++++++++
+>  include/uapi/linux/sysgenid.h                      |  17 ++
+>  7 files changed, 586 insertions(+)
+>  create mode 100644 Documentation/misc-devices/sysgenid.rst
+>  create mode 100644 drivers/misc/sysgenid.c
+>  create mode 100644 include/uapi/linux/sysgenid.h
 > 
-> Nitin, please ack.
-> 
-> Hans, please pick this minor fixup for your platform/x86 -next tree.
-> 
->  Documentation/admin-guide/laptops/thinkpad-acpi.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> index b1188f05a99a..0e4c5bb7fb70 100644
-> --- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> +++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-> @@ -1469,7 +1469,7 @@ Sysfs notes
->  
->  
->  Setting keyboard language
-> --------------------
-> +-------------------------
->  
->  sysfs: keyboard_lang
->  
-> 
+> diff --git a/Documentation/misc-devices/sysgenid.rst b/Documentation/misc-devices/sysgenid.rst
+> new file mode 100644
+> index 0000000..4337ca0
+> --- /dev/null
+> +++ b/Documentation/misc-devices/sysgenid.rst
+> @@ -0,0 +1,236 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +========
+> +SYSGENID
+> +========
+> +
+> +The System Generation ID feature is required in virtualized or
+> +containerized environments by applications that work with local copies
+> +or caches of world-unique data such as random values, UUIDs,
+> +monotonically increasing counters, etc.
+> +Such applications can be negatively affected by VM or container
+> +snapshotting when the VM or container is either cloned or returned to
+> +an earlier point in time.
+> +
+> +The System Generation ID is a simple concept meant to alleviate the
+> +issue by providing a monotonically increasing counter that changes
+> +each time the VM or container is restored from a snapshot.
+> +The driver for it lives at ``drivers/misc/sysgenid.c``.
+> +
+> +The ``sysgenid`` driver exposes a monotonic incremental System
+> +Generation u32 counter via a char-dev FS interface accessible through
+
+s/FS/filesystem/
+
+> +``/dev/sysgenid`` that provides sync and async SysGen counter update
+> +notifications. It also provides SysGen counter retrieval and
+> +confirmation mechanisms.
+> +
+> +The counter starts from zero when the driver is initialized and
+> +monotonically increments every time the system generation changes.
+> +
+> +The ``sysgenid`` driver exports the ``void sysgenid_bump_generation()``
+> +symbol which can be used by backend drivers to drive system generation
+> +changes based on hardware events.
+> +System generation changes can also be driven by userspace software
+> +through a dedicated driver ioctl.
+> +
+> +Userspace applications or libraries can (a)synchronously consume the
+> +system generation counter through the provided FS interface, to make
+
+s/FS/filesystem/
+
+> +any necessary internal adjustments following a system generation update.
+> +
+> +Driver FS interface:
+> +
+> +``open()``:
+> +  When the device is opened, a copy of the current Sys-Gen-Id (counter)
+> +  is associated with the open file descriptor. The driver now tracks
+> +  this file as an independent *watcher*. The driver tracks how many
+> +  watchers are aware of the latest Sys-Gen-Id counter and how many of
+> +  them are *outdated*; outdated being those that have lived through
+> +  a Sys-Gen-Id change but not yet confirmed the new generation counter.
+> +
+> +``read()``:
+> +  Read is meant to provide the *new* system generation counter when a
+> +  generation change takes place. The read operation blocks until the
+> +  associated counter is no longer up to date, at which point the new
+> +  counter is provided/returned.
+> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
+> +  *new* counter value available. The generation counter is considered
+> +  *new* for each open file descriptor that hasn't confirmed the new
+> +  value following a generation change. Therefore, once a generation
+> +  change takes place, all ``read()`` calls will immediately return the
+> +  new generation counter and will continue to do so until the
+> +  new value is confirmed back to the driver through ``write()``.
+> +  Partial reads are not allowed - read buffer needs to be at least
+> +  32 bits in size.
+> +
+> +``write()``:
+> +  Write is used to confirm the up-to-date Sys Gen counter back to the
+> +  driver.
+> +  Following a VM generation change, all existing watchers are marked
+> +  as *outdated*. Each file descriptor will maintain the *outdated*
+> +  status until a ``write()`` confirms the up-to-date counter back to
+> +  the driver.
+> +  Partial writes are not allowed - write buffer should be exactly
+> +  32 bits in size.
+> +
+> +``poll()``:
+> +  Poll is implemented to allow polling for generation counter updates.
+> +  Such updates result in ``EPOLLIN`` polling status until the new
+> +  up-to-date counter is confirmed back to the driver through a
+> +  ``write()``.
+> +
+> +``ioctl()``:
+> +  The driver also adds support for waiting on open file descriptors
+> +  that haven't acknowledged a generation counter update, as well as a
+> +  mechanism for userspace to *force* a generation update:
+> +
+> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
+> +    watchers, or if a ``timeout`` argument is provided, until the
+> +    timeout expires.
+> +    If the current caller is *outdated* or a generation change happens
+> +    while waiting (thus making current caller *outdated*), the ioctl
+> +    returns ``-EINTR`` to signal the user to handle event and retry.
+> +  - SYSGENID_FORCE_GEN_UPDATE: forces a generation counter increment.
+> +    It takes a ``minimum-generation`` argument which represents the
+> +    minimum value the generation counter will be incremented to. For
+
+                                            will be set to. For
+It's not so much an increment as it is a "set to this value or higher".
+
+> +    example if current generation is ``5`` and ``SYSGENID_FORCE_GEN_UPDATE(8)``
+> +    is called, the generation counter will increment to ``8``.
+> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
+> +    or CAP_SYS_ADMIN capabilities.
+> +
+> +``mmap()``:
+> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
+> +  in size. The first 4 bytes of the mapped page will contain an
+> +  up-to-date u32 copy of the system generation counter.
+> +  The mapped memory can be used as a low-latency generation counter
+> +  probe mechanism in critical sections - see examples.
+> +
+> +``close()``:
+> +  Removes the file descriptor as a system generation counter *watcher*.
+> +
+> +Example application workflows
+> +-----------------------------
+> +
+[snip]
+
+
+-- 
+~Randy
 
