@@ -2,164 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D4CC433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EC9C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:36:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9F7A64DD6
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:32:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B46E64F51
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:36:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234336AbhBBOc1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 09:32:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231992AbhBBOTE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:19:04 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2455C06174A
-        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 06:18:22 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id m13so20650035wro.12
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9FZzU82hRsBiBhCvFEyc1JNn9WVYxWSX0ROwEjKj8Rg=;
-        b=GwVbMM/GT+m8K5UcUXdmExA/pYjXDof3+EnMb7+8Cl6aIJlm1uCCHPw+tlPv1hohpT
-         1zTGdVrF2VGLmCwNxrlxlPiK78iFKTflXrGTi66wCosaQUGX5O0OStfWw78RHa9PiLJC
-         osn8fiaBb3p8cxCoJS8Ws2hlTRkIsSbxHMUU0=
+        id S234664AbhBBOfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 09:35:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48345 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234625AbhBBOeb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:34:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612276384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MOfLz2ooS1YVxqAqeLs03INDucXpuqKyLYasthASKR4=;
+        b=fkp4KvtsAwTJnW0l8wYhfrP42SJuWM8LFePUnV/Bgw8XJKb7fTNRpL3m4qg7+rforVtgM/
+        d7XaJOscg1QQaGIfSjHKadrLwEJfXy3ezZWil2BYes07cQHVdTusPXp7denGBIGQT+ul5B
+        df2ACjYASuvgOnD3Tc7djSitQNcSzJc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-R8-N6IRmP1-dbwJ2k0D-cw-1; Tue, 02 Feb 2021 09:33:02 -0500
+X-MC-Unique: R8-N6IRmP1-dbwJ2k0D-cw-1
+Received: by mail-wr1-f70.google.com with SMTP id p16so12308897wrx.10
+        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:33:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=9FZzU82hRsBiBhCvFEyc1JNn9WVYxWSX0ROwEjKj8Rg=;
-        b=qn/9SG4em+LVwjjuFgf4j+ZzCgHHEVTaV91rtDxAtPsIxTw9CM30cp/4kwLQ2SW6D7
-         bknDEqmeXHolX/JBtFSx7/ZRm2/7yqq5r2Tc6aAGVbsMyDZYmR6SFVlH9OcqmFUvIH6B
-         r7wnytgLevGw6rjnSwolWc7O2ygKvRWn/oA9HYGuNzd5xDwhNij2oL9n2agkxDzLdHxn
-         7clXyXppEk9Bb6J+lxwWlmKmqEV3ypooF4OYoU/mQBQc+3WrdlwavyunE5soFmSPF1EC
-         sqS/8ZTnDQRObHb9ijf65i5VgkeobVRGniVNxjvF+jPZKJ/ktQs9Mc+YP2QndplrLndi
-         AqFg==
-X-Gm-Message-State: AOAM530plaFbP2BNaQTNlz3GriNW1lria/VAqaRkc3Z4NSk6dAIZRTVg
-        S3a3nbUI9T30/gB8G68TxfScsA==
-X-Google-Smtp-Source: ABdhPJxWbAhjU2qfGmhuJhrSt3iNYt3WMYnXjgmiSCegUaxOoOCW83wp3SgyIYrGtzxriJ9bTMvKTg==
-X-Received: by 2002:adf:b64f:: with SMTP id i15mr23222482wre.279.1612275501681;
-        Tue, 02 Feb 2021 06:18:21 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id t205sm3373846wmt.28.2021.02.02.06.18.20
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MOfLz2ooS1YVxqAqeLs03INDucXpuqKyLYasthASKR4=;
+        b=N5wGNvTlZT5f03njeBipL3vbGFmMmF/2CxBPakl64GgIRrqiQngfRRmyViElpmGn2c
+         6+rKluJ5Vkkz2truOcuKc3JK+eWbxOdtHViuiNDwcap2QZMziJSlhM39ZC1RSR9QOa3l
+         iAKGhS2omii889h7a3EVIPshON2D2uJ/dsFoRE9zAq1IkQ/wdE/fgl1HBijjSNMFWIKy
+         m5lNrr+Tta3+MMc8BSjkIWqjjp3QTEgXdwuWsA86IJjsHVmayzCoWweFL+jjX3XT3V7j
+         x54FtRD1aHj7S/EMOkvvU6MuuYqGEfHX81PGB8hpzZf9v3IG5C8kb/smBXtAO/Y80nya
+         Tdgg==
+X-Gm-Message-State: AOAM532YGLjP+SJArnRTep2POpIsmWd/nHQHB/kXMNqEoqAKyJYWTOzr
+        z8gT4csg21mexgJiywYskV06ipBci8XGHE7eEh7YlvBH6Jzqk2vuTRrnPmTr1VpFvAWWs8FEqVr
+        6bFcMSDxQz9uZDEKX8rky
+X-Received: by 2002:adf:d1cb:: with SMTP id b11mr24388390wrd.118.1612276379286;
+        Tue, 02 Feb 2021 06:32:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzNlKeX+el7cMOrZK5yq6RtSBJMhNR+o0snQl4QXFgxLrVEgd3S6vtJXgCeHmPNLUWxDwZ7tg==
+X-Received: by 2002:adf:d1cb:: with SMTP id b11mr24388360wrd.118.1612276379086;
+        Tue, 02 Feb 2021 06:32:59 -0800 (PST)
+Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
+        by smtp.gmail.com with ESMTPSA id b138sm3242759wmb.35.2021.02.02.06.32.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 06:18:20 -0800 (PST)
-Date:   Tue, 2 Feb 2021 15:18:18 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Phillip Susi <phill@thesusis.net>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <YBlfKgQ1laQLFqpW@phenom.ffwll.local>
-Mail-Followup-To: Phillip Susi <phill@thesusis.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Pavel Machek <pavel@ucw.cz>, Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <87k0s4ai33.fsf@vps.thesusis.net>
+        Tue, 02 Feb 2021 06:32:54 -0800 (PST)
+Date:   Tue, 2 Feb 2021 09:32:50 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+        gregkh@linuxfoundation.org, graf@amazon.com, arnd@arndb.de,
+        ebiederm@xmission.com, rppt@kernel.org, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jason@zx2c4.com, jannh@google.com,
+        w@1wt.eu, colmmacc@amazon.com, luto@kernel.org, tytso@mit.edu,
+        ebiggers@kernel.org, dwmw@amazon.co.uk, bonzini@gnu.org,
+        sblbir@amazon.com, raduweis@amazon.com, corbet@lwn.net,
+        mhocko@kernel.org, rafael@kernel.org, mpe@ellerman.id.au,
+        areber@redhat.com, ovzxemul@gmail.com, avagin@gmail.com,
+        ptikhomirov@virtuozzo.com, gil@azul.com, asmehra@redhat.com,
+        dgunigun@redhat.com, vijaysun@ca.ibm.com, oridgar@gmail.com,
+        ghammer@redhat.com
+Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <20210202092418-mutt-send-email-mst@kernel.org>
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <1610453760-13812-2-git-send-email-acatan@amazon.com>
+ <20210127221505.GB24799@amd>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87k0s4ai33.fsf@vps.thesusis.net>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210127221505.GB24799@amd>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 01:55:04PM -0500, Phillip Susi wrote:
+On Wed, Jan 27, 2021 at 11:15:05PM +0100, Pavel Machek wrote:
+> Hi!
 > 
-> Geert Uytterhoeven writes:
+> > - Solution
+> > 
+> > The System Generation ID is a simple concept meant to alleviate the
+> > issue by providing a monotonically increasing u32 counter that changes
+> > each time the VM or container is restored from a snapshot.
 > 
-> Judging from some of the comments in the code, it looks like you were
-> one of the original authors of fbcon?  I haven't been able to find any
-> of these sczbot crash reports, and am not sure how fuzzing syscalls
-> would really affect this code ( it's not really handling a buch of
-> ioctls or otherwise taking arguments from user space ) , but I am a bit
-> confused as to why the softback was implemented the way that it was.
+> I'd make it u64.
 > 
-> vgacon simply copies the main buffer to vram in ->set_origin() and then
-> changes the pointers to operate out of the much larger vram while that
-> virtual terminal is active.  If I understand it correctly, it looks like
-> fbcon instead opts to operate out of the main buffer but rescue lines as
-> they are scrolled off and relocate them to the softback buffer.  This
-> seems to be rather more convoluted.
-> 
-> I'm thinking of re-implementing scrollback more like the way vgacon does
-> it: allocate a big "vram" buffer and operate out of that.  Obviously
-> ->scroll() and ->scrolldelta() have to actually repaint the screen rather
-> than simply change the pointer register, but that should be about the
-> only difference.
-> 
-> I have also noticed that there was some code to use hardware panning of
-> the video buffer rather than having to do a block bitblt to scroll the
-> contents of the screen, but that it was disabled because virtually no
-> video drivers actually implemented it?  That seems like a shame, but if
-> it is so, then there's no sense carrying the dead code so I think I'll
-> clean that up now.
-> 
-> Now that I look at it again, everything is simply always redrawn now
-> instead of even doing a simple bitblt.  Daniel, you mentioned that
-> almost nobody supports hardware acceleration, but even without any
-> specific hardware support, surely even if bitblt() is implemented just
-> as a memcpy(), it has to be faster than redrawing all of the characters
-> doesn't it?  Getting rid of the panning if it isn't generally supported
-> I can see, but I don't understand killing bitblt even if most devices
-> don't accelerate it.
+> But as people explained, this has race problems that may be impossible
+> to solve?
 
-Just a quick comment on this: Since most framebuffers are write-combining,
-and reads from that tend to be ~3 orders of magnitude slower than writes
-(at least on the pile of machines I looked at here, there's big
-differences, and some special streaming cpu instructions to make the
-reading side not so slow).
+Well the read/write interface could be used in a safe way thinkably:
 
-So scrolling by copying tends to be significantly slower than just
-redrawing everything.
+- application checks VM gen id
+- application sends a transaction e.g. to  database
+- application re-checks VM gen id
+- if id changed, application checks the database for duplicate
+  transactions
 
-And once you're at that point it's really hard to write a 2d acceleration
-which is consistently faster than just cpu rendering.
+not sure how can the mmap interface be used safely.
+Drop it for now?
 
-If you're interested in why 2d acceleration is rather hard as a general
-problem, not just specific to fbcon, I wrote a blog on that a while ago:
 
-https://blog.ffwll.ch/2018/08/no-2d-in-drm.html
 
-Cheers, Daniel
+> Best regards,
+> 								Pavel
+> 								
+> -- 
+> http://www.livejournal.com/~pavelmachek
 
-> In addition, I noticed that ->screen_pos() was changed to just return
-> vc_origin+offset.  fbcon is the only console driver to implement
-> ->screenpos() and if not implemented, vt defaults to using
-> vc_visible_origin+offset, so it looks like this function isn't needed at
-> all anymore and ->screen_pos() can be removed from struct consw.
-> 
-> Does this make sense or am I talking crazy?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
