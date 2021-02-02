@@ -2,176 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35C7C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6665C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:40:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1AF764F54
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:39:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A5CF64F72
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:40:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236706AbhBBQjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 11:39:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
+        id S236737AbhBBQjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 11:39:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236289AbhBBQgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 11:36:09 -0500
-Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [IPv6:2001:1600:4:17::190c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C1C7C061352
-        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 08:31:37 -0800 (PST)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DVVb10fCVzMqBP0;
-        Tue,  2 Feb 2021 17:27:25 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4DVVb05H4bzlh8TH;
-        Tue,  2 Feb 2021 17:27:24 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        with ESMTP id S236716AbhBBQjZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 11:39:25 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A822DC06174A
+        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 08:39:10 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id s23so13972348pgh.11
+        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 08:39:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Tq0kn8wQ4cNSCpcYdEBjYPAftV0+h3/NpmhAUshCF0U=;
+        b=yTndU65Sl8Ob0YAvVXTHGAV5Nczr4dBuH7X94sJqQXi8KHJE0lShyEaqXy97KTpFgD
+         k0jNJzTiHCJybiPEPc+ODJUR4vkxUVrRcIU9CH6k4fniC+smLrA9uToVdOTtsP+X/FqS
+         p3sK18lIGGqUbDOHlcdyRLdNGV9HYRVNFgIYV7uIOw+G3FKKZSKeQx6VaUXCex1JjH5t
+         oXVgcKHXg/kDGC6SuQeZlUCsQnicneKM0PiXCATjYirhZZU7/EZenYuwkATHt3T0NII6
+         27XzYItoSOWWd1ySQJ2KUAlYhR4105L0sSPpN6HqPJjbQ3vg0RZ1OmhN9uVYxGw3uhNQ
+         2Igw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Tq0kn8wQ4cNSCpcYdEBjYPAftV0+h3/NpmhAUshCF0U=;
+        b=uLi7LYuDykGFc6kau6yMIkSFHQWsBlKPyJRi6f6hWgUjx2yBjIBwfvNeHNznH/qTST
+         wuov4QyWP5/enRxKb8KWDS2ApKr38xOjoN3ncgjzd25NSY8w3k3oH34PLGCf90zopVkZ
+         UohBWvKcPwqk2qu24KAvVWeHDuMp+W6/dZd1kug2tSyCi9TgAHG6GNBooNqlEGZttErR
+         V931sadS+lsKgW8OfesrOo2wp+FRLgU6BYLY+LNax+kPy3TAU9Dzfh7tpC9JEsyLCzyW
+         eNy3aAwPpn0aG5g3NtQyHC0oohD7Di1ycUKBSpOZUxG5XihW0bw77YGqOf2ldcLRE6qu
+         1+mg==
+X-Gm-Message-State: AOAM5320TynFHoynNApmkRbeQilcPMkYyUYosa+xFzhBOatgBAmhUsYn
+        VPIPwL1+1siaeoUo1vveY/zFlw==
+X-Google-Smtp-Source: ABdhPJzeOqe2CAs1UnE+QgY8zmh1RJyEOKxmiq5FSu+O0azBurjZtdxZdFhRIuDNxrqMHgCZ3Tk4Ow==
+X-Received: by 2002:a63:f905:: with SMTP id h5mr16311501pgi.301.1612283950192;
+        Tue, 02 Feb 2021 08:39:10 -0800 (PST)
+Received: from localhost ([45.137.216.202])
+        by smtp.gmail.com with ESMTPSA id g5sm22521513pfm.115.2021.02.02.08.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 08:39:09 -0800 (PST)
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v28 06/12] fs,security: Add sb_delete hook
-Date:   Tue,  2 Feb 2021 17:27:04 +0100
-Message-Id: <20210202162710.657398-7-mic@digikod.net>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210202162710.657398-1-mic@digikod.net>
-References: <20210202162710.657398-1-mic@digikod.net>
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Leo Yan <leo.yan@linaro.org>
+Subject: [PATCH v2 1/7] coresight: etm-perf: Clarify comment on perf options
+Date:   Wed,  3 Feb 2021 00:38:36 +0800
+Message-Id: <20210202163842.134734-2-leo.yan@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210202163842.134734-1-leo.yan@linaro.org>
+References: <20210202163842.134734-1-leo.yan@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+In theory, the options should be arbitrary values and are neutral for
+any ETM version; so far perf tool uses ETMv3.5/PTM ETMCR config bits
+except for register's bit definitions, also uses as options.
 
-The sb_delete security hook is called when shutting down a superblock,
-which may be useful to release kernel objects tied to the superblock's
-lifetime (e.g. inodes).
+This can introduce confusion, especially if we want to add a new option
+but the new option is not supported by ETMv3.5/PTM ETMCR.  But on the
+other hand, we cannot change options since these options are generic
+CoreSight PMU ABI.
 
-This new hook is needed by Landlock to release (ephemerally) tagged
-struct inodes.  This comes from the unprivileged nature of Landlock
-described in the next commit.
+For easier maintenance and avoid confusion, this patch refines the
+comment to clarify perf options, and gives out the background info for
+these bits are coming from ETMv3.5/PTM.  Afterwards, we should take
+these options as general knobs, and if there have any confliction with
+ETMv3.5/PTM, should consider to define saperate macros for ETMv3.5/PTM
+ETMCR config bits.
 
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: James Morris <jmorris@namei.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Serge E. Hallyn <serge@hallyn.com>
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Reviewed-by: Jann Horn <jannh@google.com>
+Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Signed-off-by: Leo Yan <leo.yan@linaro.org>
 ---
+ .../hwtracing/coresight/coresight-etm-perf.c    |  5 ++++-
+ include/linux/coresight-pmu.h                   | 17 ++++++++++++-----
+ tools/include/linux/coresight-pmu.h             | 17 ++++++++++++-----
+ 3 files changed, 28 insertions(+), 11 deletions(-)
 
-Changes since v22:
-* Add Reviewed-by: Jann Horn <jannh@google.com>
-
-Changes since v17:
-* Initial patch to replace the direct call to landlock_release_inodes()
-  (requested by James Morris).
-  https://lore.kernel.org/lkml/alpine.LRH.2.21.2005150536440.7929@namei.org/
----
- fs/super.c                    | 1 +
- include/linux/lsm_hook_defs.h | 1 +
- include/linux/lsm_hooks.h     | 2 ++
- include/linux/security.h      | 4 ++++
- security/security.c           | 5 +++++
- 5 files changed, 13 insertions(+)
-
-diff --git a/fs/super.c b/fs/super.c
-index 2c6cdea2ab2d..c3c5178cde65 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -454,6 +454,7 @@ void generic_shutdown_super(struct super_block *sb)
- 		evict_inodes(sb);
- 		/* only nonzero refcount inodes can have marks */
- 		fsnotify_sb_delete(sb);
-+		security_sb_delete(sb);
+diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+index bdc34ca449f7..465ef1aa8c82 100644
+--- a/drivers/hwtracing/coresight/coresight-etm-perf.c
++++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+@@ -27,7 +27,10 @@ static bool etm_perf_up;
+ static DEFINE_PER_CPU(struct perf_output_handle, ctx_handle);
+ static DEFINE_PER_CPU(struct coresight_device *, csdev_src);
  
- 		if (sb->s_dio_done_wq) {
- 			destroy_workqueue(sb->s_dio_done_wq);
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 7aaa753b8608..32472b3849bc 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -59,6 +59,7 @@ LSM_HOOK(int, 0, fs_context_dup, struct fs_context *fc,
- LSM_HOOK(int, -ENOPARAM, fs_context_parse_param, struct fs_context *fc,
- 	 struct fs_parameter *param)
- LSM_HOOK(int, 0, sb_alloc_security, struct super_block *sb)
-+LSM_HOOK(void, LSM_RET_VOID, sb_delete, struct super_block *sb)
- LSM_HOOK(void, LSM_RET_VOID, sb_free_security, struct super_block *sb)
- LSM_HOOK(void, LSM_RET_VOID, sb_free_mnt_opts, void *mnt_opts)
- LSM_HOOK(int, 0, sb_eat_lsm_opts, char *orig, void **mnt_opts)
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 970106d98306..e339b201f79b 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -108,6 +108,8 @@
-  *	allocated.
-  *	@sb contains the super_block structure to be modified.
-  *	Return 0 if operation was successful.
-+ * @sb_delete:
-+ *	Release objects tied to a superblock (e.g. inodes).
-  * @sb_free_security:
-  *	Deallocate and clear the sb->s_security field.
-  *	@sb contains the super_block structure to be modified.
-diff --git a/include/linux/security.h b/include/linux/security.h
-index c35ea0ffccd9..c41a94e29b62 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -288,6 +288,7 @@ void security_bprm_committed_creds(struct linux_binprm *bprm);
- int security_fs_context_dup(struct fs_context *fc, struct fs_context *src_fc);
- int security_fs_context_parse_param(struct fs_context *fc, struct fs_parameter *param);
- int security_sb_alloc(struct super_block *sb);
-+void security_sb_delete(struct super_block *sb);
- void security_sb_free(struct super_block *sb);
- void security_free_mnt_opts(void **mnt_opts);
- int security_sb_eat_lsm_opts(char *options, void **mnt_opts);
-@@ -620,6 +621,9 @@ static inline int security_sb_alloc(struct super_block *sb)
- 	return 0;
- }
+-/* ETMv3.5/PTM's ETMCR is 'config' */
++/*
++ * The PMU formats were orignally for ETMv3.5/PTM's ETMCR 'config';
++ * now take them as general formats and apply on all ETMs.
++ */
+ PMU_FORMAT_ATTR(cycacc,		"config:" __stringify(ETM_OPT_CYCACC));
+ PMU_FORMAT_ATTR(contextid,	"config:" __stringify(ETM_OPT_CTXTID));
+ PMU_FORMAT_ATTR(timestamp,	"config:" __stringify(ETM_OPT_TS));
+diff --git a/include/linux/coresight-pmu.h b/include/linux/coresight-pmu.h
+index b0e35eec6499..5dc47cfdcf07 100644
+--- a/include/linux/coresight-pmu.h
++++ b/include/linux/coresight-pmu.h
+@@ -10,11 +10,18 @@
+ #define CORESIGHT_ETM_PMU_NAME "cs_etm"
+ #define CORESIGHT_ETM_PMU_SEED  0x10
  
-+static inline void security_sb_delete(struct super_block *sb)
-+{ }
-+
- static inline void security_sb_free(struct super_block *sb)
- { }
+-/* ETMv3.5/PTM's ETMCR config bit */
+-#define ETM_OPT_CYCACC  12
+-#define ETM_OPT_CTXTID	14
+-#define ETM_OPT_TS      28
+-#define ETM_OPT_RETSTK	29
++/*
++ * Below are the definition of bit offsets for perf option, and works as
++ * arbitrary values for all ETM versions.
++ *
++ * Most of them are orignally from ETMv3.5/PTM's ETMCR config, therefore,
++ * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
++ * directly use below macros as config bits.
++ */
++#define ETM_OPT_CYCACC		12
++#define ETM_OPT_CTXTID		14
++#define ETM_OPT_TS		28
++#define ETM_OPT_RETSTK		29
  
-diff --git a/security/security.c b/security/security.c
-index 9f979d4afe6c..1b4a73b2549a 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -900,6 +900,11 @@ int security_sb_alloc(struct super_block *sb)
- 	return rc;
- }
+ /* ETMv4 CONFIGR programming bits for the ETM OPTs */
+ #define ETM4_CFG_BIT_CYCACC	4
+diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
+index b0e35eec6499..5dc47cfdcf07 100644
+--- a/tools/include/linux/coresight-pmu.h
++++ b/tools/include/linux/coresight-pmu.h
+@@ -10,11 +10,18 @@
+ #define CORESIGHT_ETM_PMU_NAME "cs_etm"
+ #define CORESIGHT_ETM_PMU_SEED  0x10
  
-+void security_sb_delete(struct super_block *sb)
-+{
-+	call_void_hook(sb_delete, sb);
-+}
-+
- void security_sb_free(struct super_block *sb)
- {
- 	call_void_hook(sb_free_security, sb);
+-/* ETMv3.5/PTM's ETMCR config bit */
+-#define ETM_OPT_CYCACC  12
+-#define ETM_OPT_CTXTID	14
+-#define ETM_OPT_TS      28
+-#define ETM_OPT_RETSTK	29
++/*
++ * Below are the definition of bit offsets for perf option, and works as
++ * arbitrary values for all ETM versions.
++ *
++ * Most of them are orignally from ETMv3.5/PTM's ETMCR config, therefore,
++ * ETMv3.5/PTM doesn't define ETMCR config bits with prefix "ETM3_" and
++ * directly use below macros as config bits.
++ */
++#define ETM_OPT_CYCACC		12
++#define ETM_OPT_CTXTID		14
++#define ETM_OPT_TS		28
++#define ETM_OPT_RETSTK		29
+ 
+ /* ETMv4 CONFIGR programming bits for the ETM OPTs */
+ #define ETM4_CFG_BIT_CYCACC	4
 -- 
-2.30.0
+2.25.1
 
