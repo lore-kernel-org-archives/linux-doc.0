@@ -2,315 +2,303 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0BDC433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3348C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 10:02:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C42BB64F58
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:54:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6DF364E30
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 10:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231284AbhBBJx4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 04:53:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231199AbhBBJw5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:52:57 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52F8C06178B;
-        Tue,  2 Feb 2021 01:51:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=CJcaYUiPjVTyvwNSOYZClHYIRGdspJ6eieqS3CCMvlU=; b=cm0oUK3vTncu8Xzm88HyQdsJ7d
-        3VOANRFzlWIY5HQ5hClw1AGsVi19TQs9dkWi8/UjSfaLs6EfaVtmX4vE6lj6LtRWKrzbsJRd36I9X
-        2m1OF6SXSEgpB/rDhGz2GgK88kcp1+RPp0KQ7X8vHCA+SulVWGENAPKnRwcMsFKdWE5XCfK2xDv8M
-        rLhhMven7ToeLaTPdPHcWXERHLAB/LJuelUbagt0zdG/uqc47kIOTXrfiai6+UqlY3WZkjxB2XcIa
-        AbndQbBMtcq0GFEhJOgLh8C92gNMmwSDS8TpN7BFcI3qFQj7BCzX25/Zb1D2F63rC1qmANBZ4nuuH
-        yvGyseFg==;
-Received: from [2001:4bb8:198:6bf4:7f38:755e:a6e0:73e9] (helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l6sLN-00F0xk-Bj; Tue, 02 Feb 2021 09:51:34 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        iommu@lists.linux-foundation.org
-Cc:     Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 7/7] media: uvcvideo: Use dma_alloc_noncontiguos API
-Date:   Tue,  2 Feb 2021 10:51:10 +0100
-Message-Id: <20210202095110.1215346-8-hch@lst.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210202095110.1215346-1-hch@lst.de>
-References: <20210202095110.1215346-1-hch@lst.de>
+        id S229849AbhBBKBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 05:01:51 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:50782 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229835AbhBBKBk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 05:01:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1612260098; x=1643796098;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=mLcP0izKWDNsLPjNz5dQdzdBpJthpi2P8wIHv6ID5/w=;
+  b=hm2MeAhprkWf7hS8QZQjxki5fBMPy2v45Yyxe7SNjKZ/JLPjV4zUfDXE
+   pEo+wROFLqr2sMC3Lv/tsRTpeOiP58YvYm3EXvyOattBdeytVVEbFKu6X
+   P7bWzxt8bt1bFdwS/Ou00urWlVsLsDWfuwU0rATjvtuC8qEabUVGOOdn6
+   I=;
+X-IronPort-AV: E=Sophos;i="5.79,394,1602547200"; 
+   d="scan'208";a="79240678"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 02 Feb 2021 10:00:48 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2a-f14f4a47.us-west-2.amazon.com (Postfix) with ESMTPS id 5B40AA2A0E;
+        Tue,  2 Feb 2021 10:00:45 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.94) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 2 Feb 2021 10:00:28 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 07/15] mm/damon: Implement a debugfs-based user space interface
+Date:   Tue, 2 Feb 2021 11:00:13 +0100
+Message-ID: <20210202100013.9764-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod69dwpS8ibuVD5baTXRwZUZAiqdgZtJUHbER=5SnMB8bw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain
+X-Originating-IP: [10.43.162.94]
+X-ClientProxiedBy: EX13D31UWA002.ant.amazon.com (10.43.160.82) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+On Mon, 1 Feb 2021 09:37:39 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-On architectures where the is no coherent caching such as ARM use the
-dma_alloc_noncontiguos API and handle manually the cache flushing using
-dma_sync_sgtable().
+> On Tue, Dec 15, 2020 at 3:59 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > DAMON is designed to be used by kernel space code such as the memory
+> > management subsystems, and therefore it provides only kernel space API.
+> 
+> Which kernel space APIs are being referred here?
 
-With this patch on the affected architectures we can measure up to 20x
-performance improvement in uvc_video_copy_data_work().
+The symbols in 'include/linux/damon.h'
 
-Eg: aarch64 with an external usb camera
+> 
+> > That said, letting the user space control DAMON could provide some
+> > benefits to them.  For example, it will allow user space to analyze
+> > their specific workloads and make their own special optimizations.
+> >
+> > For such cases, this commit implements a simple DAMON application kernel
+> > module, namely 'damon-dbgfs', which merely wraps the DAMON api and
+> > exports those to the user space via the debugfs.
+> >
+[...]
+> >
+> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> > ---
+> >  include/linux/damon.h |   3 +
+> >  mm/damon/Kconfig      |   9 ++
+> >  mm/damon/Makefile     |   1 +
+> >  mm/damon/core.c       |  45 ++++++
+> >  mm/damon/dbgfs.c      | 366 ++++++++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 424 insertions(+)
+> >  create mode 100644 mm/damon/dbgfs.c
+> >
+> > diff --git a/include/linux/damon.h b/include/linux/damon.h
+> > index 39b4d6d3ddee..f9e0d4349352 100644
+> > --- a/include/linux/damon.h
+> > +++ b/include/linux/damon.h
+> > @@ -265,9 +265,12 @@ unsigned int damon_nr_regions(struct damon_target *t);
+> >
+> >  struct damon_ctx *damon_new_ctx(enum damon_target_type type);
+> >  void damon_destroy_ctx(struct damon_ctx *ctx);
+> > +int damon_set_targets(struct damon_ctx *ctx,
+> > +               unsigned long *ids, ssize_t nr_ids);
+> >  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+> >                 unsigned long aggr_int, unsigned long regions_update_int,
+> >                 unsigned long min_nr_reg, unsigned long max_nr_reg);
+> > +int damon_nr_running_ctxs(void);
+> >
+> >  int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
+> >  int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
+> > diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
+> > index 8ae080c52950..72f1683ba0ee 100644
+> > --- a/mm/damon/Kconfig
+> > +++ b/mm/damon/Kconfig
+> > @@ -21,4 +21,13 @@ config DAMON_VADDR
+> >           This builds the default data access monitoring primitives for DAMON
+> >           that works for virtual address spaces.
+> >
+> > +config DAMON_DBGFS
+> > +       bool "DAMON debugfs interface"
+> > +       depends on DAMON_VADDR && DEBUG_FS
+> > +       help
+> > +         This builds the debugfs interface for DAMON.  The user space admins
+> > +         can use the interface for arbitrary data access monitoring.
+> > +
+> > +         If unsure, say N.
+> > +
+> >  endmenu
+> > diff --git a/mm/damon/Makefile b/mm/damon/Makefile
+> > index 6ebbd08aed67..fed4be3bace3 100644
+> > --- a/mm/damon/Makefile
+> > +++ b/mm/damon/Makefile
+> > @@ -2,3 +2,4 @@
+> >
+> >  obj-$(CONFIG_DAMON)            := core.o
+> >  obj-$(CONFIG_DAMON_VADDR)      += vaddr.o
+> > +obj-$(CONFIG_DAMON_DBGFS)      += dbgfs.o
+> > diff --git a/mm/damon/core.c b/mm/damon/core.c
+> > index 5ca9f79ccbb6..b9575a6bebff 100644
+> > --- a/mm/damon/core.c
+> > +++ b/mm/damon/core.c
+> > @@ -166,6 +166,37 @@ void damon_destroy_ctx(struct damon_ctx *ctx)
+> >         kfree(ctx);
+> >  }
+> >
+> > +/**
+> > + * damon_set_targets() - Set monitoring targets.
+> > + * @ctx:       monitoring context
+> > + * @ids:       array of target ids
+> > + * @nr_ids:    number of entries in @ids
+> > + *
+> > + * This function should not be called while the kdamond is running.
+> > + *
+> > + * Return: 0 on success, negative error code otherwise.
+> > + */
+> > +int damon_set_targets(struct damon_ctx *ctx,
+> > +                     unsigned long *ids, ssize_t nr_ids)
+> > +{
+> > +       ssize_t i;
+> > +       struct damon_target *t, *next;
+> > +
+> > +       damon_for_each_target_safe(t, next, ctx)
+> > +               damon_destroy_target(t);
+> 
+> You need to put the reference on the target before destroying.
 
-NON_CONTIGUOUS
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 67034480 : duration 33303
-FPS: 29.99
-URB: 523446/4993 uS/qty: 104.836 avg 132.532 std 13.230 min 831.094 max (uS)
-header: 76564/4993 uS/qty: 15.334 avg 15.229 std 3.438 min 186.875 max (uS)
-latency: 468945/4992 uS/qty: 93.939 avg 132.577 std 9.531 min 824.010 max (uS)
-decode: 54161/4993 uS/qty: 10.847 avg 6.313 std 1.614 min 111.458 max (uS)
-raw decode speed: 9.931 Gbits/s
-raw URB handling speed: 1.025 Gbits/s
-throughput: 16.102 Mbits/s
-URB decode CPU usage 0.162600 %
+Oops, you're right.  I will fix this in the next version.
 
-COHERENT
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 54683536 : duration 33302
-FPS: 29.99
-URB: 1478135/4000 uS/qty: 369.533 avg 390.357 std 22.968 min 3337.865 max (uS)
-header: 79761/4000 uS/qty: 19.940 avg 18.495 std 1.875 min 336.719 max (uS)
-latency: 281077/4000 uS/qty: 70.269 avg 83.102 std 5.104 min 735.000 max (uS)
-decode: 1197057/4000 uS/qty: 299.264 avg 318.080 std 1.615 min 2806.667 max (uS)
-raw decode speed: 365.470 Mbits/s
-raw URB handling speed: 295.986 Mbits/s
-throughput: 13.136 Mbits/s
-URB decode CPU usage 3.594500 %
+> 
+> > +
+> > +       for (i = 0; i < nr_ids; i++) {
+> > +               t = damon_new_target(ids[i]);
+> > +               if (!t) {
+> > +                       pr_err("Failed to alloc damon_target\n");
+> > +                       return -ENOMEM;
+> > +               }
+> > +               damon_add_target(ctx, t);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  /**
+> >   * damon_set_attrs() - Set attributes for the monitoring.
+> >   * @ctx:               monitoring context
+> > @@ -206,6 +237,20 @@ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+> >         return 0;
+> >  }
+> >
+> > +/**
+> > + * damon_nr_running_ctxs() - Return number of currently running contexts.
+> > + */
+> > +int damon_nr_running_ctxs(void)
+> > +{
+> > +       int nr_ctxs;
+> > +
+> > +       mutex_lock(&damon_lock);
+> > +       nr_ctxs = nr_running_ctxs;
+> > +       mutex_unlock(&damon_lock);
+> 
+> READ_ONCE(nr_running_ctxs) ?
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/media/usb/uvc/uvc_video.c | 79 ++++++++++++++++++++++---------
- drivers/media/usb/uvc/uvcvideo.h  |  4 +-
- 2 files changed, 60 insertions(+), 23 deletions(-)
+I'd like to keep the code simpler to read, unless this turns out to be a real
+performance bottleneck.
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index a6a441d92b9488..0a7d287dc41528 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -6,11 +6,13 @@
-  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
-  */
- 
-+#include <linux/highmem.h>
- #include <linux/kernel.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/usb.h>
-+#include <linux/usb/hcd.h>
- #include <linux/videodev2.h>
- #include <linux/vmalloc.h>
- #include <linux/wait.h>
-@@ -1097,6 +1099,26 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 	return data[0];
- }
- 
-+static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
-+{
-+	return bus_to_hcd(stream->dev->udev->bus)->self.sysdev;
-+}
-+
-+static void uvc_urb_dma_sync(struct uvc_urb *uvc_urb, bool for_device)
-+{
-+	struct device *dma_dev = dma_dev = stream_to_dmadev(uvc_urb->stream);
-+
-+	if (for_device) {
-+		dma_sync_sgtable_for_device(dma_dev, uvc_urb->sgt,
-+					    DMA_FROM_DEVICE);
-+	} else {
-+		dma_sync_sgtable_for_cpu(dma_dev, uvc_urb->sgt,
-+					 DMA_FROM_DEVICE);
-+		invalidate_kernel_vmap_range(uvc_urb->buffer,
-+					     uvc_urb->stream->urb_size);
-+	}
-+}
-+
- /*
-  * uvc_video_decode_data_work: Asynchronous memcpy processing
-  *
-@@ -1118,6 +1140,8 @@ static void uvc_video_copy_data_work(struct work_struct *work)
- 		uvc_queue_buffer_release(op->buf);
- 	}
- 
-+	uvc_urb_dma_sync(uvc_urb, true);
-+
- 	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
- 	if (ret < 0)
- 		uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
-@@ -1539,10 +1563,12 @@ static void uvc_video_complete(struct urb *urb)
- 	 * Process the URB headers, and optionally queue expensive memcpy tasks
- 	 * to be deferred to a work queue.
- 	 */
-+	uvc_urb_dma_sync(uvc_urb, false);
- 	stream->decode(uvc_urb, buf, buf_meta);
- 
- 	/* If no async work is needed, resubmit the URB immediately. */
- 	if (!uvc_urb->async_operations) {
-+		uvc_urb_dma_sync(uvc_urb, true);
- 		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
- 		if (ret < 0)
- 			uvc_printk(KERN_ERR,
-@@ -1559,24 +1585,46 @@ static void uvc_video_complete(struct urb *urb)
-  */
- static void uvc_free_urb_buffers(struct uvc_streaming *stream)
- {
-+	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
- 	struct uvc_urb *uvc_urb;
- 
- 	for_each_uvc_urb(uvc_urb, stream) {
- 		if (!uvc_urb->buffer)
- 			continue;
- 
--#ifndef CONFIG_DMA_NONCOHERENT
--		usb_free_coherent(stream->dev->udev, stream->urb_size,
--				  uvc_urb->buffer, uvc_urb->dma);
--#else
--		kfree(uvc_urb->buffer);
--#endif
-+		dma_vunmap_noncontiguous(dma_dev, uvc_urb->buffer);
-+		dma_free_noncontiguous(dma_dev, stream->urb_size, uvc_urb->sgt,
-+				       DMA_FROM_DEVICE);
-+
- 		uvc_urb->buffer = NULL;
- 	}
- 
- 	stream->urb_size = 0;
- }
- 
-+static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
-+				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
-+{
-+	struct device *dma_dev = stream_to_dmadev(stream);
-+
-+
-+	uvc_urb->sgt = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
-+					       DMA_FROM_DEVICE, gfp_flags);
-+	if (!uvc_urb->sgt)
-+		return false;
-+	uvc_urb->dma = uvc_urb->sgt->sgl->dma_address;
-+
-+	uvc_urb->buffer = dma_vmap_noncontiguous(dma_dev, stream->urb_size,
-+						 uvc_urb->sgt);
-+	if (!uvc_urb->buffer) {
-+		dma_free_noncontiguous(dma_dev, stream->urb_size,
-+				       uvc_urb->sgt, DMA_FROM_DEVICE);
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- /*
-  * Allocate transfer buffers. This function can be called with buffers
-  * already allocated when resuming from suspend, in which case it will
-@@ -1607,19 +1655,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
- 
- 	/* Retry allocations until one succeed. */
- 	for (; npackets > 1; npackets /= 2) {
-+		stream->urb_size = psize * npackets;
- 		for (i = 0; i < UVC_URBS; ++i) {
- 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
- 
--			stream->urb_size = psize * npackets;
--#ifndef CONFIG_DMA_NONCOHERENT
--			uvc_urb->buffer = usb_alloc_coherent(
--				stream->dev->udev, stream->urb_size,
--				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
--#else
--			uvc_urb->buffer =
--			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
--#endif
--			if (!uvc_urb->buffer) {
-+			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
- 				uvc_free_urb_buffers(stream);
- 				break;
- 			}
-@@ -1728,12 +1768,8 @@ static int uvc_init_video_isoc(struct uvc_streaming *stream,
- 		urb->context = uvc_urb;
- 		urb->pipe = usb_rcvisocpipe(stream->dev->udev,
- 				ep->desc.bEndpointAddress);
--#ifndef CONFIG_DMA_NONCOHERENT
- 		urb->transfer_flags = URB_ISO_ASAP | URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = uvc_urb->dma;
--#else
--		urb->transfer_flags = URB_ISO_ASAP;
--#endif
- 		urb->interval = ep->desc.bInterval;
- 		urb->transfer_buffer = uvc_urb->buffer;
- 		urb->complete = uvc_video_complete;
-@@ -1793,10 +1829,8 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
- 
- 		usb_fill_bulk_urb(urb, stream->dev->udev, pipe,	uvc_urb->buffer,
- 				  size, uvc_video_complete, uvc_urb);
--#ifndef CONFIG_DMA_NONCOHERENT
- 		urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
- 		urb->transfer_dma = uvc_urb->dma;
--#endif
- 
- 		uvc_urb->urb = urb;
- 	}
-@@ -1891,6 +1925,7 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
- 
- 	/* Submit the URBs. */
- 	for_each_uvc_urb(uvc_urb, stream) {
-+		uvc_urb_dma_sync(uvc_urb, true);
- 		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
- 		if (ret < 0) {
- 			uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a3dfacf069c44d..a386114bd22999 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -521,7 +521,8 @@ struct uvc_copy_op {
-  * @urb: the URB described by this context structure
-  * @stream: UVC streaming context
-  * @buffer: memory storage for the URB
-- * @dma: DMA coherent addressing for the urb_buffer
-+ * @dma: Allocated DMA handle
-+ * @sgt: sgt_table with the urb locations in memory
-  * @async_operations: counter to indicate the number of copy operations
-  * @copy_operations: work descriptors for asynchronous copy operations
-  * @work: work queue entry for asynchronous decode
-@@ -532,6 +533,7 @@ struct uvc_urb {
- 
- 	char *buffer;
- 	dma_addr_t dma;
-+	struct sg_table *sgt;
- 
- 	unsigned int async_operations;
- 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
--- 
-2.29.2
+> 
+> > +
+> > +       return nr_ctxs;
+> > +}
+> > +
+[...]
+> > +
+> > +static ssize_t dbgfs_target_ids_write(struct file *file,
+> > +               const char __user *buf, size_t count, loff_t *ppos)
+> > +{
+> > +       struct damon_ctx *ctx = file->private_data;
+> > +       char *kbuf, *nrs;
+> > +       unsigned long *targets;
+> > +       ssize_t nr_targets;
+> > +       ssize_t ret = count;
+> > +       int i;
+> > +       int err;
+> > +
+> > +       kbuf = user_input_str(buf, count, ppos);
+> > +       if (IS_ERR(kbuf))
+> > +               return PTR_ERR(kbuf);
+> > +
+> > +       nrs = kbuf;
+> > +
+> > +       targets = str_to_target_ids(nrs, ret, &nr_targets);
+> > +       if (!targets) {
+> > +               ret = -ENOMEM;
+> > +               goto out;
+> > +       }
+> > +
+> > +       if (targetid_is_pid(ctx)) {
+> > +               for (i = 0; i < nr_targets; i++)
+> > +                       targets[i] = (unsigned long)find_get_pid(
+> > +                                       (int)targets[i]);
+> > +       }
+> > +
+> > +       mutex_lock(&ctx->kdamond_lock);
+> > +       if (ctx->kdamond) {
+> > +               ret = -EINVAL;
+> > +               goto unlock_out;
+> 
+> You need to put_pid on the targets array.
 
+Good catch!
+
+> 
+> > +       }
+> > +
+> > +       err = damon_set_targets(ctx, targets, nr_targets);
+> > +       if (err)
+> > +               ret = err;
+> 
+> You need to handle the partial failure from damon_set_targets().
+
+My intention is to keep partial success as is.
+
+> 
+> 
+> > +unlock_out:
+> > +       mutex_unlock(&ctx->kdamond_lock);
+> > +       kfree(targets);
+> > +out:
+> > +       kfree(kbuf);
+> > +       return ret;
+> > +}
+[...]
+
+Thanks,
+SeongJae Park
