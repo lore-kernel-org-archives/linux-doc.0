@@ -2,297 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E42C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:44:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCD9C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32D1B64ED7
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:44:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0A2664F49
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbhBBOoq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 09:44:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234543AbhBBOgl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:36:41 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAAEC0617AA
-        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 06:35:11 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id y15so774246ilj.11
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:35:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=metormote-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rxbCZhrXyEpBms1PMxN/fgNiG5aPJp7Qh0x0WvUOWqc=;
-        b=cmt8oCF45ERdnS4TC62ZyvNjANtMgkD0Qz/TtoQe/hp8xWz/SVzwWjr6zxgHHb0xBV
-         mLgEijse1KP7kfkP5CRiDI3+uXjG9MMoXaOjvZ9IJElBHuyMrZ5gC+zoO6KvdAJihfTj
-         5eNGwOCBTRcEVS4cZmsmWiTdI3Nh1wr11g2+Nfia4JPwZ5MtYboowHIXA69EZW1AGfPx
-         wKFVnHHPvpH3RbSxuk1SD61vKEl1DvBe0ViDSxBMqT/utmLy7QMtan01LGwMvsHDjeHp
-         QcntjqEQXybQoRrU4z0QHaRQDqtxqRvpm0Jc83xAMG1nJVwpxCDY+uEgGZQNp83gieOz
-         SHRA==
+        id S234623AbhBBOrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 09:47:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32565 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234663AbhBBOfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:35:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612276451;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pWynqGmsBPMo2csT8/XD1/efepqrc/Xop2AsNdNMfV8=;
+        b=Fem1xK+5Q/CP+MVOoifpu/8tzY9RQYf9CqMHZZrJSpPIw8dy/ojetmcdGsAHjJgV1cLL42
+        0ZEAPwBaRRmDZ6GRFXy3Gt5mAPJhLMXbYe4GW8H/0oVo6bvmytV3+dLGLr7LiF2NcUVmQ1
+        MxGQKJ79Rpn0OiZtLkIfuZyYHb2+nEM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-YncmYM21PZarA8nBgR5N2g-1; Tue, 02 Feb 2021 09:34:09 -0500
+X-MC-Unique: YncmYM21PZarA8nBgR5N2g-1
+Received: by mail-wr1-f72.google.com with SMTP id n14so12691104wru.6
+        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:34:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rxbCZhrXyEpBms1PMxN/fgNiG5aPJp7Qh0x0WvUOWqc=;
-        b=qIxVlZZUVn6QdvvUKsXQwL8U65/pSLu1tDiDmXg5L38UU+kmtORN3yj8ZJiY+mU7IW
-         BoQG050CElxhGMmrS5QELKGxYeJfV+Osfs93Pg29BOHf5aOuVM7BxrkFkepm54N/CoCu
-         GHSfZtfeqPPj5feqJY2ppVz3OX69S65KskbXM0NgQ0kVkI06IZ+4pHcaPez8v0LbgA6R
-         alk1y6RFULfRYoUrJV7UzQRLgI+gyy96YztEZ35PtKtqNFsRCEXVcEQYRW0O9UydQFdz
-         MJP9aV6U7utyFjnNpmN/9MfM60M1JDPKt2qFoIXdL6+665GUrs8qPZARDx2C+qNgoMhn
-         nbCQ==
-X-Gm-Message-State: AOAM533r1CGD2fAPHvooChGJDAl4hhSEwbFq3BOyei83F6aJD3ssZIQj
-        olCKBikGHzbZQfkxsD95UX5k9KHfSRPiy38o6Hek5w==
-X-Google-Smtp-Source: ABdhPJwGmXCZYeeBZOUl5j9mn0aLQjPeBGQnCkb1RiZqR7Y0A1g7wCEZ3gcZxoxo5HZY985vRu0pwp5s8zOJ6Elg7mk=
-X-Received: by 2002:a05:6e02:b46:: with SMTP id f6mr7458783ilu.230.1612276510632;
- Tue, 02 Feb 2021 06:35:10 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pWynqGmsBPMo2csT8/XD1/efepqrc/Xop2AsNdNMfV8=;
+        b=BqcNLmHqp/U/UWIGbjAoyxC3NMBQzKHfmz0NSU8mur+U/aB/8YXALAdYujovncZC7C
+         PDQrnzWrNa812iCIKz139XkUbG53HPYYDvSTtFtaSzEhOt8Nx+kpahl0DrOlYBC6aOjF
+         xCZd9VbFPmPyxx5rSndxQctlSt/sc8eRMa0TPoPTbgZEA4fplAraT5auUc10ScmvVney
+         +SCl78orIK9J57im2gXowigISvHHEsdcniZNKYne0TKB4YSVX31fOOYGiIggQMauMq9t
+         sgpTEJKXtrWeV6Ta6GFu6s2JHkKaqq/bitzQ8jbnttQ6IotEhFdOdOlAj2xR2vn1S9Rf
+         +o/Q==
+X-Gm-Message-State: AOAM533LwReyKbAqRa6PENSntxxGuhqd46kw5Hcalp5f8qjYesU3wpJq
+        98U5+cHItp+JjKaY3Tt5HDN8w5I31rPak8M5nm20X2ipqmXDhM2QxIf11jhFByzLQoHyvLC9U5w
+        ahwYAJJpcXz5+1HKmErv4
+X-Received: by 2002:a5d:4806:: with SMTP id l6mr24622849wrq.389.1612276448248;
+        Tue, 02 Feb 2021 06:34:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1hCDA2xSSHkNj2aRCVD2MGe1J566UOUcjjiLZk0lXEd3kct9S6G5KO9A8n4axv2y33eEesA==
+X-Received: by 2002:a5d:4806:: with SMTP id l6mr24622831wrq.389.1612276448024;
+        Tue, 02 Feb 2021 06:34:08 -0800 (PST)
+Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
+        by smtp.gmail.com with ESMTPSA id q9sm3873912wme.18.2021.02.02.06.34.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 06:34:05 -0800 (PST)
+Date:   Tue, 2 Feb 2021 09:34:00 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Alexander Graf <graf@amazon.de>
+Cc:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+        "Jason@zx2c4.com" <Jason@zx2c4.com>,
+        "jannh@google.com" <jannh@google.com>, "w@1wt.eu" <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "ebiggers@kernel.org" <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "areber@redhat.com" <areber@redhat.com>,
+        "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>
+Subject: Re: [PATCH v4 0/2] System Generation ID driver and VMGENID backend
+Message-ID: <20210202093337-mutt-send-email-mst@kernel.org>
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <20210112074658-mutt-send-email-mst@kernel.org>
+ <9952EF0C-CD1D-4EDB-BAB8-21F72C0BF90D@amazon.com>
+ <20210127074549-mutt-send-email-mst@kernel.org>
+ <7bcd1cf3-d055-db46-95ea-5c023df2f184@amazon.de>
 MIME-Version: 1.0
-References: <20210127084140.35626-1-erik.rosen@metormote.com>
- <20210127084140.35626-2-erik.rosen@metormote.com> <20210127173255.GA144627@roeck-us.net>
- <CA+ui0HmbcQe_CD-0d+AMgx_jSuY=AG9Qx4Ab2g71kPVFrMDe_w@mail.gmail.com>
- <ee2a89f6-0f55-9328-b53d-b5893eb625db@roeck-us.net> <CA+ui0H=UC495kfZuZeg-ryPh_aSa0wFqf=hnn7oS782qFgh60A@mail.gmail.com>
- <778339a4-501c-d73f-4378-9b0c2a6a03c0@roeck-us.net>
-In-Reply-To: <778339a4-501c-d73f-4378-9b0c2a6a03c0@roeck-us.net>
-From:   Erik Rosen <erik.rosen@metormote.com>
-Date:   Tue, 2 Feb 2021 15:34:59 +0100
-Message-ID: <CA+ui0H=XW-WSThuYiY0r1-1EhGui1on0UvNYMUD+XsvA+K6ePA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Add ST STPDDC60 pmbus driver
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7bcd1cf3-d055-db46-95ea-5c023df2f184@amazon.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 1, 2021 at 10:38 PM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 2/1/21 8:48 AM, Erik Rosen wrote:
-> > Hi Guenter
-> >
-> >
-> > On Fri, Jan 29, 2021 at 4:50 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> >>
-> >> Hi Erik,
-> >>
-> >> On 1/29/21 5:07 AM, Erik Rosen wrote:
-> >> [ ... ]
-> >>>>
-> >>>>> +             break;
-> >>>>> +     case PMBUS_VOUT_OV_FAULT_LIMIT:
-> >>>>> +     case PMBUS_VOUT_UV_FAULT_LIMIT:
-> >>>>> +             ret = pmbus_read_word_data(client, page, phase, reg);
-> >>>>> +             if (ret < 0)
-> >>>>> +                     return ret;
-> >>>>> +             ret &= 0x07ff;
-> >>>>
-> >>>> This needs explanation. The BMR481 datasheet does not suggest that only
-> >>>> 11 bits are valid.
-> >>>
-> >>> Ok, I will add a clarification. These registers use LINEAR11 whereas
-> >>> LINEAR16 is expected for vout-related registers.
-> >>>
-> >> Is that the correct fix, then ? LINEAR11 means that the exponent is flexible,
-> >> while it is fixed for LINEAR16. Just assuming that the exponents always match
-> >> seems risky. Also, bit 11 in LINEAR11 is the sign bit, meaning negative limits
-> >> (which seem at least theoretically be possible) would be reported as large
-> >> positive values.
-> >
-> > The chip actually uses fixed exponents for representing all linear values and
-> > the specification explicitly states the values of the LSB for all registers.
-> > It also states that the limits can be handled as linear format when
-> > writing  _if_
-> > the exponent is the fixed value used for that limit. This means I'll have to
-> > convert all limit writes to use the expected exponent.
->
-> I understand the datasheet a bit differently. You are correct, the exponent for
-> VOUT limits is always the same (LSB=0.00390625V, exponent -8), as it should be.
-> But it also seems to me that the data format is LINEAR16, not LINEAR11.
-> The datasheet says that the vout limit values are in bit 0..15.
->
-> For other sensors, the datasheet is a bit ambiguous. I can read it as always
-> using a fixed exponent when reading, or that it expects a fixed exponent when
-> writing. It might make sense to check this with an actual chip instead of
-> guessing. In this context, it is a bit odd that the datasheet keeps talking
-> about a "System Register IOUT_EXP" without actually specifying it.
->
-> In this context, you might want to watch out for register MFR_SVID_SLOW_SR_SELECTOR.
-> Its value seems to impact the exponents used for IOUT and POUT.
->
-> Also, I am not sure about the scale of other registers. It almost seems as if
-> limit registers are LINEAR11, but actual READ_xxx registers are LINEAR16.
-> For example, READ_IOUT is supposed to be bit 15:0 with the LSB determined
-> by IOUT_EXP, but IOUT_OC_WARN_LIMIT is in bit 9:0. This would be a problem
-> if READ_IOUT does not include the exponent, since it is interpreted as
-> LINEAR11 and expects the exponent in bit 11..15. With an expected exponent
-> of -1, the reported value would always be wrong. The same might apply
-> to pretty much all READ_xxx registers (what a mess).
+On Thu, Jan 28, 2021 at 01:58:12PM +0100, Alexander Graf wrote:
+> Hey Michael!
+> 
+> On 27.01.21 13:47, Michael S. Tsirkin wrote:
+> > 
+> > On Thu, Jan 21, 2021 at 10:28:16AM +0000, Catangiu, Adrian Costin wrote:
+> > > On 12/01/2021, 14:49, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > 
+> > >      On Tue, Jan 12, 2021 at 02:15:58PM +0200, Adrian Catangiu wrote:
+> > >      > The first patch in the set implements a device driver which exposes a
+> > >      > read-only device /dev/sysgenid to userspace, which contains a
+> > >      > monotonically increasing u32 generation counter. Libraries and
+> > >      > applications are expected to open() the device, and then call read()
+> > >      > which blocks until the SysGenId changes. Following an update, read()
+> > >      > calls no longer block until the application acknowledges the new
+> > >      > SysGenId by write()ing it back to the device. Non-blocking read() calls
+> > >      > return EAGAIN when there is no new SysGenId available. Alternatively,
+> > >      > libraries can mmap() the device to get a single shared page which
+> > >      > contains the latest SysGenId at offset 0.
+> > > 
+> > >      Looking at some specifications, the gen ID might actually be located
+> > >      at an arbitrary address. How about instead of hard-coding the offset,
+> > >      we expose it e.g. in sysfs?
+> > > 
+> > > The functionality is split between SysGenID which exposes an internal u32
+> > > counter to userspace, and an (optional) VmGenID backend which drives
+> > > SysGenID generation changes based on hw vmgenid updates.
+> > > 
+> > > The hw UUID you're referring to (vmgenid) is not mmap-ed to userspace or
+> > > otherwise exposed to userspace. It is only used internally by the vmgenid
+> > > driver to find out about VM generation changes and drive the more generic
+> > > SysGenID.
+> > > 
+> > > The SysGenID u32 monotonic increasing counter is the one that is mmaped to
+> > > userspace, but it is a software counter. I don't see any value in using a dynamic
+> > > offset in the mmaped page. Offset 0 is fast and easy and most importantly it is
+> > > static so no need to dynamically calculate or find it at runtime.
+> > 
+> > Well you are burning a whole page on it, using an offset the page
+> > can be shared with other functionality.
+> 
+> Currently, the SysGenID lives is one page owned by Linux that we share out
+> to multiple user space clients. So yes, we burn a single page of the system
+> here.
+> 
+> If we put more data in that same page, what data would you put there? Random
+> other bits from other subsystems? At that point, we'd be reinventing vdso
+> all over again, no? Probably with the same problems.
+> 
+> Which gets me to the second alternative: Reuse VDSO. The problem there is
+> that the VDSO is an extremely architecture specific mechanism. Any new
+> architecture we'd want to support would need multiple layers of changes in
+> multiple layers of both kernel and libc. I'd like to avoid that if we can
+> :).
+> 
+> So that leaves us with either wasting a page per system or not having an
+> mmap() interface in the first place.
+> 
+> The reason we have the mmap() interface is that it's be easier to consume
+> for libraries, that are not hooked into the main event loop.
+> 
+> So, uh, what are you suggesting? :)
 
-I have tested all commands on a real chip and the behavior is as follows:
+I'd drop mmap at this point. I haven't seen a way to use it
+that isn't racy.
 
-All linear (both limits and READ_XXX) registers return the exponent i.e. use
-the LINEAR11 format (even the vout related ones that really should use LINEAR16
-according to the pmbus standard), so reading registers is quite straightforward.
+> 
+> Alex
+> 
+> 
+> 
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+> 
+> 
 
-I got hold of an excel-document from ST that describes the pmbus
-commands and system registers of the chip in greater detail. Unfortunately
-it has got 'STMicroelectronics Confidential' stamped all over it so I
-can't really
-share it publicly.
-
-Iout and pout data and limits are described as:
-[15:11]: Encoded/Decoded with N programmed by HC_SUPPORT bit or IOUT_EXP
-[10]: 0b0
-[9:0]: Y mantissa
-
-Other data and limits (including vout) are described as:
-[15:11]: Encoded/Decoded with N=X, LSB=XX
-[10]: Don't care (returns 0 in read access)
-[9:0]: Y; max XXX
-
-where X... are fixed values. The sign bit is always zero.
-
-You are correct in that it is possible to change the fixed exponents used for
-iout and pout by manipulating the system registers accessible via
- extended commands.
-
-However, in a footnote on the bottom of the page it says:
-(***) Number format - When Linear, data need to be formatted with N specified.
-Data sent with N different from what reported, will be decoded as if N
-is the one
-reported.
-
-I can only interpret this as that the chip expects data written to a
-linear register
-to be encoded with the same exponent as it uses when the same register is read.
-
-So the simplest way of ensuring that the correct exponent is used when
-writing to
-the chip seems to be to first read the value from the chip, extract the exponent
-and then adjust the value to use this exponent before writing it.
-
-/Erik
->
-> Thanks,
-> Guenter
->
-> > Given this, I think it's safe to assume that the exponents are
-> > constant, but I'll
-> > add a check to handle potential negative values.
-> >
-> >>
-> >>>>
-> >>>>> +             break;
-> >>>>> +     default:
-> >>>>> +             ret = -ENODATA;
-> >>>>> +             break;
-> >>>>> +     }
-> >>>>> +
-> >>>>> +     return ret;
-> >>>>> +}
-> >>>>> +
-> >>>>> +/*
-> >>>>> + * The vout under- and over-voltage limits are readonly for this chip.
-> >>>>> + */
-> >>>>
-> >>>> Not really. The BMR481 datasheet suggests that the value can be changed
-> >>>> by writing to MFR_OV_LIMIT_OFFSET and MFR_UV_LIMIT_OFFSET.
-> >>>> I am not saying that you should implement that if you don't want to,
-> >>>> but I would suggest a better (more accurate) explanation.
-> >>>
-> >>> I have looked into this a bit more and it's a bit more to it than I expected.
-> >>> The limits are actually dynamic values that will follow both commanded
-> >>> output voltage via the PMBus or SVID/AVSBus as well as current
-> >>> load (droop). To account for this I propose a mechanism to set the
-> >>
-> >> Yes, I noticed.
-> >>
-> >>> 'update' flag on selected sensors after auto-detection of limit attributes.
-> >>>
-> >>> Maybe add a function like this to pmbus_core that can be called
-> >>> after the probing is done?
-> >>>
-> >>> int pmbus_set_update(struct i2c_client *client, u8 reg)
-> >>> {
-> >>>         struct pmbus_data *data = i2c_get_clientdata(client);
-> >>>         struct pmbus_sensor *sensor;
-> >>>
-> >>>         for (sensor = data->sensors; sensor; sensor = sensor->next) {
-> >>>                 if (sensor->reg == reg) {
-> >>>                         sensor->update = true;
-> >>>                         return 0;
-> >>>                 }
-> >>>         }
-> >>>         return -ENXIO;
-> >>> }
-> >>>
-> >>
-> >> Add a boolean 'update' parameter (to be able to disable updates),
-> >> and make the function void. Also, remember that 'reg' may be repeated
-> >> on a chip with multiple pages, so you can't return after the first match.
-> >> Otherwise looks ok.
-> >
-> > Ok
-> >
-> >>
-> >>> I did also implemented writes to the limit registers via the offset
-> >>> registers but it might be
-> >>> a bit confusing to the user since the limits are set in relation to
-> >>> the current commanded
-> >>> output voltage and will change together with this. In the worst case,
-> >>> the voltage might
-> >>> change at the same time as the limit is written to, which will give
-> >>> unexpected results.
-> >>
-> >> Agreed, that can be tricky.
-> >>
-> >>> The alternative would be to just set these limits read-only. What is
-> >>> your opinion?
-> >>>
-> >>
-> >> Your call. Just add a note explaining why it is made read-only to explain
-> >> the reasoning for future readers.
-> >
-> > Ok, I'll keep the functionality and add a note in the docs.
-> >
-> >
-> >>
-> >>> Also, I found a problem in how pmbus_set_sensor() works together with
-> >>> pmbus_clear_cache()
-> >>> as used in the zl6100 and lm25066 drivers. The new value is written to
-> >>> the sensor struct _after_
-> >>> the _pmbus_write_word_data() has returned and thus after
-> >>> pmbus_clear_cache() is called.
-> >>> The effect is that all values are cleared, except the one just written
-> >>> to, which I believe defeats
-> >>> the purpose of clearing the cache in the first place.> One solution would be to write the new value to sensor->data before
-> >>> the _pmbus_write_word_data
-> >>> is called and to restore the old value in case of error.
-> >>> I can make a separate patch for this if it seems like a reasonable solution?
-> >>>
-> >>
-> >> Good catch.
-> >>
-> >> An alternate and more generic solution might be to set sensor->data to
-> >> -ENODATA after updates. After all, it seems risky to assume that the chip
-> >> returns the value that was written (I have seen it often enough in other
-> >> drivers that this is not necessarily the case). That would also mean that
-> >> it would no longer be necessary to call pmbus_clear_cache() in the zl6100
-> >> and lm25066 drivers. Impact would be that a limit read after a write would
-> >> always be sent to the chip for all drivers, but that seems minimal compared
-> >> to the gain (and presumably limit registers are not frequently updated).
-> >
-> > I agree that this is a more robust solution. I'll send a separate patch for this
-> > update. The zl6100 in fact still needs to clear the cache since a write to the
-> > fault limit also changes the value of the warning limit and vice versa. As far
-> > as I can see the usage in lm25066 can be removed however.
-> >
-> >>
-> >> Thanks,
-> >> Guenter
->
