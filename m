@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96717C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 044B8C433E9
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:42:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6912564F76
+	by mail.kernel.org (Postfix) with ESMTP id BAFDA64F7B
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 16:42:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236688AbhBBQly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 11:41:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55460 "EHLO
+        id S236554AbhBBQmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 11:42:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236646AbhBBQj6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 11:39:58 -0500
+        with ESMTP id S236742AbhBBQkB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 11:40:01 -0500
 Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B9EC0613D6
-        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 08:39:17 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id y205so14695572pfc.5
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 08:39:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C6DC061794
+        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 08:39:21 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id b145so7901696pfb.4
+        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 08:39:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CFdPZ29w2xwH6QzN+c2d/PUiDMRAiYL/DxdkhsE38Vw=;
-        b=UyL3T6EbSC1C8Q2rt6EMnLI9SICMZ0JlqENLHs+JcpsFDf/OfZtZ3OIi6App5/kPbr
-         7xRb9XxedOjpoVFhKKqG/kUIENOqa1xtP2oOKXtevFtjI8+Z3uZDuXy9uIhRyxyWD7U2
-         YLeiihRm0vya1Qvf13eKiONK+UmGnP8vD8PLyTg1jjtfiZGZOj+JtTavDcv5Kq6Geh8m
-         eZLNiGOKnNkaz1nadcI8zQ0jY6PDcCF/7hSgU2u8/mx3C1/cTdfhYeQITN5sy4H1zZXs
-         7h4zb2+uWU2IpoK7baF/dON6qtp2X0mupTBPje+u2wiuUps54+oxVKvARJsUXUTccgqN
-         iEzA==
+        bh=7AX8o2m7TaGernMBKLQ1ccQQ5curN1Db2eFCwO1KjJ4=;
+        b=WX+FutqhMS7HGLn3Gezpkj78TZZMIBbKSh+Wo/9dckqU+hMb/VJoBUNCI/6pimjGEJ
+         blensVatFns1nJGAlm4Pvu7uR21mjCDC2RtdcYQ4eWOtLDJwRPy77VCDEbnZBF6Uk9n9
+         cxyjsVR1wQlsLueZw+BTBp1hMDw+6/w2D1bcS31MOrBFgoJ+EJ5S1y5R1/4sjXm3Ulj3
+         /Cc4GmxgkQUi4lYWRl+hY7JwgFgPdYXvWvCRynmJ9d1tMzoNEzflxASNme5NRLr6BZ8P
+         dKyoFivSY5GYk0aHs9H59GmngJJa9WZu340/e396ht22NXJKdr8N9/ijlwu9OUIj9Pqk
+         M9SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CFdPZ29w2xwH6QzN+c2d/PUiDMRAiYL/DxdkhsE38Vw=;
-        b=JCthUp8n+vuMQXyr4+/i1MAhfENhgA1WtaoELtfGEhwVS9kOo+XLMvPKx+AQOgj2ts
-         3qA0Wd2lpDBK+nMObpsZXZuYJsjo2Xl0ARVXaiv79cVtn4rGzuPCQeQ2tmvbkzTLpgsf
-         FCPkSCSEcuW/+zCExjI2zTyuhplJJCE+c8GauBud0oMbtavqmblQebKS5IDdYzhk/pOw
-         rqvA5TcTAclkEjAB56kpVGiYUwD7uj2cn5o4+rZEao6rtNiZ99a0qhLkYREegFukfrCj
-         WKdGP1Rtz5qAfSJ6Dp9bGTErldeGd6YJC+eIYAXOXuMyFcm5nAfPQRpB6kshFHBM/Wlz
-         2xYg==
-X-Gm-Message-State: AOAM5331Edpd4X9XGudd1Fif6Z4bwp9csuX9P6Q9g6ns0Af3BQYgKwDz
-        NDXZ4eBvAet5fCueMvoSi6J56w==
-X-Google-Smtp-Source: ABdhPJx82MyntuaE9MkO6TG9T/KZW9O2xzn/2CIWSRhrtnmVVJ0rg72Mc73Q66LiK/rQDmU7Djgriw==
-X-Received: by 2002:a63:4f09:: with SMTP id d9mr23201993pgb.70.1612283957164;
-        Tue, 02 Feb 2021 08:39:17 -0800 (PST)
+        bh=7AX8o2m7TaGernMBKLQ1ccQQ5curN1Db2eFCwO1KjJ4=;
+        b=k8gaJQUJohLSyA88DB7c6eWXZc3s/djz+iBOot7VVVoCpJI6NVPLcXHY/DxA5Uub8V
+         KAkGjz9o1qySn1hhwV+YIlfVrrtKVpQfka8g0XYKEvF3u+tQ9C2dmFAivmvAmrtqhGUh
+         +Me/x+yuehXRpfhYTwJDzIvD9IfNb4SypcVyNORSsVk2uz+K9CSPk3uXVg76bDL3fTt+
+         gNcmHJfAU6wlOo/wyK8ypxbDezbyEwRHe03ey/Z1H8FXKaG3Q4v0p9bYqDlm/VYrQuYw
+         lGegweD254l40cW4spbLD3jeht45ze1d52SKKgAsEhOV12CR+Tuvn0k9Zz37PJx/x5pI
+         7/1w==
+X-Gm-Message-State: AOAM532tX9DGnkO/MfN16QCunoKjuZltmGQLaX+pAiDj8OgU7XMPIxa1
+        gEgNg6HMNUUwXM7HkClduVN2Ww==
+X-Google-Smtp-Source: ABdhPJxL/JZsXqjBx3k8YXfoQ4uW7lwdezlnxiczR3v27+QWWGlGQK927KHnkd2TbWPvZJiM+wFYFA==
+X-Received: by 2002:a63:db0d:: with SMTP id e13mr22753885pgg.343.1612283960549;
+        Tue, 02 Feb 2021 08:39:20 -0800 (PST)
 Received: from localhost ([45.137.216.202])
-        by smtp.gmail.com with ESMTPSA id x186sm21996440pfd.57.2021.02.02.08.39.16
+        by smtp.gmail.com with ESMTPSA id 192sm22297699pfv.209.2021.02.02.08.39.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 08:39:16 -0800 (PST)
+        Tue, 02 Feb 2021 08:39:20 -0800 (PST)
 From:   Leo Yan <leo.yan@linaro.org>
 To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -73,10 +73,10 @@ To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH v2 3/7] perf cs-etm: Fix bitmap for option
-Date:   Wed,  3 Feb 2021 00:38:38 +0800
-Message-Id: <20210202163842.134734-4-leo.yan@linaro.org>
+Cc:     Al Grant <al.grant@arm.com>, Leo Yan <leo.yan@linaro.org>
+Subject: [PATCH v2 4/7] perf cs-etm: Support PID tracing in config
+Date:   Wed,  3 Feb 2021 00:38:39 +0800
+Message-Id: <20210202163842.134734-5-leo.yan@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210202163842.134734-1-leo.yan@linaro.org>
 References: <20210202163842.134734-1-leo.yan@linaro.org>
@@ -88,68 +88,140 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-When set option with macros ETM_OPT_CTXTID and ETM_OPT_TS, it wrongly
-takes these two values (14 and 28 prespectively) as bit masks, but
-actually both are the offset for bits.  But this doesn't lead to
-further failure due to the AND logic operation will be always true for
-ETM_OPT_CTXTID / ETM_OPT_TS.
+If the kernel is running at EL2, the pid of a task is exposed via VMID
+instead of the CONTEXTID.  Add support for this in the perf tool.
 
-This patch defines new independent macros (rather than using the
-"config" bits) for requesting the "contextid" and "timestamp" for
-cs_etm_set_option().
+This patch respects user setting if user has specified any configs
+from "contextid", "contextid1" or "contextid2"; otherwise, it
+dynamically sets config based on PMU format "contextid".
 
-[leoy: Extract the change as a separate patch for easier review]
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Al Grant <al.grant@arm.com>
+Co-developed-by: Leo Yan <leo.yan@linaro.org>
 Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 Signed-off-by: Leo Yan <leo.yan@linaro.org>
 ---
- tools/perf/arch/arm/util/cs-etm.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ tools/include/linux/coresight-pmu.h |  3 ++
+ tools/perf/arch/arm/util/cs-etm.c   | 61 +++++++++++++++++++++++------
+ 2 files changed, 52 insertions(+), 12 deletions(-)
 
+diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
+index 5dc47cfdcf07..4ac5c081af93 100644
+--- a/tools/include/linux/coresight-pmu.h
++++ b/tools/include/linux/coresight-pmu.h
+@@ -20,14 +20,17 @@
+  */
+ #define ETM_OPT_CYCACC		12
+ #define ETM_OPT_CTXTID		14
++#define ETM_OPT_CTXTID2		15
+ #define ETM_OPT_TS		28
+ #define ETM_OPT_RETSTK		29
+ 
+ /* ETMv4 CONFIGR programming bits for the ETM OPTs */
+ #define ETM4_CFG_BIT_CYCACC	4
+ #define ETM4_CFG_BIT_CTXTID	6
++#define ETM4_CFG_BIT_VMID	7
+ #define ETM4_CFG_BIT_TS		11
+ #define ETM4_CFG_BIT_RETSTK	12
++#define ETM4_CFG_BIT_VMID_OPT	15
+ 
+ static inline int coresight_get_trace_id(int cpu)
+ {
 diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
-index bd446aba64f7..c25c878fd06c 100644
+index c25c878fd06c..fa6f91a7c8a1 100644
 --- a/tools/perf/arch/arm/util/cs-etm.c
 +++ b/tools/perf/arch/arm/util/cs-etm.c
-@@ -156,6 +156,10 @@ static int cs_etm_set_timestamp(struct auxtrace_record *itr,
+@@ -67,6 +67,7 @@ static int cs_etm_set_context_id(struct auxtrace_record *itr,
+ 	char path[PATH_MAX];
+ 	int err = -EINVAL;
+ 	u32 val;
++	u64 contextid;
+ 
+ 	ptr = container_of(itr, struct cs_etm_recording, itr);
+ 	cs_etm_pmu = ptr->cs_etm_pmu;
+@@ -86,25 +87,59 @@ static int cs_etm_set_context_id(struct auxtrace_record *itr,
+ 		goto out;
+ 	}
+ 
++	/* User has configured for PID tracing, respects it. */
++	contextid = evsel->core.attr.config &
++			(BIT(ETM_OPT_CTXTID) | BIT(ETM_OPT_CTXTID2));
++
+ 	/*
+-	 * TRCIDR2.CIDSIZE, bit [9-5], indicates whether contextID tracing
+-	 * is supported:
+-	 *  0b00000 Context ID tracing is not supported.
+-	 *  0b00100 Maximum of 32-bit Context ID size.
+-	 *  All other values are reserved.
++	 * If user doesn't configure the contextid format, parse PMU format and
++	 * enable PID tracing according to the "contextid" format bits:
++	 *
++	 *   If bit ETM_OPT_CTXTID is set, trace CONTEXTIDR_EL1;
++	 *   If bit ETM_OPT_CTXTID2 is set, trace CONTEXTIDR_EL2.
+ 	 */
+-	val = BMVAL(val, 5, 9);
+-	if (!val || val != 0x4) {
+-		err = -EINVAL;
+-		goto out;
++	if (!contextid)
++		contextid = perf_pmu__format_bits(&cs_etm_pmu->format,
++						  "contextid");
++
++	if (contextid & BIT(ETM_OPT_CTXTID)) {
++		/*
++		 * TRCIDR2.CIDSIZE, bit [9-5], indicates whether contextID
++		 * tracing is supported:
++		 *  0b00000 Context ID tracing is not supported.
++		 *  0b00100 Maximum of 32-bit Context ID size.
++		 *  All other values are reserved.
++		 */
++		val = BMVAL(val, 5, 9);
++		if (!val || val != 0x4) {
++			pr_err("%s: CONTEXTIDR_EL1 isn't supported\n",
++			       CORESIGHT_ETM_PMU_NAME);
++			err = -EINVAL;
++			goto out;
++		}
++	}
++
++	if (contextid & BIT(ETM_OPT_CTXTID2)) {
++		/*
++		 * TRCIDR2.VMIDOPT[30:29] != 0 and
++		 * TRCIDR2.VMIDSIZE[14:10] == 0b00100 (32bit virtual contextid)
++		 * We can't support CONTEXTIDR in VMID if the size of the
++		 * virtual context id is < 32bit.
++		 * Any value of VMIDSIZE >= 4 (i.e, > 32bit) is fine for us.
++		 */
++		if (!BMVAL(val, 29, 30) || BMVAL(val, 10, 14) < 4) {
++			pr_err("%s: CONTEXTIDR_EL2 isn't supported\n",
++			       CORESIGHT_ETM_PMU_NAME);
++			err = -EINVAL;
++			goto out;
++		}
+ 	}
+ 
+ 	/* All good, let the kernel know */
+-	evsel->core.attr.config |= (1 << ETM_OPT_CTXTID);
++	evsel->core.attr.config |= contextid;
+ 	err = 0;
+ 
+ out:
+-
  	return err;
  }
  
-+#define ETM_SET_OPT_CTXTID	(1 << 0)
-+#define ETM_SET_OPT_TS		(1 << 1)
-+#define ETM_SET_OPT_MASK	(ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
-+
- static int cs_etm_set_option(struct auxtrace_record *itr,
- 			     struct evsel *evsel, u32 option)
- {
-@@ -169,17 +173,17 @@ static int cs_etm_set_option(struct auxtrace_record *itr,
- 		    !cpu_map__has(online_cpus, i))
- 			continue;
+@@ -489,7 +524,9 @@ static u64 cs_etmv4_get_config(struct auxtrace_record *itr)
+ 		config |= BIT(ETM4_CFG_BIT_TS);
+ 	if (config_opts & BIT(ETM_OPT_RETSTK))
+ 		config |= BIT(ETM4_CFG_BIT_RETSTK);
+-
++	if (config_opts & BIT(ETM_OPT_CTXTID2))
++		config |= BIT(ETM4_CFG_BIT_VMID) |
++			  BIT(ETM4_CFG_BIT_VMID_OPT);
+ 	return config;
+ }
  
--		if (option & ETM_OPT_CTXTID) {
-+		if (option & ETM_SET_OPT_CTXTID) {
- 			err = cs_etm_set_context_id(itr, evsel, i);
- 			if (err)
- 				goto out;
- 		}
--		if (option & ETM_OPT_TS) {
-+		if (option & ETM_SET_OPT_TS) {
- 			err = cs_etm_set_timestamp(itr, evsel, i);
- 			if (err)
- 				goto out;
- 		}
--		if (option & ~(ETM_OPT_CTXTID | ETM_OPT_TS))
-+		if (option & ~(ETM_SET_OPT_MASK))
- 			/* Nothing else is currently supported */
- 			goto out;
- 	}
-@@ -406,7 +410,7 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
- 		evsel__set_sample_bit(cs_etm_evsel, CPU);
- 
- 		err = cs_etm_set_option(itr, cs_etm_evsel,
--					ETM_OPT_CTXTID | ETM_OPT_TS);
-+					ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS);
- 		if (err)
- 			goto out;
- 	}
 -- 
 2.25.1
 
