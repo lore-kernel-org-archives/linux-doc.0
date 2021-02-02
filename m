@@ -5,28 +5,28 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF662C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 23:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65765C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 23:31:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E1E064F60
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 23:25:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21F9464E40
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 23:31:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbhBBXZu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 18:25:50 -0500
-Received: from foss.arm.com ([217.140.110.172]:59928 "EHLO foss.arm.com"
+        id S233383AbhBBXau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 18:30:50 -0500
+Received: from foss.arm.com ([217.140.110.172]:59976 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232878AbhBBXZt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Feb 2021 18:25:49 -0500
+        id S232201AbhBBXau (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Feb 2021 18:30:50 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CB3731B;
-        Tue,  2 Feb 2021 15:25:03 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3556631B;
+        Tue,  2 Feb 2021 15:30:04 -0800 (PST)
 Received: from [10.57.35.108] (unknown [10.57.35.108])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE9093F694;
-        Tue,  2 Feb 2021 15:25:00 -0800 (PST)
-Subject: Re: [PATCH v2 7/7] Documentation: coresight: Add PID tracing
- description
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4358D3F694;
+        Tue,  2 Feb 2021 15:30:00 -0800 (PST)
+Subject: Re: [PATCH v2 6/7] perf cs-etm: Detect pid in VMID for kernel running
+ at EL2
 To:     Leo Yan <leo.yan@linaro.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -44,15 +44,16 @@ To:     Leo Yan <leo.yan@linaro.org>,
         Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Cc:     Al Grant <al.grant@arm.com>
 References: <20210202163842.134734-1-leo.yan@linaro.org>
- <20210202163842.134734-8-leo.yan@linaro.org>
+ <20210202163842.134734-7-leo.yan@linaro.org>
 From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <451d58bd-e79d-5fb4-a67f-962da02a3937@arm.com>
-Date:   Tue, 2 Feb 2021 23:24:48 +0000
+Message-ID: <f5158216-c3d1-10bb-02eb-00ff9a78f617@arm.com>
+Date:   Tue, 2 Feb 2021 23:29:47 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210202163842.134734-8-leo.yan@linaro.org>
+In-Reply-To: <20210202163842.134734-7-leo.yan@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -61,71 +62,75 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 2/2/21 4:38 PM, Leo Yan wrote:
-> After support the PID tracing for the kernel in EL1 or EL2, the usage
-> gets more complicated.
+> From: Suzuki K Poulose <suzuki.poulose@arm.com>
 > 
-> This patch gives description for the PMU formats of contextID configs,
-> this can help users to understand how to control the knobs for PID
-> tracing when the kernel is in different ELs.
+> The PID of the task could be traced as VMID when the kernel is running
+> at EL2.  Teach the decoder to look for VMID when the CONTEXTIDR (Arm32)
+> or CONTEXTIDR_EL1 (Arm64) is invalid but we have a valid VMID.
 > 
+> Cc: Mike Leach <mike.leach@linaro.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Al Grant <al.grant@arm.com>
+> Co-developed-by: Leo Yan <leo.yan@linaro.org>
+> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 > Signed-off-by: Leo Yan <leo.yan@linaro.org>
 > ---
->   Documentation/trace/coresight/coresight.rst | 37 +++++++++++++++++++++
->   1 file changed, 37 insertions(+)
+>   .../perf/util/cs-etm-decoder/cs-etm-decoder.c | 32 ++++++++++++++++---
+>   1 file changed, 28 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> index 0b73acb44efa..771558f22938 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -512,6 +512,43 @@ The --itrace option controls the type and frequency of synthesized events
->   Note that only 64-bit programs are currently supported - further work is
->   required to support instruction decode of 32-bit Arm programs.
+> diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> index 3f4bc4050477..fb2a163ff74e 100644
+> --- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> +++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> @@ -6,6 +6,7 @@
+>    * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
+>    */
 >   
-> +2.2) Tracing PID
-> +
-> +When the kernel is running at EL2 with Virtualization Host Extensions (VHE),
-> +perf records CONTEXTIDR_EL2 in the trace data and can be used as PID when
-> +decoding; and if the kernel is running at EL1 with nVHE, CONTEXTIDR_EL1 is
-> +traced for PID.
-> +
-> +To support tracing PID for the kernel runs at different exception levels,
-> +the PMU formats are defined as follow:
-> +
-> +  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-> +                kernel is running at EL1, "contextid1" enables the PID
-> +                tracing; when the kernel is running at EL2, this enables
-> +                tracing the PID of guest applications.
-> +
-> +  "contextid2": Only usable when the kernel is running at EL2.  When
-> +                selected, enables PID tracing on EL2 kernel.
-> +
-> +  "contextid":  Will be an alias for the option that enables PID
-> +                tracing.  I.e,
-> +                contextid == contextid1, on EL1 kernel.
-> +                contextid == contextid2, on EL2 kernel.
-> +
-> +The perf tool automatically sets corresponding bit for the "contextid" config,
-> +therefore, the user doesn't have to bother which EL the kernel is running.
-> +
-> +  i.e, perf record -e cs_etm/contextid/u -- uname
-> +    or perf record -e cs_etm//u -- uname
-> +
-> +will always do the "PID" tracing, independent of the kernel EL.
-> +
-> +When the kernel is running at EL2 with VHE, if user wants to trace both the
-> +PIDs for both host and guest, the two configs "contextid1" and "contextid2"
-> +can be set at the same time:
-> +
-> +  perf record -e cs_etm/contextid1,contextid2/u -- uname
-> +
+> +#include <linux/coresight-pmu.h>
+>   #include <linux/err.h>
+>   #include <linux/list.h>
+>   #include <linux/zalloc.h>
+> @@ -491,13 +492,36 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+>   			const ocsd_generic_trace_elem *elem,
+>   			const uint8_t trace_chan_id)
+>   {
+> -	pid_t tid;
+> +	pid_t tid = -1;
+> +	u64 pid_fmt;
+> +	int ret;
+>   
+> -	/* Ignore PE_CONTEXT packets that don't have a valid contextID */
+> -	if (!elem->context.ctxt_id_valid)
+> +	ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
+> +	if (ret)
 
-To make this case clear, we could change the command from uname to
-something like:
+Is this something we can cache in this function ? e.g,
+	static u64 pid_fmt;
 
-     perf record -e cs_etm/contextid1,contextid2/u -- vm
+	if (!pid_pfmt)
+		ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
 
-Otherwise looks good to me.
+As all the ETMs will be running at the same exception level.
 
-With the above fixed,
+> +		return OCSD_RESP_FATAL_SYS_ERR;
+> +
+> +	/*
+> +	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
+> +	 * If the kernel is running at EL2, the PID is traced in CONTEXTIDR_EL2
+> +	 * as VMID, Bit ETM_OPT_CTXTID2 is set in this case.
+> +	 */
+> +	switch (pid_fmt) {
+> +	case BIT(ETM_OPT_CTXTID):
+> +		if (elem->context.ctxt_id_valid)
+> +			tid = elem->context.context_id;
+> +		break;
+> +	case BIT(ETM_OPT_CTXTID2) | BIT(ETM_OPT_CTXTID):
+
+I would rather fix the cs_etm__get_pid_fmt() to return either of these
+as commented. i.e, ETM_OPT_CTXTID or ETM_OPT_CTXTID2. Thus we don't
+need the this case.
+
+
+With the above two addressed:
 
 Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
