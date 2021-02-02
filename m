@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA14C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8094DC433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E23D364EA1
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:20:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B8EA64ECA
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbhBBJT4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 04:19:56 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:3310 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232339AbhBBJSv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:18:51 -0500
+        id S229631AbhBBJpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 04:45:00 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:40603 "EHLO
+        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229632AbhBBJnk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:43:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1612257529; x=1643793529;
+  t=1612259018; x=1643795018;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    mime-version;
-  bh=URXkxdXhgVTqMxYcWrdsreq+L2psQdcrvcPs2OISeNM=;
-  b=DvWw8kkC/OB24XAg5Eu2ZqZ/IoP0j8+6NxULrdx4RPZFvag/4X0nd28P
-   sRnlFcRSnpxLaK7mutJXiqfKfhSQrAgEuODVNxcCJYj/Jckdu0Uv0Ea0I
-   WlhlOXqWP6XKNEPG+2nGrwRBBXg+nCP+n1J/l7YfpmuACMu/7MF+QUsaz
-   c=;
+  bh=5iWY4HJnwN3LSwYQfeTHsayARu02XJfx0fqQlr0TWJk=;
+  b=mMvsRIcAfqU9Np/VzHvuV0ngjhiRW3X6IsEcWJF3+wRAvclDH7dzUxqZ
+   UqDnlaJZPekLn5NKnf2MIq0ZbNMi903/tAPKa5VlMrWeWvGhblASRfl2T
+   mJtz9eLU36Y1X75ykcZjLCbdl3fRKvPCCsTTvUmzm94pQO+wjj1IIAML3
+   M=;
 X-IronPort-AV: E=Sophos;i="5.79,394,1602547200"; 
-   d="scan'208";a="79232381"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 02 Feb 2021 09:17:50 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id D9C89A2256;
-        Tue,  2 Feb 2021 09:17:38 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.146) by
+   d="scan'208";a="108048878"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-2b-baacba05.us-west-2.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 02 Feb 2021 09:40:21 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+        by email-inbound-relay-2b-baacba05.us-west-2.amazon.com (Postfix) with ESMTPS id 82434A06B0;
+        Tue,  2 Feb 2021 09:40:10 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.32) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 2 Feb 2021 09:17:21 +0000
+ id 15.0.1497.2; Tue, 2 Feb 2021 09:39:52 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     Shakeel Butt <shakeelb@google.com>
 CC:     SeongJae Park <sjpark@amazon.com>,
@@ -72,236 +72,227 @@ CC:     SeongJae Park <sjpark@amazon.com>,
         Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
         <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
         <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v23 02/15] mm/damon/core: Implement region-based sampling
-Date:   Tue, 2 Feb 2021 10:17:05 +0100
-Message-ID: <20210202091705.812-1-sjpark@amazon.com>
+Subject: Re: [PATCH v23 03/15] mm/damon: Adaptively adjust regions
+Date:   Tue, 2 Feb 2021 10:39:37 +0100
+Message-ID: <20210202093937.5411-1-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CALvZod72UxP4tmrZSrDgUJrDpWM67v=MyB8CEWhy0Osgm6O+Ww@mail.gmail.com>
+In-Reply-To: <CALvZod4xsjCjokKeEfoBQt0A2sbs2z58ChArDsaMeAjfu10+Qg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.43.161.146]
-X-ClientProxiedBy: EX13D10UWA004.ant.amazon.com (10.43.160.64) To
+X-Originating-IP: [10.43.162.32]
+X-ClientProxiedBy: EX13D18UWC001.ant.amazon.com (10.43.162.105) To
  EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 1 Feb 2021 09:37:29 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+On Mon, 1 Feb 2021 09:37:33 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-> On Tue, Dec 15, 2020 at 3:56 AM SeongJae Park <sjpark@amazon.com> wrote:
+> On Tue, Dec 15, 2020 at 3:57 AM SeongJae Park <sjpark@amazon.com> wrote:
 > >
 > > From: SeongJae Park <sjpark@amazon.de>
 > >
-> > To avoid the unbounded increase of the overhead, DAMON groups adjacent
-> > pages that assumed to have the same access frequencies into a region.
-> 
-> 'that are assumed'
-
-Good eye!
-
-> 
-> > As long as the assumption (pages in a region have the same access
-> > frequencies) is kept, only one page in the region is required to be
-> > checked.  Thus, for each ``sampling interval``,
+> > Even somehow the initial monitoring target regions are well constructed
+> > to fulfill the assumption (pages in same region have similar access
+> > frequencies), the data access pattern can be dynamically changed.  This
+> > will result in low monitoring quality.  To keep the assumption as much
+> > as possible, DAMON adaptively merges and splits each region based on
+> > their access frequency.
 > >
-> >  1. the 'prepare_access_checks' primitive picks one page in each region,
-> >  2. waits for one ``sampling interval``,
-> >  3. checks whether the page is accessed meanwhile, and
-> >  4. increases the access frequency of the region if so.
+> > For each ``aggregation interval``, it compares the access frequencies of
+> > adjacent regions and merges those if the frequency difference is small.
+> > Then, after it reports and clears the aggregated access frequency of
+> > each region, it splits each region into two or three regions if the
+> > total number of regions will not exceed the user-specified maximum
+> > number of regions after the split.
 > 
-> I think you meant increasing the access 'count' or something.
-> Increasing the access frequency somewhat conveys that the sampling
-> interval is being decreased.
+> Should there be any concerns regarding the number of regions
+> oscillating even when the access pattern of the application is not
+> changing? Does the system converge to equilibrium state or does it not
+> matter?
 
-You're right, I will reword this in the next version.
+DAMON will continue splitting regions, but all the changes will be reverted by
+merging.  Because callbacks are called after merging finished, this would not
+matter.
 
 > 
 > >
-> > Therefore, the monitoring overhead is controllable by adjusting the
-> > number of regions.  DAMON allows both the underlying primitives and user
-> > callbacks adjust regions for the trade-off.  In other words, this commit
-> 
-> 'callbacks to adjust'
-
-Nice catch!
-
-> 
-> 
-> > makes DAMON to use not only time-based sampling but also space-based
-> > sampling.
-> >
-> > This scheme, however, cannot preserve the quality of the output if the
-> > assumption is not guaranteed.  Next commit will address this problem.
-> >
-> > Another problem of this region abstraction is additional memory space
-> > overhead for the regions metadata.  For example, suppose page
-> > granularity monitoring that doesn't want to know fine-grained access
-> > frequency but only if each page accessed or not.
-> 
-> You mean when the sampling interval is equal to the aggregation interval, right?
-
-Right, that would be a straightforward way to get the information with region
-abstraction.
-
-> 
-> > Then, we can do that
-> > by directly resetting and reading the PG_Idle flags and/or the PTE
-> > Accessed bits.  The metadata for the region abstraction is only burden
-> > in the case.  For the reason, this commit makes DAMON to support the
-> > user-defined arbitrary target, which could be stored in a void pointer
-> > of the monitoring context with specific target type.
-> 
-> Sorry I didn't follow. How does sampling interval equal to aggregation
-> interval require user-defined arbitrary targets?
-
-So, setting sampling interval equal to aggregation interval is a
-straightforward way to get the if-accessed-only information with the
-region-based sampling.  However, this will waste memory with region metadata
-(observed accesses counter).  The wastage becomes much worse if we do
-page-granularity monitoring, because the region metadata for start address and
-end address of the regions would not necessary.
-
-Someone can implement and use monitoring primitives making no such waste by
-using thir own abstraction rather than the regions abstraction (and therefore
-no regions metadata).  To allow that, we make the regions abstraction to be
-used only when the context is configured for special target type
-(DAMON_REGION_SAMPLING_TARGET) and allow users to use their own arbitrary
-abstraction with the arbitrary target type.
-
-An RFC patchset for an example implementation of the arbitrary target type is
-available:
-https://lore.kernel.org/linux-mm/20201216094221.11898-1-sjpark@amazon.com/
-
-> 
+> > In this way, DAMON provides its best-effort quality and minimal overhead
+> > while keeping the upper-bound overhead that users set.
 > >
 > > Signed-off-by: SeongJae Park <sjpark@amazon.de>
 > > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 > > ---
-> >  include/linux/damon.h | 109 ++++++++++++++++++++++++++++++--
-> >  mm/damon/core.c       | 142 +++++++++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 243 insertions(+), 8 deletions(-)
+> >  include/linux/damon.h |  41 +++++---
+> >  mm/damon/core.c       | 220 ++++++++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 240 insertions(+), 21 deletions(-)
 > >
 > > diff --git a/include/linux/damon.h b/include/linux/damon.h
-> > index 387fa4399fc8..7d4685adc8a9 100644
+> > index 7d4685adc8a9..f446f8433599 100644
 > > --- a/include/linux/damon.h
 > > +++ b/include/linux/damon.h
-> > @@ -12,6 +12,48 @@
+> > @@ -12,6 +12,9 @@
 > >  #include <linux/time64.h>
 > >  #include <linux/types.h>
 > >
-> > +/**
-> > + * struct damon_addr_range - Represents an address region of [@start, @end).
-> > + * @start:     Start address of the region (inclusive).
-> > + * @end:       End address of the region (exclusive).
-> > + */
-> > +struct damon_addr_range {
-> > +       unsigned long start;
-> > +       unsigned long end;
-> > +};
+> > +/* Minimal region size.  Every damon_region is aligned by this. */
+> > +#define DAMON_MIN_REGION       PAGE_SIZE
 > > +
-> > +/**
-> > + * struct damon_region - Represents a monitoring target region.
-> > + * @ar:                        The address range of the region.
-> > + * @sampling_addr:     Address of the sample for the next access check.
-> > + * @nr_accesses:       Access frequency of this region.
-> > + * @list:              List head for siblings.
-> > + */
-> > +struct damon_region {
-> > +       struct damon_addr_range ar;
-> > +       unsigned long sampling_addr;
-> > +       unsigned int nr_accesses;
-> > +       struct list_head list;
-> > +};
-> > +
-> > +/**
-> > + * struct damon_target - Represents a monitoring target.
-> > + * @id:                        Unique identifier for this target.
-> > + * @regions_list:      Head of the monitoring target regions of this target.
-> > + * @list:              List head for siblings.
-> > + *
-> > + * Each monitoring context could have multiple targets.  For example, a context
-> > + * for virtual memory address spaces could have multiple target processes.  The
-> > + * @id of each target should be unique among the targets of the context.  For
-> > + * example, in the virtual address monitoring context, it could be a pidfd or
-> > + * an address of an mm_struct.
-> > + */
-> > +struct damon_target {
-> > +       unsigned long id;
-> > +       struct list_head regions_list;
-> > +       struct list_head list;
-> > +};
-> > +
-> >  struct damon_ctx;
-> >
 > >  /**
-> > @@ -36,7 +78,8 @@ struct damon_ctx;
-> >   *
-> >   * @init_target_regions should construct proper monitoring target regions and
-> >   * link those to the DAMON context struct.  The regions should be defined by
-> > - * user and saved in @damon_ctx.target.
-> > + * user and saved in @damon_ctx.arbitrary_target if @damon_ctx.target_type is
-> > + * &DAMON_ARBITRARY_TARGET.  Otherwise, &struct damon_region should be used.
-> >   * @update_target_regions should update the monitoring target regions for
-> >   * current status.
-> >   * @prepare_access_checks should manipulate the monitoring regions to be
-> > @@ -46,7 +89,8 @@ struct damon_ctx;
+> >   * struct damon_addr_range - Represents an address region of [@start, @end).
+> >   * @start:     Start address of the region (inclusive).
+> > @@ -86,6 +89,8 @@ struct damon_ctx;
+> >   * prepared for the next access check.
+> >   * @check_accesses should check the accesses to each region that made after the
+> >   * last preparation and update the number of observed accesses of each region.
+> > + * It should also return max number of observed accesses that made as a result
+> > + * of its update.
+> 
+> Why?
+
+To get the max access count without additional iteration of regions.  The count
+will be used to calculate merge/split threshold.  I will add this explanation
+in the next version.
+
+The additional iteration would not be a real performance bottleneck for usual
+case, so I we could make this optimization later.  However, because making such
+optimization with callback interface would cause some backward compatibility
+issue, I'd like to do this now.
+
+> 
 > >   * @reset_aggregated should reset the access monitoring results that aggregated
 > >   * by @check_accesses.
 > >   * @target_valid should check whether the target is still valid for the
-> > - * monitoring.
-> > + * monitoring.  It receives &damon_ctx.arbitrary_target or &struct damon_target
-> > + * pointer depends on &damon_ctx.target_type.
-> >   * @cleanup is called from @kdamond just before its termination.  After this
-> >   * call, only @kdamond_lock and @kdamond will be touched.
-> >   */
-> > @@ -91,6 +135,17 @@ struct damon_callback {
-> >         int (*before_terminate)(struct damon_ctx *context);
-> >  };
+[...]
 > >
-> > +/**
-> > + * enum damon_target_type - Represents the type of the monitoring target.
-> > + *
-> > + * @DAMON_REGION_SAMPLING_TARGET:      Region based sampling target.
-> > + * @DAMON_ARBITRARY_TARGET:            User-defined arbitrary type target.
-> > + */
-> > +enum damon_target_type {
-> > +       DAMON_REGION_SAMPLING_TARGET,
-> > +       DAMON_ARBITRARY_TARGET,
+> > +unsigned int damon_nr_regions(struct damon_target *t)
+> > +{
+> > +       struct damon_region *r;
+> > +       unsigned int nr_regions = 0;
+> > +
+> > +       damon_for_each_region(r, t)
+> > +               nr_regions++;
 > 
-> I would suggest removing the arbitrary target in this pathset. This
-> patchset is only adding the region sampling target, so no need to add
-> the arbitrary target here.
+> Why not just add the region_count filed in damon_target?
 
-I think arbitrary targt type is necessary for above mentioned case.  Also, this
-makes backward compatible for the previous patch.  However, as this patchset
-doesn't introduce the real use of the arbitrary target type, I think it's also
-ok to introduce this later.  So I will drop this as you suggested in the next
-version.
+Just to make the code simpler.  We can easily optimize in the way if this turns
+out to be a real performance bottleneck.
 
+> 
+> > +
+> > +       return nr_regions;
+> > +}
+> > +
+> >  struct damon_ctx *damon_new_ctx(enum damon_target_type type)
+> >  {
+> >         struct damon_ctx *ctx;
+> > @@ -128,8 +143,12 @@ struct damon_ctx *damon_new_ctx(enum damon_target_type type)
+> >         mutex_init(&ctx->kdamond_lock);
+> >
+> >         ctx->target_type = type;
+> > -       if (type != DAMON_ARBITRARY_TARGET)
+> > -               INIT_LIST_HEAD(&ctx->region_targets);
+> > +       if (type != DAMON_ARBITRARY_TARGET) {
+> > +               ctx->min_nr_regions = 10;
+> > +               ctx->max_nr_regions = 1000;
+> 
+> IMO these settings/heuristics should be part of the virtual address
+> space monitor primitives and not be in the core monitor.
+
+These are just default values.  For the adpative regions adjustment, I think we
+agreed on adding it in the core for now.
+
+> 
+> > +
+> > +               INIT_LIST_HEAD(&ctx->adaptive_targets);
+> > +       }
+> >
+> >         return ctx;
+> >  }
 [...]
 > > +
 > > +/*
-> > + * Add a region between two other regions
+> > + * Split every target region into randomly-sized small regions
+> > + *
+> > + * This function splits every target region into random-sized small regions if
+> > + * current total number of the regions is equal or smaller than half of the
+> > + * user-specified maximum number of regions.  This is for maximizing the
+> > + * monitoring accuracy under the dynamically changeable access patterns.  If a
+> > + * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
+> > + * it.
 > > + */
-> > +inline void damon_insert_region(struct damon_region *r,
-> > +               struct damon_region *prev, struct damon_region *next)
+> > +static void kdamond_split_regions(struct damon_ctx *ctx)
 > > +{
-> > +       __list_add(&r->list, &prev->list, &next->list);
-> > +}
+> > +       struct damon_target *t;
+> > +       unsigned int nr_regions = 0;
+> > +       static unsigned int last_nr_regions;
+> > +       int nr_subregions = 2;
 > > +
-> > +void damon_add_region(struct damon_region *r, struct damon_target *t)
-> > +{
-> > +       list_add_tail(&r->list, &t->regions_list);
-> > +}
+> > +       damon_for_each_target(t, ctx)
+> > +               nr_regions += damon_nr_regions(t);
 > > +
+> > +       if (nr_regions > ctx->max_nr_regions / 2)
+> > +               return;
 > 
-> I don't see the benefit of these one line functions at least the following two.
+> Shouldn't the limits on region be per-target instead of for the whole context?
 
-We might want to use different data structures such as rbtree for regions
-later.  So I want to make the programming interface independent of the data
-structure.  This wrappers would help that.
+I think this makes the monitoring overhead upperbound setting simpler.  If we
+need to set per-target monitoring upperbound, we can use multiple contexts for
+each target.
 
-[...]
+> 
+> > +
+> > +       /* Maybe the middle of the region has different access frequency */
+> > +       if (last_nr_regions == nr_regions &&
+> > +                       nr_regions < ctx->max_nr_regions / 3)
+> > +               nr_subregions = 3;
+> > +
+> > +       damon_for_each_target(t, ctx)
+> > +               damon_split_regions_of(ctx, t, nr_subregions);
+> > +
+> > +       last_nr_regions = nr_regions;
+> > +}
+> > +
+> >  /*
+> >   * Check whether it is time to check and apply the target monitoring regions
+> >   *
+> > @@ -391,6 +588,8 @@ static int kdamond_fn(void *data)
+> >         struct damon_ctx *ctx = (struct damon_ctx *)data;
+> >         struct damon_target *t;
+> >         struct damon_region *r, *next;
+> > +       unsigned int max_nr_accesses = 0;
+> > +       unsigned long sz_limit = 0;
+> >
+> >         pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
+> >
+> > @@ -399,6 +598,8 @@ static int kdamond_fn(void *data)
+> >         if (ctx->callback.before_start && ctx->callback.before_start(ctx))
+> >                 set_kdamond_stop(ctx);
+> >
+> > +       sz_limit = damon_region_sz_limit(ctx);
+> > +
+> >         while (!kdamond_need_stop(ctx)) {
+> >                 if (ctx->primitive.prepare_access_checks)
+> >                         ctx->primitive.prepare_access_checks(ctx);
+> > @@ -409,14 +610,20 @@ static int kdamond_fn(void *data)
+> >                 usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
+> >
+> >                 if (ctx->primitive.check_accesses)
+> > -                       ctx->primitive.check_accesses(ctx);
+> > +                       max_nr_accesses = ctx->primitive.check_accesses(ctx);
+> >
+> >                 if (kdamond_aggregate_interval_passed(ctx)) {
+> > +                       if (ctx->target_type != DAMON_ARBITRARY_TARGET)
+> > +                               kdamond_merge_regions(ctx,
+> > +                                               max_nr_accesses / 10,
+> 
+> What's the reason behind this 10?
+
+It came from my gut feeling and it is still there because it worked well with
+my test workloads.  I think we could change that or allow users adjustable if
+problematic case is found later.
+
 
 Thanks,
 SeongJae Park
+[...]
