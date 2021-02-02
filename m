@@ -2,194 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCD9C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64863C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:11:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0A2664F49
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 14:48:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FB3964ED7
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234623AbhBBOrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 09:47:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32565 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234663AbhBBOfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 09:35:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612276451;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pWynqGmsBPMo2csT8/XD1/efepqrc/Xop2AsNdNMfV8=;
-        b=Fem1xK+5Q/CP+MVOoifpu/8tzY9RQYf9CqMHZZrJSpPIw8dy/ojetmcdGsAHjJgV1cLL42
-        0ZEAPwBaRRmDZ6GRFXy3Gt5mAPJhLMXbYe4GW8H/0oVo6bvmytV3+dLGLr7LiF2NcUVmQ1
-        MxGQKJ79Rpn0OiZtLkIfuZyYHb2+nEM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-YncmYM21PZarA8nBgR5N2g-1; Tue, 02 Feb 2021 09:34:09 -0500
-X-MC-Unique: YncmYM21PZarA8nBgR5N2g-1
-Received: by mail-wr1-f72.google.com with SMTP id n14so12691104wru.6
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 06:34:09 -0800 (PST)
+        id S234992AbhBBPKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 10:10:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234943AbhBBPIR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 10:08:17 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D9DC061573
+        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 07:07:37 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id f8so1107992ion.4
+        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 07:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qSaBqeixyLoPS7VQTztlKi6qFU0Qbrugp50S56jr5mo=;
+        b=qo7wdufOKgjOWexMGi1hjFJluj4S5JVNPRIcPOazUZET4YgNCdnnmfjDt7rOD69L9r
+         Ah24o+deXPTmY5JRsgorml/Jj2mGs5Pl09/VAA8d7gurp3QJra6Vm7WTiAAZY5HyRsvt
+         2TdIWnUF3/ppKAP1XrMqSMl/IFmUiLgl2wT+Yd3b+TEVHoL+eNWr36VbaSDeTO99HSu1
+         7NSLf8Eo0A237Bne/JYdDAYiLAFNjwQTY7iWjqVbwmlEyjXVCJWp+EpXKDRkSdSy5LoE
+         wqziZLeuJQx0gU9WXfBCqQjBKGyStmWHUzy2yQfB+SIfx8YxhjIEJsqVikiCGgDy8EF0
+         oUuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pWynqGmsBPMo2csT8/XD1/efepqrc/Xop2AsNdNMfV8=;
-        b=BqcNLmHqp/U/UWIGbjAoyxC3NMBQzKHfmz0NSU8mur+U/aB/8YXALAdYujovncZC7C
-         PDQrnzWrNa812iCIKz139XkUbG53HPYYDvSTtFtaSzEhOt8Nx+kpahl0DrOlYBC6aOjF
-         xCZd9VbFPmPyxx5rSndxQctlSt/sc8eRMa0TPoPTbgZEA4fplAraT5auUc10ScmvVney
-         +SCl78orIK9J57im2gXowigISvHHEsdcniZNKYne0TKB4YSVX31fOOYGiIggQMauMq9t
-         sgpTEJKXtrWeV6Ta6GFu6s2JHkKaqq/bitzQ8jbnttQ6IotEhFdOdOlAj2xR2vn1S9Rf
-         +o/Q==
-X-Gm-Message-State: AOAM533LwReyKbAqRa6PENSntxxGuhqd46kw5Hcalp5f8qjYesU3wpJq
-        98U5+cHItp+JjKaY3Tt5HDN8w5I31rPak8M5nm20X2ipqmXDhM2QxIf11jhFByzLQoHyvLC9U5w
-        ahwYAJJpcXz5+1HKmErv4
-X-Received: by 2002:a5d:4806:: with SMTP id l6mr24622849wrq.389.1612276448248;
-        Tue, 02 Feb 2021 06:34:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx1hCDA2xSSHkNj2aRCVD2MGe1J566UOUcjjiLZk0lXEd3kct9S6G5KO9A8n4axv2y33eEesA==
-X-Received: by 2002:a5d:4806:: with SMTP id l6mr24622831wrq.389.1612276448024;
-        Tue, 02 Feb 2021 06:34:08 -0800 (PST)
-Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
-        by smtp.gmail.com with ESMTPSA id q9sm3873912wme.18.2021.02.02.06.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 06:34:05 -0800 (PST)
-Date:   Tue, 2 Feb 2021 09:34:00 -0500
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Alexander Graf <graf@amazon.de>
-Cc:     "Catangiu, Adrian Costin" <acatan@amazon.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "ebiederm@xmission.com" <ebiederm@xmission.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
-        "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
-        "Jason@zx2c4.com" <Jason@zx2c4.com>,
-        "jannh@google.com" <jannh@google.com>, "w@1wt.eu" <w@1wt.eu>,
-        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "Woodhouse, David" <dwmw@amazon.co.uk>,
-        "bonzini@gnu.org" <bonzini@gnu.org>,
-        "Singh, Balbir" <sblbir@amazon.com>,
-        "Weiss, Radu" <raduweis@amazon.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mhocko@kernel.org" <mhocko@kernel.org>,
-        "rafael@kernel.org" <rafael@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "areber@redhat.com" <areber@redhat.com>,
-        "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
-        "avagin@gmail.com" <avagin@gmail.com>,
-        "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
-        "gil@azul.com" <gil@azul.com>,
-        "asmehra@redhat.com" <asmehra@redhat.com>,
-        "dgunigun@redhat.com" <dgunigun@redhat.com>,
-        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
-        "oridgar@gmail.com" <oridgar@gmail.com>,
-        "ghammer@redhat.com" <ghammer@redhat.com>
-Subject: Re: [PATCH v4 0/2] System Generation ID driver and VMGENID backend
-Message-ID: <20210202093337-mutt-send-email-mst@kernel.org>
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
- <20210112074658-mutt-send-email-mst@kernel.org>
- <9952EF0C-CD1D-4EDB-BAB8-21F72C0BF90D@amazon.com>
- <20210127074549-mutt-send-email-mst@kernel.org>
- <7bcd1cf3-d055-db46-95ea-5c023df2f184@amazon.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qSaBqeixyLoPS7VQTztlKi6qFU0Qbrugp50S56jr5mo=;
+        b=rHfADwDdnloKZtWwXxBvUGRqe9i3JJKUciWS2qRDLUerVn9YdUJKid1ekp+PdkaDtL
+         dVKxGEIZcpW3JGspLraLkq882jw3OM9bblvCUGVNYUC2twuulPjJ37+BWwAXY7UawNsm
+         509CLdJ6aIigYZnvXLqD3hsh8HROJH8il8FUFG+MNBwac84n4+Gso3Cn+0eoSkckZmUG
+         6JHno6XA5EZG0UufuVYxdPIKvU1F1LQJeY5ZY155vm6sCdW9HPfcyyFqhJ4uZrw/YGnG
+         YfBBh0Hmi5ONU9NZxOM2SvfNFG08xfIMrZFshkmBqKPFRmD2dTJcCtsrFmkcS6TOaNXq
+         5h4Q==
+X-Gm-Message-State: AOAM533MhzWFvclVVhHUW+K4u+XHNBCghNJkHeAvkuGWiPzi6eOtnxjd
+        oeH54zSRZ6Jnbm8MOX01nT+MvzZUym4P8RgZ5ZTlfw==
+X-Google-Smtp-Source: ABdhPJzhMHWkMiRs3WM2ZLtw7rZyrwv1+Nw+UECr04uEP4/xVmh16Q9NhYcR2ZjVysW2tfQfvmsGva3x81dUDGR1PGY=
+X-Received: by 2002:a5e:de04:: with SMTP id e4mr6413370iok.122.1612278456264;
+ Tue, 02 Feb 2021 07:07:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7bcd1cf3-d055-db46-95ea-5c023df2f184@amazon.de>
+References: <20210202102915.19902-1-sjpark@amazon.com>
+In-Reply-To: <20210202102915.19902-1-sjpark@amazon.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Tue, 2 Feb 2021 07:07:24 -0800
+Message-ID: <CALvZod7tv=z3XwGx3pn5qNHQd1EAnhvBaM3EGRjWmo7G2RJEuw@mail.gmail.com>
+Subject: Re: [PATCH v23 07/15] mm/damon: Implement a debugfs-based user space interface
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     Jonathan.Cameron@huawei.com,
+        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
+        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
+        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
+        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 01:58:12PM +0100, Alexander Graf wrote:
-> Hey Michael!
-> 
-> On 27.01.21 13:47, Michael S. Tsirkin wrote:
-> > 
-> > On Thu, Jan 21, 2021 at 10:28:16AM +0000, Catangiu, Adrian Costin wrote:
-> > > On 12/01/2021, 14:49, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > 
-> > >      On Tue, Jan 12, 2021 at 02:15:58PM +0200, Adrian Catangiu wrote:
-> > >      > The first patch in the set implements a device driver which exposes a
-> > >      > read-only device /dev/sysgenid to userspace, which contains a
-> > >      > monotonically increasing u32 generation counter. Libraries and
-> > >      > applications are expected to open() the device, and then call read()
-> > >      > which blocks until the SysGenId changes. Following an update, read()
-> > >      > calls no longer block until the application acknowledges the new
-> > >      > SysGenId by write()ing it back to the device. Non-blocking read() calls
-> > >      > return EAGAIN when there is no new SysGenId available. Alternatively,
-> > >      > libraries can mmap() the device to get a single shared page which
-> > >      > contains the latest SysGenId at offset 0.
-> > > 
-> > >      Looking at some specifications, the gen ID might actually be located
-> > >      at an arbitrary address. How about instead of hard-coding the offset,
-> > >      we expose it e.g. in sysfs?
-> > > 
-> > > The functionality is split between SysGenID which exposes an internal u32
-> > > counter to userspace, and an (optional) VmGenID backend which drives
-> > > SysGenID generation changes based on hw vmgenid updates.
-> > > 
-> > > The hw UUID you're referring to (vmgenid) is not mmap-ed to userspace or
-> > > otherwise exposed to userspace. It is only used internally by the vmgenid
-> > > driver to find out about VM generation changes and drive the more generic
-> > > SysGenID.
-> > > 
-> > > The SysGenID u32 monotonic increasing counter is the one that is mmaped to
-> > > userspace, but it is a software counter. I don't see any value in using a dynamic
-> > > offset in the mmaped page. Offset 0 is fast and easy and most importantly it is
-> > > static so no need to dynamically calculate or find it at runtime.
-> > 
-> > Well you are burning a whole page on it, using an offset the page
-> > can be shared with other functionality.
-> 
-> Currently, the SysGenID lives is one page owned by Linux that we share out
-> to multiple user space clients. So yes, we burn a single page of the system
-> here.
-> 
-> If we put more data in that same page, what data would you put there? Random
-> other bits from other subsystems? At that point, we'd be reinventing vdso
-> all over again, no? Probably with the same problems.
-> 
-> Which gets me to the second alternative: Reuse VDSO. The problem there is
-> that the VDSO is an extremely architecture specific mechanism. Any new
-> architecture we'd want to support would need multiple layers of changes in
-> multiple layers of both kernel and libc. I'd like to avoid that if we can
-> :).
-> 
-> So that leaves us with either wasting a page per system or not having an
-> mmap() interface in the first place.
-> 
-> The reason we have the mmap() interface is that it's be easier to consume
-> for libraries, that are not hooked into the main event loop.
-> 
-> So, uh, what are you suggesting? :)
+On Tue, Feb 2, 2021 at 2:30 AM SeongJae Park <sjpark@amazon.com> wrote:
+>
+> > On Mon, 1 Feb 2021 09:37:39 -0800 Shakeel Butt <shakeelb@google.com> wrote:
+> >
+> > > On Tue, Dec 15, 2020 at 3:59 AM SeongJae Park <sjpark@amazon.com> wrote:
+> > > >
+> > > > From: SeongJae Park <sjpark@amazon.de>
+> > > >
+> > > > DAMON is designed to be used by kernel space code such as the memory
+> > > > management subsystems, and therefore it provides only kernel space API.
+> > >
+> > > Which kernel space APIs are being referred here?
+> >
+> > The symbols in 'include/linux/damon.h'
+> >
+> > >
+> > > > That said, letting the user space control DAMON could provide some
+> > > > benefits to them.  For example, it will allow user space to analyze
+> > > > their specific workloads and make their own special optimizations.
+> > > >
+> > > > For such cases, this commit implements a simple DAMON application kernel
+> > > > module, namely 'damon-dbgfs', which merely wraps the DAMON api and
+> > > > exports those to the user space via the debugfs.
+> > > >
+> > [...]
+> > > > +static ssize_t dbgfs_target_ids_write(struct file *file,
+> > > > +               const char __user *buf, size_t count, loff_t *ppos)
+> > > > +{
+> > > > +       struct damon_ctx *ctx = file->private_data;
+> > > > +       char *kbuf, *nrs;
+> > > > +       unsigned long *targets;
+> > > > +       ssize_t nr_targets;
+> > > > +       ssize_t ret = count;
+> > > > +       int i;
+> > > > +       int err;
+> > > > +
+> > > > +       kbuf = user_input_str(buf, count, ppos);
+> > > > +       if (IS_ERR(kbuf))
+> > > > +               return PTR_ERR(kbuf);
+> > > > +
+> > > > +       nrs = kbuf;
+> > > > +
+> > > > +       targets = str_to_target_ids(nrs, ret, &nr_targets);
+> > > > +       if (!targets) {
+> > > > +               ret = -ENOMEM;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > > +       if (targetid_is_pid(ctx)) {
+> > > > +               for (i = 0; i < nr_targets; i++)
+> > > > +                       targets[i] = (unsigned long)find_get_pid(
+> > > > +                                       (int)targets[i]);
+> > > > +       }
+> > > > +
+> > > > +       mutex_lock(&ctx->kdamond_lock);
+> > > > +       if (ctx->kdamond) {
+> > > > +               ret = -EINVAL;
+> > > > +               goto unlock_out;
+> > >
+> > > You need to put_pid on the targets array.
+> >
+> > Good catch!
+> >
+> > >
+> > > > +       }
+> > > > +
+> > > > +       err = damon_set_targets(ctx, targets, nr_targets);
+> > > > +       if (err)
+> > > > +               ret = err;
+> > >
+> > > You need to handle the partial failure from damon_set_targets().
+> >
+> > My intention is to keep partial success as is.
+>
+> But, we should put_pid() partial failures...  I will simply make this to
+> completely fail with no registered target.
+>
 
-I'd drop mmap at this point. I haven't seen a way to use it
-that isn't racy.
-
-> 
-> Alex
-> 
-> 
-> 
-> Amazon Development Center Germany GmbH
-> Krausenstr. 38
-> 10117 Berlin
-> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-> Sitz: Berlin
-> Ust-ID: DE 289 237 879
-> 
-> 
-
+You can simplify by simply restricting to one pid/target per each write syscall.
