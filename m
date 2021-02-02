@@ -2,173 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64863C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD9BC433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:15:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FB3964ED7
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:11:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3ECCB64F54
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 15:15:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234992AbhBBPKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 10:10:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35768 "EHLO
+        id S235277AbhBBPPC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 10:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234943AbhBBPIR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 10:08:17 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24D9DC061573
-        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 07:07:37 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id f8so1107992ion.4
-        for <linux-doc@vger.kernel.org>; Tue, 02 Feb 2021 07:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qSaBqeixyLoPS7VQTztlKi6qFU0Qbrugp50S56jr5mo=;
-        b=qo7wdufOKgjOWexMGi1hjFJluj4S5JVNPRIcPOazUZET4YgNCdnnmfjDt7rOD69L9r
-         Ah24o+deXPTmY5JRsgorml/Jj2mGs5Pl09/VAA8d7gurp3QJra6Vm7WTiAAZY5HyRsvt
-         2TdIWnUF3/ppKAP1XrMqSMl/IFmUiLgl2wT+Yd3b+TEVHoL+eNWr36VbaSDeTO99HSu1
-         7NSLf8Eo0A237Bne/JYdDAYiLAFNjwQTY7iWjqVbwmlEyjXVCJWp+EpXKDRkSdSy5LoE
-         wqziZLeuJQx0gU9WXfBCqQjBKGyStmWHUzy2yQfB+SIfx8YxhjIEJsqVikiCGgDy8EF0
-         oUuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qSaBqeixyLoPS7VQTztlKi6qFU0Qbrugp50S56jr5mo=;
-        b=rHfADwDdnloKZtWwXxBvUGRqe9i3JJKUciWS2qRDLUerVn9YdUJKid1ekp+PdkaDtL
-         dVKxGEIZcpW3JGspLraLkq882jw3OM9bblvCUGVNYUC2twuulPjJ37+BWwAXY7UawNsm
-         509CLdJ6aIigYZnvXLqD3hsh8HROJH8il8FUFG+MNBwac84n4+Gso3Cn+0eoSkckZmUG
-         6JHno6XA5EZG0UufuVYxdPIKvU1F1LQJeY5ZY155vm6sCdW9HPfcyyFqhJ4uZrw/YGnG
-         YfBBh0Hmi5ONU9NZxOM2SvfNFG08xfIMrZFshkmBqKPFRmD2dTJcCtsrFmkcS6TOaNXq
-         5h4Q==
-X-Gm-Message-State: AOAM533MhzWFvclVVhHUW+K4u+XHNBCghNJkHeAvkuGWiPzi6eOtnxjd
-        oeH54zSRZ6Jnbm8MOX01nT+MvzZUym4P8RgZ5ZTlfw==
-X-Google-Smtp-Source: ABdhPJzhMHWkMiRs3WM2ZLtw7rZyrwv1+Nw+UECr04uEP4/xVmh16Q9NhYcR2ZjVysW2tfQfvmsGva3x81dUDGR1PGY=
-X-Received: by 2002:a5e:de04:: with SMTP id e4mr6413370iok.122.1612278456264;
- Tue, 02 Feb 2021 07:07:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20210202102915.19902-1-sjpark@amazon.com>
-In-Reply-To: <20210202102915.19902-1-sjpark@amazon.com>
-From:   Shakeel Butt <shakeelb@google.com>
-Date:   Tue, 2 Feb 2021 07:07:24 -0800
-Message-ID: <CALvZod7tv=z3XwGx3pn5qNHQd1EAnhvBaM3EGRjWmo7G2RJEuw@mail.gmail.com>
-Subject: Re: [PATCH v23 07/15] mm/damon: Implement a debugfs-based user space interface
-To:     SeongJae Park <sjpark@amazon.com>
-Cc:     Jonathan.Cameron@huawei.com,
-        Andrea Arcangeli <aarcange@redhat.com>, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Qian Cai <cai@lca.pw>,
-        Colin Ian King <colin.king@canonical.com>,
+        with ESMTP id S235111AbhBBPNQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 10:13:16 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B514C0613ED
+        for <linux-doc@vger.kernel.org>; Tue,  2 Feb 2021 07:12:36 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <a.fatoum@pengutronix.de>)
+        id 1l6xLu-0002oq-Ri; Tue, 02 Feb 2021 16:12:26 +0100
+Subject: Re: [PATCH 2/2] dm crypt: support using trusted keys
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        Mike Snitzer <snitzer@redhat.com>
+Cc:     Sumit Garg <sumit.garg@linaro.org>,
+        =?UTF-8?Q?Jan_L=c3=bcbbe?= <jlu@pengutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>, dwmw@amazon.com,
-        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
-        foersleo@amazon.de, Greg Thelen <gthelen@google.com>,
-        Ian Rogers <irogers@google.com>, jolsa@redhat.com,
-        "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, namhyung@kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Rik van Riel <riel@surriel.com>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mike Rapoport <rppt@kernel.org>, sblbir@amazon.com,
-        Shuah Khan <shuah@kernel.org>, sj38.park@gmail.com,
-        snu@amazon.de, Vlastimil Babka <vbabka@suse.cz>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>,
-        Huang Ying <ying.huang@intel.com>, zgf574564920@gmail.com,
-        linux-damon@amazon.com, Linux MM <linux-mm@kvack.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dmitry Baryshkov <dbaryshkov@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-raid@vger.kernel.org, Song Liu <song@kernel.org>,
+        dm-devel@redhat.com, keyrings@vger.kernel.org,
+        kernel@pengutronix.de, linux-integrity@vger.kernel.org,
+        Alasdair Kergon <agk@redhat.com>
+References: <20210122084321.24012-1-a.fatoum@pengutronix.de>
+ <20210122084321.24012-2-a.fatoum@pengutronix.de>
+ <YAsT/N8CHHNTZcj3@kernel.org> <YAsW8DAt3vc68rLA@kernel.org>
+ <5d44e50e-4309-830b-79f6-f5d888b1ef69@pengutronix.de>
+Message-ID: <8cd946c4-558d-ca66-7026-a574034b4757@pengutronix.de>
+Date:   Tue, 2 Feb 2021 16:12:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <5d44e50e-4309-830b-79f6-f5d888b1ef69@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 2, 2021 at 2:30 AM SeongJae Park <sjpark@amazon.com> wrote:
->
-> > On Mon, 1 Feb 2021 09:37:39 -0800 Shakeel Butt <shakeelb@google.com> wrote:
-> >
-> > > On Tue, Dec 15, 2020 at 3:59 AM SeongJae Park <sjpark@amazon.com> wrote:
-> > > >
-> > > > From: SeongJae Park <sjpark@amazon.de>
-> > > >
-> > > > DAMON is designed to be used by kernel space code such as the memory
-> > > > management subsystems, and therefore it provides only kernel space API.
-> > >
-> > > Which kernel space APIs are being referred here?
-> >
-> > The symbols in 'include/linux/damon.h'
-> >
-> > >
-> > > > That said, letting the user space control DAMON could provide some
-> > > > benefits to them.  For example, it will allow user space to analyze
-> > > > their specific workloads and make their own special optimizations.
-> > > >
-> > > > For such cases, this commit implements a simple DAMON application kernel
-> > > > module, namely 'damon-dbgfs', which merely wraps the DAMON api and
-> > > > exports those to the user space via the debugfs.
-> > > >
-> > [...]
-> > > > +static ssize_t dbgfs_target_ids_write(struct file *file,
-> > > > +               const char __user *buf, size_t count, loff_t *ppos)
-> > > > +{
-> > > > +       struct damon_ctx *ctx = file->private_data;
-> > > > +       char *kbuf, *nrs;
-> > > > +       unsigned long *targets;
-> > > > +       ssize_t nr_targets;
-> > > > +       ssize_t ret = count;
-> > > > +       int i;
-> > > > +       int err;
-> > > > +
-> > > > +       kbuf = user_input_str(buf, count, ppos);
-> > > > +       if (IS_ERR(kbuf))
-> > > > +               return PTR_ERR(kbuf);
-> > > > +
-> > > > +       nrs = kbuf;
-> > > > +
-> > > > +       targets = str_to_target_ids(nrs, ret, &nr_targets);
-> > > > +       if (!targets) {
-> > > > +               ret = -ENOMEM;
-> > > > +               goto out;
-> > > > +       }
-> > > > +
-> > > > +       if (targetid_is_pid(ctx)) {
-> > > > +               for (i = 0; i < nr_targets; i++)
-> > > > +                       targets[i] = (unsigned long)find_get_pid(
-> > > > +                                       (int)targets[i]);
-> > > > +       }
-> > > > +
-> > > > +       mutex_lock(&ctx->kdamond_lock);
-> > > > +       if (ctx->kdamond) {
-> > > > +               ret = -EINVAL;
-> > > > +               goto unlock_out;
-> > >
-> > > You need to put_pid on the targets array.
-> >
-> > Good catch!
-> >
-> > >
-> > > > +       }
-> > > > +
-> > > > +       err = damon_set_targets(ctx, targets, nr_targets);
-> > > > +       if (err)
-> > > > +               ret = err;
-> > >
-> > > You need to handle the partial failure from damon_set_targets().
-> >
-> > My intention is to keep partial success as is.
->
-> But, we should put_pid() partial failures...  I will simply make this to
-> completely fail with no registered target.
->
+On 22.01.21 20:04, Ahmad Fatoum wrote:
+> On 22.01.21 19:18, Jarkko Sakkinen wrote:
+>> On Fri, Jan 22, 2021 at 08:05:51PM +0200, Jarkko Sakkinen wrote:
+>>> On Fri, Jan 22, 2021 at 09:43:21AM +0100, Ahmad Fatoum wrote:
+>>>> Commit 27f5411a718c ("dm crypt: support using encrypted keys") extended
+>>>> dm-crypt to allow use of "encrypted" keys along with "user" and "logon".
+>>>>
+>>>> Along the same lines, teach dm-crypt to support "trusted" keys as well.
 
-You can simplify by simply restricting to one pid/target per each write syscall.
+Gentle ping.
+Is there anything further you require from me regarding these two patches?
+
+>>>>
+>>>> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+>>>> ---
+>>>
+>>> Is it possible to test run this with tmpfs? Would be a good test
+>>> target for Sumit's ARM-TEE trusted keys patches.
+> 
+> I tested these on top of Sumit's patches with TPM and a CAAM blobifier
+> backend, I am preparing. The system I am developing these patches against
+> doesn't have a TEE.  Steps to test these changes:
+> 
+> #!/bin/sh
+> 
+> DEV=/dev/loop0
+> ALGO=aes-cbc-essiv:sha256
+> KEYNAME=kmk
+> BLOCKS=20
+> 
+> fallocate -l $((BLOCKS*512)) /tmp/loop0.img
+> losetup -P $DEV /tmp/loop0.img
+> mount -o remount,rw /
+> KEY="$(keyctl add trusted $KEYNAME 'new 32' @s)"
+> keyctl pipe $KEY >$HOME/kmk.blob
+> 
+> TABLE="0 $BLOCKS crypt $ALGO :32:trusted:$KEYNAME 0 $DEV 0 1 allow_discards"
+> echo $TABLE | dmsetup create mydev
+> echo $TABLE | dmsetup load mydev
+> dd if=/dev/zero of=/dev/mapper/mydev
+> echo "It works!" 1<> /dev/mapper/mydev
+> cryptsetup close mydev
+> 
+> reboot
+> 
+> DEV=/dev/loop0
+> ALGO=aes-cbc-essiv:sha256
+> KEYNAME=kmk
+> BLOCKS=20
+> 
+> losetup -P $DEV $HOME/loop0.img
+> keyctl add trusted $KEYNAME "load $(cat $HOME/kmk.blob)" @s
+> TABLE="0 $BLOCKS crypt $ALGO :32:trusted:$KEYNAME 0 $DEV 0 1 allow_discards"
+> echo $TABLE | dmsetup create mydev
+> echo $TABLE | dmsetup load mydev
+> 
+> # should print that It works!
+> hexdump -C /dev/mapper/mydev
+> 
+>>> https://lore.kernel.org/linux-integrity/1604419306-26105-1-git-send-email-sumit.garg@linaro.org/
+>>
+>> Also, I would hold merging *this* patch up until we are able to
+>> test TEE trusted keys with TEE trusted keys.
+> 
+> Which blocks which? I tested this with TPM-Trusted keys, so it's usable
+> as is. For convenient usage, it would be nice to have cryptsetup
+> support for trusted and encrypted keys. I intended to look at this next week.
+> 
+> Cheers,
+> Ahmad
+> 
+>>
+>> /Jarkko
+>>
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
