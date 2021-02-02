@@ -2,75 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCF1C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 10:44:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBBAC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B15864D9C
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 10:44:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B22764F5D
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 12:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbhBBKnt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 05:43:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50402 "EHLO mail.kernel.org"
+        id S229823AbhBBMFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 07:05:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42706 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229601AbhBBKns (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Feb 2021 05:43:48 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB96964D9C;
-        Tue,  2 Feb 2021 10:43:07 +0000 (UTC)
+        id S229483AbhBBMFH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Feb 2021 07:05:07 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 12CDA64F53;
+        Tue,  2 Feb 2021 12:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612262588;
-        bh=AXiLBCX4n0vbr8s5sfDetV4X7CBLkBwH6/ojo3pJa0Q=;
+        s=korg; t=1612267466;
+        bh=vpa76DJVw3u2hImBgcGY2RefNVrkqI+c8q81hUCChG8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tqtzCAZDObcLN6afz7F2F5pUMS+PIzr9V0HmAM5K4vReRqex4DdiH7goYlYF4gc6q
-         gWS+xDI4PaAh/86v6cUHYKYIjUKUTEgEAiNR68ncPADtyW3thQwaRzN4qTlSZ3ieWL
-         haaBS6ziDVRFPIK+fY1VF5Pekn1ld13KdXIutZvI=
-Date:   Tue, 2 Feb 2021 11:43:03 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 0/5] misc: Add Add Synopsys DesignWare xData IP driver
-Message-ID: <YBkst6PeVskpi4SO@kroah.com>
-References: <cover.1605777306.git.gustavo.pimentel@synopsys.com>
- <DM5PR12MB183527AA0FECE00D7A3D46DBDAB59@DM5PR12MB1835.namprd12.prod.outlook.com>
- <YBklScf1HPCVKQPf@kroah.com>
- <DM5PR12MB183515FF24DC1C306CDCD718DAB59@DM5PR12MB1835.namprd12.prod.outlook.com>
+        b=IgUfc5NoKYN48z3xn3H9Z2AYFDRkw6a/uH5nFMZS5cIBCXMCVRf6GQGuNGkyMaH4G
+         Fcfl8CYT2GXLLKm/8Tgov0ejWOyQPSvbiZq2uL6aaBcU1Eh2lOQOPnow+TsTFU4tuA
+         tDZoAwHYvXTfc2sFlK2NPw4+AgpSPcWPEQtblr24=
+Date:   Tue, 2 Feb 2021 13:04:22 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Adrian Catangiu <acatan@amazon.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org, kvm@vger.kernel.org,
+        linux-s390@vger.kernel.org, graf@amazon.com, rdunlap@infradead.org,
+        arnd@arndb.de, ebiederm@xmission.com, rppt@kernel.org,
+        0x7f454c46@gmail.com, borntraeger@de.ibm.com, Jason@zx2c4.com,
+        jannh@google.com, w@1wt.eu, colmmacc@amazon.com, luto@kernel.org,
+        tytso@mit.edu, ebiggers@kernel.org, dwmw@amazon.co.uk,
+        bonzini@gnu.org, sblbir@amazon.com, raduweis@amazon.com,
+        corbet@lwn.net, mst@redhat.com, mhocko@kernel.org,
+        rafael@kernel.org, pavel@ucw.cz, mpe@ellerman.id.au,
+        areber@redhat.com, ovzxemul@gmail.com, avagin@gmail.com,
+        ptikhomirov@virtuozzo.com, gil@azul.com, asmehra@redhat.com,
+        dgunigun@redhat.com, vijaysun@ca.ibm.com, oridgar@gmail.com,
+        ghammer@redhat.com
+Subject: Re: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <YBk/xskdrwqTOyM9@kroah.com>
+References: <1612200294-17561-1-git-send-email-acatan@amazon.com>
+ <1612200294-17561-2-git-send-email-acatan@amazon.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM5PR12MB183515FF24DC1C306CDCD718DAB59@DM5PR12MB1835.namprd12.prod.outlook.com>
+In-Reply-To: <1612200294-17561-2-git-send-email-acatan@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 10:38:29AM +0000, Gustavo Pimentel wrote:
-> On Tue, Feb 2, 2021 at 10:11:21, Greg Kroah-Hartman 
-> <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Tue, Feb 02, 2021 at 08:51:10AM +0000, Gustavo Pimentel wrote:
-> > > Just a kindly reminder.
-> > 
-> > reminder of what?
-> 
-> To review the patch set. I've done the requested modifications, but I 
-> didn't get any feedback if this patch series is fine or it needs 
-> something more to have an ACK.
+On Mon, Feb 01, 2021 at 07:24:53PM +0200, Adrian Catangiu wrote:
+> +config SYSGENID
+> +	tristate "System Generation ID driver"
+> +	default N
 
-I do not knwo, I don't see anything my my review queue, sorry.
+"N" is always the default, no need to list it again :(
 
-> If some feedback was provided, please accept my apologies. My email 
-> account was having some issues some time ago and I might not have 
-> received some emails.
-
-Check the archives please, that's what they are there for :)
-
-greg k-h
