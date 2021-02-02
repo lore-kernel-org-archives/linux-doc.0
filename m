@@ -2,237 +2,366 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C21C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 00:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A521C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 00:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4C1964ECE
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 00:06:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB43664DDC
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 00:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbhBBAGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Feb 2021 19:06:42 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:42466 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbhBBAGk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 19:06:40 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 111NxktJ075338;
-        Tue, 2 Feb 2021 00:05:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=789AokD9RJGasym9ZwiMyeuxyEUAh5ZDEm8a2nt9geU=;
- b=zgcsfcPt1ML8JkcK9sMUADJ4z+GfkmIgw9VfGlSQIPeiRH51zF5rFgom0DDZeL0a7L+I
- /kJ1bvvnRCry143i/Et7Y83AFrEr0r5RLeg7Hwwqv5rBsIIsVr1NsJ3Y/U3YNvsLh8vD
- OHZkFApKNRIiv+L5ftNfxqm62+mnya7EQ7TlPa1ZNFTJOBZCFdasixemY+NBiMq+FJwR
- 1b2rVK8uRzps1Y5P8zUx46eSO3lmMhpO6TphSuThdAxx28sy7h7F2bVgMFgdIRo9XCNJ
- 0P/zwTjZyhbpcKbAi0VpgEGWKjFU8jlVPFMEcypJidLXIsR7Crn9PF/XZkcdm+l3O0Cl jw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 36cvyarb2s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 02 Feb 2021 00:05:10 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11200ttj093459;
-        Tue, 2 Feb 2021 00:05:10 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-        by aserp3020.oracle.com with ESMTP id 36dhbxdd54-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 02 Feb 2021 00:05:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J9BbMmSE+k0IqIuD8++z6K1hoPYwY69GaG5Hrgbmkh2lWa2ntfl+WakbQU/w3ErSgI5otdnHjEjamZcmqXR8NRgG+4SXeipMvNZuqC/i3IQ6Hk3U37MMtbdTuQw9E92cFlAdsRtJz0dt7nyT+pMwT7Y56QC8iFvQHSyYNrERZCuoEcc6ZrEHN9K6kRKM7FbK6r4+mm5uBqNR3owejCvsEnlgpspsI1lH8v5FDNHjFMqA73jKGLVEwATt2UCdm1Wrk4SG2AW/pyE1SomgPzNkEGvpvUs0OGe04eUQeYcuOs4vit2O6OVOt1dfjzm7q0aclC+atGCFeAp4C12djmp8AA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=789AokD9RJGasym9ZwiMyeuxyEUAh5ZDEm8a2nt9geU=;
- b=EARDjGWaETl/bvuTekESHuVQcXGrgbu19D4rg9tydjZ/Kb4Nu+LhAC27mf90Dn0uDHZX9tEurVvdD+JxCf4V2O90DZFfVOLw7PZJgnGNyaRxB13+Y4tMpBMSqG3u2o91TT69gX72RBpHIUzMIdGSIdKpi69bwrbcuzZyMN4czeTGLVHl3lcObdTf0ElSi+L5LlfMWx3DHgd73xQ3pOdo1PzLNL4RFL+sl6/kxkYGRuD+uasT9h5OBirl23uEQ3ZIvqbXb8FaCHRuhkGt/7/Xf6tXmJwnBgvMklF4BQb5aBo6YTFc9WtEoCNKz0kLuvdyBkN4XqmHK7qo0RZ1oov1Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=789AokD9RJGasym9ZwiMyeuxyEUAh5ZDEm8a2nt9geU=;
- b=A+0xaiEY4v8Ld6oaOFABQ0/YJgD4o1/cCJtJOlDA0n5DuTknbSngYyKQiYx1s70PxdrY68w3tgWC0rE9Ubm+0gVJuSYpWA4bicv4bdL1MufeXx/R53CiS2QksCiMhjKygDt9e43Llwk9uner+FACogaf4HQx1zfEVtw6luDNcGk=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR10MB1389.namprd10.prod.outlook.com (2603:10b6:300:21::22)
- by MWHPR10MB1936.namprd10.prod.outlook.com (2603:10b6:300:10c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Tue, 2 Feb
- 2021 00:05:06 +0000
-Received: from MWHPR10MB1389.namprd10.prod.outlook.com
- ([fe80::897d:a360:92db:3074]) by MWHPR10MB1389.namprd10.prod.outlook.com
- ([fe80::897d:a360:92db:3074%5]) with mapi id 15.20.3805.026; Tue, 2 Feb 2021
- 00:05:06 +0000
-Subject: Re: [External] Re: [PATCH v13 05/12] mm: hugetlb: allocate the
- vmemmap pages associated with each HugeTLB page
-To:     David Hildenbrand <david@redhat.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Oscar Salvador <osalvador@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <20210117151053.24600-1-songmuchun@bytedance.com>
- <20210117151053.24600-6-songmuchun@bytedance.com>
- <20210126092942.GA10602@linux>
- <6fe52a7e-ebd8-f5ce-1fcd-5ed6896d3797@redhat.com>
- <20210126145819.GB16870@linux>
- <259b9669-0515-01a2-d714-617011f87194@redhat.com>
- <20210126153448.GA17455@linux>
- <9475b139-1b33-76c7-ef5c-d43d2ea1dba5@redhat.com>
- <e28399e1-3a24-0f22-b057-76e7c7e70017@redhat.com>
- <CAMZfGtWCu95Qve8p9mH7C7rm=F+znsc8+VL_6Z-_k4e5hAHzhA@mail.gmail.com>
- <e200c17e-5c95-025e-37a7-af7cfbb05b18@oracle.com>
- <41160c2e-817d-3ef2-0475-4db58827c1c3@redhat.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <b854ba65-fc21-658c-a397-65e5c66d1b8a@oracle.com>
-Date:   Mon, 1 Feb 2021 16:05:05 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-In-Reply-To: <41160c2e-817d-3ef2-0475-4db58827c1c3@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [50.38.35.18]
-X-ClientProxiedBy: MWHPR11CA0033.namprd11.prod.outlook.com
- (2603:10b6:300:115::19) To MWHPR10MB1389.namprd10.prod.outlook.com
- (2603:10b6:300:21::22)
+        id S230088AbhBBAOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Feb 2021 19:14:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229927AbhBBAOG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Feb 2021 19:14:06 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17E9C061573;
+        Mon,  1 Feb 2021 16:13:26 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8040849B;
+        Tue,  2 Feb 2021 00:13:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8040849B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1612224806; bh=mC5DYKkweiqxOilqrvYYf8Aa6yGW0+baHFWk2tJrhiw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ShcOrqj4oAY/RzEg1pdqN9CFKnIknh97/iZpOrAeszZxjjHMU+Ox9HCLX617z72DP
+         GJtSkK068v+5ZXC+SyWw8xdnjTPeOlOGKUlwfcHJk9rwDMaoi5J2T2iKXC1mzASsyj
+         SKhxnXf3dCl3WOFUAeyHEWZ4eOke42XNXaQJZrO3pUXeor5mytEnVrKJiMR1XDMWDv
+         x3TLoPLOnqyPgXfW8XP2uLbYq/Ylcc/cE9gtskNkt+uInX4+HYe2jzYREOlw32ozAg
+         zCkkJiasi0eYNWoSJozmp1gXBy3gRG8cNoHqrpVgdfg30RIclgePgjZ6wZmrxpFOY5
+         FIG4tYMX9ziVg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Subject: [PATCH] Move our minimum Sphinx version to 1.7
+Date:   Mon, 01 Feb 2021 17:13:26 -0700
+Message-ID: <87zh0ntjh5.fsf@meer.lwn.net>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.112] (50.38.35.18) by MWHPR11CA0033.namprd11.prod.outlook.com (2603:10b6:300:115::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Tue, 2 Feb 2021 00:05:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 688c7b51-f793-4e61-0236-08d8c70e3296
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1936:
-X-Microsoft-Antispam-PRVS: <MWHPR10MB193680CCC3C3670B1B984918E2B59@MWHPR10MB1936.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yqSHK3MRY+cTXSyHO7dbHGBz3LGAGHIHYOYpUvktToofVB+qGYXke9tYLsR+lDftzSH6fMRYlkOTPsx8fbv+EIrl2jPBcmSMs1Z1UAltKhkIYGAB1g7gDKxp6gF144iH7K+xQfWwzAo++sZkwdXWAiXzthGMaNlAEJiESYAuxAr2k1ULJsehPbgLL9CIzWgVVaseyW7asiOb5smINlfscw14TkA5FWGhveyPKbTJlNzhdXJm7og+bNAl5J85kKkfg5DKZXqhDLn1FMwTAwHbFr/n10qzt02n9n46C4RnohF3XXZdyLX7Xjmu604XlBEuZAZ/B2lNvAqpeaHrVA3y1Nf0fzqHkoxpl3Jyl6yIQOkGOrnt9awlUpG0EuJP+PIAnTPQOB2yVCg6Nb1XvFLSTHH+Z/TXb7z2p/XLvEtuzU1K460LCJ/2LWTkh+2O36LI5VI8F4yiAIG69JqMmpl2V5RrMsacC7Pqy9BpRD2wFNANivM6SsnJa3WnXwpZ+vpzoqbmJ1qV3RjhWEPfxL2LyYw2QMGBCLRP2VAtpuw+xdAh+fOMgTKAzSxgVruVY4HSq+Jcq4Ka9/MluFazj7tccOjoKg9kM21FvfyB8mPS3hg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR10MB1389.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(376002)(366004)(39860400002)(396003)(5660300002)(36756003)(7406005)(478600001)(956004)(7416002)(83380400001)(186003)(2906002)(16526019)(44832011)(66556008)(2616005)(6486002)(26005)(66946007)(66476007)(31686004)(8676002)(52116002)(53546011)(316002)(8936002)(16576012)(4326008)(110136005)(31696002)(54906003)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cEloYmV0dkpsMmVndkFGd0FFdzZ6NmJSelRWVENOeC9tNjRXZ3dMcHQ2eDIw?=
- =?utf-8?B?OXdzMFBJU2d1SFg5aFh6TDBCZjVqdkQzbEg2Z3JZQS9OenpQNEJqcDlJRkky?=
- =?utf-8?B?K080WWI2RGMvVnlIdTNhRWRRQXUyaDd6MnFLTnlXb1h0QjdpN2V6Z2NUVU1n?=
- =?utf-8?B?TTlsVGViTmwrNnpTUHE1NGhBK3JQVXk5SmhkUEJBa2xrcnU4WE1yVzdxeUcw?=
- =?utf-8?B?Mk84aUlhM2xJdTdjS0ZrcDRlSGVCamw3dmpqQkt4dkozY0lkSWI3eUhZYXl5?=
- =?utf-8?B?UDlyOHFSZHpwUmRnL2h4MUdBZ3FSQUVVMkE5a3ZPaWVwMUtRaHFjYWN0THpU?=
- =?utf-8?B?Zm0yeWM5M05zRk1CM0Z5UnVPUXB5RDRkZ2VaK0VmMXA5K0lWaFRXOXVjUklo?=
- =?utf-8?B?YlY2ZkpJNjVHWUJHWkpOMDhOcWEzNzAxOGEwT3JKcEtuZkR1cnFxbFRLb2sv?=
- =?utf-8?B?eGNwY1BvMDhLOWtXNkkyS1NCZEhncUFPM083RDZTUnBNekpkeVlmWHQ5elY4?=
- =?utf-8?B?WStBVUYyUUh1cVpWcy9FSHNYRHkwUlJseENxQk8yRnY3OW5mVnJSenBtb3lu?=
- =?utf-8?B?d3dYcFBBcE10Z0kxT1pBSFlGdGNjckpMZE1IZ1Q5L2lGTlZoVDRlZWpZdHNt?=
- =?utf-8?B?T0pKcDZTK0ZocWMzcEJ0QURDN3JqVjN4QmNDUGFaWEZvZjNFbHlmQ1RpVmNB?=
- =?utf-8?B?aDB5R0RxOVppa0d0akdkb3Q2Ykh1a3ZpNjFrWnJYYUpKd25BZDN2aWNlb2pX?=
- =?utf-8?B?ejNyczBBZlZ6alpYZyt0UmtVSU5DTEpDZHp5N0R5b2dZbnl4b2tCT0xhN1p6?=
- =?utf-8?B?MnNPUTlBbW5EUm4rcmd1WlRNVzZ2WnZwY2kxOHFFR0Zlc3pIUHowVW9qTk5v?=
- =?utf-8?B?TTBhRFpjY3loTEVKdEZvdkhHL3pQZnRSa093MDlsYTE0a3NjTkp3M0NVK2cy?=
- =?utf-8?B?eGxzaVE5ZFhrRXJHaVR6ZS95NVMraThqMXZuZ3lLWll5a1FKZ1oxazdHUVlK?=
- =?utf-8?B?ZkowcUJDZzl1djlCZjZXQWxDK2ZWdWhBNmFGS3VWN3hJMWZ4Wm9SYytKUWxX?=
- =?utf-8?B?RjN4RFg4dmpCYWpqWDk0UHQ4VHNJWFlNREgrTElBTnF6ZVFRLzFXM3BhYmJR?=
- =?utf-8?B?Q3lQdHdxYm9pNWdhMGYySWo2L2owT1VSQ0lENW1OVjFvdFU3VUVsSUV0UjdR?=
- =?utf-8?B?MU9kMzBLUnNsNVlCaGxaMTF6SzhrWEduTGFsM3lneHFxVEFlUEpnNlRsdDJx?=
- =?utf-8?B?bCswWHoyVTJxMTRLcndyN1gvUU0wL1lQVHZXWEVCTjFxU05HRkYwLzVTT2FW?=
- =?utf-8?B?SUozMjhtYkpIMDAwOWlMeDAzNUFVR0ZvazZhVkNSdG1ZTTI2eDlqMEpNMnBv?=
- =?utf-8?B?alo0TU95NFFRQkJmNlBINXVuenhrelo5YXFieTRmci9VY0FrMFEvRmZTZG1Y?=
- =?utf-8?Q?LaxBWha9?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 688c7b51-f793-4e61-0236-08d8c70e3296
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR10MB1389.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2021 00:05:06.8245
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZT4PGq4/xuT/WZ0CYeIsyDzZDz/nBHBcqF6K1perM8keVv5OqhXWcC+Hp58NU05q6hHq0pdyTLod/uNN55iXMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1936
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9882 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 suspectscore=0
- spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102010136
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9882 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011 impostorscore=0
- mlxscore=0 spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102010136
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/1/21 8:10 AM, David Hildenbrand wrote:
->>> What's your opinion about this? Should we take this approach?
->>
->> I think trying to solve all the issues that could happen as the result of
->> not being able to dissolve a hugetlb page has made this extremely complex.
->> I know this is something we need to address/solve.  We do not want to add
->> more unexpected behavior in corner cases.  However, I can not help but think
->> about similar issues today.  For example, if a huge page is in use in
->> ZONE_MOVABLE or CMA there is no guarantee that it can be migrated today.
-> 
-> Yes, hugetlbfs is broken with alloc_contig_range() as e.g., used by CMA and needs fixing. Then, similar problems as with hugetlbfs pages on ZONE_MOVABLE apply.
-> 
-> 
-> hugetlbfs pages on ZONE_MOVABLE for memory unplug are problematic in corner cases only I think:
-> 
-> 1. Not sufficient memory to allocate a destination page. Well, nothing we can really do about that - just like trying to migrate any other memory but running into -ENOMEM.
-> 
-> 2. Trying to dissolve a free huge page but running into reservation limits. I think we should at least try allocating a new free huge page before failing. To be tackled in the future.
-> 
->> Correct?  We may need to allocate another huge page for the target of the
->> migration, and there is no guarantee we can do that.
->>
-> 
-> I agree that 1. is similar to "cannot migrate because OOM".
-> 
-> 
-> So thinking about it again, we don't actually seem to lose that much when
-> 
-> a) Rejecting migration of a huge page when not being able to allocate the vmemmap for our source page. Our system seems to be under quite some memory pressure already. Migration could just fail because we fail to allocate a migration target already.
-> 
-> b) Rejecting to dissolve a huge page when not able to allocate the vmemmap. Dissolving can fail already. And, again, our system seems to be under quite some memory pressure already.
-> 
-> c) Rejecting freeing huge pages when not able to allocate the vmemmap. I guess the "only" surprise is that the user might now no longer get what he asked for. This seems to be the "real change".
-> 
-> So maybe little actually speaks against allowing for migration of such huge pages and optimizing any huge page, besides rejecting freeing of huge pages and surprising the user/admin.
-> 
-> I guess while our system is under memory pressure CMA and ZONE_MOVABLE are already no longer able to always keep their guarantees - until there is no more memory pressure.
-> 
+As promised, drop support for some ancient sphinx releases, along with a
+lot of the cruft that was required to make that support work.
 
-My thinking was similar.  Failing to dissolve a hugetlb page because we could
-not allocate vmmemmap pages is not much/any worse than what we do when near
-OOM conditions today.  As for surprising the user/admin, we should certainly
-log a warning if we can not dissolve a hugetlb page.
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+Gotta love the diffstat :)
 
-One point David R brought up still is a bit concerning.  When getting close
-to OOM, there may be users/code that will try to dissolve free hugetlb pages
-to give back as much memory as possible to buddy.  I've seen users holding
-'big chunks' of memory for a specific purpose and dumping them when needed.
-They were not doing this with hugetlb pages, but nothing would surprise me.
+ Documentation/conf.py               | 75 ++---------------------------
+ Documentation/sphinx/cdomain.py     |  8 +--
+ Documentation/sphinx/kernel_abi.py  | 27 ++---------
+ Documentation/sphinx/kernel_feat.py | 25 ++--------
+ Documentation/sphinx/kerneldoc.py   | 26 ++--------
+ Documentation/sphinx/kernellog.py   | 26 +++-------
+ 6 files changed, 21 insertions(+), 166 deletions(-)
 
-In this series, vmmap freeing is 'opt in' at boot time.  I would expect
-the use cases that want to opt in rarely if ever free/dissolve hugetlb
-pages.  But, I could be wrong.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 6a767294887e..5bd45d5fb0a0 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -31,7 +31,7 @@ from load_config import loadConfig
+ # -- General configuration ------------------------------------------------
+ 
+ # If your documentation needs a minimal Sphinx version, state it here.
+-needs_sphinx = '1.3'
++needs_sphinx = '1.7'
+ 
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+@@ -112,19 +112,12 @@ if major >= 3:
+ 
+ else:
+     extensions.append('cdomain')
+-    if major == 1 and minor < 7:
+-        sys.stderr.write('WARNING: Sphinx 1.7 or greater will be required as of '
+-                         'the 5.12 release\n')
+ 
+ # Ensure that autosectionlabel will produce unique names
+ autosectionlabel_prefix_document = True
+ autosectionlabel_maxdepth = 2
+ 
+-# The name of the math extension changed on Sphinx 1.4
+-if (major == 1 and minor > 3) or (major > 1):
+-    extensions.append("sphinx.ext.imgmath")
+-else:
+-    extensions.append("sphinx.ext.pngmath")
++extensions.append("sphinx.ext.imgmath")
+ 
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+@@ -375,71 +368,9 @@ if cjk_cmd.find("Noto Sans CJK SC") >= 0:
+      '''
+ 
+ # Fix reference escape troubles with Sphinx 1.4.x
+-if major == 1 and minor > 3:
++if major == 1:
+     latex_elements['preamble']  += '\\renewcommand*{\\DUrole}[2]{ #2 }\n'
+ 
+-if major == 1 and minor <= 4:
+-    latex_elements['preamble']  += '\\usepackage[margin=0.5in, top=1in, bottom=1in]{geometry}'
+-elif major == 1 and (minor > 5 or (minor == 5 and patch >= 3)):
+-    latex_elements['sphinxsetup'] = 'hmargin=0.5in, vmargin=1in'
+-    latex_elements['preamble']  += '\\fvset{fontsize=auto}\n'
+-
+-# Customize notice background colors on Sphinx < 1.6:
+-if major == 1 and minor < 6:
+-   latex_elements['preamble']  += '''
+-        \\usepackage{ifthen}
+-
+-        % Put notes in color and let them be inside a table
+-	\\definecolor{NoteColor}{RGB}{204,255,255}
+-	\\definecolor{WarningColor}{RGB}{255,204,204}
+-	\\definecolor{AttentionColor}{RGB}{255,255,204}
+-	\\definecolor{ImportantColor}{RGB}{192,255,204}
+-	\\definecolor{OtherColor}{RGB}{204,204,204}
+-        \\newlength{\\mynoticelength}
+-        \\makeatletter\\newenvironment{coloredbox}[1]{%
+-	   \\setlength{\\fboxrule}{1pt}
+-	   \\setlength{\\fboxsep}{7pt}
+-	   \\setlength{\\mynoticelength}{\\linewidth}
+-	   \\addtolength{\\mynoticelength}{-2\\fboxsep}
+-	   \\addtolength{\\mynoticelength}{-2\\fboxrule}
+-           \\begin{lrbox}{\\@tempboxa}\\begin{minipage}{\\mynoticelength}}{\\end{minipage}\\end{lrbox}%
+-	   \\ifthenelse%
+-	      {\\equal{\\py@noticetype}{note}}%
+-	      {\\colorbox{NoteColor}{\\usebox{\\@tempboxa}}}%
+-	      {%
+-	         \\ifthenelse%
+-	         {\\equal{\\py@noticetype}{warning}}%
+-	         {\\colorbox{WarningColor}{\\usebox{\\@tempboxa}}}%
+-		 {%
+-	            \\ifthenelse%
+-	            {\\equal{\\py@noticetype}{attention}}%
+-	            {\\colorbox{AttentionColor}{\\usebox{\\@tempboxa}}}%
+-		    {%
+-	               \\ifthenelse%
+-	               {\\equal{\\py@noticetype}{important}}%
+-	               {\\colorbox{ImportantColor}{\\usebox{\\@tempboxa}}}%
+-	               {\\colorbox{OtherColor}{\\usebox{\\@tempboxa}}}%
+-		    }%
+-		 }%
+-	      }%
+-        }\\makeatother
+-
+-        \\makeatletter
+-        \\renewenvironment{notice}[2]{%
+-          \\def\\py@noticetype{#1}
+-          \\begin{coloredbox}{#1}
+-          \\bf\\it
+-          \\par\\strong{#2}
+-          \\csname py@noticestart@#1\\endcsname
+-        }
+-	{
+-          \\csname py@noticeend@\\py@noticetype\\endcsname
+-          \\end{coloredbox}
+-        }
+-	\\makeatother
+-
+-     '''
+-
+ # With Sphinx 1.6, it is possible to change the Bg color directly
+ # by using:
+ #	\definecolor{sphinxnoteBgColor}{RGB}{204,255,255}
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index 014a5229e57a..ca8ac9e59ded 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -236,13 +236,7 @@ class CObject(Base_CObject):
+ 
+         indextext = self.get_index_text(name)
+         if indextext:
+-            if major == 1 and minor < 4:
+-                # indexnode's tuple changed in 1.4
+-                # https://github.com/sphinx-doc/sphinx/commit/e6a5a3a92e938fcd75866b4227db9e0524d58f7c
+-                self.indexnode['entries'].append(
+-                    ('single', indextext, targetname, ''))
+-            else:
+-                self.indexnode['entries'].append(
++            self.indexnode['entries'].append(
+                     ('single', indextext, targetname, '', None))
+ 
+ class CDomain(Base_CDomain):
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index f3da859c9878..efe760e410c4 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -45,17 +45,7 @@ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+ from docutils.utils.error_reporting import ErrorString
+-
+-#
+-# AutodocReporter is only good up to Sphinx 1.7
+-#
+-import sphinx
+-
+-Use_SSI = sphinx.__version__[:3] >= '1.7'
+-if Use_SSI:
+-    from sphinx.util.docutils import switch_source_input
+-else:
+-    from sphinx.ext.autodoc import AutodocReporter
++from sphinx.util.docutils import switch_source_input
+ 
+ __version__  = '1.0'
+ 
+@@ -179,16 +169,5 @@ class KernelCmd(Directive):
+         return node.children
+ 
+     def do_parse(self, content, node):
+-        if Use_SSI:
+-            with switch_source_input(self.state, content):
+-                self.state.nested_parse(content, 0, node, match_titles=1)
+-        else:
+-            buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+-
+-            self.state.memo.title_styles  = []
+-            self.state.memo.section_level = 0
+-            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
+-            try:
+-                self.state.nested_parse(content, 0, node, match_titles=1)
+-            finally:
+-                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++        with switch_source_input(self.state, content):
++            self.state.nested_parse(content, 0, node, match_titles=1)
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
+index 2fee04f1dedd..c91ea2b27697 100644
+--- a/Documentation/sphinx/kernel_feat.py
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -42,17 +42,7 @@ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+ from docutils.utils.error_reporting import ErrorString
+-
+-#
+-# AutodocReporter is only good up to Sphinx 1.7
+-#
+-import sphinx
+-
+-Use_SSI = sphinx.__version__[:3] >= '1.7'
+-if Use_SSI:
+-    from sphinx.util.docutils import switch_source_input
+-else:
+-    from sphinx.ext.autodoc import AutodocReporter
++from sphinx.util.docutils import switch_source_input
+ 
+ __version__  = '1.0'
+ 
+@@ -154,16 +144,7 @@ class KernelFeat(Directive):
+ 
+         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+ 
+-        if Use_SSI:
+-            with switch_source_input(self.state, content):
+-                self.state.nested_parse(content, 0, node, match_titles=1)
+-        else:
+-            self.state.memo.title_styles  = []
+-            self.state.memo.section_level = 0
+-            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
+-            try:
+-                self.state.nested_parse(content, 0, node, match_titles=1)
+-            finally:
+-                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++        with switch_source_input(self.state, content):
++            self.state.nested_parse(content, 0, node, match_titles=1)
+ 
+         return node.children
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index e9857ab904f1..8189c33b9dda 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -37,18 +37,8 @@ import glob
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-
+-#
+-# AutodocReporter is only good up to Sphinx 1.7
+-#
+ import sphinx
+-
+-Use_SSI = sphinx.__version__[:3] >= '1.7'
+-if Use_SSI:
+-    from sphinx.util.docutils import switch_source_input
+-else:
+-    from sphinx.ext.autodoc import AutodocReporter
+-
++from sphinx.util.docutils import switch_source_input
+ import kernellog
+ 
+ __version__  = '1.0'
+@@ -163,18 +153,8 @@ class KernelDocDirective(Directive):
+             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
+ 
+     def do_parse(self, result, node):
+-        if Use_SSI:
+-            with switch_source_input(self.state, result):
+-                self.state.nested_parse(result, 0, node, match_titles=1)
+-        else:
+-            save = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+-            self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
+-            self.state.memo.title_styles, self.state.memo.section_level = [], 0
+-            try:
+-                self.state.nested_parse(result, 0, node, match_titles=1)
+-            finally:
+-                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = save
+-
++        with switch_source_input(self.state, result):
++            self.state.nested_parse(result, 0, node, match_titles=1)
+ 
+ def setup(app):
+     app.add_config_value('kerneldoc_bin', None, 'env')
+diff --git a/Documentation/sphinx/kernellog.py b/Documentation/sphinx/kernellog.py
+index 8ac7d274f542..0bc00c138cad 100644
+--- a/Documentation/sphinx/kernellog.py
++++ b/Documentation/sphinx/kernellog.py
+@@ -4,29 +4,19 @@
+ # only goes back to 1.6.  So here's a wrapper layer to keep around for
+ # as long as we support 1.4.
+ #
++# We don't support 1.4 anymore, but we'll keep the wrappers around until
++# we change all the code to not use them anymore :)
++#
+ import sphinx
++from sphinx.util import logging
+ 
+-if sphinx.__version__[:3] >= '1.6':
+-    UseLogging = True
+-    from sphinx.util import logging
+-    logger = logging.getLogger('kerneldoc')
+-else:
+-    UseLogging = False
++logger = logging.getLogger('kerneldoc')
+ 
+ def warn(app, message):
+-    if UseLogging:
+-        logger.warning(message)
+-    else:
+-        app.warn(message)
++    logger.warning(message)
+ 
+ def verbose(app, message):
+-    if UseLogging:
+-        logger.verbose(message)
+-    else:
+-        app.verbose(message)
++    logger.verbose(message)
+ 
+ def info(app, message):
+-    if UseLogging:
+-        logger.info(message)
+-    else:
+-        app.info(message)
++    logger.info(message)
 -- 
-Mike Kravetz
+2.29.2
+
