@@ -2,269 +2,306 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696BAC43381
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 08:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA14C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:20:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 304E464F6B
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 08:52:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E23D364EA1
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Feb 2021 09:20:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232839AbhBBIwW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 03:52:22 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:35804 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232801AbhBBIwT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 03:52:19 -0500
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A92AC40170;
-        Tue,  2 Feb 2021 08:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1612255877; bh=EywgE8PperGyqPJOyXJqXoIARC5pj0Na/nlPQV1lrWM=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=ApOywu2huptheJpyrbYOe9aV2AeDrZV/2ZWpbHyAibuvTg3/P29j0R9Jz+uu8VFr8
-         V+4WIpdPHxzW7Q2fr9EFVX6CyWnv78fEb43PFVvAfqvnOOV9HqwehN28gviD7+UoVV
-         Bbj5nDrE/fIXxAW1Uv0xY2bSDLdWCCTPJMkFY8brv83CqsQ11QRiff5U9H7MHHIv8P
-         yoHzRIUImYFSAOdwvvLS3dwNyZ08nb+Eguc6eHgWJQ7/oWIHuGmjn7UILaDYLvCDDj
-         k1Miwcr1gJUqDNssh/NeuwqglfbldbvA2mgXfSiMu5YoEiuELtuB7h/PVkGur3BMlf
-         SQ8x1MplMJ6pA==
-Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 2FDAAA0067;
-        Tue,  2 Feb 2021 08:51:14 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 6DC96802BE;
-        Tue,  2 Feb 2021 08:51:13 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=gustavo@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="vfz1yvGw";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FNg11LH45i0xKCiInRC+Rd8tMGvU2kCShrFdscuCn5Loc5qeWH5dhgJpl06TmBRCkyAthryN+JRSVJLWghsMOPLUdaNeXPn3lmsyv7dA5DUav1BKFUzLmAIom/BHJ8humjSt7pY9T/Nmz+SJGwUX4It04ctCQigJC3Pl7KZOn5AAs+53Iu/5wYAnK0y84GfpqHjHi+1HyyQwP2SZMnqq4Jl6MFJ1HlMmvl4fM6d5VI2ZRAtLm6i7chHhrUhD8N38oIk2Rc3E51pMHCod8jOR5iwhyWFBeF/iQ1pqUREy1izoLPBKzSC7RxOIvbLJMygvWuEIHU/l/L25nlroj+aJnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h0JGephDHPSBZyj1v0ruQepru5+yQB3Id1qI/XFq5iY=;
- b=iR1oxLUqS35W2n6cwljZCdqC/HQF8A6fsgylx2A35fkM8PEZ/wflHnbQDMUp3pjujYl8QrHOJrufAWjPBJZPXkHvXSYK7NG9nkUacG0Ih6T3UesxyP5max6r8Wk83B13YfzlhtggN/087x1YN/nSNMpTI+nCi5gKKn7MDcvwpOYzlM75+VAjrkftLEtCu4s9mLujHy6ipirG4O4yuNXM5z9Q5REYFI6p8WTpstvw5uyjZI8Ii2pCB/blO0an3aVDkLnvre6rmT4vqARo/yJi1irsYQjkbPcBySe/PbPTbXq8hN23akvnIFfTX1cn+oVKm3WmPwn+n8B00Sl/wVoPTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h0JGephDHPSBZyj1v0ruQepru5+yQB3Id1qI/XFq5iY=;
- b=vfz1yvGwbtRfx7m4OTiPMV8ng3PTn/5LBE+x6vYnlKxbuTx8YEfNfLa1H77Cqg7KYINiXQGcl8LGlLZtc5M9G1CFemLU5JLWKdtySzuVmemYZkR/P0bGDO9t54ocgYNd77HTyy/8oZNyudeO7XMkIDzGTP3DUf3vzva2r660Yq8=
-Received: from DM5PR12MB1835.namprd12.prod.outlook.com (2603:10b6:3:10c::9) by
- DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16; Tue, 2 Feb 2021 08:51:11 +0000
-Received: from DM5PR12MB1835.namprd12.prod.outlook.com
- ([fe80::508b:bdb3:d353:9052]) by DM5PR12MB1835.namprd12.prod.outlook.com
- ([fe80::508b:bdb3:d353:9052%10]) with mapi id 15.20.3805.028; Tue, 2 Feb 2021
- 08:51:10 +0000
-X-SNPS-Relay: synopsys.com
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S231902AbhBBJT4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Feb 2021 04:19:56 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:3310 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232339AbhBBJSv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 04:18:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1612257529; x=1643793529;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=URXkxdXhgVTqMxYcWrdsreq+L2psQdcrvcPs2OISeNM=;
+  b=DvWw8kkC/OB24XAg5Eu2ZqZ/IoP0j8+6NxULrdx4RPZFvag/4X0nd28P
+   sRnlFcRSnpxLaK7mutJXiqfKfhSQrAgEuODVNxcCJYj/Jckdu0Uv0Ea0I
+   WlhlOXqWP6XKNEPG+2nGrwRBBXg+nCP+n1J/l7YfpmuACMu/7MF+QUsaz
+   c=;
+X-IronPort-AV: E=Sophos;i="5.79,394,1602547200"; 
+   d="scan'208";a="79232381"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 02 Feb 2021 09:17:50 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id D9C89A2256;
+        Tue,  2 Feb 2021 09:17:38 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.146) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 2 Feb 2021 09:17:21 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     Shakeel Butt <shakeelb@google.com>
+CC:     SeongJae Park <sjpark@amazon.com>,
+        SeongJae Park <sjpark@amazon.de>,
+        <Jonathan.Cameron@huawei.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Qian Cai <cai@lca.pw>,
+        Colin Ian King <colin.king@canonical.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 0/5] misc: Add Add Synopsys DesignWare xData IP driver
-Thread-Topic: [PATCH v3 0/5] misc: Add Add Synopsys DesignWare xData IP driver
-Thread-Index: AQHWvlUnrEoqwwtzmk2HTCBmG0B2lKpFBCnA
-Date:   Tue, 2 Feb 2021 08:51:10 +0000
-Message-ID: <DM5PR12MB183527AA0FECE00D7A3D46DBDAB59@DM5PR12MB1835.namprd12.prod.outlook.com>
-References: <cover.1605777306.git.gustavo.pimentel@synopsys.com>
-In-Reply-To: <cover.1605777306.git.gustavo.pimentel@synopsys.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcZ3VzdGF2b1xh?=
- =?us-ascii?Q?cHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJh?=
- =?us-ascii?Q?MjllMzViXG1zZ3NcbXNnLWM5ZjlkN2Y0LTY1MzMtMTFlYi05OGU2LWY4OTRj?=
- =?us-ascii?Q?MjczODA0MlxhbWUtdGVzdFxjOWY5ZDdmNi02NTMzLTExZWItOThlNi1mODk0?=
- =?us-ascii?Q?YzI3MzgwNDJib2R5LnR4dCIgc3o9IjE5NTEiIHQ9IjEzMjU2NzI5NDY4MTQw?=
- =?us-ascii?Q?MzM2MSIgaD0iVWREQmZ6VE1EUS9MdW9IdlFneGI2Nktramd3PSIgaWQ9IiIg?=
- =?us-ascii?Q?Ymw9IjAiIGJvPSIxIiBjaT0iY0FBQUFFUkhVMVJTUlVGTkNnVUFBQlFKQUFE?=
- =?us-ascii?Q?aHoxR01RUG5XQVZPWHEzcUFkTnZBVTVlcmVvQjAyOEFPQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUhBQUFBQ2tDQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUVBQVFBQkFBQUFOclNWM2dBQUFBQUFBQUFBQUFBQUFKNEFBQUJtQUdrQWJn?=
- =?us-ascii?Q?QmhBRzRBWXdCbEFGOEFjQUJzQUdFQWJnQnVBR2tBYmdCbkFGOEFkd0JoQUhR?=
- =?us-ascii?Q?QVpRQnlBRzBBWVFCeUFHc0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?RUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFHWUFid0IxQUc0QVpBQnlBSGtBWHdC?=
- =?us-ascii?Q?d0FHRUFjZ0IwQUc0QVpRQnlBSE1BWHdCbkFHWUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFBQUFDQUFB?=
- =?us-ascii?Q?QUFBQ2VBQUFBWmdCdkFIVUFiZ0JrQUhJQWVRQmZBSEFBWVFCeUFIUUFiZ0Js?=
- =?us-ascii?Q?QUhJQWN3QmZBSE1BWVFCdEFITUFkUUJ1QUdjQVh3QmpBRzhBYmdCbUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFBQm1BRzhB?=
- =?us-ascii?Q?ZFFCdUFHUUFjZ0I1QUY4QWNBQmhBSElBZEFCdUFHVUFjZ0J6QUY4QWN3QmhB?=
- =?us-ascii?Q?RzBBY3dCMUFHNEFad0JmQUhJQVpRQnpBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUdZQWJ3QjFBRzRBWkFCeUFIa0FY?=
- =?us-ascii?Q?d0J3QUdFQWNnQjBBRzRBWlFCeUFITUFYd0J6QUcwQWFRQmpBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFBQUFBQUNB?=
- =?us-ascii?Q?QUFBQUFDZUFBQUFaZ0J2QUhVQWJnQmtBSElBZVFCZkFIQUFZUUJ5QUhRQWJn?=
- =?us-ascii?Q?QmxBSElBY3dCZkFITUFkQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQkFBQUFBQUFBQUFJQUFBQUFBSjRBQUFCbUFH?=
- =?us-ascii?Q?OEFkUUJ1QUdRQWNnQjVBRjhBY0FCaEFISUFkQUJ1QUdVQWNnQnpBRjhBZEFC?=
- =?us-ascii?Q?ekFHMEFZd0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR1lBYndCMUFHNEFaQUJ5QUhr?=
- =?us-ascii?Q?QVh3QndBR0VBY2dCMEFHNEFaUUJ5QUhNQVh3QjFBRzBBWXdBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFB?=
- =?us-ascii?Q?Q0FBQUFBQUNlQUFBQVp3QjBBSE1BWHdCd0FISUFid0JrQUhVQVl3QjBBRjhB?=
- =?us-ascii?Q?ZEFCeUFHRUFhUUJ1QUdrQWJnQm5BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFKNEFBQUJ6?=
- =?us-ascii?Q?QUdFQWJBQmxBSE1BWHdCaEFHTUFZd0J2QUhVQWJnQjBBRjhBY0FCc0FHRUFi?=
- =?us-ascii?Q?Z0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBRUFBQUFBQUFBQUFnQUFBQUFBbmdBQUFITUFZUUJzQUdVQWN3QmZB?=
- =?us-ascii?Q?SEVBZFFCdkFIUUFaUUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQVFBQUFBQUFB?=
- =?us-ascii?Q?QUFDQUFBQUFBQ2VBQUFBY3dCdUFIQUFjd0JmQUd3QWFRQmpBR1VBYmdCekFH?=
- =?us-ascii?Q?VUFYd0IwQUdVQWNnQnRBRjhBTVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJBQUFBQUFBQUFBSUFBQUFBQUo0QUFB?=
- =?us-ascii?Q?QnpBRzRBY0FCekFGOEFiQUJwQUdNQVpRQnVBSE1BWlFCZkFIUUFaUUJ5QUcw?=
- =?us-ascii?Q?QVh3QnpBSFFBZFFCa0FHVUFiZ0IwQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFFQUFBQUFBQUFBQWdBQUFBQUFuZ0FBQUhZQVp3QmZBR3NBWlFC?=
- =?us-ascii?Q?NUFIY0Fid0J5QUdRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
- =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBUUFBQUFB?=
- =?us-ascii?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [89.155.14.32]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1cac6c91-e867-4393-5098-08d8c757b04a
-x-ms-traffictypediagnostic: DM5PR12MB2504:
-x-microsoft-antispam-prvs: <DM5PR12MB25041EBC02386E0F40838FB5DAB59@DM5PR12MB2504.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dyNMejtqJdbShxX9ladgD1cLezkpeWoLZ3Seo86QLLYyA27MVs2RCDa7XXNGQjn4TaYRKFmgZrP0Ooja8MGPdrvI+JXfDsjX48qhUoTb0HJS5qA2SZp9vvk4BwSe9FPKHrFDgbTdB1as8lclqbwWcOUnHxQe8DTvkn/IN1niuO370XjWRQZJeqh8QhM5qKzLcmDANAVA9KwVRa9LcieyGABkD7oB2d/WgCaj9e7rf8whQjiHWewtwRufgLHCVPtnMDs5pLTb7lmn548/BZHyzlKOG7Hf4UYY0NoYvDLCBlCMN5J4geh4mYz9dTi00nfeK822k6blCkOT+D/kdwJcL+l9T48qELb4Q14sZ1klvs2HfPyFgB3swU/5TlW2jMH8R4CwFu8FZgbzPctcqs6AF1Nh7eD16ZkFedthYobaD2QwN8ezBBwvqo6MB/xImCCbU8lITjYBniSgpwVlyy+IOwU3Jnmv76+kLrQum4LomTSZLKrrzfXB2m2t1XeiSupcquC1ep4riyGCQqoUnfOHQg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR12MB1835.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(376002)(396003)(346002)(39860400002)(366004)(9686003)(2906002)(66446008)(66556008)(55016002)(8936002)(71200400001)(66946007)(478600001)(8676002)(66476007)(52536014)(53546011)(6506007)(76116006)(5660300002)(186003)(64756008)(26005)(316002)(33656002)(83380400001)(7696005)(54906003)(86362001)(6916009)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?0uW4MHQ0wTd/b/DOQh5oqTJxdJQGs/PaiPvbI6S1/gW2y/NPxt0Mt7EUFtoN?=
- =?us-ascii?Q?C6nhCGMz8U0mtme/IjMYGdBkwuz445bFsungR7oXtzskucDWOv+a4NlgFamG?=
- =?us-ascii?Q?wa3cY+ualof2sSTmrRE11PB+nkpvHOajhP6l0vuXlNx6DbC0DaEUIC/At5Cb?=
- =?us-ascii?Q?+3xy8xItvqJYCcXpWDa9Jk7NqslOXpf4HTRkrSq6fNX0xJMXw0SLuFgNmW+8?=
- =?us-ascii?Q?87Y9qGcIoRSnKTDCB5x8h19uMcyyELwclfmM/ZnoZ5+KrjBUtFErlacCjs0z?=
- =?us-ascii?Q?ntxr4RmQbKAW/R0K7h0XbAKQ1Tp4MLTIL4f69stGW9lofJB8vk95713rISoS?=
- =?us-ascii?Q?k5YhTn0t3ipG628OZ7R9FPwkoyl7y+O21oKl4w3tyFh3P+rY7LbPBIL4bpg7?=
- =?us-ascii?Q?Sol3VpmqWIoBbZViDuSqn7Vs0oE6LzZ1s9b114W34pyG7/VFTgMHUbGJvXwU?=
- =?us-ascii?Q?3d/Y90LN/sgSEca0dMwHVSgD0SHxAormwFA8ryihgkqmv64b9hurMUlgrV5B?=
- =?us-ascii?Q?gdGVoHfkYqrvYP+w20qhuHycvLmXG6LQmkfX4Rf16ob2Mydio48gbcndO0Gj?=
- =?us-ascii?Q?fVtQ6dISxw1Xfa5yywP9qEfQdOoBwDTf12zIh6au5HhOclLP4sn48rGri5EU?=
- =?us-ascii?Q?S1Wu+avUJmM/RzA7gxguvIpovRdIYgT2CBXhe5iL6XCJzBYepuwUmav7G0Il?=
- =?us-ascii?Q?V7UmlQWsGgiU7fBazOAPLrb3V99W2bQ2nE6G+ensz4DDv5myVVTVZUAiYB5q?=
- =?us-ascii?Q?MVQESdSyq7xJ7nOHS8YEjq9i1Biep+AcV6UliLv/32B8Ge5Kcu3z6zYJn0ov?=
- =?us-ascii?Q?+mCj7JzM8um2uLSAxguVOWXYwoZWrPDzE0yvzDZnNYcfDkv7oUfXhlowoTbt?=
- =?us-ascii?Q?XbSpdZ5FWtPEPriBvgw1uAzrI6p3CDFePOS0AhfFu51eiaenDWe4PhAoW/Ns?=
- =?us-ascii?Q?iD5nsFHdcLFwyTQkKK0aqRHPqURFtYsWSFaeak+9BiPSmu9bXwt9DrBZ0259?=
- =?us-ascii?Q?H1O87MY63mn2hWPO+pBH7d8Ma8bRlHYwTNc0R5dVjf38cDSje+KHK/Wp9hv7?=
- =?us-ascii?Q?qH6Qr4/7?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        "David Hildenbrand" <david@redhat.com>, <dwmw@amazon.com>,
+        Marco Elver <elver@google.com>, "Du, Fan" <fan.du@intel.com>,
+        <foersleo@amazon.de>, "Greg Thelen" <gthelen@google.com>,
+        Ian Rogers <irogers@google.com>, <jolsa@redhat.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mel Gorman <mgorman@suse.de>, Minchan Kim <minchan@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, <namhyung@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Rik van Riel <riel@surriel.com>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mike Rapoport <rppt@kernel.org>, <sblbir@amazon.com>,
+        Shuah Khan <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Yang Shi <yang.shi@linux.alibaba.com>,
+        Huang Ying <ying.huang@intel.com>, <zgf574564920@gmail.com>,
+        <linux-damon@amazon.com>, Linux MM <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v23 02/15] mm/damon/core: Implement region-based sampling
+Date:   Tue, 2 Feb 2021 10:17:05 +0100
+Message-ID: <20210202091705.812-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CALvZod72UxP4tmrZSrDgUJrDpWM67v=MyB8CEWhy0Osgm6O+Ww@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1835.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cac6c91-e867-4393-5098-08d8c757b04a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2021 08:51:10.5508
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BpxgndfBZmdbGBd0T3FzE24Ajxm/M77kcApOx+AdFOUeDsrjuBgzr+jCL5hKyajFdwwfjmIjUsG8I7NPcUcyhA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.146]
+X-ClientProxiedBy: EX13D10UWA004.ant.amazon.com (10.43.160.64) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just a kindly reminder.
+On Mon, 1 Feb 2021 09:37:29 -0800 Shakeel Butt <shakeelb@google.com> wrote:
 
-On Thu, Nov 19, 2020 at 9:19:37, Gustavo Pimentel <gustavo@synopsys.com>=20
-wrote:
+> On Tue, Dec 15, 2020 at 3:56 AM SeongJae Park <sjpark@amazon.com> wrote:
+> >
+> > From: SeongJae Park <sjpark@amazon.de>
+> >
+> > To avoid the unbounded increase of the overhead, DAMON groups adjacent
+> > pages that assumed to have the same access frequencies into a region.
+> 
+> 'that are assumed'
 
-> This patch series adds a new driver called xData-pcie for the Synopsys
-> DesignWare PCIe prototype.
->=20
-> The driver configures and enables the Synopsys DesignWare PCIe traffic
-> generator IP inside of prototype Endpoint which will generate upstream
-> and downstream PCIe traffic. This allows to quickly test the PCIe link
-> throughput speed and check is the prototype solution has some limitation
-> or not.
->=20
-> Cc: Derek Kiernan <derek.kiernan@xilinx.com>
-> Cc: Dragan Cvetic <dragan.cvetic@xilinx.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-pci@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
->=20
-> Changes:
->  V2: Rework driver according to Greg Kroah-Hartman feedback=20
->  V3: Fixed issues detected while running on 64 bits platforms
->=20
-> Gustavo Pimentel (5):
->   misc: Add Synopsys DesignWare xData IP driver
->   misc: Add Synopsys DesignWare xData IP driver to Makefile
->   misc: Add Synopsys DesignWare xData IP driver to Kconfig
->   Documentation: misc-devices: Add Documentation for dw-xdata-pcie
->     driver
->   MAINTAINERS: Add Synopsys xData IP driver maintainer
->=20
->  Documentation/misc-devices/dw-xdata-pcie.rst |  40 +++
->  MAINTAINERS                                  |   7 +
->  drivers/misc/Kconfig                         |  11 +
->  drivers/misc/Makefile                        |   1 +
->  drivers/misc/dw-xdata-pcie.c                 | 379 +++++++++++++++++++++=
-++++++
->  5 files changed, 438 insertions(+)
->  create mode 100644 Documentation/misc-devices/dw-xdata-pcie.rst
->  create mode 100644 drivers/misc/dw-xdata-pcie.c
->=20
-> --=20
-> 2.7.4
+Good eye!
 
+> 
+> > As long as the assumption (pages in a region have the same access
+> > frequencies) is kept, only one page in the region is required to be
+> > checked.  Thus, for each ``sampling interval``,
+> >
+> >  1. the 'prepare_access_checks' primitive picks one page in each region,
+> >  2. waits for one ``sampling interval``,
+> >  3. checks whether the page is accessed meanwhile, and
+> >  4. increases the access frequency of the region if so.
+> 
+> I think you meant increasing the access 'count' or something.
+> Increasing the access frequency somewhat conveys that the sampling
+> interval is being decreased.
 
+You're right, I will reword this in the next version.
+
+> 
+> >
+> > Therefore, the monitoring overhead is controllable by adjusting the
+> > number of regions.  DAMON allows both the underlying primitives and user
+> > callbacks adjust regions for the trade-off.  In other words, this commit
+> 
+> 'callbacks to adjust'
+
+Nice catch!
+
+> 
+> 
+> > makes DAMON to use not only time-based sampling but also space-based
+> > sampling.
+> >
+> > This scheme, however, cannot preserve the quality of the output if the
+> > assumption is not guaranteed.  Next commit will address this problem.
+> >
+> > Another problem of this region abstraction is additional memory space
+> > overhead for the regions metadata.  For example, suppose page
+> > granularity monitoring that doesn't want to know fine-grained access
+> > frequency but only if each page accessed or not.
+> 
+> You mean when the sampling interval is equal to the aggregation interval, right?
+
+Right, that would be a straightforward way to get the information with region
+abstraction.
+
+> 
+> > Then, we can do that
+> > by directly resetting and reading the PG_Idle flags and/or the PTE
+> > Accessed bits.  The metadata for the region abstraction is only burden
+> > in the case.  For the reason, this commit makes DAMON to support the
+> > user-defined arbitrary target, which could be stored in a void pointer
+> > of the monitoring context with specific target type.
+> 
+> Sorry I didn't follow. How does sampling interval equal to aggregation
+> interval require user-defined arbitrary targets?
+
+So, setting sampling interval equal to aggregation interval is a
+straightforward way to get the if-accessed-only information with the
+region-based sampling.  However, this will waste memory with region metadata
+(observed accesses counter).  The wastage becomes much worse if we do
+page-granularity monitoring, because the region metadata for start address and
+end address of the regions would not necessary.
+
+Someone can implement and use monitoring primitives making no such waste by
+using thir own abstraction rather than the regions abstraction (and therefore
+no regions metadata).  To allow that, we make the regions abstraction to be
+used only when the context is configured for special target type
+(DAMON_REGION_SAMPLING_TARGET) and allow users to use their own arbitrary
+abstraction with the arbitrary target type.
+
+An RFC patchset for an example implementation of the arbitrary target type is
+available:
+https://lore.kernel.org/linux-mm/20201216094221.11898-1-sjpark@amazon.com/
+
+> 
+> >
+> > Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> > Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> > ---
+> >  include/linux/damon.h | 109 ++++++++++++++++++++++++++++++--
+> >  mm/damon/core.c       | 142 +++++++++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 243 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/include/linux/damon.h b/include/linux/damon.h
+> > index 387fa4399fc8..7d4685adc8a9 100644
+> > --- a/include/linux/damon.h
+> > +++ b/include/linux/damon.h
+> > @@ -12,6 +12,48 @@
+> >  #include <linux/time64.h>
+> >  #include <linux/types.h>
+> >
+> > +/**
+> > + * struct damon_addr_range - Represents an address region of [@start, @end).
+> > + * @start:     Start address of the region (inclusive).
+> > + * @end:       End address of the region (exclusive).
+> > + */
+> > +struct damon_addr_range {
+> > +       unsigned long start;
+> > +       unsigned long end;
+> > +};
+> > +
+> > +/**
+> > + * struct damon_region - Represents a monitoring target region.
+> > + * @ar:                        The address range of the region.
+> > + * @sampling_addr:     Address of the sample for the next access check.
+> > + * @nr_accesses:       Access frequency of this region.
+> > + * @list:              List head for siblings.
+> > + */
+> > +struct damon_region {
+> > +       struct damon_addr_range ar;
+> > +       unsigned long sampling_addr;
+> > +       unsigned int nr_accesses;
+> > +       struct list_head list;
+> > +};
+> > +
+> > +/**
+> > + * struct damon_target - Represents a monitoring target.
+> > + * @id:                        Unique identifier for this target.
+> > + * @regions_list:      Head of the monitoring target regions of this target.
+> > + * @list:              List head for siblings.
+> > + *
+> > + * Each monitoring context could have multiple targets.  For example, a context
+> > + * for virtual memory address spaces could have multiple target processes.  The
+> > + * @id of each target should be unique among the targets of the context.  For
+> > + * example, in the virtual address monitoring context, it could be a pidfd or
+> > + * an address of an mm_struct.
+> > + */
+> > +struct damon_target {
+> > +       unsigned long id;
+> > +       struct list_head regions_list;
+> > +       struct list_head list;
+> > +};
+> > +
+> >  struct damon_ctx;
+> >
+> >  /**
+> > @@ -36,7 +78,8 @@ struct damon_ctx;
+> >   *
+> >   * @init_target_regions should construct proper monitoring target regions and
+> >   * link those to the DAMON context struct.  The regions should be defined by
+> > - * user and saved in @damon_ctx.target.
+> > + * user and saved in @damon_ctx.arbitrary_target if @damon_ctx.target_type is
+> > + * &DAMON_ARBITRARY_TARGET.  Otherwise, &struct damon_region should be used.
+> >   * @update_target_regions should update the monitoring target regions for
+> >   * current status.
+> >   * @prepare_access_checks should manipulate the monitoring regions to be
+> > @@ -46,7 +89,8 @@ struct damon_ctx;
+> >   * @reset_aggregated should reset the access monitoring results that aggregated
+> >   * by @check_accesses.
+> >   * @target_valid should check whether the target is still valid for the
+> > - * monitoring.
+> > + * monitoring.  It receives &damon_ctx.arbitrary_target or &struct damon_target
+> > + * pointer depends on &damon_ctx.target_type.
+> >   * @cleanup is called from @kdamond just before its termination.  After this
+> >   * call, only @kdamond_lock and @kdamond will be touched.
+> >   */
+> > @@ -91,6 +135,17 @@ struct damon_callback {
+> >         int (*before_terminate)(struct damon_ctx *context);
+> >  };
+> >
+> > +/**
+> > + * enum damon_target_type - Represents the type of the monitoring target.
+> > + *
+> > + * @DAMON_REGION_SAMPLING_TARGET:      Region based sampling target.
+> > + * @DAMON_ARBITRARY_TARGET:            User-defined arbitrary type target.
+> > + */
+> > +enum damon_target_type {
+> > +       DAMON_REGION_SAMPLING_TARGET,
+> > +       DAMON_ARBITRARY_TARGET,
+> 
+> I would suggest removing the arbitrary target in this pathset. This
+> patchset is only adding the region sampling target, so no need to add
+> the arbitrary target here.
+
+I think arbitrary targt type is necessary for above mentioned case.  Also, this
+makes backward compatible for the previous patch.  However, as this patchset
+doesn't introduce the real use of the arbitrary target type, I think it's also
+ok to introduce this later.  So I will drop this as you suggested in the next
+version.
+
+[...]
+> > +
+> > +/*
+> > + * Add a region between two other regions
+> > + */
+> > +inline void damon_insert_region(struct damon_region *r,
+> > +               struct damon_region *prev, struct damon_region *next)
+> > +{
+> > +       __list_add(&r->list, &prev->list, &next->list);
+> > +}
+> > +
+> > +void damon_add_region(struct damon_region *r, struct damon_target *t)
+> > +{
+> > +       list_add_tail(&r->list, &t->regions_list);
+> > +}
+> > +
+> 
+> I don't see the benefit of these one line functions at least the following two.
+
+We might want to use different data structures such as rbtree for regions
+later.  So I want to make the programming interface independent of the data
+structure.  This wrappers would help that.
+
+[...]
+
+Thanks,
+SeongJae Park
