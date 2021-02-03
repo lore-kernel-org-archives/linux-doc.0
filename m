@@ -2,109 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B70BC433DB
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 16:06:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 722C0C433DB
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 16:12:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45EAF60234
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 16:06:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BB2E64F74
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 16:12:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234271AbhBCQF4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 11:05:56 -0500
-Received: from mx2.veeam.com ([64.129.123.6]:40648 "EHLO mx2.veeam.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234760AbhBCQFO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 11:05:14 -0500
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S234974AbhBCQLz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 11:11:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36907 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234978AbhBCQLg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 11:11:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612368609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Md5deGFTlNwWnMdHSwnNKkej1rIsSFXY3oqRw/3YWT0=;
+        b=PH14XHQoAB+Qn41y6WQZwuhGSpzdoON9tQlxsfV+EqJLHXqTfnX2+zZ/AO0myRDPp2oOyw
+        NYNKkRlhLONaiq2c1AhGJlI92bvTDLgN8XQ3vo7PjFED1CoYiyV9ovR4S12VQ03zpUoSA3
+        6skj8rfUpMcVCmsmkGJAVw7PsDdnJP4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-Cw8jCwDsPEmEHOoAb7OFcw-1; Wed, 03 Feb 2021 11:10:05 -0500
+X-MC-Unique: Cw8jCwDsPEmEHOoAb7OFcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id 2FC34415CB;
-        Wed,  3 Feb 2021 10:54:40 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
-        t=1612367680; bh=CYaL9LusoGHbduz1D+Gy81Me9TskPJ/xQvBoJAZkwvQ=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=N5lVzPiBU8lR6Si4NeJimXlSeKUQbGknX5AobzObI2P/Pg6yBMCICUnscT/NdGlz4
-         GMJD89KAjd5+IQ8MpZ12ClglZGNkZs10EBk2z75pu4gBF/Jv6rKogaCjQua/bNN51u
-         MCuwRjMqdJIeSfg2eE6/Px0XyZMYAE/aj1QEgXuQ=
-Received: from prgdevlinuxpatch01.amust.local (172.24.14.5) by
- prgmbx01.amust.local (172.24.0.171) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2;
- Wed, 3 Feb 2021 16:54:22 +0100
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     <Damien.LeMoal@wdc.com>, <snitzer@redhat.com>, <hare@suse.de>,
-        <ming.lei@redhat.com>, <agk@redhat.com>, <corbet@lwn.net>,
-        <axboe@kernel.dk>, <jack@suse.cz>, <johannes.thumshirn@wdc.com>,
-        <gregkh@linuxfoundation.org>, <koct9i@gmail.com>, <steve@sk2.org>,
-        <dm-devel@redhat.com>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <sergei.shtepa@veeam.com>, <pavgel.tide@veeam.com>
-Subject: [PATCH v4 3/6] block: add blk_mq_is_queue_frozen()
-Date:   Wed, 3 Feb 2021 18:53:55 +0300
-Message-ID: <1612367638-3794-4-git-send-email-sergei.shtepa@veeam.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1612367638-3794-1-git-send-email-sergei.shtepa@veeam.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07BEE6D4E0;
+        Wed,  3 Feb 2021 16:10:03 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AF005FC3A;
+        Wed,  3 Feb 2021 16:09:56 +0000 (UTC)
+Date:   Wed, 3 Feb 2021 11:09:55 -0500
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     Damien.LeMoal@wdc.com, hare@suse.de, ming.lei@redhat.com,
+        agk@redhat.com, corbet@lwn.net, axboe@kernel.dk, jack@suse.cz,
+        johannes.thumshirn@wdc.com, gregkh@linuxfoundation.org,
+        koct9i@gmail.com, steve@sk2.org, dm-devel@redhat.com,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, pavgel.tide@veeam.com
+Subject: Re: [PATCH v4 3/6] block: add blk_mq_is_queue_frozen()
+Message-ID: <20210203160955.GA21359@redhat.com>
 References: <1612367638-3794-1-git-send-email-sergei.shtepa@veeam.com>
+ <1612367638-3794-4-git-send-email-sergei.shtepa@veeam.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.24.14.5]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
- (172.24.0.171)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29C604D265667062
-X-Veeam-MMEX: True
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1612367638-3794-4-git-send-email-sergei.shtepa@veeam.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-blk_mq_is_queue_frozen() allow to assert that the queue is frozen.
+On Wed, Feb 03 2021 at 10:53am -0500,
+Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
 
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- block/blk-mq.c         | 13 +++++++++++++
- include/linux/blk-mq.h |  1 +
- 2 files changed, 14 insertions(+)
+> blk_mq_is_queue_frozen() allow to assert that the queue is frozen.
+> 
+> Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
+> ---
+>  block/blk-mq.c         | 13 +++++++++++++
+>  include/linux/blk-mq.h |  1 +
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index f285a9123a8b..924ec26fae5f 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -161,6 +161,19 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait_timeout);
+>  
+> +
+> +bool blk_mq_is_queue_frozen(struct request_queue *q)
+> +{
+> +	bool ret;
+> +
+> +	mutex_lock(&q->mq_freeze_lock);
+> +	ret = percpu_ref_is_dying(&q->q_usage_counter) && percpu_ref_is_zero(&q->q_usage_counter);
+> +	mutex_unlock(&q->mq_freeze_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(blk_mq_is_queue_frozen);
+> +
+>  /*
+>   * Guarantee no request is in use, so we can change any data structure of
+>   * the queue afterward.
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index d705b174d346..9d1e8c4e922e 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -525,6 +525,7 @@ void blk_freeze_queue_start(struct request_queue *q);
+>  void blk_mq_freeze_queue_wait(struct request_queue *q);
+>  int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+>  				     unsigned long timeout);
+> +bool blk_mq_is_queue_frozen(struct request_queue *q);
+>  
+>  int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
+>  void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+> -- 
+> 2.20.1
+> 
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index f285a9123a8b..924ec26fae5f 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -161,6 +161,19 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- }
- EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait_timeout);
- 
-+
-+bool blk_mq_is_queue_frozen(struct request_queue *q)
-+{
-+	bool ret;
-+
-+	mutex_lock(&q->mq_freeze_lock);
-+	ret = percpu_ref_is_dying(&q->q_usage_counter) && percpu_ref_is_zero(&q->q_usage_counter);
-+	mutex_unlock(&q->mq_freeze_lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_is_queue_frozen);
-+
- /*
-  * Guarantee no request is in use, so we can change any data structure of
-  * the queue afterward.
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index d705b174d346..9d1e8c4e922e 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -525,6 +525,7 @@ void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
-+bool blk_mq_is_queue_frozen(struct request_queue *q);
- 
- int blk_mq_map_queues(struct blk_mq_queue_map *qmap);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
--- 
-2.20.1
+This needs to come before patch 2 (since patch 2 uses it).
+
+Mike
 
