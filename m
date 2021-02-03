@@ -2,171 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092E0C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 10:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1CB9C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 13:24:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B252664DE7
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 10:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7472B64F7E
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 13:24:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233405AbhBCKY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 05:24:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233448AbhBCKYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 05:24:24 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68249C06174A
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 02:23:44 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id f16so4895031wmq.5
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 02:23:44 -0800 (PST)
+        id S230248AbhBCNY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 08:24:28 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:50994 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230086AbhBCNYZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 08:24:25 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 113DDwRX135909;
+        Wed, 3 Feb 2021 13:22:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to :
+ references : cc : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=TOeoctcS+1/tarsBFXRxdsLyJmXJizkOzQDCs06rzWE=;
+ b=EQs2hVvA9bpKGS4t/VNDZo2YBfbO0no/CgoLN07evCclkTPwJVQNpUrpjzhBsPlpQTNl
+ M0levePS7dUYIgSDjVNtbohd9QeR/xvT2s2T0azCvKPwinlvH7HIYMEy9LWMI1qNbk1n
+ TyGoKsQIV21gIPebqv9eia0J7gUVauQJWqlcyGupkOnzCxVUhlV2RDmLo3LklHI8d6jY
+ KJ4O1GX2TBdb9QevBJMCWvsbglHGl7YHD5XFOucqy6cXxCHUZ+uD1Ge5F+PvMpVUubc4
+ WfhibqUYzjAtTP/dw7p7YzYcaIJ+canaTDJlBpJoG0EzNnwJzOAlOTeyJELR5UQEDfNp lA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 36fs458qp2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 03 Feb 2021 13:22:34 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 113DGEsN163030;
+        Wed, 3 Feb 2021 13:22:33 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
+        by userp3020.oracle.com with ESMTP id 36dh7teqfc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 03 Feb 2021 13:22:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gV9T8LWz2Tz2RoHH42caMC6ubcbA1fFj0b7lV4qnq4B0PZA3vbH+VYMs00wJsacS3jdGWkkqAEqEh/Z7AJK/yZ221jswFmT2XJMXo/OQV32VAHzHXq876P/4oquZjp+sOF36IVpdAJPg/LQPC/Rbwp86GPKQHxcotEsfdboY+5sjVikeoRaXc3Vz4q9LPsUCVWT/nA6qFHVJL0QdW7tdlFwcQJlOGiaAp0EpprSswazgTg2Zs2RggDMpxW32h5HJPVuTIq0RkutESGiK7fa3pH7zldzqRINxDm6qza3wvQW6trVfJuJ/JehUt5HQqwzl/ocJ0NFMai1UlaB51yerfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TOeoctcS+1/tarsBFXRxdsLyJmXJizkOzQDCs06rzWE=;
+ b=MNLaryJn/mYRqbTTo1Dq38pAp/p4ID046DkNSSideyn4kT9qPWoV1Qi2iZPnel6r1hIgkd/R0FTnDoSujy8icCHe/CqQraKNx0BeZ9uf+gRy+VeZOX9rpOrlZA/PPYrZ2xdZbEMZlG8hetGiz1YttJRXAIXWYqn/gi6EBxnhKAwAih3wxbl1SIKr9Q64ySuHMzP56OqrZzPh9RamkQjwI1UJvpaq08/hSCj2S9QY/Y+JbmOOIen/RujICLf5njfEtl0HRcBG9t3LZ8pDolif3yqC58Ek14i4yduHVfFZgQJ1m2nJKzyLtvXsUObvWZ81Uo/bCqQwACzwzsF42NtKCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
-        b=XcTmJyWd74nvKmKqGb0lHYbm4BberuwObLIrEVZVDU5MFPGSgRvwBVl691DtsVL32v
-         PoxSztsiW9kqnY7fWODTxJQ24Xut19EQmALlq/oOlmCC/lE28uXGaC0MT/lTB3vpqnHz
-         OO6YtZ53iIHcnPn/3H7K8/Ji389pkKLCfJXYw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
-        b=PU4Mjse0dSPpopfS5XyVSF1gHndGmSTrDvd4e+iVyM+zMr8vRmebRBfQfROAorsC5p
-         ojTnedH/CxJWukroTW2LCbk+fOUKrz4mOD78CEV2ZqJ6L8ba+R1Gp5s06sfeZf9OSn+r
-         03GLyWWadX9Y4zks9vggCRWOVZMSRnqs1cYdPxUzm6z8dpHeBy92FYMEraArnzzfOE+Q
-         mfxxQ0oh3zghwWqK4UjZCfRRxN7gwKQndgJdfIcSiFUsQZKTqwgQRSFNLZAG1hShj9Y7
-         Tork7RcjcB2f37wnELq1mGzYcWAYc6bNUu5t0+BCp/1b3KOiqHXhCxIzTBNdl2VYQ8ui
-         Ne/A==
-X-Gm-Message-State: AOAM532w4AMfICbFZ9mCGECjFHd7Mxxzxh8/TYGU/b3BWvTcTto/yFlo
-        XVf4Q1jDYjHLgkI+4p+/shXMXg==
-X-Google-Smtp-Source: ABdhPJwiI5aD5dqY1ckorWBWkPtWhv80Z2HTWzG7jeWjpVya/U1sTYHLj7xvi3ENjtXKYY1O+EVTCA==
-X-Received: by 2002:a7b:c3ca:: with SMTP id t10mr1325153wmj.138.1612347823070;
-        Wed, 03 Feb 2021 02:23:43 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id b3sm2351907wme.32.2021.02.03.02.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 02:23:42 -0800 (PST)
-Date:   Wed, 3 Feb 2021 11:23:39 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Simon Ser <contact@emersion.fr>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Michal Hocko <mhocko@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
-        Michel Lespinasse <walken@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        kernel-team <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
-Message-ID: <YBp5qzLBBMJE0Yhn@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Simon Ser <contact@emersion.fr>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Michal Hocko <mhocko@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
-        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
-        Michel Lespinasse <walken@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        kernel-team <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux API <linux-api@vger.kernel.org>
-References: <20210126225138.1823266-1-kaleshsingh@google.com>
- <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
- <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
- <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
- <20210128120130.50aa9a74@eldfell>
- <c95af15d-8ff4-aea0-fa1b-3157845deae1@amd.com>
- <20210129161334.788b8fd0@eldfell>
- <wgUb8smQArgjbRFYMPYVDmukBT-_BrqG2M6XIOkWdBcW_x-m4ORnl3VOvH3J4wrsNGMoOXqMAro0UmkdVXFNso9PEiNCFGEeruibhWsmU34=@emersion.fr>
- <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TOeoctcS+1/tarsBFXRxdsLyJmXJizkOzQDCs06rzWE=;
+ b=jxrKBysPD5h+vXsqJz/gMWkLd4KJKIePNdI3RfFhhTgivsRscGWd9MHhLf5tF+hrlxGWZhNbbmRYjcs9aigxBQeJafQ4YPbi+QMUfk8jX2BT2YFvhJ2gAMF96jwLH2QJqSgNVTkIKjgbHdkDtbx+oCH8HOHy3aYZ0PPorfLiQSU=
+Authentication-Results: namei.org; dkim=none (message not signed)
+ header.d=none;namei.org; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB3077.namprd10.prod.outlook.com (20.177.226.140) by
+ BYAPR10MB3093.namprd10.prod.outlook.com (20.179.154.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.19; Wed, 3 Feb 2021 13:22:31 +0000
+Received: from BYAPR10MB3077.namprd10.prod.outlook.com
+ ([fe80::74a8:8649:e20b:d571]) by BYAPR10MB3077.namprd10.prod.outlook.com
+ ([fe80::74a8:8649:e20b:d571%7]) with mapi id 15.20.3805.024; Wed, 3 Feb 2021
+ 13:22:31 +0000
+Subject: Re: [PATCH v8 02/14] mm/gup: check every subpage of a compound page
+ during isolation
+To:     Pavel Tatashin <pasha.tatashin@soleen.com>, jgg@ziepe.ca
+References: <20210125194751.1275316-1-pasha.tatashin@soleen.com>
+ <20210125194751.1275316-3-pasha.tatashin@soleen.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        akpm@linux-foundation.org, vbabka@suse.cz, mhocko@suse.com,
+        david@redhat.com, osalvador@suse.de, dan.j.williams@intel.com,
+        sashal@kernel.org, tyhicks@linux.microsoft.com,
+        iamjoonsoo.kim@lge.com, mike.kravetz@oracle.com,
+        rostedt@goodmis.org, mingo@redhat.com, peterz@infradead.org,
+        mgorman@suse.de, willy@infradead.org, rientjes@google.com,
+        jhubbard@nvidia.com, linux-doc@vger.kernel.org,
+        ira.weiny@intel.com, linux-kselftest@vger.kernel.org,
+        jmorris@namei.org
+From:   Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <05a66361-214c-2afe-22e4-12862ea1e4e2@oracle.com>
+Date:   Wed, 3 Feb 2021 13:22:18 +0000
+In-Reply-To: <20210125194751.1275316-3-pasha.tatashin@soleen.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [94.61.1.144]
+X-ClientProxiedBy: LO2P265CA0396.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:f::24) To BYAPR10MB3077.namprd10.prod.outlook.com
+ (2603:10b6:a03:8c::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.67] (94.61.1.144) by LO2P265CA0396.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:f::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20 via Frontend Transport; Wed, 3 Feb 2021 13:22:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c41cf4f6-2233-44b3-6e6f-08d8c846c275
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3093:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB3093D9EE9BC6695367215697BBB49@BYAPR10MB3093.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Qlm9/669OtqwllF4z3w+nWPuvD0q0nAJl2RGb2PEkaWVmoGi+0j3G3w4KZVjT6RrwYsLn7r7laJN1hUy74vyr0GtGCkBk9RQ465XjVOnXvsiMJrG+/meOuko3U+hCHLiScAXYGMdjQMpDFwRi3Z0Lyqk3yAEZsMZQg0MBxp26adsriZVeo8Q7fSLmAAwZ1pA0S3w1jgS8RVkUpZZ2KDA/TGm6WIGC1rZF/yWpIDudAA2Vxf5nYDeMfLsb02IJizGL7hesKnrlgyCXpR9jucMjb4IpEgoatQfyrLg76p5xPsYsxjdZ1i3C1r7bB22AQrc5OepncmJUTcM1JNKz+cvN+WEZw8nd/kIC+uGuxU5baXoR3vgZbnZLPXbu+V9qrYhhxepUGj9GLiPb1rNHguGw2WlF3wt6oZWCyWDFBMGc8h4cYoXkFnF9RUellzQzKDVdRBMdfIPZNptXBme+5pY1U3yIFbYWPhU8Nc2sz0iRBq0R1J0j3NKm0F2wz5WlSqBAsjKYoISzjsHjNHS26UwzrcUwECXSlpa2SUV7FigBxtOJQrZz360mm0vIFkZ/kr4JxYCoZPOE+eWnXQD9Umdgw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3077.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(366004)(136003)(346002)(396003)(39860400002)(66556008)(83380400001)(31686004)(26005)(66476007)(8936002)(66946007)(7416002)(6666004)(2906002)(53546011)(8676002)(36756003)(2616005)(6486002)(16576012)(16526019)(186003)(31696002)(86362001)(956004)(5660300002)(4326008)(316002)(478600001)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QWhjcytFOTZ4REJhcU1zTER2bEJCV1VlQUU2cnZjWmdkdzlPSTN6eXpKZ1pa?=
+ =?utf-8?B?dU1IblVlR2gxOUJOQnp0TDZtdWdtZWZRYkdQV0kvaVlTYU9vaVAyeFQzdEVw?=
+ =?utf-8?B?VjQwOHBIZWZPZ0ZTYndrWjF3bkp1NW9PcFJORkxrY1NPcmhwcHNpUDY1UEFq?=
+ =?utf-8?B?MDdEQUdnOHcxVnR5NStsTGVSRWx6SGhTUDRuaklpR2ppcW5ZUWwwWmxmS1BO?=
+ =?utf-8?B?TDZ5SmdiT2VvZFJncTMzblErRjJybnlyb0pCdVc1RDhuZlEvWXk4SmZOb1V6?=
+ =?utf-8?B?UHNKNUNZcTdzNzRCY1VoS2xsQ0l3b0w3cWRMc0p1UFpha3dPTnRjajltb0ds?=
+ =?utf-8?B?NnVwSkZnNGs1YTVqWktGbHZ6Z3F4QWV6WlplQms5bkhEMDQxSk94TnR4QlZs?=
+ =?utf-8?B?Y2dVNHhjeEthTHBkSkhBYVNldXMxVmphcUNSc0xsdkUzTmk2anVDNytOaVZz?=
+ =?utf-8?B?K0lIdk50d0o5V01YelVkbUMzMnJCc002aE9yUzFZVGpESWRHSVFIc3dYYmVr?=
+ =?utf-8?B?cjNNdXJHci9wQlNQREttaTl6ajNyWWRhQUtZMDh1emo3UFdmVkZEVTRJTmV5?=
+ =?utf-8?B?bUdSV05ZVDhIQTZ3cXc1bEtoSXlSL0lrQ3ZRUWowMVNWSVIzTWdxWWZzcjlw?=
+ =?utf-8?B?cHF3K2xJWnV4MWRTN0sxa2FERlVNa2FMQVlDdFpmNzhpOVR1d29uZ2RLajB6?=
+ =?utf-8?B?Q2s3ZjUzUjZiUTJJTkVCWUpxa3RvSG5IKzlVa2xZR3pIVHlJdFh1K3JSSUJo?=
+ =?utf-8?B?SWFyM01ac2grbVV1TTYxdVl1YmdiVTZCVURQWDRLZG9pQlhFTTZJcXRoNG1t?=
+ =?utf-8?B?azFMcGpYOXBQRXM1d2U5dWpRTmhjZ3BkclkrNC82WEErUG5HOUxROFdlZng3?=
+ =?utf-8?B?Z2hRWUcrOEl4MkpFeUc0ZGxoRjUwQnlhc21KQmp3eFMwbUdRNUVBQ0ZGNFVH?=
+ =?utf-8?B?MkRyYzhieFVzYjZKeHlBaXdFdGtMcDdaM0NyY2phSUxYV2U4bHNUOEhDaSt5?=
+ =?utf-8?B?Z1YvM3h5ekpTODNaTlNIeE55VkhwemlOUVhMVWk0U1ZDbzBOcGs0bCtIL2hX?=
+ =?utf-8?B?VSs1bG1YU0RNWE0rN0EyZGtxdGV4alRaWFdOVWV6TDVKdEdpTnhVTUJIbVBk?=
+ =?utf-8?B?VUZOcjhoUEYvUVhnTE9iQkFGd0pmVE9DNVBjM2pCeU5xRURwODRrbnA4ck45?=
+ =?utf-8?B?MHhPbHBFdEdJZ2MrV1Z4TFRqbUJBbjJ1YTEzSXF4dTk4Rm5zU0dDdDNTd1dl?=
+ =?utf-8?B?STBJQ2lIWjJKRkRnYm9OMUdvbDU5QzdWRWttaHV4c0pONFBET25vS1pacnc3?=
+ =?utf-8?B?QklJYjF1ald0ZjhRUkl6RDMzMStsMzlhdUwwTUEvSGNPZnQ4OVFyQVU5VjA1?=
+ =?utf-8?B?enJHS1ViQ1pMTVhOdmRocFpvSmo5MjNWKzhQMWVQaCs3dHBwekYrOFUwY1h0?=
+ =?utf-8?Q?zT1l4EQI?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c41cf4f6-2233-44b3-6e6f-08d8c846c275
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3077.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2021 13:22:31.0196
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WTWrhJRFJG3M7ysOXnKfEbQIcmysCiTlv+CzCZuUclOypSJfWbeuYgUGwkEQeAzTi/+3OoF5NgYew28oRzkM3V0W43dPY7r46YG7KL8vyt4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3093
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9883 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
+ suspectscore=0 spamscore=0 mlxlogscore=999 phishscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102030081
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9883 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ phishscore=0 clxscore=1011 lowpriorityscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102030081
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 29, 2021 at 03:22:06PM +0100, Christian König wrote:
-> Am 29.01.21 um 15:17 schrieb Simon Ser:
-> > On Friday, January 29th, 2021 at 3:13 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > 
-> > > > Re-importing it adds quite a huge CPU overhead to both userspace as well
-> > > > as the kernel.
-> > > Perhaps, but so far it seems no-one has noticed the overhead, with Mesa
-> > > at least.
-> > > 
-> > > I happily stand corrected.
-> > Note, all of this doesn't mean that compositors will stop keeping
-> > DMA-BUF FDs around. They may want to keep them open for other purposes
-> > like importing them into KMS or other EGL displays as needed.
+On 1/25/21 7:47 PM, Pavel Tatashin wrote:
+> When pages are isolated in check_and_migrate_movable_pages() we skip
+> compound number of pages at a time. However, as Jason noted, it is
+> not necessary correct that pages[i] corresponds to the pages that
+> we skipped. This is because it is possible that the addresses in
+> this range had split_huge_pmd()/split_huge_pud(), and these functions
+> do not update the compound page metadata.
 > 
-> Correct and that's a perfectly valid use case. Just re-importing it on every
-> frame is something we should really try to avoid.
+> The problem can be reproduced if something like this occurs:
 > 
-> At least with debugging enabled it's massive overhead and maybe even
-> performance penalty when we have to re-create device page tables all the
-> time.
+> 1. User faulted huge pages.
+> 2. split_huge_pmd() was called for some reason
+> 3. User has unmapped some sub-pages in the range
+> 4. User tries to longterm pin the addresses.
 > 
-> But thinking more about that it is possible that we short-cut this step as
-> long as the original import was still referenced. Otherwise we probably
-> would have noticed this much earlier.
+> The resulting pages[i] might end-up having pages which are not compound
+> size page aligned.
+> 
+> Fixes: aa712399c1e8 ("mm/gup: speed up check_and_migrate_cma_pages() on huge page")
+> Reported-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
 
-Yeah kernel keeps lots of caches around and just gives you back the
-previous buffer if it's still around. Still probably not the smartest
-idea.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[...]
+
+>  		/*
+>  		 * If we get a page from the CMA zone, since we are going to
+>  		 * be pinning these entries, we might as well move them out
+> @@ -1599,8 +1596,6 @@ static long check_and_migrate_cma_pages(struct mm_struct *mm,
+>  				}
+>  			}
+>  		}
+> -
+> -		i += step;
+>  	}
+>  
+
+With this, longterm gup will 'regress' for hugetlbfs e.g. from ~6k -> 32k usecs when
+pinning a 16G hugetlb file.
+
+Splitting can only occur on THP right? If so, perhaps we could retain the @step increment
+for compound pages but when !is_transparent_hugepage(head) or just PageHuge(head) like:
+
++               if (!is_transparent_hugepage(head) && PageCompound(page))
++                       i += (compound_nr(head) - (pages[i] - head));
+
+Or making specific to hugetlbfs:
+
++               if (PageHuge(head))
++                       i += (compound_nr(head) - (pages[i] - head));
