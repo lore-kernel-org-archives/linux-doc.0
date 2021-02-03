@@ -8,51 +8,51 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E53E2C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43DAFC433E9
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:15:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E1EA64F8C
+	by mail.kernel.org (Postfix) with ESMTP id EE92064F95
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbhBCSO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 13:14:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47282 "EHLO
+        id S232799AbhBCSPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 13:15:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232879AbhBCSNs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:48 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24392C061786
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:23 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id y5so127373ilg.4
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:23 -0800 (PST)
+        with ESMTP id S231674AbhBCSNh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:37 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DF7C061225
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:27 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id x21so252659iog.10
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sMW3CNRkXAOc9KAd8J07IhXCHX6Qv+SqEQtIsx8ACMQ=;
-        b=b9fnxMS19FGFawMAjOPzOEcoC4JgrqxWgH8K2OX2hwQqH1l4SDSpNNoUUstpJzf4G9
-         KY0hONkplnyMToYmcCauhew9EeN5GPuDVyaOF5DrLuEUVQ2Ne4S7nr4yk7QUfbHjUjhC
-         jJLnBv8suG996FrIsQO9a86ihkZy+BQnf4FxE=
+        bh=t4wenknjZ2bs5eKNUbWK97l2NFAOkxWA8p4z0taSinQ=;
+        b=bK/hwc7BdBaznbintn00c0zRwBKC2JVyZWt36DBGWZYS3p6BVpJeOJEEamHAM+6vyC
+         PXMgKamY4JH2XBuWrtRG8FAQpXZ0SLZ28VkyLw2OPhYx4rxDJ1ScO65tUPG+qdprJ9XJ
+         vV1RasCSNiAfnS8ol5pPlvaIVj8bQiMEHpw8M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sMW3CNRkXAOc9KAd8J07IhXCHX6Qv+SqEQtIsx8ACMQ=;
-        b=ivvAeFXzoN9o9hv1pFUMAHNJDLH9MwT55GBGum3OLeUhfpyvNemIKU5s7QLCfChvSz
-         OqgXXCyqj1DktnbqmaoEfzMElXiLXa8yve2Jqxk2d2fCGRECw8Fu10uPxiAn7xg5rNeL
-         M0FTpdny4492+p551FesrzZoJEcF6BGH4UkHr6tt1EGHIiQ8BVTINMNEBS2AAEl67tmA
-         STz7IkmEL61S9xYp9MPZ4wRQGBml7kuo1PUKILRV2mCiHYJnCONh12y6f7ssweY1zblw
-         J/uqypvVU5hREGLw9sJnlWBg4GZzSrkw/9Wng48+uywksc1/IcbXmlUwFSWRE8hnynsn
-         LNLg==
-X-Gm-Message-State: AOAM533vikARKyg/Lc7SiyeBaBpyiuLYTAhd/4DvOKdTrz2jPC/Jn5Cl
-        ESTEm1yvZgiWqo9ny8VvsSW9Tg==
-X-Google-Smtp-Source: ABdhPJxjrtfT1+6QN/5yrKNnuIvDVPU5UrlfJEcRxt7l04gm+3ENjo/Y9yfHqeiCNcK9Ib3TtZNR/Q==
-X-Received: by 2002:a92:650b:: with SMTP id z11mr3627266ilb.84.1612375942658;
-        Wed, 03 Feb 2021 10:12:22 -0800 (PST)
+        bh=t4wenknjZ2bs5eKNUbWK97l2NFAOkxWA8p4z0taSinQ=;
+        b=dckkdFmP/i97HRG/yCNDdt/CNCpdCDqA9x9A4NcKes2l2wc/0nsWjTYlmHtff3nw71
+         WeqdI3vzgnXeImNWIsRinyhWlUHd8yYFs6jNfHxAIdcYZQNugISoknJ4YlHWO1ZJLSgw
+         A/SP+Dr92GBPzmo/nqxTe1eXd17Y23WwluvUP70KsIkXEaFpP9s6c3vr5xarV/FAmmPh
+         Z4U6NiIhEARhWAEIVEbH9n406eFhLNM7cpiJH5FT+vjukIABMek9hJ105KEnu22G5ZWn
+         XWmemLwVZkfeiyQfCpMAZGkW6xoHA7TLxW3UaXrOEEB6ffq/s8V9jiRIBSIXXjUw92gq
+         W/+w==
+X-Gm-Message-State: AOAM531JYnWpYj17qkrRLNA4UQrxaFz0TU0dXmnSaEiphXCOwizfbacT
+        wcwvlfBni0DHoSV/Vhp/8YGeJg==
+X-Google-Smtp-Source: ABdhPJzuni/KqIxziQLcVYre754B6JcsdqYKUpMJ3ElrpM0fP5ipHxD7+qBAafURTEbI1MVyvOBomg==
+X-Received: by 2002:a5e:a911:: with SMTP id c17mr2982344iod.20.1612375946517;
+        Wed, 03 Feb 2021 10:12:26 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.21
+        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 10:12:22 -0800 (PST)
+        Wed, 03 Feb 2021 10:12:26 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     corbet@lwn.net, gregkh@linuxfoundation.org, peterz@infradead.org,
         keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
@@ -61,9 +61,9 @@ Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
         devel@driverdev.osuosl.org
-Subject: [PATCH v3 5/7] drivers/staging/rtl8723bs: convert event_seq to use seqnum_ops
-Date:   Wed,  3 Feb 2021 11:12:01 -0700
-Message-Id: <1dffcc128b59ed991f9fb9f5064a05741c282f26.1612314468.git.skhan@linuxfoundation.org>
+Subject: [PATCH v3 7/7] kobject: convert uevent_seqnum to seqnum_ops
+Date:   Wed,  3 Feb 2021 11:12:03 -0700
+Message-Id: <3ddd122c266e8cb460542d852e9b703c6eef2141.1612314468.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1612314468.git.skhan@linuxfoundation.org>
 References: <cover.1612314468.git.skhan@linuxfoundation.org>
@@ -74,192 +74,95 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath. Convert it to use
-seqnum_ops.
+leveraging atomic_t and atomic64_t ops underneath.
 
-event_seq atomic_t variables are atomic counters. Convert them to use
-seqnum_ops.
+Convert uevent_seqnum atomic counter to use seqnum_ops.
 
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 33 +++++++++++++------
- drivers/staging/rtl8723bs/include/rtw_cmd.h   |  3 +-
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  3 +-
- 4 files changed, 29 insertions(+), 13 deletions(-)
+ include/linux/kobject.h | 3 ++-
+ kernel/ksysfs.c         | 3 ++-
+ lib/kobject_uevent.c    | 9 ++++++---
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 3fe79169a811..4db737cd748e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -10,6 +10,7 @@
- #include <rtw_debug.h>
- #include <hal_btcoex.h>
- #include <linux/jiffies.h>
+diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+index ea30529fba08..8990e40344a2 100644
+--- a/include/linux/kobject.h
++++ b/include/linux/kobject.h
+@@ -27,6 +27,7 @@
+ #include <linux/atomic.h>
+ #include <linux/workqueue.h>
+ #include <linux/uidgid.h>
 +#include <linux/seqnum_ops.h>
  
- static struct _cmd_callback rtw_cmd_callback[] = {
- 	{GEN_CMD_CODE(_Read_MACREG), NULL}, /*0*/
-@@ -207,7 +208,7 @@ static void c2h_wk_callback(_workitem * work);
- int rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ #define UEVENT_HELPER_PATH_LEN		256
+ #define UEVENT_NUM_ENVP			64	/* number of env pointers */
+@@ -38,7 +39,7 @@ extern char uevent_helper[];
+ #endif
+ 
+ /* counter to tag the uevent, read only except for the kobject core */
+-extern u64 uevent_seqnum;
++extern struct seqnum64 uevent_seqnum;
+ 
+ /*
+  * The actions here must match the index to the string array
+diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
+index 35859da8bd4f..15836f6e5998 100644
+--- a/kernel/ksysfs.c
++++ b/kernel/ksysfs.c
+@@ -17,6 +17,7 @@
+ #include <linux/sched.h>
+ #include <linux/capability.h>
+ #include <linux/compiler.h>
++#include <linux/seqnum_ops.h>
+ 
+ #include <linux/rcupdate.h>	/* rcu_expedited and rcu_normal */
+ 
+@@ -31,7 +32,7 @@ static struct kobj_attribute _name##_attr = \
+ static ssize_t uevent_seqnum_show(struct kobject *kobj,
+ 				  struct kobj_attribute *attr, char *buf)
  {
- 	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
--	atomic_set(&pevtpriv->event_seq, 0);
-+	seqnum32_init(&pevtpriv->event_seq, 0);
- 	pevtpriv->evt_done_cnt = 0;
+-	return sprintf(buf, "%llu\n", (unsigned long long)uevent_seqnum);
++	return sprintf(buf, "%llu\n", seqnum64_get(&uevent_seqnum));
+ }
+ KERNEL_ATTR_RO(uevent_seqnum);
  
- 	_init_workitem(&pevtpriv->c2h_wk, c2h_wk_callback, NULL);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index fa4b0259c5ae..46e7f487a5ba 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -11,6 +11,7 @@
- #include <rtw_wifi_regd.h>
- #include <hal_btcoex.h>
- #include <linux/kernel.h>
-+#include <linux/seqnum_ops.h>
- #include <asm/unaligned.h>
- 
- static struct mlme_handler mlme_sta_tbl[] = {
-@@ -281,7 +282,7 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
--	atomic_set(&pmlmeext->event_seq, 0);
-+	seqnum32_init(&pmlmeext->event_seq, 0);
- 	pmlmeext->mgnt_seq = 0;/* reset to zero when disconnect at client mode */
- 	pmlmeext->sa_query_seq = 0;
- 	pmlmeext->mgnt_80211w_IPN = 0;
-@@ -5049,7 +5050,9 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct survey_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_Survey);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	psurvey_evt = (struct survey_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 
-@@ -5102,7 +5105,9 @@ void report_surveydone_event(struct adapter *padapter)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct surveydone_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_SurveyDone);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	psurveydone_evt = (struct surveydone_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	psurveydone_evt->bss_cnt = pmlmeext->sitesurvey_res.bss_cnt;
-@@ -5149,7 +5154,9 @@ void report_join_res(struct adapter *padapter, int res)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_JoinBss);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(pjoinbss_evt->network.network)), &(pmlmeinfo->network), sizeof(struct wlan_bssid_ex));
-@@ -5200,7 +5207,9 @@ void report_wmm_edca_update(struct adapter *padapter)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct wmm_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_WMM);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	pwmm_event = (struct wmm_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	pwmm_event->wmm = 0;
-@@ -5247,7 +5256,9 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stadel_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_DelSTA);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(pdel_sta_evt->macaddr)), MacAddr, ETH_ALEN);
-@@ -5300,7 +5311,9 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stassoc_event);
- 	pc2h_evt_hdr->ID = GEN_EVT_CODE(_AddSTA);
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&(padd_sta_evt->macaddr)), MacAddr, ETH_ALEN);
-@@ -6616,10 +6629,10 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	#ifdef CHECK_EVENT_SEQ
- 	/*  checking event sequence... */
--	if (evt_seq != (atomic_read(&pevt_priv->event_seq) & 0x7f)) {
-+	if (evt_seq != (seqnum32_get(&pevt_priv->event_seq) & 0x7f)) {
- 		RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_,
- 			 ("Event Seq Error! %d vs %d\n", (evt_seq & 0x7f),
--			  (atomic_read(&pevt_priv->event_seq) & 0x7f)));
-+			  (seqnum32_get(&pevt_priv->event_seq) & 0x7f)));
- 
- 		pevt_priv->event_seq = (evt_seq+1)&0x7f;
- 
-@@ -6643,7 +6656,7 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	}
- 
--	atomic_inc(&pevt_priv->event_seq);
-+	seqnum32_inc(&pevt_priv->event_seq);
- 
- 	peventbuf += 2;
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-index 56c77bc7ca81..cc0ea649388b 100644
---- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
-@@ -8,6 +8,7 @@
- #define __RTW_CMD_H_
- 
- #include <linux/completion.h>
+diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
+index 7998affa45d4..3a7b2648f084 100644
+--- a/lib/kobject_uevent.c
++++ b/lib/kobject_uevent.c
+@@ -28,9 +28,10 @@
+ #include <net/sock.h>
+ #include <net/netlink.h>
+ #include <net/net_namespace.h>
 +#include <linux/seqnum_ops.h>
  
- #define C2H_MEM_SZ (16*1024)
  
-@@ -62,7 +63,7 @@
- 		struct rtw_cbuf *c2h_queue;
- 		#define C2H_QUEUE_MAX_LEN 10
+-u64 uevent_seqnum;
++struct seqnum64  uevent_seqnum;
+ #ifdef CONFIG_UEVENT_HELPER
+ char uevent_helper[UEVENT_HELPER_PATH_LEN] = CONFIG_UEVENT_HELPER_PATH;
+ #endif
+@@ -584,7 +585,8 @@ int kobject_uevent_env(struct kobject *kobj, enum kobject_action action,
  
--		atomic_t event_seq;
-+		struct seqnum32 event_seq;
- 		u8 *evt_buf;	/* shall be non-paged, and 4 bytes aligned */
- 		u8 *evt_allocated_buf;
- 		u32 evt_done_cnt;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 1567831caf91..537813c00670 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -7,6 +7,7 @@
- #ifndef __RTW_MLME_EXT_H_
- #define __RTW_MLME_EXT_H_
+ 	mutex_lock(&uevent_sock_mutex);
+ 	/* we will send an event, so request a new sequence number */
+-	retval = add_uevent_var(env, "SEQNUM=%llu", ++uevent_seqnum);
++	retval = add_uevent_var(env, "SEQNUM=%llu",
++				seqnum64_inc(&uevent_seqnum));
+ 	if (retval) {
+ 		mutex_unlock(&uevent_sock_mutex);
+ 		goto exit;
+@@ -687,7 +689,8 @@ static int uevent_net_broadcast(struct sock *usk, struct sk_buff *skb,
+ 	int ret;
  
-+#include <linux/seqnum_ops.h>
- 
- /* 	Commented by Albert 20101105 */
- /* 	Increase the SURVEY_TO value from 100 to 150  (100ms to 150ms) */
-@@ -461,7 +462,7 @@ struct p2p_oper_class_map {
- struct mlme_ext_priv {
- 	struct adapter	*padapter;
- 	u8 mlmeext_init;
--	atomic_t		event_seq;
-+	struct seqnum32	event_seq;
- 	u16 mgnt_seq;
- 	u16 sa_query_seq;
- 	u64 mgnt_80211w_IPN;
+ 	/* bump and prepare sequence number */
+-	ret = snprintf(buf, sizeof(buf), "SEQNUM=%llu", ++uevent_seqnum);
++	ret = snprintf(buf, sizeof(buf), "SEQNUM=%llu",
++			seqnum64_inc(&uevent_seqnum));
+ 	if (ret < 0 || (size_t)ret >= sizeof(buf))
+ 		return -ENOMEM;
+ 	ret++;
 -- 
 2.27.0
 
