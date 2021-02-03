@@ -2,129 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC49C433DB
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 21:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FACCC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:06:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 012C364DA3
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 21:55:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0676E64F6C
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:06:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231948AbhBCVzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 16:55:25 -0500
-Received: from mga12.intel.com ([192.55.52.136]:31742 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229959AbhBCVzY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 16:55:24 -0500
-IronPort-SDR: dki/tcFY5jf6CsHBIUnCVpY1HYgNYNp7jLC4VREjng0wiB6+y/PkPMlAN8Aoue6jLUExiL9HMm
- Py7zDnXbcHRg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160290204"
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="160290204"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:43 -0800
-IronPort-SDR: cbNFcluLVt0agMFYdYPy9R/OKBGP7PxtHIJxAE2sR0GRhutjiRbmm0lsH8LRWO3x3Iolq9fwYN
- AW0O5oc+YcIA==
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="433627376"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.43.162]) ([10.212.43.162])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:41 -0800
-Subject: Re: [PATCH v18 24/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
- <20210127212524.10188-25-yu-cheng.yu@intel.com>
- <ba39586d-25b6-6ea5-19c3-adf17b59f910@intel.com>
- <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
-Message-ID: <6720b1a9-f785-dbbd-1f0e-8c9090be2069@intel.com>
-Date:   Wed, 3 Feb 2021 13:54:40 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S233024AbhBCWEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 17:04:54 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:60542 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232986AbhBCWEn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 17:04:43 -0500
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id D5B474048E;
+        Wed,  3 Feb 2021 22:03:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1612389823; bh=xjFl0ry1f4kLV7eWV2SxeXcHKekFmdWi7FGEn+fooAU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
+         References:From;
+        b=JjaoGBy8J9a1T1Awb6SJgMXJ9PJGBbHPFlSGvBc7rFTHt1VewoaX2GtVauly8cHyA
+         foWbV1Aty4IX9WT6qxCUoD6LPFoPX6cAtp/iMv4idgoQc8f88I8pU2TcoWv11g/kuO
+         glwUhceWkZ9IXniVnWbnPOhZGmJnF02kFFGfXo0+cYJon5prxxS1qBs1uRSNTDFH+N
+         oltmuIBQbuzhtFHf5Ui5+MUbkuAE1v73FzOmHtQFTZUtNPJnMGBrGlFghYp1RRmGNw
+         OlaXG+souNYPS8Qo0NRvrxxAiub6QtRygnDOVXTH7nZM/DSRmC4v8r9+5gOY0M2Mbp
+         +rxLQx2wBXhng==
+Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
+        by mailhost.synopsys.com (Postfix) with ESMTP id A1CFDA0249;
+        Wed,  3 Feb 2021 22:03:41 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+To:     linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dmaengine@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Subject: [PATCH v4 4/6] Documentation: misc-devices: Add Documentation for dw-xdata-pcie driver
+Date:   Wed,  3 Feb 2021 23:03:28 +0100
+Message-Id: <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612389746.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1612389746.git.gustavo.pimentel@synopsys.com>
+References: <cover.1612389746.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1612389746.git.gustavo.pimentel@synopsys.com>
+References: <cover.1612389746.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/29/2021 10:56 AM, Yu, Yu-cheng wrote:
-> On 1/29/2021 9:07 AM, Dave Hansen wrote:
->> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
->>> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
->>>      Get CET feature status.
->>>
->>>      The parameter 'args' is a pointer to a user buffer.  The kernel 
->>> returns
->>>      the following information:
->>>
->>>      *args = shadow stack/IBT status
->>>      *(args + 1) = shadow stack base address
->>>      *(args + 2) = shadow stack size
+Add Documentation for dw-xdata-pcie driver.
 
-[...]
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+ Documentation/misc-devices/dw-xdata-pcie.rst | 40 ++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100644 Documentation/misc-devices/dw-xdata-pcie.rst
 
->>> +int prctl_cet(int option, u64 arg2)
->>> +{
->>> +    struct cet_status *cet;
->>> +    unsigned int features;
->>> +
->>> +    /*
->>> +     * GLIBC's ENOTSUPP == EOPNOTSUPP == 95, and it does not recognize
->>> +     * the kernel's ENOTSUPP (524).  So return EOPNOTSUPP here.
->>> +     */
->>> +    if (!IS_ENABLED(CONFIG_X86_CET))
->>> +        return -EOPNOTSUPP;
->>
->> Let's ignore glibc for a moment.  What error code *should* the kernel be
->> returning here?  errno(3) says:
->>
->>         EOPNOTSUPP      Operation not supported on socket (POSIX.1)
->> ...
->>         ENOTSUP         Operation not supported (POSIX.1)
->>
-> 
-> Yeah, other places in kernel use ENOTSUPP.  This seems to be out of 
-> line.  And since the issue is long-existing, applications already know 
-> how to deal with it.  I should have made that argument.  Change it to 
-> ENOTSUPP.
+diff --git a/Documentation/misc-devices/dw-xdata-pcie.rst b/Documentation/misc-devices/dw-xdata-pcie.rst
+new file mode 100644
+index 00000000..3af9fad
+--- /dev/null
++++ b/Documentation/misc-devices/dw-xdata-pcie.rst
+@@ -0,0 +1,40 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========================================================================
++Driver for Synopsys DesignWare PCIe traffic generator (also known as xData)
++===========================================================================
++
++This driver should be used as a host-side (Root Complex) driver and Synopsys
++DesignWare prototype that includes this IP.
++
++The "dw-xdata-pcie" driver can be used to enable/disable PCIe traffic
++generator in either direction (mutual exclusion) besides allowing the
++PCIe link performance analysis.
++
++The interaction with this driver is done through the module parameter and
++can be changed in runtime. The driver outputs the requested command state
++information to /var/log/kern.log or dmesg.
++
++Request write TLPs traffic generation - Root Complex to Endpoint direction
++- Command:
++	echo 1 > /sys/kernel/dw-xdata-pcie/write
++
++Get write TLPs traffic link throughput
++- Command:
++        cat /sys/kernel/dw-xdata-pcie/write
++- Output example:
++	204 MB/s
++
++Request read TLPs traffic generation - Endpoint to Root Complex direction:
++- Command:
++	echo 1 > /sys/kernel/dw-xdata-pcie/read
++
++Get read TLPs traffic link throughput
++- Command:
++        cat /sys/kernel/dw-xdata-pcie/read
++- Output example:
++	199 MB/s
++
++Request to stop any current TLP transfer:
++- Command:
++	echo 1 > /sys/kernel/dw-xdata-pcie/stop
+-- 
+2.7.4
 
-When I make the change, checkpatch says...
-
-WARNING: ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
-#128: FILE: arch/x86/kernel/cet_prctl.c:33:
-+		return -ENOTSUPP;
-
-Do we want to reconsider?
-
-[...]
