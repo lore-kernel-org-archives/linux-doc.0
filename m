@@ -5,33 +5,33 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F07AC4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB78C433DB
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:17:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36B8764F55
+	by mail.kernel.org (Postfix) with ESMTP id 87AD364DFF
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:17:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233084AbhBCXQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 18:16:03 -0500
-Received: from mga06.intel.com ([134.134.136.31]:30214 "EHLO mga06.intel.com"
+        id S233290AbhBCXR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 18:17:29 -0500
+Received: from mga06.intel.com ([134.134.136.31]:30210 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233283AbhBCW6X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 17:58:23 -0500
-IronPort-SDR: 9i7GTc+QTW8QwIP682GOTXxowKjcJF5dCuMnchgAa59Aw8GWl6hzDCzSgj6Rk5ZK4SJmtScKGy
- GA9JvVUa1IMg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="242642367"
+        id S233166AbhBCW5W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Feb 2021 17:57:22 -0500
+IronPort-SDR: nARl3GWdGIuKem4O3yQVdYXXwL1bXrEoZuR1fOjLP3DSZaVbnkxl8qMQzleVQj5gB4t5pKE7aL
+ pVeZ+v8kLZGQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="242642349"
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="242642367"
+   d="scan'208";a="242642349"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:29 -0800
-IronPort-SDR: pndA0FkcAg9V8kZ2Myj45z9tmhefWkilfH6mpLfCOd6idreHpNDT3tFsGDnIOUeoE9GAHurNPX
- Aj9gF/HqPg3Q==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:22 -0800
+IronPort-SDR: 3b5hp+qOT1ck8IO8AvH7KwQKM+OQpYNzjLDRmN4oYWWcIuzzyBJeSJe7v6L04kL7rGX+58njyF
+ jDrox4MKWABA==
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="507921131"
+   d="scan'208";a="507921082"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:28 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:22 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,9 +60,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v19 16/25] mm: Add guard pages around a shadow stack.
-Date:   Wed,  3 Feb 2021 14:55:38 -0800
-Message-Id: <20210203225547.32221-17-yu-cheng.yu@intel.com>
+Subject: [PATCH v19 05/25] x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+Date:   Wed,  3 Feb 2021 14:55:27 -0800
+Message-Id: <20210203225547.32221-6-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210203225547.32221-1-yu-cheng.yu@intel.com>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
@@ -72,90 +72,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-INCSSP(Q/D) increments shadow stack pointer and 'pops and discards' the
-first and the last elements in the range, effectively touches those memory
-areas.
+Control-flow Enforcement Technology (CET) introduces these MSRs:
 
-The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes and
-255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from PAGE_SIZE.
-Thus, putting a gap page on both ends of a shadow stack prevents INCSSP,
-CALL, and RET from going beyond.
+    MSR_IA32_U_CET (user-mode CET settings),
+    MSR_IA32_PL3_SSP (user-mode shadow stack pointer),
+
+    MSR_IA32_PL0_SSP (kernel-mode shadow stack pointer),
+    MSR_IA32_PL1_SSP (Privilege Level 1 shadow stack pointer),
+    MSR_IA32_PL2_SSP (Privilege Level 2 shadow stack pointer),
+    MSR_IA32_S_CET (kernel-mode CET settings),
+    MSR_IA32_INT_SSP_TAB (exception shadow stack table).
+
+The two user-mode MSRs belong to XFEATURE_CET_USER.  The first three of
+kernel-mode MSRs belong to XFEATURE_CET_KERNEL.  Both XSAVES states are
+supervisor states.  This means that there is no direct, unprivileged access
+to these states, making it harder for an attacker to subvert CET.
+
+For sigreturn and future ptrace() support, shadow stack address and MSR
+reserved bits are checked before written to the supervisor states.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/include/asm/page_64_types.h | 10 ++++++++++
- include/linux/mm.h                   | 24 ++++++++++++++++++++----
- 2 files changed, 30 insertions(+), 4 deletions(-)
+ arch/x86/include/asm/fpu/types.h  | 23 +++++++++++++++++++++--
+ arch/x86/include/asm/fpu/xstate.h |  6 ++++--
+ arch/x86/include/asm/msr-index.h  | 19 +++++++++++++++++++
+ arch/x86/kernel/fpu/xstate.c      | 10 +++++++++-
+ 4 files changed, 53 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
-index 645bd1d0ee07..fda4c023e009 100644
---- a/arch/x86/include/asm/page_64_types.h
-+++ b/arch/x86/include/asm/page_64_types.h
-@@ -115,4 +115,14 @@
- #define KERNEL_IMAGE_SIZE	(512 * 1024 * 1024)
- #endif
+diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
+index f5a38a5f3ae1..035eb0ec665e 100644
+--- a/arch/x86/include/asm/fpu/types.h
++++ b/arch/x86/include/asm/fpu/types.h
+@@ -115,8 +115,8 @@ enum xfeature {
+ 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
+ 	XFEATURE_PKRU,
+ 	XFEATURE_PASID,
+-	XFEATURE_RSRVD_COMP_11,
+-	XFEATURE_RSRVD_COMP_12,
++	XFEATURE_CET_USER,
++	XFEATURE_CET_KERNEL,
+ 	XFEATURE_RSRVD_COMP_13,
+ 	XFEATURE_RSRVD_COMP_14,
+ 	XFEATURE_LBR,
+@@ -135,6 +135,8 @@ enum xfeature {
+ #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
+ #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
+ #define XFEATURE_MASK_PASID		(1 << XFEATURE_PASID)
++#define XFEATURE_MASK_CET_USER		(1 << XFEATURE_CET_USER)
++#define XFEATURE_MASK_CET_KERNEL	(1 << XFEATURE_CET_KERNEL)
+ #define XFEATURE_MASK_LBR		(1 << XFEATURE_LBR)
+ 
+ #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
+@@ -237,6 +239,23 @@ struct pkru_state {
+ 	u32				pad;
+ } __packed;
  
 +/*
-+ * Shadow stack pointer is moved by CALL, RET, and INCSSP(Q/D).  INCSSPQ
-+ * moves shadow stack pointer up to 255 * 8 = ~2 KB (~1KB for INCSSPD) and
-+ * touches the first and the last element in the range, which triggers a
-+ * page fault if the range is not in a shadow stack.  Because of this,
-+ * creating 4-KB guard pages around a shadow stack prevents these
-+ * instructions from going beyond.
++ * State component 11 is Control-flow Enforcement user states
 + */
-+#define ARCH_SHADOW_STACK_GUARD_GAP PAGE_SIZE
++struct cet_user_state {
++	u64 user_cet;			/* user control-flow settings */
++	u64 user_ssp;			/* user shadow stack pointer */
++};
 +
- #endif /* _ASM_X86_PAGE_64_DEFS_H */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index abd756e426fc..c12b3d36dbd3 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2640,6 +2640,10 @@ extern vm_fault_t filemap_page_mkwrite(struct vm_fault *vmf);
- int __must_check write_one_page(struct page *page);
- void task_dirty_inc(struct task_struct *tsk);
++/*
++ * State component 12 is Control-flow Enforcement kernel states
++ */
++struct cet_kernel_state {
++	u64 kernel_ssp;			/* kernel shadow stack */
++	u64 pl1_ssp;			/* privilege level 1 shadow stack */
++	u64 pl2_ssp;			/* privilege level 2 shadow stack */
++};
++
+ /*
+  * State component 15: Architectural LBR configuration state.
+  * The size of Arch LBR state depends on the number of LBRs (lbr_depth).
+diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
+index 47a92232d595..582f3575e0bd 100644
+--- a/arch/x86/include/asm/fpu/xstate.h
++++ b/arch/x86/include/asm/fpu/xstate.h
+@@ -35,7 +35,8 @@
+ 				      XFEATURE_MASK_BNDCSR)
  
-+#ifndef ARCH_SHADOW_STACK_GUARD_GAP
-+#define ARCH_SHADOW_STACK_GUARD_GAP 0
-+#endif
-+
- extern unsigned long stack_guard_gap;
- /* Generic expand stack which grows the stack according to GROWS{UP,DOWN} */
- extern int expand_stack(struct vm_area_struct *vma, unsigned long address);
-@@ -2672,9 +2676,15 @@ static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * m
- static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_start = vma->vm_start;
-+	unsigned long gap = 0;
+ /* All currently supported supervisor features */
+-#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (XFEATURE_MASK_PASID)
++#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (XFEATURE_MASK_PASID | \
++					    XFEATURE_MASK_CET_USER)
  
--	if (vma->vm_flags & VM_GROWSDOWN) {
--		vm_start -= stack_guard_gap;
-+	if (vma->vm_flags & VM_GROWSDOWN)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
-+
-+	if (gap != 0) {
-+		vm_start -= gap;
- 		if (vm_start > vma->vm_start)
- 			vm_start = 0;
- 	}
-@@ -2684,9 +2694,15 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
- static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
- {
- 	unsigned long vm_end = vma->vm_end;
-+	unsigned long gap = 0;
-+
-+	if (vma->vm_flags & VM_GROWSUP)
-+		gap = stack_guard_gap;
-+	else if (vma->vm_flags & VM_SHSTK)
-+		gap = ARCH_SHADOW_STACK_GUARD_GAP;
+ /*
+  * A supervisor state component may not always contain valuable information,
+@@ -62,7 +63,8 @@
+  * Unsupported supervisor features. When a supervisor feature in this mask is
+  * supported in the future, move it to the supported supervisor feature mask.
+  */
+-#define XFEATURE_MASK_SUPERVISOR_UNSUPPORTED (XFEATURE_MASK_PT)
++#define XFEATURE_MASK_SUPERVISOR_UNSUPPORTED (XFEATURE_MASK_PT | \
++					      XFEATURE_MASK_CET_KERNEL)
  
--	if (vma->vm_flags & VM_GROWSUP) {
--		vm_end += stack_guard_gap;
-+	if (gap != 0) {
-+		vm_end += gap;
- 		if (vm_end < vma->vm_end)
- 			vm_end = -PAGE_SIZE;
+ /* All supervisor states including supported and unsupported states. */
+ #define XFEATURE_MASK_SUPERVISOR_ALL (XFEATURE_MASK_SUPERVISOR_SUPPORTED | \
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 546d6ecf0a35..fae6b3ea1f6d 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -933,4 +933,23 @@
+ #define MSR_VM_IGNNE                    0xc0010115
+ #define MSR_VM_HSAVE_PA                 0xc0010117
+ 
++/* Control-flow Enforcement Technology MSRs */
++#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
++#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
++#define CET_SHSTK_EN		BIT_ULL(0)
++#define CET_WRSS_EN		BIT_ULL(1)
++#define CET_ENDBR_EN		BIT_ULL(2)
++#define CET_LEG_IW_EN		BIT_ULL(3)
++#define CET_NO_TRACK_EN		BIT_ULL(4)
++#define CET_SUPPRESS_DISABLE	BIT_ULL(5)
++#define CET_RESERVED		(BIT_ULL(6) | BIT_ULL(7) | BIT_ULL(8) | BIT_ULL(9))
++#define CET_SUPPRESS		BIT_ULL(10)
++#define CET_WAIT_ENDBR		BIT_ULL(11)
++
++#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shadow stack pointer */
++#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shadow stack pointer */
++#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shadow stack pointer */
++#define MSR_IA32_PL3_SSP	0x6a7 /* user shadow stack pointer */
++#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shadow stack table */
++
+ #endif /* _ASM_X86_MSR_INDEX_H */
+diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
+index 5d8047441a0a..22eedf8066bf 100644
+--- a/arch/x86/kernel/fpu/xstate.c
++++ b/arch/x86/kernel/fpu/xstate.c
+@@ -38,6 +38,8 @@ static const char *xfeature_names[] =
+ 	"Processor Trace (unused)"	,
+ 	"Protection Keys User registers",
+ 	"PASID state",
++	"Control-flow User registers"	,
++	"Control-flow Kernel registers"	,
+ 	"unknown xstate feature"	,
+ };
+ 
+@@ -53,6 +55,8 @@ static short xsave_cpuid_features[] __initdata = {
+ 	X86_FEATURE_INTEL_PT,
+ 	X86_FEATURE_PKU,
+ 	X86_FEATURE_ENQCMD,
++	X86_FEATURE_CET, /* XFEATURE_CET_USER */
++	X86_FEATURE_CET, /* XFEATURE_CET_KERNEL */
+ };
+ 
+ /*
+@@ -321,6 +325,8 @@ static void __init print_xstate_features(void)
+ 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
+ 	print_xstate_feature(XFEATURE_MASK_PKRU);
+ 	print_xstate_feature(XFEATURE_MASK_PASID);
++	print_xstate_feature(XFEATURE_MASK_CET_USER);
++	print_xstate_feature(XFEATURE_MASK_CET_KERNEL);
+ }
+ 
+ /*
+@@ -596,6 +602,8 @@ static void check_xstate_against_struct(int nr)
+ 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
+ 	XCHECK_SZ(sz, nr, XFEATURE_PASID,     struct ia32_pasid_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_USER,   struct cet_user_state);
++	XCHECK_SZ(sz, nr, XFEATURE_CET_KERNEL, struct cet_kernel_state);
+ 
+ 	/*
+ 	 * Make *SURE* to add any feature numbers in below if
+@@ -605,7 +613,7 @@ static void check_xstate_against_struct(int nr)
+ 	if ((nr < XFEATURE_YMM) ||
+ 	    (nr >= XFEATURE_MAX) ||
+ 	    (nr == XFEATURE_PT_UNIMPLEMENTED_SO_FAR) ||
+-	    ((nr >= XFEATURE_RSRVD_COMP_11) && (nr <= XFEATURE_LBR))) {
++	    ((nr >= XFEATURE_RSRVD_COMP_13) && (nr <= XFEATURE_LBR))) {
+ 		WARN_ONCE(1, "no structure for xstate: %d\n", nr);
+ 		XSTATE_WARN_ON(1);
  	}
 -- 
 2.21.0
