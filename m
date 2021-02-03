@@ -2,167 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43DAFC433E9
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:15:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC49C433DB
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 21:55:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE92064F95
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:15:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 012C364DA3
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 21:55:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232799AbhBCSPE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 13:15:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231674AbhBCSNh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:37 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DF7C061225
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:27 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id x21so252659iog.10
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=t4wenknjZ2bs5eKNUbWK97l2NFAOkxWA8p4z0taSinQ=;
-        b=bK/hwc7BdBaznbintn00c0zRwBKC2JVyZWt36DBGWZYS3p6BVpJeOJEEamHAM+6vyC
-         PXMgKamY4JH2XBuWrtRG8FAQpXZ0SLZ28VkyLw2OPhYx4rxDJ1ScO65tUPG+qdprJ9XJ
-         vV1RasCSNiAfnS8ol5pPlvaIVj8bQiMEHpw8M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=t4wenknjZ2bs5eKNUbWK97l2NFAOkxWA8p4z0taSinQ=;
-        b=dckkdFmP/i97HRG/yCNDdt/CNCpdCDqA9x9A4NcKes2l2wc/0nsWjTYlmHtff3nw71
-         WeqdI3vzgnXeImNWIsRinyhWlUHd8yYFs6jNfHxAIdcYZQNugISoknJ4YlHWO1ZJLSgw
-         A/SP+Dr92GBPzmo/nqxTe1eXd17Y23WwluvUP70KsIkXEaFpP9s6c3vr5xarV/FAmmPh
-         Z4U6NiIhEARhWAEIVEbH9n406eFhLNM7cpiJH5FT+vjukIABMek9hJ105KEnu22G5ZWn
-         XWmemLwVZkfeiyQfCpMAZGkW6xoHA7TLxW3UaXrOEEB6ffq/s8V9jiRIBSIXXjUw92gq
-         W/+w==
-X-Gm-Message-State: AOAM531JYnWpYj17qkrRLNA4UQrxaFz0TU0dXmnSaEiphXCOwizfbacT
-        wcwvlfBni0DHoSV/Vhp/8YGeJg==
-X-Google-Smtp-Source: ABdhPJzuni/KqIxziQLcVYre754B6JcsdqYKUpMJ3ElrpM0fP5ipHxD7+qBAafURTEbI1MVyvOBomg==
-X-Received: by 2002:a5e:a911:: with SMTP id c17mr2982344iod.20.1612375946517;
-        Wed, 03 Feb 2021 10:12:26 -0800 (PST)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 10:12:26 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net, gregkh@linuxfoundation.org, peterz@infradead.org,
-        keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH v3 7/7] kobject: convert uevent_seqnum to seqnum_ops
-Date:   Wed,  3 Feb 2021 11:12:03 -0700
-Message-Id: <3ddd122c266e8cb460542d852e9b703c6eef2141.1612314468.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1612314468.git.skhan@linuxfoundation.org>
-References: <cover.1612314468.git.skhan@linuxfoundation.org>
+        id S231948AbhBCVzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 16:55:25 -0500
+Received: from mga12.intel.com ([192.55.52.136]:31742 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229959AbhBCVzY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Feb 2021 16:55:24 -0500
+IronPort-SDR: dki/tcFY5jf6CsHBIUnCVpY1HYgNYNp7jLC4VREjng0wiB6+y/PkPMlAN8Aoue6jLUExiL9HMm
+ Py7zDnXbcHRg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160290204"
+X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
+   d="scan'208";a="160290204"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:43 -0800
+IronPort-SDR: cbNFcluLVt0agMFYdYPy9R/OKBGP7PxtHIJxAE2sR0GRhutjiRbmm0lsH8LRWO3x3Iolq9fwYN
+ AW0O5oc+YcIA==
+X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
+   d="scan'208";a="433627376"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.43.162]) ([10.212.43.162])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 13:54:41 -0800
+Subject: Re: [PATCH v18 24/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20210127212524.10188-1-yu-cheng.yu@intel.com>
+ <20210127212524.10188-25-yu-cheng.yu@intel.com>
+ <ba39586d-25b6-6ea5-19c3-adf17b59f910@intel.com>
+ <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
+Message-ID: <6720b1a9-f785-dbbd-1f0e-8c9090be2069@intel.com>
+Date:   Wed, 3 Feb 2021 13:54:40 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <761ae8ce-0560-24cc-e6f7-684475cb3708@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath.
+On 1/29/2021 10:56 AM, Yu, Yu-cheng wrote:
+> On 1/29/2021 9:07 AM, Dave Hansen wrote:
+>> On 1/27/21 1:25 PM, Yu-cheng Yu wrote:
+>>> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+>>>      Get CET feature status.
+>>>
+>>>      The parameter 'args' is a pointer to a user buffer.  The kernel 
+>>> returns
+>>>      the following information:
+>>>
+>>>      *args = shadow stack/IBT status
+>>>      *(args + 1) = shadow stack base address
+>>>      *(args + 2) = shadow stack size
 
-Convert uevent_seqnum atomic counter to use seqnum_ops.
+[...]
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- include/linux/kobject.h | 3 ++-
- kernel/ksysfs.c         | 3 ++-
- lib/kobject_uevent.c    | 9 ++++++---
- 3 files changed, 10 insertions(+), 5 deletions(-)
+>>> +int prctl_cet(int option, u64 arg2)
+>>> +{
+>>> +    struct cet_status *cet;
+>>> +    unsigned int features;
+>>> +
+>>> +    /*
+>>> +     * GLIBC's ENOTSUPP == EOPNOTSUPP == 95, and it does not recognize
+>>> +     * the kernel's ENOTSUPP (524).  So return EOPNOTSUPP here.
+>>> +     */
+>>> +    if (!IS_ENABLED(CONFIG_X86_CET))
+>>> +        return -EOPNOTSUPP;
+>>
+>> Let's ignore glibc for a moment.  What error code *should* the kernel be
+>> returning here?  errno(3) says:
+>>
+>>         EOPNOTSUPP      Operation not supported on socket (POSIX.1)
+>> ...
+>>         ENOTSUP         Operation not supported (POSIX.1)
+>>
+> 
+> Yeah, other places in kernel use ENOTSUPP.  This seems to be out of 
+> line.  And since the issue is long-existing, applications already know 
+> how to deal with it.  I should have made that argument.  Change it to 
+> ENOTSUPP.
 
-diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-index ea30529fba08..8990e40344a2 100644
---- a/include/linux/kobject.h
-+++ b/include/linux/kobject.h
-@@ -27,6 +27,7 @@
- #include <linux/atomic.h>
- #include <linux/workqueue.h>
- #include <linux/uidgid.h>
-+#include <linux/seqnum_ops.h>
- 
- #define UEVENT_HELPER_PATH_LEN		256
- #define UEVENT_NUM_ENVP			64	/* number of env pointers */
-@@ -38,7 +39,7 @@ extern char uevent_helper[];
- #endif
- 
- /* counter to tag the uevent, read only except for the kobject core */
--extern u64 uevent_seqnum;
-+extern struct seqnum64 uevent_seqnum;
- 
- /*
-  * The actions here must match the index to the string array
-diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
-index 35859da8bd4f..15836f6e5998 100644
---- a/kernel/ksysfs.c
-+++ b/kernel/ksysfs.c
-@@ -17,6 +17,7 @@
- #include <linux/sched.h>
- #include <linux/capability.h>
- #include <linux/compiler.h>
-+#include <linux/seqnum_ops.h>
- 
- #include <linux/rcupdate.h>	/* rcu_expedited and rcu_normal */
- 
-@@ -31,7 +32,7 @@ static struct kobj_attribute _name##_attr = \
- static ssize_t uevent_seqnum_show(struct kobject *kobj,
- 				  struct kobj_attribute *attr, char *buf)
- {
--	return sprintf(buf, "%llu\n", (unsigned long long)uevent_seqnum);
-+	return sprintf(buf, "%llu\n", seqnum64_get(&uevent_seqnum));
- }
- KERNEL_ATTR_RO(uevent_seqnum);
- 
-diff --git a/lib/kobject_uevent.c b/lib/kobject_uevent.c
-index 7998affa45d4..3a7b2648f084 100644
---- a/lib/kobject_uevent.c
-+++ b/lib/kobject_uevent.c
-@@ -28,9 +28,10 @@
- #include <net/sock.h>
- #include <net/netlink.h>
- #include <net/net_namespace.h>
-+#include <linux/seqnum_ops.h>
- 
- 
--u64 uevent_seqnum;
-+struct seqnum64  uevent_seqnum;
- #ifdef CONFIG_UEVENT_HELPER
- char uevent_helper[UEVENT_HELPER_PATH_LEN] = CONFIG_UEVENT_HELPER_PATH;
- #endif
-@@ -584,7 +585,8 @@ int kobject_uevent_env(struct kobject *kobj, enum kobject_action action,
- 
- 	mutex_lock(&uevent_sock_mutex);
- 	/* we will send an event, so request a new sequence number */
--	retval = add_uevent_var(env, "SEQNUM=%llu", ++uevent_seqnum);
-+	retval = add_uevent_var(env, "SEQNUM=%llu",
-+				seqnum64_inc(&uevent_seqnum));
- 	if (retval) {
- 		mutex_unlock(&uevent_sock_mutex);
- 		goto exit;
-@@ -687,7 +689,8 @@ static int uevent_net_broadcast(struct sock *usk, struct sk_buff *skb,
- 	int ret;
- 
- 	/* bump and prepare sequence number */
--	ret = snprintf(buf, sizeof(buf), "SEQNUM=%llu", ++uevent_seqnum);
-+	ret = snprintf(buf, sizeof(buf), "SEQNUM=%llu",
-+			seqnum64_inc(&uevent_seqnum));
- 	if (ret < 0 || (size_t)ret >= sizeof(buf))
- 		return -ENOMEM;
- 	ret++;
--- 
-2.27.0
+When I make the change, checkpatch says...
 
+WARNING: ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
+#128: FILE: arch/x86/kernel/cet_prctl.c:33:
++		return -ENOTSUPP;
+
+Do we want to reconsider?
+
+[...]
