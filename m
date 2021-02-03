@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF79C433E9
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8550C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F3FB64F7E
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AE5064F51
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232000AbhBCSM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 13:12:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47056 "EHLO
+        id S232531AbhBCSNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 13:13:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232058AbhBCSMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:12:54 -0500
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909B4C061793
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:11 -0800 (PST)
-Received: by mail-il1-x130.google.com with SMTP id m20so74719ilj.13
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:11 -0800 (PST)
+        with ESMTP id S232733AbhBCSNC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:02 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71985C0613D6
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:18 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id z18so97840ile.9
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SB8riJOjuzgjOw1Wsc94yZlZbRu0f544yG+Du9Zqdfg=;
-        b=GqNljR3NKsjx1aOKKKpu7DPYAayE0yJ1cSIeVoqtDg/UDvcqLkBOFJN8mTXuu8AlnW
-         2/qg3wBHa6u37PqvAHoL/TEHy1UG6FAH/6PalY0HU1l079BwcJ9zMWmrZkugS+4apyhL
-         MeaUsA/GGDyF1u4u0949ghfqeRJPJK9inRKG0=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bjC27Eb9w9mM2SAEoXcwuyGIikNJU3zdPVeVR9rKt0c=;
+        b=KqWrrH2txCq4lO2ex6WKtRqHlkaLYMNP/cM5ExESO2VMWv16ydv9eW4RUqwDSNgULE
+         cV9HAU5u2bk8h6Bdl11d/CiQYi/VeWsJsIfOQozly7zbb8GrHUOoPQ1x+sx+Tu2iCRKE
+         N+71OcIyUcMeVWPZhq9WGSvc962kn3oWzcHPo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SB8riJOjuzgjOw1Wsc94yZlZbRu0f544yG+Du9Zqdfg=;
-        b=CJuyI9deDVru588XjRnSovEjqSyeSyQEOBak+phQCPeotkK+e3siIVEKf8CCzjxmIn
-         /Z/tl5CnsvMbmUPmoFk6bNB/jd57ylRogMJjMmLOOCjPtKbv0uopQn8wyNMzcNDMJgtQ
-         49Camc7YV4M3inMc3mPwWWwEu6h5HGjxEt7vK0nXZ3siYFf8H2hmZWI1rT4DS7uxKXCo
-         tkh9o970hxfohzaIZMfBDxNQd1hTgQv2XXiEfg9DPUKCljG2GUfwzkqp7IIvvYmeV4nH
-         XTdahVINDdj8zuUH20t7d1tkF8+rgRXECyalr7yG51ZOH9GN+YaCVXA9YyZhkd680x+6
-         p1ww==
-X-Gm-Message-State: AOAM531ldRLLqcKLu6YyAjpuGOzmCjSgkQZ5bFSjE1WRe3VUr//JgNdJ
-        tdtznUYXjz3Ueq1G+xOeJp4GkQ==
-X-Google-Smtp-Source: ABdhPJz2RPi0I2OuoWXqMNIMCO4ew11k/K1o0MoxUBjXKxBLRiPZWJwL//3sB8cqqu6t1+eIdcNEkg==
-X-Received: by 2002:a92:2e05:: with SMTP id v5mr3876876ile.241.1612375930585;
-        Wed, 03 Feb 2021 10:12:10 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bjC27Eb9w9mM2SAEoXcwuyGIikNJU3zdPVeVR9rKt0c=;
+        b=rnPsIJyPhhQXf1bmeuOH730qeZiPdskOOcv4wu1aeeu+CUBTLyVfdtQ1KCwOlzk3I5
+         r0iamrQPqOpuwLcSEFfamV7FzfApPkKBFgX6uBXjHPx4eQMkq8HkxvjLv2Po/c9tdBZN
+         eCvxqFT3C2rmQ4No/+XfcTNwouWelHj8Yx7bYCnoWcus+izmbi0rTPB3/9gSd0nwG8iR
+         4HoSGtblasWEX1zn/Jxg8jz8Ur7QCkbw5NNiyuo20KAUSaKGIw23luqOESnvejlvsZSN
+         09aWJWDSAgxl+Dk1soKE/hOLwaDtEZrC6LQu264JzUorEP24UU2Ud1aGpl5I0ABCOzGv
+         5COQ==
+X-Gm-Message-State: AOAM531GcRh8VagHWV+ZqShJGGqlzdGfwwhQdHm0PKz8WKNvK3UtGiVH
+        gNMTzuCtfMju5TEDRHsMPoxOhA==
+X-Google-Smtp-Source: ABdhPJx8Qrp2K4WoCsSpLgc8CZBOB6oPCmpJqO+WHXB9WoPN+cz8O0USgJa4+n4x2TYfDLXOVcxczA==
+X-Received: by 2002:a92:d845:: with SMTP id h5mr3474042ilq.34.1612375937986;
+        Wed, 03 Feb 2021 10:12:17 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.08
+        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 10:12:09 -0800 (PST)
+        Wed, 03 Feb 2021 10:12:17 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     corbet@lwn.net, gregkh@linuxfoundation.org, peterz@infradead.org,
         keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
@@ -60,69 +60,61 @@ Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
         devel@driverdev.osuosl.org
-Subject: [PATCH v3 0/7] Introduce Sequence Number Ops 
-Date:   Wed,  3 Feb 2021 11:11:56 -0700
-Message-Id: <cover.1612314468.git.skhan@linuxfoundation.org>
+Subject: [PATCH v3 3/7] drivers/acpi: convert seqno to use seqnum_ops
+Date:   Wed,  3 Feb 2021 11:11:59 -0700
+Message-Id: <8d11eec80d6668065fb35a0b025c3614b67bf798.1612314468.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1612314468.git.skhan@linuxfoundation.org>
+References: <cover.1612314468.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sequence Number api provides interfaces for unsigned atomic up counters.
+Sequence Number api provides interfaces for unsigned atomic up counters
+leveraging atomic_t and atomic64_t ops underneath.
 
-There are a number of atomic_t usages in the kernel where atomic_t api
-is used for counting sequence numbers and other statistical counters.
-Several of these usages, convert atomic_read() and atomic_inc_return()
-return values to unsigned. Introducing sequence number ops supports
-these use-cases with a standard core-api.
+Convert seqno atomic counter to use seqnum_ops.
 
-Sequence Number ops provide interfaces to initialize, increment and get
-the sequence number. These ops also check for overflow and log message to
-indicate when overflow occurs. This check is intended to help catch cases
-where overflow could lead to problems.
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ drivers/acpi/acpi_extlog.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Since v2:
-- Uses atomic_inc_return() for incrementing the sequence number.
-- No longer uses atomic_read()
-
-Shuah Khan (7):
-  seqnum_ops: Introduce Sequence Number Ops
-  selftests: lib:test_seqnum_ops: add new test for seqnum_ops
-  drivers/acpi: convert seqno to use seqnum_ops
-  drivers/acpi/apei: convert seqno to seqnum_ops
-  drivers/staging/rtl8723bs: convert event_seq to use seqnum_ops
-  drivers/staging/rtl8188eu: convert event_seq to use seqnum_ops
-  kobject: convert uevent_seqnum to seqnum_ops
-
- Documentation/core-api/index.rst              |   1 +
- Documentation/core-api/seqnum_ops.rst         |  62 ++++++++
- MAINTAINERS                                   |   8 ++
- drivers/acpi/acpi_extlog.c                    |   8 +-
- drivers/acpi/apei/ghes.c                      |   8 +-
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c |  23 ++-
- .../staging/rtl8188eu/include/rtw_mlme_ext.h  |   3 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |   3 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  33 +++--
- drivers/staging/rtl8723bs/include/rtw_cmd.h   |   3 +-
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   3 +-
- include/linux/kobject.h                       |   3 +-
- include/linux/seqnum_ops.h                    | 131 +++++++++++++++++
- kernel/ksysfs.c                               |   3 +-
- lib/Kconfig                                   |   9 ++
- lib/Makefile                                  |   1 +
- lib/kobject_uevent.c                          |   9 +-
- lib/test_seqnum_ops.c                         | 133 ++++++++++++++++++
- tools/testing/selftests/lib/Makefile          |   1 +
- tools/testing/selftests/lib/config            |   1 +
- .../testing/selftests/lib/test_seqnum_ops.sh  |  10 ++
- 21 files changed, 423 insertions(+), 33 deletions(-)
- create mode 100644 Documentation/core-api/seqnum_ops.rst
- create mode 100644 include/linux/seqnum_ops.h
- create mode 100644 lib/test_seqnum_ops.c
- create mode 100755 tools/testing/selftests/lib/test_seqnum_ops.sh
-
+diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
+index 72f1fb77abcd..16a4928645a1 100644
+--- a/drivers/acpi/acpi_extlog.c
++++ b/drivers/acpi/acpi_extlog.c
+@@ -12,6 +12,7 @@
+ #include <linux/ratelimit.h>
+ #include <linux/edac.h>
+ #include <linux/ras.h>
++#include <linux/seqnum_ops.h>
+ #include <asm/cpu.h>
+ #include <asm/mce.h>
+ 
+@@ -93,8 +94,7 @@ static struct acpi_hest_generic_status *extlog_elog_entry_check(int cpu, int ban
+ static void __print_extlog_rcd(const char *pfx,
+ 			       struct acpi_hest_generic_status *estatus, int cpu)
+ {
+-	static atomic_t seqno;
+-	unsigned int curr_seqno;
++	static struct seqnum32 seqno;
+ 	char pfx_seq[64];
+ 
+ 	if (!pfx) {
+@@ -103,8 +103,8 @@ static void __print_extlog_rcd(const char *pfx,
+ 		else
+ 			pfx = KERN_ERR;
+ 	}
+-	curr_seqno = atomic_inc_return(&seqno);
+-	snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx, curr_seqno);
++	snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx,
++		 seqnum32_inc(&seqno));
+ 	printk("%s""Hardware error detected on CPU%d\n", pfx_seq, cpu);
+ 	cper_estatus_print(pfx_seq, estatus);
+ }
 -- 
 2.27.0
 
