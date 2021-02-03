@@ -2,78 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C0F2C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 03:33:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A947EC433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 08:04:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA1BD64F72
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 03:33:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55C8864F4E
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 08:04:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231356AbhBCDdb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Feb 2021 22:33:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbhBCDd3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Feb 2021 22:33:29 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4A0C061573;
-        Tue,  2 Feb 2021 19:32:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=i036O3N23XFL3NA6kuzu8UTdLLHCPWiMJL4KTHjaD7w=; b=PBNtr26C/AimXkELPhFK5K6zPK
-        4J/v6tmFl/9MWJOZGcl7UeNHbKGJSXe1EC8RghCzOVPJgboyv9bgChsHGQkVt5CpZruRRNga2qXwg
-        WtQoYwGkdPGO8HyX9StPElrNsEf8oIoHjqGUSMoCBJAQ0jWGtQIGzJ+4NnpbmJvELV6ZQKHxlhTmp
-        PBQ9NVPmK4M9b9Ii9uQa1nzxogdeSRoUs3CVYoHt4c0shwoGTcoZyBElgEFbJX9tHYA4IH8ZKlY73
-        pFO+i0/MukUtFfI40wb+4yAO+l5hzyom+ZLzSr9s0ZTUI0rV072Fjlx907FvCjm1M3etxQ+HhAEJq
-        pinhxPsw==;
-Received: from [2601:1c0:6280:3f0::2a53]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l78uM-0001bZ-QY; Wed, 03 Feb 2021 03:32:47 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
+        id S232467AbhBCIEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 03:04:34 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50208 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232332AbhBCIEa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Feb 2021 03:04:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id BFCDFAEC3;
+        Wed,  3 Feb 2021 08:03:48 +0000 (UTC)
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] Documentation: /proc/loadavg: add 3 more field descriptions
-Message-ID: <fe55b139-bd03-4762-199b-83be873cf7dd@infradead.org>
-Date:   Tue, 2 Feb 2021 19:32:43 -0800
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+References: <20200916205434.GA10389@duo.ucw.cz>
+ <87czyf5jjp.fsf@vps.thesusis.net>
+ <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
+ <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
+ <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+ <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
+ <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+Message-ID: <7d666c65-80ea-905e-b50f-76af5a6dceb0@suse.de>
+Date:   Wed, 3 Feb 2021 09:03:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj
+Content-Type: multipart/mixed; boundary="GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
+ Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>
+Message-ID: <7d666c65-80ea-905e-b50f-76af5a6dceb0@suse.de>
+Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
+References: <20200916205434.GA10389@duo.ucw.cz>
+ <87czyf5jjp.fsf@vps.thesusis.net>
+ <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
+ <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
+ <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
+ <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
+ <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
 
-Update contents of /proc/loadavg: add 3 more fields.
+--GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/filesystems/proc.rst |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Hi
 
---- linux-next-20210202.orig/Documentation/filesystems/proc.rst
-+++ linux-next-20210202/Documentation/filesystems/proc.rst
-@@ -687,7 +687,10 @@ files are there, and which are missing.
-  kcore        Kernel core image (can be ELF or A.OUT(deprecated in 2.4))
-  kmsg         Kernel messages
-  ksyms        Kernel symbol table
-- loadavg      Load average of last 1, 5 & 15 minutes
-+ loadavg      Load average of last 1, 5 & 15 minutes;
-+                number of processes currently runnable (running or on ready queue);
-+                total number of processes in system;
-+                last pid created.
-  locks        Kernel locks
-  meminfo      Memory info
-  misc         Miscellaneous
+Am 15.01.21 um 09:06 schrieb Geert Uytterhoeven:
+> Hi Daniel,
+>=20
+> On Thu, Jan 14, 2021 at 5:11 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>> On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.o=
+rg> wrote:
+>>> On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote=
+:
+>>>> On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
+>>>> <torvalds@linux-foundation.org> wrote:
+>>>>> On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> w=
+rote:
+>>>>>>> Could we pause this madness? Scrollback is still useful. I needed=
+ it
+>>>>>>> today... it was too small, so command results I was looking for
+>>>>>>> already scrolled away, but... life will be really painful with 0
+>>>>>>> scrollback.
+>>>>>>
+>>>>>>> You'll need it, too... as soon as you get oops and will want to s=
+ee
+>>>>>>> errors just prior to that oops.
+>>>>>>
+>>>>>>> If it means I get to maintain it... I'm not happy about it but th=
+at's
+>>>>>>> better than no scrollback.
+>>>>>>
+>>>>>> Amen!  What self respecting admin installs a gui on servers?  What=
+ do we
+>>>>>> have to do to get this back in?  What was so buggy with this code =
+that
+>>>>>> it needed to be removed?  Why was it such a burden to just leave i=
+t be?
+>>>>>
+>>>>> It really was buggy, with security implications. And we have no mai=
+ntainers.
+>>>>>
+>>>>> So the scroll-back code can't come back until we have a maintainer =
+and
+>>>>> a cleaner and simpler implementation.
+>>>>>
+>>>>> And no, maintaining it really doesn't mean "just get it back to the=
 
+>>>>> old broken state".
+>>>>>
+>>>>> So far I haven't actually seen any patches, which means that it's n=
+ot
+>>>>> coming back.
+>>>>>
+>>>>> The good news? If you have an actual text VGA console, that should
+>>>>> still work just fine.
+>>>
+>>> IIRC, all of this was written for systems lacking VGA text consoles
+>>> in the first place...
+>>>
+>>>> Also on anything that is remotely modern (i.e. runs a drm kernel
+>>>> modesetting driver undearneath the fbdev/fbcon stack) there's a pile=
+
+>>>> more issues on top of just the scrollback/fbcon code being a mess.
+>>>
+>>> Would it help to remove DRM_FBDEV_EMULATION (instead)?
+
+Of the fbdev code, DRM's fbdev emulation is the cleanest. We now even=20
+have test cases for the userspace I/O.
+
+>>
+>> It's a problem with the hardware. "Write some registers and done"
+>> isn't how display blocks work nowadays. So your proposal amounts to
+>> "no fbdev/fbcon for anything modern-ish".
+>=20
+> With "modern-ish" actually meaning: "desktop/gaming/mobile-style
+> 3D-accelerated wide-color display hardware".  There's plenty of display=
+
+> hardware that doesn't fall into that class, and is served by fbdev (als=
+o
+> out-of-tree due to the moratorium) because of that.
+
+Userspace has been moving away from fbdev. Writing an fbdev driver locks =
+
+you into a legacy userspace. I also found that DRM drivers are smaller,=20
+because of all the DRM helper libraries. Using DRM + fbdev emulation is=20
+a win in almost any case. We did have some complaints about performance=20
+of the emulation. So that might be worth looking into.
+
+Best regards
+Thomas
+
+>=20
+>> Also I said "a pile more", most of the issues in fbcon/fbdev code
+>> apply for all drivers.
+>>
+>>>> Specifically the locking is somewhere between yolo and outright
+>>>> deadlocks. This holds even more so if the use case here is "I want
+>>>> scrollback for an oops". There's rough sketches for how it could be
+>>>> solved, but it's all very tricky work.
+>>>
+>>> When an oops happens, all bets are off.  At that point, all informati=
+on
+>>> you can extract from the system is valuable, and additional locking
+>>> issues are moot.
+>>
+>> Except the first oops then scrolls aways because it's getting buried
+>> under further fail. Your locking needs to be minimally good enough to
+>> not make the situation worse.
+>=20
+> When an oops happens, all bets are off...
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                          Geert
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N--
+
+--yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAaWOMFAwAAAAAACgkQlh/E3EQov+Cv
+hw//SDOkfXlIrcsAsBu8ZsbwQK8Lq+7RnfJckk3X89r/Zep1wil4Oot0XNNgIe2ZGq8yYTctgvbk
+HePIWpAGcwgoMXRqnC2ZqkCTtfzwFCfmN9NrDUqdLWhrGloGhGIae5amB8bt8wOMVLRzC1n8OQTE
+kayuQws+rJGWjt5GWUmL7aITrzgiDjIJA5TrQJFbu9B2MSxqn3E78pRbNtMpWKhMkLVGaEoZLNl0
+PTlC9qHfz1PZxwJ+d+ZNFTBaWrni+R4OXz4I3NZBsVhH2uLc3zRSzFoux924x66zxxNcypG9120n
+iSF6YCRy05aISl+7thtbL+/cQMVEnDR3vMUUKC2tLnZJi0a9ieDWZ08OdHdfl+GKKK3BzYjTxN6f
+z8FKGJulkOlW7ezoVITsl0ovsB2URbtbEWGiUDS5sZ2o1QqxOYas0bJr2ErX4xygI5GcZlInzHep
+huw+UPJv6OWF5/diHrcz0z3RudON+U7KcaWJ+bx2jeFbt03+MUKbC6ie8+CDGiO/fHL6nMeFLd6s
+0DrAGSvcic6YlimNesJNP6KtlnxCQhpx6jo6xHof0vHvINDQiicHE7MTLaC9dcIYB4FzaGGyPaFu
+ksWL6k4hHRmM9xr9ageJsZBC3iVsyR8pDNAhggKcmOWPyuej2TblmoyX0MaZDLtA+1jKdpmzrAcJ
+zkA=
+=h086
+-----END PGP SIGNATURE-----
+
+--yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj--
