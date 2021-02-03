@@ -5,53 +5,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8550C433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F382AC433E6
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AE5064F51
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:13:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B213B64E39
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232531AbhBCSNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 13:13:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47096 "EHLO
+        id S232876AbhBCSNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 13:13:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232733AbhBCSNC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:02 -0500
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71985C0613D6
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:18 -0800 (PST)
-Received: by mail-il1-x12a.google.com with SMTP id z18so97840ile.9
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:18 -0800 (PST)
+        with ESMTP id S232810AbhBCSN0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:26 -0500
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42730C061221
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:25 -0800 (PST)
+Received: by mail-il1-x12b.google.com with SMTP id g9so134016ilc.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bjC27Eb9w9mM2SAEoXcwuyGIikNJU3zdPVeVR9rKt0c=;
-        b=KqWrrH2txCq4lO2ex6WKtRqHlkaLYMNP/cM5ExESO2VMWv16ydv9eW4RUqwDSNgULE
-         cV9HAU5u2bk8h6Bdl11d/CiQYi/VeWsJsIfOQozly7zbb8GrHUOoPQ1x+sx+Tu2iCRKE
-         N+71OcIyUcMeVWPZhq9WGSvc962kn3oWzcHPo=
+        bh=gUxAyPrY9bzYiy2Y6nOYwDKwIFGYOoQbH3S8TsMIGGo=;
+        b=LR/v+EQTUWjnJKFoLH/BjXkI1v2ATxLTA/9R548MdtOmefM0aLvLpv9/MWD9oW1GOH
+         QKHPDO+ry0fgYGWTAPMeVT8xDgc/shSmWyNzLIxY3W5EHahxOmylIUosLP1esDVrOSi5
+         ZEML4NYRuBEf1RSlpmX0w4jdLCcyxu2NrMaeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bjC27Eb9w9mM2SAEoXcwuyGIikNJU3zdPVeVR9rKt0c=;
-        b=rnPsIJyPhhQXf1bmeuOH730qeZiPdskOOcv4wu1aeeu+CUBTLyVfdtQ1KCwOlzk3I5
-         r0iamrQPqOpuwLcSEFfamV7FzfApPkKBFgX6uBXjHPx4eQMkq8HkxvjLv2Po/c9tdBZN
-         eCvxqFT3C2rmQ4No/+XfcTNwouWelHj8Yx7bYCnoWcus+izmbi0rTPB3/9gSd0nwG8iR
-         4HoSGtblasWEX1zn/Jxg8jz8Ur7QCkbw5NNiyuo20KAUSaKGIw23luqOESnvejlvsZSN
-         09aWJWDSAgxl+Dk1soKE/hOLwaDtEZrC6LQu264JzUorEP24UU2Ud1aGpl5I0ABCOzGv
-         5COQ==
-X-Gm-Message-State: AOAM531GcRh8VagHWV+ZqShJGGqlzdGfwwhQdHm0PKz8WKNvK3UtGiVH
-        gNMTzuCtfMju5TEDRHsMPoxOhA==
-X-Google-Smtp-Source: ABdhPJx8Qrp2K4WoCsSpLgc8CZBOB6oPCmpJqO+WHXB9WoPN+cz8O0USgJa4+n4x2TYfDLXOVcxczA==
-X-Received: by 2002:a92:d845:: with SMTP id h5mr3474042ilq.34.1612375937986;
-        Wed, 03 Feb 2021 10:12:17 -0800 (PST)
+        bh=gUxAyPrY9bzYiy2Y6nOYwDKwIFGYOoQbH3S8TsMIGGo=;
+        b=DOva4J1bSLAo3Wec2n7us5lNUqh2UKWE5fGffgtG76BSrqpUJdGFV8uGdszbmCXnzw
+         PeO0Wl3MOnqCc/wtSR/f0sOxCe59Fu+qvtnJQrN9ZGJi0A87E3NS6MTWsKw11KwWjfMy
+         nBG8bwhGEHyCQ69iItALsm3112uFGJUYSVhj1ecb89mIpYXQONRda25uQAjqcCgmRKks
+         E8MDtxw2z9CNStGOyZA4HR+zlmZnZfYf1lIR0jlsCzs6R/8DUTU/l9RgOoBO29p51XKo
+         ua510nfSCX+U1z7oUQn2y5kV6La/bsANvPU3Saqw2nBrZsrUalYXYhSXv+06y7foxv+p
+         mtBA==
+X-Gm-Message-State: AOAM531+GVZRsunUtSEAQzqMgGal/i8EIOKGZ4Li9YAo9W/EIQ0t7fIj
+        ntF+sUXMAfbhPAiJ6BjCDWbZLw==
+X-Google-Smtp-Source: ABdhPJw0eL16dUnCKGI3iOotRcsblpIUnhTWl5T5z/Kvix9OHdAsThLGIlz4f64aUNb4fUBUNPr/dw==
+X-Received: by 2002:a05:6e02:1311:: with SMTP id g17mr3521304ilr.47.1612375944759;
+        Wed, 03 Feb 2021 10:12:24 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.16
+        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 10:12:17 -0800 (PST)
+        Wed, 03 Feb 2021 10:12:24 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     corbet@lwn.net, gregkh@linuxfoundation.org, peterz@infradead.org,
         keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
@@ -60,9 +61,9 @@ Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
         devel@driverdev.osuosl.org
-Subject: [PATCH v3 3/7] drivers/acpi: convert seqno to use seqnum_ops
-Date:   Wed,  3 Feb 2021 11:11:59 -0700
-Message-Id: <8d11eec80d6668065fb35a0b025c3614b67bf798.1612314468.git.skhan@linuxfoundation.org>
+Subject: [PATCH v3 6/7] drivers/staging/rtl8188eu: convert event_seq to use seqnum_ops
+Date:   Wed,  3 Feb 2021 11:12:02 -0700
+Message-Id: <5bee25950b546b28e03a7c71cb494ff1b2ded083.1612314468.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1612314468.git.skhan@linuxfoundation.org>
 References: <cover.1612314468.git.skhan@linuxfoundation.org>
@@ -73,48 +74,115 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath.
+leveraging atomic_t and atomic64_t ops underneath. Convert it to use
+seqnum_ops.
 
-Convert seqno atomic counter to use seqnum_ops.
+event_seq atomic_t variables are atomic counters. Convert them to use
+seqnum_ops.
 
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/acpi/acpi_extlog.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 23 ++++++++++++++-----
+ .../staging/rtl8188eu/include/rtw_mlme_ext.h  |  3 ++-
+ 2 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
-index 72f1fb77abcd..16a4928645a1 100644
---- a/drivers/acpi/acpi_extlog.c
-+++ b/drivers/acpi/acpi_extlog.c
-@@ -12,6 +12,7 @@
- #include <linux/ratelimit.h>
- #include <linux/edac.h>
- #include <linux/ras.h>
+diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+index 8794907a39f4..2fa5a8c44d28 100644
+--- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
+@@ -7,6 +7,7 @@
+ #define _RTW_MLME_EXT_C_
+ 
+ #include <linux/ieee80211.h>
 +#include <linux/seqnum_ops.h>
- #include <asm/cpu.h>
- #include <asm/mce.h>
+ #include <asm/unaligned.h>
  
-@@ -93,8 +94,7 @@ static struct acpi_hest_generic_status *extlog_elog_entry_check(int cpu, int ban
- static void __print_extlog_rcd(const char *pfx,
- 			       struct acpi_hest_generic_status *estatus, int cpu)
- {
--	static atomic_t seqno;
--	unsigned int curr_seqno;
-+	static struct seqnum32 seqno;
- 	char pfx_seq[64];
+ #include <osdep_service.h>
+@@ -3860,7 +3861,7 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
+ 		_12M_RATE_, _24M_RATE_, 0xff,
+ 	};
  
- 	if (!pfx) {
-@@ -103,8 +103,8 @@ static void __print_extlog_rcd(const char *pfx,
- 		else
- 			pfx = KERN_ERR;
- 	}
--	curr_seqno = atomic_inc_return(&seqno);
--	snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx, curr_seqno);
-+	snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx,
-+		 seqnum32_inc(&seqno));
- 	printk("%s""Hardware error detected on CPU%d\n", pfx_seq, cpu);
- 	cper_estatus_print(pfx_seq, estatus);
- }
+-	atomic_set(&pmlmeext->event_seq, 0);
++	seqnum32_init(&pmlmeext->event_seq, 0);
+ 	pmlmeext->mgnt_seq = 0;/* reset to zero when disconnect at client mode */
+ 
+ 	pmlmeext->cur_channel = padapter->registrypriv.channel;
+@@ -4189,7 +4190,9 @@ void report_survey_event(struct adapter *padapter,
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct survey_event);
+ 	pc2h_evt_hdr->ID = _Survey_EVT_;
+-	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++
++	/* seq is unsigned int seq:8 */
++	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ 
+ 	psurvey_evt = (struct survey_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+ 
+@@ -4239,7 +4242,9 @@ void report_surveydone_event(struct adapter *padapter)
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct surveydone_event);
+ 	pc2h_evt_hdr->ID = _SurveyDone_EVT_;
+-	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++
++	/* seq is unsigned int seq:8 */
++	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ 
+ 	psurveydone_evt = (struct surveydone_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+ 	psurveydone_evt->bss_cnt = pmlmeext->sitesurvey_res.bss_cnt;
+@@ -4283,7 +4288,9 @@ void report_join_res(struct adapter *padapter, int res)
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
+ 	pc2h_evt_hdr->ID = _JoinBss_EVT_;
+-	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++
++	/* seq is unsigned int seq:8 */
++	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ 
+ 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+ 	memcpy((unsigned char *)(&pjoinbss_evt->network.network), &pmlmeinfo->network, sizeof(struct wlan_bssid_ex));
+@@ -4333,7 +4340,9 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr,
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct stadel_event);
+ 	pc2h_evt_hdr->ID = _DelSTA_EVT_;
+-	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++
++	/* seq is unsigned int seq:8 */
++	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ 
+ 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+ 	ether_addr_copy((unsigned char *)(&pdel_sta_evt->macaddr), MacAddr);
+@@ -4386,7 +4395,9 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr,
+ 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
+ 	pc2h_evt_hdr->len = sizeof(struct stassoc_event);
+ 	pc2h_evt_hdr->ID = _AddSTA_EVT_;
+-	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++
++	/* seq is unsigned int seq:8 */
++	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ 
+ 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
+ 	ether_addr_copy((unsigned char *)(&padd_sta_evt->macaddr), MacAddr);
+diff --git a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
+index b11a6886a083..09b7e3bb2738 100644
+--- a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
+@@ -7,6 +7,7 @@
+ #ifndef __RTW_MLME_EXT_H_
+ #define __RTW_MLME_EXT_H_
+ 
++#include <linux/seqnum_ops.h>
+ #include <osdep_service.h>
+ #include <drv_types.h>
+ #include <wlan_bssdef.h>
+@@ -393,7 +394,7 @@ struct p2p_oper_class_map {
+ struct mlme_ext_priv {
+ 	struct adapter	*padapter;
+ 	u8	mlmeext_init;
+-	atomic_t	event_seq;
++	struct	seqnum32 event_seq;
+ 	u16	mgnt_seq;
+ 
+ 	unsigned char	cur_channel;
 -- 
 2.27.0
 
