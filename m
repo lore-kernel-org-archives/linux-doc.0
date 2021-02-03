@@ -8,51 +8,51 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F382AC433E6
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD86C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B213B64E39
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33F3764FAD
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 18:14:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232876AbhBCSNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 13:13:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47090 "EHLO
+        id S232138AbhBCSOb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 13:14:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbhBCSN0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:26 -0500
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42730C061221
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:25 -0800 (PST)
-Received: by mail-il1-x12b.google.com with SMTP id g9so134016ilc.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:25 -0800 (PST)
+        with ESMTP id S232760AbhBCSNL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 13:13:11 -0500
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A56C061355
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 10:12:19 -0800 (PST)
+Received: by mail-il1-x132.google.com with SMTP id m20so75068ilj.13
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 10:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gUxAyPrY9bzYiy2Y6nOYwDKwIFGYOoQbH3S8TsMIGGo=;
-        b=LR/v+EQTUWjnJKFoLH/BjXkI1v2ATxLTA/9R548MdtOmefM0aLvLpv9/MWD9oW1GOH
-         QKHPDO+ry0fgYGWTAPMeVT8xDgc/shSmWyNzLIxY3W5EHahxOmylIUosLP1esDVrOSi5
-         ZEML4NYRuBEf1RSlpmX0w4jdLCcyxu2NrMaeU=
+        bh=Us34ijyq5YldDgoM68M19WNAuZlemdS7tunn1EAeqK0=;
+        b=AGLM7izY/rKHCOxp7cxBmTm/tVSqPW7ZIDhByLc5ZUs5fT9iVWlpKxs0rLvrlh1mCo
+         rUiu/sshU1xp9YhketiJr9uBHZ5yjx9c65M+Ez/Sds7s9ZGZ30Vm/e1O5nR7ry/Ri6kk
+         55jue1iwccIWPtSDFXvnqOff+FiLMnDHgx7uo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gUxAyPrY9bzYiy2Y6nOYwDKwIFGYOoQbH3S8TsMIGGo=;
-        b=DOva4J1bSLAo3Wec2n7us5lNUqh2UKWE5fGffgtG76BSrqpUJdGFV8uGdszbmCXnzw
-         PeO0Wl3MOnqCc/wtSR/f0sOxCe59Fu+qvtnJQrN9ZGJi0A87E3NS6MTWsKw11KwWjfMy
-         nBG8bwhGEHyCQ69iItALsm3112uFGJUYSVhj1ecb89mIpYXQONRda25uQAjqcCgmRKks
-         E8MDtxw2z9CNStGOyZA4HR+zlmZnZfYf1lIR0jlsCzs6R/8DUTU/l9RgOoBO29p51XKo
-         ua510nfSCX+U1z7oUQn2y5kV6La/bsANvPU3Saqw2nBrZsrUalYXYhSXv+06y7foxv+p
-         mtBA==
-X-Gm-Message-State: AOAM531+GVZRsunUtSEAQzqMgGal/i8EIOKGZ4Li9YAo9W/EIQ0t7fIj
-        ntF+sUXMAfbhPAiJ6BjCDWbZLw==
-X-Google-Smtp-Source: ABdhPJw0eL16dUnCKGI3iOotRcsblpIUnhTWl5T5z/Kvix9OHdAsThLGIlz4f64aUNb4fUBUNPr/dw==
-X-Received: by 2002:a05:6e02:1311:: with SMTP id g17mr3521304ilr.47.1612375944759;
-        Wed, 03 Feb 2021 10:12:24 -0800 (PST)
+        bh=Us34ijyq5YldDgoM68M19WNAuZlemdS7tunn1EAeqK0=;
+        b=cX92guBm+p1KIte+iaZiTS89KRSKSxwq8VT11qoNKWtnDdLzbAsR+/iAw4ETWqESob
+         VChZfmIBUU1Xw01l46AFWzxIJgPP3ZICJ7jeQmnRYrfFAjQKR+Cy3mUwZ879FbNsr54d
+         Z7pDtdMIElY8tSuh9zhY6Bj/FxknMYgNzUjluvTJnaKNB+8FuREhSYNYCF6DvZ+oQYgh
+         X2nX0GdsoALvH3pSl3lSJPBWIwRSZWiUx2GJof2WtE+4+sex+nPtYjtf5D80aAN6eV1d
+         uw5uPDBvTjhqC4ZgOn4avbJZZHyDmepWt3sxYWzaVI7WjUImxYcbhG2jLFeb7yZoqTE8
+         9Xnw==
+X-Gm-Message-State: AOAM530bcjuPZU0NrfNAwYZT6QPAgiwN5vnxT4/guMyOxHfupBhVgJPe
+        oGh+wuHvuwjMnvxwjzynAzCX8A==
+X-Google-Smtp-Source: ABdhPJyuJchmuxTVpwILYv0SxXq+AaTfD/pPbWAbbGIQDB/rEG3yKWTEsN9alX7Ngl05yOUMaGN1bA==
+X-Received: by 2002:a05:6e02:152f:: with SMTP id i15mr3711883ilu.277.1612375935896;
+        Wed, 03 Feb 2021 10:12:15 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.23
+        by smtp.gmail.com with ESMTPSA id h21sm399684iob.30.2021.02.03.10.12.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 10:12:24 -0800 (PST)
+        Wed, 03 Feb 2021 10:12:15 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     corbet@lwn.net, gregkh@linuxfoundation.org, peterz@infradead.org,
         keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
@@ -61,9 +61,9 @@ Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
         devel@driverdev.osuosl.org
-Subject: [PATCH v3 6/7] drivers/staging/rtl8188eu: convert event_seq to use seqnum_ops
-Date:   Wed,  3 Feb 2021 11:12:02 -0700
-Message-Id: <5bee25950b546b28e03a7c71cb494ff1b2ded083.1612314468.git.skhan@linuxfoundation.org>
+Subject: [PATCH v3 2/7] selftests: lib:test_seqnum_ops: add new test for seqnum_ops
+Date:   Wed,  3 Feb 2021 11:11:58 -0700
+Message-Id: <08e6ceb7608d008faf9e28e4f08361af5618cf07.1612314468.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1612314468.git.skhan@linuxfoundation.org>
 References: <cover.1612314468.git.skhan@linuxfoundation.org>
@@ -73,116 +73,112 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sequence Number api provides interfaces for unsigned atomic up counters
-leveraging atomic_t and atomic64_t ops underneath. Convert it to use
-seqnum_ops.
+Add a new selftest for testing seqnum_ops. This test loads test_seqnum_ops
+test module and unloads it. The test module runs tests and prints results
+to dmesg.
 
-event_seq atomic_t variables are atomic counters. Convert them to use
-seqnum_ops.
+Sequence Number api provides interfaces for unsigned atomic up counters
+leveraging atomic_t and atomic64_t ops underneath.
+
+There are a number of atomic_t usages in the kernel where atomic_t api
+is used for counting sequence numbers and other statistical counters.
+Several of these usages, convert atomic_read() and atomic_inc_return()
+return values to unsigned. Introducing sequence number ops supports
+these use-cases with a standard core-api.
+
+Sequence Number ops provide interfaces to initialize, increment and get
+the sequence number. These ops also check for overflow and log message to
+indicate when overflow occurs.
 
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/staging/rtl8188eu/core/rtw_mlme_ext.c | 23 ++++++++++++++-----
- .../staging/rtl8188eu/include/rtw_mlme_ext.h  |  3 ++-
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ Documentation/core-api/seqnum_ops.rst          |  9 +++++++++
+ MAINTAINERS                                    |  1 +
+ include/linux/seqnum_ops.h                     |  2 ++
+ tools/testing/selftests/lib/Makefile           |  1 +
+ tools/testing/selftests/lib/config             |  1 +
+ tools/testing/selftests/lib/test_seqnum_ops.sh | 10 ++++++++++
+ 6 files changed, 24 insertions(+)
+ create mode 100755 tools/testing/selftests/lib/test_seqnum_ops.sh
 
-diff --git a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-index 8794907a39f4..2fa5a8c44d28 100644
---- a/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8188eu/core/rtw_mlme_ext.c
-@@ -7,6 +7,7 @@
- #define _RTW_MLME_EXT_C_
+diff --git a/Documentation/core-api/seqnum_ops.rst b/Documentation/core-api/seqnum_ops.rst
+index ed4eba394799..6db2c9120885 100644
+--- a/Documentation/core-api/seqnum_ops.rst
++++ b/Documentation/core-api/seqnum_ops.rst
+@@ -51,3 +51,12 @@ Returns sequence number value. ::
  
- #include <linux/ieee80211.h>
-+#include <linux/seqnum_ops.h>
- #include <asm/unaligned.h>
- 
- #include <osdep_service.h>
-@@ -3860,7 +3861,7 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
- 		_12M_RATE_, _24M_RATE_, 0xff,
- 	};
- 
--	atomic_set(&pmlmeext->event_seq, 0);
-+	seqnum32_init(&pmlmeext->event_seq, 0);
- 	pmlmeext->mgnt_seq = 0;/* reset to zero when disconnect at client mode */
- 
- 	pmlmeext->cur_channel = padapter->registrypriv.channel;
-@@ -4189,7 +4190,9 @@ void report_survey_event(struct adapter *padapter,
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct survey_event);
- 	pc2h_evt_hdr->ID = _Survey_EVT_;
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
+ .. warning::
+         seqnum32 wraps around to INT_MIN when it overflows.
 +
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	psurvey_evt = (struct survey_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 
-@@ -4239,7 +4242,9 @@ void report_surveydone_event(struct adapter *padapter)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct surveydone_event);
- 	pc2h_evt_hdr->ID = _SurveyDone_EVT_;
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++Where are the seqnum_ops and how to use and test them?
++------------------------------------------------------
 +
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
- 
- 	psurveydone_evt = (struct surveydone_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	psurveydone_evt->bss_cnt = pmlmeext->sitesurvey_res.bss_cnt;
-@@ -4283,7 +4288,9 @@ void report_join_res(struct adapter *padapter, int res)
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
- 	pc2h_evt_hdr->ID = _JoinBss_EVT_;
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
++.. kernel-doc:: include/linux/seqnum_ops.h
 +
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
++Please see lib/test_seqnum_ops.c for examples usages and test module.
++Please find selftest: testing/selftests/lib/test_seqnum_ops.sh
++Please check dmesg for results after running test_seqnum_ops.sh.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f9fe1438a8cd..70b9eeb995f7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16241,6 +16241,7 @@ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	include/linux/seqnum_ops.h
+ F:	lib/test_seqnum_ops.c
++F:	tools/testing/selftests/lib/test_seqnum_ops.sh
  
- 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	memcpy((unsigned char *)(&pjoinbss_evt->network.network), &pmlmeinfo->network, sizeof(struct wlan_bssid_ex));
-@@ -4333,7 +4340,9 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr,
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stadel_event);
- 	pc2h_evt_hdr->ID = _DelSTA_EVT_;
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ SIMPLE FIRMWARE INTERFACE (SFI)
+ S:	Obsolete
+diff --git a/include/linux/seqnum_ops.h b/include/linux/seqnum_ops.h
+index e8d8481445d3..d540b62d1aa4 100644
+--- a/include/linux/seqnum_ops.h
++++ b/include/linux/seqnum_ops.h
+@@ -18,6 +18,8 @@
+  *
+  * Reference and API guide:
+  *	Documentation/core-api/seqnum_ops.rst for more information.
++ *	lib/test_seqnum_ops.c - example usages and test module
++ *	tools/testing/selftests/lib/test_seqnum_ops.sh
+  */
  
- 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	ether_addr_copy((unsigned char *)(&pdel_sta_evt->macaddr), MacAddr);
-@@ -4386,7 +4395,9 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr,
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stassoc_event);
- 	pc2h_evt_hdr->ID = _AddSTA_EVT_;
--	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
-+
-+	/* seq is unsigned int seq:8 */
-+	pc2h_evt_hdr->seq = seqnum32_inc(&pmlmeext->event_seq);
+ #ifndef __LINUX_SEQNUM_OPS_H
+diff --git a/tools/testing/selftests/lib/Makefile b/tools/testing/selftests/lib/Makefile
+index a105f094676e..1818444f0e97 100644
+--- a/tools/testing/selftests/lib/Makefile
++++ b/tools/testing/selftests/lib/Makefile
+@@ -5,5 +5,6 @@
+ all:
  
- 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
- 	ether_addr_copy((unsigned char *)(&padd_sta_evt->macaddr), MacAddr);
-diff --git a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-index b11a6886a083..09b7e3bb2738 100644
---- a/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8188eu/include/rtw_mlme_ext.h
-@@ -7,6 +7,7 @@
- #ifndef __RTW_MLME_EXT_H_
- #define __RTW_MLME_EXT_H_
+ TEST_PROGS := printf.sh bitmap.sh prime_numbers.sh strscpy.sh
++TEST_PROGS += test_seqnum_ops.sh
  
-+#include <linux/seqnum_ops.h>
- #include <osdep_service.h>
- #include <drv_types.h>
- #include <wlan_bssdef.h>
-@@ -393,7 +394,7 @@ struct p2p_oper_class_map {
- struct mlme_ext_priv {
- 	struct adapter	*padapter;
- 	u8	mlmeext_init;
--	atomic_t	event_seq;
-+	struct	seqnum32 event_seq;
- 	u16	mgnt_seq;
- 
- 	unsigned char	cur_channel;
+ include ../lib.mk
+diff --git a/tools/testing/selftests/lib/config b/tools/testing/selftests/lib/config
+index b80ee3f6e265..674ed2a2ac82 100644
+--- a/tools/testing/selftests/lib/config
++++ b/tools/testing/selftests/lib/config
+@@ -3,3 +3,4 @@ CONFIG_TEST_BITMAP=m
+ CONFIG_PRIME_NUMBERS=m
+ CONFIG_TEST_STRSCPY=m
+ CONFIG_TEST_BITOPS=m
++CONFIG_TEST_SEQNUM_OPS=m
+diff --git a/tools/testing/selftests/lib/test_seqnum_ops.sh b/tools/testing/selftests/lib/test_seqnum_ops.sh
+new file mode 100755
+index 000000000000..fdce16b220ba
+--- /dev/null
++++ b/tools/testing/selftests/lib/test_seqnum_ops.sh
+@@ -0,0 +1,10 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (c) 2020 Shuah Khan <skhan@linuxfoundation.org>
++# Copyright (c) 2020 The Linux Foundation
++#
++# Tests the Sequence Number Ops interfaces using test_seqnum_ops
++# kernel module
++#
++$(dirname $0)/../kselftest/module.sh "test_seqnum_ops" test_seqnum_ops
 -- 
 2.27.0
 
