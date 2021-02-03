@@ -2,231 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A947EC433E0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 08:04:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092E0C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 10:24:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55C8864F4E
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 08:04:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B252664DE7
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 10:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232467AbhBCIEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 03:04:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50208 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232332AbhBCIEa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 03:04:30 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id BFCDFAEC3;
-        Wed,  3 Feb 2021 08:03:48 +0000 (UTC)
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        id S233405AbhBCKY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 05:24:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233448AbhBCKYY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 05:24:24 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68249C06174A
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 02:23:44 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id f16so4895031wmq.5
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 02:23:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
+        b=XcTmJyWd74nvKmKqGb0lHYbm4BberuwObLIrEVZVDU5MFPGSgRvwBVl691DtsVL32v
+         PoxSztsiW9kqnY7fWODTxJQ24Xut19EQmALlq/oOlmCC/lE28uXGaC0MT/lTB3vpqnHz
+         OO6YtZ53iIHcnPn/3H7K8/Ji389pkKLCfJXYw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=YVcGpKd8+eC2YQ5xYyo7fYllHOO2iPEn0qmRLD8c4tk=;
+        b=PU4Mjse0dSPpopfS5XyVSF1gHndGmSTrDvd4e+iVyM+zMr8vRmebRBfQfROAorsC5p
+         ojTnedH/CxJWukroTW2LCbk+fOUKrz4mOD78CEV2ZqJ6L8ba+R1Gp5s06sfeZf9OSn+r
+         03GLyWWadX9Y4zks9vggCRWOVZMSRnqs1cYdPxUzm6z8dpHeBy92FYMEraArnzzfOE+Q
+         mfxxQ0oh3zghwWqK4UjZCfRRxN7gwKQndgJdfIcSiFUsQZKTqwgQRSFNLZAG1hShj9Y7
+         Tork7RcjcB2f37wnELq1mGzYcWAYc6bNUu5t0+BCp/1b3KOiqHXhCxIzTBNdl2VYQ8ui
+         Ne/A==
+X-Gm-Message-State: AOAM532w4AMfICbFZ9mCGECjFHd7Mxxzxh8/TYGU/b3BWvTcTto/yFlo
+        XVf4Q1jDYjHLgkI+4p+/shXMXg==
+X-Google-Smtp-Source: ABdhPJwiI5aD5dqY1ckorWBWkPtWhv80Z2HTWzG7jeWjpVya/U1sTYHLj7xvi3ENjtXKYY1O+EVTCA==
+X-Received: by 2002:a7b:c3ca:: with SMTP id t10mr1325153wmj.138.1612347823070;
+        Wed, 03 Feb 2021 02:23:43 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b3sm2351907wme.32.2021.02.03.02.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 02:23:42 -0800 (PST)
+Date:   Wed, 3 Feb 2021 11:23:39 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Michal Hocko <mhocko@suse.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
+        Michel Lespinasse <walken@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
- <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-Message-ID: <7d666c65-80ea-905e-b50f-76af5a6dceb0@suse.de>
-Date:   Wed, 3 Feb 2021 09:03:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        Hridya Valsaraju <hridya@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH] procfs/dmabuf: Add /proc/<pid>/task/<tid>/dmabuf_fds
+Message-ID: <YBp5qzLBBMJE0Yhn@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Simon Ser <contact@emersion.fr>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Michal Hocko <mhocko@suse.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        dri-devel@lists.freedesktop.org, Andrei Vagin <avagin@gmail.com>,
+        Kalesh Singh <kaleshsingh@google.com>, Hui Su <sh_def@163.com>,
+        Michel Lespinasse <walken@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        kernel-team <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux API <linux-api@vger.kernel.org>
+References: <20210126225138.1823266-1-kaleshsingh@google.com>
+ <CAG48ez2tc_GSPYdgGqTRotUp6NqFoUKdoN_p978+BOLoD_Fdjw@mail.gmail.com>
+ <YBFG/zBxgnapqLAK@dhcp22.suse.cz>
+ <ea04b552-7345-b7d5-60fe-7a22515ea63a@amd.com>
+ <20210128120130.50aa9a74@eldfell>
+ <c95af15d-8ff4-aea0-fa1b-3157845deae1@amd.com>
+ <20210129161334.788b8fd0@eldfell>
+ <wgUb8smQArgjbRFYMPYVDmukBT-_BrqG2M6XIOkWdBcW_x-m4ORnl3VOvH3J4wrsNGMoOXqMAro0UmkdVXFNso9PEiNCFGEeruibhWsmU34=@emersion.fr>
+ <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f680ced7-3402-4a1e-4565-35ad7cd0c46d@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj
-Content-Type: multipart/mixed; boundary="GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Phillip Susi <phill@thesusis.net>, Pavel Machek <pavel@ucw.cz>,
- Randy Dunlap <rdunlap@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Message-ID: <7d666c65-80ea-905e-b50f-76af5a6dceb0@suse.de>
-Subject: Re: fbcon: remove soft scrollback code (missing Doc. patch)
-References: <20200916205434.GA10389@duo.ucw.cz>
- <87czyf5jjp.fsf@vps.thesusis.net>
- <CAHk-=wjsjC1h7fskwYaaRLykN1ms6ZtxGvucQgmL-zZTfxPdBA@mail.gmail.com>
- <CAKMK7uEGXOC_ci=Drm=Hz+xPGdcoxv8YZ-gcOckoPmu2XijiSA@mail.gmail.com>
- <CAMuHMdVzCjVim4A3eAZzztqUyjb6a2bjmSkgxUnaugQFv42qag@mail.gmail.com>
- <CAKMK7uEwHu5GLF16wn83PLZUjoJWgF0dcLXwsGkt_aBpOgLt+w@mail.gmail.com>
- <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUf3eeK=Fr_pasUdXkk_zuicFBqNY+jSnH6EgUgmG+3hA@mail.gmail.com>
+On Fri, Jan 29, 2021 at 03:22:06PM +0100, Christian König wrote:
+> Am 29.01.21 um 15:17 schrieb Simon Ser:
+> > On Friday, January 29th, 2021 at 3:13 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > 
+> > > > Re-importing it adds quite a huge CPU overhead to both userspace as well
+> > > > as the kernel.
+> > > Perhaps, but so far it seems no-one has noticed the overhead, with Mesa
+> > > at least.
+> > > 
+> > > I happily stand corrected.
+> > Note, all of this doesn't mean that compositors will stop keeping
+> > DMA-BUF FDs around. They may want to keep them open for other purposes
+> > like importing them into KMS or other EGL displays as needed.
+> 
+> Correct and that's a perfectly valid use case. Just re-importing it on every
+> frame is something we should really try to avoid.
+> 
+> At least with debugging enabled it's massive overhead and maybe even
+> performance penalty when we have to re-create device page tables all the
+> time.
+> 
+> But thinking more about that it is possible that we short-cut this step as
+> long as the original import was still referenced. Otherwise we probably
+> would have noticed this much earlier.
 
---GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 15.01.21 um 09:06 schrieb Geert Uytterhoeven:
-> Hi Daniel,
->=20
-> On Thu, Jan 14, 2021 at 5:11 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->> On Thu, Jan 14, 2021 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.o=
-rg> wrote:
->>> On Tue, Jan 12, 2021 at 5:00 PM Daniel Vetter <daniel@ffwll.ch> wrote=
-:
->>>> On Sat, Jan 9, 2021 at 12:11 AM Linus Torvalds
->>>> <torvalds@linux-foundation.org> wrote:
->>>>> On Fri, Jan 8, 2021 at 11:13 AM Phillip Susi <phill@thesusis.net> w=
-rote:
->>>>>>> Could we pause this madness? Scrollback is still useful. I needed=
- it
->>>>>>> today... it was too small, so command results I was looking for
->>>>>>> already scrolled away, but... life will be really painful with 0
->>>>>>> scrollback.
->>>>>>
->>>>>>> You'll need it, too... as soon as you get oops and will want to s=
-ee
->>>>>>> errors just prior to that oops.
->>>>>>
->>>>>>> If it means I get to maintain it... I'm not happy about it but th=
-at's
->>>>>>> better than no scrollback.
->>>>>>
->>>>>> Amen!  What self respecting admin installs a gui on servers?  What=
- do we
->>>>>> have to do to get this back in?  What was so buggy with this code =
-that
->>>>>> it needed to be removed?  Why was it such a burden to just leave i=
-t be?
->>>>>
->>>>> It really was buggy, with security implications. And we have no mai=
-ntainers.
->>>>>
->>>>> So the scroll-back code can't come back until we have a maintainer =
-and
->>>>> a cleaner and simpler implementation.
->>>>>
->>>>> And no, maintaining it really doesn't mean "just get it back to the=
-
->>>>> old broken state".
->>>>>
->>>>> So far I haven't actually seen any patches, which means that it's n=
-ot
->>>>> coming back.
->>>>>
->>>>> The good news? If you have an actual text VGA console, that should
->>>>> still work just fine.
->>>
->>> IIRC, all of this was written for systems lacking VGA text consoles
->>> in the first place...
->>>
->>>> Also on anything that is remotely modern (i.e. runs a drm kernel
->>>> modesetting driver undearneath the fbdev/fbcon stack) there's a pile=
-
->>>> more issues on top of just the scrollback/fbcon code being a mess.
->>>
->>> Would it help to remove DRM_FBDEV_EMULATION (instead)?
-
-Of the fbdev code, DRM's fbdev emulation is the cleanest. We now even=20
-have test cases for the userspace I/O.
-
->>
->> It's a problem with the hardware. "Write some registers and done"
->> isn't how display blocks work nowadays. So your proposal amounts to
->> "no fbdev/fbcon for anything modern-ish".
->=20
-> With "modern-ish" actually meaning: "desktop/gaming/mobile-style
-> 3D-accelerated wide-color display hardware".  There's plenty of display=
-
-> hardware that doesn't fall into that class, and is served by fbdev (als=
-o
-> out-of-tree due to the moratorium) because of that.
-
-Userspace has been moving away from fbdev. Writing an fbdev driver locks =
-
-you into a legacy userspace. I also found that DRM drivers are smaller,=20
-because of all the DRM helper libraries. Using DRM + fbdev emulation is=20
-a win in almost any case. We did have some complaints about performance=20
-of the emulation. So that might be worth looking into.
-
-Best regards
-Thomas
-
->=20
->> Also I said "a pile more", most of the issues in fbcon/fbdev code
->> apply for all drivers.
->>
->>>> Specifically the locking is somewhere between yolo and outright
->>>> deadlocks. This holds even more so if the use case here is "I want
->>>> scrollback for an oops". There's rough sketches for how it could be
->>>> solved, but it's all very tricky work.
->>>
->>> When an oops happens, all bets are off.  At that point, all informati=
-on
->>> you can extract from the system is valuable, and additional locking
->>> issues are moot.
->>
->> Except the first oops then scrolls aways because it's getting buried
->> under further fail. Your locking needs to be minimally good enough to
->> not make the situation worse.
->=20
-> When an oops happens, all bets are off...
->=20
-> Gr{oetje,eeting}s,
->=20
->                          Geert
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---GDhN2qL2aB0rrSOiLw5PqylZkoxuD3V1N--
-
---yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmAaWOMFAwAAAAAACgkQlh/E3EQov+Cv
-hw//SDOkfXlIrcsAsBu8ZsbwQK8Lq+7RnfJckk3X89r/Zep1wil4Oot0XNNgIe2ZGq8yYTctgvbk
-HePIWpAGcwgoMXRqnC2ZqkCTtfzwFCfmN9NrDUqdLWhrGloGhGIae5amB8bt8wOMVLRzC1n8OQTE
-kayuQws+rJGWjt5GWUmL7aITrzgiDjIJA5TrQJFbu9B2MSxqn3E78pRbNtMpWKhMkLVGaEoZLNl0
-PTlC9qHfz1PZxwJ+d+ZNFTBaWrni+R4OXz4I3NZBsVhH2uLc3zRSzFoux924x66zxxNcypG9120n
-iSF6YCRy05aISl+7thtbL+/cQMVEnDR3vMUUKC2tLnZJi0a9ieDWZ08OdHdfl+GKKK3BzYjTxN6f
-z8FKGJulkOlW7ezoVITsl0ovsB2URbtbEWGiUDS5sZ2o1QqxOYas0bJr2ErX4xygI5GcZlInzHep
-huw+UPJv6OWF5/diHrcz0z3RudON+U7KcaWJ+bx2jeFbt03+MUKbC6ie8+CDGiO/fHL6nMeFLd6s
-0DrAGSvcic6YlimNesJNP6KtlnxCQhpx6jo6xHof0vHvINDQiicHE7MTLaC9dcIYB4FzaGGyPaFu
-ksWL6k4hHRmM9xr9ageJsZBC3iVsyR8pDNAhggKcmOWPyuej2TblmoyX0MaZDLtA+1jKdpmzrAcJ
-zkA=
-=h086
------END PGP SIGNATURE-----
-
---yfezKyx6UTf5mVJ1BQtTrApR6vxn8LUjj--
+Yeah kernel keeps lots of caches around and just gives you back the
+previous buffer if it's still around. Still probably not the smartest
+idea.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
