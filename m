@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2679C433E9
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:15:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA153C433DB
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:17:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF53E64E4E
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:15:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E90364F55
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 23:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233419AbhBCXNp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 18:13:45 -0500
-Received: from mga06.intel.com ([134.134.136.31]:30220 "EHLO mga06.intel.com"
+        id S233575AbhBCXQE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 18:16:04 -0500
+Received: from mga06.intel.com ([134.134.136.31]:30210 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233409AbhBCW7T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 17:59:19 -0500
-IronPort-SDR: Y+PnNHO17M3hD7rExP7e2zgxSGl/ktlOVE4t1aTbfvMya+cYOzAPWJWuum9rIl1GmJe8H8rex6
- GX3zkkwbc/UA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="242642376"
+        id S233178AbhBCW6U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Feb 2021 17:58:20 -0500
+IronPort-SDR: p4sagMfNC4U9Gstkrf1LH1uhLTlFRf6z90CZfTOMYVVdPcTmSKG+8rLOVmlcolN3C76qK3GNdU
+ m2pIcBdvgedA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="242642363"
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="242642376"
+   d="scan'208";a="242642363"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:33 -0800
-IronPort-SDR: OscQm/Vl0ja5Y9pR9IZqY9TBl4F0ruW6yV0nJkJ6zDhK8sbCPhbeVTCzQSwFKFvVWK8y+iYCJ+
- B2PGsNMjOI3Q==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:28 -0800
+IronPort-SDR: woT7ayVHYuWM03LADVTzdACqpwb/TVH7VKnOOcjPAWpYki3RKqO73cQNkg45cOFD5UygRlUxzD
+ XQjL1FzdqGWQ==
 X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; 
-   d="scan'208";a="507921162"
+   d="scan'208";a="507921122"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:32 -0800
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 14:56:27 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -59,12 +59,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Mark Brown <broonie@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: [PATCH v19 22/25] ELF: Introduce arch_setup_elf_property()
-Date:   Wed,  3 Feb 2021 14:55:44 -0800
-Message-Id: <20210203225547.32221-23-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v19 14/25] x86/mm: Update maybe_mkwrite() for shadow stack
+Date:   Wed,  3 Feb 2021 14:55:36 -0800
+Message-Id: <20210203225547.32221-15-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210203225547.32221-1-yu-cheng.yu@intel.com>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
@@ -74,177 +72,140 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-An ELF file's .note.gnu.property indicates arch features supported by the
-file.  These features are extracted by arch_parse_elf_property() and stored
-in 'arch_elf_state'.
+When serving a page fault, maybe_mkwrite() makes a PTE writable if its vma
+has VM_WRITE.
 
-Introduce x86 feature definitions and arch_setup_elf_property(), which
-enables such features.  The first use-case of this function is Shadow
-Stack.
+A shadow stack vma has VM_SHSTK.  Its PTEs have _PAGE_DIRTY, but not
+_PAGE_WRITE.  In fork(), _PAGE_DIRTY is cleared to effect copy-on-write,
+and in page fault, _PAGE_DIRTY is restored and the shadow stack page is
+writable again.
 
-ARM64 is the other arch that has ARCH_USE_GNU_PROPERTY and arch_parse_elf_
-property().  Add arch_setup_elf_property() for it.
+Update maybe_mkwrite() by introducing arch_maybe_mkwrite(), which sets
+_PAGE_DIRTY for a shadow stack PTE.
+
+Apply the same changes to maybe_pmd_mkwrite().
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Dave Martin <Dave.Martin@arm.com>
 ---
- arch/arm64/include/asm/elf.h |  5 +++++
- arch/x86/Kconfig             |  2 ++
- arch/x86/include/asm/elf.h   | 13 +++++++++++++
- arch/x86/kernel/process_64.c | 32 ++++++++++++++++++++++++++++++++
- fs/binfmt_elf.c              |  4 ++++
- include/linux/elf.h          |  6 ++++++
- include/uapi/linux/elf.h     |  9 +++++++++
- 7 files changed, 71 insertions(+)
+ arch/x86/Kconfig        |  4 ++++
+ arch/x86/mm/pgtable.c   | 18 ++++++++++++++++++
+ include/linux/mm.h      |  2 ++
+ include/linux/pgtable.h | 24 ++++++++++++++++++++++++
+ mm/huge_memory.c        |  2 ++
+ 5 files changed, 50 insertions(+)
 
-diff --git a/arch/arm64/include/asm/elf.h b/arch/arm64/include/asm/elf.h
-index 8d1c8dcb87fd..d37bc7915935 100644
---- a/arch/arm64/include/asm/elf.h
-+++ b/arch/arm64/include/asm/elf.h
-@@ -281,6 +281,11 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
- 	return 0;
- }
- 
-+static inline int arch_setup_elf_property(struct arch_elf_state *arch)
-+{
-+	return 0;
-+}
-+
- static inline int arch_elf_pt_proc(void *ehdr, void *phdr,
- 				   struct file *f, bool is_interp,
- 				   struct arch_elf_state *state)
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 35de64559a59..4628d4dadd34 100644
+index 074b3c0e6bf6..35de64559a59 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -1965,6 +1965,8 @@ config X86_CET
+@@ -1954,6 +1954,9 @@ config X86_SGX
+ config ARCH_HAS_SHADOW_STACK
+ 	def_bool n
+ 
++config ARCH_MAYBE_MKWRITE
++	def_bool n
++
+ config X86_CET
+ 	prompt "Intel Control-flow protection for user-mode"
+ 	def_bool n
+@@ -1961,6 +1964,7 @@ config X86_CET
+ 	depends on AS_WRUSS
  	select ARCH_USES_HIGH_VMA_FLAGS
  	select ARCH_HAS_SHADOW_STACK
- 	select ARCH_MAYBE_MKWRITE
-+	select ARCH_USE_GNU_PROPERTY
-+	select ARCH_BINFMT_ELF_STATE
++	select ARCH_MAYBE_MKWRITE
  	help
  	  Control-flow protection is a set of hardware features which place
  	  additional restrictions on indirect branches.  These help
-diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-index 66bdfe838d61..13701eaa521c 100644
---- a/arch/x86/include/asm/elf.h
-+++ b/arch/x86/include/asm/elf.h
-@@ -390,6 +390,19 @@ extern int compat_arch_setup_additional_pages(struct linux_binprm *bprm,
- 
- extern bool arch_syscall_is_vdso_sigreturn(struct pt_regs *regs);
- 
-+#ifdef CONFIG_ARCH_BINFMT_ELF_STATE
-+struct arch_elf_state {
-+	unsigned int gnu_property;
-+};
-+
-+#define INIT_ARCH_ELF_STATE {	\
-+	.gnu_property = 0,	\
-+}
-+
-+#define arch_elf_pt_proc(ehdr, phdr, elf, interp, state) (0)
-+#define arch_check_elf(ehdr, interp, interp_ehdr, state) (0)
-+#endif
-+
- /* Do not change the values. See get_align_mask() */
- enum align_flags {
- 	ALIGN_VA_32	= BIT(0),
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index ad582f9ac5a6..19f138f7a209 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -835,3 +835,35 @@ unsigned long KSTK_ESP(struct task_struct *task)
- {
- 	return task_pt_regs(task)->sp;
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index f6a9e2e36642..0f4fbf51a9fc 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -610,6 +610,24 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
  }
-+
-+#ifdef CONFIG_ARCH_USE_GNU_PROPERTY
-+int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
-+			    bool compat, struct arch_elf_state *state)
-+{
-+	if (type != GNU_PROPERTY_X86_FEATURE_1_AND)
-+		return 0;
-+
-+	if (datasz != sizeof(unsigned int))
-+		return -ENOEXEC;
-+
-+	state->gnu_property = *(unsigned int *)data;
-+	return 0;
-+}
-+
-+int arch_setup_elf_property(struct arch_elf_state *state)
-+{
-+	int r = 0;
-+
-+	if (!IS_ENABLED(CONFIG_X86_CET))
-+		return r;
-+
-+	memset(&current->thread.cet, 0, sizeof(struct cet_status));
-+
-+	if (static_cpu_has(X86_FEATURE_SHSTK)) {
-+		if (state->gnu_property & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
-+			r = cet_setup_shstk();
-+	}
-+
-+	return r;
-+}
-+#endif
-diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-index 950bc177238a..5d5f6a54a035 100644
---- a/fs/binfmt_elf.c
-+++ b/fs/binfmt_elf.c
-@@ -1245,6 +1245,10 @@ static int load_elf_binary(struct linux_binprm *bprm)
- 
- 	set_binfmt(&elf_format);
- 
-+	retval = arch_setup_elf_property(&arch_state);
-+	if (retval < 0)
-+		goto out;
-+
- #ifdef ARCH_HAS_SETUP_ADDITIONAL_PAGES
- 	retval = ARCH_SETUP_ADDITIONAL_PAGES(bprm, elf_ex, !!interpreter);
- 	if (retval < 0)
-diff --git a/include/linux/elf.h b/include/linux/elf.h
-index c9a46c4e183b..be04d15e937f 100644
---- a/include/linux/elf.h
-+++ b/include/linux/elf.h
-@@ -92,9 +92,15 @@ static inline int arch_parse_elf_property(u32 type, const void *data,
- {
- 	return 0;
- }
-+
-+static inline int arch_setup_elf_property(struct arch_elf_state *arch)
-+{
-+	return 0;
-+}
- #else
- extern int arch_parse_elf_property(u32 type, const void *data, size_t datasz,
- 				   bool compat, struct arch_elf_state *arch);
-+extern int arch_setup_elf_property(struct arch_elf_state *arch);
  #endif
  
- #ifdef CONFIG_ARCH_HAVE_ELF_PROT
-diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
-index 30f68b42eeb5..24ba55ba8278 100644
---- a/include/uapi/linux/elf.h
-+++ b/include/uapi/linux/elf.h
-@@ -455,4 +455,13 @@ typedef struct elf64_note {
- /* Bits for GNU_PROPERTY_AARCH64_FEATURE_1_BTI */
- #define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
++#ifdef CONFIG_ARCH_MAYBE_MKWRITE
++pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
++{
++	if (likely(vma->vm_flags & VM_SHSTK))
++		pte = pte_mkwrite_shstk(pte);
++	return pte;
++}
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
++{
++	if (likely(vma->vm_flags & VM_SHSTK))
++		pmd = pmd_mkwrite_shstk(pmd);
++	return pmd;
++}
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
++
+ /**
+  * reserve_top_address - reserves a hole in the top of kernel address space
+  * @reserve - size of hole to reserve
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 7be5f8b874aa..abd756e426fc 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -993,6 +993,8 @@ static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+ {
+ 	if (likely(vma->vm_flags & VM_WRITE))
+ 		pte = pte_mkwrite(pte);
++	else
++		pte = arch_maybe_mkwrite(pte, vma);
+ 	return pte;
+ }
  
-+/* .note.gnu.property types for x86: */
-+#define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 8fcdfa52eb4b..d8452218d09b 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1439,6 +1439,30 @@ static inline bool arch_has_pfn_modify_check(void)
+ }
+ #endif /* !_HAVE_ARCH_PFN_MODIFY_ALLOWED */
+ 
++#ifdef CONFIG_MMU
++#ifdef CONFIG_ARCH_MAYBE_MKWRITE
++pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma);
 +
-+/* Bits for GNU_PROPERTY_X86_FEATURE_1_AND */
-+#define GNU_PROPERTY_X86_FEATURE_1_IBT		0x00000001
-+#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	0x00000002
-+#define GNU_PROPERTY_X86_FEATURE_1_VALID (GNU_PROPERTY_X86_FEATURE_1_IBT | \
-+					   GNU_PROPERTY_X86_FEATURE_1_SHSTK)
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma);
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
 +
- #endif /* _UAPI_LINUX_ELF_H */
++#else /* !CONFIG_ARCH_MAYBE_MKWRITE */
++static inline pte_t arch_maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
++{
++	return pte;
++}
++
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
++{
++	return pmd;
++}
++#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
++
++#endif /* CONFIG_ARCH_MAYBE_MKWRITE */
++#endif /* CONFIG_MMU */
++
+ /*
+  * Architecture PAGE_KERNEL_* fallbacks
+  *
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 9237976abe72..bfec65c9308b 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -478,6 +478,8 @@ pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
+ {
+ 	if (likely(vma->vm_flags & VM_WRITE))
+ 		pmd = pmd_mkwrite(pmd);
++	else
++		pmd = arch_maybe_pmd_mkwrite(pmd, vma);
+ 	return pmd;
+ }
+ 
 -- 
 2.21.0
 
