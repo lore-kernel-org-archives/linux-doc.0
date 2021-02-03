@@ -2,105 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4A1C433DB
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 904EEC433DB
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:27:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3DE664DF0
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:15:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BD7E64E4D
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Feb 2021 22:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbhBCWN4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 17:13:56 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:53060 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231755AbhBCWNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 17:13:55 -0500
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A9FBFC0115;
-        Wed,  3 Feb 2021 22:12:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1612390375; bh=2pKLdod2GO+jRlwFYu9PV3d8HRi2LQseZD/x2A6Ojho=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UxnRxsmaEVN3lbS0kGbXi7k98gGG3KVFi98AUjeFR6CnZ1ZICT40gXD2RwmZLD3FB
-         flAONYgu1EzpKBRq2mmhH2VC69xzGIsEkzuRVNYHv/FVlLyZH6+DM8FWhsOaREfdSN
-         YfBA8ijk0JkIbsCmxBHzL92xL3qc0bZrc3tcQTG8mvHbEdaFb5+tzg0T+nNsgPzoUK
-         KwI0yc+YcRo5NBJDHLcQrx76lVT1efBX64rovx9t4emmnF5hRpQTbpMmCawDIyrMK5
-         TtMgR9rZZHIGy+03lYhSmMae+76tSmKCjuW1wU/bIDK87YG8WhcXcTkhtIIXYL2ISi
-         MfRPEEESgV/Gw==
-Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 4A542A0249;
-        Wed,  3 Feb 2021 22:12:53 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-To:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        id S232138AbhBCW1T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 17:27:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232102AbhBCW1S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Feb 2021 17:27:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AD66264E4D;
+        Wed,  3 Feb 2021 22:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1612391198;
+        bh=5PBHMw6ojmDEik1O+vyfstveI5h3euncpBTbWsEG0IY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lfR81MJDOx97I1rvLMV7pygVL24LKw5wRzd1kOtVQ6kpOKDrT+kmlnBsvUlR03uxT
+         JvCfH126UV65czpUaYkh8V5eqbHUbclGGoY8FHrZaCePp3MbiURnpdccWGbsfMeK+h
+         xkTVYu5Cy1/FEVWbtK8nkW2Na8N9wglk72cfBPVk=
+Date:   Wed, 3 Feb 2021 23:26:35 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Derek Kiernan <derek.kiernan@xilinx.com>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Subject: [RESEND v4 0/6] misc: Add Add Synopsys DesignWare xData IP driver
-Date:   Wed,  3 Feb 2021 23:12:45 +0100
-Message-Id: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
-X-Mailer: git-send-email 2.7.4
+Subject: Re: [RESEND v4 3/6] misc: Add Synopsys DesignWare xData IP driver to
+ Kconfig
+Message-ID: <YBsjG1D4SJBG2X5Z@kroah.com>
+References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
+ <81f95c6ff0faaf8cbb56430320abb76af772a339.1612390291.git.gustavo.pimentel@synopsys.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81f95c6ff0faaf8cbb56430320abb76af772a339.1612390291.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch series adds a new driver called xData-pcie for the Synopsys
-DesignWare PCIe prototype.
+On Wed, Feb 03, 2021 at 11:12:48PM +0100, Gustavo Pimentel wrote:
+> Add Synopsys DesignWare xData IP driver to Kconfig.
+> 
+> This driver enables/disables the PCIe traffic generator module
+> pertain to the Synopsys DesignWare prototype.
+> 
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+>  drivers/misc/Kconfig | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index fafa8b0..6d5783f 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -423,6 +423,17 @@ config SRAM
+>  config SRAM_EXEC
+>  	bool
+>  
+> +config DW_XDATA_PCIE
+> +	depends on PCI
+> +	tristate "Synopsys DesignWare xData PCIe driver"
+> +	default	n
 
-The driver configures and enables the Synopsys DesignWare PCIe traffic
-generator IP inside of prototype Endpoint which will generate upstream
-and downstream PCIe traffic. This allows to quickly test the PCIe link
-throughput speed and check is the prototype solution has some limitation
-or not.
+That's already the default, no need for this line at all.
 
-Changes:
- V2: Rework driver according to Greg Kroah-Hartman' feedback
- V3: Fixed issues detected while running on 64 bits platforms
-     Rebased patches on top of v5.11-rc1 version
- V4: Rework driver according to Greg Kroah-Hartman' feedback
-     Add the ABI doc related to the sysfs implemented on this driver
+> +	help
+> +	  This driver allows controlling Synopsys DesignWare PCIe traffic
+> +	  generator IP also known as xData, present in Synopsys Designware
+> +	  PCIe Endpoint prototype.
 
-Cc: Derek Kiernan <derek.kiernan@xilinx.com>
-Cc: Dragan Cvetic <dragan.cvetic@xilinx.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Module name?
 
-Gustavo Pimentel (6):
-  misc: Add Synopsys DesignWare xData IP driver
-  misc: Add Synopsys DesignWare xData IP driver to Makefile
-  misc: Add Synopsys DesignWare xData IP driver to Kconfig
-  Documentation: misc-devices: Add Documentation for dw-xdata-pcie
-    driver
-  MAINTAINERS: Add Synopsys xData IP driver maintainer
-  docs: ABI: Add sysfs documentation interface of dw-xdata-pcie driver
+thanks,
 
- Documentation/ABI/testing/sysfs-driver-xdata |  46 ++++
- Documentation/misc-devices/dw-xdata-pcie.rst |  40 +++
- MAINTAINERS                                  |   7 +
- drivers/misc/Kconfig                         |  11 +
- drivers/misc/Makefile                        |   1 +
- drivers/misc/dw-xdata-pcie.c                 | 378 +++++++++++++++++++++++++++
- 6 files changed, 483 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-xdata
- create mode 100644 Documentation/misc-devices/dw-xdata-pcie.rst
- create mode 100644 drivers/misc/dw-xdata-pcie.c
-
--- 
-2.7.4
-
+greg k-h
