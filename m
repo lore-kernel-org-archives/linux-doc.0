@@ -2,491 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C016C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F2B8C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 14:05:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C03F64E8C
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:29:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F68564F53
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 14:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236234AbhBDN3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 08:29:18 -0500
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:18262 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236242AbhBDN3P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 08:29:15 -0500
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 08CA61A901F8
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 14:21:07 +0100 (CET)
-Received: from s498.loopia.se (unknown [172.22.191.6])
-        by s807.loopia.se (Postfix) with ESMTP id DD0FF2E2B85F;
-        Thu,  4 Feb 2021 14:21:06 +0100 (CET)
-Received: from s473.loopia.se (unknown [172.22.191.5])
-        by s498.loopia.se (Postfix) with ESMTP id D1293489457;
-        Thu,  4 Feb 2021 14:21:06 +0100 (CET)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s499.loopia.se ([172.22.191.6])
-        by s473.loopia.se (s473.loopia.se [172.22.190.13]) (amavisd-new, port 10024)
-        with LMTP id kz6Cu-GSSzrG; Thu,  4 Feb 2021 14:21:05 +0100 (CET)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.131.176
-Received: from localhost.localdomain (h-155-4-131-176.NA.cust.bahnhof.se [155.4.131.176])
-        (Authenticated sender: carl@hgsystem.se)
-        by s499.loopia.se (Postfix) with ESMTPSA id 601EE1CE5C70;
-        Thu,  4 Feb 2021 14:21:05 +0100 (CET)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH V2 2/2] hwmon: (pmbus/stpddc60) Add ST STPDDC60 pmbus driver
-Date:   Thu,  4 Feb 2021 14:20:40 +0100
-Message-Id: <20210204132040.3868-3-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210204132040.3868-1-erik.rosen@metormote.com>
-References: <20210204132040.3868-1-erik.rosen@metormote.com>
+        id S236624AbhBDOFN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 09:05:13 -0500
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:34338 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236581AbhBDOCs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 09:02:48 -0500
+Received: by mail-oi1-f181.google.com with SMTP id h192so3808131oib.1;
+        Thu, 04 Feb 2021 06:02:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AeTSTNxgLE2BT0GTudXgmFb4g9IjjW+lbLXDMlVfRik=;
+        b=TayjHr3xoIKT+tycHZA5L2VXO5R5KwW4ABcVHRuhzsTTWhVo5RFpIJtAgBAi0MrrXL
+         6VYj0Atyszn93pH08SAF1mERLAaAoU1ZmFv6SGmsMGlW88/8s8Br8gIUC0HMc0FUzySV
+         GvZwdpv+UB+h8ZsQYotxm/+J77HGIQoYNlJlJauhoYAxY527s0rNB01EX3LU+iirdAAS
+         +aZoVfFTBFWR/FBG2f7Zvvh/02GvhadZzxvAmRgi+fM3h4Zg5H19KyRyUNhe75H/SIRM
+         37ueKvjAgrBt/uBi/+xRpdgpfA/lPFO59E+qfSNs9SeXA5vRAUHx3yvVjrmNyznPCGmq
+         hFqQ==
+X-Gm-Message-State: AOAM531nxWUbs5tx1XeGvY5NGpCwiobZonpIyxfKpIsNqZqO68wXC414
+        8cGkRiStr94W5pQMOZuqOwW6vgS3jOEhlNCWq9U=
+X-Google-Smtp-Source: ABdhPJwIMkZ9crB5RzPfP0aiVhmh61qrbaAU2HVxqJSpznq2cpzmYfpLAgUbYTQO/oABbafz5fjdh/q7MscPh0Ye06E=
+X-Received: by 2002:aca:308a:: with SMTP id w132mr5018580oiw.69.1612447327733;
+ Thu, 04 Feb 2021 06:02:07 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1612314468.git.skhan@linuxfoundation.org> <8d11eec80d6668065fb35a0b025c3614b67bf798.1612314468.git.skhan@linuxfoundation.org>
+In-Reply-To: <8d11eec80d6668065fb35a0b025c3614b67bf798.1612314468.git.skhan@linuxfoundation.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 4 Feb 2021 15:01:56 +0100
+Message-ID: <CAJZ5v0i8-HpSAk=HGOgVN1RTLup4Rh0WTt0H3LQh1EfuWE-e+w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] drivers/acpi: convert seqno to use seqnum_ops
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org, devel@driverdev.osuosl.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add hardware monitoring support for ST STPDDC60 Unversal Digital
-Multicell Controller.
+Hi Shuah,
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
----
- Documentation/hwmon/index.rst    |   1 +
- Documentation/hwmon/stpddc60.rst |  90 +++++++++++
- MAINTAINERS                      |   7 +
- drivers/hwmon/pmbus/Kconfig      |  10 ++
- drivers/hwmon/pmbus/Makefile     |   2 +
- drivers/hwmon/pmbus/stpddc60.c   | 248 +++++++++++++++++++++++++++++++
- 6 files changed, 358 insertions(+)
- create mode 100644 Documentation/hwmon/stpddc60.rst
- create mode 100644 drivers/hwmon/pmbus/stpddc60.c
+First off, please indicate the component in the subject, for example:
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index fcb870ce6286..94b4fcf182cd 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -169,6 +169,7 @@ Hardware Monitoring Kernel Drivers
-    smsc47m192
-    smsc47m1
-    sparx5-temp
-+   stpddc60
-    tc654
-    tc74
-    thmc50
-diff --git a/Documentation/hwmon/stpddc60.rst b/Documentation/hwmon/stpddc60.rst
-new file mode 100644
-index 000000000000..7f7ce7f7871b
---- /dev/null
-+++ b/Documentation/hwmon/stpddc60.rst
-@@ -0,0 +1,90 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver stpddc60
-+======================
-+
-+Supported chips:
-+
-+  * ST STPDDC60
-+
-+    Prefix: 'stpddc60', 'bmr481'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://flexpowermodules.com/documents/fpm-techspec-bmr481
-+
-+Author: Erik Rosen <erik.rosen@metormote.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supports hardware monitoring for ST STPDDC60 controller chip and
-+compatible modules.
-+
-+The driver is a client driver to the core PMBus driver. Please see
-+Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
-+on PMBus client drivers.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate the
-+devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
-+details.
-+
-+The vout under- and over-voltage limits are set in relation to the commanded
-+output voltage as a positive or negative offset in the interval 50mV to 400mV
-+in 50mV steps. This means that the absolute values of the limits will change
-+when the commanded output voltage changes. Also, care should be taken when
-+writing to those limits since in the worst case the commanded output voltage
-+could change at the same time as the limit is written to, wich will lead to
-+unpredictable results.
-+
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data.
-+
-+
-+Sysfs entries
-+-------------
-+
-+The following attributes are supported. Vin, iout, pout and temp limits
-+are read-write; all other attributes are read-only.
-+
-+======================= ========================================================
-+in1_label		"vin"
-+in1_input		Measured input voltage.
-+in1_lcrit		Critical minimum input voltage.
-+in1_crit		Critical maximum input voltage.
-+in1_lcrit_alarm		Input voltage critical low alarm.
-+in1_crit_alarm		Input voltage critical high alarm.
-+
-+in2_label		"vout1"
-+in2_input		Measured output voltage.
-+in2_lcrit		Critical minimum output voltage.
-+in2_crit		Critical maximum output voltage.
-+in2_lcrit_alarm		Critical output voltage critical low alarm.
-+in2_crit_alarm		Critical output voltage critical high alarm.
-+
-+curr1_label		"iout1"
-+curr1_input		Measured output current.
-+curr1_max		Maximum output current.
-+curr1_max_alarm		Output current high alarm.
-+curr1_crit		Critical maximum output current.
-+curr1_crit_alarm	Output current critical high alarm.
-+
-+power1_label		"pout1"
-+power1_input		Measured output power.
-+power1_crit		Critical maximum output power.
-+power1_crit_alarm	Output power critical high alarm.
-+
-+temp1_input		Measured maximum temperature of all phases.
-+temp1_max		Maximum temperature limit.
-+temp1_max_alarm		High temperature alarm.
-+temp1_crit		Critical maximum temperature limit.
-+temp1_crit_alarm	Critical maximum temperature alarm.
-+======================= ========================================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 992fe3b0900a..e4c696f8eabe 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16819,6 +16819,13 @@ L:	linux-i2c@vger.kernel.org
- S:	Maintained
- F:	drivers/i2c/busses/i2c-stm32*
- 
-+ST STPDDC60 DRIVER
-+M:	Daniel Nilsson <daniel.nilsson@flex.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/stpddc60.rst
-+F:	drivers/hwmon/pmbus/stpddc60.c
-+
- ST VL53L0X ToF RANGER(I2C) IIO DRIVER
- M:	Song Qiang <songqiang1304521@gmail.com>
- L:	linux-iio@vger.kernel.org
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 03606d4298a4..b2becdd84b11 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -247,6 +247,16 @@ config SENSORS_Q54SJ108A2
- 	  This driver can also be built as a module. If so, the module will
- 	  be called q54sj108a2.
- 
-+config SENSORS_STPDDC60
-+	tristate "ST STPDDC60"
-+	help
-+	  If you say yes here you get hardware monitoring support for ST
-+	  STPDDC60 Universal Digital Multicell Controller, as well as for
-+	  Flex BMR481.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called stpddc60.
-+
- config SENSORS_TPS40422
- 	tristate "TI TPS40422"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 6a4ba0fdc1db..ef468806238c 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -28,9 +28,11 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
- obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
- obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
- obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
-+obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
- obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
- obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
- obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
- obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
- obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
- obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
-+
-diff --git a/drivers/hwmon/pmbus/stpddc60.c b/drivers/hwmon/pmbus/stpddc60.c
-new file mode 100644
-index 000000000000..9a3348f45bc2
---- /dev/null
-+++ b/drivers/hwmon/pmbus/stpddc60.c
-@@ -0,0 +1,248 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Hardware monitoring driver for the STPDDC60 controller
-+ *
-+ * Copyright (c) 2021 Flextronics International Sweden AB.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/pmbus.h>
-+#include "pmbus.h"
-+
-+#define STPDDC60_MFR_READ_VOUT		0xd2
-+#define STPDDC60_MFR_OV_LIMIT_OFFSET	0xe5
-+#define STPDDC60_MFR_UV_LIMIT_OFFSET	0xe6
-+
-+static const struct i2c_device_id stpddc60_id[] = {
-+	{"stpddc60", 0},
-+	{"bmr481", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, stpddc60_id);
-+
-+static struct pmbus_driver_info stpddc60_info = {
-+	.pages = 1,
-+	.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-+		| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-+		| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
-+		| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-+		| PMBUS_HAVE_POUT,
-+};
-+
-+/*
-+ * Calculate the closest absolute offset between commanded vout value
-+ * and limit value in steps of 50mv in the range 0 (50mv) to 7 (400mv).
-+ * Return 0 if the upper limit is lower than vout or if the lower limit
-+ * is higher than vout.
-+ */
-+static u8 stpddc60_get_offset(int vout, u16 limit, bool over)
-+{
-+	u8 offset;
-+	long v, l;
-+
-+	v = 250 + (vout - 1) * 5; /* Convert VID to mv */
-+	l = (limit * 1000L) >> 8; /* Convert LINEAR to mv */
-+
-+	if (over != (l > v))
-+		return 0;
-+
-+	offset = DIV_ROUND_CLOSEST(abs(l - v), 50);
-+
-+	if (offset > 0)
-+		offset--;
-+
-+	return clamp_val(offset, 0, 7);
-+}
-+
-+/*
-+ * Adjust the linear format word to use the given fixed exponent.
-+ */
-+static u16 stpddc60_adjust_linear(u16 word, s16 fixed)
-+{
-+	s16 e, m, d;
-+
-+	e = ((s16)word) >> 11;
-+	m = ((s16)((word & 0x7ff) << 5)) >> 5;
-+	d = e - fixed;
-+
-+	if (d >= 0)
-+		m <<= d;
-+	else
-+		m >>= -d;
-+
-+	return clamp_val(m, 0, 0x3ff) | ((fixed << 11) & 0xf800);
-+}
-+
-+/*
-+ * The VOUT_COMMAND register uses the VID format but the vout alarm limit
-+ * registers use the LINEAR format so we override VOUT_MODE here to force
-+ * LINEAR format for all registers.
-+ */
-+static int stpddc60_read_byte_data(struct i2c_client *client, int page, int reg)
-+{
-+	int ret;
-+
-+	if (page > 0)
-+		return -ENXIO;
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_MODE:
-+		ret = 0x18;
-+		break;
-+	default:
-+		ret = -ENODATA;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * The vout related registers return values in LINEAR11 format when LINEAR16
-+ * is expected. Clear the top 5 bits to set the exponent part to zero to
-+ * convert the value to LINEAR16 format.
-+ */
-+static int stpddc60_read_word_data(struct i2c_client *client, int page,
-+				   int phase, int reg)
-+{
-+	int ret;
-+
-+	if (page > 0)
-+		return -ENXIO;
-+
-+	switch (reg) {
-+	case PMBUS_READ_VOUT:
-+		ret = pmbus_read_word_data(client, page, phase,
-+					   STPDDC60_MFR_READ_VOUT);
-+		if (ret < 0)
-+			return ret;
-+		ret &= 0x7ff;
-+		break;
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, phase, reg);
-+		if (ret < 0)
-+			return ret;
-+		ret &= 0x7ff;
-+		break;
-+	default:
-+		ret = -ENODATA;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * The vout under- and over-voltage limits are set as an offset relative to
-+ * the commanded vout voltage. The vin, iout, pout and temp limits must use
-+ * the same fixed exponent the chip uses to encode the data when read.
-+ */
-+static int stpddc60_write_word_data(struct i2c_client *client, int page,
-+				    int reg, u16 word)
-+{
-+	int ret;
-+	u8 offset;
-+
-+	if (page > 0)
-+		return -ENXIO;
-+
-+	switch (reg) {
-+	case PMBUS_VOUT_OV_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, 0xff,
-+					   PMBUS_VOUT_COMMAND);
-+		if (ret < 0)
-+			return ret;
-+		offset = stpddc60_get_offset(ret, word, true);
-+		ret = pmbus_write_byte_data(client, page,
-+					    STPDDC60_MFR_OV_LIMIT_OFFSET,
-+					    offset);
-+		break;
-+	case PMBUS_VOUT_UV_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, 0xff,
-+					   PMBUS_VOUT_COMMAND);
-+		if (ret < 0)
-+			return ret;
-+		offset = stpddc60_get_offset(ret, word, false);
-+		ret = pmbus_write_byte_data(client, page,
-+					    STPDDC60_MFR_UV_LIMIT_OFFSET,
-+					    offset);
-+		break;
-+	case PMBUS_VIN_OV_FAULT_LIMIT:
-+	case PMBUS_VIN_UV_FAULT_LIMIT:
-+	case PMBUS_OT_FAULT_LIMIT:
-+	case PMBUS_OT_WARN_LIMIT:
-+	case PMBUS_IOUT_OC_FAULT_LIMIT:
-+	case PMBUS_IOUT_OC_WARN_LIMIT:
-+	case PMBUS_POUT_OP_FAULT_LIMIT:
-+		ret = pmbus_read_word_data(client, page, 0xff, reg);
-+		if (ret < 0)
-+			return ret;
-+		word = stpddc60_adjust_linear(word, ret >> 11);
-+		ret = pmbus_write_word_data(client, page, reg, word);
-+		break;
-+	default:
-+		ret = -ENODATA;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int stpddc60_probe(struct i2c_client *client)
-+{
-+	int status;
-+	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
-+	const struct i2c_device_id *mid;
-+	struct pmbus_driver_info *info = &stpddc60_info;
-+
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-+				     | I2C_FUNC_SMBUS_BLOCK_DATA))
-+		return -ENODEV;
-+
-+	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
-+	if (status < 0) {
-+		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
-+		return status;
-+	}
-+	for (mid = stpddc60_id; mid->name[0]; mid++) {
-+		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
-+			break;
-+	}
-+	if (!mid->name[0]) {
-+		dev_err(&client->dev, "Unsupported device\n");
-+		return -ENODEV;
-+	}
-+
-+	info->read_byte_data = stpddc60_read_byte_data;
-+	info->read_word_data = stpddc60_read_word_data;
-+	info->write_word_data = stpddc60_write_word_data;
-+
-+	status = pmbus_do_probe(client, info);
-+	if (status < 0)
-+		return status;
-+
-+	pmbus_set_update(client, PMBUS_VOUT_OV_FAULT_LIMIT, true);
-+	pmbus_set_update(client, PMBUS_VOUT_UV_FAULT_LIMIT, true);
-+
-+	return 0;
-+}
-+
-+static struct i2c_driver stpddc60_driver = {
-+	.driver = {
-+		   .name = "stpddc60",
-+		   },
-+	.probe_new = stpddc60_probe,
-+	.id_table = stpddc60_id,
-+};
-+
-+module_i2c_driver(stpddc60_driver);
-+
-+MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
-+MODULE_DESCRIPTION("PMBus driver for ST STPDDC60");
-+MODULE_LICENSE("GPL");
--- 
-2.30.0
+"ACPI: extlog: convert seqno to use seqnum_ops"
 
+On Wed, Feb 3, 2021 at 7:12 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> Sequence Number api provides interfaces for unsigned atomic up counters
+> leveraging atomic_t and atomic64_t ops underneath.
+>
+> Convert seqno atomic counter to use seqnum_ops.
+
+Apart from the above, it would be good to say why the change is an improvement.
+
+It looks like the rationale is that using struct seqnum32 would allow
+tools to easily detect the usage of sequence numbers, but is there
+anything else in this particular case?
+
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  drivers/acpi/acpi_extlog.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/acpi/acpi_extlog.c b/drivers/acpi/acpi_extlog.c
+> index 72f1fb77abcd..16a4928645a1 100644
+> --- a/drivers/acpi/acpi_extlog.c
+> +++ b/drivers/acpi/acpi_extlog.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/ratelimit.h>
+>  #include <linux/edac.h>
+>  #include <linux/ras.h>
+> +#include <linux/seqnum_ops.h>
+>  #include <asm/cpu.h>
+>  #include <asm/mce.h>
+>
+> @@ -93,8 +94,7 @@ static struct acpi_hest_generic_status *extlog_elog_entry_check(int cpu, int ban
+>  static void __print_extlog_rcd(const char *pfx,
+>                                struct acpi_hest_generic_status *estatus, int cpu)
+>  {
+> -       static atomic_t seqno;
+> -       unsigned int curr_seqno;
+> +       static struct seqnum32 seqno;
+>         char pfx_seq[64];
+>
+>         if (!pfx) {
+> @@ -103,8 +103,8 @@ static void __print_extlog_rcd(const char *pfx,
+>                 else
+>                         pfx = KERN_ERR;
+>         }
+> -       curr_seqno = atomic_inc_return(&seqno);
+> -       snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx, curr_seqno);
+> +       snprintf(pfx_seq, sizeof(pfx_seq), "%s{%u}", pfx,
+> +                seqnum32_inc(&seqno));
+>         printk("%s""Hardware error detected on CPU%d\n", pfx_seq, cpu);
+>         cper_estatus_print(pfx_seq, estatus);
+>  }
+> --
+> 2.27.0
+>
