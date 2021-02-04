@@ -2,117 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21550C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:50:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0BEC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:54:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5DA564FA9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:50:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B687F64FB0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231124AbhBDXtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 18:49:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33958 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbhBDXtv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 18:49:51 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2963C061786;
-        Thu,  4 Feb 2021 15:49:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=RxMwGRAzLa4YpLotu83oCMZFWVpTttXVPtTu6l0zD0k=; b=QDfSlqpKht8ZMUBHklTZDTTRPy
-        6elMpT6y/AZODgS+QpQlXjus+61CNPBjAYOc9y7TUYILhHTF1q1d4C2f4U/RmRPDiDWen1rK1QJv6
-        rnHTv5QOkKeyuqoK6Vp7iOoet129uXf2RcGkBq9npaPGt1sHLjeDz/FNQT6ueX3Im5QCN1zx6uWbi
-        QiGze4ToLyhArVL7wW9Xxgy40vYIQdVlxzfaOXo1nkn/OC42XwXpTO350R75ztWsZCu3S/KgCt39i
-        WhGrG5oG1mOpOA2NgHeAeyQxYVMcRdSQ3EIFMjV9+/edGTwXVo2GqC9OH/pO+7KBL0CDRE7IFXJuq
-        vVyO93qA==;
-Received: from [2601:1c0:6280:3f0::aec2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l7oMw-0005r2-Qz; Thu, 04 Feb 2021 23:49:03 +0000
-Subject: Re: [PATCH 0/2] docs: Add support for relative paths in automarkup
-To:     Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        id S231245AbhBDXyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 18:54:23 -0500
+Received: from ms.lwn.net ([45.79.88.28]:34804 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231239AbhBDXyW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 18:54:22 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C8E0B143F;
+        Thu,  4 Feb 2021 23:53:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C8E0B143F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1612482817; bh=nMr8D304Ka27WicFpV/PWO4UaSqAubRw3wZFBR2f90E=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=iYXeC4KQZHLFBxYE2BTCKRJzzy9gg1jV/R57n6IsvoRxm5usiOR90XlqEi5Quc6Ae
+         1fxZtcheFeWGbNOqKNYNZPaHyCGyAVuI/2MilQo6J5EKe3AqWUKezDxEeyjNBmhhDl
+         M1W+Mm16sQIlfBYJzy1AnjfV8pcVvYBAjjowWVQvIpGTwaW4XVGE4BCksfj1hmeXDN
+         Sog/G5kL84rFplKquTr77zbb/E4k6Bju8/fms/7ln4OBXzpi/Vhhc6cM4AVteeWzhA
+         2IC/70wSVo8725kd7JOW7l3vRWqsnS06yujufCqh09ofRcFDpgxRLjwkIUnA574GJU
+         d3NjxdcVidtEg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E?= =?utf-8?Q?_A=2E_Prado?= 
         <nfraprado@protonmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Miguel Ojeda <ojeda@kernel.org>,
         Andrew Klychkov <andrew.a.klychkov@gmail.com>,
         lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
+Subject: Re: [PATCH 0/2] docs: Add support for relative paths in automarkup
+In-Reply-To: <10b0104e-7d89-fcad-a27d-6d1463bf325c@infradead.org>
 References: <20210128010028.58541-1-nfraprado@protonmail.com>
  <87o8gzxvjl.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <10b0104e-7d89-fcad-a27d-6d1463bf325c@infradead.org>
-Date:   Thu, 4 Feb 2021 15:48:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ <10b0104e-7d89-fcad-a27d-6d1463bf325c@infradead.org>
+Date:   Thu, 04 Feb 2021 16:53:37 -0700
+Message-ID: <87im77xuda.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <87o8gzxvjl.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/21 3:28 PM, Jonathan Corbet wrote:
-> Nícolas F. R. A. Prado <nfraprado@protonmail.com> writes:
-> 
->> As Jon previously noted [1], it would be nice if automarkup supported relative
->> paths as well when cross-referencing to other documents. This adds the support
->> for it, and documents it.
->>
->> Jon, after applying this, 43bc3ed73639 ("docs: dt: Use full path to enable
->> cross-reference") could be reverted without the link stopping to work.
->>
->> [1] https://lore.kernel.org/linux-doc/20201130142404.6ef6689e@lwn.net/
->>
->> Nícolas F. R. A. Prado (2):
->>   docs: Enable usage of relative paths to docs on automarkup
->>   docs: Document cross-referencing using relative path
->>
->>  Documentation/doc-guide/sphinx.rst | 30 ++++++++++++++++++++----------
->>  Documentation/sphinx/automarkup.py |  7 +++++--
->>  2 files changed, 25 insertions(+), 12 deletions(-)
-> 
-> So I finally got around to playing with this set.  One thing I found is
-> that some of the references that were being caught before were not
-> now...  after far too much time, I figured out that the problem was
-> references to .txt files, of which we have quite a few in the docs.
-> admin-guide/kernel-parameters.txt in particular is quite popular.
-> Before this change, those were being turned into xrefs, afterward not.
-> 
-> To address that, I applied this little tweak:
-> 
-> -RE_doc = re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.rst')
-> +RE_doc = re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.(rst|txt)')
-> 
-> That seems to make things work properly again.
-> 
-> While tracking this down I put in a print for failing cross references,
-> and noted that we have quite a few; it's a useful way to see where the
-> stale references are.  Maybe I'll try to hack together something to make
-> those stand out so we can fix them.
-> 
-> Thanks,
-> 
-> jon
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-Hi,
-I just sent a patch for file name changes in
-Documentation/input/ff.rst
-(https://lore.kernel.org/linux-input/20210203050842.24190-1-rdunlap@infradead.org/T/#u).
+> I just sent a patch for file name changes in
+> Documentation/input/ff.rst
+> (https://lore.kernel.org/linux-input/20210203050842.24190-1-rdunlap@infradead.org/T/#u).
+>
+> I sent it to the INPUT maintainer because I thought that he would
+> want to review the changes.
+>
+> I could resend it to the DOCS maintainer.  :)
 
-I sent it to the INPUT maintainer because I thought that he would
-want to review the changes.
+Things are probably fine as they are, but feel free to send it my way if
+you don't get a response over there.
 
-I could resend it to the DOCS maintainer.  :)
+Thanks,
 
--- 
-~Randy
-
+jon
