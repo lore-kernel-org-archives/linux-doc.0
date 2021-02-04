@@ -5,40 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D24B7C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79041C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:50:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F8E764F47
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 447FA64F53
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:50:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237393AbhBDPhy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 10:37:54 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:59028 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237381AbhBDPgA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 10:36:00 -0500
+        id S237434AbhBDPuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 10:50:20 -0500
+Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:29393 "EHLO
+        smtp-fw-9103.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237461AbhBDPh1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 10:37:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1612452959; x=1643988959;
+  t=1612453046; x=1643989046;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=GvQHGg8Fg9cuT3SeiFVEkCtDNQ9QA2fEAQ+quD3Tkys=;
-  b=SIQ+wTw5Lw5kofb4e6qhXLnDA7IE3S/ERP3ldjbqdRQwHHxsIERxmelD
-   bmN7G5HFdN6EOEmA9XJzNf93c3VsKeqnkEN3eFHZmbK9v7wpfFzbQviR6
-   sHkUWm5Au/csq5a1jjT+A+dNyvVUlz2xyrejum+i6IWoPlm5zPS7CiU1n
-   w=;
+  bh=ZcmRdL/x2C6IXdMdzrWoHX+6NFPKIIL3q0NR1NXFeQ4=;
+  b=Bhpk+r3xqqc/4eGsbLZspdom55BJKhAv7FFqBsREXeIfo8PxMB++ULGQ
+   fiDL35TlN8oa3m0AAi5ZFjjNpZTX9jKGwAWa2h1YFeqNaly0QAOyR4UtV
+   36k4pIxvDBO7z5Ub3vyVdPvv00EueWA+PXzdM0nTfft5CXjy0D+pcMRUf
+   k=;
 X-IronPort-AV: E=Sophos;i="5.79,401,1602547200"; 
-   d="scan'208";a="115853146"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-af6a10df.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 04 Feb 2021 15:35:16 +0000
+   d="scan'208";a="915636499"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.47.23.38])
+  by smtp-border-fw-out-9103.sea19.amazon.com with ESMTP; 04 Feb 2021 15:36:43 +0000
 Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-af6a10df.us-east-1.amazon.com (Postfix) with ESMTPS id 03125A1E24;
-        Thu,  4 Feb 2021 15:35:03 +0000 (UTC)
+        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id 1584BA2061;
+        Thu,  4 Feb 2021 15:36:30 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.146) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Feb 2021 15:34:47 +0000
+ id 15.0.1497.2; Thu, 4 Feb 2021 15:36:13 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,9 +61,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v24 09/14] mm/damon/dbgfs: Export kdamond pid to the user space
-Date:   Thu, 4 Feb 2021 16:31:45 +0100
-Message-ID: <20210204153150.15948-10-sjpark@amazon.com>
+Subject: [PATCH v24 14/14] MAINTAINERS: Update for DAMON
+Date:   Thu, 4 Feb 2021 16:31:50 +0100
+Message-ID: <20210204153150.15948-15-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210204153150.15948-1-sjpark@amazon.com>
 References: <20210204153150.15948-1-sjpark@amazon.com>
@@ -77,76 +78,36 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-For CPU usage accounting, knowing pid of the monitoring thread could be
-helpful.  For example, users could use cpuaccount cgroups with the pid.
-
-This commit therefore exports the pid of currently running monitoring
-thread to the user space via 'kdamond_pid' file in the debugfs
-directory.
+This commit updates MAINTAINERS file for DAMON related files.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/dbgfs.c | 37 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+ MAINTAINERS | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index dce4409e5887..4b9ac2043e99 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -358,6 +358,32 @@ static ssize_t dbgfs_target_ids_write(struct file *file,
- 	return ret;
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 281de213ef47..88b2125b0f07 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4872,6 +4872,18 @@ F:	net/ax25/ax25_out.c
+ F:	net/ax25/ax25_timer.c
+ F:	net/ax25/sysctl_net_ax25.c
  
-+static ssize_t dbgfs_kdamond_pid_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	char *kbuf;
-+	ssize_t len;
++DATA ACCESS MONITOR
++M:	SeongJae Park <sjpark@amazon.de>
++L:	linux-mm@kvack.org
++S:	Maintained
++F:	Documentation/admin-guide/mm/damon/*
++F:	Documentation/vm/damon/*
++F:	include/linux/damon.h
++F:	include/trace/events/damon.h
++F:	mm/damon/*
++F:	tools/damon/*
++F:	tools/testing/selftests/damon/*
 +
-+	kbuf = kmalloc(count, GFP_KERNEL);
-+	if (!kbuf)
-+		return -ENOMEM;
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond)
-+		len = scnprintf(kbuf, count, "%d\n", ctx->kdamond->pid);
-+	else
-+		len = scnprintf(kbuf, count, "none\n");
-+	mutex_unlock(&ctx->kdamond_lock);
-+	if (!len)
-+		goto out;
-+	len = simple_read_from_buffer(buf, count, ppos, kbuf, len);
-+
-+out:
-+	kfree(kbuf);
-+	return len;
-+}
-+
- static int damon_dbgfs_open(struct inode *inode, struct file *file)
- {
- 	file->private_data = inode->i_private;
-@@ -386,11 +412,18 @@ static const struct file_operations target_ids_fops = {
- 	.write = dbgfs_target_ids_write,
- };
- 
-+static const struct file_operations kdamond_pid_fops = {
-+	.owner = THIS_MODULE,
-+	.open = damon_dbgfs_open,
-+	.read = dbgfs_kdamond_pid_read,
-+};
-+
- static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
- {
--	const char * const file_names[] = {"attrs", "record", "target_ids"};
-+	const char * const file_names[] = {"attrs", "record", "target_ids",
-+		"kdamond_pid"};
- 	const struct file_operations *fops[] = {&attrs_fops, &record_fops,
--		&target_ids_fops};
-+		&target_ids_fops, &kdamond_pid_fops};
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
+ DAVICOM FAST ETHERNET (DMFE) NETWORK DRIVER
+ L:	netdev@vger.kernel.org
+ S:	Orphan
 -- 
 2.17.1
 
