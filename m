@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A43B8C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9ABFC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71ECE64F45
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAEA264F6C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238312AbhBDTyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:54:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39058 "EHLO
+        id S239410AbhBDTyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 14:54:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239486AbhBDTwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:16 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62D3C06121E
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:17 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id o63so2857181pgo.6
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:17 -0800 (PST)
+        with ESMTP id S239493AbhBDTw1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:27 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25419C061224
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:28 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id o16so2867231pgg.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
-        b=SMhMJ0y1hFFkybLoK6RuX6W/uHtQZL/bYx1Vgct5XlRDHsQX7hEStJhU3muUb4fbEv
-         hiUTrOqPhcz1pfUb97munHXmjX0c8gXGZ3hYDWbcMqclDY0sjxLOb8ku8yWr5/G0SoNh
-         WUrWnsUWQvaHO1lagOpKt+BD5lQaiuCJGoC+s=
+        bh=OW1TYFUhOfJJmljC0tgdXjB4AwIvTk03EU9GC1Jo7to=;
+        b=QoxWWC9a3Ab+eHwwlog/KFHh6xEgiviG8pkcW0WJCAuIG4eYSJu8/B7NXRIWJmgr/t
+         hyxGThp1cc1Ii4JEYpapAJjbUkKqULFin3Dslivyt3QMDqzmj0E0jgteLfoXBlscp1vX
+         2S3uThPW1Blf2iX9nEAmO0GbaVBUe5fG+j89I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
-        b=AAdgE/BSswos27Y0TqYlpNwx4qoZFDi5ir31YAfgJFhx7W08SzMf/yLQUr23BGavSd
-         uVg6uUL5g7FtwyLV+a6cErqUTVzEfSzBdB7HqOlQq5RnKtM87EWDzLGRg+dKfqqgZhwr
-         69Oa1HYPQz0yjSSIYIldOsJAU/m6RZFzhW7FdtLXwt8aY3tOcTyrEcIT2jbIJGNezRQs
-         U9bHGccctw2LL1/1u26eF4C3FcCyKC/zdeDyBb8KZwNnu8AQDWiRPsnpY5rMojbodO/x
-         ET8ZeeVzBzx73JwYfAhyDEWwKmfm5OpgaXL9kHn5xdfNj5Xre0eTS9K5lbRK4n6/kePr
-         rAnQ==
-X-Gm-Message-State: AOAM532KFLaLONXFKbZVewZ2BA12bfu1eUY8K97Z2IgHQ52y1RNxtdtW
-        moWnCTjsiOytuJEF08kc3Nw9DQ==
-X-Google-Smtp-Source: ABdhPJzOajMVaIDiSuI0Zs6A72FQUA7Xr4U1otuUXAtASSA9xiRUczq+mdvc5mt1TaWo3NxHiyLjQw==
-X-Received: by 2002:a62:7d03:0:b029:1bb:5919:6dec with SMTP id y3-20020a627d030000b02901bb59196decmr766097pfc.76.1612468217541;
-        Thu, 04 Feb 2021 11:50:17 -0800 (PST)
+        bh=OW1TYFUhOfJJmljC0tgdXjB4AwIvTk03EU9GC1Jo7to=;
+        b=HoiAyvjM2PJ9JKOqr/cTGCCLApG/qyzfs3G6p6EOul7gPWrPdjgH6u77vhz/Qr5mfn
+         R8bz1Ym8pBVy6OGZUgFZsmCyQdlpWlUMc7B3zE8Eq1ZTv4qFJUTrCLbMT2EiwXOccRKq
+         yjAq9qBAwb3mzWTx7f6Q9gsUeBSU1UeNYBZp9+GkL5nkzSJQppHa0ENL2fkxw3VL8TcJ
+         42bbGdKlJ1DZTVHwwzjZ+zc/t+QumpQOezh1DolwMZ7SifCfuyT/agcNe81Y8vBgeraW
+         N2xjtwqfyN3lFr9i0EkZhkc4WcUy2KpYfgJvg62fWPIxEmmpBtaKQKrPFK6Z+ZctSOu3
+         /4+A==
+X-Gm-Message-State: AOAM531RbCieBSCi/sG9LqfsSkwOGmEZOvshh0czRL/yT7iOy+mheEbB
+        wuwAy47tTG3MMjlQmz2BXitDkg==
+X-Google-Smtp-Source: ABdhPJyCzApM7SxOD6qLE24HP6u9ZmMb9IkUQpy5EIL4mvYrNsyM5e0/drq5Jw9qkh7PfEPXvFnWOA==
+X-Received: by 2002:a62:b410:0:b029:1a4:7868:7e4e with SMTP id h16-20020a62b4100000b02901a478687e4emr1077767pfn.62.1612468227717;
+        Thu, 04 Feb 2021 11:50:27 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y16sm7231723pfb.83.2021.02.04.11.50.16
+        by smtp.gmail.com with ESMTPSA id f127sm1167563pgc.48.2021.02.04.11.50.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:16 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:15 -0800
+        Thu, 04 Feb 2021 11:50:26 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:50:26 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,25 +80,25 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 4/7] x86/cet/ibt: Update ELF header parsing for
- Indirect Branch Tracking
-Message-ID: <202102041150.191C2FC@keescook>
+Subject: Re: [PATCH v19 6/7] x86/vdso/32: Add ENDBR32 to __kernel_vsyscall
+ entry point
+Message-ID: <202102041150.C7BC3B6@keescook>
 References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-5-yu-cheng.yu@intel.com>
+ <20210203225902.479-7-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-5-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225902.479-7-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:58:59PM -0800, Yu-cheng Yu wrote:
-> An ELF file's .note.gnu.property indicates features the file supports.
-> The property is parsed at loading time and passed to arch_setup_elf_
-> property().  Update it for Indirect Branch Tracking.
+On Wed, Feb 03, 2021 at 02:59:01PM -0800, Yu-cheng Yu wrote:
+> From: "H.J. Lu" <hjl.tools@gmail.com>
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Add ENDBR32 to __kernel_vsyscall entry point.
+> 
+> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
