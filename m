@@ -2,95 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D02FDC432C3
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7591FC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:46:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 988C864F46
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:07:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3925564F5C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:46:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234010AbhBDAGf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 19:06:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:32792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233288AbhBDAGd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Feb 2021 19:06:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DDED64E40;
-        Thu,  4 Feb 2021 00:05:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612397152;
-        bh=FAOEqJqOki9bCT6WXoW+ukEFUCMr85/l4i4KTBllngQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B/EtOe+Wtnkgu7tZ1fIEmgMOVLesKKLVUioSQah+hpkwFycB8GIqacfK+hzSOP7Pe
-         JgkkbO5h0K/S5HvS969GQIOpRhD2AwBLjgSJ4+xMXjl9gpFfj8Fju2g5ndkicSWph5
-         B3sBiNDPPJImlpFL9Q5CzDpWPV56GKy6IbpWuvoMD+ya2Aip/n6yocDvr1Z8RfriDP
-         Ghe+qckAelI5g+698B973bOpPDAFXee+S2iNQOFz1vPlvBYmMbsSbmQw40LUK5b+Xn
-         1l8Jmwq/Y8Q3S+o/PJuJIueY7kPG8bY5Cz3RF93pagOB+08ghwxr96WUeVG8Wic9Au
-         jTH63eyVYOyKw==
-Date:   Thu, 4 Feb 2021 02:05:46 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jerome Forissier <jerome@forissier.org>,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        op-tee@lists.trustedfirmware.org, Jonathan Corbet <corbet@lwn.net>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        James Morris <jmorris@namei.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Luke Hinds <lhinds@redhat.com>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        "Yann E. MORIN" <yann.morin.1998@free.fr>
-Subject: Re: [PATCH v8 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <YBs6WsGifYudzzPB@kernel.org>
-References: <YAa0ys4YJcZtKdfF@kernel.org>
- <YAeH2pb8szQyjusL@kernel.org>
- <CAFA6WYP5G6NfGk96ePOC+2kpD6B+4hz9nywyUM9Nh=dJDYMiuA@mail.gmail.com>
- <01000177223f74d3-1eef7685-4a19-40d2-ace6-d4cd7f35579d-000000@email.amazonses.com>
- <dc3979e8-6bf0-adb7-164d-d50e805a048f@forissier.org>
- <YAmYu9FxWcLPhBhs@kernel.org>
- <YAmcyKnYCK+Y4IGW@kernel.org>
- <1486cfe8-bc30-1266-12bd-0049f2b64820@forissier.org>
- <YAsVenGkaqb8205f@kernel.org>
- <CAFA6WYPQ+LZyHKZJQb=3euTy8f8TO3HqCADojpZaHXgtzNj+fw@mail.gmail.com>
+        id S234570AbhBDAqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 19:46:30 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:46008 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234494AbhBDApg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 19:45:36 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1140R0it034606;
+        Thu, 4 Feb 2021 00:44:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=YqQuEM1hEpwjjKLavPiJuNZ9hUSimNjCzuZ0/wDmZgw=;
+ b=KzzX61wHbFgON14gSgaGdC7Kyh8/rGSyduN4IGebL07dCnnquz0lo0xgfqWegdyrJoOE
+ WZvFRlMA21oQTZoQb+37+EafAkkrld7Fm89druu3KVk16zd9USUrjVKfWqFMM7VbuhFD
+ dkJOF8MxmXc+lnWH2smIupqVvrEcaelRfI5uDXWKMBmuJ6J0sSn6vaD/XDqV8LOZalXS
+ h6ltfhN9Zx3OTJkhkSzFbu6Fo7q7RBBHbmCJcdz/XxpIQwoeHXqu0gwkfsIcq7MYRbkf
+ uEtEDJ0zObwBNdi+1TvxcKkaHzgFd5/YbK24b9DWwiwyx5qEA1HB5y7/OzZMDzd2HAzY Vw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 36cydm2v5t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 04 Feb 2021 00:44:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1140QGFd100665;
+        Thu, 4 Feb 2021 00:44:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3020.oracle.com with ESMTP id 36dh7ucqqh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 04 Feb 2021 00:44:29 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1140iTWd159077;
+        Thu, 4 Feb 2021 00:44:29 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
+        by userp3020.oracle.com with ESMTP id 36dh7ucqq6-1;
+        Thu, 04 Feb 2021 00:44:29 +0000
+From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     saeed.mirzamohammadi@oracle.com, john.p.donnelly@oracle.com,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Stephen Boyd <sboyd@kernel.org>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/1] kernel/crash_core: Add crashkernel=auto for vmcore creation
+Date:   Wed,  3 Feb 2021 16:43:45 -0800
+Message-Id: <20210204004347.41918-1-saeed.mirzamohammadi@oracle.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYPQ+LZyHKZJQb=3euTy8f8TO3HqCADojpZaHXgtzNj+fw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9884 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1011
+ spamscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102040000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 02:47:38PM +0530, Sumit Garg wrote:
-> The main reason to guide you towards the OP-TEE build system is that
-> you will be able to build all the firmwares (TF-A, OP-TEE, edk2 etc.)
-> from source. If you don't need to rebuild those then I have prepared a
-> flash firmware binary blob for your testing (attached flash.bin). So
-> Qemu cmdline will look like:
-> 
-> $ qemu-system-aarch64 -nographic -s -machine virt,secure=on -cpu
-> cortex-a57 -kernel out/bin/Image -no-acpi -append
-> 'console=ttyAMA0,38400 keep_bootcon root=/dev/vda2' -initrd
-> out/bin/rootfs.cpio.gz -smp 2 -m 1024 -bios flash.bin -d unimp
-> 
-> Here you can use "Image" and "rootfs.cpio.gz" from your plain BR builds.
-> 
-> Give it a try and let me know if this works for you.
+This adds crashkernel=auto feature to configure reserved memory for
+vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
+different kernel distributions and different archs based on their
+needs.
 
-Sumit, I can try this again now :-) Thanks Yann for fixing the issue!
+Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+Tested-by: John Donnelly <john.p.donnelly@oracle.com>
+---
+ Documentation/admin-guide/kdump/kdump.rst |  5 +++++
+ arch/Kconfig                              | 24 +++++++++++++++++++++++
+ kernel/crash_core.c                       |  7 +++++++
+ 3 files changed, 36 insertions(+)
 
-https://git.busybox.net/buildroot/commit/?id=b9e7adc152b5811b20724d8c05f0f2117254919c
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 75a9dd98e76e..f95a2af64f59 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -285,7 +285,12 @@ This would mean:
+     2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+     3) if the RAM size is larger than 2G, then reserve 128M
+ 
++Or you can use crashkernel=auto if you have enough memory. The threshold
++is 1G on x86_64 and arm64. If your system memory is less than the threshold,
++crashkernel=auto will not reserve memory. The size changes according to
++the system memory size like below:
+ 
++    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
+ 
+ Boot into System Kernel
+ =======================
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 56b6ccc0e32d..a772eb397d73 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -14,6 +14,30 @@ menu "General architecture-dependent options"
+ config CRASH_CORE
+ 	bool
+ 
++if CRASH_CORE
++
++config CRASH_AUTO_STR
++	string "Memory reserved for crash kernel"
++	depends on CRASH_CORE
++	default "1G-64G:128M,64G-1T:256M,1T-:512M"
++	help
++	  This configures the reserved memory dependent
++	  on the value of System RAM. The syntax is:
++	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
++	              range=start-[end]
++
++	  For example:
++	      crashkernel=512M-2G:64M,2G-:128M
++
++	  This would mean:
++
++	      1) if the RAM is smaller than 512M, then don't reserve anything
++	         (this is the "rescue" case)
++	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
++	      3) if the RAM size is larger than 2G, then reserve 128M
++
++endif # CRASH_CORE
++
+ config KEXEC_CORE
+ 	select CRASH_CORE
+ 	bool
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index 106e4500fd53..ab0a2b4b1ffa 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -7,6 +7,7 @@
+ #include <linux/crash_core.h>
+ #include <linux/utsname.h>
+ #include <linux/vmalloc.h>
++#include <linux/kexec.h>
+ 
+ #include <asm/page.h>
+ #include <asm/sections.h>
+@@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
+ 	if (suffix)
+ 		return parse_crashkernel_suffix(ck_cmdline, crash_size,
+ 				suffix);
++#ifdef CONFIG_CRASH_AUTO_STR
++	if (strncmp(ck_cmdline, "auto", 4) == 0) {
++		ck_cmdline = CONFIG_CRASH_AUTO_STR;
++		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
++	}
++#endif
+ 	/*
+ 	 * if the commandline contains a ':', then that's the extended
+ 	 * syntax -- if not, it must be the classic syntax
+-- 
+2.27.0
 
-/Jarkko
