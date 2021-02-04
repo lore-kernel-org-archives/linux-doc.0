@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB640C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 510ADC4332B
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D87264F45
+	by mail.kernel.org (Postfix) with ESMTP id 0EB2164F45
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240046AbhBDUXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 15:23:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45810 "EHLO
+        id S240084AbhBDUX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:23:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240081AbhBDUXI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:23:08 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3132C061786
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:22:15 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id j2so2942845pgl.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:22:15 -0800 (PST)
+        with ESMTP id S240042AbhBDUW1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:22:27 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483DEC0617AB
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:09:11 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id nm1so2339830pjb.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=wnU2ljW3GZfVnC0yk4dz3F0Y7a+z0DVuakcSpmImkaw=;
-        b=gk1+3E6zusffn9W5IuwsN3M705pg/AsgpNvWYuk60I9SgeXKbvb/YqudopHfguTWg9
-         XHcDS3MQ5Ux9oTwks1PbxMjwOQxFmmNtlcxRxjcKXwBpL+AypZgWkafkkCYlZNNC8R7x
-         wPriOS6bS/ExEs3s+CHTQ9aBYRWxITrDlxn9s=
+        bh=/l4RZQaOQ7d1ouPGYljMviXnbT3WGsKxbFcd6Drk0Lo=;
+        b=fGh06rg6gheCvBcGHTM1w3CvOKYBLWLRn9SsYCTlMhzkC4JaaPEVY9uKw0CvECVwVO
+         GLeSCKWBvTR1v0FQSiY/XKcTK9KT+DVTzTKdoaxaQIGfWrhvlikM3pXCSAnIygWSjYCw
+         2AQGbsH7tWwcwYgYIpccGn1vT6vFCvencsBi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wnU2ljW3GZfVnC0yk4dz3F0Y7a+z0DVuakcSpmImkaw=;
-        b=scQbX00qyUThq3ZdqzA8MueEbQeavamTkyIoRdJ4WlXK+AZ9B+H8iuKdDuHWhSA2Zf
-         Z8QpJpRXkxCrkUpNKnhombAraq+13xN31VvJT/7W8XcFE1j6SUROnpcllYGDPYYvIHdn
-         hl0boMFWORK/L2cQiKHq2HUuGtqEtCLfZv2PaW4lccyRBhW5+xnhm7Gkl1wrMzZ4jDyU
-         aiSyVqqvwlWhJCH9goDwoovPP3iQ3NRudHh3Exqp/2bbt//3gW3N7a21/vlWt5lrYnFa
-         aJm1QmwyLTOU3nqPtFPlNuMHsT1QL2mKWlwRO9FJnOmRZUojHnsYOg41zcPr7k8rvgN9
-         4sRw==
-X-Gm-Message-State: AOAM531vaCHou5Nk21EgrizEQsnvHSazOg9Z4whyVvDutdT5d7vSj4Ch
-        Qkx9a+3kdnUCUjzusI6lvGzh8A==
-X-Google-Smtp-Source: ABdhPJxQWfp/aPzc5XZSKfbRPLKD5pttOTUDGoXyRh6jr8ntSfLzFQ6LjNTCdQXVJDDoi4XbHDHR4A==
-X-Received: by 2002:a63:5952:: with SMTP id j18mr708407pgm.29.1612470135501;
-        Thu, 04 Feb 2021 12:22:15 -0800 (PST)
+        bh=/l4RZQaOQ7d1ouPGYljMviXnbT3WGsKxbFcd6Drk0Lo=;
+        b=jvPWtSzs3exrxSULwXg+3rMIQvJkKidz+lrnEhEBMMU/yD+eyDxsfM7wxnp6GcINAd
+         ICcQc59PZFg6ku9EBDiTDUaJ3/sk4axxkjFUhcX7K/MG+nvG2cuVLg+R8IwUashoxB1E
+         5MGDWafi/GLjiF4AblBBFFbUQHn5Y1mZtm+wf08DAc1Rw6PabECZ3A4JIslyIPqA7Jd2
+         4EJ1jRmWuSGKX7O8Rrsj1wdNOastqt2BsLSxQOYkueRhH2QL5hO1u8O9U6Z2RrfV6vgV
+         5vpUfhRoLVHxM9hGwIgnPqLy1qLOmuji1BXayFx24HsMo6jdhw522L79hx8BSqbUdTt3
+         z7cA==
+X-Gm-Message-State: AOAM533LnzZTXPikIIHZHGqbW8z4xVMMIgrPTzKtr4ckyO7T3Hl5sCTO
+        3al8wzBiaLW3Sf6rLQmWy3pAbA==
+X-Google-Smtp-Source: ABdhPJznzHpDv1tAkuCyPFHIVKGk/b0KKU4u5/1VBsGpliEe4MBq48F17ma54ciAn2Co22Y5ztJK+w==
+X-Received: by 2002:a17:903:1d0:b029:df:d098:f1cb with SMTP id e16-20020a17090301d0b02900dfd098f1cbmr865803plh.49.1612469350638;
+        Thu, 04 Feb 2021 12:09:10 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 11sm7480618pgz.22.2021.02.04.12.22.14
+        by smtp.gmail.com with ESMTPSA id k15sm510608pgt.35.2021.02.04.12.09.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:22:14 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:22:13 -0800
+        Thu, 04 Feb 2021 12:09:09 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:09:08 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -79,36 +79,185 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 14/25] x86/mm: Update maybe_mkwrite() for shadow stack
-Message-ID: <202102041222.B111A20A9@keescook>
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
+Message-ID: <202102041201.C2B93F8D8A@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-15-yu-cheng.yu@intel.com>
+ <20210203225547.32221-7-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-15-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-7-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:36PM -0800, Yu-cheng Yu wrote:
-> When serving a page fault, maybe_mkwrite() makes a PTE writable if its vma
-> has VM_WRITE.
+On Wed, Feb 03, 2021 at 02:55:28PM -0800, Yu-cheng Yu wrote:
+> A control-protection fault is triggered when a control-flow transfer
+> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
+> For example, the return address for a RET instruction differs from the copy
+> on the shadow stack; or an indirect JMP instruction, without the NOTRACK
+> prefix, arrives at a non-ENDBR opcode.
 > 
-> A shadow stack vma has VM_SHSTK.  Its PTEs have _PAGE_DIRTY, but not
-> _PAGE_WRITE.  In fork(), _PAGE_DIRTY is cleared to effect copy-on-write,
-> and in page fault, _PAGE_DIRTY is restored and the shadow stack page is
-> writable again.
-> 
-> Update maybe_mkwrite() by introducing arch_maybe_mkwrite(), which sets
-> _PAGE_DIRTY for a shadow stack PTE.
-> 
-> Apply the same changes to maybe_pmd_mkwrite().
+> The control-protection fault handler works in a similar way as the general
+> protection fault handler.  It provides the si_code SEGV_CPERR to the signal
+> handler.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> ---
+>  arch/x86/include/asm/idtentry.h    |  4 ++
+>  arch/x86/kernel/idt.c              |  4 ++
+>  arch/x86/kernel/signal_compat.c    |  2 +-
+>  arch/x86/kernel/traps.c            | 60 ++++++++++++++++++++++++++++++
+>  include/uapi/asm-generic/siginfo.h |  3 +-
+>  5 files changed, 71 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+> index f656aabd1545..ff4b3bf634da 100644
+> --- a/arch/x86/include/asm/idtentry.h
+> +++ b/arch/x86/include/asm/idtentry.h
+> @@ -574,6 +574,10 @@ DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_SS,	exc_stack_segment);
+>  DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_GP,	exc_general_protection);
+>  DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_AC,	exc_alignment_check);
+>  
+> +#ifdef CONFIG_X86_CET
+> +DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_CP, exc_control_protection);
+> +#endif
+> +
+>  /* Raw exception entries which need extra work */
+>  DECLARE_IDTENTRY_RAW(X86_TRAP_UD,		exc_invalid_op);
+>  DECLARE_IDTENTRY_RAW(X86_TRAP_BP,		exc_int3);
+> diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
+> index ee1a283f8e96..e8166d9bbb10 100644
+> --- a/arch/x86/kernel/idt.c
+> +++ b/arch/x86/kernel/idt.c
+> @@ -105,6 +105,10 @@ static const __initconst struct idt_data def_idts[] = {
+>  #elif defined(CONFIG_X86_32)
+>  	SYSG(IA32_SYSCALL_VECTOR,	entry_INT80_32),
+>  #endif
+> +
+> +#ifdef CONFIG_X86_CET
+> +	INTG(X86_TRAP_CP,		asm_exc_control_protection),
+> +#endif
+>  };
+>  
+>  /*
+> diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
+> index a5330ff498f0..dd92490b1e7f 100644
+> --- a/arch/x86/kernel/signal_compat.c
+> +++ b/arch/x86/kernel/signal_compat.c
+> @@ -27,7 +27,7 @@ static inline void signal_compat_build_tests(void)
+>  	 */
+>  	BUILD_BUG_ON(NSIGILL  != 11);
+>  	BUILD_BUG_ON(NSIGFPE  != 15);
+> -	BUILD_BUG_ON(NSIGSEGV != 9);
+> +	BUILD_BUG_ON(NSIGSEGV != 10);
+>  	BUILD_BUG_ON(NSIGBUS  != 5);
+>  	BUILD_BUG_ON(NSIGTRAP != 5);
+>  	BUILD_BUG_ON(NSIGCHLD != 6);
+> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+> index 7f5aec758f0e..f5354c35df32 100644
+> --- a/arch/x86/kernel/traps.c
+> +++ b/arch/x86/kernel/traps.c
+> @@ -606,6 +606,66 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>  	cond_local_irq_disable(regs);
+>  }
+>  
+> +#ifdef CONFIG_X86_CET
+> +static const char * const control_protection_err[] = {
+> +	"unknown",
+> +	"near-ret",
+> +	"far-ret/iret",
+> +	"endbranch",
+> +	"rstorssp",
+> +	"setssbsy",
+> +};
+> +
+> +/*
+> + * When a control protection exception occurs, send a signal to the responsible
+> + * application.  Currently, control protection is only enabled for user mode.
+> + * This exception should not come from kernel mode.
+> + */
+> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
+> +{
+> +	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
+> +				      DEFAULT_RATELIMIT_BURST);
+> +	struct task_struct *tsk;
+> +
+> +	if (!user_mode(regs)) {
+> +		pr_emerg("PANIC: unexpected kernel control protection fault\n");
+> +		die("kernel control protection fault", regs, error_code);
+> +		panic("Machine halted.");
+> +	}
+> +
+> +	cond_local_irq_enable(regs);
+> +
+> +	if (!boot_cpu_has(X86_FEATURE_CET))
+> +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
+> +
+> +	tsk = current;
+> +	tsk->thread.error_code = error_code;
+> +	tsk->thread.trap_nr = X86_TRAP_CP;
+> +
+> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
+> +	    __ratelimit(&rs)) {
+> +		unsigned int max_err;
+> +		unsigned long ssp;
+> +
+> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
+> +		if (error_code < 0 || error_code > max_err)
+> +			error_code = 0;
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Do you want to mask the error_code here before printing its value?
+
+> +
+> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
+> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
+> +			 tsk->comm, task_pid_nr(tsk),
+> +			 regs->ip, regs->sp, ssp, error_code,
+> +			 control_protection_err[error_code]);
+
+Instead, you could clamp error_code to ARRAY_SIZE(control_protection_err),
+and add another "unknown" to the end of the strings:
+
+	control_protection_err[
+		array_index_nospec(error_code,
+				   ARRAY_SIZE(control_protection_err))]
+
+Everything else looks good.
+
+> +		print_vma_addr(KERN_CONT " in ", regs->ip);
+> +		pr_cont("\n");
+> +	}
+> +
+> +	force_sig_fault(SIGSEGV, SEGV_CPERR,
+> +			(void __user *)uprobe_get_trap_addr(regs));
+> +	cond_local_irq_disable(regs);
+> +}
+> +#endif
+> +
+>  static bool do_int3(struct pt_regs *regs)
+>  {
+>  	int res;
+> diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
+> index d2597000407a..1c2ea91284a0 100644
+> --- a/include/uapi/asm-generic/siginfo.h
+> +++ b/include/uapi/asm-generic/siginfo.h
+> @@ -231,7 +231,8 @@ typedef struct siginfo {
+>  #define SEGV_ADIPERR	7	/* Precise MCD exception */
+>  #define SEGV_MTEAERR	8	/* Asynchronous ARM MTE error */
+>  #define SEGV_MTESERR	9	/* Synchronous ARM MTE exception */
+> -#define NSIGSEGV	9
+> +#define SEGV_CPERR	10	/* Control protection fault */
+> +#define NSIGSEGV	10
+>  
+>  /*
+>   * SIGBUS si_codes
+> -- 
+> 2.21.0
+> 
 
 -- 
 Kees Cook
