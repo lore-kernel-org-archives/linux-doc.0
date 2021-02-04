@@ -2,98 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 609B2C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6277C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:52:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2513064FA0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D08D64FA0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:52:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230263AbhBDVtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 16:49:53 -0500
-Received: from mga14.intel.com ([192.55.52.115]:4838 "EHLO mga14.intel.com"
+        id S229705AbhBDVwN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 16:52:13 -0500
+Received: from ms.lwn.net ([45.79.88.28]:52624 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229613AbhBDVti (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 16:49:38 -0500
-IronPort-SDR: pY+Nr6jAgIxyBSpAvvvsgXOwo2hNItuw9siAkK7SOvOxAnkVR0xZ2PX5iO24yXStyRd4G6C3S7
- yUGldeJTw3/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="180557971"
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="180557971"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 13:48:49 -0800
-IronPort-SDR: myV1KE9j7kkbr5D5pXV2bGsPNu9vv8X5WxtJ9c2sz4znxzOvH794zrs0zwYjGwOu0gcq//xvG6
- PNYTZBCr3OEg==
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="393459920"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 13:48:34 -0800
-Subject: Re: [PATCH v19 12/25] mm: Introduce VM_SHSTK for shadow stack memory
-To:     Cyrill Gorcunov <gorcunov@gmail.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-13-yu-cheng.yu@intel.com> <20210204204636.GH2172@grain>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <44f18779-efdb-e3f9-55d4-b46fb35d60cd@intel.com>
-Date:   Thu, 4 Feb 2021 13:48:34 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S230224AbhBDVwF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 16:52:05 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 946201E77;
+        Thu,  4 Feb 2021 21:51:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 946201E77
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1612475479; bh=JKWAHZUEZSPNRnRWcyM2ssLUmsuuTmFbsEXwJlB7SiU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=rV3YIRtHR4MuWjipzYKONy79QxyimSKBIdJOHsg4O7oiGeAQ8zGqOiHAQmA9IN2/P
+         G267bkkU7Q7qrvDCEsPZS7P83iy8nPAWfZrpf7U0hmo3+n7c3KRNFXTcAKMv9ZPD+y
+         qiVkyMVTZNY1qqECVhuiFbuZy4Dj5GOuqAuD0cg+mfL8tcE1TVCbfDM6odMi43pKxV
+         ojYcC+qlT12yyo5pPeVQLyVVMCORbhSX4pgn45DIVgLF1Q8U9YOzFhWAqu/FnrqM61
+         ynnQyQos53VN8HZXc2hPC6+PvpBASzI1v7CkIy4LMSpF3zKokZpjNiZXn4uH2NuntU
+         j5zhYAzx4kRSg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Flavio Suligoi <f.suligoi@asem.it>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Flavio Suligoi <f.suligoi@asem.it>
+Subject: Re: [PATCH] docs: thermal: fix spelling mistakes
+In-Reply-To: <20210129132035.16967-1-f.suligoi@asem.it>
+References: <20210129132035.16967-1-f.suligoi@asem.it>
+Date:   Thu, 04 Feb 2021 14:51:19 -0700
+Message-ID: <87wnvnec2w.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210204204636.GH2172@grain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/2021 12:46 PM, Cyrill Gorcunov wrote:
-> On Wed, Feb 03, 2021 at 02:55:34PM -0800, Yu-cheng Yu wrote:
->>   
->> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
->> index 602e3a52884d..59623dcd92bb 100644
->> --- a/fs/proc/task_mmu.c
->> +++ b/fs/proc/task_mmu.c
->> @@ -661,6 +661,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->>   		[ilog2(VM_PKEY_BIT4)]	= "",
->>   #endif
->>   #endif /* CONFIG_ARCH_HAS_PKEYS */
->> +#ifdef CONFIG_X86_CET
->> +		[ilog2(VM_SHSTK)]	= "ss",
->> +#endif
->>   	};
-> 
-> IIRC we've these abbreviations explained in documentaion
-> (proc.rst file). Could you please update it once time
-> permit? I think it can be done on top of the series.
-> 
+Flavio Suligoi <f.suligoi@asem.it> writes:
 
-I will add that.  Thanks!
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> ---
+>  Documentation/driver-api/thermal/sysfs-api.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+> index e7520cb439ac..71da7dc8c0ba 100644
+> --- a/Documentation/driver-api/thermal/sysfs-api.rst
+> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
+> @@ -54,7 +54,7 @@ temperature) and throttle appropriate devices.
+>      trips:
+>  	the total number of trip points this thermal zone supports.
+>      mask:
+> -	Bit string: If 'n'th bit is set, then trip point 'n' is writeable.
+> +	Bit string: If 'n'th bit is set, then trip point 'n' is writable.
+>      devdata:
+>  	device private data
+>      ops:
+> @@ -406,7 +406,7 @@ Thermal cooling device sys I/F, created once it's registered::
+>      |---stats/reset:		Writing any value resets the statistics
+>      |---stats/time_in_state_ms:	Time (msec) spent in various cooling states
+>      |---stats/total_trans:	Total number of times cooling state is changed
+> -    |---stats/trans_table:	Cooing state transition table
+> +    |---stats/trans_table:	Cooling state transition table
+>  
+>  
+>  Then next two dynamic attributes are created/removed in pairs. They represent
+> @@ -779,5 +779,5 @@ emergency poweroff kicks in after the delay has elapsed and shuts down
+>  the system.
+>  
+>  If set to 0 emergency poweroff will not be supported. So a carefully
+> -profiled non-zero positive value is a must for emergerncy poweroff to be
+> +profiled non-zero positive value is a must for emergency poweroff to be
+>  triggered.
+
+Applied, thanks.
+
+jon
