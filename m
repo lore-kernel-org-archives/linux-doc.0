@@ -2,110 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BD6C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 07:57:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB7CC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:22:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5C3E64F4D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 07:57:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FD0964F4D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232814AbhBDH5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 02:57:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
+        id S234315AbhBDJVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 04:21:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232793AbhBDH5S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 02:57:18 -0500
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462A9C061573;
-        Wed,  3 Feb 2021 23:56:37 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id o10so5364728wmc.1;
-        Wed, 03 Feb 2021 23:56:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=b+smnUyuE7wK61OgxqWN7JVnQDJSBJSmIoedEWNjQv4=;
-        b=s5Hf5E+rBCWZ6lRhqA35/hsHYMsvRS1rLqs+8SxZdi52f3gQJ8KmS0z2Gz6LIUsgrb
-         qRMhVECrHyifJ7sTr91bEZ+8ZpmGsx2Zrx1qwPiVjxwFHhCr22xfguXx3M2Y7MuG+AuC
-         GQvsG/535ao/vjz0sTbkXd+Nq1Yn8vfWZB+b5PZiAkxJBrp0kIDHrRc6MeRVoIKaC0Qt
-         /RHPQ/JfqLQhAMjpyWKKmW58lzbDXyrjgBmHrxbEs349gkTxOnvVEy0zjC9CoXVVHTiB
-         uQcfN3OUyXAgtYv7bd2UamUqKKRK/mF7f0YuiMGyEU+iXAFvw4QY7XQndoMpSC2Ky5lj
-         SKjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=b+smnUyuE7wK61OgxqWN7JVnQDJSBJSmIoedEWNjQv4=;
-        b=NX4aXkJDyHvqdcjl3Yn8cpsY6FjD48SHgrQrJdJaPb7FWr7+6NsKBgusSeH8eBKvsi
-         gFmhE7l3q03ohDqjlRjnBNo+n3dXhgFjkdDKzUmocyxZ2LZTNCVRkX3KcLXPFKgIyS6n
-         iEFqYS6FjW7SuktKFrikk6wRdnoyDpRD69WNjziufqmDlbaMBO2gh1+YPoQl4puKYS22
-         q5F/sATfI4VW6RBtGz9p0q6Yc+rAXmCQdgpP4fd0ROAVT7BdSCRC8njdaFaUOfQi6lsJ
-         Hjr9hgKbC0re7HKCFHfY5wfzgTycXgNuHMVxceGRkamjCc1je3KxMyVstaqbjXu173BA
-         FZMA==
-X-Gm-Message-State: AOAM5308nlfWSzZbXYMceKWDJiTqBtCceU2s0j591ZUJTY+PdzDM7qI6
-        BZFS+DSo+tiv2XPqLYJ5ldI=
-X-Google-Smtp-Source: ABdhPJznv8dlGhVT1RXWZc2O8Gbutrctv0DjJ0d2As5aR/nFBLQC467b/jdjfyj7wKr51SBKpu1FgA==
-X-Received: by 2002:a1c:7704:: with SMTP id t4mr6089144wmi.55.1612425395879;
-        Wed, 03 Feb 2021 23:56:35 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2de7:9900:a89a:b345:dd05:c439])
-        by smtp.gmail.com with ESMTPSA id v1sm5307806wmj.31.2021.02.03.23.56.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 23:56:35 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
-        linux-kernel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] fscache: rectify minor kernel-doc issues
-Date:   Thu,  4 Feb 2021 08:56:24 +0100
-Message-Id: <20210204075624.27915-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S232478AbhBDJVw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 04:21:52 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F340C061573;
+        Thu,  4 Feb 2021 01:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=MIQB8t7kt6mqNl1Bn84T0udleZca2EnAi6Ix4VEe7UU=; b=Ju+atNzUB4pbSQUpXYsoUH6mdS
+        4yZRAnUcMYHcFVUlsCe+OaTvKgstwDY9MRqbxpqIaIWDedoHcx0IjrfsFzXU066i+a7had7WGFX/Q
+        DJVyHTOuDK+36bBvD1DkxbieQ5DBkhwCc4oMaWShWt3nXFq4AtNIFdyQKlZ399PZ+NHVnpGhaRPZy
+        PkrGX1x8EVLXCDb75ANO4ysv2iExZXla4J3SayMpoQv2ygSa9k+mlYlPyiemQ/KXs1xM4OziancWJ
+        KFn7FTc5jW3xbQ2Qlr49ZcMaeJFU1YnA8FxpA/9LWT0X5jDZrIOXhOjLhturLaUtS/pbMohdYLd8b
+        /1G4+GaQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l7aoi-000eV4-QS; Thu, 04 Feb 2021 09:20:49 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AAA06301CC4;
+        Thu,  4 Feb 2021 10:20:45 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 920B7213D2E27; Thu,  4 Feb 2021 10:20:45 +0100 (CET)
+Date:   Thu, 4 Feb 2021 10:20:45 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, keescook@chromium.org,
+        rafael@kernel.org, lenb@kernel.org, james.morse@arm.com,
+        tony.luck@intel.com, bp@alien8.de, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, devel@driverdev.osuosl.org
+Subject: Re: [PATCH v3 1/7] seqnum_ops: Introduce Sequence Number Ops
+Message-ID: <YBu8bRth+4wyvql/@hirez.programming.kicks-ass.net>
+References: <cover.1612314468.git.skhan@linuxfoundation.org>
+ <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The command './scripts/kernel-doc -none include/linux/fscache.h' reports
-some minor mismatches of the kernel-doc and function signature, which are
-easily resolved.
+On Wed, Feb 03, 2021 at 11:11:57AM -0700, Shuah Khan wrote:
+> +static inline u32 seqnum32_inc(struct seqnum32 *seq)
+> +{
+> +	atomic_t val = ATOMIC_INIT(seq->seqnum);
+> +
+> +	seq->seqnum = (u32) atomic_inc_return(&val);
+> +	if (seq->seqnum >= UINT_MAX)
+> +		pr_info("Sequence Number overflow %u detected\n",
+> +			seq->seqnum);
+> +	return seq->seqnum;
+> +}
 
-Rectify the kernel-doc, such that no issues remain for fscache.h.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-applies cleanly on current master and next-20210202
-
-David, please pick the quick kernel-doc fix.
-
- include/linux/fscache.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/fscache.h b/include/linux/fscache.h
-index 3f177faa0ac2..7e1f12e52baf 100644
---- a/include/linux/fscache.h
-+++ b/include/linux/fscache.h
-@@ -418,7 +418,7 @@ int fscache_pin_cookie(struct fscache_cookie *cookie)
- }
- 
- /**
-- * fscache_pin_cookie - Unpin a data-storage cache object in its cache
-+ * fscache_unpin_cookie - Unpin a data-storage cache object in its cache
-  * @cookie: The cookie representing the cache object
-  *
-  * Permit data-storage cache objects to be unpinned from the cache.
-@@ -490,7 +490,7 @@ void fscache_wait_on_invalidate(struct fscache_cookie *cookie)
- /**
-  * fscache_reserve_space - Reserve data space for a cached object
-  * @cookie: The cookie representing the cache object
-- * @i_size: The amount of space to be reserved
-+ * @size: The amount of space to be reserved
-  *
-  * Reserve an amount of space in the cache for the cache object attached to a
-  * cookie so that a write to that object within the space can always be
--- 
-2.17.1
-
+What kind of broken garbage is that?
