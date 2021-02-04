@@ -2,92 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6277C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D66C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:58:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D08D64FA0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:52:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB71D64FA0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbhBDVwN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 16:52:13 -0500
-Received: from ms.lwn.net ([45.79.88.28]:52624 "EHLO ms.lwn.net"
+        id S230058AbhBDV64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 16:58:56 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:49262 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230224AbhBDVwF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 16:52:05 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 946201E77;
-        Thu,  4 Feb 2021 21:51:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 946201E77
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1612475479; bh=JKWAHZUEZSPNRnRWcyM2ssLUmsuuTmFbsEXwJlB7SiU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rV3YIRtHR4MuWjipzYKONy79QxyimSKBIdJOHsg4O7oiGeAQ8zGqOiHAQmA9IN2/P
-         G267bkkU7Q7qrvDCEsPZS7P83iy8nPAWfZrpf7U0hmo3+n7c3KRNFXTcAKMv9ZPD+y
-         qiVkyMVTZNY1qqECVhuiFbuZy4Dj5GOuqAuD0cg+mfL8tcE1TVCbfDM6odMi43pKxV
-         ojYcC+qlT12yyo5pPeVQLyVVMCORbhSX4pgn45DIVgLF1Q8U9YOzFhWAqu/FnrqM61
-         ynnQyQos53VN8HZXc2hPC6+PvpBASzI1v7CkIy4LMSpF3zKokZpjNiZXn4uH2NuntU
-         j5zhYAzx4kRSg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Flavio Suligoi <f.suligoi@asem.it>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Flavio Suligoi <f.suligoi@asem.it>
-Subject: Re: [PATCH] docs: thermal: fix spelling mistakes
-In-Reply-To: <20210129132035.16967-1-f.suligoi@asem.it>
-References: <20210129132035.16967-1-f.suligoi@asem.it>
-Date:   Thu, 04 Feb 2021 14:51:19 -0700
-Message-ID: <87wnvnec2w.fsf@meer.lwn.net>
+        id S230037AbhBDV64 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 16:58:56 -0500
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1l7mdT-004GdQ-MA; Thu, 04 Feb 2021 22:57:59 +0100
+Date:   Thu, 4 Feb 2021 22:57:59 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Lubomir Rintel <lkundrak@v3.sk>, Maen Suleiman <maen@marvell.com>,
+        Lior Amsalem <alior@marvell.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] docs: arm: marvell: drop some dead links
+Message-ID: <YBxt57h+dOl7grza@lunn.ch>
+References: <20210203235305.506528-1-lkundrak@v3.sk>
+ <20210203235305.506528-2-lkundrak@v3.sk>
+ <87pn1ffro8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pn1ffro8.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Flavio Suligoi <f.suligoi@asem.it> writes:
+On Thu, Feb 04, 2021 at 02:29:11PM -0700, Jonathan Corbet wrote:
+> Lubomir Rintel <lkundrak@v3.sk> writes:
+> 
+> > Just remove these; there's good chance there wasn't anything useful
+> > there anyway.
+> >
+> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> >
+> > ---
+> > Changes since v1:
+> > - Adjust for removal of "[PATCH 1/5] docs: arm: marvell: turn the automatic
+> >   links into labels"
+> > - Split off the hunk that fixes 38x functional spec link
+> >
+> >  Documentation/arm/marvel.rst | 25 -------------------------
+> >  1 file changed, 25 deletions(-)
+> >
+> > diff --git a/Documentation/arm/marvel.rst b/Documentation/arm/marvel.rst
+> > index 16ab2eb085b86..502a1b89a2c85 100644
+> > --- a/Documentation/arm/marvel.rst
+> > +++ b/Documentation/arm/marvel.rst
+> > @@ -63,8 +63,6 @@ Kirkwood family
+> >                  - Product Brief  : http://www.marvell.com/embedded-processors/kirkwood/assets/88F6281-004_ver1.pdf
+> >                  - Hardware Spec  : http://www.marvell.com/embedded-processors/kirkwood/assets/HW_88F6281_OpenSource.pdf
+> >                  - Functional Spec: http://www.marvell.com/embedded-processors/kirkwood/assets/FS_88F6180_9x_6281_OpenSource.pdf
+> > -  Homepage:
+> > -	http://www.marvell.com/embedded-processors/kirkwood/
+> >    Core:
+> >  	Feroceon 88fr131 ARMv5 compatible
+> >    Linux kernel mach directory:
+> > @@ -126,7 +124,6 @@ EBU Armada family
+> >  	- 88F6820 Armada 385
+> >  	- 88F6828 Armada 388
+> >  
+> > -    - Product infos:   http://www.marvell.com/embedded-processors/armada-38x/
+> 
+> So these URLs do still exist in the Wayback machine; the above is
+> https://web.archive.org/web/20180829171124/http://www.marvell.com/embedded-processors/armada-38x/
+> for example.  If we delete the links, we make it harder for any
+> interested person to ever find them.  Assuming that we want to keep
+> information about these product families in the documentation at all,
+> I'd think that we would want to have the online information as well.  So
+> I'd replace these with wayback links, or else just leave them as they
+> are so that sufficiently motivated people can look them up themselves...
 
-> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-> ---
->  Documentation/driver-api/thermal/sysfs-api.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
-> index e7520cb439ac..71da7dc8c0ba 100644
-> --- a/Documentation/driver-api/thermal/sysfs-api.rst
-> +++ b/Documentation/driver-api/thermal/sysfs-api.rst
-> @@ -54,7 +54,7 @@ temperature) and throttle appropriate devices.
->      trips:
->  	the total number of trip points this thermal zone supports.
->      mask:
-> -	Bit string: If 'n'th bit is set, then trip point 'n' is writeable.
-> +	Bit string: If 'n'th bit is set, then trip point 'n' is writable.
->      devdata:
->  	device private data
->      ops:
-> @@ -406,7 +406,7 @@ Thermal cooling device sys I/F, created once it's registered::
->      |---stats/reset:		Writing any value resets the statistics
->      |---stats/time_in_state_ms:	Time (msec) spent in various cooling states
->      |---stats/total_trans:	Total number of times cooling state is changed
-> -    |---stats/trans_table:	Cooing state transition table
-> +    |---stats/trans_table:	Cooling state transition table
->  
->  
->  Then next two dynamic attributes are created/removed in pairs. They represent
-> @@ -779,5 +779,5 @@ emergency poweroff kicks in after the delay has elapsed and shuts down
->  the system.
->  
->  If set to 0 emergency poweroff will not be supported. So a carefully
-> -profiled non-zero positive value is a must for emergerncy poweroff to be
-> +profiled non-zero positive value is a must for emergency poweroff to be
->  triggered.
+The kirkwood processors are old, but they were used in NAS
+devices. They tend to have a long life time, and people do put Debian
+on them. Armada-38x is definitely still in use in NAS boxes.
 
-Applied, thanks.
+If we can have working links, that would be great.
 
-jon
+   Andrew
