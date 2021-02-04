@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 030FDC433E9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B8CC43381
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:25:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A796664F5E
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1F7164F67
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:25:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240081AbhBDUXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 15:23:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45682 "EHLO
+        id S240025AbhBDUZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:25:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240001AbhBDUW3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:22:29 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD887C0613D6
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:10:17 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id o16so2903490pgg.5
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:10:17 -0800 (PST)
+        with ESMTP id S239987AbhBDUYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:24:51 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE941C06178C
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:24:11 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id u15so2387054plf.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:24:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=fX9wt//YV7HFh+TVdRSpEAtZyx53HBAsOKvt4WgJ1Yo=;
-        b=YhJdPmg114YYnBjPK56CdbPVOocSGUyd5YcpH2lUejbpSb8ZonyhNOWwaQ5ULTIMZe
-         T4rUfyImzEk3QwZ8qqLMepFEgoV3QdcC5Ji6AoJgtbWLHd7Wauiit5qqBpMgUzRN5YLz
-         VO3JCGV1FKBKLBmmwah7xbCtIWEqnZjquY9T0=
+        bh=YiBh8kjoQsH+w1ie1OfB7U+mi5FxxL8KWnwrDiJ80SQ=;
+        b=PPt+H4wqt1A6KWRSkPhPkxwMn/vw3TKT91vvsKmHebL+0nltYCjD9IrFeHTRAjQymj
+         BUG3q3cW2DBZiH22qiC37rSeMW4mlApOQfqnOR82W1zU+j/au6dXILhqYy9A8+6Iv8qY
+         bcd9AfXep4kZgB1Vmchd6yJteQKwVnKD37aR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fX9wt//YV7HFh+TVdRSpEAtZyx53HBAsOKvt4WgJ1Yo=;
-        b=DTuTYCEfCuCC3z1ULg1X8BXav6TJHxl9se+Vt1CKAYoYoxzRG6L4X+d3J6grRt3cp3
-         kmNlz/NXqKjTZGwXbc0gprrMkSBgovAzgtbGs2EoXQ2t2oTKVlxmvmqIRJCUK0V1r+HD
-         qC9d0Ncx8tzoIGphNb3NTBBl3Nc0VgOS64BPi2+sdqbW9TI3ASoejP1DEmI4kYeKBCvc
-         Gr0mZKBDL5zwUDIW6IDoZoBAkAM6STu6h/zFOoL7vUYn2y/3dSPruhEAnZuLiSIRCC1v
-         ACSVBQkZekOAfvBgX3T6si3I/szY6DkPMGDJivcPZhb4qA+lN/D4+D7kF93d25zmwkYl
-         z7gQ==
-X-Gm-Message-State: AOAM533gV/x53MDIyWgrh7014PgGbE5KjM3qzOVafjVsXNOTn3a2EzvP
-        nlVZsCtlwrPKqGlYWxQKCZ4rKw==
-X-Google-Smtp-Source: ABdhPJx8q7E42vMiKJ5H+OzoA5nBqxDaKo1jGIPOHJSoXBYTbJwcMykIxeUyy77tQHbt1f3nUrCNTw==
-X-Received: by 2002:a63:cf06:: with SMTP id j6mr650745pgg.195.1612469417277;
-        Thu, 04 Feb 2021 12:10:17 -0800 (PST)
+        bh=YiBh8kjoQsH+w1ie1OfB7U+mi5FxxL8KWnwrDiJ80SQ=;
+        b=M2atb/6ngX8YoqAk1Vnm3olttNTaYHAAHv/Af7u1SkLH66d94f4ixHoLt4xoymcUfZ
+         a7x2E+MeKzio6TAxlAnuccGY/Xao+IgHR03FiptxewrD9dKwTcHlad6M56LvAJjitncL
+         fwEy05GXruVzqFosHEVw/PPk3jnNHPjc2UX5lI+AKI6aFNG/dv8auyD+4EvtayDFT8uz
+         UKMlSXmdTzsyHIGr09LS7XLp4cxB/XnwTw4iLlqgVsoYcdwh1aWQd7zklI+1txo/I1oa
+         dpUzCQZ20wXXaPyTdlfbVKcOXtZDKoJXWvL481WxhgKGTrewLIAXx3mjj1ocH2qleq4w
+         rqug==
+X-Gm-Message-State: AOAM530KYfnW9qyuxVCiyYSdqHifEPjwkV4navyCjlwLP2b37LXxkYo4
+        c0S00r67DBcCOeALjtVtVuT5tA==
+X-Google-Smtp-Source: ABdhPJw0Vm+wT2LUNwph4uBXmL08ISQPaD4Ai/QvO5oPqXHsNDkCcUZJ728ruOrlMF1dvvaBvhbAXQ==
+X-Received: by 2002:a17:902:59dc:b029:e2:9e80:1537 with SMTP id d28-20020a17090259dcb02900e29e801537mr954553plj.66.1612470251540;
+        Thu, 04 Feb 2021 12:24:11 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id bv21sm6698862pjb.15.2021.02.04.12.10.16
+        by smtp.gmail.com with ESMTPSA id k11sm6241168pfc.22.2021.02.04.12.24.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:10:16 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:10:15 -0800
+        Thu, 04 Feb 2021 12:24:10 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:24:09 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -79,88 +79,34 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v19 07/25] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-Message-ID: <202102041209.B1A0FF3D@keescook>
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v19 16/25] mm: Add guard pages around a shadow stack.
+Message-ID: <202102041224.5D300A122B@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-8-yu-cheng.yu@intel.com>
+ <20210203225547.32221-17-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-8-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-17-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:29PM -0800, Yu-cheng Yu wrote:
-> The x86 family of processors do not directly create read-only and Dirty
-> PTEs.  These PTEs are created by software.  One such case is that kernel
-> read-only pages are historically setup as Dirty.
+On Wed, Feb 03, 2021 at 02:55:38PM -0800, Yu-cheng Yu wrote:
+> INCSSP(Q/D) increments shadow stack pointer and 'pops and discards' the
+> first and the last elements in the range, effectively touches those memory
+> areas.
 > 
-> New processors that support Shadow Stack regard read-only and Dirty PTEs as
-> shadow stack pages.  This results in ambiguity between shadow stack and
-> kernel read-only pages.  To resolve this, removed Dirty from kernel read-
-> only pages.
-
-Does this have any other side-effects?
-
-Otherwise, sure:
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
+> The maximum moving distance by INCSSPQ is 255 * 8 = 2040 bytes and
+> 255 * 4 = 1020 bytes by INCSSPD.  Both ranges are far from PAGE_SIZE.
+> Thus, putting a gap page on both ends of a shadow stack prevents INCSSP,
+> CALL, and RET from going beyond.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> ---
->  arch/x86/include/asm/pgtable_types.h | 6 +++---
->  arch/x86/mm/pat/set_memory.c         | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-> index 394757ee030a..b8b79d618bbc 100644
-> --- a/arch/x86/include/asm/pgtable_types.h
-> +++ b/arch/x86/include/asm/pgtable_types.h
-> @@ -194,10 +194,10 @@ enum page_cache_mode {
->  #define _KERNPG_TABLE		 (__PP|__RW|   0|___A|   0|___D|   0|   0| _ENC)
->  #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
->  #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
-> -#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
-> -#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
-> +#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|   0|   0|___G)
-> +#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|   0|   0|___G)
->  #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
-> -#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
-> +#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|   0|   0|___G)
->  #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
->  #define __PAGE_KERNEL_LARGE_EXEC (__PP|__RW|   0|___A|   0|___D|_PSE|___G)
->  #define __PAGE_KERNEL_WP	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __WP)
-> diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-> index 16f878c26667..6bebb95a6988 100644
-> --- a/arch/x86/mm/pat/set_memory.c
-> +++ b/arch/x86/mm/pat/set_memory.c
-> @@ -1932,7 +1932,7 @@ int set_memory_nx(unsigned long addr, int numpages)
->  
->  int set_memory_ro(unsigned long addr, int numpages)
->  {
-> -	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW), 0);
-> +	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW | _PAGE_DIRTY), 0);
->  }
->  
->  int set_memory_rw(unsigned long addr, int numpages)
-> -- 
-> 2.21.0
-> 
+
+Yay guard pages! :)
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
