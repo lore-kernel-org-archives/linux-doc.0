@@ -2,125 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 575BBC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 06:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BD6C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 07:57:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3BCF64F53
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 06:34:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5C3E64F4D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 07:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232623AbhBDGeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 01:34:37 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:12123 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230311AbhBDGeg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 01:34:36 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DWTHk4Fwjz1638H;
-        Thu,  4 Feb 2021 14:32:34 +0800 (CST)
-Received: from [10.174.179.241] (10.174.179.241) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 4 Feb 2021 14:33:43 +0800
-Subject: Re: [PATCH v14 8/8] mm: hugetlb: optimize the code with the help of
- the compiler
-To:     Muchun Song <songmuchun@bytedance.com>
-CC:     <duanxiongchun@bytedance.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-fsdevel@vger.kernel.org>, <corbet@lwn.net>,
-        <mike.kravetz@oracle.com>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
-        <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
-        <peterz@infradead.org>, <viro@zeniv.linux.org.uk>,
-        <akpm@linux-foundation.org>, <paulmck@kernel.org>,
-        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-        <rdunlap@infradead.org>, <oneukum@suse.com>,
-        <anshuman.khandual@arm.com>, <jroedel@suse.de>,
-        <almasrymina@google.com>, <rientjes@google.com>,
-        <willy@infradead.org>, <osalvador@suse.de>, <mhocko@suse.com>,
-        <song.bao.hua@hisilicon.com>, <david@redhat.com>,
-        <naoya.horiguchi@nec.com>
-References: <20210204035043.36609-1-songmuchun@bytedance.com>
- <20210204035043.36609-9-songmuchun@bytedance.com>
-From:   Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <657ef0d7-8c68-a0f2-de16-d524f0eb4cc7@huawei.com>
-Date:   Thu, 4 Feb 2021 14:33:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210204035043.36609-9-songmuchun@bytedance.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.241]
-X-CFilter-Loop: Reflected
+        id S232814AbhBDH5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 02:57:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232793AbhBDH5S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 02:57:18 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462A9C061573;
+        Wed,  3 Feb 2021 23:56:37 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id o10so5364728wmc.1;
+        Wed, 03 Feb 2021 23:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=b+smnUyuE7wK61OgxqWN7JVnQDJSBJSmIoedEWNjQv4=;
+        b=s5Hf5E+rBCWZ6lRhqA35/hsHYMsvRS1rLqs+8SxZdi52f3gQJ8KmS0z2Gz6LIUsgrb
+         qRMhVECrHyifJ7sTr91bEZ+8ZpmGsx2Zrx1qwPiVjxwFHhCr22xfguXx3M2Y7MuG+AuC
+         GQvsG/535ao/vjz0sTbkXd+Nq1Yn8vfWZB+b5PZiAkxJBrp0kIDHrRc6MeRVoIKaC0Qt
+         /RHPQ/JfqLQhAMjpyWKKmW58lzbDXyrjgBmHrxbEs349gkTxOnvVEy0zjC9CoXVVHTiB
+         uQcfN3OUyXAgtYv7bd2UamUqKKRK/mF7f0YuiMGyEU+iXAFvw4QY7XQndoMpSC2Ky5lj
+         SKjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=b+smnUyuE7wK61OgxqWN7JVnQDJSBJSmIoedEWNjQv4=;
+        b=NX4aXkJDyHvqdcjl3Yn8cpsY6FjD48SHgrQrJdJaPb7FWr7+6NsKBgusSeH8eBKvsi
+         gFmhE7l3q03ohDqjlRjnBNo+n3dXhgFjkdDKzUmocyxZ2LZTNCVRkX3KcLXPFKgIyS6n
+         iEFqYS6FjW7SuktKFrikk6wRdnoyDpRD69WNjziufqmDlbaMBO2gh1+YPoQl4puKYS22
+         q5F/sATfI4VW6RBtGz9p0q6Yc+rAXmCQdgpP4fd0ROAVT7BdSCRC8njdaFaUOfQi6lsJ
+         Hjr9hgKbC0re7HKCFHfY5wfzgTycXgNuHMVxceGRkamjCc1je3KxMyVstaqbjXu173BA
+         FZMA==
+X-Gm-Message-State: AOAM5308nlfWSzZbXYMceKWDJiTqBtCceU2s0j591ZUJTY+PdzDM7qI6
+        BZFS+DSo+tiv2XPqLYJ5ldI=
+X-Google-Smtp-Source: ABdhPJznv8dlGhVT1RXWZc2O8Gbutrctv0DjJ0d2As5aR/nFBLQC467b/jdjfyj7wKr51SBKpu1FgA==
+X-Received: by 2002:a1c:7704:: with SMTP id t4mr6089144wmi.55.1612425395879;
+        Wed, 03 Feb 2021 23:56:35 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2de7:9900:a89a:b345:dd05:c439])
+        by smtp.gmail.com with ESMTPSA id v1sm5307806wmj.31.2021.02.03.23.56.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 23:56:35 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] fscache: rectify minor kernel-doc issues
+Date:   Thu,  4 Feb 2021 08:56:24 +0100
+Message-Id: <20210204075624.27915-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/2/4 11:50, Muchun Song wrote:
-> We cannot optimize if a "struct page" crosses page boundaries. If
-> it is true, we can optimize the code with the help of a compiler.
-> When free_vmemmap_pages_per_hpage() returns zero, most functions are
-> optimized by the compiler.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+The command './scripts/kernel-doc -none include/linux/fscache.h' reports
+some minor mismatches of the kernel-doc and function signature, which are
+easily resolved.
 
-I like it. Thanks.
-Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+Rectify the kernel-doc, such that no issues remain for fscache.h.
 
-> ---
->  include/linux/hugetlb.h |  3 ++-
->  mm/hugetlb_vmemmap.c    | 13 +++++++++++++
->  2 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index 822ab2f5542a..7bfb06e16298 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -878,7 +878,8 @@ extern bool hugetlb_free_vmemmap_enabled;
->  
->  static inline bool is_hugetlb_free_vmemmap_enabled(void)
->  {
-> -	return hugetlb_free_vmemmap_enabled;
-> +	return hugetlb_free_vmemmap_enabled &&
-> +	       is_power_of_2(sizeof(struct page));
->  }
->  #else
->  static inline bool is_hugetlb_free_vmemmap_enabled(void)
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 8efad9978821..068d0e0cebc8 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -211,6 +211,12 @@ early_param("hugetlb_free_vmemmap", early_hugetlb_free_vmemmap_param);
->   */
->  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
->  {
-> +	/*
-> +	 * This check aims to let the compiler help us optimize the code as
-> +	 * much as possible.
-> +	 */
-> +	if (!is_power_of_2(sizeof(struct page)))
-> +		return 0;
->  	return h->nr_free_vmemmap_pages;
->  }
->  
-> @@ -280,6 +286,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
->  	BUILD_BUG_ON(NR_USED_SUBPAGE >=
->  		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
->  
-> +	/*
-> +	 * The compiler can help us to optimize this function to null
-> +	 * when the size of the struct page is not power of 2.
-> +	 */
-> +	if (!is_power_of_2(sizeof(struct page)))
-> +		return;
-> +
->  	if (!hugetlb_free_vmemmap_enabled)
->  		return;
->  
-> 
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on current master and next-20210202
+
+David, please pick the quick kernel-doc fix.
+
+ include/linux/fscache.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/fscache.h b/include/linux/fscache.h
+index 3f177faa0ac2..7e1f12e52baf 100644
+--- a/include/linux/fscache.h
++++ b/include/linux/fscache.h
+@@ -418,7 +418,7 @@ int fscache_pin_cookie(struct fscache_cookie *cookie)
+ }
+ 
+ /**
+- * fscache_pin_cookie - Unpin a data-storage cache object in its cache
++ * fscache_unpin_cookie - Unpin a data-storage cache object in its cache
+  * @cookie: The cookie representing the cache object
+  *
+  * Permit data-storage cache objects to be unpinned from the cache.
+@@ -490,7 +490,7 @@ void fscache_wait_on_invalidate(struct fscache_cookie *cookie)
+ /**
+  * fscache_reserve_space - Reserve data space for a cached object
+  * @cookie: The cookie representing the cache object
+- * @i_size: The amount of space to be reserved
++ * @size: The amount of space to be reserved
+  *
+  * Reserve an amount of space in the cache for the cache object attached to a
+  * cookie so that a write to that object within the space can always be
+-- 
+2.17.1
 
