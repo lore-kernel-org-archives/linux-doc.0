@@ -2,97 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D66C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 498BBC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 22:40:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB71D64FA0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:58:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0440D64FAD
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 22:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbhBDV64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 16:58:56 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:49262 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230037AbhBDV64 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 16:58:56 -0500
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1l7mdT-004GdQ-MA; Thu, 04 Feb 2021 22:57:59 +0100
-Date:   Thu, 4 Feb 2021 22:57:59 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Lubomir Rintel <lkundrak@v3.sk>, Maen Suleiman <maen@marvell.com>,
-        Lior Amsalem <alior@marvell.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] docs: arm: marvell: drop some dead links
-Message-ID: <YBxt57h+dOl7grza@lunn.ch>
-References: <20210203235305.506528-1-lkundrak@v3.sk>
- <20210203235305.506528-2-lkundrak@v3.sk>
- <87pn1ffro8.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pn1ffro8.fsf@meer.lwn.net>
+        id S229850AbhBDWkI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 17:40:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229766AbhBDWkG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 17:40:06 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5946FC061786
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 14:39:26 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id 134so4806388ybd.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 14:39:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=n4xG2k8Z7Qa5I/R1daYE+Xc9OOT630XhdJjQM94uVRU=;
+        b=TW+ADkJYN6duYByYEbYDYbLh5kzQDTNFu8hGvrpk08m2vX29f2XeQqEeJ//+es/3+3
+         Ew6+AoTyTl3//bjEvEnFsJ4AjnOL11nGNiKvCetepQyNwVyUuzZI4+S4ACTEFacMgj2x
+         i1YdpqwqBbUrK50hUE4WZsjFhixsWIPIvTMbVtYV3cX8rDKOa0LLGTHOVYyPuBos8gPE
+         nV2bhcdSz+vghkrZk4ynZeIBEiRY2hvnXUGpSWX+o0Ykkmsan44SkBtD5sjQhnVSW/Nj
+         pko9wx/z3mRCMu1XPQHl2zHUuCdnw5s3hwz4H0nAyzAt0sN4gizv0N5tDylZLVguUalS
+         y4VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=n4xG2k8Z7Qa5I/R1daYE+Xc9OOT630XhdJjQM94uVRU=;
+        b=ozgBa4Xk7gTQU55+e9p/WB0i+7B3zm9lyizaSXVlIPIFG20BaTq3H3yXF2ArRs+9Qn
+         b9iupO2EvnAPiZp9Xs9QrOKWb0kX/UImskxgEux0aW12WydON7ciRtG7xeL4rE3Snt71
+         UToiAFdtzw2FYrOIvmiE4xFv506hMRHosxqSynBh202oLxcuoRQHKTd7VKN4TGrsaNu1
+         Hd0+WCXSzAHeidMLsoTLd3U71s/GKbgg76I8/WyoImRNYgRvPCJQfPXeq2eWTJNVKuJz
+         lSifwlL9AFEyrpK4wN+42d9l1YIkLS6GFQ0ZaILBx8I8poD/LjZiAwWzeVUUf2TBz2vo
+         NYYg==
+X-Gm-Message-State: AOAM532/S10FOPM4Thekc7vEG60JM4mwKqGZoTp1UJRe7KnnZtZQs7sW
+        dc/E2pF9YA+LS8I+7jiUXGrv7b7MXRFlmeA=
+X-Google-Smtp-Source: ABdhPJyBdE9X/S5xbyHVINezYUllZUk8xjMFqNx9FzN9Xtnyv+BW1j9DmtI2IkWEAVe8rsnMso2VHIZ0LzOAeHQ=
+Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:8475:2f1d:e8b4:f65a])
+ (user=saravanak job=sendgmr) by 2002:a25:7454:: with SMTP id
+ p81mr2056574ybc.162.1612478365410; Thu, 04 Feb 2021 14:39:25 -0800 (PST)
+Date:   Thu,  4 Feb 2021 14:39:17 -0800
+Message-Id: <20210204223921.1693487-1-saravanak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v3 0/4] Make fw_devlink=on more forgiving
+From:   Saravana Kannan <saravanak@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Martin Kaiser <martin@kaiser.cx>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 02:29:11PM -0700, Jonathan Corbet wrote:
-> Lubomir Rintel <lkundrak@v3.sk> writes:
-> 
-> > Just remove these; there's good chance there wasn't anything useful
-> > there anyway.
-> >
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> >
-> > ---
-> > Changes since v1:
-> > - Adjust for removal of "[PATCH 1/5] docs: arm: marvell: turn the automatic
-> >   links into labels"
-> > - Split off the hunk that fixes 38x functional spec link
-> >
-> >  Documentation/arm/marvel.rst | 25 -------------------------
-> >  1 file changed, 25 deletions(-)
-> >
-> > diff --git a/Documentation/arm/marvel.rst b/Documentation/arm/marvel.rst
-> > index 16ab2eb085b86..502a1b89a2c85 100644
-> > --- a/Documentation/arm/marvel.rst
-> > +++ b/Documentation/arm/marvel.rst
-> > @@ -63,8 +63,6 @@ Kirkwood family
-> >                  - Product Brief  : http://www.marvell.com/embedded-processors/kirkwood/assets/88F6281-004_ver1.pdf
-> >                  - Hardware Spec  : http://www.marvell.com/embedded-processors/kirkwood/assets/HW_88F6281_OpenSource.pdf
-> >                  - Functional Spec: http://www.marvell.com/embedded-processors/kirkwood/assets/FS_88F6180_9x_6281_OpenSource.pdf
-> > -  Homepage:
-> > -	http://www.marvell.com/embedded-processors/kirkwood/
-> >    Core:
-> >  	Feroceon 88fr131 ARMv5 compatible
-> >    Linux kernel mach directory:
-> > @@ -126,7 +124,6 @@ EBU Armada family
-> >  	- 88F6820 Armada 385
-> >  	- 88F6828 Armada 388
-> >  
-> > -    - Product infos:   http://www.marvell.com/embedded-processors/armada-38x/
-> 
-> So these URLs do still exist in the Wayback machine; the above is
-> https://web.archive.org/web/20180829171124/http://www.marvell.com/embedded-processors/armada-38x/
-> for example.  If we delete the links, we make it harder for any
-> interested person to ever find them.  Assuming that we want to keep
-> information about these product families in the documentation at all,
-> I'd think that we would want to have the online information as well.  So
-> I'd replace these with wayback links, or else just leave them as they
-> are so that sufficiently motivated people can look them up themselves...
+I dropped a few patches from v2 of the series that are still work in
+progress. So v3 of the series only includes definitive patches and the
+patch numbering has changed.
 
-The kirkwood processors are old, but they were used in NAS
-devices. They tend to have a long life time, and people do put Debian
-on them. Armada-38x is definitely still in use in NAS boxes.
+Patch 1/4 and 2/4 addresses the issue of firmware nodes that look like
+they'll have struct devices created for them, but will never actually
+have struct devices added for them. For example, DT nodes with a
+compatible property that don't have devices added for them.
 
-If we can have working links, that would be great.
+Patch 3/4 and 4/4 allow for handling optional DT bindings.
 
-   Andrew
+v1 -> v2:
+Patch 1: Added a flag to fwnodes that aren't devices.
+Patch 3: New patch to ise the flag set in patch 1 to not create bad links.
+
+v2 -> v3:
+- Patch 1: Added Rafael's Ack
+- New patches 3 and 4
+
+Saravana Kannan (4):
+  driver core: fw_devlink: Detect supplier devices that will never be
+    added
+  of: property: Don't add links to absent suppliers
+  driver core: Add fw_devlink.strict kernel param
+  of: property: Add fw_devlink support for optional properties
+
+ .../admin-guide/kernel-parameters.txt         |  5 +++
+ drivers/base/core.c                           | 43 +++++++++++++++++--
+ drivers/of/property.c                         | 16 +++++--
+ include/linux/fwnode.h                        |  3 ++
+ 4 files changed, 60 insertions(+), 7 deletions(-)
+
+-- 
+2.30.0.365.g02bc693789-goog
+
