@@ -5,54 +5,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E672CC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A43B8C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B29DD64F45
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71ECE64F45
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236970AbhBDTxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:53:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38918 "EHLO
+        id S238312AbhBDTyA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 14:54:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239412AbhBDTvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:51:38 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB956C0617A7
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:11 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id o16so2866743pgg.5
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:11 -0800 (PST)
+        with ESMTP id S239486AbhBDTwQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:16 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62D3C06121E
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:17 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id o63so2857181pgo.6
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/xqrcr0spyydoAlLuc99uq3cskkQtgF/Uv01pgyq0ds=;
-        b=Du7iFlDWFI6enawRDcehFsluT1W0OthyU+AXhyMr2mtTzw5vkuy1H9ceFkQ99qBJSj
-         YRZMriPtX53oHb/EVc4MsIXCaJaAWcAnrhRVJuNdh31kUgip6KfbWaqBmyGFYUzIukx5
-         G+L+T8Il52MlwCw8EchSrWSoJXEI9rmSN/3Nw=
+        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
+        b=SMhMJ0y1hFFkybLoK6RuX6W/uHtQZL/bYx1Vgct5XlRDHsQX7hEStJhU3muUb4fbEv
+         hiUTrOqPhcz1pfUb97munHXmjX0c8gXGZ3hYDWbcMqclDY0sjxLOb8ku8yWr5/G0SoNh
+         WUrWnsUWQvaHO1lagOpKt+BD5lQaiuCJGoC+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/xqrcr0spyydoAlLuc99uq3cskkQtgF/Uv01pgyq0ds=;
-        b=EDUV1K2a8Xea06s49eSfMmF02yl+ied8+XOKwHgqcqq2l6OP0XMc1W2joeBfEdZ2Gp
-         +wxdJ2XDo9nJNXa5wdX7iI++rcF1sSN34SBc3bvTezCcX/PxsLy/N1jnEx+xajeJU2ZF
-         MALxMYQBl45wB935EPpH9lzVZSgRuRBG872N6KHBhUbpgKXf8824QHKDiFtIuobiRvqu
-         uoT/I95fhtNXzT3k1Ge55qr1Qflj/jZYDRYTS6yGvLxjK9nCuYgu7im8X991ts4pQ+SY
-         niMTSxl3H8HsqsQl2VIKR6CZNvMpepXHiv4QUQyBN6b2JfLmtSf13QNLoOheu8Inz9nO
-         szhw==
-X-Gm-Message-State: AOAM532me+hPUnsWzFmJjzAblS0IP/V4fjBIbtDhOnaQAG7TEVUAFy+0
-        j+JWH/7sB0xaR3n4RoeWDD4fLQ==
-X-Google-Smtp-Source: ABdhPJxtHH5uZ1Z7iC4WZebLw2vn0Wmq76brvfnWdJDqyjrAJu644mdWx5Auq5N/jwzL0m0zXveDdg==
-X-Received: by 2002:a62:ac06:0:b029:1cb:35bc:5e2c with SMTP id v6-20020a62ac060000b02901cb35bc5e2cmr894242pfe.42.1612468211577;
-        Thu, 04 Feb 2021 11:50:11 -0800 (PST)
+        bh=xVfkuBJxoMHahNTAuzjMVwQ5V275LoCHtWLRN4+qRmA=;
+        b=AAdgE/BSswos27Y0TqYlpNwx4qoZFDi5ir31YAfgJFhx7W08SzMf/yLQUr23BGavSd
+         uVg6uUL5g7FtwyLV+a6cErqUTVzEfSzBdB7HqOlQq5RnKtM87EWDzLGRg+dKfqqgZhwr
+         69Oa1HYPQz0yjSSIYIldOsJAU/m6RZFzhW7FdtLXwt8aY3tOcTyrEcIT2jbIJGNezRQs
+         U9bHGccctw2LL1/1u26eF4C3FcCyKC/zdeDyBb8KZwNnu8AQDWiRPsnpY5rMojbodO/x
+         ET8ZeeVzBzx73JwYfAhyDEWwKmfm5OpgaXL9kHn5xdfNj5Xre0eTS9K5lbRK4n6/kePr
+         rAnQ==
+X-Gm-Message-State: AOAM532KFLaLONXFKbZVewZ2BA12bfu1eUY8K97Z2IgHQ52y1RNxtdtW
+        moWnCTjsiOytuJEF08kc3Nw9DQ==
+X-Google-Smtp-Source: ABdhPJzOajMVaIDiSuI0Zs6A72FQUA7Xr4U1otuUXAtASSA9xiRUczq+mdvc5mt1TaWo3NxHiyLjQw==
+X-Received: by 2002:a62:7d03:0:b029:1bb:5919:6dec with SMTP id y3-20020a627d030000b02901bb59196decmr766097pfc.76.1612468217541;
+        Thu, 04 Feb 2021 11:50:17 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z16sm7448343pgj.51.2021.02.04.11.50.10
+        by smtp.gmail.com with ESMTPSA id y16sm7231723pfb.83.2021.02.04.11.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:10 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:09 -0800
+        Thu, 04 Feb 2021 11:50:16 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:50:15 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,26 +80,23 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 3/7] x86/cet/ibt: Handle signals for Indirect Branch
- Tracking
-Message-ID: <202102041150.3614663DA@keescook>
+Subject: Re: [PATCH v19 4/7] x86/cet/ibt: Update ELF header parsing for
+ Indirect Branch Tracking
+Message-ID: <202102041150.191C2FC@keescook>
 References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-4-yu-cheng.yu@intel.com>
+ <20210203225902.479-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-4-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225902.479-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:58:58PM -0800, Yu-cheng Yu wrote:
-> When an indirect CALL/JMP instruction is executed and before it reaches
-> the target, it is in 'WAIT_ENDBR' status, which can be read from
-> MSR_IA32_U_CET.  The status is part of a task's status before a signal is
-> raised and preserved in the signal frame.  It is restored for sigreturn.
-> 
-> IBT state machine is described in Intel SDM Vol. 1, Sec. 18.3.
+On Wed, Feb 03, 2021 at 02:58:59PM -0800, Yu-cheng Yu wrote:
+> An ELF file's .note.gnu.property indicates features the file supports.
+> The property is parsed at loading time and passed to arch_setup_elf_
+> property().  Update it for Indirect Branch Tracking.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
