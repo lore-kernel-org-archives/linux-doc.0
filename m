@@ -2,99 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC593C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E27BC4332B
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:44:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DE1264FB0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CE3764FB0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 23:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbhBDX3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 18:29:00 -0500
-Received: from ms.lwn.net ([45.79.88.28]:32946 "EHLO ms.lwn.net"
+        id S231178AbhBDXn5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 18:43:57 -0500
+Received: from mga11.intel.com ([192.55.52.93]:19290 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229500AbhBDX26 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 18:28:58 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A6C146166;
-        Thu,  4 Feb 2021 23:28:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A6C146166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1612481294; bh=DQfQbIVMmZvbCrfAXHodKr+ICylkwNupB+PhosX7jjg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qiJ4hzNexBf3mOowT61yg20xcsa9V0xarP+XA4nvB3xEqQVJqtL2eOypbX+xWlXTr
-         W2jXd0BLI3+BFs5H6xU8o8u6zjULpIsfgrYtbPHuMC8vH+kCa0zvQu9X/fhb41bNuG
-         og6I97VL/UZXAPiyMRAe17i+7CmNR/ldSgsx7xIRezHrr8IqzexR8T1umuiyfEHvBd
-         5WUTr//Ii+qKVmSxRKoatgEOVEOtC9c2OiMaMJs459xX4dRI/xpmpqp2evgKQ8tra+
-         JwvVDKqln9pU0WjRHRfEHFzof9l7ckVPwTN0FoV1Ewil+DXIZppf9C8gyXIkhTPItb
-         ev/WFVfr3JYig==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        lkcamp@lists.libreplanetbr.org, andrealmeid@collabora.com
-Subject: Re: [PATCH 0/2] docs: Add support for relative paths in automarkup
-In-Reply-To: <20210128010028.58541-1-nfraprado@protonmail.com>
-References: <20210128010028.58541-1-nfraprado@protonmail.com>
-Date:   Thu, 04 Feb 2021 16:28:14 -0700
-Message-ID: <87o8gzxvjl.fsf@meer.lwn.net>
+        id S231186AbhBDXnu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 18:43:50 -0500
+IronPort-SDR: paq73y+XUm9y5jV86oLfy3XQCor3hz9emY1clRXp4YE1QIUTnIPuLVOPe+lVU567RoH/pK/xE5
+ QkOPp/xRXpbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="177841889"
+X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
+   d="scan'208";a="177841889"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:03 -0800
+IronPort-SDR: 6wbv918hvG4kwN5PthBfgEyPKVZYOVgV2Zh9AsIF6FZ0wwxkwPSieawgpnXjfujFsc4GNhN/d5
+ xzDq58RPrx2A==
+X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
+   d="scan'208";a="483749298"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 15:42:00 -0800
+Subject: Re: [PATCH v19 24/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+To:     Kees Cook <keescook@chromium.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-25-yu-cheng.yu@intel.com>
+ <202102041235.BA6C4982F@keescook>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
+Date:   Thu, 4 Feb 2021 15:41:59 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202102041235.BA6C4982F@keescook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com> writes:
+On 2/4/2021 12:35 PM, Kees Cook wrote:
+> On Wed, Feb 03, 2021 at 02:55:46PM -0800, Yu-cheng Yu wrote:
+>> arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+>>      Get CET feature status.
+>>
+>>      The parameter 'args' is a pointer to a user buffer.  The kernel returns
+>>      the following information:
+>>
+>>      *args = shadow stack/IBT status
+>>      *(args + 1) = shadow stack base address
+>>      *(args + 2) = shadow stack size
+> 
+> What happens if this needs to grow in the future? Should the first u64
+> contain the array size?
+> 
+> Otherwise, looks sensible.
+> 
+> -Kees
+> 
 
-> As Jon previously noted [1], it would be nice if automarkup supported rel=
-ative
-> paths as well when cross-referencing to other documents. This adds the su=
-pport
-> for it, and documents it.
->
-> Jon, after applying this, 43bc3ed73639 ("docs: dt: Use full path to enable
-> cross-reference") could be reverted without the link stopping to work.
->
-> [1] https://lore.kernel.org/linux-doc/20201130142404.6ef6689e@lwn.net/
->
-> N=C3=ADcolas F. R. A. Prado (2):
->   docs: Enable usage of relative paths to docs on automarkup
->   docs: Document cross-referencing using relative path
->
->  Documentation/doc-guide/sphinx.rst | 30 ++++++++++++++++++++----------
->  Documentation/sphinx/automarkup.py |  7 +++++--
->  2 files changed, 25 insertions(+), 12 deletions(-)
+The first item is a bitmap, and there are two possible bits.  Should 
+there be a need, we can then do things about it.  My thought at the 
+moment is, we may not meet the situation.  Can we keep this for now?
 
-So I finally got around to playing with this set.  One thing I found is
-that some of the references that were being caught before were not
-now...  after far too much time, I figured out that the problem was
-references to .txt files, of which we have quite a few in the docs.
-admin-guide/kernel-parameters.txt in particular is quite popular.
-Before this change, those were being turned into xrefs, afterward not.
-
-To address that, I applied this little tweak:
-
--RE_doc =3D re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.rst')
-+RE_doc =3D re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.(rst|txt)')
-
-That seems to make things work properly again.
-
-While tracking this down I put in a print for failing cross references,
-and noted that we have quite a few; it's a useful way to see where the
-stale references are.  Maybe I'll try to hack together something to make
-those stand out so we can fix them.
-
-Thanks,
-
-jon
+--
+Yu-cheng
