@@ -2,59 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFE8C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8406C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:10:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31A1364F4D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:09:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A208964F53
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:10:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238831AbhBDSJR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 13:09:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43546 "EHLO
+        id S238736AbhBDSB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 13:01:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236925AbhBDSC1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 13:02:27 -0500
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8374C061786;
-        Thu,  4 Feb 2021 10:01:24 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id a9so6985828ejr.2;
-        Thu, 04 Feb 2021 10:01:24 -0800 (PST)
+        with ESMTP id S238714AbhBDSBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 13:01:51 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C5C6C061788;
+        Thu,  4 Feb 2021 10:01:11 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id jj19so6957165ejc.4;
+        Thu, 04 Feb 2021 10:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ycqCB5lhDgOyExViWx7c2qxoC1Oozd3PzC9HlvqUzOA=;
-        b=IhpDb14KzDrahZay4bo/I64oiTqq2UGZcjApRkcDjKxTSGeVEPJOaHd7z04YVHVSdd
-         JBcwMEuqpF6QfMFEOTfKPZOzp0AH+0uEfiXjT791DzHXQudOWrfUCGznD1LzTtl1XRAI
-         IRGEvO3d3KZ/LOzvAKSt+uhRMmhjipcumlkLe2Vvd30OxXI32HO3OOYAi4tKOsXRjGPT
-         O5X7qXWQPOFvUGYGuouAWp2ZfE5fhM16rqrqhPpcE3Lg3prB8IsrI+040fd+QyHxJlng
-         0CiZh9kVkHGQLF7AulZyI1GJvgTBtq1pVjbGLXoXQ0odqgFBwXiSo2mNg+WWBqkzMghq
-         pxaA==
+        h=from:to:cc:subject:date:message-id;
+        bh=WhDas3aKRKv20DNJUyBwIONOBzhE999JVBpX0AA/vVo=;
+        b=P+75rCL+WlRzWz0HkF2wGCC8NYMK3eVGzDr8SbGvgo3wLOOI3pdrwlveEJ1R/YW0ur
+         VpEzzdJR0GVC0G0gv8BON+BPHw1XQyyOXIVfcVhi+X7LGQ6TCBSaJzeytcMcRPQGbAZv
+         K259BpixQkYCng1io2DDSzd91T5T2JyUdqKuSoU8B4kZhoDYVOzFR7qqFgx8KWpz2/8v
+         WLwGIY6apiJc5zdRnxmwozzsILJ++B+5c/WMA1yWP71OTjLUgt4gvVc69rJE+MoSoKYf
+         YQCwiPw8fNSofT7aVxgmk1AW+9Mk9avNZlMycqUOEGf4KZbDBtOyg8zPMJlQwvVCv50E
+         PyMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ycqCB5lhDgOyExViWx7c2qxoC1Oozd3PzC9HlvqUzOA=;
-        b=hrpT2CsRxvSVnaLi474DCZM8pG76U6aF7iguKh1/sXF14M+r8vtT13buAJQk0vaMPr
-         MOaYomjHB+IYcO32oB41W4UoOjnM4l+jUYumU93cJrcoZqb2t/6UYHTYjbSnsdGeJleo
-         /56g0lZKwIvNBnbtB/velWHtnLoTGLbB300lVlEW6KnyLDZ3lXvcklNoqLyy4khZ4DMP
-         f0lWt2PVz3QT1n/sCap1ISAUIBRmPYUk6C3yqdNCisEHjAopvcVOHigODRUN+YGl6f8c
-         rqTiVAHcmfRUO9QLvHc8IVagyqueyGbun/bX0/thntLicQrG+7pHk6HqKBTf+ej7nqZc
-         goDw==
-X-Gm-Message-State: AOAM533AXtF1XzUfixOo6ldCPEJzxmMRSFWdzWe/Rv4WrDejSs0oX18A
-        pdYeIi7Y2CqOYe4khuqoips=
-X-Google-Smtp-Source: ABdhPJxS8B1brEDZbFjn1Q5Sc9mnoYzFebnjExRT7ZoMbr5//AHwGfGlQZM4EGYghO/uKqSeb1UE/Q==
-X-Received: by 2002:a17:907:948d:: with SMTP id dm13mr246401ejc.545.1612461683532;
-        Thu, 04 Feb 2021 10:01:23 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=WhDas3aKRKv20DNJUyBwIONOBzhE999JVBpX0AA/vVo=;
+        b=Hbwoq3BeANqjo6XL4HG3oFJbjketekwpBMhgaOpdKNR/0H1Gkz39J0MT/IYVVBXASA
+         NsJPOxZ/5uQpeAGfbor6LHjQ1oOBK3N/OzREGmEtpA3Pe3dnVeju4fPw45GUiQoM1ezJ
+         P/d+gkEJoHssqnpsFmWPiwHW0Xaeb6x+zZ4YhR6X/2dKPWIB2WKdKcwvB8z9CnIerThf
+         wjsPdvxPOlTGAmSVAX+pfIvSTvgAGdIWiHS92KULfm+884GGRH3fea+nTebXI0Q3TThE
+         eakHq2nNvLHoPQQYDAmtTE/9el2fdL4OaGMXhpCD829vXQzNwg/Jp7wAeENFcYoser7O
+         msxA==
+X-Gm-Message-State: AOAM533V9vAfbacTglVCAcB01DNmE5mw2u02JWt1KVGgbM4hXz2ezFtD
+        ZvSFDS6X/vFDfJjn/2RnDuA=
+X-Google-Smtp-Source: ABdhPJwmqNbYdlXjgmFdZ+areF5rOutBWVPEgvOuZK3MiGmTWbNKZFhWNQ2WhcrOtOB+ZhqAINLZCA==
+X-Received: by 2002:a17:906:3719:: with SMTP id d25mr319155ejc.256.1612461670229;
+        Thu, 04 Feb 2021 10:01:10 -0800 (PST)
 Received: from felia.fritz.box ([2001:16b8:2de7:9900:24e0:4d40:c49:5282])
-        by smtp.gmail.com with ESMTPSA id bo24sm2810326edb.51.2021.02.04.10.01.22
+        by smtp.gmail.com with ESMTPSA id bo24sm2810326edb.51.2021.02.04.10.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 10:01:22 -0800 (PST)
+        Thu, 04 Feb 2021 10:01:09 -0800 (PST)
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
 To:     Christian Brauner <christian.brauner@ubuntu.com>,
         linux-fsdevel@vger.kernel.org
@@ -63,68 +61,35 @@ Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 5/5] fs: update kernel-doc for new mnt_userns argument
-Date:   Thu,  4 Feb 2021 19:00:59 +0100
-Message-Id: <20210204180059.28360-6-lukas.bulwahn@gmail.com>
+Subject: [PATCH 0/5] kernel-doc fixes to latest fs changes
+Date:   Thu,  4 Feb 2021 19:00:54 +0100
+Message-Id: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
-References: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 549c7297717c ("fs: make helpers idmap mount aware") and commit
-c7c7a1a18af4 ("xattr: handle idmapped mounts") refactor the inode methods
-with mount-user-namespace arguments, but did not adjust the kernel-doc of
-some functions.
+this patchset was motivated by new warnings with make htmldocs appearing on
+linux-next in the last week.
 
-Hence, make htmldocs warns:
+Please apply this on top of your latest work in fs on top of the mount user
+namespace refactoring, cf. the commits referred in the individual commit
+messages.
 
-  ./fs/libfs.c:498: warning: Function parameter or member 'mnt_userns' not described in 'simple_setattr'
-  ./fs/xattr.c:257: warning: Function parameter or member 'mnt_userns' not described in '__vfs_setxattr_locked'
-  ./fs/xattr.c:485: warning: Function parameter or member 'mnt_userns' not described in '__vfs_removexattr_locked'
 
-Copy the existing kernel-doc description for that new argument from
-__vfs_setxattr_noperm() to the other functions as well.
+Lukas Bulwahn (5):
+  fs: turn some comments into kernel-doc
+  fs: update kernel-doc for vfs_rename()
+  fs: update kernel-doc for may_create_in_sticky()
+  fs: update kernel-doc for vfs_tmpfile()
+  fs: update kernel-doc for new mnt_userns argument
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- fs/libfs.c | 1 +
- fs/xattr.c | 2 ++
- 2 files changed, 3 insertions(+)
+ fs/libfs.c         |  1 +
+ fs/namei.c         | 13 ++-----------
+ fs/xattr.c         |  2 ++
+ include/linux/fs.h | 17 ++++++++++++++---
+ 4 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index e2de5401abca..61c684014392 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -481,6 +481,7 @@ EXPORT_SYMBOL(simple_rename);
- 
- /**
-  * simple_setattr - setattr for simple filesystem
-+ * @mnt_userns: user namespace of the mount the inode was found from
-  * @dentry: dentry
-  * @iattr: iattr structure
-  *
-diff --git a/fs/xattr.c b/fs/xattr.c
-index b3444e06cded..57f47f0caf22 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -242,6 +242,7 @@ int __vfs_setxattr_noperm(struct user_namespace *mnt_userns,
-  * __vfs_setxattr_locked - set an extended attribute while holding the inode
-  * lock
-  *
-+ *  @mnt_userns: user namespace of the mount the inode was found from
-  *  @dentry: object to perform setxattr on
-  *  @name: xattr name to set
-  *  @value: value to set @name to
-@@ -473,6 +474,7 @@ EXPORT_SYMBOL(__vfs_removexattr);
-  * __vfs_removexattr_locked - set an extended attribute while holding the inode
-  * lock
-  *
-+ *  @mnt_userns: user namespace of the mount the inode was found from
-  *  @dentry: object to perform setxattr on
-  *  @name: name of xattr to remove
-  *  @delegated_inode: on return, will contain an inode pointer that
 -- 
 2.17.1
 
