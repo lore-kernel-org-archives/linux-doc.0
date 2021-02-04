@@ -2,75 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB7CC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDD7C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:45:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FD0964F4D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:22:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33C4A64F60
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 09:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234315AbhBDJVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 04:21:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232478AbhBDJVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 04:21:52 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F340C061573;
-        Thu,  4 Feb 2021 01:21:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=MIQB8t7kt6mqNl1Bn84T0udleZca2EnAi6Ix4VEe7UU=; b=Ju+atNzUB4pbSQUpXYsoUH6mdS
-        4yZRAnUcMYHcFVUlsCe+OaTvKgstwDY9MRqbxpqIaIWDedoHcx0IjrfsFzXU066i+a7had7WGFX/Q
-        DJVyHTOuDK+36bBvD1DkxbieQ5DBkhwCc4oMaWShWt3nXFq4AtNIFdyQKlZ399PZ+NHVnpGhaRPZy
-        PkrGX1x8EVLXCDb75ANO4ysv2iExZXla4J3SayMpoQv2ygSa9k+mlYlPyiemQ/KXs1xM4OziancWJ
-        KFn7FTc5jW3xbQ2Qlr49ZcMaeJFU1YnA8FxpA/9LWT0X5jDZrIOXhOjLhturLaUtS/pbMohdYLd8b
-        /1G4+GaQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1l7aoi-000eV4-QS; Thu, 04 Feb 2021 09:20:49 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        id S235216AbhBDJpT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 04:45:19 -0500
+Received: from mx2.veeam.com ([64.129.123.6]:45208 "EHLO mx2.veeam.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233597AbhBDJpT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 04:45:19 -0500
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AAA06301CC4;
-        Thu,  4 Feb 2021 10:20:45 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 920B7213D2E27; Thu,  4 Feb 2021 10:20:45 +0100 (CET)
-Date:   Thu, 4 Feb 2021 10:20:45 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     corbet@lwn.net, gregkh@linuxfoundation.org, keescook@chromium.org,
-        rafael@kernel.org, lenb@kernel.org, james.morse@arm.com,
-        tony.luck@intel.com, bp@alien8.de, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, devel@driverdev.osuosl.org
-Subject: Re: [PATCH v3 1/7] seqnum_ops: Introduce Sequence Number Ops
-Message-ID: <YBu8bRth+4wyvql/@hirez.programming.kicks-ass.net>
-References: <cover.1612314468.git.skhan@linuxfoundation.org>
- <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
+        (No client certificate requested)
+        by mx2.veeam.com (Postfix) with ESMTPS id BE54142313;
+        Thu,  4 Feb 2021 04:44:34 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
+        t=1612431875; bh=8Q+YRaTK8pSGQxUE+Di9toxMhCZgzNBGr9VcCbi5JH4=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+        b=bjPq9Eh71wsDjK0/o0k4Re55zJLzZczHy1adnsBKzVl5Kmpp4i2A+j79DI5lNaDDZ
+         OEaZSr6LkatPl8ukXlQ31u6dqbzQIsZZTsPll+ed7x4hQ43d5tNuuS7kkzJohBoOhp
+         4H1QiedztvMeDxgA4zjzn5hhMZL6ZvYN9j1pnRRs=
+Received: from veeam.com (172.24.14.5) by prgmbx01.amust.local (172.24.0.171)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Thu, 4 Feb 2021
+ 10:44:32 +0100
+Date:   Thu, 4 Feb 2021 12:44:27 +0300
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+CC:     "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
+        "snitzer@redhat.com" <snitzer@redhat.com>,
+        "hare@suse.de" <hare@suse.de>,
+        "ming.lei@redhat.com" <ming.lei@redhat.com>,
+        "agk@redhat.com" <agk@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "axboe@kernel.dk" <axboe@kernel.dk>, "jack@suse.cz" <jack@suse.cz>,
+        "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "koct9i@gmail.com" <koct9i@gmail.com>,
+        "steve@sk2.org" <steve@sk2.org>,
+        "dm-devel@redhat.com" <dm-devel@redhat.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "pavgel.tide@veeam.com" <pavgel.tide@veeam.com>
+Subject: Re: [PATCH v4 1/6] docs: device-mapper: add remap_and_filter
+Message-ID: <20210204094427.GA4325@veeam.com>
+References: <1612367638-3794-1-git-send-email-sergei.shtepa@veeam.com>
+ <1612367638-3794-2-git-send-email-sergei.shtepa@veeam.com>
+ <ef604ad7-1348-1ffa-e3c4-67d153620e08@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
+In-Reply-To: <ef604ad7-1348-1ffa-e3c4-67d153620e08@infradead.org>
+X-Originating-IP: [172.24.14.5]
+X-ClientProxiedBy: prgmbx01.amust.local (172.24.0.171) To prgmbx01.amust.local
+ (172.24.0.171)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29C604D26566706A
+X-Veeam-MMEX: True
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 11:11:57AM -0700, Shuah Khan wrote:
-> +static inline u32 seqnum32_inc(struct seqnum32 *seq)
-> +{
-> +	atomic_t val = ATOMIC_INIT(seq->seqnum);
-> +
-> +	seq->seqnum = (u32) atomic_inc_return(&val);
-> +	if (seq->seqnum >= UINT_MAX)
-> +		pr_info("Sequence Number overflow %u detected\n",
-> +			seq->seqnum);
-> +	return seq->seqnum;
-> +}
+Thank you, I'll fix it all.
 
-What kind of broken garbage is that?
+-- 
+Sergei Shtepa
+Veeam Software developer.
