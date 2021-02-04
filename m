@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E762C4332B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2BEC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2835A64DF2
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F01EC60202
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238777AbhBDTyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:54:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39146 "EHLO
+        id S238280AbhBDTyE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 14:54:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239512AbhBDTwg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:36 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A17CCC0611BC
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:32 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id z9so2427250pjl.5
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:32 -0800 (PST)
+        with ESMTP id S239492AbhBDTwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:24 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60833C061221
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:23 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id j12so2752113pfj.12
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=XEd3fj8C4Ej+cJekaWRpKIX0Ali26hPYu3xkyPp+pQI=;
-        b=V5fnl7iYb3ZfPR+qNCY00qtPY4Zo5HYT4FKsFoDpMe4St8xT2WymhYRfA9fonj0t3N
-         Ry2p+pd8ObmedFtbRyxsyqpdCtPiUnK/CB8gzC4Rin9XIv5zwglllzt9qQtP3qrZnaNn
-         Kw0ZealDwP8Jmc0Ncx2MO/2X5U9uN8ETdkHt0=
+        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
+        b=UzKHJoHstJUn1+EShPvxaJaqClm9LA26kdmfw9zDnAdyzrAY6CqEgnlW45I0CJthX4
+         DDUOM1Ntq+iwMd+/8nEiBF24eu4IJc41zF9EcSwZWNb05Nf6D9yLHf7Eb2Pyi63otlod
+         3RwHieM8ryVd+jiq/SMM936MFgxNwHfq3RlWc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XEd3fj8C4Ej+cJekaWRpKIX0Ali26hPYu3xkyPp+pQI=;
-        b=gRjgsOSE+NGQagZgAqSD4tRza3aqBRfkkYdDg0UgRs/88kQw2eVD1Z6j5MofV9B/sb
-         bc4qGlMgnTjWyn0FStP7aM4yndfcGBuhVYqFOxpaBQGFdaXgUdi6/hseSS4IDybkcoMn
-         fNNhuDhaw7nayvTEhnWyzqF+r5NZLVCmUc9ePGLveeNrkNqV537JdzcFL8BQF5DNx6YA
-         9Q0OocDsrYJa/Bl6w64Jj4AjTUS//iZwNDqaTlZgfkZzaAa0ttouWS7eU05FAioZoRqm
-         vU8bG1ZQbEEAx7VS0x0uBPEj6cSbnoccx9ow9Q/1wUoPuYGfO4sk7PSAvJ+iU6pHZOF4
-         NuWg==
-X-Gm-Message-State: AOAM533OrBK9VSnXcqT0G9Gn912WQ1Q7n01/0NL8Y/rO1RgeRB3I7T3G
-        hOCJDcJoLcLB1fDY41UQUwqkPgzApOObWQ==
-X-Google-Smtp-Source: ABdhPJwfpfyghfmT/Ru4dywPKebiyk1pC42NUyPTKH7Ad7iGmSNe6CUYVTXcosUzU4cQj9KWOzUFPg==
-X-Received: by 2002:a17:902:8604:b029:e2:a249:4474 with SMTP id f4-20020a1709028604b02900e2a2494474mr651325plo.15.1612468232240;
-        Thu, 04 Feb 2021 11:50:32 -0800 (PST)
+        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
+        b=C2H7eoZnW8F48ZKwI30vOH+kfbIS1Mfghfyow1aUSej8BcIFMlCaRUv+SbgmjlSzr7
+         vP+LFruu7u+7aCKSadpyp7iBcbeZUEbv/FXJAkkI6Mzb9K465wt/eKT10qcK5DG6Uzdw
+         xFEYby3tUcDbczHzU3es9/AL7dMTPrDDnZuGGy5AMSqfqDuvxQPFYu5B5uK4jnNyCN1e
+         1Fn3NCqS6hcfLCep4pPZ+K5WdowWDGq79NeBG09a4chrpl/JYRIlS94ctI0t96BlA9xz
+         3uoz0tS1W3GiFw3sCLfDttDX9u5TOQeQKU2edet21fLePMc2mFA/1c3hlRuN4ZE8Qu/N
+         w3nA==
+X-Gm-Message-State: AOAM532NPgzUWOym4Sb0DCFpna4WtS21yFammEecINUPiP55UvZxzy0O
+        FT53XlyOygRpYyaANumfPqkopQ==
+X-Google-Smtp-Source: ABdhPJwi3qGotMQdzbjuJor6PdBiBP52TZP1QRJ9SqH5R+oUXMnOHkiFLvDUNqFp4od9u/7BXFE1Fw==
+X-Received: by 2002:a63:794a:: with SMTP id u71mr592348pgc.91.1612468222994;
+        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w13sm7059295pfc.7.2021.02.04.11.50.31
+        by smtp.gmail.com with ESMTPSA id r7sm6299408pfc.26.2021.02.04.11.50.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:31 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:30 -0800
+        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:50:21 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,25 +80,24 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 7/7] x86/vdso: Insert endbr32/endbr64 to vDSO
-Message-ID: <202102041150.20388FEF25@keescook>
+Subject: Re: [PATCH v19 5/7] x86/cet/ibt: Update arch_prctl functions for
+ Indirect Branch Tracking
+Message-ID: <202102041150.6186296C3@keescook>
 References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-8-yu-cheng.yu@intel.com>
+ <20210203225902.479-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-8-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225902.479-6-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:59:02PM -0800, Yu-cheng Yu wrote:
+On Wed, Feb 03, 2021 at 02:59:00PM -0800, Yu-cheng Yu wrote:
 > From: "H.J. Lu" <hjl.tools@gmail.com>
 > 
-> When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
-> called indirectly, and must have ENDBR32 or ENDBR64 as the first
-> instruction.  The compiler must support -fcf-protection=branch so that it
-> can be used to compile vDSO.
+> Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
+> Tracking.
 > 
 > Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 
