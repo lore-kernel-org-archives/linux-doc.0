@@ -5,54 +5,54 @@ X-Spam-Level:
 X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9ABFC433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F390C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAEA264F6C
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4651964F51
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239410AbhBDTyQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:54:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
+        id S239418AbhBDTyY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 14:54:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239493AbhBDTw1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:27 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25419C061224
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:28 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id o16so2867231pgg.5
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:28 -0800 (PST)
+        with ESMTP id S239583AbhBDTxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:53:35 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A759C06178C
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:52:55 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id g3so2341718plp.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OW1TYFUhOfJJmljC0tgdXjB4AwIvTk03EU9GC1Jo7to=;
-        b=QoxWWC9a3Ab+eHwwlog/KFHh6xEgiviG8pkcW0WJCAuIG4eYSJu8/B7NXRIWJmgr/t
-         hyxGThp1cc1Ii4JEYpapAJjbUkKqULFin3Dslivyt3QMDqzmj0E0jgteLfoXBlscp1vX
-         2S3uThPW1Blf2iX9nEAmO0GbaVBUe5fG+j89I=
+        bh=T9AG0M0o5O+h9fP2xKRDxPlB8Ctdkqhf6o2D4rpy6+g=;
+        b=RAOV7LdWTzqKAFqnvxTN/A7FE6XLME1YD2+exfJflocSTPK0YEmGOdX5o134MKOn3w
+         3e132GGs/Rrn66muOUOTMHl/0FdfpJXiSp02skj/T7NO8geQxKHEM/K26V1fSG8W0vFq
+         6AlcCB7zV3dWnr4cjWNj2b1nXANmZXfVYAjcQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OW1TYFUhOfJJmljC0tgdXjB4AwIvTk03EU9GC1Jo7to=;
-        b=HoiAyvjM2PJ9JKOqr/cTGCCLApG/qyzfs3G6p6EOul7gPWrPdjgH6u77vhz/Qr5mfn
-         R8bz1Ym8pBVy6OGZUgFZsmCyQdlpWlUMc7B3zE8Eq1ZTv4qFJUTrCLbMT2EiwXOccRKq
-         yjAq9qBAwb3mzWTx7f6Q9gsUeBSU1UeNYBZp9+GkL5nkzSJQppHa0ENL2fkxw3VL8TcJ
-         42bbGdKlJ1DZTVHwwzjZ+zc/t+QumpQOezh1DolwMZ7SifCfuyT/agcNe81Y8vBgeraW
-         N2xjtwqfyN3lFr9i0EkZhkc4WcUy2KpYfgJvg62fWPIxEmmpBtaKQKrPFK6Z+ZctSOu3
-         /4+A==
-X-Gm-Message-State: AOAM531RbCieBSCi/sG9LqfsSkwOGmEZOvshh0czRL/yT7iOy+mheEbB
-        wuwAy47tTG3MMjlQmz2BXitDkg==
-X-Google-Smtp-Source: ABdhPJyCzApM7SxOD6qLE24HP6u9ZmMb9IkUQpy5EIL4mvYrNsyM5e0/drq5Jw9qkh7PfEPXvFnWOA==
-X-Received: by 2002:a62:b410:0:b029:1a4:7868:7e4e with SMTP id h16-20020a62b4100000b02901a478687e4emr1077767pfn.62.1612468227717;
-        Thu, 04 Feb 2021 11:50:27 -0800 (PST)
+        bh=T9AG0M0o5O+h9fP2xKRDxPlB8Ctdkqhf6o2D4rpy6+g=;
+        b=JzNjlfJOuj8whq+KNZe7hxYQS0PHqwsPuzuIK+F7t7Z0o+Vk1BGkP3wCUdPsDgKzNs
+         5oovUcbQfZW06J6rWWOkkljUyzDhn3ayFkrIdybXOINz0YDsMRBpKJiRbgw2NULeQF+v
+         2EZVk1r4xgu0kSMIX2qConLQR1bbbNeUq6ayHTxpvHck+vgiyPQVdDsmCtB276+rIaoY
+         oRD2Z/TKSuuvlqDOGhrY4x6pvur9+ITVtqQ84fwpOyMzvG9blE92GeOGOpcoOSVIDQ6P
+         8TDAhdgCSNisR19phGWdydARFZ7dSHq8/NFsOTX2g7hQ6alr14cDYo2qcnkaTl38+zMX
+         lxkg==
+X-Gm-Message-State: AOAM533B1CTxY+2q08Ev0fPoiiMfDHSQxK7GPnHezMbdov9RPnnDSOrW
+        bqgbVyK95bNsJMprOQZEO2iE6Q==
+X-Google-Smtp-Source: ABdhPJzp+1ZimY7nJijJSKbz7msA3e2GL3ZygWVrX3UvWeThNpaUiW7HjJrS/JYH1z9vn0t+7eB3Zg==
+X-Received: by 2002:a17:90b:4a4d:: with SMTP id lb13mr595128pjb.44.1612468374865;
+        Thu, 04 Feb 2021 11:52:54 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f127sm1167563pgc.48.2021.02.04.11.50.26
+        by smtp.gmail.com with ESMTPSA id a24sm7359811pff.18.2021.02.04.11.52.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:26 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:26 -0800
+        Thu, 04 Feb 2021 11:52:54 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:52:53 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,25 +80,23 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 6/7] x86/vdso/32: Add ENDBR32 to __kernel_vsyscall
- entry point
-Message-ID: <202102041150.C7BC3B6@keescook>
-References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-7-yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v19 01/25] Documentation/x86: Add CET description
+Message-ID: <202102041152.E257D3E2BE@keescook>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-2-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-7-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-2-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:59:01PM -0800, Yu-cheng Yu wrote:
-> From: "H.J. Lu" <hjl.tools@gmail.com>
+On Wed, Feb 03, 2021 at 02:55:23PM -0800, Yu-cheng Yu wrote:
+> Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
+> document on Control-flow Enforcement Technology (CET).
 > 
-> Add ENDBR32 to __kernel_vsyscall entry point.
-> 
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
