@@ -2,118 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC239C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD633C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:29:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DA9F64F44
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:47:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88B7664F58
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbhBDUrZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 15:47:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbhBDUrX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:47:23 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065DFC0613D6;
-        Thu,  4 Feb 2021 12:46:41 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id m22so6621840lfg.5;
-        Thu, 04 Feb 2021 12:46:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=3fSrYxUXmlBaB+2NXWGl7tEc3+t2JcOM6NbRWxINsXA=;
-        b=E5L8mx2TZxzo7nyiCm8lezIbPoDAbvkz1PckVfaH/u1Mu+Q5TQfbEgPftlNj+Z4Z90
-         BvexiDRA75M3TXXeiUoQJxOAIDOlD5umJkLm92wGmWwAkHekez0bDy5vtSyyIy1okHm7
-         MmVy9TTvOCjUbMU/4lHlfxVHFIxC2okBF3e6xo4QozIw0Eyh4udmJudDRKHNvWRGFRRf
-         0VHGewJPxMLv0sjAfZNJ53BNSjex5br4lRaOZ+fetxtN/MImxZfO6+J4u2rV+nJ3tihx
-         Oite0B9bGX+BeiFQ9/6wpR0qnyaZ7dRZOkbC2FCk78C33GNvq8WNJuBKEUd6DqtikioA
-         aUlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3fSrYxUXmlBaB+2NXWGl7tEc3+t2JcOM6NbRWxINsXA=;
-        b=DPHN6mKcJPR6u7y/nhzynderLJuF+z0sO35vVs1HypV1+FQGfELtOtM7P/61fXPQh1
-         H3nTCwlwi4mmACgxKb2+KdtOVj6j3Atcb57xneIq/2XfQ80u13f8mnSwDwbHI6d0y/0h
-         SjxCFK2v4OC9dHO6mteQ1DV5LN9YVdC0ZLYcdZN+upxv/Nkx/x+xJyhFLKHsws+YDH1e
-         CwAaEluYp5aEKgNKiTk1GSMczO482au1VyHX8XFzTVyiuRGFzO9+abdleuhC/M0VTP2f
-         90XaZEMamlKcvf9O9K6LbsaIaHCYfoihMok3eggjCjpWTLu2hkpt1FpOvp7gDmorinlk
-         0Ezg==
-X-Gm-Message-State: AOAM532jzIKKtQDlKEUdvTD4FIMiBMKXqLggVtykgJ/n5JJlcUGBANIN
-        E0OfpCnW0wYyT3k6OfXbsxs=
-X-Google-Smtp-Source: ABdhPJxLQ8Fe8SBO4JjytedIKGgsbxx/sY199uRRk+DUm6B/HVymjVfU9EKXw5MgrZ59/eUPJ+TVWg==
-X-Received: by 2002:ac2:592b:: with SMTP id v11mr606993lfi.512.1612471598856;
-        Thu, 04 Feb 2021 12:46:38 -0800 (PST)
-Received: from grain.localdomain ([5.18.103.226])
-        by smtp.gmail.com with ESMTPSA id d23sm784872ljo.17.2021.02.04.12.46.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:46:37 -0800 (PST)
-Received: by grain.localdomain (Postfix, from userid 1000)
-        id 6A112560087; Thu,  4 Feb 2021 23:46:36 +0300 (MSK)
-Date:   Thu, 4 Feb 2021 23:46:36 +0300
-From:   Cyrill Gorcunov <gorcunov@gmail.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 12/25] mm: Introduce VM_SHSTK for shadow stack memory
-Message-ID: <20210204204636.GH2172@grain>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-13-yu-cheng.yu@intel.com>
+        id S229572AbhBDV3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 16:29:53 -0500
+Received: from ms.lwn.net ([45.79.88.28]:50788 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229518AbhBDV3w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 16:29:52 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6B3401E77;
+        Thu,  4 Feb 2021 21:29:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6B3401E77
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1612474152; bh=GFyluLyYpm71JlUqgZ+l8ppi2lbAHdwfP7WaQL5guyk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=gDrRsGEUODNmGU4l085LpPPzL1lusZn03TLZxnAQrBUOkKfTTOe6rDcKKeVCEJIWP
+         9RyHCr7HQbrAJNXnkoCXZ3GGIiyv6a6AWftYHO4vKTXd1nJ+WBuWvOPnzvihp9UhM5
+         6w7jijvrMxV0y+CkOQ6JW4851G+1V6PZ/tsL6Y+cRwcq3m9N+v598Kd2vNXpikZMLa
+         VRVJ0xQK+B9ZxPz01575yG7upQnLZY8T+4p2J6QhHtEeT8droHfauemD8n7MB5Of58
+         bmdvSiNel7r7KGcWCWh12IjafzWLsB0Z1sJWe9ngJniRR1Z4z38P+gPH1Dr0rcQEIu
+         lS0tZV45bfxiw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Maen Suleiman <maen@marvell.com>, Lior Amsalem <alior@marvell.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Andrew Lunn <andrew@lunn.ch>, Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.y.miao@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
+Subject: Re: [PATCH v2 1/5] docs: arm: marvell: drop some dead links
+In-Reply-To: <20210203235305.506528-2-lkundrak@v3.sk>
+References: <20210203235305.506528-1-lkundrak@v3.sk>
+ <20210203235305.506528-2-lkundrak@v3.sk>
+Date:   Thu, 04 Feb 2021 14:29:11 -0700
+Message-ID: <87pn1ffro8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-13-yu-cheng.yu@intel.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:34PM -0800, Yu-cheng Yu wrote:
->  
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 602e3a52884d..59623dcd92bb 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -661,6 +661,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
->  		[ilog2(VM_PKEY_BIT4)]	= "",
->  #endif
->  #endif /* CONFIG_ARCH_HAS_PKEYS */
-> +#ifdef CONFIG_X86_CET
-> +		[ilog2(VM_SHSTK)]	= "ss",
-> +#endif
->  	};
+Lubomir Rintel <lkundrak@v3.sk> writes:
 
-IIRC we've these abbreviations explained in documentaion
-(proc.rst file). Could you please update it once time
-permit? I think it can be done on top of the series.
+> Just remove these; there's good chance there wasn't anything useful
+> there anyway.
+>
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+>
+> ---
+> Changes since v1:
+> - Adjust for removal of "[PATCH 1/5] docs: arm: marvell: turn the automatic
+>   links into labels"
+> - Split off the hunk that fixes 38x functional spec link
+>
+>  Documentation/arm/marvel.rst | 25 -------------------------
+>  1 file changed, 25 deletions(-)
+>
+> diff --git a/Documentation/arm/marvel.rst b/Documentation/arm/marvel.rst
+> index 16ab2eb085b86..502a1b89a2c85 100644
+> --- a/Documentation/arm/marvel.rst
+> +++ b/Documentation/arm/marvel.rst
+> @@ -63,8 +63,6 @@ Kirkwood family
+>                  - Product Brief  : http://www.marvell.com/embedded-processors/kirkwood/assets/88F6281-004_ver1.pdf
+>                  - Hardware Spec  : http://www.marvell.com/embedded-processors/kirkwood/assets/HW_88F6281_OpenSource.pdf
+>                  - Functional Spec: http://www.marvell.com/embedded-processors/kirkwood/assets/FS_88F6180_9x_6281_OpenSource.pdf
+> -  Homepage:
+> -	http://www.marvell.com/embedded-processors/kirkwood/
+>    Core:
+>  	Feroceon 88fr131 ARMv5 compatible
+>    Linux kernel mach directory:
+> @@ -126,7 +124,6 @@ EBU Armada family
+>  	- 88F6820 Armada 385
+>  	- 88F6828 Armada 388
+>  
+> -    - Product infos:   http://www.marvell.com/embedded-processors/armada-38x/
+
+So these URLs do still exist in the Wayback machine; the above is
+https://web.archive.org/web/20180829171124/http://www.marvell.com/embedded-processors/armada-38x/
+for example.  If we delete the links, we make it harder for any
+interested person to ever find them.  Assuming that we want to keep
+information about these product families in the documentation at all,
+I'd think that we would want to have the online information as well.  So
+I'd replace these with wayback links, or else just leave them as they
+are so that sufficiently motivated people can look them up themselves...
+
+Make sense?
+
+Thanks,
+
+jon
