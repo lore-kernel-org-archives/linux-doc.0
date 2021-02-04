@@ -2,177 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7591FC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C31AC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 01:54:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3925564F5C
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 00:46:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA32164F68
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 01:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234570AbhBDAqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 19:46:30 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:46008 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234494AbhBDApg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 19:45:36 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1140R0it034606;
-        Thu, 4 Feb 2021 00:44:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=YqQuEM1hEpwjjKLavPiJuNZ9hUSimNjCzuZ0/wDmZgw=;
- b=KzzX61wHbFgON14gSgaGdC7Kyh8/rGSyduN4IGebL07dCnnquz0lo0xgfqWegdyrJoOE
- WZvFRlMA21oQTZoQb+37+EafAkkrld7Fm89druu3KVk16zd9USUrjVKfWqFMM7VbuhFD
- dkJOF8MxmXc+lnWH2smIupqVvrEcaelRfI5uDXWKMBmuJ6J0sSn6vaD/XDqV8LOZalXS
- h6ltfhN9Zx3OTJkhkSzFbu6Fo7q7RBBHbmCJcdz/XxpIQwoeHXqu0gwkfsIcq7MYRbkf
- uEtEDJ0zObwBNdi+1TvxcKkaHzgFd5/YbK24b9DWwiwyx5qEA1HB5y7/OzZMDzd2HAzY Vw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 36cydm2v5t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Feb 2021 00:44:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1140QGFd100665;
-        Thu, 4 Feb 2021 00:44:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 36dh7ucqqh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Feb 2021 00:44:29 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1140iTWd159077;
-        Thu, 4 Feb 2021 00:44:29 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
-        by userp3020.oracle.com with ESMTP id 36dh7ucqq6-1;
-        Thu, 04 Feb 2021 00:44:29 +0000
-From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     saeed.mirzamohammadi@oracle.com, john.p.donnelly@oracle.com,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Stephen Boyd <sboyd@kernel.org>, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] kernel/crash_core: Add crashkernel=auto for vmcore creation
-Date:   Wed,  3 Feb 2021 16:43:45 -0800
-Message-Id: <20210204004347.41918-1-saeed.mirzamohammadi@oracle.com>
-X-Mailer: git-send-email 2.27.0
+        id S231874AbhBDByu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 20:54:50 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:12414 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231259AbhBDByt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 20:54:49 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DWM5C1KzbzjH1h;
+        Thu,  4 Feb 2021 09:53:03 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 4 Feb 2021 09:53:59 +0800
+Subject: Re: [PATCH v14 11/11] kdump: update Documentation about crashkernel
+To:     Randy Dunlap <rdunlap@infradead.org>, <mingo@redhat.com>,
+        <tglx@linutronix.de>, <rppt@kernel.org>, <dyoung@redhat.com>,
+        <bhe@redhat.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <nsaenzjulienne@suse.de>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <bhsharma@redhat.com>,
+        <prabhakar.pkin@gmail.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-12-chenzhou10@huawei.com>
+ <686c331c-8009-1203-e8fe-b1ae67ae9652@infradead.org>
+CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
+        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <d8c1ed02-4f9a-12cc-d6ff-762dfb80ed42@huawei.com>
+Date:   Thu, 4 Feb 2021 09:53:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9884 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1011
- spamscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102040000
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <686c331c-8009-1203-e8fe-b1ae67ae9652@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This adds crashkernel=auto feature to configure reserved memory for
-vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
-different kernel distributions and different archs based on their
-needs.
+Hi Randy,
 
-Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
-Tested-by: John Donnelly <john.p.donnelly@oracle.com>
----
- Documentation/admin-guide/kdump/kdump.rst |  5 +++++
- arch/Kconfig                              | 24 +++++++++++++++++++++++
- kernel/crash_core.c                       |  7 +++++++
- 3 files changed, 36 insertions(+)
 
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 75a9dd98e76e..f95a2af64f59 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -285,7 +285,12 @@ This would mean:
-     2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-     3) if the RAM size is larger than 2G, then reserve 128M
- 
-+Or you can use crashkernel=auto if you have enough memory. The threshold
-+is 1G on x86_64 and arm64. If your system memory is less than the threshold,
-+crashkernel=auto will not reserve memory. The size changes according to
-+the system memory size like below:
- 
-+    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
- 
- Boot into System Kernel
- =======================
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 56b6ccc0e32d..a772eb397d73 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -14,6 +14,30 @@ menu "General architecture-dependent options"
- config CRASH_CORE
- 	bool
- 
-+if CRASH_CORE
-+
-+config CRASH_AUTO_STR
-+	string "Memory reserved for crash kernel"
-+	depends on CRASH_CORE
-+	default "1G-64G:128M,64G-1T:256M,1T-:512M"
-+	help
-+	  This configures the reserved memory dependent
-+	  on the value of System RAM. The syntax is:
-+	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-+	              range=start-[end]
-+
-+	  For example:
-+	      crashkernel=512M-2G:64M,2G-:128M
-+
-+	  This would mean:
-+
-+	      1) if the RAM is smaller than 512M, then don't reserve anything
-+	         (this is the "rescue" case)
-+	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-+	      3) if the RAM size is larger than 2G, then reserve 128M
-+
-+endif # CRASH_CORE
-+
- config KEXEC_CORE
- 	select CRASH_CORE
- 	bool
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 106e4500fd53..ab0a2b4b1ffa 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -7,6 +7,7 @@
- #include <linux/crash_core.h>
- #include <linux/utsname.h>
- #include <linux/vmalloc.h>
-+#include <linux/kexec.h>
- 
- #include <asm/page.h>
- #include <asm/sections.h>
-@@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
- 	if (suffix)
- 		return parse_crashkernel_suffix(ck_cmdline, crash_size,
- 				suffix);
-+#ifdef CONFIG_CRASH_AUTO_STR
-+	if (strncmp(ck_cmdline, "auto", 4) == 0) {
-+		ck_cmdline = CONFIG_CRASH_AUTO_STR;
-+		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-+	}
-+#endif
- 	/*
- 	 * if the commandline contains a ':', then that's the extended
- 	 * syntax -- if not, it must be the classic syntax
--- 
-2.27.0
+On 2021/1/31 1:53, Randy Dunlap wrote:
+> Hi--
+>
+> On 1/29/21 11:10 PM, Chen Zhou wrote:
+>> ---
+>>  Documentation/admin-guide/kdump/kdump.rst     | 22 ++++++++++++++++---
+>>  .../admin-guide/kernel-parameters.txt         | 11 ++++++++--
+>>  2 files changed, 28 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index a10b545c2070..908e5c8b61ba 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> All of the "arm64" instances in [square brackets] should be "ARM64".
+Got it, thanks for your review.
+
+Thanks,
+Chen Zhou
+>
+>> @@ -738,6 +738,9 @@
+>>  			[KNL, X86-64] Select a region under 4G first, and
+>>  			fall back to reserve region above 4G when '@offset'
+>>  			hasn't been specified.
+>> +			[KNL, arm64] Try low allocation in DMA zone and fall back
+> 			      here
+>
+>> +			to high allocation if it fails when '@offset' hasn't been
+>> +			specified.
+>>  			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>>  
+>>  	crashkernel=range1:size1[,range2:size2,...][@offset]
+>> @@ -754,6 +757,8 @@
+>>  			Otherwise memory region will be allocated below 4G, if
+>>  			available.
+>>  			It will be ignored if crashkernel=X is specified.
+>> +			[KNL, arm64] range in high memory.
+> 			      here
+>
+>> +			Allow kernel to allocate physical memory region from top.
+>>  	crashkernel=size[KMG],low
+>>  			[KNL, X86-64] range under 4G. When crashkernel=X,high
+>>  			is passed, kernel could allocate physical memory region
+>> @@ -762,13 +767,15 @@
+>>  			requires at least 64M+32K low memory, also enough extra
+>>  			low memory is needed to make sure DMA buffers for 32-bit
+>>  			devices won't run out. Kernel would try to allocate at
+>> -			at least 256M below 4G automatically.
+>> +			least 256M below 4G automatically.
+>>  			This one let user to specify own low range under 4G
+>>  			for second kernel instead.
+>>  			0: to disable low allocation.
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>> -
+>> +			[KNL, arm64] range in low memory.
+> 			      here
+>
+>> +			This one let user to specify a low range in DMA zone for
+>> +			crash dump kernel.
+>
+> Thanks.
+>
 
