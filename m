@@ -2,70 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D766C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA842C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:49:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED36364E4E
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:42:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 608C964F97
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 21:49:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbhBDVmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 16:42:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34626 "EHLO
+        id S229996AbhBDVtO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 16:49:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhBDVmA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 16:42:00 -0500
+        with ESMTP id S229613AbhBDVtC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 16:49:02 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20531C0613D6;
-        Thu,  4 Feb 2021 13:41:20 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E39FC061786;
+        Thu,  4 Feb 2021 13:48:22 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C68C01E77;
-        Thu,  4 Feb 2021 21:41:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C68C01E77
+        by ms.lwn.net (Postfix) with ESMTPSA id 7800E4CD5;
+        Thu,  4 Feb 2021 21:48:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7800E4CD5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1612474879; bh=YjeXLquClJaYkzt1j4Z1MSVPxqa4G3nDPIp/ov8F8RA=;
+        t=1612475302; bh=0Cefb0gsobi/X7QNTiuzllg5VsAycXRpNJvVDxfmWBY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sDxMX/HWW4ZJF4CN98thSt11js2GJsslTgmqN5rivq9zfq0pm2Jva0vdVSviANNIL
-         DzZ4rhouuL/NvRImrUgEw2bsFBXfHLNEq0pwlXmd7A1PJrsXRaFlNLp4tybg93cUnm
-         y2z45/AnEZpNYLQWORzpGOAFU6KV0Kjkjzk+Nr5rdEd0r4GXOZxrGR0DhdFImISUa+
-         kJNpSHxrNjwBPqj5M/P2MdbJfQ8ajv0VtWDt14y/CZkmRwEr75YeyyqX3LA2buRS+t
-         zAzxXYVYZeq6wBYMbQyJ81hh53//AUWEC2S8zYkH3HsCz3g7nsQRrLRYWvdk02SEWK
-         qwBzGGb0FQugg==
+        b=NDUJ2y0AkrD5a+Fa7SKOVvGOCp8y1ZVJgeGENOY+X5LBKPP3YyjFQdg0pJm0+FReA
+         RB/Zndnf9KWxYBr3/Nwx2pAdAiUszVklLAxJkrhdfg/ihibIix3JZm3ClY+VgdBa2j
+         fT0iUJ/35jLwC/zMtcgxHA9GqULXjoKmBi83+OOPtxsvSeVpYh+WWtuU/7gooGvmKZ
+         DQNJCZaiPuhiGkWhJDcIDPC+83kJ+NUblw4Adb9gdA5BtJRKq9Ry1wWhA1DLZKu77Q
+         NDnOCo4DfwqG7+QsUMQ1kXiu9adWa4nn29oEVUPfQ/BZ3hBb+Vev83ig8ZCEmCynQ4
+         DimHVOuVFFoYA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>, Jiri Kosina <trivial@kernel.org>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH 01/29] coding-style.rst: Avoid comma statements
-In-Reply-To: <19fb55171ddc81293e149041c33fa6ce48daed7f.camel@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
- <2a97b738bba335434461a5a918053a49c1fb6af4.1598331148.git.joe@perches.com>
- <19fb55171ddc81293e149041c33fa6ce48daed7f.camel@perches.com>
-Date:   Thu, 04 Feb 2021 14:41:17 -0700
-Message-ID: <878s83fr42.fsf@meer.lwn.net>
+To:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?Q?And?= =?utf-8?Q?r=C3=A9?= Almeida 
+        <andrealmeid@collabora.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>
+Subject: Re: [PATCH 1/2] docs: Make syscalls' helpers naming consistent
+In-Reply-To: <20210130014547.123006-1-andrealmeid@collabora.com>
+References: <20210130014547.123006-1-andrealmeid@collabora.com>
+Date:   Thu, 04 Feb 2021 14:48:20 -0700
+Message-ID: <874kirfqsb.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joe Perches <joe@perches.com> writes:
+Andr=C3=A9 Almeida <andrealmeid@collabora.com> writes:
 
-> On Mon, 2020-08-24 at 21:55 -0700, Joe Perches wrote:
->> Commas are not how statements are terminated.
->> Always use semicolons and braces if necessary.
+> The documentation explains the need to create internal syscalls' helpers,
+> and that they should be called `kern_xyzzy()`. However, the comment at
+> include/linux/syscall.h says that they should be named as
+> `ksys_xyzzy()`, and so are all the helpers declared bellow it. Change the
+> documentation to reflect this.
 >
-> ping?
+> Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+> Fixes: 819671ff849b ("syscalls: define and explain goal to not call sysca=
+lls in the kernel")
+> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@collabora.com>
+> ---
+>  Documentation/process/adding-syscalls.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hey, it's only been five months and some...you gotta stop rushing
-maintainers this way :)
-
-I guess at the time I assumed that somebody would take care of the
-29-part set as a whole.  I've now applied this piece, thanks.
+I've applied both patches thanks (also did s/syscall.h/syscalls.h in the
+above changelog).
 
 jon
