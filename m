@@ -5,40 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D09C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC64C433E9
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:38:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FDA164DEB
+	by mail.kernel.org (Postfix) with ESMTP id 71DBB64F44
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 15:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237375AbhBDPho (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 10:37:44 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:58781 "EHLO
-        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237402AbhBDPfw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 10:35:52 -0500
+        id S237423AbhBDPiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 10:38:00 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:23333 "EHLO
+        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237389AbhBDPhK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 10:37:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1612452949; x=1643988949;
+  t=1612453027; x=1643989027;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=xjJYQjf/FLWI6whwGKlJlfzpAqLJ6UFYCsV/sRJWsIU=;
-  b=D4+O6pOMA65TpFNRLl/GR+tGrirbCLWCQ8GQl+nURw0YMPLyg44F6zS+
-   k+QzZ9jVlwj1ZV0lcXB4qRv8oFHx533/dsM2OiImD6PlzrOSsqurcsh8g
-   oXmtiBjllcckyEo4o/deYEiFzPM2i4wMaOb1Rfv07ScqH5IWGK+EbhAmh
-   A=;
+  bh=1L8j0imCjqj6Ox0Kf+3S46R4RWttBliVjR+yZC3m/8Y=;
+  b=nU5Jh2YDMZocQr70sDu8FVZHgc+PoxAsdvRKU2y0bmRJBdmQksHqRACR
+   9MQNtyELxLhbZ8MopsWUoJj+amauKTzCQwFkUudqAh/zwugteHggrBkqa
+   2H3F5SJOutOuZvr4X/YSiKpIi4hKA+V7cpR3QM/shUp1x7Q+YddSmRKpc
+   w=;
 X-IronPort-AV: E=Sophos;i="5.79,401,1602547200"; 
-   d="scan'208";a="115853090"
-Received: from sea3-co-svc-lb6-vlan3.sea.amazon.com (HELO email-inbound-relay-1a-821c648d.us-east-1.amazon.com) ([10.47.22.38])
-  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 04 Feb 2021 15:34:59 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-1a-821c648d.us-east-1.amazon.com (Postfix) with ESMTPS id 4DB05A219B;
-        Thu,  4 Feb 2021 15:34:46 +0000 (UTC)
+   d="scan'208";a="79959350"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 04 Feb 2021 15:36:26 +0000
+Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS id 7DE8EA1F78;
+        Thu,  4 Feb 2021 15:36:13 +0000 (UTC)
 Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.146) by
  EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Feb 2021 15:34:29 +0000
+ id 15.0.1497.2; Thu, 4 Feb 2021 15:35:55 +0000
 From:   SeongJae Park <sjpark@amazon.com>
 To:     <akpm@linux-foundation.org>
 CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
@@ -60,9 +61,9 @@ CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
         <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
         <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v24 08/14] mm/damon/dbgfs: Implement recording feature
-Date:   Thu, 4 Feb 2021 16:31:44 +0100
-Message-ID: <20210204153150.15948-9-sjpark@amazon.com>
+Subject: [PATCH v24 13/14] mm/damon: Add user space selftests
+Date:   Thu, 4 Feb 2021 16:31:49 +0100
+Message-ID: <20210204153150.15948-14-sjpark@amazon.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210204153150.15948-1-sjpark@amazon.com>
 References: <20210204153150.15948-1-sjpark@amazon.com>
@@ -77,339 +78,408 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-The user space users can control DAMON and get the monitoring results
-via the 'damon_aggregated' tracepoint event.  However, dealing with the
-tracepoint might be complex for some simple use cases.  This commit
-therefore implements 'recording' feature in 'damon-dbgfs'.  The feature
-can be used via 'record' file in the '<debugfs>/damon/' directory.
-
-The file allows users to record monitored access patterns in a regular
-binary file.  The recorded results are first written in an in-memory
-buffer and flushed to a file in batch.  Users can get and set the size
-of the buffer and the path to the result file by reading from and
-writing to the ``record`` file.  For example, below commands set the
-buffer to be 4 KiB and the result to be saved in ``/damon.data``. ::
-
-    # cd <debugfs>/damon
-    # echo "4096 /damon.data" > record
-    # cat record
-    4096 /damon.data
-
-The recording can be disabled by setting the buffer size zero.
+This commit adds a simple user space tests for DAMON.  The tests are
+using kselftest framework.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/dbgfs.c | 261 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 259 insertions(+), 2 deletions(-)
+ tools/testing/selftests/damon/Makefile        |   7 +
+ .../selftests/damon/_chk_dependency.sh        |  28 +++
+ tools/testing/selftests/damon/_chk_record.py  | 109 ++++++++++++
+ .../testing/selftests/damon/debugfs_attrs.sh  | 161 ++++++++++++++++++
+ .../testing/selftests/damon/debugfs_record.sh |  50 ++++++
+ 5 files changed, 355 insertions(+)
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100644 tools/testing/selftests/damon/_chk_record.py
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_record.sh
 
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index db15380737d1..dce4409e5887 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -15,6 +15,17 @@
- #include <linux/page_idle.h>
- #include <linux/slab.h>
- 
-+#define MIN_RECORD_BUFFER_LEN	1024
-+#define MAX_RECORD_BUFFER_LEN	(4 * 1024 * 1024)
-+#define MAX_RFILE_PATH_LEN	256
+diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
+new file mode 100644
+index 000000000000..cfd5393a4639
+--- /dev/null
++++ b/tools/testing/selftests/damon/Makefile
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0
++# Makefile for damon selftests
 +
-+struct dbgfs_recorder {
-+	unsigned char *rbuf;
-+	unsigned int rbuf_len;
-+	unsigned int rbuf_offset;
-+	char *rfile_path;
-+};
++TEST_FILES = _chk_dependency.sh _chk_record_file.py
++TEST_PROGS = debugfs_attrs.sh debugfs_record.sh
 +
- static struct damon_ctx **dbgfs_ctxs;
- static int dbgfs_nr_ctxs;
- static struct dentry **dbgfs_dirs;
-@@ -97,6 +108,116 @@ static ssize_t dbgfs_attrs_write(struct file *file,
- 	return ret;
- }
- 
-+static ssize_t dbgfs_record_read(struct file *file,
-+		char __user *buf, size_t count, loff_t *ppos)
++include ../lib.mk
+diff --git a/tools/testing/selftests/damon/_chk_dependency.sh b/tools/testing/selftests/damon/_chk_dependency.sh
+new file mode 100644
+index 000000000000..b304b7779976
+--- /dev/null
++++ b/tools/testing/selftests/damon/_chk_dependency.sh
+@@ -0,0 +1,28 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++# Kselftest framework requirement - SKIP code is 4.
++ksft_skip=4
++
++DBGFS=/sys/kernel/debug/damon
++
++if [ $EUID -ne 0 ];
++then
++	echo "Run as root"
++	exit $ksft_skip
++fi
++
++if [ ! -d $DBGFS ]
++then
++	echo "$DBGFS not found"
++	exit $ksft_skip
++fi
++
++for f in attrs record target_ids monitor_on
++do
++	if [ ! -f "$DBGFS/$f" ]
++	then
++		echo "$f not found"
++		exit 1
++	fi
++done
+diff --git a/tools/testing/selftests/damon/_chk_record.py b/tools/testing/selftests/damon/_chk_record.py
+new file mode 100644
+index 000000000000..73e128904319
+--- /dev/null
++++ b/tools/testing/selftests/damon/_chk_record.py
+@@ -0,0 +1,109 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"Check whether the DAMON record file is valid"
++
++import argparse
++import struct
++import sys
++
++fmt_version = 0
++
++def set_fmt_version(f):
++    global fmt_version
++
++    mark = f.read(16)
++    if mark == b'damon_recfmt_ver':
++        fmt_version = struct.unpack('i', f.read(4))[0]
++    else:
++        fmt_version = 0
++        f.seek(0)
++    return fmt_version
++
++def read_pid(f):
++    if fmt_version == 1:
++        pid = struct.unpack('i', f.read(4))[0]
++    else:
++        pid = struct.unpack('L', f.read(8))[0]
++
++def err_percent(val, expected):
++    return abs(val - expected) / expected * 100
++
++def chk_task_info(f):
++    pid = read_pid(f)
++    nr_regions = struct.unpack('I', f.read(4))[0]
++
++    if nr_regions > max_nr_regions:
++        print('too many regions: %d > %d' % (nr_regions, max_nr_regions))
++        exit(1)
++
++    nr_gaps = 0
++    eaddr = 0
++    for r in range(nr_regions):
++        saddr = struct.unpack('L', f.read(8))[0]
++        if eaddr and saddr != eaddr:
++            nr_gaps += 1
++        eaddr = struct.unpack('L', f.read(8))[0]
++        nr_accesses = struct.unpack('I', f.read(4))[0]
++
++        if saddr >= eaddr:
++            print('wrong region [%d,%d)' % (saddr, eaddr))
++            exit(1)
++
++        max_nr_accesses = aint / sint
++        if nr_accesses > max_nr_accesses:
++            if err_percent(nr_accesses, max_nr_accesses) > 15:
++                print('too high nr_access: expected %d but %d' %
++                        (max_nr_accesses, nr_accesses))
++                exit(1)
++    if nr_gaps != 2:
++        print('number of gaps are not two but %d' % nr_gaps)
++        exit(1)
++
++def parse_time_us(bindat):
++    sec = struct.unpack('l', bindat[0:8])[0]
++    nsec = struct.unpack('l', bindat[8:16])[0]
++    return (sec * 1000000000 + nsec) / 1000
++
++def main():
++    global sint
++    global aint
++    global min_nr
++    global max_nr_regions
++
++    parser = argparse.ArgumentParser()
++    parser.add_argument('file', metavar='<file>',
++            help='path to the record file')
++    parser.add_argument('--attrs', metavar='<attrs>',
++            default='5000 100000 1000000 10 1000',
++            help='content of debugfs attrs file')
++    args = parser.parse_args()
++    file_path = args.file
++    attrs = [int(x) for x in args.attrs.split()]
++    sint, aint, rint, min_nr, max_nr_regions = attrs
++
++    with open(file_path, 'rb') as f:
++        set_fmt_version(f)
++        last_aggr_time = None
++        while True:
++            timebin = f.read(16)
++            if len(timebin) != 16:
++                break
++
++            now = parse_time_us(timebin)
++            if not last_aggr_time:
++                last_aggr_time = now
++            else:
++                error = err_percent(now - last_aggr_time, aint)
++                if error > 15:
++                    print('wrong aggr interval: expected %d, but %d' %
++                            (aint, now - last_aggr_time))
++                    exit(1)
++                last_aggr_time = now
++
++            nr_tasks = struct.unpack('I', f.read(4))[0]
++            for t in range(nr_tasks):
++                chk_task_info(f)
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
+new file mode 100755
+index 000000000000..c75557e8ba58
+--- /dev/null
++++ b/tools/testing/selftests/damon/debugfs_attrs.sh
+@@ -0,0 +1,161 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++source ./_chk_dependency.sh
++
++# Test attrs file
++file="$DBGFS/attrs"
++
++ORIG_CONTENT=$(cat $file)
++
++echo 1 2 3 4 5 > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write failed"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo 1 2 3 4 > $file
++if [ $? -eq 0 ]
++then
++	echo "$file write success (should failed)"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "1 2 3 4 5" ]
++then
++	echo "$file not written"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo $ORIG_CONTENT > $file
++
++# Test record file
++file="$DBGFS/record"
++
++ORIG_CONTENT=$(cat $file)
++
++echo "4242 foo.bar" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file writing sane input failed"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo abc 2 3 > $file
++if [ $? -eq 0 ]
++then
++	echo "$file writing insane input 1 success (should failed)"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo 123 > $file
++if [ $? -eq 0 ]
++then
++	echo "$file writing insane input 2 success (should failed)"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "4242 foo.bar" ]
++then
++	echo "$file not written"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo "0 null" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file disabling write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "0 null" ]
++then
++	echo "$file not disabled"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo "4242 foo.bar" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file writing sane data again fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo $ORIG_CONTENT > $file
++
++# Test target_ids file
++file="$DBGFS/target_ids"
++
++ORIG_CONTENT=$(cat $file)
++
++echo "1 2 3 4" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo "1 2 abc 4" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "1 2" ]
++then
++	echo "$file not written"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo abc 2 3 > $file
++if [ $? -ne 0 ]
++then
++	echo "$file wrong value write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++if [ ! -z "$(cat $file)" ]
++then
++	echo "$file not cleared"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo > $file
++if [ $? -ne 0 ]
++then
++	echo "$file init fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++if [ ! -z "$(cat $file)" ]
++then
++	echo "$file not initialized"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
++
++echo $ORIG_CONTENT > $file
++
++echo "PASS"
+diff --git a/tools/testing/selftests/damon/debugfs_record.sh b/tools/testing/selftests/damon/debugfs_record.sh
+new file mode 100755
+index 000000000000..c0fb8d24dc32
+--- /dev/null
++++ b/tools/testing/selftests/damon/debugfs_record.sh
+@@ -0,0 +1,50 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++source ./_chk_dependency.sh
++
++restore_attrs()
 +{
-+	struct damon_ctx *ctx = file->private_data;
-+	struct dbgfs_recorder *rec = ctx->callback.private;
-+	char record_buf[20 + MAX_RFILE_PATH_LEN];
-+	int ret;
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	ret = scnprintf(record_buf, ARRAY_SIZE(record_buf), "%u %s\n",
-+			rec->rbuf_len, rec->rfile_path);
-+	mutex_unlock(&ctx->kdamond_lock);
-+	return simple_read_from_buffer(buf, count, ppos, record_buf, ret);
++	echo $ORIG_ATTRS > $DBGFS/attrs
++	echo $ORIG_TARGET_IDS > $DBGFS/target_ids
++	echo $ORIG_RECORD > $DBGFS/record
 +}
 +
-+/*
-+ * dbgfs_set_recording() - Set attributes for the recording.
-+ * @ctx:	target kdamond context
-+ * @rbuf_len:	length of the result buffer
-+ * @rfile_path:	path to the monitor result files
-+ *
-+ * Setting 'rbuf_len' 0 disables recording.
-+ *
-+ * This function should not be called while the kdamond is running.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+static int dbgfs_set_recording(struct damon_ctx *ctx,
-+			unsigned int rbuf_len, char *rfile_path)
-+{
-+	struct dbgfs_recorder *recorder;
-+	size_t rfile_path_len;
++ORIG_ATTRS=$(cat $DBGFS/attrs)
++ORIG_TARGET_IDS=$(cat $DBGFS/target_ids)
++ORIG_RECORD=$(cat $DBGFS/record)
 +
-+	if (rbuf_len && (rbuf_len > MAX_RECORD_BUFFER_LEN ||
-+			rbuf_len < MIN_RECORD_BUFFER_LEN)) {
-+		pr_err("result buffer size (%u) is out of [%d,%d]\n",
-+				rbuf_len, MIN_RECORD_BUFFER_LEN,
-+				MAX_RECORD_BUFFER_LEN);
-+		return -EINVAL;
-+	}
-+	rfile_path_len = strnlen(rfile_path, MAX_RFILE_PATH_LEN);
-+	if (rfile_path_len >= MAX_RFILE_PATH_LEN) {
-+		pr_err("too long (>%d) result file path %s\n",
-+				MAX_RFILE_PATH_LEN, rfile_path);
-+		return -EINVAL;
-+	}
++rfile=$pwd/damon.data
 +
-+	recorder = ctx->callback.private;
-+	if (!recorder) {
-+		recorder = kzalloc(sizeof(*recorder), GFP_KERNEL);
-+		if (!recorder)
-+			return -ENOMEM;
-+		ctx->callback.private = recorder;
-+	}
++rm -f $rfile
++ATTRS="5000 100000 1000000 10 1000"
++echo $ATTRS > $DBGFS/attrs
++echo 4096 $rfile > $DBGFS/record
++sleep 5 &
++echo $(pidof sleep) > $DBGFS/target_ids
++echo on > $DBGFS/monitor_on
++sleep 0.5
++killall sleep
++echo off > $DBGFS/monitor_on
 +
-+	recorder->rbuf_len = rbuf_len;
-+	kfree(recorder->rbuf);
-+	recorder->rbuf = NULL;
-+	kfree(recorder->rfile_path);
-+	recorder->rfile_path = NULL;
++sync
 +
-+	if (rbuf_len) {
-+		recorder->rbuf = kvmalloc(rbuf_len, GFP_KERNEL);
-+		if (!recorder->rbuf)
-+			return -ENOMEM;
-+	}
-+	recorder->rfile_path = kmalloc(rfile_path_len + 1, GFP_KERNEL);
-+	if (!recorder->rfile_path)
-+		return -ENOMEM;
-+	strncpy(recorder->rfile_path, rfile_path, rfile_path_len + 1);
++if [ ! -f $rfile ]
++then
++	echo "record file not made"
++	restore_attrs
 +
-+	return 0;
-+}
++	exit 1
++fi
 +
-+static ssize_t dbgfs_record_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	struct damon_ctx *ctx = file->private_data;
-+	char *kbuf;
-+	unsigned int rbuf_len;
-+	char rfile_path[MAX_RFILE_PATH_LEN];
-+	ssize_t ret = count;
-+	int err;
++python3 ./_chk_record.py $rfile --attrs "$ATTRS"
++if [ $? -ne 0 ]
++then
++	echo "record file is wrong"
++	restore_attrs
++	exit 1
++fi
 +
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+
-+	if (sscanf(kbuf, "%u %s",
-+				&rbuf_len, rfile_path) != 2) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond) {
-+		ret = -EBUSY;
-+		goto unlock_out;
-+	}
-+
-+	err = dbgfs_set_recording(ctx, rbuf_len, rfile_path);
-+	if (err)
-+		ret = err;
-+unlock_out:
-+	mutex_unlock(&ctx->kdamond_lock);
-+out:
-+	kfree(kbuf);
-+	return ret;
-+}
-+
- #define targetid_is_pid(ctx)	\
- 	(ctx->primitive.target_valid == damon_va_target_valid)
- 
-@@ -251,6 +372,13 @@ static const struct file_operations attrs_fops = {
- 	.write = dbgfs_attrs_write,
- };
- 
-+static const struct file_operations record_fops = {
-+	.owner = THIS_MODULE,
-+	.open = damon_dbgfs_open,
-+	.read = dbgfs_record_read,
-+	.write = dbgfs_record_write,
-+};
-+
- static const struct file_operations target_ids_fops = {
- 	.owner = THIS_MODULE,
- 	.open = damon_dbgfs_open,
-@@ -260,8 +388,9 @@ static const struct file_operations target_ids_fops = {
- 
- static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
- {
--	const char * const file_names[] = {"attrs", "target_ids"};
--	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops};
-+	const char * const file_names[] = {"attrs", "record", "target_ids"};
-+	const struct file_operations *fops[] = {&attrs_fops, &record_fops,
-+		&target_ids_fops};
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
-@@ -275,6 +404,126 @@ static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
- 	return 0;
- }
- 
-+/*
-+ * Flush the content in the result buffer to the result file
-+ */
-+static void dbgfs_flush_rbuffer(struct dbgfs_recorder *rec)
-+{
-+	ssize_t sz;
-+	loff_t pos = 0;
-+	struct file *rfile;
-+
-+	if (!rec->rbuf_offset)
-+		return;
-+
-+	rfile = filp_open(rec->rfile_path,
-+			O_CREAT | O_RDWR | O_APPEND | O_LARGEFILE, 0644);
-+	if (IS_ERR(rfile)) {
-+		pr_err("Cannot open the result file %s\n",
-+				rec->rfile_path);
-+		return;
-+	}
-+
-+	while (rec->rbuf_offset) {
-+		sz = kernel_write(rfile, rec->rbuf, rec->rbuf_offset, &pos);
-+		if (sz < 0)
-+			break;
-+		rec->rbuf_offset -= sz;
-+	}
-+	filp_close(rfile, NULL);
-+}
-+
-+/*
-+ * Write a data into the result buffer
-+ */
-+static void dbgfs_write_rbuf(struct damon_ctx *ctx, void *data, ssize_t size)
-+{
-+	struct dbgfs_recorder *rec = ctx->callback.private;
-+
-+	if (!rec->rbuf_len || !rec->rbuf || !rec->rfile_path)
-+		return;
-+	if (rec->rbuf_offset + size > rec->rbuf_len)
-+		dbgfs_flush_rbuffer(ctx->callback.private);
-+	if (rec->rbuf_offset + size > rec->rbuf_len) {
-+		pr_warn("%s: flush failed, or wrong size given(%u, %zu)\n",
-+				__func__, rec->rbuf_offset, size);
-+		return;
-+	}
-+
-+	memcpy(&rec->rbuf[rec->rbuf_offset], data, size);
-+	rec->rbuf_offset += size;
-+}
-+
-+static void dbgfs_write_record_header(struct damon_ctx *ctx)
-+{
-+	int recfmt_ver = 2;
-+
-+	dbgfs_write_rbuf(ctx, "damon_recfmt_ver", 16);
-+	dbgfs_write_rbuf(ctx, &recfmt_ver, sizeof(recfmt_ver));
-+}
-+
-+static unsigned int nr_damon_targets(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	unsigned int nr_targets = 0;
-+
-+	damon_for_each_target(t, ctx)
-+		nr_targets++;
-+
-+	return nr_targets;
-+}
-+
-+static int dbgfs_before_start(struct damon_ctx *ctx)
-+{
-+	dbgfs_write_record_header(ctx);
-+	return 0;
-+}
-+
-+/*
-+ * Store the aggregated monitoring results to the result buffer
-+ *
-+ * The format for the result buffer is as below:
-+ *
-+ *   <time> <number of targets> <array of target infos>
-+ *
-+ *   target info: <id> <number of regions> <array of region infos>
-+ *   region info: <start address> <end address> <nr_accesses>
-+ */
-+static int dbgfs_after_aggregation(struct damon_ctx *c)
-+{
-+	struct damon_target *t;
-+	struct timespec64 now;
-+	unsigned int nr;
-+
-+	ktime_get_coarse_ts64(&now);
-+
-+	dbgfs_write_rbuf(c, &now, sizeof(now));
-+	nr = nr_damon_targets(c);
-+	dbgfs_write_rbuf(c, &nr, sizeof(nr));
-+
-+	damon_for_each_target(t, c) {
-+		struct damon_region *r;
-+
-+		dbgfs_write_rbuf(c, &t->id, sizeof(t->id));
-+		nr = damon_nr_regions(t);
-+		dbgfs_write_rbuf(c, &nr, sizeof(nr));
-+		damon_for_each_region(r, t) {
-+			dbgfs_write_rbuf(c, &r->ar.start, sizeof(r->ar.start));
-+			dbgfs_write_rbuf(c, &r->ar.end, sizeof(r->ar.end));
-+			dbgfs_write_rbuf(c, &r->nr_accesses,
-+					sizeof(r->nr_accesses));
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int dbgfs_before_terminate(struct damon_ctx *ctx)
-+{
-+	dbgfs_flush_rbuffer(ctx->callback.private);
-+	return 0;
-+}
-+
- static struct damon_ctx *dbgfs_new_ctx(void)
- {
- 	struct damon_ctx *ctx;
-@@ -283,7 +532,15 @@ static struct damon_ctx *dbgfs_new_ctx(void)
- 	if (!ctx)
- 		return NULL;
- 
-+	if (dbgfs_set_recording(ctx, 0, "none")) {
-+		damon_destroy_ctx(ctx);
-+		return NULL;
-+	}
-+
- 	damon_va_set_primitives(ctx);
-+	ctx->callback.before_start = dbgfs_before_start;
-+	ctx->callback.after_aggregation = dbgfs_after_aggregation;
-+	ctx->callback.before_terminate = dbgfs_before_terminate;
- 	return ctx;
- }
- 
++rm -f $rfile
++restore_attrs
++echo "PASS"
 -- 
 2.17.1
 
