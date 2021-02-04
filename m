@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2BEC433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1804C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:19:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F01EC60202
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:18:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8109F64F3F
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238280AbhBDTyE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:54:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39094 "EHLO
+        id S238941AbhBDUTx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:19:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239492AbhBDTwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:52:24 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60833C061221
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:23 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id j12so2752113pfj.12
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:23 -0800 (PST)
+        with ESMTP id S239425AbhBDUTu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:19:50 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19630C061797
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:19:10 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id y10so2362301plk.7
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
-        b=UzKHJoHstJUn1+EShPvxaJaqClm9LA26kdmfw9zDnAdyzrAY6CqEgnlW45I0CJthX4
-         DDUOM1Ntq+iwMd+/8nEiBF24eu4IJc41zF9EcSwZWNb05Nf6D9yLHf7Eb2Pyi63otlod
-         3RwHieM8ryVd+jiq/SMM936MFgxNwHfq3RlWc=
+        bh=wekNHqIxrVlz8U/v5ZYQ5Av1yTsUCmfVrKprauQpISo=;
+        b=HXf8yeQvUhwG/a4srBf4G3FhtpIwikgbpxxSCk80nXB0A/W7+bgZojV7SValiuJ1jl
+         iTrlhVfWE0bShtvDvgB1/zw/CCj0d8er+EnSNVxGmaHqrHWhUAlyiNc4rBvalLKz30Qb
+         OGsHefqRNS2KTxPjpaAVoJMtL6hADk7eG4ZTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OCBNpOzMc8CAOBfAgX/jLAhp/SQecCvHp/iShWPRCZQ=;
-        b=C2H7eoZnW8F48ZKwI30vOH+kfbIS1Mfghfyow1aUSej8BcIFMlCaRUv+SbgmjlSzr7
-         vP+LFruu7u+7aCKSadpyp7iBcbeZUEbv/FXJAkkI6Mzb9K465wt/eKT10qcK5DG6Uzdw
-         xFEYby3tUcDbczHzU3es9/AL7dMTPrDDnZuGGy5AMSqfqDuvxQPFYu5B5uK4jnNyCN1e
-         1Fn3NCqS6hcfLCep4pPZ+K5WdowWDGq79NeBG09a4chrpl/JYRIlS94ctI0t96BlA9xz
-         3uoz0tS1W3GiFw3sCLfDttDX9u5TOQeQKU2edet21fLePMc2mFA/1c3hlRuN4ZE8Qu/N
-         w3nA==
-X-Gm-Message-State: AOAM532NPgzUWOym4Sb0DCFpna4WtS21yFammEecINUPiP55UvZxzy0O
-        FT53XlyOygRpYyaANumfPqkopQ==
-X-Google-Smtp-Source: ABdhPJwi3qGotMQdzbjuJor6PdBiBP52TZP1QRJ9SqH5R+oUXMnOHkiFLvDUNqFp4od9u/7BXFE1Fw==
-X-Received: by 2002:a63:794a:: with SMTP id u71mr592348pgc.91.1612468222994;
-        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
+        bh=wekNHqIxrVlz8U/v5ZYQ5Av1yTsUCmfVrKprauQpISo=;
+        b=SJKBOVCDBIBymi7PZ4WHbQYXe7+BJkmq0NE7qBfCDKaE+pUTlN8RHPAv6TaPgRHZ3t
+         6tzITFvzkPa90Wd07WHCY22lKIJWNhIkHDu0z59JOt8FomEvCTu8vFoFq23RSYRFHa8i
+         0wtBi75RDQgqUCSnPdPCSpk9T2K23l6fFMM2ICst1iBuQaAZIcsDS3U0aAfMwZoR1Tvz
+         gJdlrNPf0ocCipiJdCEJAt+cAmK4Ty72rjUOhCRvJqnpld8IOj0EtU974FATqimLLk/q
+         abDvN1w1xYjPJmCX+kq7xP/S/WBUeptfuAUCmwKdJhgsh4i4xSuWW9vu4/CcYZt3xRrC
+         JVGA==
+X-Gm-Message-State: AOAM531uP26LzrcBnVqn4Q9kt2wYpByxWRp9a3cSucH/Jf1VPPYqB7K1
+        LlWsa95KeFeGMZ1cuCCyEwX7Tw==
+X-Google-Smtp-Source: ABdhPJwG9/Si8KnP2KY9m7DfM2n3R/TuV3JbvQ5TY00+UkgxAs7ibh3zMQzaH67Hh/qxgs27c0hfCg==
+X-Received: by 2002:a17:90a:6549:: with SMTP id f9mr677628pjs.17.1612469949403;
+        Thu, 04 Feb 2021 12:19:09 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r7sm6299408pfc.26.2021.02.04.11.50.21
+        by smtp.gmail.com with ESMTPSA id y21sm6998730pfp.208.2021.02.04.12.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:50:22 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:50:21 -0800
+        Thu, 04 Feb 2021 12:19:08 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:19:07 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,28 +80,388 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 5/7] x86/cet/ibt: Update arch_prctl functions for
- Indirect Branch Tracking
-Message-ID: <202102041150.6186296C3@keescook>
-References: <20210203225902.479-1-yu-cheng.yu@intel.com>
- <20210203225902.479-6-yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v19 08/25] x86/mm: Introduce _PAGE_COW
+Message-ID: <202102041215.B54FCA552F@keescook>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225902.479-6-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-9-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:59:00PM -0800, Yu-cheng Yu wrote:
-> From: "H.J. Lu" <hjl.tools@gmail.com>
+On Wed, Feb 03, 2021 at 02:55:30PM -0800, Yu-cheng Yu wrote:
+> There is essentially no room left in the x86 hardware PTEs on some OSes
+> (not Linux).  That left the hardware architects looking for a way to
+> represent a new memory type (shadow stack) within the existing bits.
+> They chose to repurpose a lightly-used state: Write=0, Dirty=1.
 > 
-> Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE for Indirect Branch
-> Tracking.
+> The reason it's lightly used is that Dirty=1 is normally set by hardware
+> and cannot normally be set by hardware on a Write=0 PTE.  Software must
+> normally be involved to create one of these PTEs, so software can simply
+> opt to not create them.
 > 
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> In places where Linux normally creates Write=0, Dirty=1, it can use the
+> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY.  In other
+> words, whenever Linux needs to create Write=0, Dirty=1, it instead creates
+> Write=0, Cow=1, except for shadow stack, which is Write=0, Dirty=1.  This
+> clearly separates shadow stack from other data, and results in the
+> following:
+> 
+> (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
+> (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
+>     The user page is in a R/O VMA, and get_user_pages() needs a writable
+>     copy.  The page fault handler creates a copy of the page and sets
+>     the new copy's PTE as Write=0 and Cow=1.
+> (c) A shadow stack PTE: (Write=0, Dirty=1)
+> (d) A shared shadow stack PTE: (Write=0, Cow=1)
+>     When a shadow stack page is being shared among processes (this happens
+>     at fork()), its PTE is made Dirty=0, so the next shadow stack access
+>     causes a fault, and the page is duplicated and Dirty=1 is set again.
+>     This is the COW equivalent for shadow stack pages, even though it's
+>     copy-on-access rather than copy-on-write.
+> (e) A page where the processor observed a Write=1 PTE, started a write, set
+>     Dirty=1, but then observed a Write=0 PTE.  That's possible today, but
+>     will not happen on processors that support shadow stack.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+What happens for "e" with/without CET? It sounds like direct writes to
+such pages will be (correctly) rejected by the MMU?
+
+> 
+> Define _PAGE_COW and update pte_*() helpers and apply the same changes to
+> pmd and pud.
+> 
+> After this, there are six free bits left in the 64-bit PTE, and no more
+> free bits in the 32-bit PTE (except for PAE) and Shadow Stack is not
+> implemented for the 32-bit kernel.
+
+Are there selftests to validate this change?
+
+I think it might be useful to more clearly describe what is considered
+"dirty" and "writeable" in comments above the pte_helpers.
+
+-Kees
+
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/pgtable.h       | 125 ++++++++++++++++++++++++---
+>  arch/x86/include/asm/pgtable_types.h |  42 ++++++++-
+>  2 files changed, 154 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index a02c67291cfc..4b0ec61510dc 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -121,9 +121,9 @@ extern pmdval_t early_pmd_flags;
+>   * The following only work if pte_present() is true.
+>   * Undefined behaviour if not..
+>   */
+> -static inline int pte_dirty(pte_t pte)
+> +static inline bool pte_dirty(pte_t pte)
+>  {
+> -	return pte_flags(pte) & _PAGE_DIRTY;
+> +	return pte_flags(pte) & _PAGE_DIRTY_BITS;
+>  }
+>  
+>  
+> @@ -160,9 +160,9 @@ static inline int pte_young(pte_t pte)
+>  	return pte_flags(pte) & _PAGE_ACCESSED;
+>  }
+>  
+> -static inline int pmd_dirty(pmd_t pmd)
+> +static inline bool pmd_dirty(pmd_t pmd)
+>  {
+> -	return pmd_flags(pmd) & _PAGE_DIRTY;
+> +	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
+>  }
+>  
+>  static inline int pmd_young(pmd_t pmd)
+> @@ -170,9 +170,9 @@ static inline int pmd_young(pmd_t pmd)
+>  	return pmd_flags(pmd) & _PAGE_ACCESSED;
+>  }
+>  
+> -static inline int pud_dirty(pud_t pud)
+> +static inline bool pud_dirty(pud_t pud)
+>  {
+> -	return pud_flags(pud) & _PAGE_DIRTY;
+> +	return pud_flags(pud) & _PAGE_DIRTY_BITS;
+>  }
+>  
+>  static inline int pud_young(pud_t pud)
+> @@ -182,7 +182,14 @@ static inline int pud_young(pud_t pud)
+>  
+>  static inline int pte_write(pte_t pte)
+>  {
+> -	return pte_flags(pte) & _PAGE_RW;
+> +	/*
+> +	 * If _PAGE_DIRTY is set, the PTE must either have _PAGE_RW or be
+> +	 * a shadow stack PTE, which is logically writable.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY);
+> +	else
+> +		return pte_flags(pte) & _PAGE_RW;
+>  }
+>  
+>  static inline int pte_huge(pte_t pte)
+> @@ -333,7 +340,7 @@ static inline pte_t pte_clear_uffd_wp(pte_t pte)
+>  
+>  static inline pte_t pte_mkclean(pte_t pte)
+>  {
+> -	return pte_clear_flags(pte, _PAGE_DIRTY);
+> +	return pte_clear_flags(pte, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pte_t pte_mkold(pte_t pte)
+> @@ -343,6 +350,18 @@ static inline pte_t pte_mkold(pte_t pte)
+>  
+>  static inline pte_t pte_wrprotect(pte_t pte)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PTE (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pte_flags(pte) & _PAGE_DIRTY) {
+> +			pte = pte_clear_flags(pte, _PAGE_DIRTY);
+> +			pte = pte_set_flags(pte, _PAGE_COW);
+> +		}
+> +	}
+> +
+>  	return pte_clear_flags(pte, _PAGE_RW);
+>  }
+>  
+> @@ -353,6 +372,18 @@ static inline pte_t pte_mkexec(pte_t pte)
+>  
+>  static inline pte_t pte_mkdirty(pte_t pte)
+>  {
+> +	pteval_t dirty = _PAGE_DIRTY;
+> +
+> +	/* Avoid creating (HW)Dirty=1, Write=0 PTEs */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pte_write(pte))
+> +		dirty = _PAGE_COW;
+> +
+> +	return pte_set_flags(pte, dirty | _PAGE_SOFT_DIRTY);
+> +}
+> +
+> +static inline pte_t pte_mkwrite_shstk(pte_t pte)
+> +{
+> +	pte = pte_clear_flags(pte, _PAGE_COW);
+>  	return pte_set_flags(pte, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+>  }
+>  
+> @@ -363,6 +394,13 @@ static inline pte_t pte_mkyoung(pte_t pte)
+>  
+>  static inline pte_t pte_mkwrite(pte_t pte)
+>  {
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pte_flags(pte) & _PAGE_COW) {
+> +			pte = pte_clear_flags(pte, _PAGE_COW);
+> +			pte = pte_set_flags(pte, _PAGE_DIRTY);
+> +		}
+> +	}
+> +
+>  	return pte_set_flags(pte, _PAGE_RW);
+>  }
+>  
+> @@ -434,16 +472,40 @@ static inline pmd_t pmd_mkold(pmd_t pmd)
+>  
+>  static inline pmd_t pmd_mkclean(pmd_t pmd)
+>  {
+> -	return pmd_clear_flags(pmd, _PAGE_DIRTY);
+> +	return pmd_clear_flags(pmd, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pmd_t pmd_wrprotect(pmd_t pmd)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PMD (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pmd_flags(pmd) & _PAGE_DIRTY) {
+> +			pmd = pmd_clear_flags(pmd, _PAGE_DIRTY);
+> +			pmd = pmd_set_flags(pmd, _PAGE_COW);
+> +		}
+> +	}
+> +
+>  	return pmd_clear_flags(pmd, _PAGE_RW);
+>  }
+>  
+>  static inline pmd_t pmd_mkdirty(pmd_t pmd)
+>  {
+> +	pmdval_t dirty = _PAGE_DIRTY;
+> +
+> +	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
+> +		dirty = _PAGE_COW;
+> +
+> +	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
+> +}
+> +
+> +static inline pmd_t pmd_mkwrite_shstk(pmd_t pmd)
+> +{
+> +	pmd = pmd_clear_flags(pmd, _PAGE_COW);
+>  	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+>  }
+>  
+> @@ -464,6 +526,13 @@ static inline pmd_t pmd_mkyoung(pmd_t pmd)
+>  
+>  static inline pmd_t pmd_mkwrite(pmd_t pmd)
+>  {
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pmd_flags(pmd) & _PAGE_COW) {
+> +			pmd = pmd_clear_flags(pmd, _PAGE_COW);
+> +			pmd = pmd_set_flags(pmd, _PAGE_DIRTY);
+> +		}
+> +	}
+> +
+>  	return pmd_set_flags(pmd, _PAGE_RW);
+>  }
+>  
+> @@ -488,17 +557,35 @@ static inline pud_t pud_mkold(pud_t pud)
+>  
+>  static inline pud_t pud_mkclean(pud_t pud)
+>  {
+> -	return pud_clear_flags(pud, _PAGE_DIRTY);
+> +	return pud_clear_flags(pud, _PAGE_DIRTY_BITS);
+>  }
+>  
+>  static inline pud_t pud_wrprotect(pud_t pud)
+>  {
+> +	/*
+> +	 * Blindly clearing _PAGE_RW might accidentally create
+> +	 * a shadow stack PUD (RW=0, Dirty=1).  Move the hardware
+> +	 * dirty value to the software bit.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pud_flags(pud) & _PAGE_DIRTY) {
+> +			pud = pud_clear_flags(pud, _PAGE_DIRTY);
+> +			pud = pud_set_flags(pud, _PAGE_COW);
+> +		}
+> +	}
+> +
+>  	return pud_clear_flags(pud, _PAGE_RW);
+>  }
+>  
+>  static inline pud_t pud_mkdirty(pud_t pud)
+>  {
+> -	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+> +	pudval_t dirty = _PAGE_DIRTY;
+> +
+> +	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
+> +		dirty = _PAGE_COW;
+> +
+> +	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
+>  }
+>  
+>  static inline pud_t pud_mkdevmap(pud_t pud)
+> @@ -518,6 +605,13 @@ static inline pud_t pud_mkyoung(pud_t pud)
+>  
+>  static inline pud_t pud_mkwrite(pud_t pud)
+>  {
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		if (pud_flags(pud) & _PAGE_COW) {
+> +			pud = pud_clear_flags(pud, _PAGE_COW);
+> +			pud = pud_set_flags(pud, _PAGE_DIRTY);
+> +		}
+> +	}
+> +
+>  	return pud_set_flags(pud, _PAGE_RW);
+>  }
+>  
+> @@ -1131,7 +1225,14 @@ extern int pmdp_clear_flush_young(struct vm_area_struct *vma,
+>  #define pmd_write pmd_write
+>  static inline int pmd_write(pmd_t pmd)
+>  {
+> -	return pmd_flags(pmd) & _PAGE_RW;
+> +	/*
+> +	 * If _PAGE_DIRTY is set, then the PMD must either have _PAGE_RW or
+> +	 * be a shadow stack PMD, which is logically writable.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK))
+> +		return pmd_flags(pmd) & (_PAGE_RW | _PAGE_DIRTY);
+> +	else
+> +		return pmd_flags(pmd) & _PAGE_RW;
+>  }
+>  
+>  #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
+> diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+> index b8b79d618bbc..437d7ff0ae80 100644
+> --- a/arch/x86/include/asm/pgtable_types.h
+> +++ b/arch/x86/include/asm/pgtable_types.h
+> @@ -23,7 +23,8 @@
+>  #define _PAGE_BIT_SOFTW2	10	/* " */
+>  #define _PAGE_BIT_SOFTW3	11	/* " */
+>  #define _PAGE_BIT_PAT_LARGE	12	/* On 2MB or 1GB pages */
+> -#define _PAGE_BIT_SOFTW4	58	/* available for programmer */
+> +#define _PAGE_BIT_SOFTW4	57	/* available for programmer */
+> +#define _PAGE_BIT_SOFTW5	58	/* available for programmer */
+>  #define _PAGE_BIT_PKEY_BIT0	59	/* Protection Keys, bit 1/4 */
+>  #define _PAGE_BIT_PKEY_BIT1	60	/* Protection Keys, bit 2/4 */
+>  #define _PAGE_BIT_PKEY_BIT2	61	/* Protection Keys, bit 3/4 */
+> @@ -36,6 +37,15 @@
+>  #define _PAGE_BIT_SOFT_DIRTY	_PAGE_BIT_SOFTW3 /* software dirty tracking */
+>  #define _PAGE_BIT_DEVMAP	_PAGE_BIT_SOFTW4
+>  
+> +/*
+> + * Indicates a copy-on-write page.
+> + */
+> +#ifdef CONFIG_X86_CET
+> +#define _PAGE_BIT_COW		_PAGE_BIT_SOFTW5 /* copy-on-write */
+> +#else
+> +#define _PAGE_BIT_COW		0
+> +#endif
+> +
+>  /* If _PAGE_BIT_PRESENT is clear, we use these: */
+>  /* - if the user mapped it with PROT_NONE; pte_present gives true */
+>  #define _PAGE_BIT_PROTNONE	_PAGE_BIT_GLOBAL
+> @@ -117,6 +127,36 @@
+>  #define _PAGE_DEVMAP	(_AT(pteval_t, 0))
+>  #endif
+>  
+> +/*
+> + * The hardware requires shadow stack to be read-only and Dirty.
+> + * _PAGE_COW is a software-only bit used to separate copy-on-write PTEs
+> + * from shadow stack PTEs:
+> + * (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
+> + * (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
+> + *     The user page is in a R/O VMA, and get_user_pages() needs a
+> + *     writable copy.  The page fault handler creates a copy of the page
+> + *     and sets the new copy's PTE as Write=0, Cow=1.
+> + * (c) A shadow stack PTE: (Write=0, Dirty=1)
+> + * (d) A shared (copy-on-access) shadow stack PTE: (Write=0, Cow=1)
+> + *     When a shadow stack page is being shared among processes (this
+> + *     happens at fork()), its PTE is cleared of _PAGE_DIRTY, so the next
+> + *     shadow stack access causes a fault, and the page is duplicated and
+> + *     _PAGE_DIRTY is set again.  This is the COW equivalent for shadow
+> + *     stack pages, even though it's copy-on-access rather than
+> + *     copy-on-write.
+> + * (e) A page where the processor observed a Write=1 PTE, started a write,
+> + *     set Dirty=1, but then observed a Write=0 PTE (changed by another
+> + *     thread).  That's possible today, but will not happen on processors
+> + *     that support shadow stack.
+> + */
+> +#ifdef CONFIG_X86_CET
+> +#define _PAGE_COW	(_AT(pteval_t, 1) << _PAGE_BIT_COW)
+> +#else
+> +#define _PAGE_COW	(_AT(pteval_t, 0))
+> +#endif
+> +
+> +#define _PAGE_DIRTY_BITS (_PAGE_DIRTY | _PAGE_COW)
+> +
+>  #define _PAGE_PROTNONE	(_AT(pteval_t, 1) << _PAGE_BIT_PROTNONE)
+>  
+>  /*
+> -- 
+> 2.21.0
+> 
 
 -- 
 Kees Cook
