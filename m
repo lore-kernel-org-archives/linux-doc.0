@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B0FC433E9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB640C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D26B764F77
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:22:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D87264F45
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239507AbhBDUVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 15:21:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
+        id S240046AbhBDUXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:23:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239967AbhBDUVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:21:48 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A4BC06178B
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:21:02 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id z9so2472647pjl.5
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:21:02 -0800 (PST)
+        with ESMTP id S240081AbhBDUXI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:23:08 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3132C061786
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:22:15 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id j2so2942845pgl.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=l281j3ItWk9H1C+Zr+UKWfAUNh5R5Gnsi8pKJzoTn0Y=;
-        b=m8bNR4kU1FTOhjXyaVKDbA4cJ6CUhZEAt/Acj2okLlIxhkSswEUS5rh6/beYKqU5Vv
-         TnBIgnOmsom9UNzPdiRegE73O4iBMPoKye2XicDP5jWBCvmifNLmjKp2S/L72D+Q5hcD
-         QdJgZCK8fwHFv1D4+EtdJ73MaSWkzRtnHxwRA=
+        bh=wnU2ljW3GZfVnC0yk4dz3F0Y7a+z0DVuakcSpmImkaw=;
+        b=gk1+3E6zusffn9W5IuwsN3M705pg/AsgpNvWYuk60I9SgeXKbvb/YqudopHfguTWg9
+         XHcDS3MQ5Ux9oTwks1PbxMjwOQxFmmNtlcxRxjcKXwBpL+AypZgWkafkkCYlZNNC8R7x
+         wPriOS6bS/ExEs3s+CHTQ9aBYRWxITrDlxn9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=l281j3ItWk9H1C+Zr+UKWfAUNh5R5Gnsi8pKJzoTn0Y=;
-        b=blb4Ls8kdnr9Jluehs1+U/aLUT0mM6ejpZ8fKMFH/BZ+rnaRtStSK+j2lhXMsMmsA7
-         QLFpbkoPnfZCl9rvVM10R8u2Ea5oX5TFd0KsNmrOpPkUvDNUtf8R2uYOWZisRNOQzjd5
-         0vFas/AjL0q0u14VUb4vJeGyfolt3EYCH1NqfdXrE3uF5GlA6ODegANda7q+CQEwAmEa
-         q/LDcDVIfqkTXEW9rMo8vvEBsuDYQ+wZTy5Ep4Zjbe7sJonE3vwf9Rd4z2ZHRf5+mRpG
-         A0SaptDqHLVGpqnPMVY652MAdS75KLTo8TJRvVgz/VIrzUO0Gm801KpiwuIae+qVUebp
-         C7bg==
-X-Gm-Message-State: AOAM533EvNgbD64csDCAdeKnMr9gmFUBBG4qoNg6psGDqgRxr8sCgYkX
-        WCS15+MYYYdhqJE6EeZLWUhNpw==
-X-Google-Smtp-Source: ABdhPJyGwK26WUMO7/KU2gMLYXNT/yAeEL27yvxDIb2PjlNVa9vK2qg04E5s4vM2GT6XMXvgvyy4ow==
-X-Received: by 2002:a17:902:8604:b029:e2:a249:4474 with SMTP id f4-20020a1709028604b02900e2a2494474mr745841plo.15.1612470061943;
-        Thu, 04 Feb 2021 12:21:01 -0800 (PST)
+        bh=wnU2ljW3GZfVnC0yk4dz3F0Y7a+z0DVuakcSpmImkaw=;
+        b=scQbX00qyUThq3ZdqzA8MueEbQeavamTkyIoRdJ4WlXK+AZ9B+H8iuKdDuHWhSA2Zf
+         Z8QpJpRXkxCrkUpNKnhombAraq+13xN31VvJT/7W8XcFE1j6SUROnpcllYGDPYYvIHdn
+         hl0boMFWORK/L2cQiKHq2HUuGtqEtCLfZv2PaW4lccyRBhW5+xnhm7Gkl1wrMzZ4jDyU
+         aiSyVqqvwlWhJCH9goDwoovPP3iQ3NRudHh3Exqp/2bbt//3gW3N7a21/vlWt5lrYnFa
+         aJm1QmwyLTOU3nqPtFPlNuMHsT1QL2mKWlwRO9FJnOmRZUojHnsYOg41zcPr7k8rvgN9
+         4sRw==
+X-Gm-Message-State: AOAM531vaCHou5Nk21EgrizEQsnvHSazOg9Z4whyVvDutdT5d7vSj4Ch
+        Qkx9a+3kdnUCUjzusI6lvGzh8A==
+X-Google-Smtp-Source: ABdhPJxQWfp/aPzc5XZSKfbRPLKD5pttOTUDGoXyRh6jr8ntSfLzFQ6LjNTCdQXVJDDoi4XbHDHR4A==
+X-Received: by 2002:a63:5952:: with SMTP id j18mr708407pgm.29.1612470135501;
+        Thu, 04 Feb 2021 12:22:15 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 62sm5499904pfg.160.2021.02.04.12.21.00
+        by smtp.gmail.com with ESMTPSA id 11sm7480618pgz.22.2021.02.04.12.22.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:21:01 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:21:00 -0800
+        Thu, 04 Feb 2021 12:22:14 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:22:13 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,37 +80,31 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 11/25] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-Message-ID: <202102041220.3F62D2775@keescook>
+Subject: Re: [PATCH v19 14/25] x86/mm: Update maybe_mkwrite() for shadow stack
+Message-ID: <202102041222.B111A20A9@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-12-yu-cheng.yu@intel.com>
+ <20210203225547.32221-15-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-12-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-15-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:33PM -0800, Yu-cheng Yu wrote:
-> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
-> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
+On Wed, Feb 03, 2021 at 02:55:36PM -0800, Yu-cheng Yu wrote:
+> When serving a page fault, maybe_mkwrite() makes a PTE writable if its vma
+> has VM_WRITE.
 > 
-> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
-> become a transient shadow stack PTE in two cases:
+> A shadow stack vma has VM_SHSTK.  Its PTEs have _PAGE_DIRTY, but not
+> _PAGE_WRITE.  In fork(), _PAGE_DIRTY is cleared to effect copy-on-write,
+> and in page fault, _PAGE_DIRTY is restored and the shadow stack page is
+> writable again.
 > 
-> The first case is that some processors can start a write but end up seeing
-> a read-only PTE by the time they get to the Dirty bit, creating a transient
-> shadow stack PTE.  However, this will not occur on processors supporting
-> Shadow Stack, and a TLB flush is not necessary.
+> Update maybe_mkwrite() by introducing arch_maybe_mkwrite(), which sets
+> _PAGE_DIRTY for a shadow stack PTE.
 > 
-> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
-> atomically, a transient shadow stack PTE can be created as a result.
-> Thus, prevent that with cmpxchg.
-> 
-> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
-> insights to the issue.  Jann Horn provided the cmpxchg solution.
+> Apply the same changes to maybe_pmd_mkwrite().
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
