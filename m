@@ -2,148 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C43DC433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 16:29:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DD08C433E9
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:02:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB20F64F42
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 16:29:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4030864F64
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:02:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236978AbhBDQ3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 11:29:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59038 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238005AbhBDQ2X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 11:28:23 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 8BB14B0B3;
-        Thu,  4 Feb 2021 16:27:41 +0000 (UTC)
-Message-ID: <ff12c314f3c122de9f2d9f5d826fac9e5e6248dc.camel@suse.de>
-Subject: Re: [PATCH v14 07/11] arm64: kdump: introduce some macroes for
- crash kernel reservation
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Chen Zhou <chenzhou10@huawei.com>, mingo@redhat.com,
-        tglx@linutronix.de, rppt@kernel.org, dyoung@redhat.com,
-        bhe@redhat.com, catalin.marinas@arm.com, will@kernel.org,
-        corbet@lwn.net, John.P.donnelly@oracle.com, bhsharma@redhat.com,
-        prabhakar.pkin@gmail.com
-Cc:     horms@verge.net.au, robh+dt@kernel.org, arnd@arndb.de,
-        james.morse@arm.com, xiexiuqi@huawei.com, guohanjun@huawei.com,
-        huawei.libin@huawei.com, wangkefeng.wang@huawei.com,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org
-Date:   Thu, 04 Feb 2021 17:27:39 +0100
-In-Reply-To: <a7951d7f651681fcfd45cea4f8b173c23cc34aa0.camel@suse.de>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
-         <20210130071025.65258-8-chenzhou10@huawei.com>
-         <a7951d7f651681fcfd45cea4f8b173c23cc34aa0.camel@suse.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-hF9DE29OJv+9/WzzoEGg"
-User-Agent: Evolution 3.38.3 
-MIME-Version: 1.0
+        id S238810AbhBDSC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 13:02:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43318 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238750AbhBDSCC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 13:02:02 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F35C0617AA;
+        Thu,  4 Feb 2021 10:01:22 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id r12so6912215ejb.9;
+        Thu, 04 Feb 2021 10:01:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=7JNZbvaxyyiVUEUuHjJrc3CdySwOKE/EKFzRbZUqUUg=;
+        b=hiMJQ9vF7YbkvRXH3O+AOwtAWnxiBZvxQNCF1IGUs2NnGsLJzXxfxX7ftJV1wysT7Z
+         TgsIoUOvxmiXsWFqKCp4q0oYmSoYLXQFOvFHhaIAENBPsWmiHammQqmgrCdLkO4soCOJ
+         XKmRoWel9urehbFwXRJP7PCZiOKqlsoB03WhNd0vGQLvAlfSouM8OoST/J7t9OeEaQlW
+         XORoIi+dw3j26fpfUZwOf5QnRdeUoWZ8imUvbqcrTJuElUpnKYmUiwW1UF/NkVZ9/1gs
+         HPPkZ53IGPb3tsomiKsym24p7d9MycyO6E7MeiXKNlYyQX2lORosaByln3weoUWDooWA
+         zOow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=7JNZbvaxyyiVUEUuHjJrc3CdySwOKE/EKFzRbZUqUUg=;
+        b=LnbjevYrpkR+t5p4kDZRK9FKNfdwU3WgqWnOnN4GcMA1pzfxRs78tvxk/Y1KfUeWhk
+         gpywYwAOoZtuDi2uaQjFGiUrWXbJMhG5phWp+U6UnGVctybixOZJ0fBS88KdHRlgMkdv
+         76Eaa9SfwSTs4E5i9rXmQddfdbYWIGzo5eoT7gPHCD7TwRtqwQAlDRLMNSwkqy1aEs/l
+         gYEmWk9DkZAmLY3OivaFRBf7qrjSfsn4UDb8VQUo+3JnItTNq+/ugFgjIfUxBV0j0IGO
+         PdaGsnDt3Mg+SAOLe9GEnjQ+DVfcDCm3X1QAbhRe32AF7iKmQMnUq61AumCmn37M7eK3
+         u9aw==
+X-Gm-Message-State: AOAM532MCJ1ZGRDY+0skk3MiPWAgl2BTpKyzp6w4vtsrpnI9Wy4n/FqX
+        Fpi1R6dvUZmixN4ePRONXq0bvNxQ/ElE1w==
+X-Google-Smtp-Source: ABdhPJyjypiTFKF0Q3mvhJejJev3oKMFhRkWfyAo/Bm8UL47R/JdadkhHM1U9tKVIz/aVFBkh4p3Gg==
+X-Received: by 2002:a17:906:c299:: with SMTP id r25mr333055ejz.80.1612461681675;
+        Thu, 04 Feb 2021 10:01:21 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2de7:9900:24e0:4d40:c49:5282])
+        by smtp.gmail.com with ESMTPSA id bo24sm2810326edb.51.2021.02.04.10.01.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Feb 2021 10:01:21 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-fsdevel@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 4/5] fs: update kernel-doc for vfs_tmpfile()
+Date:   Thu,  4 Feb 2021 19:00:58 +0100
+Message-Id: <20210204180059.28360-5-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
+References: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Commit 6521f8917082 ("namei: prepare for idmapped mounts") adds kernel-doc
+for vfs_tmpfile(), but with a small typo in one argument name.
 
---=-hF9DE29OJv+9/WzzoEGg
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hence, make htmldocs warns on ./fs/namei.c:3396:
 
-On Thu, 2021-02-04 at 17:20 +0100, Nicolas Saenz Julienne wrote:
-> Hi Chen,
->=20
-> On Sat, 2021-01-30 at 15:10 +0800, Chen Zhou wrote:
-> > Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
-> > for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
-> > upper bound of high crash memory, use macroes instead.
-> >=20
-> > Besides, keep consistent with x86, use CRASH_ALIGN as the lower bound
-> > of crash kernel reservation.
-> >=20
-> > Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> > Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-> > ---
-> > =C2=A0arch/arm64/include/asm/kexec.h | 6 ++++++
-> > =C2=A0arch/arm64/mm/init.c           | 6 +++---
-> > =C2=A02 files changed, 9 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/ke=
-xec.h
-> > index d24b527e8c00..3f6ecae0bc68 100644
-> > --- a/arch/arm64/include/asm/kexec.h
-> > +++ b/arch/arm64/include/asm/kexec.h
-> > @@ -25,6 +25,12 @@
-> > =C2=A0
-> >=20
-> > =C2=A0#define KEXEC_ARCH KEXEC_ARCH_AARCH64
-> > =C2=A0
-> >=20
-> > +/* 2M alignment for crash kernel regions */
-> > +#define CRASH_ALIGN	SZ_2M
-> > +
-> > +#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
->=20
-> I wonder if you could use 'ARCH_LOW_ADDRESS_LIMIT', instead of creating a=
- new
-> define.
->=20
-> > +#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
-> > +
-> > =C2=A0#ifndef __ASSEMBLY__
-> > =C2=A0
-> >=20
-> > =C2=A0/**
-> > diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> > index 709d98fea90c..912f64f505f7 100644
-> > --- a/arch/arm64/mm/init.c
-> > +++ b/arch/arm64/mm/init.c
-> > @@ -84,8 +84,8 @@ static void __init reserve_crashkernel(void)
-> > =C2=A0
-> >=20
-> > =C2=A0	if (crash_base =3D=3D 0) {
-> > =C2=A0		/* Current arm64 boot protocol requires 2MB alignment */
-> > -		crash_base =3D memblock_find_in_range(0, arm64_dma_phys_limit,
-> > -				crash_size, SZ_2M);
-> > +		crash_base =3D memblock_find_in_range(CRASH_ALIGN, CRASH_ADDR_LOW_MA=
-X,
-> > +				crash_size, CRASH_ALIGN);
->=20
-> Actually we could get rid of CRASH_ADDR_LOW_MAX altogether if we used
-> memblock_alloc_low() here (modulo the slight refactoring needed to accomm=
-odate
-> it).
+  warning: Function parameter or member 'open_flag' not described in 'vfs_tmpfile'
+  warning: Excess function parameter 'open_flags' description in 'vfs_tmpfile'
 
-Forget about these coments, I now see that you're deleting this whole funct=
-ion
-on the next patch and defaulting to a generic implementation. Sorry for the
-noise.
+Fix this typo in kernel-doc of vfs_tmpfile().
 
-Regards,
-Nicolas
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ fs/namei.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
---=-hF9DE29OJv+9/WzzoEGg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAcIHsACgkQlfZmHno8
-x/4koQf9FsJXXPPAo7MZvAypzOcOr8Kk3liIYdzd7FU2HxGgB/sYGnlYWzn5/Vsm
-tA7ay+h/LbTyM2lkYLQO27T8LQxl6kaaG0AzlEpMJWZKlJoxiWak6XOtNRlDROCB
-bAJ6lH8wh/DxbOKEtpYIXrCiJTiSGszErGj6qlRcGQEVe8//VeXAfVAsoR8AQ/jL
-7LRgDrTbjMakT/zrOVjNtRCtA6kpv3U04bmi53C2V1cgOlowQNJQlTJ2nQBmDwmR
-Vkze+pFW28MlYn70T8FEQCtehj41Sx83khwQysULZKQrGlEFOt8tlfNSlVL3muHv
-WQzt8y5R5NVjm51qZRewuOlnTuVoAA==
-=3xak
------END PGP SIGNATURE-----
-
---=-hF9DE29OJv+9/WzzoEGg--
+diff --git a/fs/namei.c b/fs/namei.c
+index 64a841dfbb3e..9f7d260ffb4b 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -3379,7 +3379,7 @@ static int do_open(struct nameidata *nd,
+  * @mnt_userns:	user namespace of the mount the inode was found from
+  * @dentry:	pointer to dentry of the base directory
+  * @mode:	mode of the new tmpfile
+- * @open_flags:	flags
++ * @open_flag:	flags
+  *
+  * Create a temporary file.
+  *
+-- 
+2.17.1
 
