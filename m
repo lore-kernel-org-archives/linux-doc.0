@@ -2,198 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95163C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 03:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5ABC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 04:03:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5346364F41
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 03:58:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E2E564DA5
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 04:03:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232630AbhBDD6H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Feb 2021 22:58:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59662 "EHLO
+        id S232060AbhBDECS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Feb 2021 23:02:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232116AbhBDDzy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 22:55:54 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4DAC061351
-        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 19:55:05 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id a16so1030740plh.8
-        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 19:55:05 -0800 (PST)
+        with ESMTP id S231475AbhBDEBT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Feb 2021 23:01:19 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF33C0613ED
+        for <linux-doc@vger.kernel.org>; Wed,  3 Feb 2021 20:00:39 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id o16so1220093pgg.5
+        for <linux-doc@vger.kernel.org>; Wed, 03 Feb 2021 20:00:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=61XssS9hC3yvdXbWzdJhtTR8Yjia1vJaQF8aPfeYJmw=;
-        b=hEsjQq399BYLQaa4G3mACRWtXR09Qe1HRCTJcok9uAmiEzX414JVvCHs4NvNaGS96O
-         HYnGMvn5VX804tR3PJ9YNjyaZ+bZexbWkByhPRPmed35G2BIXgaXQq99yrweVBtjvSGr
-         r+nQUBh5KGyMpyDgBZSLQmNihvxZ9hISeoCpoubaIHyqLNFP1qm99WG9M+6/+VCojM/W
-         G9mltVuVoTpE5M1CIwZmFWvpvMgblU8pIqYKDgqJ4L05GXbH3k2DMQ6ZVBcreMNLvUhp
-         3IUL3IMl+wmA1GJgpIAdDRtfs4SFf8ss3k46nNAT4thHWwYVTxWwFNxv+fHvTGs2rHZM
-         j+aQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ekev10vmev54YC6YS3oAAP96uS/rpxiv7X/ntZD7Dbw=;
+        b=mGAZTDHihq/drbQSw1FvQ3M47w93qk6ssTjsPvKjn/8OypobWipJHgGbENvZxoXk7E
+         VoQ9Yxi8h8KPwXTc0xJO5qlhUe07suXBeeqja5pC/p+M1YxItxxTkNnkt+Gev9wz5mz7
+         yfA3MX3TZPg5cUv7fZxHMcl58+oPZjWdWka9tZohkswIxTaVTPGZtEZrRQS8pxL9mume
+         tHt2PcrEt1MjpOMWttkQ2aYUjEFv9muE/mO5fWssXE4E36FYO5SDRIoMENzBVL6Hx0f5
+         b6c2N8allH6eGElknLNli2mJlB2KE7CTL4QS7rotnjB3MkBNWHjpOgsuj/zQmPn81iUf
+         +Wvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=61XssS9hC3yvdXbWzdJhtTR8Yjia1vJaQF8aPfeYJmw=;
-        b=j9CjWC5kxwByj7AnZJtmP+nRIn+MSdti7aLZ9LYMC4BFJYI9qpk13KnsP6zk1Bm6bM
-         jMEsYSSI3tLTvmW+02TtHC6bYd4LZWByLGU5rpCPW6YXX8kAp5dKkXVehxLCzXiLMFEP
-         xQeRYWYWuRu2AdEn/i9lqkH3PQH1tfqwlSumrmOtDvppr8tzvpDpiTiOuGAb+mqWCPdM
-         JjGsYT3FYf28svli4Ziv6OUJHGg0KWdQB6lziOjSM5oVRHYEWiLCX0w8PMWXkidXcR2V
-         j3QZqJzmUFe1qeu56dj1KAFUyrlW1BK7Cc43XaJP7gUL/41keGOz70QvWFsXjaxqI+Vh
-         gOpg==
-X-Gm-Message-State: AOAM531C1S1CmKRe7iK8x+nwLF+tJduF/jZZY0Y46si51OpAtwlJaq3B
-        xXwM1NS3kaHzLM/nWAwEoLUkFQ==
-X-Google-Smtp-Source: ABdhPJymEyO5jCkZDSiQkPoZ425GLmAnOcns72vBeQg76oX3E/2kTSUpaVxq6nyo8yaTnx2fBBny0w==
-X-Received: by 2002:a17:90a:ab17:: with SMTP id m23mr6228475pjq.0.1612410905026;
-        Wed, 03 Feb 2021 19:55:05 -0800 (PST)
-Received: from localhost.localdomain ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id 9sm3747466pfy.110.2021.02.03.19.54.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Feb 2021 19:55:04 -0800 (PST)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v14 6/8] mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
-Date:   Thu,  4 Feb 2021 11:50:41 +0800
-Message-Id: <20210204035043.36609-7-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20210204035043.36609-1-songmuchun@bytedance.com>
-References: <20210204035043.36609-1-songmuchun@bytedance.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ekev10vmev54YC6YS3oAAP96uS/rpxiv7X/ntZD7Dbw=;
+        b=HdLSdZAUscCxg7GZGBcvoJFVeGOZ3U7Vn+D5NNPZ/CwDv1dt9QNJGSAhOXSsoQZ7Gt
+         kx/ztBM52hCJd/5l2A8Pe1p0H5lOS8KP3E4Jp4So6wnRhtfa/RDrzjIjpGjwVC9CBtlT
+         TshuIOvHKbUCwe120yCUppNSp+xqdwjxwpnSN1/1enQ2t/J+5seLZj2h2ZdfdTFgIdPJ
+         MtDrZYHSYvkQ6kblbSxTpAMOXS63UTb3ZETvJXdULGXGZsgy+Pg3EdAd+iEcPGEuSOos
+         D+oH1FYUlQ7JbCDLsMbxwGsierw5daVv+6f0HOwZGlCVg/McaHmEoBdgVciOuzhPR+c3
+         9NLA==
+X-Gm-Message-State: AOAM532JfjngIgRfVwpKE82DNqd93pwST4s/rRs/X9UPX7NrPFegSfD5
+        HKIFTdqontfNTnMR7++zS5ntLg==
+X-Google-Smtp-Source: ABdhPJxm7gZSrWcznAoy/XnaxZqv9Jlv4v0jt9MlTHa9aQZbfi7VCAe+wh3ZDfVyF6iZDhLn0MQIYQ==
+X-Received: by 2002:a63:f703:: with SMTP id x3mr6871446pgh.66.1612411238656;
+        Wed, 03 Feb 2021 20:00:38 -0800 (PST)
+Received: from leoy-ThinkPad-X240s ([202.155.204.36])
+        by smtp.gmail.com with ESMTPSA id 124sm3769128pfd.59.2021.02.03.20.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Feb 2021 20:00:38 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:00:28 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Al Grant <al.grant@arm.com>
+Subject: Re: [PATCH v2 6/7] perf cs-etm: Detect pid in VMID for kernel
+ running at EL2
+Message-ID: <20210204040021.GF11059@leoy-ThinkPad-X240s>
+References: <20210202163842.134734-1-leo.yan@linaro.org>
+ <20210202163842.134734-7-leo.yan@linaro.org>
+ <f5158216-c3d1-10bb-02eb-00ff9a78f617@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5158216-c3d1-10bb-02eb-00ff9a78f617@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
-field in the hstate to indicate how many vmemmap pages associated with
-a HugeTLB page that can be freed to buddy allocator. And initialize it
-in the hugetlb_vmemmap_init(). This patch is actual enablement of the
-feature.
+On Tue, Feb 02, 2021 at 11:29:47PM +0000, Suzuki Kuruppassery Poulose wrote:
+> On 2/2/21 4:38 PM, Leo Yan wrote:
+> > From: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > 
+> > The PID of the task could be traced as VMID when the kernel is running
+> > at EL2.  Teach the decoder to look for VMID when the CONTEXTIDR (Arm32)
+> > or CONTEXTIDR_EL1 (Arm64) is invalid but we have a valid VMID.
+> > 
+> > Cc: Mike Leach <mike.leach@linaro.org>
+> > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > Cc: Al Grant <al.grant@arm.com>
+> > Co-developed-by: Leo Yan <leo.yan@linaro.org>
+> > Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> > ---
+> >   .../perf/util/cs-etm-decoder/cs-etm-decoder.c | 32 ++++++++++++++++---
+> >   1 file changed, 28 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> > index 3f4bc4050477..fb2a163ff74e 100644
+> > --- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> > +++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+> > @@ -6,6 +6,7 @@
+> >    * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
+> >    */
+> > +#include <linux/coresight-pmu.h>
+> >   #include <linux/err.h>
+> >   #include <linux/list.h>
+> >   #include <linux/zalloc.h>
+> > @@ -491,13 +492,36 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+> >   			const ocsd_generic_trace_elem *elem,
+> >   			const uint8_t trace_chan_id)
+> >   {
+> > -	pid_t tid;
+> > +	pid_t tid = -1;
+> > +	u64 pid_fmt;
+> > +	int ret;
+> > -	/* Ignore PE_CONTEXT packets that don't have a valid contextID */
+> > -	if (!elem->context.ctxt_id_valid)
+> > +	ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
+> > +	if (ret)
+> 
+> Is this something we can cache in this function ? e.g,
+> 	static u64 pid_fmt;
+> 
+> 	if (!pid_pfmt)
+> 		ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
+> 
+> As all the ETMs will be running at the same exception level.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
----
- include/linux/hugetlb.h |  3 +++
- mm/hugetlb.c            |  1 +
- mm/hugetlb_vmemmap.c    | 30 ++++++++++++++++++++++++++----
- mm/hugetlb_vmemmap.h    |  5 +++++
- 4 files changed, 35 insertions(+), 4 deletions(-)
+Sorry that I let you repeated your comments again.
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index ad249e56ac49..775aea53669a 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -560,6 +560,9 @@ struct hstate {
- 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
- 	unsigned int free_huge_pages_node[MAX_NUMNODES];
- 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-+#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-+	unsigned int nr_free_vmemmap_pages;
-+#endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
- 	struct cftype cgroup_files_dfl[7];
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 5518283aa667..04dde2b71f3e 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3220,6 +3220,7 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	h->next_nid_to_free = first_memory_node;
- 	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
- 					huge_page_size(h)/1024);
-+	hugetlb_vmemmap_init(h);
- 
- 	parsed_hstate = h;
- }
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 224a3cb69bf9..36ebd677e606 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -208,13 +208,10 @@ early_param("hugetlb_free_vmemmap", early_hugetlb_free_vmemmap_param);
- /*
-  * How many vmemmap pages associated with a HugeTLB page that can be freed
-  * to the buddy allocator.
-- *
-- * Todo: Returns zero for now, which means the feature is disabled. We will
-- * enable it once all the infrastructure is there.
-  */
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
--	return 0;
-+	return h->nr_free_vmemmap_pages;
- }
- 
- static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
-@@ -269,3 +266,28 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	 */
- 	vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse);
- }
-+
-+void __init hugetlb_vmemmap_init(struct hstate *h)
-+{
-+	unsigned int nr_pages = pages_per_huge_page(h);
-+	unsigned int vmemmap_pages;
-+
-+	if (!hugetlb_free_vmemmap_enabled)
-+		return;
-+
-+	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-+	/*
-+	 * The head page and the first tail page are not to be freed to buddy
-+	 * allocator, the other pages will map to the first tail page, so they
-+	 * can be freed.
-+	 *
-+	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-+	 * on some architectures (e.g. aarch64). See Documentation/arm64/
-+	 * hugetlbpage.rst for more details.
-+	 */
-+	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
-+		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-+
-+	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
-+		h->name);
-+}
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index 6f89a9eed02c..02a21604ef1d 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -14,6 +14,7 @@
- int alloc_huge_page_vmemmap(struct hstate *h, struct page *head,
- 			    gfp_t gfp_mask);
- void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-+void hugetlb_vmemmap_init(struct hstate *h);
- #else
- static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head,
- 					  gfp_t gfp_mask)
-@@ -24,5 +25,9 @@ static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head,
- static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- }
-+
-+static inline void hugetlb_vmemmap_init(struct hstate *h)
-+{
-+}
- #endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
- #endif /* _LINUX_HUGETLB_VMEMMAP_H */
--- 
-2.11.0
+To be honest, I considered this after read your comment in the previous
+series, but I thought it's possible that multiple CPUs have different
+PID format, especially for big.LITTLE arch.  After read your suggestion
+again, I think my concern is not valid, even for big.LITTLE, all CPUs
+should run on the same kernel exception level.
 
+So will follow up your suggestion to cache "pid_fmt".
+
+> 
+> > +		return OCSD_RESP_FATAL_SYS_ERR;
+> > +
+> > +	/*
+> > +	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
+> > +	 * If the kernel is running at EL2, the PID is traced in CONTEXTIDR_EL2
+> > +	 * as VMID, Bit ETM_OPT_CTXTID2 is set in this case.
+> > +	 */
+> > +	switch (pid_fmt) {
+> > +	case BIT(ETM_OPT_CTXTID):
+> > +		if (elem->context.ctxt_id_valid)
+> > +			tid = elem->context.context_id;
+> > +		break;
+> > +	case BIT(ETM_OPT_CTXTID2) | BIT(ETM_OPT_CTXTID):
+> 
+> I would rather fix the cs_etm__get_pid_fmt() to return either of these
+> as commented. i.e, ETM_OPT_CTXTID or ETM_OPT_CTXTID2. Thus we don't
+> need the this case.
+
+I explained why I set both bits for ETM_OPT_CTXTID and ETM_OPT_CTXTID2
+in the patch 05/07.  Could you take a look for it?
+
+> With the above two addressed:
+> 
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+
+Thanks,
+Leo
