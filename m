@@ -7,25 +7,26 @@ X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17561C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 10:55:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB5DC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 10:58:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0DC364F5E
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 10:55:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD14C64F39
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 10:58:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235317AbhBDKz1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 05:55:27 -0500
-Received: from foss.arm.com ([217.140.110.172]:55882 "EHLO foss.arm.com"
+        id S235386AbhBDK6K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 05:58:10 -0500
+Received: from foss.arm.com ([217.140.110.172]:55976 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234873AbhBDKz1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 05:55:27 -0500
+        id S235346AbhBDK6J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 05:58:09 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C2DBD6E;
-        Thu,  4 Feb 2021 02:54:41 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EB101D6E;
+        Thu,  4 Feb 2021 02:57:23 -0800 (PST)
 Received: from [10.57.60.124] (unknown [10.57.60.124])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 95B653F73B;
-        Thu,  4 Feb 2021 02:54:37 -0800 (PST)
-Subject: Re: [PATCH v2 5/7] perf cs-etm: Add helper cs_etm__get_pid_fmt()
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF72B3F73B;
+        Thu,  4 Feb 2021 02:57:19 -0800 (PST)
+Subject: Re: [PATCH v2 6/7] perf cs-etm: Detect pid in VMID for kernel running
+ at EL2
 To:     Leo Yan <leo.yan@linaro.org>
 Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -42,18 +43,18 @@ Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Daniel Kiss <Daniel.Kiss@arm.com>,
         Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org, Al Grant <al.grant@arm.com>
 References: <20210202163842.134734-1-leo.yan@linaro.org>
- <20210202163842.134734-6-leo.yan@linaro.org>
- <51a1e845-f9a4-3c6e-88a2-c105f5b5adfe@arm.com>
- <20210204034743.GE11059@leoy-ThinkPad-X240s>
+ <20210202163842.134734-7-leo.yan@linaro.org>
+ <f5158216-c3d1-10bb-02eb-00ff9a78f617@arm.com>
+ <20210204040021.GF11059@leoy-ThinkPad-X240s>
 From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <afb60e3b-697d-4503-a8de-11cd1a0bf97d@arm.com>
-Date:   Thu, 4 Feb 2021 10:54:24 +0000
+Message-ID: <a8116024-76df-4c42-15ef-de3f02436b8c@arm.com>
+Date:   Thu, 4 Feb 2021 10:57:06 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210204034743.GE11059@leoy-ThinkPad-X240s>
+In-Reply-To: <20210204040021.GF11059@leoy-ThinkPad-X240s>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -61,97 +62,100 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/21 3:47 AM, Leo Yan wrote:
-> On Tue, Feb 02, 2021 at 11:19:22PM +0000, Suzuki Kuruppassery Poulose wrote:
+On 2/4/21 4:00 AM, Leo Yan wrote:
+> On Tue, Feb 02, 2021 at 11:29:47PM +0000, Suzuki Kuruppassery Poulose wrote:
 >> On 2/2/21 4:38 PM, Leo Yan wrote:
->>> This patch adds helper function cs_etm__get_pid_fmt(), by passing
->>> parameter "traceID", it returns the PID format.
+>>> From: Suzuki K Poulose <suzuki.poulose@arm.com>
 >>>
+>>> The PID of the task could be traced as VMID when the kernel is running
+>>> at EL2.  Teach the decoder to look for VMID when the CONTEXTIDR (Arm32)
+>>> or CONTEXTIDR_EL1 (Arm64) is invalid but we have a valid VMID.
+>>>
+>>> Cc: Mike Leach <mike.leach@linaro.org>
+>>> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+>>> Cc: Al Grant <al.grant@arm.com>
+>>> Co-developed-by: Leo Yan <leo.yan@linaro.org>
+>>> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 >>> Signed-off-by: Leo Yan <leo.yan@linaro.org>
 >>> ---
->>>    tools/perf/util/cs-etm.c | 43 ++++++++++++++++++++++++++++++++++++++++
->>>    tools/perf/util/cs-etm.h |  1 +
->>>    2 files changed, 44 insertions(+)
+>>>    .../perf/util/cs-etm-decoder/cs-etm-decoder.c | 32 ++++++++++++++++---
+>>>    1 file changed, 28 insertions(+), 4 deletions(-)
 >>>
->>> diff --git a/tools/perf/util/cs-etm.c b/tools/perf/util/cs-etm.c
->>> index a2a369e2fbb6..8194ddbd01e5 100644
->>> --- a/tools/perf/util/cs-etm.c
->>> +++ b/tools/perf/util/cs-etm.c
->>> @@ -7,6 +7,7 @@
+>>> diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+>>> index 3f4bc4050477..fb2a163ff74e 100644
+>>> --- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+>>> +++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+>>> @@ -6,6 +6,7 @@
+>>>     * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
 >>>     */
->>>    #include <linux/bitops.h>
 >>> +#include <linux/coresight-pmu.h>
 >>>    #include <linux/err.h>
->>>    #include <linux/kernel.h>
->>>    #include <linux/log2.h>
->>> @@ -156,6 +157,48 @@ int cs_etm__get_cpu(u8 trace_chan_id, int *cpu)
->>>    	return 0;
->>>    }
->>> +/*
->>> + * The returned PID format is presented by two bits:
->>> + *
->>> + *   Bit ETM_OPT_CTXTID: CONTEXTIDR or CONTEXTIDR_EL1 is traced;
->>> + *   Bit ETM_OPT_CTXTID2: CONTEXTIDR_EL2 is traced.
->>> + *
->>> + * It's possible that these two bits are set together, this means the tracing
->>> + * contains PIDs for both CONTEXTIDR_EL1 and CONTEXTIDR_EL2.
+>>>    #include <linux/list.h>
+>>>    #include <linux/zalloc.h>
+>>> @@ -491,13 +492,36 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+>>>    			const ocsd_generic_trace_elem *elem,
+>>>    			const uint8_t trace_chan_id)
+>>>    {
+>>> -	pid_t tid;
+>>> +	pid_t tid = -1;
+>>> +	u64 pid_fmt;
+>>> +	int ret;
+>>> -	/* Ignore PE_CONTEXT packets that don't have a valid contextID */
+>>> -	if (!elem->context.ctxt_id_valid)
+>>> +	ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
+>>> +	if (ret)
 >>
->> This is a bit confusing. If both the bits are set, the session
->> was run on an EL2 kernel. Thus, the PID is always in CONTEXTIDR_EL2.
-> 
-> Sorry for confusion.  I'd like to rephrase as:
-> 
-> It's possible that the two bits ETM_OPT_CTXTID and ETM_OPT_CTXTID2 are
-> enabled at the same time when the session runs on an EL2 kernel.  This
-> means the CONTEXTIDR_EL1 and CONTEXTIDR_EL2 both will be recorded in
-> the trace data, the tool will selectively use CONTEXTIDR_EL2 as PID.
-> 
->>> + */
->>> +int cs_etm__get_pid_fmt(u8 trace_chan_id, u64 *pid_fmt)
->>> +{
->>> +	struct int_node *inode;
->>> +	u64 *metadata, val;
->>> +
->>> +	inode = intlist__find(traceid_list, trace_chan_id);
->>> +	if (!inode)
->>> +		return -EINVAL;
->>> +
->>> +	metadata = inode->priv;
->>> +
->>> +	if (metadata[CS_ETM_MAGIC] == __perf_cs_etmv3_magic) {
->>> +		val = metadata[CS_ETM_ETMCR];
->>> +		/* CONTEXTIDR is traced */
->>> +		if (val & BIT(ETM_OPT_CTXTID))
->>> +			*pid_fmt = BIT(ETM_OPT_CTXTID);
->>> +	} else {
->>> +		val = metadata[CS_ETMV4_TRCCONFIGR];
->>> +
->>> +		*pid_fmt = 0;
->>> +
->>> +		/* CONTEXTIDR_EL2 is traced */
->>> +		if (val & (BIT(ETM4_CFG_BIT_VMID) | BIT(ETM4_CFG_BIT_VMID_OPT)))
->>> +			*pid_fmt = BIT(ETM_OPT_CTXTID2);
->>> +
->>> +		/* CONTEXTIDR_EL1 is traced */
->>> +		if (val & BIT(ETM4_CFG_BIT_CTXTID))
+>> Is this something we can cache in this function ? e.g,
+>> 	static u64 pid_fmt;
 >>
->> I haven't looked at how this gets used. But, Shouldn't this be :
+>> 	if (!pid_pfmt)
+>> 		ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
 >>
->> 		else if (val & BIT(ETM4_CFG_BIT_CTXTID)) ?
+>> As all the ETMs will be running at the same exception level.
 > 
-> Actually it's deliberately to set both bits ETM_OPT_CTXTID2 and
-> ETM_OPT_CTXTID if user has enable configs "contextid1" and
-> "contextid2".  So this is exactly the reversed flow in the
-> function cs_etmv4_get_config().
+> Sorry that I let you repeated your comments again.
+> 
+> To be honest, I considered this after read your comment in the previous
+> series, but I thought it's possible that multiple CPUs have different
+> PID format, especially for big.LITTLE arch.  After read your suggestion
+> again, I think my concern is not valid, even for big.LITTLE, all CPUs
+> should run on the same kernel exception level.
+> 
+> So will follow up your suggestion to cache "pid_fmt".
 
-The point is, we don't care if the user selected both options. What we
-care is, where can we find the PID. CONTEXTIDR_EL1 or CONTEXTIDR_EL2.
-As such, get_pid_fmt simply should make that decision and pass it on.
-So, if the CONTEXTIDR_EL2 is selected (which can only be done successfully
-on an EL2 kernel), thats our pid.
+No problem.
 
-So we should return the format for the PID here. i.e
-  ETM_OPT_CTXTID2 OR ETM_OPT_CTXTID. But not both.
+> 
+>>
+>>> +		return OCSD_RESP_FATAL_SYS_ERR;
+>>> +
+>>> +	/*
+>>> +	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
+>>> +	 * If the kernel is running at EL2, the PID is traced in CONTEXTIDR_EL2
+>>> +	 * as VMID, Bit ETM_OPT_CTXTID2 is set in this case.
+>>> +	 */
+>>> +	switch (pid_fmt) {
+>>> +	case BIT(ETM_OPT_CTXTID):
+>>> +		if (elem->context.ctxt_id_valid)
+>>> +			tid = elem->context.context_id;
+>>> +		break;
+>>> +	case BIT(ETM_OPT_CTXTID2) | BIT(ETM_OPT_CTXTID):
+>>
+>> I would rather fix the cs_etm__get_pid_fmt() to return either of these
+>> as commented. i.e, ETM_OPT_CTXTID or ETM_OPT_CTXTID2. Thus we don't
+>> need the this case.
+> 
+> I explained why I set both bits for ETM_OPT_CTXTID and ETM_OPT_CTXTID2
+> in the patch 05/07.  Could you take a look for it?
 
-Cheers
+I have responded to the comment in the patch.
+
+> 
+>> With the above two addressed:
+>>
+>> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> 
+
+
+Thanks
 Suzuki
