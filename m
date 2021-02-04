@@ -4,103 +4,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED3FC433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE2EC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:27:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EACE64F53
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:25:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2940264E8C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 13:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236291AbhBDNZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 08:25:09 -0500
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:59217 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236287AbhBDNZJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 08:25:09 -0500
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 38AAE246E841
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 14:21:02 +0100 (CET)
-Received: from s498.loopia.se (unknown [172.22.191.6])
-        by s807.loopia.se (Postfix) with ESMTP id 18DF62E2B85F;
-        Thu,  4 Feb 2021 14:21:02 +0100 (CET)
-Received: from s473.loopia.se (unknown [172.22.191.5])
-        by s498.loopia.se (Postfix) with ESMTP id 061D148943E;
-        Thu,  4 Feb 2021 14:21:02 +0100 (CET)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s499.loopia.se ([172.22.191.6])
-        by s473.loopia.se (s473.loopia.se [172.22.190.13]) (amavisd-new, port 10024)
-        with LMTP id LRAnSmbQMixu; Thu,  4 Feb 2021 14:21:01 +0100 (CET)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.131.176
-Received: from localhost.localdomain (h-155-4-131-176.NA.cust.bahnhof.se [155.4.131.176])
-        (Authenticated sender: carl@hgsystem.se)
-        by s499.loopia.se (Postfix) with ESMTPSA id 02EA11CE601B;
-        Thu,  4 Feb 2021 14:21:00 +0100 (CET)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v2 1/2] hwmon: (pmbus) Add pmbus_set_update() function to set update flag
-Date:   Thu,  4 Feb 2021 14:20:39 +0100
-Message-Id: <20210204132040.3868-2-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210204132040.3868-1-erik.rosen@metormote.com>
-References: <20210204132040.3868-1-erik.rosen@metormote.com>
+        id S236315AbhBDN11 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 08:27:27 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:41588 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S236311AbhBDN1R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 08:27:17 -0500
+X-UUID: 1e28ea95ab33423aaa971d97ffaad201-20210204
+X-UUID: 1e28ea95ab33423aaa971d97ffaad201-20210204
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <ed.tsai@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 319922277; Thu, 04 Feb 2021 21:26:20 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 4 Feb 2021 21:25:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 4 Feb 2021 21:25:58 +0800
+From:   Ed Tsai <ed.tsai@mediatek.com>
+To:     <linux-f2fs-devel@lists.sourceforge.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <ed.tsai@mediatek.com>
+Subject: [PATCH] Documentation: f2fs: fix typo s/automaic/automatic
+Date:   Thu, 4 Feb 2021 21:25:56 +0800
+Message-ID: <20210204132556.14934-1-ed.tsai@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 264E744759CDFE8E1FA7B7EB4E35E7CEFEA19D310B34A1FB30C8694CD75E32962000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the STPDDC60 chip, the vout alarm-limits are represented as an offset
-relative to the commanded output voltage. This means that the limits are
-dynamic and must not be cached by the pmbus driver. This patch adds a
-pmbus_set_sensor() function to pmbus_core to be able to set the update flag
-on selected sensors after auto-detection of limit attributes.
+Fix typo in f2fs documentation.
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+Signed-off-by: Ed Tsai <ed.tsai@mediatek.com>
 ---
- drivers/hwmon/pmbus/pmbus.h      |  1 +
- drivers/hwmon/pmbus/pmbus_core.c | 11 +++++++++++
- 2 files changed, 12 insertions(+)
+ Documentation/filesystems/f2fs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
-index 4c30ec89f5bf..3968924f8533 100644
---- a/drivers/hwmon/pmbus/pmbus.h
-+++ b/drivers/hwmon/pmbus/pmbus.h
-@@ -475,6 +475,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
- /* Function declarations */
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index dae15c96e659..e1cda214058e 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -831,7 +831,7 @@ This is the default option. f2fs does automatic compression in the writeback of
+ compression enabled files.
  
- void pmbus_clear_cache(struct i2c_client *client);
-+void pmbus_set_update(struct i2c_client *client, u8 reg, bool update);
- int pmbus_set_page(struct i2c_client *client, int page, int phase);
- int pmbus_read_word_data(struct i2c_client *client, int page, int phase,
- 			 u8 reg);
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index 192442b3b7a2..a8f910826a18 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -141,6 +141,17 @@ void pmbus_clear_cache(struct i2c_client *client)
- }
- EXPORT_SYMBOL_GPL(pmbus_clear_cache);
- 
-+void pmbus_set_update(struct i2c_client *client, u8 reg, bool update)
-+{
-+	struct pmbus_data *data = i2c_get_clientdata(client);
-+	struct pmbus_sensor *sensor;
-+
-+	for (sensor = data->sensors; sensor; sensor = sensor->next)
-+		if (sensor->reg == reg)
-+			sensor->update = update;
-+}
-+EXPORT_SYMBOL_GPL(pmbus_set_update);
-+
- int pmbus_set_page(struct i2c_client *client, int page, int phase)
- {
- 	struct pmbus_data *data = i2c_get_clientdata(client);
+ 2) compress_mode=user
+-This disables the automaic compression and gives the user discretion of choosing the
++This disables the automatic compression and gives the user discretion of choosing the
+ target file and the timing. The user can do manual compression/decompression on the
+ compression enabled files using F2FS_IOC_DECOMPRESS_FILE and F2FS_IOC_COMPRESS_FILE
+ ioctls like the below.
 -- 
-2.30.0
+2.18.0
 
