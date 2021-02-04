@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA093C43381
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:21:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B0FC433E9
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:22:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BF8864F7E
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:21:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D26B764F77
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239969AbhBDUVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 15:21:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45336 "EHLO
+        id S239507AbhBDUVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:21:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239547AbhBDUU7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:20:59 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE936C061797
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:20:19 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id u15so2382069plf.1
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:20:19 -0800 (PST)
+        with ESMTP id S239967AbhBDUVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:21:48 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A4BC06178B
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 12:21:02 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id z9so2472647pjl.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 12:21:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=F9VJiSBsSJrC2jYFpinGxml1C+FEA2FI359p7GFWxRk=;
-        b=c/5NkgLk9f8BEYqE56ET8+WzEVofqlfPRO+MbMbE//bUeWJRI02oNDJzpV0SLJhIc5
-         6D9RH/prXQsmSQGf9ZgZnJtulSPKZgpfDnA7ktC3nrpRtv+lWuTHekSo3NZ/Nie2Hyb3
-         SJOnCJ5RfkMbhhOvVcpnRaN4WpUpxHytY/BYk=
+        bh=l281j3ItWk9H1C+Zr+UKWfAUNh5R5Gnsi8pKJzoTn0Y=;
+        b=m8bNR4kU1FTOhjXyaVKDbA4cJ6CUhZEAt/Acj2okLlIxhkSswEUS5rh6/beYKqU5Vv
+         TnBIgnOmsom9UNzPdiRegE73O4iBMPoKye2XicDP5jWBCvmifNLmjKp2S/L72D+Q5hcD
+         QdJgZCK8fwHFv1D4+EtdJ73MaSWkzRtnHxwRA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=F9VJiSBsSJrC2jYFpinGxml1C+FEA2FI359p7GFWxRk=;
-        b=VvdTDaCmWOsm+wAMjR4U0AIPrYMSOHy2DfT0+QwVC627lJNB9lrWyhzJbt0piKRwlp
-         RlHmSdtEV1wFr2wjORZAclPdGg3FJDOaRKQWdSfiDs8wgzEK1OkqvbGQZj1W2hzMc5+V
-         0ZorKUD8uYogsbzRkzG/vSLl68LvnhGKsF0X3gas5DcSKklPDU4lER/M5J5F+4txsJyY
-         iuDdwxMKI6rbnZCb1knm1XqRgh+Tdc8vrOS8EA7xSEhk35u5hdEFs7lfS1yyGhweL5Hh
-         wpm8uMYO3kZYbU3vONOCHqDc6bfLNdtzfC6L+gmyH83MweYeBCdVNgkmIjGL6iDSp+x9
-         pHEg==
-X-Gm-Message-State: AOAM532dMkNxmBZ0195puLz01NBbJhWtOAnxwac9YVx47qQWbdQED96o
-        TBQsDEQe44WD5uxAXHI6kkG+3g==
-X-Google-Smtp-Source: ABdhPJzAoT/duN3/3cQeFbJsfsFNnEoob6e0vNs7paRZBNrsjtPhY9hV5JE0VMUySldPrJ1O+2IAhg==
-X-Received: by 2002:a17:902:a517:b029:de:79a7:48d9 with SMTP id s23-20020a170902a517b02900de79a748d9mr794632plq.45.1612470019288;
-        Thu, 04 Feb 2021 12:20:19 -0800 (PST)
+        bh=l281j3ItWk9H1C+Zr+UKWfAUNh5R5Gnsi8pKJzoTn0Y=;
+        b=blb4Ls8kdnr9Jluehs1+U/aLUT0mM6ejpZ8fKMFH/BZ+rnaRtStSK+j2lhXMsMmsA7
+         QLFpbkoPnfZCl9rvVM10R8u2Ea5oX5TFd0KsNmrOpPkUvDNUtf8R2uYOWZisRNOQzjd5
+         0vFas/AjL0q0u14VUb4vJeGyfolt3EYCH1NqfdXrE3uF5GlA6ODegANda7q+CQEwAmEa
+         q/LDcDVIfqkTXEW9rMo8vvEBsuDYQ+wZTy5Ep4Zjbe7sJonE3vwf9Rd4z2ZHRf5+mRpG
+         A0SaptDqHLVGpqnPMVY652MAdS75KLTo8TJRvVgz/VIrzUO0Gm801KpiwuIae+qVUebp
+         C7bg==
+X-Gm-Message-State: AOAM533EvNgbD64csDCAdeKnMr9gmFUBBG4qoNg6psGDqgRxr8sCgYkX
+        WCS15+MYYYdhqJE6EeZLWUhNpw==
+X-Google-Smtp-Source: ABdhPJyGwK26WUMO7/KU2gMLYXNT/yAeEL27yvxDIb2PjlNVa9vK2qg04E5s4vM2GT6XMXvgvyy4ow==
+X-Received: by 2002:a17:902:8604:b029:e2:a249:4474 with SMTP id f4-20020a1709028604b02900e2a2494474mr745841plo.15.1612470061943;
+        Thu, 04 Feb 2021 12:21:01 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u12sm7319901pgi.91.2021.02.04.12.20.18
+        by smtp.gmail.com with ESMTPSA id 62sm5499904pfg.160.2021.02.04.12.21.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 12:20:18 -0800 (PST)
-Date:   Thu, 4 Feb 2021 12:20:17 -0800
+        Thu, 04 Feb 2021 12:21:01 -0800 (PST)
+Date:   Thu, 4 Feb 2021 12:21:00 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,30 +80,37 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 10/25] x86/mm: Update pte_modify for _PAGE_COW
-Message-ID: <202102041220.17A5BFD5BB@keescook>
+Subject: Re: [PATCH v19 11/25] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <202102041220.3F62D2775@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-11-yu-cheng.yu@intel.com>
+ <20210203225547.32221-12-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-11-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-12-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:32PM -0800, Yu-cheng Yu wrote:
-> The read-only and Dirty PTE has been used to indicate copy-on-write pages.
-> However, newer x86 processors also regard a read-only and Dirty PTE as a
-> shadow stack page.  In order to separate the two, the software-defined
-> _PAGE_COW is created to replace _PAGE_DIRTY for the copy-on-write case, and
-> pte_*() are updated.
+On Wed, Feb 03, 2021 at 02:55:33PM -0800, Yu-cheng Yu wrote:
+> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
+> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
 > 
-> Pte_modify() changes a PTE to 'newprot', but it doesn't use the pte_*().
-> Introduce fixup_dirty_pte(), which sets a dirty PTE, based on _PAGE_RW,
-> to either _PAGE_DIRTY or _PAGE_COW.
+> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
+> become a transient shadow stack PTE in two cases:
 > 
-> Apply the same changes to pmd_modify().
+> The first case is that some processors can start a write but end up seeing
+> a read-only PTE by the time they get to the Dirty bit, creating a transient
+> shadow stack PTE.  However, this will not occur on processors supporting
+> Shadow Stack, and a TLB flush is not necessary.
+> 
+> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
+> atomically, a transient shadow stack PTE can be created as a result.
+> Thus, prevent that with cmpxchg.
+> 
+> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+> insights to the issue.  Jann Horn provided the cmpxchg solution.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
