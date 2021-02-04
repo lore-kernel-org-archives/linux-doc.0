@@ -2,33 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0807C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 11:09:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9AA5C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 11:25:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 79E2E64F72
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 11:09:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B09A64DE1
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 11:25:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235594AbhBDLJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 06:09:28 -0500
-Received: from foss.arm.com ([217.140.110.172]:56172 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235551AbhBDLJV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 06:09:21 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3765FD6E;
-        Thu,  4 Feb 2021 03:08:36 -0800 (PST)
-Received: from [10.57.60.124] (unknown [10.57.60.124])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EE403F73B;
-        Thu,  4 Feb 2021 03:08:31 -0800 (PST)
-Subject: Re: [PATCH v2 7/7] Documentation: coresight: Add PID tracing
- description
-To:     Leo Yan <leo.yan@linaro.org>, Mike Leach <mike.leach@linaro.org>
+        id S235655AbhBDLYk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 06:24:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235317AbhBDLYh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 06:24:37 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CF2FC061786
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 03:23:57 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id j2so1900142pgl.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 03:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=V7rULbaG104yDDjFdCtwJRa6RUjo/05yFDNeO4JtaHA=;
+        b=C7ZiWmSrGeODfkXEGEpjdykW+98WjIcptGxEOqlC3RJeYOqpzVBGXv7BdvYrm0gCEB
+         M1M93TlBRl3d4CucYu48KGzZU/+L3AgjynwBUzefZ54YLFAfhGMw8Y1gA/OeuoMymZ7S
+         wTazGC5lQA/cfRHLqXUUEVMlBtgjKkKWdQCunPdVKG3YMWMTtdXyIx8mPsfd25Xp3pjN
+         +taCuLag0SA9HIY+HKl94eIe6eYlG0rwQgKQDeGdocvYL4d/RTtlrr6H4NiC0eGbMtJF
+         xLxIFD50DdIbMpy7/ognjZ31wkVi+iAbroH07xKWrG8RWGdA9L4Z3SHOkELRY5f5S4rC
+         tLTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=V7rULbaG104yDDjFdCtwJRa6RUjo/05yFDNeO4JtaHA=;
+        b=TXyjb95jmMSEJfFfUnrO0XA/ULTodTFUrB5JMjzVmCYr78S8BZKb8flQxPxHEoC+1a
+         KkEyvPZ8zAu3JYVqxvk7LoSymd7JIOvMNTOl4QiYaGDnZVMdzFq+xUCVGN4WNu73bMQA
+         fkPkxJJabGBGfLRe890isOWQl8encUsXB+vDxOaBp7cwEofYsdWSKC55m0UrzOUjPCc5
+         w+SpuLrW889qa/Whbzd6/+SkilVlD6y8k61xE82gHMAfNDkMdb1IE3W3u3Y0VB7zd18w
+         GZTbnv+T+xr698cgUToTTCWI+4FLxHIS1fV8i2mcpa5DQmkXS52jcw9NypUg00RliFgv
+         u7dw==
+X-Gm-Message-State: AOAM533VGEp4aCgxOTgiSkoUtt11ACwf+8T5MG7MAqs2xCrUANrW3N92
+        yG5k0VcW+AI7mFpDXi5bapZnkIk/RzkTa3yG
+X-Google-Smtp-Source: ABdhPJxP8Tg5PNgxlzWSgKs1us0dllC703LhNsBDnEfjrpix9Ew9+wtzTM2p8dAxirTYjD6HjMf8LQ==
+X-Received: by 2002:aa7:87d8:0:b029:1bd:d756:bdc9 with SMTP id i24-20020aa787d80000b02901bdd756bdc9mr7815954pfo.68.1612437836456;
+        Thu, 04 Feb 2021 03:23:56 -0800 (PST)
+Received: from leoy-ThinkPad-X240s ([202.155.204.36])
+        by smtp.gmail.com with ESMTPSA id i7sm5012158pjx.13.2021.02.04.03.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Feb 2021 03:23:55 -0800 (PST)
+Date:   Thu, 4 Feb 2021 19:23:49 +0800
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
 Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         John Garry <john.garry@huawei.com>,
@@ -39,139 +70,75 @@ Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Jiri Olsa <jolsa@redhat.com>,
         Namhyung Kim <namhyung@kernel.org>,
         Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Denis Nikitin <denik@chromium.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] perf cs-etm: Add helper cs_etm__get_pid_fmt()
+Message-ID: <20210204112349.GB4737@leoy-ThinkPad-X240s>
 References: <20210202163842.134734-1-leo.yan@linaro.org>
- <20210202163842.134734-8-leo.yan@linaro.org>
- <CAJ9a7VgzNphx=OkxjrxHJsuFAYEbOgHuAm9ysdwHq20=GhbgTg@mail.gmail.com>
- <20210204040909.GH11059@leoy-ThinkPad-X240s>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <a6ee6d9e-a17f-0861-60b5-585abe99ce92@arm.com>
-Date:   Thu, 4 Feb 2021 11:08:18 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ <20210202163842.134734-6-leo.yan@linaro.org>
+ <51a1e845-f9a4-3c6e-88a2-c105f5b5adfe@arm.com>
+ <20210204034743.GE11059@leoy-ThinkPad-X240s>
+ <afb60e3b-697d-4503-a8de-11cd1a0bf97d@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204040909.GH11059@leoy-ThinkPad-X240s>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afb60e3b-697d-4503-a8de-11cd1a0bf97d@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/21 4:09 AM, Leo Yan wrote:
-> Hi Mike,
-> 
-> On Wed, Feb 03, 2021 at 05:39:54PM +0000, Mike Leach wrote:
-> 
-> [...]
-> 
->>> +2.2) Tracing PID
->>> +
->>> +When the kernel is running at EL2 with Virtualization Host Extensions (VHE),
->>> +perf records CONTEXTIDR_EL2 in the trace data and can be used as PID when
->>> +decoding; and if the kernel is running at EL1 with nVHE, CONTEXTIDR_EL1 is
->>> +traced for PID.
->>> +
->>
->> Would this introductory paragraph be better if is explained where the
->> kernel stores the PID for the different levels, then we logically move
->> on to how to trace this in perf.
->>
->> e.g:-
->>
->> "The lernel can be built to write the PID value into the PE ContextID registers.
->> For a kernel running at EL1, the PID is stored in CONTEXTIDR_EL1.
->> A PE may implement ARM Virtualisation Host Extensions (VHE), were the
->> kernel can run at EL2 as a virtualisation host.
->> In this case the PID value is stored in CONTEXTIDR_EL2.
->> perf provides PMU options which program the ETM to insert these values
->> into the trace data."
-> 
-> Will in next spin; thanks a lot for writing up!
-> 
->>> +To support tracing PID for the kernel runs at different exception levels,
->>> +the PMU formats are defined as follow:
->>> +
->>> +  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
->>> +                kernel is running at EL1, "contextid1" enables the PID
->>> +                tracing; when the kernel is running at EL2, this enables
->>> +                tracing the PID of guest applications.
->>> +
->>> +  "contextid2": Only usable when the kernel is running at EL2.  When
->>> +                selected, enables PID tracing on EL2 kernel.
->>> +
->>> +  "contextid":  Will be an alias for the option that enables PID
->>> +                tracing.  I.e,
->>> +                contextid == contextid1, on EL1 kernel.
->>> +                contextid == contextid2, on EL2 kernel.
->>> +
->>> +The perf tool automatically sets corresponding bit for the "contextid" config,
->>> +therefore, the user doesn't have to bother which EL the kernel is running.
->>> +
->>> +  i.e, perf record -e cs_etm/contextid/u -- uname
->>> +    or perf record -e cs_etm//u -- uname
->>> +
->>> +will always do the "PID" tracing, independent of the kernel EL.
->>> +
->>
->> This is telling me that both cs_etm// and cs_etm/contextid/ have the
->> same effect - trace PID. Is this correct?
-> 
+On Thu, Feb 04, 2021 at 10:54:24AM +0000, Suzuki Kuruppassery Poulose wrote:
 
-Just to make this clear, this is not a side effect of the patch. The perf
-tool driver automatically adds the "contextid" tracing and timestamp for
-"system wide" and process bound events, as they traces get mixed into
-the single sink. So these options are added implicitly by the perf tool
-to make the decoding easier.
+[...]
 
-> Correct.
+> > > > +int cs_etm__get_pid_fmt(u8 trace_chan_id, u64 *pid_fmt)
+> > > > +{
+> > > > +	struct int_node *inode;
+> > > > +	u64 *metadata, val;
+> > > > +
+> > > > +	inode = intlist__find(traceid_list, trace_chan_id);
+> > > > +	if (!inode)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	metadata = inode->priv;
+> > > > +
+> > > > +	if (metadata[CS_ETM_MAGIC] == __perf_cs_etmv3_magic) {
+> > > > +		val = metadata[CS_ETM_ETMCR];
+> > > > +		/* CONTEXTIDR is traced */
+> > > > +		if (val & BIT(ETM_OPT_CTXTID))
+> > > > +			*pid_fmt = BIT(ETM_OPT_CTXTID);
+> > > > +	} else {
+> > > > +		val = metadata[CS_ETMV4_TRCCONFIGR];
+> > > > +
+> > > > +		*pid_fmt = 0;
+> > > > +
+> > > > +		/* CONTEXTIDR_EL2 is traced */
+> > > > +		if (val & (BIT(ETM4_CFG_BIT_VMID) | BIT(ETM4_CFG_BIT_VMID_OPT)))
+> > > > +			*pid_fmt = BIT(ETM_OPT_CTXTID2);
+> > > > +
+> > > > +		/* CONTEXTIDR_EL1 is traced */
+> > > > +		if (val & BIT(ETM4_CFG_BIT_CTXTID))
+> > > 
+> > > I haven't looked at how this gets used. But, Shouldn't this be :
+> > > 
+> > > 		else if (val & BIT(ETM4_CFG_BIT_CTXTID)) ?
+> > 
+> > Actually it's deliberately to set both bits ETM_OPT_CTXTID2 and
+> > ETM_OPT_CTXTID if user has enable configs "contextid1" and
+> > "contextid2".  So this is exactly the reversed flow in the
+> > function cs_etmv4_get_config().
 > 
->> If so, then contextid, contextid1 and contextid2 have no effect except
->> in specific EL2 circumstances.
-
-These are required when perf tool may not automatically request them.
-With this series the EL2 is on par with the EL1, where we get the PID
-automatcially in the trace.
-
-And as you rightly said, contextid1, contextid2 are for EL2 specific
-usage.
-
-Cheers
-Suzuki
-
+> The point is, we don't care if the user selected both options. What we
+> care is, where can we find the PID. CONTEXTIDR_EL1 or CONTEXTIDR_EL2.
+> As such, get_pid_fmt simply should make that decision and pass it on.
+> So, if the CONTEXTIDR_EL2 is selected (which can only be done successfully
+> on an EL2 kernel), thats our pid.
 > 
-> Yes, exactly.
-> 
-> Thanks,
-> Leo
-> 
->>> +When the kernel is running at EL2 with VHE, if user wants to trace both the
->>> +PIDs for both host and guest, the two configs "contextid1" and "contextid2"
->>> +can be set at the same time:
->>> +
->>> +  perf record -e cs_etm/contextid1,contextid2/u -- uname
->>> +
->>>
->>
->>
->> Regards
->>
->> Mike
->>
->>
->>>   Generating coverage files for Feedback Directed Optimization: AutoFDO
->>>   ---------------------------------------------------------------------
->>> --
->>> 2.25.1
->>>
->>
->>
->> --
->> Mike Leach
->> Principal Engineer, ARM Ltd.
->> Manchester Design Centre. UK
+> So we should return the format for the PID here. i.e
+>  ETM_OPT_CTXTID2 OR ETM_OPT_CTXTID. But not both.
 
+Okay, if so I will follow your suggestion.
+
+Thanks,
+Leo
