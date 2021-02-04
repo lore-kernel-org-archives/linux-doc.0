@@ -2,124 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53241C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6BCEC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:51:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B3A664F58
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 18:12:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 823F264F6D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238802AbhBDSKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 13:10:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43420 "EHLO
+        id S239233AbhBDTvC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 14:51:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238423AbhBDSBz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 13:01:55 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E229C06178A;
-        Thu,  4 Feb 2021 10:01:15 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a9so6984688ejr.2;
-        Thu, 04 Feb 2021 10:01:14 -0800 (PST)
+        with ESMTP id S237980AbhBDTul (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:50:41 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF35C0613D6
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:50:01 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id d26so1534687pfn.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ZHBEJ8FwkupWZ7bmcsgrO3m9sgXuJNn38vNKuN1edjA=;
-        b=JVFnL4KodfaMnCMCz67JPa7+zW7Jv3bt2nRxoNOFqx26A1jl3X+KoYJNEMjRYeAnwm
-         bVblKp35bKqQpYiThUicQRP417Ild1HbxZu5Z89b/hfQTXYvQbCkT7QD14Q6l2zBDOhP
-         xzeTZ5uSpqyZlXCeYQCfgoml0HbQKSY2VrRq4qWSKbBapPLx4iOkWrUTXkGsnyHgZJlr
-         T9tn2P2bA3uYK0fn5TsSy5KY7KPzH8ZxH+IhexafvIuzjXujWkQRJshHQ6lW1SDH70ae
-         p7Jx7dkFUdf6rz2TV1ekgFPLJjxOm/7WOPhsBo9Oaakpbknwx3COnqMlfMvbvCE/taS1
-         fAhg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YGpFXYKJAyY687eckGJmRvP0PWeimiXLgNP+xU7/nqo=;
+        b=jNNn3+1W3q2GnDkbDg5t75Hoqqb6seGdjr7W6ch2OjxIYQ+lEj9RXyDW8vL2LnL17O
+         7p4KUfwWEJhn1xLRJXFWJ4/XLv358OAS0rDOQxTuyiD+CqW3xrLuas3TWxdLSS2H7Xb5
+         ku1U3RHyZzcqD1+7uVRUTDF5v4lSLOACpHUeo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ZHBEJ8FwkupWZ7bmcsgrO3m9sgXuJNn38vNKuN1edjA=;
-        b=L1tjCEcN4WwaCKTF44osdxnWy1EZNtHoEABp7/lrL+pjr7pck/3sVz940UJZ+kQdk0
-         mXLeEvsrNqkNdDldbd9VgtmbO0ZEal9MrY0CBmH07VCaHAZuuleKj6sDwGdWb5piCA0X
-         GK7o47v+1J3w9DiLw8N6rA60Ddn9HzVcpApy9fpSfPb05UqaLQTyJR5E5NjcWHLBh8mb
-         MI1H8jGwy3UqJv57gRS7a6kpMkPmFT70GCjNiKp5OA140FhbPhcpw4BXg7gUtYPZ8aNn
-         rbz3lZqvsFMBU4WHv6G9gpqnvtGXYhYQiO5aYJhDOHOS7T+0qOUZHzQtg5zCwlmWws3v
-         o94w==
-X-Gm-Message-State: AOAM531dZgpoarJ4thGwshRz6ZEwVLEMwAg/vussN8HAYAGhUr05NK8T
-        w31qvToqmi/3cojOLEfu/2g=
-X-Google-Smtp-Source: ABdhPJweEt6yOwCwmrZgmwJRRPGNGJr7KlH1bVPQyMpTIOz6P2t+SszEqseExdEPr5IBmw3CLcS0yg==
-X-Received: by 2002:a17:906:2495:: with SMTP id e21mr315799ejb.280.1612461673716;
-        Thu, 04 Feb 2021 10:01:13 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2de7:9900:24e0:4d40:c49:5282])
-        by smtp.gmail.com with ESMTPSA id bo24sm2810326edb.51.2021.02.04.10.01.12
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YGpFXYKJAyY687eckGJmRvP0PWeimiXLgNP+xU7/nqo=;
+        b=D1w/ae7uH0uIPah3v3Q2+RXo/sUTIqdZ9puNBYBi+3kem8/8QB2sXzrKBoqBUuucIA
+         eUvg+/+dNELQoOTUhtokCW+QPsnlDGqEkBLkUehGN4pFoFLEnukuTotg/VpO7a77MSx7
+         8xelwAIK+neZ8F09ieLEFUwwIc2Im0Y1NlmhrfCET8kv1Ba2wMSCk9JCE2IIZ6apyRVa
+         s1PqRlzAcE3BVvFZfOVTHFtdpyB+QdN575yhzMZLFtiSTbZFJ4UbFTDJFClkZ7SZC+Tq
+         bcGSuBM2QgFlb99GmghHBS/ckoUiyi+XPIxIp0eqcWq+XaZIsKeEQQZN4mUFBoeVEfmD
+         XmMQ==
+X-Gm-Message-State: AOAM532oJBpRCH+0JXzgED1syTGa/CJqlQKe93e5BLw3l0GDZalF7JPZ
+        CSffC/dBRaGxqFZYLRaiZn5K9w==
+X-Google-Smtp-Source: ABdhPJy5N6yshiiKOkoPYx0cJNX+OaE9hEUPv9SEHAC+Nz8m2HAkwuR8P/TY+xrcUega9fpe8DszDQ==
+X-Received: by 2002:a65:6886:: with SMTP id e6mr588022pgt.73.1612468201098;
+        Thu, 04 Feb 2021 11:50:01 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id j5sm6035843pjf.47.2021.02.04.11.49.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 10:01:13 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-fsdevel@vger.kernel.org
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 1/5] fs: turn some comments into kernel-doc
-Date:   Thu,  4 Feb 2021 19:00:55 +0100
-Message-Id: <20210204180059.28360-2-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
-References: <20210204180059.28360-1-lukas.bulwahn@gmail.com>
+        Thu, 04 Feb 2021 11:49:59 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:49:58 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v19 1/7] x86/cet/ibt: Update Kconfig for user-mode
+ Indirect Branch Tracking
+Message-ID: <202102041149.8B30B1E@keescook>
+References: <20210203225902.479-1-yu-cheng.yu@intel.com>
+ <20210203225902.479-2-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210203225902.479-2-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While reviewing ./include/linux/fs.h, I noticed that three comments can
-actually be turned into kernel-doc comments. This allows to check the
-consistency between the descriptions and the functions' signatures in
-case they may change in the future.
+On Wed, Feb 03, 2021 at 02:58:56PM -0800, Yu-cheng Yu wrote:
+> Indirect branch tracking is a hardware security feature that verifies near
+> indirect call/jump instructions arrive at intended targets, which are
+> labeled by the compiler with ENDBR opcodes.  If such instructions reach
+> unlabeled locations, the processor raises control-protection faults.
+> 
+> Check the compiler is up-to-date at config time.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-A quick validation with the consistency check:
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-  ./scripts/kernel-doc -none include/linux/fs.h
-
-currently reports no issues in this file.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- include/linux/fs.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 3482146b11b0..04b6b142dfcf 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1739,7 +1739,7 @@ static inline void sb_start_pagefault(struct super_block *sb)
- 	__sb_start_write(sb, SB_FREEZE_PAGEFAULT);
- }
- 
--/*
-+/**
-  * sb_start_intwrite - get write access to a superblock for internal fs purposes
-  * @sb: the super we write to
-  *
-@@ -3162,7 +3162,7 @@ static inline ssize_t blockdev_direct_IO(struct kiocb *iocb,
- 
- void inode_dio_wait(struct inode *inode);
- 
--/*
-+/**
-  * inode_dio_begin - signal start of a direct I/O requests
-  * @inode: inode the direct I/O happens on
-  *
-@@ -3174,7 +3174,7 @@ static inline void inode_dio_begin(struct inode *inode)
- 	atomic_inc(&inode->i_dio_count);
- }
- 
--/*
-+/**
-  * inode_dio_end - signal finish of a direct I/O requests
-  * @inode: inode the direct I/O happens on
-  *
 -- 
-2.17.1
-
+Kees Cook
