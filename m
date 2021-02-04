@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F390C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3138AC433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:03:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4651964F51
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 19:54:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0E7264E35
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Feb 2021 20:03:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239418AbhBDTyY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 14:54:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39380 "EHLO
+        id S239950AbhBDUCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 15:02:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239583AbhBDTxf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 14:53:35 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A759C06178C
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:52:55 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id g3so2341718plp.2
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:52:55 -0800 (PST)
+        with ESMTP id S239954AbhBDUAZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Feb 2021 15:00:25 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1CFC061786
+        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 11:59:45 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id o63so2874845pgo.6
+        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 11:59:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=T9AG0M0o5O+h9fP2xKRDxPlB8Ctdkqhf6o2D4rpy6+g=;
-        b=RAOV7LdWTzqKAFqnvxTN/A7FE6XLME1YD2+exfJflocSTPK0YEmGOdX5o134MKOn3w
-         3e132GGs/Rrn66muOUOTMHl/0FdfpJXiSp02skj/T7NO8geQxKHEM/K26V1fSG8W0vFq
-         6AlcCB7zV3dWnr4cjWNj2b1nXANmZXfVYAjcQ=
+        bh=Jq2q8UEnLf/ipaLn8qV8ffzERNFqom9zzTJdc5kA6TY=;
+        b=ZYyCgZ2F8b338soHdc11pps9YeSV7ZHYyO2VtWyXSsMAOujNdBUH5nPK8ZS/Niujt+
+         IfkH6tdg2aLeIBLt0gSKeQNFL2XubqtzQ4rZm6M7wbFlfc+3eaFryYNqoPSM7KYNMdLP
+         QUK4+z7PSBVL/VWNGJ+JUJjOsKs4CFNQ8zt+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=T9AG0M0o5O+h9fP2xKRDxPlB8Ctdkqhf6o2D4rpy6+g=;
-        b=JzNjlfJOuj8whq+KNZe7hxYQS0PHqwsPuzuIK+F7t7Z0o+Vk1BGkP3wCUdPsDgKzNs
-         5oovUcbQfZW06J6rWWOkkljUyzDhn3ayFkrIdybXOINz0YDsMRBpKJiRbgw2NULeQF+v
-         2EZVk1r4xgu0kSMIX2qConLQR1bbbNeUq6ayHTxpvHck+vgiyPQVdDsmCtB276+rIaoY
-         oRD2Z/TKSuuvlqDOGhrY4x6pvur9+ITVtqQ84fwpOyMzvG9blE92GeOGOpcoOSVIDQ6P
-         8TDAhdgCSNisR19phGWdydARFZ7dSHq8/NFsOTX2g7hQ6alr14cDYo2qcnkaTl38+zMX
-         lxkg==
-X-Gm-Message-State: AOAM533B1CTxY+2q08Ev0fPoiiMfDHSQxK7GPnHezMbdov9RPnnDSOrW
-        bqgbVyK95bNsJMprOQZEO2iE6Q==
-X-Google-Smtp-Source: ABdhPJzp+1ZimY7nJijJSKbz7msA3e2GL3ZygWVrX3UvWeThNpaUiW7HjJrS/JYH1z9vn0t+7eB3Zg==
-X-Received: by 2002:a17:90b:4a4d:: with SMTP id lb13mr595128pjb.44.1612468374865;
-        Thu, 04 Feb 2021 11:52:54 -0800 (PST)
+        bh=Jq2q8UEnLf/ipaLn8qV8ffzERNFqom9zzTJdc5kA6TY=;
+        b=nRafxfB9ErVBpF3asqKiSyTgOE7vHZb4uezWiYqwB3lloqOMGBs2BW7tJAH01+Ic6Q
+         6UQ/9VvXMBHEXN19wbgbp3xAnkmNlr0qdXwPKTnEkribscecFtCE2F3PF3b90moqoQL4
+         95SCEpMuEV4z5ZwXKWdS7+Hr7tB7rFqLqgrg6o6vkTElZSLAK4qnsMpxWxnieQH1ORQY
+         2EuVz/NFM2ruYe0NKofCAD6TZgeap6Ou7oSh53yLuOfzKH8bnbusTDE6fxFlrXui25VX
+         BYDzq6gXfYa3Zieo5oqw2MDkctX2QrMOblASaIMkF50J36W4/yAar6N8zG08ipxxVtS5
+         y3EQ==
+X-Gm-Message-State: AOAM531qx8jDPPDyn4KOkJF9DEc0kDebphUQ7/IlxqJdXt/yPW7NJxgd
+        ZCSHFUQLa6S9+eEQXZzunf3Umw==
+X-Google-Smtp-Source: ABdhPJyX1CKVmOuXV0WfZcsqr7hAOp3Xs811ygdcnoVbhm6hgEhwEQsoz8sIXQhzjpeiKUL/zZkRrQ==
+X-Received: by 2002:a63:2d3:: with SMTP id 202mr622394pgc.438.1612468785083;
+        Thu, 04 Feb 2021 11:59:45 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a24sm7359811pff.18.2021.02.04.11.52.53
+        by smtp.gmail.com with ESMTPSA id e12sm6152391pjj.23.2021.02.04.11.59.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 11:52:54 -0800 (PST)
-Date:   Thu, 4 Feb 2021 11:52:53 -0800
+        Thu, 04 Feb 2021 11:59:44 -0800 (PST)
+Date:   Thu, 4 Feb 2021 11:59:43 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -80,21 +80,38 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 01/25] Documentation/x86: Add CET description
-Message-ID: <202102041152.E257D3E2BE@keescook>
+Subject: Re: [PATCH v19 05/25] x86/fpu/xstate: Introduce CET MSR and XSAVES
+ supervisor states
+Message-ID: <202102041159.44C6C3588@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-2-yu-cheng.yu@intel.com>
+ <20210203225547.32221-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210203225547.32221-2-yu-cheng.yu@intel.com>
+In-Reply-To: <20210203225547.32221-6-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 03, 2021 at 02:55:23PM -0800, Yu-cheng Yu wrote:
-> Explain no_user_shstk/no_user_ibt kernel parameters, and introduce a new
-> document on Control-flow Enforcement Technology (CET).
+On Wed, Feb 03, 2021 at 02:55:27PM -0800, Yu-cheng Yu wrote:
+> Control-flow Enforcement Technology (CET) introduces these MSRs:
+> 
+>     MSR_IA32_U_CET (user-mode CET settings),
+>     MSR_IA32_PL3_SSP (user-mode shadow stack pointer),
+> 
+>     MSR_IA32_PL0_SSP (kernel-mode shadow stack pointer),
+>     MSR_IA32_PL1_SSP (Privilege Level 1 shadow stack pointer),
+>     MSR_IA32_PL2_SSP (Privilege Level 2 shadow stack pointer),
+>     MSR_IA32_S_CET (kernel-mode CET settings),
+>     MSR_IA32_INT_SSP_TAB (exception shadow stack table).
+> 
+> The two user-mode MSRs belong to XFEATURE_CET_USER.  The first three of
+> kernel-mode MSRs belong to XFEATURE_CET_KERNEL.  Both XSAVES states are
+> supervisor states.  This means that there is no direct, unprivileged access
+> to these states, making it harder for an attacker to subvert CET.
+> 
+> For sigreturn and future ptrace() support, shadow stack address and MSR
+> reserved bits are checked before written to the supervisor states.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
