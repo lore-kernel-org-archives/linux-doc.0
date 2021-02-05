@@ -2,174 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE56EC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 05:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC045C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 07:26:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8914F64FC1
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 05:43:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D4F764FBF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 07:26:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230288AbhBEFnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 00:43:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhBEFnF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 00:43:05 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D578CC0613D6
-        for <linux-doc@vger.kernel.org>; Thu,  4 Feb 2021 21:42:24 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id y10so2999156plk.7
-        for <linux-doc@vger.kernel.org>; Thu, 04 Feb 2021 21:42:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FvgdxNInb0oVeGhL4PW/aE3z9p2JTGo1itzqu/MywdU=;
-        b=IVavZq/Gz1USEIInGrPz5TOyKYbE7Ob0IDyu79VNFqRAXQ22ugPOPN46o+Ih/VEElJ
-         CNgSWlsrmttQ/emnDT7r3DbntylSHCDXTOoEs6NgtTLCONEi1eY0ARVAQzM4x4cvJv8i
-         SLDcqIEmh/U3NlxLI11F+4wTjU84tHh40hAC0xZYFxeBaDAmRGnYXy3fFFMHk9Ki34vm
-         I5FyNT0gVVW6oDa0sDbqGY3rLV+EpnVQdSPlQffa5RQI/8yLJzc8e1tRKN/j2t2zL9Vv
-         Zv/qy++/SMo7tLo8elxjwL3yYgSY/hOjtqJArootYSi4DIGA/IKPTZrk0RyFwAqzH4cJ
-         +whQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=FvgdxNInb0oVeGhL4PW/aE3z9p2JTGo1itzqu/MywdU=;
-        b=bGg4Cf1pizxbdFc5uxfh+6U3fhQu2rXSXW4RtVCY0wBwpSobmVyHyEO5iqvH433wQM
-         G/VFd7wOjxZuLk/AyTIC1uPKFooi7FazgPS7Nmmn26eynEMbpKf32fmOmto8aBtMqC9c
-         bvtZYCOfJnILK5FJ1FTUmw9wC+Kglc4I0OWvMglpe5zRL1JKoR4HReaWv0Dz1gLo5qJ2
-         LYvJOMo6lVzJ0pyF+bYvxx5ipWc2uMaL6OblRBd7ZI17sUnaa8LQLa0pB+zsCuy3omD0
-         g8hfjPAJ9utLsP9C/wW7nytS4N9kGfd2dOCA9K9vtjZUgU0OAQvsNejIOdtieCKTLZ8o
-         I8MQ==
-X-Gm-Message-State: AOAM531U+2SSK3ENITIvVZ9TZYaW/Ox3nmFESeCFekgvt6+ny2yCAqa0
-        ikIcUGOecD9b5UqkPEDzjwP5TA==
-X-Google-Smtp-Source: ABdhPJxme1S5+Tw77DQWAZHvdF86EsOcfYUldc3Zua8T3zS6vzsVRpOxUUme8ALWJLXRulAc6k6fCw==
-X-Received: by 2002:a17:902:a614:b029:e1:5b43:956a with SMTP id u20-20020a170902a614b02900e15b43956amr2909593plq.38.1612503744336;
-        Thu, 04 Feb 2021 21:42:24 -0800 (PST)
-Received: from leoy-ThinkPad-X240s ([202.131.71.236])
-        by smtp.gmail.com with ESMTPSA id j9sm8572756pgb.47.2021.02.04.21.42.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Feb 2021 21:42:23 -0800 (PST)
-Date:   Fri, 5 Feb 2021 13:42:16 +0800
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 7/7] Documentation: coresight: Add PID tracing
- description
-Message-ID: <20210205054216.GB5797@leoy-ThinkPad-X240s>
-References: <20210202163842.134734-1-leo.yan@linaro.org>
- <20210202163842.134734-8-leo.yan@linaro.org>
- <CAJ9a7VgzNphx=OkxjrxHJsuFAYEbOgHuAm9ysdwHq20=GhbgTg@mail.gmail.com>
- <20210204040909.GH11059@leoy-ThinkPad-X240s>
- <a6ee6d9e-a17f-0861-60b5-585abe99ce92@arm.com>
- <CAJ9a7VgQUAsD46DQARXm1qwiNgd4KU+yymezSEqmoX_7Umvt_A@mail.gmail.com>
+        id S231349AbhBEH0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 02:26:17 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12466 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230486AbhBEH0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 02:26:16 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DX6Nr38k6zjKjh;
+        Fri,  5 Feb 2021 15:24:12 +0800 (CST)
+Received: from [10.174.179.241] (10.174.179.241) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 5 Feb 2021 15:25:25 +0800
+Subject: Re: [PATCH v14 5/8] mm: hugetlb: add a kernel parameter
+ hugetlb_free_vmemmap
+To:     Muchun Song <songmuchun@bytedance.com>
+CC:     <duanxiongchun@bytedance.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-fsdevel@vger.kernel.org>, <corbet@lwn.net>,
+        <mike.kravetz@oracle.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
+        <hpa@zytor.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>,
+        <peterz@infradead.org>, <viro@zeniv.linux.org.uk>,
+        <akpm@linux-foundation.org>, <paulmck@kernel.org>,
+        <mchehab+huawei@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
+        <rdunlap@infradead.org>, <oneukum@suse.com>,
+        <anshuman.khandual@arm.com>, <jroedel@suse.de>,
+        <almasrymina@google.com>, <rientjes@google.com>,
+        <willy@infradead.org>, <osalvador@suse.de>, <mhocko@suse.com>,
+        <song.bao.hua@hisilicon.com>, <david@redhat.com>,
+        <naoya.horiguchi@nec.com>
+References: <20210204035043.36609-1-songmuchun@bytedance.com>
+ <20210204035043.36609-6-songmuchun@bytedance.com>
+From:   Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <75172dd1-8948-62b7-4ad8-f158785fd6b9@huawei.com>
+Date:   Fri, 5 Feb 2021 15:25:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ9a7VgQUAsD46DQARXm1qwiNgd4KU+yymezSEqmoX_7Umvt_A@mail.gmail.com>
+In-Reply-To: <20210204035043.36609-6-songmuchun@bytedance.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.241]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 12:14:12PM +0000, Mike Leach wrote:
-
-[...]
-
-> > >>> +To support tracing PID for the kernel runs at different exception levels,
-> > >>> +the PMU formats are defined as follow:
-> > >>> +
-> > >>> +  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-> > >>> +                kernel is running at EL1, "contextid1" enables the PID
-> > >>> +                tracing; when the kernel is running at EL2, this enables
-> > >>> +                tracing the PID of guest applications.
-> > >>> +
-> > >>> +  "contextid2": Only usable when the kernel is running at EL2.  When
-> > >>> +                selected, enables PID tracing on EL2 kernel.
-> > >>> +
-> > >>> +  "contextid":  Will be an alias for the option that enables PID
-> > >>> +                tracing.  I.e,
-> > >>> +                contextid == contextid1, on EL1 kernel.
-> > >>> +                contextid == contextid2, on EL2 kernel.
-> > >>> +
-> > >>> +The perf tool automatically sets corresponding bit for the "contextid" config,
-> > >>> +therefore, the user doesn't have to bother which EL the kernel is running.
-> > >>> +
-> > >>> +  i.e, perf record -e cs_etm/contextid/u -- uname
-> > >>> +    or perf record -e cs_etm//u -- uname
-> > >>> +
-> > >>> +will always do the "PID" tracing, independent of the kernel EL.
-> > >>> +
-> > >>
-> > >> This is telling me that both cs_etm// and cs_etm/contextid/ have the
-> > >> same effect - trace PID. Is this correct?
-> > >
-> >
-> > Just to make this clear, this is not a side effect of the patch.
+Hi:
+On 2021/2/4 11:50, Muchun Song wrote:
+> Add a kernel parameter hugetlb_free_vmemmap to enable the feature of
+> freeing unused vmemmap pages associated with each hugetlb page on boot.
 > 
-> Which is fine - but the documentation should accurately reflect what
-> is happening on the system.
-> This is a new paragraph about the PID tracing or otherwise, Even if
-> some of the effects pre-date this patch, they have to be accurately
-> communicated.
-> I am also reading the new paragraph in the context of the rest of the
-> coresight.rst document - which is a user level document explaining the
-> basic operation of the coresight system and tools.
-> This document mentions no other perf command line parameters relevant
-> to coresight other than the @sink option.It actually calls out to the
-> OpenCSD docs to provide further information.
+> We disables PMD mapping of vmemmap pages for x86-64 arch when this
+> feature is enabled. Because vmemmap_remap_free() depends on vmemmap
+> being base page mapped.
 > 
-> > The perf
-> > tool driver automatically adds the "contextid" tracing and timestamp for
-> > "system wide" and process bound events, as they traces get mixed into
-> > the single sink. So these options are added implicitly by the perf tool
-> > to make the decoding easier.
-> >
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
+
+Looks good to me. Thanks.
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 14 ++++++++++++++
+>  Documentation/admin-guide/mm/hugetlbpage.rst    |  3 +++
+>  arch/x86/mm/init_64.c                           |  8 ++++++--
+>  include/linux/hugetlb.h                         | 19 +++++++++++++++++++
+>  mm/hugetlb_vmemmap.c                            | 22 ++++++++++++++++++++++
+>  5 files changed, 64 insertions(+), 2 deletions(-)
 > 
-> That's fine - I have no problem with contextID trace enabled by
-> default. Context ID is relatively low overhead - and only emitted at
-> start of trace  / context changes.
-> But the explanation of the parameters currently reads as though they
-> always have an effect - and not putting them in there will omit the
-> effect - unless you spot the very subtle line at the end.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 5adf1e57e932..7db2591f3ad3 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1577,6 +1577,20 @@
+>  			Documentation/admin-guide/mm/hugetlbpage.rst.
+>  			Format: size[KMG]
+>  
+> +	hugetlb_free_vmemmap=
+> +			[KNL] When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set,
+> +			this controls freeing unused vmemmap pages associated
+> +			with each HugeTLB page. When this option is enabled,
+> +			we disable PMD/huge page mapping of vmemmap pages which
+> +			increase page table pages. So if a user/sysadmin only
+> +			uses a small number of HugeTLB pages (as a percentage
+> +			of system memory), they could end up using more memory
+> +			with hugetlb_free_vmemmap on as opposed to off.
+> +			Format: { on | off (default) }
+> +
+> +			on:  enable the feature
+> +			off: disable the feature
+> +
+>  	hung_task_panic=
+>  			[KNL] Should the hung task detector generate panics.
+>  			Format: 0 | 1
+> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+> index f7b1c7462991..3a23c2377acc 100644
+> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> @@ -145,6 +145,9 @@ default_hugepagesz
+>  
+>  	will all result in 256 2M huge pages being allocated.  Valid default
+>  	huge page size is architecture dependent.
+> +hugetlb_free_vmemmap
+> +	When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set, this enables freeing
+> +	unused vmemmap pages associated with each HugeTLB page.
+>  
+>  When multiple huge page sizes are supported, ``/proc/sys/vm/nr_hugepages``
+>  indicates the current number of pre-allocated huge pages of the default size.
+> diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+> index 0435bee2e172..39f88c5faadc 100644
+> --- a/arch/x86/mm/init_64.c
+> +++ b/arch/x86/mm/init_64.c
+> @@ -34,6 +34,7 @@
+>  #include <linux/gfp.h>
+>  #include <linux/kcore.h>
+>  #include <linux/bootmem_info.h>
+> +#include <linux/hugetlb.h>
+>  
+>  #include <asm/processor.h>
+>  #include <asm/bios_ebda.h>
+> @@ -1557,7 +1558,8 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
+>  {
+>  	int err;
+>  
+> -	if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+> +	if ((is_hugetlb_free_vmemmap_enabled()  && !altmap) ||
+> +	    end - start < PAGES_PER_SECTION * sizeof(struct page))
+>  		err = vmemmap_populate_basepages(start, end, node, NULL);
+>  	else if (boot_cpu_has(X86_FEATURE_PSE))
+>  		err = vmemmap_populate_hugepages(start, end, node, altmap);
+> @@ -1585,6 +1587,8 @@ void register_page_bootmem_memmap(unsigned long section_nr,
+>  	pmd_t *pmd;
+>  	unsigned int nr_pmd_pages;
+>  	struct page *page;
+> +	bool base_mapping = !boot_cpu_has(X86_FEATURE_PSE) ||
+> +			    is_hugetlb_free_vmemmap_enabled();
+>  
+>  	for (; addr < end; addr = next) {
+>  		pte_t *pte = NULL;
+> @@ -1610,7 +1614,7 @@ void register_page_bootmem_memmap(unsigned long section_nr,
+>  		}
+>  		get_page_bootmem(section_nr, pud_page(*pud), MIX_SECTION_INFO);
+>  
+> -		if (!boot_cpu_has(X86_FEATURE_PSE)) {
+> +		if (base_mapping) {
+>  			next = (addr + PAGE_SIZE) & PAGE_MASK;
+>  			pmd = pmd_offset(pud, addr);
+>  			if (pmd_none(*pmd))
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 37fd248ce271..ad249e56ac49 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -854,6 +854,20 @@ static inline void huge_ptep_modify_prot_commit(struct vm_area_struct *vma,
+>  
+>  void set_page_huge_active(struct page *page);
+>  
+> +#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> +extern bool hugetlb_free_vmemmap_enabled;
+> +
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return hugetlb_free_vmemmap_enabled;
+> +}
+> +#else
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  #else	/* CONFIG_HUGETLB_PAGE */
+>  struct hstate {};
+>  
+> @@ -1007,6 +1021,11 @@ static inline void set_huge_swap_pte_at(struct mm_struct *mm, unsigned long addr
+>  					pte_t *ptep, pte_t pte, unsigned long sz)
+>  {
+>  }
+> +
+> +static inline bool is_hugetlb_free_vmemmap_enabled(void)
+> +{
+> +	return false;
+> +}
+>  #endif	/* CONFIG_HUGETLB_PAGE */
+>  
+>  static inline spinlock_t *huge_pte_lock(struct hstate *h,
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index 0bd6b8d7282d..224a3cb69bf9 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -183,6 +183,28 @@
+>  #define RESERVE_VMEMMAP_NR		2U
+>  #define RESERVE_VMEMMAP_SIZE		(RESERVE_VMEMMAP_NR << PAGE_SHIFT)
+>  
+> +bool hugetlb_free_vmemmap_enabled;
+> +
+> +static int __init early_hugetlb_free_vmemmap_param(char *buf)
+> +{
+> +	/* We cannot optimize if a "struct page" crosses page boundaries. */
+> +	if ((!is_power_of_2(sizeof(struct page)))) {
+> +		pr_warn("cannot free vmemmap pages because \"struct page\" crosses page boundaries\n");
+> +		return 0;
+> +	}
+> +
+> +	if (!buf)
+> +		return -EINVAL;
+> +
+> +	if (!strcmp(buf, "on"))
+> +		hugetlb_free_vmemmap_enabled = true;
+> +	else if (strcmp(buf, "off"))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +early_param("hugetlb_free_vmemmap", early_hugetlb_free_vmemmap_param);
+> +
+>  /*
+>   * How many vmemmap pages associated with a HugeTLB page that can be freed
+>   * to the buddy allocator.
 > 
-> The user does not need to know about parameters that have no effect!
 
-Thanks for the suggestion, Mike.
-
-> Perhaps a better approach would be to explain the above - an explicit
-> statement that "perf will always enable PID/ contextID tracing at the
-> relevant EL - but for EL2 it is possible to make specific adjustments
-> using parameters......."
-
-Usually users assume the PMU format has no effect if without set it; but
-this is not the case for the config "contextid", this config has been
-automatically enabled by perf tool.
-
-Based on your suggesiton, will refine the descrption for two things:
-clarify what's the common usage for EL1/EL2, and what's specific for
-EL2.
-
-Thanks,
-Leo
