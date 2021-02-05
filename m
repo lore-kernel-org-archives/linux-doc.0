@@ -2,184 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E82E0C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:14:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F799C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:18:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BF7464FB4
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:14:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4611D64EE4
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233100AbhBEWMw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 17:12:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45510 "EHLO
+        id S232742AbhBEWRW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 17:17:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232458AbhBEOk7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 09:40:59 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D14DC0617A7
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 08:19:04 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id q131so4628200pfq.10
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 08:19:04 -0800 (PST)
+        with ESMTP id S232743AbhBEOfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 09:35:54 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1E3C06121C
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 08:14:00 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id r38so4832656pgk.13
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 08:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uaau4sgQ9hT4TilyNvussNtYWDpCQq4C5pX2PL2MkbA=;
-        b=RQiutqdV9uKt5WpY7LmQnqOyik8QlV/xIC11t47Cxy6iPhsjdv7Kgt4t0vvK0ioHfm
-         evdTtgL4mXNsmg2lYfDsBg0vDtJuclK/YKze5J5lernt3k/bnB7sosOWua7eWz5n3xFd
-         Y9T09TOUDCpONnIP8oi8aST0SHKdlM7bsgcVwdzBVRwXa4+ypaC8v7qimmBPM/XVG0AH
-         6eeSMwZmJAYY73o5aDxUKihBsBtIdgCDSRiH35nqLpdz9zwJ34Pztdz4ltqVTgpzQEMI
-         Tqna40GWas6ybMNlVQ9D1coNYLz0CBr+9t8ic2Siyy66vvOie3xSqZPi5Kq7wjUtOV6h
-         tcjQ==
+         :cc;
+        bh=tgToZXIcR//slb37mMxyXMF6K319Gf4e4xqtIkg5mSQ=;
+        b=vi1eZTDGn0s+c7nDc/UcaxmiZ8SO8djhd8YKp6I27b2SvO+LfWMsqNulS/rqad1/EE
+         zti94jrpclnDbtIra0/SF7oO933+vtLmvQh0LOlXgTtUA/Ys9pWpCzEJCP/8EeKnN7RY
+         KpnRSlevGccsTyUxdhwrPyWiJ1Hac/O8fH2AVQtrKbP/z2fQG58C63wBM+0nDMC0Ynvk
+         4eOqfX54/u8Ei+AiBWg43xL9oUa8Xrf8Zjdlyh5mAdzbTEcTH01mFIo52cFaP8k0nK7Z
+         Q4Y7yFF8vBMHXuXjyC1YB7Zwja6igzBF2grNPDY3PHAeLebuziRPFkGYUNNyVT7trndg
+         fTZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uaau4sgQ9hT4TilyNvussNtYWDpCQq4C5pX2PL2MkbA=;
-        b=WmEr0/0YP4Z6aOsXxgiJZ5N5sP+1uqUaX5teKBLiFQRvqO1ZI5nhxQkjdeZdXV3Ss3
-         +PQJLSETFuQ7RWlcfApE+17q/0ng5XpeNWGysaZHDpLZyVzTONgTLHExbEMMmOKHm7BM
-         mAvgQ6HM4zBJIYWZWyFCXsv0iZ2IcxXwUuLJwKFzCiBal2GSh36Ovyf8Hh96XyM0DUdm
-         Ue9rM/ugPifU4fCpDTB0Tipu8Bc+UOoIdY7OtLyXkHgNwdfLBOfk5CSRN0/Af4Cl87mT
-         W5qf7/AE9QhDuBCtvudPwZIPccGjPciIfH8zJxRJ2aEAljWFxIpVQvrm6mMvkY/aKjEu
-         9VRQ==
-X-Gm-Message-State: AOAM532qKZ3P0HdTnVdNM26ffNW1Ua85gqNNJ/OM+h2S7lK2pyupLWAR
-        NuIzWvjDoWoALhxpdJ9pt38J0a6kmHhbGNwAHRmM8Eq7PmvbMQ==
-X-Google-Smtp-Source: ABdhPJw/KUgUzSu9HyWsw7w094KKGV8UazdOBjJhfXTEooNN4RSJLHuY9UsurqCqtD67VvrC4YI+d1km2qWrSXarE8o=
-X-Received: by 2002:a63:5309:: with SMTP id h9mr4691610pgb.19.1612538034909;
- Fri, 05 Feb 2021 07:13:54 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=tgToZXIcR//slb37mMxyXMF6K319Gf4e4xqtIkg5mSQ=;
+        b=O1Fpve3dK/GVY7R2/DuzD7GggDXdogPJy7HtbqK/jVUnKoI8vl5UUPRii7NoYEIdld
+         N1tqS8+GxlmuxJmGsmeLF+owx/5TR5uOYelqYuJHs6JHWA2t14tmylACUQbBcvvJp8yM
+         tASLDMK8EKGUpBf5K2KfR6XBxufsW6+86J+N+ShEKWuNYyAEtifNV/fIXZxiyLcfsJ2N
+         iutOpT4mBlSa3LeG83LRZzs6qBgFWMFulqf4xM061nReC+egnnMFlxKQDJAIuLrncNeM
+         xUIFIWByMXIGQ2O51gIRSi8xKq6dnJTsdXVKgEZ3EwSG2fz2Ur1FMEiNKrYSPpEFjNQV
+         lBrw==
+X-Gm-Message-State: AOAM532/PxvaGZ/O6fJFj69/ftq4CSrCz0cToTnR2Tl4v07M16OHyoiz
+        OTCgov71LtsMA1ETe63U+cmnTXzADpPA/Kmw6+zxTA==
+X-Google-Smtp-Source: ABdhPJwkirrFi8xuKWL/S5D2cKkWHr8/viSsyFvrNlI047a1E3Q16PWtG8tYxcyd1lVj1EuEzbAYJyMFxhtmMXc0PgQ=
+X-Received: by 2002:a62:1b93:0:b029:1cb:4985:623b with SMTP id
+ b141-20020a621b930000b02901cb4985623bmr5289599pfb.59.1612541639757; Fri, 05
+ Feb 2021 08:13:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205022328.481524-1-kaleshsingh@google.com>
- <20210205022328.481524-2-kaleshsingh@google.com> <df97ba85-2291-487a-8af0-84398f9e8188@amd.com>
-In-Reply-To: <df97ba85-2291-487a-8af0-84398f9e8188@amd.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Fri, 5 Feb 2021 10:13:43 -0500
-Message-ID: <CAC_TJvfZ4G8oL1c6kgBVvmjeXYPpf3ziRp+BEWqiEKYK1mhbDg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] dmabuf: Add dmabuf inode number to /proc/*/fdinfo
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Jann Horn <jannh@google.com>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Hridya Valsaraju <hridya@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Anand K Mistry <amistry@google.com>,
-        NeilBrown <neilb@suse.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        LKML <linux-kernel@vger.kernel.org>,
+References: <20210204035043.36609-1-songmuchun@bytedance.com> <a14113c5-08ae-2819-7e24-3d2687ef88da@oracle.com>
+In-Reply-To: <a14113c5-08ae-2819-7e24-3d2687ef88da@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 6 Feb 2021 00:13:22 +0800
+Message-ID: <CAMZfGtXyWkeO9gGKGpEXYA9DA75mMZUaHboTXH6dGxZgEHvMpA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v14 0/8] Free some vmemmap pages of HugeTLB page
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 2:56 AM Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
+On Sat, Feb 6, 2021 at 12:01 AM Joao Martins <joao.m.martins@oracle.com> wrote:
 >
-> Am 05.02.21 um 03:23 schrieb Kalesh Singh:
-> > If a FD refers to a DMA buffer add the DMA buffer inode number to
-> > /proc/<pid>/fdinfo/<FD> and /proc/<pid>/task/<tid>/fdindo/<FD>.
+> On 2/4/21 3:50 AM, Muchun Song wrote:
+> > Hi all,
 > >
-> > The dmabuf inode number allows userspace to uniquely identify the buffe=
-r
-> > and avoids a dependency on /proc/<pid>/fd/* when accounting per-process
-> > DMA buffer sizes.
 >
-> BTW: Why do we make this DMA-buf specific? Couldn't we always print the
-> inode number for all fds?
+> [...]
+>
+> > When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
+> > vmemmap pages and restore the previous mapping relationship.
+> >
+> > Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
+> > to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
+> > pages.
+> >
+> > In this case, for the 1GB HugeTLB page, we can save 4094 pages. This is a
+> > very substantial gain. On our server, run some SPDK/QEMU applications which
+> > will use 1024GB hugetlbpage. With this feature enabled, we can save ~16GB
+> > (1G hugepage)/~12GB (2MB hugepage) memory.
+> >
+> > Because there are vmemmap page tables reconstruction on the freeing/allocating
+> > path, it increases some overhead. Here are some overhead analysis.
+>
+> [...]
+>
+> > Although the overhead has increased, the overhead is not significant. Like Mike
+> > said, "However, remember that the majority of use cases create hugetlb pages at
+> > or shortly after boot time and add them to the pool. So, additional overhead is
+> > at pool creation time. There is no change to 'normal run time' operations of
+> > getting a page from or returning a page to the pool (think page fault/unmap)".
+> >
+>
+> Despite the overhead and in addition to the memory gains from this series ...
+> there's an additional benefit there isn't talked here with your vmemmap page
+> reuse trick. That is page (un)pinners will see an improvement and I presume because
+> there are fewer memmap pages and thus the tail/head pages are staying in cache more
+> often.
+>
+> Out of the box I saw (when comparing linux-next against linux-next + this series)
+> with gup_test and pinning a 16G hugetlb file (with 1G pages):
+>
+>         get_user_pages(): ~32k -> ~9k
+>         unpin_user_pages(): ~75k -> ~70k
+>
+> Usually any tight loop fetching compound_head(), or reading tail pages data (e.g.
+> compound_head) benefit a lot. There's some unpinning inefficiencies I am fixing[0], but
+> with that in added it shows even more:
+>
+>         unpin_user_pages(): ~27k -> ~3.8k
+>
+> FWIW, I was also seeing that with devdax and the ZONE_DEVICE vmemmap page reuse equivalent
+> series[1] but it was mixed with other numbers.
 
-Good point. We can make this a common field instead of DMA buf
-specific. I will update in the next version.
+It's really a surprise. Thank you very much for the test data.
+Very nice. Thanks again.
 
-Thanks,
-Kalesh
+
 >
-> Regards,
-> Christian.
+> Anyways, JFYI :)
 >
-> >
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > ---
-> > Changes in v3:
-> >    - Add documentation in proc.rst
-> > Changes in v2:
-> >    - Update patch description
-> >
-> >   Documentation/filesystems/proc.rst | 17 +++++++++++++++++
-> >   drivers/dma-buf/dma-buf.c          |  1 +
-> >   2 files changed, 18 insertions(+)
-> >
-> > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesys=
-tems/proc.rst
-> > index 2fa69f710e2a..fdd38676f57f 100644
-> > --- a/Documentation/filesystems/proc.rst
-> > +++ b/Documentation/filesystems/proc.rst
-> > @@ -2031,6 +2031,23 @@ details]. 'it_value' is remaining time until the=
- timer expiration.
-> >   with TIMER_ABSTIME option which will be shown in 'settime flags', but=
- 'it_value'
-> >   still exhibits timer's remaining time.
-> >
-> > +DMA Buffer files
-> > +~~~~~~~~~~~~~~~~
-> > +
-> > +::
-> > +
-> > +     pos:    0
-> > +     flags:  04002
-> > +     mnt_id: 9
-> > +     dmabuf_inode_no: 63107
-> > +     size:   32768
-> > +     count:  2
-> > +     exp_name:  system-heap
-> > +
-> > +where 'dmabuf_inode_no' is the unique inode number of the DMA buffer f=
-ile.
-> > +'size' is the size of the DMA buffer in bytes. 'count' is the file cou=
-nt of
-> > +the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter=
-.
-> > +
-> >   3.9 /proc/<pid>/map_files - Information about memory mapped files
-> >   ---------------------------------------------------------------------
-> >   This directory contains symbolic links which represent memory mapped =
-files
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 9ad6397aaa97..d869099ede83 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -414,6 +414,7 @@ static void dma_buf_show_fdinfo(struct seq_file *m,=
- struct file *file)
-> >   {
-> >       struct dma_buf *dmabuf =3D file->private_data;
-> >
-> > +     seq_printf(m, "dmabuf_inode_no:\t%lu\n", file_inode(file)->i_ino)=
-;
-> >       seq_printf(m, "size:\t%zu\n", dmabuf->size);
-> >       /* Don't count the temporary reference taken inside procfs seq_sh=
-ow */
-> >       seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>         Joao
 >
+> [0] https://lore.kernel.org/linux-mm/20210204202500.26474-1-joao.m.martins@oracle.com/
+> [1] https://lore.kernel.org/linux-mm/20201208172901.17384-1-joao.m.martins@oracle.com/
