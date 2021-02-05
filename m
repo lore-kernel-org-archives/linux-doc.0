@@ -2,115 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9141C433E6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 09:58:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAEEC433DB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:34:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A196664FB9
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 09:58:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA44564E50
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:33:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbhBEJ6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 04:58:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50790 "EHLO
+        id S231602AbhBELdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 06:33:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbhBEJz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 04:55:57 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBFFC06178C;
-        Fri,  5 Feb 2021 01:55:16 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id 7so7020648wrz.0;
-        Fri, 05 Feb 2021 01:55:16 -0800 (PST)
+        with ESMTP id S231812AbhBELbl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 06:31:41 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74C1C061786
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 03:31:00 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id 7so7369497wrz.0
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 03:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=MT0BlZZFXQ7Pukf17++wQpN4EZiEO2XNbV+qknkfsyA=;
-        b=YN/bcnZoNO4KfXVM+0sV8qqwBK2gJ64YbALf1RXWAcy8Uqxl1TNzBBX9oB56NN1h+B
-         bK0TJMqQT8L/+E4PVEhOvlZz3zDdUOohqMQGFcprGGpRPHTRvzJOOD86nPiyi/y7Y7/r
-         qDqFbPAYlARf0pcr+Mw2IORvdqwd8XFb8I0p+YwjvLzEI0UzC5WEW67HvWcQD3MxBev6
-         Riya5RK2gOpV+GiajE+stCFXjiQ0gi6aN3gmcu6QCn10xUH+jld/WyCqwLawdqjSFu2m
-         CZUl3oQvJKV0o2/OGIARU9+k+/79YSUnsQa+ENMBDWdTfP2PNvZl60H1JGkQ8AycLLNx
-         TAvQ==
+        h=from:date:to:subject:message-id:user-agent:mime-version;
+        bh=Eze089fYNNkgyITOiKbDB1y437c7IX+aSkVMhCqkD6c=;
+        b=K2VRVz63+sEjHsALyseBhTZf7iCTLxczSh3tEtPGk2Q9HAQtkcveTITYM1pcSGWki+
+         +hZUkFK3JDPsui+9Cj7YlVa3h95/3gLvRi+TF54WxDpISOIidKYlWeAPLCDnMnB8ZcMY
+         2pwsnzoiOXqhFuumYlsyWuPxjGtx9m2lrTeSAUX5jG7mCTgcka5IhrCOtiDlWHFF9zjf
+         Vv10BBTFz93VFaXByVye6weKb7Ypuf0WBtIHXTs3DwNgXEFANG3oDenJI89C58zp3V5u
+         OE3dMlSS0JDYCf8mRoSQUyNHB4ZdrHdWUHgNRVY2rf0yOc4tagDNBa99uZEyUNlFEVpD
+         aHqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=MT0BlZZFXQ7Pukf17++wQpN4EZiEO2XNbV+qknkfsyA=;
-        b=dZhugUt5/OYvjYRJQ6K8gM4MQC+pMBAlWKaXKgx1JudlSCTGIBegjXaU71SuAdkr5J
-         DxyONMlOy0eZZwCn1541QccZCzz4N7I3NETsSwnXssHo+BRUm3n7MKVFoYsM45FberDF
-         rcmSz1FSKjX4fHQOeHIGVbQKXkV4/y+hYSuoTwKAQuH4df0qJ2psjavIHRrTg/adxDEE
-         caN5BXZkPtmphW1VQ8nkqbboxM5rCrYMMItnDXLDBbn6DJzsRBkNyzB2PICcbn6o01ad
-         8Ka/WLvpIoBdkoLPhR71AUgGKb/Dzbrk1kb7d/POyc+Eo8GG3waEnHdGqlsi+A8Y18f0
-         oQow==
-X-Gm-Message-State: AOAM531DrprtiLiABqoX1gCYeuFiWntYECtJqWpl57MSU+ReO85egIcx
-        Kutdt5CeuyJAEw8tQruXqY4=
-X-Google-Smtp-Source: ABdhPJx1/Me3l7tCNW11yyIC3uDqu69f7nvNS8wM0zQOOmPh5Fu5W6GNCNrDtAO8PGTekqBHbSuz0Q==
-X-Received: by 2002:adf:efc8:: with SMTP id i8mr4101524wrp.84.1612518914805;
-        Fri, 05 Feb 2021 01:55:14 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2ded:6500:7c12:49b0:591a:b2bd])
-        by smtp.gmail.com with ESMTPSA id u142sm8690977wmu.3.2021.02.05.01.55.13
+        h=x-gm-message-state:from:date:to:subject:message-id:user-agent
+         :mime-version;
+        bh=Eze089fYNNkgyITOiKbDB1y437c7IX+aSkVMhCqkD6c=;
+        b=Y6b/pWXh5NDBwTthxLnbE5qsbw5B9OmOF0WIZn9kFJHtykm9KsKyOH14WU1m5tQ1es
+         eRc6135j481VKjytmfFPnxTrOLNiMh4M1YLlayLPR6mtDI2PjjE7g680U1DnYIEnuafA
+         kg26/nex5nTCs4fub1LWPzLzdO6zEjIfNQnFOdrTPSiBZj8pN9HT62Nrgq6Evh789w7F
+         J9mQgCFSe1VJN8VD1M9tr9VNpUaRXsHPVdJQyeOWZQW0s6hPtEkLAtKJXTVoYIyAvDyh
+         aWtHFbCKH6JpDJyExocrxaXCljY6xojn0t0Bu1nzGk3j87iwkneD0j6cCk8ReEggmufC
+         bHCw==
+X-Gm-Message-State: AOAM530OkoQ/LZZuiEGBgYiaqeEHYYw2zwf+DTvCSOA7hp1QLwXg24ex
+        3BiJPDTNJFoMYyqb/1d8uow=
+X-Google-Smtp-Source: ABdhPJy9/VholD0OzDwE9T+15QHFRMBda5FtVbG6Q6/8yNwb2mF3ScefegcyRgET64hj4HAHP/P+hw==
+X-Received: by 2002:a5d:66ce:: with SMTP id k14mr4461098wrw.397.1612524659472;
+        Fri, 05 Feb 2021 03:30:59 -0800 (PST)
+Received: from felia ([2001:16b8:2ded:6500:7c12:49b0:591a:b2bd])
+        by smtp.gmail.com with ESMTPSA id h14sm7836216wmq.39.2021.02.05.03.30.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 01:55:14 -0800 (PST)
+        Fri, 05 Feb 2021 03:30:58 -0800 (PST)
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Parav Pandit <parav@nvidia.com>,
-        Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
-        linux-rdma@vger.kernel.org
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Fri, 5 Feb 2021 12:30:50 +0100 (CET)
+X-X-Sender: lukas@felia
+To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] net/mlx5: docs: correct section reference in table of contents
-Date:   Fri,  5 Feb 2021 10:55:06 +0100
-Message-Id: <20210205095506.29146-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        linux-doc@vger.kernel.org
+Subject: Patches for a Documentation quick-fix pull request to Linus
+Message-ID: <alpine.DEB.2.21.2102051224330.19658@felia>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 142d93d12dc1 ("net/mlx5: Add devlink subfunction port
-documentation") refers to a section 'mlx5 port function' in the table of
-contents, but includes a section 'mlx5 function attributes' instead.
+Hi Jonathan,
 
-Hence, make htmldocs warns:
 
-  mlx5.rst:16: WARNING: Unknown target name: "mlx5 port function".
+on the current mainline repository, we currently have the following 
+warnings with make htmldocs:
 
-Correct the section reference in table of contents to the actual name of
-section in the documentation.
+    ./Documentation/virt/kvm/api.rst:4537: WARNING: Unexpected indentation.
+    ./Documentation/virt/kvm/api.rst:4539: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Also, tune another section underline while visiting this document.
+    ./Documentation/ABI/testing/sysfs-firmware-sgi_uv:2: WARNING: Unexpected indentation.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-Saeed, please pick this patch for your -next tree on top of the commit above.
+Mauro has already created patches to address them, but these patches here 
+have not been picked up by the other subsystem maintainers (within the 
+last three weeks):
 
- .../networking/device_drivers/ethernet/mellanox/mlx5.rst      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+    a5a20cd7ff9870b5316825fa1abad0b867832700.1610610444.git.mchehab+huawei@kernel.org
+    452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org
 
-diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5.rst
-index a1b32fcd0d76..1b7e32d8a61b 100644
---- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5.rst
-+++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5.rst
-@@ -13,12 +13,12 @@ Contents
- - `Devlink info`_
- - `Devlink parameters`_
- - `mlx5 subfunction`_
--- `mlx5 port function`_
-+- `mlx5 function attributes`_
- - `Devlink health reporters`_
- - `mlx5 tracepoints`_
- 
- Enabling the driver and kconfig options
--================================================
-+=======================================
- 
- | mlx5 core is modular and most of the major mlx5 core driver features can be selected (compiled in/out)
- | at build time via kernel Kconfig flags.
--- 
-2.17.1
+Jonathan, could you pick those two patches and provide them as a  
+Documentation quick-fix pull request to Linus?
 
+With that, we are back to zero warnings on mainline.
+
+
+Just for your information, for linux-next, as of next-20210204, with the 
+further already submitted patches, make htmldocs
+has zero warnings:
+
+    a5a20cd7ff9870b5316825fa1abad0b867832700.1610610444.git.mchehab+huawei@kernel.org
+    452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org
+    84693a4901efb553dd95fe4909b50d6d8faf8107.1610610444.git.mchehab+huawei@kernel.org
+    20210204180059.28360-1-lukas.bulwahn@gmail.com
+    20210205095506.29146-1-lukas.bulwahn@gmail.com
+
+So, we are in a good shape for zero-warning documentation build with the 
+next -rc1 if those patches are being
+picked up in the next few days.
+
+
+Thanks,
+
+Lukas
