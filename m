@@ -2,238 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A5F1C433DB
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18089C433DB
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:18:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FF7564F8C
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:05:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DABC564FA8
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:18:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbhBFDFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 22:05:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41662 "EHLO
+        id S231359AbhBFDRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 22:17:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232180AbhBFCyE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:54:04 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC5D8C08EE7C;
-        Fri,  5 Feb 2021 16:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=+8+c6e2MXDrIRynamuIEcXTAJuyCmgpjsez/l/OAdUE=; b=M93kocYSsm7VHSI27ipgq83m4X
-        5Bm2dri1chpJof5Msn5PyZzvfhUOwpQPRW5zcAgbgVHJkN9BjnuDjYmwzrG52A0rvcoiyeT0wiWqo
-        HfFiGOPupsKDFz//dZsW6uH9lyB/XvsItdtQNN0IItQylnPu4DrIzzbyIRnwGA66owR6RfIjUbOfi
-        O7M9lphz2K44Tv0/Ck+CCLfWXhzCS5cWpR6nOfKr3k8V+uOmChh03hBkfzk2B73g3Ke4nohk48hON
-        HtkTiEtLFnXzY+bjaitQ9FE1xVfPeNI2hZTi2wZdhSPzPnDBfYA4tTepbCa0T2Ha+FYBSfB+PDS6h
-        odT1F7Ew==;
-Received: from [2601:1c0:6280:3f0::aec2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l8Bdp-0004ne-EB; Sat, 06 Feb 2021 00:40:01 +0000
-Subject: Re: [PATCH v4 2/2] dmabuf: Add dmabuf inode number to /proc/*/fdinfo
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
-        surenb@google.com, minchan@kernel.org, hridya@google.com,
-        christian.koenig@amd.com, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        NeilBrown <neilb@suse.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20210205213353.669122-1-kaleshsingh@google.com>
- <20210205213353.669122-2-kaleshsingh@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <753e0a3b-ce7c-5518-65b1-f743dd370b76@infradead.org>
-Date:   Fri, 5 Feb 2021 16:39:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20210205213353.669122-2-kaleshsingh@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S231701AbhBFCuX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:50:23 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5695DC03C045
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 14:26:57 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id l10so8814646ybt.6
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 14:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=b4KyYLVrTLECRx+jmWSgUnKVrTsTSqPSowT6HXuVPvs=;
+        b=OHW6wSTP29Ue99rfiI7cWlnG+iIdDrF/RFLn7uoMGaydP+0SO7iq4Wq4d3/eqO21ya
+         KLmXP2JX5TSvNzDYoK5EV6DL9JdJSYMFn/F1Hp7y6d44BhceOCszy5fv7mkcI/x3YxAh
+         xifCY/lhRuqpYU9xhi89Nys/lnLzdiyzix5IWrtJ/UWGBQrClmZRfFVt91VbD8X7eoQI
+         2Png0NqhsXQZ7vz6M4N1fZn/vcqGhrLWGbEWE5mv2GRT3g9PI82H9hTXw4D2uizG5j9B
+         ZxcCTRk1HSgG6v0SC8Wo+iqzvg2U5sjEO1EbK7JZfh6t3yDpITS6bKeEhMEzd8jVwfLv
+         0Egg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=b4KyYLVrTLECRx+jmWSgUnKVrTsTSqPSowT6HXuVPvs=;
+        b=sDMlOefxbPCqioG0okpvx+TT3civKAM+rdp+oEYXRPMQYuGyBGGm16QltP6nrIQkOa
+         JNbL2SOTc3BwWh8ZITyhD+0hLcL0NtPiBuvZ+R/nudS2cHayZX618CjReJFH1xm5iSF6
+         21FggayC+R/YvHOOO+nZ+38X7/sxUoENSZAGq5QBa5zyth9k+MstSVpFOoBd/Ow2IpKT
+         aIH6iowsHbo+bHbcx8Z9XV0B1k0mx5/hWjVD8hrGCrZhLNCT5OFp5xs7e2uwVTm/2gMu
+         Q6UD5hVJsJ81GudCgqs/KbGJB/LibK4I3Bs68Ms1LA+0oyRoxCIn0iRVtm/UUUX60GJQ
+         r2HQ==
+X-Gm-Message-State: AOAM531uAkNGarHLxmodkWQ2OCh+lJ2HPqXmDrzBGIP4TeMwrDJ2JANn
+        hYzcs3tyLQjCY42Rqfcwg8ADQVTO9YhH0I8=
+X-Google-Smtp-Source: ABdhPJw60eK9Ayb2Dfnm6izl3OAD/ZSexeT7MabEdfxzu+ks3+x2ogPf1BgHRmP6XVGyEvP6jtupQy7fiaM7V/g=
+Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:6d36:b798:55d7:f5c5])
+ (user=saravanak job=sendgmr) by 2002:a25:1188:: with SMTP id
+ 130mr9154088ybr.138.1612564016624; Fri, 05 Feb 2021 14:26:56 -0800 (PST)
+Date:   Fri,  5 Feb 2021 14:26:39 -0800
+In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
+Message-Id: <20210205222644.2357303-4-saravanak@google.com>
+Mime-Version: 1.0
+References: <20210205222644.2357303-1-saravanak@google.com>
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v4 3/8] driver core: Add fw_devlink.strict kernel param
+From:   Saravana Kannan <saravanak@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Saravana Kannan <saravanak@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/5/21 1:33 PM, Kalesh Singh wrote:
-> And 'inode_no' field to /proc/<pid>/fdinfo/<FD> and
-> /proc/<pid>/task/<tid>/fdinfo/<FD>.
-> 
-> The inode numbers can be used to uniquely identify DMA buffers
-> in user space and avoids a dependency on /proc/<pid>/fd/* when
-> accounting per-process DMA buffer sizes.
-> 
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> ---
-> Changes in v4:
->   - Add inode number as common field in fdinfo, per Christian
-> Changes in v3:
->   - Add documentation in proc.rst, per Randy
-> Changes in v2:
->   - Update patch description
-> 
->  Documentation/filesystems/proc.rst | 37 +++++++++++++++++++++++++-----
->  fs/proc/fd.c                       |  5 ++--
->  2 files changed, 34 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 2fa69f710e2a..db46da32230c 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -1902,18 +1902,20 @@ if precise results are needed.
->  3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
->  ---------------------------------------------------------------
->  This file provides information associated with an opened file. The regular
-> -files have at least three fields -- 'pos', 'flags' and 'mnt_id'. The 'pos'
-> -represents the current offset of the opened file in decimal form [see lseek(2)
-> -for details], 'flags' denotes the octal O_xxx mask the file has been
-> -created with [see open(2) for details] and 'mnt_id' represents mount ID of
-> -the file system containing the opened file [see 3.5 /proc/<pid>/mountinfo
-> -for details].
-> +files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'inode_no'.
-> +The 'pos' represents the current offset of the opened file in decimal
-> +form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
-> +file has been created with [see open(2) for details] and 'mnt_id' represents
-> +mount ID of the file system containing the opened file [see 3.5
-> +/proc/<pid>/mountinfo for details]. 'inode_no' represents the inode number
-> +of the file.
->  
->  A typical output is::
->  
->  	pos:	0
->  	flags:	0100002
->  	mnt_id:	19
-> +	inode_no:       63107
->  
->  All locks associated with a file descriptor are shown in its fdinfo too::
->  
-> @@ -1930,6 +1932,7 @@ Eventfd files
->  	pos:	0
->  	flags:	04002
->  	mnt_id:	9
-> +	inode_no:       63107
->  	eventfd-count:	5a
->  
->  where 'eventfd-count' is hex value of a counter.
-> @@ -1942,6 +1945,7 @@ Signalfd files
->  	pos:	0
->  	flags:	04002
->  	mnt_id:	9
-> +	inode_no:       63107
->  	sigmask:	0000000000000200
->  
->  where 'sigmask' is hex value of the signal mask associated
-> @@ -1955,6 +1959,7 @@ Epoll files
->  	pos:	0
->  	flags:	02
->  	mnt_id:	9
-> +	inode_no:       63107
->  	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
->  
->  where 'tfd' is a target file descriptor number in decimal form,
-> @@ -1971,6 +1976,8 @@ For inotify files the format is the following::
->  
->  	pos:	0
->  	flags:	02000000
-> +	mnt_id:	9
-> +	inode_no:       63107
->  	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
->  
->  where 'wd' is a watch descriptor in decimal form, i.e. a target file
-> @@ -1993,6 +2000,7 @@ For fanotify files the format is::
->  	pos:	0
->  	flags:	02
->  	mnt_id:	9
-> +	inode_no:       63107
->  	fanotify flags:10 event-flags:0
->  	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
->  	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-> @@ -2017,6 +2025,7 @@ Timerfd files
->  	pos:	0
->  	flags:	02
->  	mnt_id:	9
-> +	inode_no:       63107
->  	clockid: 0
->  	ticks: 0
->  	settime flags: 01
-> @@ -2031,6 +2040,22 @@ details]. 'it_value' is remaining time until the timer expiration.
->  with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
->  still exhibits timer's remaining time.
->  
-> +DMA Buffer files
-> +~~~~~~~~~~~~~~~~
-> +
-> +::
-> +
-> +	pos:	0
-> +	flags:	04002
-> +	mnt_id:	9
-> +	inode_no:       63107
+This param allows forcing all dependencies to be treated as mandatory.
+This will be useful for boards in which all optional dependencies like
+IOMMUs and DMAs need to be treated as mandatory dependencies.
 
-Hi,
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  5 +++++
+ drivers/base/core.c                             | 12 ++++++++++++
+ include/linux/fwnode.h                          |  1 +
+ 3 files changed, 18 insertions(+)
 
-Why do all of the examples have so many spaces between inode_no:
-and the number?
-
-Ah, it's a \t in the output along with the length of the "inode_no:"
-string. OK.
-
-Next question: why are there spaces instead of a tab between
-"inode_no": and the number? All of the other fields that are
-preceded by a \t in the seq_printf() call have tabs in the output.
-
-Except for the tabs vs. spaces, the Documentation change is:
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-
-> +	size:   32768
-> +	count:  2
-> +	exp_name:  system-heap
-> +
-> +where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
-> +the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
-> +
->  3.9	/proc/<pid>/map_files - Information about memory mapped files
->  ---------------------------------------------------------------------
->  This directory contains symbolic links which represent memory mapped files
-> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> index 585e213301f9..2c25909bf9d1 100644
-> --- a/fs/proc/fd.c
-> +++ b/fs/proc/fd.c
-> @@ -54,9 +54,10 @@ static int seq_show(struct seq_file *m, void *v)
->  	if (ret)
->  		return ret;
->  
-> -	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\n",
-> +	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\ninode_no:\t%lu\n",
->  		   (long long)file->f_pos, f_flags,
-> -		   real_mount(file->f_path.mnt)->mnt_id);
-> +		   real_mount(file->f_path.mnt)->mnt_id,
-> +		   file_inode(file)->i_ino);
->  
->  	/* show_fd_locks() never deferences files so a stale value is safe */
->  	show_fd_locks(m, file, files);
-> 
-
-thanks.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a10b545c2070..692b63644133 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1433,6 +1433,11 @@
+ 				to enforce probe and suspend/resume ordering.
+ 			rpm --	Like "on", but also use to order runtime PM.
+ 
++	fw_devlink.strict=<bool>
++			[KNL] Treat all inferred dependencies as mandatory
++			dependencies. This only applies for fw_devlink=on|rpm.
++			Format: <bool>
++
+ 	gamecon.map[2|3]=
+ 			[HW,JOY] Multisystem joystick and NES/SNES/PSX pad
+ 			support via parallel port (up to 5 devices per port)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index c95b1daabac7..f466ab4f1c35 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1521,6 +1521,13 @@ static int __init fw_devlink_setup(char *arg)
+ }
+ early_param("fw_devlink", fw_devlink_setup);
+ 
++static bool fw_devlink_strict;
++static int __init fw_devlink_strict_setup(char *arg)
++{
++	return strtobool(arg, &fw_devlink_strict);
++}
++early_param("fw_devlink.strict", fw_devlink_strict_setup);
++
+ u32 fw_devlink_get_flags(void)
+ {
+ 	return fw_devlink_flags;
+@@ -1531,6 +1538,11 @@ static bool fw_devlink_is_permissive(void)
+ 	return fw_devlink_flags == FW_DEVLINK_FLAGS_PERMISSIVE;
+ }
+ 
++bool fw_devlink_is_strict(void)
++{
++	return fw_devlink_strict && !fw_devlink_is_permissive();
++}
++
+ static void fw_devlink_parse_fwnode(struct fwnode_handle *fwnode)
+ {
+ 	if (fwnode->flags & FWNODE_FLAG_LINKS_ADDED)
+diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+index 21082f11473f..d5caefe39d93 100644
+--- a/include/linux/fwnode.h
++++ b/include/linux/fwnode.h
+@@ -162,6 +162,7 @@ static inline void fwnode_init(struct fwnode_handle *fwnode,
+ }
+ 
+ extern u32 fw_devlink_get_flags(void);
++extern bool fw_devlink_is_strict(void);
+ int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup);
+ void fwnode_links_purge(struct fwnode_handle *fwnode);
+ 
 -- 
-~Randy
+2.30.0.478.g8a0d178c01-goog
 
