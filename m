@@ -2,72 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9E2C433E9
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 19:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99384C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 20:05:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0D7464E06
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 19:01:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CCE864FC9
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 20:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233742AbhBERSi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 12:18:38 -0500
-Received: from mga02.intel.com ([134.134.136.20]:24891 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233564AbhBERQy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Feb 2021 12:16:54 -0500
-IronPort-SDR: uXqif6S7nFNP1YbwXUbPJGKLg83JpJKf+fKoBGiS3T6/UlSQ2xqGCWmlLGfIhKf27wo2Gqlm+N
- +Qve09QkS3rA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9886"; a="168593699"
-X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
-   d="scan'208";a="168593699"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 10:58:36 -0800
-IronPort-SDR: PKLSDoZriGTUaK7SMMGmhgy19dl1PLEvCUb5ekv5liqF4kTxmJEPaL5VV0T3jMRlLQvtxk1XlD
- jqrZlu7DH/0w==
-X-IronPort-AV: E=Sophos;i="5.81,155,1610438400"; 
-   d="scan'208";a="357790568"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.95.7]) ([10.212.95.7])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 10:58:34 -0800
-Subject: Re: [PATCH v19 08/25] x86/mm: Introduce _PAGE_COW
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-9-yu-cheng.yu@intel.com>
- <202102041215.B54FCA552F@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <21b1e325-a17d-c859-973d-de66c1401f19@intel.com>
-Date:   Fri, 5 Feb 2021 10:58:33 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S233285AbhBESWw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 13:22:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233456AbhBESVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 13:21:38 -0500
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com [IPv6:2607:f8b0:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BAD8C061786
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 12:03:23 -0800 (PST)
+Received: by mail-ot1-x333.google.com with SMTP id f6so8051764ots.9
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 12:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gbEhNHNmugKLJCiX2KXjV/LxdZ+gCz+sfTdhU2+sb8o=;
+        b=hbBndiN61VScugSn8g5PdH5dOEpNc1vTlDgcO3sD8O0Q6YfsnCaurJGZNYTTpb+NeL
+         2C00ky9tWgh3CuOv2jxbTmdNpPk9XqWrjq7gXRCFpc/iaSrlsuWJa6bt03UGWa5Rq276
+         hTV4GgzREQQ4e8s4GIvRWcWvDOh9qfgu3LyAQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gbEhNHNmugKLJCiX2KXjV/LxdZ+gCz+sfTdhU2+sb8o=;
+        b=XiUCcORRfCf+pnB4T8jpWsrX0BDL2yZPxXY79ORO6KBSXpE6ab8ajd87HL4syPjOND
+         W7BUUUg8jf8Fr3L8iax8LhAFE7sJRzmtxYM8uMwRuH8kE6HmT22MDw2+tw/Y1AP/63DG
+         JXDHaC23VIcwz9rCUD70lOjsuw8h+k2fNhOKbkj2gxLrBsc9a+11JB9kcWFvjwnsfm4w
+         cbdbIN8iO3HxNQoVnUh5f9v76rmW/L3twuanpNh6PCYCi0UTJm0lsKiqs6snTGot6XIw
+         1W72Aha74FZk2vwmrLsQ1sLLPcw1bda1x8cp1EDq9If1e4Nq337vC90lDPrBAy3FY45p
+         r7qg==
+X-Gm-Message-State: AOAM531L2qgIdPxCvbN0XDpg70gTYExK0nyM68bXwIUhDlpNt+qL+A9X
+        fVgiL8RqDcXEMpvpo6tiNvtlvQ==
+X-Google-Smtp-Source: ABdhPJyzu0tvcLo4s7d2FrIQ4o1zmYD8+me/HyP+MRVvqQ5v4ul3YMRLWMniCJpUPs1SigUqE0QdTg==
+X-Received: by 2002:a05:6830:1dad:: with SMTP id z13mr4489856oti.223.1612555401135;
+        Fri, 05 Feb 2021 12:03:21 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id m7sm2002833otq.33.2021.02.05.12.03.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Feb 2021 12:03:20 -0800 (PST)
+Subject: Re: [PATCH v3 1/7] seqnum_ops: Introduce Sequence Number Ops
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     corbet@lwn.net, peterz@infradead.org, keescook@chromium.org,
+        rafael@kernel.org, lenb@kernel.org, james.morse@arm.com,
+        tony.luck@intel.com, bp@alien8.de, devel@driverdev.osuosl.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <cover.1612314468.git.skhan@linuxfoundation.org>
+ <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
+ <YB0WzBnLd+OcpxEE@kroah.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <2fe15f90-2e33-d018-0d5d-cabe3846ed98@linuxfoundation.org>
+Date:   Fri, 5 Feb 2021 13:03:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <202102041215.B54FCA552F@keescook>
+In-Reply-To: <YB0WzBnLd+OcpxEE@kroah.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,72 +77,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/2021 12:19 PM, Kees Cook wrote:
-> On Wed, Feb 03, 2021 at 02:55:30PM -0800, Yu-cheng Yu wrote:
->> There is essentially no room left in the x86 hardware PTEs on some OSes
->> (not Linux).  That left the hardware architects looking for a way to
->> represent a new memory type (shadow stack) within the existing bits.
->> They chose to repurpose a lightly-used state: Write=0, Dirty=1.
->>
->> The reason it's lightly used is that Dirty=1 is normally set by hardware
->> and cannot normally be set by hardware on a Write=0 PTE.  Software must
->> normally be involved to create one of these PTEs, so software can simply
->> opt to not create them.
->>
->> In places where Linux normally creates Write=0, Dirty=1, it can use the
->> software-defined _PAGE_COW in place of the hardware _PAGE_DIRTY.  In other
->> words, whenever Linux needs to create Write=0, Dirty=1, it instead creates
->> Write=0, Cow=1, except for shadow stack, which is Write=0, Dirty=1.  This
->> clearly separates shadow stack from other data, and results in the
->> following:
->>
->> (a) A modified, copy-on-write (COW) page: (Write=0, Cow=1)
->> (b) A R/O page that has been COW'ed: (Write=0, Cow=1)
->>      The user page is in a R/O VMA, and get_user_pages() needs a writable
->>      copy.  The page fault handler creates a copy of the page and sets
->>      the new copy's PTE as Write=0 and Cow=1.
->> (c) A shadow stack PTE: (Write=0, Dirty=1)
->> (d) A shared shadow stack PTE: (Write=0, Cow=1)
->>      When a shadow stack page is being shared among processes (this happens
->>      at fork()), its PTE is made Dirty=0, so the next shadow stack access
->>      causes a fault, and the page is duplicated and Dirty=1 is set again.
->>      This is the COW equivalent for shadow stack pages, even though it's
->>      copy-on-access rather than copy-on-write.
->> (e) A page where the processor observed a Write=1 PTE, started a write, set
->>      Dirty=1, but then observed a Write=0 PTE.  That's possible today, but
->>      will not happen on processors that support shadow stack.
+On 2/5/21 2:58 AM, Greg KH wrote:
+> On Wed, Feb 03, 2021 at 11:11:57AM -0700, Shuah Khan wrote:
+>> +static inline u32 seqnum32_inc(struct seqnum32 *seq)
+>> +{
+>> +	atomic_t val = ATOMIC_INIT(seq->seqnum);
+>> +
+>> +	seq->seqnum = (u32) atomic_inc_return(&val);
+>> +	if (seq->seqnum >= UINT_MAX)
+>> +		pr_info("Sequence Number overflow %u detected\n",
+>> +			seq->seqnum);
+>> +	return seq->seqnum;
 > 
-> What happens for "e" with/without CET? It sounds like direct writes to
-> such pages will be (correctly) rejected by the MMU?
+> As Peter points out, this is doing doing what you think it is doing :(
 > 
->>
->> Define _PAGE_COW and update pte_*() helpers and apply the same changes to
->> pmd and pud.
->>
->> After this, there are six free bits left in the 64-bit PTE, and no more
->> free bits in the 32-bit PTE (except for PAE) and Shadow Stack is not
->> implemented for the 32-bit kernel.
-> 
-> Are there selftests to validate this change?
+> Why do you not just have seq->seqnum be a real atomic variable?  Trying
+> to switch to/from one like this does not work as there is no
+> "atomic-ness" happening here at all.
 > 
 
-I have some tests to verify, for example,
+Yes. This is sloppy on my part. As Peter and Rafael also pointed. I have
+to start paying more attention to my inner voice.
 
-- After clone(), shadow stack pages are indeed copy-on-write,
-- Shadow stack pages (i.e. Write=0, Dirty=1) cannot be directly written to,
-- Shadow stack guard pages exist.
+thanks,
+-- Shuah
 
-These tests are now on github, but kind of messy.  I can gradually clean 
-up them and submit as selftests separately.
 
-If you are asking for the detection of the potential hardware issue 
-(that Dave Hansen talked about), then maybe we need to detect it from 
-the kernel.
 
-> I think it might be useful to more clearly describe what is considered
-> "dirty" and "writeable" in comments above the pte_helpers.
-> 
-
-Yes, I will update it.  Thanks!
-
-[...]
