@@ -2,178 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FCDC433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:06:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BDBFC433E9
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:30:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD4D664DD4
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:06:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC19464E75
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:30:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231524AbhBEQXj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 11:23:39 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:60652 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233608AbhBEQUP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 11:20:15 -0500
-Received: from sequoia (162-237-133-238.lightspeed.rcsntx.sbcglobal.net [162.237.133.238])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 1578A205CF84;
-        Fri,  5 Feb 2021 10:01:54 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1578A205CF84
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1612548115;
-        bh=sG8c3V5j/GNMfkgLTSc6ef1pV212YYCAuyDQ9vNbitQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aTJv5WEdDWXiv8DSub2T2iKWOi+ew0aC6UN8s5QsIqPWkvmYtKxOXfQuQE8G3CiOr
-         OlGlTYH021e0UCSihAbUPmTHLnp15ETkiJnV3SnPAldNne5OXhCZcX6lCvBdEhddAJ
-         q16xUifV5+fGOvx3S9QkRJLhHakg0iVshK0Q5rmc=
-Date:   Fri, 5 Feb 2021 12:01:47 -0600
-From:   Tyler Hicks <tyhicks@linux.microsoft.com>
-To:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-kernel@vger.kernel.org,
-        kernel-team <kernel-team@android.com>,
-        linux-fsdevel@vger.kernel.org,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        LSM <linux-security-module@vger.kernel.org>,
+        id S233367AbhBEQrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 11:47:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233488AbhBEQpN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 11:45:13 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317ACC0613D6
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 10:26:55 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id w18so4877856pfu.9
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 10:26:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9PTifcKN8spL3ClpqXcFGHeUFpoZ67atZiPMBU3wuDs=;
+        b=HS3+D2H5qhhSXm5Mhv9pAeIQrIxIDrLLhrbubqDRQEHMzcshMMVXCtDGapcRO+w0Mh
+         Ry8wZrTRSu5DzM6JkcjQdB4e+rwquqcyHdk4BllNxbt4vd8dhxxn1Gu3pKXPPcBOYGMW
+         19euoavfkMowdIXaQ6HyNSFWSTVzj4YuS1o84=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9PTifcKN8spL3ClpqXcFGHeUFpoZ67atZiPMBU3wuDs=;
+        b=j0sj0vjhmS8TxwbeL+tleXZ7JzDuMz23DzV1J55RnH3pkL0yZtPDCPA68u+tll2N/B
+         eVtoDSK//NdCABx+6KCWu5QAOqrhUHd4VW6dhRU6uu5epSbC9rS0oHVjkd3XgKza9Jhi
+         0RuLJER6htkogxusyJsGGd/KMt3cIXTiujWHxK/ZI++4wIDLvIQguBDmdjBJ2B7aIqI3
+         l7VQsjV7AvVjh3BmJ7uQge80fFidSUi2bG6cYjFu0Z6AJ2Z+qZRtltU+qOlaAKyNDPwX
+         +z24rJY1euZiK/I8cyY7WmwM8efoGuZs3yhfTbihnF4zj+C6a2uABQJ9zbFVNV863BpR
+         T+dg==
+X-Gm-Message-State: AOAM532nTmJc6JzEnyv/YtE0Sl3crcAUrUshKeZPOX1Aa4il3m6LcTxj
+        MFdNVjLRxiv3xIqI5KzmkeoUkg==
+X-Google-Smtp-Source: ABdhPJyovoQ5m59St1KtJeobhPYp42OO5wY6rGeSKoIt1K/gK6R9dUzhVZK3/QwGz1Hw+E4zxyllEA==
+X-Received: by 2002:a63:1c08:: with SMTP id c8mr5528896pgc.228.1612549614604;
+        Fri, 05 Feb 2021 10:26:54 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m4sm3441246pfd.130.2021.02.05.10.26.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 10:26:53 -0800 (PST)
+Date:   Fri, 5 Feb 2021 10:26:52 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
-        SElinux list <selinux@vger.kernel.org>
-Subject: Re: [RESEND PATCH v18 2/4] overlayfs: handle XATTR_NOSECURITY flag
- for get xattr method
-Message-ID: <20210205180131.GA648953@sequoia>
-References: <20201021151903.652827-1-salyzyn@android.com>
- <20201021151903.652827-3-salyzyn@android.com>
- <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
- <2fd64e4f-c573-c841-abb6-ec0908f78cdd@android.com>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>
+Subject: Re: [PATCH v19 24/25] x86/cet/shstk: Add arch_prctl functions for
+ shadow stack
+Message-ID: <202102051026.B250352D4@keescook>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-25-yu-cheng.yu@intel.com>
+ <202102041235.BA6C4982F@keescook>
+ <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2fd64e4f-c573-c841-abb6-ec0908f78cdd@android.com>
+In-Reply-To: <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2020-10-30 09:00:35, Mark Salyzyn wrote:
-> On 10/30/20 8:07 AM, Miklos Szeredi wrote:
-> > On Wed, Oct 21, 2020 at 5:19 PM Mark Salyzyn <salyzyn@android.com> wrote:
-> > > Because of the overlayfs getxattr recursion, the incoming inode fails
-> > > to update the selinux sid resulting in avc denials being reported
-> > > against a target context of u:object_r:unlabeled:s0.
+On Thu, Feb 04, 2021 at 03:41:59PM -0800, Yu, Yu-cheng wrote:
+> On 2/4/2021 12:35 PM, Kees Cook wrote:
+> > On Wed, Feb 03, 2021 at 02:55:46PM -0800, Yu-cheng Yu wrote:
+> > > arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
+> > >      Get CET feature status.
 > > > 
-> > > Solution is to respond to the XATTR_NOSECURITY flag in get xattr
-> > > method that calls the __vfs_getxattr handler instead so that the
-> > > context can be read in, rather than being denied with an -EACCES
-> > > when vfs_getxattr handler is called.
+> > >      The parameter 'args' is a pointer to a user buffer.  The kernel returns
+> > >      the following information:
 > > > 
-> > > For the use case where access is to be blocked by the security layer.
-> > > 
-> > > The path then would be security(dentry) ->
-> > > __vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
-> > > handler->get({dentry...XATTR_NOSECURITY}) ->
-> > > __vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
-> > > lower_handler->get({realdentry...XATTR_NOSECURITY}) which
-> > > would report back through the chain data and success as expected,
-> > > the logging security layer at the top would have the data to
-> > > determine the access permissions and report back to the logs and
-> > > the caller that the target context was blocked.
-> > > 
-> > > For selinux this would solve the cosmetic issue of the selinux log
-> > > and allow audit2allow to correctly report the rule needed to address
-> > > the access problem.
-> > > 
-> > > Check impure, opaque, origin & meta xattr with no sepolicy audit
-> > > (using __vfs_getxattr) since these operations are internal to
-> > > overlayfs operations and do not disclose any data.  This became
-> > > an issue for credential override off since sys_admin would have
-> > > been required by the caller; whereas would have been inherently
-> > > present for the creator since it performed the mount.
-> > > 
-> > > This is a change in operations since we do not check in the new
-> > > ovl_do_getxattr function if the credential override is off or not.
-> > > Reasoning is that the sepolicy check is unnecessary overhead,
-> > > especially since the check can be expensive.
-> > > 
-> > > Because for override credentials off, this affects _everyone_ that
-> > > underneath performs private xattr calls without the appropriate
-> > > sepolicy permissions and sys_admin capability.  Providing blanket
-> > > support for sys_admin would be bad for all possible callers.
-> > > 
-> > > For the override credentials on, this will affect only the mounter,
-> > > should it lack sepolicy permissions. Not considered a security
-> > > problem since mounting by definition has sys_admin capabilities,
-> > > but sepolicy contexts would still need to be crafted.
-> > This would be a problem when unprivileged mounting of overlay is
-> > introduced.  I'd really like to avoid weakening the current security
-> > model.
-> 
-> The current security model does not deal with non-overlapping security
-> contexts between init (which on android has MAC permissions only when
-> necessary, only enough permissions to perform the mount and other mundane
-> operations, missing exec and read permissions in key spots) and user calls.
-> 
-> We are only weakening (that is actually an incorrect statement, security is
-> there, just not double security of both mounter and caller) the security
-> around calls that retrieve the xattr for administrative and internal
-> purposes. No data is exposed to the caller that it would not otherwise have
-> permissions for.
-
-We've ran into the same issues that Mark is trying to solve with this
-series. I came across Mark's series while searching around before I
-wrote up a similar patch to Mark's patch #3.
-
-We have a confined process that sets up Overlayfs mounts, then that process
-starts a service confined by another security context, then that service
-may execute binaries that run under a third security context. In this
-case, I'm talking about SELinux security contexts but it could be
-AppArmor or anything else that you use to separate out
-privileges/permissions at fine-grained detail.
-
-We don't want to grant all the privileges/permissions required by the
-service (and its helper utilities) to the process that sets up the
-Overlayfs mounts because we've been very careful in separating them
-apart with security policy. However, we want to make use of Overlayfs
-and adding a mount option to bypass the check on the mounter's cred
-seems like a safe way of using Overlayfs without violating our principle
-of least privilege.
-
-Tyler
-
-> 
-> This patch becomes necessary when matched with the PATCH v18 3/4 of the
-> series which fixes the user space break introduced in ~4.6 that formerly
-> used the callers credentials for all accesses in all places. Security is
-> weakened already as-is in overlayfs with all the overriding of the
-> credentials for internal accesses to overlayfs mechanics based on the
-> mounter credentials. Using the mounter credentials as a wider security hole
-> is the problem, at least with PATCH v18 3/4 of the series we go back
-> optionally to only using the caller's credentials to perform the operations.
-> Admittedly some of the internal operations like mknod are privileged, but at
-> least in Android's use case we are not using them with callers without the
-> necessary credentials.
-> 
-> Android does not give the mounter more credentials than the callers, there
-> is very little overlap in the MAC security.
-> 
-> > The big API churn in the 1/4 patch also seems excessive considering
-> > that this seems to be mostly a cosmetic issue for android.  Am I
-> > missing something?
-> 
-> Breaks sepolicy, it no longer has access to the context data at the
-> overlayfs security boundary.
-> 
-> unknown is a symptom of being denied based on the denial to xattr data from
-> the underlying filesystem layer. Being denied the security context of the
-> target is not a good thing within the sepolicy security layer.
-> 
+> > >      *args = shadow stack/IBT status
+> > >      *(args + 1) = shadow stack base address
+> > >      *(args + 2) = shadow stack size
 > > 
-> > Thanks,
-> > Miklos
+> > What happens if this needs to grow in the future? Should the first u64
+> > contain the array size?
+> > 
+> > Otherwise, looks sensible.
+> > 
+> > -Kees
+> > 
 > 
-> 
+> The first item is a bitmap, and there are two possible bits.  Should there
+> be a need, we can then do things about it.  My thought at the moment is, we
+> may not meet the situation.  Can we keep this for now?
+
+Ah, good point. Yes, since that's a bitmap it ends up describing what
+follows. This is fine as-is. Thanks!
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+
+-- 
+Kees Cook
