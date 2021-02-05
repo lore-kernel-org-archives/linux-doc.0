@@ -2,158 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA40C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B665AC433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:56:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FFE564E43
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:50:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64B9264E31
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231997AbhBELuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 06:50:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46758 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbhBELr4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 06:47:56 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39EBC061786
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 03:47:15 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id u14so5665957wmq.4
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 03:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GFNCU2XU32iX8A3ILqgI9PR+yHagckvcg0FtnU2IeQ0=;
-        b=heNRMYMQh2iq8hWfyWyI0A9ZNKTpa+VYrgM2Z1v4prdmJfdVsJRzHUTrKH6bXQTUeS
-         zG4Rk9iu2jGqlDZ8rWjAlI/n3I72I7X2xVeplLU56srzu6x4tkmwqpppFzRntHNvbf2/
-         xMj3Rfj4/5U8rv4kf5PhiMTaK38qu/wKYl7afff6wyqrGluQ+HtrPArKUgPVbTc0pMAv
-         GyFW2MzggE8vfo6G2Cube5kDCg5hF3AbL6ux8hgevf4pc+QocTxowSQ6vRXDnYEWgzPv
-         54sjPsPvcV1M3xKu9jLdaLGZMMahtDmzlL8Pa09mNiX4jYahgbDhIXPG+WSHrJ8n+kHF
-         fsBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GFNCU2XU32iX8A3ILqgI9PR+yHagckvcg0FtnU2IeQ0=;
-        b=QraJuRoN5Jsum5+AS2hMcGc7+9+DUcugaTrVLi3suhpAOwAZ6Vg/OJWwdLUZBRyAOz
-         Cxvkw77Fuvow8byQCysb1vhpmLtUXOBn4Mx+SvGUpyu+AKgvAuyJoX6kaobRAKnli9Wt
-         0M9YNY56t5/3SxWFcuJ/W3swIKGWHo0EB+r3Y8tmnpBRkU2hAbe+O5JOlnm/2MgH11wv
-         HuqeSOHZPL1ZUQ/JSuv67bs95tw8f8KFtA/JJFExCwFXDaAOuJdH6B+ZzbPdLl8qnwoK
-         k3gW5/m+sFPifTC5+ZYwPVPRENEXHln7+WsEi4mgTdGgyKVlPe/0shxNE92LPaw7jyk/
-         X8Tw==
-X-Gm-Message-State: AOAM533eQ8DZre7Z5GHz+YVbt9FXKwJa7Vue3G37N2q636gx7Zq/k/oR
-        zhaVHWPoHVYLIyD7PljU9Vg5yqFa8XujuolLfhEBIQ==
-X-Google-Smtp-Source: ABdhPJzE7brFb8EMlOLAEdcOHH+o66L7EFap41lXV2inN8+KDFQK6IWDq/ciap/uX8en5/uYwZ19hOd4zxRjWF430K8=
-X-Received: by 2002:a7b:c856:: with SMTP id c22mr3351417wml.5.1612525634576;
- Fri, 05 Feb 2021 03:47:14 -0800 (PST)
+        id S231303AbhBEL43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 06:56:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37476 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231992AbhBELy4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Feb 2021 06:54:56 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AFC76ACBA;
+        Fri,  5 Feb 2021 11:54:08 +0000 (UTC)
+Date:   Fri, 5 Feb 2021 12:54:03 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v14 4/8] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <20210205115351.GA16428@linux>
+References: <20210204035043.36609-1-songmuchun@bytedance.com>
+ <20210204035043.36609-5-songmuchun@bytedance.com>
 MIME-Version: 1.0
-References: <20210202163842.134734-1-leo.yan@linaro.org> <20210202163842.134734-4-leo.yan@linaro.org>
-In-Reply-To: <20210202163842.134734-4-leo.yan@linaro.org>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 5 Feb 2021 11:47:04 +0000
-Message-ID: <CAJ9a7VjVSZGR8MJQYiKAc_OcV_BmY1YiXqSaGRi=UPkj=iCUew@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] perf cs-etm: Fix bitmap for option
-To:     Leo Yan <leo.yan@linaro.org>
-Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210204035043.36609-5-songmuchun@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Feb 2021 at 16:39, Leo Yan <leo.yan@linaro.org> wrote:
->
-> From: Suzuki K Poulose <suzuki.poulose@arm.com>
->
-> When set option with macros ETM_OPT_CTXTID and ETM_OPT_TS, it wrongly
-> takes these two values (14 and 28 prespectively) as bit masks, but
-> actually both are the offset for bits.  But this doesn't lead to
-> further failure due to the AND logic operation will be always true for
-> ETM_OPT_CTXTID / ETM_OPT_TS.
->
-> This patch defines new independent macros (rather than using the
-> "config" bits) for requesting the "contextid" and "timestamp" for
-> cs_etm_set_option().
->
-> [leoy: Extract the change as a separate patch for easier review]
-> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Signed-off-by: Leo Yan <leo.yan@linaro.org>
-> ---
->  tools/perf/arch/arm/util/cs-etm.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
-> index bd446aba64f7..c25c878fd06c 100644
-> --- a/tools/perf/arch/arm/util/cs-etm.c
-> +++ b/tools/perf/arch/arm/util/cs-etm.c
-> @@ -156,6 +156,10 @@ static int cs_etm_set_timestamp(struct auxtrace_record *itr,
->         return err;
->  }
->
-> +#define ETM_SET_OPT_CTXTID     (1 << 0)
-> +#define ETM_SET_OPT_TS         (1 << 1)
-> +#define ETM_SET_OPT_MASK       (ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
-> +
->  static int cs_etm_set_option(struct auxtrace_record *itr,
->                              struct evsel *evsel, u32 option)
->  {
-> @@ -169,17 +173,17 @@ static int cs_etm_set_option(struct auxtrace_record *itr,
->                     !cpu_map__has(online_cpus, i))
->                         continue;
->
-> -               if (option & ETM_OPT_CTXTID) {
-> +               if (option & ETM_SET_OPT_CTXTID) {
->                         err = cs_etm_set_context_id(itr, evsel, i);
->                         if (err)
->                                 goto out;
->                 }
-> -               if (option & ETM_OPT_TS) {
-> +               if (option & ETM_SET_OPT_TS) {
->                         err = cs_etm_set_timestamp(itr, evsel, i);
->                         if (err)
->                                 goto out;
->                 }
-> -               if (option & ~(ETM_OPT_CTXTID | ETM_OPT_TS))
-> +               if (option & ~(ETM_SET_OPT_MASK))
->                         /* Nothing else is currently supported */
->                         goto out;
->         }
-> @@ -406,7 +410,7 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
->                 evsel__set_sample_bit(cs_etm_evsel, CPU);
->
->                 err = cs_etm_set_option(itr, cs_etm_evsel,
-> -                                       ETM_OPT_CTXTID | ETM_OPT_TS);
-> +                                       ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS);
->                 if (err)
->                         goto out;
->         }
-> --
-> 2.25.1
->
+On Thu, Feb 04, 2021 at 11:50:39AM +0800, Muchun Song wrote:
+> When we free a HugeTLB page to the buddy allocator, we should allocate the
+> vmemmap pages associated with it. But we may cannot allocate vmemmap pages
+> when the system is under memory pressure, in this case, we just refuse to
+> free the HugeTLB page instead of looping forever trying to allocate the
+> pages.
+> 
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-Reivewed-by: Mike Leach <mike.leach@linaro.org>
+[...]
+
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 4cfca27c6d32..5518283aa667 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1397,16 +1397,26 @@ static void __free_huge_page(struct page *page)
+>  		h->resv_huge_pages++;
+>  
+>  	if (HPageTemporary(page)) {
+> -		list_del(&page->lru);
+>  		ClearHPageTemporary(page);
+> +
+> +		if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC)) {
+> +			h->surplus_huge_pages++;
+> +			h->surplus_huge_pages_node[nid]++;
+> +			goto enqueue;
+> +		}
+> +		list_del(&page->lru);
+>  		update_and_free_page(h, page);
+>  	} else if (h->surplus_huge_pages_node[nid]) {
+> +		if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC))
+> +			goto enqueue;
+> +
+>  		/* remove the page from active list */
+>  		list_del(&page->lru);
+>  		update_and_free_page(h, page);
+>  		h->surplus_huge_pages--;
+>  		h->surplus_huge_pages_node[nid]--;
+>  	} else {
+> +enqueue:
+>  		arch_clear_hugepage_flags(page);
+>  		enqueue_huge_page(h, page);
+
+Ok, we just keep them in the pool in case we fail to allocate.
+
+
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index ddd872ab6180..0bd6b8d7282d 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -169,6 +169,8 @@
+>   * (last) level. So this type of HugeTLB page can be optimized only when its
+>   * size of the struct page structs is greater than 2 pages.
+
+[...]
+
+> +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head, gfp_t gfp_mask)
+> +{
+> +	int ret;
+> +	unsigned long vmemmap_addr = (unsigned long)head;
+> +	unsigned long vmemmap_end, vmemmap_reuse;
+> +
+> +	if (!free_vmemmap_pages_per_hpage(h))
+> +		return 0;
+> +
+> +	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> +	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> +	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> +
+> +	/*
+> +	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> +	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> +	 * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> +	 * When a HugeTLB page is freed to the buddy allocator, previously
+> +	 * discarded vmemmap pages must be allocated and remapping.
+> +	 */
+> +	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> +				  gfp_mask | __GFP_NOWARN | __GFP_THISNODE);
+
+Why don't you set all the GFP flags here?
+
+vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse, GFP_ATOMIC|
+                    __GFP_NOWARN | __GFP_THISNODE) ?
+
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index 50c1dc00b686..277eb43aebd5 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+
+[...]
+
+> +static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
+> +				   gfp_t gfp_mask, struct list_head *list)
+
+I think it would make more sense for this function to get the nid and the
+nr_pages to allocate directly.
+
+> +{
+> +	unsigned long addr;
+> +	int nid = page_to_nid((const void *)start);
+
+Uh, that void is a bit ugly. page_to_nid(struct page *)start).
+Do not need the const either.
+
+> +	struct page *page, *next;
+> +
+> +	for (addr = start; addr < end; addr += PAGE_SIZE) {
+> +		page = alloc_pages_node(nid, gfp_mask, 0);
+> +		if (!page)
+> +			goto out;
+> +		list_add_tail(&page->lru, list);
+> +	}
+
+and replace this by while(--nr_pages) etc.
+
+I did not really go in depth, but looks good to me, and much more simply
+overall.
+
+The only thing I am not sure about is the use of GFP_ATOMIC.
+It has been raised before than when we are close to OOM, the user might want
+to try to free up some memory by dissolving free_huge_pages, and so we might
+want to dip in the reserves.
+
+Given the fact that we are prepared to fail, and that we do not retry, I would
+rather use GFP_KERNEL than to have X pages atomically allocated and then realize
+we need to drop them on the ground because we cannot go further at some point.
+I think those reserves would be better off used by someone else in that
+situation.
+
+But this is just my thoughs, and given the fact that there seems to be a consensus
+of susing GFP_ATOMIC.
+
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Oscar Salvador
+SUSE L3
