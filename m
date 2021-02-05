@@ -2,179 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A073BC4332B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 20:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5D9CC433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 21:35:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68B7D64FBA
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 20:13:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A56964FC8
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 21:35:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233171AbhBESab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 13:30:31 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:53330 "EHLO mail.hallyn.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233134AbhBEPND (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Feb 2021 10:13:03 -0500
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 30841283; Fri,  5 Feb 2021 08:21:43 -0600 (CST)
-Date:   Fri, 5 Feb 2021 08:21:43 -0600
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        id S230307AbhBEVfh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 16:35:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229849AbhBEVev (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 16:34:51 -0500
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABDFC06178C
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 13:33:58 -0800 (PST)
+Received: by mail-qk1-x74a.google.com with SMTP id u66so6992761qkd.13
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 13:33:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:cc
+         :content-transfer-encoding;
+        bh=w382r+buQ4Tx8FdN/ryZgjV6D4PrxeZkE7hCNPLCCTk=;
+        b=Do3cLKKgATj9Sj1wczzer7FsQYo2BGJLV+dlolkVMaamGTbvNtGFsx8B9cjDusaoJ6
+         PH//GMgsuQfTvFJGb504gwHqFYmglx5t8ajCSi0wjHfPg87LkbKyWXkwy6n6pjLVT7L6
+         obdgNsN/V1Pbj2Yfog3ATINTeISlKX2QmY91sGRAEa+7Ut5frVD33da8olSv64KKgmTY
+         1hfq4LWBjd1MWAK9SODnWt6hywEnmqIQ9gB8knT+0X0lqaJGvPZa3hK48Wot+TTQB7uC
+         NQhQRopKwh3fC+Dq4ymwIfzENFP3dBEcffQ9JT2loQ6otxhuzTDLJkfWRqu59R79ZTtA
+         e7IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :cc:content-transfer-encoding;
+        bh=w382r+buQ4Tx8FdN/ryZgjV6D4PrxeZkE7hCNPLCCTk=;
+        b=OvtJLL5JT+D1Aw/qFu9+ZsRvu7jkLVMiUdmSMKgTlx1iruDYbTm60cz+2iJRtKXxwg
+         g16yitncQhsAILZWDlPP/v1irddYkWCjrdc8P655D0G0WArNHx7d7/G63gJnPuv7PHzY
+         0ouAW5n6g+OUCx7BIkXxUN9GZ4wQ6zcnj5Pj35XNQzwr7MgA8gmlc56/ENg9zMmSmvIU
+         pDO8MkqF1BMVXNDj/16ODqY/V81tvniDBdKdQmIQlwpO/ig5BsF8Ee5BiEV66FPyk4Ye
+         Ryt56p+l7wLtsr0ZCafrGsldbc7mbhvroWM89J6k1L28BiVY2Qw/VWsJ7CYovZZ962zc
+         hcPA==
+X-Gm-Message-State: AOAM531AYzjIV2MqjKzFjO90acJ7IWTe7vVRjVonyA9qDhuu5SqJl0Oa
+        KfS2mN7NQNNYRyPEqRpn+bu5ibxOeeYZgoFCEA==
+X-Google-Smtp-Source: ABdhPJwJT6nr2aaCz5tonDuWMfRWbCDh0aV8dUQFJumYEjyZC6Qyyu+a1DDqD8I8jK3xt7QsBX2BA6k1mXXISmy/sA==
+Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a0c:8365:: with SMTP id
+ j92mr6362202qva.19.1612560837960; Fri, 05 Feb 2021 13:33:57 -0800 (PST)
+Date:   Fri,  5 Feb 2021 21:33:43 +0000
+Message-Id: <20210205213353.669122-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v4 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        rdunlap@infradead.org, christian.koenig@amd.com,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v28 06/12] fs,security: Add sb_delete hook
-Message-ID: <20210205142143.GA18451@mail.hallyn.com>
-References: <20210202162710.657398-1-mic@digikod.net>
- <20210202162710.657398-7-mic@digikod.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210202162710.657398-7-mic@digikod.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        NeilBrown <neilb@suse.de>, Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 05:27:04PM +0100, Mickaël Salaün wrote:
-> From: Mickaël Salaün <mic@linux.microsoft.com>
-> 
-> The sb_delete security hook is called when shutting down a superblock,
-> which may be useful to release kernel objects tied to the superblock's
-> lifetime (e.g. inodes).
-> 
-> This new hook is needed by Landlock to release (ephemerally) tagged
-> struct inodes.  This comes from the unprivileged nature of Landlock
-> described in the next commit.
-> 
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Serge E. Hallyn <serge@hallyn.com>
+Android captures per-process system memory state when certain low memory
+events (e.g a foreground app kill) occur, to identify potential memory
+hoggers. In order to measure how much memory a process actually consumes,
+it is necessary to include the DMA buffer sizes for that process in the
+memory accounting. Since the handle to DMA buffers are raw FDs, it is
+important to be able to identify which processes have FD references to
+a DMA buffer.
 
-One note below, but
+Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+/proc/<pid>/fdinfo -- both are only readable by the process owner,
+as follows:
+  1. Do a readlink on each FD.
+  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+  3. stat the file to get the dmabuf inode number.
+  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 
-Acked-by: Serge Hallyn <serge@hallyn.com>
+Accessing other processes=E2=80=99 fdinfo requires root privileges. This li=
+mits
+the use of the interface to debugging environments and is not suitable
+for production builds.  Granting root privileges even to a system process
+increases the attack surface and is highly undesirable.
 
-> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-> Reviewed-by: Jann Horn <jannh@google.com>
-> ---
-> 
-> Changes since v22:
-> * Add Reviewed-by: Jann Horn <jannh@google.com>
-> 
-> Changes since v17:
-> * Initial patch to replace the direct call to landlock_release_inodes()
->   (requested by James Morris).
->   https://lore.kernel.org/lkml/alpine.LRH.2.21.2005150536440.7929@namei.org/
-> ---
->  fs/super.c                    | 1 +
->  include/linux/lsm_hook_defs.h | 1 +
->  include/linux/lsm_hooks.h     | 2 ++
->  include/linux/security.h      | 4 ++++
->  security/security.c           | 5 +++++
->  5 files changed, 13 insertions(+)
-> 
-> diff --git a/fs/super.c b/fs/super.c
-> index 2c6cdea2ab2d..c3c5178cde65 100644
-> --- a/fs/super.c
-> +++ b/fs/super.c
-> @@ -454,6 +454,7 @@ void generic_shutdown_super(struct super_block *sb)
->  		evict_inodes(sb);
->  		/* only nonzero refcount inodes can have marks */
->  		fsnotify_sb_delete(sb);
-> +		security_sb_delete(sb);
->  
->  		if (sb->s_dio_done_wq) {
->  			destroy_workqueue(sb->s_dio_done_wq);
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> index 7aaa753b8608..32472b3849bc 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -59,6 +59,7 @@ LSM_HOOK(int, 0, fs_context_dup, struct fs_context *fc,
->  LSM_HOOK(int, -ENOPARAM, fs_context_parse_param, struct fs_context *fc,
->  	 struct fs_parameter *param)
->  LSM_HOOK(int, 0, sb_alloc_security, struct super_block *sb)
-> +LSM_HOOK(void, LSM_RET_VOID, sb_delete, struct super_block *sb)
->  LSM_HOOK(void, LSM_RET_VOID, sb_free_security, struct super_block *sb)
->  LSM_HOOK(void, LSM_RET_VOID, sb_free_mnt_opts, void *mnt_opts)
->  LSM_HOOK(int, 0, sb_eat_lsm_opts, char *orig, void **mnt_opts)
-> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-> index 970106d98306..e339b201f79b 100644
-> --- a/include/linux/lsm_hooks.h
-> +++ b/include/linux/lsm_hooks.h
-> @@ -108,6 +108,8 @@
->   *	allocated.
->   *	@sb contains the super_block structure to be modified.
->   *	Return 0 if operation was successful.
-> + * @sb_delete:
-> + *	Release objects tied to a superblock (e.g. inodes).
+Since fdinfo doesn't permit reading process memory and manipulating
+process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
 
-It's customary here to add the line detailing the @sb argument.
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+Changes in v2:
+  - Update patch description
 
->   * @sb_free_security:
->   *	Deallocate and clear the sb->s_security field.
->   *	@sb contains the super_block structure to be modified.
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index c35ea0ffccd9..c41a94e29b62 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -288,6 +288,7 @@ void security_bprm_committed_creds(struct linux_binprm *bprm);
->  int security_fs_context_dup(struct fs_context *fc, struct fs_context *src_fc);
->  int security_fs_context_parse_param(struct fs_context *fc, struct fs_parameter *param);
->  int security_sb_alloc(struct super_block *sb);
-> +void security_sb_delete(struct super_block *sb);
->  void security_sb_free(struct super_block *sb);
->  void security_free_mnt_opts(void **mnt_opts);
->  int security_sb_eat_lsm_opts(char *options, void **mnt_opts);
-> @@ -620,6 +621,9 @@ static inline int security_sb_alloc(struct super_block *sb)
->  	return 0;
->  }
->  
-> +static inline void security_sb_delete(struct super_block *sb)
-> +{ }
-> +
->  static inline void security_sb_free(struct super_block *sb)
->  { }
->  
-> diff --git a/security/security.c b/security/security.c
-> index 9f979d4afe6c..1b4a73b2549a 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -900,6 +900,11 @@ int security_sb_alloc(struct super_block *sb)
->  	return rc;
->  }
->  
-> +void security_sb_delete(struct super_block *sb)
-> +{
-> +	call_void_hook(sb_delete, sb);
-> +}
-> +
->  void security_sb_free(struct super_block *sb)
->  {
->  	call_void_hook(sb_free_security, sb);
-> -- 
-> 2.30.0
+ fs/proc/base.c |  4 ++--
+ fs/proc/fd.c   | 15 ++++++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index b3422cda2a91..a37f9de7103f 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] =3D {
+ 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_=
+operations),
+ 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_oper=
+ations),
+ 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_=
+map_files_operations),
+-	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdi=
+nfo_operations),
++	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdi=
+nfo_operations),
+ 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_op=
+erations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
+erations),
+@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_in=
+ode_operations =3D {
+  */
+ static const struct pid_entry tid_base_stuff[] =3D {
+ 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_opera=
+tions),
+-	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdin=
+fo_operations),
++	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdin=
+fo_operations),
+ 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_ope=
+rations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_op=
+erations),
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index cb51763ed554..585e213301f9 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -6,6 +6,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/namei.h>
+ #include <linux/pid.h>
++#include <linux/ptrace.h>
+ #include <linux/security.h>
+ #include <linux/file.h>
+ #include <linux/seq_file.h>
+@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
+=20
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
++	bool allowed =3D false;
++	struct task_struct *task =3D get_proc_task(inode);
++
++	if (!task)
++		return -ESRCH;
++
++	allowed =3D ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
++	put_task_struct(task);
++
++	if (!allowed)
++		return -EACCES;
++
+ 	return single_open(file, seq_show, inode);
+ }
+=20
+@@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct de=
+ntry *dentry,
+ 	struct proc_inode *ei;
+ 	struct inode *inode;
+=20
+-	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
++	inode =3D proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+ 	if (!inode)
+ 		return ERR_PTR(-ENOENT);
+=20
+--=20
+2.30.0.478.g8a0d178c01-goog
+
