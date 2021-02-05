@@ -2,158 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C7EC433E6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DD1C43381
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:47:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDCB164FB6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:11:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8061F64DF8
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231685AbhBEALA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 19:11:00 -0500
-Received: from mga07.intel.com ([134.134.136.100]:33647 "EHLO mga07.intel.com"
+        id S232135AbhBEAr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 19:47:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37936 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231567AbhBEAK6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 19:10:58 -0500
-IronPort-SDR: dcLHhzwVxGlhA6eizk0mzgYgWHL+jGH4p6IPB6bUnlIVtrBr4+bx13YGCPN5JE42rVzSM8BOWL
- J7JQ2BqAmDkQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="245422593"
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="245422593"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:10:16 -0800
-IronPort-SDR: FyGhBUUZHeP4fcvvfhWFvX9OftF/q5PlQTD0LPuXDJkP8OJ1TrRk/5I7SgFZh+TPiGSD+cMsTm
- 9ZdEZg3R6jTw==
-X-IronPort-AV: E=Sophos;i="5.81,153,1610438400"; 
-   d="scan'208";a="434168522"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.100.6]) ([10.209.100.6])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 16:10:14 -0800
-Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
-To:     Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        id S232132AbhBEArZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 19:47:25 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 376E8B06A;
+        Fri,  5 Feb 2021 00:46:43 +0000 (UTC)
+From:   NeilBrown <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+Date:   Fri, 05 Feb 2021 11:36:30 +1100
+Subject: [PATCH 0/3] Fix some seq_file users that were recently broken
+Cc:     Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-7-yu-cheng.yu@intel.com>
- <202102041201.C2B93F8D8A@keescook>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <518c6ce4-1e6e-ef8d-ba55-fb35a828b874@intel.com>
-Date:   Thu, 4 Feb 2021 16:10:13 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
+Message-ID: <161248518659.21478.2484341937387294998.stgit@noble1>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-In-Reply-To: <202102041201.C2B93F8D8A@keescook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/2021 12:09 PM, Kees Cook wrote:
-> On Wed, Feb 03, 2021 at 02:55:28PM -0800, Yu-cheng Yu wrote:
+A recent change to seq_file broke some users which were using seq_file
+in a non-"standard" way ...  though the "standard" isn't documented, so
+they can be excused.  The result is a possible leak - of memory in one
+case, of references to a 'transport' in the other.
 
-[...]
+These three patches:
+ 1/ document and explain the problem
+ 2/ fix the problem user in x86
+ 3/ fix the problem user in net/sctp
 
->> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
->> index 7f5aec758f0e..f5354c35df32 100644
->> --- a/arch/x86/kernel/traps.c
->> +++ b/arch/x86/kernel/traps.c
->> @@ -606,6 +606,66 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->>   	cond_local_irq_disable(regs);
->>   }
->>   
->> +#ifdef CONFIG_X86_CET
->> +static const char * const control_protection_err[] = {
->> +	"unknown",
->> +	"near-ret",
->> +	"far-ret/iret",
->> +	"endbranch",
->> +	"rstorssp",
->> +	"setssbsy",
->> +};
->> +
->> +/*
->> + * When a control protection exception occurs, send a signal to the responsible
->> + * application.  Currently, control protection is only enabled for user mode.
->> + * This exception should not come from kernel mode.
->> + */
->> +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
->> +{
->> +	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
->> +				      DEFAULT_RATELIMIT_BURST);
->> +	struct task_struct *tsk;
->> +
->> +	if (!user_mode(regs)) {
->> +		pr_emerg("PANIC: unexpected kernel control protection fault\n");
->> +		die("kernel control protection fault", regs, error_code);
->> +		panic("Machine halted.");
->> +	}
->> +
->> +	cond_local_irq_enable(regs);
->> +
->> +	if (!boot_cpu_has(X86_FEATURE_CET))
->> +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
->> +
->> +	tsk = current;
->> +	tsk->thread.error_code = error_code;
->> +	tsk->thread.trap_nr = X86_TRAP_CP;
->> +
->> +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
->> +	    __ratelimit(&rs)) {
->> +		unsigned int max_err;
->> +		unsigned long ssp;
->> +
->> +		max_err = ARRAY_SIZE(control_protection_err) - 1;
->> +		if (error_code < 0 || error_code > max_err)
->> +			error_code = 0;
-> 
-> Do you want to mask the error_code here before printing its value?
-> 
->> +
->> +		rdmsrl(MSR_IA32_PL3_SSP, ssp);
->> +		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
->> +			 tsk->comm, task_pid_nr(tsk),
->> +			 regs->ip, regs->sp, ssp, error_code,
->> +			 control_protection_err[error_code]);
-> 
-> Instead, you could clamp error_code to ARRAY_SIZE(control_protection_err),
-> and add another "unknown" to the end of the strings:
-> 
-> 	control_protection_err[
-> 		array_index_nospec(error_code,
-> 				   ARRAY_SIZE(control_protection_err))]
-> 
-> Everything else looks good.
-> 
+I suspect the patches should each go through the relevant subsystems,
+but I'm including akpm as the original went through him.
 
-I will update it.  Thanks!
+Thanks,
+NeilBrown
 
-[...]
+---
+
+NeilBrown (3):
+      seq_file: document how per-entry resources are managed.
+      x86: fix seq_file iteration for pat/memtype.c
+      net: fix iteration for sctp transport seq_files
+
+ Documentation/filesystems/seq_file.rst |  6 ++++++
+ arch/x86/mm/pat/memtype.c              |  4 ++--
+ net/sctp/proc.c                        | 16 ++++++++++++----
+ 3 files changed, 20 insertions(+), 6 deletions(-)
+
+--
+Signature
+
