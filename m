@@ -2,188 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B665AC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:56:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16244C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 12:03:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64B9264E31
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:56:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B29B064E05
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 12:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231303AbhBEL43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 06:56:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37476 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231992AbhBELy4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Feb 2021 06:54:56 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AFC76ACBA;
-        Fri,  5 Feb 2021 11:54:08 +0000 (UTC)
-Date:   Fri, 5 Feb 2021 12:54:03 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v14 4/8] mm: hugetlb: alloc the vmemmap pages associated
- with each HugeTLB page
-Message-ID: <20210205115351.GA16428@linux>
-References: <20210204035043.36609-1-songmuchun@bytedance.com>
- <20210204035043.36609-5-songmuchun@bytedance.com>
+        id S231152AbhBEMCw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 07:02:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232083AbhBEMAr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 07:00:47 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36208C061786;
+        Fri,  5 Feb 2021 04:00:07 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id a12so6517583qkh.10;
+        Fri, 05 Feb 2021 04:00:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4weY+u9DD1CVqLcmyEevXA4RNZ3BUA5TlWK6o1tDfxk=;
+        b=SlLdkGQwhAUifze0j0U9bUhsRiv1YEw8s+n5XT0jGgNsZiO1W/QKPQwfhhIMzoYf5W
+         Sg4/AkeGhUlq1P9zsU+G669bCx5XQJsNW+gn35Hbb/Z9dJr4gxKCVfAdcBYrl5PCLeL/
+         jdkHvy4qQlzJ7LCdRm6aTLkdkHeQ19KeKTQyTdEv7CaIk6h/lKKrkReEBBYS5EJgTx5C
+         AOz4oqDX2THcPpIsFEyGnGdmbp6mZ8Sp7TeSYnf3P7FNqIQZwNXJ8gtwxSOp53qjEcuO
+         6aHnBwnok44ILIXbUUSTqRQonfH4DoD5MZPDmQ7gq0nxAxCI0BhoWQxIkbHH5KvI4EPg
+         /muw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4weY+u9DD1CVqLcmyEevXA4RNZ3BUA5TlWK6o1tDfxk=;
+        b=rodmcVcrbBrLYUNcZKgPDrgRsp+Pf7xqZmF4/t63OUZPwV3WdVuob84CrgmYtFPsmu
+         zEcYpBKq9IroBmnDvvhbyFwKNhKbC6XeLvNvG/zbW7v3itmH452JmcUuVtJ/frE2NpRT
+         0eq9GwkYdH9Ntdf0Wn0XlTzTRYxz3dnwEEB0imCIE/r26i6MbkcrqGnph6naZ3L62SZu
+         BAqrUw+fJwthU0S3Wzg63VXtklyM+O4ank3LCV1ujtatXsLdac/0yQTj4NZ9W54NwTZL
+         Cc0oL538CmRcIRV0hEE/VX2jbJ4fYZfb2iszkVLAmh8U6FAVZEFnxeC/vlV3YwHB+952
+         sraA==
+X-Gm-Message-State: AOAM530lyeq2eO0j4PjR0SBA03B3/a5XQIj7ilNhDsJZaOaxXAnU3nOW
+        SYDy9I0MxhHpjjjKoi5/nCI=
+X-Google-Smtp-Source: ABdhPJymN/imeeCfz+KwDQtnArnTOarWUEIEEaGYt1Ve+mE3Fk0OI1GnXtyul2yNJr0o5/SteF7wTA==
+X-Received: by 2002:a05:620a:209a:: with SMTP id e26mr3655162qka.313.1612526406427;
+        Fri, 05 Feb 2021 04:00:06 -0800 (PST)
+Received: from localhost.localdomain ([138.199.10.106])
+        by smtp.gmail.com with ESMTPSA id 17sm9274752qtu.23.2021.02.05.04.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 04:00:05 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     corbet@lwn.net, swboyd@chromium.org, tiwai@suse.de,
+        nfraprado@protonmail.com, mchehab+huawei@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: kernel-hacking: Remove the word fuck,trying to be civil :)
+Date:   Fri,  5 Feb 2021 17:29:51 +0530
+Message-Id: <20210205115951.1276526-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210204035043.36609-5-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 11:50:39AM +0800, Muchun Song wrote:
-> When we free a HugeTLB page to the buddy allocator, we should allocate the
-> vmemmap pages associated with it. But we may cannot allocate vmemmap pages
-> when the system is under memory pressure, in this case, we just refuse to
-> free the HugeTLB page instead of looping forever trying to allocate the
-> pages.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-[...]
-
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 4cfca27c6d32..5518283aa667 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -1397,16 +1397,26 @@ static void __free_huge_page(struct page *page)
->  		h->resv_huge_pages++;
->  
->  	if (HPageTemporary(page)) {
-> -		list_del(&page->lru);
->  		ClearHPageTemporary(page);
-> +
-> +		if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC)) {
-> +			h->surplus_huge_pages++;
-> +			h->surplus_huge_pages_node[nid]++;
-> +			goto enqueue;
-> +		}
-> +		list_del(&page->lru);
->  		update_and_free_page(h, page);
->  	} else if (h->surplus_huge_pages_node[nid]) {
-> +		if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC))
-> +			goto enqueue;
-> +
->  		/* remove the page from active list */
->  		list_del(&page->lru);
->  		update_and_free_page(h, page);
->  		h->surplus_huge_pages--;
->  		h->surplus_huge_pages_node[nid]--;
->  	} else {
-> +enqueue:
->  		arch_clear_hugepage_flags(page);
->  		enqueue_huge_page(h, page);
-
-Ok, we just keep them in the pool in case we fail to allocate.
+s/fuck//
 
 
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index ddd872ab6180..0bd6b8d7282d 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -169,6 +169,8 @@
->   * (last) level. So this type of HugeTLB page can be optimized only when its
->   * size of the struct page structs is greater than 2 pages.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/kernel-hacking/locking.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[...]
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index c3448929a824..ed1284c6f078 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -958,7 +958,7 @@ grabs a read lock, searches a list, fails to find what it wants, drops
+ the read lock, grabs a write lock and inserts the object has a race
+ condition.
 
-> +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head, gfp_t gfp_mask)
-> +{
-> +	int ret;
-> +	unsigned long vmemmap_addr = (unsigned long)head;
-> +	unsigned long vmemmap_end, vmemmap_reuse;
-> +
-> +	if (!free_vmemmap_pages_per_hpage(h))
-> +		return 0;
-> +
-> +	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
-> +	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
-> +	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
-> +
-> +	/*
-> +	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
-> +	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-> +	 * the range is mapped to the page which @vmemmap_reuse is mapped to.
-> +	 * When a HugeTLB page is freed to the buddy allocator, previously
-> +	 * discarded vmemmap pages must be allocated and remapping.
-> +	 */
-> +	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> +				  gfp_mask | __GFP_NOWARN | __GFP_THISNODE);
+-If you don't see why, please stay the fuck away from my code.
++If you don't see why, please stay away from my code.
 
-Why don't you set all the GFP flags here?
+ Racing Timers: A Kernel Pastime
+ -------------------------------
+--
+2.30.0
 
-vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse, GFP_ATOMIC|
-                    __GFP_NOWARN | __GFP_THISNODE) ?
-
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index 50c1dc00b686..277eb43aebd5 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-
-[...]
-
-> +static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
-> +				   gfp_t gfp_mask, struct list_head *list)
-
-I think it would make more sense for this function to get the nid and the
-nr_pages to allocate directly.
-
-> +{
-> +	unsigned long addr;
-> +	int nid = page_to_nid((const void *)start);
-
-Uh, that void is a bit ugly. page_to_nid(struct page *)start).
-Do not need the const either.
-
-> +	struct page *page, *next;
-> +
-> +	for (addr = start; addr < end; addr += PAGE_SIZE) {
-> +		page = alloc_pages_node(nid, gfp_mask, 0);
-> +		if (!page)
-> +			goto out;
-> +		list_add_tail(&page->lru, list);
-> +	}
-
-and replace this by while(--nr_pages) etc.
-
-I did not really go in depth, but looks good to me, and much more simply
-overall.
-
-The only thing I am not sure about is the use of GFP_ATOMIC.
-It has been raised before than when we are close to OOM, the user might want
-to try to free up some memory by dissolving free_huge_pages, and so we might
-want to dip in the reserves.
-
-Given the fact that we are prepared to fail, and that we do not retry, I would
-rather use GFP_KERNEL than to have X pages atomically allocated and then realize
-we need to drop them on the ground because we cannot go further at some point.
-I think those reserves would be better off used by someone else in that
-situation.
-
-But this is just my thoughs, and given the fact that there seems to be a consensus
-of susing GFP_ATOMIC.
-
--- 
-Oscar Salvador
-SUSE L3
