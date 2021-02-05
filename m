@@ -2,158 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D359FC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 13:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE96C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 13:54:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F46264FC2
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 13:51:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D02564FC0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 13:54:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbhBENvU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 08:51:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44526 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbhBENtL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 08:49:11 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CC5C06178A
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 05:48:09 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id 7so7815980wrz.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 05:48:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b5Gt7lm7HDFnKYf2RrWhjZE+siO4dcLCTKmn9MIyd28=;
-        b=Jmz7cvf53TjCwGxQHJHpsHhluwKoKsW3viJc5Y8zvSIecn+748ZRpAoe5PqRxJZt8w
-         rTgZsaEPI5cjxNaMnArIgWgcCM9mV0CGhOHtYEDUH4H4+I6hxx5D55dBd3//G2HTrYQW
-         Xa5KuupgmPF17JaHIEkxdFpNkycMdf16pWqxm/1J//nluKu//pehprHvxiovF/43U1rt
-         g+wdOM9fd+nBHCmJySychS2ArSgVi0HMAn5Q2J8WraMm0U/nI5Gzq837tdQ12dl9TCBj
-         +5W12Zbl5nJ7K0kehzObfdw1gRKuH5RrThAfjxYPE29Ud1aUyMKRfZSEC/oi3x4Rg5m/
-         YLOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b5Gt7lm7HDFnKYf2RrWhjZE+siO4dcLCTKmn9MIyd28=;
-        b=m+RXTpp5RbJhdp+J5hTlh1nsPjgfNt8jhp+lxyCT8iNKlOCX/wAAU9bLnRkFa+dim6
-         c6DZFJBVI3PbP/EArG29ZZibcwSV95JB/MkJmjeasVF+vdWkrhN9u5iwpbeTVa0x4oPU
-         TTZVg3je1WQWiEWB5KzLY2kvvec+pmXuO7EFfHGyRRe5hRHOnjjryzPlNMCXzt/9uW0c
-         9E1sp4Hhjg6xPm6mtH6o+inYXtualNcV3W0rLxUzOVt46yAivoVhMNpsZIcms1WNbG+W
-         JfpxQ8qQnYg7K2Wpc23qpfRmMWv3Y/qoXIUeRSgIN/4OrK8hFHB3lPeBjJouAha9hldZ
-         jkjg==
-X-Gm-Message-State: AOAM532J9PZ2Hui51GgSZZ+N8YxwnF/ErynrKtwZeNZ2MGnr+KdOa7zC
-        uYi7lWNHCXZADbbFEgupiPqzyxsB+tX73MKlZIjpBA==
-X-Google-Smtp-Source: ABdhPJybgGA0dtqhlng9SXRL3K/UPqLnTkb5044cXBN2jjDhki4O2HFfSTqq5rK/3HB5ztEnaEpAz9V+KGafPMeIUtQ=
-X-Received: by 2002:a5d:6685:: with SMTP id l5mr5068041wru.176.1612532888143;
- Fri, 05 Feb 2021 05:48:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20210202163842.134734-1-leo.yan@linaro.org> <20210202163842.134734-3-leo.yan@linaro.org>
- <3c0a0641-a375-c7c3-d72d-e1d626e60ad6@arm.com>
-In-Reply-To: <3c0a0641-a375-c7c3-d72d-e1d626e60ad6@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Fri, 5 Feb 2021 13:47:57 +0000
-Message-ID: <CAJ9a7Vh5UCyGPn7=psbTs_hMOPufkKLjqoRxw=z6XxB3SVnWtg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] coresight: etm-perf: Support PID tracing for
- kernel at EL2
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        id S231463AbhBENxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 08:53:30 -0500
+Received: from mail.hallyn.com ([178.63.66.53]:47424 "EHLO mail.hallyn.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231284AbhBENvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Feb 2021 08:51:21 -0500
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+        id 0FC0F283; Fri,  5 Feb 2021 07:48:58 -0600 (CST)
+Date:   Fri, 5 Feb 2021 07:48:58 -0600
+From:   "Serge E. Hallyn" <serge@hallyn.com>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Al Grant <al.grant@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v28 04/12] landlock: Add ptrace restrictions
+Message-ID: <20210205134857.GA17981@mail.hallyn.com>
+References: <20210202162710.657398-1-mic@digikod.net>
+ <20210202162710.657398-5-mic@digikod.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210202162710.657398-5-mic@digikod.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Feb 2021 at 23:06, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->
-> On 2/2/21 4:38 PM, Leo Yan wrote:
-> > From: Suzuki K Poulose <suzuki.poulose@arm.com>
-> >
-> > When the kernel is running at EL2, the PID is stored in CONTEXTIDR_EL2.
-> > So, tracing CONTEXTIDR_EL1 doesn't give us the pid of the process.
-> > Thus we should trace the VMID with VMIDOPT set to trace CONTEXTIDR_EL2
-> > instead of CONTEXTIDR_EL1.  Given that we have an existing config
-> > option "contextid" and this will be useful for tracing virtual machines
-> > (when we get to support virtualization).
-> >
-> > So instead, this patch extends option CTXTID with an extra bit
-> > ETM_OPT_CTXTID2 (bit 15), thus on an EL2 kernel, we will have another
-> > bit available for the perf tool: ETM_OPT_CTXTID is for kernel running in
-> > EL1, ETM_OPT_CTXTID2 is used when kernel runs in EL2 with VHE enabled.
-> >
-> > The tool must be backward compatible for users, i.e, "contextid" today
-> > traces PID and that should remain the same; for this purpose, the perf
-> > tool is updated to automatically set corresponding bit for the
-> > "contextid" config, therefore, the user doesn't have to bother which EL
-> > the kernel is running.
-> >
-> >    i.e, perf record -e cs_etm/contextid/u --
-> >
-> > will always do the "pid" tracing, independent of the kernel EL.
-> >
-> > The driver parses the format "contextid", which traces CONTEXTIDR_EL1
-> > for ETM_OPT_CTXTID (on EL1 kernel) and traces CONTEXTIDR_EL2 for
-> > ETM_OPT_CTXTID2 (on EL2 kernel).
-> >
-> > Besides the enhancement for format "contexid", extra two formats are
-> > introduced: "contextid1" and "contextid2".  This considers to support
-> > tracing both CONTEXTIDR_EL1 and CONTEXTIDR_EL2 when the kernel is
-> > running at EL2.  Finally, the PMU formats are defined as follow:
-> >
-> >    "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-> >                  kernel is running at EL1, "contextid1" enables the PID
-> >               tracing; when the kernel is running at EL2, this enables
-> >               tracing the PID of guest applications.
-> >
-> >    "contextid2": Only usable when the kernel is running at EL2.  When
-> >                  selected, enables PID tracing on EL2 kernel.
-> >
-> >    "contextid":  Will be an alias for the option that enables PID
-> >                  tracing.  I.e,
-> >                  contextid == contextid1, on EL1 kernel.
-> >                  contextid == contextid2, on EL2 kernel.
-> >
-> > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Cc: Al Grant <al.grant@arm.com>
-> > Cc: Mike Leach <mike.leach@linaro.org>
-> > Cc: Leo Yan <leo.yan@linaro.org>
-> > Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->
-> You may add the following line here :
->
-> [ Added two config formats: contextid1, contextid2 ]
->
-> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
->
-> The patch as such looks good to me.
->
-> Suzuki
+On Tue, Feb 02, 2021 at 05:27:02PM +0100, Mickaël Salaün wrote:
+> From: Mickaël Salaün <mic@linux.microsoft.com>
+> 
+> Using ptrace(2) and related debug features on a target process can lead
+> to a privilege escalation.  Indeed, ptrace(2) can be used by an attacker
+> to impersonate another task and to remain undetected while performing
+> malicious activities.  Thanks to  ptrace_may_access(), various part of
+> the kernel can check if a tracer is more privileged than a tracee.
+> 
+> A landlocked process has fewer privileges than a non-landlocked process
+> and must then be subject to additional restrictions when manipulating
+> processes. To be allowed to use ptrace(2) and related syscalls on a
+> target process, a landlocked process must have a subset of the target
+> process's rules (i.e. the tracee must be in a sub-domain of the tracer).
+> 
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
 
-Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Acked-by: Serge Hallyn <serge@hallyn.com>
 
+Thanks, I appreciate that things are well named and easy to reason
+about.
 
---
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+> Reviewed-by: Jann Horn <jannh@google.com>
+> ---
+> 
+> Changes since v25:
+> * Rename function to landlock_add_ptrace_hooks().
+> 
+> Changes since v22:
+> * Add Reviewed-by: Jann Horn <jannh@google.com>
+> 
+> Changes since v21:
+> * Fix copyright dates.
+> 
+> Changes since v14:
+> * Constify variables.
+> 
+> Changes since v13:
+> * Make the ptrace restriction mandatory, like in the v10.
+> * Remove the eBPF dependency.
+> 
+> Previous changes:
+> https://lore.kernel.org/lkml/20191104172146.30797-5-mic@digikod.net/
+> ---
+>  security/landlock/Makefile |   2 +-
+>  security/landlock/ptrace.c | 120 +++++++++++++++++++++++++++++++++++++
+>  security/landlock/ptrace.h |  14 +++++
+>  security/landlock/setup.c  |   2 +
+>  4 files changed, 137 insertions(+), 1 deletion(-)
+>  create mode 100644 security/landlock/ptrace.c
+>  create mode 100644 security/landlock/ptrace.h
+> 
+> diff --git a/security/landlock/Makefile b/security/landlock/Makefile
+> index 041ea242e627..f1d1eb72fa76 100644
+> --- a/security/landlock/Makefile
+> +++ b/security/landlock/Makefile
+> @@ -1,4 +1,4 @@
+>  obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
+>  
+>  landlock-y := setup.o object.o ruleset.o \
+> -	cred.o
+> +	cred.o ptrace.o
+> diff --git a/security/landlock/ptrace.c b/security/landlock/ptrace.c
+> new file mode 100644
+> index 000000000000..f55b82446de2
+> --- /dev/null
+> +++ b/security/landlock/ptrace.c
+> @@ -0,0 +1,120 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Landlock LSM - Ptrace hooks
+> + *
+> + * Copyright © 2017-2020 Mickaël Salaün <mic@digikod.net>
+> + * Copyright © 2019-2020 ANSSI
+> + */
+> +
+> +#include <asm/current.h>
+> +#include <linux/cred.h>
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/lsm_hooks.h>
+> +#include <linux/rcupdate.h>
+> +#include <linux/sched.h>
+> +
+> +#include "common.h"
+> +#include "cred.h"
+> +#include "ptrace.h"
+> +#include "ruleset.h"
+> +#include "setup.h"
+> +
+> +/**
+> + * domain_scope_le - Checks domain ordering for scoped ptrace
+> + *
+> + * @parent: Parent domain.
+> + * @child: Potential child of @parent.
+> + *
+> + * Checks if the @parent domain is less or equal to (i.e. an ancestor, which
+> + * means a subset of) the @child domain.
+> + */
+> +static bool domain_scope_le(const struct landlock_ruleset *const parent,
+> +		const struct landlock_ruleset *const child)
+> +{
+> +	const struct landlock_hierarchy *walker;
+> +
+> +	if (!parent)
+> +		return true;
+> +	if (!child)
+> +		return false;
+> +	for (walker = child->hierarchy; walker; walker = walker->parent) {
+> +		if (walker == parent->hierarchy)
+> +			/* @parent is in the scoped hierarchy of @child. */
+> +			return true;
+> +	}
+> +	/* There is no relationship between @parent and @child. */
+> +	return false;
+> +}
+> +
+> +static bool task_is_scoped(const struct task_struct *const parent,
+> +		const struct task_struct *const child)
+> +{
+> +	bool is_scoped;
+> +	const struct landlock_ruleset *dom_parent, *dom_child;
+> +
+> +	rcu_read_lock();
+> +	dom_parent = landlock_get_task_domain(parent);
+> +	dom_child = landlock_get_task_domain(child);
+> +	is_scoped = domain_scope_le(dom_parent, dom_child);
+> +	rcu_read_unlock();
+> +	return is_scoped;
+> +}
+> +
+> +static int task_ptrace(const struct task_struct *const parent,
+> +		const struct task_struct *const child)
+> +{
+> +	/* Quick return for non-landlocked tasks. */
+> +	if (!landlocked(parent))
+> +		return 0;
+> +	if (task_is_scoped(parent, child))
+> +		return 0;
+> +	return -EPERM;
+> +}
+> +
+> +/**
+> + * hook_ptrace_access_check - Determines whether the current process may access
+> + *			      another
+> + *
+> + * @child: Process to be accessed.
+> + * @mode: Mode of attachment.
+> + *
+> + * If the current task has Landlock rules, then the child must have at least
+> + * the same rules.  Else denied.
+> + *
+> + * Determines whether a process may access another, returning 0 if permission
+> + * granted, -errno if denied.
+> + */
+> +static int hook_ptrace_access_check(struct task_struct *const child,
+> +		const unsigned int mode)
+> +{
+> +	return task_ptrace(current, child);
+> +}
+> +
+> +/**
+> + * hook_ptrace_traceme - Determines whether another process may trace the
+> + *			 current one
+> + *
+> + * @parent: Task proposed to be the tracer.
+> + *
+> + * If the parent has Landlock rules, then the current task must have the same
+> + * or more rules.  Else denied.
+> + *
+> + * Determines whether the nominated task is permitted to trace the current
+> + * process, returning 0 if permission is granted, -errno if denied.
+> + */
+> +static int hook_ptrace_traceme(struct task_struct *const parent)
+> +{
+> +	return task_ptrace(parent, current);
+> +}
+> +
+> +static struct security_hook_list landlock_hooks[] __lsm_ro_after_init = {
+> +	LSM_HOOK_INIT(ptrace_access_check, hook_ptrace_access_check),
+> +	LSM_HOOK_INIT(ptrace_traceme, hook_ptrace_traceme),
+> +};
+> +
+> +__init void landlock_add_ptrace_hooks(void)
+> +{
+> +	security_add_hooks(landlock_hooks, ARRAY_SIZE(landlock_hooks),
+> +			LANDLOCK_NAME);
+> +}
+> diff --git a/security/landlock/ptrace.h b/security/landlock/ptrace.h
+> new file mode 100644
+> index 000000000000..265b220ae3bf
+> --- /dev/null
+> +++ b/security/landlock/ptrace.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Landlock LSM - Ptrace hooks
+> + *
+> + * Copyright © 2017-2019 Mickaël Salaün <mic@digikod.net>
+> + * Copyright © 2019 ANSSI
+> + */
+> +
+> +#ifndef _SECURITY_LANDLOCK_PTRACE_H
+> +#define _SECURITY_LANDLOCK_PTRACE_H
+> +
+> +__init void landlock_add_ptrace_hooks(void);
+> +
+> +#endif /* _SECURITY_LANDLOCK_PTRACE_H */
+> diff --git a/security/landlock/setup.c b/security/landlock/setup.c
+> index 8661112fb238..a5d6ef334991 100644
+> --- a/security/landlock/setup.c
+> +++ b/security/landlock/setup.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include "common.h"
+>  #include "cred.h"
+> +#include "ptrace.h"
+>  #include "setup.h"
+>  
+>  struct lsm_blob_sizes landlock_blob_sizes __lsm_ro_after_init = {
+> @@ -20,6 +21,7 @@ struct lsm_blob_sizes landlock_blob_sizes __lsm_ro_after_init = {
+>  static int __init landlock_init(void)
+>  {
+>  	landlock_add_cred_hooks();
+> +	landlock_add_ptrace_hooks();
+>  	pr_info("Up and running.\n");
+>  	return 0;
+>  }
+> -- 
+> 2.30.0
