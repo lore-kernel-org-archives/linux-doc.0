@@ -2,222 +2,600 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9722EC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4A0C43381
 	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:23:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3553764F9F
+	by mail.kernel.org (Postfix) with ESMTP id 9A77D64EE4
 	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232623AbhBEWWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 17:22:41 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:50674 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232588AbhBEOYL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 09:24:11 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 115FdidX122299;
-        Fri, 5 Feb 2021 16:01:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=kw8FXB7UOsXbBrq/R7dvbf/tE3djJ08y1xmEUb96zkc=;
- b=CwLsU4cC73uSiko3dbI8me2543eNYC42BrPVrKnLKbbYhOlRE6LP/+sutMYesYmKNXZG
- RcLwXs1/DkBxxh+ec7NdKqVGB5QpxCE+DcD7VsXRLSkwoifTGGRTXgX/aieDBZUoQ5zX
- TpvhABP3OtqJV/wy0pBfEN3Hr4crNsTUQFKPQPr2seETfLspY/AN9HofxypotGNxiJse
- d6ePcxEnjyE5kUpBdvkmSBKJiSInmk7MboY9RUYO7zKu/5w4pjzY4MHU/GO0Awx5SOwk
- 5x+TUw9y2u/DKRboeHTolku2j9H/t/4kZfRnPwf0U/Nf9txaO5HyF7WmQXukNLi3KjsT Tw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 36cydma6e5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 05 Feb 2021 16:01:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 115Fff01110960;
-        Fri, 5 Feb 2021 16:01:08 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-        by aserp3030.oracle.com with ESMTP id 36dh1u45et-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 05 Feb 2021 16:01:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EKtUFG7jsP3OGKttGtntLzlJW8lUlq/1mMl39Shi+OFG0LTQR5ZXO6jeprffmiQ1Tmgww20tPrXs969TPkfl8C4Ru05UsjoZJ3rtqjvdPSaiYUuIKbWTudPtBfWGpVDRk0rpoLeu60GKTqDckjW+U8v++ho7glGt8dJAnshPp6AGjhDKiz/58CFwnOUUPNrCd8zrSjc1UfYio8IE0Twx2naMK7bDAbV1/0UB0hDSNoTGNveoPBXW64SjPPtfplgo16ic8l4jNWoKua8Md8KoPwqd8c8qDm7R3J6fZjAvhsHvuyoZK6g/6doCUNvClqDVXRvfFZYF73ZdjT+LwOj4dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kw8FXB7UOsXbBrq/R7dvbf/tE3djJ08y1xmEUb96zkc=;
- b=RYsW6N17xCBrcWA/KEmHSsOzUKXMLAzYGs0/gzrY2ATlyavWshbHC392gIqNX3XPMG5lK0M0HDPaq4di/IrWtSXVTQeleSDi3/O2mhbxRIoIkSSoFEZxK/5FtR6vQw9g5PFwnvkOC+99aKolTLQVecZRmSo53SI9Aj7xxpz4wKT4mFbTEDdHdWqIig+QCb3gqaGLz1Id8QemA9x+IdnLi6Wx8D5ekBqpt9Rf5WrwX42S6Mco0d+FCXSJ7CrfAwRqSBtqu8ESAxkFeOdPdO9ZP/BxwlrZEMMvFJV4+647gmGB7gnoAJLufrzi316TgQyEGwMkn0/Lo85U0qpnv/Cdvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kw8FXB7UOsXbBrq/R7dvbf/tE3djJ08y1xmEUb96zkc=;
- b=YrLepVgFcbgL5xfOVYiOCsZ4t9QgUkTRo54lYSTV2aGhhbqwgdfZ4eIymK5AuULb3AK8kKx0MjL01RvOYqyUarZ68XBj62E9I3u73t7pIkUGQhB3YKEJaZQIicdtYfyGcn9s9IJXtQ5EF8+V0BC61QBqM4WW3uYu2kPh6eN3wgA=
-Authentication-Results: nec.com; dkim=none (message not signed)
- header.d=none;nec.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3077.namprd10.prod.outlook.com (2603:10b6:a03:8c::12)
- by BYAPR10MB2696.namprd10.prod.outlook.com (2603:10b6:a02:af::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.23; Fri, 5 Feb
- 2021 16:01:05 +0000
-Received: from BYAPR10MB3077.namprd10.prod.outlook.com
- ([fe80::74a8:8649:e20b:d571]) by BYAPR10MB3077.namprd10.prod.outlook.com
- ([fe80::74a8:8649:e20b:d571%7]) with mapi id 15.20.3805.024; Fri, 5 Feb 2021
- 16:01:05 +0000
-Subject: Re: [PATCH v14 0/8] Free some vmemmap pages of HugeTLB page
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, corbet@lwn.net,
-        mike.kravetz@oracle.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com
-References: <20210204035043.36609-1-songmuchun@bytedance.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-Message-ID: <a14113c5-08ae-2819-7e24-3d2687ef88da@oracle.com>
-Date:   Fri, 5 Feb 2021 16:00:51 +0000
-In-Reply-To: <20210204035043.36609-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [94.61.1.144]
-X-ClientProxiedBy: LO2P265CA0107.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:c::23) To BYAPR10MB3077.namprd10.prod.outlook.com
- (2603:10b6:a03:8c::12)
+        id S232670AbhBEWWr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 17:22:47 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:36471 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232633AbhBEO27 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 09:28:59 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id ED6AE5802A3;
+        Fri,  5 Feb 2021 10:29:47 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Fri, 05 Feb 2021 10:29:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=OatKMVIe8xDJndXc2ex9/B3AvEw
+        68yI8HCk4jB8IlB0=; b=ahlTSSEatCGmkY/XbvVO929BKoGbL5VsemMyau9+Npi
+        BlgASFv1aPjTOIO5pBPc/jSgsdPmxPuxLg6MYm8DVRi6ERa7ht7VeWaINxFYlxfU
+        R15iVWV1SU2K/PdZ1Jt/Ezx+dBpUqFQNL4EjkXCxwmDDcr7DmLr1exuAR573NK2S
+        bYW+DRjBZO8AL7/ts6NPoqUp18NhSQ6OjqZp6LO98XZiheZPjbIjXHyNb0Nou2dX
+        aRy4pj5k4IZms6oOexAIjkmEEXX90bZ8T6hZLKT3mGouvFMRrjifcY2M6NRdfcay
+        DLVMZIKboTfD4yZWIJyTqlfdh6S/eVM+ocuHLl3Rrfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OatKMV
+        Ie8xDJndXc2ex9/B3AvEw68yI8HCk4jB8IlB0=; b=crK/INhwoUiYB0pRU0gvCy
+        dLChMVepi0DGGG7S/OMF95Iws0dLWAwp7p+xx7Q4lvSlKsyK8FgAZW694cpHHwtT
+        Iky2FB2MgP4zUkxwZwX+HKglgDUHZVi/pco5v5vld4rqzb9IMzJH8U6yr2SVfyJ4
+        J7VSAiwDP/6kEbXWrvNvOe08x9fuuOGRlFTKqHAudwjnml6gx5lmMiHokHV5a6r7
+        53TaSLRokOwlvQG82fo65bz5F9uRXXDDjF5IdQR/xJYSNwiRn6d6yA4/cYBfUV0V
+        jTs9rxKY2qtPN/rsJtAg87jOVFzEn4UtbYEEjEclEOBDpvQg6V/llK21hXGIt8BQ
+        ==
+X-ME-Sender: <xms:Z2QdYK90xZrQqIVVuGCg2Ym2AMWp07FGX4fpnWQrNfrAKBfE4oL2lw>
+    <xme:Z2QdYKsEMuhHds1Vs38WgQ03K30FWsYlsQimlBKKXUJGO49al5anY3x4_hiB3JrGG
+    T7Fw90_ffzSPw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrgeeigdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:Z2QdYAD3gVxzZ1hc-7vbqte3futuESjK1KTtLtJglnfD6MShnzPbYw>
+    <xmx:Z2QdYCeXIyAKyyA_MBtcav7ogMFYxIopGnhHhytV-3SzbDEJ_xdipw>
+    <xmx:Z2QdYPMpLA8UXo0cypJRbXYP3LguC9ngF3ZNLpKUmgy34VH6XhjIQw>
+    <xmx:a2QdYG4Y9QjEAQbygiul5pOTdEzIq8pDio0gufR97HATO2sWheTDJQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 326F71080063;
+        Fri,  5 Feb 2021 10:29:43 -0500 (EST)
+Date:   Fri, 5 Feb 2021 16:29:41 +0100
+From:   Greg KH <greg@kroah.com>
+To:     SeongJae Park <sjpark@amazon.com>
+Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
+        Jonathan.Cameron@huawei.com, aarcange@redhat.com, acme@kernel.org,
+        alexander.shishkin@linux.intel.com, amit@kernel.org,
+        benh@kernel.crashing.org, brendan.d.gregg@gmail.com,
+        brendanhiggins@google.com, cai@lca.pw, colin.king@canonical.com,
+        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
+        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
+        gthelen@google.com, irogers@google.com, jolsa@redhat.com,
+        kirill@shutemov.name, mark.rutland@arm.com, mgorman@suse.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        peterz@infradead.org, rdunlap@infradead.org, riel@surriel.com,
+        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+        sblbir@amazon.com, shakeelb@google.com, shuah@kernel.org,
+        sj38.park@gmail.com, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, yang.shi@linux.alibaba.com,
+        ying.huang@intel.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v24 07/14] mm/damon: Implement a debugfs-based user space
+ interface
+Message-ID: <YB1kZaD/7omxXztF@kroah.com>
+References: <20210204153150.15948-1-sjpark@amazon.com>
+ <20210204153150.15948-8-sjpark@amazon.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.67] (94.61.1.144) by LO2P265CA0107.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:c::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend Transport; Fri, 5 Feb 2021 16:00:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f1f62b36-91ae-42ea-0ffb-08d8c9ef3df8
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2696:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB269678B6166DB20AB022A6D3BBB29@BYAPR10MB2696.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: k3KfFOqvDhBMw6rsEwWX8RSDucnJXfOIvYjVaM8ZF0BnGjd6nbZh5l8+l+mtOIUKTwPNEAJmYDIJsdOYFG7r79AFXjUf255tk9tAZ5rLzHTR0ATcK4oqM0coUZg6+b6NtyfPdKZqmUepgZdlfCPxHh/8GmujORp4YhHvGSyGr73NoSeBPGqQ0NFL4W5WUfSUF/Jjl8WnrTgdia/FWn4IWT6H3wOAvUQn5RDXLNBGFfka2kpW1jDHhcZiwF2YPGgPn3vndSGvDf8IuTsZwDbaNNdHWlJW/fbV0uzHCy3PUya1uNA3s2szJJUI9rEOVQg5BtowmFlM1c0/ZwA6LMISAtdmFD3la3R7EvUhPF+wmMNlyDeyTL9WpY7CSwGV02mFuI2ISzUe+2zimhzkODellVIdPO23Rj9FbYuhhMZ+ZxWtIZV3WGcU3JcmJYaDlxP2lPxU3K4BgbmqNySucC4NyGw9Ki3MR84gSb/qxaMF0D6OBJ5UL9hOI3Z2uwMrG1sKTcqe9mpaToPmLa6hQxEHpHDAcQAxAY3SQ7AqRjNuhP+Zt0d3jmrnEZM1EOKyaTY/kisoAo4Bn4mU7nHAz/qLvsTwOWTpwlDtbGwIQ1tlhx7rqG1bn8x/f5fmyPW23kUqtWp4MVuba4OfDnwM0qhAc4VxXWYplUg/BMqWUjU6VnA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3077.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(136003)(366004)(346002)(376002)(86362001)(16526019)(8936002)(316002)(53546011)(186003)(966005)(31696002)(36756003)(66556008)(66476007)(6666004)(66946007)(31686004)(83380400001)(16576012)(6486002)(2906002)(7416002)(6916009)(5660300002)(478600001)(956004)(8676002)(2616005)(4326008)(7406005)(26005)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MGRkNlV1d1Y0dHdkT3JSZlJKU21YVXJmbUl5TmRQVDFTQ3AvSGs5ZWFoU2xG?=
- =?utf-8?B?WUlhUTNiLzVLNWtQd0UxRUZrdzl2RGptTHEzOEg4a2d2MFFtNy9jL2xydFZl?=
- =?utf-8?B?NCtaa2s5L3YxMnFFZDhKamdySXE4dTczSk5EbUxqQmtTMHJYTEx2eU5CTUhw?=
- =?utf-8?B?RlBURWZXYzBvSkJ1SVFWVHRSVXE3U21aYU9TbURKK1AzK3dzZ1V2UFNZZm1I?=
- =?utf-8?B?QzEvdjFaeWJpVExuZWxGekhpUndIeDloWGVFbWlENEM1RGdQbjdtdkxBQ1I3?=
- =?utf-8?B?bTlJQi84enNVYlAwZC8vWGFYTDBlL3k1NWs2N1p3S01tUXI4eHJQUTdqTWd1?=
- =?utf-8?B?Z1BCcU1FKy9vUUxvQVBMdVlSQXg0NDBGV0tEdXVyVEsxSUQ0eEFqengvZGRB?=
- =?utf-8?B?OWY2cEdINEppeVBKSE4wRDJ2RHF2dTdtVkZ2RmE0aHVObnl6K2ZFbGZSN0pt?=
- =?utf-8?B?VnVpbHdKMHJGWmZsTllxU2RzdnI5dkVSK20vUnAvd2gyVEUxNEtzWEhtZ2VE?=
- =?utf-8?B?UjVmS0Ria3A4UWdZZVl5QTJ2SG9vVkhsekEvWkFkdVptRWtJNnFEY1ovWUpW?=
- =?utf-8?B?RHA5YldkL0g0Z0U2QWpuRlZaOGo5NlF0MWRSRFNyekFuL0ZJM0lQK2RkcjZz?=
- =?utf-8?B?N3BuZlFhQ2hkNDl6WkV2VnVab2hJUkJJOVFvZHVKQUs1dXpja2FQeFVSQnBL?=
- =?utf-8?B?ZUJJdUZyWmNvRTF2ZytnLzdhaFNVVG5hT01tUFQraWxId1NFU3BpbldNdEpl?=
- =?utf-8?B?d3pMZXJraW9zYm4wVU5WNDhYM1BzZnlrUkZRclM4dUNUYmpCTnY5RXgxbFBU?=
- =?utf-8?B?aWlIaU5iT05kMDNGZXM4RW5rOHZJRkFOVnRyYzQ2V2lzTFhteWpQeENZUENo?=
- =?utf-8?B?b1Z2dnNtdWd1TmtGUjVWWkxzUmxEVWZmcDlKd05IMS9nZXkzVThyeEh1eTR6?=
- =?utf-8?B?RDMwbFJtRUwrc2ZqUkJuMkxMYnBMR3JjUDU3RlJTZVlXNkwvT3Q0aENpaW5P?=
- =?utf-8?B?MEgzMTgzSXY4RzNjaGlSaitwS0s0WmIwVUxMd21VcUJvc243WUJNYjQxSjNN?=
- =?utf-8?B?ZnRlYi9sZndXbjBhQ09EMHBNTTNJREZBei9LWmluM1pTUjJGcnZJNVNTZzNK?=
- =?utf-8?B?TzVsMklhRnFObXlDQlExdDhLQnlpU2U5LzUrUDhsRmdnbTBrVm5kdnlNRU9t?=
- =?utf-8?B?RGwySm5iblNXZVVKa1U0S1hxS2YvTDUvZ3d4THRnM1FJSHhhdFE1VzZQaFpD?=
- =?utf-8?B?YWJ1b2NyMVdnNFVzak5XZXZFWUZ0TDVEYUNUWUFUc0pKZEVNd3hIV2taZjdz?=
- =?utf-8?B?SnBtMVY2RS96ZkhBS2tieGx2N0lNdFpIZFEra3pjeTVNZ29TQ1lHM1NjWFNP?=
- =?utf-8?B?Ymo2bnl6QVI2RjA0eUkyZWhGdVQzUWZuU0JJSEZhZGxVS3hvZmRHN2R1Q3h3?=
- =?utf-8?B?MkZKWFMvaFh5dktiQVZNRFBidjcyeGpEQVg4U21jaktQZmxtYkQyQXA3Z1pF?=
- =?utf-8?B?a01yeGhaVXVJbHdXVWtEM1NaVnZKaU1DdGhRQVJrT1hGUExFaFQ2YS9RQW1U?=
- =?utf-8?B?eHVLMUEycXQrcUhPajFuQXRnTDFyYzF4TWFURWwwWm80T1JVanJXRDNuNFVv?=
- =?utf-8?B?cnhLblRXSm9HT01uTTlkL3kreTdIUWVKVU5hdnFMNENtTTc2WFlmdUVwYjho?=
- =?utf-8?B?V1g3V0U3VHVGRUJOZWh5MGxKeFpWcW81R0dBa3VCS0RmSVMzZ2tTSXpBQzVT?=
- =?utf-8?Q?JzvbXfCwbfrp8iPnjDk22I2yzttTRdzNVM622gN?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1f62b36-91ae-42ea-0ffb-08d8c9ef3df8
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3077.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 16:01:04.9427
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Omz6ypj+hxsZ5Il8EP6MBbZr19mTcWRa8UGBuGgs2g4mu2Tu+M+MYxFS0N4+shT0mFr7YlfI/Rg4nw+kzHBPl57oiO2VjIy+/Ouw9RTAuIc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2696
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102050103
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9885 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 clxscore=1011
- spamscore=0 lowpriorityscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102050103
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210204153150.15948-8-sjpark@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/4/21 3:50 AM, Muchun Song wrote:
-> Hi all,
+On Thu, Feb 04, 2021 at 04:31:43PM +0100, SeongJae Park wrote:
+> From: SeongJae Park <sjpark@amazon.de>
 > 
-
-[...]
-
-> When a HugeTLB is freed to the buddy system, we should allocate 6 pages for
-> vmemmap pages and restore the previous mapping relationship.
+> DAMON is designed to be used by kernel space code such as the memory
+> management subsystems, and therefore it provides only kernel space API.
+> That said, letting the user space control DAMON could provide some
+> benefits to them.  For example, it will allow user space to analyze
+> their specific workloads and make their own special optimizations.
 > 
-> Apart from 2MB HugeTLB page, we also have 1GB HugeTLB page. It is similar
-> to the 2MB HugeTLB page. We also can use this approach to free the vmemmap
-> pages.
+> For such cases, this commit implements a simple DAMON application kernel
+> module, namely 'damon-dbgfs', which merely wraps the DAMON api and
+> exports those to the user space via the debugfs.
 > 
-> In this case, for the 1GB HugeTLB page, we can save 4094 pages. This is a
-> very substantial gain. On our server, run some SPDK/QEMU applications which
-> will use 1024GB hugetlbpage. With this feature enabled, we can save ~16GB
-> (1G hugepage)/~12GB (2MB hugepage) memory.
+> 'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
+> ``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
 > 
-> Because there are vmemmap page tables reconstruction on the freeing/allocating
-> path, it increases some overhead. Here are some overhead analysis.
-
-[...]
-
-> Although the overhead has increased, the overhead is not significant. Like Mike
-> said, "However, remember that the majority of use cases create hugetlb pages at
-> or shortly after boot time and add them to the pool. So, additional overhead is
-> at pool creation time. There is no change to 'normal run time' operations of
-> getting a page from or returning a page to the pool (think page fault/unmap)".
+> Attributes
+> ----------
 > 
+> Users can read and write the ``sampling interval``, ``aggregation
+> interval``, ``regions update interval``, and min/max number of
+> monitoring target regions by reading from and writing to the ``attrs``
+> file.  For example, below commands set those values to 5 ms, 100 ms,
+> 1,000 ms, 10, 1000 and check it again::
+> 
+>     # cd <debugfs>/damon
+>     # echo 5000 100000 1000000 10 1000 > attrs
+>     # cat attrs
+>     5000 100000 1000000 10 1000
+> 
+> Target IDs
+> ----------
+> 
+> Some types of address spaces supports multiple monitoring target.  For
+> example, the virtual memory address spaces monitoring can have multiple
+> processes as the monitoring targets.  Users can set the targets by
+> writing relevant id values of the targets to, and get the ids of the
+> current targets by reading from the ``target_ids`` file.  In case of the
+> virtual address spaces monitoring, the values should be pids of the
+> monitoring target processes.  For example, below commands set processes
+> having pids 42 and 4242 as the monitoring targets and check it again::
+> 
+>     # cd <debugfs>/damon
+>     # echo 42 4242 > target_ids
+>     # cat target_ids
+>     42 4242
+> 
+> Note that setting the target ids doesn't start the monitoring.
+> 
+> Turning On/Off
+> --------------
+> 
+> Setting the files as described above doesn't incur effect unless you
+> explicitly start the monitoring.  You can start, stop, and check the
+> current status of the monitoring by writing to and reading from the
+> ``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
+> of the targets with the attributes.  Writing ``off`` to the file stops
+> those.  DAMON also stops if every targets are invalidated (in case of
+> the virtual memory monitoring, target processes are invalidated when
+> terminated).  Below example commands turn on, off, and check the status
+> of DAMON::
+> 
+>     # cd <debugfs>/damon
+>     # echo on > monitor_on
+>     # echo off > monitor_on
+>     # cat monitor_on
+>     off
+> 
+> Please note that you cannot write to the above-mentioned debugfs files
+> while the monitoring is turned on.  If you write to the files while
+> DAMON is running, an error code such as ``-EBUSY`` will be returned.
+> 
+> Signed-off-by: SeongJae Park <sjpark@amazon.de>
+> Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+> ---
+>  include/linux/damon.h |   3 +
+>  mm/damon/Kconfig      |   9 +
+>  mm/damon/Makefile     |   1 +
+>  mm/damon/core.c       |  47 +++++
+>  mm/damon/dbgfs.c      | 387 ++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 447 insertions(+)
+>  create mode 100644 mm/damon/dbgfs.c
+> 
+> diff --git a/include/linux/damon.h b/include/linux/damon.h
+> index 72cf5ebd35fe..b17e808a9cae 100644
+> --- a/include/linux/damon.h
+> +++ b/include/linux/damon.h
+> @@ -237,9 +237,12 @@ unsigned int damon_nr_regions(struct damon_target *t);
+>  
+>  struct damon_ctx *damon_new_ctx(void);
+>  void damon_destroy_ctx(struct damon_ctx *ctx);
+> +int damon_set_targets(struct damon_ctx *ctx,
+> +		unsigned long *ids, ssize_t nr_ids);
+>  int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+>  		unsigned long aggr_int, unsigned long primitive_upd_int,
+>  		unsigned long min_nr_reg, unsigned long max_nr_reg);
+> +int damon_nr_running_ctxs(void);
+>  
+>  int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
+>  int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
+> diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
+> index 8ae080c52950..72f1683ba0ee 100644
+> --- a/mm/damon/Kconfig
+> +++ b/mm/damon/Kconfig
+> @@ -21,4 +21,13 @@ config DAMON_VADDR
+>  	  This builds the default data access monitoring primitives for DAMON
+>  	  that works for virtual address spaces.
+>  
+> +config DAMON_DBGFS
+> +	bool "DAMON debugfs interface"
+> +	depends on DAMON_VADDR && DEBUG_FS
+> +	help
+> +	  This builds the debugfs interface for DAMON.  The user space admins
+> +	  can use the interface for arbitrary data access monitoring.
+> +
+> +	  If unsure, say N.
+> +
+>  endmenu
+> diff --git a/mm/damon/Makefile b/mm/damon/Makefile
+> index 6ebbd08aed67..fed4be3bace3 100644
+> --- a/mm/damon/Makefile
+> +++ b/mm/damon/Makefile
+> @@ -2,3 +2,4 @@
+>  
+>  obj-$(CONFIG_DAMON)		:= core.o
+>  obj-$(CONFIG_DAMON_VADDR)	+= vaddr.o
+> +obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
+> diff --git a/mm/damon/core.c b/mm/damon/core.c
+> index 912112662d0c..cad2b4cee39d 100644
+> --- a/mm/damon/core.c
+> +++ b/mm/damon/core.c
+> @@ -172,6 +172,39 @@ void damon_destroy_ctx(struct damon_ctx *ctx)
+>  	kfree(ctx);
+>  }
+>  
+> +/**
+> + * damon_set_targets() - Set monitoring targets.
+> + * @ctx:	monitoring context
+> + * @ids:	array of target ids
+> + * @nr_ids:	number of entries in @ids
+> + *
+> + * This function should not be called while the kdamond is running.
+> + *
+> + * Return: 0 on success, negative error code otherwise.
+> + */
+> +int damon_set_targets(struct damon_ctx *ctx,
+> +		      unsigned long *ids, ssize_t nr_ids)
+> +{
+> +	ssize_t i;
+> +	struct damon_target *t, *next;
+> +
+> +	damon_destroy_targets(ctx);
+> +
+> +	for (i = 0; i < nr_ids; i++) {
+> +		t = damon_new_target(ids[i]);
+> +		if (!t) {
+> +			pr_err("Failed to alloc damon_target\n");
+> +			/* The caller should do cleanup of the ids itself */
+> +			damon_for_each_target_safe(t, next, ctx)
+> +				damon_destroy_target(t);
+> +			return -ENOMEM;
+> +		}
+> +		damon_add_target(ctx, t);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * damon_set_attrs() - Set attributes for the monitoring.
+>   * @ctx:		monitoring context
+> @@ -210,6 +243,20 @@ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+>  	return 0;
+>  }
+>  
+> +/**
+> + * damon_nr_running_ctxs() - Return number of currently running contexts.
+> + */
+> +int damon_nr_running_ctxs(void)
+> +{
+> +	int nr_ctxs;
+> +
+> +	mutex_lock(&damon_lock);
+> +	nr_ctxs = nr_running_ctxs;
+> +	mutex_unlock(&damon_lock);
+> +
+> +	return nr_ctxs;
+> +}
+> +
+>  /* Returns the size upper limit for each monitoring region */
+>  static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
+>  {
+> diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+> new file mode 100644
+> index 000000000000..db15380737d1
+> --- /dev/null
+> +++ b/mm/damon/dbgfs.c
+> @@ -0,0 +1,387 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DAMON Debugfs Interface
+> + *
+> + * Author: SeongJae Park <sjpark@amazon.de>
+> + */
+> +
+> +#define pr_fmt(fmt) "damon-dbgfs: " fmt
+> +
+> +#include <linux/damon.h>
+> +#include <linux/debugfs.h>
+> +#include <linux/file.h>
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/page_idle.h>
+> +#include <linux/slab.h>
+> +
+> +static struct damon_ctx **dbgfs_ctxs;
+> +static int dbgfs_nr_ctxs;
+> +static struct dentry **dbgfs_dirs;
+> +
+> +/*
+> + * Returns non-empty string on success, negarive error code otherwise.
+> + */
+> +static char *user_input_str(const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	char *kbuf;
+> +	ssize_t ret;
+> +
+> +	/* We do not accept continuous write */
+> +	if (*ppos)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	kbuf = kmalloc(count + 1, GFP_KERNEL);
+> +	if (!kbuf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = simple_write_to_buffer(kbuf, count + 1, ppos, buf, count);
+> +	if (ret != count) {
+> +		kfree(kbuf);
+> +		return ERR_PTR(-EIO);
+> +	}
+> +	kbuf[ret] = '\0';
+> +
+> +	return kbuf;
+> +}
+> +
+> +static ssize_t dbgfs_attrs_read(struct file *file,
+> +		char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = file->private_data;
+> +	char kbuf[128];
+> +	int ret;
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	ret = scnprintf(kbuf, ARRAY_SIZE(kbuf), "%lu %lu %lu %lu %lu\n",
+> +			ctx->sample_interval, ctx->aggr_interval,
+> +			ctx->primitive_update_interval, ctx->min_nr_regions,
+> +			ctx->max_nr_regions);
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +
+> +	return simple_read_from_buffer(buf, count, ppos, kbuf, ret);
+> +}
+> +
+> +static ssize_t dbgfs_attrs_write(struct file *file,
+> +		const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = file->private_data;
+> +	unsigned long s, a, r, minr, maxr;
+> +	char *kbuf;
+> +	ssize_t ret = count;
+> +	int err;
+> +
+> +	kbuf = user_input_str(buf, count, ppos);
+> +	if (IS_ERR(kbuf))
+> +		return PTR_ERR(kbuf);
+> +
+> +	if (sscanf(kbuf, "%lu %lu %lu %lu %lu",
+> +				&s, &a, &r, &minr, &maxr) != 5) {
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	if (ctx->kdamond) {
+> +		ret = -EBUSY;
+> +		goto unlock_out;
+> +	}
+> +
+> +	err = damon_set_attrs(ctx, s, a, r, minr, maxr);
+> +	if (err)
+> +		ret = err;
+> +unlock_out:
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +out:
+> +	kfree(kbuf);
+> +	return ret;
+> +}
+> +
+> +#define targetid_is_pid(ctx)	\
+> +	(ctx->primitive.target_valid == damon_va_target_valid)
+> +
+> +static ssize_t sprint_target_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
+> +{
+> +	struct damon_target *t;
+> +	unsigned long id;
+> +	int written = 0;
+> +	int rc;
+> +
+> +	damon_for_each_target(t, ctx) {
+> +		id = t->id;
+> +		if (targetid_is_pid(ctx))
+> +			/* Show pid numbers to debugfs users */
+> +			id = (unsigned long)pid_vnr((struct pid *)id);
+> +
+> +		rc = scnprintf(&buf[written], len - written, "%lu ", id);
+> +		if (!rc)
+> +			return -ENOMEM;
+> +		written += rc;
+> +	}
+> +	if (written)
+> +		written -= 1;
+> +	written += scnprintf(&buf[written], len - written, "\n");
+> +	return written;
+> +}
+> +
+> +static ssize_t dbgfs_target_ids_read(struct file *file,
+> +		char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = file->private_data;
+> +	ssize_t len;
+> +	char ids_buf[320];
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	len = sprint_target_ids(ctx, ids_buf, 320);
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +	if (len < 0)
+> +		return len;
+> +
+> +	return simple_read_from_buffer(buf, count, ppos, ids_buf, len);
+> +}
+> +
+> +/*
+> + * Converts a string into an array of unsigned long integers
+> + *
+> + * Returns an array of unsigned long integers if the conversion success, or
+> + * NULL otherwise.
+> + */
+> +static unsigned long *str_to_target_ids(const char *str, ssize_t len,
+> +					ssize_t *nr_ids)
+> +{
+> +	unsigned long *ids;
+> +	const int max_nr_ids = 32;
+> +	unsigned long id;
+> +	int pos = 0, parsed, ret;
+> +
+> +	*nr_ids = 0;
+> +	ids = kmalloc_array(max_nr_ids, sizeof(id), GFP_KERNEL);
+> +	if (!ids)
+> +		return NULL;
+> +	while (*nr_ids < max_nr_ids && pos < len) {
+> +		ret = sscanf(&str[pos], "%lu%n", &id, &parsed);
+> +		pos += parsed;
+> +		if (ret != 1)
+> +			break;
+> +		ids[*nr_ids] = id;
+> +		*nr_ids += 1;
+> +	}
+> +
+> +	return ids;
+> +}
+> +
+> +static void dbgfs_put_pids(unsigned long *ids, int nr_ids)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < nr_ids; i++)
+> +		put_pid((struct pid *)ids[i]);
+> +}
+> +
+> +static ssize_t dbgfs_target_ids_write(struct file *file,
+> +		const char __user *buf, size_t count, loff_t *ppos)
+> +{
+> +	struct damon_ctx *ctx = file->private_data;
+> +	char *kbuf, *nrs;
+> +	unsigned long *targets;
+> +	ssize_t nr_targets;
+> +	ssize_t ret = count;
+> +	int i;
+> +	int err;
+> +
+> +	kbuf = user_input_str(buf, count, ppos);
+> +	if (IS_ERR(kbuf))
+> +		return PTR_ERR(kbuf);
+> +
+> +	nrs = kbuf;
+> +
+> +	targets = str_to_target_ids(nrs, ret, &nr_targets);
+> +	if (!targets) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	if (targetid_is_pid(ctx)) {
+> +		for (i = 0; i < nr_targets; i++) {
+> +			targets[i] = (unsigned long)find_get_pid(
+> +					(int)targets[i]);
+> +			if (!targets[i]) {
+> +				dbgfs_put_pids(targets, i);
+> +				ret = -EINVAL;
+> +				goto free_targets_out;
+> +			}
+> +		}
+> +	}
+> +
+> +	mutex_lock(&ctx->kdamond_lock);
+> +	if (ctx->kdamond) {
+> +		if (targetid_is_pid(ctx))
+> +			dbgfs_put_pids(targets, nr_targets);
+> +		ret = -EBUSY;
+> +		goto unlock_out;
+> +	}
+> +
+> +	err = damon_set_targets(ctx, targets, nr_targets);
+> +	if (err) {
+> +		if (targetid_is_pid(ctx))
+> +			dbgfs_put_pids(targets, nr_targets);
+> +		ret = err;
+> +	}
+> +
+> +unlock_out:
+> +	mutex_unlock(&ctx->kdamond_lock);
+> +free_targets_out:
+> +	kfree(targets);
+> +out:
+> +	kfree(kbuf);
+> +	return ret;
+> +}
+> +
+> +static int damon_dbgfs_open(struct inode *inode, struct file *file)
+> +{
+> +	file->private_data = inode->i_private;
+> +
+> +	return nonseekable_open(inode, file);
+> +}
+> +
+> +static const struct file_operations attrs_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = damon_dbgfs_open,
+> +	.read = dbgfs_attrs_read,
+> +	.write = dbgfs_attrs_write,
+> +};
+> +
+> +static const struct file_operations target_ids_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = damon_dbgfs_open,
+> +	.read = dbgfs_target_ids_read,
+> +	.write = dbgfs_target_ids_write,
+> +};
+> +
+> +static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
+> +{
+> +	const char * const file_names[] = {"attrs", "target_ids"};
+> +	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops};
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
+> +		if (!debugfs_create_file(file_names[i], 0600, dir,
+> +					ctx, fops[i])) {
+> +			pr_err("failed to create %s file\n", file_names[i]);
+> +			return -ENOMEM;
 
-Despite the overhead and in addition to the memory gains from this series ...
-there's an additional benefit there isn't talked here with your vmemmap page
-reuse trick. That is page (un)pinners will see an improvement and I presume because
-there are fewer memmap pages and thus the tail/head pages are staying in cache more
-often.
+No need to check the return value of this function, just keep going and
+ignore it as there's nothing to do and kernel code should not do
+different things based on the output of any debugfs calls.
 
-Out of the box I saw (when comparing linux-next against linux-next + this series)
-with gup_test and pinning a 16G hugetlb file (with 1G pages):
+Also, this check is totally wrong and doesn't do what you think it is
+doing...
 
-	get_user_pages(): ~32k -> ~9k
-	unpin_user_pages(): ~75k -> ~70k
+> +static int __init __damon_dbgfs_init(void)
+> +{
+> +	struct dentry *dbgfs_root;
+> +	const char * const file_names[] = {"monitor_on"};
+> +	const struct file_operations *fops[] = {&monitor_on_fops};
+> +	int i;
+> +
+> +	dbgfs_root = debugfs_create_dir("damon", NULL);
+> +	if (IS_ERR(dbgfs_root)) {
+> +		pr_err("failed to create the dbgfs dir\n");
+> +		return PTR_ERR(dbgfs_root);
 
-Usually any tight loop fetching compound_head(), or reading tail pages data (e.g.
-compound_head) benefit a lot. There's some unpinning inefficiencies I am fixing[0], but
-with that in added it shows even more:
+Again, no need to check anything, just pass the result of a debugfs call
+back into another one just fine.
 
-	unpin_user_pages(): ~27k -> ~3.8k
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(file_names); i++) {
+> +		if (!debugfs_create_file(file_names[i], 0600, dbgfs_root,
+> +					NULL, fops[i])) {
 
-FWIW, I was also seeing that with devdax and the ZONE_DEVICE vmemmap page reuse equivalent
-series[1] but it was mixed with other numbers.
+Again, this isn't checking what you think it is, so please don't do it.
 
-Anyways, JFYI :)
+thanks,
 
-	Joao
-
-[0] https://lore.kernel.org/linux-mm/20210204202500.26474-1-joao.m.martins@oracle.com/
-[1] https://lore.kernel.org/linux-mm/20201208172901.17384-1-joao.m.martins@oracle.com/
+greg k-h
