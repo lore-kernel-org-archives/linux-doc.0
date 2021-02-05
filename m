@@ -2,113 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAEEC433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA40C433DB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:50:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA44564E50
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:33:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FFE564E43
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 11:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231602AbhBELdt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 06:33:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
+        id S231997AbhBELuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 06:50:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231812AbhBELbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 06:31:41 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C74C1C061786
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 03:31:00 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id 7so7369497wrz.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 03:31:00 -0800 (PST)
+        with ESMTP id S231339AbhBELr4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 06:47:56 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F39EBC061786
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 03:47:15 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id u14so5665957wmq.4
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 03:47:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:subject:message-id:user-agent:mime-version;
-        bh=Eze089fYNNkgyITOiKbDB1y437c7IX+aSkVMhCqkD6c=;
-        b=K2VRVz63+sEjHsALyseBhTZf7iCTLxczSh3tEtPGk2Q9HAQtkcveTITYM1pcSGWki+
-         +hZUkFK3JDPsui+9Cj7YlVa3h95/3gLvRi+TF54WxDpISOIidKYlWeAPLCDnMnB8ZcMY
-         2pwsnzoiOXqhFuumYlsyWuPxjGtx9m2lrTeSAUX5jG7mCTgcka5IhrCOtiDlWHFF9zjf
-         Vv10BBTFz93VFaXByVye6weKb7Ypuf0WBtIHXTs3DwNgXEFANG3oDenJI89C58zp3V5u
-         OE3dMlSS0JDYCf8mRoSQUyNHB4ZdrHdWUHgNRVY2rf0yOc4tagDNBa99uZEyUNlFEVpD
-         aHqA==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GFNCU2XU32iX8A3ILqgI9PR+yHagckvcg0FtnU2IeQ0=;
+        b=heNRMYMQh2iq8hWfyWyI0A9ZNKTpa+VYrgM2Z1v4prdmJfdVsJRzHUTrKH6bXQTUeS
+         zG4Rk9iu2jGqlDZ8rWjAlI/n3I72I7X2xVeplLU56srzu6x4tkmwqpppFzRntHNvbf2/
+         xMj3Rfj4/5U8rv4kf5PhiMTaK38qu/wKYl7afff6wyqrGluQ+HtrPArKUgPVbTc0pMAv
+         GyFW2MzggE8vfo6G2Cube5kDCg5hF3AbL6ux8hgevf4pc+QocTxowSQ6vRXDnYEWgzPv
+         54sjPsPvcV1M3xKu9jLdaLGZMMahtDmzlL8Pa09mNiX4jYahgbDhIXPG+WSHrJ8n+kHF
+         fsBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:subject:message-id:user-agent
-         :mime-version;
-        bh=Eze089fYNNkgyITOiKbDB1y437c7IX+aSkVMhCqkD6c=;
-        b=Y6b/pWXh5NDBwTthxLnbE5qsbw5B9OmOF0WIZn9kFJHtykm9KsKyOH14WU1m5tQ1es
-         eRc6135j481VKjytmfFPnxTrOLNiMh4M1YLlayLPR6mtDI2PjjE7g680U1DnYIEnuafA
-         kg26/nex5nTCs4fub1LWPzLzdO6zEjIfNQnFOdrTPSiBZj8pN9HT62Nrgq6Evh789w7F
-         J9mQgCFSe1VJN8VD1M9tr9VNpUaRXsHPVdJQyeOWZQW0s6hPtEkLAtKJXTVoYIyAvDyh
-         aWtHFbCKH6JpDJyExocrxaXCljY6xojn0t0Bu1nzGk3j87iwkneD0j6cCk8ReEggmufC
-         bHCw==
-X-Gm-Message-State: AOAM530OkoQ/LZZuiEGBgYiaqeEHYYw2zwf+DTvCSOA7hp1QLwXg24ex
-        3BiJPDTNJFoMYyqb/1d8uow=
-X-Google-Smtp-Source: ABdhPJy9/VholD0OzDwE9T+15QHFRMBda5FtVbG6Q6/8yNwb2mF3ScefegcyRgET64hj4HAHP/P+hw==
-X-Received: by 2002:a5d:66ce:: with SMTP id k14mr4461098wrw.397.1612524659472;
-        Fri, 05 Feb 2021 03:30:59 -0800 (PST)
-Received: from felia ([2001:16b8:2ded:6500:7c12:49b0:591a:b2bd])
-        by smtp.gmail.com with ESMTPSA id h14sm7836216wmq.39.2021.02.05.03.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 03:30:58 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Fri, 5 Feb 2021 12:30:50 +0100 (CET)
-X-X-Sender: lukas@felia
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Patches for a Documentation quick-fix pull request to Linus
-Message-ID: <alpine.DEB.2.21.2102051224330.19658@felia>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GFNCU2XU32iX8A3ILqgI9PR+yHagckvcg0FtnU2IeQ0=;
+        b=QraJuRoN5Jsum5+AS2hMcGc7+9+DUcugaTrVLi3suhpAOwAZ6Vg/OJWwdLUZBRyAOz
+         Cxvkw77Fuvow8byQCysb1vhpmLtUXOBn4Mx+SvGUpyu+AKgvAuyJoX6kaobRAKnli9Wt
+         0M9YNY56t5/3SxWFcuJ/W3swIKGWHo0EB+r3Y8tmnpBRkU2hAbe+O5JOlnm/2MgH11wv
+         HuqeSOHZPL1ZUQ/JSuv67bs95tw8f8KFtA/JJFExCwFXDaAOuJdH6B+ZzbPdLl8qnwoK
+         k3gW5/m+sFPifTC5+ZYwPVPRENEXHln7+WsEi4mgTdGgyKVlPe/0shxNE92LPaw7jyk/
+         X8Tw==
+X-Gm-Message-State: AOAM533eQ8DZre7Z5GHz+YVbt9FXKwJa7Vue3G37N2q636gx7Zq/k/oR
+        zhaVHWPoHVYLIyD7PljU9Vg5yqFa8XujuolLfhEBIQ==
+X-Google-Smtp-Source: ABdhPJzE7brFb8EMlOLAEdcOHH+o66L7EFap41lXV2inN8+KDFQK6IWDq/ciap/uX8en5/uYwZ19hOd4zxRjWF430K8=
+X-Received: by 2002:a7b:c856:: with SMTP id c22mr3351417wml.5.1612525634576;
+ Fri, 05 Feb 2021 03:47:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20210202163842.134734-1-leo.yan@linaro.org> <20210202163842.134734-4-leo.yan@linaro.org>
+In-Reply-To: <20210202163842.134734-4-leo.yan@linaro.org>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Fri, 5 Feb 2021 11:47:04 +0000
+Message-ID: <CAJ9a7VjVSZGR8MJQYiKAc_OcV_BmY1YiXqSaGRi=UPkj=iCUew@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] perf cs-etm: Fix bitmap for option
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+On Tue, 2 Feb 2021 at 16:39, Leo Yan <leo.yan@linaro.org> wrote:
+>
+> From: Suzuki K Poulose <suzuki.poulose@arm.com>
+>
+> When set option with macros ETM_OPT_CTXTID and ETM_OPT_TS, it wrongly
+> takes these two values (14 and 28 prespectively) as bit masks, but
+> actually both are the offset for bits.  But this doesn't lead to
+> further failure due to the AND logic operation will be always true for
+> ETM_OPT_CTXTID / ETM_OPT_TS.
+>
+> This patch defines new independent macros (rather than using the
+> "config" bits) for requesting the "contextid" and "timestamp" for
+> cs_etm_set_option().
+>
+> [leoy: Extract the change as a separate patch for easier review]
+> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> ---
+>  tools/perf/arch/arm/util/cs-etm.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+> index bd446aba64f7..c25c878fd06c 100644
+> --- a/tools/perf/arch/arm/util/cs-etm.c
+> +++ b/tools/perf/arch/arm/util/cs-etm.c
+> @@ -156,6 +156,10 @@ static int cs_etm_set_timestamp(struct auxtrace_record *itr,
+>         return err;
+>  }
+>
+> +#define ETM_SET_OPT_CTXTID     (1 << 0)
+> +#define ETM_SET_OPT_TS         (1 << 1)
+> +#define ETM_SET_OPT_MASK       (ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
+> +
+>  static int cs_etm_set_option(struct auxtrace_record *itr,
+>                              struct evsel *evsel, u32 option)
+>  {
+> @@ -169,17 +173,17 @@ static int cs_etm_set_option(struct auxtrace_record *itr,
+>                     !cpu_map__has(online_cpus, i))
+>                         continue;
+>
+> -               if (option & ETM_OPT_CTXTID) {
+> +               if (option & ETM_SET_OPT_CTXTID) {
+>                         err = cs_etm_set_context_id(itr, evsel, i);
+>                         if (err)
+>                                 goto out;
+>                 }
+> -               if (option & ETM_OPT_TS) {
+> +               if (option & ETM_SET_OPT_TS) {
+>                         err = cs_etm_set_timestamp(itr, evsel, i);
+>                         if (err)
+>                                 goto out;
+>                 }
+> -               if (option & ~(ETM_OPT_CTXTID | ETM_OPT_TS))
+> +               if (option & ~(ETM_SET_OPT_MASK))
+>                         /* Nothing else is currently supported */
+>                         goto out;
+>         }
+> @@ -406,7 +410,7 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
+>                 evsel__set_sample_bit(cs_etm_evsel, CPU);
+>
+>                 err = cs_etm_set_option(itr, cs_etm_evsel,
+> -                                       ETM_OPT_CTXTID | ETM_OPT_TS);
+> +                                       ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS);
+>                 if (err)
+>                         goto out;
+>         }
+> --
+> 2.25.1
+>
 
-
-on the current mainline repository, we currently have the following 
-warnings with make htmldocs:
-
-    ./Documentation/virt/kvm/api.rst:4537: WARNING: Unexpected indentation.
-    ./Documentation/virt/kvm/api.rst:4539: WARNING: Block quote ends without a blank line; unexpected unindent.
-
-    ./Documentation/ABI/testing/sysfs-firmware-sgi_uv:2: WARNING: Unexpected indentation.
-
-Mauro has already created patches to address them, but these patches here 
-have not been picked up by the other subsystem maintainers (within the 
-last three weeks):
-
-    a5a20cd7ff9870b5316825fa1abad0b867832700.1610610444.git.mchehab+huawei@kernel.org
-    452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org
-
-Jonathan, could you pick those two patches and provide them as a  
-Documentation quick-fix pull request to Linus?
-
-With that, we are back to zero warnings on mainline.
-
-
-Just for your information, for linux-next, as of next-20210204, with the 
-further already submitted patches, make htmldocs
-has zero warnings:
-
-    a5a20cd7ff9870b5316825fa1abad0b867832700.1610610444.git.mchehab+huawei@kernel.org
-    452854f2dd0625b9fee33b9f5e29343d6149781e.1610610444.git.mchehab+huawei@kernel.org
-    84693a4901efb553dd95fe4909b50d6d8faf8107.1610610444.git.mchehab+huawei@kernel.org
-    20210204180059.28360-1-lukas.bulwahn@gmail.com
-    20210205095506.29146-1-lukas.bulwahn@gmail.com
-
-So, we are in a good shape for zero-warning documentation build with the 
-next -rc1 if those patches are being
-picked up in the next few days.
-
-
-Thanks,
-
-Lukas
+Reivewed-by: Mike Leach <mike.leach@linaro.org>
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
