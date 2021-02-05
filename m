@@ -2,60 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BDBFC433E9
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:30:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4689BC433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:33:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC19464E75
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:30:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC4F264F09
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 18:33:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233367AbhBEQrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 11:47:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45060 "EHLO
+        id S233617AbhBEQvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 11:51:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233488AbhBEQpN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 11:45:13 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317ACC0613D6
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 10:26:55 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id w18so4877856pfu.9
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 10:26:55 -0800 (PST)
+        with ESMTP id S233166AbhBEQs7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 11:48:59 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EF3C061A29
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 10:29:12 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id t25so5153340pga.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 10:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=9PTifcKN8spL3ClpqXcFGHeUFpoZ67atZiPMBU3wuDs=;
-        b=HS3+D2H5qhhSXm5Mhv9pAeIQrIxIDrLLhrbubqDRQEHMzcshMMVXCtDGapcRO+w0Mh
-         Ry8wZrTRSu5DzM6JkcjQdB4e+rwquqcyHdk4BllNxbt4vd8dhxxn1Gu3pKXPPcBOYGMW
-         19euoavfkMowdIXaQ6HyNSFWSTVzj4YuS1o84=
+        bh=/gKrMLsfGobXkiI6sjUHxc4o3Yi1e64+iFtcBHCUDvY=;
+        b=AiVGW8ZfV6b/ee/LcCv+Op+DKesFAlTEGF/07NV2m2QST+5RqOHjwLrN8SOTlsHXpp
+         GbTzYG/+F9OEtL49Tmfgwy9qbiHLoh6BzlrxNqzQJg8e0KXxzOS/DRVO7uq4SegSZl/A
+         bNR0Obo6GjVDXaQLKqtbvrdxhjKO3vjvpLXwA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=9PTifcKN8spL3ClpqXcFGHeUFpoZ67atZiPMBU3wuDs=;
-        b=j0sj0vjhmS8TxwbeL+tleXZ7JzDuMz23DzV1J55RnH3pkL0yZtPDCPA68u+tll2N/B
-         eVtoDSK//NdCABx+6KCWu5QAOqrhUHd4VW6dhRU6uu5epSbC9rS0oHVjkd3XgKza9Jhi
-         0RuLJER6htkogxusyJsGGd/KMt3cIXTiujWHxK/ZI++4wIDLvIQguBDmdjBJ2B7aIqI3
-         l7VQsjV7AvVjh3BmJ7uQge80fFidSUi2bG6cYjFu0Z6AJ2Z+qZRtltU+qOlaAKyNDPwX
-         +z24rJY1euZiK/I8cyY7WmwM8efoGuZs3yhfTbihnF4zj+C6a2uABQJ9zbFVNV863BpR
-         T+dg==
-X-Gm-Message-State: AOAM532nTmJc6JzEnyv/YtE0Sl3crcAUrUshKeZPOX1Aa4il3m6LcTxj
-        MFdNVjLRxiv3xIqI5KzmkeoUkg==
-X-Google-Smtp-Source: ABdhPJyovoQ5m59St1KtJeobhPYp42OO5wY6rGeSKoIt1K/gK6R9dUzhVZK3/QwGz1Hw+E4zxyllEA==
-X-Received: by 2002:a63:1c08:: with SMTP id c8mr5528896pgc.228.1612549614604;
-        Fri, 05 Feb 2021 10:26:54 -0800 (PST)
+        bh=/gKrMLsfGobXkiI6sjUHxc4o3Yi1e64+iFtcBHCUDvY=;
+        b=MNlsWyeldj6dXFoBs6axiReuaWUm1NSTuKH5TV1lq0pGMuiOl2rbuhgUMkPc9xaNbQ
+         QCowFGqszah+HHvZcCYjN0cqRPM5vM1vyEc32XsM/G+4QTOuOkYs5DCspsgU+/zYOJdq
+         qogPCemaJLGxHE6PZhamVkWk0Z9WF3bHBH3nYFfQAbrzWzTDtdwxVMe8fxelPdGFuADL
+         mGV8BZMmjkAPh5tIY0MLwNoAsmh4wHqJoF+DBL+lvH75cYSYTeADKjxKCZY7FNGmn2SY
+         n8bY68eCyWP3vUUeiwwZmyP+oLTfI/n8RReD1LJXifEkIeCURkpoMTpPZVsKjywd1v5n
+         q4oA==
+X-Gm-Message-State: AOAM531M8cED+30A3mmFF3dnruPl6e7qZGn/xhpkvBpRJohJtO/Kar9y
+        unYt221Z5wUrdX7pnhYT+sLHpA==
+X-Google-Smtp-Source: ABdhPJzgdXL2yWJ9K+9ihBWlUxHBRPB2BDMQz9MrbEyfZkzXsv0feLphNyFqyBnHRUIq1f0V1bWsMQ==
+X-Received: by 2002:a62:8c05:0:b029:1d8:7f36:bcd8 with SMTP id m5-20020a628c050000b02901d87f36bcd8mr2771317pfd.43.1612549752486;
+        Fri, 05 Feb 2021 10:29:12 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m4sm3441246pfd.130.2021.02.05.10.26.53
+        by smtp.gmail.com with ESMTPSA id v3sm9644169pff.217.2021.02.05.10.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 10:26:53 -0800 (PST)
-Date:   Fri, 5 Feb 2021 10:26:52 -0800
+        Fri, 05 Feb 2021 10:29:11 -0800 (PST)
+Date:   Fri, 5 Feb 2021 10:29:10 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+Cc:     Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
@@ -63,7 +64,6 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
@@ -79,52 +79,63 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-Subject: Re: [PATCH v19 24/25] x86/cet/shstk: Add arch_prctl functions for
- shadow stack
-Message-ID: <202102051026.B250352D4@keescook>
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
+Message-ID: <202102051028.A10679FF@keescook>
 References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-25-yu-cheng.yu@intel.com>
- <202102041235.BA6C4982F@keescook>
- <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
+ <20210203225547.32221-7-yu-cheng.yu@intel.com>
+ <20210205135927.GH17488@zn.tnic>
+ <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6d7dd90f-dc03-06ce-57a2-57e4c2f803f3@intel.com>
+In-Reply-To: <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 03:41:59PM -0800, Yu, Yu-cheng wrote:
-> On 2/4/2021 12:35 PM, Kees Cook wrote:
-> > On Wed, Feb 03, 2021 at 02:55:46PM -0800, Yu-cheng Yu wrote:
-> > > arch_prctl(ARCH_X86_CET_STATUS, u64 *args)
-> > >      Get CET feature status.
-> > > 
-> > >      The parameter 'args' is a pointer to a user buffer.  The kernel returns
-> > >      the following information:
-> > > 
-> > >      *args = shadow stack/IBT status
-> > >      *(args + 1) = shadow stack base address
-> > >      *(args + 2) = shadow stack size
+On Fri, Feb 05, 2021 at 10:00:21AM -0800, Yu, Yu-cheng wrote:
+> On 2/5/2021 5:59 AM, Borislav Petkov wrote:
+> > On Wed, Feb 03, 2021 at 02:55:28PM -0800, Yu-cheng Yu wrote:
+> > > +DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
+> > > +{
+> > > +	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
+> > > +				      DEFAULT_RATELIMIT_BURST);
+> > > +	struct task_struct *tsk;
+> > > +
+> > > +	if (!user_mode(regs)) {
+> > > +		pr_emerg("PANIC: unexpected kernel control protection fault\n");
+> > > +		die("kernel control protection fault", regs, error_code);
+> > > +		panic("Machine halted.");
+> > > +	}
+> > > +
+> > > +	cond_local_irq_enable(regs);
+> > > +
+> > > +	if (!boot_cpu_has(X86_FEATURE_CET))
+> > > +		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
+> > > +
+> > > +	tsk = current;
+> > > +	tsk->thread.error_code = error_code;
+> > > +	tsk->thread.trap_nr = X86_TRAP_CP;
+> > > +
+> > > +	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
+> > > +	    __ratelimit(&rs)) {
 > > 
-> > What happens if this needs to grow in the future? Should the first u64
-> > contain the array size?
-> > 
-> > Otherwise, looks sensible.
-> > 
-> > -Kees
+> > I can't find it written down anywhere why the ratelimiting is needed at
+> > all?
 > > 
 > 
-> The first item is a bitmap, and there are two possible bits.  Should there
-> be a need, we can then do things about it.  My thought at the moment is, we
-> may not meet the situation.  Can we keep this for now?
+> The ratelimit here is only for #CP, and its rate is not counted together
+> with other types of faults.  If a task gets here, it will exit.  The only
+> condition the ratelimit will trigger is when multiple tasks hit #CP at once,
+> which is unlikely.  Are you suggesting that we do not need the ratelimit
+> here?
 
-Ah, good point. Yes, since that's a bitmap it ends up describing what
-follows. This is fine as-is. Thanks!
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
+Since this is a potentially unprivileged-userspace-triggerable
+condition, I tend to prefer having a ratelimit. I don't feel _strongly_
+about it, but I find it better to be defensive against log spamming
+(whether malicious or accidental).
 
 -- 
 Kees Cook
