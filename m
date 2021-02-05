@@ -2,43 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DD1C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C40EEC433E9
 	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:47:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8061F64DF8
+	by mail.kernel.org (Postfix) with ESMTP id 95F9564F46
 	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 00:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232135AbhBEAr0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Feb 2021 19:47:26 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37936 "EHLO mx2.suse.de"
+        id S232169AbhBEAra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Feb 2021 19:47:30 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38022 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232132AbhBEArZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Feb 2021 19:47:25 -0500
+        id S232132AbhBEAr3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Feb 2021 19:47:29 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 376E8B06A;
-        Fri,  5 Feb 2021 00:46:43 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 17C23B039;
+        Fri,  5 Feb 2021 00:46:48 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>
 Date:   Fri, 05 Feb 2021 11:36:30 +1100
-Subject: [PATCH 0/3] Fix some seq_file users that were recently broken
+Subject: [PATCH 1/3] seq_file: document how per-entry resources are managed.
 Cc:     Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
-Message-ID: <161248518659.21478.2484341937387294998.stgit@noble1>
+        linux-doc@vger.kernel.org
+Message-ID: <161248539020.21478.3147971477400875336.stgit@noble1>
+In-Reply-To: <161248518659.21478.2484341937387294998.stgit@noble1>
+References: <161248518659.21478.2484341937387294998.stgit@noble1>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -47,34 +42,50 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A recent change to seq_file broke some users which were using seq_file
-in a non-"standard" way ...  though the "standard" isn't documented, so
-they can be excused.  The result is a possible leak - of memory in one
-case, of references to a 'transport' in the other.
+Users of seq_file will sometimes find it convenient to take a resource,
+such as a lock or memory allocation, in the ->start or ->next
+operations.
+These are per-entry resources, distinct from per-session resources which
+are taken in ->start and released in ->stop.
 
-These three patches:
- 1/ document and explain the problem
- 2/ fix the problem user in x86
- 3/ fix the problem user in net/sctp
+The preferred management of these is release the resource on the
+subsequent call to ->next or ->stop.
 
-I suspect the patches should each go through the relevant subsystems,
-but I'm including akpm as the original went through him.
+However prior to Commit 1f4aace60b0e ("fs/seq_file.c: simplify seq_file
+iteration code and interface") it happened that ->show would always be
+called after ->start or ->next, and a few users chose to release the
+resource in ->show.
 
-Thanks,
-NeilBrown
+This is no longer reliable.  Since the mentioned commit, ->next will
+always come after a successful ->show (to ensure m->index is updated
+correctly), so the original ordering cannot be maintained.
 
+This patch updates the documentation to clearly state the required
+behaviour.  Other patches will fix the few problematic users.
+
+Fixes: 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and interface")
+Cc: Xin Long <lucien.xin@gmail.com>
+Signed-off-by: NeilBrown <neilb@suse.de>
 ---
+ Documentation/filesystems/seq_file.rst |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-NeilBrown (3):
-      seq_file: document how per-entry resources are managed.
-      x86: fix seq_file iteration for pat/memtype.c
-      net: fix iteration for sctp transport seq_files
+diff --git a/Documentation/filesystems/seq_file.rst b/Documentation/filesystems/seq_file.rst
+index 56856481dc8d..0e40e1532e7f 100644
+--- a/Documentation/filesystems/seq_file.rst
++++ b/Documentation/filesystems/seq_file.rst
+@@ -217,6 +217,12 @@ between the calls to start() and stop(), so holding a lock during that time
+ is a reasonable thing to do. The seq_file code will also avoid taking any
+ other locks while the iterator is active.
+ 
++The iterater value returned by start() or next() is guaranteed to be
++passed to a subsequenct next() or stop() call.  This allows resources
++such as locks that were taken to be reliably released.  There is *no*
++guarantee that the iterator will be passed to show(), though in practice
++it often will be.
++
+ 
+ Formatted output
+ ================
 
- Documentation/filesystems/seq_file.rst |  6 ++++++
- arch/x86/mm/pat/memtype.c              |  4 ++--
- net/sctp/proc.c                        | 16 ++++++++++++----
- 3 files changed, 20 insertions(+), 6 deletions(-)
-
---
-Signature
 
