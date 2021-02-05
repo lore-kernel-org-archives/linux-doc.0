@@ -2,79 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 334C6C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 21:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA11C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:13:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB18664FBC
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 21:38:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1642964FDD
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Feb 2021 22:13:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231725AbhBEViI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 16:38:08 -0500
-Received: from mail-oi1-f174.google.com ([209.85.167.174]:32913 "EHLO
-        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231699AbhBEVdh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 16:33:37 -0500
-Received: by mail-oi1-f174.google.com with SMTP id j25so9066110oii.0;
-        Fri, 05 Feb 2021 13:33:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=86eO/CLFxDsv5n6pTUydgpIRqU5ON+6WVGskNxWogxA=;
-        b=nnceqZNaX8p4AxoOeczekdkvj2ZdP5JyLb2gG3WuYMVOGewFe90GxSm14i2E0lUsFG
-         BkSzn72pYuSLdA5vljtjoCCBz859tz3HYe07yxLINDYSCnEKDojqTsXfIvoG3zYZ0NbU
-         cCfn6rZNaYj5Mqk+lxgHb1GUZY//jYmgmpP/smhWiUS/R1y7wYcyT2UGn3bPTR4M39U6
-         t5xWw3mexIaMcr/atDlmsjQw4gLmTIeWptjG8qXxD5YKFa2DoINbtGQg/AR7ZQ0FpXnI
-         jrvs+GF5YZ+s4YJLwqdPoqiLaBpZiZpcp+sDQ8aC2IgPCcFnQx8boqhng6oPGJsmcBdK
-         5Rkw==
-X-Gm-Message-State: AOAM5335AhW0ZDCjxiq2XYSBzoioJgOiOUk9qtQR2EYYeJqGQ+xuNfgI
-        KbTK5VIKs4ihNI8fC6rwfw==
-X-Google-Smtp-Source: ABdhPJwKCKLqY/zf52ITpGj52KvCSevpP49mjoubxMi9PUwPQMtCCEx7UBJSzNbPQ08yn9IGf+K1lw==
-X-Received: by 2002:aca:308a:: with SMTP id w132mr4243401oiw.69.1612560776545;
-        Fri, 05 Feb 2021 13:32:56 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v67sm2102221otb.43.2021.02.05.13.32.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 13:32:55 -0800 (PST)
-Received: (nullmailer pid 3784899 invoked by uid 1000);
-        Fri, 05 Feb 2021 21:32:54 -0000
-Date:   Fri, 5 Feb 2021 15:32:54 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Marko <robert.marko@sartura.hr>
-Cc:     linux-doc@vger.kernel.org, linux@roeck-us.net, robh+dt@kernel.org,
-        jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, Luka Perkov <luka.perkov@sartura.hr>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH v5 1/3] dt-bindings: hwmon: Add TI TPS23861 bindings
-Message-ID: <20210205213254.GA3784838@robh.at.kernel.org>
-References: <20210121134434.2782405-1-robert.marko@sartura.hr>
+        id S229564AbhBEWMo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 17:12:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232716AbhBEOiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 09:38:20 -0500
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA323C06121E
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 08:08:47 -0800 (PST)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4DXJRw6S0qzMqPtr;
+        Fri,  5 Feb 2021 15:57:32 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4DXJRs4xvlzlh8TC;
+        Fri,  5 Feb 2021 15:57:29 +0100 (CET)
+Subject: Re: [PATCH v28 06/12] fs,security: Add sb_delete hook
+To:     "Serge E. Hallyn" <serge@hallyn.com>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20210202162710.657398-1-mic@digikod.net>
+ <20210202162710.657398-7-mic@digikod.net>
+ <20210205142143.GA18451@mail.hallyn.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <92e6a8a6-19da-0b1f-c1cf-01dc0af61299@digikod.net>
+Date:   Fri, 5 Feb 2021 15:57:37 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121134434.2782405-1-robert.marko@sartura.hr>
+In-Reply-To: <20210205142143.GA18451@mail.hallyn.com>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Jan 2021 14:44:32 +0100, Robert Marko wrote:
-> Document bindings for the Texas Instruments TPS23861 driver.
-> 
-> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> Cc: Luka Perkov <luka.perkov@sartura.hr>
-> ---
-> Changes in v5:
-> * Drop uint32 reference
-> 
-> Changes in v4:
-> * Correct shunt binding
-> 
->  .../bindings/hwmon/ti,tps23861.yaml           | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ti,tps23861.yaml
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 05/02/2021 15:21, Serge E. Hallyn wrote:
+> On Tue, Feb 02, 2021 at 05:27:04PM +0100, Mickaël Salaün wrote:
+>> From: Mickaël Salaün <mic@linux.microsoft.com>
+>>
+>> The sb_delete security hook is called when shutting down a superblock,
+>> which may be useful to release kernel objects tied to the superblock's
+>> lifetime (e.g. inodes).
+>>
+>> This new hook is needed by Landlock to release (ephemerally) tagged
+>> struct inodes.  This comes from the unprivileged nature of Landlock
+>> described in the next commit.
+>>
+>> Cc: Al Viro <viro@zeniv.linux.org.uk>
+>> Cc: James Morris <jmorris@namei.org>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> Cc: Serge E. Hallyn <serge@hallyn.com>
+> 
+> One note below, but
+> 
+> Acked-by: Serge Hallyn <serge@hallyn.com>
+> 
+>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>> Reviewed-by: Jann Horn <jannh@google.com>
+>> ---
+>>
+>> Changes since v22:
+>> * Add Reviewed-by: Jann Horn <jannh@google.com>
+>>
+>> Changes since v17:
+>> * Initial patch to replace the direct call to landlock_release_inodes()
+>>   (requested by James Morris).
+>>   https://lore.kernel.org/lkml/alpine.LRH.2.21.2005150536440.7929@namei.org/
+>> ---
+>>  fs/super.c                    | 1 +
+>>  include/linux/lsm_hook_defs.h | 1 +
+>>  include/linux/lsm_hooks.h     | 2 ++
+>>  include/linux/security.h      | 4 ++++
+>>  security/security.c           | 5 +++++
+>>  5 files changed, 13 insertions(+)
+>>
+>> diff --git a/fs/super.c b/fs/super.c
+>> index 2c6cdea2ab2d..c3c5178cde65 100644
+>> --- a/fs/super.c
+>> +++ b/fs/super.c
+>> @@ -454,6 +454,7 @@ void generic_shutdown_super(struct super_block *sb)
+>>  		evict_inodes(sb);
+>>  		/* only nonzero refcount inodes can have marks */
+>>  		fsnotify_sb_delete(sb);
+>> +		security_sb_delete(sb);
+>>  
+>>  		if (sb->s_dio_done_wq) {
+>>  			destroy_workqueue(sb->s_dio_done_wq);
+>> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
+>> index 7aaa753b8608..32472b3849bc 100644
+>> --- a/include/linux/lsm_hook_defs.h
+>> +++ b/include/linux/lsm_hook_defs.h
+>> @@ -59,6 +59,7 @@ LSM_HOOK(int, 0, fs_context_dup, struct fs_context *fc,
+>>  LSM_HOOK(int, -ENOPARAM, fs_context_parse_param, struct fs_context *fc,
+>>  	 struct fs_parameter *param)
+>>  LSM_HOOK(int, 0, sb_alloc_security, struct super_block *sb)
+>> +LSM_HOOK(void, LSM_RET_VOID, sb_delete, struct super_block *sb)
+>>  LSM_HOOK(void, LSM_RET_VOID, sb_free_security, struct super_block *sb)
+>>  LSM_HOOK(void, LSM_RET_VOID, sb_free_mnt_opts, void *mnt_opts)
+>>  LSM_HOOK(int, 0, sb_eat_lsm_opts, char *orig, void **mnt_opts)
+>> diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
+>> index 970106d98306..e339b201f79b 100644
+>> --- a/include/linux/lsm_hooks.h
+>> +++ b/include/linux/lsm_hooks.h
+>> @@ -108,6 +108,8 @@
+>>   *	allocated.
+>>   *	@sb contains the super_block structure to be modified.
+>>   *	Return 0 if operation was successful.
+>> + * @sb_delete:
+>> + *	Release objects tied to a superblock (e.g. inodes).
+> 
+> It's customary here to add the line detailing the @sb argument.
+
+What about "@sb contains the super_block structure being released."?
+
+> 
+>>   * @sb_free_security:
+>>   *	Deallocate and clear the sb->s_security field.
+>>   *	@sb contains the super_block structure to be modified.
+>> diff --git a/include/linux/security.h b/include/linux/security.h
+>> index c35ea0ffccd9..c41a94e29b62 100644
+>> --- a/include/linux/security.h
+>> +++ b/include/linux/security.h
+>> @@ -288,6 +288,7 @@ void security_bprm_committed_creds(struct linux_binprm *bprm);
+>>  int security_fs_context_dup(struct fs_context *fc, struct fs_context *src_fc);
+>>  int security_fs_context_parse_param(struct fs_context *fc, struct fs_parameter *param);
+>>  int security_sb_alloc(struct super_block *sb);
+>> +void security_sb_delete(struct super_block *sb);
+>>  void security_sb_free(struct super_block *sb);
+>>  void security_free_mnt_opts(void **mnt_opts);
+>>  int security_sb_eat_lsm_opts(char *options, void **mnt_opts);
+>> @@ -620,6 +621,9 @@ static inline int security_sb_alloc(struct super_block *sb)
+>>  	return 0;
+>>  }
+>>  
+>> +static inline void security_sb_delete(struct super_block *sb)
+>> +{ }
+>> +
+>>  static inline void security_sb_free(struct super_block *sb)
+>>  { }
+>>  
+>> diff --git a/security/security.c b/security/security.c
+>> index 9f979d4afe6c..1b4a73b2549a 100644
+>> --- a/security/security.c
+>> +++ b/security/security.c
+>> @@ -900,6 +900,11 @@ int security_sb_alloc(struct super_block *sb)
+>>  	return rc;
+>>  }
+>>  
+>> +void security_sb_delete(struct super_block *sb)
+>> +{
+>> +	call_void_hook(sb_delete, sb);
+>> +}
+>> +
+>>  void security_sb_free(struct super_block *sb)
+>>  {
+>>  	call_void_hook(sb_free_security, sb);
+>> -- 
+>> 2.30.0
