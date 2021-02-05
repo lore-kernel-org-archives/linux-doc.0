@@ -2,114 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 642EAC43381
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5973CC43381
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:45:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44DAC65011
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DA5764F91
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbhBFCid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 21:38:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38360 "EHLO
+        id S230103AbhBFCoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 21:44:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231278AbhBFCgR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:36:17 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D17C08EE7B;
-        Fri,  5 Feb 2021 16:39:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=mZCRVETJ8PFFSolgHhB5Tp0serDneMbD0XJnnQKOZTI=; b=BxHBM4b9ULo1IOmmp+yYoLbHzA
-        T7jAwmuzi3nMiMuX4tSkT/PrHmdvmiGIRtRT/UkrGY+MQn3UjhuH9epQ5p+ZfcNl6+MGqcoaQTzOA
-        3u9fGYgTMy7MutsAZYCmCG0OHhLpFF54+pcZVvNUrQol7VN1x8yplUX+rdXTzoCUqFlzpK8rwKzOJ
-        diBnw2RUzvs+/6D90s2sCtbcRqjpD9AINeb0tex9RhkHpmLzu0NaLJXeHfsRlLizZU5m9K5zi40tm
-        QNvThKpybBm2o4UpU5v+Xa3rIySjTRMa2Ah7VNAJ7CBgXfTwVgoU6hQwCFVDeU9jgxIKa2NtGEDov
-        vygqBJ+w==;
-Received: from [2601:1c0:6280:3f0::aec2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l8BdT-0004md-Uz; Sat, 06 Feb 2021 00:39:40 +0000
-Subject: Re: [PATCH v4 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
-        surenb@google.com, minchan@kernel.org, hridya@google.com,
-        christian.koenig@amd.com, kernel-team@android.com,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        NeilBrown <neilb@suse.de>, Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20210205213353.669122-1-kaleshsingh@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <fe8780a1-364e-ec8f-48ee-192438d52c01@infradead.org>
-Date:   Fri, 5 Feb 2021 16:39:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20210205213353.669122-1-kaleshsingh@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S230087AbhBFCcP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:32:15 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 293E5C03C061
+        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 14:27:00 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id b125so8783422ybg.10
+        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 14:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=Bw5DCGRTYuHhV6CaEDXr7VykkGUog594vA90XJtHO1Y=;
+        b=OJ24USk8NaXzKxxqD9cIc2fuOOLVmyyzmeeBnuhX2haf4opjBLOqqJRPp0oJB2TcJy
+         QU5VBOCElNExNGxqLUxqgYZItGUiFhRtQzb3LQdbw3Y0LZcW3LuI88Njj48rtjKPsSZ2
+         4F0icSi17k6dTngdFP+PaTB0cFBlMjBumwi1fy39MHFAPu/w9n8my2gcennaSg5vjErP
+         sQRLYkA7SGqEGGXM0TBNdHDG5nonXhw92Rf6mDDQik8AxtIwTOsa++xp6SeuTGFyIXpz
+         MAv6/0kL+jIazKDHFcWr73Ze5NFqgWo6QJFSaG2D5SJFVSY04331pMLEzlZOwVgZ2YBU
+         uyXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=Bw5DCGRTYuHhV6CaEDXr7VykkGUog594vA90XJtHO1Y=;
+        b=WNQIVDU6IJjr4z2/6+SQN+eI0xYPgLpfCH9dG0RtFVF0hnv/hhqtQUuSupbnZWy20l
+         qxB5jpaoufJZ6PG++vQnM6Q0SERxfy5eLOrNuH5eeJjxqPSQ8tsXxQxS5aq0mY23u7uu
+         e3JJhWLrHUChiKUSDoRMD2rQutMM/veZR2ps28n/fNfmhwyy8C24J8Y14coE3fIXxSLS
+         9KeWbFnROVnILmCLC5epsF/7UbGJXzwkhIrKVzthJC1gJzWz0R68ul8TIOfqkOEDaRO0
+         wVm4oYNWq+VmdzI5pB7YQ9dUyLV5HNSgtHlgK+k2NX9YnZXV5KIW+qyg2uPwg5ONcVgg
+         96Dg==
+X-Gm-Message-State: AOAM532725TmZTVn/NL2dWMUQkogkT48BdjMl8IAvsdi85vRvnipkG3y
+        fpOpPoXtlay2H3ZzN2WED7N4Ja2mBA7VTTY=
+X-Google-Smtp-Source: ABdhPJy8zXEis/xhZQjdQJH/U4yg9J4P3415kxIuICG74Qvlo/PkTtrQfpR8JQK+yrBlCNXAjS7e2k4VjoRZpiE=
+Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
+X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:6d36:b798:55d7:f5c5])
+ (user=saravanak job=sendgmr) by 2002:a25:e54:: with SMTP id
+ 81mr9240781ybo.404.1612564019429; Fri, 05 Feb 2021 14:26:59 -0800 (PST)
+Date:   Fri,  5 Feb 2021 14:26:40 -0800
+In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
+Message-Id: <20210205222644.2357303-5-saravanak@google.com>
+Mime-Version: 1.0
+References: <20210205222644.2357303-1-saravanak@google.com>
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v4 4/8] of: property: Add fw_devlink support for optional properties
+From:   Saravana Kannan <saravanak@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Saravana Kannan <saravanak@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/5/21 1:33 PM, Kalesh Singh wrote:
-> Android captures per-process system memory state when certain low memory
-> events (e.g a foreground app kill) occur, to identify potential memory
-> hoggers. In order to measure how much memory a process actually consumes,
-> it is necessary to include the DMA buffer sizes for that process in the
-> memory accounting. Since the handle to DMA buffers are raw FDs, it is
-> important to be able to identify which processes have FD references to
-> a DMA buffer.
-> 
-> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
-> /proc/<pid>/fdinfo -- both are only readable by the process owner,
-> as follows:
->   1. Do a readlink on each FD.
->   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
->   3. stat the file to get the dmabuf inode number.
->   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
-> 
-> Accessing other processes’ fdinfo requires root privileges. This limits
+Not all DT bindings are mandatory bindings. Add support for optional DT
+bindings and mark iommus, iommu-map, dmas as optional DT bindings.
 
-Tangential:
-Please just use ASCII "'" -- it's good enough.
+Signed-off-by: Saravana Kannan <saravanak@google.com>
+---
+ drivers/of/property.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-> the use of the interface to debugging environments and is not suitable
-> for production builds.  Granting root privileges even to a system process
-> increases the attack surface and is highly undesirable.
-> 
-> Since fdinfo doesn't permit reading process memory and manipulating
-> process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
-> 
-> Suggested-by: Jann Horn <jannh@google.com>
-> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> ---
-> Changes in v2:
->   - Update patch description
-> 
->  fs/proc/base.c |  4 ++--
->  fs/proc/fd.c   | 15 ++++++++++++++-
->  2 files changed, 16 insertions(+), 3 deletions(-)
-
-
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 53d163c8d39b..962109082df1 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1235,6 +1235,7 @@ static struct device_node *parse_##fname(struct device_node *np,	     \
+ struct supplier_bindings {
+ 	struct device_node *(*parse_prop)(struct device_node *np,
+ 					  const char *prop_name, int index);
++	bool optional;
+ };
+ 
+ DEFINE_SIMPLE_PROP(clocks, "clocks", "#clock-cells")
+@@ -1308,12 +1309,12 @@ static struct device_node *parse_interrupts(struct device_node *np,
+ static const struct supplier_bindings of_supplier_bindings[] = {
+ 	{ .parse_prop = parse_clocks, },
+ 	{ .parse_prop = parse_interconnects, },
+-	{ .parse_prop = parse_iommus, },
+-	{ .parse_prop = parse_iommu_maps, },
++	{ .parse_prop = parse_iommus, .optional = true, },
++	{ .parse_prop = parse_iommu_maps, .optional = true, },
+ 	{ .parse_prop = parse_mboxes, },
+ 	{ .parse_prop = parse_io_channels, },
+ 	{ .parse_prop = parse_interrupt_parent, },
+-	{ .parse_prop = parse_dmas, },
++	{ .parse_prop = parse_dmas, .optional = true, },
+ 	{ .parse_prop = parse_power_domains, },
+ 	{ .parse_prop = parse_hwlocks, },
+ 	{ .parse_prop = parse_extcon, },
+@@ -1368,6 +1369,11 @@ static int of_link_property(struct device_node *con_np, const char *prop_name)
+ 
+ 	/* Do not stop at first failed link, link all available suppliers. */
+ 	while (!matched && s->parse_prop) {
++		if (s->optional && !fw_devlink_is_strict()) {
++			s++;
++			continue;
++		}
++
+ 		while ((phandle = s->parse_prop(con_np, prop_name, i))) {
+ 			matched = true;
+ 			i++;
 -- 
-~Randy
+2.30.0.478.g8a0d178c01-goog
 
