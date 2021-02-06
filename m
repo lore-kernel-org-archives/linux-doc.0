@@ -2,145 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E27C433DB
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 15:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9CCC43381
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 19:42:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 313F564E67
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 15:11:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06C3F64E62
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 19:42:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbhBFPL0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 10:11:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230261AbhBFPKa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 10:10:30 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D92F8C06121E
-        for <linux-doc@vger.kernel.org>; Sat,  6 Feb 2021 07:09:07 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id b8so5063768plh.12
-        for <linux-doc@vger.kernel.org>; Sat, 06 Feb 2021 07:09:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zR9OsHslqhDG8eEUn6PBh2UQCbLLHkueVjbLue/1gyw=;
-        b=AV089iQbfYZ3TEy26MlPZup2jvRdzw8UeMiOT5DYlDKCUfo45ZRXr1Te83bx7xjrpW
-         zYreHLal6AkzgRP6eAX8eFKgtRktEExoHJRp6QzX06KU6+qmcivjCzF6LmMA520b/w3w
-         zR8C9JGpC/XKXKZWpy4O0SuV7a9YXsWAK4B42+B2OzYM/qmxDHWxGbnz3FCylG1qIajT
-         T+XaYAVsIPQWzXGMlRL3eluLC16/EslSDKwyM+VYmWElB+9rxoKLpa26008X0O2SltHi
-         6/S6D2pyeyZHyXrvly/Jj2fkGInXY5lDx/rk+d3rXz8N/jWzA3OrjCoZer26flpUhIEJ
-         mLjQ==
+        id S229548AbhBFTmP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 14:42:15 -0500
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:38893 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229522AbhBFTmO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 14:42:14 -0500
+Received: by mail-oi1-f175.google.com with SMTP id h6so11399159oie.5;
+        Sat, 06 Feb 2021 11:41:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zR9OsHslqhDG8eEUn6PBh2UQCbLLHkueVjbLue/1gyw=;
-        b=VZulVvy7s780WkpigNuyE8vbZCyzF7cguhixyfRxnDQFxLp+BT7/EhgglD1PPY56aK
-         xSSGrTWy2RzHLS7aSvNxsAUdj0y7wRvF/vYNuLjyBDEffxLi3bWyySy/9PuCiySl/pOw
-         +aOTYcSmx/B4BuWlppQaIqvt2zoJj/dkePfW6G8GNPdCX4rADPtUmCfou7dAtGSYC6em
-         2WiIjzKP+ZVVJAer8i5gWftYx6pcZJ7zaZe+HNDSLuRaYAst29el/Vbkpw2/Lhnrc7R/
-         bhS7Yqq+kzaEYkAVDl5G32qD1YCQMvyhxeKF1J5ihHVOke6RwGwAIiKFK2hSU33hXiV0
-         KaNQ==
-X-Gm-Message-State: AOAM531UEm9B7eGfAepTvf3uHZY0Jwg2oD6TaQxbmZDxChxCcNicso2q
-        CBAMdfGxyWfZogZCPfWb5zun7w==
-X-Google-Smtp-Source: ABdhPJzHhRA/YCVn3C/SiFaht017M5NJCA/gir1VRykF39YQux9zfgwsSmliQIrr6ITzG42+/VQvFQ==
-X-Received: by 2002:a17:90b:4d06:: with SMTP id mw6mr8656415pjb.24.1612624147404;
-        Sat, 06 Feb 2021 07:09:07 -0800 (PST)
-Received: from localhost ([45.137.216.202])
-        by smtp.gmail.com with ESMTPSA id v4sm11797312pjt.4.2021.02.06.07.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 07:09:06 -0800 (PST)
-From:   Leo Yan <leo.yan@linaro.org>
-To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: [PATCH v3 8/8] Documentation: coresight: Add PID tracing description
-Date:   Sat,  6 Feb 2021 23:08:33 +0800
-Message-Id: <20210206150833.42120-9-leo.yan@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210206150833.42120-1-leo.yan@linaro.org>
-References: <20210206150833.42120-1-leo.yan@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FKD3uWoM232ZDb97jtcXu4bvy3RO8KL/znUc8UnnK5o=;
+        b=ea5eTQmg3xpJKvaacNCZPSSh5QpyGfvc4Uckt8zldkOyDDobHf31qiKO7BDrz7sxUv
+         FCM0GCUkg42l854aPPO744cttRSmzV8g5Y615mSAMo/3G8wwKDkq1SmsrBEt2sKfu5Mx
+         Sv79pfMwh4sgD19AXAmy47GM8fdeSTsMYXRcGhgl8Xu74XYQiNweDyFXUinWuFOlcidK
+         b7YcDMPQekm2LEI+SAJh37+LV0pwFiPdgS0O+8jP2HIAPtYvRt5V7vFWMZMuNHf1eyEJ
+         gZfdE3IqteHlZPUcc1+TP/Nj6OAVpRFvRv4xlvT0Suqwr3B7ZbWIwF1J+meFrl5Qzkyw
+         6Uvg==
+X-Gm-Message-State: AOAM530ykiqlEeaFn+Z9XB+MKcf4RcKHwX6R2RwB97RKV51rTp5kEdyC
+        sTCZd7uN76d/2wLxXjGS/A8EHyBqG/Ff8jInMeJtAvqV
+X-Google-Smtp-Source: ABdhPJxQVTTEsgj9ERT0OqxlrVS5WhFx+iXJMf6D3lnCqIAwjU2C9L4GlRHxxmCD4IjzA1ObH/hGYJBKA2PuEeFOkHQ=
+X-Received: by 2002:aca:744:: with SMTP id 65mr6621996oih.153.1612640492897;
+ Sat, 06 Feb 2021 11:41:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210205222644.2357303-1-saravanak@google.com>
+In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 6 Feb 2021 20:41:22 +0100
+Message-ID: <CAMuHMdXo+ShM3Ct2OSCscJwaLJ4rbytpA14=dR5q+3F9kJjNfw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After support the PID tracing for the kernel in EL1 or EL2, the usage
-gets more complicated.
+Hi Saravana,
 
-This patch gives description for the PMU formats of contextID configs,
-this can help users to understand how to control the knobs for PID
-tracing when the kernel is in different ELs.
+On Fri, Feb 5, 2021 at 11:26 PM Saravana Kannan <saravanak@google.com> wrote:
+> There are a lot of devices/drivers where they never have a struct device
+> created for them or the driver initializes the hardware without ever
+> binding to the struct device.
+>
+> This series is intended to avoid any boot regressions due to such
+> devices/drivers when fw_devlink=on and also address the handling of
+> optional suppliers.
 
-Signed-off-by: Leo Yan <leo.yan@linaro.org>
----
- Documentation/trace/coresight/coresight.rst | 32 +++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Thanks for your series!
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 0b73acb44efa..169749efd8d1 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -512,6 +512,38 @@ The --itrace option controls the type and frequency of synthesized events
- Note that only 64-bit programs are currently supported - further work is
- required to support instruction decode of 32-bit Arm programs.
- 
-+2.2) Tracing PID
-+
-+The kernel can be built to write the PID value into the PE ContextID registers.
-+For a kernel running at EL1, the PID is stored in CONTEXTIDR_EL1.  A PE may
-+implement Arm Virtualization Host Extensions (VHE), which the kernel can
-+run at EL2 as a virtualisation host; in this case, the PID value is stored in
-+CONTEXTIDR_EL2.
-+
-+perf provides PMU formats that program the ETM to insert these values into the
-+trace data; the PMU formats are defined as below:
-+
-+  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-+                kernel is running at EL1, "contextid1" enables the PID
-+                tracing; when the kernel is running at EL2, this enables
-+                tracing the PID of guest applications.
-+
-+  "contextid2": Only usable when the kernel is running at EL2.  When
-+                selected, enables PID tracing on EL2 kernel.
-+
-+  "contextid":  Will be an alias for the option that enables PID
-+                tracing.  I.e,
-+                contextid == contextid1, on EL1 kernel.
-+                contextid == contextid2, on EL2 kernel.
-+
-+perf will always enable PID tracing at the relevant EL, this is accomplished by
-+automatically enable the "contextid" config - but for EL2 it is possible to make
-+specific adjustments using configs "contextid1" and "contextid2", E.g. if a user
-+wants to trace PIDs for both host and guest, the two configs "contextid1" and
-+"contextid2" can be set at the same time:
-+
-+  perf record -e cs_etm/contextid1,contextid2/u -- vm
-+
- 
- Generating coverage files for Feedback Directed Optimization: AutoFDO
- ---------------------------------------------------------------------
--- 
-2.25.1
+> Patch 5 sets up a generic API to handle drivers that never bind with
+> their devices.
+>
+> Patch 6 through 8 update different frameworks to use the new API.
 
+>   driver core: fw_devlink: Handle suppliers that don't use driver core
+>   irqdomain: Mark fwnodes when their irqdomain is added/removed
+>   PM: domains: Mark fwnodes when their powerdomain is added/removed
+>   clk: Mark fwnodes when their clock provider is added/removed
+
+I take it this is an automatic alternative for letting drivers set the
+OF_POPULATED flag manually?
+
+Is this actually safe?  It's not uncommon for a driver to register
+multiple providers, sometimes even of different types (clock, genpd,
+irq, reset[1], ...).
+Can you be sure consumer drivers do not start probing while their
+dependency is still busy registering providers?
+
+[1] Which brings my attention to the fact that devlink does not consider
+    "resets" properties yet.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
