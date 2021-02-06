@@ -2,83 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E2EC433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 22:30:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E51FC433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 23:32:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5D2E64E86
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 22:30:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0179464E80
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 23:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbhBFWaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 17:30:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229522AbhBFWaG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Feb 2021 17:30:06 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DAB9C64DA1;
-        Sat,  6 Feb 2021 22:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612650565;
-        bh=5whCFGTXa3J1746EODCwZovMzZz+QDWnX+nqhWJoo8Q=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KVbBniO58u4QFUB32f9KRwF91AQ+EOH3Kx8zSld2dTKeS6bbVngC8lN72bAzfjChU
-         YUyZhRLKOKOXDO5gxQCDAz3mX29oH29sevZ8Uq7CBif+qhiyCNbQFVq2+7gS0lWpII
-         4OOIAnMrjzqqky0uF+yK1je0plwSI4cGz8QhkwRWJEnaulhQHOWyLAJE1L3uaSdWzt
-         pMjZse5mPqyzYrP+8JcAYBI/6qGeasmvWuDb5Qg4t3+daMlPMNbG/ULsmZwMHMmmBv
-         WoQRsmkyFf/9YN+81bLJKOeuDc7LqZ8GvFworFp2kV9jIXY7gtX9/lNMetjRU+CLPe
-         bWI29EbUd4ilg==
-Date:   Sat, 6 Feb 2021 14:29:24 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     NeilBrown <neilb@suse.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 0/3] Fix some seq_file users that were recently broken
-Message-ID: <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
-References: <161248518659.21478.2484341937387294998.stgit@noble1>
-        <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
+        id S229669AbhBFXcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 18:32:00 -0500
+Received: from mail-wr1-f43.google.com ([209.85.221.43]:45467 "EHLO
+        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229613AbhBFXb7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 18:31:59 -0500
+Received: by mail-wr1-f43.google.com with SMTP id m13so12567640wro.12;
+        Sat, 06 Feb 2021 15:31:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zjYjcEofR6lNR/I0DZSWZ30pohQFASDcROijEHvASfk=;
+        b=ZoggzEQ+pvxS7xp7i5Esv0+Sjcv2zX818ixeZeR3RH9XEuuwPOR0jXnru6sHNdWItT
+         ml23XMQqDA2wdQ2wBsLnA/NpBdWt6GU9ZMQKpagd5Gozst3hVyiHwPIpQC7ux+mxThlV
+         4Ik/55ywnhP/GTYs81gpAOetNyVHNp5FM0IsWkSiO6rKSIDzBh91E5WDV53DKyLf6IZX
+         OfRqtSXmVAQ/Pq6T7pui8oddK3tnIaxYezwXx9HoP0v8oMgPjLI42h45Z3CVVsveCwgi
+         38DH05w0JwDJ+tcQH80fHLaUJmASfO76sEeh46Y2eEAaRbwt1AiSIuKWxmkH0MtfOXTF
+         i+FA==
+X-Gm-Message-State: AOAM530YIkeF1G12DsvpT599iLQ4zRmEpFlVQATILRbASVyjiexMPSjY
+        c1G6TGjZHaTBeX0UrYBPpBmbmAWfWsuuuTQK
+X-Google-Smtp-Source: ABdhPJyviThF+C226ccwvm0Yz791/heX9KN5ZUvUKv70glVs6XpgX6GbMLDuta/nqLy/orcKkMMGnA==
+X-Received: by 2002:adf:f6d0:: with SMTP id y16mr3212434wrp.351.1612654277840;
+        Sat, 06 Feb 2021 15:31:17 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id o124sm13395628wmb.5.2021.02.06.15.31.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Feb 2021 15:31:16 -0800 (PST)
+Date:   Sun, 7 Feb 2021 00:31:14 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RESEND v4 4/6] Documentation: misc-devices: Add Documentation
+ for dw-xdata-pcie driver
+Message-ID: <YB8mwrhOZ2kPL3Oo@rocinante>
+References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
+ <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612390291.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612390291.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 5 Feb 2021 14:35:50 -0800 Andrew Morton wrote:
-> On Fri, 05 Feb 2021 11:36:30 +1100 NeilBrown <neilb@suse.de> wrote:
-> 
-> > A recent change to seq_file broke some users which were using seq_file
-> > in a non-"standard" way ...  though the "standard" isn't documented, so
-> > they can be excused.  The result is a possible leak - of memory in one
-> > case, of references to a 'transport' in the other.
-> > 
-> > These three patches:
-> >  1/ document and explain the problem
-> >  2/ fix the problem user in x86
-> >  3/ fix the problem user in net/sctp
-> 
-> 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and
-> interface") was August 2018, so I don't think "recent" applies here?
-> 
-> I didn't look closely, but it appears that the sctp procfs file is
-> world-readable.  So we gave unprivileged userspace the ability to leak
-> kernel memory?
-> 
-> So I'm thinking that we aim for 5.12-rc1 on all three patches with a cc:stable?
+Hi Gustavo,
 
-I'd rather take the sctp patch sooner, we'll send another batch 
-of networking fixes for 5.11, anyway. Would that be okay with you?
+[...]
+> +The interaction with this driver is done through the module parameter and
+> +can be changed in runtime. The driver outputs the requested command state
+> +information to /var/log/kern.log or dmesg.
+
+The driver does not seem to offer any parameters (aside of using sysfs
+for runtime settings), and it also seem to only print what it's doing
+when debug level is enabled - unless I am missing something?
+
+[...]
+> +Request to stop any current TLP transfer:
+> +- Command:
+> +	echo 1 > /sys/kernel/dw-xdata-pcie/stop
+[...]
+
+When I do the following:
+
+  # echo 1 > /sys/kernel/dw-xdata-pcie/write
+  # echo 1 > /sys/kernel/dw-xdata-pcie/stop
+  # cat /sys/kernel/dw-xdata-pcie/write
+
+Would output from cat above simply show "0 MB/s" then?  I wonder how
+someone using this new driver could tell whether "write" or "read"
+traffic generation has been enabled aside of reading the sysfs files,
+would adding "/sys/kernel/dw-xdata-pcie/active" be an overkill here?
+
+What do you think?
+
+Krzysztof
