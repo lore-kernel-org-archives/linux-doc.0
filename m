@@ -2,186 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E76C433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:44:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A255BC433DB
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 08:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58D0D64FB0
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 03:44:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 688E264E51
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 08:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232256AbhBFDnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 22:43:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
+        id S229548AbhBFIDS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 03:03:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230380AbhBFDlb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 22:41:31 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3BCFC08EB22
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 14:27:02 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id e62so8719920yba.5
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 14:27:02 -0800 (PST)
+        with ESMTP id S229492AbhBFIDQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 03:03:16 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 744B4C06174A
+        for <linux-doc@vger.kernel.org>; Sat,  6 Feb 2021 00:02:36 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id o20so5934000pfu.0
+        for <linux-doc@vger.kernel.org>; Sat, 06 Feb 2021 00:02:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=nTYZSPOjkc18IliuMfnfRh5H/pVF22NJbjiTgx5RAVQ=;
-        b=Mm6nmK+U9sWgdy5Kl5FWR72rOFcOPFvROrGTmdoXRpZIiuZV62ELOWH/ANFl9FZv48
-         WKXxbas72ewJwQSAlM+tuQ5oro9iQc2J6lQg3Fj4ZGY95z4hvdDMslQ/xFUCHGw9JTQW
-         ozCrQLXZ4ZZwk460RT8jQymPqzGWnn6RzLezbUwlZbxeN6sZ9i9EFrxpHIMJXDCZ+GtS
-         ZxX35V5B8D7JFLk2l9CMndHRKsILANotrh6ov6yUqsjE4ZkLpQq/qs+6ILuymjBzW/t3
-         lfMT6f+nRYfVGGUpAXuGaHE3M4iW6zmvvcop6V9w3pEKg6VttIn53oZg6LRjtoP47yQC
-         LIaA==
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+4ngpioykdaswjtQ50G9wJ1z4lzpWogRACPFYV04cNw=;
+        b=LBNEqzXrKkilK+S+ibcAuad7DFuUukoIsNHlF4p6chdboba20kOYSIu5QwpWxQH2nx
+         OEZ31k5B9EyIvppcoINkh65RGhM7KBuvGESxDNDPNcDy8qRL1GZSlNF3RNZxFN0AnqUf
+         jzbSD2vCfbkyhYFr5nkOMwKC0n0demDWQv75PFSvstDHGmhOPtrCQS+pEBQgHzwMMIDD
+         iEWt2VE5hj7kFYYsIZ8F/GmiFVudtGC6EsUVV6VXChW3/RROvXmn3nLPPl5uCcAFABgh
+         Tpkct590AMCu9aD10Gqv5FCbNGgWxb8naqpM8gwbWdvZXQKbyJaYoWvFgocaCAfo0mQz
+         HdTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=nTYZSPOjkc18IliuMfnfRh5H/pVF22NJbjiTgx5RAVQ=;
-        b=uYw5PCUb8Z7Seohanb8VmI8XGx6hIn3f4S30Y3Fo3B7CM/Z/Is9vLIGfsr0oYtFsxc
-         sjXywhopQ731C7zBbGng1pn25u2hW4mZPcUxjFEbrPGC8usJbYkMcrUAowfYzgnTCD+N
-         W47MyxBm8dd+Lix9Zc+zibUc3IUEBBjiUPEjr7lrI2Prfe3UrgcuXSGKgYZ4TvbplfE/
-         h+w479XJO3TLmuWTriIEtGr7XGZ5Er1ARjmlLSoaMxj+qKT25dEqDW7mo2sCQKd3DwV+
-         JUsRF/Q4tbbhD15OYUHkZEI2U8PeOLSZQe8pxTOdX8VILmmqF/AhAT0Ab5G9J8jsbWDQ
-         1YwA==
-X-Gm-Message-State: AOAM530uL0dnvBuVB1WAn8OxgZSTyDa5nyz+lHn1LKsao1J0SkKZpQaj
-        0ahxo5Tt+44BkLRyprpudfCYK8KyiH51ERQ=
-X-Google-Smtp-Source: ABdhPJyW1m9SbXAqH09239WynVsuVFpGwpuvcunwzfCPoBBzTTIBp5GlOy/wl0ZJFwtPTfMh78OkuipnUZY/zB8=
-Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:6d36:b798:55d7:f5c5])
- (user=saravanak job=sendgmr) by 2002:a25:3104:: with SMTP id
- x4mr9895088ybx.141.1612564022147; Fri, 05 Feb 2021 14:27:02 -0800 (PST)
-Date:   Fri,  5 Feb 2021 14:26:41 -0800
-In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
-Message-Id: <20210205222644.2357303-6-saravanak@google.com>
-Mime-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
-X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
-Subject: [PATCH v4 5/8] driver core: fw_devlink: Handle suppliers that don't
- use driver core
-From:   Saravana Kannan <saravanak@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Saravana Kannan <saravanak@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        kernel-team@android.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+4ngpioykdaswjtQ50G9wJ1z4lzpWogRACPFYV04cNw=;
+        b=LhF73iZARv+V0hiS28frQaJ395mxyjhL+9u2vacdgWJzGrFy5D0xvqOy2L/2J5ZYCy
+         pwv6/OTyiLEctXj1F0sEkmz7JGd8q5g9OyEZvB0wKh1kAu6EvtT2nWFOAZ1vUIReWfKu
+         4/tWqsz5wuD1SalLbyPqF63UXZWD0Pb5uobHThnlCpqG2IJnIC03IJ4nXvvwk/JdSlrn
+         Kj7f2bv8CwuylpEGcuLLxrpOfXoyFxr1iX5YPsCXlO8AuuzD2ZDYt80BqjWBQOcf8Jh8
+         ydl4GCQpfcm5lAXVpy6z2ghGNsmfRidWvl+JwL2P1BX2/USYk5le4lNYo5667kkDzhXu
+         KB7A==
+X-Gm-Message-State: AOAM533SvxdiRJ0hd3uSH9KdOOIA6s/2fAir7mSA26XJ5PBfYAN8cqmD
+        gjXx7I2+0IEfGX48xFn91uG5gjVdqamUtWaTtEV2zQ==
+X-Google-Smtp-Source: ABdhPJzVyVF5yNIljrr7V2pJ5nxH8aJhsD1UM3EyuHS7WsAUOEosBeeTy2sHnzGqAIU6QNuHnp8ZM3ux8Bx7YWuBCDE=
+X-Received: by 2002:aa7:9790:0:b029:1d8:263e:cc9b with SMTP id
+ o16-20020aa797900000b02901d8263ecc9bmr6239477pfp.2.1612598555875; Sat, 06 Feb
+ 2021 00:02:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20210204035043.36609-1-songmuchun@bytedance.com>
+ <20210204035043.36609-5-songmuchun@bytedance.com> <20210205115351.GA16428@linux>
+In-Reply-To: <20210205115351.GA16428@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 6 Feb 2021 16:01:58 +0800
+Message-ID: <CAMZfGtXWBThxT26B9nD+zNVoU9BcK_G8uwqqTBCCwCeXG0AuxQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v14 4/8] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Device links only work between devices that use the driver core to match
-and bind a driver to a device. So, add an API for frameworks to let the
-driver core know that a fwnode has been initialized by a driver without
-using the driver core.
+On Fri, Feb 5, 2021 at 7:54 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Thu, Feb 04, 2021 at 11:50:39AM +0800, Muchun Song wrote:
+> > When we free a HugeTLB page to the buddy allocator, we should allocate the
+> > vmemmap pages associated with it. But we may cannot allocate vmemmap pages
+> > when the system is under memory pressure, in this case, we just refuse to
+> > free the HugeTLB page instead of looping forever trying to allocate the
+> > pages.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>
+> [...]
+>
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index 4cfca27c6d32..5518283aa667 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1397,16 +1397,26 @@ static void __free_huge_page(struct page *page)
+> >               h->resv_huge_pages++;
+> >
+> >       if (HPageTemporary(page)) {
+> > -             list_del(&page->lru);
+> >               ClearHPageTemporary(page);
+> > +
+> > +             if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC)) {
+> > +                     h->surplus_huge_pages++;
+> > +                     h->surplus_huge_pages_node[nid]++;
+> > +                     goto enqueue;
+> > +             }
+> > +             list_del(&page->lru);
+> >               update_and_free_page(h, page);
+> >       } else if (h->surplus_huge_pages_node[nid]) {
+> > +             if (alloc_huge_page_vmemmap(h, page, GFP_ATOMIC))
+> > +                     goto enqueue;
+> > +
+> >               /* remove the page from active list */
+> >               list_del(&page->lru);
+> >               update_and_free_page(h, page);
+> >               h->surplus_huge_pages--;
+> >               h->surplus_huge_pages_node[nid]--;
+> >       } else {
+> > +enqueue:
+> >               arch_clear_hugepage_flags(page);
+> >               enqueue_huge_page(h, page);
+>
+> Ok, we just keep them in the pool in case we fail to allocate.
+>
+>
+> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > index ddd872ab6180..0bd6b8d7282d 100644
+> > --- a/mm/hugetlb_vmemmap.c
+> > +++ b/mm/hugetlb_vmemmap.c
+> > @@ -169,6 +169,8 @@
+> >   * (last) level. So this type of HugeTLB page can be optimized only when its
+> >   * size of the struct page structs is greater than 2 pages.
+>
+> [...]
+>
+> > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head, gfp_t gfp_mask)
+> > +{
+> > +     int ret;
+> > +     unsigned long vmemmap_addr = (unsigned long)head;
+> > +     unsigned long vmemmap_end, vmemmap_reuse;
+> > +
+> > +     if (!free_vmemmap_pages_per_hpage(h))
+> > +             return 0;
+> > +
+> > +     vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> > +     vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> > +     vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> > +
+> > +     /*
+> > +      * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> > +      * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> > +      * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> > +      * When a HugeTLB page is freed to the buddy allocator, previously
+> > +      * discarded vmemmap pages must be allocated and remapping.
+> > +      */
+> > +     ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> > +                               gfp_mask | __GFP_NOWARN | __GFP_THISNODE);
+>
+> Why don't you set all the GFP flags here?
 
-Then use this information to make sure that fw_devlink doesn't make the
-consumers wait indefinitely on suppliers that'll never bind to a driver.
+Originally, I wanted to let the caller know the GFP flag which they
+used. But setting all the GFP flags here also makes sense to me.
+And we can remove the @gfp_mask parameter of the
+alloc_huge_page_vmemmap. It is simple.
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- drivers/base/core.c    | 15 +++++++++++++++
- include/linux/fwnode.h | 19 +++++++++++++++++--
- 2 files changed, 32 insertions(+), 2 deletions(-)
+>
+> vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse, GFP_ATOMIC|
+>                     __GFP_NOWARN | __GFP_THISNODE) ?
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index f466ab4f1c35..ea710b33bda6 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -1636,6 +1636,17 @@ static int fw_devlink_create_devlink(struct device *con,
- 
- 	sup_dev = get_dev_from_fwnode(sup_handle);
- 	if (sup_dev) {
-+		/*
-+		 * If it's one of those drivers that don't actually bind to
-+		 * their device using driver core, then don't wait on this
-+		 * supplier device indefinitely.
-+		 */
-+		if (sup_dev->links.status == DL_DEV_NO_DRIVER &&
-+		    sup_handle->flags & FWNODE_FLAG_INITIALIZED) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
- 		/*
- 		 * If this fails, it is due to cycles in device links.  Just
- 		 * give up on this link and treat it as invalid.
-@@ -1655,6 +1666,10 @@ static int fw_devlink_create_devlink(struct device *con,
- 		goto out;
- 	}
- 
-+	/* Supplier that's already initialized without a struct device. */
-+	if (sup_handle->flags & FWNODE_FLAG_INITIALIZED)
-+		return -EINVAL;
-+
- 	/*
- 	 * DL_FLAG_SYNC_STATE_ONLY doesn't block probing and supports
- 	 * cycles. So cycle detection isn't necessary and shouldn't be
-diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-index d5caefe39d93..dfefd43a737c 100644
---- a/include/linux/fwnode.h
-+++ b/include/linux/fwnode.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/types.h>
- #include <linux/list.h>
-+#include <linux/err.h>
- 
- struct fwnode_operations;
- struct device;
-@@ -18,11 +19,13 @@ struct device;
- /*
-  * fwnode link flags
-  *
-- * LINKS_ADDED: The fwnode has already be parsed to add fwnode links.
-- * NOT_DEVICE: The fwnode will never be populated as a struct device.
-+ * LINKS_ADDED:	The fwnode has already be parsed to add fwnode links.
-+ * NOT_DEVICE:	The fwnode will never be populated as a struct device.
-+ * INITIALIZED: The hardware corresponding to fwnode has been initialized.
-  */
- #define FWNODE_FLAG_LINKS_ADDED		BIT(0)
- #define FWNODE_FLAG_NOT_DEVICE		BIT(1)
-+#define FWNODE_FLAG_INITIALIZED		BIT(2)
- 
- struct fwnode_handle {
- 	struct fwnode_handle *secondary;
-@@ -161,6 +164,18 @@ static inline void fwnode_init(struct fwnode_handle *fwnode,
- 	INIT_LIST_HEAD(&fwnode->suppliers);
- }
- 
-+static inline void fwnode_dev_initialized(struct fwnode_handle *fwnode,
-+					  bool initialized)
-+{
-+	if (IS_ERR_OR_NULL(fwnode))
-+		return;
-+
-+	if (initialized)
-+		fwnode->flags |= FWNODE_FLAG_INITIALIZED;
-+	else
-+		fwnode->flags &= ~FWNODE_FLAG_INITIALIZED;
-+}
-+
- extern u32 fw_devlink_get_flags(void);
- extern bool fw_devlink_is_strict(void);
- int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup);
--- 
-2.30.0.478.g8a0d178c01-goog
+I will use this.
 
+>
+> > diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> > index 50c1dc00b686..277eb43aebd5 100644
+> > --- a/mm/sparse-vmemmap.c
+> > +++ b/mm/sparse-vmemmap.c
+>
+> [...]
+>
+> > +static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
+> > +                                gfp_t gfp_mask, struct list_head *list)
+>
+> I think it would make more sense for this function to get the nid and the
+> nr_pages to allocate directly.
+
+Just like alloc_pages(), right? If so, make sense to me.
+
+>
+> > +{
+> > +     unsigned long addr;
+> > +     int nid = page_to_nid((const void *)start);
+>
+> Uh, that void is a bit ugly. page_to_nid(struct page *)start).
+> Do not need the const either.
+
+OK. Will do. Thanks.
+
+>
+> > +     struct page *page, *next;
+> > +
+> > +     for (addr = start; addr < end; addr += PAGE_SIZE) {
+> > +             page = alloc_pages_node(nid, gfp_mask, 0);
+> > +             if (!page)
+> > +                     goto out;
+> > +             list_add_tail(&page->lru, list);
+> > +     }
+>
+> and replace this by while(--nr_pages) etc.
+
+OK. Will do.
+
+>
+> I did not really go in depth, but looks good to me, and much more simply
+> overall.
+
+Yeah. The series only has 8 patches now. It is simpler.
+
+>
+> The only thing I am not sure about is the use of GFP_ATOMIC.
+> It has been raised before than when we are close to OOM, the user might want
+> to try to free up some memory by dissolving free_huge_pages, and so we might
+> want to dip in the reserves.
+>
+> Given the fact that we are prepared to fail, and that we do not retry, I would
+> rather use GFP_KERNEL than to have X pages atomically allocated and then realize
+> we need to drop them on the ground because we cannot go further at some point.
+> I think those reserves would be better off used by someone else in that
+> situation.
+>
+> But this is just my thoughs, and given the fact that there seems to be a consensus
+> of susing GFP_ATOMIC.
+>
+> --
+> Oscar Salvador
+> SUSE L3
