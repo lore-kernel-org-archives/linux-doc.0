@@ -2,155 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3EABC433E9
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 20:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E2EC433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 22:30:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A054964E5D
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 20:48:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5D2E64E86
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 22:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbhBFUs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 15:48:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45816 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229625AbhBFUsZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 15:48:25 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81078C061788
-        for <linux-doc@vger.kernel.org>; Sat,  6 Feb 2021 12:47:45 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id w204so10545103ybg.2
-        for <linux-doc@vger.kernel.org>; Sat, 06 Feb 2021 12:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+hjAXsPVbgElgRdj+BZ+6MVnNMTVzcYGHrvtwU1AcCs=;
-        b=PivZDf7vbfBH6bSgHRaWMYMP8xN20P+lGSInQZfjmRrebl4zG19XOD81h4xHPsxfvN
-         rrEa3VG5KM++VddLx0G0hTtcKmO3HR5nuYYQszPGx7j17MOYIXpprrMbnqMjHCQ16gnh
-         vAAp8M7sh5ngMRXLEvCnpR0SE2eLb/b831luTAfpCMUIl/+mJcASqjF/vSQElaBpCa5G
-         ILxRh/y64IoVeO+zKE/zafs6iW5iGJpNWNeiVO4o5xdYwVvhVcqNHRaL4XC6XStW1r/E
-         jU8CFfUhqfItkbmKMgW8wP9A8yilwS0e3PFFDVjJn3PIqvllgunktYiSTLq9+arpDImJ
-         yCYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+hjAXsPVbgElgRdj+BZ+6MVnNMTVzcYGHrvtwU1AcCs=;
-        b=OJ9pnljLy6zb7jQWeEi7/zHBiRWGEaAgDmHi/ewLLsuib5FWPXZGxlxVelcQjdFpxt
-         3/BUAfQ2vk48gFZDT5OoN7NcZNXBxMHAyEQcMPbRH3jHcxpOjzjO5o2ugdHjs5v4/PCM
-         8a9MULL9BpBNG+l2KJLLvkpMGuYYfD5cEQLUcDUcHsEZMK0MHusjSwnYgTQlPHKsADBK
-         kPKK9W+Jcu5LOfGWV1CjQtHpBv4pDn4CRbBxoq/fZqJazlj2tFz+VX31FH+JlInihloY
-         1ethDggnVx8GIpLNCkvmA0fDTHbJ/DVHK0yvVPAghhpTCZsGVnAEmmte0i5ZqfRtsUSC
-         2+hQ==
-X-Gm-Message-State: AOAM531L8PDbN9haF+5vWonbPrqiYRGMbYo6I4pvPgg2DUbo/DfWN6Uq
-        MZilF6FotxSiw7FucFI8vsOA7XbzgV8FNIMYkAPQZw==
-X-Google-Smtp-Source: ABdhPJyL0NcBX/RigrI99Osm8m1ZvOqxCkoIvfHxGEI93KNtJj0ymk4vExKY8KweKVKWPIOdql7mDcRKQHJIMzVuTpU=
-X-Received: by 2002:a25:b74c:: with SMTP id e12mr16000102ybm.20.1612644464464;
- Sat, 06 Feb 2021 12:47:44 -0800 (PST)
+        id S229548AbhBFWaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 17:30:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229522AbhBFWaG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 6 Feb 2021 17:30:06 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DAB9C64DA1;
+        Sat,  6 Feb 2021 22:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612650565;
+        bh=5whCFGTXa3J1746EODCwZovMzZz+QDWnX+nqhWJoo8Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KVbBniO58u4QFUB32f9KRwF91AQ+EOH3Kx8zSld2dTKeS6bbVngC8lN72bAzfjChU
+         YUyZhRLKOKOXDO5gxQCDAz3mX29oH29sevZ8Uq7CBif+qhiyCNbQFVq2+7gS0lWpII
+         4OOIAnMrjzqqky0uF+yK1je0plwSI4cGz8QhkwRWJEnaulhQHOWyLAJE1L3uaSdWzt
+         pMjZse5mPqyzYrP+8JcAYBI/6qGeasmvWuDb5Qg4t3+daMlPMNbG/ULsmZwMHMmmBv
+         WoQRsmkyFf/9YN+81bLJKOeuDc7LqZ8GvFworFp2kV9jIXY7gtX9/lNMetjRU+CLPe
+         bWI29EbUd4ilg==
+Date:   Sat, 6 Feb 2021 14:29:24 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     NeilBrown <neilb@suse.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/3] Fix some seq_file users that were recently broken
+Message-ID: <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
+References: <161248518659.21478.2484341937387294998.stgit@noble1>
+        <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com> <CAMuHMdXo+ShM3Ct2OSCscJwaLJ4rbytpA14=dR5q+3F9kJjNfw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXo+ShM3Ct2OSCscJwaLJ4rbytpA14=dR5q+3F9kJjNfw@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Sat, 6 Feb 2021 12:47:08 -0800
-Message-ID: <CAGETcx9j8YzcJa6-s4cuyTpwFsUAAaBD6H9mf1wfzafb_x+5tg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 6, 2021 at 11:41 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Fri, Feb 5, 2021 at 11:26 PM Saravana Kannan <saravanak@google.com> wrote:
-> > There are a lot of devices/drivers where they never have a struct device
-> > created for them or the driver initializes the hardware without ever
-> > binding to the struct device.
-> >
-> > This series is intended to avoid any boot regressions due to such
-> > devices/drivers when fw_devlink=on and also address the handling of
-> > optional suppliers.
->
-> Thanks for your series!
->
-> > Patch 5 sets up a generic API to handle drivers that never bind with
-> > their devices.
-> >
-> > Patch 6 through 8 update different frameworks to use the new API.
->
-> >   driver core: fw_devlink: Handle suppliers that don't use driver core
-> >   irqdomain: Mark fwnodes when their irqdomain is added/removed
-> >   PM: domains: Mark fwnodes when their powerdomain is added/removed
-> >   clk: Mark fwnodes when their clock provider is added/removed
->
-> I take it this is an automatic alternative for letting drivers set the
-> OF_POPULATED flag manually?
+On Fri, 5 Feb 2021 14:35:50 -0800 Andrew Morton wrote:
+> On Fri, 05 Feb 2021 11:36:30 +1100 NeilBrown <neilb@suse.de> wrote:
+> 
+> > A recent change to seq_file broke some users which were using seq_file
+> > in a non-"standard" way ...  though the "standard" isn't documented, so
+> > they can be excused.  The result is a possible leak - of memory in one
+> > case, of references to a 'transport' in the other.
+> > 
+> > These three patches:
+> >  1/ document and explain the problem
+> >  2/ fix the problem user in x86
+> >  3/ fix the problem user in net/sctp
+> 
+> 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and
+> interface") was August 2018, so I don't think "recent" applies here?
+> 
+> I didn't look closely, but it appears that the sctp procfs file is
+> world-readable.  So we gave unprivileged userspace the ability to leak
+> kernel memory?
+> 
+> So I'm thinking that we aim for 5.12-rc1 on all three patches with a cc:stable?
 
-The frameworks can still continue setting it to avoid creating dead
-"struct devices" that'll never be used. This new flag handles cases
-where the device is already created, but will never bind to a driver.
-So, they are meant to do slightly different things, but the end result
-is removing the need for individual drivers to set OF_POPULATED (and
-Rob hates that too).
-
-> Is this actually safe?  It's not uncommon for a driver to register
-> multiple providers, sometimes even of different types (clock, genpd,
-> irq, reset[1], ...).
-
-This flag is just an indication that the fwnode has been initialized
-by a driver. It's okay if the flag gets set multiple times when a
-driver is registering with multiple frameworks. It's also okay if the
-flag is cleared multiple times as the driver is uninitializing the
-hardware (although, this is very unlikely for drivers that don't use
-device-driver model). When we actually try to create device links, we
-just check if this happened without a driver actually binding to this
-device. There's no "probing" race because the "status" I check goes
-through NO_DRIVER -> PROBING -(registering happens)-> BOUND ->
-UNBINDING -(deregistering happens) -> NO_DRIVER. So if the fwnode flag
-is getting set as part of the driver's probe function, the "status"
-value will never be NO_DRIVER.
-
-> Can you be sure consumer drivers do not start probing while their
-> dependency is still busy registering providers?
-
-The code only acts on that flag when trying to create device links
-from the consumer to the supplier. This is just a way to tell "hey,
-don't bother creating a device link, this supplier will never bind".
-So it just avoids blocking the consumer. Doesn't really make the
-consumers probe earlier than they would have.
-
-> [1] Which brings my attention to the fact that devlink does not consider
->     "resets" properties yet.
->
-
-Yeah, we can add that and other bindings as we go.
-
--Saravana
+I'd rather take the sctp patch sooner, we'll send another batch 
+of networking fixes for 5.11, anyway. Would that be okay with you?
