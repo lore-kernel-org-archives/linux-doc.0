@@ -2,123 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E410C4332E
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 642EAC43381
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 614C564FEF
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:36:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44DAC65011
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 02:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230289AbhBFCgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Feb 2021 21:36:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
+        id S229963AbhBFCid (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Feb 2021 21:38:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbhBFCd3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:33:29 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D03C08EB2F
-        for <linux-doc@vger.kernel.org>; Fri,  5 Feb 2021 14:27:08 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id k141so8764041ybf.11
-        for <linux-doc@vger.kernel.org>; Fri, 05 Feb 2021 14:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=hqgmXDFwubR/4OnYp87mHqkgPgat9JpTuiz1JNw02ec=;
-        b=HlWJductGnrWtiPlz4VOZAKZtOtHqGtLYG+/m1uG/3j65UbnLXs2ZbOsEsXyQxmcET
-         g5WBXP+ZNdGYsnDNt1AesV/YgtyYbWi8DAfFoP0DUlB0H5AivhCjx7cacjqpzdvJGJkd
-         KJC2axaJVKWb1aZIsjpltmtFIvFilsr/MFeX+VgPTcT+ctffNfukCK16/1DH2bNHZiHq
-         Hs7/PR9SRig14irkeZyDibp5UYV06N4v4E99Aa8HWCyCWoP6sXyRZruGYn7FnGjIrZAc
-         i9RLCHWExeGNkOCk36mOaRKleCDV2qf/Or99/FRsSW4kmlVWj7q6WRTD/+sE9+7tZQaK
-         FlQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=hqgmXDFwubR/4OnYp87mHqkgPgat9JpTuiz1JNw02ec=;
-        b=BY1KKJJXIAdfGJOWMOFf+V2Z5RNGZ6G2HUPn9tmxgStLYh/1ClG2rKN0383jfuYURc
-         JptCluxrZwVzxbF+iMdcBXlHV1Hm8cx+KZLFO5MMq1d+bXTJDTvlODw5ujpMG2br5kYk
-         OD2jjAyuTo70UvkBoXS1dZtc4/77p6P5GFfIOk+qQJH5ryrQRX84A282r3IXP1btXsxP
-         42I0Aq3K8UABvvnr+X73DVg9nGOvNrAhEr0hst+CRyKZfPJQTbXfdfNsXlW5OUdWbIsk
-         sqYiptAa/NWau4M0sjCe7gdm1VggD7g/dQeviPqHR555BNWbe4zmOMkXnxyr3Y3v6VSW
-         ttzw==
-X-Gm-Message-State: AOAM533NsWdnvRa68yVXbiYkWC1GGmv3pfE8otUyRjxj7+BCG8OrgxDZ
-        EXT6GSU4bLekeZDFK2IrmR/ReMs9WHgt/qQ=
-X-Google-Smtp-Source: ABdhPJypj8OxFVj8NpBAu+RA/WW+/KzA+etEoUDFgMecuxAKnsbx9dKd514JBTdlGgxWwGx8SVTerVvqi1AS370=
-Sender: "saravanak via sendgmr" <saravanak@saravanak.san.corp.google.com>
-X-Received: from saravanak.san.corp.google.com ([2620:15c:2d:3:6d36:b798:55d7:f5c5])
- (user=saravanak job=sendgmr) by 2002:a25:5b8a:: with SMTP id
- p132mr10020763ybb.67.1612564027217; Fri, 05 Feb 2021 14:27:07 -0800 (PST)
-Date:   Fri,  5 Feb 2021 14:26:43 -0800
-In-Reply-To: <20210205222644.2357303-1-saravanak@google.com>
-Message-Id: <20210205222644.2357303-8-saravanak@google.com>
-Mime-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
-X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
-Subject: [PATCH v4 7/8] PM: domains: Mark fwnodes when their powerdomain is added/removed
-From:   Saravana Kannan <saravanak@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Saravana Kannan <saravanak@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231278AbhBFCgR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Feb 2021 21:36:17 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D17C08EE7B;
+        Fri,  5 Feb 2021 16:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=mZCRVETJ8PFFSolgHhB5Tp0serDneMbD0XJnnQKOZTI=; b=BxHBM4b9ULo1IOmmp+yYoLbHzA
+        T7jAwmuzi3nMiMuX4tSkT/PrHmdvmiGIRtRT/UkrGY+MQn3UjhuH9epQ5p+ZfcNl6+MGqcoaQTzOA
+        3u9fGYgTMy7MutsAZYCmCG0OHhLpFF54+pcZVvNUrQol7VN1x8yplUX+rdXTzoCUqFlzpK8rwKzOJ
+        diBnw2RUzvs+/6D90s2sCtbcRqjpD9AINeb0tex9RhkHpmLzu0NaLJXeHfsRlLizZU5m9K5zi40tm
+        QNvThKpybBm2o4UpU5v+Xa3rIySjTRMa2Ah7VNAJ7CBgXfTwVgoU6hQwCFVDeU9jgxIKa2NtGEDov
+        vygqBJ+w==;
+Received: from [2601:1c0:6280:3f0::aec2]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l8BdT-0004md-Uz; Sat, 06 Feb 2021 00:39:40 +0000
+Subject: Re: [PATCH v4 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        christian.koenig@amd.com, kernel-team@android.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        NeilBrown <neilb@suse.de>, Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20210205213353.669122-1-kaleshsingh@google.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fe8780a1-364e-ec8f-48ee-192438d52c01@infradead.org>
+Date:   Fri, 5 Feb 2021 16:39:29 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20210205213353.669122-1-kaleshsingh@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This allows fw_devlink to recognize power domain drivers that don't use
-the device-driver model to initialize the device. fw_devlink will use
-this information to make sure consumers of such power domain aren't
-indefinitely blocked from probing, waiting for the power domain device
-to appear and bind to a driver.
+On 2/5/21 1:33 PM, Kalesh Singh wrote:
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. In order to measure how much memory a process actually consumes,
+> it is necessary to include the DMA buffer sizes for that process in the
+> memory accounting. Since the handle to DMA buffers are raw FDs, it is
+> important to be able to identify which processes have FD references to
+> a DMA buffer.
+> 
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both are only readable by the process owner,
+> as follows:
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+> 
+> Accessing other processes’ fdinfo requires root privileges. This limits
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
----
- drivers/base/power/domain.c | 2 ++
- 1 file changed, 2 insertions(+)
+Tangential:
+Please just use ASCII "'" -- it's good enough.
 
-diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-index 9a14eedacb92..6ac52a038bb9 100644
---- a/drivers/base/power/domain.c
-+++ b/drivers/base/power/domain.c
-@@ -2164,6 +2164,7 @@ static int genpd_add_provider(struct device_node *np, genpd_xlate_t xlate,
- 	cp->node = of_node_get(np);
- 	cp->data = data;
- 	cp->xlate = xlate;
-+	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	mutex_lock(&of_genpd_mutex);
- 	list_add(&cp->link, &of_genpd_providers);
-@@ -2353,6 +2354,7 @@ void of_genpd_del_provider(struct device_node *np)
- 				}
- 			}
- 
-+			fwnode_dev_initialized(&cp->node->fwnode, false);
- 			list_del(&cp->link);
- 			of_node_put(cp->node);
- 			kfree(cp);
+> the use of the interface to debugging environments and is not suitable
+> for production builds.  Granting root privileges even to a system process
+> increases the attack surface and is highly undesirable.
+> 
+> Since fdinfo doesn't permit reading process memory and manipulating
+> process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
+> 
+> Suggested-by: Jann Horn <jannh@google.com>
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> ---
+> Changes in v2:
+>   - Update patch description
+> 
+>  fs/proc/base.c |  4 ++--
+>  fs/proc/fd.c   | 15 ++++++++++++++-
+>  2 files changed, 16 insertions(+), 3 deletions(-)
+
+
 -- 
-2.30.0.478.g8a0d178c01-goog
+~Randy
 
