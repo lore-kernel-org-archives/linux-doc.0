@@ -2,180 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B37DBC433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 10:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F81DC433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 15:09:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 751E164E5C
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 10:03:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B61264E39
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 15:09:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhBFKDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 05:03:30 -0500
-Received: from mout.gmx.net ([212.227.15.18]:34257 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229514AbhBFKD1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Feb 2021 05:03:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1612605694;
-        bh=iRGL7FWGbS8lM2q90/wYQp1C2YaJp0pAX99Mh1ZkBJI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=ITSJlgqOgnjlBmQSI7u5Tr0R3RoM1ekTI+Kw9Frjs+1UxxjT1Ym1t4Gz7nXPz/6YB
-         D/6TiWN9pDTE1rAnzF/WVYBCGA+5n9KSF42/Y3807m0w4s/1Hk+Q+3wX3qQk7KB7oW
-         z6pB2ygKLow1Rb1l6S7eJNt8BHOMrptMeZw4airQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from LT02.fritz.box ([62.143.246.89]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MOiDd-1lHtpZ1IPH-00Q8xK; Sat, 06
- Feb 2021 11:01:34 +0100
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-To:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-efi@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH] docs: update EFI stub description
-Date:   Sat,  6 Feb 2021 11:01:15 +0100
-Message-Id: <20210206100115.58074-1-xypron.glpk@gmx.de>
-X-Mailer: git-send-email 2.30.0
+        id S230035AbhBFPJW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 10:09:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229646AbhBFPJT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 10:09:19 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563A8C061756
+        for <linux-doc@vger.kernel.org>; Sat,  6 Feb 2021 07:08:40 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id u15so5102470plf.1
+        for <linux-doc@vger.kernel.org>; Sat, 06 Feb 2021 07:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZspU6L37XgcENXFVgUeRV2DHijrkLVw1Znnl1QRz8qQ=;
+        b=Pi7VUqJE9S7HbzCe6zVqL1qdjye7sNokP1s+h3GR8Nk4Xx5zudG/G7cdogBLeojNwj
+         Uo0obEO2XhTuIY8qKmCOwQs80ZbVerqMWD+GXIfvQAtVJvuoPmyazypubYeNO5fphLUD
+         mZChTM6WXoCfeyL/quAOU7bB3gcHPwebhhhM1A4FRnqb7UAcvbpkDvJY9J67/kIvfNKY
+         cWwrqajDDJ7hABa8MUPp4W5B73NmN02Q9frVhEHEXRUgCZM0MRdVPbxRsn4JIDHb1Xfh
+         uuJW9Z4DeQCK2Vypu1nfM8v4FDNey2UEvy0OGAN9H4ywEWX6W5QnNdqyKbeT+ZFIUsp1
+         4f3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZspU6L37XgcENXFVgUeRV2DHijrkLVw1Znnl1QRz8qQ=;
+        b=mYbzaG0XkMGqZ5/ovMBGwU9D/M+zED5SEACEsw+GZPpVYSmWFiROmESd+Q6WGjE0+I
+         fcwYqslL8zre5SLqM1htm64XVpveLJ0Z+wABXy7KV4ZqyIrVEPumWjWnSk6Nk2ALone9
+         COsGFMeP61Bd5UmgyYgX7BMKwHh+UBelD0qOymuYctlb+xmozPIT1Ci05IAmbjWvGJ/J
+         PRaEoFvUziNs4RkQtQktBHqnbRxZ8X2Aq2GgA1tUtQ6H7vYOdv24NkxJNcGgNQ20SNxD
+         biOG/rxBtNIfvV+3Sv7UwB2yj3f4rCd8C+MyVxYwbo2AaRXTXJQfWsXaa0FaR+WS+bCO
+         jjrQ==
+X-Gm-Message-State: AOAM5323LdiP/qHnF7xMQ+Ry0SJ4laeaVFecFx8PEFzEP+trR9ofzi+0
+        7DixSZ9rYgIOJ+dZZZfNX56uXA==
+X-Google-Smtp-Source: ABdhPJwu5jxF7iqb3RH136Hsl5o2diii5bu45/NlStNlwhGDLf0//lIT22219V8yVqUES/fqav9fag==
+X-Received: by 2002:a17:90a:5788:: with SMTP id g8mr2809110pji.219.1612624119668;
+        Sat, 06 Feb 2021 07:08:39 -0800 (PST)
+Received: from localhost ([45.137.216.202])
+        by smtp.gmail.com with ESMTPSA id a24sm14483595pff.18.2021.02.06.07.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Feb 2021 07:08:38 -0800 (PST)
+From:   Leo Yan <leo.yan@linaro.org>
+To:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>,
+        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Leo Yan <leo.yan@linaro.org>
+Subject: [PATCH v3 0/8] coresight: etm-perf: Fix pid tracing with VHE
+Date:   Sat,  6 Feb 2021 23:08:25 +0800
+Message-Id: <20210206150833.42120-1-leo.yan@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:l8qcEMLM+q98tifEQUVifOqzq8mbDrZvtjXPzNpOcEs3ylpjSaY
- 0iyi/6lmi9OUYa+jAPiVe7IobgtHDytWHPyNmBOCEVLXXnux1DTBFV3YN5/0PJWvjWcEykY
- Jg6c5v9urzKjZBsOMr7piX0bND0X2dE7duA5WNtQzp0/yG1LJvBn3OZ96ay/ix05biNDYyy
- 3ZwWD4BCotPG5LVLY7T7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4MkptHc9bXA=:IiEAiAK9dOtd2NTs3c2Pem
- lSupszveXV4JXmeXK88kELbCIbnmwWJj9VL8eJl0pATLDAsYR/GAesRa2+69r92u5+jwMyGU2
- TvpdKL/EvBoUTfUoHvr3zNDnhT5KBjcufVZGxMEgQ1zkFTJuFYxp1v+3BRqLoH2gUIMlQn9B7
- ZHuMvhIpqWHvN813SqvlocCtyN9RdiW17KKnvKZKXi4Yrt2hEayK1BE8zoqCgXa/VHjGIsrDY
- U+VOqnXhq5deeEiaW7KUaSmvjIjg900irbNLfB1e7capIjXMOzPHl0uZcNHOjxCvB/n077Msq
- IjwBroqZKU9xbGZrwJwcvWZ4S2Wxh0Mb9P4t4B2Tf+hrvBXGM3gJ0Wk2oeRuLHqJhddtAniI1
- d2NdyNQShAEEv7pc0vWq5S96ijmcJA0yd80Go+0C/U3uVLF15x7jDvU0uMGRFrqF1gecq4lML
- txjlt30Rzmp+qJ9A27JWyCWVT8xUsPMAljzXoYwo/XqeA9T5lhdvQQkMy/KaEm9RND67sP878
- 3vtv+bzEsHx43RdTbQKiwkbjCVKnzz9QODLS4in4fom5RQHikS7aeLfY9C93zxCbgBL8bxeYX
- RxCYx6h064bGiyKLqY84dyqmoAJB30huZ1x8kSF4O0wSqtjiMcSwtmjkz0W1TbVub2CXYbgeM
- oADkjtJSfy81xdFCoCTRkubKt5QU8hLmeTcuifJNzRKFlEwH1OCBz4c2EkiV2xA+Wp+TjZPsg
- 9XuhpuqgDhgsy7aa/UVKcmxabtYJCt1e5SPuGCjVXwPjvNTvA33v6f5RhSteVPRIcQ4sRTWYN
- aoqDq/6yhH/n7dMNchQ94H6swcp6HxI6GcNUbIyl1XuSRftVEHPhYOyUa6YTjYY6Ap0MDrkFN
- MZQUYKOQWJfL35egQV0A==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Mention RISC-V.
-* Update code references.
-* initrd=3D does not specify a path relative on the ESP but to the partiti=
-on
-  from which the EFI stub was loaded (as specified in the loaded image
-  protocol).
-* Mention that ACPI tables and device trees are alternatives.
-* Provide the FDT GUID.
+This patch series is to support PID tracing with Virtualization Host
+Extensions (VHE).
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-=2D--
- Documentation/admin-guide/efi-stub.rst | 47 +++++++++++++++-----------
- 1 file changed, 27 insertions(+), 20 deletions(-)
+To be backward compatibility, and can both support PID tracing for the
+kernel is running at either EL1 or EL2, the two new PMU formats
+"contextid1" and "contextid2" are introduced, which works as switches
+to trace PID for EL1 kernel and EL2 kernel respectively.
 
-diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-=
-guide/efi-stub.rst
-index 833edb0d0bc4..9e1bb79e8655 100644
-=2D-- a/Documentation/admin-guide/efi-stub.rst
-+++ b/Documentation/admin-guide/efi-stub.rst
-@@ -8,15 +8,20 @@ it as an EFI executable. The code that modifies the bzIm=
-age header,
- along with the EFI-specific entry point that the firmware loader
- jumps to are collectively known as the "EFI boot stub", and live in
- arch/x86/boot/header.S and arch/x86/boot/compressed/eboot.c,
--respectively. For ARM the EFI stub is implemented in
--arch/arm/boot/compressed/efi-header.S and
--arch/arm/boot/compressed/efi-stub.c. EFI stub code that is shared
--between architectures is in drivers/firmware/efi/libstub.
-+respectively. For ARM the EFI stub entry point is implemented in
-+arch/arm/boot/compressed/efi-header.S.
+The existed PMU format "contextid" needs to be backward compatible for
+users, it's changed as an alias for "contextid1" on EL1 kernel and for
+"contextid2" on EL2 kernel.  Therefore, even without setting "contextid"
+config, the perf tool can dynamically pick up the config for PID
+tracing, the user doesn't have to set the "contexid" config manually.
 
--For arm64, there is no compressed kernel support, so the Image itself
--masquerades as a PE/COFF image and the EFI stub is linked into the
--kernel. The arm64 EFI stub lives in arch/arm64/kernel/efi-entry.S
--and drivers/firmware/efi/libstub/arm64-stub.c.
-+For ARM64 and RISC-V, there is no compressed kernel support, so the Image
-+itself masquerades as a PE/COFF image and the EFI stub is linked into the
-+kernel. The EFI stub entry point is in  arch/ARM64/kernel/efi-entry.S for
-+ARM64 and in arch/riscv/kernel/efi-header.S for RISC-V.
-+
-+EFI stub code that is shared between architectures is in
-+drivers/firmware/efi/libstub.
-+
-+The common secondary entry point efi_pe_entry() for ARM, ARM64, and RISC-=
-V
-+into the stub is in drivers/firmware/efi/libstub/efi-stub.c while x86 use=
-s
-+drivers/firmware/efi/libstub/x86-stub.c.
+This patch series can be cleanly applied on perf/core branch:
 
- By using the EFI boot stub it's possible to boot a Linux kernel
- without the use of a conventional EFI boot loader, such as grub or
-@@ -35,7 +40,7 @@ the extension the EFI firmware loader will refuse to exe=
-cute it. It's
- not possible to execute bzImage.efi from the usual Linux file systems
- because EFI firmware doesn't have support for them. For ARM the
- arch/arm/boot/zImage should be copied to the system partition, and it
--may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
-+may not need to be renamed. Similarly for ARM64, arch/arm64/boot/Image
- should be copied but not necessarily renamed.
+  commit cd07e536b020 ("Merge remote-tracking branch 'torvalds/master' into perf/core")
+
+... and applied on the mainline kernel:
+
+  commit 1e0d27fce010 ("Merge branch 'akpm' (patches from Andrew)")
+
+The patch series has been tested on Arm Juno-r2 board.  Verified the
+kernel with EL1 and didn't find issue; after some hacking in kernel
+driver and tool to emulate the code paths for kernel on EL2, can see
+the code path is hit without failure.
 
 
-@@ -55,10 +60,11 @@ multiple initrd files using the "initrd=3D" option. Th=
-is is the only EFI
- stub-specific command line parameter, everything else is passed to the
- kernel when it boots.
+Changes from v2:
+* Split into two patches for clarification comment on perf options, one
+  patch is for kernel change and the another one is for tools' change
+  (Suzuki);
+* Simplified cs_etm__get_pid_fmt() to return ETM_OPT_CTXTID2 OR
+  ETM_OPT_CTXTID, but not both (Suzuki);
+* Cached "pid_fmt" in cs_etm_decoder__set_tid() (Suzuki);
+* Refined documentation for more clear description for PMU format usages
+  (Mike);
+* Added Suzuki's and Mike's Reviewed tags.
 
--The path to the initrd file must be an absolute path from the
--beginning of the ESP, relative path names do not work. Also, the path
--is an EFI-style path and directory elements must be separated with
--backslashes (\). For example, given the following directory layout::
-+The path to the initrd file must be an absolute path from the beginning o=
-f
-+the partition from which the kernel was loaded, relative path names do no=
-t
-+work. Also, the path is an EFI-style path and directory elements must be
-+separated with backslashes (\). For example, given the following director=
-y
-+layout::
+Changes from v1:
+* Refactored PMU formats, added formats "contextid1"/"contextid2", and
+  reworked format "contextid" (Suzuki/Mathieu);
+* Refined the comments for perf configs (Leo/Mike);
+* Added patch 07/07 for description PID tracing in docs;
+* Found the issue for bitmap for option, extracted patch 03/07 for the
+  fixing.
 
-   fs0:>
- 	Kernels\
-@@ -83,18 +89,19 @@ is passed to bzImage.efi.
- The "dtb=3D" option
- -----------------
+Changes from RFC:
+* Added comments to clarify cases requested (Leo);
+* Explain the change to generic flags for cs_etm_set_option() in the
+  commit description;
+* Stored PID format in metadata and passed it to decoder (Leo);
+* Enhanced cs-etm for backward compatibility (Denis Nikitin).
 
--For the ARM and arm64 architectures, a device tree must be provided to
--the kernel. Normally firmware shall supply the device tree via the
--EFI CONFIGURATION TABLE. However, the "dtb=3D" command line option can
--be used to override the firmware supplied device tree, or to supply
--one when firmware is unable to.
-+If ACPI tables are not available, a device tree must be provided to the
-+kernel. Normally the firmware shall supply the device tree as an EFI
-+configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aae0.
-+However, the "dtb=3D" command line option can be used to override the
-+firmware supplied device tree, or to supply one when firmware is unable
-+to.
 
- Please note: Firmware adds runtime configuration information to the
- device tree before booting the kernel. If dtb=3D is used to override
- the device tree, then any runtime data provided by firmware will be
- lost. The dtb=3D option should only be used either as a debug tool, or
--as a last resort when a device tree is not provided in the EFI
--CONFIGURATION TABLE.
-+as a last resort when a device tree is not provided as an EFI
-+configuration table.
+Leo Yan (4):
+  coresight: etm-perf: Clarify comment on perf options
+  tools headers UAPI: Update tools' copy of linux/coresight-pmu.h
+  perf cs-etm: Add helper cs_etm__get_pid_fmt()
+  Documentation: coresight: Add PID tracing description
 
- "dtb=3D" is processed in the same manner as the "initrd=3D" option that i=
-s
- described above.
-=2D-
-2.30.0
+Suzuki K Poulose (4):
+  coresight: etm-perf: Support PID tracing for kernel at EL2
+  perf cs-etm: Fix bitmap for option
+  perf cs-etm: Support PID tracing in config
+  perf cs-etm: Detect pid in VMID for kernel running at EL2
+
+ Documentation/trace/coresight/coresight.rst   | 32 ++++++++
+ .../hwtracing/coresight/coresight-etm-perf.c  | 32 +++++++-
+ .../coresight/coresight-etm4x-core.c          | 13 ++++
+ include/linux/coresight-pmu.h                 | 20 +++--
+ tools/include/linux/coresight-pmu.h           | 20 +++--
+ tools/perf/arch/arm/util/cs-etm.c             | 73 +++++++++++++++----
+ .../perf/util/cs-etm-decoder/cs-etm-decoder.c | 38 +++++++++-
+ tools/perf/util/cs-etm.c                      | 42 +++++++++++
+ tools/perf/util/cs-etm.h                      |  1 +
+ 9 files changed, 239 insertions(+), 32 deletions(-)
+
+-- 
+2.25.1
 
