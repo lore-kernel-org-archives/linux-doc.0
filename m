@@ -2,64 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBCCC433E0
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 18:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A51C433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 21:12:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E97364DF6
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 18:49:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEEC464E3B
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 21:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbhBGStl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Feb 2021 13:49:41 -0500
-Received: from verein.lst.de ([213.95.11.211]:38953 "EHLO verein.lst.de"
+        id S229537AbhBGVM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Feb 2021 16:12:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48518 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229562AbhBGStj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Feb 2021 13:49:39 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 5DE7D68B02; Sun,  7 Feb 2021 19:48:55 +0100 (CET)
-Date:   Sun, 7 Feb 2021 19:48:55 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        iommu@lists.linux-foundation.org
-Cc:     linux-media@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: add a new dma_alloc_noncontiguous API v2
-Message-ID: <20210207184855.GA27553@lst.de>
-References: <20210202095110.1215346-1-hch@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210202095110.1215346-1-hch@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+        id S229491AbhBGVM0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Feb 2021 16:12:26 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B7EB964E35;
+        Sun,  7 Feb 2021 21:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1612732306;
+        bh=+XdaDQexeZGU5UTGEhbJS1Xe1ktEJS5gwq1IiBErUQ0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SjqD7IjDs/KREf+vNjGLvZa0iRykgVeh2eA6BRJ9FfUnxcsUeKqgd9R+ShT7+aPTI
+         +PFC8QFzfiHCbRS/JSc3iudvGcOkB5Uq/Lp2Ry+OqmxgAjp/U88uk1q5mJagj+bd5T
+         M8Xp2j58dzcuCoxtX9n/e9QRXEKtqlTZHAUpyWEA=
+Date:   Sun, 7 Feb 2021 13:11:45 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     NeilBrown <neilb@suse.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/3] Fix some seq_file users that were recently broken
+Message-Id: <20210207131145.ea12b9944c54ad2f10932bc3@linux-foundation.org>
+In-Reply-To: <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <161248518659.21478.2484341937387294998.stgit@noble1>
+        <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
+        <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Any comments?
+On Sat, 6 Feb 2021 14:29:24 -0800 Jakub Kicinski <kuba@kernel.org> wrote:
 
-On Tue, Feb 02, 2021 at 10:51:03AM +0100, Christoph Hellwig wrote:
-> Hi all,
+> On Fri, 5 Feb 2021 14:35:50 -0800 Andrew Morton wrote:
+> > On Fri, 05 Feb 2021 11:36:30 +1100 NeilBrown <neilb@suse.de> wrote:
+> > 
+> > > A recent change to seq_file broke some users which were using seq_file
+> > > in a non-"standard" way ...  though the "standard" isn't documented, so
+> > > they can be excused.  The result is a possible leak - of memory in one
+> > > case, of references to a 'transport' in the other.
+> > > 
+> > > These three patches:
+> > >  1/ document and explain the problem
+> > >  2/ fix the problem user in x86
+> > >  3/ fix the problem user in net/sctp
+> > 
+> > 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and
+> > interface") was August 2018, so I don't think "recent" applies here?
+> > 
+> > I didn't look closely, but it appears that the sctp procfs file is
+> > world-readable.  So we gave unprivileged userspace the ability to leak
+> > kernel memory?
+> > 
+> > So I'm thinking that we aim for 5.12-rc1 on all three patches with a cc:stable?
 > 
-> this series adds the new noncontiguous DMA allocation API requested by
-> various media driver maintainers.
-> 
-> Changes since v1:
->  - document that flush_kernel_vmap_range and invalidate_kernel_vmap_range
->    must be called once an allocation is mapped into KVA
->  - add dma-debug support
->  - remove the separate dma_handle argument, and instead create fully formed
->    DMA mapped scatterlists
->  - use a directional allocation in uvcvideo
->  - call invalidate_kernel_vmap_range from uvcvideo
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
----end quoted text---
+> I'd rather take the sctp patch sooner, we'll send another batch 
+> of networking fixes for 5.11, anyway. Would that be okay with you?
+
+Sure.
