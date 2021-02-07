@@ -2,192 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C649DC433E0
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19609C433DB
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:46:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8542C64E8B
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:37:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA73464E9B
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbhBGBhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 20:37:01 -0500
-Received: from mail-lf1-f48.google.com ([209.85.167.48]:46616 "EHLO
-        mail-lf1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbhBGBhA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 20:37:00 -0500
-Received: by mail-lf1-f48.google.com with SMTP id v5so14519424lft.13;
-        Sat, 06 Feb 2021 17:36:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=MsIYELOiBOvxC7BLCCq9XFdfwN6TwYFsgK/fAqU4LV4=;
-        b=bVf/liT4DI0R2plh/aFJyUu69vlDaISsXFO/5vWEiZ6A8QnVuVeEG2jm4YfikXBIWm
-         rx82ZPbR4jozX8Ba+p0A1Fa8P1tKpYVV1U5EHaaWkol64uBu1fldkBbp/d/xGgV4555U
-         axacnKxns0CrebsjWG14GrfIMtguV7s/DHZu1V33X0LmIVOWkiM3af684w+rA76YBW47
-         kgOTdhKQmh0JxqZPW0oQtbeu0H1nyufPb3I2LqPaf7VN/TbbJ49YwpXxrsQ4d2x1iJhY
-         2vGSvWbNfEi/Vyl+reh7aMqrDVUasi8JVBXb9VZpWrQIZKrM0RRE9iplKFXM2qkZMB9j
-         M+0w==
-X-Gm-Message-State: AOAM532ti+4+VkeP8BUEt6iEUIJIxujBzYsedhdbRxqU8D+TdtX1C+yD
-        vc87iEM4AWbTjiAY9MtQ73xQk2sF6xvSvmYp
-X-Google-Smtp-Source: ABdhPJzy/jEwHgYAGmRrI1aQ/pcZFAfJ9GDkGIE5fdaqHNDxnI7gfQv/2yqD2VXgKOnimvg1uFWXBQ==
-X-Received: by 2002:ac2:5dfc:: with SMTP id z28mr6715442lfq.218.1612661777948;
-        Sat, 06 Feb 2021 17:36:17 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id o11sm1503365lfu.157.2021.02.06.17.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 17:36:17 -0800 (PST)
-Date:   Sun, 7 Feb 2021 02:36:15 +0100
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S229698AbhBGBqZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 20:46:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54990 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229693AbhBGBqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 20:46:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612662294;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dsog5JErkbZWHcF1hTfD4LXVYTt/LhPseo2hrtLMy/Q=;
+        b=PLq9AfYgMuuBOpB049jXXyEUc//ylMCB3re5FyTOdj0M50XjHKP1UVwUjZ46vlW0f0HN22
+        nJHls67ZWlKhaKR1qRv0BGld5LEmb1BwIq7hqdEkofYVwkMkUSrYpiOtbTj2frPu/cXGtt
+        cwBaAYWqEbMXSBoh1237q725Hd2JrE8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-UAEp5ZtUMR2bEgZRc-hkYQ-1; Sat, 06 Feb 2021 20:44:49 -0500
+X-MC-Unique: UAEp5ZtUMR2bEgZRc-hkYQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BA0D804022;
+        Sun,  7 Feb 2021 01:44:47 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-184.pek2.redhat.com [10.72.12.184])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 16F3719CBC;
+        Sun,  7 Feb 2021 01:44:39 +0000 (UTC)
+Date:   Sun, 7 Feb 2021 09:44:36 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     john.p.donnelly@oracle.com, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RESEND v4 1/6] misc: Add Synopsys DesignWare xData IP driver
-Message-ID: <YB9EDzI7mSrzXUUB@rocinante>
-References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
- <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
+        Kees Cook <keescook@chromium.org>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Stephen Boyd <sboyd@kernel.org>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] kernel/crash_core: Add crashkernel=auto for
+ vmcore creation
+Message-ID: <20210207014436.GA3372@dhcp-128-65.nay.redhat.com>
+References: <20210204004347.41918-1-saeed.mirzamohammadi@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <20210204004347.41918-1-saeed.mirzamohammadi@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gustavo,
+Hi Saeed,
+On 02/03/21 at 04:43pm, Saeed Mirzamohammadi wrote:
+> This adds crashkernel=auto feature to configure reserved memory for
+> vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
+> different kernel distributions and different archs based on their
+> needs.
+> 
+> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+> Tested-by: John Donnelly <john.p.donnelly@oracle.com>
+> ---
+>  Documentation/admin-guide/kdump/kdump.rst |  5 +++++
+>  arch/Kconfig                              | 24 +++++++++++++++++++++++
+>  kernel/crash_core.c                       |  7 +++++++
+>  3 files changed, 36 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 75a9dd98e76e..f95a2af64f59 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -285,7 +285,12 @@ This would mean:
+>      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+>      3) if the RAM size is larger than 2G, then reserve 128M
+>  
+> +Or you can use crashkernel=auto if you have enough memory. The threshold
+> +is 1G on x86_64 and arm64. If your system memory is less than the threshold,
+> +crashkernel=auto will not reserve memory. The size changes according to
+> +the system memory size like below:
+>  
+> +    x86_64/arm64: 1G-64G:128M,64G-1T:256M,1T-:512M
 
-Thank you for all the work here!
+This part should be updated since you do not make the default value arch
+dependent.
 
-A few suggestions.
+The format of the auto str is documented well in kernel-parameters.txt
+below part:
+crashkernel=range1:size1[,range2:size2,...][@offset]
 
-[...]
-> +static void dw_xdata_stop(struct dw_xdata *dw)
-> +{
-> +	u32 burst = readl(&(__dw_xdara_regs(dw)->burst_cnt));
+The crashkernel=auto should be also documented in kernel-parameters.txt
+and do not need to explain the threshold etc again, just refer to the
+"crashkernel=range1:size1[,range2:size2,...][@offset]" format would be
+fine.
+
+>  
+>  Boot into System Kernel
+>  =======================
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 56b6ccc0e32d..a772eb397d73 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
+>  config CRASH_CORE
+>  	bool
+>  
+> +if CRASH_CORE
 > +
-> +	if (burst & BIT(31)) {
-> +		burst &= ~(u32)BIT(31);
-> +		writel(burst, &(__dw_regs(dw)->burst_cnt));
+> +config CRASH_AUTO_STR
+> +	string "Memory reserved for crash kernel"
+> +	depends on CRASH_CORE
+> +	default "1G-64G:128M,64G-1T:256M,1T-:512M"
+> +	help
+> +	  This configures the reserved memory dependent
+> +	  on the value of System RAM. The syntax is:
+> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +	              range=start-[end]
+> +
+> +	  For example:
+> +	      crashkernel=512M-2G:64M,2G-:128M
+> +
+> +	  This would mean:
+> +
+> +	      1) if the RAM is smaller than 512M, then don't reserve anything
+> +	         (this is the "rescue" case)
+> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +	      3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_CORE
+> +
+>  config KEXEC_CORE
+>  	select CRASH_CORE
+>  	bool
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 106e4500fd53..ab0a2b4b1ffa 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/crash_core.h>
+>  #include <linux/utsname.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/kexec.h>
+>  
+>  #include <asm/page.h>
+>  #include <asm/sections.h>
+> @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
+>  	if (suffix)
+>  		return parse_crashkernel_suffix(ck_cmdline, crash_size,
+>  				suffix);
+> +#ifdef CONFIG_CRASH_AUTO_STR
+> +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
+> +		ck_cmdline = CONFIG_CRASH_AUTO_STR;
+> +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
 > +	}
-> +}
+> +#endif
+>  	/*
+>  	 * if the commandline contains a ':', then that's the extended
+>  	 * syntax -- if not, it must be the classic syntax
+> -- 
+> 2.27.0
+> 
 
-Would it be possible to add a define for this "BIT(31)", similarly to
-the "XPERF_CONTROL_ENABLE", for example:
+Thanks
+Dave
 
-  #define XPERF_CONTROL_ENABLE		BIT(5)
-  #define XPERF_CONTROL_DISABLE		BIT(31)
-
-What do you think?
-
-> +static void dw_xdata_start(struct dw_xdata *dw, bool write)
-> +{
-> +	u32 control, status;
-> +
-> +	/* Stop first if xfer in progress */
-> +	dw_xdata_stop(dw);
-> +
-> +	/* Clear status register */
-> +	writel(0x0, &(__dw_regs(dw)->status));
-> +
-> +	/* Burst count register set for continuous until stopped */
-> +	writel(0x80001001, &(__dw_regs(dw)->burst_cnt));
-
-Would you mind adding a define (possibly with a comment, if it makes
-sense, of course) rather than open coding it here.
-
-> +	/* Pattern register */
-> +	writel(0x0, &(__dw_regs(dw)->pattern));
-> +
-> +	/* Control register */
-> +	control = CONTROL_DOORBELL | CONTROL_PATTERN_INC | CONTROL_NO_ADDR_INC;
-> +	if (write) {
-> +		control |= CONTROL_IS_WRITE;
-> +		control |= CONTROL_LENGTH(dw->max_wr_len);
-> +	} else {
-> +		control |= CONTROL_LENGTH(dw->max_rd_len);
-> +	}
-> +	writel(control, &(__dw_regs(dw)->control));
-> +
-> +	usleep_range(100, 150);
-[...]
-
-Why sleep here?
-
-Do you just add some delay that changes were reflected, or is it
-a requirement of sorts?  What do you think about documenting why the
-sleep where? Would it make sense?
-
-[...]
-> +static void dw_xdata_perf(struct dw_xdata *dw, u64 *rate, bool write)
-> +{
-> +	u64 data[2], time[2], diff;
-> +
-> +	/* First measurement */
-> +	writel(0x0, &(__dw_regs(dw)->perf_control));
-> +	dw_xdata_perf_meas(dw, &data[0], write);
-> +	time[0] = jiffies;
-> +	writel((u32)XPERF_CONTROL_ENABLE, &(__dw_regs(dw)->perf_control));
-> +
-> +	/* Delay 100ms */
-> +	mdelay(100);
-[...]
-
-The mdelay() is self-explanatory, so a comment that explains why to take
-two measurements that are 100 ms apart and how rate is calculated might
-be more useful (unless it would be an overkill here).
-
-If this is an arbitrary delay without any special meaning, then probably
-no comment is needed here.
-
-What do you think?
-
-[...]
-> +	/* Calculations */
-
-What sort of calculations precisely? :)
-
-[...]
-> +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
-> +			       const struct pci_device_id *pid)
-> +{
-> +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
-> +	struct dw_xdata *dw;
-> +	u64 addr;
-> +	int err;
-> +
-> +	/* Enable PCI device */
-> +	err = pcim_enable_device(pdev);
-
-This comment might not be needed.
-
-[...]
-> +	/* Mapping PCI BAR regions */
-> +	err = pcim_iomap_regions(pdev, BIT(pdata->rg_bar), pci_name(pdev));
-
-This comment might also not be needed.
-
-[...]
-> +	/* Allocate memory */
-
-And so this comment.
-
-[...]
-> +	/* Data structure initialization */
-[...]
-> +	/* Saving data structure reference */
-[...]
-> +	/* Sysfs */
-[...]
-
-And possibly few of these are also not needed.
-
-Krzysztof
