@@ -6,41 +6,41 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E51FC433E0
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 23:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C649DC433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0179464E80
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Feb 2021 23:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8542C64E8B
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Feb 2021 01:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229669AbhBFXcA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Feb 2021 18:32:00 -0500
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:45467 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbhBFXb7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 18:31:59 -0500
-Received: by mail-wr1-f43.google.com with SMTP id m13so12567640wro.12;
-        Sat, 06 Feb 2021 15:31:43 -0800 (PST)
+        id S229562AbhBGBhB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Feb 2021 20:37:01 -0500
+Received: from mail-lf1-f48.google.com ([209.85.167.48]:46616 "EHLO
+        mail-lf1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhBGBhA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Feb 2021 20:37:00 -0500
+Received: by mail-lf1-f48.google.com with SMTP id v5so14519424lft.13;
+        Sat, 06 Feb 2021 17:36:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=zjYjcEofR6lNR/I0DZSWZ30pohQFASDcROijEHvASfk=;
-        b=ZoggzEQ+pvxS7xp7i5Esv0+Sjcv2zX818ixeZeR3RH9XEuuwPOR0jXnru6sHNdWItT
-         ml23XMQqDA2wdQ2wBsLnA/NpBdWt6GU9ZMQKpagd5Gozst3hVyiHwPIpQC7ux+mxThlV
-         4Ik/55ywnhP/GTYs81gpAOetNyVHNp5FM0IsWkSiO6rKSIDzBh91E5WDV53DKyLf6IZX
-         OfRqtSXmVAQ/Pq6T7pui8oddK3tnIaxYezwXx9HoP0v8oMgPjLI42h45Z3CVVsveCwgi
-         38DH05w0JwDJ+tcQH80fHLaUJmASfO76sEeh46Y2eEAaRbwt1AiSIuKWxmkH0MtfOXTF
-         i+FA==
-X-Gm-Message-State: AOAM530YIkeF1G12DsvpT599iLQ4zRmEpFlVQATILRbASVyjiexMPSjY
-        c1G6TGjZHaTBeX0UrYBPpBmbmAWfWsuuuTQK
-X-Google-Smtp-Source: ABdhPJyviThF+C226ccwvm0Yz791/heX9KN5ZUvUKv70glVs6XpgX6GbMLDuta/nqLy/orcKkMMGnA==
-X-Received: by 2002:adf:f6d0:: with SMTP id y16mr3212434wrp.351.1612654277840;
-        Sat, 06 Feb 2021 15:31:17 -0800 (PST)
+        bh=MsIYELOiBOvxC7BLCCq9XFdfwN6TwYFsgK/fAqU4LV4=;
+        b=bVf/liT4DI0R2plh/aFJyUu69vlDaISsXFO/5vWEiZ6A8QnVuVeEG2jm4YfikXBIWm
+         rx82ZPbR4jozX8Ba+p0A1Fa8P1tKpYVV1U5EHaaWkol64uBu1fldkBbp/d/xGgV4555U
+         axacnKxns0CrebsjWG14GrfIMtguV7s/DHZu1V33X0LmIVOWkiM3af684w+rA76YBW47
+         kgOTdhKQmh0JxqZPW0oQtbeu0H1nyufPb3I2LqPaf7VN/TbbJ49YwpXxrsQ4d2x1iJhY
+         2vGSvWbNfEi/Vyl+reh7aMqrDVUasi8JVBXb9VZpWrQIZKrM0RRE9iplKFXM2qkZMB9j
+         M+0w==
+X-Gm-Message-State: AOAM532ti+4+VkeP8BUEt6iEUIJIxujBzYsedhdbRxqU8D+TdtX1C+yD
+        vc87iEM4AWbTjiAY9MtQ73xQk2sF6xvSvmYp
+X-Google-Smtp-Source: ABdhPJzy/jEwHgYAGmRrI1aQ/pcZFAfJ9GDkGIE5fdaqHNDxnI7gfQv/2yqD2VXgKOnimvg1uFWXBQ==
+X-Received: by 2002:ac2:5dfc:: with SMTP id z28mr6715442lfq.218.1612661777948;
+        Sat, 06 Feb 2021 17:36:17 -0800 (PST)
 Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id o124sm13395628wmb.5.2021.02.06.15.31.15
+        by smtp.gmail.com with ESMTPSA id o11sm1503365lfu.157.2021.02.06.17.36.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 15:31:16 -0800 (PST)
-Date:   Sun, 7 Feb 2021 00:31:14 +0100
+        Sat, 06 Feb 2021 17:36:17 -0800 (PST)
+Date:   Sun, 7 Feb 2021 02:36:15 +0100
 From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
 To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
 Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
@@ -51,47 +51,143 @@ Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RESEND v4 4/6] Documentation: misc-devices: Add Documentation
- for dw-xdata-pcie driver
-Message-ID: <YB8mwrhOZ2kPL3Oo@rocinante>
+Subject: Re: [RESEND v4 1/6] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <YB9EDzI7mSrzXUUB@rocinante>
 References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
- <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612390291.git.gustavo.pimentel@synopsys.com>
+ <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612390291.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Gustavo,
 
-[...]
-> +The interaction with this driver is done through the module parameter and
-> +can be changed in runtime. The driver outputs the requested command state
-> +information to /var/log/kern.log or dmesg.
+Thank you for all the work here!
 
-The driver does not seem to offer any parameters (aside of using sysfs
-for runtime settings), and it also seem to only print what it's doing
-when debug level is enabled - unless I am missing something?
+A few suggestions.
 
 [...]
-> +Request to stop any current TLP transfer:
-> +- Command:
-> +	echo 1 > /sys/kernel/dw-xdata-pcie/stop
-[...]
+> +static void dw_xdata_stop(struct dw_xdata *dw)
+> +{
+> +	u32 burst = readl(&(__dw_xdara_regs(dw)->burst_cnt));
+> +
+> +	if (burst & BIT(31)) {
+> +		burst &= ~(u32)BIT(31);
+> +		writel(burst, &(__dw_regs(dw)->burst_cnt));
+> +	}
+> +}
 
-When I do the following:
+Would it be possible to add a define for this "BIT(31)", similarly to
+the "XPERF_CONTROL_ENABLE", for example:
 
-  # echo 1 > /sys/kernel/dw-xdata-pcie/write
-  # echo 1 > /sys/kernel/dw-xdata-pcie/stop
-  # cat /sys/kernel/dw-xdata-pcie/write
-
-Would output from cat above simply show "0 MB/s" then?  I wonder how
-someone using this new driver could tell whether "write" or "read"
-traffic generation has been enabled aside of reading the sysfs files,
-would adding "/sys/kernel/dw-xdata-pcie/active" be an overkill here?
+  #define XPERF_CONTROL_ENABLE		BIT(5)
+  #define XPERF_CONTROL_DISABLE		BIT(31)
 
 What do you think?
+
+> +static void dw_xdata_start(struct dw_xdata *dw, bool write)
+> +{
+> +	u32 control, status;
+> +
+> +	/* Stop first if xfer in progress */
+> +	dw_xdata_stop(dw);
+> +
+> +	/* Clear status register */
+> +	writel(0x0, &(__dw_regs(dw)->status));
+> +
+> +	/* Burst count register set for continuous until stopped */
+> +	writel(0x80001001, &(__dw_regs(dw)->burst_cnt));
+
+Would you mind adding a define (possibly with a comment, if it makes
+sense, of course) rather than open coding it here.
+
+> +	/* Pattern register */
+> +	writel(0x0, &(__dw_regs(dw)->pattern));
+> +
+> +	/* Control register */
+> +	control = CONTROL_DOORBELL | CONTROL_PATTERN_INC | CONTROL_NO_ADDR_INC;
+> +	if (write) {
+> +		control |= CONTROL_IS_WRITE;
+> +		control |= CONTROL_LENGTH(dw->max_wr_len);
+> +	} else {
+> +		control |= CONTROL_LENGTH(dw->max_rd_len);
+> +	}
+> +	writel(control, &(__dw_regs(dw)->control));
+> +
+> +	usleep_range(100, 150);
+[...]
+
+Why sleep here?
+
+Do you just add some delay that changes were reflected, or is it
+a requirement of sorts?  What do you think about documenting why the
+sleep where? Would it make sense?
+
+[...]
+> +static void dw_xdata_perf(struct dw_xdata *dw, u64 *rate, bool write)
+> +{
+> +	u64 data[2], time[2], diff;
+> +
+> +	/* First measurement */
+> +	writel(0x0, &(__dw_regs(dw)->perf_control));
+> +	dw_xdata_perf_meas(dw, &data[0], write);
+> +	time[0] = jiffies;
+> +	writel((u32)XPERF_CONTROL_ENABLE, &(__dw_regs(dw)->perf_control));
+> +
+> +	/* Delay 100ms */
+> +	mdelay(100);
+[...]
+
+The mdelay() is self-explanatory, so a comment that explains why to take
+two measurements that are 100 ms apart and how rate is calculated might
+be more useful (unless it would be an overkill here).
+
+If this is an arbitrary delay without any special meaning, then probably
+no comment is needed here.
+
+What do you think?
+
+[...]
+> +	/* Calculations */
+
+What sort of calculations precisely? :)
+
+[...]
+> +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
+> +			       const struct pci_device_id *pid)
+> +{
+> +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
+> +	struct dw_xdata *dw;
+> +	u64 addr;
+> +	int err;
+> +
+> +	/* Enable PCI device */
+> +	err = pcim_enable_device(pdev);
+
+This comment might not be needed.
+
+[...]
+> +	/* Mapping PCI BAR regions */
+> +	err = pcim_iomap_regions(pdev, BIT(pdata->rg_bar), pci_name(pdev));
+
+This comment might also not be needed.
+
+[...]
+> +	/* Allocate memory */
+
+And so this comment.
+
+[...]
+> +	/* Data structure initialization */
+[...]
+> +	/* Saving data structure reference */
+[...]
+> +	/* Sysfs */
+[...]
+
+And possibly few of these are also not needed.
 
 Krzysztof
