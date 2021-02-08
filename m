@@ -2,108 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD1FC43381
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF56C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:44:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF42D64DC3
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:24:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B42CB64E27
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbhBHTY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 14:24:28 -0500
-Received: from mga02.intel.com ([134.134.136.20]:47138 "EHLO mga02.intel.com"
+        id S235239AbhBHToh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 14:44:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42946 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232482AbhBHTYG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Feb 2021 14:24:06 -0500
-IronPort-SDR: mugynaee8hkJ81+tKn1UPz3M5Ib0ZFXm2QY3/9PVI8Po0LQ05POnKzFTH+r+WVkdfrLR3DLrmG
- 1ReXHy/cePBA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168890238"
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="168890238"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 11:23:23 -0800
-IronPort-SDR: hQ7EzHLh1XjKnGXhPuD/XToDkgJwmpEbNG7R0HZcj22PJbDNwj7jCGyg5PpGndMk2uHcpLhv2w
- rrglSOj3nHFg==
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="377921602"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.11.33]) ([10.251.11.33])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 11:23:19 -0800
-Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S235506AbhBHTne (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Feb 2021 14:43:34 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45BA0601FE;
+        Mon,  8 Feb 2021 19:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612813371;
+        bh=d661Gkj5uDPyjiuPmo7dVeApop9R+vb1Lt40RdJVELI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bX2v72YYQwKc0W7ftrMUwQ+VQpURy2RKP1n0d5tSAblQjAybzitS42mN5JO9RFOMT
+         0+3xBGTuJs0gdLUhF02+FWXX/fcra+8rySqVQfo+zF0eUEarz0HqlW30pcdG57+MqT
+         O+yg1bCatEG7O8/N9M8FWjs1r1TSuFICNcwUVypMS85okvGXPZU/i9oU1jvUtei7d6
+         6KpoVzFPKRuF3VxqBeRDCatCIFobJ7V9qVLCOMhFHuezANrI2ytArtOQkqkGKdlkGG
+         2emhmcbifLfVOkqzxpIzWPa4FGbCM5fx8EneEJ8RK3vpBZzAtXeKoNRL9k0QhyP0TI
+         XE+/6MtoB1ZGQ==
+Date:   Mon, 8 Feb 2021 11:42:49 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     NeilBrown <neilb@suse.de>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-7-yu-cheng.yu@intel.com>
- <20210205135927.GH17488@zn.tnic>
- <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
- <20210208182009.GE18227@zn.tnic>
- <690bc3b9-2890-e68d-5e4b-cda5c21b496b@intel.com>
- <20210208185341.GF18227@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <0e0c9e9d-aee1-ad1e-6c63-21b58a52163f@intel.com>
-Date:   Mon, 8 Feb 2021 11:23:18 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Neil Horman <nhorman@tuxdriver.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 0/3] Fix some seq_file users that were recently broken
+Message-ID: <20210208114249.6c7e04e9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210207131145.ea12b9944c54ad2f10932bc3@linux-foundation.org>
+References: <161248518659.21478.2484341937387294998.stgit@noble1>
+        <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
+        <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20210207131145.ea12b9944c54ad2f10932bc3@linux-foundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20210208185341.GF18227@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/8/2021 10:53 AM, Borislav Petkov wrote:
-> On Mon, Feb 08, 2021 at 10:50:07AM -0800, Yu, Yu-cheng wrote:
->> I have not run into the situation.  Initially it was there because other
->> faults have it.
+On Sun, 7 Feb 2021 13:11:45 -0800 Andrew Morton wrote:
+> On Sat, 6 Feb 2021 14:29:24 -0800 Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Fri, 5 Feb 2021 14:35:50 -0800 Andrew Morton wrote:  
+> > > On Fri, 05 Feb 2021 11:36:30 +1100 NeilBrown <neilb@suse.de> wrote:
+> > > 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and
+> > > interface") was August 2018, so I don't think "recent" applies here?
+> > > 
+> > > I didn't look closely, but it appears that the sctp procfs file is
+> > > world-readable.  So we gave unprivileged userspace the ability to leak
+> > > kernel memory?
+> > > 
+> > > So I'm thinking that we aim for 5.12-rc1 on all three patches with a cc:stable?  
+> > 
+> > I'd rather take the sctp patch sooner, we'll send another batch 
+> > of networking fixes for 5.11, anyway. Would that be okay with you?  
 > 
-> Which other faults?
+> Sure.
 
-exc_general_protection() and do_trap() both call show_signal(), which 
-then calls printk_ratelimit().
-
-> 
->> When you asked, I went through it and put out my reasoning.
-> 
-> What does that mean?
-> 
-
-I went through my patch and check if ratelimit is necessary, and then 
-describe the finding.
-
->> I think it still makes sense to keep it.
-> 
-> Because you have a hunch or you actually have an objective reason why?
-> 
-
-For example, if a shell script, in a loop re-starts an app when it 
-exits, and the app is causing control-protection fault.  The log 
-messages should be rate limited.
+Applied patch 3 to net, thanks everyone!
