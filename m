@@ -2,236 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 645CAC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:21:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03287C4332D
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F01964E42
+	by mail.kernel.org (Postfix) with ESMTP id CF42D64E42
 	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232568AbhBHPUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 10:20:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52736 "EHLO
+        id S233355AbhBHPU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 10:20:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233554AbhBHPP6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:15:58 -0500
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AD0EC06178C
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:15:07 -0800 (PST)
-Received: by mail-qt1-x849.google.com with SMTP id z19so9749772qtv.20
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:cc;
-        bh=hK7XPYDbzHjCAmYCJosLD0ZkM4W3aY4xzEu1NMmcp3s=;
-        b=o3pM7h56YZvRdDAkpdq/yKIygHJehKZJyKoxq9PMIUtUyrWMGH00JtX+M1Ipxwei+0
-         JdFGFnqw4i/sCBBfRoZJ1fvt5CVnq7gUo3nt2x0y46F7aS2Bx+DiW3eYQRhy1LrQXvGW
-         iREs2VxE0CEHH2SlI0eZNMGsQiPWmYDrzGchIjATTmrvycgejtAoXazVS6qBjfJqBdQj
-         PEful/xDuI0ByTIyK6jdwDfS0T2h+rgoOAcoxHTQ54fW/lfqJ9oB/eKRPEwFXOLXdt9t
-         m8U/6luSKL1nAuO24Hu0wOEP4979V4bEjeOCE+pTDyKDZZUIMTPANnPHzwW+rp4J4lS0
-         Pb/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=hK7XPYDbzHjCAmYCJosLD0ZkM4W3aY4xzEu1NMmcp3s=;
-        b=mkKepyvIk0t9V2Nj4tEDXVTmvi8G94zSIj/5obVJsu+SGCoeV1+u7NPW3W3R9KJs6I
-         YRPCLs75aHWp0a7IxbcNnB88wCWHfCBXsYn3WpNubsdZF+3d4xA8hyuNCuPC/qpX0xfT
-         +sxWsgPklAH791Ea1Jnb6+tOPpDM6jV59QSBKDZ27qvr+zfRXKN3UVHU7bWzMqTJhDPP
-         Bv4Gl54Wxe7ibEWQbu7BETKwfI+xLpkbN+NmAm4erDHlsqSGr+H3ZFDvbi4A6zzNV8iL
-         WJ0OXSoK4j9Ysf7KswusH3kTNRmUdl6cxdE7FL1a1GoczSj8UO3t1uyc/OkLL6dzvAwr
-         F3xg==
-X-Gm-Message-State: AOAM5308iRNNspGtDY3aKjxXclPjIamPn6X58XrLQ/qKQMQfjFMw/we7
-        9lhbVPwPq388bVtT2qM5TFGF/Y3ZicdMJCWmFg==
-X-Google-Smtp-Source: ABdhPJz0wwG3bWJ7OEH1KQHNkBAGuACNAA5R1SF572QNBkyVLHa9fdu7awrxhwnmMzqHYVGs6iBggtUNp/oIRCFBcw==
-Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
-X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
- (user=kaleshsingh job=sendgmr) by 2002:a0c:b645:: with SMTP id
- q5mr16516768qvf.9.1612797306332; Mon, 08 Feb 2021 07:15:06 -0800 (PST)
-Date:   Mon,  8 Feb 2021 15:14:28 +0000
-In-Reply-To: <20210208151437.1357458-1-kaleshsingh@google.com>
-Message-Id: <20210208151437.1357458-2-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20210208151437.1357458-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
-Subject: [PATCH v5 2/2] procfs/dmabuf: Add inode number to /proc/*/fdinfo
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
-        surenb@google.com, minchan@kernel.org, hridya@google.com,
-        rdunlap@infradead.org, christian.koenig@amd.com,
-        willy@infradead.org, kernel-team@android.com,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Alexey Gladkov <gladkov.alexey@gmail.com>,
-        NeilBrown <neilb@suse.de>, Anand K Mistry <amistry@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Michel Lespinasse <walken@google.com>,
-        Bernd Edlinger <bernd.edlinger@hotmail.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Yafang Shao <laoar.shao@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        with ESMTP id S233645AbhBHPSB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:18:01 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99A59C061797
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=geiCfd9PILCCJU0vFA1EOBDN/jltb8SbRyptTdR/uVA=; b=VBHM6IsC/miyIaq6tqh5/maFcU
+        F3lHT6lwis2EimkCCDDQviQi56OQ/BVNHMHToteBmY0tUM8iTpxlRMqP6SqU/cN1Wh2VwNUOnAaIj
+        VVnCh4hV31kmkN6s7U2bpD2ArVImc1QcM2IPx+u2XRcctZaBtKFjMdI1giKBg7pgmd4tptaKnEcCC
+        iPJjJsxLrZFkauIMXx5H2IUWfpdXf1O7BDf4cD/+6lMFvXPpFyuuVCftVz7QqS6O+j64QGQI2qlrO
+        JglYMuY7rm7a+IebpFKzl35LaqtWemlxXSmdTchmtbBs76/7ufaHTNka8W0gY7Sh9sLYM/QM6FdFq
+        oc655gdg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1l98GY-0068K2-8k; Mon, 08 Feb 2021 15:15:54 +0000
+Date:   Mon, 8 Feb 2021 15:15:54 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Yorick de Wid <ydewid@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>
+Subject: Re: [PATCH] docs: Remove the Microsoft rhetoric
+Message-ID: <20210208151554.GR308988@casper.infradead.org>
+References: <20210208150447.87104-1-ydewid@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210208150447.87104-1-ydewid@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-And 'inode_no' field to /proc/<pid>/fdinfo/<FD> and
-/proc/<pid>/task/<tid>/fdinfo/<FD>.
+On Mon, Feb 08, 2021 at 04:04:48PM +0100, Yorick de Wid wrote:
+> From: Yorick de Wid <yorickdewid@users.noreply.github.com>
+> 
+> There is no need to need to name Microsoft. The point is clear without that context.
+> 
+> Signed-off-by: Yorick de Wid <ydewid@gmail.com>
+> ---
+>  Documentation/process/coding-style.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 98227226c4e..5608ed2931f 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -306,8 +306,7 @@ that counts the number of active users, you should call that
+>  
+>  Encoding the type of a function into the name (so-called Hungarian
+>  notation) is asinine - the compiler knows the types anyway and can check
+> -those, and it only confuses the programmer. No wonder Microsoft makes buggy
+> -programs.
+> +those, and it only confuses the programmer.
 
-The inode numbers can be used to uniquely identify DMA buffers
-in user space and avoids a dependency on /proc/<pid>/fd/* when
-accounting per-process DMA buffer sizes.
+I'm not opposed to this, but it'd be nice to distinguish between Systems
+Hungarian (which is what this paragraph is correctly excoriating) and
+Apps Hungarian (which is actually useful and we should do more of):
 
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
----
-Changes in v5:
-  - Fixed tab vs spaces, per Randy
-  - Renamed inode_no to ino, per Matthew
-Changes in v4:
-  - Add inode number as common field in fdinfo, per Christian
-Changes in v3:
-  - Add documentation in proc.rst, per Randy
-Changes in v2:
-  - Update patch description
-
- Documentation/filesystems/proc.rst | 37 +++++++++++++++++++++++++-----
- fs/proc/fd.c                       |  5 ++--
- 2 files changed, 34 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2fa69f710e2a..7730d1c120e8 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1902,18 +1902,20 @@ if precise results are needed.
- 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
- ---------------------------------------------------------------
- This file provides information associated with an opened file. The regular
--files have at least three fields -- 'pos', 'flags' and 'mnt_id'. The 'pos'
--represents the current offset of the opened file in decimal form [see lseek(2)
--for details], 'flags' denotes the octal O_xxx mask the file has been
--created with [see open(2) for details] and 'mnt_id' represents mount ID of
--the file system containing the opened file [see 3.5 /proc/<pid>/mountinfo
--for details].
-+files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
-+The 'pos' represents the current offset of the opened file in decimal
-+form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
-+file has been created with [see open(2) for details] and 'mnt_id' represents
-+mount ID of the file system containing the opened file [see 3.5
-+/proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
-+the file.
- 
- A typical output is::
- 
- 	pos:	0
- 	flags:	0100002
- 	mnt_id:	19
-+	ino:	63107
- 
- All locks associated with a file descriptor are shown in its fdinfo too::
- 
-@@ -1930,6 +1932,7 @@ Eventfd files
- 	pos:	0
- 	flags:	04002
- 	mnt_id:	9
-+	ino:	63107
- 	eventfd-count:	5a
- 
- where 'eventfd-count' is hex value of a counter.
-@@ -1942,6 +1945,7 @@ Signalfd files
- 	pos:	0
- 	flags:	04002
- 	mnt_id:	9
-+	ino:	63107
- 	sigmask:	0000000000000200
- 
- where 'sigmask' is hex value of the signal mask associated
-@@ -1955,6 +1959,7 @@ Epoll files
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
- 
- where 'tfd' is a target file descriptor number in decimal form,
-@@ -1971,6 +1976,8 @@ For inotify files the format is the following::
- 
- 	pos:	0
- 	flags:	02000000
-+	mnt_id:	9
-+	ino:	63107
- 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
- 
- where 'wd' is a watch descriptor in decimal form, i.e. a target file
-@@ -1993,6 +2000,7 @@ For fanotify files the format is::
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	fanotify flags:10 event-flags:0
- 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
- 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-@@ -2017,6 +2025,7 @@ Timerfd files
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	clockid: 0
- 	ticks: 0
- 	settime flags: 01
-@@ -2031,6 +2040,22 @@ details]. 'it_value' is remaining time until the timer expiration.
- with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
- still exhibits timer's remaining time.
- 
-+DMA Buffer files
-+~~~~~~~~~~~~~~~~
-+
-+::
-+
-+	pos:	0
-+	flags:	04002
-+	mnt_id:	9
-+	ino:	63107
-+	size:   32768
-+	count:  2
-+	exp_name:  system-heap
-+
-+where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
-+the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
-+
- 3.9	/proc/<pid>/map_files - Information about memory mapped files
- ---------------------------------------------------------------------
- This directory contains symbolic links which represent memory mapped files
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 585e213301f9..2c25909bf9d1 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -54,9 +54,10 @@ static int seq_show(struct seq_file *m, void *v)
- 	if (ret)
- 		return ret;
- 
--	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\n",
-+	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\ninode_no:\t%lu\n",
- 		   (long long)file->f_pos, f_flags,
--		   real_mount(file->f_path.mnt)->mnt_id);
-+		   real_mount(file->f_path.mnt)->mnt_id,
-+		   file_inode(file)->i_ino);
- 
- 	/* show_fd_locks() never deferences files so a stale value is safe */
- 	show_fd_locks(m, file, files);
--- 
-2.30.0.478.g8a0d178c01-goog
-
+https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/
