@@ -7,150 +7,188 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F17FDC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:52:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1301CC433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 21:15:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EDD064E6C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:52:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5B8F64E9A
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 21:15:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233975AbhBHUwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 15:52:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40214 "EHLO
+        id S234049AbhBHVPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 16:15:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232848AbhBHUu5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 15:50:57 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AA7C061788
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 12:50:12 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id n10so11013393pgl.10
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 12:50:12 -0800 (PST)
+        with ESMTP id S236322AbhBHVO7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 16:14:59 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD76DC06178A
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 13:14:17 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id n201so16519751iod.12
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 13:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=u6IfnsP0ojYs9bBbfSN2AV8/9g+W1u8UiUTHBbYsgGw=;
-        b=cQv3mgr+I3zhCFT27jgZlHwYAXYJDwaroszbLx6QqDLwyQmnVlY0Y0Glw2obdc57RY
-         udJk04djvd1MFHz9FBcHt/iqZedYUoUUzeuT6QF2XYi+TcmKbWvwAnYJ+tr/rcaKXmMG
-         QrBlFD3pRbnv0o0a3c44rv8+cT9PBbUYScAPifaZ1yTZUBcCiX4anhoJKeDGjAlSrVkU
-         Mfw5srtAIVv1V9A1IeiXMWshduuQIvFB4L+bUsq98GaxRlUODGV7s9OwPztTQtcxUl5p
-         R3tMFconIN91aGS5dVVjbko+vG16iqfboSDn3y/xCIw15+FbNcxec6KX2jBIZWkqQ8PP
-         lOtg==
+        d=atishpatra.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3FeiA79iLSDi0k0ZMiFHmOL8NHbfXhIuWSoTn/fGVeY=;
+        b=ZclT1m870hHFi+lNdB6+VkCpGEahDMU00K4AuTfI994iegwXHwBXf6+iWDUUY1LGyR
+         XFQH3YCADT7wCjJhqwG6cxOmKdutCmhDRQTxpSaqhujCxhiAqHojoEXzcYSryf/Aa+ym
+         WgChKCCtgJxmsswJzN5qFl0y+bHQj0H5ecmf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=u6IfnsP0ojYs9bBbfSN2AV8/9g+W1u8UiUTHBbYsgGw=;
-        b=kSIMsq5xK6kq9VvawvIwyxVfJkth9f17XLD6cKjeRHXGD3pEavmZpvsrYLam9Dw9KJ
-         gYICDNPSSNFQBMXFAjJmaqywDcShBW8lnJpZYnV0gjrKCTq44ype62MOA1ZXngyd4FJf
-         +Wv/e39x1py8/a2uhzV2oi8/qQZnBGjDvirERWT9e7h4yRZEvbUWpLdbP5I8xUcOQoUF
-         IWvTZwqNenMksYJvuF+QyViocBJEArowwaYGzhSjkZ1+SLuo6rYw3U0gvUvpXxX88aM3
-         xPDI2mcpNZnJ4BdWWFuXAeVNO2gNCkBLF9eETJPPVLY3g7ujak1Q7w0b32+/xc2OTnvo
-         pH9A==
-X-Gm-Message-State: AOAM532p71Juc03sTv3wimuJOwT3upXgZ+1heJUnsRoC3832WdQPMeUH
-        aY4t0AuNe1oB8WmmYHuJOfo5HA==
-X-Google-Smtp-Source: ABdhPJwxIcjG3H2Xj53pz2Rdq3hRXSSTEx1KT0ox4L+e0zlymbOJcMAKaks/kgaUcljk1dDsbkcayw==
-X-Received: by 2002:aa7:94a2:0:b029:1b8:eba7:773e with SMTP id a2-20020aa794a20000b02901b8eba7773emr19587102pfl.51.1612817411612;
-        Mon, 08 Feb 2021 12:50:11 -0800 (PST)
-Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id o4sm164662pjs.57.2021.02.08.12.50.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 12:50:11 -0800 (PST)
-Date:   Mon, 8 Feb 2021 13:50:09 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Leo Yan <leo.yan@linaro.org>
-Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 8/8] Documentation: coresight: Add PID tracing
- description
-Message-ID: <20210208205009.GF2077938@xps15>
-References: <20210206150833.42120-1-leo.yan@linaro.org>
- <20210206150833.42120-9-leo.yan@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3FeiA79iLSDi0k0ZMiFHmOL8NHbfXhIuWSoTn/fGVeY=;
+        b=iVhfygIXEYzssAZ8F9kCJfQE8/fCLBAMvaZN0bjbptbz4i4ydaFQHfAWxGcWvNoVSu
+         p+rnR0+cu83xcm4OXUPMoq/R/po9253lcYXe1caZbqTfi+OGK1yy2XEql/0fbutmQeQ6
+         MFQApS6nI/YZchsGqRreSBMh05je8yJOivkaEd1MnnNE8t8PXniSoE2rTV+jlqTUiWz9
+         S328YczsXsyJI2ceetYn0KHfY1JygqiHxPCdmL+MW5HtTsz/L8vr8xS/D7L/lSOpLjJ5
+         5RW6WeH1z4Uev3X9Zd4WrI5/RKiF8mHd+a22InvOr9tRVdq0vhDkDbTV5rYtqFrghtEd
+         Yjhw==
+X-Gm-Message-State: AOAM530SWRsPcNsDGTG8La03D5Mt3yS3p9/SYLOx+NDapFbzYlbrdfD8
+        cnvXmRC/Fd9AdBFXKqkAF5yS6RAKxMcnYSgz1s/7
+X-Google-Smtp-Source: ABdhPJy0kax2flx8hj7WBbhdgj5nWwuM1G6DARrTIESg+pfqzKkTAS3xb9t2X4Tbcm8zJFirRtRmlKFMR1eDtkR0g5M=
+X-Received: by 2002:a05:6602:2d4d:: with SMTP id d13mr16157926iow.0.1612818857262;
+ Mon, 08 Feb 2021 13:14:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210206150833.42120-9-leo.yan@linaro.org>
+References: <20210206100115.58074-1-xypron.glpk@gmx.de>
+In-Reply-To: <20210206100115.58074-1-xypron.glpk@gmx.de>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Mon, 8 Feb 2021 13:14:06 -0800
+Message-ID: <CAOnJCUJ+CvBHt1MXzGn2Hmc2J-NZYdxf4MGka7sh1SmozTbWCg@mail.gmail.com>
+Subject: Re: [PATCH] docs: update EFI stub description
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 06, 2021 at 11:08:33PM +0800, Leo Yan wrote:
-> After support the PID tracing for the kernel in EL1 or EL2, the usage
-> gets more complicated.
-> 
-> This patch gives description for the PMU formats of contextID configs,
-> this can help users to understand how to control the knobs for PID
-> tracing when the kernel is in different ELs.
-> 
-> Signed-off-by: Leo Yan <leo.yan@linaro.org>
-
-As I indicated I have picked up the kernel patches in this set and there should
-be a new patchset sent to Arnaldo.  The only thing left is this patch and I will
-give time to Mike and Suzuki to look at it before I add it to my tree.
-
-Thanks,
-Mathieu
-
+On Sat, Feb 6, 2021 at 2:02 AM Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+>
+> * Mention RISC-V.
+> * Update code references.
+> * initrd= does not specify a path relative on the ESP but to the partition
+>   from which the EFI stub was loaded (as specified in the loaded image
+>   protocol).
+> * Mention that ACPI tables and device trees are alternatives.
+> * Provide the FDT GUID.
+>
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
 > ---
->  Documentation/trace/coresight/coresight.rst | 32 +++++++++++++++++++++
->  1 file changed, 32 insertions(+)
-> 
-> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> index 0b73acb44efa..169749efd8d1 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -512,6 +512,38 @@ The --itrace option controls the type and frequency of synthesized events
->  Note that only 64-bit programs are currently supported - further work is
->  required to support instruction decode of 32-bit Arm programs.
->  
-> +2.2) Tracing PID
+>  Documentation/admin-guide/efi-stub.rst | 47 +++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+> index 833edb0d0bc4..9e1bb79e8655 100644
+> --- a/Documentation/admin-guide/efi-stub.rst
+> +++ b/Documentation/admin-guide/efi-stub.rst
+> @@ -8,15 +8,20 @@ it as an EFI executable. The code that modifies the bzImage header,
+>  along with the EFI-specific entry point that the firmware loader
+>  jumps to are collectively known as the "EFI boot stub", and live in
+>  arch/x86/boot/header.S and arch/x86/boot/compressed/eboot.c,
+> -respectively. For ARM the EFI stub is implemented in
+> -arch/arm/boot/compressed/efi-header.S and
+> -arch/arm/boot/compressed/efi-stub.c. EFI stub code that is shared
+> -between architectures is in drivers/firmware/efi/libstub.
+> +respectively. For ARM the EFI stub entry point is implemented in
+> +arch/arm/boot/compressed/efi-header.S.
+>
+> -For arm64, there is no compressed kernel support, so the Image itself
+> -masquerades as a PE/COFF image and the EFI stub is linked into the
+> -kernel. The arm64 EFI stub lives in arch/arm64/kernel/efi-entry.S
+> -and drivers/firmware/efi/libstub/arm64-stub.c.
+> +For ARM64 and RISC-V, there is no compressed kernel support, so the Image
+> +itself masquerades as a PE/COFF image and the EFI stub is linked into the
+> +kernel. The EFI stub entry point is in  arch/ARM64/kernel/efi-entry.S for
+> +ARM64 and in arch/riscv/kernel/efi-header.S for RISC-V.
 > +
-> +The kernel can be built to write the PID value into the PE ContextID registers.
-> +For a kernel running at EL1, the PID is stored in CONTEXTIDR_EL1.  A PE may
-> +implement Arm Virtualization Host Extensions (VHE), which the kernel can
-> +run at EL2 as a virtualisation host; in this case, the PID value is stored in
-> +CONTEXTIDR_EL2.
+> +EFI stub code that is shared between architectures is in
+> +drivers/firmware/efi/libstub.
 > +
-> +perf provides PMU formats that program the ETM to insert these values into the
-> +trace data; the PMU formats are defined as below:
-> +
-> +  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-> +                kernel is running at EL1, "contextid1" enables the PID
-> +                tracing; when the kernel is running at EL2, this enables
-> +                tracing the PID of guest applications.
-> +
-> +  "contextid2": Only usable when the kernel is running at EL2.  When
-> +                selected, enables PID tracing on EL2 kernel.
-> +
-> +  "contextid":  Will be an alias for the option that enables PID
-> +                tracing.  I.e,
-> +                contextid == contextid1, on EL1 kernel.
-> +                contextid == contextid2, on EL2 kernel.
-> +
-> +perf will always enable PID tracing at the relevant EL, this is accomplished by
-> +automatically enable the "contextid" config - but for EL2 it is possible to make
-> +specific adjustments using configs "contextid1" and "contextid2", E.g. if a user
-> +wants to trace PIDs for both host and guest, the two configs "contextid1" and
-> +"contextid2" can be set at the same time:
-> +
-> +  perf record -e cs_etm/contextid1,contextid2/u -- vm
-> +
->  
->  Generating coverage files for Feedback Directed Optimization: AutoFDO
->  ---------------------------------------------------------------------
-> -- 
-> 2.25.1
-> 
+> +The common secondary entry point efi_pe_entry() for ARM, ARM64, and RISC-V
+> +into the stub is in drivers/firmware/efi/libstub/efi-stub.c while x86 uses
+> +drivers/firmware/efi/libstub/x86-stub.c.
+>
+>  By using the EFI boot stub it's possible to boot a Linux kernel
+>  without the use of a conventional EFI boot loader, such as grub or
+> @@ -35,7 +40,7 @@ the extension the EFI firmware loader will refuse to execute it. It's
+>  not possible to execute bzImage.efi from the usual Linux file systems
+>  because EFI firmware doesn't have support for them. For ARM the
+>  arch/arm/boot/zImage should be copied to the system partition, and it
+> -may not need to be renamed. Similarly for arm64, arch/arm64/boot/Image
+> +may not need to be renamed. Similarly for ARM64, arch/arm64/boot/Image
+>  should be copied but not necessarily renamed.
+>
+
+Should we change the title of the paragraph to something like "How to
+install EFI image"
+ RISC-V image location can be added as well.
+>
+> @@ -55,10 +60,11 @@ multiple initrd files using the "initrd=" option. This is the only EFI
+>  stub-specific command line parameter, everything else is passed to the
+>  kernel when it boots.
+>
+> -The path to the initrd file must be an absolute path from the
+> -beginning of the ESP, relative path names do not work. Also, the path
+> -is an EFI-style path and directory elements must be separated with
+> -backslashes (\). For example, given the following directory layout::
+> +The path to the initrd file must be an absolute path from the beginning of
+> +the partition from which the kernel was loaded, relative path names do not
+> +work. Also, the path is an EFI-style path and directory elements must be
+> +separated with backslashes (\). For example, given the following directory
+> +layout::
+>
+>    fs0:>
+>         Kernels\
+> @@ -83,18 +89,19 @@ is passed to bzImage.efi.
+>  The "dtb=" option
+>  -----------------
+>
+> -For the ARM and arm64 architectures, a device tree must be provided to
+> -the kernel. Normally firmware shall supply the device tree via the
+> -EFI CONFIGURATION TABLE. However, the "dtb=" command line option can
+> -be used to override the firmware supplied device tree, or to supply
+> -one when firmware is unable to.
+> +If ACPI tables are not available, a device tree must be provided to the
+> +kernel. Normally the firmware shall supply the device tree as an EFI
+> +configuration table with GUID b1b621d5-f19c-41a5-830b-d9152c69aae0.
+> +However, the "dtb=" command line option can be used to override the
+> +firmware supplied device tree, or to supply one when firmware is unable
+> +to.
+>
+>  Please note: Firmware adds runtime configuration information to the
+>  device tree before booting the kernel. If dtb= is used to override
+>  the device tree, then any runtime data provided by firmware will be
+>  lost. The dtb= option should only be used either as a debug tool, or
+> -as a last resort when a device tree is not provided in the EFI
+> -CONFIGURATION TABLE.
+> +as a last resort when a device tree is not provided as an EFI
+> +configuration table.
+>
+
+Some more clarification is required here as this option is only
+enabled with EFI_ARMSTUB_DTB_LOADER.
+That config option is not enabled for RISC-V to avoid legacy.
+
+>  "dtb=" is processed in the same manner as the "initrd=" option that is
+>  described above.
+> --
+> 2.30.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+
+
+-- 
+Regards,
+Atish
