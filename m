@@ -2,371 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED5FC433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 03:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0104EC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 06:48:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DB3B64E87
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 03:56:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CF2A64E6C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 06:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbhBHD4S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Feb 2021 22:56:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47992 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbhBHD4R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Feb 2021 22:56:17 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB11C06174A;
-        Sun,  7 Feb 2021 19:55:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=r5e0pP3lJ6oc8hBEATfesxmMHxx1NyuwyNkkdpPRZS0=; b=rpKYMsoFiCzLmEQ2Dvo4qBjVyl
-        t61Uuhp0KMj3ILsCvBeXtxoklLp7JJ2p7h6fkLvu2auv0bqoV9OnAoRK1DM74Z4vWvsLyW9c2SLwP
-        yL78Ap7DKAKUg0mtrx7ys2YbEXhuW/+C2sZ4kgbsMatwdGyXlsx2zL5kuTclcx9q4kT2pJhIOueK5
-        5lm5IGrupPAzuLcwXCNpWFZK/R5MRVZtJIZWssW5tA1DExmvMJ8VrjLCU43dGoVqD1WksAw9eVToj
-        KUxhs/ENkjJDhr6WtV7xdYt7/I2LK39hxC9RwMD1tmOZvUyGSz3jbeWZ8/RokMx6tcHNK4l1BOV6w
-        qpuezpeA==;
-Received: from [2601:1c0:6280:3f0::b879]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l8xeA-0005yg-37; Mon, 08 Feb 2021 03:55:34 +0000
-Subject: Re: [PATCH v3 1/7] seqnum_ops: Introduce Sequence Number Ops
-To:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net,
-        gregkh@linuxfoundation.org, peterz@infradead.org,
-        keescook@chromium.org, rafael@kernel.org, lenb@kernel.org,
-        james.morse@arm.com, tony.luck@intel.com, bp@alien8.de
-Cc:     devel@driverdev.osuosl.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <cover.1612314468.git.skhan@linuxfoundation.org>
- <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8f64e963-e0d6-e9a2-41c3-206bed440cde@infradead.org>
-Date:   Sun, 7 Feb 2021 19:55:28 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229725AbhBHGsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 01:48:00 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12148 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229988AbhBHGrw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 01:47:52 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DYxNx3JPHz165ZG;
+        Mon,  8 Feb 2021 14:45:37 +0800 (CST)
+Received: from [10.174.176.61] (10.174.176.61) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 8 Feb 2021 14:46:53 +0800
+Subject: Re: [PATCH v14 00/11] support reserving crashkernel above 4G on arm64
+ kdump
+To:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
+        <dyoung@redhat.com>, <bhe@redhat.com>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <nsaenzjulienne@suse.de>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <bhsharma@redhat.com>,
+        <prabhakar.pkin@gmail.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+CC:     <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
+        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <3b3cbe38-69bc-bbc5-2d75-d2ce3dd07e4f@huawei.com>
+Date:   Mon, 8 Feb 2021 14:46:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <23f6347a7bb9f902babe7351f71b23644035673d.1612314468.git.skhan@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20210130071025.65258-1-chenzhou10@huawei.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.61]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-Comments are inline.
+Hi all,
 
-On 2/3/21 10:11 AM, Shuah Khan wrote:
-> Sequence Number api provides interfaces for unsigned atomic up counters.
-> 
-> There are a number of atomic_t usages in the kernel where atomic_t api
-> is used for counting sequence numbers and other statistical counters.
-> Several of these usages, convert atomic_read() and atomic_inc_return()
-> return values to unsigned. Introducing sequence number ops supports
-> these use-cases with a standard core-api.
-> 
-> Sequence Number ops provide interfaces to initialize, increment and get
-> the sequence number. These ops also check for overflow and log message to
-> indicate when overflow occurs.
-> 
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
->  Documentation/core-api/index.rst      |   1 +
->  Documentation/core-api/seqnum_ops.rst |  53 ++++++++++
->  MAINTAINERS                           |   7 ++
->  include/linux/seqnum_ops.h            | 129 +++++++++++++++++++++++++
->  lib/Kconfig                           |   9 ++
->  lib/Makefile                          |   1 +
->  lib/test_seqnum_ops.c                 | 133 ++++++++++++++++++++++++++
->  7 files changed, 333 insertions(+)
->  create mode 100644 Documentation/core-api/seqnum_ops.rst
->  create mode 100644 include/linux/seqnum_ops.h
->  create mode 100644 lib/test_seqnum_ops.c
+Friendly ping...
 
 
-> diff --git a/Documentation/core-api/seqnum_ops.rst b/Documentation/core-api/seqnum_ops.rst
-> new file mode 100644
-> index 000000000000..ed4eba394799
-> --- /dev/null
-> +++ b/Documentation/core-api/seqnum_ops.rst
-> @@ -0,0 +1,53 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: <isonum.txt>
-> +
-> +.. _seqnum_ops:
-> +
-> +==========================
-> +Sequence Number Operations
-> +==========================
-> +
-> +:Author: Shuah Khan
-> +:Copyright: |copy| 2021, The Linux Foundation
-> +:Copyright: |copy| 2021, Shuah Khan <skhan@linuxfoundation.org>
-> +
-> +Sequence Number api provides interfaces for unsigned up counters.
-
-                   API
-
-> +
-> +Sequence Number Ops
-> +===================
-> +
-> +seqnum32 and seqnum64 types support implementing unsigned up counters. ::
-> +
-> +        struct seqnum32 { u32 seqnum; };
-> +        struct seqnum64 { u64 seqnum; };
-> +
-> +Initializers
-> +------------
-> +
-> +Interfaces for initializing sequence numbers. ::
-> +
-> +        #define SEQNUM_INIT(i)    { .seqnum = i }
-> +        seqnum32_init(seqnum, val)
-> +        seqnum64_init(seqnum, val)
-> +
-> +Increment interface
-> +-------------------
-> +
-> +Increments sequence number and returns the new value. Checks for overflow
-> +conditions and logs message when overflow occurs. This check is intended
-> +to help catch cases where overflow could lead to problems. ::
-> +
-> +        seqnum32_inc(seqnum): Calls atomic_inc_return(seqnum).
-> +        seqnum64_inc(seqnum): Calls atomic64_inc_return(seqnum).
-> +
-> +Return/get value interface
-> +--------------------------
-> +
-> +Returns sequence number value. ::
-> +
-> +        seqnum32_get() - return seqnum value.
-> +        seqnum64_get() - return seqnum value.
-> +
-> +.. warning::
-> +        seqnum32 wraps around to INT_MIN when it overflows.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cc1e6a5ee6e6..f9fe1438a8cd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16235,6 +16235,13 @@ S:	Maintained
->  F:	Documentation/fb/sm712fb.rst
->  F:	drivers/video/fbdev/sm712*
->  
-> +SEQNUM OPS
-> +M:	Shuah Khan <skhan@linuxfoundation.org>
-> +L:	linux-kernel@vger.kernel.org
-> +S:	Maintained
-> +F:	include/linux/seqnum_ops.h
-> +F:	lib/test_seqnum_ops.c
-> +
->  SIMPLE FIRMWARE INTERFACE (SFI)
->  S:	Obsolete
->  W:	http://simplefirmware.org/
-> diff --git a/include/linux/seqnum_ops.h b/include/linux/seqnum_ops.h
-> new file mode 100644
-> index 000000000000..e8d8481445d3
-> --- /dev/null
-> +++ b/include/linux/seqnum_ops.h
-> @@ -0,0 +1,129 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * seqnum_ops.h - Interfaces for unsigned atomic sequential up counters.
-> + *
-> + * Copyright (c) 2021 Shuah Khan <skhan@linuxfoundation.org>
-> + * Copyright (c) 2021 The Linux Foundation
-> + *
-> + * Sequence Number functions provide support for unsgined atomic up
-
-                                                    unsigned
-
-> + * counters.
-> + *
-> + * The interface provides:
-> + * seqnumu32 & seqnumu64 functions:
-> + *	initialization
-> + *	increment and return
-> + *
-> + * seqnumu32 and seqnumu64 functions leverage/use atomic*_t ops to
-> + * implement support for unsigned atomic up counters.
-> + *
-> + * Reference and API guide:
-> + *	Documentation/core-api/seqnum_ops.rst for more information.
-> + */
-> +
-> +#ifndef __LINUX_SEQNUM_OPS_H
-> +#define __LINUX_SEQNUM_OPS_H
-> +
-> +#include <linux/atomic.h>
-> +
-> +/**
-> + * struct seqnum32 - Sequence number atomic counter
-> + * @seqnum: atomic_t
-> + *
-> + **/
-> +struct seqnum32 {
-> +	u32 seqnum;
-> +};
-> +
-> +#define SEQNUM_INIT(i)		{ .seqnum = i }
-> +
-> +/*
-> + * seqnum32_init() - initialize seqnum value
-> + * @seq: struct seqnum32 pointer
-> + *
-> + */
-> +static inline void seqnum32_init(struct seqnum32 *seq, u32 val)
-> +{
-> +	seq->seqnum = val;
-> +}
-> +
-> +/*
-> + * seqnum32_inc() - increment seqnum value and return the new value
-> + * @seq: struct seqnum32 pointer
-> + *
-> + * Return u32
-
-It would be good to convert that to kernel-doc notation.
-
-> + */
-> +static inline u32 seqnum32_inc(struct seqnum32 *seq)
-> +{
-> +	atomic_t val = ATOMIC_INIT(seq->seqnum);
-> +
-> +	seq->seqnum = (u32) atomic_inc_return(&val);
-> +	if (seq->seqnum >= UINT_MAX)
-> +		pr_info("Sequence Number overflow %u detected\n",
-> +			seq->seqnum);
-> +	return seq->seqnum;
-> +}
-> +
-> +/*
-> + * seqnum32_get() - get seqnum value
-> + * @seq: struct seqnum32 pointer
-> + *
-> + * Return u32
-> + */
-> +static inline u32 seqnum32_get(struct seqnum32 *seq)
-> +{
-> +	return seq->seqnum;
-> +}
-> +
-> +/*
-> + * struct seqnum64 - Sequential/Statistical atomic counter
-> + * @seq: atomic64_t
-> + *
-> + */
-> +struct seqnum64 {
-> +	u64 seqnum;
-> +};
-> +
-> +/* Add to a global include/vdso/limits.h and fix all other UINT64_MAX
-> + * duplicate defines?
-> + */
-> +#define SEQ_UINT64_MAX	((u64)(~((u64) 0)))	/* 0xFFFFFFFFFFFFFFFF */
-> +
-> +/*
-> + * seqnum64_init() - initialize seqnum value
-> + * @seq: struct seqnum64 pointer
-> + *
-> + */
-
-and kernel-doc there also.
-
-> +static inline void seqnum64_init(struct seqnum64 *seq, u64 val)
-> +{
-> +	seq->seqnum = val;
-> +}
-> +
-> +/*
-> + * seqnum64_inc() - increment seqnum value and return the new value
-> + * @seq: struct seqnum64 pointer
-> + *
-> + * Return u64
-> + */
-> +static inline u64 seqnum64_inc(struct seqnum64 *seq)
-> +{
-> +	atomic64_t val = ATOMIC_INIT(seq->seqnum);
-> +
-> +	seq->seqnum = (u64) atomic64_inc_return(&val);
-> +	if (seq->seqnum >= SEQ_UINT64_MAX)
-> +		pr_info("Sequence Number overflow %llu detected\n",
-> +			seq->seqnum);
-> +	return seq->seqnum;
-> +}
-> +
-> +/*
-> + * seqnum64_get() - get seqnum value
-> + * @seq: struct seqnum64 pointer
-> + *
-> + * Return u64
-> + */
-> +static inline u64 seqnum64_get(struct seqnum64 *seq)
-> +{
-> +	return (u64) seq->seqnum;
-> +}
-> +
-> +#endif /* __LINUX_SEQNUM_OPS_H */
-
-
-> diff --git a/lib/test_seqnum_ops.c b/lib/test_seqnum_ops.c
-> new file mode 100644
-> index 000000000000..173278314f26
-> --- /dev/null
-> +++ b/lib/test_seqnum_ops.c
-> @@ -0,0 +1,133 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * test_seqnum_ops.c - Kernel module for testing Seqnum API
-> + *
-> + * Copyright (c) 2021 Shuah Khan <skhan@linuxfoundation.org>
-> + * Copyright (c) 2021 The Linux Foundation
-> + *
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/module.h>
-> +#include <linux/seqnum_ops.h>
-> +
+On 2021/1/30 15:10, Chen Zhou wrote:
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
 >
-...
-
-> +static void test_seqnum64(void)
-> +{
-> +	u64 start_val = 0;
-> +	struct seqnum64 seq = SEQNUM_INIT(start_val);
-> +	u64 end_val;
-> +
-> +	end_val = seqnum64_inc(&seq);
-> +	test_seqnum64_result("Test increment",
-> +			     start_val, end_val, start_val+1);
-> +
-> +	/* Initialize sequence number to 0 */
-> +	seqnum64_init(&seq, start_val);
-> +	end_val = seqnum64_inc(&seq);
-> +
-> +	/* if seqnum642_init() works correctly end_val should be 1 */
-
-	      seqnum64_init()
-AFAICT.
-
-> +	test_seqnum64_result("Test init", start_val, end_val, 1);
-> +	/* seqnum64_get() test for seqnum value == 1 */
-> +	start_val = end_val = seqnum64_get(&seq);
-> +	test_seqnum64_result("Test get", start_val, end_val, 1);
-> +}
-> +
-
-
--- 
-~Randy
+> To solve these issues, change the behavior of crashkernel=X.
+> crashkernel=X tries low allocation in DMA zone and fall back to high
+> allocation if it fails.
+>
+> We can also use "crashkernel=X,high" to select a high region above
+> DMA zone, which also tries to allocate at least 256M low memory in
+> DMA zone automatically and "crashkernel=Y,low" can be used to allocate
+> specified size low memory.
+>
+> When reserving crashkernel in high memory, some low memory is reserved
+> for crash dump kernel devices. So there may be two regions reserved for
+> crash dump kernel.
+> In order to distinct from the high region and make no effect to the use
+> of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> and pass the low region by reusing DT property
+> "linux,usable-memory-range". We made the low memory region as the last
+> range of "linux,usable-memory-range" to keep compatibility with existing
+> user-space and older kdump kernels.
+>
+> Besides, we need to modify kexec-tools:
+> arm64: support more than one crash kernel regions(see [1])
+>
+> Another update is document about DT property 'linux,usable-memory-range':
+> schemas: update 'linux,usable-memory-range' node schema(see [2])
+>
+> This patchset contains the following eleven patches:
+> 0001-x86-kdump-replace-the-hard-coded-alignment-with-macr.patch
+> 0002-x86-kdump-make-the-lower-bound-of-crash-kernel-reser.patch
+> 0003-x86-kdump-use-macro-CRASH_ADDR_LOW_MAX-in-functions-.patch
+> 0004-x86-kdump-move-xen_pv_domain-check-and-insert_resour.patch
+> 0005-x86-kdump-move-reserve_crashkernel-_low-into-crash_c.patch
+> 0006-x86-elf-Move-vmcore_elf_check_arch_cross-to-arch-x86.patch
+> 0007-arm64-kdump-introduce-some-macroes-for-crash-kernel-.patch
+> 0008-arm64-kdump-reimplement-crashkernel-X.patch
+> 0009-x86-arm64-Add-ARCH_WANT_RESERVE_CRASH_KERNEL-config.patch
+> 0010-arm64-kdump-add-memory-for-devices-by-DT-property-li.patch
+> 0011-kdump-update-Documentation-about-crashkernel.patch
+>
+> 0001-0004 are some x86 cleanups which prepares for making
+> functionsreserve_crashkernel[_low]() generic.
+> 0005 makes functions reserve_crashkernel[_low]() generic.
+> 0006 fix compiling warning.
+> 0007-0009 reimplements arm64 crashkernel=X.
+> 0010 adds memory for devices by DT property linux,usable-memory-range.
+> 0011 updates the doc.
+>
+> Changes since [v13]
+> - Rebased on top of 5.11-rc5.
+> - Introduce config CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL.
+> Since reserve_crashkernel[_low]() implementations are quite similar on
+> other architectures, so have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in
+> arch/Kconfig and select this by X86 and ARM64.
+> - Some minor cleanup.
+>
+> Changes since [v12]
+> - Rebased on top of 5.10-rc1.
+> - Keep CRASH_ALIGN as 16M suggested by Dave.
+> - Drop patch "kdump: add threshold for the required memory".
+> - Add Tested-by from John.
+>
+> Changes since [v11]
+> - Rebased on top of 5.9-rc4.
+> - Make the function reserve_crashkernel() of x86 generic.
+> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
+> and arm64 use the generic version to reimplement crashkernel=X.
+>
+> Changes since [v10]
+> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
+>
+> Changes since [v9]
+> - Patch 1 add Acked-by from Dave.
+> - Update patch 5 according to Dave's comments.
+> - Update chosen schema.
+>
+> Changes since [v8]
+> - Reuse DT property "linux,usable-memory-range".
+> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
+> memory region.
+> - Fix kdump broken with ZONE_DMA reintroduced.
+> - Update chosen schema.
+>
+> Changes since [v7]
+> - Move x86 CRASH_ALIGN to 2M
+> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
+> - Update Documentation/devicetree/bindings/chosen.txt.
+> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
+> suggested by Arnd.
+> - Add Tested-by from Jhon and pk.
+>
+> Changes since [v6]
+> - Fix build errors reported by kbuild test robot.
+>
+> Changes since [v5]
+> - Move reserve_crashkernel_low() into kernel/crash_core.c.
+> - Delete crashkernel=X,high.
+> - Modify crashkernel=X,low.
+> If crashkernel=X,low is specified simultaneously, reserve spcified size low
+> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
+> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
+> pass to crash dump kernel by DT property "linux,low-memory-range".
+> - Update Documentation/admin-guide/kdump/kdump.rst.
+>
+> Changes since [v4]
+> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
+>
+> Changes since [v3]
+> - Add memblock_cap_memory_ranges back for multiple ranges.
+> - Fix some compiling warnings.
+>
+> Changes since [v2]
+> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
+> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
+> patch.
+>
+> Changes since [v1]:
+> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
+> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
+> in fdt_enforce_memory_region().
+> There are at most two crash kernel regions, for two crash kernel regions
+> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
+> and then remove the memory range in the middle.
+>
+> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
+> [2]: https://github.com/robherring/dt-schema/pull/19 
+> [v1]: https://lkml.org/lkml/2019/4/2/1174
+> [v2]: https://lkml.org/lkml/2019/4/9/86
+> [v3]: https://lkml.org/lkml/2019/4/9/306
+> [v4]: https://lkml.org/lkml/2019/4/15/273
+> [v5]: https://lkml.org/lkml/2019/5/6/1360
+> [v6]: https://lkml.org/lkml/2019/8/30/142
+> [v7]: https://lkml.org/lkml/2019/12/23/411
+> [v8]: https://lkml.org/lkml/2020/5/21/213
+> [v9]: https://lkml.org/lkml/2020/6/28/73
+> [v10]: https://lkml.org/lkml/2020/7/2/1443
+> [v11]: https://lkml.org/lkml/2020/8/1/150
+> [v12]: https://lkml.org/lkml/2020/9/7/1037
+> [v13]: https://lkml.org/lkml/2020/10/31/34
+>
+> Chen Zhou (11):
+>   x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
+>   x86: kdump: make the lower bound of crash kernel reservation
+>     consistent
+>   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
+>     reserve_crashkernel()
+>   x86: kdump: move xen_pv_domain() check and insert_resource() to
+>     setup_arch()
+>   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
+>   x86/elf: Move vmcore_elf_check_arch_cross to
+>     arch/x86/include/asm/elf.h
+>   arm64: kdump: introduce some macroes for crash kernel reservation
+>   arm64: kdump: reimplement crashkernel=X
+>   x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL config
+>   arm64: kdump: add memory for devices by DT property
+>     linux,usable-memory-range
+>   kdump: update Documentation about crashkernel
+>
+>  Documentation/admin-guide/kdump/kdump.rst     |  22 ++-
+>  .../admin-guide/kernel-parameters.txt         |  11 +-
+>  arch/Kconfig                                  |   3 +
+>  arch/arm64/Kconfig                            |   1 +
+>  arch/arm64/include/asm/kexec.h                |  10 ++
+>  arch/arm64/kernel/setup.c                     |  13 +-
+>  arch/arm64/mm/init.c                          | 111 +++++-------
+>  arch/x86/Kconfig                              |   2 +
+>  arch/x86/include/asm/elf.h                    |   3 +
+>  arch/x86/include/asm/kexec.h                  |  31 +++-
+>  arch/x86/kernel/setup.c                       | 163 ++----------------
+>  include/linux/crash_core.h                    |   3 +
+>  include/linux/kexec.h                         |   2 -
+>  kernel/crash_core.c                           | 156 +++++++++++++++++
+>  kernel/kexec_core.c                           |  17 --
+>  15 files changed, 303 insertions(+), 245 deletions(-)
+>
 
