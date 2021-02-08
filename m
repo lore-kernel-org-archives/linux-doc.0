@@ -2,134 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68CDAC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 23:04:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 397F3C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 23:12:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11E0E64E82
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 23:04:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D444D64E8C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 23:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbhBHXEf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 18:04:35 -0500
-Received: from mga11.intel.com ([192.55.52.93]:39580 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229609AbhBHXEc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Feb 2021 18:04:32 -0500
-IronPort-SDR: uM2xztBP8WqeggSLNW9fPwP7L5HM9d0qFDFdPf0tKGf8TvcT+UYWUi4c3pBoYLAAqXqxVIgl/q
- hfYneGTf7k5Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="178284707"
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="178284707"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 15:03:50 -0800
-IronPort-SDR: 6GEVXz/VgALvszVbd0TdqgdmvophOiP8mEI+0QbfRkrsOKkVyCH9sNyQbMCxLLxK5UlgBJvyVo
- O6/xZ0f0qpKg==
-X-IronPort-AV: E=Sophos;i="5.81,163,1610438400"; 
-   d="scan'208";a="358962658"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.251.11.33]) ([10.251.11.33])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 15:03:48 -0800
-Subject: Re: [PATCH v19 08/25] x86/mm: Introduce _PAGE_COW
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        id S229621AbhBHXMe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 18:12:34 -0500
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:41681 "EHLO
+        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229615AbhBHXMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 18:12:32 -0500
+Received: by mail-wr1-f44.google.com with SMTP id n6so6380398wrv.8;
+        Mon, 08 Feb 2021 15:12:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bv0dTMtA9ppfQnSKtZdpg4E99WwWlpYYeDwveeo27y0=;
+        b=LxDhnEcW8JWPlMYcFv7GH87onKgr1WqKMp5INUtY7U7zbwD1m09GasFSgnZIYbl8Vc
+         yQ4QfJuI4+eznvMNeBlaLRMUTba8wOGkVd0GA28EyzssOTcy0dW7aA1/Wvbe8fvk+HBc
+         1orxsvh08OC1kRlR4EeRW8EHyS1xIPUPQJSbjKjkcIgYQ+DSTInl2d3k2mYwe4GDSdgH
+         gl+BH12WeaZ4M51VF0ZLLI/6J52Sl+Ru/jLBk6TepgKrIU0cGWTrxHkFryLKXlHn5iGh
+         wPjznBo8nuVxfREuUhOooeb3xRhqd1XLdXuW10dy7gynuFuamquH7NvCqryDAX1K0g7n
+         ihPA==
+X-Gm-Message-State: AOAM533e22YuGfBJc/Vp7kzDgFH21OMHXfzNn2y/BmGTbBx4JgTSrEAa
+        ybrebFDDn/yNfXA+PaQeGWgouJTjfsRCPJgi
+X-Google-Smtp-Source: ABdhPJw6d4JBqgH/iMVqIVlgRbPTrlG64dTk/g4NiWLR01STGosEAkq245Tx8wPcoH9hNahYyOke9w==
+X-Received: by 2002:a5d:544b:: with SMTP id w11mr22702202wrv.1.1612825910658;
+        Mon, 08 Feb 2021 15:11:50 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id z63sm1255067wme.8.2021.02.08.15.11.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 15:11:50 -0800 (PST)
+Date:   Tue, 9 Feb 2021 00:11:48 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-9-yu-cheng.yu@intel.com>
- <202102041215.B54FCA552F@keescook>
- <2e43bf0b-e1a9-99f6-8d5d-d6e6886b4217@intel.com>
- <7381d8c1-5e1c-2667-7cb8-0a99f2c79b6d@intel.com>
-Message-ID: <ce8e9493-4590-84dc-bc70-1105a53df3eb@intel.com>
-Date:   Mon, 8 Feb 2021 15:03:47 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RESEND v4 4/6] Documentation: misc-devices: Add Documentation
+ for dw-xdata-pcie driver
+Message-ID: <YCHFNKb5TcCYj5Uy@rocinante>
+References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
+ <2cc3a3a324d299a096f1d3e682b2039d3537b013.1612390291.git.gustavo.pimentel@synopsys.com>
+ <YB8mwrhOZ2kPL3Oo@rocinante>
+ <DM5PR12MB18357C5DF57458FD4ECA9E9BDA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <7381d8c1-5e1c-2667-7cb8-0a99f2c79b6d@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM5PR12MB18357C5DF57458FD4ECA9E9BDA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/5/2021 10:41 AM, Yu, Yu-cheng wrote:
-> On 2/4/2021 12:27 PM, Dave Hansen wrote:
->> On 2/4/21 12:19 PM, Kees Cook wrote:
->>>> (e) A page where the processor observed a Write=1 PTE, started a 
->>>> write, set
->>>>      Dirty=1, but then observed a Write=0 PTE.  That's possible 
->>>> today, but
->>>>      will not happen on processors that support shadow stack.
->>> What happens for "e" with/without CET? It sounds like direct writes to
->>> such pages will be (correctly) rejected by the MMU?
->>
->> A page fault would be generated regardless of CET support.
->>
->> If CET were not around, the fault would be reported as a present, write
->> fault.
->>
->> If this happened and CET were around (which shouldn't happen in
->> practice, it means we have a hardware issue) a page fault exception is
->> generated. 
-> 
-> Thanks for the clarification.  With or without CET, direct write to 
-> Write=0, Dirty=1 PTE triggers page fault.
-> 
->> Yu-cheng, I'm not sure there's enough debugging around to
->> tell us if this happens.  Would we even notice?
-> 
-> That potential hardware issue is, on a CET-capable system, a processor 
-> writes to a Write=1, Dirty=0 page, and then observes the PTE is Write=0, 
-> Dirty=1.  Let me think about it...
-> 
+Hi Gustavo,
 
-One way to detect the potential issue is adding a check when a 
-non-shadow stack page's PTE goes from RW=0 to RW=1, like the following...
+[...]
+> > When I do the following:
+> > 
+> >   # echo 1 > /sys/kernel/dw-xdata-pcie/write
+> >   # echo 1 > /sys/kernel/dw-xdata-pcie/stop
+> >   # cat /sys/kernel/dw-xdata-pcie/write
+> > 
+> > Would output from cat above simply show "0 MB/s" then?  I wonder how
+> > someone using this new driver could tell whether "write" or "read"
+> > traffic generation has been enabled aside of reading the sysfs files,
+> > would adding "/sys/kernel/dw-xdata-pcie/active" be an overkill here?
+> > 
+> > What do you think?
+> 
+> Yes, it would display 0 MB/s. This driver is to be used mainly by the 
+> Synopsys DesignWare HW prototyping team. I don't think the general public 
+> will be interested or can use this driver, because requires a special HW 
+> block available only for this prototype.
 
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 29aa6f07e3c9..241b94a0fa77 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -405,6 +405,8 @@ static inline pte_t pte_mkyoung(pte_t pte)
-  static inline pte_t pte_mkwrite(pte_t pte)
-  {
-  	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
-+		WARN_ONCE((pte_flags(pte) & (_PAGE_RW | _PAGE_DIRTY)) ==
-+			  _PAGE_DIRTY, "Found transient shadow stack PTE\n");
-  		if (pte_flags(pte) & _PAGE_COW) {
-  			pte = pte_clear_flags(pte, _PAGE_COW);
-  			pte = pte_set_flags(pte, _PAGE_DIRTY);
+Got it.
 
-I run all my routine stress tests with the changes, and do not see any 
-warning triggered.  If this change is desirable, we can probably add 
-#ifdef CONFIG_DEBUG_VM around it and make it a separate patch.
+> I tried to reduce to the minimal the interfaces, to avoid possible 
+> confusion. For instance, even the /sys/kernel/dw-xdata-pcie/stop 
+> interface could be avoided, because on the driver unloading or changing 
+> the between write or read it calls the stop procedure.
 
---
-Yu-cheng
+Oh, OK.
+ 
+> Due to the nature of the HW block, it only can allow the write or the 
+> read at some given moment, therefore based on the last command enable 
+> write or read, we know which mode is this driving working.
+> This driver will be used by the testing team on their automation scripts, 
+> thus they will know exactly the sequence input.
+> 
+> Anyway, thanks for your feedback.
+
+Thank you for taking the time to add more details for me.  Much
+appreciated.
+
+Krzysztof
