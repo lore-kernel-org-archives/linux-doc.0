@@ -2,167 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E85D2C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 21:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 789F6C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 22:54:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A903664E9A
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 21:17:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BF2364DDB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 22:54:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235206AbhBHVRG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 16:17:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235601AbhBHVQe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 16:16:34 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F19C06178B
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 13:15:53 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id b3so18905081wrj.5
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 13:15:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nl24aBu6VlDGNZ7aIznSxL6vPEfdrBS3BpNpZ57YGjw=;
-        b=XqtjWz5JeEz4SxtEHUno0fGRUwKcGm/28uayE8naVV3NhjfgWpBy6C3kFfA1NyCqaB
-         0op1dbvXUucs1zZ4dmzBVjdFwszhdWLrfCy1SEqksUKtppfjt3Wsg0PhXuBhfAjaoA5q
-         l24GYWrqJPmpkNfgBugBs3UGvq0CJGfcjqJOD9fbY0e0PKEZF3wAEgft403iUebRfHUp
-         ar26k7hcvny3Mw5vdWaN3W1VXSGL+9fciG4hthCRBot80fl+J1/ZWwzdjyywp5c4A8kZ
-         gGB1OommyQYpGk7NQfnfXbcSgbjzC0eNsnFnvKO0yWW6YI7OlUd8NktN81cS8C5R9Lci
-         e6uw==
+        id S230479AbhBHWym (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 17:54:42 -0500
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:38789 "EHLO
+        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231193AbhBHWyj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 17:54:39 -0500
+Received: by mail-wr1-f54.google.com with SMTP id b3so19152472wrj.5;
+        Mon, 08 Feb 2021 14:54:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nl24aBu6VlDGNZ7aIznSxL6vPEfdrBS3BpNpZ57YGjw=;
-        b=B9lY2A9NoeQ+mBJQL6PTYXAHe170i0jhrzP0TRV0uHJ0JO11Co0e4VvVSxcoJ/D2+/
-         TdZzLmdb1pHTdehzKLp9UGIcfePOAWItB30qHPn4np6j9PnZyyNjsqHXw6wh1aRMRZwq
-         ivETOvbw3+7D/o62VkDCRa7UbjX8a3cAaku9UFTjHhoCeDi8VZwyhpp5B2wxEoV3cSjT
-         QjPA3jdXGmEdilqna3KIeC6jwKKmFIbhL/chSdcW2ivNOc/AoyppfHacO/JPEZijyv0n
-         GBhyczsdl5umfNjKhtvU3w6+Yh2rwfrEN5Z+G0TlniaL4uZMs1voHoLmhya82CTCRVRk
-         CtJQ==
-X-Gm-Message-State: AOAM531PFb5krraYSbNRae/ZUmRa3ay9ZVC5wQP3lOJgagTQ+mQYJb5o
-        uwueA6xysuSKrxqJekpaA4ZtEGDdtoOnnpWBABeT3w==
-X-Google-Smtp-Source: ABdhPJyA2eBkS3cE7KKbo7Rs9na9pXbaSA+d9pi1IhPdrrbmQPtGARl85bTCVHPU+l8/0llSzvGY35At1dSMEGGGxRw=
-X-Received: by 2002:a5d:54ce:: with SMTP id x14mr12979919wrv.182.1612818952437;
- Mon, 08 Feb 2021 13:15:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20210206150833.42120-1-leo.yan@linaro.org> <20210206150833.42120-9-leo.yan@linaro.org>
- <20210208205009.GF2077938@xps15>
-In-Reply-To: <20210208205009.GF2077938@xps15>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Mon, 8 Feb 2021 21:15:41 +0000
-Message-ID: <CAJ9a7Vj0T7Yh8mduqAMJtmBwxjWBgEa1O5CO1gw8gYqX8hRmyQ@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] Documentation: coresight: Add PID tracing description
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kS2s2dPI8ytNFZbp+yZg3gpLYqkSZkDa3K+KlRfCscc=;
+        b=X6g1SUM14CetOT8E28Ij12tvO3sKdtFYfP4eUdMWrSEnhq5VstpxEFFtEkzI+XE9ct
+         xFLCD+BgWInAou/8idYKJ0P+T30+BvANod/UiKtxb6Nvvw4QcVcv79Zn3ORoMVr5XbjX
+         tzC4pMtH9g/WIE+iLFmvJAeZBbuOeoz4LIiGTgTCA+Gz2p80EAzAFPgwN2Oi5G3A8ZzM
+         tB7FnVn9Xc1TpluQ1zAwzgPEd0YHjehqFk0lSJjeuYyyH6EbwY5JxiW/Ls1MT27Pi7+y
+         hTTGpyZ2zlf7iddiJEzMgOSt7lv0m3tlPmO5xFybEnTybqTfLKoB67Pgg6OEAJrN/TuE
+         KR3A==
+X-Gm-Message-State: AOAM530gkLMJsm/CquxUuHbqsUDxDMkyuw/7GPtpZsHE2uttBLKTis/O
+        pel5MSp6MVYuJsaTd55Tk3E=
+X-Google-Smtp-Source: ABdhPJymt7En80dZe3oV3AmeF01oXinFd+vz4l2FwpOdSJenB05fjyQ1B2jwhWUBri8ayNY6K/YUnw==
+X-Received: by 2002:a5d:4287:: with SMTP id k7mr7719744wrq.317.1612824836871;
+        Mon, 08 Feb 2021 14:53:56 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id b2sm11598136wrv.73.2021.02.08.14.53.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 14:53:55 -0800 (PST)
+Date:   Mon, 8 Feb 2021 23:53:54 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        John Garry <john.garry@huawei.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Daniel Kiss <Daniel.Kiss@arm.com>,
-        Denis Nikitin <denik@chromium.org>,
-        Al Grant <al.grant@arm.com>,
-        Coresight ML <coresight@lists.linaro.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [RESEND v4 1/6] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <YCHBAmFAOv/Joqp5@rocinante>
+References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
+ <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
+ <YB9EDzI7mSrzXUUB@rocinante>
+ <DM5PR12MB18354765D69889F2CD6E4D89DA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM5PR12MB18354765D69889F2CD6E4D89DA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I think Suzuki may be on holiday for two weeks. But this does appear
-to pick up both mine and his suggestions.
-Suzuki gave his conditional reviewed by in the last patch.
+[+cc Bjorn]
 
-Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Hi Gustavo,
 
+[...]
+> Thanks for your review. I will wait for a couple of days, before sending 
+> a new version of this patch series based on your feedback.
 
-On Mon, 8 Feb 2021 at 20:50, Mathieu Poirier <mathieu.poirier@linaro.org> wrote:
->
-> On Sat, Feb 06, 2021 at 11:08:33PM +0800, Leo Yan wrote:
-> > After support the PID tracing for the kernel in EL1 or EL2, the usage
-> > gets more complicated.
-> >
-> > This patch gives description for the PMU formats of contextID configs,
-> > this can help users to understand how to control the knobs for PID
-> > tracing when the kernel is in different ELs.
-> >
-> > Signed-off-by: Leo Yan <leo.yan@linaro.org>
->
-> As I indicated I have picked up the kernel patches in this set and there should
-> be a new patchset sent to Arnaldo.  The only thing left is this patch and I will
-> give time to Mike and Suzuki to look at it before I add it to my tree.
->
-> Thanks,
-> Mathieu
->
-> > ---
-> >  Documentation/trace/coresight/coresight.rst | 32 +++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
-> >
-> > diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> > index 0b73acb44efa..169749efd8d1 100644
-> > --- a/Documentation/trace/coresight/coresight.rst
-> > +++ b/Documentation/trace/coresight/coresight.rst
-> > @@ -512,6 +512,38 @@ The --itrace option controls the type and frequency of synthesized events
-> >  Note that only 64-bit programs are currently supported - further work is
-> >  required to support instruction decode of 32-bit Arm programs.
-> >
-> > +2.2) Tracing PID
-> > +
-> > +The kernel can be built to write the PID value into the PE ContextID registers.
-> > +For a kernel running at EL1, the PID is stored in CONTEXTIDR_EL1.  A PE may
-> > +implement Arm Virtualization Host Extensions (VHE), which the kernel can
-> > +run at EL2 as a virtualisation host; in this case, the PID value is stored in
-> > +CONTEXTIDR_EL2.
-> > +
-> > +perf provides PMU formats that program the ETM to insert these values into the
-> > +trace data; the PMU formats are defined as below:
-> > +
-> > +  "contextid1": Available on both EL1 kernel and EL2 kernel.  When the
-> > +                kernel is running at EL1, "contextid1" enables the PID
-> > +                tracing; when the kernel is running at EL2, this enables
-> > +                tracing the PID of guest applications.
-> > +
-> > +  "contextid2": Only usable when the kernel is running at EL2.  When
-> > +                selected, enables PID tracing on EL2 kernel.
-> > +
-> > +  "contextid":  Will be an alias for the option that enables PID
-> > +                tracing.  I.e,
-> > +                contextid == contextid1, on EL1 kernel.
-> > +                contextid == contextid2, on EL2 kernel.
-> > +
-> > +perf will always enable PID tracing at the relevant EL, this is accomplished by
-> > +automatically enable the "contextid" config - but for EL2 it is possible to make
-> > +specific adjustments using configs "contextid1" and "contextid2", E.g. if a user
-> > +wants to trace PIDs for both host and guest, the two configs "contextid1" and
-> > +"contextid2" can be set at the same time:
-> > +
-> > +  perf record -e cs_etm/contextid1,contextid2/u -- vm
-> > +
-> >
-> >  Generating coverage files for Feedback Directed Optimization: AutoFDO
-> >  ---------------------------------------------------------------------
-> > --
-> > 2.25.1
-> >
+Thank you!
 
+There might be one more change, and improvement, to be done as per
+Bjorn's feedback, see:
 
+  https://lore.kernel.org/linux-pci/20210208193516.GA406304@bjorn-Precision-5520/
 
---
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+The code in question would be (exceprt from the patch):
+
+[...]
++static int dw_xdata_pcie_probe(struct pci_dev *pdev,
++			       const struct pci_device_id *pid)
++{
++	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
++	struct dw_xdata *dw;
+[...]
++	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
++	if (!dw->rg_region.vaddr)
++		return -ENOMEM;
+[...]
+
+Perhaps something like the following would would?
+
+void __iomem * const *iomap_table;
+
+iomap_table = pcim_iomap_table(pdev);
+if (!iomap_table)
+        return -ENOMEM;
+
+dw->rg_region.vaddr = iomap_table[pdata->rg_bar];
+if (!dw->rg_region.vaddr)
+	return -ENOMEM;
+
+With sensible error messages added, of course.  What do you think?
+
+Krzysztof
