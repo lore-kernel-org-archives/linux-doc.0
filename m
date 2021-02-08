@@ -2,100 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 019A8C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 18:56:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81940C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 18:57:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8DB964E84
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 18:56:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 436ED64E73
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 18:57:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234694AbhBHSzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 13:55:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
+        id S235943AbhBHS52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 13:57:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233463AbhBHSyZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 13:54:25 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13E5C061788;
-        Mon,  8 Feb 2021 10:53:45 -0800 (PST)
-Received: from zn.tnic (p200300ec2f073f00132389f64ded89c1.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:3f00:1323:89f6:4ded:89c1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 23DF21EC0512;
-        Mon,  8 Feb 2021 19:53:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1612810424;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=1uhG+yA903nD3x6ie0DaKdIZW5ha5ZFqYz7PTiHf344=;
-        b=LLIESv4cbsLI3itmuUSvfVcbCedzuZ1ZazsOyimWXj7EhAc0/OZiaJMJMw946UBnU6WiQ7
-        gVYf+bA1Lr/0EzmtW2rmpjCSpu1W8GDhP75Vr3dvIsQw3Ri+tq3dVrZudshCbmVt3p6e7L
-        GD3vH8fVko0z0dgGi0id9CON9ReQ1aA=
-Date:   Mon, 8 Feb 2021 19:53:41 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S235876AbhBHS4e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 13:56:34 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85906C06178A
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 10:55:49 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id d26so9064712pfn.5
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 10:55:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N4KhQPQ6emhLg5aJ4b7dThJbGJewBnLMix1/QSQMqOA=;
+        b=SOzX6/jCm+05D0b/F4L0OfnNCZ+3/22OT8te5W4qnWAMm56snQxMxI+5v1L8wTfflj
+         m/SRcAEM+ENa5LQQpWkkNWXHlrz0S9r/gQQ6oJ1cxsyGcYKjt3B/yyHriscmwIh9NOUq
+         GXguzHrcce0Tx+lKtDfomwEKWqT9eXpbt3hTKHVOgDZePsB3c6y0vCFlD1kjcXVg5BxS
+         QmTyVb2zbtOB0k2kzvPPRUlIuTvHGvXPZLwb/u+crDxKpXUItlB3OQXwZTeahrfMN9zS
+         XgrOVBDbGRZ9ep0CgDc7Uzy59ApznxhmJzr0NWK4Dk1d2AmtF5MuA/GmDLaa6diupeX8
+         njIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N4KhQPQ6emhLg5aJ4b7dThJbGJewBnLMix1/QSQMqOA=;
+        b=MBM/IDyGxEiLwF9TnTl0lAZhnqR/rbUe42JQSVkcdxvhQXz1OzGaqqevvC6hZtnOd7
+         qGabWdyNn5J2WX/AgZBnHWLBpnCpGtRjMKOY3Ylkaz6cHw7lGHtLpCFfF2tfq+1yLmix
+         PTqyTQdzCifkUqLRLITd+6x2F3JcjI0Gsej9UVRwm0KVK0G1p/PQZavVbx7DrzZowvbN
+         mCoIfnAx0EK1nVyWqhCZijV/MZDxSDbJ0aRzwp2e/0zHqz7nu2IDcaXHjBv0dtG2w8gr
+         RMmzLjQtIiNtmLMb6wiunm4Pl97xuVj8/cZuwalvjQbb+bXIKJe5Kz7cmucodyXz38dW
+         9mhg==
+X-Gm-Message-State: AOAM532220DvVzALm+zw3yJ+i00PFomz5aKs05waOdl7gQumyOLWixQ9
+        JPEFIkbTGVUZ6TMjtFVUkZgVIw==
+X-Google-Smtp-Source: ABdhPJzYRj43AK6KfV8pLfoL75pOWCUL2YG1YlxxwOUPuEJhKfWiBXL06aHlIgJtCrEdwAYusTd4fA==
+X-Received: by 2002:a63:7cf:: with SMTP id 198mr18333758pgh.448.1612810549041;
+        Mon, 08 Feb 2021 10:55:49 -0800 (PST)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id 1sm45336pjk.34.2021.02.08.10.55.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Feb 2021 10:55:48 -0800 (PST)
+Date:   Mon, 8 Feb 2021 11:55:46 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
-Message-ID: <20210208185341.GF18227@zn.tnic>
-References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
- <20210203225547.32221-7-yu-cheng.yu@intel.com>
- <20210205135927.GH17488@zn.tnic>
- <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
- <20210208182009.GE18227@zn.tnic>
- <690bc3b9-2890-e68d-5e4b-cda5c21b496b@intel.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>,
+        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/8] perf cs-etm: Support PID tracing in config
+Message-ID: <20210208185546.GB2077938@xps15>
+References: <20210206150833.42120-1-leo.yan@linaro.org>
+ <20210206150833.42120-6-leo.yan@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <690bc3b9-2890-e68d-5e4b-cda5c21b496b@intel.com>
+In-Reply-To: <20210206150833.42120-6-leo.yan@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 08, 2021 at 10:50:07AM -0800, Yu, Yu-cheng wrote:
-> I have not run into the situation.  Initially it was there because other
-> faults have it.
+On Sat, Feb 06, 2021 at 11:08:30PM +0800, Leo Yan wrote:
+> From: Suzuki K Poulose <suzuki.poulose@arm.com>
+> 
+> If the kernel is running at EL2, the pid of a task is exposed via VMID
+> instead of the CONTEXTID.  Add support for this in the perf tool.
+> 
+> This patch respects user setting if user has specified any configs
+> from "contextid", "contextid1" or "contextid2"; otherwise, it
+> dynamically sets config based on PMU format "contextid".
+> 
+> Cc: Mike Leach <mike.leach@linaro.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Al Grant <al.grant@arm.com>
+> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Co-developed-by: Leo Yan <leo.yan@linaro.org>
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> Reviewed-by: Mike Leach <mike.leach@linaro.org>
 
-Which other faults?
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-> When you asked, I went through it and put out my reasoning.
-
-What does that mean?
-
-> I think it still makes sense to keep it.
-
-Because you have a hunch or you actually have an objective reason why?
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> ---
+>  tools/include/linux/coresight-pmu.h |  3 ++
+>  tools/perf/arch/arm/util/cs-etm.c   | 61 +++++++++++++++++++++++------
+>  2 files changed, 52 insertions(+), 12 deletions(-)
+> 
+> diff --git a/tools/include/linux/coresight-pmu.h b/tools/include/linux/coresight-pmu.h
+> index 5dc47cfdcf07..4ac5c081af93 100644
+> --- a/tools/include/linux/coresight-pmu.h
+> +++ b/tools/include/linux/coresight-pmu.h
+> @@ -20,14 +20,17 @@
+>   */
+>  #define ETM_OPT_CYCACC		12
+>  #define ETM_OPT_CTXTID		14
+> +#define ETM_OPT_CTXTID2		15
+>  #define ETM_OPT_TS		28
+>  #define ETM_OPT_RETSTK		29
+>  
+>  /* ETMv4 CONFIGR programming bits for the ETM OPTs */
+>  #define ETM4_CFG_BIT_CYCACC	4
+>  #define ETM4_CFG_BIT_CTXTID	6
+> +#define ETM4_CFG_BIT_VMID	7
+>  #define ETM4_CFG_BIT_TS		11
+>  #define ETM4_CFG_BIT_RETSTK	12
+> +#define ETM4_CFG_BIT_VMID_OPT	15
+>  
+>  static inline int coresight_get_trace_id(int cpu)
+>  {
+> diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+> index c25c878fd06c..fa6f91a7c8a1 100644
+> --- a/tools/perf/arch/arm/util/cs-etm.c
+> +++ b/tools/perf/arch/arm/util/cs-etm.c
+> @@ -67,6 +67,7 @@ static int cs_etm_set_context_id(struct auxtrace_record *itr,
+>  	char path[PATH_MAX];
+>  	int err = -EINVAL;
+>  	u32 val;
+> +	u64 contextid;
+>  
+>  	ptr = container_of(itr, struct cs_etm_recording, itr);
+>  	cs_etm_pmu = ptr->cs_etm_pmu;
+> @@ -86,25 +87,59 @@ static int cs_etm_set_context_id(struct auxtrace_record *itr,
+>  		goto out;
+>  	}
+>  
+> +	/* User has configured for PID tracing, respects it. */
+> +	contextid = evsel->core.attr.config &
+> +			(BIT(ETM_OPT_CTXTID) | BIT(ETM_OPT_CTXTID2));
+> +
+>  	/*
+> -	 * TRCIDR2.CIDSIZE, bit [9-5], indicates whether contextID tracing
+> -	 * is supported:
+> -	 *  0b00000 Context ID tracing is not supported.
+> -	 *  0b00100 Maximum of 32-bit Context ID size.
+> -	 *  All other values are reserved.
+> +	 * If user doesn't configure the contextid format, parse PMU format and
+> +	 * enable PID tracing according to the "contextid" format bits:
+> +	 *
+> +	 *   If bit ETM_OPT_CTXTID is set, trace CONTEXTIDR_EL1;
+> +	 *   If bit ETM_OPT_CTXTID2 is set, trace CONTEXTIDR_EL2.
+>  	 */
+> -	val = BMVAL(val, 5, 9);
+> -	if (!val || val != 0x4) {
+> -		err = -EINVAL;
+> -		goto out;
+> +	if (!contextid)
+> +		contextid = perf_pmu__format_bits(&cs_etm_pmu->format,
+> +						  "contextid");
+> +
+> +	if (contextid & BIT(ETM_OPT_CTXTID)) {
+> +		/*
+> +		 * TRCIDR2.CIDSIZE, bit [9-5], indicates whether contextID
+> +		 * tracing is supported:
+> +		 *  0b00000 Context ID tracing is not supported.
+> +		 *  0b00100 Maximum of 32-bit Context ID size.
+> +		 *  All other values are reserved.
+> +		 */
+> +		val = BMVAL(val, 5, 9);
+> +		if (!val || val != 0x4) {
+> +			pr_err("%s: CONTEXTIDR_EL1 isn't supported\n",
+> +			       CORESIGHT_ETM_PMU_NAME);
+> +			err = -EINVAL;
+> +			goto out;
+> +		}
+> +	}
+> +
+> +	if (contextid & BIT(ETM_OPT_CTXTID2)) {
+> +		/*
+> +		 * TRCIDR2.VMIDOPT[30:29] != 0 and
+> +		 * TRCIDR2.VMIDSIZE[14:10] == 0b00100 (32bit virtual contextid)
+> +		 * We can't support CONTEXTIDR in VMID if the size of the
+> +		 * virtual context id is < 32bit.
+> +		 * Any value of VMIDSIZE >= 4 (i.e, > 32bit) is fine for us.
+> +		 */
+> +		if (!BMVAL(val, 29, 30) || BMVAL(val, 10, 14) < 4) {
+> +			pr_err("%s: CONTEXTIDR_EL2 isn't supported\n",
+> +			       CORESIGHT_ETM_PMU_NAME);
+> +			err = -EINVAL;
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	/* All good, let the kernel know */
+> -	evsel->core.attr.config |= (1 << ETM_OPT_CTXTID);
+> +	evsel->core.attr.config |= contextid;
+>  	err = 0;
+>  
+>  out:
+> -
+>  	return err;
+>  }
+>  
+> @@ -489,7 +524,9 @@ static u64 cs_etmv4_get_config(struct auxtrace_record *itr)
+>  		config |= BIT(ETM4_CFG_BIT_TS);
+>  	if (config_opts & BIT(ETM_OPT_RETSTK))
+>  		config |= BIT(ETM4_CFG_BIT_RETSTK);
+> -
+> +	if (config_opts & BIT(ETM_OPT_CTXTID2))
+> +		config |= BIT(ETM4_CFG_BIT_VMID) |
+> +			  BIT(ETM4_CFG_BIT_VMID_OPT);
+>  	return config;
+>  }
+>  
+> -- 
+> 2.25.1
+> 
