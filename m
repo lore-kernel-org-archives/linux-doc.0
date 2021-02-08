@@ -2,80 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF56C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A12A6C433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:51:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B42CB64E27
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:44:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D78364E6C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 19:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235239AbhBHToh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 14:44:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42946 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235506AbhBHTne (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Feb 2021 14:43:34 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 45BA0601FE;
-        Mon,  8 Feb 2021 19:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612813371;
-        bh=d661Gkj5uDPyjiuPmo7dVeApop9R+vb1Lt40RdJVELI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=bX2v72YYQwKc0W7ftrMUwQ+VQpURy2RKP1n0d5tSAblQjAybzitS42mN5JO9RFOMT
-         0+3xBGTuJs0gdLUhF02+FWXX/fcra+8rySqVQfo+zF0eUEarz0HqlW30pcdG57+MqT
-         O+yg1bCatEG7O8/N9M8FWjs1r1TSuFICNcwUVypMS85okvGXPZU/i9oU1jvUtei7d6
-         6KpoVzFPKRuF3VxqBeRDCatCIFobJ7V9qVLCOMhFHuezANrI2ytArtOQkqkGKdlkGG
-         2emhmcbifLfVOkqzxpIzWPa4FGbCM5fx8EneEJ8RK3vpBZzAtXeKoNRL9k0QhyP0TI
-         XE+/6MtoB1ZGQ==
-Date:   Mon, 8 Feb 2021 11:42:49 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     NeilBrown <neilb@suse.de>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Xin Long <lucien.xin@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S236477AbhBHTvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 14:51:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236436AbhBHTtj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 14:49:39 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A338C06178B;
+        Mon,  8 Feb 2021 11:48:59 -0800 (PST)
+Received: from zn.tnic (p200300ec2f073f00132389f64ded89c1.dip0.t-ipconnect.de [IPv6:2003:ec:2f07:3f00:1323:89f6:4ded:89c1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 82CA81EC0516;
+        Mon,  8 Feb 2021 20:48:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1612813737;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=MLLsJOPUX5aC5wPkAZgeTUlSqwoaRJCYi5u/Gu9Lyu4=;
+        b=j20s4Z1nZxUMIW4Emy6zOTMhJS+Xcv5dR20kO53dQqDMjCNNDTkNdDLIKPjBdy0I7OAcvH
+        qCppIT7lV0+u4OOJveK2lU/0X+HWSI+7IcRzU0HqTj7rUbn6tT9F57SbEPLGVY1cnpwBgQ
+        aZzuKYY7ZAMsOTAcYe/u7IMVKwUM220=
+Date:   Mon, 8 Feb 2021 20:48:54 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Vlad Yasevich <vyasevich@gmail.com>,
-        Neil Horman <nhorman@tuxdriver.com>,
-        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-sctp@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 0/3] Fix some seq_file users that were recently broken
-Message-ID: <20210208114249.6c7e04e9@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210207131145.ea12b9944c54ad2f10932bc3@linux-foundation.org>
-References: <161248518659.21478.2484341937387294998.stgit@noble1>
-        <20210205143550.58d3530918459eafa918ad0c@linux-foundation.org>
-        <20210206142924.2bfc3cf5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20210207131145.ea12b9944c54ad2f10932bc3@linux-foundation.org>
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v19 06/25] x86/cet: Add control-protection fault handler
+Message-ID: <20210208194854.GI18227@zn.tnic>
+References: <20210203225547.32221-1-yu-cheng.yu@intel.com>
+ <20210203225547.32221-7-yu-cheng.yu@intel.com>
+ <20210205135927.GH17488@zn.tnic>
+ <2d829cba-784e-635a-e0c5-a7b334fa9b40@intel.com>
+ <20210208182009.GE18227@zn.tnic>
+ <690bc3b9-2890-e68d-5e4b-cda5c21b496b@intel.com>
+ <20210208185341.GF18227@zn.tnic>
+ <0e0c9e9d-aee1-ad1e-6c63-21b58a52163f@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0e0c9e9d-aee1-ad1e-6c63-21b58a52163f@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 7 Feb 2021 13:11:45 -0800 Andrew Morton wrote:
-> On Sat, 6 Feb 2021 14:29:24 -0800 Jakub Kicinski <kuba@kernel.org> wrote:
-> > On Fri, 5 Feb 2021 14:35:50 -0800 Andrew Morton wrote:  
-> > > On Fri, 05 Feb 2021 11:36:30 +1100 NeilBrown <neilb@suse.de> wrote:
-> > > 1f4aace60b0e ("fs/seq_file.c: simplify seq_file iteration code and
-> > > interface") was August 2018, so I don't think "recent" applies here?
-> > > 
-> > > I didn't look closely, but it appears that the sctp procfs file is
-> > > world-readable.  So we gave unprivileged userspace the ability to leak
-> > > kernel memory?
-> > > 
-> > > So I'm thinking that we aim for 5.12-rc1 on all three patches with a cc:stable?  
-> > 
-> > I'd rather take the sctp patch sooner, we'll send another batch 
-> > of networking fixes for 5.11, anyway. Would that be okay with you?  
-> 
-> Sure.
+On Mon, Feb 08, 2021 at 11:23:18AM -0800, Yu, Yu-cheng wrote:
+> exc_general_protection() and do_trap() both call show_signal(), which
+> then calls printk_ratelimit().
 
-Applied patch 3 to net, thanks everyone!
+You could've done some git archeology and could've found
+
+  abd4f7505baf ("x86: i386-show-unhandled-signals-v3")
+
+which explains why that ratelimiting is needed.
+
+> For example, if a shell script, in a loop re-starts an app when it
+> exits, and the app is causing control-protection fault. The log
+> messages should be rate limited.
+
+I think you should be able to get where I'm going with this, by now:
+please put a comment over the ratelimiting to explain why it is there,
+just like the above commit explains.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
