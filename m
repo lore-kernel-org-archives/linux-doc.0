@@ -5,62 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85212C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B1BC433E9
 	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:54:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27BF464DCC
+	by mail.kernel.org (Postfix) with ESMTP id 8DF4764DC4
 	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:54:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234225AbhBHPyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 10:54:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60966 "EHLO
+        id S233186AbhBHPyY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 10:54:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233693AbhBHPyK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:54:10 -0500
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7EBC06178C
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:53:29 -0800 (PST)
-Received: by mail-qk1-x749.google.com with SMTP id t184so5965895qkc.19
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:53:29 -0800 (PST)
+        with ESMTP id S234213AbhBHPx7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:53:59 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6631DC06178B
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:53:19 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id 203so17375680ybz.2
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:53:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:cc;
-        bh=VNkssNQYUElZc56HZgHGuABEHCbKr0AEJNaGESsvZEs=;
-        b=H+4JBdFy/5t4gOFYNbXNEDf501AK8VEP8sQR7gQWwKdaNYjC4Q0guRWbyS9dF+fCmv
-         0xV/bunq8nlf0zuHa0KBuh8FjTveHknGX8+GAhRxwNuMf0yBUJhwlFHlVPj6zavXLwDZ
-         EHrBgWITz9Jtjeq1/zVDaoaz2TLgHPrt7wJ6rbKhBp2pyM0iXOVGXheCTOZyqAvKXykH
-         voIUv1NPNrQ2EhzjWZnDr0LXQ5VKsFut7HIn5bG3706T7GZaHIJh1cyVC/yrwZnUcfKw
-         E3KRvrZb+n5TznzCe7ey+Yuug5BV9wEIYu8NQ1Iw/nZB7lbeqUFy2lWbv8NnjpCzvHeA
-         0ojA==
+        h=sender:date:message-id:mime-version:subject:from:cc;
+        bh=KABW1PbKP87UHlmwOVcrjPZPD/KiH4IFW6HwyHI8HLw=;
+        b=k+plAvQWKUQQEFSYtdDrmR64LjfOFfyNvE5bQyLeuXXk0gQM9M1YLhI+Kpb8Pq6RRy
+         xXUgZ8Lu748qxXqRshn9BfzpFkBuZqYWwc0HB+CQPVijF0hLdpKZa0Wx4BE7Cq3qKTcG
+         4YemrGBQUUzxrqVLCDIK+5YyUj35ExFZfnKSA5iVF/fkayXaj4lu7prTK/0JiyDIhICI
+         fXnLZV8WgGU72cjZral6rTKmmKeGcLVviG4fVVZG1/XbYWgaMoD+guk+XrCXEOwOG7++
+         Q2YwHsK7pUuG96I5oZHtxrbJLTTP4zgpIcc4M/9Rss6yk5IY9M17KM/eqzugs31WXzmT
+         5VjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=VNkssNQYUElZc56HZgHGuABEHCbKr0AEJNaGESsvZEs=;
-        b=uWcKVgTtpb50g/DVyNfxYu/DNgHr9NiTjfPVnrTh42581I8MqrwgXUl6SaRxj21kiI
-         5UM7Au9AsNGeHvbERbXPJXlYMGXZWtg5y1BooGf6b3L7E/0n3zOgMP88zAQSTflSOCNc
-         E8jvK8Vpjogau1QdDxZmbojN7LgS9c9gPE7Mwwh3Q0bPF1maO4IKZirPj+NUx5edzIKL
-         ueN2/KZbKjReIS+lcYNuGMzWqR3U71ImRMHsm8S88vTtblVBOuvWw5LN0c26KmYA/4q5
-         aufQhTNW/lLYcB/8MN9ivJ2ygx9PmYKnCgt6kV/3OzafVr6kOnXR5ZzTIEnPTL8CrxVS
-         Dp8Q==
-X-Gm-Message-State: AOAM531S+Tmiocab4OQPy5OoAhf8UTqT7kdWRRxGDktrcfyfPuTivkjW
-        ud73Dt04kqktnXhgnWdeoTFKGZmUlKsnsUujpA==
-X-Google-Smtp-Source: ABdhPJwju86cKM910it9Ni+O0XsvDOKiYv9le9dIGYsPnhL4wFUvPSedku+WxXAN+XhtB3VU93yjgtMoNm8NPNE/ig==
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :cc;
+        bh=KABW1PbKP87UHlmwOVcrjPZPD/KiH4IFW6HwyHI8HLw=;
+        b=ls2cbn3GBLvk7O2T1PkbV+cq1bEAFQ06pLAbCMT/u2FTHJG0ztAJahPLktjPFQzCms
+         UFZ10MzEZvS7F6AQKQMYDQDTczckH+x3vXdd3OuhSRYmTvErNN31Nc/aHulCMDGP/jb+
+         5+WgFQBlUw5RP8gXoB8p9bzUmK+COiM/poeMV1UbQ4VGTTEqSD9lOWRrCOiC2ovj0FRr
+         Rx6yWl1t36bxIkrcjS6gZIi0dNod408AYfDW5MPmKAf2AGRVd3l8qyTcG+1C6VlcM/Lt
+         sItWERreaZSACardjGKrZ+Wmj6I2Rzy8Uhdr/SgzY+F0Ei4Q++w/cgY07BZf2vI8HOtp
+         ovaA==
+X-Gm-Message-State: AOAM5336TGryrSO9kqG8xqK+hWsffD3NtYshrCAciQPBldbvMboK/SWB
+        NcoPEouoTGiyGyuuKA+OXLTFaxpjnsi51EolXA==
+X-Google-Smtp-Source: ABdhPJy5TCKk45UVECdZNGWDZgT1hEcr/O9DAIgFSw2AggyhYlchwyA7OBiwJdM5EuiQp2ZNxIUAKTng2zlyA28byw==
 Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
 X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
- (user=kaleshsingh job=sendgmr) by 2002:a0c:c687:: with SMTP id
- d7mr16336589qvj.17.1612799608742; Mon, 08 Feb 2021 07:53:28 -0800 (PST)
-Date:   Mon,  8 Feb 2021 15:53:07 +0000
-In-Reply-To: <20210208155315.1367371-1-kaleshsingh@google.com>
-Message-Id: <20210208155315.1367371-2-kaleshsingh@google.com>
+ (user=kaleshsingh job=sendgmr) by 2002:a25:a267:: with SMTP id
+ b94mr25868498ybi.218.1612799598492; Mon, 08 Feb 2021 07:53:18 -0800 (PST)
+Date:   Mon,  8 Feb 2021 15:53:06 +0000
+Message-Id: <20210208155315.1367371-1-kaleshsingh@google.com>
 Mime-Version: 1.0
-References: <20210208155315.1367371-1-kaleshsingh@google.com>
 X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
-Subject: [PATCH v6 2/2] procfs/dmabuf: Add inode number to /proc/*/fdinfo
+Subject: [PATCH v6 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
 From:   Kalesh Singh <kaleshsingh@google.com>
 Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
         surenb@google.com, minchan@kernel.org, hridya@google.com,
@@ -73,7 +70,7 @@ Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@suse.com>,
         Alexey Gladkov <gladkov.alexey@gmail.com>,
-        Anand K Mistry <amistry@google.com>,
+        NeilBrown <neilb@suse.de>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Daniel Jordan <daniel.m.jordan@oracle.com>,
         Michel Lespinasse <walken@google.com>,
@@ -89,150 +86,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-And 'inode_no' field to /proc/<pid>/fdinfo/<FD> and
-/proc/<pid>/task/<tid>/fdinfo/<FD>.
+Android captures per-process system memory state when certain low memory
+events (e.g a foreground app kill) occur, to identify potential memory
+hoggers. In order to measure how much memory a process actually consumes,
+it is necessary to include the DMA buffer sizes for that process in the
+memory accounting. Since the handle to DMA buffers are raw FDs, it is
+important to be able to identify which processes have FD references to
+a DMA buffer.
 
-The inode numbers can be used to uniquely identify DMA buffers
-in user space and avoids a dependency on /proc/<pid>/fd/* when
-accounting per-process DMA buffer sizes.
+Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+/proc/<pid>/fdinfo -- both are only readable by the process owner,
+as follows:
+  1. Do a readlink on each FD.
+  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+  3. stat the file to get the dmabuf inode number.
+  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 
+Accessing other processes' fdinfo requires root privileges. This limits
+the use of the interface to debugging environments and is not suitable
+for production builds.  Granting root privileges even to a system process
+increases the attack surface and is highly undesirable.
+
+Since fdinfo doesn't permit reading process memory and manipulating
+process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
+
+Suggested-by: Jann Horn <jannh@google.com>
 Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-Changes in v5:
-  - Fixed tab vs spaces, per Randy
-  - Renamed inode_no to ino, per Matthew
-Changes in v4:
-  - Add inode number as common field in fdinfo, per Christian
-Changes in v3:
-  - Add documentation in proc.rst, per Randy
 Changes in v2:
   - Update patch description
 
- Documentation/filesystems/proc.rst | 37 +++++++++++++++++++++++++-----
- fs/proc/fd.c                       |  5 ++--
- 2 files changed, 34 insertions(+), 8 deletions(-)
+ fs/proc/base.c |  4 ++--
+ fs/proc/fd.c   | 15 ++++++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 2fa69f710e2a..7730d1c120e8 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1902,18 +1902,20 @@ if precise results are needed.
- 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
- ---------------------------------------------------------------
- This file provides information associated with an opened file. The regular
--files have at least three fields -- 'pos', 'flags' and 'mnt_id'. The 'pos'
--represents the current offset of the opened file in decimal form [see lseek(2)
--for details], 'flags' denotes the octal O_xxx mask the file has been
--created with [see open(2) for details] and 'mnt_id' represents mount ID of
--the file system containing the opened file [see 3.5 /proc/<pid>/mountinfo
--for details].
-+files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
-+The 'pos' represents the current offset of the opened file in decimal
-+form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
-+file has been created with [see open(2) for details] and 'mnt_id' represents
-+mount ID of the file system containing the opened file [see 3.5
-+/proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
-+the file.
- 
- A typical output is::
- 
- 	pos:	0
- 	flags:	0100002
- 	mnt_id:	19
-+	ino:	63107
- 
- All locks associated with a file descriptor are shown in its fdinfo too::
- 
-@@ -1930,6 +1932,7 @@ Eventfd files
- 	pos:	0
- 	flags:	04002
- 	mnt_id:	9
-+	ino:	63107
- 	eventfd-count:	5a
- 
- where 'eventfd-count' is hex value of a counter.
-@@ -1942,6 +1945,7 @@ Signalfd files
- 	pos:	0
- 	flags:	04002
- 	mnt_id:	9
-+	ino:	63107
- 	sigmask:	0000000000000200
- 
- where 'sigmask' is hex value of the signal mask associated
-@@ -1955,6 +1959,7 @@ Epoll files
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
- 
- where 'tfd' is a target file descriptor number in decimal form,
-@@ -1971,6 +1976,8 @@ For inotify files the format is the following::
- 
- 	pos:	0
- 	flags:	02000000
-+	mnt_id:	9
-+	ino:	63107
- 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
- 
- where 'wd' is a watch descriptor in decimal form, i.e. a target file
-@@ -1993,6 +2000,7 @@ For fanotify files the format is::
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	fanotify flags:10 event-flags:0
- 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
- 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
-@@ -2017,6 +2025,7 @@ Timerfd files
- 	pos:	0
- 	flags:	02
- 	mnt_id:	9
-+	ino:	63107
- 	clockid: 0
- 	ticks: 0
- 	settime flags: 01
-@@ -2031,6 +2040,22 @@ details]. 'it_value' is remaining time until the timer expiration.
- with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
- still exhibits timer's remaining time.
- 
-+DMA Buffer files
-+~~~~~~~~~~~~~~~~
-+
-+::
-+
-+	pos:	0
-+	flags:	04002
-+	mnt_id:	9
-+	ino:	63107
-+	size:   32768
-+	count:  2
-+	exp_name:  system-heap
-+
-+where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
-+the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
-+
- 3.9	/proc/<pid>/map_files - Information about memory mapped files
- ---------------------------------------------------------------------
- This directory contains symbolic links which represent memory mapped files
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index b3422cda2a91..a37f9de7103f 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_operations),
+ 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+ 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_map_files_operations),
+-	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_inode_operations = {
+  */
+ static const struct pid_entry tid_base_stuff[] = {
+ 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+-	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
 diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 585e213301f9..822efd20b922 100644
+index cb51763ed554..585e213301f9 100644
 --- a/fs/proc/fd.c
 +++ b/fs/proc/fd.c
-@@ -54,9 +54,10 @@ static int seq_show(struct seq_file *m, void *v)
- 	if (ret)
- 		return ret;
+@@ -6,6 +6,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/namei.h>
+ #include <linux/pid.h>
++#include <linux/ptrace.h>
+ #include <linux/security.h>
+ #include <linux/file.h>
+ #include <linux/seq_file.h>
+@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
  
--	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\n",
-+	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
- 		   (long long)file->f_pos, f_flags,
--		   real_mount(file->f_path.mnt)->mnt_id);
-+		   real_mount(file->f_path.mnt)->mnt_id,
-+		   file_inode(file)->i_ino);
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
++	bool allowed = false;
++	struct task_struct *task = get_proc_task(inode);
++
++	if (!task)
++		return -ESRCH;
++
++	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
++	put_task_struct(task);
++
++	if (!allowed)
++		return -EACCES;
++
+ 	return single_open(file, seq_show, inode);
+ }
  
- 	/* show_fd_locks() never deferences files so a stale value is safe */
- 	show_fd_locks(m, file, files);
+@@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct dentry *dentry,
+ 	struct proc_inode *ei;
+ 	struct inode *inode;
+ 
+-	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
++	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+ 	if (!inode)
+ 		return ERR_PTR(-ENOENT);
+ 
 -- 
 2.30.0.478.g8a0d178c01-goog
 
