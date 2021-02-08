@@ -7,55 +7,55 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C0BC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E71C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6C72264E6C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:35:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7740A64DED
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 20:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231579AbhBHUfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 15:35:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
+        id S231272AbhBHUuL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 15:50:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232237AbhBHUeE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 15:34:04 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15710C061786
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 12:33:24 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id b145so10463420pfb.4
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 12:33:24 -0800 (PST)
+        with ESMTP id S234035AbhBHUrA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 15:47:00 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B26B4C06178C
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 12:46:44 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id u11so8462736plg.13
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 12:46:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=8sJIQ7ey27vDjxSf7LzfXss7hIpoO6CjdEZcKguBnkA=;
-        b=h3RNQULLGURi8yuzfdjwbFZqCfrh+rDTOBd9SBVVDSi9380NzoAY0IFRRzxT+Gp7y0
-         EyUSBW/+WypeEPREZYoNZd2lWpVhxNKpVcCKjRXJDy7McP9CkyzOM6HBCjZWWWpYXS95
-         WZbMRqcZj2na+9d8O1/A54CDB7d/mwskrmZ6MCkIAXTs2va5ZiT5AzEwXftCyAVd9OU1
-         uRUB5KAUAkgXY19O0H1r3OJG7ORX8REnyZnSqTOhpg7Djnj43vDov/Pot4R1bUP4UkZ2
-         HOBXQKQitSA4BI5I8XV9EvZMOTofQchX/xotG2WLNWAa/AjC0V4enhyDURX+u+A3yW8y
-         tB0Q==
+        bh=Nydmi+Z7dBjgeCcCDgZoX6CcBj+BLGtfo85qqn1BPpg=;
+        b=sN9kwECThWrCOEMJbhZDr20zfKqu4hiYVFCtMtzV/d4T8agGwPvkVRAm1jaVsnFLMA
+         zq0S4sxSVtrXfCovi0X2W4vzVWUQXpiMXrgUKX/Loo0bgfm2e3HUwVocjvQCtTsyDzGN
+         w7z/Jmljowu0s1/nqJ2y5xmnJwYZ7tsiUv452/U+5D89C6uoOIeo4ToFm2xVlqJWrCTc
+         sDTzf0q8aBUjyp/jSW1j5BC6qelbYAZ6AGQ1EB1ooSi7VEIKfx11C18yCs4hLt+omeAn
+         mOmclgiZrT4XlADRZQSlmoHUBMUfEQ9kZYvQF5Tutgl1Yc/3QUv9sG0st5eNuG3cBtmP
+         +Whg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8sJIQ7ey27vDjxSf7LzfXss7hIpoO6CjdEZcKguBnkA=;
-        b=SFba1BkjTRcpfsKMFFIljsJSj90r9MlQFYfJS7LYPXwvlEhuGOMiXxPcvK81O7+aQ+
-         LlJ8JqqJ4lMu3Knr5RJvbrsWq3DgY4sPx8qXgMIOqAtMHOVAjmZQKzH9DZJAsFlWq8e5
-         M/I+nCYAXHK7f/0NIFqb/0dA6DUnHk+C0DdIi+6OPdsRurEyWU4VkaUOGIsbZB/AGXYI
-         xND4poENxKtPoQRdUbR2yMeQY6k3qlVAzO1Sv9X2Do9pA+0NIuvgi1mUVBBifoIqGH6o
-         kjJRcaBYT6FHXo2T/mD0CxNvuVNJWNMZ49IXUjbge6zQeSyBeSQtsWK78Ql9qKgaODZJ
-         s97A==
-X-Gm-Message-State: AOAM531fuEjYbVVtU2HJY7VIxhwdv/x5qgDhYbq9SgsVLzafza5mSaui
-        ir37nX4MRNtTLERgb0Mr8AL2zQ==
-X-Google-Smtp-Source: ABdhPJwZWqP1nruXuIblgbD06iE4nLs4M/qFajWrDEpl8V+m7W81StVvNA6e1oO24SKw+JDHL5P7BQ==
-X-Received: by 2002:a63:7c5:: with SMTP id 188mr18525532pgh.22.1612816403603;
-        Mon, 08 Feb 2021 12:33:23 -0800 (PST)
+        bh=Nydmi+Z7dBjgeCcCDgZoX6CcBj+BLGtfo85qqn1BPpg=;
+        b=SjExlPHFT+vWFrXsVjv3Zn30kYWajEWAPnrUnXNx7KbQN48mQVx3Ind/ivQFLp8BH1
+         409kAUPhiXvT+R1Tk90AaEYEV1uKO68n3k8JagD3mWrx9Tegpge6kf4QDLl9v5/UrG6m
+         Pujo8BAGWTh7nCa+3O2YMjMtbgFHcIqLgcnO9ZyAynF5sHP3ov6+4MNnp6mLWoNk/HOx
+         smSCnVksjZodbsX/ssekacTEzFHgHCv26oszfNNhKJy5Nj8u7QeUiSUQXr1pbivxHJqE
+         bSiPXOB2pQtBjfrEj3aplhJnEITLD5KxhKlNF/pgcOt6mGzp26FYDSUODi/w8kLZ7+RE
+         YYyg==
+X-Gm-Message-State: AOAM532mwSHFVMW88fWgPSxSen4HDOP0uExkd1caAbcYGMDQKFdugeAf
+        epbCd39Dw8MsN0dGPeqA91yqcw==
+X-Google-Smtp-Source: ABdhPJxT8tmoBFSFsgvBkPIWKmaKICYyejFedyDus9d4qQqOPYyHjB6zplHhLeIiABk8big74avaow==
+X-Received: by 2002:a17:90b:83:: with SMTP id bb3mr615336pjb.162.1612817204210;
+        Mon, 08 Feb 2021 12:46:44 -0800 (PST)
 Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id 143sm130781pfw.3.2021.02.08.12.33.22
+        by smtp.gmail.com with ESMTPSA id t25sm6741032pgo.87.2021.02.08.12.46.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 12:33:23 -0800 (PST)
-Date:   Mon, 8 Feb 2021 13:33:20 -0700
+        Mon, 08 Feb 2021 12:46:43 -0800 (PST)
+Date:   Mon, 8 Feb 2021 13:46:41 -0700
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     Leo Yan <leo.yan@linaro.org>
 Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
@@ -74,98 +74,104 @@ Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
         Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 7/8] perf cs-etm: Detect pid in VMID for kernel
- running at EL2
-Message-ID: <20210208203320.GD2077938@xps15>
+Subject: Re: [PATCH v3 4/8] perf cs-etm: Fix bitmap for option
+Message-ID: <20210208204641.GE2077938@xps15>
 References: <20210206150833.42120-1-leo.yan@linaro.org>
- <20210206150833.42120-8-leo.yan@linaro.org>
+ <20210206150833.42120-5-leo.yan@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210206150833.42120-8-leo.yan@linaro.org>
+In-Reply-To: <20210206150833.42120-5-leo.yan@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 06, 2021 at 11:08:32PM +0800, Leo Yan wrote:
+On Sat, Feb 06, 2021 at 11:08:29PM +0800, Leo Yan wrote:
 > From: Suzuki K Poulose <suzuki.poulose@arm.com>
 > 
-> The PID of the task could be traced as VMID when the kernel is running
-> at EL2.  Teach the decoder to look for VMID when the CONTEXTIDR (Arm32)
-> or CONTEXTIDR_EL1 (Arm64) is invalid but we have a valid VMID.
+> When set option with macros ETM_OPT_CTXTID and ETM_OPT_TS, it wrongly
+> takes these two values (14 and 28 prespectively) as bit masks, but
+> actually both are the offset for bits.  But this doesn't lead to
+> further failure due to the AND logic operation will be always true for
+> ETM_OPT_CTXTID / ETM_OPT_TS.
 > 
-> Cc: Mike Leach <mike.leach@linaro.org>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Al Grant <al.grant@arm.com>
+> This patch defines new independent macros (rather than using the
+> "config" bits) for requesting the "contextid" and "timestamp" for
+> cs_etm_set_option().
+> 
+> [leoy: Extract the change as a separate patch for easier review]
+
+This should go just above your name - see below.
+
 > Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Co-developed-by: Leo Yan <leo.yan@linaro.org>
 > Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> Reviewed-by: Mike Leach <mike.leach@linaro.org>
+
+ Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+ [Extract the change as a separate patch for easier review]
+ Signed-off-by: Leo Yan <leo.yan@linaro.org>
+ Reviewed-by: Mike Leach <mike.leach@linaro.org>
+
+> ---
+>  tools/perf/arch/arm/util/cs-etm.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+> index bd446aba64f7..c25c878fd06c 100644
+> --- a/tools/perf/arch/arm/util/cs-etm.c
+> +++ b/tools/perf/arch/arm/util/cs-etm.c
+> @@ -156,6 +156,10 @@ static int cs_etm_set_timestamp(struct auxtrace_record *itr,
+>  	return err;
+>  }
+>  
+> +#define ETM_SET_OPT_CTXTID	(1 << 0)
+> +#define ETM_SET_OPT_TS		(1 << 1)
+> +#define ETM_SET_OPT_MASK	(ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
+> +
+
+I would much rather see this fixed with the BIT() macro as it is done in the
+rest of this set than defining new constant.
+
+With the above:
 
 Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-> ---
->  .../perf/util/cs-etm-decoder/cs-etm-decoder.c | 38 +++++++++++++++++--
->  1 file changed, 34 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-> index 3f4bc4050477..4052c9ce6e2f 100644
-> --- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-> +++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-> @@ -6,6 +6,7 @@
->   * Author: Mathieu Poirier <mathieu.poirier@linaro.org>
->   */
->  
-> +#include <linux/coresight-pmu.h>
->  #include <linux/err.h>
->  #include <linux/list.h>
->  #include <linux/zalloc.h>
-> @@ -491,13 +492,42 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
->  			const ocsd_generic_trace_elem *elem,
->  			const uint8_t trace_chan_id)
+I have picked up the kernel portion of this set.  I suggest you fix the above
+and send another revision to Arnaldo with my RBs.
+
+>  static int cs_etm_set_option(struct auxtrace_record *itr,
+>  			     struct evsel *evsel, u32 option)
 >  {
-> -	pid_t tid;
-> +	pid_t tid = -1;
-> +	static u64 pid_fmt;
-> +	int ret;
+> @@ -169,17 +173,17 @@ static int cs_etm_set_option(struct auxtrace_record *itr,
+>  		    !cpu_map__has(online_cpus, i))
+>  			continue;
 >  
-> -	/* Ignore PE_CONTEXT packets that don't have a valid contextID */
-> -	if (!elem->context.ctxt_id_valid)
-> +	/*
-> +	 * As all the ETMs run at the same exception level, the system should
-> +	 * have the same PID format crossing CPUs.  So cache the PID format
-> +	 * and reuse it for sequential decoding.
-> +	 */
-> +	if (!pid_fmt) {
-> +		ret = cs_etm__get_pid_fmt(trace_chan_id, &pid_fmt);
-> +		if (ret)
-> +			return OCSD_RESP_FATAL_SYS_ERR;
-> +	}
-> +
-> +	/*
-> +	 * Process the PE_CONTEXT packets if we have a valid contextID or VMID.
-> +	 * If the kernel is running at EL2, the PID is traced in CONTEXTIDR_EL2
-> +	 * as VMID, Bit ETM_OPT_CTXTID2 is set in this case.
-> +	 */
-> +	switch (pid_fmt) {
-> +	case BIT(ETM_OPT_CTXTID):
-> +		if (elem->context.ctxt_id_valid)
-> +			tid = elem->context.context_id;
-> +		break;
-> +	case BIT(ETM_OPT_CTXTID2):
-> +		if (elem->context.vmid_valid)
-> +			tid = elem->context.vmid;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	if (tid == -1)
->  		return OCSD_RESP_CONT;
+> -		if (option & ETM_OPT_CTXTID) {
+> +		if (option & ETM_SET_OPT_CTXTID) {
+>  			err = cs_etm_set_context_id(itr, evsel, i);
+>  			if (err)
+>  				goto out;
+>  		}
+> -		if (option & ETM_OPT_TS) {
+> +		if (option & ETM_SET_OPT_TS) {
+>  			err = cs_etm_set_timestamp(itr, evsel, i);
+>  			if (err)
+>  				goto out;
+>  		}
+> -		if (option & ~(ETM_OPT_CTXTID | ETM_OPT_TS))
+> +		if (option & ~(ETM_SET_OPT_MASK))
+>  			/* Nothing else is currently supported */
+>  			goto out;
+>  	}
+> @@ -406,7 +410,7 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
+>  		evsel__set_sample_bit(cs_etm_evsel, CPU);
 >  
-> -	tid =  elem->context.context_id;
->  	if (cs_etm__etmq_set_tid(etmq, tid, trace_chan_id))
->  		return OCSD_RESP_FATAL_SYS_ERR;
->  
+>  		err = cs_etm_set_option(itr, cs_etm_evsel,
+> -					ETM_OPT_CTXTID | ETM_OPT_TS);
+> +					ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS);
+>  		if (err)
+>  			goto out;
+>  	}
 > -- 
 > 2.25.1
 > 
