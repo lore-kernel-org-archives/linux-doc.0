@@ -2,117 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A36D1C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:41:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85212C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:54:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D49464E7C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:41:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27BF464DCC
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:54:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233744AbhBHPl3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 10:41:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233758AbhBHPjk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Feb 2021 10:39:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68DDF64E88;
-        Mon,  8 Feb 2021 15:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612798739;
-        bh=C034IrTVhQbEJ3ajlv6WrWRUJxx8ppxLnRBANxOdy/g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=r9jJGCr7R7RYEvSKD0hZSi3jCz2TF2ak9cxeLBc0NcajP5yDMbVVDR8Y3MJK0Ybt+
-         XbG01QWnofikSLxL7rSQMT7PaVCM+D3xUxfkdk8EY+p5zmiI6NZclcNCOBFRHHwy7I
-         d/zniqlCOOaqNAt/MxN7BlnotwcMKSrlquS7QHLuwo8zU0NmbWsLrX7fBkn64kXWa2
-         pSq1q7cDjmcnXMOePwl/J8W4ebq1UyAa5y5+8+0Xvlll56Zv3Wd/alAGk5ydbSZfgi
-         a41buJgmsI+2YFuVA3tWBcng7EbJaE3IuZ5OeudOU0MyHUeG7NjPh7Lu7hbU02yxfw
-         CWn1NMAWRWtIA==
-Received: by mail-qk1-f176.google.com with SMTP id l27so14725180qki.9;
-        Mon, 08 Feb 2021 07:38:59 -0800 (PST)
-X-Gm-Message-State: AOAM5320fQnblUl7oFMJebOepkd3sx5cqd0xxOYIMHfIfuRKWE6Cprrw
-        I48edlOzrLmVtM9V5Fn/9EJXuH2f245G65LbGw==
-X-Google-Smtp-Source: ABdhPJwUlbH9545MTd15G8WLEpDvOJelS15H4dOXXykl4felpUc4bGpib+NBOAQICuAM4jKRlXweB35IiC3gXZN0+r0=
-X-Received: by 2002:a05:620a:22c5:: with SMTP id o5mr16753642qki.364.1612798738274;
- Mon, 08 Feb 2021 07:38:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com> <20210205222644.2357303-9-saravanak@google.com>
-In-Reply-To: <20210205222644.2357303-9-saravanak@google.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 8 Feb 2021 09:38:46 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJc8XRAL5Bj5LpH0M528K7ZL=wSqt8t=ibwjWutjCgB-Q@mail.gmail.com>
-Message-ID: <CAL_JsqJc8XRAL5Bj5LpH0M528K7ZL=wSqt8t=ibwjWutjCgB-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] clk: Mark fwnodes when their clock provider is added/removed
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "open list:ACPI FOR ARM64 (ACPI/arm64)" <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Android Kernel Team <kernel-team@android.com>
+        id S234225AbhBHPyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 10:54:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233693AbhBHPyK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:54:10 -0500
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7EBC06178C
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:53:29 -0800 (PST)
+Received: by mail-qk1-x749.google.com with SMTP id t184so5965895qkc.19
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:53:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:cc;
+        bh=VNkssNQYUElZc56HZgHGuABEHCbKr0AEJNaGESsvZEs=;
+        b=H+4JBdFy/5t4gOFYNbXNEDf501AK8VEP8sQR7gQWwKdaNYjC4Q0guRWbyS9dF+fCmv
+         0xV/bunq8nlf0zuHa0KBuh8FjTveHknGX8+GAhRxwNuMf0yBUJhwlFHlVPj6zavXLwDZ
+         EHrBgWITz9Jtjeq1/zVDaoaz2TLgHPrt7wJ6rbKhBp2pyM0iXOVGXheCTOZyqAvKXykH
+         voIUv1NPNrQ2EhzjWZnDr0LXQ5VKsFut7HIn5bG3706T7GZaHIJh1cyVC/yrwZnUcfKw
+         E3KRvrZb+n5TznzCe7ey+Yuug5BV9wEIYu8NQ1Iw/nZB7lbeqUFy2lWbv8NnjpCzvHeA
+         0ojA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:cc;
+        bh=VNkssNQYUElZc56HZgHGuABEHCbKr0AEJNaGESsvZEs=;
+        b=uWcKVgTtpb50g/DVyNfxYu/DNgHr9NiTjfPVnrTh42581I8MqrwgXUl6SaRxj21kiI
+         5UM7Au9AsNGeHvbERbXPJXlYMGXZWtg5y1BooGf6b3L7E/0n3zOgMP88zAQSTflSOCNc
+         E8jvK8Vpjogau1QdDxZmbojN7LgS9c9gPE7Mwwh3Q0bPF1maO4IKZirPj+NUx5edzIKL
+         ueN2/KZbKjReIS+lcYNuGMzWqR3U71ImRMHsm8S88vTtblVBOuvWw5LN0c26KmYA/4q5
+         aufQhTNW/lLYcB/8MN9ivJ2ygx9PmYKnCgt6kV/3OzafVr6kOnXR5ZzTIEnPTL8CrxVS
+         Dp8Q==
+X-Gm-Message-State: AOAM531S+Tmiocab4OQPy5OoAhf8UTqT7kdWRRxGDktrcfyfPuTivkjW
+        ud73Dt04kqktnXhgnWdeoTFKGZmUlKsnsUujpA==
+X-Google-Smtp-Source: ABdhPJwju86cKM910it9Ni+O0XsvDOKiYv9le9dIGYsPnhL4wFUvPSedku+WxXAN+XhtB3VU93yjgtMoNm8NPNE/ig==
+Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a0c:c687:: with SMTP id
+ d7mr16336589qvj.17.1612799608742; Mon, 08 Feb 2021 07:53:28 -0800 (PST)
+Date:   Mon,  8 Feb 2021 15:53:07 +0000
+In-Reply-To: <20210208155315.1367371-1-kaleshsingh@google.com>
+Message-Id: <20210208155315.1367371-2-kaleshsingh@google.com>
+Mime-Version: 1.0
+References: <20210208155315.1367371-1-kaleshsingh@google.com>
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v6 2/2] procfs/dmabuf: Add inode number to /proc/*/fdinfo
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        rdunlap@infradead.org, christian.koenig@amd.com,
+        willy@infradead.org, kernel-team@android.com,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Anand K Mistry <amistry@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 4:27 PM Saravana Kannan <saravanak@google.com> wrote:
->
-> This allows fw_devlink to recognize clock provider drivers that don't
-> use the device-driver model to initialize the device. fw_devlink will
-> use this information to make sure consumers of such clock providers
-> aren't indefinitely blocked from probing, waiting for the power domain
-> device to appear and bind to a driver.
+And 'inode_no' field to /proc/<pid>/fdinfo/<FD> and
+/proc/<pid>/task/<tid>/fdinfo/<FD>.
 
-Don't we have cases that are a mixture? IOW, a subset of the clock
-provider is initialized early, then the full driver takes over. You'd
-want consumers that are not a driver to succeed, but drivers to defer
-until the full driver is up.
+The inode numbers can be used to uniquely identify DMA buffers
+in user space and avoids a dependency on /proc/<pid>/fd/* when
+accounting per-process DMA buffer sizes.
 
->
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> ---
->  drivers/clk/clk.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index 8c1d04db990d..27ff90eacb1f 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -4555,6 +4555,8 @@ int of_clk_add_provider(struct device_node *np,
->         if (ret < 0)
->                 of_clk_del_provider(np);
->
-> +       fwnode_dev_initialized(&np->fwnode, true);
-> +
->         return ret;
->  }
->  EXPORT_SYMBOL_GPL(of_clk_add_provider);
-> @@ -4672,6 +4674,7 @@ void of_clk_del_provider(struct device_node *np)
->         list_for_each_entry(cp, &of_clk_providers, link) {
->                 if (cp->node == np) {
->                         list_del(&cp->link);
-> +                       fwnode_dev_initialized(&np->fwnode, false);
->                         of_node_put(cp->node);
->                         kfree(cp);
->                         break;
-> --
-> 2.30.0.478.g8a0d178c01-goog
->
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Changes in v5:
+  - Fixed tab vs spaces, per Randy
+  - Renamed inode_no to ino, per Matthew
+Changes in v4:
+  - Add inode number as common field in fdinfo, per Christian
+Changes in v3:
+  - Add documentation in proc.rst, per Randy
+Changes in v2:
+  - Update patch description
+
+ Documentation/filesystems/proc.rst | 37 +++++++++++++++++++++++++-----
+ fs/proc/fd.c                       |  5 ++--
+ 2 files changed, 34 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 2fa69f710e2a..7730d1c120e8 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1902,18 +1902,20 @@ if precise results are needed.
+ 3.8	/proc/<pid>/fdinfo/<fd> - Information about opened file
+ ---------------------------------------------------------------
+ This file provides information associated with an opened file. The regular
+-files have at least three fields -- 'pos', 'flags' and 'mnt_id'. The 'pos'
+-represents the current offset of the opened file in decimal form [see lseek(2)
+-for details], 'flags' denotes the octal O_xxx mask the file has been
+-created with [see open(2) for details] and 'mnt_id' represents mount ID of
+-the file system containing the opened file [see 3.5 /proc/<pid>/mountinfo
+-for details].
++files have at least four fields -- 'pos', 'flags', 'mnt_id' and 'ino'.
++The 'pos' represents the current offset of the opened file in decimal
++form [see lseek(2) for details], 'flags' denotes the octal O_xxx mask the
++file has been created with [see open(2) for details] and 'mnt_id' represents
++mount ID of the file system containing the opened file [see 3.5
++/proc/<pid>/mountinfo for details]. 'ino' represents the inode number of
++the file.
+ 
+ A typical output is::
+ 
+ 	pos:	0
+ 	flags:	0100002
+ 	mnt_id:	19
++	ino:	63107
+ 
+ All locks associated with a file descriptor are shown in its fdinfo too::
+ 
+@@ -1930,6 +1932,7 @@ Eventfd files
+ 	pos:	0
+ 	flags:	04002
+ 	mnt_id:	9
++	ino:	63107
+ 	eventfd-count:	5a
+ 
+ where 'eventfd-count' is hex value of a counter.
+@@ -1942,6 +1945,7 @@ Signalfd files
+ 	pos:	0
+ 	flags:	04002
+ 	mnt_id:	9
++	ino:	63107
+ 	sigmask:	0000000000000200
+ 
+ where 'sigmask' is hex value of the signal mask associated
+@@ -1955,6 +1959,7 @@ Epoll files
+ 	pos:	0
+ 	flags:	02
+ 	mnt_id:	9
++	ino:	63107
+ 	tfd:        5 events:       1d data: ffffffffffffffff pos:0 ino:61af sdev:7
+ 
+ where 'tfd' is a target file descriptor number in decimal form,
+@@ -1971,6 +1976,8 @@ For inotify files the format is the following::
+ 
+ 	pos:	0
+ 	flags:	02000000
++	mnt_id:	9
++	ino:	63107
+ 	inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+ 
+ where 'wd' is a watch descriptor in decimal form, i.e. a target file
+@@ -1993,6 +2000,7 @@ For fanotify files the format is::
+ 	pos:	0
+ 	flags:	02
+ 	mnt_id:	9
++	ino:	63107
+ 	fanotify flags:10 event-flags:0
+ 	fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+ 	fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mask:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+@@ -2017,6 +2025,7 @@ Timerfd files
+ 	pos:	0
+ 	flags:	02
+ 	mnt_id:	9
++	ino:	63107
+ 	clockid: 0
+ 	ticks: 0
+ 	settime flags: 01
+@@ -2031,6 +2040,22 @@ details]. 'it_value' is remaining time until the timer expiration.
+ with TIMER_ABSTIME option which will be shown in 'settime flags', but 'it_value'
+ still exhibits timer's remaining time.
+ 
++DMA Buffer files
++~~~~~~~~~~~~~~~~
++
++::
++
++	pos:	0
++	flags:	04002
++	mnt_id:	9
++	ino:	63107
++	size:   32768
++	count:  2
++	exp_name:  system-heap
++
++where 'size' is the size of the DMA buffer in bytes. 'count' is the file count of
++the DMA buffer file. 'exp_name' is the name of the DMA buffer exporter.
++
+ 3.9	/proc/<pid>/map_files - Information about memory mapped files
+ ---------------------------------------------------------------------
+ This directory contains symbolic links which represent memory mapped files
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 585e213301f9..822efd20b922 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -54,9 +54,10 @@ static int seq_show(struct seq_file *m, void *v)
+ 	if (ret)
+ 		return ret;
+ 
+-	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\n",
++	seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n",
+ 		   (long long)file->f_pos, f_flags,
+-		   real_mount(file->f_path.mnt)->mnt_id);
++		   real_mount(file->f_path.mnt)->mnt_id,
++		   file_inode(file)->i_ino);
+ 
+ 	/* show_fd_locks() never deferences files so a stale value is safe */
+ 	show_fd_locks(m, file, files);
+-- 
+2.30.0.478.g8a0d178c01-goog
+
