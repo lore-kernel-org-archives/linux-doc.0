@@ -2,97 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F485C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA8E8C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:21:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0474F64F07
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:10:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8381864E42
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Feb 2021 15:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232721AbhBHPJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 10:09:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51108 "EHLO
+        id S232870AbhBHPUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 10:20:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231327AbhBHPIR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:08:17 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D89AC0617AB
-        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:07:30 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id s3so18486634edi.7
-        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:07:30 -0800 (PST)
+        with ESMTP id S233545AbhBHPPU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 10:15:20 -0500
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10909C061788
+        for <linux-doc@vger.kernel.org>; Mon,  8 Feb 2021 07:14:41 -0800 (PST)
+Received: by mail-qv1-xf4a.google.com with SMTP id ew14so10717800qvb.21
+        for <linux-doc@vger.kernel.org>; Mon, 08 Feb 2021 07:14:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xzslJqqYok3eHk246H4d4mLujOeY1JZA7MAatswLEGY=;
-        b=GF+rQOIaO1qT7ZpZTTPLXUDleJO/QJoQZJIi2SvSGnOZ21Mso9Cm2SRW09og6aN+ra
-         x9Ru+TSiWpOZC71c616XwFgVi5WvHMs1jxvBRHFc6kDS/MbpyoIJoNlchxJ4unRXqOKo
-         jpUS5mxS0Rl5SG158nkgLGCx/7JnxeIK4AYiYN/xxGgJu7lRdz+KFZRRI9XmOXEcrYU0
-         i281ZfnvHitKN/tLWog7QGX+8BKy7/fzWghtGpRXLhCQc+rDwQ+oMYfjtS5dZ7M/lahN
-         voZVppSOd6Nrv9iZ6GI7aaom5vRDLlPVu3hk6U0jgG7aHKOY51Km3kAtH3kxsZBPRM3H
-         GlNQ==
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:cc;
+        bh=KABW1PbKP87UHlmwOVcrjPZPD/KiH4IFW6HwyHI8HLw=;
+        b=kr+DrTDoxze6WtQfMls46jXxBjSG77mJ9I1UggF24KPM+dYnraeCGycYUpkq5gsGgm
+         kibQqpuTfoxap6xotSDDdjpoPXvOJ1uun8NEjyD5+5IiUD7/BJO6OqLvmC95JUGQeKRc
+         Is5YDrVr7KcJBN9mWP70aj6FTRyqFnn3R/fcb+5Ej2GzftP6YNCnJ29pVF1IUe7yKwlp
+         DcG/ZR178QIbXKx9La6i8tMFzDJCzyxe8Z/idbEQO1a1u8Z7uJ+KDIkTeBIG0Ed8d9lt
+         XfIGNBE/xM6N0E4LMJJyLh1i4ozo3BOhm2HkWhamdubJR3jueoQaw/a8czMNAVycDwXS
+         wKeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xzslJqqYok3eHk246H4d4mLujOeY1JZA7MAatswLEGY=;
-        b=H4KVw20fG0tWgWjscm9dsVC9fbDxAjuoXdEAejzviEzEvjAjHGjVPhHZUSCCRKtyxS
-         I0mW58ChfCWCDOqYoQulPm45sm0Tf1Tw3VF5u2/Ww152oli+c9nDlZNDA09rG2Yrm3WV
-         hoJal7d0Zt3vU9OZ8m1yfD3uuRFPG8aK03n8nKla3ByFoigB40Zisn3uBxMPZWukNMFg
-         kOpctpxJyQLf2tiS0QiAfhcRPpPr/W4jNDWhhQ209scKHwDRcwLk6R4YCH8ANqT0EQl+
-         4eIRVsNkLTS4ctcAskAQsYegF3mKJEyj3Ya7EuDV69gTbOJavnrh6IHawf8qLZK32w0E
-         WKXg==
-X-Gm-Message-State: AOAM530gI0qEq6TDatIx2rEUVXP7kTKi3tWwmo5MRUlhn0vpBchBZbE7
-        6TjXKyn4Cuxf3flTmk7hqpsCgb3zFW1vTVya
-X-Google-Smtp-Source: ABdhPJygkbEZPUBL8FKCivIVru+pMlLkDZdp0Yvt+q99tDgbzhqGWQ56hw+CAjnWh/NqPusekOuqtA==
-X-Received: by 2002:aa7:d6d4:: with SMTP id x20mr18008624edr.8.1612796849091;
-        Mon, 08 Feb 2021 07:07:29 -0800 (PST)
-Received: from dell-xps159570.domain_not_set.invalid (129-228-158-163.dynamic.caiway.nl. [163.158.228.129])
-        by smtp.gmail.com with ESMTPSA id c3sm810930edr.94.2021.02.08.07.07.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Feb 2021 07:07:28 -0800 (PST)
-From:   Yorick de Wid <ydewid@gmail.com>
-To:     linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Yorick de Wid <yorickdewid@users.noreply.github.com>,
-        Yorick de Wid <ydewid@gmail.com>
-Subject: [PATCH] docs: Remove the Microsoft rhetoric
-Date:   Mon,  8 Feb 2021 16:04:48 +0100
-Message-Id: <20210208150447.87104-1-ydewid@gmail.com>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :cc;
+        bh=KABW1PbKP87UHlmwOVcrjPZPD/KiH4IFW6HwyHI8HLw=;
+        b=mIzSWC4Pl3kN0wchO8k/hL2sCbOYwVbKYEygEoKEdYkQPmJXphQLp2fcRHH1+4GRDN
+         pbONQ+dZAZw84YLV3ltgThF3Pv83SV8TjQI88Ef6Wuji9FWWdwimfXfMoXPpSCU1PoMT
+         PgcXxxQNZeIgwCiM6oH7tIBoCO01eHgwoyH64UulELjHXTd66PWpOj6GFTmO6D/Y13lL
+         J++cVW2VpqBnBTzMEcoCrlQH8D1OCpjWVYYwjZqLLT0FX1246Q91wLkhU6EB8R1H6coM
+         PaJnHBKcN9r8uQAzOAhCwltglHP5JWxmYpMnrkkAw140+2yoijvMtlXkwbLSu3F9nXLy
+         Xe+w==
+X-Gm-Message-State: AOAM531LuKxZbKA1QNvVVY8yJ0uXUq1jrkJfwEyuPVyKQlbcIQrCPoOo
+        uIG7CHu3Xv9twBAS8dJY2Y02Rm9yQMHckrVYcg==
+X-Google-Smtp-Source: ABdhPJzuXaTRTgc+EAuykmBzD3iqNY/rHmUzDcRcTAMRZk6QDJfaHi7NSpPJJ27dJ73RTtDxK542lXuw7axQ6iUCkw==
+Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a05:6214:1904:: with SMTP id
+ er4mr16277873qvb.56.1612797279931; Mon, 08 Feb 2021 07:14:39 -0800 (PST)
+Date:   Mon,  8 Feb 2021 15:14:27 +0000
+Message-Id: <20210208151437.1357458-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.478.g8a0d178c01-goog
+Subject: [PATCH v5 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        rdunlap@infradead.org, christian.koenig@amd.com,
+        willy@infradead.org, kernel-team@android.com,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Anand K Mistry <amistry@google.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yorick de Wid <yorickdewid@users.noreply.github.com>
+Android captures per-process system memory state when certain low memory
+events (e.g a foreground app kill) occur, to identify potential memory
+hoggers. In order to measure how much memory a process actually consumes,
+it is necessary to include the DMA buffer sizes for that process in the
+memory accounting. Since the handle to DMA buffers are raw FDs, it is
+important to be able to identify which processes have FD references to
+a DMA buffer.
 
-There is no need to need to name Microsoft. The point is clear without that context.
+Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+/proc/<pid>/fdinfo -- both are only readable by the process owner,
+as follows:
+  1. Do a readlink on each FD.
+  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+  3. stat the file to get the dmabuf inode number.
+  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 
-Signed-off-by: Yorick de Wid <ydewid@gmail.com>
+Accessing other processes' fdinfo requires root privileges. This limits
+the use of the interface to debugging environments and is not suitable
+for production builds.  Granting root privileges even to a system process
+increases the attack surface and is highly undesirable.
+
+Since fdinfo doesn't permit reading process memory and manipulating
+process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
+
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
 ---
- Documentation/process/coding-style.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Changes in v2:
+  - Update patch description
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 98227226c4e..5608ed2931f 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -306,8 +306,7 @@ that counts the number of active users, you should call that
+ fs/proc/base.c |  4 ++--
+ fs/proc/fd.c   | 15 ++++++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index b3422cda2a91..a37f9de7103f 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_operations),
+ 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+ 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_map_files_operations),
+-	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_inode_operations = {
+  */
+ static const struct pid_entry tid_base_stuff[] = {
+ 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+-	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index cb51763ed554..585e213301f9 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -6,6 +6,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/namei.h>
+ #include <linux/pid.h>
++#include <linux/ptrace.h>
+ #include <linux/security.h>
+ #include <linux/file.h>
+ #include <linux/seq_file.h>
+@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
  
- Encoding the type of a function into the name (so-called Hungarian
- notation) is asinine - the compiler knows the types anyway and can check
--those, and it only confuses the programmer. No wonder Microsoft makes buggy
--programs.
-+those, and it only confuses the programmer.
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
++	bool allowed = false;
++	struct task_struct *task = get_proc_task(inode);
++
++	if (!task)
++		return -ESRCH;
++
++	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
++	put_task_struct(task);
++
++	if (!allowed)
++		return -EACCES;
++
+ 	return single_open(file, seq_show, inode);
+ }
  
- LOCAL variable names should be short, and to the point.  If you have
- some random integer loop counter, it should probably be called ``i``.
+@@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct dentry *dentry,
+ 	struct proc_inode *ei;
+ 	struct inode *inode;
+ 
+-	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
++	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+ 	if (!inode)
+ 		return ERR_PTR(-ENOENT);
+ 
 -- 
-2.30.0
+2.30.0.478.g8a0d178c01-goog
 
