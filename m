@@ -8,25 +8,25 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D3CAC43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A7CAC433E6
 	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 01:10:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EAEA64EB4
+	by mail.kernel.org (Postfix) with ESMTP id 181A064EB1
 	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 01:10:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229892AbhBIBKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 20:10:17 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9755 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230088AbhBIBKO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 20:10:14 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B6021e0ce0000>; Mon, 08 Feb 2021 17:09:34 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb
- 2021 01:09:34 +0000
+        id S230050AbhBIBKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 20:10:10 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:5859 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229892AbhBIBKJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 20:10:09 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B6021e0c80000>; Mon, 08 Feb 2021 17:09:28 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb
+ 2021 01:09:27 +0000
 Received: from localhost (172.20.145.6) by DRHQMAIL107.nvidia.com (10.27.9.16)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb 2021 01:09:33
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb 2021 01:09:27
  +0000
 From:   Alistair Popple <apopple@nvidia.com>
 To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
@@ -35,9 +35,9 @@ CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
         <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
         <jglisse@redhat.com>, "Alistair Popple" <apopple@nvidia.com>
-Subject: [PATCH 4/9] Documentation: Add unmap and pin to HMM
-Date:   Tue, 9 Feb 2021 12:07:17 +1100
-Message-ID: <20210209010722.13839-5-apopple@nvidia.com>
+Subject: [PATCH 2/9] mm/migrate.c: Allow pfn flags to be passed to migrate_vma_setup()
+Date:   Tue, 9 Feb 2021 12:07:15 +1100
+Message-ID: <20210209010722.13839-3-apopple@nvidia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210209010722.13839-1-apopple@nvidia.com>
 References: <20210209010722.13839-1-apopple@nvidia.com>
@@ -48,84 +48,95 @@ X-Originating-IP: [172.20.145.6]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1612832974; bh=pyZp6/9XNMC0mK0WRRvgfyWXvzV3+8u2/OO5kZH2+Vg=;
+        t=1612832968; bh=iKGh0Em+q0SV2cD8tosOGsNNeFRDCVNZNzeMEYUMuKY=;
         h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
          References:MIME-Version:Content-Transfer-Encoding:Content-Type:
          X-Originating-IP:X-ClientProxiedBy;
-        b=jeZjl3nfuSeq3FgFlgTJUt58XPL3emJVARijzZ4vq7ltCLgRVsr0bJW0RX7cLsy4+
-         6i2ssucV5jShnIDv0z47fip74hEH6p2G7xEJGuH3szVMZf9TbumLk+9q9cM2uqpJqF
-         zp0STD/loZHiqwCk48WN2CUfYhM/po5OgnEr3p85w9nntk+tBlaEU/GEolQNOEp1iF
-         zEl1WiliIccRiu3A/3Ps6CBlVCYypWGxVgimQYvt7/3b0HLJ79gnhK9hGtXogpZXon
-         2dFsEzwULBU/1bCkZF5FIg7ycfCM4V4o6iEhQSzOB1i8QXdnME+lFPKBFz1v+szxGz
-         jVlzmZBk+PGQA==
+        b=C3dPDOP+AZYYPiUDaU8tmyIQKU0atPQPf0P8bxkKmEleXzrnWlxwA6cPTpzjRHxEw
+         yjQU2wttE/M65pLMYv4hEABvsKiInM0Lbvb9GC/vgyKDfOtElNlUiIxXmGHGAdYk1K
+         EzUcT+kxdkGr6MSirU2Qm96A54p4W+NJ4MHIQt9hzenYZeBUVEhs5B0esyZkLMU6b+
+         yO0kVMs6S8bX+GEKSKWOJjco0oQr3SuSMzXHTJhxr0GQoq8dW+TGbdHkXkTVTgr/As
+         a1ccJhtxb23aKMFHeK97TewZeIPHFo62wBpSrxD7mqbISrdBfUV9e5kY+cvhgKWXtY
+         uYSRX6/5DdaEw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the HMM documentation to include information on the unmap and pin
-operation.
+Currently migrate_vma_setup() zeros both src and dst pfn arrays. This
+means it is not possible to pass per-pfn flags to migrate_vma_setup(). A
+future patch introduces per-pfn flags for migrate_vma_setup(), so ensure
+existing callers will not be affected by having the caller zero both src
+and dst pfn arrays.
 
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
 ---
- Documentation/vm/hmm.rst | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ arch/powerpc/kvm/book3s_hv_uvmem.c | 4 ++--
+ lib/test_hmm.c                     | 6 ++++--
+ mm/migrate.c                       | 1 -
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index 09e28507f5b2..83234984f656 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -346,7 +346,15 @@ between device driver specific code and shared common =
-code:
-    from the LRU (if system memory since device private pages are not on
-    the LRU), unmapped from the process, and a special migration PTE is
-    inserted in place of the original PTE.
--   migrate_vma_setup() also clears the ``args->dst`` array.
-+
-+   A device driver may also initialise ``src`` entries with the
-+   ``MIGRATE_PFN_PIN`` flag. This allows the device driver to unmap and pi=
-n
-+   the existing system page in place whilst migrating page metadata to a
-+   device private page. This leaves the page isolated from the LRU and giv=
-es
-+   the device exclusive access to the page data without the need to migrat=
-e
-+   data as any CPU access will trigger a fault. The device driver needs to
-+   keep track of the ``src`` page as it effectively becomes the owner of
-+   the page and needs to pass it in when remapping and unpinning the page.
+diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_h=
+v_uvmem.c
+index 84e5a2dc8be5..d434783b272a 100644
+--- a/arch/powerpc/kvm/book3s_hv_uvmem.c
++++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
+@@ -506,7 +506,7 @@ static int __kvmppc_svm_page_out(struct vm_area_struct =
+*vma,
+ 		unsigned long end, unsigned long page_shift,
+ 		struct kvm *kvm, unsigned long gpa)
+ {
+-	unsigned long src_pfn, dst_pfn =3D 0;
++	unsigned long src_pfn =3D 0, dst_pfn =3D 0;
+ 	struct migrate_vma mig;
+ 	struct page *dpage, *spage;
+ 	struct kvmppc_uvmem_page_pvt *pvt;
+@@ -732,7 +732,7 @@ static int kvmppc_svm_page_in(struct vm_area_struct *vm=
+a,
+ 		unsigned long page_shift,
+ 		bool pagein)
+ {
+-	unsigned long src_pfn, dst_pfn =3D 0;
++	unsigned long src_pfn =3D 0, dst_pfn =3D 0;
+ 	struct migrate_vma mig;
+ 	struct page *spage;
+ 	unsigned long pfn;
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 80a78877bd93..98848b96ff09 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -696,6 +696,8 @@ static int dmirror_migrate(struct dmirror *dmirror,
+ 		if (next > vma->vm_end)
+ 			next =3D vma->vm_end;
 =20
- 3. The device driver allocates destination pages and copies source pages t=
-o
-    destination pages.
-@@ -357,8 +365,8 @@ between device driver specific code and shared common c=
-ode:
-    array for that page.
++		memset(src_pfns, 0, ARRAY_SIZE(src_pfns));
++		memset(dst_pfns, 0, ARRAY_SIZE(dst_pfns));
+ 		args.vma =3D vma;
+ 		args.src =3D src_pfns;
+ 		args.dst =3D dst_pfns;
+@@ -1025,8 +1027,8 @@ static vm_fault_t dmirror_devmem_fault_alloc_and_copy=
+(struct migrate_vma *args,
+ static vm_fault_t dmirror_devmem_fault(struct vm_fault *vmf)
+ {
+ 	struct migrate_vma args;
+-	unsigned long src_pfns;
+-	unsigned long dst_pfns;
++	unsigned long src_pfns =3D 0;
++	unsigned long dst_pfns =3D 0;
+ 	struct page *rpage;
+ 	struct dmirror *dmirror;
+ 	vm_fault_t ret;
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 053228559fd3..fe8bb322e2e3 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -2874,7 +2874,6 @@ int migrate_vma_setup(struct migrate_vma *args)
+ 	if (!args->src || !args->dst)
+ 		return -EINVAL;
 =20
-    The driver then allocates either a device private struct page or a
--   system memory page, locks the page with ``lock_page()``, and fills in t=
-he
--   ``dst`` array entry with::
-+   system memory page, locks the page with ``lock_page()``, and fills in
-+   the ``dst`` array entry with::
+-	memset(args->src, 0, sizeof(*args->src) * nr_pages);
+ 	args->cpages =3D 0;
+ 	args->npages =3D 0;
 =20
-      dst[i] =3D migrate_pfn(page_to_pfn(dpage)) | MIGRATE_PFN_LOCKED;
-=20
-@@ -373,6 +381,14 @@ between device driver specific code and shared common =
-code:
-    destination or clear the destination device private memory if the point=
-er
-    is ``NULL`` meaning the source page was not populated in system memory.
-=20
-+   Alternatively a driver that is remapping and unpinning a source page
-+   obtained from a ``MIGRATE_PFN_PIN`` operation should lock the original
-+   source page and pass it in along with the ``MIGRATE_PFN_UNPIN`` flag
-+   without any need to copy data::
-+
-+     dst[i] =3D migrate_pfn(page_to_pfn(spage)) | MIGRATE_PFN_LOCKED
-+              | MIGRATE_PFN_UNPIN;
-+
- 4. ``migrate_vma_pages()``
-=20
-    This step is where the migration is actually "committed".
 --=20
 2.20.1
 
