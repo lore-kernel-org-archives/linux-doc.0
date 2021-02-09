@@ -2,119 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E503FC43381
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22773C433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:38:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD67964E85
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4A5064EA6
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233145AbhBIRZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 12:25:33 -0500
-Received: from mail-wr1-f49.google.com ([209.85.221.49]:43676 "EHLO
-        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233092AbhBIRZ0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 12:25:26 -0500
-Received: by mail-wr1-f49.google.com with SMTP id z6so22873870wrq.10;
-        Tue, 09 Feb 2021 09:24:58 -0800 (PST)
+        id S233014AbhBIRiE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 12:38:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233166AbhBIRgV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 12:36:21 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E287C06121D
+        for <linux-doc@vger.kernel.org>; Tue,  9 Feb 2021 09:35:33 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id o12so18159007ote.12
+        for <linux-doc@vger.kernel.org>; Tue, 09 Feb 2021 09:35:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2frGZv9MpWB5lKgC9m9OF/K9NIuBbPrL9HEmWyY/ZXM=;
+        b=tFsX5hNXjRip+gDiFP26/8Y6n3Ujr7r2J/g7QT/wCIpPnNkhBWcIuMMko68VFPs8O7
+         iUehhxmDexfrqbRcEDYUrFYueQ3iEEnEcn5g5wCSe/r6Sae6rlswtsB9Qemj344SRPKA
+         Y4T6r3HBxIH30RVjEKh19VsL7m3QtCJDuXOXG3OcfCabtyrXYzjTWH6UTtb8X5cYm/SR
+         8+uQ9XTY7JZWhs3A8WWeFlb4cnWsk3RrgdUyllSBTl/fi1hcHJ0EJ56fAfZbvvj0njOb
+         ZxDWnVj0FBGoE7UW0RCt4KHX1toGfxIylClT41By93xJGg/wnooTHZqZPn8I6SmOrJ76
+         ECPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=4UpteF9FRAi4Lict6Jo0G0PAyOOY1t7OFU8ICZLlrWU=;
-        b=X6w+jZ6IVwm+MyxEorO/YZsBoyZ4chJtCj5bbN97NGzycXs31OcvfNcZuaQeVRWzUU
-         0C5TRrRJUVHE6hzS37sekMWBreP+8FoBVsxGg7cP8tQCc3fl/3LIKxsR4n1gxRPts7ik
-         3fcaprYWX0XV+pqrffXCOtpGdo/ydyUTenAWq9ycfTqCgc92uxE+HWtp7K6BbezsxR9M
-         HSwmdDnsbZgYVH20vAOgM1w0jfj3oD5fuyqm0fd1FKIWojzhF3iJct3pHZZoe7HgdBJ1
-         h5MvDd2GaGZiAqbpkSJnpUSwcjk+jKFocWwodf4kw9/BePMRb/Ktxmoaa5eSXnWmnqUg
-         lc7w==
-X-Gm-Message-State: AOAM5310ZVlokOhn1QSq5aUEEAP08BNsp0F63a5rJgBS1FnsKig6oWvd
-        4Ji+ACu1wjMqLYnu7UZyEJpBNBF2zMC4S4W1
-X-Google-Smtp-Source: ABdhPJyGMQ1urNhCBippyPBIN4KwVwyW0K5zNfW3lbzz0rTCXrZwc5BTrcwutx5qGpYpxipp581BDg==
-X-Received: by 2002:adf:a501:: with SMTP id i1mr13852390wrb.149.1612891473332;
-        Tue, 09 Feb 2021 09:24:33 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id l10sm38463537wro.4.2021.02.09.09.24.31
+        bh=2frGZv9MpWB5lKgC9m9OF/K9NIuBbPrL9HEmWyY/ZXM=;
+        b=RjZ43orp3l0O+HI/R47f6RL6ZLBcB8e+qPrBPzDCoW9vqDHBfhNz0+fmfBC8m7sT8C
+         oH1BN92NrbZlDb7DHVkvWNhtdNMPqRBfK8xbEnyMni/+aQJuYb4dkF4CeitFioa55cBS
+         3Mkp+lDoY39DaBFHFMj/05R9VN3mpg5qpKosT3dY5OvRQkbXdLUzTuPMY1FXVbeeKrP+
+         2GHs6WWeoM1CbKKEn0hmAyrwYM6Td0vHSzjlZdb/JpZq6GayX++TqnwZaZc0D609E4Vv
+         er9EE1ykZTJge3KcmjlhOjJyTAK7yOLCuzNTSAzmUo/JtMrGhAZsFC9z9leKKz+4BYEk
+         72vg==
+X-Gm-Message-State: AOAM532uj0uobfoU7frf8X2KRmDYfKbehmofbICdWB7XOivIdl7HtB6w
+        G8pb8dyt89KI5/FLUACx0wV5og==
+X-Google-Smtp-Source: ABdhPJz/03ffuC6poRQA2jg3nh3UAaz74Jb0+oLSH1BzKUkjmuUdZcGJUXR4cbsa8XJhGLqFuOIeNQ==
+X-Received: by 2002:a05:6830:1342:: with SMTP id r2mr17237593otq.216.1612892132157;
+        Tue, 09 Feb 2021 09:35:32 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id x187sm4489883oig.3.2021.02.09.09.35.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 09:24:32 -0800 (PST)
-Date:   Tue, 9 Feb 2021 18:24:30 +0100
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [RESEND v4 1/6] misc: Add Synopsys DesignWare xData IP driver
-Message-ID: <YCLFTjZQ2bCfGC+J@rocinante>
-References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
- <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
- <YB9EDzI7mSrzXUUB@rocinante>
- <DM5PR12MB18354765D69889F2CD6E4D89DA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
- <YCHBAmFAOv/Joqp5@rocinante>
- <DM5PR12MB18350F331485A6FF36ED28DADA8E9@DM5PR12MB1835.namprd12.prod.outlook.com>
+        Tue, 09 Feb 2021 09:35:31 -0800 (PST)
+Date:   Tue, 9 Feb 2021 11:35:29 -0600
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     mdalam@codeaurora.org
+Cc:     Vinod Koul <vkoul@kernel.org>, corbet@lwn.net, agross@kernel.org,
+        dan.j.williams@intel.com, dmaengine@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, sricharan@codeaurora.org,
+        mdalam=codeaurora.org@codeaurora.org
+Subject: Re: [PATCH] dmaengine: qcom: bam_dma: Add LOCK and UNLOCK flag bit
+ support
+Message-ID: <YCLH4ZOMjLbywl4u@builder.lan>
+References: <20210112101056.GI2771@vkoul-mobl>
+ <e3cf7c4fc02c54d17fd2fd213f39005b@codeaurora.org>
+ <20210115055806.GE2771@vkoul-mobl>
+ <97ce29b230164a5848a38f6448d1be60@codeaurora.org>
+ <20210119164511.GE2771@vkoul-mobl>
+ <534308caab7c18730ad0cc25248d116f@codeaurora.org>
+ <20210201060508.GK2771@vkoul-mobl>
+ <9d33d73682f24d92338757e1823ccd88@codeaurora.org>
+ <20210201064314.GM2771@vkoul-mobl>
+ <73c871d3d674607fafc7b79e602ec587@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM5PR12MB18350F331485A6FF36ED28DADA8E9@DM5PR12MB1835.namprd12.prod.outlook.com>
+In-Reply-To: <73c871d3d674607fafc7b79e602ec587@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gustavo,
+On Mon 01 Feb 09:50 CST 2021, mdalam@codeaurora.org wrote:
 
-[...]
-> > The code in question would be (exceprt from the patch):
+> On 2021-02-01 12:13, Vinod Koul wrote:
+> > On 01-02-21, 11:52, mdalam@codeaurora.org wrote:
+> > > On 2021-02-01 11:35, Vinod Koul wrote:
+> > > > On 27-01-21, 23:56, mdalam@codeaurora.org wrote:
 > > 
-> > [...]
-> > +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
-> > +			       const struct pci_device_id *pid)
-> > +{
-> > +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
-> > +	struct dw_xdata *dw;
-> > [...]
-> > +	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
-> > +	if (!dw->rg_region.vaddr)
-> > +		return -ENOMEM;
-> > [...]
+> > > > >   The actual LOCK/UNLOCK flag should be set on hardware command
+> > > > > descriptor.
+> > > > >   so this flag setting should be done in DMA engine driver. The user
+> > > > > of the
+> > > > > DMA
+> > > > >   driver like (in case of IPQ5018) Crypto can use flag
+> > > > > "DMA_PREP_LOCK" &
+> > > > > "DMA_PREP_UNLOCK"
+> > > > >   while preparing CMD descriptor before submitting to the DMA
+> > > > > engine. In DMA
+> > > > > engine driver
+> > > > >   we are checking these flasgs on CMD descriptor and setting actual
+> > > > > LOCK/UNLOCK flag on hardware
+> > > > >   descriptor.
+> > > >
+> > > >
+> > > > I am not sure I comprehend this yet.. when is that we would need to do
+> > > > this... is this for each txn submitted to dmaengine.. or something
+> > > > else..
+> > > 
+> > >  Its not for each transaction submitted to dmaengine. We have to set
+> > > this
+> > > only
+> > >  once on CMD descriptor. So when A53 crypto driver need to change
+> > > the crypto
+> > > configuration
+> > >  then first it will lock the all other pipes using setting the LOCK
+> > > flag bit
+> > > on CMD
+> > >  descriptor and then it can start the transaction , on data
+> > > descriptor this
+> > > flag will
+> > >  not get set once all transaction will be completed the A53 crypto
+> > > driver
+> > > release the lock on
+> > >  all other pipes using UNLOCK flag on CMD descriptor. So LOCK/UNLOCK
+> > > will be
+> > > only once and not for
+> > >  the each transaction.
 > > 
-> > Perhaps something like the following would would?
+> > Okay so why cant the bam driver check cmd descriptor and do lock/unlock
+> > as below, why do we need users to do this.
 > > 
-> > void __iomem * const *iomap_table;
-> > 
-> > iomap_table = pcim_iomap_table(pdev);
-> > if (!iomap_table)
-> >         return -ENOMEM;
-> > 
-> > dw->rg_region.vaddr = iomap_table[pdata->rg_bar];
-> > if (!dw->rg_region.vaddr)
-> > 	return -ENOMEM;
-> > 
-> > With sensible error messages added, of course.  What do you think?
+> >         if (flags & DMA_PREP_CMD) {
+> >                 do_lock_bam();
 > 
-> I think all the improvements are welcome. I will do that.
-> My only doubt is if Bjorn recommends removing the 
-> iomap_table[pdata->rg_bar] check, after adding the verification on the 
-> pcim_iomap_table, because all other drivers doesn't do that.
+>  User will not decide to do this LOCK/UNLOCK mechanism. It depends on
+>  use case.  This LOCK/UNLOCK mechanism not required always. It needs
+>  only when hardware will be shared between different core with
+>  different driver.
 
-Good point.  I only found two drivers that do this extra check:
+So you have a single piece of crypto hardware and you're using the BAM's
+LOCK/UNLOCK feature to implement a "mutex" on a particular BAM channel?
 
-  https://elixir.bootlin.com/linux/v5.11-rc7/source/drivers/crypto/ccp/sp-pci.c#L203
-  https://elixir.bootlin.com/linux/v5.11-rc7/source/drivers/net/ethernet/amd/xgbe/xgbe-pci.c#L252
+>  The LOCK/UNLOCK flags provides SW to enter ordering between pipes
+> execution.
+>  (Generally, the BAM pipes are total independent from each other and work in
+> parallel manner).
+>  This LOCK/UNLOCK flags are part of actual pipe hardware descriptor.
+> 
+>  Pipe descriptor having the following flags:
+>  INT : Interrupt
+>  EOT: End of transfer
+>  EOB: End of block
+>  NWD: Notify when done
+>  CMD: Command
+>  LOCK: Lock
+>  UNLOCK: Unlock
+>  etc.
+> 
+>  Here the BAM driver is common driver for (QPIC, Crypto, QUP etc. in
+> IPQ5018)
+>  So here only Crypto will be shared b/w multiple cores so For crypto request
+> only the LOCK/UNLOCK
+>  mechanism required.
+>  For other request like for QPIC driver, QUPT driver etc. its not required.
+> So Crypto driver has to raise the flag for
+>  LOCK/UNLOCK while preparing CMD descriptor. The actual locking will happen
+> in BAM driver only using condition
+>  if (flags & DMA_PREP_CMD) {
+>      if (flags & DMA_PREP_LOCK)
+>         desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
+>  }
+> 
+>  So Crypto driver should set this flag DMA_PREP_LOCK while preparing CMD
+> descriptor.
+>  So LOCK should be set on actual hardware pipe descriptor with descriptor
+> type CMD.
+> 
 
-Bjorn, do you think that there is some likelihood that the table might
-be missing a mapped address for a given BAR?
+It sounds fairly clear that the actual descriptor modification must
+happen in the BAM driver, but the question in my mind is how this is
+exposed to the DMAengine clients (e.g. crypto, QPIC etc).
 
-I don't think that is the case, but should it be the case, then perhaps
-adding a small wrapper that would take a BAR and do all the verification
-internally might be a good idea.
+What is the life span of the locked state? Do you always provide a
+series of descriptors that starts with a LOCK and ends with an UNLOCK?
+Or do you envision that the crypto driver provides a LOCK descriptor and
+at some later point provides a UNLOCK descriptor?
 
-Krzysztof
+
+Finally, this patch just adds the BAM part of things, where is the patch
+that actually makes use of this feature?
+
+Regards,
+Bjorn
+
+> > 
+> > The point here is that this seems to be internal to dma and should be
+> > handled by dma driver.
+> > 
+>   This LOCK/UNLOK flags are part of actual hardware descriptor so this
+> should be handled by BAM driver only.
+>   If we set condition like this
+>   if (flags & DMA_PREP_CMD) {
+>                 do_lock_bam();
+>   Then LOCK/UNLOCK will be applied for all the CMD descriptor including
+> (QPIC driver, QUP driver , Crypto driver etc.).
+>   So this is not our intension. So we need to set this LOCK/UNLOCK only for
+> the drivers it needs. So Crypto driver needs
+>   locking mechanism so we will set LOCK/UNLOCK flag on Crypto driver request
+> only for other driver request like QPIC driver,
+>   QUP driver will not set this.
+> 
+> > Also if we do this, it needs to be done for specific platforms..
+> > 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> > Thanks
