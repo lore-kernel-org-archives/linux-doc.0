@@ -2,110 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C020C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D798C433E9
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:46:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDE6564E4F
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:35:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E417564EA6
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:46:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbhBIOfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 09:35:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232130AbhBIOdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 09:33:52 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C46C06178B;
-        Tue,  9 Feb 2021 06:33:12 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id z22so13044974qto.7;
-        Tue, 09 Feb 2021 06:33:12 -0800 (PST)
+        id S230260AbhBIOqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 09:46:02 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:2068 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230043AbhBIOp4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 09:45:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fAm7IYlzcPxcyIGE7fbs6JaVUzixxWFM8O5XHRLso0g=;
-        b=ZKuZmT0HezCXrL5m/xqZS4qlsuzUMhblsTUWCxX5/+8jtkH5xRIIWQW0oI98yBSJy5
-         MfQpvFh1+uOhKTjM6EVkes4lUI/29Ns4V17uzg0LImBVWYKIilA63IdkBqxYXxoZsLAE
-         p4jYCSxmgkD/hjNFnQ0Ey7KE/33/EmkNvywzCQefXuAeG+wnHNVy6Z2F6cKbUWEKxLJH
-         ZNeZH7DvXvewkvjHna6aBt+VBbq60yid3pdKSPawBmPT/D8KKGDBerKCqYn/hmIS40fc
-         VVX/wbLqXY2p5My/E3FL0OW6g5PpT4sAKCzgXjhJpej9JM5kCs59bkylC0hkmDkR62aZ
-         cTlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=fAm7IYlzcPxcyIGE7fbs6JaVUzixxWFM8O5XHRLso0g=;
-        b=l+x1TqiKEHNOcfTgo8lBqQSXIledEocNkQVUrehkhsKob5thpmliKxbYI6rE/Dfl5s
-         F0jmKhS6mbwMJGburmFs0b9NYFlqBWdUOsrEmz3Odk55RSTSA3WzIvL5Do9pZ2jk6uFQ
-         YoGsY0b3ZwpNfHIqbhd/D30bvOivPfIwFkKjVcL4SLk6Havq7rdu8O+cD15m5Wn+BGJ3
-         gD6vswlZ3kvXYUw1KnRtW2w5uXjYQXAlfIJH5AT1U3weZDjVossIE+k747KMbd0xY6uI
-         CO/m8Vpsgj1zFyevCnaGLfS4Y7sDMpVfffJXPboIssu1l+LcdgW1sKh028lwPFZqMu/B
-         E0hg==
-X-Gm-Message-State: AOAM531st3WlyGXCfgo+X96F7gSxrQdayryrhr5Ia0sDXT+HT6UtjiC9
-        z0UCK1dFN4DlJoL9m0SjrEbfgyQhPtEVcAvl
-X-Google-Smtp-Source: ABdhPJxJxKs7kvB4lfgwSFO1sxxO9IFZMIlRafe4mrpnQgbjiaUo9DXSzvIuGtdGHh4VyazWw1jc4A==
-X-Received: by 2002:ac8:1494:: with SMTP id l20mr20499808qtj.151.1612881191529;
-        Tue, 09 Feb 2021 06:33:11 -0800 (PST)
-Received: from ArchLinux ([156.146.37.186])
-        by smtp.gmail.com with ESMTPSA id r4sm19121837qkf.112.2021.02.09.06.33.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 06:33:10 -0800 (PST)
-Date:   Tue, 9 Feb 2021 20:03:02 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Subject: Re: [PATCH] docs: maintainer: Fix the spelling mistaeks to mistakes
- in the file pull-requests.rst
-Message-ID: <YCKdHhV1LZ6tsii4@ArchLinux>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-References: <20210209140155.3890715-1-unixbhaskar@gmail.com>
- <20210209142130.GX308988@casper.infradead.org>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1612881956; x=1644417956;
+  h=from:to:cc:date:message-id:references:in-reply-to:
+   content-id:mime-version:content-transfer-encoding:subject;
+  bh=NxMwBdmyc4sNOrz14IYPg0zdZ8oD1VtXNjDeDxomoG8=;
+  b=pBP07ojO0rxzTEMHjDNFPktHeYrlBcgGqKUc9ZjRJ0Sqa2HCWe0Qd3Vg
+   8lSbcRmFkd3hdSouYrU81W0anFf87DxYsnA3ke39t3+rPp6F2RrAiKNVT
+   Q9oxn77cmnsk1GxS5nyksThyMYpoW4M93ittXUoDY4nc/WvacXX57unay
+   M=;
+X-IronPort-AV: E=Sophos;i="5.81,165,1610409600"; 
+   d="scan'208";a="85049893"
+Subject: Re: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id driver
+Thread-Topic: [PATCH v5 1/2] drivers/misc: sysgenid: add system generation id driver
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 09 Feb 2021 14:45:04 +0000
+Received: from EX13MTAUWB001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2c-456ef9c9.us-west-2.amazon.com (Postfix) with ESMTPS id 4F2E12E4314;
+        Tue,  9 Feb 2021 14:45:01 +0000 (UTC)
+Received: from EX13D20UWA002.ant.amazon.com (10.43.160.176) by
+ EX13MTAUWB001.ant.amazon.com (10.43.161.249) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Feb 2021 14:45:00 +0000
+Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
+ EX13D20UWA002.ant.amazon.com (10.43.160.176) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 9 Feb 2021 14:44:59 +0000
+Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
+ EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.010;
+ Tue, 9 Feb 2021 14:44:58 +0000
+From:   "Catangiu, Adrian Costin" <acatan@amazon.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "Graf (AWS), Alexander" <graf@amazon.de>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+        "Jason@zx2c4.com" <Jason@zx2c4.com>,
+        "jannh@google.com" <jannh@google.com>, "w@1wt.eu" <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "ebiggers@kernel.org" <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "areber@redhat.com" <areber@redhat.com>,
+        "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>
+Thread-Index: AQHW+L9CWTm14fGsAkOMfnzzQsViX6pExcWAgAtOiQA=
+Date:   Tue, 9 Feb 2021 14:44:58 +0000
+Message-ID: <6D86B655-C57C-4E58-87D2-507D62E3B820@amazon.com>
+References: <1612200294-17561-1-git-send-email-acatan@amazon.com>
+ <1612200294-17561-2-git-send-email-acatan@amazon.com>
+ <YBk/7YzxqPJM3Bm8@kroah.com>
+In-Reply-To: <YBk/7YzxqPJM3Bm8@kroah.com>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.166.130]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D4110FB330449B40B4E7F8905E6D7C0E@amazon.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="/Wa9Npo/oMKrprps"
-Content-Disposition: inline
-In-Reply-To: <20210209142130.GX308988@casper.infradead.org>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+T24gMDIvMDIvMjAyMSwgMTQ6MDUsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5v
+cmc+IHdyb3RlOg0KDQogICAgT24gTW9uLCBGZWIgMDEsIDIwMjEgYXQgMDc6MjQ6NTNQTSArMDIw
+MCwgQWRyaWFuIENhdGFuZ2l1IHdyb3RlOg0KICAgID4gK0VYUE9SVF9TWU1CT0woc3lzZ2VuaWRf
+YnVtcF9nZW5lcmF0aW9uKTsNCg0KICAgIEVYUE9SVF9TWU1CT0xfR1BMKCk/ICBJIGhhdmUgdG8g
+YXNrLi4uDQoNCkdvb2QgY2F0Y2ghIFdpbGwgdXBkYXRlLg0KDQoKCgpBbWF6b24gRGV2ZWxvcG1l
+bnQgQ2VudGVyIChSb21hbmlhKSBTLlIuTC4gcmVnaXN0ZXJlZCBvZmZpY2U6IDI3QSBTZi4gTGF6
+YXIgU3RyZWV0LCBVQkM1LCBmbG9vciAyLCBJYXNpLCBJYXNpIENvdW50eSwgNzAwMDQ1LCBSb21h
+bmlhLiBSZWdpc3RlcmVkIGluIFJvbWFuaWEuIFJlZ2lzdHJhdGlvbiBudW1iZXIgSjIyLzI2MjEv
+MjAwNS4K
 
---/Wa9Npo/oMKrprps
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-
-On 14:21 Tue 09 Feb 2021, Matthew Wilcox wrote:
->On Tue, Feb 09, 2021 at 07:31:55PM +0530, Bhaskar Chowdhury wrote:
->>
->> s/mistaeks/mistakes/
->
->You missed the joke.
-
-:) it seems!
-
---/Wa9Npo/oMKrprps
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmAinRkACgkQsjqdtxFL
-KRUhZggA2nuZx654smDQ9H9jvFj6khzbJ6UsZmkt5EfyeN7L2o/4GVC52Lp8NM5r
-LvzZ1n5/bH7rTD4g++6idu8nksDNf4S7NoNmFFyW+VNh/Qrb+b5usJ5BXLu7K3ce
-DdeEva/Kshx/xEwGh6ib2EeVKCoM17TQOMEGCb0Yu/f2Eei+OuByRmJeMoX9CRKT
-QUiZAp+3wCAPjNV/idRgUQ68ffJe9TEjNT/KUhQYorp661IgQfZKwCvErIqYiIQV
-uT1dTRr7vwnN0IPXdlh45PlwnnYQroozojQwLSZ++FkphIIRalHb86i69BUE6iW2
-Wg2rAspS4Zq7h5q0TvwlxotoQeTYxw==
-=DUzO
------END PGP SIGNATURE-----
-
---/Wa9Npo/oMKrprps--
