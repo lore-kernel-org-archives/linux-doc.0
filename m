@@ -2,109 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51465C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 00:56:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D52C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 01:10:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1ED2A64E79
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 00:56:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4971564EB1
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 01:10:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbhBIAzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Feb 2021 19:55:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36146 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbhBIAzy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 19:55:54 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B98C061786;
-        Mon,  8 Feb 2021 16:55:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=rQlRhFP48P9Jvt2v4RBO5FEygmEjqLgAyW4pvHX5MCs=; b=kD0zC9xvX5l+0HsV3mYjhKkq9F
-        OyZF30I04gI8pJF5Ervbjj9oWpnu7LYMXB/VCBDkdgOervMtdaguTAxoMUYLKiFVKSgMSQMhGZ/eN
-        kExeaPenySYakk3eHVMsjT6rOeDK010gpALZa0f+9PA2EztCk9979KbvNJ3hCSXT9yvchxJqgET1q
-        KOkbcew6AtAhxRRvtpJ2CEoIZ22w3TRtkbxGv7wcV0dTL29GfDWDakefvzfHFvUriU2Iy6dvJmwnZ
-        TA0jae4cQoknN5TIcR+acBLFvEUrMhHARTCUa70z2k4St+I3NHhgWIIGxfTjDX8nE2PBJkBxi/D6v
-        latpslZA==;
-Received: from [2601:1c0:6280:3f0::cf3b]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l9HJ8-0002W2-6q; Tue, 09 Feb 2021 00:55:10 +0000
-Subject: Re: [PATCH] Documentation/admin-guide: kernel-parameters: Update
- nohlt section
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20210209003047.2231924-1-f.fainelli@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <62dc4371-d971-9164-1c1d-8923877b5e31@infradead.org>
-Date:   Mon, 8 Feb 2021 16:55:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229648AbhBIBKC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Feb 2021 20:10:02 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6565 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229638AbhBIBKC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Feb 2021 20:10:02 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B6021e0c10002>; Mon, 08 Feb 2021 17:09:21 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb
+ 2021 01:09:21 +0000
+Received: from localhost (172.20.145.6) by DRHQMAIL107.nvidia.com (10.27.9.16)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb 2021 01:09:20
+ +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, "Alistair Popple" <apopple@nvidia.com>
+Subject: [PATCH 0/9] Add support for SVM atomics in Nouveau
+Date:   Tue, 9 Feb 2021 12:07:13 +1100
+Message-ID: <20210209010722.13839-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210209003047.2231924-1-f.fainelli@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1612832961; bh=fHzIrA6EUkcvyYZOzc2r5U/q2OlDx68NlFICQTs7dQ8=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+         Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+         X-ClientProxiedBy;
+        b=JLn42Im7IWDEnuTDb+HAfmg21WCbnWEbIR0KYAxMkB56Xg+hXwpVMRWJJRpoQRHJa
+         huf1OdR0WZ/xbBkkJUUvfEpMrTL1a5eUkJvtZpjNYotNPcpHubOEIwYsPQWQwTlOxO
+         jybuOYXvAGRV+8LewjvSBZSReyU0Uwa0ZRMllU/kW0/RgIx1LjmT0zt3MKIYYamXOK
+         pB30alYCHMQ0EXloW6/GydUcrRRaxaCIdqaauza/x+VFBXw1WCAhGJL+cD9g6rHI7u
+         K2FsmBZ+Lca4vpaXoQR0qV/i4FwObqrVWHlQXKPTDH/AljdLXGbV8p9MZ6wUzY0KkI
+         TsL/93w80i8dw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/8/21 4:30 PM, Florian Fainelli wrote:
-> Update the documentation regarding "nohlt" and indicate that it is not
-> only for bugs, but can be useful to disable the architecture specific
-> sleep instructions. ARM, ARM64, SuperH and Microblaze all use
-> CONFIG_GENERIC_IDLE_POLL_SETUP which takes care of honoring the
-> "hlt"/"nohlt" parameters.
-> 
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a10b545c2070..83c37e23e1e2 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3266,9 +3266,14 @@
->  			parameter, xsave area per process might occupy more
->  			memory on xsaves enabled systems.
->  
-> -	nohlt		[BUGS=ARM,SH] Tells the kernel that the sleep(SH) or
-> -			wfi(ARM) instruction doesn't work correctly and not to
-> -			use it. This is also useful when using JTAG debugger.
-> +	nohlt		[ARM,ARM64,MICROBLAZE,SH] Forces the kernel to busy wait
-> +			in do_idle() and not use the arch_cpu_idle()
-> +			implementation, requires CONFIG_GENERIC_IDLE_POLL_SETUP
+This series adds support to Nouveau for atomic memory operations on OpenCL
+shared virtual memory (SVM). This is achieved using the atomic PTE bits on
+the GPU to only permit atomic operations to system memory when a page is
+not mapped in userspace on the CPU.
 
-Sounds good... but above, I would prefer s/,/;/
+This is implemented by adding a mode to migrate_vma_pages() which unmaps
+and isolates existing pages from the CPU and pins them. The original
+userspace page table entries are migrated to point to device private pages
+allocated by the driver. This allows the driver to enable GPU atomic access
+to the page as it will receive a callback when CPU userspace needs to
+access it.
 
-> +			to be effective. This is useful on platforms where the
-> +			sleep(SH) or wfi(ARM,ARM64) instructions do not work
-> +			correctly or when doing power measurements to evalute
-> +			the impact of the sleep instructions. This is also
-> +			useful when using JTAG debugger.
->  
->  	no_file_caps	Tells the kernel not to honor file capabilities.  The
->  			only way then for a file to be executed with privilege
-> 
+In response to this callback the driver revokes the atomic access
+permission from the GPU and migrates entries to point back to the original
+page. The original page is unpinned as part of the migration operation
+which also returns it to the LRU.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Patch 3 contains the bulk of the memory management changes to implement
+unmap and pin.
 
-thanks.
+Patches 6-9 extend Nouveau to use the new mode to allow system wide atomics
+for OpenCL SVM to be implemented on Nouveau.
 
--- 
-~Randy
+This has been tested using the latest upstream Mesa userspace with a simple
+OpenCL test program which checks the results of atomic GPU operations on a
+buffer whilst also writing to the same buffer from the CPU.
+
+Problems yet to be addressed:
+
+Recent changes to pin_user_pages() prevent the creation of pinned pages in
+ZONE_MOVABLE. This series allows pinned pages to be created in ZONE_MOVABLE
+as attempts to migrate may fail which would be fatal to userspace.
+
+In this case migration of the pinned page is unnecessary as the page can be
+unpinned at anytime by having the driver revoke atomic permission as it
+does for the migrate_to_ram() callback. However a method of calling this
+when memory needs to be moved has yet to be resolved so any discussion is
+welcome.
+
+Alistair Popple (9):
+  mm/migrate.c: Always allow device private pages to migrate
+  mm/migrate.c: Allow pfn flags to be passed to migrate_vma_setup()
+  mm/migrate: Add a unmap and pin migration mode
+  Documentation: Add unmap and pin to HMM
+  hmm-tests: Add test for unmap and pin
+  nouveau/dmem: Only map migrating pages
+  nouveau/svm: Refactor nouveau_range_fault
+  nouveau/dmem: Add support for multiple page types
+  nouveau/svm: Implement atomic SVM access
+
+ Documentation/vm/hmm.rst                      |  22 +-
+ arch/powerpc/kvm/book3s_hv_uvmem.c            |   4 +-
+ drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_dmem.c        | 190 +++++++++++++++---
+ drivers/gpu/drm/nouveau/nouveau_dmem.h        |   9 +
+ drivers/gpu/drm/nouveau/nouveau_svm.c         | 148 +++++++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
+ .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 +
+ include/linux/migrate.h                       |   2 +
+ include/linux/migrate_mode.h                  |   1 +
+ lib/test_hmm.c                                | 109 ++++++++--
+ lib/test_hmm_uapi.h                           |   1 +
+ mm/migrate.c                                  |  82 +++++---
+ tools/testing/selftests/vm/hmm-tests.c        |  49 +++++
+ 14 files changed, 524 insertions(+), 101 deletions(-)
+
+--=20
+2.20.1
 
