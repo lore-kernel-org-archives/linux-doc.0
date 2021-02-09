@@ -2,131 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E095C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 22:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC0E7C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 22:31:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2645D64E56
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 22:12:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9518364DE7
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 22:31:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233480AbhBIWLm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 17:11:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31870 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233749AbhBIWHf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 17:07:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612908361;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Uskw3PbEX7wEnO/ex/Xsz3m8Nxa2KyupOaIbM7L2BOs=;
-        b=P1xXy+miLpiOjA2OGvxj6K8aFyJu4bBHAQV2HpFLOkcPy/ljnqBvR9bFuh7mOwmXXcgHqw
-        coESVx9hUcKaM101TIIVnhkxAJKeya6zLdolpQzSEMKsHisDPD7lg4SgKL2KmTPyshCfjp
-        +Jwn2BrAdp9+x1bb2DWkXu0krlnLpTw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-k2Jf9BXbPxKvPSd8tNYV6w-1; Tue, 09 Feb 2021 16:17:45 -0500
-X-MC-Unique: k2Jf9BXbPxKvPSd8tNYV6w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEB8F192CC44;
-        Tue,  9 Feb 2021 21:17:42 +0000 (UTC)
-Received: from redhat.com (ovpn-115-63.rdu2.redhat.com [10.10.115.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AE56A60D11;
-        Tue,  9 Feb 2021 21:17:40 +0000 (UTC)
-Date:   Tue, 9 Feb 2021 16:17:38 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Alistair Popple <apopple@nvidia.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Linux MM <linux-mm@kvack.org>,
-        Nouveau Dev <nouveau@lists.freedesktop.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kvm-ppc@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Ralph Campbell <rcampbell@nvidia.com>
-Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
-Message-ID: <20210209211738.GA834106@redhat.com>
-References: <20210209010722.13839-1-apopple@nvidia.com>
- <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
- <3426910.QXTomnrpqD@nvdebian>
- <20210209133520.GB4718@ziepe.ca>
+        id S234504AbhBIWay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 17:30:54 -0500
+Received: from mail-yb1-f181.google.com ([209.85.219.181]:44812 "EHLO
+        mail-yb1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234096AbhBIWOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 17:14:03 -0500
+Received: by mail-yb1-f181.google.com with SMTP id r2so19723786ybk.11;
+        Tue, 09 Feb 2021 14:13:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VE2EhdIByMacgmRTG1LkrJDJV8t/c6l+WLOiRcExhRk=;
+        b=P8wXqjrDeDo/u+ocFH/ssSayb70LQqtWWOspBYXQcaYmbmToZopaTHf8UltF/wEHPx
+         DL2lNeFGqzjMc+Gqz2VF/aSqGSUHF7Wqk0Nr0nI9li6PWLZQmI0DSmtYsjrP5gAHcUxt
+         cLC4CZbFd8Gatcp+hLpjoCEuRAJP9hK/FjhbCqD+oYWvE8eKcXvK1epCISkmazqDSjNO
+         wUv5dwqLgQvN8u9hrpIBFb5tPYyDAl0gOm+gz/V9JlI4pObgG8jR3Z/hqnFNBe3Z3hTd
+         10pnw5HwixOYTBw8JzPOKD7ANXbB5vXdeKPo2kAhYWxAIS1oN8zNIJB1NyU/2eWveUXk
+         doUg==
+X-Gm-Message-State: AOAM533ZyantgnKemp3v8sxPgizl4fdrveWTuoBCxsdga4CNEHXGCrkO
+        BjSYpLKiwpgjEYS2VGJsNcVgwD3T5A==
+X-Google-Smtp-Source: ABdhPJwOKR7aLyRiaGSdsTsdDouEbfAmDLNj7QHCR08u3CsoA27ruITo6RAAWtqCOIVCqMufvZQOmg==
+X-Received: by 2002:a9d:32f4:: with SMTP id u107mr11203135otb.308.1612905924777;
+        Tue, 09 Feb 2021 13:25:24 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id c2sm4302590ooo.17.2021.02.09.13.25.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 13:25:23 -0800 (PST)
+Received: (nullmailer pid 218136 invoked by uid 1000);
+        Tue, 09 Feb 2021 21:25:21 -0000
+Date:   Tue, 9 Feb 2021 15:25:21 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     linux-clk@vger.kernel.org, Kevin Hilman <khilman@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-acpi@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>, kernel-team@android.com,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
+        Len Brown <lenb@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kernel@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+        linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v4 2/8] of: property: Don't add links to absent suppliers
+Message-ID: <20210209212521.GA218083@robh.at.kernel.org>
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <20210205222644.2357303-3-saravanak@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210209133520.GB4718@ziepe.ca>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210205222644.2357303-3-saravanak@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 09:35:20AM -0400, Jason Gunthorpe wrote:
-> On Tue, Feb 09, 2021 at 11:57:28PM +1100, Alistair Popple wrote:
-> > On Tuesday, 9 February 2021 9:27:05 PM AEDT Daniel Vetter wrote:
-> > > >
-> > > > Recent changes to pin_user_pages() prevent the creation of pinned pages in
-> > > > ZONE_MOVABLE. This series allows pinned pages to be created in 
-> > ZONE_MOVABLE
-> > > > as attempts to migrate may fail which would be fatal to userspace.
-> > > >
-> > > > In this case migration of the pinned page is unnecessary as the page can 
-> > be
-> > > > unpinned at anytime by having the driver revoke atomic permission as it
-> > > > does for the migrate_to_ram() callback. However a method of calling this
-> > > > when memory needs to be moved has yet to be resolved so any discussion is
-> > > > welcome.
-> > > 
-> > > Why do we need to pin for gpu atomics? You still have the callback for
-> > > cpu faults, so you
-> > > can move the page as needed, and hence a long-term pin sounds like the
-> > > wrong approach.
-> > 
-> > Technically a real long term unmoveable pin isn't required, because as you say 
-> > the page can be moved as needed at any time. However I needed some way of 
-> > stopping the CPU page from being freed once the userspace mappings for it had 
-> > been removed. 
+On Fri, 05 Feb 2021 14:26:38 -0800, Saravana Kannan wrote:
+> If driver core marks a firmware node as not a device, don't add fwnode
+> links where it's a supplier.
 > 
-> The issue is you took the page out of the PTE it belongs to, which
-> makes it orphaned and unlocatable by the rest of the mm?
+> Fixes: e590474768f1 ("driver core: Set fw_devlink=on by default")
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> ---
+>  drivers/of/property.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> Ideally this would leave the PTE in place so everything continues to
-> work, just disable CPU access to it.
-> 
-> Maybe some kind of special swap entry?
-> 
-> I also don't much like the use of ZONE_DEVICE here, that should only
-> be used for actual device memory, not as a temporary proxy for CPU
-> pages.. Having two struct pages refer to the same physical memory is
-> pretty ugly.
-> 
-> > The normal solution of registering an MMU notifier to unpin the page when it 
-> > needs to be moved also doesn't work as the CPU page tables now point to the
-> > device-private page and hence the migration code won't call any invalidate 
-> > notifiers for the CPU page.
-> 
-> The fact the page is lost from the MM seems to be the main issue here.
-> 
-> > Yes, I would like to avoid the long term pin constraints as well if possible I 
-> > just haven't found a solution yet. Are you suggesting it might be possible to 
-> > add a callback in the page migration logic to specially deal with moving these 
-> > pages?
-> 
-> How would migration even find the page?
 
-Migration can scan memory from physical address (isolate_migratepages_range())
-So the CPU mapping is not the only path to get to a page.
-
-Cheers,
-Jérôme
-
+Acked-by: Rob Herring <robh@kernel.org>
