@@ -4,59 +4,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEBFC433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 13:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8A1C43381
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 13:47:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A6EE64E0D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 13:43:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33D6D64EE1
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 13:47:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231475AbhBINnO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 08:43:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59126 "EHLO
+        id S231309AbhBINrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 08:47:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231347AbhBINk4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 08:40:56 -0500
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D087DC061793
-        for <linux-doc@vger.kernel.org>; Tue,  9 Feb 2021 05:40:02 -0800 (PST)
-Received: by mail-oo1-xc30.google.com with SMTP id x23so4273572oop.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Feb 2021 05:40:02 -0800 (PST)
+        with ESMTP id S231653AbhBINpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 08:45:21 -0500
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB3ADC06178B
+        for <linux-doc@vger.kernel.org>; Tue,  9 Feb 2021 05:44:40 -0800 (PST)
+Received: by mail-qt1-x835.google.com with SMTP id v3so12923649qtw.4
+        for <linux-doc@vger.kernel.org>; Tue, 09 Feb 2021 05:44:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LhfQbnhwDGpqGDadCiKHjxS8DmSjilEDHzg3CJ532pI=;
-        b=JigqNdgDEFgtQlKMjnmdnlDlN7M4qkzWm5dhzF1dd992sb4eU3A75DIikN86A5yKF3
-         +HYqLOXv3f90n0bmYdNvleTeiQcUc5RdDT1mXps9fTyTu9OPEPFxGyjMaOdfAf5jGZOp
-         LN5zBs74rUhwch5wHpsKumLLOkAYJemIb3dfs=
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=m0aWzSj+LY+Pm6/iOhWj1FnuzMBYaB0PeiOpmIEzYlc=;
+        b=m0ZybclIto8FDXMo+Xc6M8LWQUVcr4Fdfd7ghcLIyxKTwH8BTQxyYtMUbUih8tWECV
+         2VT+6s7hE8CBSiZqN6bkvw24Uac8MmLDDi12B1jeZRjtOHllqcD/cupL4eo+uhYRxZN2
+         XofmcdPW3z+B4YCZnjGgWp75JMipYH0r7LH38gPu9CVXeJXQ4b1p3ExIpExO2Iz18RiX
+         aSE40sCfQ2T9u25TW9dPn2rmDnvbpisbwQQGBqLSCL+xzXgXzET0NMzRjKIe/+v41lcz
+         06dZa8ip1rgW6T8XpAe3Ap1llZSkK/tUofjeynu9J8T6nOGeeaa6PrERHkyYyDfqrS/d
+         Uv+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LhfQbnhwDGpqGDadCiKHjxS8DmSjilEDHzg3CJ532pI=;
-        b=rJNGYNzal7zzq0hGLhoKrPqKBPfk2spyPW1pOc7ZEK2CcBqFzBkRCmXbetsKw0E6ek
-         q3kdPSYYrzjz+k3eNL4MtvanHSnliE3rtY3vxax93GyPeoy3SsX1L5tb7WS934hdgw6U
-         WlV63TEc6Woq1CEDIQSGYOVj1Kcxr9wED4DZFzJZ43wy2a1BZqtyjaSKsNsmNosGXxxe
-         FBsGg8DP3cbVbodtX8MDsZI72JMt3JZ/znX8qzx2XVY8GejnTqyC1mXOwlkT1LUt+c2v
-         qGMyucC1irYqZFvFYgBUn3McTIJvd6GzukLuCaU2SwUmNsryXsrJSj9jyVEcgR6EfNFa
-         uiCQ==
-X-Gm-Message-State: AOAM5332ueoPJW/ms5XWSmhfTtpFFxi9sOYUOYLnZ7lGBg5nqoeDb3sm
-        72tX8JUTEuq7fOGRUxNkWRMhhe/Mg2wr5bHVQMlZ4A==
-X-Google-Smtp-Source: ABdhPJxCuVVi8kRB1kkxAZJFWPpa7yPv+iZrvRDXXQ3OzMMiP+Pm+I8NUjrdp4w6xRd7m67NamfzG5rvygCAv52MFRA=
-X-Received: by 2002:a4a:d891:: with SMTP id b17mr15851254oov.28.1612878002267;
- Tue, 09 Feb 2021 05:40:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210209010722.13839-1-apopple@nvidia.com> <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
- <3426910.QXTomnrpqD@nvdebian> <20210209133520.GB4718@ziepe.ca>
-In-Reply-To: <20210209133520.GB4718@ziepe.ca>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 9 Feb 2021 14:39:51 +0100
-Message-ID: <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
-To:     Jason Gunthorpe <jgg@ziepe.ca>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m0aWzSj+LY+Pm6/iOhWj1FnuzMBYaB0PeiOpmIEzYlc=;
+        b=fQAoUKdu9DJ5JCe71Pth8hjhdt8hPpMZQlfzzIBLNXlO76v3JH2EsZvVnIuvxh+WWM
+         jGY2yLL3a+tPfl+WOs0a5bGWzycfZTq+yscuKDh5qZzEkati2mvM+74pkgYJFA/B5okv
+         C/uccAuElH3yJChpDHTGYdjxnVEgPeDAanYdooEXoYQ/0fcLPqxz2hy5oLSrvlZLL0Ld
+         S1ZSa/LfMvN+TuxisMKt6upks+HnQoY6fQ2NGOmA0HR0D4mzWPUURMXpyk4zdE4vYnJ2
+         vt4RtFevWcKuzIkM5aXRza2Cs6p959t1jaYw3PjuFwZTvVnbxkAXKbcXkt2WAsNfVxXJ
+         VqXg==
+X-Gm-Message-State: AOAM5305uQc8mnVk5htxteBpHSAe1NW8MkzegUG2DlsXPCYhWwJwRjQC
+        lPBUPVnfecFlASdabQHjDnYFSQ==
+X-Google-Smtp-Source: ABdhPJxsSPzRdXtHpbbQb8PSJ12WAOa9MW0LcEJBQn0Vx0sdyHcridZpcWDX5XcVOrwu+wtw66I+OA==
+X-Received: by 2002:ac8:1190:: with SMTP id d16mr19704724qtj.125.1612878279800;
+        Tue, 09 Feb 2021 05:44:39 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id t6sm14169555qkd.127.2021.02.09.05.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 05:44:39 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1l9TJm-005RQR-Sq; Tue, 09 Feb 2021 09:44:38 -0400
+Date:   Tue, 9 Feb 2021 09:44:38 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel@ffwll.ch>
 Cc:     Alistair Popple <apopple@nvidia.com>,
         Linux MM <linux-mm@kvack.org>,
         Nouveau Dev <nouveau@lists.freedesktop.org>,
@@ -69,83 +72,31 @@ Cc:     Alistair Popple <apopple@nvidia.com>,
         John Hubbard <jhubbard@nvidia.com>,
         Ralph Campbell <rcampbell@nvidia.com>,
         Jerome Glisse <jglisse@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
+Message-ID: <20210209134438.GE4718@ziepe.ca>
+References: <20210209010722.13839-1-apopple@nvidia.com>
+ <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
+ <3426910.QXTomnrpqD@nvdebian>
+ <20210209133520.GB4718@ziepe.ca>
+ <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGR44pSdL7FOui4XE6hRY8pMs7d0bPbgHHoprRG4tGmFQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 9, 2021 at 2:35 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Feb 09, 2021 at 11:57:28PM +1100, Alistair Popple wrote:
-> > On Tuesday, 9 February 2021 9:27:05 PM AEDT Daniel Vetter wrote:
-> > > >
-> > > > Recent changes to pin_user_pages() prevent the creation of pinned pages in
-> > > > ZONE_MOVABLE. This series allows pinned pages to be created in
-> > ZONE_MOVABLE
-> > > > as attempts to migrate may fail which would be fatal to userspace.
-> > > >
-> > > > In this case migration of the pinned page is unnecessary as the page can
-> > be
-> > > > unpinned at anytime by having the driver revoke atomic permission as it
-> > > > does for the migrate_to_ram() callback. However a method of calling this
-> > > > when memory needs to be moved has yet to be resolved so any discussion is
-> > > > welcome.
-> > >
-> > > Why do we need to pin for gpu atomics? You still have the callback for
-> > > cpu faults, so you
-> > > can move the page as needed, and hence a long-term pin sounds like the
-> > > wrong approach.
-> >
-> > Technically a real long term unmoveable pin isn't required, because as you say
-> > the page can be moved as needed at any time. However I needed some way of
-> > stopping the CPU page from being freed once the userspace mappings for it had
-> > been removed.
->
-> The issue is you took the page out of the PTE it belongs to, which
-> makes it orphaned and unlocatable by the rest of the mm?
->
-> Ideally this would leave the PTE in place so everything continues to
-> work, just disable CPU access to it.
->
-> Maybe some kind of special swap entry?
+On Tue, Feb 09, 2021 at 02:39:51PM +0100, Daniel Vetter wrote:
 
-I probably should have read the patches more in detail, I was assuming
-the ZONE_DEVICE is only for vram. At least I thought the requirement
-for gpu atomics was that the page is in vram, but maybe I'm mixing up
-how this works on nvidia with how it works in other places. Iirc we
-had a long discussion about this at lpc19 that ended with the
-conclusion that we must be able to migrate, and sometimes migration is
-blocked. But the details ellude me now.
+> Either way ZONE_DEVICE for not vram/device memory sounds wrong. Is
+> that really going on here?
 
-Either way ZONE_DEVICE for not vram/device memory sounds wrong. Is
-that really going on here?
--Daniel
+My read was this was doing non-coherent atomics on CPU memory.
 
->
-> I also don't much like the use of ZONE_DEVICE here, that should only
-> be used for actual device memory, not as a temporary proxy for CPU
-> pages.. Having two struct pages refer to the same physical memory is
-> pretty ugly.
->
-> > The normal solution of registering an MMU notifier to unpin the page when it
-> > needs to be moved also doesn't work as the CPU page tables now point to the
-> > device-private page and hence the migration code won't call any invalidate
-> > notifiers for the CPU page.
->
-> The fact the page is lost from the MM seems to be the main issue here.
->
-> > Yes, I would like to avoid the long term pin constraints as well if possible I
-> > just haven't found a solution yet. Are you suggesting it might be possible to
-> > add a callback in the page migration logic to specially deal with moving these
-> > pages?
->
-> How would migration even find the page?
->
-> Jason
+Atomics on GPU memory is just called migration to GPU memory, it
+doesn't need to be special for atomics. In that case it can free the
+CPU struct page completely as the data now lives in the ZONE_DEVICE
+page so no need for a pin, no problem with movable
 
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jason
