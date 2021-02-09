@@ -2,73 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D9BC433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 20:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 169A5C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 21:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F66364EC8
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 20:05:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1C7364EC6
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 21:40:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233518AbhBIUD5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 15:03:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60492 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233764AbhBITv5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Feb 2021 14:51:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4E53664ECD;
-        Tue,  9 Feb 2021 19:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612898407;
-        bh=6ml08oljkOTBm1M5u6bqlmApixnRbj2L/IRCvqbUrdY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=QBu6ijnMNuS8Kwl4cYROW1suE5m8QAdQAHHOrWnJ+ceh9du3bfC21Lsr4u0Trttv5
-         ZJ6b/D1bfL5xbZhCcS4vY7aMaRthDU9vGTUS1HPgWWkkC2jOKIN773o2D3vFLT+VXm
-         pJ+/hZscQVHfOzj/FqCz6y/JvuKNxrHPQAHY9Wkg0NJimh4AG41u6u1KQLqKaqxCOm
-         xSMcIG3VpkXm1Vv+K1zLGT6qMFW3tjcu468pDYs/wbyL1ebMqcomuj/QbmzqfioXW0
-         zsXuQMq3e+WfbyXQdAHnioyVPplREMSKhPFyOiLzW/FgHDbF/qLN/uk8kWCGeODN2U
-         S18DsOvwl2iMw==
-Content-Type: text/plain; charset="utf-8"
+        id S233614AbhBIVju (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 16:39:50 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13699 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234149AbhBIUyK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 15:54:10 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B6022f6480001>; Tue, 09 Feb 2021 12:53:28 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb
+ 2021 20:53:28 +0000
+Received: from [10.2.50.67] (172.20.145.6) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 9 Feb 2021
+ 20:53:28 +0000
+Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Alistair Popple <apopple@nvidia.com>
+CC:     Linux MM <linux-mm@kvack.org>,
+        Nouveau Dev <nouveau@lists.freedesktop.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+References: <20210209010722.13839-1-apopple@nvidia.com>
+ <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
+ <3426910.QXTomnrpqD@nvdebian>
+ <CAKMK7uHp+BzHF1=JhKjv5HYm_j0SVqsGdRqjUxVFYx4GSEPucg@mail.gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <57fe0deb-8bf6-d3ee-3545-11109e946528@nvidia.com>
+Date:   Tue, 9 Feb 2021 12:53:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101
+ Thunderbird/85.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] Documentation: networking: ip-sysctl: Document
- src_valid_mark sysctl
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161289840726.9558.15613246762661154142.git-patchwork-notify@kernel.org>
-Date:   Tue, 09 Feb 2021 19:20:07 +0000
-References: <1396.1612834621@famine>
-In-Reply-To: <1396.1612834621@famine>
-To:     Jay Vosburgh <jay.vosburgh@canonical.com>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
+In-Reply-To: <CAKMK7uHp+BzHF1=JhKjv5HYm_j0SVqsGdRqjUxVFYx4GSEPucg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1612904008; bh=efTFNdu9GY93fBrYgfGo5YB09FPO44DdmrDbf3NcmA8=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=oOacMjOb06MbLt3MklBlfJmol0WiXwI5VrJQzUPy3VIRUABA721mwmtEk5laRaFdL
+         1TgYD7us6SRaillAdI1lcgGlIdyJek1dOTFVhDnyE2O3I+0OWr72QO1zqGgtsAlgZM
+         XoXWC6bFgcqLN4YfI9Hq+NhihJS47c+q+V0qXeOTEgQtEwB92yoJZn89seCqJe43ky
+         ex8WisDf0I2J97YumwelfGCA2keVVdcX0KJL5u61SZMitqoPN5SG/CCVlP3I7iPS1w
+         ghlzljcQ2bKvx+UVLYtlzqvILA3AlyDKepX5K4+iznmkld1sNDTuw0sGpBLV8p9rc5
+         18FHL1oWI+WFA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Mon, 08 Feb 2021 17:37:01 -0800 you wrote:
-> Provide documentation for src_valid_mark sysctl, which was added
-> in commit 28f6aeea3f12 ("net: restore ip source validation").
+On 2/9/21 5:37 AM, Daniel Vetter wrote:
+> On Tue, Feb 9, 2021 at 1:57 PM Alistair Popple <apopple@nvidia.com> wrote:
+>>
+>> On Tuesday, 9 February 2021 9:27:05 PM AEDT Daniel Vetter wrote:
+>>>>
+>>>> Recent changes to pin_user_pages() prevent the creation of pinned pages in
+>>>> ZONE_MOVABLE. This series allows pinned pages to be created in
+>> ZONE_MOVABLE
+>>>> as attempts to migrate may fail which would be fatal to userspace.
+>>>>
+>>>> In this case migration of the pinned page is unnecessary as the page can
+>> be
+>>>> unpinned at anytime by having the driver revoke atomic permission as it
+>>>> does for the migrate_to_ram() callback. However a method of calling this
+>>>> when memory needs to be moved has yet to be resolved so any discussion is
+>>>> welcome.
+>>>
+>>> Why do we need to pin for gpu atomics? You still have the callback for
+>>> cpu faults, so you
+>>> can move the page as needed, and hence a long-term pin sounds like the
+>>> wrong approach.
+>>
+>> Technically a real long term unmoveable pin isn't required, because as you say
+>> the page can be moved as needed at any time. However I needed some way of
+>> stopping the CPU page from being freed once the userspace mappings for it had
+>> been removed. Obviously I could have just used get_page() but from the
+>> perspective of page migration the result is much the same as a pin - a page
+>> which can't be moved because of the extra refcount.
 > 
-> Signed-off-by: Jay Vosburgh <jay.vosburgh@canonical.com>
+> long term pin vs short term page reference aren't fully fleshed out.
+> But the rule more or less is:
+> - short term page reference: _must_ get released in finite time for
+> migration and other things, either because you have a callback, or
+> because it's just for direct I/O, which will complete. This means
+> short term pins will delay migration, but not foul it complete
+
+
+GPU atomic operations to sysmem are hard to categorize, because because application
+programmers could easily write programs that do a long series of atomic operations.
+Such a program would be a little weird, but it's hard to rule out.
+
+
 > 
-> ---
->  Documentation/networking/ip-sysctl.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-
-Here is the summary with links:
-  - [net] Documentation: networking: ip-sysctl: Document src_valid_mark sysctl
-    https://git.kernel.org/netdev/net-next/c/8cf5d8cc3eae
-
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> - long term pin: the page cannot be moved, all migration must fail.
+> Also this will have an impact on COW behaviour for fork (but not sure
+> where those patches are, John Hubbard will know).
 
 
+That would be Jason's commit 57efa1fe59576 ("mm/gup: prevent gup_fast from racing
+with COW during fork"), which is in linux-next 20201216.
+
+
+> 
+> So I think for your use case here you want a) short term page
+> reference to make sure it doesn't disappear plus b) callback to make
+> sure migrate isn't blocked.
+> 
+> Breaking ZONE_MOVEABLE with either allowing long term pins or failing
+> migrations because you don't release your short term page reference
+> isn't good.
+> 
+>> The normal solution of registering an MMU notifier to unpin the page when it
+>> needs to be moved also doesn't work as the CPU page tables now point to the
+>> device-private page and hence the migration code won't call any invalidate
+>> notifiers for the CPU page.
+> 
+> Yeah you need some other callback for migration on the page directly.
+> it's a bit awkward since there is one already for struct
+> address_space, but that's own by the address_space/page cache, not
+> HMM. So I think we need something else, maybe something for each
+> ZONE_DEVICE?
+> 
+
+This direction sounds at least...possible. Using MMU notifiers instead of pins
+is definitely appealing. I'm not quite clear on the callback idea above, but
+overall it seems like taking advantage of the ZONE_DEVICE tracking of pages
+(without having to put anything additional in each struct page), could work.
+
+Additional notes or ideas here are definitely welcome.
+
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
