@@ -2,258 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB9EC433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C020C433E9
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0624F64E6C
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDE6564E4F
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 14:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231180AbhBIOcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 09:32:50 -0500
-Received: from mx2.veeam.com ([64.129.123.6]:55762 "EHLO mx2.veeam.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231991AbhBIOcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Feb 2021 09:32:32 -0500
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id 2E8A141938;
-        Tue,  9 Feb 2021 09:31:12 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
-        t=1612881072; bh=pXPXfD91LeBXkvg+N787kPsdnomi1I+OGPSIVTNM6E0=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=Ao/GLXgiutiC/LAHC47a12MSi6e33wgb5T9Q0AKTzBYOclO/M1i4F/6oWH1Tgqsv0
-         ajBpLSTHVxUaF1FQC4bUwCUEvRn/T4J8h3gXgGvlmHHgfEy4SqC/tFLw/3uYZLjLL3
-         rWfAPLmt/jbowkJYOxKqVHyyIO/uFWHezxwaRQdY=
-Received: from prgdevlinuxpatch01.amust.local (172.24.14.5) by
- prgmbx01.amust.local (172.24.0.171) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2;
- Tue, 9 Feb 2021 15:30:52 +0100
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     <Damien.LeMoal@wdc.com>, <snitzer@redhat.com>, <hare@suse.de>,
-        <ming.lei@redhat.com>, <agk@redhat.com>, <corbet@lwn.net>,
-        <axboe@kernel.dk>, <jack@suse.cz>, <johannes.thumshirn@wdc.com>,
-        <gregkh@linuxfoundation.org>, <koct9i@gmail.com>, <steve@sk2.org>,
-        <dm-devel@redhat.com>, <linux-block@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <sergei.shtepa@veeam.com>, <pavel.tide@veeam.com>
-Subject: [PATCH v5 5/6] dm: add 'noexcl' option for dm-linear
-Date:   Tue, 9 Feb 2021 17:30:27 +0300
-Message-ID: <1612881028-7878-6-git-send-email-sergei.shtepa@veeam.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1612881028-7878-1-git-send-email-sergei.shtepa@veeam.com>
-References: <1612881028-7878-1-git-send-email-sergei.shtepa@veeam.com>
+        id S230471AbhBIOfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 09:35:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232130AbhBIOdw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 09:33:52 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C46C06178B;
+        Tue,  9 Feb 2021 06:33:12 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id z22so13044974qto.7;
+        Tue, 09 Feb 2021 06:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fAm7IYlzcPxcyIGE7fbs6JaVUzixxWFM8O5XHRLso0g=;
+        b=ZKuZmT0HezCXrL5m/xqZS4qlsuzUMhblsTUWCxX5/+8jtkH5xRIIWQW0oI98yBSJy5
+         MfQpvFh1+uOhKTjM6EVkes4lUI/29Ns4V17uzg0LImBVWYKIilA63IdkBqxYXxoZsLAE
+         p4jYCSxmgkD/hjNFnQ0Ey7KE/33/EmkNvywzCQefXuAeG+wnHNVy6Z2F6cKbUWEKxLJH
+         ZNeZH7DvXvewkvjHna6aBt+VBbq60yid3pdKSPawBmPT/D8KKGDBerKCqYn/hmIS40fc
+         VVX/wbLqXY2p5My/E3FL0OW6g5PpT4sAKCzgXjhJpej9JM5kCs59bkylC0hkmDkR62aZ
+         cTlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=fAm7IYlzcPxcyIGE7fbs6JaVUzixxWFM8O5XHRLso0g=;
+        b=l+x1TqiKEHNOcfTgo8lBqQSXIledEocNkQVUrehkhsKob5thpmliKxbYI6rE/Dfl5s
+         F0jmKhS6mbwMJGburmFs0b9NYFlqBWdUOsrEmz3Odk55RSTSA3WzIvL5Do9pZ2jk6uFQ
+         YoGsY0b3ZwpNfHIqbhd/D30bvOivPfIwFkKjVcL4SLk6Havq7rdu8O+cD15m5Wn+BGJ3
+         gD6vswlZ3kvXYUw1KnRtW2w5uXjYQXAlfIJH5AT1U3weZDjVossIE+k747KMbd0xY6uI
+         CO/m8Vpsgj1zFyevCnaGLfS4Y7sDMpVfffJXPboIssu1l+LcdgW1sKh028lwPFZqMu/B
+         E0hg==
+X-Gm-Message-State: AOAM531st3WlyGXCfgo+X96F7gSxrQdayryrhr5Ia0sDXT+HT6UtjiC9
+        z0UCK1dFN4DlJoL9m0SjrEbfgyQhPtEVcAvl
+X-Google-Smtp-Source: ABdhPJxJxKs7kvB4lfgwSFO1sxxO9IFZMIlRafe4mrpnQgbjiaUo9DXSzvIuGtdGHh4VyazWw1jc4A==
+X-Received: by 2002:ac8:1494:: with SMTP id l20mr20499808qtj.151.1612881191529;
+        Tue, 09 Feb 2021 06:33:11 -0800 (PST)
+Received: from ArchLinux ([156.146.37.186])
+        by smtp.gmail.com with ESMTPSA id r4sm19121837qkf.112.2021.02.09.06.33.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 06:33:10 -0800 (PST)
+Date:   Tue, 9 Feb 2021 20:03:02 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH] docs: maintainer: Fix the spelling mistaeks to mistakes
+ in the file pull-requests.rst
+Message-ID: <YCKdHhV1LZ6tsii4@ArchLinux>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+References: <20210209140155.3890715-1-unixbhaskar@gmail.com>
+ <20210209142130.GX308988@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.24.14.5]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
- (172.24.0.171)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29C604D265617465
-X-Veeam-MMEX: True
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="/Wa9Npo/oMKrprps"
+Content-Disposition: inline
+In-Reply-To: <20210209142130.GX308988@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 'noexcl' option allow to open underlying block-device
-without FMODE_EXCL.
 
-Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
----
- drivers/md/dm-linear.c        | 14 +++++++++++++-
- drivers/md/dm-table.c         | 14 ++++++++------
- drivers/md/dm.c               | 26 +++++++++++++++++++-------
- drivers/md/dm.h               |  2 +-
- include/linux/device-mapper.h |  7 +++++++
- 5 files changed, 48 insertions(+), 15 deletions(-)
+--/Wa9Npo/oMKrprps
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-diff --git a/drivers/md/dm-linear.c b/drivers/md/dm-linear.c
-index 00774b5d7668..b16d89802b9d 100644
---- a/drivers/md/dm-linear.c
-+++ b/drivers/md/dm-linear.c
-@@ -33,7 +33,7 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
- 	char dummy;
- 	int ret;
- 
--	if (argc != 2) {
-+	if ((argc < 2) || (argc > 3)) {
- 		ti->error = "Invalid argument count";
- 		return -EINVAL;
- 	}
-@@ -51,6 +51,18 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
- 	}
- 	lc->start = tmp;
- 
-+	ti->non_exclusive = false;
-+	if (argc > 2) {
-+		if (strcmp("noexcl", argv[2]) == 0)
-+			ti->non_exclusive = true;
-+		else if (strcmp("excl", argv[2]) == 0)
-+			ti->non_exclusive = false;
-+		else {
-+			ti->error = "Invalid exclusive option";
-+			return -EINVAL;
-+		}
-+	}
-+
- 	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table), &lc->dev);
- 	if (ret) {
- 		ti->error = "Device lookup failed";
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index 4acf2342f7ad..f020459465bd 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -322,7 +322,7 @@ static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
-  * device and not to touch the existing bdev field in case
-  * it is accessed concurrently.
-  */
--static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode,
-+static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode, bool non_exclusive,
- 			struct mapped_device *md)
- {
- 	int r;
-@@ -330,8 +330,8 @@ static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode,
- 
- 	old_dev = dd->dm_dev;
- 
--	r = dm_get_table_device(md, dd->dm_dev->bdev->bd_dev,
--				dd->dm_dev->mode | new_mode, &new_dev);
-+	r = dm_get_table_device(md, dd->dm_dev->bdev->bd_dev, dd->dm_dev->mode | new_mode,
-+				non_exclusive, &new_dev);
- 	if (r)
- 		return r;
- 
-@@ -387,7 +387,8 @@ int dm_get_device(struct dm_target *ti, const char *path, fmode_t mode,
- 		if (!dd)
- 			return -ENOMEM;
- 
--		if ((r = dm_get_table_device(t->md, dev, mode, &dd->dm_dev))) {
-+		r = dm_get_table_device(t->md, dev, mode, ti->non_exclusive, &dd->dm_dev);
-+		if (r) {
- 			kfree(dd);
- 			return r;
- 		}
-@@ -396,8 +397,9 @@ int dm_get_device(struct dm_target *ti, const char *path, fmode_t mode,
- 		list_add(&dd->list, &t->devices);
- 		goto out;
- 
--	} else if (dd->dm_dev->mode != (mode | dd->dm_dev->mode)) {
--		r = upgrade_mode(dd, mode, t->md);
-+	} else if ((dd->dm_dev->mode != (mode | dd->dm_dev->mode)) &&
-+		   (dd->dm_dev->non_exclusive != ti->non_exclusive)) {
-+		r = upgrade_mode(dd, mode, ti->non_exclusive, t->md);
- 		if (r)
- 			return r;
- 	}
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 00c41aa6d092..c25dcc2fdb89 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -1117,33 +1117,44 @@ static void close_table_device(struct table_device *td, struct mapped_device *md
- 	if (!td->dm_dev.bdev)
- 		return;
- 
--	bd_unlink_disk_holder(td->dm_dev.bdev, dm_disk(md));
--	blkdev_put(td->dm_dev.bdev, td->dm_dev.mode | FMODE_EXCL);
-+	if (td->dm_dev.non_exclusive)
-+		blkdev_put(td->dm_dev.bdev, td->dm_dev.mode);
-+	else {
-+		bd_unlink_disk_holder(td->dm_dev.bdev, dm_disk(md));
-+		blkdev_put(td->dm_dev.bdev, td->dm_dev.mode | FMODE_EXCL);
-+	}
-+
-+
-+	blkdev_put(td->dm_dev.bdev, td->dm_dev.mode);
-+
- 	put_dax(td->dm_dev.dax_dev);
- 	td->dm_dev.bdev = NULL;
- 	td->dm_dev.dax_dev = NULL;
-+	td->dm_dev.non_exclusive = false;
- }
- 
- static struct table_device *find_table_device(struct list_head *l, dev_t dev,
--					      fmode_t mode)
-+					      fmode_t mode, bool non_exclusive)
- {
- 	struct table_device *td;
- 
- 	list_for_each_entry(td, l, list)
--		if (td->dm_dev.bdev->bd_dev == dev && td->dm_dev.mode == mode)
-+		if (td->dm_dev.bdev->bd_dev == dev &&
-+		    td->dm_dev.mode == mode &&
-+		    td->dm_dev.non_exclusive == non_exclusive)
- 			return td;
- 
- 	return NULL;
- }
- 
--int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
-+int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode, bool non_exclusive,
- 			struct dm_dev **result)
- {
- 	int r;
- 	struct table_device *td;
- 
- 	mutex_lock(&md->table_devices_lock);
--	td = find_table_device(&md->table_devices, dev, mode);
-+	td = find_table_device(&md->table_devices, dev, mode, non_exclusive);
- 	if (!td) {
- 		td = kmalloc_node(sizeof(*td), GFP_KERNEL, md->numa_node_id);
- 		if (!td) {
-@@ -1154,7 +1165,8 @@ int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
- 		td->dm_dev.mode = mode;
- 		td->dm_dev.bdev = NULL;
- 
--		if ((r = open_table_device(td, dev, md))) {
-+		r = open_table_device(td, dev, md, non_exclusive);
-+		if (r) {
- 			mutex_unlock(&md->table_devices_lock);
- 			kfree(td);
- 			return r;
-diff --git a/drivers/md/dm.h b/drivers/md/dm.h
-index fffe1e289c53..7bf20fb2de74 100644
---- a/drivers/md/dm.h
-+++ b/drivers/md/dm.h
-@@ -179,7 +179,7 @@ int dm_open_count(struct mapped_device *md);
- int dm_lock_for_deletion(struct mapped_device *md, bool mark_deferred, bool only_deferred);
- int dm_cancel_deferred_remove(struct mapped_device *md);
- int dm_request_based(struct mapped_device *md);
--int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
-+int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode, bool non_exclusive,
- 			struct dm_dev **result);
- void dm_put_table_device(struct mapped_device *md, struct dm_dev *d);
- 
-diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
-index 61a66fb8ebb3..70002363bfc0 100644
---- a/include/linux/device-mapper.h
-+++ b/include/linux/device-mapper.h
-@@ -150,6 +150,7 @@ struct dm_dev {
- 	struct block_device *bdev;
- 	struct dax_device *dax_dev;
- 	fmode_t mode;
-+	bool non_exclusive;
- 	char name[16];
- };
- 
-@@ -325,6 +326,12 @@ struct dm_target {
- 	 * whether or not its underlying devices have support.
- 	 */
- 	bool discards_supported:1;
-+
-+	/*
-+	 * Set if this target needs to open device without FMODE_EXCL
-+	 * mode.
-+	 */
-+	bool non_exclusive:1;
- };
- 
- void *dm_per_bio_data(struct bio *bio, size_t data_size);
--- 
-2.20.1
+On 14:21 Tue 09 Feb 2021, Matthew Wilcox wrote:
+>On Tue, Feb 09, 2021 at 07:31:55PM +0530, Bhaskar Chowdhury wrote:
+>>
+>> s/mistaeks/mistakes/
+>
+>You missed the joke.
 
+:) it seems!
+
+--/Wa9Npo/oMKrprps
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmAinRkACgkQsjqdtxFL
+KRUhZggA2nuZx654smDQ9H9jvFj6khzbJ6UsZmkt5EfyeN7L2o/4GVC52Lp8NM5r
+LvzZ1n5/bH7rTD4g++6idu8nksDNf4S7NoNmFFyW+VNh/Qrb+b5usJ5BXLu7K3ce
+DdeEva/Kshx/xEwGh6ib2EeVKCoM17TQOMEGCb0Yu/f2Eei+OuByRmJeMoX9CRKT
+QUiZAp+3wCAPjNV/idRgUQ68ffJe9TEjNT/KUhQYorp661IgQfZKwCvErIqYiIQV
+uT1dTRr7vwnN0IPXdlh45PlwnnYQroozojQwLSZ++FkphIIRalHb86i69BUE6iW2
+Wg2rAspS4Zq7h5q0TvwlxotoQeTYxw==
+=DUzO
+-----END PGP SIGNATURE-----
+
+--/Wa9Npo/oMKrprps--
