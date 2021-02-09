@@ -2,119 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D51C7C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E503FC43381
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A140064DF2
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD67964E85
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Feb 2021 17:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233125AbhBIRYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 12:24:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233029AbhBIRYg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 12:24:36 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E83C06174A;
-        Tue,  9 Feb 2021 09:23:54 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id o63so12895102pgo.6;
-        Tue, 09 Feb 2021 09:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RFVknN5dERN41og2aHl0XoYuNNJGuTwr49EdvhAcYF0=;
-        b=ndt9MHp6FFgpH6qFQZRVxB+1tx1ZTvVGIZ3hw2tgEWNYbwS+T4wRjKhzllXOw309yK
-         v5I756QuhI/YBfZKWB5Pn5rFX0CkOUBIFXXZz1rM0jgZ8Fq7zWTZw+FoHVfQcclY6jDW
-         HltM2+C6rmxDXPpcaUwEw+vxRD1CSIXti9aYye6tG4/5BV4jMnYBwv102DnO6PtMDDLH
-         OlvO9mQbjqP0PK522JKFMYXFlw0MXLTN70NXaRu5N6/GdzodsjtaLJlbAiRkAkSc7uJY
-         tGnyO1lpB1CIkkr/kbedLZ1S1BczwwJDposXGEGtaxTuMRbczrA7IyJHKGEtASzt4UDP
-         OM2A==
+        id S233145AbhBIRZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 12:25:33 -0500
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:43676 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233092AbhBIRZ0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 12:25:26 -0500
+Received: by mail-wr1-f49.google.com with SMTP id z6so22873870wrq.10;
+        Tue, 09 Feb 2021 09:24:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RFVknN5dERN41og2aHl0XoYuNNJGuTwr49EdvhAcYF0=;
-        b=l7E/BirbF/ya7AFDtTC1jbc6VslA0l0q8/J1nk/gen6CxHXVA6jpxmsnJXWEI61i71
-         /kiaIoFP9ksmjL2YT1RONUEE8o41br77NVEEsde+Oe8QlrFfRBvVH7ShWXPMzwuxQfQk
-         YZJKnJ40ztUXRTHVJlXkFispzt1gPwytinMfkbBNJ6TEunFMqK5p6uF3GCop2C0EgMVm
-         jt4cvs6SCgJHm0rVWn3zGXHRWXJo1CH14c0U1PtDtUb09PylFY9cAMXUr5zkF8ZKwWEq
-         1QR575zpAMY6xUYO1TIWuyU+HyBw3mkg+VGKj+2iYj7P+0DptRYIz21WLQnUwiElitXs
-         Y0EA==
-X-Gm-Message-State: AOAM530ZkOotOmHJodR4Hu3vwjdSelWn8Y6McoPLze4IHiNUnEDpYXiX
-        T9GhQ9M9f+WYfk7chmn+bk95iXYxQ/k=
-X-Google-Smtp-Source: ABdhPJxbB1oIcwXpTxFcUO8kXJIxUwESY1nA4Zn8PwOV1SYOFlZ7O7zbKUX6jZaav5uzasobawp4Ow==
-X-Received: by 2002:a63:1c12:: with SMTP id c18mr23169278pgc.356.1612891433165;
-        Tue, 09 Feb 2021 09:23:53 -0800 (PST)
-Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 9sm22564940pfo.1.2021.02.09.09.23.51
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4UpteF9FRAi4Lict6Jo0G0PAyOOY1t7OFU8ICZLlrWU=;
+        b=X6w+jZ6IVwm+MyxEorO/YZsBoyZ4chJtCj5bbN97NGzycXs31OcvfNcZuaQeVRWzUU
+         0C5TRrRJUVHE6hzS37sekMWBreP+8FoBVsxGg7cP8tQCc3fl/3LIKxsR4n1gxRPts7ik
+         3fcaprYWX0XV+pqrffXCOtpGdo/ydyUTenAWq9ycfTqCgc92uxE+HWtp7K6BbezsxR9M
+         HSwmdDnsbZgYVH20vAOgM1w0jfj3oD5fuyqm0fd1FKIWojzhF3iJct3pHZZoe7HgdBJ1
+         h5MvDd2GaGZiAqbpkSJnpUSwcjk+jKFocWwodf4kw9/BePMRb/Ktxmoaa5eSXnWmnqUg
+         lc7w==
+X-Gm-Message-State: AOAM5310ZVlokOhn1QSq5aUEEAP08BNsp0F63a5rJgBS1FnsKig6oWvd
+        4Ji+ACu1wjMqLYnu7UZyEJpBNBF2zMC4S4W1
+X-Google-Smtp-Source: ABdhPJyGMQ1urNhCBippyPBIN4KwVwyW0K5zNfW3lbzz0rTCXrZwc5BTrcwutx5qGpYpxipp581BDg==
+X-Received: by 2002:adf:a501:: with SMTP id i1mr13852390wrb.149.1612891473332;
+        Tue, 09 Feb 2021 09:24:33 -0800 (PST)
+Received: from rocinante ([95.155.85.46])
+        by smtp.gmail.com with ESMTPSA id l10sm38463537wro.4.2021.02.09.09.24.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 09:23:52 -0800 (PST)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-To:     linux-kernel@vger.kernel.org, corbet@lwn.net
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        Tue, 09 Feb 2021 09:24:32 -0800 (PST)
+Date:   Tue, 9 Feb 2021 18:24:30 +0100
+From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v2] Documentation/admin-guide: kernel-parameters: Update nohlt section
-Date:   Tue,  9 Feb 2021 09:23:48 -0800
-Message-Id: <20210209172349.2249596-1-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [RESEND v4 1/6] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <YCLFTjZQ2bCfGC+J@rocinante>
+References: <cover.1612390291.git.gustavo.pimentel@synopsys.com>
+ <bba090c3d9d3d90fb2dfe5f2aaa52c155d87958f.1612390291.git.gustavo.pimentel@synopsys.com>
+ <YB9EDzI7mSrzXUUB@rocinante>
+ <DM5PR12MB18354765D69889F2CD6E4D89DA8F9@DM5PR12MB1835.namprd12.prod.outlook.com>
+ <YCHBAmFAOv/Joqp5@rocinante>
+ <DM5PR12MB18350F331485A6FF36ED28DADA8E9@DM5PR12MB1835.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM5PR12MB18350F331485A6FF36ED28DADA8E9@DM5PR12MB1835.namprd12.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the documentation regarding "nohlt" and indicate that it is not
-only for bugs, but can be useful to disable the architecture specific
-sleep instructions. ARM, ARM64, SuperH and Microblaze all use
-CONFIG_GENERIC_IDLE_POLL_SETUP which takes care of honoring the
-"hlt"/"nohlt" parameters.
+Hi Gustavo,
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
-Changes in v2:
+[...]
+> > The code in question would be (exceprt from the patch):
+> > 
+> > [...]
+> > +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
+> > +			       const struct pci_device_id *pid)
+> > +{
+> > +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
+> > +	struct dw_xdata *dw;
+> > [...]
+> > +	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
+> > +	if (!dw->rg_region.vaddr)
+> > +		return -ENOMEM;
+> > [...]
+> > 
+> > Perhaps something like the following would would?
+> > 
+> > void __iomem * const *iomap_table;
+> > 
+> > iomap_table = pcim_iomap_table(pdev);
+> > if (!iomap_table)
+> >         return -ENOMEM;
+> > 
+> > dw->rg_region.vaddr = iomap_table[pdata->rg_bar];
+> > if (!dw->rg_region.vaddr)
+> > 	return -ENOMEM;
+> > 
+> > With sensible error messages added, of course.  What do you think?
+> 
+> I think all the improvements are welcome. I will do that.
+> My only doubt is if Bjorn recommends removing the 
+> iomap_table[pdata->rg_bar] check, after adding the verification on the 
+> pcim_iomap_table, because all other drivers doesn't do that.
 
-- used ';' after requires CONFIG_GENERIC_IDLE_POLL_SETUP (Randy)
+Good point.  I only found two drivers that do this extra check:
 
- Documentation/admin-guide/kernel-parameters.txt | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+  https://elixir.bootlin.com/linux/v5.11-rc7/source/drivers/crypto/ccp/sp-pci.c#L203
+  https://elixir.bootlin.com/linux/v5.11-rc7/source/drivers/net/ethernet/amd/xgbe/xgbe-pci.c#L252
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a10b545c2070..0ea023242327 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3266,9 +3266,14 @@
- 			parameter, xsave area per process might occupy more
- 			memory on xsaves enabled systems.
- 
--	nohlt		[BUGS=ARM,SH] Tells the kernel that the sleep(SH) or
--			wfi(ARM) instruction doesn't work correctly and not to
--			use it. This is also useful when using JTAG debugger.
-+	nohlt		[ARM,ARM64,MICROBLAZE,SH] Forces the kernel to busy wait
-+			in do_idle() and not use the arch_cpu_idle()
-+			implementation; requires CONFIG_GENERIC_IDLE_POLL_SETUP
-+			to be effective. This is useful on platforms where the
-+			sleep(SH) or wfi(ARM,ARM64) instructions do not work
-+			correctly or when doing power measurements to evalute
-+			the impact of the sleep instructions. This is also
-+			useful when using JTAG debugger.
- 
- 	no_file_caps	Tells the kernel not to honor file capabilities.  The
- 			only way then for a file to be executed with privilege
--- 
-2.25.1
+Bjorn, do you think that there is some likelihood that the table might
+be missing a mapped address for a given BAR?
 
+I don't think that is the case, but should it be the case, then perhaps
+adding a small wrapper that would take a BAR and do all the verification
+internally might be a good idea.
+
+Krzysztof
