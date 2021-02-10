@@ -2,239 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05512C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 04:26:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42144C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 05:43:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B938564DF5
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 04:26:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2F1064E3E
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 05:43:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbhBJE0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 23:26:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbhBJE0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 23:26:15 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF90C061574;
-        Tue,  9 Feb 2021 20:25:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=nczYoTsCTLNgeall4U40h6M+4Wuvi16K00s3tJbpTCI=; b=hs50JRPMhgQGPBW4LBVFmKwKSZ
-        plN+dVooFpZ3WLykFO/nqLgzidEUbeuFJ8MfkzDSQbSMINnxf+Wtwa74O3rjxcyJFUvJ5zbjd4TGB
-        fAItj4V2pPefTyHy2JxQpQZwCIKokRrLv9rl64MmnNWHMDjdtZYK70GJm7ohph5t4EiQoyCwiBehZ
-        Bk/WAyhTVsBkbCXNARqJSPi3Es8gVVnQ2UUxj9Tt1PIui97jQal85uNOwePBFdt9MN9Xe2jMn2ID0
-        YaahDehmqJ/HbDASetLBMGGOGXMkfaCY+13tAFUE6eVocJ5d06XOpeM9XeWW6cNDUZKZz0BIKetPY
-        KuvweGwA==;
-Received: from [2601:1c0:6280:3f0::cf3b] (helo=merlin.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l9h4E-0001Fi-L9; Wed, 10 Feb 2021 04:25:31 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH 1/2] fs: eventpoll: fix comments & kernel-doc notation
-Date:   Tue,  9 Feb 2021 20:25:25 -0800
-Message-Id: <20210210042526.23174-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S231466AbhBJFn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 00:43:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231458AbhBJFnX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Feb 2021 00:43:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 49D1B64E3E;
+        Wed, 10 Feb 2021 05:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612935762;
+        bh=LWLN+C2cwhauN4xaZIPOAGBmvFz2pWpCauybY9DtChw=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=MmZOvvXj5DXJD1nC14WUSOxmMJf3onbk/yUVk6MgsWgNrrlVUHaEYvLdwy1J4t3lM
+         mKIARWxLVKQAWmpT4UWXi+0MrWzGXexahrZoQudeWizVLPinyZSGh3w5J3edazc1kE
+         ZbxpABlaB8ZxSR/GygaZ3hRQSbUT0cwO4zDpqc7ULVLJGBZQWM3ZtMipB6KMgKkxoz
+         VG863JxCY6i8ItD5mw/BJb6U9u28bs/GyBE4Jb3LbqsgWsUlN15GCBn/SoCqmvwGaN
+         hKN0G0e2AKvslY0eq6Ar9Wbh4E106hhVunyFlTDbRs9sCV7Tsu6l7TVAWFHXS7q3u8
+         Lw8XXPJq0fChg==
+Message-ID: <28f0dde76d1dbc666a4eaf9e5b23eaec9989aad8.camel@kernel.org>
+Subject: Re: [PATCH] net/mlx5: docs: correct section reference in table of
+ contents
+From:   Saeed Mahameed <saeed@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Parav Pandit <parav@nvidia.com>, netdev@vger.kernel.org,
+        linux-rdma@vger.kernel.org
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 09 Feb 2021 21:42:41 -0800
+In-Reply-To: <20210205095506.29146-1-lukas.bulwahn@gmail.com>
+References: <20210205095506.29146-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the documented kernel-doc format for function Return: descriptions.
-Begin constant values in kernel-doc comments with '%'.
+On Fri, 2021-02-05 at 10:55 +0100, Lukas Bulwahn wrote:
+> Commit 142d93d12dc1 ("net/mlx5: Add devlink subfunction port
+> documentation") refers to a section 'mlx5 port function' in the table
+> of
+> contents, but includes a section 'mlx5 function attributes' instead.
+> 
+> Hence, make htmldocs warns:
+> 
+>   mlx5.rst:16: WARNING: Unknown target name: "mlx5 port function".
+> 
+> Correct the section reference in table of contents to the actual name
+> of
+> section in the documentation.
+> 
+> Also, tune another section underline while visiting this document.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> Saeed, please pick this patch for your -next tree on top of the
+> commit above.
 
-Remove kernel-doc "/**" from 2 functions that are not documented with
-kernel-doc notation.
+Applied to net-next-mlx5,
 
-Fix typos, punctuation, & grammar.
+Thanks,
+Saeed.
 
-Also fix a few kernel-doc warnings:
-
-../fs/eventpoll.c:1883: warning: Function parameter or member 'ep' not described in 'ep_loop_check_proc'
-../fs/eventpoll.c:1883: warning: Excess function parameter 'priv' description in 'ep_loop_check_proc'
-../fs/eventpoll.c:1932: warning: Function parameter or member 'ep' not described in 'ep_loop_check'
-../fs/eventpoll.c:1932: warning: Excess function parameter 'from' description in 'ep_loop_check'
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
----
-Jon: Al says that he is OK with one of you merging this fs/
-     (only comments) patch.
-
- fs/eventpoll.c |   52 +++++++++++++++++++++++------------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
-
---- linux-next-20210205.orig/fs/eventpoll.c
-+++ linux-next-20210205/fs/eventpoll.c
-@@ -366,8 +366,8 @@ static inline struct epitem *ep_item_fro
-  *
-  * @ep: Pointer to the eventpoll context.
-  *
-- * Returns: Returns a value different than zero if ready events are available,
-- *          or zero otherwise.
-+ * Return: a value different than %zero if ready events are available,
-+ *          or %zero otherwise.
-  */
- static inline int ep_events_available(struct eventpoll *ep)
- {
-@@ -1023,7 +1023,7 @@ struct file *get_epoll_tfile_raw_ptr(str
- }
- #endif /* CONFIG_CHECKPOINT_RESTORE */
- 
--/**
-+/*
-  * Adds a new entry to the tail of the list in a lockless way, i.e.
-  * multiple CPUs are allowed to call this function concurrently.
-  *
-@@ -1035,10 +1035,10 @@ struct file *get_epoll_tfile_raw_ptr(str
-  *         completed.
-  *
-  *        Also an element can be locklessly added to the list only in one
-- *        direction i.e. either to the tail either to the head, otherwise
-+ *        direction i.e. either to the tail or to the head, otherwise
-  *        concurrent access will corrupt the list.
-  *
-- * Returns %false if element has been already added to the list, %true
-+ * Return: %false if element has been already added to the list, %true
-  * otherwise.
-  */
- static inline bool list_add_tail_lockless(struct list_head *new,
-@@ -1076,11 +1076,11 @@ static inline bool list_add_tail_lockles
- 	return true;
- }
- 
--/**
-+/*
-  * Chains a new epi entry to the tail of the ep->ovflist in a lockless way,
-  * i.e. multiple CPUs are allowed to call this function concurrently.
-  *
-- * Returns %false if epi element has been already chained, %true otherwise.
-+ * Return: %false if epi element has been already chained, %true otherwise.
-  */
- static inline bool chain_epi_lockless(struct epitem *epi)
- {
-@@ -1105,8 +1105,8 @@ static inline bool chain_epi_lockless(st
-  * mechanism. It is called by the stored file descriptors when they
-  * have events to report.
-  *
-- * This callback takes a read lock in order not to content with concurrent
-- * events from another file descriptors, thus all modifications to ->rdllist
-+ * This callback takes a read lock in order not to contend with concurrent
-+ * events from another file descriptor, thus all modifications to ->rdllist
-  * or ->ovflist are lockless.  Read lock is paired with the write lock from
-  * ep_scan_ready_list(), which stops all list modifications and guarantees
-  * that lists state is seen correctly.
-@@ -1335,8 +1335,8 @@ static int reverse_path_check_proc(struc
-  *                      paths such that we will spend all our time waking up
-  *                      eventpoll objects.
-  *
-- * Returns: Returns zero if the proposed links don't create too many paths,
-- *	    -1 otherwise.
-+ * Return: %zero if the proposed links don't create too many paths,
-+ *	    %-1 otherwise.
-  */
- static int reverse_path_check(void)
- {
-@@ -1734,7 +1734,7 @@ static struct timespec64 *ep_timeout_to_
- }
- 
- /**
-- * ep_poll - Retrieves ready events, and delivers them to the caller supplied
-+ * ep_poll - Retrieves ready events, and delivers them to the caller-supplied
-  *           event buffer.
-  *
-  * @ep: Pointer to the eventpoll context.
-@@ -1747,7 +1747,7 @@ static struct timespec64 *ep_timeout_to_
-  *           until at least one event has been retrieved (or an error
-  *           occurred).
-  *
-- * Returns: Returns the number of ready events which have been fetched, or an
-+ * Return: the number of ready events which have been fetched, or an
-  *          error code, in case of error.
-  */
- static int ep_poll(struct eventpoll *ep, struct epoll_event __user *events,
-@@ -1774,9 +1774,9 @@ static int ep_poll(struct eventpoll *ep,
- 
- 	/*
- 	 * This call is racy: We may or may not see events that are being added
--	 * to the ready list under the lock (e.g., in IRQ callbacks). For, cases
-+	 * to the ready list under the lock (e.g., in IRQ callbacks). For cases
- 	 * with a non-zero timeout, this thread will check the ready list under
--	 * lock and will added to the wait queue.  For, cases with a zero
-+	 * lock and will add to the wait queue.  For cases with a zero
- 	 * timeout, the user by definition should not care and will have to
- 	 * recheck again.
- 	 */
-@@ -1869,15 +1869,15 @@ static int ep_poll(struct eventpoll *ep,
- 
- /**
-  * ep_loop_check_proc - verify that adding an epoll file inside another
-- *                      epoll structure, does not violate the constraints, in
-+ *                      epoll structure does not violate the constraints, in
-  *                      terms of closed loops, or too deep chains (which can
-  *                      result in excessive stack usage).
-  *
-- * @priv: Pointer to the epoll file to be currently checked.
-+ * @ep: the &struct eventpoll to be currently checked.
-  * @depth: Current depth of the path being checked.
-  *
-- * Returns: Returns zero if adding the epoll @file inside current epoll
-- *          structure @ep does not violate the constraints, or -1 otherwise.
-+ * Return: %zero if adding the epoll @file inside current epoll
-+ *          structure @ep does not violate the constraints, or %-1 otherwise.
-  */
- static int ep_loop_check_proc(struct eventpoll *ep, int depth)
- {
-@@ -1919,14 +1919,14 @@ static int ep_loop_check_proc(struct eve
- 
- /**
-  * ep_loop_check - Performs a check to verify that adding an epoll file (@to)
-- *                 into another epoll file (represented by @from) does not create
-+ *                 into another epoll file (represented by @ep) does not create
-  *                 closed loops or too deep chains.
-  *
-- * @from: Pointer to the epoll we are inserting into.
-+ * @ep: Pointer to the epoll we are inserting into.
-  * @to: Pointer to the epoll to be inserted.
-  *
-- * Returns: Returns zero if adding the epoll @to inside the epoll @from
-- * does not violate the constraints, or -1 otherwise.
-+ * Return: %zero if adding the epoll @to inside the epoll @from
-+ * does not violate the constraints, or %-1 otherwise.
-  */
- static int ep_loop_check(struct eventpoll *ep, struct eventpoll *to)
- {
-@@ -2074,8 +2074,8 @@ int do_epoll_ctl(int epfd, int op, int f
- 	ep = f.file->private_data;
- 
- 	/*
--	 * When we insert an epoll file descriptor, inside another epoll file
--	 * descriptor, there is the change of creating closed loops, which are
-+	 * When we insert an epoll file descriptor inside another epoll file
-+	 * descriptor, there is the chance of creating closed loops, which are
- 	 * better be handled here, than in more critical paths. While we are
- 	 * checking for loops we also determine the list of files reachable
- 	 * and hang them on the tfile_check_list, so we can check that we
-@@ -2113,7 +2113,7 @@ int do_epoll_ctl(int epfd, int op, int f
- 	}
- 
- 	/*
--	 * Try to lookup the file inside our RB tree, Since we grabbed "mtx"
-+	 * Try to lookup the file inside our RB tree. Since we grabbed "mtx"
- 	 * above, we can be sure to be able to use the item looked up by
- 	 * ep_find() till we release the mutex.
- 	 */
