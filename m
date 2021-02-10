@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DF1C433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E44B2C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2D5A64D87
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB36364E6F
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232204AbhBJTe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 14:34:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
+        id S232661AbhBJTfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 14:35:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbhBJTeZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 14:34:25 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57243C061786
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:33:33 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id c11so1931972pfp.10
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:33:33 -0800 (PST)
+        with ESMTP id S232658AbhBJTeo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 14:34:44 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8BEC061788
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:34:03 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id q72so1703413pjq.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=5bTpxzmhyqMaSkCM7ds9uXFXoaDcIa78EBDnlUPl2tM=;
-        b=VWbs0iMTi2vxgqSwLGR1NXJdtgPJJ6t4i0fxXfJCU5WzFFtliBM/eTDIg5VfwrHuVh
-         oH1P/5nO3zxEOnMd9vQFOtU3haSm17GRulcWBQzjEjFXR4fgrpUzh5+QedWYnWjBhM3t
-         iJxFNTw5/lOdvOHNgy3tzs1MED1SyuOioaqak=
+        bh=LxaZ4hziEn9bchFK4AxqUiBcTDlmtg7lC2ZBUIMeIPQ=;
+        b=nRz/Y4Y5rIwUL1EuSMgwTQJXMPe2fRzT5faEAJAOhNicQ+O6uXb8rFTVjChcJytO38
+         iZzMzgApYK6PyJKIgtWx0b3QyfsAou3UCfKtA7njlDUDBn3dG1Vf9lzcDMklXcV7UQIs
+         wJv/CUJiDCLpOS0wR3wJHlX1yC2Cgie/lSZPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=5bTpxzmhyqMaSkCM7ds9uXFXoaDcIa78EBDnlUPl2tM=;
-        b=HprgmXs+CgvNNpwlwtSpm7UxDdaGO7szMeUNFdcK7tTtsqkWpf6soMEtwqJ+AWcEIM
-         urlkmDlkuNjYRKlJNKIw51qfJlCR+YocZX8L1hkWJlHebce0UZ7AOtLKmBn31d1ZGz8H
-         iJUQMSqnn11+hGw16p4lyGpNDPrU9p8J9PiEMs/DGHUJLRXEJJlPjPHEBZ92CtNS7f2D
-         +UdKytFfWgKhWazIyqwnFup8e7nd3r9sdutpHuHCV+utfSwPvxk7hPeHl7VPnUE67LK3
-         BMwpbPZIKRXaLxb2Alb+nnQFlQC1KFs5b0igCLLc72pu0xlQjNdYiw/EVdtoMpIxU5Ar
-         MVBg==
-X-Gm-Message-State: AOAM531LmQdu5+BJNWTmJ27JFgwNaQIsqqZVmfIBTTDIREkA35g+SLUA
-        Zeo7CRENDtI1a9Cfw4wON+IpPw==
-X-Google-Smtp-Source: ABdhPJyb9Yi+7DfO6DoJ8QQltqWHPhVAwYYQxHwDF6BnEPn/Zzx5qk5FkuYTK7JIoitwMok0JH75Tw==
-X-Received: by 2002:a63:5459:: with SMTP id e25mr4520747pgm.403.1612985612828;
-        Wed, 10 Feb 2021 11:33:32 -0800 (PST)
+        bh=LxaZ4hziEn9bchFK4AxqUiBcTDlmtg7lC2ZBUIMeIPQ=;
+        b=objZjsCF1pFee5BtTPu7jnFRNXq0kl6GCa7vqVx6IDM6j18avXYY1cCGNINxkQ0OnY
+         fcxmwbMJkOQbV1cGFqETcE0JjmRjffL5qMcSImWgxSFXyAf/Z3Fk+sUewHLwCPDf5aB3
+         tE0GaH3KCL3WOX8Zfur7lj23UvMQQbWB9cE1Kps86MS7hzq/qzHBqV7SJ2gVi+JwJ6p8
+         8D/W4P1LlHTTomSSG2AQuz+lLywSNH6JK7ZWVRMLFC+0PUcOPLGTno6LWFKqR26+y1kF
+         mPGc3NmQ7+hFaVrW8bjJQ00UxQ4hePHM0pp8TzvM1a2cHGikthXGqTcjj17KeN+Ok81x
+         F1MA==
+X-Gm-Message-State: AOAM533/Tw6sU1Yd0RTAXM0+8Y4x68g80E7ZYqEyDi5lJatfcdWpNdki
+        wyzP/cSUHClBO9zqQ72RuF2PKA==
+X-Google-Smtp-Source: ABdhPJyRecy1GRXLP1kMQcH16Sgfnf+QusYUJ4oECanP4lP6AnzDHzMfwFxFC9h1QK8RZDo1gMXKvg==
+X-Received: by 2002:a17:90a:4fc1:: with SMTP id q59mr443897pjh.129.1612985643404;
+        Wed, 10 Feb 2021 11:34:03 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o185sm2139133pfb.196.2021.02.10.11.33.31
+        by smtp.gmail.com with ESMTPSA id z2sm3089727pfj.100.2021.02.10.11.34.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Feb 2021 11:33:32 -0800 (PST)
-Date:   Wed, 10 Feb 2021 11:33:30 -0800
+        Wed, 10 Feb 2021 11:34:02 -0800 (PST)
+Date:   Wed, 10 Feb 2021 11:34:01 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -79,95 +79,34 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
-Subject: Re: [PATCH v20 02/25] x86/cet/shstk: Add Kconfig option for
- user-mode control-flow protection
-Message-ID: <202102101133.3C94A64@keescook>
+        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v20 06/25] x86/cet: Add control-protection fault handler
+Message-ID: <202102101134.CC29A738B@keescook>
 References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
- <20210210175703.12492-3-yu-cheng.yu@intel.com>
+ <20210210175703.12492-7-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210210175703.12492-3-yu-cheng.yu@intel.com>
+In-Reply-To: <20210210175703.12492-7-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 09:56:40AM -0800, Yu-cheng Yu wrote:
-> Shadow Stack provides protection against function return address
-> corruption.  It is active when the processor supports it, the kernel has
-> CONFIG_X86_CET enabled, and the application is built for the feature.
-> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
-> non-Shadow Stack applications continue to work, but without protection.
+On Wed, Feb 10, 2021 at 09:56:44AM -0800, Yu-cheng Yu wrote:
+> A control-protection fault is triggered when a control-flow transfer
+> attempt violates Shadow Stack or Indirect Branch Tracking constraints.
+> For example, the return address for a RET instruction differs from the copy
+> on the shadow stack; or an indirect JMP instruction, without the NOTRACK
+> prefix, arrives at a non-ENDBR opcode.
+> 
+> The control-protection fault handler works in a similar way as the general
+> protection fault handler.  It provides the si_code SEGV_CPERR to the signal
+> handler.
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> ---
->  arch/x86/Kconfig           | 23 +++++++++++++++++++++++
->  arch/x86/Kconfig.assembler |  5 +++++
->  2 files changed, 28 insertions(+)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 21f851179ff0..1138b5fa9b4f 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -28,6 +28,7 @@ config X86_64
->  	select ARCH_HAS_GIGANTIC_PAGE
->  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
->  	select ARCH_USE_CMPXCHG_LOCKREF
-> +	select ARCH_HAS_SHADOW_STACK
->  	select HAVE_ARCH_SOFT_DIRTY
->  	select MODULES_USE_ELF_RELA
->  	select NEED_DMA_MAP_STATE
-> @@ -1951,6 +1952,28 @@ config X86_SGX
->  
->  	  If unsure, say N.
->  
-> +config ARCH_HAS_SHADOW_STACK
-> +	def_bool n
-> +
-> +config X86_CET
-> +	prompt "Intel Control-flow protection for user-mode"
-> +	def_bool n
-> +	depends on X86_64
-
-This depends isn't needed any more. With that fixed:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
-
-> +	depends on AS_WRUSS
-> +	depends on ARCH_HAS_SHADOW_STACK
-> +	select ARCH_USES_HIGH_VMA_FLAGS
-> +	help
-> +	  Control-flow protection is a set of hardware features which place
-> +	  additional restrictions on indirect branches.  These help
-> +	  mitigate ROP attacks.  Applications must be enabled to use it,
-> +	  and old userspace does not get protection "for free".
-> +	  Support for this feature is present on Tiger Lake family of
-> +	  processors released in 2020 or later.  Enabling this feature
-> +	  increases kernel text size by 3.7 KB.
-> +	  See Documentation/x86/intel_cet.rst for more information.
-> +
-> +	  If unsure, say N.
-> +
->  config EFI
->  	bool "EFI runtime service support"
->  	depends on ACPI
-> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-> index 26b8c08e2fc4..00c79dd93651 100644
-> --- a/arch/x86/Kconfig.assembler
-> +++ b/arch/x86/Kconfig.assembler
-> @@ -19,3 +19,8 @@ config AS_TPAUSE
->  	def_bool $(as-instr,tpause %ecx)
->  	help
->  	  Supported by binutils >= 2.31.1 and LLVM integrated assembler >= V7
-> +
-> +config AS_WRUSS
-> +	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
-> +	help
-> +	  Supported by binutils >= 2.31 and LLVM integrated assembler
-> -- 
-> 2.21.0
-> 
 
 -- 
 Kees Cook
