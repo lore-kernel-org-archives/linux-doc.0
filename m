@@ -2,105 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED71BC433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 11:48:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328C0C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 11:59:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B620164E4B
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 11:48:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4A7264DE1
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 11:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231443AbhBJLsj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 06:48:39 -0500
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:53072 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbhBJLqR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 06:46:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1612957576; x=1644493576;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HiRooR0JRPW34th/7QSHeDW6g1Xmz/WY9IkNdXFN45o=;
-  b=EUoy18tJpFtBwDKPjQZW2bKumgPneRtSZOrWKJTwZvf+518vchPLcjeV
-   NmoGoLo7m2ruplzpCZGbX9eFqJ5SFiJ36DIw3tZVtyDpyWORnYdzL/NUo
-   O97KFtpKO+ADBX5cb7YzokppL7L4cbMUfwFl/3WLxq9lofW8hPeAjL6sP
-   7wAyNsb68O6j73iO4+v1ADWJR2PXVN83t7d1NW9h6bHCjzekxwtEFSHvy
-   PT7Y15nXvXowJoNVodlZUG9qHFuR2IRHotuAJMPICJukItAoUPl5pX9mW
-   dLcN4C9CfFqd7ChFzkEeabaIiX1+Jnsu2JEEDHx//tIKHo5bMpWI+xOs5
-   g==;
-IronPort-SDR: VRlDMKK2cHa3TxUR1JcmsJssA6kfjrVR7Z5f3Ls10/pKx5MNfbGzJXh0KqrAy6OgoxHnvFnykg
- xUIkDzlfEUgsWVTMJI6exxnVy6E2cZyksQSIZ9X7Qg+J1oajssVGB+YxTkbGImT7cAYeG/aF4s
- xhPVW6KZqdiT/345FloQXjz2v8LKSC/bROy7v1NYu9SxtBAD4SuVSYwtAM3otWs0cOpS264QX7
- 0GXcd8BB/xVxPezvoMlkvU++SuivhTUGOJt2Ns8Exffejay8FjVRuDMDkhMO21YWorfBxuGz2r
- pAI=
-X-IronPort-AV: E=Sophos;i="5.81,168,1610434800"; 
-   d="scan'208";a="114541474"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Feb 2021 04:44:59 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Wed, 10 Feb 2021 04:44:59 -0700
-Received: from atudor-ThinkPad-T470p.amer.actel.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Wed, 10 Feb 2021 04:44:53 -0700
-From:   Tudor Ambarus <tudor.ambarus@microchip.com>
-To:     <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
-        <rafael@kernel.org>, <khilman@kernel.org>,
-        <ulf.hansson@linaro.org>, <len.brown@intel.com>, <lenb@kernel.org>,
-        <pavel@ucw.cz>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <robh+dt@kernel.org>, <frowand.list@gmail.com>, <maz@kernel.org>,
-        <tglx@linutronix.de>, <saravanak@google.com>
-CC:     <nicolas.ferre@microchip.com>, <claudiu.beznea@microchip.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-        <m.szyprowski@samsung.com>, <geert@linux-m68k.org>,
-        <kernel-team@android.com>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>
-Subject: [PATCH] clk: Mark fwnodes when their clock provider is added
-Date:   Wed, 10 Feb 2021 13:44:35 +0200
-Message-ID: <20210210114435.122242-2-tudor.ambarus@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210210114435.122242-1-tudor.ambarus@microchip.com>
-References: <20210205222644.2357303-9-saravanak@google.com>
- <20210210114435.122242-1-tudor.ambarus@microchip.com>
+        id S229837AbhBJL7Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 06:59:24 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:39675 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231195AbhBJL5K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 06:57:10 -0500
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1l9o6a-000859-Bz; Wed, 10 Feb 2021 11:56:24 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Alexey Budankov <alexey.budankov@linux.intel.com>,
+        linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc/admin-guide: fix spelling mistake: "perfomance" -> "performance"
+Date:   Wed, 10 Feb 2021 11:56:24 +0000
+Message-Id: <20210210115624.53551-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a follow-up for:
-commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
+From: Colin Ian King <colin.king@canonical.com>
 
-The above commit updated the deprecated of_clk_add_provider(),
-but missed to update the preferred of_clk_add_hw_provider().
-Update it now.
+There is a spelling mistake in the perf-security documentation. Fix it.
 
-Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/clk/clk.c | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/admin-guide/perf-security.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index 27ff90eacb1f..9370e4dfecae 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -4594,6 +4594,8 @@ int of_clk_add_hw_provider(struct device_node *np,
- 	if (ret < 0)
- 		of_clk_del_provider(np);
+diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+index 904e4eb37f99..34aa334320ca 100644
+--- a/Documentation/admin-guide/perf-security.rst
++++ b/Documentation/admin-guide/perf-security.rst
+@@ -72,7 +72,7 @@ monitoring and observability operations, thus, bypass *scope* permissions
+ checks in the kernel. CAP_PERFMON implements the principle of least
+ privilege [13]_ (POSIX 1003.1e: 2.2.2.39) for performance monitoring and
+ observability operations in the kernel and provides a secure approach to
+-perfomance monitoring and observability in the system.
++performance monitoring and observability in the system.
  
-+	fwnode_dev_initialized(&np->fwnode, true);
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(of_clk_add_hw_provider);
+ For backward compatibility reasons the access to perf_events monitoring and
+ observability operations is also open for CAP_SYS_ADMIN privileged
 -- 
-2.25.1
+2.30.0
 
