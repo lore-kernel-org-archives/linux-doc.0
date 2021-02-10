@@ -2,59 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB8BC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 08:27:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16359C43381
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 08:59:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0B2860C3D
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 08:27:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C729764E2F
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 08:59:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231337AbhBJI1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 03:27:11 -0500
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:42596 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233534AbhBJI0W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 03:26:22 -0500
-Received: by mail-oi1-f169.google.com with SMTP id u66so1137800oig.9;
-        Wed, 10 Feb 2021 00:26:02 -0800 (PST)
+        id S229768AbhBJI6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 03:58:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229799AbhBJI4M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 03:56:12 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5E7DC06178A
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 00:55:31 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id m188so712563yba.13
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 00:55:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EIYUBkGMy3qE6aqOle/QpEgFxQFoJfY+aVajMelV3xs=;
+        b=qqKG0XSv+akp+PhEDy+mWsosrzGxxmJtkSfE/RiAHtParBQ1+/HeO672kBHv8o8i3G
+         eesnT9wcGJbvHbEc1b+g2cn0zA0r/mdAvB5O6SsxerFnvgsLpiD28pUxjoC2ILa9euYV
+         xYnXmOzzgBvMfFgJOHoRR+nS/1qfbPS4DJMg3ElQZbbZMS9S72aPCJBFR1jKl5o7SEK9
+         gRY86ph1NI9lK898i7M4Bbmis02HInlo2BaYGfBFxcGzfZwvNSrCXXoPaZIT3IgxwxES
+         KbI+yTrvPRW7RVetJNStLFzDlDblpefA1Q7CbbkLfvL9z8TfDasFOAyUL0v8uoBv3qq/
+         JRYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aGjLISWJ+fszvKmcvo2/oB8kqSJgVo4mq+414YKd0ak=;
-        b=tTM6x9WvBKj6CCIlz5RGq1bETqJFXJYJAyrAXjmBzr16syAZxbUCQOGezwW2g727mV
-         w614B9nQnvXZ8OYELXXA+2fURs4cGDkRsj/f66PXoqNUY5tY8ZpgyahSXVf8kBX0L/sE
-         WDjWyDtsCnZofUMxrngqtSJ2clsWhMoo+KtFahwp8HtKKFJiaA/MhFZb+gkY7qLNnHzs
-         oLjEvT1FJW58acYBABkf7kLGPUpra3CoZtS+Ul8ViCMgUNv/4hzy3yRVOXff/MuTvPPd
-         wVBu46NiyjJc3trNDdKRUYqvPe3wVCdyXiay6CbPlbN/K/EHZ2Bi9E8+uurDFardRwmZ
-         /j4g==
-X-Gm-Message-State: AOAM530czFG4/8pl89E0IAj34w1s5I0BFI7K9LTibSdoee0QrQpUkjP1
-        JT9cbPZ8rztGkspJ0aSdxBnTfklbLzCSp3+DHaE=
-X-Google-Smtp-Source: ABdhPJw76RbbTdIjOWOYdNuMSRd5sBeR2j0014yZb4MdeOrBQA1HjGlwkbMtEPnZoE9rsvsL6sEmWZSBR33/719FBhk=
-X-Received: by 2002:a54:4e88:: with SMTP id c8mr1277055oiy.148.1612945537621;
- Wed, 10 Feb 2021 00:25:37 -0800 (PST)
+        bh=EIYUBkGMy3qE6aqOle/QpEgFxQFoJfY+aVajMelV3xs=;
+        b=JR4/vaj6PEnznSFYGw0SS8WZa+R0s6FNM1wOlN4yA27UiFIBddF6mfg27a9Fpjae8t
+         j/P/9y17Q0pgHQO3nycMjvG72DfSAY9oh/ieNd4RYKOrlxSQbWkZleCTwNVXz6QTvIPa
+         GatmAdvemneCVmLok6d/SownaSHSeoFUZ/56PZCIOFxE2rulneK1j9koNYFgaeWx1ny9
+         goBo38+gsgoPVgiXUJactKWTa89ILY49QinKaf+uJbv2fCkb9/l8fXm6tykLL9P/OGfn
+         iTvy75Ea6Wx2jOZijSvcR4RujWSY10QfSUa7XlUDXUoQqvtqrX/TJEWl+MbWeH6D1DLx
+         H5KA==
+X-Gm-Message-State: AOAM530+XSbtN9WRBYZoGFYx4/rSXdPJSyQ3xHpiUROyM9P+GDmsKTQ4
+        uYu/O1dwtf9yoiESSGT5ORr+zElolN67QaKahDb+Kg==
+X-Google-Smtp-Source: ABdhPJwwgYm9gSe18/JyjErLTRz5FCOkyXxd4stR4ZaLz//fROhqjDQGN2y2rtdVkMLB3bpoDtl1Y3uYT/scb2Xt5zw=
+X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr2865453ybt.96.1612947330653;
+ Wed, 10 Feb 2021 00:55:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <20210205222644.2357303-5-saravanak@google.com> <20210209213320.GA219007@robh.at.kernel.org>
- <CAGETcx_gHRd9UYHvSsHX_=NFF+HEJkamJp3JcpojuJob_a8_DA@mail.gmail.com>
-In-Reply-To: <CAGETcx_gHRd9UYHvSsHX_=NFF+HEJkamJp3JcpojuJob_a8_DA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 10 Feb 2021 09:25:26 +0100
-Message-ID: <CAMuHMdXi9s_b0xjaQ3n_-qFfdwfBtxnrhYfVuRENJM5UJ9TUwg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/8] of: property: Add fw_devlink support for optional properties
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+References: <20210205222644.2357303-1-saravanak@google.com> <47ca46aa-99f3-5203-8aa7-65c6443bd965@microchip.com>
+In-Reply-To: <47ca46aa-99f3-5203-8aa7-65c6443bd965@microchip.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 10 Feb 2021 00:54:54 -0800
+Message-ID: <CAGETcx862JPn8759tk-69WySBvokxMXJaaOVY7L6V8FLwfpV8g@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Kevin Hilman <khilman@kernel.org>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
         Pavel Machek <pavel@ucw.cz>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
         Marc Zyngier <maz@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -66,66 +80,144 @@ Cc:     Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         <devicetree@vger.kernel.org>,
         ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Android Kernel Team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Saravana,
-
-CC iommu
-
-On Tue, Feb 9, 2021 at 10:55 PM Saravana Kannan <saravanak@google.com> wrote:
-> On Tue, Feb 9, 2021 at 1:33 PM Rob Herring <robh@kernel.org> wrote:
-> > On Fri, Feb 05, 2021 at 02:26:40PM -0800, Saravana Kannan wrote:
-> > > Not all DT bindings are mandatory bindings. Add support for optional DT
-> > > bindings and mark iommus, iommu-map, dmas as optional DT bindings.
-> >
-> > I don't think we can say these are optional or not. It's got to be a
-> > driver decision somehow.
+On Wed, Feb 10, 2021 at 12:19 AM <Tudor.Ambarus@microchip.com> wrote:
 >
-> Right, so maybe the word "optional" isn't a good name for it. I can
-> change that if you want.
+> Hi, Saravana,
 >
-> The point being, fw_devlink can't block the probe of this driver based
-> on iommu property. We let the driver decide if it wants to
-> -EPROBE_DEFER or not or however it wants to handle this.
-
-The driver cannot make that decision, cfr. below.
-
-> > For example, if IOMMU is optional, what happens with this sequence:
+> On 2/6/21 12:26 AM, Saravana Kannan wrote:
+> > There are a lot of devices/drivers where they never have a struct device
+> > created for them or the driver initializes the hardware without ever
+> > binding to the struct device.
 > >
-> > driver probes without IOMMU
-> > driver calls dma_map_?()
-> > IOMMU driver probes
-> > h/w accesses DMA buffer --> BOOM!
+> > This series is intended to avoid any boot regressions due to such
+> > devices/drivers when fw_devlink=on and also address the handling of
+> > optional suppliers.
+> >
+> > Patch 1 and 2 addresses the issue of firmware nodes that look like
+> > they'll have struct devices created for them, but will never actually
+> > have struct devices added for them. For example, DT nodes with a
+> > compatible property that don't have devices added for them.
+> >
+> > Patch 3 and 4 allow for handling optional DT bindings.
+> >
+> > Patch 5 sets up a generic API to handle drivers that never bind with
+> > their devices.
+> >
+> > Patch 6 through 8 update different frameworks to use the new API.
+> >
+> > Thanks,
+> > Saravana
+> >
+> > Saravana Kannan (8):
+> >   driver core: fw_devlink: Detect supplier devices that will never be
+> >     added
+> >   of: property: Don't add links to absent suppliers
+> >   driver core: Add fw_devlink.strict kernel param
+> >   of: property: Add fw_devlink support for optional properties
+> >   driver core: fw_devlink: Handle suppliers that don't use driver core
+> >   irqdomain: Mark fwnodes when their irqdomain is added/removed
+> >   PM: domains: Mark fwnodes when their powerdomain is added/removed
+> >   clk: Mark fwnodes when their clock provider is added/removed
+> >
+> >  .../admin-guide/kernel-parameters.txt         |  5 ++
+> >  drivers/base/core.c                           | 58 ++++++++++++++++++-
+> >  drivers/base/power/domain.c                   |  2 +
+> >  drivers/clk/clk.c                             |  3 +
+> >  drivers/of/property.c                         | 16 +++--
+> >  include/linux/fwnode.h                        | 20 ++++++-
+> >  kernel/irq/irqdomain.c                        |  2 +
+> >  7 files changed, 98 insertions(+), 8 deletions(-)
+> >
+>
+> Even with this patch set applied, sama5d2_xplained can not boot.
+> Patch at [1] makes sama5d2_xplained boot again. Stephen applied it
+> to clk-next.
 
-Does it really behave that way? Or does it continue without IOMMU?
+I'm glad you won't actually have any boot issues in 5.12, but the fact
+you need [1] with this series doesn't make a lot of sense to me
+because:
 
-> Right. But how is this really related to fw_devlink? AFAICT, this is
-> an issue even today. If the driver needs the IOMMU, then it needs to
-> make sure the IOMMU has probed? What am I missing?
+1. The FWNODE_FLAG_INITIALIZED flag will be set for the clock fwnode
+in question way before any consumer devices are added.
+2. Any consumer device added after (1) will stop trying to link to the
+clock device.
 
-Individual I/O (IOMMU slave) drivers are completely unaware of the
-presence or absence of an IOMMU; they just use the DMA API, which is the
-same regardless of an IOMMU being used or not.
-While for GPIO/IRQ/CLK/DMA/... have request/get_{gpio,irq,clk,dma,...}
-APIs for a driver to get a reference, which can return -EPROBE_DEFER, no
-such thing exists for IOMMUs.  This is handled by the IOMMU core
-instead.
+Are you somehow adding a consumer to the clock fwnode before (1)?
 
-Using the IOMMU or not is more like a system policy decision.
+Can you try this patch without your clk fix? I was trying to avoid
+looping through a list, but looks like your case might somehow need
+it?
 
-Gr{oetje,eeting}s,
+-Saravana
 
-                        Geert
++++ b/drivers/base/core.c
+@@ -943,6 +943,31 @@ static void device_links_missing_supplier(struct
+device *dev)
+        }
+ }
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
++static int fw_devlink_check_suppliers(struct device *dev)
++{
++       struct fwnode_link *link;
++       int ret = 0;
++
++       if (!dev->fwnode ||fw_devlink_is_permissive())
++               return 0;
++
++       /*
++        * Device waiting for supplier to become available is not allowed to
++        * probe.
++        */
++       mutex_lock(&fwnode_link_lock);
++       list_for_each_entry(link, &dev->fwnode->suppliers, c_hook) {
++               if (link->supplier->flags & FWNODE_FLAG_INITIALIZED)
++                       continue;
++
++               ret = -EPROBE_DEFER;
++               break;
++       }
++       mutex_unlock(&fwnode_link_lock);
++
++       return ret;
++}
++
+ /**
+  * device_links_check_suppliers - Check presence of supplier drivers.
+  * @dev: Consumer device.
+@@ -964,21 +989,13 @@ int device_links_check_suppliers(struct device *dev)
+        struct device_link *link;
+        int ret = 0;
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-       /*
+-        * Device waiting for supplier to become available is not allowed to
+-        * probe.
+-        */
+-       mutex_lock(&fwnode_link_lock);
+-       if (dev->fwnode && !list_empty(&dev->fwnode->suppliers) &&
+-           !fw_devlink_is_permissive()) {
++       if (fw_devlink_check_suppliers(dev)) {
+                dev_dbg(dev, "probe deferral - wait for supplier %pfwP\n",
+                        list_first_entry(&dev->fwnode->suppliers,
+                        struct fwnode_link,
+                        c_hook)->supplier);
+-               mutex_unlock(&fwnode_link_lock);
+                return -EPROBE_DEFER;
+        }
+-       mutex_unlock(&fwnode_link_lock);
+
+        device_links_write_lock();
+
+
+
+>
+> Cheers,
+> ta
+>
+> [1] https://lore.kernel.org/lkml/20210203154332.470587-1-tudor.ambarus@microchip.com/
