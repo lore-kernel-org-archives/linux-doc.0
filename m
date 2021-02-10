@@ -2,96 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAEA6C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 03:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C19BC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 04:26:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CE6B64DDF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 03:40:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAE9564E45
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 04:26:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230243AbhBJDk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Feb 2021 22:40:58 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:9979 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbhBJDk5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 22:40:57 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B6023559f0000>; Tue, 09 Feb 2021 19:40:15 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Feb
- 2021 03:40:15 +0000
-Received: from nvdebian.localnet (172.20.145.6) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Feb
- 2021 03:40:12 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>, <jglisse@redhat.com>
-Subject: Re: [PATCH 1/9] mm/migrate.c: Always allow device private pages to migrate
-Date:   Wed, 10 Feb 2021 14:40:10 +1100
-Message-ID: <1780857.6Ip0F2Sa4d@nvdebian>
-In-Reply-To: <20210209133932.GD4718@ziepe.ca>
-References: <20210209010722.13839-1-apopple@nvidia.com> <20210209010722.13839-2-apopple@nvidia.com> <20210209133932.GD4718@ziepe.ca>
+        id S230131AbhBJE0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Feb 2021 23:26:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230063AbhBJE0Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Feb 2021 23:26:16 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF600C06174A;
+        Tue,  9 Feb 2021 20:25:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=9jRCQI9OhZDLEzydyVbxcrW0qpE+alslMt9EqC76+6s=; b=PFSHo8AHmc+ORSS2V6BYX0LaTf
+        KcSIohTAe8FmbV+PgFekePqTtcMCVlpd+PfqkrJzoqoZm2u/8Sm3YSK8jjDpjU57O0gQ+WK/sbFoF
+        TLjEqJb80/hUau5st6/qs/X9VYpvrCQkQjdF1g51NaeMYffLce2B1fgzQVWwXk34cTnbssAgrhrt1
+        ph5PEALiGfi2jxMsrMFYm5a2LCCCYVZyJyt3D3m/wLBI3B05041Q+f7JzxRZlF56jkj4gPhe8EQfc
+        hT/2+Gtx7SFTGVul8qcf0nv5b7bgHpVYbZG7OiJHQ39ilzcldc/rv0d72mw2vKf2NNOFJYwsB4+y7
+        lkyaQiyw==;
+Received: from [2601:1c0:6280:3f0::cf3b] (helo=merlin.infradead.org)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l9h4H-0001Fi-8E; Wed, 10 Feb 2021 04:25:33 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH 2/2] Docs: add fs/eventpoll to docbooks
+Date:   Tue,  9 Feb 2021 20:25:26 -0800
+Message-Id: <20210210042526.23174-2-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210210042526.23174-1-rdunlap@infradead.org>
+References: <20210210042526.23174-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1612928415; bh=tAmJ0+G97SMFAbiRRa3d8nEsiux+3wqoFMSUz5oWXEY=;
-        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-         MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=HROK2Gi63VmhyROJ40EZiAFFzcCoLcWvPFvxuOfp205Epk8rw5YTtBCGIYoAb9hxk
-         CnfqGNLFdzz2Xtsj3yumfUK/9+hBtfXrJEmX4iVqiMoaXgM+TMGxt18tqaG5sw0ScD
-         43ZxLw3DvD9R33aTIvurLvOsng5qWOn/AzmOA29piHPJdAChtXqQDQvf303F0aYOBT
-         svQatmXEX23sU3Ao/P9UZXWmvJHz/I0b/xjuoB1mUuhQHJ7wLVFQzTgKe0in2pLJIP
-         kkoNwUFXagV0YIb9Ks2CHAtmM5KrXk8JUZRq0BVnbpF6TD5kPWxc0Cx+2iFqHy0KUt
-         zNFD/OabsiQEw==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, 10 February 2021 12:39:32 AM AEDT Jason Gunthorpe wrote:
-> On Tue, Feb 09, 2021 at 12:07:14PM +1100, Alistair Popple wrote:
-> > Device private pages are used to represent device memory that is not
-> > directly accessible from the CPU. Extra references to a device private
-> > page are only used to ensure the struct page itself remains valid whilst
-> > waiting for migration entries. Therefore extra references should not
-> > prevent device private page migration as this can lead to failures to
-> > migrate pages back to the CPU which are fatal to the user process.
-> 
-> This should identify the extra references in expected_count, just
-> disabling this protection seems unsafe, ZONE_DEVICE is not so special
-> that the refcount means nothing
+Add fs/eventpoll.c to the filesystem api-summary book.
 
-This is similar to what migarte_vma_check_page() does now. The issue is that a 
-migration wait takes a reference on the device private page so you can end up 
-with one thread stuck waiting for migration whilst the other can't migrate due 
-to the extra refcount.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+---
+ Documentation/filesystems/api-summary.rst |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Given device private pages can't undergo GUP and that it's not possible to 
-differentiate the migration wait refcount from any other refcount we assume 
-any possible extra reference must be from migration wait.
-
-> Is this a side effect of the extra refcounts that Ralph was trying to
-> get rid of? I'd rather see that work finished :)
-
-I'd like to see that finished too but I don't think it would help here as this 
-is not a side effect of that.
-
- - Alistair
-
-> Jason
-
-
-
-
+--- linux-next-20210205.orig/Documentation/filesystems/api-summary.rst
++++ linux-next-20210205/Documentation/filesystems/api-summary.rst
+@@ -122,6 +122,12 @@ Events based on file descriptors
+ .. kernel-doc:: fs/eventfd.c
+    :export:
+ 
++eventpoll (epoll) interfaces
++============================
++
++.. kernel-doc:: fs/eventpoll.c
++   :internal:
++
+ The Filesystem for Exporting Kernel Objects
+ ===========================================
+ 
