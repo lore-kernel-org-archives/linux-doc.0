@@ -2,82 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBAE9C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C60C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:15:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C494964EE0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:26:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE4D864E7A
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233906AbhBJSZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 13:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35484 "EHLO
+        id S234551AbhBJTOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 14:14:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233990AbhBJSXi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 13:23:38 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201F5C06174A;
-        Wed, 10 Feb 2021 10:22:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=gPBD8cTxN1KK/x/IZ1OsnMclVj6MDrV+W4PD4XUJ32o=; b=Xj03N7O/Kc6vuVSLTEccU0XeHS
-        wFhDD/VKvxNxurRqJQWJkd5jSM5uMLUr4R+S/HYr5AqtNfphvP/mjf6qFgwaAx6y+dFmoFjGhi+Bw
-        XIhyHpJebQNKv7fpyuWzfoSLoswz6UYnlrxnMIXu/aq5F9pA25thFxf6k7H8mmf90Z6Y7GVR6TMx6
-        HMovF9T0nlg6VSS0x/3yic7AG6h8FjCvPAHqb7zD6ERaHH9D9kDdpfVHet2qzuT48cmIWzY+CiAvW
-        WJ3KSJ3SrEmLc5+U6WXlmkTd/Wgv1AJ/T2SM3nr+biGVoaZqTqbfNMxEayLcBSPk0YTxKIm6KlepA
-        W52s2Ifg==;
-Received: from [2601:1c0:6280:3f0::cf3b] (helo=merlin.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l9u8b-00055K-3n; Wed, 10 Feb 2021 18:22:53 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Andrey Vagin <avagin@openvz.org>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: ioctl: add entry for nsfs.h
-Date:   Wed, 10 Feb 2021 10:22:48 -0800
-Message-Id: <20210210182248.18101-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        with ESMTP id S234541AbhBJTOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 14:14:36 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EC8C06174A
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:13:56 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id p193so3135763yba.4
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:13:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9tOqcLFPGtBJA35TM92FKNxWnaOl6vWWHEx3bmxeU4c=;
+        b=XFODFH/7aQvtIfr1O4SP9Wqe5MlKRy2+5dSSHkXHfVH+R+9OU/TOZ09pDYnsl2vv6f
+         7cEH0Z6UoELRKGzsUtNvmrtDQBC7r/G6Qbtc6/JSVfpXccP4PLau8NMeL9A/OubRwHB1
+         VcQgYnA99MaEy+19EMwjObrtrLHqOsWNZCG7glqOH4z70X5XE+yqXhvDlsdiAQ/u3YSN
+         Knm1TcpqnE53hNrSXGIaZ1BOedUnzxDSf5jrLpOiLeIOK5pwSMexOYyGY2xjXBi3ngV8
+         8z+ArJgCyMQcwrbbGYQ++ExEvF/KSID9fcTT6i+zsJoDK7PfrUfv724oQwAHLyzfxRpH
+         jSMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9tOqcLFPGtBJA35TM92FKNxWnaOl6vWWHEx3bmxeU4c=;
+        b=fCfOEBoAqXDdYO4SlJk60bWaB6L1F+VE9qeW9JwEfhju9sinvom+7aIK4zi2xdQI4P
+         5OvrQJbtkWjARi4lAoex8KmMZlyG8dAdIk1t5UmhdMX30s7o2SSZ0PuQbyqa01daWFqG
+         nJnXxYlDDK3wA7yCsNLjwmLo5621eorjKch55/LBlT4iFVtCeg9sdkkvMIKHiKxeKOU5
+         tb0+LuFrLibbqioereNgo5KFtEFUVX9OtrCWlxzSXj9a/wzL20Gg2LrNnRN2H8jWfBvn
+         Ri1aNYe7YoGhhy5fvysOnvlISTrk5x79TXVNDXDZZ6TLGPARHEgvec5L0f27S3SNuzhz
+         IysA==
+X-Gm-Message-State: AOAM533Rb8zuo4NkxnA35vFHdYLnvYu4/9bHcIOIf9a6eu3OGg0zsNXr
+        xRBAecVOCWKpWwkZ15ERqvc8yS23+J4n0AbiJaF2HQ==
+X-Google-Smtp-Source: ABdhPJyWPzmY+tyazkCwj4t0k4KGhEheNTDTa4+Z3XmMbe8kh4uk1AUlS/mwh8JLpJB4vJDlgZWe56Y+dIqi6GwmOz8=
+X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr6466442ybt.96.1612984436001;
+ Wed, 10 Feb 2021 11:13:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210205222644.2357303-9-saravanak@google.com> <20210210114435.122242-1-tudor.ambarus@microchip.com>
+In-Reply-To: <20210210114435.122242-1-tudor.ambarus@microchip.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 10 Feb 2021 11:13:19 -0800
+Message-ID: <CAGETcx-aztut-RkZTjyGfzBGYLBQQDnaVFRQMMVTMPMA7Xs3Hg@mail.gmail.com>
+Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
+To:     Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Brown, Len" <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All userspace ioctls major/magic number should be documented in
-Documentation/userspace-api/ioctl/ioctl-number.rst, so add
-the entry for <linux/nsfs.h>.
+On Wed, Feb 10, 2021 at 3:44 AM Tudor Ambarus
+<tudor.ambarus@microchip.com> wrote:
+>
+> This is a follow-up for:
+> commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
+>
+> The above commit updated the deprecated of_clk_add_provider(),
+> but missed to update the preferred of_clk_add_hw_provider().
+> Update it now.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andrey Vagin <avagin@openvz.org>
-Cc: Serge Hallyn <serge@hallyn.com>
-Cc: Eric W. Biederman <ebiederm@xmission.com>
-Cc: linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Feel free to modify the patch as needed.
+Thanks Tudor! Good catch!
 
-Probably don't need to backport:
-# Fixes: 6786741dbf99 ("nsfs: add ioctl to get an owning user namespace for ns file descriptor")
+I checked to make sure the deregistration path undoes this one. So, it
+looks good to me.
 
- Documentation/userspace-api/ioctl/ioctl-number.rst |    1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Saravana Kannan <saravanak@google.com>
 
---- lnx-511-rc7.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ lnx-511-rc7/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -344,6 +344,7 @@ Code  Seq#    Include File
- 0xB5  00-0F  uapi/linux/rpmsg.h                                      <mailto:linux-remoteproc@vger.kernel.org>
- 0xB6  all    linux/fpga-dfl.h
- 0xB7  all    uapi/linux/remoteproc_cdev.h                            <mailto:linux-remoteproc@vger.kernel.org>
-+0xB7  all    uapi/linux/nsfs.h                                       <mailto:Andrei Vagin <avagin@openvz.org>>
- 0xC0  00-0F  linux/usb/iowarrior.h
- 0xCA  00-0F  uapi/misc/cxl.h
- 0xCA  10-2F  uapi/misc/ocxl.h
+-Saravana
+
+>
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+> ---
+>  drivers/clk/clk.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 27ff90eacb1f..9370e4dfecae 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -4594,6 +4594,8 @@ int of_clk_add_hw_provider(struct device_node *np,
+>         if (ret < 0)
+>                 of_clk_del_provider(np);
+>
+> +       fwnode_dev_initialized(&np->fwnode, true);
+> +
+>         return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(of_clk_add_hw_provider);
+> --
+> 2.25.1
+>
