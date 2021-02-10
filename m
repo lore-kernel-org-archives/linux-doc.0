@@ -2,180 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 432F4C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04DF1C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C68F64DD8
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:16:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2D5A64D87
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 19:35:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234599AbhBJTQW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 14:16:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46794 "EHLO
+        id S232204AbhBJTe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 14:34:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234595AbhBJTQM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 14:16:12 -0500
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BADAC0613D6
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:15:32 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id x19so400829ybe.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:15:32 -0800 (PST)
+        with ESMTP id S232459AbhBJTeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 14:34:25 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57243C061786
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:33:33 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id c11so1931972pfp.10
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 11:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bMm7LhCNfiXatte+J72259TBwE3qgGrJaSabgZ25gjg=;
-        b=HRIiwWTs47Szc6oxYxnhSOiBHfT4UHEE38Ch+iU28KkeDshpiC1SepDhdslHI23tt3
-         OS6PP06URj7B5CC3eUzROAwtGPBWwYlZObWB0SekS4wI484RrQtNhKydUqynhO0Q8Pyk
-         qguBlQPU+LMbanRwX+gBvVJF+BhQCcYxMSwMCzRFIEXITAKkGL/LKRyfcgN2HYRlGkG0
-         9Em0m0j6lShbUakz/6okuTXwmW2fb5MPmmWsxUn71aH5g/bQoczVbCIQxEdxfw7rHKoN
-         TLKZpTEXoYkJo9BrpaUYxzaQJytCtOK/yU8wbQvE6Yx/wkzfdo1t+bWo+N2VU47k8h1/
-         XX5g==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5bTpxzmhyqMaSkCM7ds9uXFXoaDcIa78EBDnlUPl2tM=;
+        b=VWbs0iMTi2vxgqSwLGR1NXJdtgPJJ6t4i0fxXfJCU5WzFFtliBM/eTDIg5VfwrHuVh
+         oH1P/5nO3zxEOnMd9vQFOtU3haSm17GRulcWBQzjEjFXR4fgrpUzh5+QedWYnWjBhM3t
+         iJxFNTw5/lOdvOHNgy3tzs1MED1SyuOioaqak=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bMm7LhCNfiXatte+J72259TBwE3qgGrJaSabgZ25gjg=;
-        b=OFs/LByHLwLHb3u+zgOzoLoOvTId7DcM7C77N4r04sFdWKtODYQv+KoGJI+G4jWSp9
-         WcdYRsCWnCfI8uoMSkVlJDoEJrWslxGV/TOlOTBOm1pJ0ZAW5CXUSKHufTt6Kub+TN75
-         uAzKPPcmGlJu1Io5ApEi/rW9ZU08IFtrrEQFRrFr5Z2v8nVxtkcmWvNKyEFOEb+kx3eS
-         tzT5/W/dm5wS2Va3Y2f6LD09AYbCZA/KeNPV9B9OWMY5FCiHJxDxhrUrGJbjayaw5tnS
-         hCfgBdb+ENcrCIFGqJ6rLthHH3pVjVS2taR3rQHU3oS7nUyWd/83U9mwEskMJId5rB7X
-         1d4w==
-X-Gm-Message-State: AOAM531Q8befsgxxZYSuPbEaARWsnkWTT2i/7kxbIcsId13EuW9UX9gn
-        KOsMEgmc87UlS81DOD6dF8US+v/DXwlPAyRwo7J6OA==
-X-Google-Smtp-Source: ABdhPJxPLs/+QIJMt+wtIBzBZGrhURUX+xSgCx7EymGDDvrfSfAubD/1PiDbpILIMYyk25/SJ0qOy+BTaFfHFwoVjsg=
-X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr6476503ybt.96.1612984531616;
- Wed, 10 Feb 2021 11:15:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <47ca46aa-99f3-5203-8aa7-65c6443bd965@microchip.com> <CAGETcx862JPn8759tk-69WySBvokxMXJaaOVY7L6V8FLwfpV8g@mail.gmail.com>
- <3ec7ba3a-bbf6-aa5f-7800-4fc91ab199ec@microchip.com>
-In-Reply-To: <3ec7ba3a-bbf6-aa5f-7800-4fc91ab199ec@microchip.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 10 Feb 2021 11:14:55 -0800
-Message-ID: <CAGETcx87RmBAhC2Kg0xP9oYGhGWXFWoTtshzuqT2=4_svm5s5A@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Brown, Len" <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5bTpxzmhyqMaSkCM7ds9uXFXoaDcIa78EBDnlUPl2tM=;
+        b=HprgmXs+CgvNNpwlwtSpm7UxDdaGO7szMeUNFdcK7tTtsqkWpf6soMEtwqJ+AWcEIM
+         urlkmDlkuNjYRKlJNKIw51qfJlCR+YocZX8L1hkWJlHebce0UZ7AOtLKmBn31d1ZGz8H
+         iJUQMSqnn11+hGw16p4lyGpNDPrU9p8J9PiEMs/DGHUJLRXEJJlPjPHEBZ92CtNS7f2D
+         +UdKytFfWgKhWazIyqwnFup8e7nd3r9sdutpHuHCV+utfSwPvxk7hPeHl7VPnUE67LK3
+         BMwpbPZIKRXaLxb2Alb+nnQFlQC1KFs5b0igCLLc72pu0xlQjNdYiw/EVdtoMpIxU5Ar
+         MVBg==
+X-Gm-Message-State: AOAM531LmQdu5+BJNWTmJ27JFgwNaQIsqqZVmfIBTTDIREkA35g+SLUA
+        Zeo7CRENDtI1a9Cfw4wON+IpPw==
+X-Google-Smtp-Source: ABdhPJyb9Yi+7DfO6DoJ8QQltqWHPhVAwYYQxHwDF6BnEPn/Zzx5qk5FkuYTK7JIoitwMok0JH75Tw==
+X-Received: by 2002:a63:5459:: with SMTP id e25mr4520747pgm.403.1612985612828;
+        Wed, 10 Feb 2021 11:33:32 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id o185sm2139133pfb.196.2021.02.10.11.33.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 11:33:32 -0800 (PST)
+Date:   Wed, 10 Feb 2021 11:33:30 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
+Subject: Re: [PATCH v20 02/25] x86/cet/shstk: Add Kconfig option for
+ user-mode control-flow protection
+Message-ID: <202102101133.3C94A64@keescook>
+References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
+ <20210210175703.12492-3-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210210175703.12492-3-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 2:02 AM <Tudor.Ambarus@microchip.com> wrote:
->
-> On 2/10/21 10:54 AM, Saravana Kannan wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >
-> > On Wed, Feb 10, 2021 at 12:19 AM <Tudor.Ambarus@microchip.com> wrote:
-> >>
-> >> Hi, Saravana,
-> >>
-> >> On 2/6/21 12:26 AM, Saravana Kannan wrote:
-> >>> There are a lot of devices/drivers where they never have a struct device
-> >>> created for them or the driver initializes the hardware without ever
-> >>> binding to the struct device.
-> >>>
-> >>> This series is intended to avoid any boot regressions due to such
-> >>> devices/drivers when fw_devlink=on and also address the handling of
-> >>> optional suppliers.
-> >>>
-> >>> Patch 1 and 2 addresses the issue of firmware nodes that look like
-> >>> they'll have struct devices created for them, but will never actually
-> >>> have struct devices added for them. For example, DT nodes with a
-> >>> compatible property that don't have devices added for them.
-> >>>
-> >>> Patch 3 and 4 allow for handling optional DT bindings.
-> >>>
-> >>> Patch 5 sets up a generic API to handle drivers that never bind with
-> >>> their devices.
-> >>>
-> >>> Patch 6 through 8 update different frameworks to use the new API.
-> >>>
-> >>> Thanks,
-> >>> Saravana
-> >>>
-> >>> Saravana Kannan (8):
-> >>>   driver core: fw_devlink: Detect supplier devices that will never be
-> >>>     added
-> >>>   of: property: Don't add links to absent suppliers
-> >>>   driver core: Add fw_devlink.strict kernel param
-> >>>   of: property: Add fw_devlink support for optional properties
-> >>>   driver core: fw_devlink: Handle suppliers that don't use driver core
-> >>>   irqdomain: Mark fwnodes when their irqdomain is added/removed
-> >>>   PM: domains: Mark fwnodes when their powerdomain is added/removed
-> >>>   clk: Mark fwnodes when their clock provider is added/removed
-> >>>
-> >>>  .../admin-guide/kernel-parameters.txt         |  5 ++
-> >>>  drivers/base/core.c                           | 58 ++++++++++++++++++-
-> >>>  drivers/base/power/domain.c                   |  2 +
-> >>>  drivers/clk/clk.c                             |  3 +
-> >>>  drivers/of/property.c                         | 16 +++--
-> >>>  include/linux/fwnode.h                        | 20 ++++++-
-> >>>  kernel/irq/irqdomain.c                        |  2 +
-> >>>  7 files changed, 98 insertions(+), 8 deletions(-)
-> >>>
-> >>
-> >> Even with this patch set applied, sama5d2_xplained can not boot.
-> >> Patch at [1] makes sama5d2_xplained boot again. Stephen applied it
-> >> to clk-next.
-> >
-> > I'm glad you won't actually have any boot issues in 5.12, but the fact
-> > you need [1] with this series doesn't make a lot of sense to me
-> > because:
-> >
-> > 1. The FWNODE_FLAG_INITIALIZED flag will be set for the clock fwnode
-> > in question way before any consumer devices are added.
->
-> Looks like in my case FWNODE_FLAG_INITIALIZED is not set, because
-> drivers/clk/at91/sama5d2.c uses of_clk_add_hw_provider().
+On Wed, Feb 10, 2021 at 09:56:40AM -0800, Yu-cheng Yu wrote:
+> Shadow Stack provides protection against function return address
+> corruption.  It is active when the processor supports it, the kernel has
+> CONFIG_X86_CET enabled, and the application is built for the feature.
+> This is only implemented for the 64-bit kernel.  When it is enabled, legacy
+> non-Shadow Stack applications continue to work, but without protection.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/Kconfig           | 23 +++++++++++++++++++++++
+>  arch/x86/Kconfig.assembler |  5 +++++
+>  2 files changed, 28 insertions(+)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 21f851179ff0..1138b5fa9b4f 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -28,6 +28,7 @@ config X86_64
+>  	select ARCH_HAS_GIGANTIC_PAGE
+>  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>  	select ARCH_USE_CMPXCHG_LOCKREF
+> +	select ARCH_HAS_SHADOW_STACK
+>  	select HAVE_ARCH_SOFT_DIRTY
+>  	select MODULES_USE_ELF_RELA
+>  	select NEED_DMA_MAP_STATE
+> @@ -1951,6 +1952,28 @@ config X86_SGX
+>  
+>  	  If unsure, say N.
+>  
+> +config ARCH_HAS_SHADOW_STACK
+> +	def_bool n
+> +
+> +config X86_CET
+> +	prompt "Intel Control-flow protection for user-mode"
+> +	def_bool n
+> +	depends on X86_64
 
-Ah, that explains it.
+This depends isn't needed any more. With that fixed:
 
-> > 2. Any consumer device added after (1) will stop trying to link to the
-> > clock device.
-> >
-> > Are you somehow adding a consumer to the clock fwnode before (1)?
-> >
-> > Can you try this patch without your clk fix? I was trying to avoid
-> > looping through a list, but looks like your case might somehow need
-> > it?
-> >
->
-> I tried it, didn't solve my boot problem.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Thanks! I should stop coding past midnight!
+> +	depends on AS_WRUSS
+> +	depends on ARCH_HAS_SHADOW_STACK
+> +	select ARCH_USES_HIGH_VMA_FLAGS
+> +	help
+> +	  Control-flow protection is a set of hardware features which place
+> +	  additional restrictions on indirect branches.  These help
+> +	  mitigate ROP attacks.  Applications must be enabled to use it,
+> +	  and old userspace does not get protection "for free".
+> +	  Support for this feature is present on Tiger Lake family of
+> +	  processors released in 2020 or later.  Enabling this feature
+> +	  increases kernel text size by 3.7 KB.
+> +	  See Documentation/x86/intel_cet.rst for more information.
+> +
+> +	  If unsure, say N.
+> +
+>  config EFI
+>  	bool "EFI runtime service support"
+>  	depends on ACPI
+> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> index 26b8c08e2fc4..00c79dd93651 100644
+> --- a/arch/x86/Kconfig.assembler
+> +++ b/arch/x86/Kconfig.assembler
+> @@ -19,3 +19,8 @@ config AS_TPAUSE
+>  	def_bool $(as-instr,tpause %ecx)
+>  	help
+>  	  Supported by binutils >= 2.31.1 and LLVM integrated assembler >= V7
+> +
+> +config AS_WRUSS
+> +	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
+> +	help
+> +	  Supported by binutils >= 2.31 and LLVM integrated assembler
+> -- 
+> 2.21.0
+> 
 
-> The following patch makes the
-> sama5d2_xplained boot again, even without the patch from [1]:
-
-Great! I gave a reviewed-by.
-
--Saravana
+-- 
+Kees Cook
