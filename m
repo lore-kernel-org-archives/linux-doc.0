@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF7AC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B55C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:09:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01DBA64DE1
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:09:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8912064DB1
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Feb 2021 18:09:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233072AbhBJSIm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 13:08:42 -0500
-Received: from mga07.intel.com ([134.134.136.100]:19832 "EHLO mga07.intel.com"
+        id S231642AbhBJSIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 13:08:47 -0500
+Received: from mga17.intel.com ([192.55.52.151]:29603 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233914AbhBJSFi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Feb 2021 13:05:38 -0500
-IronPort-SDR: 3rhcLYrP89zmDV16v8lnuGi1VA62Hk5+gmHw4Zse934HOUfp4vpT0b76OeOUSygqOvZmfSO+zw
- wezAXrGaz10Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="246189802"
+        id S233915AbhBJSFj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Feb 2021 13:05:39 -0500
+IronPort-SDR: AhB6bLjx0ccRawG8jo8EsACqRe1GLG9RbWwdLFgdX3wytO3EQMSSeKwTBGguWiK6O6DG4hOtm6
+ PNOiRBWiAd+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9891"; a="161872860"
 X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; 
-   d="scan'208";a="246189802"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 10:02:57 -0800
-IronPort-SDR: DZIyilyq6rAx+vBuMXR52Ljop2B68etNnmpU4O2n2DF5wh4aWDx9zN3kX28Ey7PzADJAvZJRUI
- woeiMmefRb5Q==
+   d="scan'208";a="161872860"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 09:58:03 -0800
+IronPort-SDR: OMwmtszcRgMipJlvUfw9jKjh4roIuBBtG979ePIc5OhhqjXgiZaO8cVuwFKb1YFhD5TUQF9jQU
+ xp53yo1QIgjg==
 X-IronPort-AV: E=Sophos;i="5.81,168,1610438400"; 
-   d="scan'208";a="380239198"
+   d="scan'208";a="421140779"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 10:02:56 -0800
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2021 09:58:03 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,43 +60,88 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>, <haitao.huang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v20 1/7] x86/cet/ibt: Update Kconfig for user-mode Indirect Branch Tracking
-Date:   Wed, 10 Feb 2021 10:02:39 -0800
-Message-Id: <20210210180245.13770-2-yu-cheng.yu@intel.com>
+Subject: [PATCH v20 17/25] mm/mmap: Add shadow stack pages to memory accounting
+Date:   Wed, 10 Feb 2021 09:56:55 -0800
+Message-Id: <20210210175703.12492-18-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210210180245.13770-1-yu-cheng.yu@intel.com>
-References: <20210210180245.13770-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20210210175703.12492-1-yu-cheng.yu@intel.com>
+References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Indirect branch tracking is a hardware security feature that verifies near
-indirect call/jump instructions arrive at intended targets, which are
-labeled by the compiler with ENDBR opcodes.  If such instructions reach
-unlabeled locations, the processor raises control-protection faults.
-
-Check the compiler is up-to-date at config time.
+Account shadow stack pages to stack memory.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/mm/pgtable.c   |  7 +++++++
+ include/linux/pgtable.h | 11 +++++++++++
+ mm/mmap.c               |  5 +++++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 816830e3f062..f462ef9d3305 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1964,6 +1964,7 @@ config X86_CET
- 	depends on X86_64
- 	depends on AS_WRUSS
- 	depends on ARCH_HAS_SHADOW_STACK
-+	depends on $(cc-option,-fcf-protection)
- 	select ARCH_USES_HIGH_VMA_FLAGS
- 	select ARCH_MAYBE_MKWRITE
- 	select ARCH_USE_GNU_PROPERTY
+diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+index 0f4fbf51a9fc..948d28c29964 100644
+--- a/arch/x86/mm/pgtable.c
++++ b/arch/x86/mm/pgtable.c
+@@ -895,3 +895,10 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
+ 
+ #endif /* CONFIG_X86_64 */
+ #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
++
++#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
++bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
++{
++	return (vm_flags & VM_SHSTK);
++}
++#endif
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index d8452218d09b..b888b246b8b1 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1463,6 +1463,17 @@ static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma
+ #endif /* CONFIG_ARCH_MAYBE_MKWRITE */
+ #endif /* CONFIG_MMU */
+ 
++#ifdef CONFIG_MMU
++#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
++bool arch_shadow_stack_mapping(vm_flags_t vm_flags);
++#else
++static inline bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
++{
++	return false;
++}
++#endif /* CONFIG_ARCH_HAS_SHADOW_STACK */
++#endif /* CONFIG_MMU */
++
+ /*
+  * Architecture PAGE_KERNEL_* fallbacks
+  *
+diff --git a/mm/mmap.c b/mm/mmap.c
+index dc7206032387..51200b821898 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -1720,6 +1720,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+ 	if (file && is_file_hugepages(file))
+ 		return 0;
+ 
++	if (arch_shadow_stack_mapping(vm_flags))
++		return 1;
++
+ 	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
+ }
+ 
+@@ -3389,6 +3392,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
+ 		mm->stack_vm += npages;
+ 	else if (is_data_mapping(flags))
+ 		mm->data_vm += npages;
++	else if (arch_shadow_stack_mapping(flags))
++		mm->stack_vm += npages;
+ }
+ 
+ static vm_fault_t special_mapping_fault(struct vm_fault *vmf);
 -- 
 2.21.0
 
