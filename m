@@ -2,73 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE454C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 12:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53E4C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 12:40:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BE8164E05
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 12:37:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9245664E2E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 12:40:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbhBKMhD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Feb 2021 07:37:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53520 "EHLO mail.kernel.org"
+        id S231216AbhBKMjp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Feb 2021 07:39:45 -0500
+Received: from foss.arm.com ([217.140.110.172]:51338 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231659AbhBKMc4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Feb 2021 07:32:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C56EB64D79;
-        Thu, 11 Feb 2021 12:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613046736;
-        bh=mkeXLrPmROC3BA32Pp/9MxPWe1zUBG4cvAtSytkL2bM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ok0v9O0h5Y6rCji7GqB0MfLWSMGZ0birfjFj+G0Kpqv56WlRihdGpwAJhYEPm8cPy
-         Pi7Xd1M75Wp8rfirOm9C6Rt9a5HrjRsOvR+Dmbxqb/eD6o9wFz8mIfXowlQLWt2jJw
-         usNeg9Qu0M7XM9fzFy6bn5Qcj1Hc09/W5RbJAzn0=
-Date:   Thu, 11 Feb 2021 13:32:13 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S231618AbhBKMhT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Feb 2021 07:37:19 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D5D61063;
+        Thu, 11 Feb 2021 04:36:30 -0800 (PST)
+Received: from [10.57.48.86] (unknown [10.57.48.86])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 796B73F73B;
+        Thu, 11 Feb 2021 04:36:26 -0800 (PST)
+Subject: Re: [PATCH v3 6/8] perf cs-etm: Add helper cs_etm__get_pid_fmt()
+To:     Leo Yan <leo.yan@linaro.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v5 1/6] misc: Add Synopsys DesignWare xData IP driver
-Message-ID: <YCUjzeR1ZMX2uVH7@kroah.com>
-References: <cover.1613034397.git.gustavo.pimentel@synopsys.com>
- <02835da8fc8c9293fecbe666a8db3fb79276fdde.1613034397.git.gustavo.pimentel@synopsys.com>
- <20210211114243.GH1275163@unreal>
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>,
+        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210206150833.42120-1-leo.yan@linaro.org>
+ <20210206150833.42120-7-leo.yan@linaro.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <fa66fe64-ddd8-361c-1a98-4e669fcb0227@arm.com>
+Date:   Thu, 11 Feb 2021 12:36:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210211114243.GH1275163@unreal>
+In-Reply-To: <20210206150833.42120-7-leo.yan@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 01:42:43PM +0200, Leon Romanovsky wrote:
-> On Thu, Feb 11, 2021 at 10:08:38AM +0100, Gustavo Pimentel wrote:
-> > Add Synopsys DesignWare xData IP driver. This driver enables/disables
-> > the PCI traffic generator module pertain to the Synopsys DesignWare
-> > prototype.
-> >
-> > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > ---
-> >  drivers/misc/dw-xdata-pcie.c | 394 +++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 394 insertions(+)
-> >  create mode 100644 drivers/misc/dw-xdata-pcie.c
+On 2/6/21 3:08 PM, Leo Yan wrote:
+> This patch adds helper function cs_etm__get_pid_fmt(), by passing
+> parameter "traceID", it returns the PID format.
 > 
-> <...>
-> 
-> > +MODULE_LICENSE("GPL v2");
-> 
-> "GPL" and not "GPL v2".
+> Signed-off-by: Leo Yan <leo.yan@linaro.org>
 
-There is no difference, please go read module.h.
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
