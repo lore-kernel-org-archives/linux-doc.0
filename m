@@ -2,83 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6742C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:47:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 583C4C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 17:07:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 871DE64DDA
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:47:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2781964E70
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 17:07:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231956AbhBKQqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Feb 2021 11:46:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbhBKQpP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Feb 2021 11:45:15 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C96DBC061756
-        for <linux-doc@vger.kernel.org>; Thu, 11 Feb 2021 08:44:34 -0800 (PST)
+        id S232111AbhBKRGz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Feb 2021 12:06:55 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51630 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231791AbhBKREv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Feb 2021 12:04:51 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7F9955F42;
-        Thu, 11 Feb 2021 16:44:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7F9955F42
+        by ms.lwn.net (Postfix) with ESMTPSA id 3EB7B4EB3;
+        Thu, 11 Feb 2021 17:04:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3EB7B4EB3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1613061874; bh=4X5DBjAvRGiTLUZXq1G7Ajzj0wYKhbg2QuQPZNAA31Q=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=pv6DQ3mFVrMUWBGuLAti6RT6ZZXKnls8VL3YCtS+OPE7Y+EpMK+yuEp6SVm3I9C55
-         4k3qwEMJj4ca3p2VRwJTrI0eJG+YTQBiF1kVIKobWG/EbXe2m9U/tYfsMg7lrGV00U
-         1yFr9Xrzha2V8+UmorNtB2g8cR4HHYX44DnpUahjYXgy4xcn8cKsTi1czUcVHkQcr6
-         yyjRlpi0jByZgejWdJrTHQJk1xJwmKwEvMaDk+WGlMA5QHljl0HiiLqU9Y8QmXFQb8
-         /pIcuiWM7oIVKR6PLmRFXGfUIUKT3KL6ftm2NF22OFBQEZ5pTbjRaS7V/yabrw7xnU
-         3Oss1NnUJeA3A==
+        t=1613063048; bh=aMufq1Egd/yK6OMTtpi9xhpZ88WCcSnEMH+UEkktgGc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=LrDZ37Q91HqFe+LhvksfXG2y6leZoEHOM3VAg/6ZSJQnkDCTj6ODuenvZbe3Akn/T
+         LwlEewJVOpaUgLI5rcRKO5qnEOWXQ050vNKqZ+xysOeWFwBclJfy+omkwU/Km5Kcao
+         dKTeMcldO5+X7nE0xG2CeEFX12CHklzRr3s0oyrE1vPM59suUHh4tyHceMSmn3Xpyy
+         xkccROiyw3jRnCK6/R4z4EVDAiVR+lYQDvmyA3XmV5J1/nqxWqoeyzdXTr7wXce3hZ
+         /f/HaFJtWFt+zrDowNAHLOK6j/JuKsPV8d3oxXUGsuSn2rRRas7GCowkFz31jWln43
+         B5cPa2mlXkx7A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yorick de Wid <ydewid@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: Remove the Microsoft rhetoric
-In-Reply-To: <20210208150447.87104-1-ydewid@gmail.com>
-References: <20210208150447.87104-1-ydewid@gmail.com>
-Date:   Thu, 11 Feb 2021 09:44:34 -0700
-Message-ID: <87wnvepn9p.fsf@meer.lwn.net>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, swboyd@chromium.org,
+        tiwai@suse.de, nfraprado@protonmail.com, mchehab+huawei@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: Re: [PATCH] docs: kernel-hacking: Remove the word fuck,trying to be
+ civil :)
+In-Reply-To: <20210205115951.1276526-1-unixbhaskar@gmail.com>
+References: <20210205115951.1276526-1-unixbhaskar@gmail.com>
+Date:   Thu, 11 Feb 2021 10:04:07 -0700
+Message-ID: <87sg62pmd4.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yorick de Wid <ydewid@gmail.com> writes:
+Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 
-> From: Yorick de Wid <yorickdewid@users.noreply.github.com>
+> s/fuck//
 >
-> There is no need to need to name Microsoft. The point is clear without that context.
 >
-> Signed-off-by: Yorick de Wid <ydewid@gmail.com>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 > ---
->  Documentation/process/coding-style.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  Documentation/kernel-hacking/locking.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 98227226c4e..5608ed2931f 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -306,8 +306,7 @@ that counts the number of active users, you should call that
->  
->  Encoding the type of a function into the name (so-called Hungarian
->  notation) is asinine - the compiler knows the types anyway and can check
-> -those, and it only confuses the programmer. No wonder Microsoft makes buggy
-> -programs.
-> +those, and it only confuses the programmer.
+> diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+> index c3448929a824..ed1284c6f078 100644
+> --- a/Documentation/kernel-hacking/locking.rst
+> +++ b/Documentation/kernel-hacking/locking.rst
+> @@ -958,7 +958,7 @@ grabs a read lock, searches a list, fails to find what it wants, drops
+>  the read lock, grabs a write lock and inserts the object has a race
+>  condition.
+>
+> -If you don't see why, please stay the fuck away from my code.
+> +If you don't see why, please stay away from my code.
 
-Yeah, the time for that has probably passed.  Applied, thanks.
+Sigh.
+
+I've gotten a few variants of this patch over the years...I guess maybe
+the time has come to apply one, so I did.  If the word is too offensive
+to be in our docs, though, perhaps it shouldn't be in the changelog
+either, so I rewrote it:
+
+    docs: kernel-hacking: be more civil
+    
+    Remove the f-bomb from locking.rst.  Let's have a moment of silence,
+    though, as we mark the passing of the last of Rusty's once plentiful
+    profanities in this venerable document.
+
+Thanks,
 
 jon
-
-P.S. This CC line in your original:
-
-> Cc: Yorick de Wid <yorickdewid@users.noreply.github.com>, Yorick de Wid <ydewid@gmail.com>
-
-Seems sure to create errors; maybe that could be left out in the future?
