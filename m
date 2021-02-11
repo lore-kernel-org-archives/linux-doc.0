@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38722C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 13:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89280C4332E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 14:05:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E299F64DEE
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 13:59:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3018F64E95
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 14:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbhBKN7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Feb 2021 08:59:15 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51654 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230355AbhBKN44 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Feb 2021 08:56:56 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E03A541;
-        Thu, 11 Feb 2021 14:55:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1613051756;
-        bh=teYYPUpBTKJG/hwpTHvlrp6FYATi01gIOZT+tY/o6ts=;
+        id S231725AbhBKOE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Feb 2021 09:04:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40040 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232137AbhBKOCt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Feb 2021 09:02:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E213664E87;
+        Thu, 11 Feb 2021 14:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613052127;
+        bh=N3FdnEf62xzBxUf3oHuaKM8tF+xyEqRWT4QycOAyd+c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X/SZoBdYbkudSjrtcFYX/4NBpWqkHvFgcjwqkj0c/Rsr5balCqfa6P3sVRtlHJIV9
-         hvf43GRveZ++t3h6m3H9WNlcp260O+RYJ1erfwE9FcpMlq/l3m2hqCyaNaDSwcu2Kd
-         YzJ6s83p6/UkRSKd7zhKu7smBthBczzWqzqQ57hA=
-Date:   Thu, 11 Feb 2021 15:55:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: add a new dma_alloc_noncontiguous API v2
-Message-ID: <YCU3UuftNEl5Bxpf@pendragon.ideasonboard.com>
-References: <20210202095110.1215346-1-hch@lst.de>
- <20210207184855.GA27553@lst.de>
- <CAAFQd5BzAvgiTLGFse+ZWUrFtZ1Ysf+p+e-4rW8gq_iP0xhWEA@mail.gmail.com>
- <20210209082213.GA31902@lst.de>
- <CANiDSCuzKczCnAdC9b0r-6WVBFYXYnvQHKbxSeYq2QW1uVsDLQ@mail.gmail.com>
- <CANiDSCvPodsmcOi1fMwvZsyMxWsRQWNT7VkbZs4=XePYXfiXow@mail.gmail.com>
- <20210209170217.GA10199@lst.de>
- <CANiDSCs8dXVoWuwkVs=v+=s770MpzH1xiDuj-080-98ynuz97g@mail.gmail.com>
- <20210211130625.GA20155@lst.de>
- <CANiDSCupVLQMbJVKrrKBJvJxHgteeVFik7LAJy5zbUi2ESwsGA@mail.gmail.com>
+        b=oZ2U5HXz5+NgpwRbjtD87mUxrlPYCi3MPMsF9EKKREC4DcYU+lGux32QOv/BHKuS2
+         WOGlacxqBW8/7bL0C94LfPzU1OPL6zuVxV3Y0Tx4dnS2oGbY7FSM9yK8hhkgYyBnxF
+         SZ6Ug8B5yhLxdCiHk1L1oJMdak0WnuEP1qBsxSWE=
+Date:   Thu, 11 Feb 2021 15:02:03 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v5 1/6] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <YCU42zUbtGEvYVQ/@kroah.com>
+References: <cover.1613034397.git.gustavo.pimentel@synopsys.com>
+ <02835da8fc8c9293fecbe666a8db3fb79276fdde.1613034397.git.gustavo.pimentel@synopsys.com>
+ <20210211114243.GH1275163@unreal>
+ <YCUjzeR1ZMX2uVH7@kroah.com>
+ <20210211135019.GI1275163@unreal>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCupVLQMbJVKrrKBJvJxHgteeVFik7LAJy5zbUi2ESwsGA@mail.gmail.com>
+In-Reply-To: <20210211135019.GI1275163@unreal>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ricardo,
-
-On Thu, Feb 11, 2021 at 02:20:30PM +0100, Ricardo Ribalda wrote:
-> On Thu, Feb 11, 2021 at 2:06 PM Christoph Hellwig <hch@lst.de> wrote:
-> > On Thu, Feb 11, 2021 at 10:08:18AM +0100, Ricardo Ribalda wrote:
-> > > Hi Christoph
+On Thu, Feb 11, 2021 at 03:50:19PM +0200, Leon Romanovsky wrote:
+> On Thu, Feb 11, 2021 at 01:32:13PM +0100, Greg Kroah-Hartman wrote:
+> > On Thu, Feb 11, 2021 at 01:42:43PM +0200, Leon Romanovsky wrote:
+> > > On Thu, Feb 11, 2021 at 10:08:38AM +0100, Gustavo Pimentel wrote:
+> > > > Add Synopsys DesignWare xData IP driver. This driver enables/disables
+> > > > the PCI traffic generator module pertain to the Synopsys DesignWare
+> > > > prototype.
+> > > >
+> > > > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> > > > ---
+> > > >  drivers/misc/dw-xdata-pcie.c | 394 +++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 394 insertions(+)
+> > > >  create mode 100644 drivers/misc/dw-xdata-pcie.c
 > > >
-> > > What are your merge plans for the uvc change?
-> > > http://git.infradead.org/users/hch/dma-mapping.git/commit/3dc47131f8aacc2093f68a9971d24c754e435520
+> > > <...>
 > > >
-> > > Are you going to remove the patch on your Merge request and then send
-> > > it for review to Laurent? or merge it through your tree with a S-o-B
-> > > him?
+> > > > +MODULE_LICENSE("GPL v2");
+> > >
+> > > "GPL" and not "GPL v2".
 > >
-> > I though I had all the ACKs to queue it up.  Is that not what was
-> > intended?  Queueing up the API without a user is generally a bad idea.
-> >
+> > There is no difference, please go read module.h.
 > 
-> I am pretty sure we need the ack from Laurent. He maintains uvc
+> I read and this is why I said it.
+> Documentation/process/license-rules.rst: "It exists for historic reasons."
 > 
-> @Laurent Pinchart what are your thoughts?
+> Historic, for me, means that new code is better do not use this.
 
-I think it would have been nice to CC me on the patch in the first place
-:-) I won't have time to review the series before next week at the
-earliest.
+Nope, either is fine for new code, author gets to pick what they want.
+Personally, I like the explicitness of "GPL v2" for a variety of
+reasons.
 
--- 
-Regards,
+thanks,
 
-Laurent Pinchart
+greg k-h
