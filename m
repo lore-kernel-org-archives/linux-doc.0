@@ -2,135 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3717DC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:07:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E69C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:26:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E612C64ED0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:07:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C580364DDF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbhBKCHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 21:07:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbhBKCGb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 21:06:31 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB84C061756
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 18:05:50 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id t26so2654483pgv.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 18:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GWehHpPBiIbtAUGV973qzMbhfGOacu1gexxk5hpereM=;
-        b=VkI1vNchcTfqZMT8TdeTKNunPyydlTDpaduc777AZXErfTUw+IoNoowB3buQXwB7D2
-         HM2cW4ajkZGMEI9fbbyaG+QS01IhsQO2IvFJRs0rrcX6Aw2nR/Sd0VcHmSULgTNW1OGQ
-         OrJ32pm7uzcNVvPSKZDo8yzfQ3HtJKHFRkXZY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GWehHpPBiIbtAUGV973qzMbhfGOacu1gexxk5hpereM=;
-        b=OMkX0kPNVEvPSIirTdOyGU/yW5flYgilZeNRTHF6OrGuYdAbCn+hFoNJgIdMKf5YaJ
-         fQn2RK/oSnASjtXQh+5TFdsVVSOwZNpg08MGzROh5tZCpTDKRvNQz6FYTbq/hzfGP/y7
-         PrFHvXnFxtFr8GEtMpHLr80Lq7WcVpF75SGknSS+CPn7hTJZsn5RkNt2uJ9uOvz7CfzX
-         lJoG0Pw/njyvMHdvAc4Ttv9dzTeCiobqq+AfRHmuLa76Y2EO6udffFTVo+XAcp50cnfz
-         1tpTIRcb2wf1Jw4sDCkIRj9B87F5IVviFvex6NJuipH/TWyPOK+Z7HqFQDQqrcTsFUxe
-         O1PQ==
-X-Gm-Message-State: AOAM533fTv/WQiWSKWadlDV3T06Ssx4gSefRa3tZTQrqYM7m6ZYppEQt
-        ZFtC4eLMK2VDlK53Tkfmak+Rfg==
-X-Google-Smtp-Source: ABdhPJzsWXbn1Ou/vFtG4NQUWw149O4AAHSFlrE0lP7i2j/RD0O7x0LK3DLeL8X3j84QUwiX06AIsg==
-X-Received: by 2002:a63:6381:: with SMTP id x123mr1570843pgb.177.1613009150490;
-        Wed, 10 Feb 2021 18:05:50 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h8sm3286360pfv.154.2021.02.10.18.05.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Feb 2021 18:05:49 -0800 (PST)
-Date:   Wed, 10 Feb 2021 18:05:48 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
-Subject: Re: [PATCH v20 21/25] x86/cet/shstk: Handle signals for shadow stack
-Message-ID: <202102101805.0B98ACA743@keescook>
-References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
- <20210210175703.12492-22-yu-cheng.yu@intel.com>
- <202102101154.CEF2606E@keescook>
- <57dcc827-052a-94cd-31d4-286675f9d506@intel.com>
+        id S229457AbhBKC05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 21:26:57 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:2234 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229451AbhBKC04 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 21:26:56 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B602495c80000>; Wed, 10 Feb 2021 18:26:16 -0800
+Received: from [10.2.50.67] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 11 Feb
+ 2021 02:26:16 +0000
+Subject: Re: [PATCH 0/9] Add support for SVM atomics in Nouveau
+To:     Alistair Popple <apopple@nvidia.com>,
+        Linux MM <linux-mm@kvack.org>,
+        Nouveau Dev <nouveau@lists.freedesktop.org>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Ralph Campbell <rcampbell@nvidia.com>,
+        Jerome Glisse <jglisse@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+References: <20210209010722.13839-1-apopple@nvidia.com>
+ <CAKMK7uGwg2-DTU7Zrco=TSkcR4yTqN1AF0hvVYEAbuj4BUYi5Q@mail.gmail.com>
+ <3426910.QXTomnrpqD@nvdebian>
+ <CAKMK7uHp+BzHF1=JhKjv5HYm_j0SVqsGdRqjUxVFYx4GSEPucg@mail.gmail.com>
+ <57fe0deb-8bf6-d3ee-3545-11109e946528@nvidia.com>
+ <YCPYtNeYCuu6i2/d@phenom.ffwll.local>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <2906f445-babb-5f4e-2d99-dc004ae1face@nvidia.com>
+Date:   Wed, 10 Feb 2021 18:26:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:85.0) Gecko/20100101
+ Thunderbird/85.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57dcc827-052a-94cd-31d4-286675f9d506@intel.com>
+In-Reply-To: <YCPYtNeYCuu6i2/d@phenom.ffwll.local>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1613010376; bh=fWiSyOBWsVzyVm55YFwZ6S/xqnjzAJ77D4BJX4IdmYQ=;
+        h=Subject:To:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=leaB4fiXqE16gCtniTXQN7wSpNK6vqgNBnsubO6Sqz20znNTYyS1DivzYTMRS4UV7
+         w5Vir0tdNZkJIZJNa7GWAZkmqVslmOQbbFoYCui9m3qncJPbiLoeAgW6aOlHumrkeb
+         AvqNZnglqc7Brug+AtJ88e4mmqyLBYYytyn9i/agt07SeilKDzj3ypZZzMaPyEc/1f
+         qfcVy3BbtVAyuYqrqLZA+t6jewjnFT5OuJgR0tr56q4bF5w7n5XURdxoT6MgKpdprH
+         LtGPzO04XwunHPGKsOBJRZoELR3w5OcRZukw35gXqIHSILXS8DAoXlexMKrAUC4a98
+         gWaYeMFi1C9IA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 01:38:10PM -0800, Yu, Yu-cheng wrote:
-> On 2/10/2021 11:58 AM, Kees Cook wrote:
-> > On Wed, Feb 10, 2021 at 09:56:59AM -0800, Yu-cheng Yu wrote:
-> > > To deliver a signal, create a shadow stack restore token and put the token
-> > > and the signal restorer address on the shadow stack.  For sigreturn, verify
-> > > the token and restore from it the shadow stack pointer.
-> > > 
-> > > A shadow stack restore token marks a restore point of the shadow stack.
-> > > The token is distinctively different from any shadow stack address.
-> > 
-> > How is it different? It seems like it just has the last 2 bits
-> > masked/set?
-> > 
+On 2/10/21 4:59 AM, Daniel Vetter wrote:
+...
+>> GPU atomic operations to sysmem are hard to categorize, because because application
+>> programmers could easily write programs that do a long series of atomic operations.
+>> Such a program would be a little weird, but it's hard to rule out.
 > 
-> For example, for 64-bit apps,
-> 
-> A shadow stack pointer value (*ssp) has to be in some code area, but for a
-> token, (*ptr_of_token) = (ptr_of_token + 8), which has to be within the same
-> shadow stack area.  In cet_verify_rstor_token(), this is checked.
-> 
-> > > In sigreturn, restoring from a token ensures the target address is the
-> > > location pointed by the token.
-> > 
-> > As in, a token (real stack address with 2-bit mask) is checked against
-> > the real stack address? I don't see a comparison -- it only checks that
-> > it is < TASK_SIZE.
-> > 
-> > How does cet_restore_signal() figure into this? (As in, the MSR writes?)
-> > 
-> 
-> The kernel takes the restore address from the token.  It will not mistakenly
-> take a wrong address from the shadow stack.  I will put this in my commit
-> logs.
+> Yeah, but we can forcefully break this whenever we feel like by revoking
+> the page, moving it, and then reinstating the gpu pte again and let it
+> continue.
 
-Ah-ha, okay, got it now. Thank you!
+Oh yes, that's true.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> 
+> If that's no possible then what we need here instead is an mlock() type of
+> thing I think.
+No need for that, then.
 
+
+thanks,
 -- 
-Kees Cook
+John Hubbard
+NVIDIA
