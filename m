@@ -2,183 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA7AEC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:33:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E609CC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:41:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D86664EBB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:33:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB35264DAE
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 16:41:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229886AbhBKQcZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Feb 2021 11:32:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbhBKQaO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Feb 2021 11:30:14 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34074C061BC3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Feb 2021 08:24:52 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id n28so4528463qtv.12
-        for <linux-doc@vger.kernel.org>; Thu, 11 Feb 2021 08:24:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
-        b=WODa48jsTpc63QHw5FszzREapyzJwNIdi4zMwsb/OF7Vb+YxOJ0hgIKn7IK8jh3rym
-         rust/hchPAkbOJ2y4p3gyYc38ZFO4i/1CMQ0oJRJlc/R8VELWxey2akgNx6IW1dn9nU+
-         ZHnf8rVuYFTRMLLLWPMQR3+2tgmc4FtFbEHnit1IbshBgMWHiK59ewUELVJtd/zqxMKi
-         BCOm3l+ZJMvOFuKcnepN/dZ8cEs688MbXhURh9J1/AsWlXCH5ha2VXczrlbCZiNa4n7+
-         sZcOF5MDwfA0WtB9t1t8d4hZB0TqRlRqNnWbd5xfnnzoodp7RkPajrTt/hln5oa1/jrE
-         bKpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
-        b=ZA2Zycr2O1RHuoM8/jYBvAeebSP0KOI5yNdqXfG+N2I4X4LDF+SLkfmehRXi7E+WC3
-         EM39VQYNN5j0QjSbpbtuAqcV+T3RhE+KTUO/9ahdIT1OAus2WX6ggmEcDRoeGrEfbip+
-         3QLzTn/WGqBkefSiFsssSKfIEhMK6AmaO+2cmQKpDYz0k5l50xIvhyDyuY+KOxOWK6+n
-         JrkFf4W01s28qAMIMm9f33epN4HwVGMiQwAJ/7OiXBPjGApobDGiFmOi8avD7bKG2WUy
-         i6K9OD5FCq2ZrvaK6wRAlZpn+AER81wEcfyh0rGhsrnNGB3jIk1Idf97gbeba4rk8V+A
-         V+sg==
-X-Gm-Message-State: AOAM5300I+1dZMD0MQoS9L7gUPfK+f0mfN9dbLhL2mXlmku1Ae2PKAVb
-        bIC46CdBy5Y79JUmdZJXqpgOZg==
-X-Google-Smtp-Source: ABdhPJy3eGGMIemPLPgSZwktYxTenY9EXBH97dFyVr2r62SSQtPmI6++kaHQQFngIxNVazgPeun67g==
-X-Received: by 2002:ac8:a0a:: with SMTP id b10mr6251281qti.72.1613060691438;
-        Thu, 11 Feb 2021 08:24:51 -0800 (PST)
-Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id i23sm3831778qtq.42.2021.02.11.08.24.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 08:24:50 -0800 (PST)
-From:   Pavel Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
-        mhocko@suse.com, david@redhat.com, osalvador@suse.de,
-        dan.j.williams@intel.com, sashal@kernel.org,
-        tyhicks@linux.microsoft.com, iamjoonsoo.kim@lge.com,
-        mike.kravetz@oracle.com, rostedt@goodmis.org, mingo@redhat.com,
-        jgg@ziepe.ca, peterz@infradead.org, mgorman@suse.de,
-        willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
-        linux-doc@vger.kernel.org, ira.weiny@intel.com,
-        linux-kselftest@vger.kernel.org, jmorris@namei.org
-Subject: [PATCH v10 14/14] selftests/vm: gup_test: test faulting in kernel, and verify pinnable pages
-Date:   Thu, 11 Feb 2021 11:24:27 -0500
-Message-Id: <20210211162427.618913-15-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210211162427.618913-1-pasha.tatashin@soleen.com>
-References: <20210211162427.618913-1-pasha.tatashin@soleen.com>
+        id S230198AbhBKQlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Feb 2021 11:41:17 -0500
+Received: from ms.lwn.net ([45.79.88.28]:50338 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231910AbhBKQj6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Feb 2021 11:39:58 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6405C4EB3;
+        Thu, 11 Feb 2021 16:39:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6405C4EB3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1613061553; bh=D0AEZkZBdtIfK0g+dvBXWwh92CNH+OXOsoawWY81IkA=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=jVzO3l39uQAncbOmMLDb05auJMJvZOoWtiwhFe7qRYs548PXCRuvtX7TOm0qMVKTo
+         cCP44/tY67JeIyrWv1oDVAOY0awDEUhifbBaztXZfQOCAPahyewarvVMswLF2Ki8DT
+         zzsyolXWsM4lPcS6RwH2Uk/xFZipA7HZ060Dx1vxc8DpsEtTkXdKjPw/8aFyFEFxph
+         Wr12poLG7r/4KRg2AzzRmRHGy+VV27+zrCP3ArBCJkMdXFn1dh6aq7yj2/N2yLeoqp
+         sOVOjnYVKQQcTDNtxr2QZKa1aur+/jR/YxnpvEsMhJ5ph6tB45509Yrd8LXuxGj21P
+         MpZhz2DaK4oWg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Colin King <colin.king@canonical.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Alexey Budankov <alexey.budankov@linux.intel.com>,
+        linux-doc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc/admin-guide: fix spelling mistake: "perfomance" ->
+ "performance"
+In-Reply-To: <20210210115624.53551-1-colin.king@canonical.com>
+References: <20210210115624.53551-1-colin.king@canonical.com>
+Date:   Thu, 11 Feb 2021 09:39:12 -0700
+Message-ID: <875z2yr233.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When pages are pinned they can be faulted in userland and migrated, and
-they can be faulted right in kernel without migration.
+Colin King <colin.king@canonical.com> writes:
 
-In either case, the pinned pages must end-up being pinnable (not movable).
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> There is a spelling mistake in the perf-security documentation. Fix it.
+>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  Documentation/admin-guide/perf-security.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+> index 904e4eb37f99..34aa334320ca 100644
+> --- a/Documentation/admin-guide/perf-security.rst
+> +++ b/Documentation/admin-guide/perf-security.rst
+> @@ -72,7 +72,7 @@ monitoring and observability operations, thus, bypass *scope* permissions
+>  checks in the kernel. CAP_PERFMON implements the principle of least
+>  privilege [13]_ (POSIX 1003.1e: 2.2.2.39) for performance monitoring and
+>  observability operations in the kernel and provides a secure approach to
+> -perfomance monitoring and observability in the system.
+> +performance monitoring and observability in the system.
 
-Add a new test to gup_test, to help verify that the gup/pup
-(get_user_pages() / pin_user_pages()) behavior with respect to pinnable
-and movable pages is reasonable and correct. Specifically, provide a
-way to:
+Applied, thanks.
 
-1) Verify that only "pinnable" pages are pinned. This is checked
-automatically for you.
-
-2) Verify that gup/pup performance is reasonable. This requires
-comparing benchmarks between doing gup/pup on pages that have been
-pre-faulted in from user space, vs. doing gup/pup on pages that are not
-faulted in until gup/pup time (via FOLL_TOUCH). This decision is
-controlled with the new -z command line option.
-
-Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Hubbard <jhubbard@nvidia.com>
----
- mm/gup_test.c                         |  6 ++++++
- tools/testing/selftests/vm/gup_test.c | 23 +++++++++++++++++++----
- 2 files changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/mm/gup_test.c b/mm/gup_test.c
-index a6ed1c877679..d974dec19e1c 100644
---- a/mm/gup_test.c
-+++ b/mm/gup_test.c
-@@ -52,6 +52,12 @@ static void verify_dma_pinned(unsigned int cmd, struct page **pages,
- 
- 				dump_page(page, "gup_test failure");
- 				break;
-+			} else if (cmd == PIN_LONGTERM_BENCHMARK &&
-+				WARN(!is_pinnable_page(page),
-+				     "pages[%lu] is NOT pinnable but pinned\n",
-+				     i)) {
-+				dump_page(page, "gup_test failure");
-+				break;
- 			}
- 		}
- 		break;
-diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
-index 943cc2608dc2..1e662d59c502 100644
---- a/tools/testing/selftests/vm/gup_test.c
-+++ b/tools/testing/selftests/vm/gup_test.c
-@@ -13,6 +13,7 @@
- 
- /* Just the flags we need, copied from mm.h: */
- #define FOLL_WRITE	0x01	/* check pte is writable */
-+#define FOLL_TOUCH	0x02	/* mark page accessed */
- 
- static char *cmd_to_str(unsigned long cmd)
- {
-@@ -39,11 +40,11 @@ int main(int argc, char **argv)
- 	unsigned long size = 128 * MB;
- 	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
- 	unsigned long cmd = GUP_FAST_BENCHMARK;
--	int flags = MAP_PRIVATE;
-+	int flags = MAP_PRIVATE, touch = 0;
- 	char *file = "/dev/zero";
- 	char *p;
- 
--	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
-+	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHpz")) != -1) {
- 		switch (opt) {
- 		case 'a':
- 			cmd = PIN_FAST_BENCHMARK;
-@@ -110,6 +111,10 @@ int main(int argc, char **argv)
- 		case 'H':
- 			flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
- 			break;
-+		case 'z':
-+			/* fault pages in gup, do not fault in userland */
-+			touch = 1;
-+			break;
- 		default:
- 			return -1;
- 		}
-@@ -167,8 +172,18 @@ int main(int argc, char **argv)
- 	else if (thp == 0)
- 		madvise(p, size, MADV_NOHUGEPAGE);
- 
--	for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
--		p[0] = 0;
-+	/*
-+	 * FOLL_TOUCH, in gup_test, is used as an either/or case: either
-+	 * fault pages in from the kernel via FOLL_TOUCH, or fault them
-+	 * in here, from user space. This allows comparison of performance
-+	 * between those two cases.
-+	 */
-+	if (touch) {
-+		gup.gup_flags |= FOLL_TOUCH;
-+	} else {
-+		for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
-+			p[0] = 0;
-+	}
- 
- 	/* Only report timing information on the *_BENCHMARK commands: */
- 	if ((cmd == PIN_FAST_BENCHMARK) || (cmd == GUP_FAST_BENCHMARK) ||
--- 
-2.25.1
-
+jon
