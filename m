@@ -2,85 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5E0C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 01:16:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3717DC433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:07:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D750B64DEC
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 01:16:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E612C64ED0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 02:07:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbhBKBQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Feb 2021 20:16:30 -0500
-Received: from smtprelay0230.hostedemail.com ([216.40.44.230]:55192 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229584AbhBKBQa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 20:16:30 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id E7C191802899B;
-        Thu, 11 Feb 2021 01:15:48 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: crate00_180f44f27614
-X-Filterd-Recvd-Size: 2512
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf09.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 11 Feb 2021 01:15:47 +0000 (UTC)
-Message-ID: <1abbf7dced75b9fa62e03ea9d199e98204ce23df.camel@perches.com>
-Subject: Re: [PATCH] Documentation: Replace more lkml.org links with lore
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 10 Feb 2021 17:15:46 -0800
-In-Reply-To: <20210210234005.2236201-1-keescook@chromium.org>
-References: <20210210234005.2236201-1-keescook@chromium.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S229517AbhBKCHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Feb 2021 21:07:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhBKCGb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Feb 2021 21:06:31 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFB84C061756
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 18:05:50 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id t26so2654483pgv.3
+        for <linux-doc@vger.kernel.org>; Wed, 10 Feb 2021 18:05:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GWehHpPBiIbtAUGV973qzMbhfGOacu1gexxk5hpereM=;
+        b=VkI1vNchcTfqZMT8TdeTKNunPyydlTDpaduc777AZXErfTUw+IoNoowB3buQXwB7D2
+         HM2cW4ajkZGMEI9fbbyaG+QS01IhsQO2IvFJRs0rrcX6Aw2nR/Sd0VcHmSULgTNW1OGQ
+         OrJ32pm7uzcNVvPSKZDo8yzfQ3HtJKHFRkXZY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GWehHpPBiIbtAUGV973qzMbhfGOacu1gexxk5hpereM=;
+        b=OMkX0kPNVEvPSIirTdOyGU/yW5flYgilZeNRTHF6OrGuYdAbCn+hFoNJgIdMKf5YaJ
+         fQn2RK/oSnASjtXQh+5TFdsVVSOwZNpg08MGzROh5tZCpTDKRvNQz6FYTbq/hzfGP/y7
+         PrFHvXnFxtFr8GEtMpHLr80Lq7WcVpF75SGknSS+CPn7hTJZsn5RkNt2uJ9uOvz7CfzX
+         lJoG0Pw/njyvMHdvAc4Ttv9dzTeCiobqq+AfRHmuLa76Y2EO6udffFTVo+XAcp50cnfz
+         1tpTIRcb2wf1Jw4sDCkIRj9B87F5IVviFvex6NJuipH/TWyPOK+Z7HqFQDQqrcTsFUxe
+         O1PQ==
+X-Gm-Message-State: AOAM533fTv/WQiWSKWadlDV3T06Ssx4gSefRa3tZTQrqYM7m6ZYppEQt
+        ZFtC4eLMK2VDlK53Tkfmak+Rfg==
+X-Google-Smtp-Source: ABdhPJzsWXbn1Ou/vFtG4NQUWw149O4AAHSFlrE0lP7i2j/RD0O7x0LK3DLeL8X3j84QUwiX06AIsg==
+X-Received: by 2002:a63:6381:: with SMTP id x123mr1570843pgb.177.1613009150490;
+        Wed, 10 Feb 2021 18:05:50 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h8sm3286360pfv.154.2021.02.10.18.05.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Feb 2021 18:05:49 -0800 (PST)
+Date:   Wed, 10 Feb 2021 18:05:48 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>, haitao.huang@intel.com
+Subject: Re: [PATCH v20 21/25] x86/cet/shstk: Handle signals for shadow stack
+Message-ID: <202102101805.0B98ACA743@keescook>
+References: <20210210175703.12492-1-yu-cheng.yu@intel.com>
+ <20210210175703.12492-22-yu-cheng.yu@intel.com>
+ <202102101154.CEF2606E@keescook>
+ <57dcc827-052a-94cd-31d4-286675f9d506@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57dcc827-052a-94cd-31d4-286675f9d506@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-02-10 at 15:40 -0800, Kees Cook wrote:
-> As started by commit 05a5f51ca566 ("Documentation: Replace lkml.org
-> links with lore"), replace a few more scattered lkml.org links with
-> lore to better use a single source that's more likely to stay available
-> long-term.
-
-The subject title seems odd as the modified files aren't
-in the Documentation/ path, but the CREDIT change seems fine.
-
-The Makefile.include bit maybe should be modified as
-gcc 4.8 is no longer supported.
-
-> diff --git a/CREDITS b/CREDITS
-[]
-> @@ -550,7 +550,7 @@ D: gadget layers, SPI subsystem, GPIO subsystem, and more than a few
->  D: device drivers.  His encouragement also helped many engineers get
->  D: started working on the Linux kernel.  David passed away in early
->  D: 2011, and will be greatly missed.
-> -W: https://lkml.org/lkml/2011/4/5/36
-> +W: https://lore.kernel.org/lkml/20110405034819.GA7872@kroah.com
->  
+On Wed, Feb 10, 2021 at 01:38:10PM -0800, Yu, Yu-cheng wrote:
+> On 2/10/2021 11:58 AM, Kees Cook wrote:
+> > On Wed, Feb 10, 2021 at 09:56:59AM -0800, Yu-cheng Yu wrote:
+> > > To deliver a signal, create a shadow stack restore token and put the token
+> > > and the signal restorer address on the shadow stack.  For sigreturn, verify
+> > > the token and restore from it the shadow stack pointer.
+> > > 
+> > > A shadow stack restore token marks a restore point of the shadow stack.
+> > > The token is distinctively different from any shadow stack address.
+> > 
+> > How is it different? It seems like it just has the last 2 bits
+> > masked/set?
+> > 
 > 
->  N: Gary Brubaker
->  E: xavyer@ix.netcom.com
-> diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-[]
-> @@ -86,7 +86,8 @@ endif
->  # in newer systems.
->  # Needed for the __raw_cmpxchg in tools/arch/x86/include/asm/cmpxchg.h
->  #
-> -# See https://lkml.org/lkml/2006/11/28/253 and https://gcc.gnu.org/gcc-4.8/changes.html,
-> +# See https://lore.kernel.org/lkml/9a8748490611281710g78402fbeh8ff7fcc162dbcbca@mail.gmail.com/
-> +# and https://gcc.gnu.org/gcc-4.8/changes.html,
->  # that takes into account Linus's comments (search for Wshadow) for the reasoning about
->  # -Wshadow not being interesting before gcc 4.8.
+> For example, for 64-bit apps,
+> 
+> A shadow stack pointer value (*ssp) has to be in some code area, but for a
+> token, (*ptr_of_token) = (ptr_of_token + 8), which has to be within the same
+> shadow stack area.  In cet_verify_rstor_token(), this is checked.
+> 
+> > > In sigreturn, restoring from a token ensures the target address is the
+> > > location pointed by the token.
+> > 
+> > As in, a token (real stack address with 2-bit mask) is checked against
+> > the real stack address? I don't see a comparison -- it only checks that
+> > it is < TASK_SIZE.
+> > 
+> > How does cet_restore_signal() figure into this? (As in, the MSR writes?)
+> > 
+> 
+> The kernel takes the restore address from the token.  It will not mistakenly
+> take a wrong address from the shadow stack.  I will put this in my commit
+> logs.
 
+Ah-ha, okay, got it now. Thank you!
 
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
