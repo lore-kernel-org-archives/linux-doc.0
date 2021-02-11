@@ -2,46 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5235AC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 11:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB181C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 11:46:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19D2264E87
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 11:34:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B93D64E38
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Feb 2021 11:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbhBKLdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Feb 2021 06:33:46 -0500
-Received: from mail-lj1-f173.google.com ([209.85.208.173]:34368 "EHLO
-        mail-lj1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbhBKLa1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Feb 2021 06:30:27 -0500
-Received: by mail-lj1-f173.google.com with SMTP id r23so6975055ljh.1;
-        Thu, 11 Feb 2021 03:30:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Tg4tfjNqZ3JeI2D8+BHIUKZaEi2EC2A1LyzDHLzlRZo=;
-        b=VDD5V/03CsRFj4z76YLqNiNGlE9JafzBeJ7DaBgu5btTPiGeYVeLbxmkySKZ0SA325
-         wdQRapMT0Nl0csvWYN5/I1yUbMO/uUuEEfiuAnfsodT0J6U8JWFIH3GN8B3tcSDF6PZ6
-         /HGRLFjvvvzbAP5IA5osVPlKD+VY5G99RARQubSi16dm0aeNQEvoDGSgKNu4X+PBblfv
-         8o84h4O8HhGuqV8zTDmdnVvCH7dEMwYgG1PaEXkAjyaihymF583Zrha2urz5ITsibOtG
-         k47btYUkvDPnctTJYVjBv6WYIGSEzfOhpNt8/lBbAdlf2QZGRUYumFIZH7nJtX8iJZh3
-         fO/Q==
-X-Gm-Message-State: AOAM532bADaLFTNphub4oRBnqGTo6E6OsrvPj439gl0gkJduYASl6j/r
-        43CiJ8hYmjgil6GB0P3jSi4=
-X-Google-Smtp-Source: ABdhPJyJ8jEvQEW21cZvr69Fxe93/qzk2Sy2NUa/3aXHN43FPepK1Bz4Ymv/BqYrHWKMpIRzIpI+3g==
-X-Received: by 2002:a2e:9cc4:: with SMTP id g4mr4833412ljj.0.1613042984792;
-        Thu, 11 Feb 2021 03:29:44 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id b14sm618337lfi.164.2021.02.11.03.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 03:29:44 -0800 (PST)
-Date:   Thu, 11 Feb 2021 12:29:43 +0100
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+        id S231311AbhBKLqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Feb 2021 06:46:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230281AbhBKLnt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Feb 2021 06:43:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7736164E16;
+        Thu, 11 Feb 2021 11:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613043767;
+        bh=rPHyap2iOmRklesJPI/L8db/yTfl51hb3rgWud5OCx4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nA2DzNNklUt4dcH3ZniqVTUnpMenNDHwOyur3DADmhoK7WqSnvOy5D3K5NYBam3BG
+         Tfs4cgo7WvXTIgxz2FNSqOO5GgOVjoa2DxIAsjCC10tPgfmjdF1kwR3Pt8tRedJt/w
+         lv2VrtDf36ja+KLQSuvYN1iiJAPK5BekV3DoFtxBUmefxNY1oPeDGAS762pjpXyw09
+         ObBY/l1NtkjlVIZzDccMdS9I8c/ALRlH+fo9OdObIt9Vnbxhk9z/VJOy6Zh7VcLXfb
+         P5/Y+365aqr+0M2ST3djIfbiI/+76OPlaqrrHWqbo0SIjv/8Qx+vZoQuYdy935S8Qz
+         H92R/BNssebYQ==
+Date:   Thu, 11 Feb 2021 13:42:43 +0200
+From:   Leon Romanovsky <leon@kernel.org>
 To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
 Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org,
@@ -52,31 +43,40 @@ Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v5 3/6] misc: Add Synopsys DesignWare xData IP driver to
- Kconfig
-Message-ID: <YCUVJ4TZRVfN1pEn@rocinante>
+Subject: Re: [PATCH v5 1/6] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <20210211114243.GH1275163@unreal>
 References: <cover.1613034397.git.gustavo.pimentel@synopsys.com>
- <1b76d5e1a47bf3a30a863319587195037ac3e4d7.1613034397.git.gustavo.pimentel@synopsys.com>
+ <02835da8fc8c9293fecbe666a8db3fb79276fdde.1613034397.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1b76d5e1a47bf3a30a863319587195037ac3e4d7.1613034397.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <02835da8fc8c9293fecbe666a8db3fb79276fdde.1613034397.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Gustavo,
+On Thu, Feb 11, 2021 at 10:08:38AM +0100, Gustavo Pimentel wrote:
+> Add Synopsys DesignWare xData IP driver. This driver enables/disables
+> the PCI traffic generator module pertain to the Synopsys DesignWare
+> prototype.
+>
+> Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> ---
+>  drivers/misc/dw-xdata-pcie.c | 394 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 394 insertions(+)
+>  create mode 100644 drivers/misc/dw-xdata-pcie.c
 
-[...]
-> +config DW_XDATA_PCIE
-> +	depends on PCI
-> +	tristate "Synopsys DesignWare xData PCIe driver"
-> +	help
-> +	  This driver allows controlling Synopsys DesignWare PCIe traffic
-> +	  generator IP also known as xData, present in Synopsys Designware
-> +	  PCIe Endpoint prototype.
-[...]
+<...>
 
-To be consistent.  It would be "DesignWare" in the sentence above.
+> +MODULE_LICENSE("GPL v2");
 
-Krzysztof
+"GPL" and not "GPL v2".
+
+Thanks
+
+> +MODULE_DESCRIPTION("Synopsys DesignWare xData PCIe driver");
+> +MODULE_AUTHOR("Gustavo Pimentel <gustavo.pimentel@synopsys.com>");
+> +
+> --
+> 2.7.4
+>
