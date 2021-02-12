@@ -2,183 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B16C433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 08:16:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A9F7C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 08:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9E5164E7A
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 08:16:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DE4764E6C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 08:24:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbhBLIPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 03:15:53 -0500
-Received: from mail-oi1-f178.google.com ([209.85.167.178]:44012 "EHLO
-        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbhBLIPx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 03:15:53 -0500
-Received: by mail-oi1-f178.google.com with SMTP id d20so9151874oiw.10;
-        Fri, 12 Feb 2021 00:15:36 -0800 (PST)
+        id S229497AbhBLIYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 03:24:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229690AbhBLIYH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 03:24:07 -0500
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46EBC061574;
+        Fri, 12 Feb 2021 00:23:26 -0800 (PST)
+Received: by mail-qk1-x732.google.com with SMTP id x14so7995630qkm.2;
+        Fri, 12 Feb 2021 00:23:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zo7gwS8RPYEVeaZ3nWrakdE8Lwe2tlMhL3SC2eaylwM=;
+        b=VY7iVEm3Wppz+osSGRplv5FBHknsRsCH+DmFKVAw2EpxLYkSuH1+1bKBSa1r+9z5H5
+         Mlz3cbNfhPcJw+scdC6EgobWmP/7WuIhwkxy8AMG4Fk6d8h/cdpNEJw7OBglY3kkr+3i
+         nGyCuSO6ycRRRjVwjrDbHtSgUC8MVhfyqDD4JSFyxIA2qCtnj0KstiRwGdY1cG/ijcgC
+         Z3AiaV46bmfSihQDRH4kSnBsTta/+rIBIf/tK4mimMTfbRd678PsP+Gfx7iyx3p728Bx
+         RJr5vP1n+sqMMi2tIUWcVl9eHsLF2FvSkRfNEqapwixJgsq8ANBr8hQqcH6iAhRB/9vL
+         pBAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AUw6a0oNfUGx7sV9+BDmLKTx8i0omztJvVehVvMjp08=;
-        b=qEjn8JdK1Eu6xmpC/dDmOyxGdCxYz6cG7isOBUjSog9jKu+/4yYVCZ7xTih0XFJacg
-         sTWFGJGY2vwFMKVVL5ATbldDK+oNO3UpNFr57m7gX2mf9fBGSh7WdxOg731/NH6AthMg
-         3N30EUfAWh5PBWE5hrMQYA+BFR5Si++VoWdvw0PBrRErEvGh290RjPjJGVSzvbQzjV4U
-         IwKA1MpiWRo2zeidP+Ryicv8TCYipar4Y+MHA4ZZGYXuqutU/IELofxpXsUSZSFm3T5Q
-         mJifoUgXTNsZN4C1r04D7nY1/xh44XirHAh2BaO/Ku9ZsBqPxyWCN4uYAqS3OKRIpYJL
-         NAVw==
-X-Gm-Message-State: AOAM533p/j7sNKmu7ry4URASVaHnkD0jijp0uE3V3TEz8lZtS6ropovO
-        hohCXFxA7wtWCsdDDW654SS4Azsv9ly4c59CobE=
-X-Google-Smtp-Source: ABdhPJy6z32m+bzOluIHnLsLpN1EyV/5RCGuvrp+ntL/2TP7Vc/kZ3Ry6sT9BbR+1Sm0fMQkDE9ovvBYq5nqPtBHZk8=
-X-Received: by 2002:aca:d8c6:: with SMTP id p189mr1109394oig.54.1613117711336;
- Fri, 12 Feb 2021 00:15:11 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=zo7gwS8RPYEVeaZ3nWrakdE8Lwe2tlMhL3SC2eaylwM=;
+        b=bmYHsj1hiDYd7HwIABqdaUZXieSNcYVIJNoW2yGvwC+VpC4M/DMjOVfbuFb2eqKh1f
+         ZWwP08EWNqW73S7I8B3BfVvJs+AM8o/QU3Chz1uFLB5dWBmVkkdtQ9Z+YBziQ9D3yo4S
+         f7xZ3yXdke+j98267knmU6LnjcIEvPnfAgAg7i+WOItYeQs8RDTl2rjOa++EJKEZz6MG
+         7ZFNdyXwmVAbjY29Vmv4FrC4AIqxXE3OQ7/UcAve7t0f95/tnAtUdMwwU/X9LiepMGll
+         pCAyK9S86y/qnbmG+WkjT2S1p4u4nfFosXmosTklkhbH1MQJ0p9UW49LItFXB0VdlAh6
+         yzsQ==
+X-Gm-Message-State: AOAM533W5UagWDHgTH/p+yfQ9TZ972ajme+5jWXGNXNONr+dq+rOCpNv
+        okmaFnxLUkdZn6+y+nXJOsw=
+X-Google-Smtp-Source: ABdhPJykZmedCR0RVXZb0p6YFiQBkva+h/MWPLDvmVspvfxnq4cK3Q1GznJMJP8Mz9v4SuUrEmYx/Q==
+X-Received: by 2002:a05:620a:b13:: with SMTP id t19mr1664573qkg.300.1613118205946;
+        Fri, 12 Feb 2021 00:23:25 -0800 (PST)
+Received: from ArchLinux ([156.146.36.184])
+        by smtp.gmail.com with ESMTPSA id f14sm5674223qkl.76.2021.02.12.00.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Feb 2021 00:23:25 -0800 (PST)
+Date:   Fri, 12 Feb 2021 13:53:14 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, swboyd@chromium.org,
+        tiwai@suse.de, nfraprado@protonmail.com, mchehab+huawei@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel-hacking: Remove the word fuck,trying to be
+ civil :)
+Message-ID: <YCY68j2miphB9myN@ArchLinux>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, swboyd@chromium.org,
+        tiwai@suse.de, nfraprado@protonmail.com, mchehab+huawei@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210205115951.1276526-1-unixbhaskar@gmail.com>
+ <87sg62pmd4.fsf@meer.lwn.net>
+ <ca67086b-3b52-40b6-003e-9ac7796ad68d@infradead.org>
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com> <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
-In-Reply-To: <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Feb 2021 09:14:59 +0100
-Message-ID: <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Saravana Kannan <saravanak@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="tCXFL2zAXXsGZfua"
+Content-Disposition: inline
+In-Reply-To: <ca67086b-3b52-40b6-003e-9ac7796ad68d@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Saravana,
 
-On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
-> >
-> >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
-> >         node OF_POPULATED after init") is no longer needed (but already
-> >         queued for v5.12 anyway)
+--tCXFL2zAXXsGZfua
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+
+On 09:10 Thu 11 Feb 2021, Randy Dunlap wrote:
+>On 2/11/21 9:04 AM, Jonathan Corbet wrote:
+>> Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
+>>
+>>> s/fuck//
+>>>
+>>>
+>>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>>> ---
+>>>  Documentation/kernel-hacking/locking.rst | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+>>> index c3448929a824..ed1284c6f078 100644
+>>> --- a/Documentation/kernel-hacking/locking.rst
+>>> +++ b/Documentation/kernel-hacking/locking.rst
+>>> @@ -958,7 +958,7 @@ grabs a read lock, searches a list, fails to find what it wants, drops
+>>>  the read lock, grabs a write lock and inserts the object has a race
+>>>  condition.
+>>>
+>>> -If you don't see why, please stay the fuck away from my code.
+>>> +If you don't see why, please stay away from my code.
+>>
+>> Sigh.
+>>
+>> I've gotten a few variants of this patch over the years...I guess maybe
+>> the time has come to apply one, so I did.  If the word is too offensive
+>> to be in our docs, though, perhaps it shouldn't be in the changelog
+>> either, so I rewrote it:
+>>
+>>     docs: kernel-hacking: be more civil
+>>
+>>     Remove the f-bomb from locking.rst.  Let's have a moment of silence,
+>>     though, as we mark the passing of the last of Rusty's once plentiful
+>>     profanities in this venerable document.
 >
-> Rob doesn't like the proliferation of OF_POPULATED and we don't need
-> it anymore, so maybe work it out with him? It's a balance between some
-> wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
-
-Rob: should it be reverted?  For v5.13?
-I guess other similar "fixes" went in in the mean time.
-
-> >       - Some devices are reprobed, despite their drivers returning
-> >         a real error code, and not -EPROBE_DEFER:
+>I really like that tribute there, Jon. :)
 >
-> Sorry, it's not obvious from the logs below where "reprobing" is
-> happening. Can you give more pointers please?
-
-My log was indeed not a full log, but just the reprobes happening.
-I'll send you a full log by private email.
-
-> Also, thinking more about this, the only way I could see this happen is:
-> 1. Device fails with error that's not -EPROBE_DEFER
-> 2. It somehow gets added to a device link (with AUTOPROBE_CONSUMER
-> flag) where it's a consumer.
-> 3. The supplier probes and the device gets added to the deferred probe
-> list again.
+Indeed!
+>--
+>~Randy
 >
-> But I can't see how this sequence can happen. Device links are created
-> only when a device is added. And is the supplier isn't added yet, the
-> consumer wouldn't have probed in the first place.
 
-The full log doesn't show any evidence of the device being added
-to a list in between the two probes.
+--tCXFL2zAXXsGZfua
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Other than "annoying waste of time" is this causing any other problems?
+-----BEGIN PGP SIGNATURE-----
 
-Probably not.  But see below.
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmAmOu0ACgkQsjqdtxFL
+KRXKAAf8DVYgMCVAnifWxwiQrXPWSZLY418rSsWAR7iz292aFH0KiByjUHc6lxf5
+LaccVE7emH6+bzetmovYAAMVH7Ot3ZIxyHbrrdYpQaUI/hWMwyWcjzZoI9fvAYtF
+fVnOksq4eTB+dfGnf/7X2xFfda/fXO4htjEngZOAU2m9+K3/7QHOC2T0yoL/9Z/8
+69dOPEML/VinyWqZmFDaBTWfN9O5zWit5wHVzjkxo+HU4OKPaKcDhEKkhQ9X8vOH
+Y1Pg8+eB60Nc0nk9FzjZ67HxBpobgKSfH3ZQFWkLF6Aw4R/pAmLIuJMRo5i1GhRF
+OpNUUNntZlgGDkqbNjhm27p7xMSffA==
+=1arQ
+-----END PGP SIGNATURE-----
 
-> >       - The PCI reprobing leads to a memory leak, for which I've sent a fix
-> >         "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
-> >         https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
->
-> Wrt PCI reprobing,
-> 1. Is this PCI never expected to probe, but it's being reattempted
-> despite the NOT EPROBE_DEFER error? Or
-
-There is no PCIe card present, so the failure is expected.
-Later it is reprobed, which of course fails again.
-
-> 2. The PCI was deferred probe when it should have probed and then when
-> it's finally reattemped and it could succeed, we are hitting this mem
-> leak issue?
-
-I think the leak has always been there, but it was just exposed by
-this unneeded reprobe.  I don't think a reprobe after that specific
-error path had ever happened before.
-
-> I'm basically trying to distinguish between "this stuff should never
-> be retried" vs "this/it's suppliers got probe deferred with
-> fw_devlink=on vs but didn't get probe deferred with
-> fw_devlink=permissive and that's causing issues"
-
-There should not be a probe deferral, as no -EPROBE_DEFER was
-returned.
-
-> >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> >         /sys/kernel/debug/dmaengine/summary:
-> >
-> >             -dma4chan0    | e66d8000.i2c:tx
-> >             -dma4chan1    | e66d8000.i2c:rx
-> >             -dma5chan0    | e6510000.i2c:tx
->
-> I think I need more context on the problem before I can try to fix it.
-> I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> I2C was using DMA? If so, the next step is to see if the I2C relative
-> probe order with DMA is getting changed and if so, why.
-
-Yes, I plan to dig deeper to see what really happens...
-
-> >       - On R-Mobile A1, I get a BUG and a memory leak:
-> >
-> >             BUG: spinlock bad magic on CPU#0, swapper/1
-
->
-> Hmm... I looked at this in bits and pieces throughout the day. At
-> least spent an hour looking at this. This doesn't make a lot of sense
-> to me. I don't even touch anything in this code path AFAICT.  Are
-> modules/kernel mixed up somehow? I need more info before I can help.
-> Does reverting my pm domain change make any difference (assume it
-> boots this far without it).
-
-I plan to dig deeper to see what really happens...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--tCXFL2zAXXsGZfua--
