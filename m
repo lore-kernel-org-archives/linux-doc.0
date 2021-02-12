@@ -2,211 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BD1C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 20:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 355D0C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 22:25:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05AD964DEC
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 20:59:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0290264E8E
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 22:25:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231956AbhBLU6o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 15:58:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231513AbhBLU6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 15:58:24 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BE6C0617A7
-        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id n195so735644ybg.9
-        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
-        b=uBTJQG+mWgC2KaNYo1bb3HfZG5kNKJ7vb1CkEXXuyZyIlMIUmRy7u+Ui98xv5m6wXD
-         R7N5LfNkcmh1NQ9NxgRQP3cWOkQFo7SAC+qn3I64HrXBzaGyP8UoGVC/bj+K+cZ8nSWe
-         YQAtaHJyorTUUKIOxX53zOw5ATfxwx2KVYuQOmCF02rn7CG0N1rPqvKrBgWPiLi45FON
-         shvjdCt7F02vXc8OsQJNlQ5Dg8hPGX1Xh3uWdinc2aBX3WWsUPVTakWNa4yKxhzAKQdV
-         EuNXoz2GuhV1z+hCYh7JVx2iqHGoG2X6f6zTTF5209mcejt6xlzEddhC7ShsSohFBkLy
-         xwLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
-        b=XKAqjezEE6gRDvoicN43nq3ZgQDlyfg0MFOZu8g3CZnVsWB4eyO6nzUhhUofCQjRtY
-         Yl4xCCyhq3Yk+MpIXHvN47h0W4IRqxKfy4TJJGYovC1mj2Ep/nPOrhZQFeoXYho+r4lW
-         ea1sS9OUCinZ5zOIlK5OB2hhSO1mjX7tgGOjee91i/Ifp7uCsaRIx3dmRNe9SPkpzuPH
-         MCy82RC9hxGGLx8/SQecK6TKC8wta+39l8KJNEg/ooJyhpSLconH0a6K5dno4QC8uFRx
-         TXoUHKwpjM5zssY0Tb/vZYakGKCHlLjh5CsW33c2xAZgfAuqc1xd5Xqpeco8ZYPXNsIt
-         Tgvw==
-X-Gm-Message-State: AOAM531DR5AlAVur1ovU8gi2ka1oY/BqCuitbmAfTHShjIZ4bTuRx0l6
-        UReFT/t0yQ7fUJKpxpJPuJ8cxXvWHBgJwr2A/88qZw==
-X-Google-Smtp-Source: ABdhPJwK0fc2ml/1MYUHRvi8x2ga/wmAbYgOqo2Dy3Txjf3hoDchCtA5qthJoSF2yZyW//AH/pAR//MQ+c+2yrZOeqg=
-X-Received: by 2002:a25:718b:: with SMTP id m133mr6949864ybc.412.1613163480367;
- Fri, 12 Feb 2021 12:58:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
- <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com> <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 12 Feb 2021 12:57:24 -0800
-Message-ID: <CAGETcx9GAyWQTb1kuUpjAcYyPGYtxxWMRe9u0o5UOSMrryTdvg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S231424AbhBLWY5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 17:24:57 -0500
+Received: from mga11.intel.com ([192.55.52.93]:16458 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230219AbhBLWYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Feb 2021 17:24:54 -0500
+IronPort-SDR: xAB33QJ2CHVCJ5zAS57rXTlVcMY91WEO26j9oRvx4buWrfnACa444FU8mvTP0A8Z/dxKlp+V+3
+ L4ufxRO6Kdbg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9893"; a="178980681"
+X-IronPort-AV: E=Sophos;i="5.81,174,1610438400"; 
+   d="scan'208";a="178980681"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2021 14:23:08 -0800
+IronPort-SDR: kNXimhJk8Bw5NMK+pA5o4R8BsGj2jLWrYOjdEYIz6QN6ElNBLAsE/K1WpDfi9MqHTurWH0a93E
+ BIYniEIrPZSA==
+X-IronPort-AV: E=Sophos;i="5.81,174,1610438400"; 
+   d="scan'208";a="437732666"
+Received: from smtp.ostc.intel.com ([10.54.29.231])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2021 14:23:07 -0800
+Received: from mtg-dev.jf.intel.com (mtg-dev.jf.intel.com [10.54.74.10])
+        by smtp.ostc.intel.com (Postfix) with ESMTP id E2504636E;
+        Fri, 12 Feb 2021 14:23:07 -0800 (PST)
+Received: by mtg-dev.jf.intel.com (Postfix, from userid 1000)
+        id DAE923636F7; Fri, 12 Feb 2021 14:23:07 -0800 (PST)
+From:   mgross@linux.intel.com
+To:     markgross@kernel.org, mgross@linux.intel.com, arnd@arndb.de,
+        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        palmerdabbelt@google.com, paul.walmsley@sifive.com,
+        peng.fan@nxp.com, robh+dt@kernel.org, shawnguo@kernel.org,
+        jassisinghbrar@gmail.com
+Cc:     linux-kernel@vger.kernel.org,
+        Srikanth Thokala <srikanth.thokala@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v6 08/34] misc: xlink-pcie: Add documentation for XLink PCIe driver
+Date:   Fri, 12 Feb 2021 14:22:38 -0800
+Message-Id: <20210212222304.110194-9-mgross@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210212222304.110194-1-mgross@linux.intel.com>
+References: <20210212222304.110194-1-mgross@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 12, 2021 at 12:15 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
-> > >
-> > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
-> > >         node OF_POPULATED after init") is no longer needed (but already
-> > >         queued for v5.12 anyway)
-> >
-> > Rob doesn't like the proliferation of OF_POPULATED and we don't need
-> > it anymore, so maybe work it out with him? It's a balance between some
-> > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
->
-> Rob: should it be reverted?  For v5.13?
-> I guess other similar "fixes" went in in the mean time.
->
-> > >       - Some devices are reprobed, despite their drivers returning
-> > >         a real error code, and not -EPROBE_DEFER:
-> >
-> > Sorry, it's not obvious from the logs below where "reprobing" is
-> > happening. Can you give more pointers please?
->
-> My log was indeed not a full log, but just the reprobes happening.
-> I'll send you a full log by private email.
->
-> > Also, thinking more about this, the only way I could see this happen is:
-> > 1. Device fails with error that's not -EPROBE_DEFER
-> > 2. It somehow gets added to a device link (with AUTOPROBE_CONSUMER
-> > flag) where it's a consumer.
-> > 3. The supplier probes and the device gets added to the deferred probe
-> > list again.
-> >
-> > But I can't see how this sequence can happen. Device links are created
-> > only when a device is added. And is the supplier isn't added yet, the
-> > consumer wouldn't have probed in the first place.
->
-> The full log doesn't show any evidence of the device being added
-> to a list in between the two probes.
->
-> > Other than "annoying waste of time" is this causing any other problems?
->
-> Probably not.  But see below.
->
-> > >       - The PCI reprobing leads to a memory leak, for which I've sent a fix
-> > >         "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
-> > >         https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
-> >
-> > Wrt PCI reprobing,
-> > 1. Is this PCI never expected to probe, but it's being reattempted
-> > despite the NOT EPROBE_DEFER error? Or
->
-> There is no PCIe card present, so the failure is expected.
-> Later it is reprobed, which of course fails again.
->
-> > 2. The PCI was deferred probe when it should have probed and then when
-> > it's finally reattemped and it could succeed, we are hitting this mem
-> > leak issue?
->
-> I think the leak has always been there, but it was just exposed by
-> this unneeded reprobe.  I don't think a reprobe after that specific
-> error path had ever happened before.
->
-> > I'm basically trying to distinguish between "this stuff should never
-> > be retried" vs "this/it's suppliers got probe deferred with
-> > fw_devlink=on vs but didn't get probe deferred with
-> > fw_devlink=permissive and that's causing issues"
->
-> There should not be a probe deferral, as no -EPROBE_DEFER was
-> returned.
->
-> > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> > >         /sys/kernel/debug/dmaengine/summary:
-> > >
-> > >             -dma4chan0    | e66d8000.i2c:tx
-> > >             -dma4chan1    | e66d8000.i2c:rx
-> > >             -dma5chan0    | e6510000.i2c:tx
-> >
-> > I think I need more context on the problem before I can try to fix it.
-> > I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> > I2C was using DMA? If so, the next step is to see if the I2C relative
-> > probe order with DMA is getting changed and if so, why.
->
-> Yes, I plan to dig deeper to see what really happens...
+From: Srikanth Thokala <srikanth.thokala@intel.com>
 
-Try fw_devlink.strict (you'll need IOMMU enabled too). If that fixes
-it and you also don't see this issue with fw_devlink=permissive, then
-it means there's probably some unnecessary probe deferral that we
-should try to avoid. At least, that's my hunch right now.
+Provide overview of XLink PCIe driver implementation
 
-Thanks,
-Saravana
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Mark Gross <mgross@linux.intel.com>
+Signed-off-by: Mark Gross <mgross@linux.intel.com>
+Signed-off-by: Srikanth Thokala <srikanth.thokala@intel.com>
+---
+ Documentation/vpu/index.rst      |  1 +
+ Documentation/vpu/xlink-pcie.rst | 90 ++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 Documentation/vpu/xlink-pcie.rst
 
->
-> > >       - On R-Mobile A1, I get a BUG and a memory leak:
-> > >
-> > >             BUG: spinlock bad magic on CPU#0, swapper/1
->
-> >
-> > Hmm... I looked at this in bits and pieces throughout the day. At
-> > least spent an hour looking at this. This doesn't make a lot of sense
-> > to me. I don't even touch anything in this code path AFAICT.  Are
-> > modules/kernel mixed up somehow? I need more info before I can help.
-> > Does reverting my pm domain change make any difference (assume it
-> > boots this far without it).
->
-> I plan to dig deeper to see what really happens...
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+diff --git a/Documentation/vpu/index.rst b/Documentation/vpu/index.rst
+index 7e290e048910..661cc700ee45 100644
+--- a/Documentation/vpu/index.rst
++++ b/Documentation/vpu/index.rst
+@@ -14,3 +14,4 @@ This documentation contains information for the Intel VPU stack.
+    :maxdepth: 2
+ 
+    vpu-stack-overview
++   xlink-pcie
+diff --git a/Documentation/vpu/xlink-pcie.rst b/Documentation/vpu/xlink-pcie.rst
+new file mode 100644
+index 000000000000..85a70990e9c9
+--- /dev/null
++++ b/Documentation/vpu/xlink-pcie.rst
+@@ -0,0 +1,90 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++================================
++Kernel driver: Xlink-pcie driver
++================================
++Supported chips:
++  * Intel Edge.AI Computer Vision platforms: Keem Bay
++    Suffix: Bay
++    Slave address: 6240
++    Datasheet: Publicly available at Intel
++
++Author: Srikanth Thokala Srikanth.Thokala@intel.com
++
++Introduction
++============
++The Xlink-pcie driver provides transport layer implementation for
++the data transfers to support Xlink protocol subsystem communication with the
++peer device, i.e., between remote host system and Keem Bay device.
++
++The Keem Bay device is an ARM-based SOC that includes a vision processing
++unit (VPU) and deep learning, neural network core in the hardware.
++The Xlink-pcie driver exports a functional device endpoint to the Keem Bay
++device and supports two-way communication with the peer device.
++
++High-level architecture
++=======================
++Remote Host: IA CPU
++Local Host: ARM CPU (Keem Bay)::
++
++        +------------------------------------------------------------------------+
++        |  Remote Host IA CPU              | | Local Host ARM CPU (Keem Bay) |   |
++        +==================================+=+===============================+===+
++        |  User App                        | | User App                      |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink UAPI                     | | XLink UAPI                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink Core                     | | XLink Core                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink PCIe                     | | XLink PCIe                    |   |
++        +----------------------------------+-+-------------------------------+---+
++        |   XLink-PCIe Remote Host driver  | | XLink-PCIe Local Host driver  |   |
++        +----------------------------------+-+-------------------------------+---+
++        |-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|:|:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:|
++        +----------------------------------+-+-------------------------------+---+
++        |     PCIe Host Controller         | | PCIe Device Controller        | HW|
++        +----------------------------------+-+-------------------------------+---+
++               ^                                             ^
++               |                                             |
++               |------------- PCIe x2 Link  -----------------|
++
++This XLink PCIe driver comprises of two variants:
++* Local Host driver
++
++  * Intended for ARM CPU
++  * It is based on PCI Endpoint Framework
++  * Driver path: {tree}/drivers/misc/Xlink-pcie/local_host
++
++* Remote Host driver
++
++       * Intended for IA CPU
++       * It is a PCIe endpoint driver
++       * Driver path: {tree}/drivers/misc/Xlink-pcie/remote_host
++
++XLink PCIe communication between local host and remote host is achieved through
++ring buffer management and MSI/Doorbell interrupts.
++
++The Xlink-pcie driver subsystem registers the Keem Bay device as an endpoint
++driver and provides standard Linux PCIe sysfs interface:
++'/sys/bus/pci/devices/xxxx:xx:xx.0/'
++
++
++XLink protocol subsystem
++========================
++Xlink is an abstracted control and communication subsystem based on channel
++identification. It is intended to support VPU technology both at SoC level as
++well as at IP level, over multiple interfaces.
++
++- The Xlink subsystem abstracts several types of communication channels
++  underneath, allowing the usage of different interfaces with the
++  same function call interface.
++- The Communication channels are full-duplex protocol channels allowing
++  concurrent bidirectional communication.
++- The Xlink subsystem also supports control operations to VPU either
++  from standalone local system or from remote system based on communication
++  interface underneath.
++- The Xlink subsystem supports the following communication interfaces:
++    * USB CDC
++    * Gigabit Ethernet
++    * PCIe
++    * IPC
+-- 
+2.17.1
+
