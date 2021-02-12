@@ -2,421 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E835C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 12:56:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE34C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 14:17:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10B4064E3D
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 12:56:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89E9B64DF0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 14:17:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbhBLM4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 07:56:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231970AbhBLMzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 07:55:41 -0500
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06ADBC061786
-        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 04:55:00 -0800 (PST)
-Received: by mail-qk1-x72a.google.com with SMTP id 81so174039qkf.4
-        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 04:54:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A09MlorbuFhAqvAFLbguPfavL7t6ToDr/07aTs43MbM=;
-        b=Eb5OnfMhAPrwXqVGpUWEPKMQ4nvls7ivfjFBf8679sFQJfuLh0V0TpXKVeVFaJlPoH
-         cNspRM2qvEjiVIpKyoS994PkpxuM+qpqGYmWfJmCV8+cuQdrlTe56eaFU6rQ8wvRspJ3
-         BHJBiuFqMgszxp9Bdv6FSnpQ8uY0LDODF5bQXuP6B8G8ogQE4QBNhqOI7Z2FjDc43cdf
-         RYNi9we5eWvdV2/W5McFiResnHfuS0/LqssGBYZkgSGt585Nsk6RmktZHCgeHoQJhep8
-         5j7YyQtBNlQ0Ah3PfcmKTRQ3kSohtDSt0WcmukTzFHdYzzqFKr04V1QBSh+9sO/5uXXo
-         EuwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A09MlorbuFhAqvAFLbguPfavL7t6ToDr/07aTs43MbM=;
-        b=DAwrVKfoD1DrSmWWVFZCfxGREl/2XMC7dXnfBjWbA44zhic4iQ9u275dK6cQPMOALt
-         EWQfwclWAJBNZhQ6FZLgy6g1tcRuhOPD6MgSfD4cHdo4No7STPLKnUJuUcbnDCjUu2Xb
-         eLao5tebpVj+ZQ57CcIj18AolYbX/ubZhI4uPssSIKrlzie/BNrIEGobdVd+WNwuHhxE
-         lgOOm+8m2dTzH244aUAseEYZHfCqAzhxRSc0CZ+ZfwbHFdRPrqFdCRgunvE2Pok17CMT
-         IKLAxRNr3B0zrGoBn4H7U2If61hVpME3IXXJJKuUy46Gu/j45d2Oy7TlVpUAYoq53LGv
-         M2JQ==
-X-Gm-Message-State: AOAM531FX/VGqUwqLOcyJbo7RHJYuqb9dpDfan4MmJ/9DDDECKSW4N8P
-        FkqTLqmWzwKMPaxyRgN76s5M8robAvGmhloMkwhkfQ==
-X-Google-Smtp-Source: ABdhPJzVQ42yn6IHy2reIyacbb/OQh0x+/coysVCLgtnd/DHKOIiNVAXcs+kxnnKGr96r3SvBfYviScwFvzDBFiQZXw=
-X-Received: by 2002:a37:a757:: with SMTP id q84mr2310526qke.501.1613134498748;
- Fri, 12 Feb 2021 04:54:58 -0800 (PST)
+        id S231627AbhBLOQu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 09:16:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33908 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230228AbhBLOQt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 09:16:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613139322;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pFui2wB5cJmJppKeE9fg7DgPntP+r/xmUSyZ0JYk3sc=;
+        b=FHJp0t70M46nLGMs0ChD+oh2/i42utEYa9h4Zvg6bp1QpgZaBzRJXr1XPMDj7DLXIdfK1q
+        u9606XUUrEilA20ehr2UIH1erq4+tDDXdtgpvrigmSfBG47eX7uMVIk2dSyGSndbmCYQCd
+        t3REM9SigaZemEMTgnaTU1mFx82ndfs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-xbkPRNinPeikoybW4Bn4nQ-1; Fri, 12 Feb 2021 09:15:20 -0500
+X-MC-Unique: xbkPRNinPeikoybW4Bn4nQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9737107ACF2;
+        Fri, 12 Feb 2021 14:15:15 +0000 (UTC)
+Received: from [10.36.114.178] (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 29EB95D9FC;
+        Fri, 12 Feb 2021 14:15:09 +0000 (UTC)
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
+        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
+        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
+        song.bao.hua@hisilicon.com, naoya.horiguchi@nec.com,
+        joao.m.martins@oracle.com
+Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+References: <20210208085013.89436-1-songmuchun@bytedance.com>
+ <20210208085013.89436-5-songmuchun@bytedance.com>
+ <72e772bc-7103-62da-d834-059eb5a3ce5b@oracle.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <2afd12e0-60cd-0f9e-99a8-8ded09644504@redhat.com>
+Date:   Fri, 12 Feb 2021 15:15:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20210211080716.80982-1-info@alexander-lochmann.de>
-In-Reply-To: <20210211080716.80982-1-info@alexander-lochmann.de>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 12 Feb 2021 13:54:47 +0100
-Message-ID: <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com>
-Subject: Re: [PATCH] KCOV: Introduced tracing unique covered PCs
-To:     info@alexander-lochmann.de
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <72e772bc-7103-62da-d834-059eb5a3ce5b@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 11, 2021 at 9:07 AM Alexander Lochmann
-<info@alexander-lochmann.de> wrote:
->
-> Introduced new tracing mode KCOV_MODE_UNIQUE.
-> It simply stores the executed PCs.
-> The execution order is discarded.
-> Each bit in the shared buffer represents every fourth
-> byte of the text segment.
-> Since a call instruction on every supported
-> architecture is at least four bytes, it is safe
-> to just store every fourth byte of the text segment.
-> In contrast to KCOV_MODE_TRACE_PC, the shared buffer
-> cannot overflow. Thus, all executed PCs are recorded.
->
-> Signed-off-by: Alexander Lochmann <info@alexander-lochmann.de>
-> ---
->  Documentation/dev-tools/kcov.rst | 80 ++++++++++++++++++++++++++++++++
->  include/linux/kcov.h             |  4 +-
->  include/uapi/linux/kcov.h        | 10 ++++
->  kernel/kcov.c                    | 67 ++++++++++++++++++++------
->  4 files changed, 147 insertions(+), 14 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-> index 8548b0b04e43..4712a730a06a 100644
-> --- a/Documentation/dev-tools/kcov.rst
-> +++ b/Documentation/dev-tools/kcov.rst
-> @@ -127,6 +127,86 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
->  mmaps coverage buffer and then forks child processes in a loop. Child processes
->  only need to enable coverage (disable happens automatically on thread end).
->
-> +If someone is interested in a set of executed PCs, and does not care about
-> +execution order, he or she can advise KCOV to do so:
-> +
-> +.. code-block:: c
-> +
-> +    #include <stdio.h>
-> +    #include <stddef.h>
-> +    #include <stdint.h>
-> +    #include <stdlib.h>
-> +    #include <sys/types.h>
-> +    #include <sys/stat.h>
-> +    #include <sys/ioctl.h>
-> +    #include <sys/mman.h>
-> +    #include <unistd.h>
-> +    #include <fcntl.h>
-> +
-> +    #define KCOV_INIT_TRACE                    _IOR('c', 1, unsigned long)
-> +    #define KCOV_INIT_UNIQUE                _IOR('c', 2, unsigned long)
-> +    #define KCOV_ENABLE                        _IO('c', 100)
-> +    #define KCOV_DISABLE                       _IO('c', 101)
-> +
-> +    #define BITS_PER_LONG 64
-> +    #define KCOV_TRACE_PC  0
-> +    #define KCOV_TRACE_CMP 1
-> +    #define KCOV_UNIQUE_PC 2
-> +    /*
-> +     * Determine start of text segment via 'nm vmlinux | grep _stext | cut -d " " -f1',
-> +     * and fill in.
-> +     */
-> +    #define STEXT_START 0xffffffff81000000
-> +
-> +
-> +
-> +    int main(int argc, char **argv)
-> +    {
-> +       int fd;
-> +       unsigned long *cover, n, i;
-> +
-> +       /* A single fd descriptor allows coverage collection on a single
-> +        * thread.
-> +        */
-> +       fd = open("/sys/kernel/debug/kcov", O_RDWR);
-> +       if (fd == -1)
-> +               perror("open"), exit(1);
-> +       /* Setup trace mode and trace size. */
-> +       if ((n = ioctl(fd, KCOV_INIT_UNIQUE, 0)) < 0)
-> +               perror("ioctl"), exit(1);
-> +       /* Mmap buffer shared between kernel- and user-space. */
-> +       cover = (unsigned long*)mmap(NULL, n,
-> +                                    PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-> +       if ((void*)cover == MAP_FAILED)
-> +               perror("mmap"), exit(1);
-> +       /* Enable coverage collection on the current thread. */
-> +       if (ioctl(fd, KCOV_ENABLE, KCOV_UNIQUE_PC))
-> +               perror("ioctl"), exit(1);
-> +       /* That's the target syscal call. */
-> +       read(-1, NULL, 0);
-> +       /* Disable coverage collection for the current thread. After this call
-> +        * coverage can be enabled for a different thread.
-> +        */
-> +       if (ioctl(fd, KCOV_DISABLE, 0))
-> +               perror("ioctl"), exit(1);
-> +        /* Convert byte size into element size */
-> +        n /= sizeof(unsigned long);
-> +        /* Print executed PCs in sorted order */
-> +        for (i = 0; i < n; i++) {
-> +            for (int j = 0; j < BITS_PER_LONG; j++) {
-> +                if (cover[i] & (1L << j)) {
-> +                    printf("0x%jx\n", (uintmax_t)(STEXT_START + (i * BITS_PER_LONG + j) * 4));
-> +                }
-> +            }
-> +        }
-> +       /* Free resources. */
-> +       if (munmap(cover, n * sizeof(unsigned long)))
-> +               perror("munmap"), exit(1);
-> +       if (close(fd))
-> +               perror("close"), exit(1);
-> +       return 0;
-> +    }
-> +
->  Comparison operands collection
->  ------------------------------
->
-> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-> index a10e84707d82..aa0c8bcf8299 100644
-> --- a/include/linux/kcov.h
-> +++ b/include/linux/kcov.h
-> @@ -19,7 +19,9 @@ enum kcov_mode {
->          */
->         KCOV_MODE_TRACE_PC = 2,
->         /* Collecting comparison operands mode. */
-> -       KCOV_MODE_TRACE_CMP = 3,
-> +       KCOV_MODE_TRACE_CMP = 4,
-> +       /* Collecting unique covered PCs. Execution order is not saved. */
-> +       KCOV_MODE_UNIQUE_PC = 8,
->  };
->
->  #define KCOV_IN_CTXSW  (1 << 30)
-> diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
-> index 1d0350e44ae3..5b99b6d1a1ac 100644
-> --- a/include/uapi/linux/kcov.h
-> +++ b/include/uapi/linux/kcov.h
-> @@ -19,6 +19,7 @@ struct kcov_remote_arg {
->  #define KCOV_REMOTE_MAX_HANDLES                0x100
->
->  #define KCOV_INIT_TRACE                        _IOR('c', 1, unsigned long)
-> +#define KCOV_INIT_UNIQUE               _IOR('c', 2, unsigned long)
->  #define KCOV_ENABLE                    _IO('c', 100)
->  #define KCOV_DISABLE                   _IO('c', 101)
->  #define KCOV_REMOTE_ENABLE             _IOW('c', 102, struct kcov_remote_arg)
-> @@ -35,6 +36,15 @@ enum {
->         KCOV_TRACE_PC = 0,
->         /* Collecting comparison operands mode. */
->         KCOV_TRACE_CMP = 1,
-> +       /*
-> +        * Unique coverage collection mode.
-> +        * Unique covered PCs are collected in a per-task buffer.
-> +        * De-duplicates the collected PCs. Execution order is *not* saved.
-> +        * Each bit in the buffer represents every fourth byte of the text segment.
-> +        * Since a call instruction is at least four bytes on every supported
-> +        * architecture, storing just every fourth byte is sufficient.
-> +        */
-> +       KCOV_UNIQUE_PC = 2,
->  };
->
->  /*
-> diff --git a/kernel/kcov.c b/kernel/kcov.c
-> index 6b8368be89c8..8f00ba6e672a 100644
-> --- a/kernel/kcov.c
-> +++ b/kernel/kcov.c
-> @@ -24,6 +24,7 @@
->  #include <linux/refcount.h>
->  #include <linux/log2.h>
->  #include <asm/setup.h>
-> +#include <asm/sections.h>
->
->  #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
->
-> @@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
->          * kcov_start().
->          */
->         barrier();
-> -       return mode == needed_mode;
-> +       return (mode & needed_mode) && !(mode & KCOV_IN_CTXSW);
+On 11.02.21 19:05, Mike Kravetz wrote:
+> On 2/8/21 12:50 AM, Muchun Song wrote:
+>> When we free a HugeTLB page to the buddy allocator, we should allocate the
+>> vmemmap pages associated with it. But we may cannot allocate vmemmap pages
+>> when the system is under memory pressure, in this case, we just refuse to
+>> free the HugeTLB page instead of looping forever trying to allocate the
+>> pages.
+>>
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>> ---
+>>   include/linux/mm.h   |  2 ++
+>>   mm/hugetlb.c         | 19 ++++++++++++-
+>>   mm/hugetlb_vmemmap.c | 30 +++++++++++++++++++++
+>>   mm/hugetlb_vmemmap.h |  6 +++++
+>>   mm/sparse-vmemmap.c  | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+>>   5 files changed, 130 insertions(+), 2 deletions(-)
+> 
+> Muchun has done a great job simplifying this patch series and addressing
+> issues as they are brought up.  This patch addresses the issue which seems
+> to be the biggest stumbling block to this series.  The need to allocate
+> vmemmap pages to dissolve a hugetlb page to the buddy allocator.  The way
+> it is addressed in this patch is to simply fail to dissolve the hugetlb
+> page if the vmmemmap pages can not be allocated.  IMO, this is an 'acceptable'
+> strategy.  If we find ourselves in this situation then we are likely to be
+> hitting other corner cases in the system.  I wish there was a perfect way
+> to address this issue, but we have been unable to come up with one.
+> 
+> There was a decent discussion about this is a previous version of the
+> series starting here:
+> https://lore.kernel.org/linux-mm/20210126092942.GA10602@linux/
+> In this thread various other options were suggested and discussed.
+> 
+> I would like to come to some agreement on an acceptable way to handle this
+> specific issue.  IMO, it makes little sense to continue refining other
+> parts of this series if we can not figure out how to move forward on this
+> issue.
+> 
+> It would be great if David H, David R and Michal could share their opinions
+> on this.  No need to review details the code yet (unless you want), but
+> let's start a discussion on how to move past this issue if we can.
 
-I see this produces an additional check and branch:
+So a summary from my side:
 
-void foo1(unsigned mode) {
-  if ((mode & 10) && !(mode & (1<<30)))
-    foo();
-}
+We might fail freeing a huge page at any point in time iff we are low on 
+kernel (!CMA, !ZONE_MOVABLE) memory. While we could play games with 
+allocating the vmemmap from a huge page itself in some cases (e.g., 
+!CMA, !ZONE_MOVABLE), simply retrying is way easier and we don't turn 
+the huge page forever unusable.
 
-   0: 40 f6 c7 0a          test   $0xa,%dil
-   4: 74 0f                je     15 <foo1+0x15>
-   6: 81 e7 00 00 00 40    and    $0x40000000,%edi
-   c: 75 07                jne    15 <foo1+0x15>
-   e: 31 c0                xor    %eax,%eax
-  10: e9 00 00 00 00        jmpq   15 <foo1+0x15>
+Corner cases might be having many huge pages in ZONE_MOVABLE, freeing 
+them all at once and eating up a lot of kernel memory. But then, the 
+same setup would already be problematic nowadays where we simply always 
+consume that kernel memory for the vmemmap.
 
-I think we could make KCOV_IN_CTXSW sign bit and then express the check as:
-
-void foo2(unsigned mode) {
-  if (((int)(mode & 0x8000000a)) > 0)
-    foo();
-}
-
-0000000000000020 <foo2>:
-  20: 81 e7 0a 00 00 80    and    $0x8000000a,%edi
-  26: 7f 08                jg     30 <foo2+0x10>
-  28: c3                    retq
+I think this problem only really becomes visible in corner cases. And 
+someone actively has to enable new behavior.
 
 
+1. Failing to free a huge page triggered by the user (decrease nr_pages):
+
+Bad luck. Try again later.
+
+2. Failing to free a surplus huge page when freed by the application:
+
+Bad luck. But who will try again later?
+
+3. Failing to dissolve a free huge page on ZONE_MOVABLE via offline_pages()
+
+This is a bit unfortunate if we have plenty of ZONE_MOVABLE memory but 
+are low on kernel memory. For example, migration of huge pages would 
+still work, however, dissolving the free page does not work. I'd say 
+this is a corner cases. When the system is that much under memory 
+pressure, offlining/unplug can be expected to fail.
+
+4. Failing to dissolve a huge page on CMA/ZONE_MOVABLE via 
+alloc_contig_range() - once we have that handling in place. Mainly 
+affects CMA and virtio-mem.
+
+Similar to 3. However, we didn't even take care of huge pages *at all* 
+for now (neither migrate nor dissolve). So actually don't make the 
+current state any worse. virito-mem will handle migration errors 
+gracefully. CMA might be able to fallback on other free areas within the 
+CMA region.
 
 
->  }
->
->  static notrace unsigned long canonicalize_ip(unsigned long ip)
-> @@ -191,18 +192,26 @@ void notrace __sanitizer_cov_trace_pc(void)
->         struct task_struct *t;
->         unsigned long *area;
->         unsigned long ip = canonicalize_ip(_RET_IP_);
-> -       unsigned long pos;
-> +       unsigned long pos, idx;
->
->         t = current;
-> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t))
->                 return;
->
->         area = t->kcov_area;
-> -       /* The first 64-bit word is the number of subsequent PCs. */
-> -       pos = READ_ONCE(area[0]) + 1;
-> -       if (likely(pos < t->kcov_size)) {
-> -               area[pos] = ip;
-> -               WRITE_ONCE(area[0], pos);
-> +       if (likely(t->kcov_mode == KCOV_MODE_TRACE_PC)) {
+I'd say, document the changed behavior properly so people are aware that 
+there might be issues in corner cases with huge pages on CMA / ZONE_MOVABLE.
 
-Does this introduce an additional real of t->kcov_mode?
-If yes, please reuse the value read in check_kcov_mode.
+-- 
+Thanks,
 
+David / dhildenb
 
-> +               /* The first 64-bit word is the number of subsequent PCs. */
-> +               pos = READ_ONCE(area[0]) + 1;
-> +               if (likely(pos < t->kcov_size)) {
-> +                       area[pos] = ip;
-> +                       WRITE_ONCE(area[0], pos);
-> +               }
-> +       } else {
-> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
-> +               pos = idx % BITS_PER_LONG;
-> +               idx /= BITS_PER_LONG;
-> +               if (likely(idx < t->kcov_size))
-> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
->         }
->  }
->  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
-> @@ -474,6 +483,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
->                 goto exit;
->         }
->         if (!kcov->area) {
-> +               kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
->                 kcov->area = area;
->                 vma->vm_flags |= VM_DONTEXPAND;
->                 spin_unlock_irqrestore(&kcov->lock, flags);
-> @@ -515,6 +525,8 @@ static int kcov_get_mode(unsigned long arg)
->  {
->         if (arg == KCOV_TRACE_PC)
->                 return KCOV_MODE_TRACE_PC;
-> +       else if (arg == KCOV_UNIQUE_PC)
-> +               return KCOV_MODE_UNIQUE_PC;
-
-As far as I understand, users can first do KCOV_INIT_UNIQUE and then
-enable KCOV_TRACE_PC, or vice versa.
-It looks somewhat strange. Is it intentional? It's not possible to
-specify buffer size for KCOV_INIT_UNIQUE, so most likely the buffer
-will be either too large or too small for a trace.
-
-
-
-
->         else if (arg == KCOV_TRACE_CMP)
->  #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
->                 return KCOV_MODE_TRACE_CMP;
-> @@ -562,12 +574,13 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
->  {
->         struct task_struct *t;
->         unsigned long size, unused;
-> -       int mode, i;
-> +       int mode, i, text_size, ret = 0;
->         struct kcov_remote_arg *remote_arg;
->         struct kcov_remote *remote;
->         unsigned long flags;
->
->         switch (cmd) {
-> +       case KCOV_INIT_UNIQUE:
-
-I think nowadays you need some annotation like fallthrough here.
-
->         case KCOV_INIT_TRACE:
->                 /*
->                  * Enable kcov in trace mode and setup buffer size.
-> @@ -581,11 +594,39 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
->                  * that must not overflow.
->                  */
->                 size = arg;
-> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> -                       return -EINVAL;
-> -               kcov->size = size;
-> +               if (cmd == KCOV_INIT_UNIQUE) {
-> +                       if (size != 0)
-> +                               return -EINVAL;
-> +                       text_size = (canonicalize_ip((unsigned long)&_etext) - canonicalize_ip((unsigned long)&_stext));
-> +                       /**
-> +                        * A call instr is at least four bytes on every supported architecture.
-> +                        * Hence, just every fourth instruction can potentially be a call.
-> +                        */
-> +                       text_size /= 4;
-
-Strictly saying, we need to round up text_size to 4 before dividing by
-4. Otherwise we potentially don't cover up to the last 3 bytes.
-
-
-> +                       /*
-> +                        * Round up size of text segment to multiple of BITS_PER_LONG.
-> +                        * Otherwise, we cannot track
-> +                        * the last (text_size % BITS_PER_LONG) addresses.
-> +                        */
-> +                       text_size = roundup(text_size, BITS_PER_LONG);
-> +                       /* Get the amount of bytes needed */
-> +                       text_size = text_size / 8;
-> +                       /* mmap() requires size to be a multiple of PAGE_SIZE */
-> +                       text_size = roundup(text_size, PAGE_SIZE);
-> +                       /* Get the cover size (= amount of longs stored) */
-
-s/longs/bytes/
-
-> +                       ret = text_size;
-> +                       kcov->size = text_size / sizeof(unsigned long);
-> +                       kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
-> +                                       ((unsigned long)&_etext) - ((unsigned long)&_stext),
-> +                                       text_size,
-> +                                       kcov->size);
-> +               } else {
-> +                       if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> +                               return -EINVAL;
-> +                       kcov->size = size;
-> +               }
->                 kcov->mode = KCOV_MODE_INIT;
-> -               return 0;
-> +               return ret;
->         case KCOV_ENABLE:
->                 /*
->                  * Enable coverage for the current task.
-> --
-> 2.30.0
->
