@@ -2,82 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FB6C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 16:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 068C5C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 17:29:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7018B64E74
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 16:14:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C611964E9C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 17:29:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhBLQOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 11:14:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32262 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229558AbhBLQOr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 11:14:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613146399;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=L5Nb2hpHuSmEncyB7k8Kpd8+QlfZitjO1fAJZA9q6Ek=;
-        b=c04pVCzCWxuAj4I8knnl2Fc94M4gxl+vhFqM+4N8r4Cm0A/BpGqOXwXqNEVxtHAYhVZb7T
-        OobeeyS2WarBEiKts6MoyUTrSQytJ2ObQDHpnw+Uua1ooCDVEHs1vrNFB5V3bvaw97KC3R
-        EYk0c8+lQt+x/A/VxwJcUl0fttwz2rs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-2ly9sgg-M8a8-Mt3Amhy4g-1; Fri, 12 Feb 2021 11:13:14 -0500
-X-MC-Unique: 2ly9sgg-M8a8-Mt3Amhy4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S229648AbhBLR3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 12:29:14 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:42438 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229497AbhBLR3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 12:29:13 -0500
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 271E51934100;
-        Fri, 12 Feb 2021 16:13:12 +0000 (UTC)
-Received: from localhost (unknown [10.18.25.174])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0204360BF1;
-        Fri, 12 Feb 2021 16:13:05 +0000 (UTC)
-Date:   Fri, 12 Feb 2021 11:13:05 -0500
-From:   Mike Snitzer <snitzer@redhat.com>
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>
-Cc:     Damien.LeMoal@wdc.com, hare@suse.de, ming.lei@redhat.com,
-        agk@redhat.com, corbet@lwn.net, axboe@kernel.dk, jack@suse.cz,
-        johannes.thumshirn@wdc.com, gregkh@linuxfoundation.org,
-        koct9i@gmail.com, steve@sk2.org, dm-devel@redhat.com,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, pavel.tide@veeam.com
-Subject: Re: [PATCH v5 4/6] dm: new ioctl DM_DEV_REMAP_CMD
-Message-ID: <20210212161305.GB19424@redhat.com>
-References: <1612881028-7878-1-git-send-email-sergei.shtepa@veeam.com>
- <1612881028-7878-5-git-send-email-sergei.shtepa@veeam.com>
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 4AA4840C64;
+        Fri, 12 Feb 2021 17:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1613150894; bh=Kz/HN9GFZ6LekWdpgyUQBJQAeSl6o3M1KoJNJhws9XU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Xaal5YzHcuEOsRB7cWnsNZWIbP/pzcwzyS5oe8KuByqxgsYPRU5UVQ6cYGiuHZ8J5
+         T0VCTNV+cPHqa4tUwWmy7zV5dNbvTbB08gu/Urj4h3nno1Z9Efdi7Cef4HHSp0dxcy
+         kLkeV+zSKqzdC1DWg7HJESK7wj+8NF+cfxTdhhkmfY5bKh68tOY+hbjQzdw8FjI7fu
+         cKHC8jvJa46ffvInxFTWA2u4lV0+6vIUnub8adpp7dY/fiubuLB1dzplrUXg59kWDf
+         16SIWkOD+xnehsgPk+IdarUkqalzMHVjIFVLlrcfS0NPkN+A2/qDMK50xxPnGgVDAv
+         BYK2AujeL5a6A==
+Received: from de02dwia024.internal.synopsys.com (de02dwia024.internal.synopsys.com [10.225.19.81])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 6A0CDA005D;
+        Fri, 12 Feb 2021 17:28:10 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+To:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Subject: [PATCH v6 0/5] misc: Add Add Synopsys DesignWare xData IP driver
+Date:   Fri, 12 Feb 2021 18:28:02 +0100
+Message-Id: <cover.1613150798.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1612881028-7878-5-git-send-email-sergei.shtepa@veeam.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 09 2021 at  9:30am -0500,
-Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
+This patch series adds a new driver called xData-pcie for the Synopsys
+DesignWare PCIe prototype.
 
-> New ioctl DM_DEV_REMAP_CMD allow to remap bio requests
-> from regular block device to dm device.
+The driver configures and enables the Synopsys DesignWare PCIe traffic
+generator IP inside of prototype Endpoint which will generate upstream
+and downstream PCIe traffic. This allows to quickly test the PCIe link
+throughput speed and check is the prototype solution has some limitation
+or not.
 
-I really dislike the (ab)use of "REMAP" for this. DM is and always has
-been about remapping IO.  Would prefer DM_DEV_INTERPOSE_CMD
+Changes:
+ V2: Rework driver according to Greg Kroah-Hartman' feedback
+ V3: Fixed issues detected while running on 64 bits platforms
+     Rebased patches on top of v5.11-rc1 version
+ V4: Rework driver according to Greg Kroah-Hartman' feedback
+     Add the ABI doc related to the sysfs implemented on this driver
+ V5: Rework driver accordingly to Leon Romanovsky' feedback
+     Rework driver accordingly to Krzysztof Wilczyński' feedback
+ V6: Rework driver according to Greg Kroah-Hartman' feedback
+     Rework driver accordingly to Krzysztof Wilczyński' feedback
+     Rework driver accordingly to Leon Romanovsky' feedback
 
-Similarly, all places documenting "remap" or variables with "remap"
-changed to "interpose".
+Cc: Derek Kiernan <derek.kiernan@xilinx.com>
+Cc: Dragan Cvetic <dragan.cvetic@xilinx.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
-Also, any chance you'd be open to putting all these interposer specific
-changes in dm-interposer.[ch] ?
-(the various internal structs for DM core _should_ be available via dm-core.h)
+Gustavo Pimentel (5):
+  misc: Add Synopsys DesignWare xData IP driver
+  misc: Add Synopsys DesignWare xData IP driver to Makefile and Kconfig
+  Documentation: misc-devices: Add Documentation for dw-xdata-pcie
+    driver
+  MAINTAINERS: Add Synopsys xData IP driver maintainer
+  docs: ABI: Add sysfs documentation interface of dw-xdata-pcie driver
 
-Mike
+ Documentation/ABI/testing/sysfs-driver-xdata |  46 ++++
+ Documentation/misc-devices/dw-xdata-pcie.rst |  40 +++
+ MAINTAINERS                                  |   7 +
+ drivers/misc/Kconfig                         |  10 +
+ drivers/misc/Makefile                        |   1 +
+ drivers/misc/dw-xdata-pcie.c                 | 390 +++++++++++++++++++++++++++
+ 6 files changed, 494 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-xdata
+ create mode 100644 Documentation/misc-devices/dw-xdata-pcie.rst
+ create mode 100644 drivers/misc/dw-xdata-pcie.c
+
+-- 
+2.7.4
 
