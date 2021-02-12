@@ -2,199 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D27C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 19:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BD1C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 20:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4880564EB4
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 19:05:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05AD964DEC
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 20:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbhBLTFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 14:05:38 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:51530 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbhBLTFf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 14:05:35 -0500
-Received: from sequoia (162-237-133-238.lightspeed.rcsntx.sbcglobal.net [162.237.133.238])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 608BF20B6C40;
-        Fri, 12 Feb 2021 11:04:52 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 608BF20B6C40
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1613156693;
-        bh=6YnCV6liH82sConSeIcoMvSWdbV+LrQaalBNmKqtnLk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GITEbyMOWmtO06swLLyzbqAndCL6qYoJwEmT2XhJyRqxT/lw3xpO8LZVsa6FeEhyy
-         Zla+9UCM9aT2VCn9g+XvrcPOq6hrKkSXzExsDCw+BNm3xfc6aB/ucA30hTk8Gslh4D
-         mf9uScKCuHbQdzAFC0IQnNVnowxrfhjH6wwp5mJA=
-Date:   Fri, 12 Feb 2021 13:04:50 -0600
-From:   Tyler Hicks <tyhicks@linux.microsoft.com>
-To:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>
-Cc:     linux-kernel@vger.kernel.org,
-        kernel-team <kernel-team@android.com>,
-        linux-fsdevel@vger.kernel.org,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        LSM <linux-security-module@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>, linux-doc@vger.kernel.org,
-        SElinux list <selinux@vger.kernel.org>,
-        James Morris <jmorris@namei.org>
-Subject: Re: [RESEND PATCH v18 2/4] overlayfs: handle XATTR_NOSECURITY flag
- for get xattr method
-Message-ID: <20210212190450.GB56839@sequoia>
-References: <20201021151903.652827-1-salyzyn@android.com>
- <20201021151903.652827-3-salyzyn@android.com>
- <CAJfpegtMoD85j5namV592sJD23QeUMD=+tq4SvFDqjVxsAszYQ@mail.gmail.com>
- <2fd64e4f-c573-c841-abb6-ec0908f78cdd@android.com>
- <20210205180131.GA648953@sequoia>
+        id S231956AbhBLU6o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 15:58:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231513AbhBLU6Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 15:58:24 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BE6C0617A7
+        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id n195so735644ybg.9
+        for <linux-doc@vger.kernel.org>; Fri, 12 Feb 2021 12:58:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
+        b=uBTJQG+mWgC2KaNYo1bb3HfZG5kNKJ7vb1CkEXXuyZyIlMIUmRy7u+Ui98xv5m6wXD
+         R7N5LfNkcmh1NQ9NxgRQP3cWOkQFo7SAC+qn3I64HrXBzaGyP8UoGVC/bj+K+cZ8nSWe
+         YQAtaHJyorTUUKIOxX53zOw5ATfxwx2KVYuQOmCF02rn7CG0N1rPqvKrBgWPiLi45FON
+         shvjdCt7F02vXc8OsQJNlQ5Dg8hPGX1Xh3uWdinc2aBX3WWsUPVTakWNa4yKxhzAKQdV
+         EuNXoz2GuhV1z+hCYh7JVx2iqHGoG2X6f6zTTF5209mcejt6xlzEddhC7ShsSohFBkLy
+         xwLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CqAzPT6VwnPBuxPka3afIBXbnCQbD8+pdFwxBKcHhXQ=;
+        b=XKAqjezEE6gRDvoicN43nq3ZgQDlyfg0MFOZu8g3CZnVsWB4eyO6nzUhhUofCQjRtY
+         Yl4xCCyhq3Yk+MpIXHvN47h0W4IRqxKfy4TJJGYovC1mj2Ep/nPOrhZQFeoXYho+r4lW
+         ea1sS9OUCinZ5zOIlK5OB2hhSO1mjX7tgGOjee91i/Ifp7uCsaRIx3dmRNe9SPkpzuPH
+         MCy82RC9hxGGLx8/SQecK6TKC8wta+39l8KJNEg/ooJyhpSLconH0a6K5dno4QC8uFRx
+         TXoUHKwpjM5zssY0Tb/vZYakGKCHlLjh5CsW33c2xAZgfAuqc1xd5Xqpeco8ZYPXNsIt
+         Tgvw==
+X-Gm-Message-State: AOAM531DR5AlAVur1ovU8gi2ka1oY/BqCuitbmAfTHShjIZ4bTuRx0l6
+        UReFT/t0yQ7fUJKpxpJPuJ8cxXvWHBgJwr2A/88qZw==
+X-Google-Smtp-Source: ABdhPJwK0fc2ml/1MYUHRvi8x2ga/wmAbYgOqo2Dy3Txjf3hoDchCtA5qthJoSF2yZyW//AH/pAR//MQ+c+2yrZOeqg=
+X-Received: by 2002:a25:718b:: with SMTP id m133mr6949864ybc.412.1613163480367;
+ Fri, 12 Feb 2021 12:58:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210205180131.GA648953@sequoia>
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+ <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com> <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdVG97Zjr1WO0554h9eUZhfeyxwUfNYuAdPoacpznkA6-Q@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Fri, 12 Feb 2021 12:57:24 -0800
+Message-ID: <CAGETcx9GAyWQTb1kuUpjAcYyPGYtxxWMRe9u0o5UOSMrryTdvg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-02-05 12:01:55, Tyler Hicks wrote:
-> On 2020-10-30 09:00:35, Mark Salyzyn wrote:
-> > On 10/30/20 8:07 AM, Miklos Szeredi wrote:
-> > > On Wed, Oct 21, 2020 at 5:19 PM Mark Salyzyn <salyzyn@android.com> wrote:
-> > > > Because of the overlayfs getxattr recursion, the incoming inode fails
-> > > > to update the selinux sid resulting in avc denials being reported
-> > > > against a target context of u:object_r:unlabeled:s0.
-> > > > 
-> > > > Solution is to respond to the XATTR_NOSECURITY flag in get xattr
-> > > > method that calls the __vfs_getxattr handler instead so that the
-> > > > context can be read in, rather than being denied with an -EACCES
-> > > > when vfs_getxattr handler is called.
-> > > > 
-> > > > For the use case where access is to be blocked by the security layer.
-> > > > 
-> > > > The path then would be security(dentry) ->
-> > > > __vfs_getxattr({dentry...XATTR_NOSECURITY}) ->
-> > > > handler->get({dentry...XATTR_NOSECURITY}) ->
-> > > > __vfs_getxattr({realdentry...XATTR_NOSECURITY}) ->
-> > > > lower_handler->get({realdentry...XATTR_NOSECURITY}) which
-> > > > would report back through the chain data and success as expected,
-> > > > the logging security layer at the top would have the data to
-> > > > determine the access permissions and report back to the logs and
-> > > > the caller that the target context was blocked.
-> > > > 
-> > > > For selinux this would solve the cosmetic issue of the selinux log
-> > > > and allow audit2allow to correctly report the rule needed to address
-> > > > the access problem.
-> > > > 
-> > > > Check impure, opaque, origin & meta xattr with no sepolicy audit
-> > > > (using __vfs_getxattr) since these operations are internal to
-> > > > overlayfs operations and do not disclose any data.  This became
-> > > > an issue for credential override off since sys_admin would have
-> > > > been required by the caller; whereas would have been inherently
-> > > > present for the creator since it performed the mount.
-> > > > 
-> > > > This is a change in operations since we do not check in the new
-> > > > ovl_do_getxattr function if the credential override is off or not.
-> > > > Reasoning is that the sepolicy check is unnecessary overhead,
-> > > > especially since the check can be expensive.
-> > > > 
-> > > > Because for override credentials off, this affects _everyone_ that
-> > > > underneath performs private xattr calls without the appropriate
-> > > > sepolicy permissions and sys_admin capability.  Providing blanket
-> > > > support for sys_admin would be bad for all possible callers.
-> > > > 
-> > > > For the override credentials on, this will affect only the mounter,
-> > > > should it lack sepolicy permissions. Not considered a security
-> > > > problem since mounting by definition has sys_admin capabilities,
-> > > > but sepolicy contexts would still need to be crafted.
-> > > This would be a problem when unprivileged mounting of overlay is
-> > > introduced.  I'd really like to avoid weakening the current security
-> > > model.
-> > 
-> > The current security model does not deal with non-overlapping security
-> > contexts between init (which on android has MAC permissions only when
-> > necessary, only enough permissions to perform the mount and other mundane
-> > operations, missing exec and read permissions in key spots) and user calls.
-> > 
-> > We are only weakening (that is actually an incorrect statement, security is
-> > there, just not double security of both mounter and caller) the security
-> > around calls that retrieve the xattr for administrative and internal
-> > purposes. No data is exposed to the caller that it would not otherwise have
-> > permissions for.
-> 
-> We've ran into the same issues that Mark is trying to solve with this
-> series. I came across Mark's series while searching around before I
-> wrote up a similar patch to Mark's patch #3.
-> 
-> We have a confined process that sets up Overlayfs mounts, then that process
-> starts a service confined by another security context, then that service
-> may execute binaries that run under a third security context. In this
-> case, I'm talking about SELinux security contexts but it could be
-> AppArmor or anything else that you use to separate out
-> privileges/permissions at fine-grained detail.
-> 
-> We don't want to grant all the privileges/permissions required by the
-> service (and its helper utilities) to the process that sets up the
-> Overlayfs mounts because we've been very careful in separating them
-> apart with security policy. However, we want to make use of Overlayfs
-> and adding a mount option to bypass the check on the mounter's cred
-> seems like a safe way of using Overlayfs without violating our principle
-> of least privilege.
+On Fri, Feb 12, 2021 at 12:15 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
+> > >
+> > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
+> > >         node OF_POPULATED after init") is no longer needed (but already
+> > >         queued for v5.12 anyway)
+> >
+> > Rob doesn't like the proliferation of OF_POPULATED and we don't need
+> > it anymore, so maybe work it out with him? It's a balance between some
+> > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
+>
+> Rob: should it be reverted?  For v5.13?
+> I guess other similar "fixes" went in in the mean time.
+>
+> > >       - Some devices are reprobed, despite their drivers returning
+> > >         a real error code, and not -EPROBE_DEFER:
+> >
+> > Sorry, it's not obvious from the logs below where "reprobing" is
+> > happening. Can you give more pointers please?
+>
+> My log was indeed not a full log, but just the reprobes happening.
+> I'll send you a full log by private email.
+>
+> > Also, thinking more about this, the only way I could see this happen is:
+> > 1. Device fails with error that's not -EPROBE_DEFER
+> > 2. It somehow gets added to a device link (with AUTOPROBE_CONSUMER
+> > flag) where it's a consumer.
+> > 3. The supplier probes and the device gets added to the deferred probe
+> > list again.
+> >
+> > But I can't see how this sequence can happen. Device links are created
+> > only when a device is added. And is the supplier isn't added yet, the
+> > consumer wouldn't have probed in the first place.
+>
+> The full log doesn't show any evidence of the device being added
+> to a list in between the two probes.
+>
+> > Other than "annoying waste of time" is this causing any other problems?
+>
+> Probably not.  But see below.
+>
+> > >       - The PCI reprobing leads to a memory leak, for which I've sent a fix
+> > >         "[PATCH] PCI: Fix memory leak in pci_register_io_range()"
+> > >         https://lore.kernel.org/linux-pci/20210202100332.829047-1-geert+renesas@glider.be/
+> >
+> > Wrt PCI reprobing,
+> > 1. Is this PCI never expected to probe, but it's being reattempted
+> > despite the NOT EPROBE_DEFER error? Or
+>
+> There is no PCIe card present, so the failure is expected.
+> Later it is reprobed, which of course fails again.
+>
+> > 2. The PCI was deferred probe when it should have probed and then when
+> > it's finally reattemped and it could succeed, we are hitting this mem
+> > leak issue?
+>
+> I think the leak has always been there, but it was just exposed by
+> this unneeded reprobe.  I don't think a reprobe after that specific
+> error path had ever happened before.
+>
+> > I'm basically trying to distinguish between "this stuff should never
+> > be retried" vs "this/it's suppliers got probe deferred with
+> > fw_devlink=on vs but didn't get probe deferred with
+> > fw_devlink=permissive and that's causing issues"
+>
+> There should not be a probe deferral, as no -EPROBE_DEFER was
+> returned.
+>
+> > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
+> > >         /sys/kernel/debug/dmaengine/summary:
+> > >
+> > >             -dma4chan0    | e66d8000.i2c:tx
+> > >             -dma4chan1    | e66d8000.i2c:rx
+> > >             -dma5chan0    | e6510000.i2c:tx
+> >
+> > I think I need more context on the problem before I can try to fix it.
+> > I'm also very unfamiliar with that file. With fw_devlink=permissive,
+> > I2C was using DMA? If so, the next step is to see if the I2C relative
+> > probe order with DMA is getting changed and if so, why.
+>
+> Yes, I plan to dig deeper to see what really happens...
 
-I just realized that I missed one noteworthy aspect of our use case. We
-would be alright if this functionality to bypass the mounter's cred
-checks (conditional, based on a mount option) was only allowed for
-read-only overlays[1].
+Try fw_devlink.strict (you'll need IOMMU enabled too). If that fixes
+it and you also don't see this issue with fw_devlink=permissive, then
+it means there's probably some unnecessary probe deferral that we
+should try to avoid. At least, that's my hunch right now.
 
-I'm not sure if that would meet the needs of Android. Can you comment on
-that, Mark?
+Thanks,
+Saravana
 
-Miklos, would that restriction make this series any more acceptable to
-you?
-
-Thanks!
-
-Tyler
-
-[1] https://www.kernel.org/doc/html/latest/filesystems/overlayfs.html#multiple-lower-layers
-
-> 
-> Tyler
-> 
-> > 
-> > This patch becomes necessary when matched with the PATCH v18 3/4 of the
-> > series which fixes the user space break introduced in ~4.6 that formerly
-> > used the callers credentials for all accesses in all places. Security is
-> > weakened already as-is in overlayfs with all the overriding of the
-> > credentials for internal accesses to overlayfs mechanics based on the
-> > mounter credentials. Using the mounter credentials as a wider security hole
-> > is the problem, at least with PATCH v18 3/4 of the series we go back
-> > optionally to only using the caller's credentials to perform the operations.
-> > Admittedly some of the internal operations like mknod are privileged, but at
-> > least in Android's use case we are not using them with callers without the
-> > necessary credentials.
-> > 
-> > Android does not give the mounter more credentials than the callers, there
-> > is very little overlap in the MAC security.
-> > 
-> > > The big API churn in the 1/4 patch also seems excessive considering
-> > > that this seems to be mostly a cosmetic issue for android.  Am I
-> > > missing something?
-> > 
-> > Breaks sepolicy, it no longer has access to the context data at the
-> > overlayfs security boundary.
-> > 
-> > unknown is a symptom of being denied based on the denial to xattr data from
-> > the underlying filesystem layer. Being denied the security context of the
-> > target is not a good thing within the sepolicy security layer.
-> > 
-> > > 
-> > > Thanks,
-> > > Miklos
-> > 
-> > 
+>
+> > >       - On R-Mobile A1, I get a BUG and a memory leak:
+> > >
+> > >             BUG: spinlock bad magic on CPU#0, swapper/1
+>
+> >
+> > Hmm... I looked at this in bits and pieces throughout the day. At
+> > least spent an hour looking at this. This doesn't make a lot of sense
+> > to me. I don't even touch anything in this code path AFAICT.  Are
+> > modules/kernel mixed up somehow? I need more info before I can help.
+> > Does reverting my pm domain change make any difference (assume it
+> > boots this far without it).
+>
+> I plan to dig deeper to see what really happens...
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
