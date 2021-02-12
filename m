@@ -2,172 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE34C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 14:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C73FBC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 15:33:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89E9B64DF0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 14:17:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 851F564E57
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Feb 2021 15:33:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231627AbhBLOQu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 09:16:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33908 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230228AbhBLOQt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Feb 2021 09:16:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613139322;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        id S232198AbhBLPdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Feb 2021 10:33:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54994 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232171AbhBLPdP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Feb 2021 10:33:15 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613143949; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=pFui2wB5cJmJppKeE9fg7DgPntP+r/xmUSyZ0JYk3sc=;
-        b=FHJp0t70M46nLGMs0ChD+oh2/i42utEYa9h4Zvg6bp1QpgZaBzRJXr1XPMDj7DLXIdfK1q
-        u9606XUUrEilA20ehr2UIH1erq4+tDDXdtgpvrigmSfBG47eX7uMVIk2dSyGSndbmCYQCd
-        t3REM9SigaZemEMTgnaTU1mFx82ndfs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-xbkPRNinPeikoybW4Bn4nQ-1; Fri, 12 Feb 2021 09:15:20 -0500
-X-MC-Unique: xbkPRNinPeikoybW4Bn4nQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9737107ACF2;
-        Fri, 12 Feb 2021 14:15:15 +0000 (UTC)
-Received: from [10.36.114.178] (ovpn-114-178.ams2.redhat.com [10.36.114.178])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 29EB95D9FC;
-        Fri, 12 Feb 2021 14:15:09 +0000 (UTC)
-To:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        rdunlap@infradead.org, oneukum@suse.com, anshuman.khandual@arm.com,
-        jroedel@suse.de, almasrymina@google.com, rientjes@google.com,
-        willy@infradead.org, osalvador@suse.de, mhocko@suse.com,
-        song.bao.hua@hisilicon.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        bh=Sz9isorLitO6+MUwRfzG4d+ngvLUmm93AgjGBsOwKxU=;
+        b=NQFIpsht5R8CYBdP29r7QuSh8xFKjDnFvyWczXw2qhMx0h5DJV2E0hbTnJHzVsLWCnPW/h
+        fUKCMiIHUHpf17evOuH6L7eqIrEe463x0HpUMjljIPGsL1x/f3VXY/PO91PEzCKiqvWKbB
+        xHUcXgycKFZm5Uhlp5UuiIkmNfoz9CY=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id EC145AD29;
+        Fri, 12 Feb 2021 15:32:28 +0000 (UTC)
+Date:   Fri, 12 Feb 2021 16:32:26 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org
-References: <20210208085013.89436-1-songmuchun@bytedance.com>
- <20210208085013.89436-5-songmuchun@bytedance.com>
- <72e772bc-7103-62da-d834-059eb5a3ce5b@oracle.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
 Subject: Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap pages associated
  with each HugeTLB page
-Message-ID: <2afd12e0-60cd-0f9e-99a8-8ded09644504@redhat.com>
-Date:   Fri, 12 Feb 2021 15:15:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Message-ID: <YCafit5ruRJ+SL8I@dhcp22.suse.cz>
+References: <20210208085013.89436-1-songmuchun@bytedance.com>
+ <20210208085013.89436-5-songmuchun@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <72e772bc-7103-62da-d834-059eb5a3ce5b@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210208085013.89436-5-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.02.21 19:05, Mike Kravetz wrote:
-> On 2/8/21 12:50 AM, Muchun Song wrote:
->> When we free a HugeTLB page to the buddy allocator, we should allocate the
->> vmemmap pages associated with it. But we may cannot allocate vmemmap pages
->> when the system is under memory pressure, in this case, we just refuse to
->> free the HugeTLB page instead of looping forever trying to allocate the
->> pages.
->>
->> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->> ---
->>   include/linux/mm.h   |  2 ++
->>   mm/hugetlb.c         | 19 ++++++++++++-
->>   mm/hugetlb_vmemmap.c | 30 +++++++++++++++++++++
->>   mm/hugetlb_vmemmap.h |  6 +++++
->>   mm/sparse-vmemmap.c  | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++-
->>   5 files changed, 130 insertions(+), 2 deletions(-)
-> 
-> Muchun has done a great job simplifying this patch series and addressing
-> issues as they are brought up.  This patch addresses the issue which seems
-> to be the biggest stumbling block to this series.  The need to allocate
-> vmemmap pages to dissolve a hugetlb page to the buddy allocator.  The way
-> it is addressed in this patch is to simply fail to dissolve the hugetlb
-> page if the vmmemmap pages can not be allocated.  IMO, this is an 'acceptable'
-> strategy.  If we find ourselves in this situation then we are likely to be
-> hitting other corner cases in the system.  I wish there was a perfect way
-> to address this issue, but we have been unable to come up with one.
-> 
-> There was a decent discussion about this is a previous version of the
-> series starting here:
-> https://lore.kernel.org/linux-mm/20210126092942.GA10602@linux/
-> In this thread various other options were suggested and discussed.
-> 
-> I would like to come to some agreement on an acceptable way to handle this
-> specific issue.  IMO, it makes little sense to continue refining other
-> parts of this series if we can not figure out how to move forward on this
-> issue.
-> 
-> It would be great if David H, David R and Michal could share their opinions
-> on this.  No need to review details the code yet (unless you want), but
-> let's start a discussion on how to move past this issue if we can.
+On Mon 08-02-21 16:50:09, Muchun Song wrote:
+> When we free a HugeTLB page to the buddy allocator, we should allocate the
+> vmemmap pages associated with it. But we may cannot allocate vmemmap pages
+> when the system is under memory pressure, in this case, we just refuse to
+> free the HugeTLB page instead of looping forever trying to allocate the
+> pages.
 
-So a summary from my side:
+Thanks for simplifying the implementation from your early proposal!
 
-We might fail freeing a huge page at any point in time iff we are low on 
-kernel (!CMA, !ZONE_MOVABLE) memory. While we could play games with 
-allocating the vmemmap from a huge page itself in some cases (e.g., 
-!CMA, !ZONE_MOVABLE), simply retrying is way easier and we don't turn 
-the huge page forever unusable.
+This will not be looping for ever. The allocation will usually trigger
+the OOM killer and sooner or later there will be a memory to allocate
+from or the system panics when there are no eligible tasks to kill. This
+is just a side note.
 
-Corner cases might be having many huge pages in ZONE_MOVABLE, freeing 
-them all at once and eating up a lot of kernel memory. But then, the 
-same setup would already be problematic nowadays where we simply always 
-consume that kernel memory for the vmemmap.
+I think the changelog could benefit from a more explicit documentation
+of those error failures. There are different cases when the hugetlb page
+is freed. It can be due to an admin intervention (decrease the pool),
+overcommit, migration, dissolving and likely some others. Most of them
+should be fine to stay in the pool which would just increase the surplus
+pages in the pool. I am not so sure about dissolving path.
+[...]
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index 0209b736e0b4..3d85e3ab7caa 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -169,6 +169,8 @@
+>   * (last) level. So this type of HugeTLB page can be optimized only when its
+>   * size of the struct page structs is greater than 2 pages.
+>   */
+> +#define pr_fmt(fmt)	"HugeTLB: " fmt
+> +
+>  #include "hugetlb_vmemmap.h"
+>  
+>  /*
+> @@ -198,6 +200,34 @@ static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
+>  	return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
+>  }
+>  
+> +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+> +{
+> +	int ret;
+> +	unsigned long vmemmap_addr = (unsigned long)head;
+> +	unsigned long vmemmap_end, vmemmap_reuse;
+> +
+> +	if (!free_vmemmap_pages_per_hpage(h))
+> +		return 0;
+> +
+> +	vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> +	vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> +	vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> +
+> +	/*
+> +	 * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> +	 * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> +	 * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> +	 * When a HugeTLB page is freed to the buddy allocator, previously
+> +	 * discarded vmemmap pages must be allocated and remapping.
+> +	 */
+> +	ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> +				  GFP_ATOMIC | __GFP_NOWARN | __GFP_THISNODE);
 
-I think this problem only really becomes visible in corner cases. And 
-someone actively has to enable new behavior.
+I do not think that this is a good allocation mode. GFP_ATOMIC is a non
+sleeping allocation and a medium memory pressure might cause it to
+fail prematurely. I do not think this is really an atomic context which
+couldn't afford memory reclaim. I also do not think we want to grant
+access to memory reserve is reasonable. Just think of a huge number of
+hugetlb pages being freed which can deplete the memory reserve for
+atomic allocations. I think that you want 
+	GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN | __GFP_THISNODE
 
-
-1. Failing to free a huge page triggered by the user (decrease nr_pages):
-
-Bad luck. Try again later.
-
-2. Failing to free a surplus huge page when freed by the application:
-
-Bad luck. But who will try again later?
-
-3. Failing to dissolve a free huge page on ZONE_MOVABLE via offline_pages()
-
-This is a bit unfortunate if we have plenty of ZONE_MOVABLE memory but 
-are low on kernel memory. For example, migration of huge pages would 
-still work, however, dissolving the free page does not work. I'd say 
-this is a corner cases. When the system is that much under memory 
-pressure, offlining/unplug can be expected to fail.
-
-4. Failing to dissolve a huge page on CMA/ZONE_MOVABLE via 
-alloc_contig_range() - once we have that handling in place. Mainly 
-affects CMA and virtio-mem.
-
-Similar to 3. However, we didn't even take care of huge pages *at all* 
-for now (neither migrate nor dissolve). So actually don't make the 
-current state any worse. virito-mem will handle migration errors 
-gracefully. CMA might be able to fallback on other free areas within the 
-CMA region.
-
-
-I'd say, document the changed behavior properly so people are aware that 
-there might be issues in corner cases with huge pages on CMA / ZONE_MOVABLE.
-
+for an initial implementation. The justification being that the
+allocation should at least try to reclaim but it shouldn't cause any
+major disruption because the failure is not fatal. If the failure rate
+would be impractically high then just drop NORETRY part. You can replace
+it by __GFP_RETRY_MAYFAIL but that shouldn't be strictly necessary
+because __GFP_THISNODE on its own implies on OOM killer, but that is
+kinda ugly to rely on.
 -- 
-Thanks,
-
-David / dhildenb
-
+Michal Hocko
+SUSE Labs
