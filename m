@@ -2,71 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8280C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Feb 2021 00:37:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B08BAC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Feb 2021 13:16:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA70764EA6
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Feb 2021 00:37:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8086864E46
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Feb 2021 13:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbhBMAhp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Feb 2021 19:37:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55482 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229648AbhBMAhn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Feb 2021 19:37:43 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 114BF600EF;
-        Sat, 13 Feb 2021 00:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613176623;
-        bh=piCxSYqyaRHUq0PJ0knbPXrBei/xJDhxVO2a2ca10jw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=hXeGnHSIEyZOzMpm9rArG5rX0aeTeRIi/cJd+3AhH70qUvgxeDbFSmZYSNGH/gaOZ
-         /3o4QiqURfA+gippC46uJsp2mLYT4+6SBWPjMpk4x3Y3DzXsPzTGBlSnyrpnPFQCaI
-         5jF10OY04XCtMJ149AZUCZeN0TCz92IlXxa09oQhXvmYgwiTUyT/ZIRewlkRSjpc87
-         Z9AAhbxyTwietL8/yUE4w67QYJwfbZNQBl8Mm0tJtW0zsghwS4fDXxSDpoRVVf6bko
-         IIdlgq8CdlT71mIgLtGrkRdVbsyPYReYvgpWPejZEh3V4Mf669MkHJp5PnNY+ICYRU
-         vdVh2NEqlF0cQ==
-Content-Type: text/plain; charset="utf-8"
+        id S229574AbhBMNPu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Feb 2021 08:15:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46922 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229531AbhBMNPt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Feb 2021 08:15:49 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7D4C061574;
+        Sat, 13 Feb 2021 05:15:08 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id fa16so1157486pjb.1;
+        Sat, 13 Feb 2021 05:15:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cn+ObC8FkHI1hXVsmi4O7zBtv2tqUAnYZVVASPYbG78=;
+        b=Q/O0U2qxvyScJpNSCcH9bMDBaAgpuKjf4PYuf3L9D7a38xWtwY1s4ZpqRu3OfAmtb0
+         IYKyZCMkI+4pvDLUeZEs4NfITlAYBCFQzRz/zm0xKcUOhKirSwRYOO/JKlUcDuwtT/mm
+         UuoKxl6fCpqLw2SpPZjxdm7t4pWM/f9+iI4GksF6q70qp7PFovPVSDLAv0vc+3/tWEzY
+         yvbIIV6HNVry5UjT/11HzwcnHZHcaXDEAEOIL8b2NKJ2lagNqoG4WXWbBJp3MYZiq+pc
+         Sw+77COZxg/MiaEu4O6gdqxM06o9EprxWUaJ85woe8oMRIlBRk5oRStW0beEKozYF7kk
+         ZxWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Cn+ObC8FkHI1hXVsmi4O7zBtv2tqUAnYZVVASPYbG78=;
+        b=EZJEGtIXU1PkTT46YTTjt9urJdxur/DAV/kVtA/Xe4OarU7O5k3jpy87Oq4gbyp1YJ
+         y5fN+DZauWf72A3RxJNSyvNeUkxWagON8eLXcBkHmS30GYOC0Ov1q4zCmQ/PaquYnrZo
+         ZMQ4W3aagGQnKKAbmSazSlcLo0l6taG07YrRuCNp7fKfygplILGFTiy18IpMgcgbN0xz
+         HF2d3Op63Wnx8LlTCAjqGXb2mkcfoYfnZ6YLznH4SoWTXoNmz699gObJPB0vPm5WCa9+
+         9onUfZxUQt8EL8EbVw3gL3zQMCnNQKA8W4eiFi+9+ZUkubOFvwiODl8ymgYtSCNnpoNZ
+         GaSA==
+X-Gm-Message-State: AOAM5305895PRD66+QvTaWQmMa4eKFizz80bDr4/AgKePok/C58vf88s
+        bG8x5qklpIO+DRy0gKX4Drw=
+X-Google-Smtp-Source: ABdhPJwd77/eDp3WtWfgfrvnO+EJmxx+mN8I88ZjGkp7BnLxSYYuuo8U2G7rTG+LRZ+05Tym2GY1zw==
+X-Received: by 2002:a17:90a:d3cc:: with SMTP id d12mr7164295pjw.202.1613222107708;
+        Sat, 13 Feb 2021 05:15:07 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:6ab4:5c97:80e6:be35:2e49])
+        by smtp.gmail.com with ESMTPSA id p11sm833533pjb.3.2021.02.13.05.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Feb 2021 05:15:07 -0800 (PST)
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+To:     joe@perches.com
+Cc:     linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: [PATCH RFC v3 0/3] checkpatch: add verbose mode
+Date:   Sat, 13 Feb 2021 18:45:10 +0530
+Message-Id: <20210213131513.51386-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YCUqgwrCREvPqEz+@kroah.com>
-References: <20210205222644.2357303-9-saravanak@google.com> <20210210114435.122242-1-tudor.ambarus@microchip.com> <20210210114435.122242-2-tudor.ambarus@microchip.com> <YCUqgwrCREvPqEz+@kroah.com>
-Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     corbet@lwn.net, rafael@kernel.org, khilman@kernel.org,
-        ulf.hansson@linaro.org, len.brown@intel.com, lenb@kernel.org,
-        pavel@ucw.cz, mturquette@baylibre.com, robh+dt@kernel.org,
-        frowand.list@gmail.com, maz@kernel.org, tglx@linutronix.de,
-        saravanak@google.com, nicolas.ferre@microchip.com,
-        claudiu.beznea@microchip.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-acpi@vger.kernel.org, m.szyprowski@samsung.com,
-        geert@linux-m68k.org, kernel-team@android.com
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>
-Date:   Fri, 12 Feb 2021 16:37:01 -0800
-Message-ID: <161317662151.1254594.5584491663697731523@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Greg KH (2021-02-11 05:00:51)
-> On Wed, Feb 10, 2021 at 01:44:35PM +0200, Tudor Ambarus wrote:
-> > This is a follow-up for:
-> > commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is ad=
-ded/removed")
-> >=20
-> > The above commit updated the deprecated of_clk_add_provider(),
-> > but missed to update the preferred of_clk_add_hw_provider().
-> > Update it now.
-> >=20
-> > Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> > ---
+Add a new verbose mode to checkpatch. The verbose test 
+descriptions are read from the checkpatch documentation
+file at `Documentation/dev-tools/checkpatch.rst`.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+The verbose mode is optional and can be enabled by the
+flag -v or --verbose.
+
+The documentation file is only parsed by checkpatch.pl
+if the verbose mode is enabled. The verbose mode is also
+suppressed when the --terse option is specified.
+
+Changes in v3:
+- Simplify documentation file parsing in checkpatch
+- Document a total of 33 message types for checkpatch
+
+Changes in v2:
+- Use .rst Field Lists to specify the type descriptions.
+- Add a few more type descriptions to documentation.
+
+
+Dwaipayan Ray (3):
+  checkpatch: add verbose mode
+  docs: add documentation for checkpatch
+  docs: add documentation for checkpatch
+
+ Documentation/dev-tools/checkpatch.rst | 494 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ scripts/checkpatch.pl                  |  55 ++-
+ 3 files changed, 549 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
+
+-- 
+2.30.0
+
