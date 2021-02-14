@@ -2,86 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 178B9C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 20:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B940CC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 21:17:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D03C864E4E
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 20:44:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EB8C64E26
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 21:17:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbhBNUoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Feb 2021 15:44:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52574 "EHLO
+        id S230043AbhBNVRL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Feb 2021 16:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbhBNUoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 15:44:01 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3883C061574;
-        Sun, 14 Feb 2021 12:43:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=8XrvPZQ0HQjAVtIcZun5iSJlbNXch34tpLZqNY5Tl9M=; b=ykLd6Ls4yzh5r8UdIKPNRMsIb
-        Zvwk8SKZTEGMvmCq56QumYWpCVZz3AOdDfZYR1j+VPs88AeiVI4t4O+ETWJ11BeuOQYiJkrRWCJTQ
-        eTTkOyUbxuVr1fZNiGmZzg6LhrhMkPhblgb9dixYdh/+Fh46HT+3L4GTOdx3LQ7pKRe6cBk0o/CDz
-        wsxWNUZP3sdRLRbMfHFUlvTGEIXOjyQh5YzCuobo4qxtso6Ki7wsZjx7twjpr2FsIlCyRi2QCD98b
-        0LAyjyzqD7x+ZAI9j4REMerEXm7GI0JPL5J3qT5PwtgWDKm4mjPjV4pep62gKjfAkqsC5JrmuYtNg
-        fbY0tHH1Q==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43430)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1lBOEY-0000ZL-TG; Sun, 14 Feb 2021 20:43:10 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1lBOEU-0000yr-1p; Sun, 14 Feb 2021 20:43:06 +0000
-Date:   Sun, 14 Feb 2021 20:43:06 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        Andrew Lunn <andrew@lunn.ch>, Jonathan Corbet <corbet@lwn.net>,
-        Doug Berger <opendmb@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH net-next] net: phy: rename PHY_IGNORE_INTERRUPT to
- PHY_MAC_INTERRUPT
-Message-ID: <20210214204305.GV1463@shell.armlinux.org.uk>
-References: <243316e1-1fa3-dcbb-f090-0ef504d5dec7@gmail.com>
+        with ESMTP id S229818AbhBNVRK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 16:17:10 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD792C0613D6
+        for <linux-doc@vger.kernel.org>; Sun, 14 Feb 2021 13:16:24 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id m9so3185140ybk.8
+        for <linux-doc@vger.kernel.org>; Sun, 14 Feb 2021 13:16:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=phdV8WYNd3IGThDsn8i4M24CobH7ljSVjSrnflRr3qU=;
+        b=RWR4roQbM83TfOeedHSPPpdMu2Nrv1ah6uwnFW7JAwYCOunQAZ8ts3tL6Uzai09gGa
+         LT56JMZcLhRHUVb7BIv9a9Fgcj/aqSsFk5h0+/P35/WMudzT1DP3ZIJaoMUE7V9Kw5bf
+         1KY4nwyux5ymiaNyvoH7myw304kgkIsPme80xuiZ/8oJ6irIzBSN7B5TA5C6wHYHKGer
+         AsFY/uKt4Typt7Sfa3f1Pqmue/ogKAp9PKQKvOKZHJ0u6Xx2gFMwIC2wLn2ox9t4XNJZ
+         t69rSTJuJWKZmRkDhDUvmUixL5yCEpgZXNVyuR0eMeqwaewN6d1CYsAtITkIvU+yV34N
+         0hJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=phdV8WYNd3IGThDsn8i4M24CobH7ljSVjSrnflRr3qU=;
+        b=IZ/oKQbWCA2BMJA7lvI5g4vKwx1JbQm2YuySphiH/ekirzz3TGxUORRf2qo468RWL4
+         oT159TzGeLuIYWyW5BrDMKhJO/HB5PREt3UGwmN7Xxikyj03vN8H7gjOwL/bsy5zuxjG
+         OumdNEJQmdqABvb+UvDYI4y8vYDuiLRgMni9qp7KjkHjclRX9Mip0KhqoCHfz+7aJb+l
+         l1J0eyZ68n1CvzTZpk6Z70cNgH5Nzo8sih4AMN1IhT+Y0WB/TthP3yVhCj1J5YR2Y2Hw
+         VRrnbLxvK1JPpYvZ4P5YE5AP6UfKOl6hneZGOsposbRMYKb9Ov3BTe7X9mggYLd079b4
+         hC6g==
+X-Gm-Message-State: AOAM532Me1NJVwVG3gZMWAhAOIDKwYEV4ZY5yMrSqY+uCjppZjAkcr1m
+        1e0XJVTl842vVzVLPVTPrk1XpWspMfW9Od/KvzEnTg==
+X-Google-Smtp-Source: ABdhPJwKlOywjb9o1r0z+/aEElhBXr3muf5MaDtLIwSmnIybpMmvKkrG398c3xt84cwnEWzqUgzwx2tz3LZ7RBGCdE0=
+X-Received: by 2002:a25:718b:: with SMTP id m133mr19551522ybc.412.1613337383889;
+ Sun, 14 Feb 2021 13:16:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <243316e1-1fa3-dcbb-f090-0ef504d5dec7@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <20210205222644.2357303-9-saravanak@google.com> <161317679292.1254594.15797939257637374295@swboyd.mtv.corp.google.com>
+In-Reply-To: <161317679292.1254594.15797939257637374295@swboyd.mtv.corp.google.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Sun, 14 Feb 2021 13:15:48 -0800
+Message-ID: <CAGETcx_vTSGgmYVHPgi1uqHEGU9y4ZDd_=Z3Xg-Nbrsu-r5Tog@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] clk: Mark fwnodes when their clock provider is added/removed
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Android Kernel Team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 14, 2021 at 03:16:23PM +0100, Heiner Kallweit wrote:
-> Some internal PHY's have their events like link change reported by the
-> MAC interrupt. We have PHY_IGNORE_INTERRUPT to deal with this scenario.
-> I'm not too happy with this name. We don't ignore interrupts, typically
-> there is no interrupt exposed at a PHY level. So let's rename it to
-> PHY_MAC_INTERRUPT. This is in line with phy_mac_interrupt(), which is
-> called from the MAC interrupt handler to handle PHY events.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+On Fri, Feb 12, 2021 at 4:39 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Saravana Kannan (2021-02-05 14:26:44)
+> > This allows fw_devlink to recognize clock provider drivers that don't
+> > use the device-driver model to initialize the device. fw_devlink will
+> > use this information to make sure consumers of such clock providers
+> > aren't indefinitely blocked from probing, waiting for the power domain
+> > device to appear and bind to a driver.
+>
+> The "power domain" part of this commit text doesn't make any sense. Is
+> it copy/pasted from some other patch? Should probably say "waiting for
+> the clk providing device"?
 
-Reviewed-by: Russell King <rmk+kernel@armlinux.org.uk>
+Yeah, copy-pasta.
 
-Thanks.
+>
+> >
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > ---
+>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Thanks,
+Saravana
