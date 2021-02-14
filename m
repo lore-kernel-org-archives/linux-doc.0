@@ -2,186 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 214A3C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 14:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF49C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEE5464E56
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 14:55:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D186164E56
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:01:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbhBNOzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Feb 2021 09:55:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhBNOzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 09:55:41 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A54C061574;
-        Sun, 14 Feb 2021 06:55:01 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lBInW-0002Tn-Uv; Sun, 14 Feb 2021 15:54:55 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: reporting-issues.rst: shortcut for stable regressions
-Date:   Sun, 14 Feb 2021 15:54:54 +0100
-Message-Id: <20210214145454.357392-1-linux@leemhuis.info>
-X-Mailer: git-send-email 2.29.2
+        id S229642AbhBNQBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Feb 2021 11:01:01 -0500
+Received: from foss.arm.com ([217.140.110.172]:46718 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229637AbhBNQBA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 14 Feb 2021 11:01:00 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F5431FB;
+        Sun, 14 Feb 2021 08:00:13 -0800 (PST)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13FEA3F73D;
+        Sun, 14 Feb 2021 08:00:11 -0800 (PST)
+Date:   Sun, 14 Feb 2021 16:00:09 +0000
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Joerg Roedel <joro@8bytes.org>,
+        Damian Tometzki <linux@tometzki.de>
+Subject: Re: [PATCH] docs: reporting-issues.rst: explain how to decode stack
+ traces
+Message-ID: <20210214160009.lxonvxg4qyj6ygbk@e107158-lin.cambridge.arm.com>
+References: <20210210054823.242262-1-linux@leemhuis.info>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1613314501;d004843a;
-X-HE-SMSGID: 1lBInW-0002Tn-Uv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210210054823.242262-1-linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provide a much shorter and easier process for users that deal with
-regressions in stable and longterm kernels, as those should be reported
-quickly.
+On 02/10/21 06:48, Thorsten Leemhuis wrote:
+> Replace placeholder text about decoding stack traces with a section that
+> properly describes what a typical user should do these days. To make
+> it works for them, add a paragraph in an earlier section to ensure
+> people build their kernels with everything that's needed to decode stack
+> traces later.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+> Reminder: This is not my area of expertise. Hopefully I didn't write anything
+> stupid or omitted something people find important. If I did, please let me know,
+> ideally suggesting what to write; bonus points for people sending text I can
+> simply include in the next revision.
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- .../admin-guide/reporting-issues.rst          | 91 ++++++++-----------
- 1 file changed, 40 insertions(+), 51 deletions(-)
+Thanks for your effort :-)
 
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 07879d01fe68..9679d1e0849d 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -99,13 +99,16 @@ process won't feel wasted in the end:
-    install it. This kernel must not be modified or enhanced in any way, and
-    thus be considered 'vanilla'.
- 
-- * See if the issue you are dealing with qualifies as regression, security
--   issue, or a really severe problem: those are 'issues of high priority' that
--   need special handling in some steps that are about to follow.
--
-  * Check if your kernel was 'tainted' when the issue occurred, as the event
-    that made the kernel set this flag might be causing the issue you face.
- 
-+ * See if the issue you are dealing with qualifies as regression, security
-+   issue, or a really severe problem: those are 'issues of high priority' that
-+   need special handling in some steps that are about to follow. If you are
-+   dealing with a regression in a vanilla built stable or longterm kernel
-+   that's still supported, head over to the section 'Dealing with regressions
-+   in stable and longterm kernels'.
-+
-  * Locate the driver or kernel subsystem that seems to be causing the issue.
-    Find out how and where its developers expect reports. Note: most of the
-    time this won't be bugzilla.kernel.org, as issues typically need to be sent
-@@ -215,23 +218,41 @@ rebased on new stable or longterm releases. If that case follow these steps:
-    deemed unsuitable for backporting. If backporting was not considered at
-    all, join the newest discussion, asking if it's in the cards.
- 
-- * Check if you're dealing with a regression that was never present in
--   mainline by installing the first release of the version line you care
--   about. If the issue doesn't show up with it, you basically need to report
--   the issue with this version like you would report a problem with mainline
--   (see above). This ideally includes a bisection followed by a search for
--   existing reports on the net; with the help of the subject and the two
--   relevant commit-ids. If that doesn't turn up anything, write the report; CC
--   or forward the report to the stable maintainers, the stable mailing list,
--   and those who authored the change. Include the shortened commit-id if you
--   found the change that causes it.
--
-  * One of the former steps should lead to a solution. If that doesn't work
-    out, ask the maintainers for the subsystem that seems to be causing the
-    issue for advice; CC the mailing list for the particular subsystem as well
-    as the stable mailing list.
- 
- 
-+Dealing with regressions in stable and longterm kernels
-+-------------------------------------------------------
-+
-+Regression in stable and longterm kernels (say when updating from 5.10.4 to
-+5.10.5) are something really bad, as they can quickly affect a lot of people.
-+They thus should be quickly dealt with by everyone involved, hence you are free
-+to use a streamlined process to report your issue:
-+
-+ * Check the archives of the Linux stable mailing list for existing reports.
-+
-+ * Install the latest release from the particular version line as a vanilla
-+   kernel. Ensure this kernel is not tainted and still shows the problem, as
-+   the issue might have already been fixed there.
-+
-+ * Make sure it's not the kernel's surroundings that are causing the issue
-+   you face.
-+
-+Those steps are also needed during the normal reporting process and explained in
-+more details below. Once you performed them, send a rough problem report by mail
-+to the people and mailing lists the :ref:`MAINTAINERS <maintainers>` file
-+specifies in the section 'STABLE BRANCH'. Ask for further instruction and
-+roughly explain how to reproduce the issue.
-+
-+With a bit of luck that might be all that is needed. Sometimes you will be asked
-+to find the exact commit that causes the regression by using a process called
-+'bisection'. The document 'Documentation/admin-guide/bug-bisect.rst' describes
-+it in detail.
-+
-+
- Reference section: Reporting issues to the kernel maintainers
- =============================================================
- 
-@@ -331,7 +352,10 @@ Issue of high priority?
- 
-     *See if the issue you are dealing with qualifies as regression, security
-     issue, or a really severe problem: those are 'issues of high priority' that
--    need special handling in some steps that are about to follow.*
-+    need special handling in some steps that are about to follow. If you are
-+    dealing with a regression in a vanilla built stable or longterm kernel
-+    that's still supported, head over to the section 'Dealing with regressions
-+    in stable and longterm kernels'.*
- 
- Linus Torvalds and the leading Linux kernel developers want to see some issues
- fixed as soon as possible, hence there are 'issues of high priority' that get
-@@ -1513,41 +1537,6 @@ discussions abound it.
-      join the discussion: mention the version where you face the issue and that
-      you would like to see it fixed, if suitable.
- 
--Check if it's a regression specific to stable or longterm kernels
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--    *Check if you're dealing with a regression that was never present in
--    mainline by installing the first release of the version line you care
--    about. If the issue doesn't show up with it, you basically need to report
--    the issue with this version like you would report a problem with mainline
--    (see above). This ideally includes a bisection followed by a search for
--    existing reports on the net; with the help of the subject and the two
--    relevant commit-ids. If that doesn't turn up anything, write the report; CC
--    or forward the report to the stable maintainers, the stable mailing list,
--    and those who authored the change. Include the shortened commit-id if you
--    found the change that causes it.*
--
--Sometimes you won't find anything in the previous step: the issue you face
--might have never occurred in mainline, as it is caused by some change that is
--incomplete or not correctly applied. To check this, install the first release
--from version line you care about, e.g., if you care about 5.4.x, install 5.4.
--
--If the issue doesn't show itself there, it's a regression specific to the
--particular version line. In that case you need to report it like an issue
--happening in mainline, like the last few steps in the main section in the above
--outline.
--
--One of them suggests doing a bisection, which you are strongly advised to do in
--this case. After finding the culprit, search the net for existing reports
--again: not only search for the exact subject and the commit-id (proper and
--shortened to twelve characters) of the change, but also for the commit-id
--(proper and shortened) mentioned as 'Upstream commit' in the commit message.
--
--Write the report; just keep a few specialties in mind: CC or forward the report
--to the stable maintainers, the stable mailing list, which the :ref:`MAINTAINERS
--<maintainers>` file mentions in the section "STABLE BRANCH". If you performed a
--successful bisection, CC the author of the change and include its subject and
--the shortened commit-id.
- 
- Ask for advice
- ~~~~~~~~~~~~~~
--- 
-2.29.2
+> 
+> I CCed Sasha, because he wrote decode_stacktrace.sh; I also CCed a bunch of
+> people that showed interest in this topic when I asked for help on Twitter.
+> 
+> I'm still unsure if linking to admin-guide/bug-hunting.rst is a good idea, as it
+> seems quite outdated; reporting-bugs did that, but for now I settled on 'don't
+> do that'.
+> 
+> Ciao, Thorsten
+> ---
+>  .../admin-guide/reporting-issues.rst          | 77 +++++++++++++------
+>  1 file changed, 55 insertions(+), 22 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index 07879d01fe68..b9c07d8e3141 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -154,8 +154,8 @@ After these preparations you'll now enter the main part:
+>     that hear about it for the first time. And if you learned something in this
+>     process, consider searching again for existing reports about the issue.
+>  
+> - * If the failure includes a stack dump, like an Oops does, consider decoding
+> -   it to find the offending line of code.
+> + * If your failure involves a 'panic', 'oops', or 'warning', consider decoding
 
+or 'BUG'? There are similar other places below that could benefit from this
+addition too.
+
+> +   the kernel log to find the line of code that trigger the error.
+>  
+>   * If your problem is a regression, try to narrow down when the issue was
+>     introduced as much as possible.
+> @@ -869,6 +869,15 @@ pick up the configuration of your current kernel and then tries to adjust it
+>  somewhat for your system. That does not make the resulting kernel any better,
+>  but quicker to compile.
+>  
+> +Note: If you are dealing with a kernel panic, oops, or warning, please make
+> +sure to enable CONFIG_KALLSYMS when configuring your kernel. Additionally,
+
+s/make sure/try/
+
+s/kernel./kernel if you can./
+
+Less demanding wording in case the user doesn't have the capability to rebuild
+or deploy such a kernel where the problem happens. Maybe you can tweak it more
+if you like too :-)
+
+> +enable CONFIG_DEBUG_KERNEL and CONFIG_DEBUG_INFO, too; the latter is the
+> +relevant one of those two, but can only be reached if you enable the former. Be
+> +aware CONFIG_DEBUG_INFO increases the storage space required to build a kernel
+> +by quite a bit. But that's worth it, as these options will allow you later to
+> +pinpoint the exact line of code that triggers your issue. The section 'Decode
+> +failure messages' below explains this in more detail.
+> +
+
+I think worth mentioning too that the user should keep a log of the problem
+when first encountered and then attempt the above. Just in case the problem is
+not reproducible easily so the info is not lost.
+
+Maybe something like below:
+
+'''
+Always keep a record of the issue encountered in case it is hard to reproduce.
+Sending undecoded report is better than not sending a report at all.
+'''
+
+>  
+>  Check 'taint' flag
+>  ------------------
+> @@ -923,31 +932,55 @@ instead you can join.
+>  Decode failure messages
+>  -----------------------
+>  
+> -.. note::
+> +    *If your failure involves a 'panic', 'oops', or 'warning', consider
+
+Thanks for choosing the word consider, it shouldn't be compulsory IMO.
+
+> +    decoding the kernel log to find the line of code that trigger the error.*
+>  
+> -   FIXME: The text in this section is a placeholder for now and quite similar to
+> -   the old text found in 'Documentation/admin-guide/reporting-bugs.rst'
+> -   currently. It and the document it references are known to be outdated and
+> -   thus need to be revisited. Thus consider this note a request for help: if you
+> -   are familiar with this topic, please write a few lines that would fit here.
+> -   Alternatively, simply outline the current situation roughly to the main
+> -   authors of this document (see intro), as they might be able to write
+> -   something then.
+> +When the kernel detects an internal problem, it will log some information about
+> +the executed code. This makes it possible to pinpoint the exact line in the
+> +source code that triggered the issue and shows how it was called. But that only
+> +works if you enabled CONFIG_DEBUG_INFO and CONFIG_KALLSYMS when configuring
+> +your kernel. If you did so, consider to decode the information from the
+> +kernel's log. That will make it a lot easier to understand what lead to the
+> +'panic', 'oops', or 'warning', which increases the chances enormously that
+> +someone can provide a fix.
+
+I suggest removing the word enormously. It helps, but it all depends on the
+particular circumstances. Sometimes it does, others it doesn't.
+
+>  
+> -   This section in the end should answer questions like "when is this actually
+> -   needed", "what .config options to ideally set earlier to make this step easy
+> -   or unnecessary?" (likely CONFIG_UNWINDER_ORC when it's available, otherwise
+> -   CONFIG_UNWINDER_FRAME_POINTER; but is there anything else needed?).
+> +Decoding can be done with a script you find in the Linux source tree. If you
+> +are running a kernel you compiled yourself earlier, call it like this::
+>  
+> -..
+> +       [user@something ~]$ sudo dmesg | ./linux-5.10.5/scripts/decode_stacktrace.sh ./linux-5.10.5/vmlinux
+> +
+> +If you are running a packaged vanilla kernel, you will likely have to install
+> +the corresponding packages with debug symbols. Then call the script (which you
+> +might need to get from the Linux sources if your distro does not package it)
+> +like this::
+> +
+> +       [user@something ~]$ sudo dmesg | ./linux-5.10.5/scripts/decode_stacktrace.sh \
+> +        /usr/lib/debug/lib/modules/5.10.10-4.1.x86_64/vmlinux /usr/src/kernels/5.10.10-4.1.x86_64/
+> +
+> +The script will work on log lines like the following, which show the address of
+> +the code the kernel was executing when the error occurred::
+> +
+> +       [   68.387301] RIP: 0010:test_module_init+0x5/0xffa [test_module]
+> +
+> +Once decoded, these lines will look like this::
+> +
+> +       [   68.387301] RIP: 0010:test_module_init (/home/username/linux-5.10.5/test-module/test-module.c:16) test_module
+> +
+> +In this case the executed code was built from the file
+> +'~/linux-5.10.5/test-module/test-module.c' and the error occurred by the
+> +instructions found in line '16'.
+>  
+> -    *If the failure includes a stack dump, like an Oops does, consider decoding
+> -    it to find the offending line of code.*
+> +The script will similarly decode the addresses mentioned in the section
+> +starting with 'Call trace', which show the path to the function where the
+> +problem occurred. Additionally, the script will show the assembler output for
+> +the code section the kernel was executing.
+>  
+> -When the kernel detects an error, it will print a stack dump that allows to
+> -identify the exact line of code where the issue happens. But that information
+> -sometimes needs to get decoded to be readable, which is explained in
+> -admin-guide/bug-hunting.rst.
+> +Note, if you can't get this to work, simply skip this step and mention the
+> +reason for it in the report. If you're lucky, it might not be needed. And if it
+> +is, someone might help you to get things going. Also be aware this is just one
+> +of several ways to decode kernel stack traces. Sometimes different steps will
+> +be required to retrieve the relevant details. Don't worry about that, if that's
+> +needed in your case, developers will tell you what to do.
+
+Ah you already clarify nicely here this is a good-to-have rather than
+a must-have as I was trying to elude to above :-)
+
+This looks good to me in general. With the above minor nits fixed, feel free to
+add my
+
+Reviewed-by: Qais Yousef <qais.yousef@arm.com>
+
+Thanks!
+
+--
+Qais Yousef
+
+>  
+>  
+>  Special care for regressions
+> -- 
+> 2.29.2
+> 
