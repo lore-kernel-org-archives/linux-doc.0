@@ -2,52 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD3DC433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 633FCC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:51:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA35C64E26
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:33:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 229D36146D
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:51:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229758AbhBNQd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Feb 2021 11:33:59 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:41584 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229783AbhBNQd4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 14 Feb 2021 11:33:56 -0500
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1lBKKB-006G3B-HB; Sun, 14 Feb 2021 17:32:43 +0100
-Date:   Sun, 14 Feb 2021 17:32:43 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
+        id S229793AbhBNQu5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Feb 2021 11:50:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229768AbhBNQu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 11:50:56 -0500
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567A0C061756;
+        Sun, 14 Feb 2021 08:50:17 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id a5so4042594otq.4;
+        Sun, 14 Feb 2021 08:50:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ep7Dse7HKqu4k0rVQiHlEjLkpgG3iM9OzAnuQMfsNCI=;
+        b=RIWcHB5TR1QRIXJbIAn5ku9YAsIVznhwQbRRF39qJ7gF4mjvjSui1aqz1itR/NBh15
+         AcwLrRjwH2cC4pzWqoscdE31rwUTm3nlYef6Ia0z3RweFQFxY6axkqsUah+ciEzuclhf
+         AKivDnEuqMzrlXqJHf+WM44A/JIg9x6+gv/Tv1C+2PpVY8Ty1J+qloGO99xRMw+7x6Bq
+         ryBH7cq/YaUwCndyUPjokl3ri8AZzYT9cJ+yAfOLZOZH53NRihpgjjZo+JgRsQUZTgR1
+         1Ioc2TZSv7vawlit6TmjKaF8uPaeP2S64D/Z97ZuSSHPmTh222DL0nEXVpOwhI4FArQI
+         t3YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ep7Dse7HKqu4k0rVQiHlEjLkpgG3iM9OzAnuQMfsNCI=;
+        b=QyWfzPKXGnR5Adct+U5l/2JHP65roTbSsjkuValh0IGDs0CqoxdKV4qrfwjmEkoJ7l
+         4djyiuuwdyBzLadUs/bYP5ta+e1tOaI86v39zPoB4PUGj1Mh+16fIh17os6Lvu+Jajrz
+         aeCXE5CUBlP4STceENwETihNjk9sLl+Kex5R4LOQLJUcYViLLjCqN7lREYQ94DAp4cHu
+         B0aYd2pyaF0VA/nv7xf1YZo73OK+af++sTm3NiVNsKIJp1mEBQAHCthRC+I7rSceqshj
+         tqLw/cLtj9gOafqYZWTNZZx0vMcteebFN5hQrXLlmBrqOo6MJxSAN4wn7SoxmQi+/JVX
+         C0Qw==
+X-Gm-Message-State: AOAM530wFqYgwS3N1bozHvxlz97iFwfo2RL6s5dz3WxlzkEEB2LnIWDS
+        +kHZmocFBhvxZZCZfogLQrE=
+X-Google-Smtp-Source: ABdhPJz0quFeF+OlQXnJ6km+elC6aoTpFoddWnq/8GH9qAzeD2e5II7gNtd/02EZgnvngtYAmdAO4g==
+X-Received: by 2002:a9d:5c8d:: with SMTP id a13mr1238226oti.341.1613321416650;
+        Sun, 14 Feb 2021 08:50:16 -0800 (PST)
+Received: from ?IPv6:2600:1700:dfe0:49f0:5500:ef1:ca58:910f? ([2600:1700:dfe0:49f0:5500:ef1:ca58:910f])
+        by smtp.gmail.com with ESMTPSA id p20sm2848444oos.46.2021.02.14.08.50.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Feb 2021 08:50:16 -0800 (PST)
+Subject: Re: [PATCH net-next] net: phy: rename PHY_IGNORE_INTERRUPT to
+ PHY_MAC_INTERRUPT
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
         David Miller <davem@davemloft.net>,
         Realtek linux nic maintainers <nic_swsd@realtek.com>,
+        Andrew Lunn <andrew@lunn.ch>,
         Russell King - ARM Linux <linux@armlinux.org.uk>,
         Jonathan Corbet <corbet@lwn.net>,
         Doug Berger <opendmb@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
-        Byungho An <bh74.an@samsung.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Byungho An <bh74.an@samsung.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         linux-doc@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [PATCH net-next] net: phy: rename PHY_IGNORE_INTERRUPT to
- PHY_MAC_INTERRUPT
-Message-ID: <YClQqzYu89+3oJF0@lunn.ch>
 References: <243316e1-1fa3-dcbb-f090-0ef504d5dec7@gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <90101c72-99a8-c12a-9278-d99d85c43767@gmail.com>
+Date:   Sun, 14 Feb 2021 08:50:13 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <243316e1-1fa3-dcbb-f090-0ef504d5dec7@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 14, 2021 at 03:16:23PM +0100, Heiner Kallweit wrote:
+
+
+On 2/14/2021 6:16 AM, Heiner Kallweit wrote:
 > Some internal PHY's have their events like link change reported by the
 > MAC interrupt. We have PHY_IGNORE_INTERRUPT to deal with this scenario.
 > I'm not too happy with this name. We don't ignore interrupts, typically
@@ -57,6 +98,8 @@ On Sun, Feb 14, 2021 at 03:16:23PM +0100, Heiner Kallweit wrote:
 > 
 > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 
-    Andrew
+Thanks Heiner!
+-- 
+Florian
