@@ -2,93 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3B5C433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68263C433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 17:53:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FC89600EF
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 16:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3506D64E08
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Feb 2021 17:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhBNQ6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Feb 2021 11:58:24 -0500
-Received: from smtprelay0168.hostedemail.com ([216.40.44.168]:43844 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229637AbhBNQ6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 11:58:24 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id EDC4B18029299;
-        Sun, 14 Feb 2021 16:57:42 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: place77_161588327634
-X-Filterd-Recvd-Size: 2333
-Received: from [192.168.1.159] (unknown [47.151.137.21])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Sun, 14 Feb 2021 16:57:41 +0000 (UTC)
-Message-ID: <b2e25e683a3e2f31d4dc2d666e082634e30643b3.camel@perches.com>
-Subject: Re: [PATCH RFC v3 2/3] docs: add documentation for checkpatch
-From:   Joe Perches <joe@perches.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc:     linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Date:   Sun, 14 Feb 2021 08:57:40 -0800
-In-Reply-To: <20210213131513.51386-3-dwaipayanray1@gmail.com>
-References: <20210213131513.51386-1-dwaipayanray1@gmail.com>
-         <20210213131513.51386-3-dwaipayanray1@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        id S229759AbhBNRxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Feb 2021 12:53:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229730AbhBNRxm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Feb 2021 12:53:42 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69443C061574;
+        Sun, 14 Feb 2021 09:53:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=iGqt0nHjobZmEO9n22ezQT55DO4AzImZXB6TGp/92FE=; b=dVS7Feb0WaCsjIK9/87IHsZ4KW
+        C5OORW2Hioh8jltQGg+Od/5BTv1tqVagn8XTa9guljVuDYGYhs65oA8kUpVXGK77cZ77Q1HhXzMUJ
+        fs32NTm8NDiniInNYQb6mf6KocG5Z5YjVSs6EeqbYYqKdy93BaDLEujsvuqlTra9uIjeDCun+AtlX
+        fW9Mobn4c6HT/haW2YRlyeRttW99R3ZfG/vgtC/Ygh5dYnMhw3dDIK2sGPQqe5gbSbpWBhEcehRlX
+        Q7g5tjDrh/r/vr65t25N4Amy38sHxpPVXAz11Izvjnxtx63cGjSysXDZ1fxvNphNKGwdmroT+czl9
+        WV/8P7ZQ==;
+Received: from [2601:1c0:6280:3f0::6444]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1lBLZq-0005mH-D3; Sun, 14 Feb 2021 17:52:58 +0000
+Subject: Re: [PATCH v6 20/34] xlink-core: Add xlink core driver xLink
+To:     mgross@linux.intel.com, markgross@kernel.org, arnd@arndb.de,
+        bp@suse.de, damien.lemoal@wdc.com, dragan.cvetic@xilinx.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net,
+        palmerdabbelt@google.com, paul.walmsley@sifive.com,
+        peng.fan@nxp.com, robh+dt@kernel.org, shawnguo@kernel.org,
+        jassisinghbrar@gmail.com
+Cc:     linux-kernel@vger.kernel.org,
+        Seamus Kelly <seamus.kelly@intel.com>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        linux-doc@vger.kernel.org
+References: <20210212222304.110194-1-mgross@linux.intel.com>
+ <20210212222304.110194-21-mgross@linux.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ddacd2e2-b491-5443-4006-c8c5d90d583f@infradead.org>
+Date:   Sun, 14 Feb 2021 09:52:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210212222304.110194-21-mgross@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2021-02-13 at 18:45 +0530, Dwaipayan Ray wrote:
-> Add documentation for kernel script checkpatch.pl.
-> This documentation is also parsed by checkpatch to
-> enable a verbose mode.
-> 
-> The message types in checkpatch are documented with rst
-> field lists. A total of 33 checkpatch type descriptions
-> are added.
+On 2/12/21 2:22 PM, mgross@linux.intel.com wrote:
+> diff --git a/drivers/misc/xlink-core/Kconfig b/drivers/misc/xlink-core/Kconfig
+> new file mode 100644
+> index 000000000000..a0ceb0b48219
+> --- /dev/null
+> +++ b/drivers/misc/xlink-core/Kconfig
+> @@ -0,0 +1,33 @@
+> +config XLINK_CORE
+> +	tristate "Support for XLINK CORE"
+> +	depends on ((XLINK_PCIE_RH_DRIVER || XBAY_XLINK_PCIE_RH_DRIVER) || (XLINK_LOCAL_HOST && (XLINK_PCIE_LH_DRIVER || XBAY_XLINK_PCIE_RH_DRIVER)))
 
-Alphabetic ordering isn't that great for these entries.
-Please group them by use:
+-ELINETOOLONG. Use '\' for line continuation in Kconfig files.
 
-whitespace/code layout style:
-SPACING, TRAILING_WHITESPACE, LINE_SPACING
-
-commit message defects:
-BAD_SIGN_OFF, BAD_STABLE_ADDRESS_STYLE, COMMIT_COMMENT_SYMBOL, COMMIT_MESSAGE
-
-Allocation style:
-group: ALLOC_ARRAY_ARGS, ALLOC_SIZEOF_STRUCT, ALLOC_WITH_MULTIPLY
-
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-[]
-> +4 Type Descriptions
-> +-------------------
+> +	help
+> +	  XLINK CORE enables the communication/control subsystem.
 > +
-> +This section contains a description of all the message types in checkpatch.
+> +	  If unsure, say N.
 > +
-> +.. Types in this section are also parsed by checkpatch.
-> +.. Please keep the types sorted alphabetically.
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called xlink.ko.
 > +
-> +:ALLOC_ARRAY_ARGS:
-> +  The first argument for kcalloc or kmalloc_array should be the
-> +  number of elements.  sizeof() as the first argument is generally
-> +  wrong.
+> +config XLINK_LOCAL_HOST
+> +	tristate "Support for XLINK LOCAL HOST"
+> +	depends on XLINK_IPC
+> +	help
+> +	  XLINK LOCAL HOST enables local host functionality for
+> +	  the communication/control Sub-System.
+> +
+> +	  Enable this config when building the kernel for the Intel Vision
+> +	  Processing Unit (VPU) Local Host core.
+> +
+> +	  If building for a Remote Host kernel, say N.
+> +
+> +config XLINK_PSS
+> +	tristate "Support for XLINK PSS (Pre-Silicon Solution)"
+> +	depends on XLINK_LOCAL_HOST
+> +	help
+> +	  XLINK PSS enables the communication/control subsystem on a PSS platform.
+> +
+> +	  Enable this config when building the kernel for the Intel Vision
+> +	  Processing Unit (VPU) in a simulated env.
 
-If you look at the generated .html file, the output format  is poor.
+Please s/env/environment/.
 
-It would probably be better to use
-**<TYPE>**
-for each of these blocks instead of
-:<TYPE>:
+> +
+> +	  If building for a VPU silicon, say N.
 
-and update the script appropriately.
+
+-- 
+~Randy
 
