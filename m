@@ -2,85 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E9AC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 21:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C48BC43381
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 21:58:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0562464DF4
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 21:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A1D464DFF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 21:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbhBOVmM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 16:42:12 -0500
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:44945 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbhBOVmK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 16:42:10 -0500
-Received: by mail-wr1-f50.google.com with SMTP id g6so10750487wrs.11;
-        Mon, 15 Feb 2021 13:41:54 -0800 (PST)
+        id S229811AbhBOV6c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 16:58:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229706AbhBOV6b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 16:58:31 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E586C06178A
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 13:57:38 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id 133so8561824ybd.5
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 13:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6sRa/U5Kzs1JI5RnyoYklyv1NRbU9v8LrTPHarr/PE8=;
+        b=gJEho7HAFjs40VouEGob2eg5Oy9aEdcZUBjHihE6mZQzi6czZHwv0m73BpYkXKdo5q
+         68ZV+goSq9Fae1dld8Dj2zZYLuDTZktAzE0ZwFkpES3da8W1hs5RObUljgUwwZubEMQR
+         Ca4nrFf96n+Kq21fygN6AVWqtnC1b+1lh90Ad/OFDLwRqlp57eBni+kkmVmwYsQmfAjJ
+         NcDt4L5//G6ue+WDbsA4Z4M/o7lFxOzbQQJ4D6/zpk72I1HGrEAZGi0vXqowaDBLiSCa
+         tPx3s6gkUPD/Kyv6NGu1ljv+0hfUIqhnOIrU799/0jGVFl7RUVlE+Da+9mHdD+VFVUH6
+         Lj/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1hd4+cHjB/VGp/H5x8gxIpoGgJ92CAnP2iy8ZSV1Dqs=;
-        b=GIhMFWImDJauxCnvYUSC/QJYlW3DkHrkcUXMXrc659fmHYLqjOz7CYT8sivMDyFz60
-         5VA7Yt1Q0NSFEwc6V63zsOTjIRmyvRqgK4eZs8qVyyYmpvQoQgHFNGfEOIfOf79hH9ba
-         i3e1YIwPkWPyM2tUL0eqpu4Y4hSwj/KoBTWW23v3aCGuuMGFBvi3G+Y3+3xoDDYqK4Rz
-         rDS8BuqxQ6sRhPNFNq5BFUhmKAl8o1NSxh+zBYs+UFCDzriR7rnvnftM9Rb5q4sf3izj
-         tCl633UbvcrAIVTI2ILhPHx9qRGhoRAAiUPjlHdwZ9wofsv5d4B6ElfIgmoTIiYu8DjA
-         u/4A==
-X-Gm-Message-State: AOAM531LzFmLN8/du9LOPC27o157qtDNiOfUcWsddlNwOOUUmze1g5V+
-        3pJ8FtB5JdZcU0eEEYmyTAs=
-X-Google-Smtp-Source: ABdhPJwuxsALHvbRUf/auKOqjzM3BZ//wMc77VB4iZ2Qkrk1K0N1oDqa5WlHjjoZRPK3Q3FUemP/ag==
-X-Received: by 2002:a5d:5603:: with SMTP id l3mr4697994wrv.381.1613425288469;
-        Mon, 15 Feb 2021 13:41:28 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id k11sm24839616wrv.51.2021.02.15.13.41.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 13:41:28 -0800 (PST)
-Date:   Mon, 15 Feb 2021 22:41:26 +0100
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, helgaas@kernel.org, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/4] Documentation: devres: add
- pcim_alloc_irq_vectors()
-Message-ID: <YCrqhtAIwMio+PNw@rocinante>
-References: <20210215181550.714101-1-zhengdejin5@gmail.com>
- <20210215181550.714101-3-zhengdejin5@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6sRa/U5Kzs1JI5RnyoYklyv1NRbU9v8LrTPHarr/PE8=;
+        b=hjU8duPCKIFBgNLj/JLpTl6SWh7OJIIlumIHgXTupEv4KoRBoT2q7oQnp64FQQcq0B
+         ftHU1m0RGOLZrLYkODmGKN/VVZDUwyZ1XU2bKEeHx/j3dA2gAUPn5f3tAmo2BwUz1f0u
+         Zv+IDM19c9wwuIVmPrt/w9wPegPwhfMFUliSbZLscBib7TihCTTgay5Yfm9Bde8sc2yK
+         dGW7C4zrrMG9ZVDICkgqPQfmFA05ynqPx8agCL2fgoyeVJpaxqweVF1b2rN/qrEZqtVl
+         uDzQuMa2tRfBVpOWnpX0qmJknmhICxHMZ83Voq2I3INPAkW+vk4wwDLf1C2djlhDbtp6
+         OVvA==
+X-Gm-Message-State: AOAM532FFZ8JNBR0scLuIk7zWyXmCJ7dOy6OknH6fGvM6jmluXzEWYc6
+        2nUqe0NBSGB8N3KTClDo1hOTQ7P12r7xglq5QiKQ8w==
+X-Google-Smtp-Source: ABdhPJwKttGJ/WSxMO3AOYN0BMrFeAFmWmg7rlKUzB3nt2oaOmB07PQ56EVlNxhui2daNXPCPW1sMy0iGvA9c5ZrRD4=
+X-Received: by 2002:a25:aa43:: with SMTP id s61mr27067882ybi.32.1613426257227;
+ Mon, 15 Feb 2021 13:57:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210215181550.714101-3-zhengdejin5@gmail.com>
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+ <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com> <CAMuHMdWFp_teT5Lgxe6BOpOb4UMM2_4FrKJm-2C6kuCH2YUMrw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWFp_teT5Lgxe6BOpOb4UMM2_4FrKJm-2C6kuCH2YUMrw@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 15 Feb 2021 13:57:00 -0800
+Message-ID: <CAGETcx9AZct4h0AdjbNzF5vjoYxT+M+zJ2ddsEN5SV9ALqV48A@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Dejin,
+Hi Geert,
 
-[...]
-> add pcim_alloc_irq_vectors(), a explicit device-managed version of
-> pci_alloc_irq_vectors().
+On Mon, Feb 15, 2021 at 7:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
+> > >
+> > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
+> > >         node OF_POPULATED after init") is no longer needed (but already
+> > >         queued for v5.12 anyway)
+> >
+> > Rob doesn't like the proliferation of OF_POPULATED and we don't need
+> > it anymore, so maybe work it out with him? It's a balance between some
+> > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
+>
+> > >   2. SH/R-Mobile AG5 (kzm9g), APE6 (ape6evm), A1 (armadillo800-eva)
+> > >
+> > >       - "PATCH] soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
+> > >         reset handling" is no longer needed
+> > >         https://lore.kernel.org/linux-arm-kernel/20210205133319.1921108-1-geert+renesas@glider.be/
+> >
+> > Good to see more evidence that this series is fixing things at a more
+> > generic level.
+>
+> I spoke too soon: if CONFIG_POWER_RESET_RMOBILE=n,
+> booting fails again, as everything is waiting on the system controller,
+> which never becomes available.
+> Rcar-sysc doesn't suffer from this problem, cfr. above.
+> Perhaps because the rmobile-sysc bindings use a hierarchical instead
+> of a linear PM domain description, and thus consumers point to the
+> children of the system controller node?
+> Cfr. system-controller@e6180000 in arch/arm/boot/dts/r8a7740.dtsi.
 
-It would be "Add" at the start of the sentence.  You could also drop
-the "explicit" word or replace it with "an explicit", if you want to
-keep it.
+Ok, I see what's going on. The problem is that the "power domain"
+fwnode being registered is not the node that contains the "compatible"
+property and becomes a device. So this patch[1] is not helping here.
+Fix is to do something like this (to avoid using OF_POPULATED flag and
+breaking reset):
 
-Generally, this commit message could be improved - you could explain
-that you are updating the documentation to reflect the addition of this
-new function called pcim_alloc_irq_vectors(), and also briefly explain
-why it was added, etc.
+diff --git a/drivers/soc/renesas/rmobile-sysc.c
+b/drivers/soc/renesas/rmobile-sysc.c
+index 9046b8c933cb..b7e66139ef7d 100644
+--- a/drivers/soc/renesas/rmobile-sysc.c
++++ b/drivers/soc/renesas/rmobile-sysc.c
+@@ -344,6 +344,7 @@ static int __init rmobile_init_pm_domains(void)
+                        of_node_put(np);
+                        break;
+                }
++               fwnode_dev_initialized(&np->fwnode, true);
+        }
 
-[...]
->    devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
-> +  pcim_alloc_irq_vectors()      : managed irq vectors allocation
-[...]
+        put_special_pds();
 
-It would be "IRQ" here.
+Can you give it a shot?
 
-Krzysztof
+[1] - https://lore.kernel.org/lkml/20210205222644.2357303-8-saravanak@google.com/
+
+> > >       - On R-Mobile A1, I get a BUG and a memory leak:
+> > >
+> > >             BUG: spinlock bad magic on CPU#0, swapper/1
+> > >              lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner:
+> > > <none>/-1, .owner_cpu: 0
+> > >             CPU: 0 PID: 1 Comm: swapper Not tainted
+> > > 5.11.0-rc5-armadillo-00032-gf0a85c26907e #266
+> > >             Hardware name: Generic R8A7740 (Flattened Device Tree)
+> > >             [<c010c3c8>] (unwind_backtrace) from [<c010a49c>]
+> > > (show_stack+0x10/0x14)
+> > >             [<c010a49c>] (show_stack) from [<c0159534>]
+> > > (do_raw_spin_lock+0x20/0x94)
+> > >             [<c0159534>] (do_raw_spin_lock) from [<c04089d8>]
+> > > (dev_pm_get_subsys_data+0x30/0xa0)
+> > >             [<c04089d8>] (dev_pm_get_subsys_data) from [<c0413698>]
+> > > (genpd_add_device+0x34/0x1c0)
+> > >             [<c0413698>] (genpd_add_device) from [<c041389c>]
+> > > (of_genpd_add_device+0x34/0x4c)
+> > >             [<c041389c>] (of_genpd_add_device) from [<c0a1e9bc>]
+> > > (board_staging_register_device+0xf8/0x118)
+> > >             [<c0a1e9bc>] (board_staging_register_device) from
+>
+> This is indeed a pre-existing problem.
+> of_genpd_add_device() is called before platform_device_register(),
+> as it needs to attach the genpd before the device is probed.
+> But the spinlock is only initialized when the device is registered.
+> This was masked before due to an unrelated wait context check failure,
+> which disabled any further spinlock checks, and exposed by fw_devlinks
+> changing probe order.
+> Patch sent.
+> "[PATCH] staging: board: Fix uninitialized spinlock when attaching genpd"
+> https://lore.kernel.org/r/20210215151405.2551143-1-geert+renesas@glider.be
+>
+
+Great!
+
+Thanks,
+Saravana
