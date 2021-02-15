@@ -2,169 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36191C43381
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 12:39:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F094C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 12:46:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F391C64DC3
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 12:39:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4E7464DEC
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 12:46:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbhBOMjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 07:39:12 -0500
-Received: from mail-oo1-f41.google.com ([209.85.161.41]:36915 "EHLO
-        mail-oo1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbhBOMjK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 07:39:10 -0500
-Received: by mail-oo1-f41.google.com with SMTP id e17so1495390oow.4;
-        Mon, 15 Feb 2021 04:38:53 -0800 (PST)
+        id S230145AbhBOMqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 07:46:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230379AbhBOMqO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 07:46:14 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E66C061756
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 04:45:33 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id o21so4126344pgn.12
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 04:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B/Q6VwPDe6I6EirNcsyicnPy138BEVcOe0YKhiLSwKI=;
+        b=bFnBs52Ad4AzO3WrtmP1t4dKywjpPzK+A482Eht6ojz0TpmO7rLiExFrSiXmi1S2/N
+         JVPugG3EVQe37M9ZZbqQbe3vnUWlJ02gF52OhqtjzccwxgbMqN7glFsab53y34iAsFbL
+         4kjXYxYj4ufcMKtowhp4K7R5ARxG1wIl53SN1GNMvPvMAMKzWhz6Z+F9q9iOjCnhqXEO
+         hfWRa/ZSRjqL+PRzodxE8JEJzZg0064aea6im6iFOGyV3tcqTSjWLMisoHnAe4KdD2lI
+         4nfmAWUZN/9VffDyOGlST7TAebdEl3HRz5sKQJHvXGJxwQT0NXRV4c1fT6gYDqLv/YA2
+         QAHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YakQtSEFQoUcp92B7pBu7SXNAlj7zK9R9/BYJta3QcY=;
-        b=fYzbxOmHBPssdE8OpfNAVvZ3nwkzRi9LWYn9izc/3vUMrd9JZ8p7LCkghwoYcqPAlx
-         eokqIYxdKOagYeI6opI6H2zeaesDNM3N/VjHWTjHrKa39bouU0CN433W5wJjanxWZuG2
-         8AhqtSAIl7UUTFwpEdktYtl1H9myKKoCjNZWTvjYGmQfLndwRnJNtuU2I/Xs81V4eSH3
-         jOYhbzlmmhrU2qG+MO3UWLcIdBhBJzakASxvBFccF33L5aU82lSK78RAXxIG25toDC8T
-         /8QL8HfQmNuItwC2J5BxOFUpHAQ0KPeWDxDHx6PvPVPttUmQHDbsvSyZiE8RlEUL3GmN
-         ZTmQ==
-X-Gm-Message-State: AOAM532S1139ilrF6reLvhj065dwYkR+goL0YUZDverx1DeoRXhtUexg
-        DVJAzcaGXNZ4hKNmQE7vJ9ETuXyo3LhVfODmohY=
-X-Google-Smtp-Source: ABdhPJzsOaXkky53goutSDt4s3Qrndo6ZxhMZ+k2llX7tHWrnfhh68oTGJsqDIbrVVqlcPFpeGNGsoMWNtvUxybCm7w=
-X-Received: by 2002:a4a:3bcb:: with SMTP id s194mr10782339oos.1.1613392708214;
- Mon, 15 Feb 2021 04:38:28 -0800 (PST)
+        bh=B/Q6VwPDe6I6EirNcsyicnPy138BEVcOe0YKhiLSwKI=;
+        b=K8l3c5gZgXrcR87+QiSOhb8lASXtMSx0Krf1vJ2nG7o3ZDMcuewCvWaRyNb9UU/psf
+         itfQGZVHTfiZ+mi7R5UfbqiEgY/iVp2gjVcLZE7i4tvicnmpDT7nqQRKQv+ZUwS130M4
+         zoBbQkGi45U8bQKHr8BpVskxIQTYNQtW5BPeBaWttBDdj+CbI+9F6DmwTEVyxG13FrwI
+         FPpLBNsh63Xajwb6JOX5EioLrWwCUnyPOEdqlQTOlaOiqt/SYSVYXhUEgj1v5BvpzNAA
+         wnWcCBNVdgUXu53HAvoDj+A/pcrEpiC7HrP0RdeAN7IsU1A2NSFZMUvsHb9xHihnv5Gs
+         Avtw==
+X-Gm-Message-State: AOAM531R7m45GXjECcVhGkqC5knjbpWiExSgwQWQyHNBwI9UNBIW9IWD
+        YnMY0WkTduDLOp1qoRKmnaz7gGvCGzVATprGG3bATA==
+X-Google-Smtp-Source: ABdhPJyq6XwxGiX9i2zyXPYTiHNrGd98hXjL3RiX/v0CDPtNUnDm8UIfyWi8yX3TRZ6m+4rmLlNJOKb3zXYFAt+3B1c=
+X-Received: by 2002:a63:de0e:: with SMTP id f14mr14400347pgg.273.1613393133150;
+ Mon, 15 Feb 2021 04:45:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com> <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
-In-Reply-To: <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Feb 2021 13:38:16 +0100
-Message-ID: <CAMuHMdXduvBqjAqraXkEKErNJFyN6JNq5wqagc4yHHPpH5SPGQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Saravana Kannan <saravanak@google.com>
+References: <20210208085013.89436-1-songmuchun@bytedance.com>
+ <20210208085013.89436-5-songmuchun@bytedance.com> <YCafit5ruRJ+SL8I@dhcp22.suse.cz>
+ <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
+ <YCpN38i75olgispI@dhcp22.suse.cz> <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
+ <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com> <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
+In-Reply-To: <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 15 Feb 2021 20:44:57 +0800
+Message-ID: <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Michal Hocko <mhocko@suse.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Saravana,
-
-On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> >         /sys/kernel/debug/dmaengine/summary:
-> >
-> >             -dma4chan0    | e66d8000.i2c:tx
-> >             -dma4chan1    | e66d8000.i2c:rx
-> >             -dma5chan0    | e6510000.i2c:tx
+On Mon, Feb 15, 2021 at 8:18 PM Michal Hocko <mhocko@suse.com> wrote:
 >
-> I think I need more context on the problem before I can try to fix it.
-> I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> I2C was using DMA? If so, the next step is to see if the I2C relative
-> probe order with DMA is getting changed and if so, why.
+> On Mon 15-02-21 20:00:07, Muchun Song wrote:
+> > On Mon, Feb 15, 2021 at 7:51 PM Muchun Song <songmuchun@bytedance.com> wrote:
+> > >
+> > > On Mon, Feb 15, 2021 at 6:33 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > >
+> > > > On Mon 15-02-21 18:05:06, Muchun Song wrote:
+> > > > > On Fri, Feb 12, 2021 at 11:32 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > > [...]
+> > > > > > > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+> > > > > > > +{
+> > > > > > > +     int ret;
+> > > > > > > +     unsigned long vmemmap_addr = (unsigned long)head;
+> > > > > > > +     unsigned long vmemmap_end, vmemmap_reuse;
+> > > > > > > +
+> > > > > > > +     if (!free_vmemmap_pages_per_hpage(h))
+> > > > > > > +             return 0;
+> > > > > > > +
+> > > > > > > +     vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> > > > > > > +     vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> > > > > > > +     vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> > > > > > > +
+> > > > > > > +     /*
+> > > > > > > +      * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> > > > > > > +      * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> > > > > > > +      * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> > > > > > > +      * When a HugeTLB page is freed to the buddy allocator, previously
+> > > > > > > +      * discarded vmemmap pages must be allocated and remapping.
+> > > > > > > +      */
+> > > > > > > +     ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> > > > > > > +                               GFP_ATOMIC | __GFP_NOWARN | __GFP_THISNODE);
+> > > > > >
+> > > > > > I do not think that this is a good allocation mode. GFP_ATOMIC is a non
+> > > > > > sleeping allocation and a medium memory pressure might cause it to
+> > > > > > fail prematurely. I do not think this is really an atomic context which
+> > > > > > couldn't afford memory reclaim. I also do not think we want to grant
+> > > > >
+> > > > > Because alloc_huge_page_vmemmap is called under hugetlb_lock
+> > > > > now. So using GFP_ATOMIC indeed makes the code more simpler.
+> > > >
+> > > > You can have a preallocated list of pages prior taking the lock.
+> > >
+> > > A discussion about this can refer to here:
+> > >
+> > > https://patchwork.kernel.org/project/linux-mm/patch/20210117151053.24600-5-songmuchun@bytedance.com/
+> > >
+> > > > Moreover do we want to manipulate vmemmaps from under spinlock in
+> > > > general. I have to say I have missed that detail when reviewing. Need to
+> > > > think more.
+> > > >
+> > > > > From the document of the kernel, I learned that __GFP_NOMEMALLOC
+> > > > > can be used to explicitly forbid access to emergency reserves. So if
+> > > > > we do not want to use the reserve memory. How about replacing it to
+> > > > >
+> > > > > GFP_ATOMIC | __GFP_NOMEMALLOC | __GFP_NOWARN | __GFP_THISNODE
+> > > >
+> > > > The whole point of GFP_ATOMIC is to grant access to memory reserves so
+> > > > the above is quite dubious. If you do not want access to memory reserves
+> > >
+> > > Look at the code of gfp_to_alloc_flags().
+> > >
+> > > static inline unsigned int gfp_to_alloc_flags(gfp_t gfp_mask)
+> > > {
+> > >         [...]
+> > >         if (gfp_mask & __GFP_ATOMIC) {
+> > >         /*
+> > >          * Not worth trying to allocate harder for __GFP_NOMEMALLOC even
+> > >          * if it can't schedule.
+> > >          */
+> > >         if (!(gfp_mask & __GFP_NOMEMALLOC))
+> > >                 alloc_flags |= ALLOC_HARDER;
+> > >        [...]
+> > > }
+> > >
+> > > Seems to allow this operation (GFP_ATOMIC | __GFP_NOMEMALLOC).
+>
+> Please read my response again more carefully. I am not claiming that
+> combination is not allowed. I have said it doesn't make any sense in
+> this context.
 
-More detailed log:
+I see you are worried that using GFP_ATOMIC will use reverse memory
+unlimited. So I think that __GFP_NOMEMALLOC may be suitable for us.
+Sorry, I may not understand the point you said. What I missed?
 
-    platform e66d8000.i2c: Linked as a consumer to e6150000.clock-controller
-    platform e66d8000.i2c: Linked as a sync state only consumer to e6055400.gpio
-
-Why is e66d8000.i2c not linked as a consumer to e6700000.dma-controller?
-
-    platform e6700000.dma-controller: Linked as a consumer to
-e6150000.clock-controller
-    platform e66d8000.i2c: Added to deferred list
-    platform e6700000.dma-controller: Added to deferred list
-
-    bus: 'platform': driver_probe_device: matched device
-e6700000.dma-controller with driver rcar-dmac
-    bus: 'platform': really_probe: probing driver rcar-dmac with
-device e6700000.dma-controller
-    platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-
-    bus: 'platform': driver_probe_device: matched device e66d8000.i2c
-with driver i2c-rcar
-    bus: 'platform': really_probe: probing driver i2c-rcar with device
-e66d8000.i2c
-
-I2C becomes available...
-
-    i2c-rcar e66d8000.i2c: request_channel failed for tx (-517)
-    [...]
-
-but DMA is not available yet, so the driver falls back to PIO.
-
-    driver: 'i2c-rcar': driver_bound: bound to device 'e66d8000.i2c'
-    bus: 'platform': really_probe: bound device e66d8000.i2c to driver i2c-rcar
-
-    platform e6700000.dma-controller: Retrying from deferred list
-    bus: 'platform': driver_probe_device: matched device
-e6700000.dma-controller with driver rcar-dmac
-    bus: 'platform': really_probe: probing driver rcar-dmac with
-device e6700000.dma-controller
-    platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-    platform e6700000.dma-controller: Added to deferred list
-    platform e6700000.dma-controller: Retrying from deferred list
-    bus: 'platform': driver_probe_device: matched device
-e6700000.dma-controller with driver rcar-dmac
-    bus: 'platform': really_probe: probing driver rcar-dmac with
-device e6700000.dma-controller
-    driver: 'rcar-dmac': driver_bound: bound to device 'e6700000.dma-controller'
-    bus: 'platform': really_probe: bound device
-e6700000.dma-controller to driver rcar-dmac
-
-DMA becomes available.
-
-Here userspace is entered. /sys/kernel/debug/dmaengine/summary shows
-that the I2C controllers do not have DMA channels allocated, as the
-kernel has performed no more I2C transfers after DMA became available.
-
-Using i2cdetect shows that DMA is used, which is good:
-
-    i2c-rcar e66d8000.i2c: got DMA channel for rx
-
-With permissive devlinks, the clock controller consumers are not added
-to the deferred probing list, and probe order is slightly different.
-The I2C controllers are still probed before the DMA controllers.
-But DMA becomes available a bit earlier, before the probing of the last
-I2C slave driver.  Hence /sys/kernel/debug/dmaengine/summary shows that
-some I2C transfers did use DMA.
-
-So the real issue is that e66d8000.i2c not linked as a consumer to
-e6700000.dma-controller.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+> --
+> Michal Hocko
+> SUSE Labs
