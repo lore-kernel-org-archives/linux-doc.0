@@ -6,63 +6,115 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AE7C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 19:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52DF0C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 19:40:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5310464DA5
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 19:13:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D58D64E27
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 19:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbhBOTNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 14:13:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbhBOTNR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 14:13:17 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E941CC061574;
-        Mon, 15 Feb 2021 11:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ahBtQ8EQ5jE1I8cSnduD9btkwOgYPHWG4aIuM6PsRWw=; b=fmH7G8QhdVJz+kKx8cQOk4tWIz
-        s0ic5Sbo5HA4TEQYNiYJxGtnyLhz1lJfFVc945yY6GQAb9XKNeViIzg8PYNImzKJKpfDkyEo+Qnu5
-        o0rUtGu0Wh8TAFZK52W4SLPxAkUaqqmkhkd//wnZNx9ONsgroBfz/m/6lh3Xf/f5SuLKrfkUJBIxQ
-        s7qubCBT6YWdQLo/qUrzcjodk0R4WjOdkw/AHbS7BPwsVHCjoBlsu4LsxSJHBoU3O14I4rYgcMEGU
-        5u+jb9upjdLpEqyE+Jckwvz2U6qoLeyB2kXd8DcIGbdQNZ6xvngW36ElFHapmwAb1p/P526I115B1
-        pmURke2w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lBjIP-00FxIn-8m; Mon, 15 Feb 2021 19:12:33 +0000
-Date:   Mon, 15 Feb 2021 19:12:33 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>, linux-doc@vger.kernel.org,
-        lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v3 2/3] docs: add documentation for checkpatch
-Message-ID: <20210215191233.GF2858050@casper.infradead.org>
-References: <20210213131513.51386-1-dwaipayanray1@gmail.com>
- <20210213131513.51386-3-dwaipayanray1@gmail.com>
- <20210214121501.GC2858050@casper.infradead.org>
- <2162334bdf4d635f1414ffef52378c0f423366a7.camel@perches.com>
+        id S229764AbhBOTkE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 14:40:04 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54108 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230098AbhBOTkD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Feb 2021 14:40:03 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613417957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fx2cr07cmhwLgVLKoMIL0c93fXgTqa4GArm3bCqwx58=;
+        b=gmTzrbK2+uwQ0IULYjwTpZT7v8vs5KhYk9UoGVvxF/J51TVevzHw+bL/LFKeTPWTkK4woE
+        93/CuIfpEbenm1Odqa3C2PLHH7jGrJ8I2jSce3cYUWBJh5fsXETgfRVFc2vaT9YnHGtX6W
+        v/lZPWRPIyz1VR0+PmlB/NMWpRX2NUo=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C133DAD29;
+        Mon, 15 Feb 2021 19:39:16 +0000 (UTC)
+Date:   Mon, 15 Feb 2021 20:39:15 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <YCrN4/EWRTOwNw72@dhcp22.suse.cz>
+References: <YCpN38i75olgispI@dhcp22.suse.cz>
+ <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
+ <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
+ <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
+ <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
+ <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
+ <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
+ <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
+ <CAMZfGtW6n_YUbZOPFbivzn-HP4Q2yi0DrUoQ3JAjSYy5m17VWw@mail.gmail.com>
+ <CAMZfGtWVwEdBfiof3=wW2-FUN4PU-N5J=HfiAETVbwbEzdvAGQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2162334bdf4d635f1414ffef52378c0f423366a7.camel@perches.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMZfGtWVwEdBfiof3=wW2-FUN4PU-N5J=HfiAETVbwbEzdvAGQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 10:11:03AM -0800, Joe Perches wrote:
-> On Sun, 2021-02-14 at 12:15 +0000, Matthew Wilcox wrote:
-> > On Sat, Feb 13, 2021 at 06:45:12PM +0530, Dwaipayan Ray wrote:
-> > > +Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial style
-> > 
-> > It's quite amusing that this patch contains lines > 80 columns.
+On Tue 16-02-21 02:19:20, Muchun Song wrote:
+> On Tue, Feb 16, 2021 at 1:48 AM Muchun Song <songmuchun@bytedance.com> wrote:
+> >
+> > On Tue, Feb 16, 2021 at 12:28 AM Michal Hocko <mhocko@suse.com> wrote:
+> > >
+> > > On Mon 15-02-21 23:36:49, Muchun Song wrote:
+> > > [...]
+> > > > > There shouldn't be any real reason why the memory allocation for
+> > > > > vmemmaps, or handling vmemmap in general, has to be done from within the
+> > > > > hugetlb lock and therefore requiring a non-sleeping semantic. All that
+> > > > > can be deferred to a more relaxed context. If you want to make a
+> > > >
+> > > > Yeah, you are right. We can put the freeing hugetlb routine to a
+> > > > workqueue. Just like I do in the previous version (before v13) patch.
+> > > > I will pick up these patches.
+> > >
+> > > I haven't seen your v13 and I will unlikely have time to revisit that
+> > > version. I just wanted to point out that the actual allocation doesn't
+> > > have to happen from under the spinlock. There are multiple ways to go
+> > > around that. Dropping the lock would be one of them. Preallocation
+> > > before the spin lock is taken is another. WQ is certainly an option but
+> > > I would take it as the last resort when other paths are not feasible.
+> > >
+> >
+> > "Dropping the lock" and "Preallocation before the spin lock" can limit
+> > the context of put_page to non-atomic context. I am not sure if there
+> > is a page puted somewhere under an atomic context. e.g. compaction.
+> > I am not an expert on this.
 > 
-> Then you could amuse yourself further by looking at the existing
-> line lengths of .rst files.
+> Using GFP_KERNEL will also use the current task cpuset to allocate
+> memory. Do we have an interface to ignore current task cpuset？If not,
+> WQ may be the only option and it also will not limit the context of
+> put_page. Right?
 
-There are good reasons for rst lines to be longer than 80 columns,
-but there weren't any in this case.
+Well, GFP_KERNEL is constrained to the task cpuset only if the said
+cpuset is hardwalled IIRC. But I do not see why this is a problem.
+-- 
+Michal Hocko
+SUSE Labs
