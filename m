@@ -2,196 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC4AC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 13:20:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45376C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 14:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E22064DEE
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 13:20:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 023E864E32
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 14:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbhBONUU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 08:20:20 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59264 "EHLO mx2.suse.de"
+        id S229952AbhBOO2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 09:28:54 -0500
+Received: from foss.arm.com ([217.140.110.172]:39788 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230243AbhBONUT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Feb 2021 08:20:19 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613395171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VrYszXWufgZ7DXzjszArcCUC2Xn5qCIgATXFqiBe/qM=;
-        b=rnIuwIPk7q2Bv3pei4lS7wnFxeqEn+3SK8mEAj+fsiO1AP9Z5a6ALd35VcWzcRQvWRHFO3
-        kR1XO6uKNw3JHPOayE4rlauc3Y/EViD4aEodLjdLjhK4MBg6ZLfaaiglYNUiruETpQ7JB+
-        hcqOd2U9Ti1TAmDtHq+QgD1dxwPgQ3Q=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id F3691AC32;
-        Mon, 15 Feb 2021 13:19:30 +0000 (UTC)
-Date:   Mon, 15 Feb 2021 14:19:28 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
+        id S229946AbhBOO2x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Feb 2021 09:28:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91B9931B;
+        Mon, 15 Feb 2021 06:28:07 -0800 (PST)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.80])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50EE53F73B;
+        Mon, 15 Feb 2021 06:28:06 -0800 (PST)
+Date:   Mon, 15 Feb 2021 14:28:03 +0000
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
-References: <20210208085013.89436-1-songmuchun@bytedance.com>
- <20210208085013.89436-5-songmuchun@bytedance.com>
- <YCafit5ruRJ+SL8I@dhcp22.suse.cz>
- <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
- <YCpN38i75olgispI@dhcp22.suse.cz>
- <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
- <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
- <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Joerg Roedel <joro@8bytes.org>,
+        Damian Tometzki <linux@tometzki.de>
+Subject: Re: [PATCH] docs: reporting-issues.rst: explain how to decode stack
+ traces
+Message-ID: <20210215142803.strbiszzmreusr36@e107158-lin.cambridge.arm.com>
+References: <20210210054823.242262-1-linux@leemhuis.info>
+ <20210214160009.lxonvxg4qyj6ygbk@e107158-lin.cambridge.arm.com>
+ <7f75a923-7aab-5546-102b-a8a6eb882cc9@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
+In-Reply-To: <7f75a923-7aab-5546-102b-a8a6eb882cc9@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 15-02-21 20:44:57, Muchun Song wrote:
-> On Mon, Feb 15, 2021 at 8:18 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Mon 15-02-21 20:00:07, Muchun Song wrote:
-> > > On Mon, Feb 15, 2021 at 7:51 PM Muchun Song <songmuchun@bytedance.com> wrote:
-> > > >
-> > > > On Mon, Feb 15, 2021 at 6:33 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > > >
-> > > > > On Mon 15-02-21 18:05:06, Muchun Song wrote:
-> > > > > > On Fri, Feb 12, 2021 at 11:32 PM Michal Hocko <mhocko@suse.com> wrote:
-> > > > > [...]
-> > > > > > > > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-> > > > > > > > +{
-> > > > > > > > +     int ret;
-> > > > > > > > +     unsigned long vmemmap_addr = (unsigned long)head;
-> > > > > > > > +     unsigned long vmemmap_end, vmemmap_reuse;
-> > > > > > > > +
-> > > > > > > > +     if (!free_vmemmap_pages_per_hpage(h))
-> > > > > > > > +             return 0;
-> > > > > > > > +
-> > > > > > > > +     vmemmap_addr += RESERVE_VMEMMAP_SIZE;
-> > > > > > > > +     vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
-> > > > > > > > +     vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
-> > > > > > > > +
-> > > > > > > > +     /*
-> > > > > > > > +      * The pages which the vmemmap virtual address range [@vmemmap_addr,
-> > > > > > > > +      * @vmemmap_end) are mapped to are freed to the buddy allocator, and
-> > > > > > > > +      * the range is mapped to the page which @vmemmap_reuse is mapped to.
-> > > > > > > > +      * When a HugeTLB page is freed to the buddy allocator, previously
-> > > > > > > > +      * discarded vmemmap pages must be allocated and remapping.
-> > > > > > > > +      */
-> > > > > > > > +     ret = vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
-> > > > > > > > +                               GFP_ATOMIC | __GFP_NOWARN | __GFP_THISNODE);
-> > > > > > >
-> > > > > > > I do not think that this is a good allocation mode. GFP_ATOMIC is a non
-> > > > > > > sleeping allocation and a medium memory pressure might cause it to
-> > > > > > > fail prematurely. I do not think this is really an atomic context which
-> > > > > > > couldn't afford memory reclaim. I also do not think we want to grant
-> > > > > >
-> > > > > > Because alloc_huge_page_vmemmap is called under hugetlb_lock
-> > > > > > now. So using GFP_ATOMIC indeed makes the code more simpler.
-> > > > >
-> > > > > You can have a preallocated list of pages prior taking the lock.
-> > > >
-> > > > A discussion about this can refer to here:
-> > > >
-> > > > https://patchwork.kernel.org/project/linux-mm/patch/20210117151053.24600-5-songmuchun@bytedance.com/
-> > > >
-> > > > > Moreover do we want to manipulate vmemmaps from under spinlock in
-> > > > > general. I have to say I have missed that detail when reviewing. Need to
-> > > > > think more.
-> > > > >
-> > > > > > From the document of the kernel, I learned that __GFP_NOMEMALLOC
-> > > > > > can be used to explicitly forbid access to emergency reserves. So if
-> > > > > > we do not want to use the reserve memory. How about replacing it to
-> > > > > >
-> > > > > > GFP_ATOMIC | __GFP_NOMEMALLOC | __GFP_NOWARN | __GFP_THISNODE
-> > > > >
-> > > > > The whole point of GFP_ATOMIC is to grant access to memory reserves so
-> > > > > the above is quite dubious. If you do not want access to memory reserves
-> > > >
-> > > > Look at the code of gfp_to_alloc_flags().
-> > > >
-> > > > static inline unsigned int gfp_to_alloc_flags(gfp_t gfp_mask)
-> > > > {
-> > > >         [...]
-> > > >         if (gfp_mask & __GFP_ATOMIC) {
-> > > >         /*
-> > > >          * Not worth trying to allocate harder for __GFP_NOMEMALLOC even
-> > > >          * if it can't schedule.
-> > > >          */
-> > > >         if (!(gfp_mask & __GFP_NOMEMALLOC))
-> > > >                 alloc_flags |= ALLOC_HARDER;
-> > > >        [...]
-> > > > }
-> > > >
-> > > > Seems to allow this operation (GFP_ATOMIC | __GFP_NOMEMALLOC).
-> >
-> > Please read my response again more carefully. I am not claiming that
-> > combination is not allowed. I have said it doesn't make any sense in
-> > this context.
+Hi Thorsten
+
+On 02/15/21 06:55, Thorsten Leemhuis wrote:
+> Hi! Many thx for looking into this, much appreciated!
 > 
-> I see you are worried that using GFP_ATOMIC will use reverse memory
-> unlimited. So I think that __GFP_NOMEMALLOC may be suitable for us.
-> Sorry, I may not understand the point you said. What I missed?
+> Am 14.02.21 um 17:00 schrieb Qais Yousef:
+> > On 02/10/21 06:48, Thorsten Leemhuis wrote:
+> >
+> >> - * If the failure includes a stack dump, like an Oops does, consider decoding
+> >> -   it to find the offending line of code.
+> >> + * If your failure involves a 'panic', 'oops', or 'warning', consider decoding
+> > or 'BUG'? There are similar other places below that could benefit from this
+> > addition too.
+> 
+> Good point. In fact there are other places in the document where this is
+> needed as well. Will address those in another patch.
+> 
+> >> +   the kernel log to find the line of code that trigger the error.
+> >>  
+> >>   * If your problem is a regression, try to narrow down when the issue was
+> >>     introduced as much as possible.
+> >> @@ -869,6 +869,15 @@ pick up the configuration of your current kernel and then tries to adjust it
+> >>  somewhat for your system. That does not make the resulting kernel any better,
+> >>  but quicker to compile.
+> >>  
+> >> +Note: If you are dealing with a kernel panic, oops, or warning, please make
+> >> +sure to enable CONFIG_KALLSYMS when configuring your kernel. Additionally,
+> > 
+> > s/make sure/try/
+> 
+> I did that, but ignored...
+> 
+> > s/kernel./kernel if you can./
+> 
+> ...this. Yes, you have a point with...
+> 
+> > Less demanding wording in case the user doesn't have the capability to rebuild
+> > or deploy such a kernel where the problem happens. Maybe you can tweak it more
+> > if you like too :-)
+> 
+> ...that, but that section in the document is about building your own
+> kernel, so I'd say we don't have to be that careful here.
 
-OK, let me try to explain again. GFP_ATOMIC is not only a non-sleeping
-allocation request. It also grants access to memory reserves. The later
-is a bit more involved because there are more layers of memory reserves
-to access but that is not really important. Non-sleeping semantic can be
-achieved by GFP_NOWAIT which will not grant access to reserves unless
-explicitly stated - e.g. by __GFP_HIGH or __GFP_ATOMIC.
-Is that more clear?
+Cool. Works for me.
 
-Now again why I do not think access to memory reserves is suitable.
-Hugetlb pages can be released in a large batches and that might cause a
-peak depletion of memory reserves which are normally used by other
-consumers as well. Other GFP_ATOMIC users might see allocation failures.
-Those shouldn't be really fatal as nobody should be relying on those and
-a failure usually mean a hand over to a different, less constrained,
-context. So this concern is more about a more well behaved behavior from
-the hugetlb side than a correctness.
-Is that more clear?
+Thanks
 
-There shouldn't be any real reason why the memory allocation for
-vmemmaps, or handling vmemmap in general, has to be done from within the
-hugetlb lock and therefore requiring a non-sleeping semantic. All that
-can be deferred to a more relaxed context. If you want to make a
-GFP_NOWAIT optimistic attempt in the direct free path then no problem
-but you have to expect failures under memory pressure. If you want to
-have a more robust allocation request then you have to go outside of the
-spin lock and use GFP_KERNEL | __GFP_NORETRY or GFP_KERNEL |
-__GFP_RETRY_MAYFAIL depending on how hard you want to try.
-__GFP_THISNODE makes a slight difference here but something that I would
-recommend not depending on.
-Is that more clear?
--- 
-Michal Hocko
-SUSE Labs
+--
+Qais Yousef
