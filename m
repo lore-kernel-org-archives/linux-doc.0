@@ -6,61 +6,62 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B42AAC433E9
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 18:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0B7C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 18:24:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AD5564DEE
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 18:22:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 774A764E05
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 18:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229996AbhBOSWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 13:22:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230031AbhBOSWa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 13:22:30 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5C2C061574
-        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 10:21:50 -0800 (PST)
+        id S230015AbhBOSYz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 13:24:55 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51920 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229954AbhBOSYy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Feb 2021 13:24:54 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::e2d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 649CD5CC;
-        Mon, 15 Feb 2021 18:21:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 649CD5CC
+        by ms.lwn.net (Postfix) with ESMTPSA id C272B2A0;
+        Mon, 15 Feb 2021 18:24:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C272B2A0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1613413309; bh=a766pukE3Vc9nzgYjSEj5lJCT4CDP9OHh/v8q70x4V8=;
+        t=1613413453; bh=DUnfItWJCN14J1yb4OPWjTaD3Z5ocs557C6vmLrHVKk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Atdxq9VD1ZZY6T90nNV9aOWb735DAsWW/atqjh3wqhQJGoloQWtOs1Q4Sl3I4enTm
-         Oz2tYm7drLCcxwFnavNDZyRQoxduGS0/vKnz4gEPKVxCTgog7xgrV4VMX3an2Tpt9v
-         pk5/J1eLXwR8k9Iz+R324rnLDTZKQeM4IENJnMD04/8GyFDlaySFfCVq3koM0BxJvz
-         P7bJjluc1aLif5Y/M3ugePlfILmPBV76zvxLQeJbPj8fy/McuBybk1RkW6GcHIYivl
-         rAqennTl//LAejeEHusVTEAQ+0SsnVEvm793g4dD+a0yKuNd4mR0vZl5bALWTD+08A
-         af79vSLtTygdg==
+        b=qak9vLUnqMq8bLcu7aQLHKkOnZtkwA4I4FP8pOl9kKJjToKwUvC5WLlhbiadkzw0q
+         IuTZxtkfqHT5mggsIKvNvhlgg0LvC0bXkHWlmeOpyBxm6OAvlTdTNq2Sl+GmfgYNKK
+         5UsVJzUKmjqkFpmF6lOlsy4kkdXeWY+e3tMTAwhCzsRUgFgviQL6A1WWMJApuselbz
+         Dj7SQ2HS2rzEGmw5RbvJlIX8xZeCPPkWOBTHXAWdc/DxyYIyaPHo6EW47kF+3d7LGo
+         aVizhT+u1o4Mrat6PoF1HMwFcmPWzCcM170aoE0fuX+S+fez9bGbGrBmEtKssL2Gme
+         rG3DFl2Y5muUA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Fix unaesthetic indentation
-In-Reply-To: <20210215163657.GE2858050@casper.infradead.org>
-References: <20210215161757.GD2858050@casper.infradead.org>
- <87k0r9mgt3.fsf@meer.lwn.net>
- <20210215163657.GE2858050@casper.infradead.org>
-Date:   Mon, 15 Feb 2021 11:21:48 -0700
-Message-ID: <87y2fp42f7.fsf@meer.lwn.net>
+To:     Aditya <yashsri421@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        yashsri421@gmail.com
+Subject: Re: Issues with kernel-doc
+In-Reply-To: <5d519211-987e-3367-2ce9-9d1300445bc4@gmail.com>
+References: <5d519211-987e-3367-2ce9-9d1300445bc4@gmail.com>
+Date:   Mon, 15 Feb 2021 11:24:13 -0700
+Message-ID: <87v9at42b6.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> writes:
+Aditya <yashsri421@gmail.com> writes:
 
->> The alternative would be:
->> 
->>           possible issues in the generated output.\n''')
+> Here, although the compiler may not cause any error, kernel-doc emits
+> the error as it probably expects "struct struct_name" to occur together.
 >
-> Do you want me to submit a revised patch with that change?
+> What do you think about these issues?
+> I want to fix these issues, if you agree that they need to be fixed.
+>
+> There are a few more issues as well, apart from these two. But for the
+> start, I want to begin with Uninitialized $param errors.
 
-No worries, I can tweak it.
+There is no need to ask permission before sending bug fixes!  I would be
+more than happy to receive them.
 
 Thanks,
 
