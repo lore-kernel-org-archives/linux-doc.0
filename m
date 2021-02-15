@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F659C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 668CDC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:25:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75CDF64DF0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:22:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A1DC64DFF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:25:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbhBOQWK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 11:22:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
+        id S230055AbhBOQYf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 11:24:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231847AbhBOQTi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 11:19:38 -0500
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CBFC061D7D
-        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 08:14:15 -0800 (PST)
-Received: by mail-qk1-x72c.google.com with SMTP id x14so6839477qkm.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 08:14:15 -0800 (PST)
+        with ESMTP id S232283AbhBOQRQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 11:17:16 -0500
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F75FC061224
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 08:14:02 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id 81so6831225qkf.4
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 08:14:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
-        b=fZdFf8Y10WJwP3iDSS3Z5VyVZRkc0J09nWK3ghTjLayZaQBtALZ8zAhfs0QfifSEkk
-         9UCDPSqsKM90EEUU7EzN/KjQ+x1vD4LB875bg3UUqglChgzLgAyVi/Uyh8m6nO9cEpMt
-         b7wkQN91QNBa4v28HydDX2RkbwWLvNrOVV9oodQvnyQfSxXC2fq8zvZoODL3os3uHDYN
-         CmhqhnaZW2woCDh1PDNhzPD8JZcK9CkmdfedTTwMtsUUtu4aRa7FJ9BVU0As4/HoW2+R
-         JUUAPf3HP2CRj37EmDMU3/PYEc4vc2IsqQHVBGVxXMgHNUlI51p/exyLfxOCpxQ3jXl6
-         2sjg==
+        bh=p3LY61RMvEkOPbLRzp9wTQQd7Y9CKIynM/s58sr6Xh8=;
+        b=BNcGqGP+5P/yEVtn1w00Xz2Dq3FRjNmwC/PCJblRo5T/nPxHmGtCPYHviMTXfgudEu
+         IvEopPQNUYzy7y77LTOW2htxPKl3cFcDMV9sbJ4hw1wD+0tm5cs5UHu7LIktPJVYx49t
+         5ovwtmG43xfEipv14T2sORMGyYsEfiP6sUSgclCiyKdttMwcByulGWoZ9yZmDE9aKPtS
+         Z9WEmwLUdSzVpZDc3KFy/bN67hDjS+KCTH9cbZ4tqmEVsF3yjJVA/0DhlXMbKsfC8un7
+         FFnSsvgRERv849iVWpple0i6I7NsL41pyJ0eGcfH0eAB3wLrb906ovsgMPzNBZ15bzAC
+         0UBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9bnQ1cYpKSogma2d9jSskcM/kWG+ieYizroT/wf+fYw=;
-        b=pjURUjCOAWULYK7UQPf9EwrhL1sLcdtXr4gOcOOJnyVXVRU2CJhNd42vw0Y+VbWKbO
-         f2gS1cazmyyTJCh5lPWzLV9v6dK1mZY6EnjOWixyHd2lKJVxDrJdlhAWHOAaWfZXQ369
-         eT1SObf14bSJtpPg7QfVI/jwWKLtg3WJqrecsU2Cs/r2df/sFhNRk4Ht+izNznj12yjc
-         j+27u8fYNEZz5wFes6+TICYyE1p9Hsx1AfXsaSwfYDmq+lL4SPkXIEWlVTatFeV3twwK
-         WrZ8C3NbSKYg/A+VzXi2YRFBlMQFFzW7LUBQ6irx03I6fXdkXM0WgBLLcqnH2RGHp/QE
-         rEyw==
-X-Gm-Message-State: AOAM532FF9cUm+KFACeAoJ7T3SLuKbIBB31EgOs8BUUfJ4OuQi2CASeG
-        Ag3FLvsKwYZmFmaVvDYLvHj/kA==
-X-Google-Smtp-Source: ABdhPJzovM58HaLCClF3VUBYsDOrSP/+0sT1fDIUz4gtaDsL/dH2pL1TQ1nvopCVb2IFGgIQdJpNgA==
-X-Received: by 2002:a37:57c7:: with SMTP id l190mr15700031qkb.487.1613405653668;
-        Mon, 15 Feb 2021 08:14:13 -0800 (PST)
+        bh=p3LY61RMvEkOPbLRzp9wTQQd7Y9CKIynM/s58sr6Xh8=;
+        b=mWQ9CHLPy/xbBXP/ioEnSN6V9P/pUzbwW7CGTkNIOanr795POOW4pnsv73kM+ST+1/
+         U2ZYXYxJCLCOMCcX6LvvMKBB116Ny3vtRrVODOIA0mNrsEVrq9i0gJDJunfV0zE0IxFe
+         6Re4+GxLjdaSTWyS45ldP9KS+eh5UOA++v+4l1s+DFg/sPgqfjKZXyEaUa3ZfyRmsrPB
+         UuzBDZQkHNEQEXjpna9tUu17y0oKUos0duPLWpesXtrkRaZOlfV7347+IbqKmIzPskAs
+         KfqROo8Bm5T6q8DKcVTChXFxpkTjjBpDKDMxTRGUgn6XlpjS3oXEhAIlnnXHhtPQKe3i
+         HbNQ==
+X-Gm-Message-State: AOAM5304YxwT/2JoaXEjFXKYmJcrJZXmJC+cds3/VRxGanPhvBfRixoP
+        8jy8+ImP3Eq2X80ebLPuM+AwmQ==
+X-Google-Smtp-Source: ABdhPJzk2DXr5/nGv//pmWIhQ1tujT4HU+iuHKQUbcp2PsdKdtw7Upgx021BNudhTqEeWym5AAV38A==
+X-Received: by 2002:a05:620a:908:: with SMTP id v8mr16047359qkv.201.1613405640836;
+        Mon, 15 Feb 2021 08:14:00 -0800 (PST)
 Received: from localhost.localdomain (c-73-69-118-222.hsd1.nh.comcast.net. [73.69.118.222])
-        by smtp.gmail.com with ESMTPSA id u7sm10909213qta.75.2021.02.15.08.14.12
+        by smtp.gmail.com with ESMTPSA id u7sm10909213qta.75.2021.02.15.08.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 08:14:13 -0800 (PST)
+        Mon, 15 Feb 2021 08:14:00 -0800 (PST)
 From:   Pavel Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, akpm@linux-foundation.org, vbabka@suse.cz,
@@ -66,9 +66,9 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         willy@infradead.org, rientjes@google.com, jhubbard@nvidia.com,
         linux-doc@vger.kernel.org, ira.weiny@intel.com,
         linux-kselftest@vger.kernel.org, jmorris@namei.org
-Subject: [PATCH v11 14/14] selftests/vm: gup_test: test faulting in kernel, and verify pinnable pages
-Date:   Mon, 15 Feb 2021 11:13:49 -0500
-Message-Id: <20210215161349.246722-15-pasha.tatashin@soleen.com>
+Subject: [PATCH v11 06/14] mm: apply per-task gfp constraints in fast path
+Date:   Mon, 15 Feb 2021 11:13:41 -0500
+Message-Id: <20210215161349.246722-7-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210215161349.246722-1-pasha.tatashin@soleen.com>
 References: <20210215161349.246722-1-pasha.tatashin@soleen.com>
@@ -78,107 +78,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When pages are pinned they can be faulted in userland and migrated, and
-they can be faulted right in kernel without migration.
+Function current_gfp_context() is called after fast path. However, soon we
+will add more constraints which will also limit zones based on context.
+Move this call into fast path, and apply the correct constraints for all
+allocations.
 
-In either case, the pinned pages must end-up being pinnable (not movable).
+Also update .reclaim_idx based on value returned by current_gfp_context()
+because it soon will modify the allowed zones.
 
-Add a new test to gup_test, to help verify that the gup/pup
-(get_user_pages() / pin_user_pages()) behavior with respect to pinnable
-and movable pages is reasonable and correct. Specifically, provide a
-way to:
+Note:
+With this patch we will do one extra current->flags load during fast path,
+but we already load current->flags in fast-path:
 
-1) Verify that only "pinnable" pages are pinned. This is checked
-automatically for you.
+__alloc_pages_nodemask()
+ prepare_alloc_pages()
+  current_alloc_flags(gfp_mask, *alloc_flags);
 
-2) Verify that gup/pup performance is reasonable. This requires
-comparing benchmarks between doing gup/pup on pages that have been
-pre-faulted in from user space, vs. doing gup/pup on pages that are not
-faulted in until gup/pup time (via FOLL_TOUCH). This decision is
-controlled with the new -z command line option.
+Later, when we add the zone constrain logic to current_gfp_context() we
+will be able to remove current->flags load from current_alloc_flags, and
+therefore return fast-path to the current performance level.
 
+Suggested-by: Michal Hocko <mhocko@kernel.org>
 Signed-off-by: Pavel Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
 ---
- mm/gup_test.c                         |  6 ++++++
- tools/testing/selftests/vm/gup_test.c | 23 +++++++++++++++++++----
- 2 files changed, 25 insertions(+), 4 deletions(-)
+ mm/page_alloc.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/mm/gup_test.c b/mm/gup_test.c
-index a6ed1c877679..d974dec19e1c 100644
---- a/mm/gup_test.c
-+++ b/mm/gup_test.c
-@@ -52,6 +52,12 @@ static void verify_dma_pinned(unsigned int cmd, struct page **pages,
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index e4b1eda87827..f6058e8f3105 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4981,6 +4981,13 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
+ 	}
  
- 				dump_page(page, "gup_test failure");
- 				break;
-+			} else if (cmd == PIN_LONGTERM_BENCHMARK &&
-+				WARN(!is_pinnable_page(page),
-+				     "pages[%lu] is NOT pinnable but pinned\n",
-+				     i)) {
-+				dump_page(page, "gup_test failure");
-+				break;
- 			}
- 		}
- 		break;
-diff --git a/tools/testing/selftests/vm/gup_test.c b/tools/testing/selftests/vm/gup_test.c
-index 943cc2608dc2..1e662d59c502 100644
---- a/tools/testing/selftests/vm/gup_test.c
-+++ b/tools/testing/selftests/vm/gup_test.c
-@@ -13,6 +13,7 @@
- 
- /* Just the flags we need, copied from mm.h: */
- #define FOLL_WRITE	0x01	/* check pte is writable */
-+#define FOLL_TOUCH	0x02	/* mark page accessed */
- 
- static char *cmd_to_str(unsigned long cmd)
- {
-@@ -39,11 +40,11 @@ int main(int argc, char **argv)
- 	unsigned long size = 128 * MB;
- 	int i, fd, filed, opt, nr_pages = 1, thp = -1, repeats = 1, write = 1;
- 	unsigned long cmd = GUP_FAST_BENCHMARK;
--	int flags = MAP_PRIVATE;
-+	int flags = MAP_PRIVATE, touch = 0;
- 	char *file = "/dev/zero";
- 	char *p;
- 
--	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHp")) != -1) {
-+	while ((opt = getopt(argc, argv, "m:r:n:F:f:abctTLUuwWSHpz")) != -1) {
- 		switch (opt) {
- 		case 'a':
- 			cmd = PIN_FAST_BENCHMARK;
-@@ -110,6 +111,10 @@ int main(int argc, char **argv)
- 		case 'H':
- 			flags |= (MAP_HUGETLB | MAP_ANONYMOUS);
- 			break;
-+		case 'z':
-+			/* fault pages in gup, do not fault in userland */
-+			touch = 1;
-+			break;
- 		default:
- 			return -1;
- 		}
-@@ -167,8 +172,18 @@ int main(int argc, char **argv)
- 	else if (thp == 0)
- 		madvise(p, size, MADV_NOHUGEPAGE);
- 
--	for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
--		p[0] = 0;
+ 	gfp_mask &= gfp_allowed_mask;
 +	/*
-+	 * FOLL_TOUCH, in gup_test, is used as an either/or case: either
-+	 * fault pages in from the kernel via FOLL_TOUCH, or fault them
-+	 * in here, from user space. This allows comparison of performance
-+	 * between those two cases.
++	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
++	 * resp. GFP_NOIO which has to be inherited for all allocation requests
++	 * from a particular context which has been marked by
++	 * memalloc_no{fs,io}_{save,restore}.
 +	 */
-+	if (touch) {
-+		gup.gup_flags |= FOLL_TOUCH;
-+	} else {
-+		for (; (unsigned long)p < gup.addr + size; p += PAGE_SIZE)
-+			p[0] = 0;
-+	}
++	gfp_mask = current_gfp_context(gfp_mask);
+ 	alloc_mask = gfp_mask;
+ 	if (!prepare_alloc_pages(gfp_mask, order, preferred_nid, nodemask, &ac, &alloc_mask, &alloc_flags))
+ 		return NULL;
+@@ -4996,13 +5003,7 @@ __alloc_pages_nodemask(gfp_t gfp_mask, unsigned int order, int preferred_nid,
+ 	if (likely(page))
+ 		goto out;
  
- 	/* Only report timing information on the *_BENCHMARK commands: */
- 	if ((cmd == PIN_FAST_BENCHMARK) || (cmd == GUP_FAST_BENCHMARK) ||
+-	/*
+-	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+-	 * resp. GFP_NOIO which has to be inherited for all allocation requests
+-	 * from a particular context which has been marked by
+-	 * memalloc_no{fs,io}_{save,restore}.
+-	 */
+-	alloc_mask = current_gfp_context(gfp_mask);
++	alloc_mask = gfp_mask;
+ 	ac.spread_dirty_pages = false;
+ 
+ 	/*
 -- 
 2.25.1
 
