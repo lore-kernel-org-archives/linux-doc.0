@@ -2,336 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F517C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 10:35:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABBC3C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 11:20:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C74B064E27
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 10:35:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BA7D64DF4
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 11:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbhBOKfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 05:35:39 -0500
-Received: from mx2.veeam.com ([64.129.123.6]:43728 "EHLO mx2.veeam.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229983AbhBOKfi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Feb 2021 05:35:38 -0500
-Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx2.veeam.com (Postfix) with ESMTPS id B5A5B4084E;
-        Mon, 15 Feb 2021 05:34:52 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
-        t=1613385293; bh=8O5/+a06bxUg4yJbfotizOMYwiG6+UGOMDEWGsnLieE=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-        b=lYToBzbXePiRGz/Y6eLmFhQ0GnbHXF1pB9il6o7kcPRJH24rmae5Y9sdYXih96K8+
-         EHsqFEL7usENeFMHVbOnbVysHn/fK2+epar+mj0tKRqsAwTLu9eBrawtIArNe2USbe
-         gSZy+yJ6RwwZXzMGaDlMIeAneKAlaACwotupkXJk=
-Received: from veeam.com (172.24.14.5) by prgmbx01.amust.local (172.24.0.171)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Mon, 15 Feb 2021
- 11:34:50 +0100
-Date:   Mon, 15 Feb 2021 13:34:44 +0300
-From:   Sergei Shtepa <sergei.shtepa@veeam.com>
-To:     Mike Snitzer <snitzer@redhat.com>
-CC:     "Damien.LeMoal@wdc.com" <Damien.LeMoal@wdc.com>,
-        "hare@suse.de" <hare@suse.de>,
-        "ming.lei@redhat.com" <ming.lei@redhat.com>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>, "jack@suse.cz" <jack@suse.cz>,
-        "johannes.thumshirn@wdc.com" <johannes.thumshirn@wdc.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "koct9i@gmail.com" <koct9i@gmail.com>,
-        "steve@sk2.org" <steve@sk2.org>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Pavel Tide <Pavel.TIde@veeam.com>
-Subject: Re: [PATCH v5 5/6] dm: add 'noexcl' option for dm-linear
-Message-ID: <20210215103444.GA11820@veeam.com>
-References: <1612881028-7878-1-git-send-email-sergei.shtepa@veeam.com>
- <1612881028-7878-6-git-send-email-sergei.shtepa@veeam.com>
- <20210211175151.GA13839@redhat.com>
- <20210212113438.GA9877@veeam.com>
- <20210212160631.GA19424@redhat.com>
+        id S229934AbhBOLUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 06:20:31 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:39330 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229627AbhBOLUZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 06:20:25 -0500
+Received: by mail-oi1-f173.google.com with SMTP id l19so7380179oih.6;
+        Mon, 15 Feb 2021 03:20:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g+2l6KM1UP6n61yvg+ftleSaZOAPmTS96UBlT5bgVOw=;
+        b=EQX1VzOfpryADedahZgHDQ/na8KZ5NFdG8eGPrKMAjbAhkaibs/wx9FsgtbVTBrjh/
+         jFTxZYUORcw23zr8hRa6LVJBq9CRTVWOM2tQbcF3Oifqy9bPEfIOBLJKoLRpOz77xcad
+         YQ3PsgccOH96XkLEE3u8qvVEQum1CEeiq5VjZbxrS0eRdjQnz0ROIgptVGECQNHkGjHn
+         Kqw/PshVAswVrq0dktl3YuDwOARSvR9BAjoKR9r80tt74Ey9oEgJnQBf/hPspsPXFARM
+         GDYahSsuWANpZdTBuTDFLBwz24kO4g6Cdvv6tJHUnuM7UD9oXeRNb4XzPGrsDskAiNJA
+         0lLA==
+X-Gm-Message-State: AOAM5326cj/POgmd+sUbJmRp7UgbMeJFeqIosFN1FEAlLqLXZ5QXuWyB
+        3xGF4LAvNl1kxNBIZ9tFWzTmTkGaWBmuNdcJKOg=
+X-Google-Smtp-Source: ABdhPJzMI39m+KunbmWjRc0zXWvqEeHuECgd3ZsHjx+5rhHkVKdfXJ1QGr9mXD/zemLpBd0PNc0mqgI1Ax9YA4EUGXE=
+X-Received: by 2002:aca:d8c6:: with SMTP id p189mr8141707oig.54.1613387983592;
+ Mon, 15 Feb 2021 03:19:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20210212160631.GA19424@redhat.com>
-X-Originating-IP: [172.24.14.5]
-X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
- (172.24.0.171)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29C604D265617265
-X-Veeam-MMEX: True
+References: <20210205222644.2357303-1-saravanak@google.com> <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 15 Feb 2021 12:19:32 +0100
+Message-ID: <CAMuHMdUi-_LJBB7fYB9ugpcj0J+FWXrqn2u44n7MemmvwiWQWw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The 02/12/2021 19:06, Mike Snitzer wrote:
-> On Fri, Feb 12 2021 at  6:34am -0500,
-> Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
-> 
-> > The 02/11/2021 20:51, Mike Snitzer wrote:
-> > > On Tue, Feb 09 2021 at  9:30am -0500,
-> > > Sergei Shtepa <sergei.shtepa@veeam.com> wrote:
-> > > 
-> > > > The 'noexcl' option allow to open underlying block-device
-> > > > without FMODE_EXCL.
-> > > > 
-> > > > Signed-off-by: Sergei Shtepa <sergei.shtepa@veeam.com>
-> > > > ---
-> > > >  drivers/md/dm-linear.c        | 14 +++++++++++++-
-> > > >  drivers/md/dm-table.c         | 14 ++++++++------
-> > > >  drivers/md/dm.c               | 26 +++++++++++++++++++-------
-> > > >  drivers/md/dm.h               |  2 +-
-> > > >  include/linux/device-mapper.h |  7 +++++++
-> > > >  5 files changed, 48 insertions(+), 15 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/md/dm-linear.c b/drivers/md/dm-linear.c
-> > > > index 00774b5d7668..b16d89802b9d 100644
-> > > > --- a/drivers/md/dm-linear.c
-> > > > +++ b/drivers/md/dm-linear.c
-> > > > @@ -33,7 +33,7 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
-> > > >  	char dummy;
-> > > >  	int ret;
-> > > >  
-> > > > -	if (argc != 2) {
-> > > > +	if ((argc < 2) || (argc > 3)) {
-> > > >  		ti->error = "Invalid argument count";
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > > @@ -51,6 +51,18 @@ static int linear_ctr(struct dm_target *ti, unsigned int argc, char **argv)
-> > > >  	}
-> > > >  	lc->start = tmp;
-> > > >  
-> > > > +	ti->non_exclusive = false;
-> > > > +	if (argc > 2) {
-> > > > +		if (strcmp("noexcl", argv[2]) == 0)
-> > > > +			ti->non_exclusive = true;
-> > > > +		else if (strcmp("excl", argv[2]) == 0)
-> > > > +			ti->non_exclusive = false;
-> > > > +		else {
-> > > > +			ti->error = "Invalid exclusive option";
-> > > > +			return -EINVAL;
-> > > > +		}
-> > > > +	}
-> > > > +
-> > > >  	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table), &lc->dev);
-> > > >  	if (ret) {
-> > > >  		ti->error = "Device lookup failed";
-> > > > diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-> > > > index 4acf2342f7ad..f020459465bd 100644
-> > > > --- a/drivers/md/dm-table.c
-> > > > +++ b/drivers/md/dm-table.c
-> > > > @@ -322,7 +322,7 @@ static int device_area_is_invalid(struct dm_target *ti, struct dm_dev *dev,
-> > > >   * device and not to touch the existing bdev field in case
-> > > >   * it is accessed concurrently.
-> > > >   */
-> > > > -static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode,
-> > > > +static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode, bool non_exclusive,
-> > > >  			struct mapped_device *md)
-> > > >  {
-> > > >  	int r;
-> > > > @@ -330,8 +330,8 @@ static int upgrade_mode(struct dm_dev_internal *dd, fmode_t new_mode,
-> > > >  
-> > > >  	old_dev = dd->dm_dev;
-> > > >  
-> > > > -	r = dm_get_table_device(md, dd->dm_dev->bdev->bd_dev,
-> > > > -				dd->dm_dev->mode | new_mode, &new_dev);
-> > > > +	r = dm_get_table_device(md, dd->dm_dev->bdev->bd_dev, dd->dm_dev->mode | new_mode,
-> > > > +				non_exclusive, &new_dev);
-> > > >  	if (r)
-> > > >  		return r;
-> > > >  
-> > > > @@ -387,7 +387,8 @@ int dm_get_device(struct dm_target *ti, const char *path, fmode_t mode,
-> > > >  		if (!dd)
-> > > >  			return -ENOMEM;
-> > > >  
-> > > > -		if ((r = dm_get_table_device(t->md, dev, mode, &dd->dm_dev))) {
-> > > > +		r = dm_get_table_device(t->md, dev, mode, ti->non_exclusive, &dd->dm_dev);
-> > > > +		if (r) {
-> > > >  			kfree(dd);
-> > > >  			return r;
-> > > >  		}
-> > > > @@ -396,8 +397,9 @@ int dm_get_device(struct dm_target *ti, const char *path, fmode_t mode,
-> > > >  		list_add(&dd->list, &t->devices);
-> > > >  		goto out;
-> > > >  
-> > > > -	} else if (dd->dm_dev->mode != (mode | dd->dm_dev->mode)) {
-> > > > -		r = upgrade_mode(dd, mode, t->md);
-> > > > +	} else if ((dd->dm_dev->mode != (mode | dd->dm_dev->mode)) &&
-> > > > +		   (dd->dm_dev->non_exclusive != ti->non_exclusive)) {
-> > > > +		r = upgrade_mode(dd, mode, ti->non_exclusive, t->md);
-> > > >  		if (r)
-> > > >  			return r;
-> > > >  	}
-> > > > diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-> > > > index 00c41aa6d092..c25dcc2fdb89 100644
-> > > > --- a/drivers/md/dm.c
-> > > > +++ b/drivers/md/dm.c
-> > > > @@ -1117,33 +1117,44 @@ static void close_table_device(struct table_device *td, struct mapped_device *md
-> > > >  	if (!td->dm_dev.bdev)
-> > > >  		return;
-> > > >  
-> > > > -	bd_unlink_disk_holder(td->dm_dev.bdev, dm_disk(md));
-> > > > -	blkdev_put(td->dm_dev.bdev, td->dm_dev.mode | FMODE_EXCL);
-> > > > +	if (td->dm_dev.non_exclusive)
-> > > > +		blkdev_put(td->dm_dev.bdev, td->dm_dev.mode);
-> > > > +	else {
-> > > > +		bd_unlink_disk_holder(td->dm_dev.bdev, dm_disk(md));
-> > > > +		blkdev_put(td->dm_dev.bdev, td->dm_dev.mode | FMODE_EXCL);
-> > > > +	}
-> > > > +
-> > > > +
-> > > > +	blkdev_put(td->dm_dev.bdev, td->dm_dev.mode);
-> > > > +
-> > > >  	put_dax(td->dm_dev.dax_dev);
-> > > >  	td->dm_dev.bdev = NULL;
-> > > >  	td->dm_dev.dax_dev = NULL;
-> > > > +	td->dm_dev.non_exclusive = false;
-> > > >  }
-> > > >  
-> > > >  static struct table_device *find_table_device(struct list_head *l, dev_t dev,
-> > > > -					      fmode_t mode)
-> > > > +					      fmode_t mode, bool non_exclusive)
-> > > >  {
-> > > >  	struct table_device *td;
-> > > >  
-> > > >  	list_for_each_entry(td, l, list)
-> > > > -		if (td->dm_dev.bdev->bd_dev == dev && td->dm_dev.mode == mode)
-> > > > +		if (td->dm_dev.bdev->bd_dev == dev &&
-> > > > +		    td->dm_dev.mode == mode &&
-> > > > +		    td->dm_dev.non_exclusive == non_exclusive)
-> > > >  			return td;
-> > > >  
-> > > >  	return NULL;
-> > > >  }
-> > > >  
-> > > > -int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
-> > > > +int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode, bool non_exclusive,
-> > > >  			struct dm_dev **result)
-> > > >  {
-> > > >  	int r;
-> > > >  	struct table_device *td;
-> > > >  
-> > > >  	mutex_lock(&md->table_devices_lock);
-> > > > -	td = find_table_device(&md->table_devices, dev, mode);
-> > > > +	td = find_table_device(&md->table_devices, dev, mode, non_exclusive);
-> > > >  	if (!td) {
-> > > >  		td = kmalloc_node(sizeof(*td), GFP_KERNEL, md->numa_node_id);
-> > > >  		if (!td) {
-> > > > @@ -1154,7 +1165,8 @@ int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
-> > > >  		td->dm_dev.mode = mode;
-> > > >  		td->dm_dev.bdev = NULL;
-> > > >  
-> > > > -		if ((r = open_table_device(td, dev, md))) {
-> > > > +		r = open_table_device(td, dev, md, non_exclusive);
-> > > > +		if (r) {
-> > > >  			mutex_unlock(&md->table_devices_lock);
-> > > >  			kfree(td);
-> > > >  			return r;
-> > > > diff --git a/drivers/md/dm.h b/drivers/md/dm.h
-> > > > index fffe1e289c53..7bf20fb2de74 100644
-> > > > --- a/drivers/md/dm.h
-> > > > +++ b/drivers/md/dm.h
-> > > > @@ -179,7 +179,7 @@ int dm_open_count(struct mapped_device *md);
-> > > >  int dm_lock_for_deletion(struct mapped_device *md, bool mark_deferred, bool only_deferred);
-> > > >  int dm_cancel_deferred_remove(struct mapped_device *md);
-> > > >  int dm_request_based(struct mapped_device *md);
-> > > > -int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode,
-> > > > +int dm_get_table_device(struct mapped_device *md, dev_t dev, fmode_t mode, bool non_exclusive,
-> > > >  			struct dm_dev **result);
-> > > >  void dm_put_table_device(struct mapped_device *md, struct dm_dev *d);
-> > > >  
-> > > > diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
-> > > > index 61a66fb8ebb3..70002363bfc0 100644
-> > > > --- a/include/linux/device-mapper.h
-> > > > +++ b/include/linux/device-mapper.h
-> > > > @@ -150,6 +150,7 @@ struct dm_dev {
-> > > >  	struct block_device *bdev;
-> > > >  	struct dax_device *dax_dev;
-> > > >  	fmode_t mode;
-> > > > +	bool non_exclusive;
-> > > >  	char name[16];
-> > > >  };
-> > > >  
-> > > > @@ -325,6 +326,12 @@ struct dm_target {
-> > > >  	 * whether or not its underlying devices have support.
-> > > >  	 */
-> > > >  	bool discards_supported:1;
-> > > > +
-> > > > +	/*
-> > > > +	 * Set if this target needs to open device without FMODE_EXCL
-> > > > +	 * mode.
-> > > > +	 */
-> > > > +	bool non_exclusive:1;
-> > > >  };
-> > > >  
-> > > >  void *dm_per_bio_data(struct bio *bio, size_t data_size);
-> > > > -- 
-> > > > 2.20.1
-> > > > 
-> > > 
-> > > I'm really not liking this tug-of-war about FMODE_EXCL vs not.
-> > > Especially dislike the prospect of needing to change _every_ DM target
-> > > that would be made to support blk_interposer.
-> > > 
-> > > I've said this before, private or otherwise, but: Hannes' approach that
-> > > fell back to opening without FMODE_EXCL if FMODE_EXCL open failed.  Have
-> > > you explored that kind of approach?
-> > 
-> > Of course I explored that kind of approach. The easiest thing to do
-> > is fell back to opening without FMODE_EXCL if FMODE_EXCL open failed.
-> > 
-> > But I remind you once again that in this case, without changing
-> > the code of each target, we will change the behavior of each.
-> > Any target will open the device without the FMODE_EXCL flag if the device
-> > is already busy. This can cause errors and cause data loss.
-> > I would not want the device mapper to get worse when adding new functionality.
-> 
-> Right, but I'm not talking about a blind fallback that strips FMODE_EXCL
-> if FMODE_EXCL open failed.
->  
-> > I will do so in the next patch, as you are sure that it is better... Or
-> > I'll think about it again and try to suggest a better implementation.
-> > 
-> > Thank you, Mike.
-> > 
-> > > 
-> > > You _should_ be able to infer that interposer is being used given the
-> > > requirement to use an explicit remap ioctl to establish the use of
-> > > interposer.
-> 
-> I'm suggesting that open_table_device and close_table_device be made
-> aware of the fact that they are operating on behalf of your remap ioctl
-> (interpose).  So store state in the mapped_device that reflects a remap
-> was used.
-> 
-> Still clunky but at least it confines it to an implementation detail
-> managed by DM core rather than imposing awkward interface changes in
-> both DM core and the DM targets.
-> 
-> Mike
-> 
+On Thu, Feb 11, 2021 at 2:00 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Fri, Feb 5, 2021 at 11:26 PM Saravana Kannan <saravanak@google.com> wrote:
+> > There are a lot of devices/drivers where they never have a struct device
+> > created for them or the driver initializes the hardware without ever
+> > binding to the struct device.
+> >
+> > This series is intended to avoid any boot regressions due to such
+> > devices/drivers when fw_devlink=on and also address the handling of
+> > optional suppliers.
 
-Based on your requirements, I conclude that the knowledge about the use
-of interposer should be passed when creating target, since this is where
-the open_table_device function is called.
-This means that the 'noexcl' parameter is no longer needed, but will be
-replaced with 'interposer'.
-The ioctl is no longer needed, the target already knows that it works
-through the interposer, and we can attach it already when creating
-the target.
+>       - Some devices are reprobed, despite their drivers returning
+>         a real error code, and not -EPROBE_DEFER:
+>
+>             renesas_wdt e6020000.watchdog: Watchdog blacklisted on r8a7791 ES1.*
+>             (rwdt_probe() returns -ENODEV)
+>
+>             sh-pfc e6060000.pinctrl: pin GP_7_23 already requested by
+> ee090000.pci; cannot claim for e6590000.usb
+>             sh-pfc e6060000.pinctrl: pin-247 (e6590000.usb) status -22
+>             sh-pfc e6060000.pinctrl: could not request pin 247
+> (GP_7_23) from group usb0  on device sh-pfc
+>             renesas_usbhs e6590000.usb: Error applying setting,
+> reverse things back
+>             renesas_usbhs: probe of e6590000.usb failed with error -22
+>
+>             rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+>             rcar-pcie fe000000.pcie:       IO
+> 0x00fe100000..0x00fe1fffff -> 0x0000000000
+>             rcar-pcie fe000000.pcie:      MEM
+> 0x00fe200000..0x00fe3fffff -> 0x00fe200000
+>             rcar-pcie fe000000.pcie:      MEM
+> 0x0030000000..0x0037ffffff -> 0x0030000000
+>             rcar-pcie fe000000.pcie:      MEM
+> 0x0038000000..0x003fffffff -> 0x0038000000
+>             rcar-pcie fe000000.pcie:   IB MEM
+> 0x0040000000..0x00bfffffff -> 0x0040000000
+>             rcar-pcie fe000000.pcie:   IB MEM
+> 0x0200000000..0x02ffffffff -> 0x0200000000
+>             rcar-pcie fe000000.pcie: PCIe link down
+>             (rcar_pcie_probe() returns -ENODEV)
+>
+>             xhci-hcd ee000000.usb: xHCI Host Controller
+>             xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 7
+>             xhci-hcd ee000000.usb: Direct firmware load for
+> r8a779x_usb3_v3.dlmem failed with error -2
+>             xhci-hcd ee000000.usb: can't setup: -2
+>             xhci-hcd ee000000.usb: USB bus 7 deregistered
+>             xhci-hcd: probe of ee000000.usb failed with error -2
 
-I like this logic, and I will implement it.
+Consumers are added to the deferred probe pending list before
+they are probed, but not removed on probe failure.
+Patch sent
+"[PATCH] driver core: Fix double failed probing with fw_devlink=on"
+https://lore.kernel.org/linux-renesas-soc/20210215111619.2385030-1-geert+renesas@glider.be/
 
-Thanks.
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-Sergei Shtepa
-Veeam Software developer.
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
