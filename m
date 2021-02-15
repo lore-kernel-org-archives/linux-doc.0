@@ -7,76 +7,80 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 687F3C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:36:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65999C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:39:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 326BD60238
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:36:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27B8364DFF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:39:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbhBOQgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 11:36:37 -0500
-Received: from ms.lwn.net ([45.79.88.28]:46710 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230235AbhBOQed (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Feb 2021 11:34:33 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 56AFE536;
-        Mon, 15 Feb 2021 16:33:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 56AFE536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1613406825; bh=eAmvWFRdBgbvfXEsF2VPEJKDmUEyxTCLV979Goe/JlE=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=p4h95FVGM7oWOO93RD4HbD9BPrcULDt86rgzh40veYb2I/j92h+MG9WtmPgo+EM6U
-         BoMK+5iaJPCu9eKStmeDvIjMk7zXk8gILu2R+rlSRN8RUfu9wnf83On+U5Sv5v825B
-         S2e6eQfLGX82rbM4ch9s4K8w3kkYXboNyshHhT+uR8i4HZn82hL0HiMwxONvxOBeHb
-         Q6yO5YMGw16tud1wDiAFQMxgRY96liD6kxEZvLMRNLH0HitDlKsW2/SsInv92raH4B
-         UvzpxcqFIrOky/TDlSXDRyUbdNAMQ3oF4zhkVRU9wPYesRe2gajEDpN4AjxcakSkf7
-         9qoOTuFFb22ww==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
+        id S231272AbhBOQim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 11:38:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232027AbhBOQho (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 11:37:44 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8EBAC0613D6
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 08:37:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=+s2h9rySWIXDHcSsGcn87PnJEK/rcMWhEdfpr62ddXo=; b=q1hmRNWp3yJ2/6jBAgX9YxSB/Z
+        y6GEnYkpSPRrR6XHFZktRxrW+/cTqpaXCw4RSFrn/nUq2c3UPrAA5g6Vsy6IRdYEdiVVx3povu8qA
+        d/loFxfqTdbCc5KS8UBytaVe2HI5drRWW6QIGhpJMB5wigP1IRhPV6tWKHC7HSkmIkRnPso5eHg2V
+        +cxuFAGpq/E8+SS16BBLoBxQFqva3o2SSEUwQ38voG8Yx65zqPUSz6bU0Rw6/DIBQaB8EZwgnhvzL
+        Bo5ze8+1a0oV/8h+RqvcYckpzx8e5SLce9EKkR/JbCnweh/FT+WIhIBsYtZGfD2UB/4U3zmg17rsB
+        2qx8sSKA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lBgrp-00FnA1-MY; Mon, 15 Feb 2021 16:36:59 +0000
+Date:   Mon, 15 Feb 2021 16:36:57 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
 Subject: Re: [PATCH] Fix unaesthetic indentation
-In-Reply-To: <20210215161757.GD2858050@casper.infradead.org>
+Message-ID: <20210215163657.GE2858050@casper.infradead.org>
 References: <20210215161757.GD2858050@casper.infradead.org>
-Date:   Mon, 15 Feb 2021 09:33:44 -0700
-Message-ID: <87k0r9mgt3.fsf@meer.lwn.net>
+ <87k0r9mgt3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k0r9mgt3.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> writes:
+On Mon, Feb 15, 2021 at 09:33:44AM -0700, Jonathan Corbet wrote:
+> Matthew Wilcox <willy@infradead.org> writes:
+> 
+> > The current documentation build looks like this:
+> >
+> > $ make htmldocs
+> >   SPHINX  htmldocs --> file:///home/willy/kernel/linux-next/Documentation/output
+> > make[2]: Nothing to be done for 'html'.
+> > WARNING: The kernel documentation build process
+> >         support for Sphinx v3.0 and above is brand new. Be prepared for
+> >         possible issues in the generated output.
+> >         $
+> >
+> > That extra indentation before my next prompt isn't pretty.  This patch
+> > fixes it, but I'm not a pythonista, and maybe there's a better way.
+> >
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> >
+> > diff --git a/Documentation/conf.py b/Documentation/conf.py
+> > index 5bd45d5fb0a0..8a9ed3f29cd5 100644
+> > --- a/Documentation/conf.py
+> > +++ b/Documentation/conf.py
+> > @@ -50,7 +50,7 @@ if major >= 3:
+> >      sys.stderr.write('''WARNING: The kernel documentation build process
+> >          support for Sphinx v3.0 and above is brand new. Be prepared for
+> >          possible issues in the generated output.
+> > -        ''')
+> > +''')
+> 
+> The alternative would be:
+> 
+>           possible issues in the generated output.\n''')
 
-> The current documentation build looks like this:
->
-> $ make htmldocs
->   SPHINX  htmldocs --> file:///home/willy/kernel/linux-next/Documentation/output
-> make[2]: Nothing to be done for 'html'.
-> WARNING: The kernel documentation build process
->         support for Sphinx v3.0 and above is brand new. Be prepared for
->         possible issues in the generated output.
->         $
->
-> That extra indentation before my next prompt isn't pretty.  This patch
-> fixes it, but I'm not a pythonista, and maybe there's a better way.
->
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 5bd45d5fb0a0..8a9ed3f29cd5 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -50,7 +50,7 @@ if major >= 3:
->      sys.stderr.write('''WARNING: The kernel documentation build process
->          support for Sphinx v3.0 and above is brand new. Be prepared for
->          possible issues in the generated output.
-> -        ''')
-> +''')
-
-The alternative would be:
-
-          possible issues in the generated output.\n''')
-
-jon
+Do you want me to submit a revised patch with that change?
