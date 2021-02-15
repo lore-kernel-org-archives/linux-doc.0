@@ -2,180 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D950C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 17:31:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4659BC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 17:50:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4772D6024A
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 17:31:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2089660C3D
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 17:50:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232356AbhBORb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 12:31:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35980 "EHLO
+        id S232105AbhBORuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 12:50:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232369AbhBOR3n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 12:29:43 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A22AC061574;
-        Mon, 15 Feb 2021 09:29:03 -0800 (PST)
-Received: from ip4d149f6e.dynamic.kabel-deutschland.de ([77.20.159.110] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lBhgA-0001a8-F5; Mon, 15 Feb 2021 18:28:58 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sasha Levin <sashal@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Joerg Roedel <joro@8bytes.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Damian Tometzki <linux@tometzki.de>
-Subject: [PATCH] docs: reporting-issues.rst: explain how to decode stack traces
-Date:   Mon, 15 Feb 2021 18:28:57 +0100
-Message-Id: <20210215172857.382285-1-linux@leemhuis.info>
-X-Mailer: git-send-email 2.29.2
+        with ESMTP id S231435AbhBORts (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Feb 2021 12:49:48 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D9EC061756
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 09:49:06 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id m2so4626091pgq.5
+        for <linux-doc@vger.kernel.org>; Mon, 15 Feb 2021 09:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0raigWBsW5BmlJVVshcrNYwzQYWZPvQmzq/5zwebTXY=;
+        b=fl6FixGKWjTID3qTSaKuX0EgetRR8QBn7aRcT3Xl+UP8cqOr6p3G+iD1eTTf0hu3ak
+         +liuII/Gu+qlMZYn4CTSKBRild3fq4iiKeEGL+8b/HMEyTkfR0lxpp1aIyP5MOkOnLHu
+         n7mDgFs4eE/SMAqzxJNbxWCbSUC+xHlWEWLG3qrIScMk/bjvOR57kk7nFY7rVn/9UiH9
+         g2pOpALQHu/15aB71vd8qzQeiPvr76pUiiibWLdgNXzIRdH3e7uN2WCmTp8lGk/ksYR7
+         ZIRk0VV4pwRJE21aYuWDbkXc3kOpnbN0CK8+C727b5npEWm2JsCj1LaBgWNXZrMEv6//
+         4r6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0raigWBsW5BmlJVVshcrNYwzQYWZPvQmzq/5zwebTXY=;
+        b=QzFbvDEM+cNroxAzntVAvM0Pcc090vj/hrEnfL6QovibeNntNcqZCr0YfPBOIvdUQU
+         utP68aZp8IgJzOUEWI8Kemxo427AMA6A275VR86mjal7tYKM4YyqvYxttvXfVbaO9sHw
+         fzT5pzilPdXKzvDL47nxjXgJY0A+05PiBKh5UL4dZSyZGv3vNDbVPJ9ICf+UmWYdPw/I
+         w1tgoJ3S4ZKewS/akORG4Rn+ZpDmzY6cOVqutpV/yjYbUmLlkaAtPnnvmMnR19hMjDEb
+         MMPmacwLvqLfsJAJF8SksXtR9I7HW0HNs+ehzIfSzz8JtSe2fQ0iBudUMLZkJjJHSNGW
+         VRzw==
+X-Gm-Message-State: AOAM53364iWw2AX0ZelMmZm5j9HlbJwSHlI1q5JCRtghJPYe3XY8hiND
+        RVi/eQMVhifpzF06O1YsBfDJidI2HNSWn+Sn7ksg/Q==
+X-Google-Smtp-Source: ABdhPJz4LqZsDGklbkN4FqRjRy8OxHw8u+JlsWDcM1+xjYoqctmuuXLbOUqvMlpcK78wa9N3DIsalYaZRJP0O/OTh7o=
+X-Received: by 2002:a63:480f:: with SMTP id v15mr15739656pga.341.1613411345880;
+ Mon, 15 Feb 2021 09:49:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1613410143;5688f35d;
-X-HE-SMSGID: 1lBhgA-0001a8-F5
+References: <20210208085013.89436-5-songmuchun@bytedance.com>
+ <YCafit5ruRJ+SL8I@dhcp22.suse.cz> <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
+ <YCpN38i75olgispI@dhcp22.suse.cz> <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
+ <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
+ <YCpmlGuoTakPJs1u@dhcp22.suse.cz> <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
+ <YCp04NVBZpZZ5k7G@dhcp22.suse.cz> <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
+ <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
+In-Reply-To: <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 16 Feb 2021 01:48:29 +0800
+Message-ID: <CAMZfGtW6n_YUbZOPFbivzn-HP4Q2yi0DrUoQ3JAjSYy5m17VWw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace placeholder text about decoding stack traces with a section that
-properly describes what a typical user should do these days. To make
-it works for them, add a paragraph in an earlier section to ensure
-people build their kernels with everything that's needed to decode stack
-traces later.
+On Tue, Feb 16, 2021 at 12:28 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Mon 15-02-21 23:36:49, Muchun Song wrote:
+> [...]
+> > > There shouldn't be any real reason why the memory allocation for
+> > > vmemmaps, or handling vmemmap in general, has to be done from within the
+> > > hugetlb lock and therefore requiring a non-sleeping semantic. All that
+> > > can be deferred to a more relaxed context. If you want to make a
+> >
+> > Yeah, you are right. We can put the freeing hugetlb routine to a
+> > workqueue. Just like I do in the previous version (before v13) patch.
+> > I will pick up these patches.
+>
+> I haven't seen your v13 and I will unlikely have time to revisit that
+> version. I just wanted to point out that the actual allocation doesn't
+> have to happen from under the spinlock. There are multiple ways to go
+> around that. Dropping the lock would be one of them. Preallocation
+> before the spin lock is taken is another. WQ is certainly an option but
+> I would take it as the last resort when other paths are not feasible.
+>
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-Reviewed-by: Qais Yousef <qais.yousef@arm.com>
----
-v1->v2
-* Fix typo pointed out by Randy
-* include review feedback from Qais and bis Reviewed-by:
+"Dropping the lock" and "Preallocation before the spin lock" can limit
+the context of put_page to non-atomic context. I am not sure if there
+is a page puted somewhere under an atomic context. e.g. compaction.
+I am not an expert on this.
 
-v1:
-https://lore.kernel.org/lkml/20210210054823.242262-1-linux@leemhuis.info/
----
- .../admin-guide/reporting-issues.rst          | 81 ++++++++++++++-----
- 1 file changed, 59 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 07879d01fe68..18b1280f7abf 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -154,8 +154,8 @@ After these preparations you'll now enter the main part:
-    that hear about it for the first time. And if you learned something in this
-    process, consider searching again for existing reports about the issue.
- 
-- * If the failure includes a stack dump, like an Oops does, consider decoding
--   it to find the offending line of code.
-+ * If your failure involves a 'panic', 'Oops', 'warning', or 'BUG', consider
-+   decoding the kernel log to find the line of code that triggered the error.
- 
-  * If your problem is a regression, try to narrow down when the issue was
-    introduced as much as possible.
-@@ -869,6 +869,19 @@ pick up the configuration of your current kernel and then tries to adjust it
- somewhat for your system. That does not make the resulting kernel any better,
- but quicker to compile.
- 
-+Note: If you are dealing with a panic, Oops, warning, or BUG from the kernel,
-+please try to enable CONFIG_KALLSYMS when configuring your kernel.
-+Additionally, enable CONFIG_DEBUG_KERNEL and CONFIG_DEBUG_INFO, too; the
-+latter is the relevant one of those two, but can only be reached if you enable
-+the former. Be aware CONFIG_DEBUG_INFO increases the storage space required to
-+build a kernel by quite a bit. But that's worth it, as these options will allow
-+you later to pinpoint the exact line of code that triggers your issue. The
-+section 'Decode failure messages' below explains this in more detail.
-+
-+But keep in mind: Always keep a record of the issue encountered in case it is
-+hard to reproduce. Sending an undecoded report is better than not reporting
-+the issue at all.
-+
- 
- Check 'taint' flag
- ------------------
-@@ -923,31 +936,55 @@ instead you can join.
- Decode failure messages
- -----------------------
- 
--.. note::
-+    *If your failure involves a 'panic', 'Oops', 'warning', or 'BUG', consider
-+    decoding the kernel log to find the line of code that triggered the error.*
- 
--   FIXME: The text in this section is a placeholder for now and quite similar to
--   the old text found in 'Documentation/admin-guide/reporting-bugs.rst'
--   currently. It and the document it references are known to be outdated and
--   thus need to be revisited. Thus consider this note a request for help: if you
--   are familiar with this topic, please write a few lines that would fit here.
--   Alternatively, simply outline the current situation roughly to the main
--   authors of this document (see intro), as they might be able to write
--   something then.
-+When the kernel detects an internal problem, it will log some information about
-+the executed code. This makes it possible to pinpoint the exact line in the
-+source code that triggered the issue and shows how it was called. But that only
-+works if you enabled CONFIG_DEBUG_INFO and CONFIG_KALLSYMS when configuring
-+your kernel. If you did so, consider to decode the information from the
-+kernel's log. That will make it a lot easier to understand what lead to the
-+'panic', 'Oops', 'warning', or 'BUG', which increases the chances that someone
-+can provide a fix.
- 
--   This section in the end should answer questions like "when is this actually
--   needed", "what .config options to ideally set earlier to make this step easy
--   or unnecessary?" (likely CONFIG_UNWINDER_ORC when it's available, otherwise
--   CONFIG_UNWINDER_FRAME_POINTER; but is there anything else needed?).
-+Decoding can be done with a script you find in the Linux source tree. If you
-+are running a kernel you compiled yourself earlier, call it like this::
- 
--..
-+       [user@something ~]$ sudo dmesg | ./linux-5.10.5/scripts/decode_stacktrace.sh ./linux-5.10.5/vmlinux
-+
-+If you are running a packaged vanilla kernel, you will likely have to install
-+the corresponding packages with debug symbols. Then call the script (which you
-+might need to get from the Linux sources if your distro does not package it)
-+like this::
-+
-+       [user@something ~]$ sudo dmesg | ./linux-5.10.5/scripts/decode_stacktrace.sh \
-+        /usr/lib/debug/lib/modules/5.10.10-4.1.x86_64/vmlinux /usr/src/kernels/5.10.10-4.1.x86_64/
-+
-+The script will work on log lines like the following, which show the address of
-+the code the kernel was executing when the error occurred::
-+
-+       [   68.387301] RIP: 0010:test_module_init+0x5/0xffa [test_module]
-+
-+Once decoded, these lines will look like this::
-+
-+       [   68.387301] RIP: 0010:test_module_init (/home/username/linux-5.10.5/test-module/test-module.c:16) test_module
-+
-+In this case the executed code was built from the file
-+'~/linux-5.10.5/test-module/test-module.c' and the error occurred by the
-+instructions found in line '16'.
- 
--    *If the failure includes a stack dump, like an Oops does, consider decoding
--    it to find the offending line of code.*
-+The script will similarly decode the addresses mentioned in the section
-+starting with 'Call trace', which show the path to the function where the
-+problem occurred. Additionally, the script will show the assembler output for
-+the code section the kernel was executing.
- 
--When the kernel detects an error, it will print a stack dump that allows to
--identify the exact line of code where the issue happens. But that information
--sometimes needs to get decoded to be readable, which is explained in
--admin-guide/bug-hunting.rst.
-+Note, if you can't get this to work, simply skip this step and mention the
-+reason for it in the report. If you're lucky, it might not be needed. And if it
-+is, someone might help you to get things going. Also be aware this is just one
-+of several ways to decode kernel stack traces. Sometimes different steps will
-+be required to retrieve the relevant details. Don't worry about that, if that's
-+needed in your case, developers will tell you what to do.
- 
- 
- Special care for regressions
--- 
-2.29.2
-
+> --
+> Michal Hocko
+> SUSE Labs
