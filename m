@@ -2,99 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45819C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 687F3C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:36:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C25264DF4
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:31:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 326BD60238
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Feb 2021 16:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231894AbhBOQbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Feb 2021 11:31:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55964 "EHLO mx2.suse.de"
+        id S231207AbhBOQgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Feb 2021 11:36:37 -0500
+Received: from ms.lwn.net ([45.79.88.28]:46710 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230459AbhBOQ3D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Feb 2021 11:29:03 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613406486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5Q+3IiJjmuWzfa/qecjdtsb7dEeDToXeQr2Gb7tp0C4=;
-        b=Ypy5+9fpmsn7EJqcuGyF11X0OJre82so/tKaqZ3QiXv+AfSk0jDw2JJ2hxBc/OGI9Coard
-        pPqxkacy6cwLK5R3wslEMud4Mb1p0e+/hSf54vq4AFwqiGPWVLIhpXH2wPLS1jMEiqAhe1
-        mUKhP3gj5Jm2H60Bf/nDk5e9tkHtpTc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 0F4B6AE71;
-        Mon, 15 Feb 2021 16:28:05 +0000 (UTC)
-Date:   Mon, 15 Feb 2021 17:27:57 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
-References: <20210208085013.89436-5-songmuchun@bytedance.com>
- <YCafit5ruRJ+SL8I@dhcp22.suse.cz>
- <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
- <YCpN38i75olgispI@dhcp22.suse.cz>
- <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
- <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
- <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
- <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
- <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
+        id S230235AbhBOQed (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Feb 2021 11:34:33 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 56AFE536;
+        Mon, 15 Feb 2021 16:33:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 56AFE536
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1613406825; bh=eAmvWFRdBgbvfXEsF2VPEJKDmUEyxTCLV979Goe/JlE=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=p4h95FVGM7oWOO93RD4HbD9BPrcULDt86rgzh40veYb2I/j92h+MG9WtmPgo+EM6U
+         BoMK+5iaJPCu9eKStmeDvIjMk7zXk8gILu2R+rlSRN8RUfu9wnf83On+U5Sv5v825B
+         S2e6eQfLGX82rbM4ch9s4K8w3kkYXboNyshHhT+uR8i4HZn82hL0HiMwxONvxOBeHb
+         Q6yO5YMGw16tud1wDiAFQMxgRY96liD6kxEZvLMRNLH0HitDlKsW2/SsInv92raH4B
+         UvzpxcqFIrOky/TDlSXDRyUbdNAMQ3oF4zhkVRU9wPYesRe2gajEDpN4AjxcakSkf7
+         9qoOTuFFb22ww==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Matthew Wilcox <willy@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Fix unaesthetic indentation
+In-Reply-To: <20210215161757.GD2858050@casper.infradead.org>
+References: <20210215161757.GD2858050@casper.infradead.org>
+Date:   Mon, 15 Feb 2021 09:33:44 -0700
+Message-ID: <87k0r9mgt3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 15-02-21 23:36:49, Muchun Song wrote:
-[...]
-> > There shouldn't be any real reason why the memory allocation for
-> > vmemmaps, or handling vmemmap in general, has to be done from within the
-> > hugetlb lock and therefore requiring a non-sleeping semantic. All that
-> > can be deferred to a more relaxed context. If you want to make a
-> 
-> Yeah, you are right. We can put the freeing hugetlb routine to a
-> workqueue. Just like I do in the previous version (before v13) patch.
-> I will pick up these patches.
+Matthew Wilcox <willy@infradead.org> writes:
 
-I haven't seen your v13 and I will unlikely have time to revisit that
-version. I just wanted to point out that the actual allocation doesn't
-have to happen from under the spinlock. There are multiple ways to go
-around that. Dropping the lock would be one of them. Preallocation
-before the spin lock is taken is another. WQ is certainly an option but
-I would take it as the last resort when other paths are not feasible.
+> The current documentation build looks like this:
+>
+> $ make htmldocs
+>   SPHINX  htmldocs --> file:///home/willy/kernel/linux-next/Documentation/output
+> make[2]: Nothing to be done for 'html'.
+> WARNING: The kernel documentation build process
+>         support for Sphinx v3.0 and above is brand new. Be prepared for
+>         possible issues in the generated output.
+>         $
+>
+> That extra indentation before my next prompt isn't pretty.  This patch
+> fixes it, but I'm not a pythonista, and maybe there's a better way.
+>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 5bd45d5fb0a0..8a9ed3f29cd5 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -50,7 +50,7 @@ if major >= 3:
+>      sys.stderr.write('''WARNING: The kernel documentation build process
+>          support for Sphinx v3.0 and above is brand new. Be prepared for
+>          possible issues in the generated output.
+> -        ''')
+> +''')
 
--- 
-Michal Hocko
-SUSE Labs
+The alternative would be:
+
+          possible issues in the generated output.\n''')
+
+jon
