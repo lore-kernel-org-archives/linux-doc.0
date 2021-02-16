@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E4FEC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BDCFC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:10:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F365464DF0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:10:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BCD264DF5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhBPQJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 11:09:50 -0500
-Received: from mga01.intel.com ([192.55.52.88]:31316 "EHLO mga01.intel.com"
+        id S230166AbhBPQKH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 11:10:07 -0500
+Received: from mga01.intel.com ([192.55.52.88]:31327 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229983AbhBPQJt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Feb 2021 11:09:49 -0500
-IronPort-SDR: 6rnq8FDP4xCsQRJ2X7HINNgWlCD9uOW89CVIve7oejIX6crBaC7RHPoickIRXI7mjSPVjM6n9E
- vlbhWBe76bfA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="202118365"
+        id S230365AbhBPQJ5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 11:09:57 -0500
+IronPort-SDR: qXxIHIrMS7Xl85ojurTLgUGrAFxqFxEMNdGXPLxM+2HTBVBEDeXpZM5feyJ8eSAKy149jrjCWI
+ ICW7RYei7crw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="202118463"
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="202118365"
+   d="scan'208";a="202118463"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:07:53 -0800
-IronPort-SDR: zhYMAY7qLa0tmMp1stdMO+MtcrJm9LbpWWsao7lYXYnqc/ciu8IMeJcvlJuVf7b1RVuRAx7L6a
- rZPll8jtdCJg==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:07:58 -0800
+IronPort-SDR: nvNv5lA3+bztzY3UlPEVC2+ShJ8mCbHcF7mWfwfrOw8h6bYK8W+26awjWz4dRWankOwly8jyBf
+ LJsbK05S5C/w==
 X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="493336613"
+   d="scan'208";a="493336640"
 Received: from gna-dev.igk.intel.com ([10.102.80.34])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:07:50 -0800
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:07:56 -0800
 From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -40,155 +40,287 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>
 Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v1 00/12] Driver of Intel(R) Gaussian & Neural Accelerator
-Date:   Tue, 16 Feb 2021 17:05:13 +0100
-Message-Id: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: [PATCH v1 02/12] gna: add component of hardware operation
+Date:   Tue, 16 Feb 2021 17:05:15 +0100
+Message-Id: <20210216160525.5028-3-maciej.kwapulinski@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear kernel maintainers,
+From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 
-This submission is a kernel driver to support Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor available on multiple Intel platforms. AI developers and users can offload continuous inference workloads to an Intel(R) GNA device in order to free processor resources and save power. Noise reduction and speech recognition are the examples of the workloads Intel(R) GNA deals with while its usage is not limited to the two.
+Add definitions and utilities to interact with the hardware
+device.
 
-For a list of processors equipped with Intel(R) GNA device, please refer to this link:
-https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html 
-
-We think contributing this driver to the upstream kernel project is the best way for developers and users to get the latest Intel(R) GNA support in a Linux kernel, through the mainline to any Linux distributions installed on their systems. Upstreaming also enables contribution from developers around the world to the driver once it is merged.
-
-The driver works with Intel(R) libraries in user space. The Intel(R) driver exposes a few IOCTL interfaces for use by libraries in user space. The libraries are open sourced and are available at:
-https://github.com/intel/gna
-
-Prior to the submission, these items were tested or examined against GNA driver patch series put on top of v5.11-rc3 tag of mainline kernel:
-
-Linux Kernel patch submission checklist
-https://www.kernel.org/doc/html/latest/process/submit-checklist.html?highlight=submit%20checklist
-
-1. If you use a facility then #include the file that defines/declares that facility. Don’t depend on other header files pulling in ones that you use.
-(Checked)
-
-2. Builds cleanly:
-   with applicable or modified CONFIG options =y, =m, and =n. No gcc warnings/errors, no linker warnings/errors.
-   Passes allnoconfig, allmodconfig
-   Builds successfully when using O=builddir
-(Tested by building kernel with Intel(R) GNA driver config set to ‘m’, ‘y’, and ‘n’; allmodconfig, allnoconfig and O=builddir)
-
-3. Builds on multiple CPU architectures by using local cross-compile tools or some other build farm.
-(x86_64 architecture tested - this is architecture where GNA is present and validated, please refer to drivers/misc/gna/Kconfig)
-
-4. ppc64 is a good architecture for cross-compilation checking because it tends to use unsigned long for 64-bit quantities.
-(x86_64 architecture tested - this is architecture where GNA is present and validated, please refer to drivers/misc/gna/Kconfig)
-
-5. Check your patch for general style as detailed in Documentation/process/coding-style.rst. Check for trivial violations with the patch style checker prior to submission (scripts/checkpatch.pl). You should be able to justify all violations that remain in your patch.
-(Checked. Some warnings were in the output. We checked them and feel they can be ignored.)
-
-6. Any new or modified CONFIG options do not muck up the config menu and default to off unless they meet the exception criteria documented in Documentation/kbuild/kconfig-language.rst Menu attributes: default value.
-(No explicit default value is provided because Kbuild system sets it off by default.)
-
-7. All new Kconfig options have help text.
-(Checked)
-
-8. Has been carefully reviewed with respect to relevant Kconfig combinations. This is very hard to get right with testing – brainpower pays off here.
-(Checked)
-
-10. Use make checkstack and fix any problems that it finds.
-    Note
-    checkstack does not point out problems explicitly, but any one function that uses more than 512 bytes on the stack is a candidate for change.
-(Checked)
-
-11. Include kernel-doc to document global kernel APIs. (Not required for static functions, but OK there also.) Use make htmldocs or make pdfdocs to check the kernel-doc and fix any issues.
-(Addressed by adding new gna.rst in Documentation; tested with output from ‘make htmldocs’)
-
-12. Has been tested with CONFIG_PREEMPT, CONFIG_DEBUG_PREEMPT, CONFIG_DEBUG_SLAB, CONFIG_DEBUG_PAGEALLOC, CONFIG_DEBUG_MUTEXES, CONFIG_DEBUG_SPINLOCK, CONFIG_DEBUG_ATOMIC_SLEEP, CONFIG_PROVE_RCU and CONFIG_DEBUG_OBJECTS_RCU_HEAD all simultaneously enabled.
-(Checked)
-
-13. Has been build- and runtime tested with and without CONFIG_SMP and CONFIG_PREEMPT.
-(Checked)
-
-15. All new /proc entries are documented under Documentation/.
-(The driver doesn’t introduce any new procs)
-
-16. All new kernel boot parameters are documented in Documentation/admin-guide/kernel-parameters.rst.
-(The driver doesn’t add boot parameters)
-
-17. All new module parameters are documented with MODULE_PARM_DESC().
-(Checked)
-
-21. Newly-added code has been compiled with gcc -W (use make EXTRA_CFLAGS=-W). This will generate lots of noise, but is good for finding bugs like “warning: comparison between signed.
-    and unsigned”.
-(Checked)
-
-24. If any ioctl’s are added by the patch, then also update Documentation/userspace-api/ioctl/ioctl-number.rst.
-(Updated)
-
-The above results only reflect our understanding of the test and the code referred. Please kindly let us know any issues or different observations from any further tests.
-
-Thanks
-
-Series-reviewed-by: Tony Luck <tony.luck@intel.com>
-
-Tomasz Jankowski (12):
-  gna: add driver module
-  gna: add component of hardware operation
-  gna: read hardware info in the driver
-  gna: add memory handling
-  gna: initialize mmu
-  gna: add hardware ids
-  gna: add request component
-  gna: implement scoring
-  gna: add a work queue to process scoring requests
-  gna: add interrupt handler
-  gna: add ioctl handler
-  gna: add a char device
-
- Documentation/misc-devices/gna.rst            |  48 ++
- Documentation/misc-devices/index.rst          |   1 +
- .../userspace-api/ioctl/ioctl-number.rst      |   1 +
- MAINTAINERS                                   |   7 +
- drivers/misc/Kconfig                          |   1 +
- drivers/misc/Makefile                         |   1 +
- drivers/misc/gna/Kbuild                       |   5 +
- drivers/misc/gna/Kconfig                      |  13 +
- drivers/misc/gna/gna_device.c                 | 451 +++++++++++++++++
- drivers/misc/gna/gna_device.h                 |  87 ++++
- drivers/misc/gna/gna_driver.c                 |  90 ++++
- drivers/misc/gna/gna_driver.h                 |  41 ++
- drivers/misc/gna/gna_hw.c                     | 136 +++++
- drivers/misc/gna/gna_hw.h                     |  85 ++++
- drivers/misc/gna/gna_ioctl.c                  | 249 +++++++++
- drivers/misc/gna/gna_ioctl.h                  |  11 +
- drivers/misc/gna/gna_mem.c                    | 472 ++++++++++++++++++
- drivers/misc/gna/gna_mem.h                    | 107 ++++
- drivers/misc/gna/gna_request.c                | 466 +++++++++++++++++
- drivers/misc/gna/gna_request.h                |  62 +++
- drivers/misc/gna/gna_score.c                  | 299 +++++++++++
- drivers/misc/gna/gna_score.h                  |  20 +
- include/uapi/misc/gna.h                       | 155 ++++++
- 23 files changed, 2808 insertions(+)
- create mode 100644 Documentation/misc-devices/gna.rst
- create mode 100644 drivers/misc/gna/Kbuild
- create mode 100644 drivers/misc/gna/Kconfig
- create mode 100644 drivers/misc/gna/gna_device.c
- create mode 100644 drivers/misc/gna/gna_device.h
- create mode 100644 drivers/misc/gna/gna_driver.c
- create mode 100644 drivers/misc/gna/gna_driver.h
+Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+Tested-by: Savo Novakovic <savox.novakovic@intel.com>
+Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Co-developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+---
+ drivers/misc/gna/Kbuild       |   2 +-
+ drivers/misc/gna/gna_device.h |   4 ++
+ drivers/misc/gna/gna_hw.c     | 118 ++++++++++++++++++++++++++++++++++
+ drivers/misc/gna/gna_hw.h     |  84 ++++++++++++++++++++++++
+ 4 files changed, 207 insertions(+), 1 deletion(-)
  create mode 100644 drivers/misc/gna/gna_hw.c
  create mode 100644 drivers/misc/gna/gna_hw.h
- create mode 100644 drivers/misc/gna/gna_ioctl.c
- create mode 100644 drivers/misc/gna/gna_ioctl.h
- create mode 100644 drivers/misc/gna/gna_mem.c
- create mode 100644 drivers/misc/gna/gna_mem.h
- create mode 100644 drivers/misc/gna/gna_request.c
- create mode 100644 drivers/misc/gna/gna_request.h
- create mode 100644 drivers/misc/gna/gna_score.c
- create mode 100644 drivers/misc/gna/gna_score.h
- create mode 100644 include/uapi/misc/gna.h
 
+diff --git a/drivers/misc/gna/Kbuild b/drivers/misc/gna/Kbuild
+index 863956d5761a..8620d88588e5 100644
+--- a/drivers/misc/gna/Kbuild
++++ b/drivers/misc/gna/Kbuild
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+-gna-y := gna_device.o gna_driver.o
++gna-y := gna_device.o gna_driver.o gna_hw.o
+ 
+ obj-$(CONFIG_INTEL_GNA) += gna.o
+diff --git a/drivers/misc/gna/gna_device.h b/drivers/misc/gna/gna_device.h
+index 736bc5af5081..add8088ffa28 100644
+--- a/drivers/misc/gna/gna_device.h
++++ b/drivers/misc/gna/gna_device.h
+@@ -10,12 +10,16 @@
+ 
+ #include <uapi/misc/gna.h>
+ 
++#include "gna_hw.h"
++
+ struct gna_drv_info {
+ 	u32 hwid;
+ 	u32 num_pagetables;
+ 	u32 num_page_entries;
+ 	u32 max_layer_count;
+ 	u64 max_hw_mem;
++
++	struct gna_desc_info desc_info;
+ };
+ 
+ struct gna_pci_bar {
+diff --git a/drivers/misc/gna/gna_hw.c b/drivers/misc/gna/gna_hw.c
+new file mode 100644
+index 000000000000..3b85c4b75fd8
+--- /dev/null
++++ b/drivers/misc/gna/gna_hw.c
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Copyright(c) 2017-2021 Intel Corporation
++
++#include <linux/jiffies.h>
++#include <linux/pci.h>
++
++#include <uapi/misc/gna.h>
++
++#include "gna_device.h"
++#include "gna_driver.h"
++#include "gna_hw.h"
++
++int gna_parse_hw_status(struct gna_private *gna_priv, u32 hw_status)
++{
++	int status;
++
++	if (hw_status & GNA_ERROR) {
++		dev_dbg(&gna_priv->dev, "GNA completed with errors: %#x\n", hw_status);
++		status = -EIO;
++	} else if (hw_status & GNA_STS_SCORE_COMPLETED) {
++		status = 0;
++		dev_dbg(&gna_priv->dev, "GNA completed successfully: %#x\n", hw_status);
++	} else {
++		dev_err(&gna_priv->dev, "GNA not completed, status: %#x\n", hw_status);
++		status = -ENODATA;
++	}
++
++	return status;
++}
++
++void gna_print_error_status(struct gna_private *gna_priv, u32 hw_status)
++{
++	if (hw_status & GNA_STS_PARAM_OOR)
++		dev_dbg(&gna_priv->dev, "GNA error: Param Out Range Error\n");
++
++	if (hw_status & GNA_STS_VA_OOR)
++		dev_dbg(&gna_priv->dev, "GNA error: VA Out of Range Error\n");
++
++	if (hw_status & GNA_STS_PCI_MMU_ERR)
++		dev_dbg(&gna_priv->dev, "GNA error: PCI MMU Error\n");
++
++	if (hw_status & GNA_STS_PCI_DMA_ERR)
++		dev_dbg(&gna_priv->dev, "GNA error: PCI MMU Error\n");
++
++	if (hw_status & GNA_STS_PCI_UNEXCOMPL_ERR)
++		dev_dbg(&gna_priv->dev, "GNA error: PCI Unexpected Completion Error\n");
++
++	if (hw_status & GNA_STS_SATURATE)
++		dev_dbg(&gna_priv->dev, "GNA error: Saturation Reached !\n");
++}
++
++void gna_start_scoring(struct gna_private *gna_priv, void __iomem *addr,
++		       struct gna_compute_cfg *compute_cfg)
++{
++	u32 ctrl = gna_reg_read(addr, GNA_MMIO_CTRL);
++
++	ctrl |= GNA_CTRL_START_ACCEL | GNA_CTRL_COMP_INT_EN | GNA_CTRL_ERR_INT_EN;
++
++	ctrl &= ~GNA_CTRL_COMP_STATS_EN;
++	ctrl |= FIELD_PREP(GNA_CTRL_COMP_STATS_EN,
++			compute_cfg->hw_perf_encoding & FIELD_MAX(GNA_CTRL_COMP_STATS_EN));
++
++	ctrl &= ~GNA_CTRL_ACTIVE_LIST_EN;
++	ctrl |= FIELD_PREP(GNA_CTRL_ACTIVE_LIST_EN,
++			compute_cfg->active_list_on & FIELD_MAX(GNA_CTRL_ACTIVE_LIST_EN));
++
++	ctrl &= ~GNA_CTRL_OP_MODE;
++	ctrl |= FIELD_PREP(GNA_CTRL_OP_MODE,
++			compute_cfg->gna_mode & FIELD_MAX(GNA_CTRL_OP_MODE));
++
++	gna_reg_write(addr, GNA_MMIO_CTRL, ctrl);
++
++	dev_dbg(&gna_priv->dev, "scoring started...\n");
++}
++
++static void gna_clear_saturation(struct gna_private *gna_priv)
++{
++	void __iomem *addr = gna_priv->bar0.mem_addr;
++	u32 val;
++
++	val = gna_reg_read(addr, GNA_MMIO_STS);
++	if (val & GNA_STS_SATURATE) {
++		dev_dbg(&gna_priv->dev, "saturation reached\n");
++		dev_dbg(&gna_priv->dev, "gna status: %#x\n", val);
++
++		val = val & GNA_STS_SATURATE;
++		gna_reg_write(addr, GNA_MMIO_STS, val);
++	}
++}
++
++void gna_abort_hw(struct gna_private *gna_priv)
++{
++	void __iomem *addr = gna_priv->bar0.mem_addr;
++	u32 val;
++	int i;
++
++	/* saturation bit in the GNA status register needs
++	 * to be explicitly cleared.
++	 */
++	gna_clear_saturation(gna_priv);
++
++	val = gna_reg_read(addr, GNA_MMIO_STS);
++	dev_dbg(&gna_priv->dev, "status before abort: %#x\n", val);
++
++	val = gna_reg_read(addr, GNA_MMIO_CTRL);
++	val |= GNA_CTRL_ABORT_CLR_ACCEL;
++	gna_reg_write(addr, GNA_MMIO_CTRL, val);
++
++	i = 100;
++	do {
++		val = gna_reg_read(addr, GNA_MMIO_STS);
++		if ((val & 0x1) == 0)
++			break;
++	} while (--i);
++
++	if (i == 0)
++		dev_err(&gna_priv->dev, "abort did not complete\n");
++}
+diff --git a/drivers/misc/gna/gna_hw.h b/drivers/misc/gna/gna_hw.h
+new file mode 100644
+index 000000000000..e09e562aae50
+--- /dev/null
++++ b/drivers/misc/gna/gna_hw.h
+@@ -0,0 +1,84 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright(c) 2017-2021 Intel Corporation */
++
++#ifndef __GNA_HW_H__
++#define __GNA_HW_H__
++
++#include <linux/bits.h>
++#include <linux/bitfield.h>
++#include <linux/io.h>
++
++/* GNA MMIO registers */
++#define GNA_MMIO_STS		0x80
++#define GNA_MMIO_CTRL		0x84
++#define GNA_MMIO_MCTL		0x88
++#define GNA_MMIO_PTC		0x8C
++#define GNA_MMIO_PSC		0x90
++#define GNA_MMIO_BP		0xA0
++#define GNA_MMIO_D0I3C		0xA8
++#define GNA_MMIO_DESBASE	0xB0
++#define GNA_MMIO_PWRCTRL	0xB2
++#define GNA_MMIO_IBUFFS		0xB4
++
++#define GNA_PT_ENTRY_SIZE		4
++/* there are up to 1024 32-bit pointers in one page in Page Table (L1) */
++#define GNA_PT_LENGTH           (PAGE_SIZE / GNA_PT_ENTRY_SIZE)
++
++/* page entries alignment for correct HW prefetching */
++#define GNA_PREFETCH_ALIGNMENT		64
++
++/* additional page entries for correct HW prefetching */
++#define GNA_PREFETCH_ENTRIES		32
++
++/* minimum size of XNN layer descriptors in bytes (at least 1 layer) */
++#define XNN_LYR_DSC_SIZE		(128)
++
++#define GMM_CFG_SIZE			(128)
++
++#define GNA_VAMAXADDR_OFFSET		0x200
++
++#define GNA_PGDIRN_OFFSET		0x210
++#define GNA_PGDIRN_LEN			64
++#define GNA_PGDIR_ENTRIES		1024 /* 32-bit page addresses */
++#define GNA_PGDIR_INVALID		1
++
++#define GNA_CTRL_START_ACCEL			BIT(0)
++#define GNA_CTRL_ACTIVE_LIST_EN			BIT(1)
++#define GNA_CTRL_ABORT_CLR_ACCEL		BIT(2)
++#define GNA_CTRL_PAUSE_ACCEL			BIT(3)
++#define GNA_CTRL_RESUME_ACCEL			BIT(4)
++#define GNA_CTRL_OP_MODE		GENMASK(6, 5)
++#define GNA_CTRL_COMP_INT_EN			BIT(8)
++#define GNA_CTRL_BP_INT_EN				BIT(9)
++#define GNA_CTRL_ERR_INT_EN				BIT(10)
++#define GNA_CTRL_COMP_STATS_EN	GENMASK(15, 12)
++#define GNA_CTRL_PM_OVER_POW_ON			BIT(16)
++#define GNA_CTRL_PM_OVER_CLK_ON			BIT(17)
++#define GNA_CTRL_PM_QUITE_IDLE_DIS		BIT(18)
++
++struct gna_mmu_info {
++	u32 vamax_size;
++	u32 rsvd_size;
++	u32 pd_size;
++};
++
++struct gna_desc_info {
++	u32 rsvd_size;
++	u32 cfg_size;
++	u32 desc_size;
++	struct gna_mmu_info mmu_info;
++};
++
++struct gna_private;
++struct gna_compute_cfg;
++
++void gna_abort_hw(struct gna_private *gna_priv);
++int gna_parse_hw_status(struct gna_private *gna_priv, u32 hw_status);
++void gna_print_error_status(struct gna_private *gna_priv, u32 hw_status);
++void gna_start_scoring(struct gna_private *gna_priv, void __iomem *addr,
++		       struct gna_compute_cfg *compute_cfg);
++
++#define gna_reg_read(addr, offset)		readl((addr) + (offset))
++#define gna_reg_write(addr, offset, value)	writel((value), (addr) + (offset))
++
++#endif // __GNA_HW_H__
 -- 
 2.28.0
 
