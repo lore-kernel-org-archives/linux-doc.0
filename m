@@ -2,33 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD678C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:48:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 643F9C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:49:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9697464E0F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:48:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E69964DAF
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:49:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbhBPRsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 12:48:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37090 "EHLO mail.kernel.org"
+        id S230428AbhBPRtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 12:49:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37514 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231322AbhBPRr1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Feb 2021 12:47:27 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B80364E04;
-        Tue, 16 Feb 2021 17:46:46 +0000 (UTC)
+        id S231292AbhBPRtO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 12:49:14 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B2A1964E04;
+        Tue, 16 Feb 2021 17:48:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613497606;
-        bh=cyWmo2IWHz6XqlAutw5VL0hTTQ/Ovvrs0LDQkd9uUmI=;
+        s=korg; t=1613497714;
+        bh=+WmbEpL5TQzZgV2633H+PRBos/ZyurXcxG9Yaf/vsPY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QSxI3viB0aH5Ccqfh5i+x+/nu+dfBHFZoK1THv+wMqsEZFVe0Jp83ooMfBsZyNLwX
-         +pWHY4kn/l2QwaKoI2yAYIZBiAV6jlm4Qy5QaAzLbs/NAXqgEEx+o81mE5Hy7rRnNx
-         v166mEDPC+oP+3blR7/P5nCyfHJEZMTlYCcnZUks=
-Date:   Tue, 16 Feb 2021 18:46:44 +0100
+        b=PfLxxktZGpCdY6t+BB2FewXmei9MpsoKrwpECT6vHQbk+zd9Uqs2VxlTHtIMIwaxB
+         KeeJXXvOHejzphs7KNQ0gX0UqUbwQKBd9VXeprmBGKV/qWUnE/9jk4a3apNfuzA0vU
+         pmYVuuEjVIagD2SW0LzO1L7SjNaJ0eOUR9aRCUhg=
+Date:   Tue, 16 Feb 2021 18:48:31 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
@@ -38,61 +38,37 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Tomasz Jankowski <tomasz1.jankowski@intel.com>,
         Savo Novakovic <savox.novakovic@intel.com>,
         Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-Message-ID: <YCwFBNa2npYcEIQ+@kroah.com>
+Subject: Re: [PATCH v1 12/12] gna: add a char device
+Message-ID: <YCwFb2X96fAaMICn@kroah.com>
 References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
- <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
+ <20210216160525.5028-13-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20210216160525.5028-13-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
-> --- /dev/null
-> +++ b/drivers/misc/gna/gna_driver.c
-> @@ -0,0 +1,65 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +// Copyright(c) 2017-2021 Intel Corporation
+On Tue, Feb 16, 2021 at 05:05:25PM +0100, Maciej Kwapulinski wrote:
+> +static inline struct gna_private *inode_to_gna(struct inode *inode)
+> +{
+> +	return container_of(inode->i_cdev, struct gna_private, cdev);
+> +}
 > +
-> +#define pr_fmt(fmt) KBUILD_MODNAME " " fmt
-
-You are a driver, you should never need a pr_* call, so this should not
-be needed.  You should always just use dev_* instead.
-
-> --- /dev/null
-> +++ b/drivers/misc/gna/gna_driver.h
-> @@ -0,0 +1,41 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/* Copyright(c) 2017-2021 Intel Corporation */
+> +static int gna_open(struct inode *inode, struct file *f)
+> +{
+> +	struct gna_file_private *file_priv;
+> +	struct gna_private *gna_priv;
 > +
-> +#ifndef __GNA_DRIVER_H__
-> +#define __GNA_DRIVER_H__
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/mutex.h>
-> +#include <linux/types.h>
-> +
-> +#define GNA_DRV_NAME	"gna"
+> +	gna_priv = inode_to_gna(inode);
+> +	if (!gna_priv)
+> +		return -ENODEV;
 
-Way too generic, no one knows what "gna" is.
+Why are you testing for things that is impossible to ever happen?
 
-> +#define GNA_DRV_VER	"1.2.0"
+Please go read your own function for proof...
 
-As Andy said, this means nothing within the kernel (or really, outside
-the kernel either), so please drop.
-
-> +
-> +#define GNA_MAX_DEVICES		16
-
-Why 16?
-
-And if that's all, then just use the misc device api, that saves you so
-much overhead and mess and you don't have to worry about sysfs and
-classes or anything like that at all.
-
-thanks,
+{sigh}
 
 greg k-h
