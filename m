@@ -2,146 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EA4C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD678C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:48:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F14A64E08
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:47:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9697464E0F
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:48:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbhBPRqu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 12:46:50 -0500
-Received: from mail-lf1-f47.google.com ([209.85.167.47]:38634 "EHLO
-        mail-lf1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230234AbhBPRqq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 12:46:46 -0500
-Received: by mail-lf1-f47.google.com with SMTP id m22so17250915lfg.5;
-        Tue, 16 Feb 2021 09:46:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7KMcXCD/b8icwHFarNkS1sFwXOCJDzvsOL0/W59FEY0=;
-        b=osvsS3whHDVdPV6kkd2W6Fqvy1GZCiO7trQhO2N8yaqPdBObE4p4YgAoTasO8AVBk5
-         oAhuAc2UGcu0nmIiBKwUvXyTdyS6msD37tcyUAjn2MIg2ZtKIV86SEGVV8UQTS+wgcQL
-         zZcIl/N3OU0neIWtNc+bhroMzD04YGUZ3xVQmMiZaJWwQHw5+QIaP1Ov1Pds6kblbipZ
-         SR79tkge90BUOMgnUEWDmIiRPJaywxValBln8ZyyoTh6xlAHYr1zFl5bPTqxhqVtlQuK
-         nBsM7DCcA5dj3DlKOGAHHPCsB6qz3uFuZFIgosvgxu2iuflz2UglQNBzDHqKnuh8BZGQ
-         VEdw==
-X-Gm-Message-State: AOAM530r7+8TUiwXy/LTLoMEs2xm5c6I9s3fqfiUkwdyMTUPpQS3RhgN
-        K4X6FZvTLadgxg4sOmq25gdga9VbCcYytX35
-X-Google-Smtp-Source: ABdhPJz1QN1cmTLZQRKiAHUxEk6a6acGCwDRBNCWaE4UuAYpLjEzV0L3S6+MUOMyl/iPDu+TvQRDlw==
-X-Received: by 2002:ac2:4c41:: with SMTP id o1mr13309969lfk.537.1613497563337;
-        Tue, 16 Feb 2021 09:46:03 -0800 (PST)
-Received: from rocinante ([95.155.85.46])
-        by smtp.gmail.com with ESMTPSA id x1sm3935751ljh.62.2021.02.16.09.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 09:46:02 -0800 (PST)
-Date:   Tue, 16 Feb 2021 18:46:01 +0100
-From:   Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, helgaas@kernel.org, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] i2c: designware: Use the correct name of
- device-managed function
-Message-ID: <YCwE2cf9X/Gd6lWy@rocinante>
-References: <20210216160249.749799-1-zhengdejin5@gmail.com>
- <20210216160249.749799-4-zhengdejin5@gmail.com>
+        id S230234AbhBPRsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 12:48:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37090 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231322AbhBPRr1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 12:47:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B80364E04;
+        Tue, 16 Feb 2021 17:46:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613497606;
+        bh=cyWmo2IWHz6XqlAutw5VL0hTTQ/Ovvrs0LDQkd9uUmI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QSxI3viB0aH5Ccqfh5i+x+/nu+dfBHFZoK1THv+wMqsEZFVe0Jp83ooMfBsZyNLwX
+         +pWHY4kn/l2QwaKoI2yAYIZBiAV6jlm4Qy5QaAzLbs/NAXqgEEx+o81mE5Hy7rRnNx
+         v166mEDPC+oP+3blR7/P5nCyfHJEZMTlYCcnZUks=
+Date:   Tue, 16 Feb 2021 18:46:44 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v1 01/12] gna: add driver module
+Message-ID: <YCwFBNa2npYcEIQ+@kroah.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+ <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210216160249.749799-4-zhengdejin5@gmail.com>
+In-Reply-To: <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dejin,
+On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
+> --- /dev/null
+> +++ b/drivers/misc/gna/gna_driver.c
+> @@ -0,0 +1,65 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright(c) 2017-2021 Intel Corporation
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME " " fmt
 
-Thank you for all the changes, looks good!
+You are a driver, you should never need a pr_* call, so this should not
+be needed.  You should always just use dev_* instead.
 
-You could improve the subject line, as it is very vague - what is the
-new function name more correct?  Was the other and/or the previous one
-not correct?  Seems like you are correcting a typo of sorts, rather than
-introducing a new function in this file.
+> --- /dev/null
+> +++ b/drivers/misc/gna/gna_driver.h
+> @@ -0,0 +1,41 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright(c) 2017-2021 Intel Corporation */
+> +
+> +#ifndef __GNA_DRIVER_H__
+> +#define __GNA_DRIVER_H__
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/mutex.h>
+> +#include <linux/types.h>
+> +
+> +#define GNA_DRV_NAME	"gna"
 
-> Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
-> the pcim_alloc_irq_vectors() function, an explicit device-managed
-> version of pci_alloc_irq_vectors(). If pcim_enable_device() has been
-> called before, then pci_alloc_irq_vectors() is actually
-> a device-managed function. It is used here as a device-managed
-> function, So replace it with pcim_alloc_irq_vectors().
+Way too generic, no one knows what "gna" is.
 
-The commit is good, but it could use some polish, so to speak.
+> +#define GNA_DRV_VER	"1.2.0"
 
-A few suggestions to think about:
+As Andy said, this means nothing within the kernel (or really, outside
+the kernel either), so please drop.
 
-  - What are we adding and/or changing, and why
-  - Why is using pcim_alloc_irq_vectors(), which is part
-    of the managed devices framework, a better alternative
-    to the pci_alloc_irq_vectors()
-  - And finally why this change allowed us to remove the
-    pci_free_irq_vectors()
+> +
+> +#define GNA_MAX_DEVICES		16
 
-> At the same time, simplify the error handling path.
+Why 16?
 
-The change simplifies the error handling path, how?  A line of two which
-explains how it has been achieved might help should someone reads the
-commit message in the future.
+And if that's all, then just use the misc device api, that saves you so
+much overhead and mess and you don't have to worry about sysfs and
+classes or anything like that at all.
 
-[...]
->  	if (controller->setup) {
->  		r = controller->setup(pdev, controller);
-> -		if (r) {
-> -			pci_free_irq_vectors(pdev);
-> +		if (r)
->  			return r;
-> -		}
->  	}
->  
->  	i2c_dw_adjust_bus_speed(dev);
-> @@ -246,10 +244,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  		i2c_dw_acpi_configure(&pdev->dev);
->  
->  	r = i2c_dw_validate_speed(dev);
-> -	if (r) {
-> -		pci_free_irq_vectors(pdev);
-> +	if (r)
->  		return r;
-> -	}
->  
->  	i2c_dw_configure(dev);
->  
-> @@ -269,10 +265,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  	adap->nr = controller->bus_num;
->  
->  	r = i2c_dw_probe(dev);
-> -	if (r) {
-> -		pci_free_irq_vectors(pdev);
-> +	if (r)
->  		return r;
-> -	}
->  
->  	pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
->  	pm_runtime_use_autosuspend(&pdev->dev);
-> @@ -292,7 +286,6 @@ static void i2c_dw_pci_remove(struct pci_dev *pdev)
->  
->  	i2c_del_adapter(&dev->adapter);
->  	devm_free_irq(&pdev->dev, dev->irq, dev);
-> -	pci_free_irq_vectors(pdev);
+thanks,
 
-If pcim_release() is called should the pci_driver's probe callback fail,
-and I assume that this is precisely the case, then all of the above make
-sense in the view of using pcim_alloc_irq_vectors().
-
-Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
-
-Krzysztof
+greg k-h
