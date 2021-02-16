@@ -2,113 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C907C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBFC6C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:50:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B55364DAF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:22:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7957C64DF0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:50:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbhBPIWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 03:22:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44949 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229830AbhBPIWP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 03:22:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613463648;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nXQZaXLCBgz8dc1mXq0vQ/pvFEf1q+06R2ew5QKUNfc=;
-        b=bLNY7cFLlQ+/um4oCe4Q2GTOHJXJJWlXB8AaMixwN+6CvehM081MTskFlE3fS/T4HJhrH8
-        BEoSDnLGop61X4xxAy8NUIhd9Y5PiJd0aqXCOdiZYa02Lz+Sy4Re0toygcEDx0s9z/S04y
-        h2NlxrqeetlJvsPjdRm0fqJoZuIcTEs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-clV1UIxWNYudo5xffb8pPg-1; Tue, 16 Feb 2021 03:20:43 -0500
-X-MC-Unique: clV1UIxWNYudo5xffb8pPg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76555192D785;
-        Tue, 16 Feb 2021 08:20:39 +0000 (UTC)
-Received: from [10.36.114.70] (ovpn-114-70.ams2.redhat.com [10.36.114.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 171BE10013DB;
-        Tue, 16 Feb 2021 08:20:32 +0000 (UTC)
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
- <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
- <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
- <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
- <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
- <CAMZfGtW6n_YUbZOPFbivzn-HP4Q2yi0DrUoQ3JAjSYy5m17VWw@mail.gmail.com>
- <CAMZfGtWVwEdBfiof3=wW2-FUN4PU-N5J=HfiAETVbwbEzdvAGQ@mail.gmail.com>
- <YCrN4/EWRTOwNw72@dhcp22.suse.cz>
- <CAMZfGtX8xizYQxwB_Ffe6VcesaftkzGPDr=BP=6va_=aR3HikQ@mail.gmail.com>
- <YCt/N9LkJT1VJEW1@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <83ba1af6-7c11-3da7-eadb-020ca591bb56@redhat.com>
-Date:   Tue, 16 Feb 2021 09:20:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229694AbhBPIub (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 03:50:31 -0500
+Received: from verein.lst.de ([213.95.11.211]:40399 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229635AbhBPIu3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 03:50:29 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 7CF7D6736F; Tue, 16 Feb 2021 09:49:47 +0100 (CET)
+Date:   Tue, 16 Feb 2021 09:49:47 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 6/7] dma-iommu: implement ->alloc_noncontiguous
+Message-ID: <20210216084947.GA23897@lst.de>
+References: <20210202095110.1215346-1-hch@lst.de> <20210202095110.1215346-7-hch@lst.de> <CAAFQd5BXAWeB2h4RvqsF1q8ip-Rhew80c7y1_og22-x3rS8KOQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YCt/N9LkJT1VJEW1@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5BXAWeB2h4RvqsF1q8ip-Rhew80c7y1_og22-x3rS8KOQ@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> If current
->> node has no memory and other nodes have enough memory.
->> We can fail to allocate vmemmap pages. But actually it is
->> suitable to allocate vmemmap pages from other nodes.
->> Right?
+On Tue, Feb 16, 2021 at 05:14:55PM +0900, Tomasz Figa wrote:
+> When working on the videobuf2 integration with Sergey I noticed that
+> we always pass 0 as DMA attrs here, which removes the ability for
+> drivers to use DMA_ATTR_ALLOC_SINGLE_PAGES.
 > 
-> Falling back to a different node would be very suboptimal because then
-> you would have vmemmap back by remote pages. We do not want that.
+> It's quite important from a system stability point of view, because by
+> default the iommu_dma allocator would prefer big order allocations for
+> TLB locality reasons. For many devices, though, it doesn't really
+> affect the performance, because of random access patterns, so single
+> pages are good enough and reduce the risk of allocation failures or
+> latency due to fragmentation.
+> 
+> Do you think we could add the attrs parameter to the
+> dma_alloc_noncontiguous() API?
 
-... and we even warn when this happens right now:
-
-mm/sparse-vmemmap.c:vmemmap_verify()
-
--- 
-Thanks,
-
-David / dhildenb
-
+Yes, we could probably do that.
