@@ -2,143 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B926EC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81330C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:29:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8BBAD64DCF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:14:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BABF64E00
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 17:29:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230352AbhBPROA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 12:14:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbhBPRNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 12:13:55 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F13ECC061574;
-        Tue, 16 Feb 2021 09:13:14 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id e9so6363927pjj.0;
-        Tue, 16 Feb 2021 09:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ekOOag42UZN3Eu67e57VbrsLUqfCOHv+bajvQxzjCe4=;
-        b=vECeKvEornGldAk+V24b5sxJbH61gD6gHUEXzmN6ARUlrYfeXRiqU9DfNGRmiS6xLj
-         CeWYuB3Iq6kRvbBXFuGpeZmq72b3eMSd4VNRZySiFH4s9i38NH5hL1teBWwiMXPNluHh
-         o5U4n5ecv5yyWzoQKJIKWQj4+rhfoDGB8FEVuCZ/VTde0Qr9MuEToWR+M9rtB1bLixrI
-         UKN23a8j+sAYq/LCZFp1uCNJaRJFoRLrfF6c8KTH1yXn01KzOCQWRuYfafqO9M7QJdOE
-         KH4LIU93AQMnz71OvGv/4Dj/uM8nWp/j8k35j3uhmt/96rsT/uC3agVHqVkUjB/UTsX9
-         I08w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ekOOag42UZN3Eu67e57VbrsLUqfCOHv+bajvQxzjCe4=;
-        b=RF3kctDOnXteL89owP4kJdtoFOm8WkutMHfxhdTuMs7cV0ukDATAZbloY5it/R4F3H
-         nWmKjkvt8GbjyUgIuVG1JcaFHh9HpXpnCrQe7eeeFZo4jaDjx/YBZ4N2y+9sBggo0Rw1
-         Wu1ynPz/x7jvWKMfZCDFgw/LQC75eAfY3kJIjxf+UuFgx9JDLBrou3ExnLVVNYaPgSVt
-         X0OaqngIWCaKQj65pfcuG7FTk4YF5drISGt6U4pGj4NH5NJaMIx6sFkm1R7NXD5NYO1b
-         yTw3mKpFL5hMDX6QfjRKmWKDRqJer9D4ofEAsekGsgHkzKAS61l590HgfuzrzVXqz/Cc
-         FcIw==
-X-Gm-Message-State: AOAM533LWbFhFerUJq4qNFvzmkyvWRgaqp3aKsc8Xsdl6h1/Wqb1mhAO
-        2bHTc8EJnBn5zDx4qt0CIs+2g0+qQLZqoYlVTke0JFrtb6Q8/DKV
-X-Google-Smtp-Source: ABdhPJzJFQwKvwwImUTfk2G7QtMM6riW7fPAclHtUuLi4u7CADjEahzY9WVX/ijntYSu6gGZPAHOCe+JOamrSPBouK0=
-X-Received: by 2002:a17:90a:4fc1:: with SMTP id q59mr5380026pjh.129.1613495594441;
- Tue, 16 Feb 2021 09:13:14 -0800 (PST)
+        id S231168AbhBPR3M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 12:29:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34074 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231176AbhBPR2t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 12:28:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 332A064DFF;
+        Tue, 16 Feb 2021 17:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613496487;
+        bh=5YQAn+QKwubyb4oA1PMBGtIpuvfy4qAGuzioBsKkxek=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=i3pgL3FOy1BiR0jL9UGENPszZ/XIACRMKxCTqu/17NS6r6QPfVQ8WPLRnb8fJv59i
+         lu7PRfhtWD8nYye1qDg7L7TqbHs0MZ9eXAnXJK6MXwlpUn+JeyQ/HSpeXCVoZ2N94A
+         v7ZgolCsA9jPrDX8gjjproQqw/eQJ/a8KVyyIWPs=
+Date:   Tue, 16 Feb 2021 18:28:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH v1 00/12] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YCwApLLjNAVl5oLd@kroah.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-References: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
- <87r1lgx8fo.fsf@meer.lwn.net> <CAHp75Vc0SwC=WxUOiokUik1G4uPE6bHfX_F_ckgp-eEJaVuWhA@mail.gmail.com>
- <87mtw4x7rw.fsf@meer.lwn.net>
-In-Reply-To: <87mtw4x7rw.fsf@meer.lwn.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Feb 2021 19:12:58 +0200
-Message-ID: <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
-Subject: Re: anonymous enums in kernel doc
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 7:05 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Andy Shevchenko <andy.shevchenko@gmail.com> writes:
->
-> > On Tue, Feb 16, 2021 at 6:51 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> >>
-> >> > Mauro, can you do some test cases in your workflow against anonymous
-> >> > enum in ernel doc, please?
-> >> >
-> >> > They are broken again, please fix the script!
-> >> >
-> >> > drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
-> >> > identifier on line:
-> >> > * enum - Locking variants of the pad configuration
-> >> >
-> >> > Above is simply a wrong statement.
-> >>
-> >> The real problem, perhaps, is that there seems to be little point in
-> >> adding kerneldoc comments for anonymous enums; where are you going to
-> >> use that documentation?
-> >
-> > I had been explicitly told during review (IIRC by maintainers) to make
-> > it such, while the initial version was exactly like you are thinking
-> > of. So, I'm not the right person to be asked :-)
+On Tue, Feb 16, 2021 at 05:05:13PM +0100, Maciej Kwapulinski wrote:
+> Dear kernel maintainers,
+> 
+> This submission is a kernel driver to support Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor available on multiple Intel platforms. AI developers and users can offload continuous inference workloads to an Intel(R) GNA device in order to free processor resources and save power. Noise reduction and speech recognition are the examples of the workloads Intel(R) GNA deals with while its usage is not limited to the two.
+> 
+> For a list of processors equipped with Intel(R) GNA device, please refer to this link:
+> https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html 
+> 
+> We think contributing this driver to the upstream kernel project is the best way for developers and users to get the latest Intel(R) GNA support in a Linux kernel, through the mainline to any Linux distributions installed on their systems. Upstreaming also enables contribution from developers around the world to the driver once it is merged.
+> 
+> The driver works with Intel(R) libraries in user space. The Intel(R) driver exposes a few IOCTL interfaces for use by libraries in user space. The libraries are open sourced and are available at:
+> https://github.com/intel/gna
+> 
+> Prior to the submission, these items were tested or examined against GNA driver patch series put on top of v5.11-rc3 tag of mainline kernel:
+> 
+> Linux Kernel patch submission checklist
+> https://www.kernel.org/doc/html/latest/process/submit-checklist.html?highlight=submit%20checklist
+> 
+> 1. If you use a facility then #include the file that defines/declares that facility. Don’t depend on other header files pulling in ones that you use.
+> (Checked)
+> 
+> 2. Builds cleanly:
+>    with applicable or modified CONFIG options =y, =m, and =n. No gcc warnings/errors, no linker warnings/errors.
+>    Passes allnoconfig, allmodconfig
+>    Builds successfully when using O=builddir
+> (Tested by building kernel with Intel(R) GNA driver config set to ‘m’, ‘y’, and ‘n’; allmodconfig, allnoconfig and O=builddir)
+> 
+> 3. Builds on multiple CPU architectures by using local cross-compile tools or some other build farm.
+> (x86_64 architecture tested - this is architecture where GNA is present and validated, please refer to drivers/misc/gna/Kconfig)
+> 
+> 4. ppc64 is a good architecture for cross-compilation checking because it tends to use unsigned long for 64-bit quantities.
+> (x86_64 architecture tested - this is architecture where GNA is present and validated, please refer to drivers/misc/gna/Kconfig)
+> 
+> 5. Check your patch for general style as detailed in Documentation/process/coding-style.rst. Check for trivial violations with the patch style checker prior to submission (scripts/checkpatch.pl). You should be able to justify all violations that remain in your patch.
+> (Checked. Some warnings were in the output. We checked them and feel they can be ignored.)
+> 
+> 6. Any new or modified CONFIG options do not muck up the config menu and default to off unless they meet the exception criteria documented in Documentation/kbuild/kconfig-language.rst Menu attributes: default value.
+> (No explicit default value is provided because Kbuild system sets it off by default.)
+> 
+> 7. All new Kconfig options have help text.
+> (Checked)
+> 
+> 8. Has been carefully reviewed with respect to relevant Kconfig combinations. This is very hard to get right with testing – brainpower pays off here.
+> (Checked)
+> 
+> 10. Use make checkstack and fix any problems that it finds.
+>     Note
+>     checkstack does not point out problems explicitly, but any one function that uses more than 512 bytes on the stack is a candidate for change.
+> (Checked)
+> 
+> 11. Include kernel-doc to document global kernel APIs. (Not required for static functions, but OK there also.) Use make htmldocs or make pdfdocs to check the kernel-doc and fix any issues.
+> (Addressed by adding new gna.rst in Documentation; tested with output from ‘make htmldocs’)
+> 
+> 12. Has been tested with CONFIG_PREEMPT, CONFIG_DEBUG_PREEMPT, CONFIG_DEBUG_SLAB, CONFIG_DEBUG_PAGEALLOC, CONFIG_DEBUG_MUTEXES, CONFIG_DEBUG_SPINLOCK, CONFIG_DEBUG_ATOMIC_SLEEP, CONFIG_PROVE_RCU and CONFIG_DEBUG_OBJECTS_RCU_HEAD all simultaneously enabled.
+> (Checked)
+> 
+> 13. Has been build- and runtime tested with and without CONFIG_SMP and CONFIG_PREEMPT.
+> (Checked)
+> 
+> 15. All new /proc entries are documented under Documentation/.
+> (The driver doesn’t introduce any new procs)
+> 
+> 16. All new kernel boot parameters are documented in Documentation/admin-guide/kernel-parameters.rst.
+> (The driver doesn’t add boot parameters)
+> 
+> 17. All new module parameters are documented with MODULE_PARM_DESC().
+> (Checked)
+> 
+> 21. Newly-added code has been compiled with gcc -W (use make EXTRA_CFLAGS=-W). This will generate lots of noise, but is good for finding bugs like “warning: comparison between signed.
+>     and unsigned”.
+> (Checked)
+> 
+> 24. If any ioctl’s are added by the patch, then also update Documentation/userspace-api/ioctl/ioctl-number.rst.
+> (Updated)
 
-Just for a reference [1].
+What is all of this?  Do you see this on any other patch submission
+00/XX patch description?
 
-> >>  The error message could perhaps be changed to
-> >> say that; meanwhile, perhaps this one could be fixed with an action like
-> >> s%/**%/*% ?
-> >
-> > See above. I think regression comes from the kernel doc script,
-> > earlier it was okay. That said, the author of kernel doc changes has
-> > to submit a patch to amend the driver and maintainers will review it.
->
-> kerneldoc now warns about various incorrect things that it used to just
-> silently pass over.  There is no regression here, just a new diagnostic
-> to point out something that was never going to work right.  Unless you
-> have a good idea for what kerneldoc should do with a block like that?
+And please wrap your columns properly.
 
-As it does, put description of individual fields and prepend it with a
-common part.
+> The above results only reflect our understanding of the test and the code referred. Please kindly let us know any issues or different observations from any further tests.
+> 
+> Thanks
+> 
+> Series-reviewed-by: Tony Luck <tony.luck@intel.com>
 
-So,
+That's not a proper sign-off-by or reviewed-by, why isn't this on the
+individual patches?
 
-enum - Bla bla bla
- @FOO: ABC
- @BAR: DEF
-Description
+You all keep coming up with new and unique ways to do patch submissions
+different than anyone else, why go through all of that effort?
 
-Should go in the doc for the corresponding file like (as an example)
+I'll look at this after 5.12-rc1 is out, but odds are, I'm not going to
+be happy with it if this is the start...
 
-Anonymous enumeration Bla bla bla
-Description
-
-FOO ABC
-BAR DEF
-
-(not sure about indentation, emphasizing and separators, but I think
-you got the idea).
-
-> (An alternative fix, of course, would be to give the enum a name so it
-> can actually be used for type checking.)
-
-That enum is not used as an enum, it provides the logically unified constants.
-
-Personally I don't see why the kernel doc can't digest this.
-
-[1]: https://patchwork.ozlabs.org/project/linux-gpio/patch/20190808132128.13359-1-andriy.shevchenko@linux.intel.com/
-
--- 
-With Best Regards,
-Andy Shevchenko
+greg k-h
