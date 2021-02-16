@@ -2,88 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 413B7C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 10:14:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28668C4332B
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 12:59:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC78F64DAF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 10:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3C7864E0F
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 12:59:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhBPKOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 05:14:34 -0500
-Received: from mga06.intel.com ([134.134.136.31]:36802 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229635AbhBPKOb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Feb 2021 05:14:31 -0500
-IronPort-SDR: b/yNd2HyoCGb7folJNVx6X3zZNfRf3k3afLWfjWzBdLOfj2vV3ucDnXHYhxqcEEGyEVEszrATb
- W3CSokmjEaUA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="244326940"
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="244326940"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 02:12:44 -0800
-IronPort-SDR: XLG93KlggrUX0euPYCsPsnILxtGtL8+XPNTCDrKysJTbdDbOj2XrG8lV2XJVFMvWM5gPX7+UqW
- OgqwQpk68tTA==
-X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="361582444"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 02:12:41 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lBxLT-005RFA-1Z; Tue, 16 Feb 2021 12:12:39 +0200
-Date:   Tue, 16 Feb 2021 12:12:39 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, helgaas@kernel.org, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <YCual+Fq9mcnxbM4@smile.fi.intel.com>
-References: <20210215181550.714101-1-zhengdejin5@gmail.com>
- <20210215181550.714101-2-zhengdejin5@gmail.com>
- <YCrfqungNSSxe5lK@rocinante>
+        id S229934AbhBPM7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 07:59:36 -0500
+Received: from mail-oo1-f44.google.com ([209.85.161.44]:33618 "EHLO
+        mail-oo1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229790AbhBPM7b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 07:59:31 -0500
+Received: by mail-oo1-f44.google.com with SMTP id f1so2260750oou.0;
+        Tue, 16 Feb 2021 04:59:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TVzLBkqKt0MyMwotNPEi8xMZ2SypGbVfWBR5eQRTmO0=;
+        b=TSrlLp/dLEvzVgYJtBCOI3GotDN81ZyYyNXCWTYNpHQgk7Li5hOwwdA5DI2aVSvN9u
+         QICOgn7PbSKOcD4TmUPyNR7oKuxBs3DRmjIHypg4EVgbNimg6pKuT5bwMw7moz4dwLlL
+         gjdt7k5aWaERMGI3+fJDXSrlHu2OJ9hawJ1IIJ519xcScgkh+VYkKXqvBJEeJYysa/jh
+         YXE+7Ldl1Zi4IScqJWUOTLySBilR7SJVmtB2c1olcSBMQ1p5so5ih9WB4v9f2GCIdtQX
+         90JznuDtxze58Ae7oSVog6crOzMwV4EJrKQef2q+3GOVSCtmHuJyt0kO8hHSu38Bx9ch
+         Kc3w==
+X-Gm-Message-State: AOAM533dFVUWMFTeNpqtYrlApLDE2W6QZi7whbG0yNmAx4DrvYCjd2vI
+        GNT/Gs4D//cYdXj1Xg9+ht5WAUkYOp5oeLp67ns=
+X-Google-Smtp-Source: ABdhPJxqORgG+iXS2MUSd76bl5TBZKlc/qcbt9O7R3tRFXJ0lESsAEHwXxj7DFW88YmAQPIcXwkV95yEjue34nqZXjY=
+X-Received: by 2002:a4a:ab08:: with SMTP id i8mr13952968oon.40.1613480328418;
+ Tue, 16 Feb 2021 04:58:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YCrfqungNSSxe5lK@rocinante>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+ <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
+ <CAMuHMdWFp_teT5Lgxe6BOpOb4UMM2_4FrKJm-2C6kuCH2YUMrw@mail.gmail.com> <CAGETcx9AZct4h0AdjbNzF5vjoYxT+M+zJ2ddsEN5SV9ALqV48A@mail.gmail.com>
+In-Reply-To: <CAGETcx9AZct4h0AdjbNzF5vjoYxT+M+zJ2ddsEN5SV9ALqV48A@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 16 Feb 2021 13:58:37 +0100
+Message-ID: <CAMuHMdULCQrjba0sM3wUFdPDTB4Txh3LVY-8ACq6P_vFJvk+SA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 09:55:06PM +0100, Krzysztof Wilczyński wrote:
+Hi Saravana,
 
-> Question: wouldn't you need to call pci_free_irq_vectors() somewhere,
-> possibly to pcim_release() callback?  Although, I am not sure where the
-> right place would be.
-> 
-> I am asking, as the documentation (see [4]) suggests that one would have
-> to release allocated IRQ vectors (relevant exceprt):
+On Mon, Feb 15, 2021 at 10:57 PM Saravana Kannan <saravanak@google.com> wrote:
+> On Mon, Feb 15, 2021 at 7:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> > > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > >   1. R-Car Gen2 (Koelsch), R-Car Gen3 (Salvator-X(S), Ebisu).
+> > > >
+> > > >       - Commit 2dfc564bda4a31bc ("soc: renesas: rcar-sysc: Mark device
+> > > >         node OF_POPULATED after init") is no longer needed (but already
+> > > >         queued for v5.12 anyway)
+> > >
+> > > Rob doesn't like the proliferation of OF_POPULATED and we don't need
+> > > it anymore, so maybe work it out with him? It's a balance between some
+> > > wasted memory (struct device(s)) vs not proliferating OF_POPULATED.
+> >
+> > > >   2. SH/R-Mobile AG5 (kzm9g), APE6 (ape6evm), A1 (armadillo800-eva)
+> > > >
+> > > >       - "PATCH] soc: renesas: rmobile-sysc: Set OF_POPULATED and absorb
+> > > >         reset handling" is no longer needed
+> > > >         https://lore.kernel.org/linux-arm-kernel/20210205133319.1921108-1-geert+renesas@glider.be/
+> > >
+> > > Good to see more evidence that this series is fixing things at a more
+> > > generic level.
+> >
+> > I spoke too soon: if CONFIG_POWER_RESET_RMOBILE=n,
+> > booting fails again, as everything is waiting on the system controller,
+> > which never becomes available.
+> > Rcar-sysc doesn't suffer from this problem, cfr. above.
+> > Perhaps because the rmobile-sysc bindings use a hierarchical instead
+> > of a linear PM domain description, and thus consumers point to the
+> > children of the system controller node?
+> > Cfr. system-controller@e6180000 in arch/arm/boot/dts/r8a7740.dtsi.
+>
+> Ok, I see what's going on. The problem is that the "power domain"
+> fwnode being registered is not the node that contains the "compatible"
+> property and becomes a device. So this patch[1] is not helping here.
+> Fix is to do something like this (to avoid using OF_POPULATED flag and
+> breaking reset):
+>
+> diff --git a/drivers/soc/renesas/rmobile-sysc.c
+> b/drivers/soc/renesas/rmobile-sysc.c
+> index 9046b8c933cb..b7e66139ef7d 100644
+> --- a/drivers/soc/renesas/rmobile-sysc.c
+> +++ b/drivers/soc/renesas/rmobile-sysc.c
+> @@ -344,6 +344,7 @@ static int __init rmobile_init_pm_domains(void)
+>                         of_node_put(np);
+>                         break;
+>                 }
+> +               fwnode_dev_initialized(&np->fwnode, true);
+>         }
+>
+>         put_special_pds();
+>
+> Can you give it a shot?
 
-It's done in pcim_release() but not explicitly.
+Thanks, works.  Patch sent
+"[PATCH v2] soc: renesas: rmobile-sysc: Mark fwnode when PM domain is added"
+https://lore.kernel.org/linux-arm-kernel/20210216123958.3180014-1-geert+renesas@glider.be/
 
-        if (dev->msi_enabled)
-                pci_disable_msi(dev);
-        if (dev->msix_enabled)
-                pci_disable_msix(dev);
+Gr{oetje,eeting}s,
 
-Maybe above can be replaced by pci_free_irq_vectors() to be sure that any
-future change to PCI IRQ allocation APIs.
-
-Yes, I have checked and currently the above code is equivalent to
-pci_free_irq_vectors().
-
-Dejin, please update your patch accordingly.
-
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
