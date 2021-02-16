@@ -2,242 +2,401 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4DCC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 18:50:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 933AAC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 18:56:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CEAF64E28
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 18:50:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C22764E68
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 18:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230073AbhBPSuP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 13:50:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230210AbhBPSuM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 13:50:12 -0500
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CF72C06178A
-        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 10:49:07 -0800 (PST)
-Received: by mail-yb1-xb36.google.com with SMTP id p186so11453921ybg.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 10:49:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ulqwXrQZpRrYT3IHT4CJ8bN5l6f9WiL4VvK05t2vkhU=;
-        b=GFVUZyY2+36xaWQOsBNcWeZvX9dgErqzir1orOVD41NTZeSKMP3B4a8JAZpGfpZNzN
-         7bXyMp1VBKh/kAFxyiGVdzGSA28wFoRfpMTz2roVpux4P7yqn6bWrY2qK82Ppkov5uAu
-         QUDkguqttvIFR+d3KCw1u52ojhCNVVQmY4DxpG/8ts2opf5bn67o4y7luRYhIOq2Pvlw
-         IvqSqfN5YIBG35KA0rfgWvZir4VWpbMA8m7NKzrc+hEQ4W99fQF8YRU4P7ukvmPeARfm
-         S0fkAUw88oh53rPVhsngwpmb43ayPtF8/Jb5qc2PUkdNqhbSgYiCedPXLmVT5cQJ805u
-         S1+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ulqwXrQZpRrYT3IHT4CJ8bN5l6f9WiL4VvK05t2vkhU=;
-        b=jFogOSz6X9bKfcYeO7uFuXiQhz6dRz6+fDysE4fjlNJMk6CR/lgfCO24xwwc2oNjYg
-         d/8ba+c5bey12ZkOAqibuQcUM6j87+0qh0vRwlEI3m1+PRIYENhwmEl35MIa6jCQYhZg
-         Rfy294R6SwVJ5qfARUVdVW9QBJPeA7+eI7BavLkxI4PxLP3RTo6euMwf5JvOW0TfmKMn
-         bhRhGNmhyYMeC40WYQvJ2dQRyl8uxuP7N1HcaaEQwhyt6CberrnLnpxceyRBrURSRDEe
-         i4oqo0c9Um3RCi3DLs4YTcYQHVfIUtVPI3FtHUnc4EICHbStiMUaUxD6ytxfTP2YW1ox
-         fVBA==
-X-Gm-Message-State: AOAM532qgblVT+sFDh8DsQ0j5vLRcjdNLfXgM3Txi6lLQlznpD3duB5b
-        ocDd2blLWSifMlVIbcR1/mOa8SE5FrWEjTYS+nkF7w==
-X-Google-Smtp-Source: ABdhPJy/W97Gt0DiNuOozzUVmxZ1k867IJaF8h5dqBDAKdPQOmZJZO6WvC505FeNpD/Kj6p1JVZxSHxHAj6xXqAAWDU=
-X-Received: by 2002:a05:6902:1025:: with SMTP id x5mr31500894ybt.96.1613501346147;
- Tue, 16 Feb 2021 10:49:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20210205222644.2357303-1-saravanak@google.com>
- <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
- <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
- <CAMuHMdXduvBqjAqraXkEKErNJFyN6JNq5wqagc4yHHPpH5SPGQ@mail.gmail.com>
- <CAGETcx_4FGa-rzLp6bjXbm4F4R6H2W78+nM_kN=XPz5hswzANA@mail.gmail.com> <CAMuHMdVodauqBmLMxsfi0kQtAFT8ruJ36LJL9YuQgqwQNKwHHg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVodauqBmLMxsfi0kQtAFT8ruJ36LJL9YuQgqwQNKwHHg@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 16 Feb 2021 10:48:30 -0800
-Message-ID: <CAGETcx_-yBvhXDPtOiKjenvx83oMNr32UvpMN0Dt-qz5ToXEbw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        id S231124AbhBPS4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 13:56:38 -0500
+Received: from foss.arm.com ([217.140.110.172]:41486 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229937AbhBPS4g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 13:56:36 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D39621042;
+        Tue, 16 Feb 2021 10:55:49 -0800 (PST)
+Received: from [10.57.48.219] (unknown [10.57.48.219])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D79A3F73B;
+        Tue, 16 Feb 2021 10:55:48 -0800 (PST)
+Subject: Re: [PATCH 4/7] dma-mapping: add a dma_alloc_noncontiguous API
+To:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        iommu@lists.linux-foundation.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20210202095110.1215346-1-hch@lst.de>
+ <20210202095110.1215346-5-hch@lst.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <53a6c581-4d9f-c69a-80f5-2e95e810c4d1@arm.com>
+Date:   Tue, 16 Feb 2021 18:55:39 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210202095110.1215346-5-hch@lst.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 12:05 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Mon, Feb 15, 2021 at 10:27 PM Saravana Kannan <saravanak@google.com> wrote:
-> > On Mon, Feb 15, 2021 at 4:38 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
-> > > > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
-> > > > >         /sys/kernel/debug/dmaengine/summary:
-> > > > >
-> > > > >             -dma4chan0    | e66d8000.i2c:tx
-> > > > >             -dma4chan1    | e66d8000.i2c:rx
-> > > > >             -dma5chan0    | e6510000.i2c:tx
-> > > >
-> > > > I think I need more context on the problem before I can try to fix it.
-> > > > I'm also very unfamiliar with that file. With fw_devlink=permissive,
-> > > > I2C was using DMA? If so, the next step is to see if the I2C relative
-> > > > probe order with DMA is getting changed and if so, why.
-> > >
-> > > More detailed log:
-> > >
-> > >     platform e66d8000.i2c: Linked as a consumer to e6150000.clock-controller
-> > >     platform e66d8000.i2c: Linked as a sync state only consumer to e6055400.gpio
-> > >
-> > > Why is e66d8000.i2c not linked as a consumer to e6700000.dma-controller?
-> >
-> > Because fw_devlink.strict=1 is not set and dma/iommu is considered an
-> > "optional"/"driver decides" dependency.
->
-> Oh, I thought dma/iommu were considered mandatory initially,
-> but dropped as dependencies in the late boot process?
+On 2021-02-02 09:51, Christoph Hellwig wrote:
+> Add a new API that returns a potentiall virtually non-contigous sg_table
+> and a DMA address.  This API is only properly implemented for dma-iommu
+> and will simply return a contigious chunk as a fallback.
+> 
+> The intent is that media drivers can use this API if either:
+> 
+>   - no kernel mapping or only temporary kernel mappings are required.
+>     That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
+>   - a kernel mapping is required for cached and DMA mapped pages, but
+>     the driver also needs the pages to e.g. map them to userspace.
+>     In that sense it is a replacement for some aspects of the recently
+>     removed and never fully implemented DMA_ATTR_NON_CONSISTENT
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   Documentation/core-api/dma-api.rst |  74 +++++++++++++++++++++
+>   include/linux/dma-map-ops.h        |  18 +++++
+>   include/linux/dma-mapping.h        |  31 +++++++++
+>   kernel/dma/mapping.c               | 103 +++++++++++++++++++++++++++++
+>   4 files changed, 226 insertions(+)
+> 
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 157a474ae54416..e24b2447f4bfe6 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -594,6 +594,80 @@ dev, size, dma_handle and dir must all be the same as those passed into
+>   dma_alloc_noncoherent().  cpu_addr must be the virtual address returned by
+>   dma_alloc_noncoherent().
+>   
+> +::
+> +
+> +	struct sg_table *
+> +	dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +				enum dma_data_direction dir, gfp_t gfp)
+> +
+> +This routine allocates  <size> bytes of non-coherent and possibly non-contiguous
+> +memory.  It returns a pointer to struct sg_table that describes the allocated
+> +and DMA mapped memory, or NULL if the allocation failed. The resulting memory
+> +can be used for struct page mapped into a scatterlist are suitable for.
+> +
+> +The return sg_table is guaranteed to have 1 single DMA mapped segment as
+> +indicated by sgt->nents, but it might have multiple CPU side segments as
+> +indicated by sgt->orig_nents.
+> +
+> +The dir parameter specified if data is read and/or written by the device,
+> +see dma_map_single() for details.
+> +
+> +The gfp parameter allows the caller to specify the ``GFP_`` flags (see
+> +kmalloc()) for the allocation, but rejects flags used to specify a memory
+> +zone such as GFP_DMA or GFP_HIGHMEM.
+> +
+> +Before giving the memory to the device, dma_sync_sgtable_for_device() needs
+> +to be called, and before reading memory written by the device,
+> +dma_sync_sgtable_for_cpu(), just like for streaming DMA mappings that are
+> +reused.
+> +
+> +::
+> +
+> +	void
+> +	dma_free_noncontiguous(struct device *dev, size_t size,
+> +			       struct sg_table *sgt,
+> +			       enum dma_data_direction dir)
+> +
+> +Free memory previously allocated using dma_alloc_noncontiguous().  dev, size,
+> +and dir must all be the same as those passed into dma_alloc_noncontiguous().
+> +sgt must be the pointer returned by dma_alloc_noncontiguous().
+> +
+> +::
+> +
+> +	void *
+> +	dma_vmap_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt)
+> +
+> +Return a contiguous kernel mapping for an allocation returned from
+> +dma_alloc_noncontiguous().  dev and size must be the same as those passed into
+> +dma_alloc_noncontiguous().  sgt must be the pointer returned by
+> +dma_alloc_noncontiguous().
+> +
+> +Once a non-contiguous allocation is mapped using this function, the
+> +flush_kernel_vmap_range() and invalidate_kernel_vmap_range() APIs must be used
+> +to manage the coherency of the kernel mapping.
 
-No, I didn't do that in case the drivers that didn't need the
-IOMMU/DMA were sensitive to probe order.
+Maybe say something like "coherency between the kernel mapping and any 
+userspace mappings"? Otherwise people like me may be easily confused and 
+think it's referring to coherency between the kernel mapping and the 
+device, where in most cases those APIs won't help at all :)
 
-My goal was for fw_devlink=on to not affect probe order for devices
-that currently don't need to defer probe. But see below...
+> +
+> +::
+> +
+> +	void
+> +	dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
+> +
+> +Unmap a kernel mapping returned by dma_vmap_noncontiguous().  dev must be the
+> +same the one passed into dma_alloc_noncontiguous().  vaddr must be the pointer
+> +returned by dma_vmap_noncontiguous().
+> +
+> +
+> +::
+> +
+> +	int
+> +	dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
+> +			       size_t size, struct sg_table *sgt)
+> +
+> +Map an allocation returned from dma_alloc_noncontiguous() into a user address
+> +space.  dev and size must be the same as those passed into
+> +dma_alloc_noncontiguous().  sgt must be the pointer returned by
+> +dma_alloc_noncontiguous().
+> +
+>   ::
+>   
+>   	int
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 11e02537b9e01b..fe46a41130e662 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -22,6 +22,10 @@ struct dma_map_ops {
+>   			gfp_t gfp);
+>   	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+>   			dma_addr_t dma_handle, enum dma_data_direction dir);
+> +	struct sg_table *(*alloc_noncontiguous)(struct device *dev, size_t size,
+> +			enum dma_data_direction dir, gfp_t gfp);
+> +	void (*free_noncontiguous)(struct device *dev, size_t size,
+> +			struct sg_table *sgt, enum dma_data_direction dir);
+>   	int (*mmap)(struct device *, struct vm_area_struct *,
+>   			void *, dma_addr_t, size_t, unsigned long attrs);
+>   
+> @@ -198,6 +202,20 @@ static inline int dma_mmap_from_global_coherent(struct vm_area_struct *vma,
+>   }
+>   #endif /* CONFIG_DMA_DECLARE_COHERENT */
+>   
+> +/*
+> + * This is the actual return value from the ->alloc_noncontiguous method.
+> + * The users of the DMA API should only care about the sg_table, but to make
+> + * the DMA-API internal vmaping and freeing easier we stash away the page
+> + * array as well (except for the fallback case).  This can go away any time,
+> + * e.g. when a vmap-variant that takes a scatterlist comes along.
+> + */
+> +struct dma_sgt_handle {
+> +	struct sg_table sgt;
+> +	struct page **pages;
+> +};
+> +#define sgt_handle(sgt) \
+> +	container_of((sgt), struct dma_sgt_handle, sgt)
+> +
+>   int dma_common_get_sgtable(struct device *dev, struct sg_table *sgt,
+>   		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+>   		unsigned long attrs);
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 4977a748cb9483..6f4d34739f5cc6 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -144,6 +144,15 @@ u64 dma_get_required_mask(struct device *dev);
+>   size_t dma_max_mapping_size(struct device *dev);
+>   bool dma_need_sync(struct device *dev, dma_addr_t dma_addr);
+>   unsigned long dma_get_merge_boundary(struct device *dev);
+> +struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +		enum dma_data_direction dir, gfp_t gfp);
+> +void dma_free_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt, enum dma_data_direction dir);
+> +void *dma_vmap_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt);
+> +void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
+> +int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
+> +		size_t size, struct sg_table *sgt);
+>   #else /* CONFIG_HAS_DMA */
+>   static inline dma_addr_t dma_map_page_attrs(struct device *dev,
+>   		struct page *page, size_t offset, size_t size,
+> @@ -257,6 +266,28 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
+>   {
+>   	return 0;
+>   }
+> +static inline struct sg_table *dma_alloc_noncontiguous(struct device *dev,
+> +		size_t size, enum dma_data_direction dir, gfp_t gfp)
+> +{
+> +	return NULL;
+> +}
+> +static inline void dma_free_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt, enum dma_data_direction dir)
+> +{
+> +}
+> +static inline void *dma_vmap_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt)
+> +{
+> +	return NULL;
+> +}
+> +static inline void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
+> +{
+> +}
+> +static inline int dma_mmap_noncontiguous(struct device *dev,
+> +		struct vm_area_struct *vma, size_t size, struct sg_table *sgt)
+> +{
+> +	return -EINVAL;
+> +}
+>   #endif /* CONFIG_HAS_DMA */
+>   
+>   struct page *dma_alloc_pages(struct device *dev, size_t size,
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 5e87dac6cc6d9a..5a62439ed483af 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -537,6 +537,109 @@ int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
+>   }
+>   EXPORT_SYMBOL_GPL(dma_mmap_pages);
+>   
+> +static struct sg_table *alloc_single_sgt(struct device *dev, size_t size,
+> +		enum dma_data_direction dir, gfp_t gfp)
+> +{
+> +	struct sg_table *sgt;
+> +	struct page *page;
+> +
+> +	sgt = kmalloc(sizeof(*sgt), gfp);
 
->
-> >
-> > >     platform e6700000.dma-controller: Linked as a consumer to
-> > > e6150000.clock-controller
-> >
-> > Is this the only supplier of dma-controller?
->
-> No, e6180000.system-controller is also a supplier.
->
-> > >     platform e66d8000.i2c: Added to deferred list
-> > >     platform e6700000.dma-controller: Added to deferred list
-> > >
-> > >     bus: 'platform': driver_probe_device: matched device
-> > > e6700000.dma-controller with driver rcar-dmac
-> > >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > > device e6700000.dma-controller
-> > >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-> > >
-> > >     bus: 'platform': driver_probe_device: matched device e66d8000.i2c
-> > > with driver i2c-rcar
-> > >     bus: 'platform': really_probe: probing driver i2c-rcar with device
-> > > e66d8000.i2c
-> > >
-> > > I2C becomes available...
-> > >
-> > >     i2c-rcar e66d8000.i2c: request_channel failed for tx (-517)
-> > >     [...]
-> > >
-> > > but DMA is not available yet, so the driver falls back to PIO.
-> > >
-> > >     driver: 'i2c-rcar': driver_bound: bound to device 'e66d8000.i2c'
-> > >     bus: 'platform': really_probe: bound device e66d8000.i2c to driver i2c-rcar
-> > >
-> > >     platform e6700000.dma-controller: Retrying from deferred list
-> > >     bus: 'platform': driver_probe_device: matched device
-> > > e6700000.dma-controller with driver rcar-dmac
-> > >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > > device e6700000.dma-controller
-> > >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
-> > >     platform e6700000.dma-controller: Added to deferred list
-> > >     platform e6700000.dma-controller: Retrying from deferred list
-> > >     bus: 'platform': driver_probe_device: matched device
-> > > e6700000.dma-controller with driver rcar-dmac
-> > >     bus: 'platform': really_probe: probing driver rcar-dmac with
-> > > device e6700000.dma-controller
-> > >     driver: 'rcar-dmac': driver_bound: bound to device 'e6700000.dma-controller'
-> > >     bus: 'platform': really_probe: bound device
-> > > e6700000.dma-controller to driver rcar-dmac
-> > >
-> > > DMA becomes available.
-> > >
-> > > Here userspace is entered. /sys/kernel/debug/dmaengine/summary shows
-> > > that the I2C controllers do not have DMA channels allocated, as the
-> > > kernel has performed no more I2C transfers after DMA became available.
-> > >
-> > > Using i2cdetect shows that DMA is used, which is good:
-> > >
-> > >     i2c-rcar e66d8000.i2c: got DMA channel for rx
-> > >
-> > > With permissive devlinks, the clock controller consumers are not added
-> > > to the deferred probing list, and probe order is slightly different.
-> > > The I2C controllers are still probed before the DMA controllers.
-> > > But DMA becomes available a bit earlier, before the probing of the last
-> > > I2C slave driver.
-> >
-> > This seems like a race? I'm guessing it's two different threads
-> > probing those two devices? And it just happens to work for
-> > "permissive" assuming the boot timing doesn't change?
-> >
-> > > Hence /sys/kernel/debug/dmaengine/summary shows that
-> > > some I2C transfers did use DMA.
-> > >
-> > > So the real issue is that e66d8000.i2c not linked as a consumer to
-> > > e6700000.dma-controller.
-> >
-> > That's because fw_devlink.strict=1 isn't set. If you need DMA to be
-> > treated as a mandatory supplier, you'll need to set the flag.
-> >
-> > Is fw_devlink=on really breaking anything here? It just seems like
-> > "permissive" got lucky with the timing and it could break at any point
-> > in the future. Thought?
->
-> I don't think there is a race.
+It might be nice to allocate a dma_sgt_handle here for consistency.
 
-Can you explain more please? This below makes it sound like DMA just
-sneaks in at the last minute.
+> +	if (!sgt)
+> +		return NULL;
+> +	if (sg_alloc_table(sgt, 1, gfp))
+> +		goto out_free_sgt;
+> +	page = __dma_alloc_pages(dev, size, &sgt->sgl->dma_address, dir, gfp);
+> +	if (!page)
+> +		goto out_free_table;
+> +	sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+> +	sg_dma_len(sgt->sgl) = sgt->sgl->length;
+> +	return sgt;
+> +out_free_table:
+> +	sg_free_table(sgt);
+> +out_free_sgt:
+> +	kfree(sgt);
+> +	return NULL;
+> +}
+> +
+> +struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +		enum dma_data_direction dir, gfp_t gfp)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +	struct sg_table *sgt;
+> +
+> +	if (ops && ops->alloc_noncontiguous)
+> +		sgt = ops->alloc_noncontiguous(dev, size, dir, gfp);
+> +	else
+> +		sgt = alloc_single_sgt(dev, size, dir, gfp);
+> +
+> +	if (sgt) {
+> +		sgt->nents = 1;
+> +		debug_dma_map_sg(dev, sgt->sgl, sgt->orig_nents, 1, dir);
+> +	}
+> +	return sgt;
+> +}
+> +EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
+> +
+> +static void free_single_sgt(struct device *dev, size_t size,
+> +		struct sg_table *sgt, enum dma_data_direction dir)
+> +{
+> +	__dma_free_pages(dev, size, sg_page(sgt->sgl), sgt->sgl->dma_address,
+> +			 dir);
+> +	sg_free_table(sgt);
+> +	kfree(sgt);
+> +}
+> +
+> +void dma_free_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt, enum dma_data_direction dir)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +	debug_dma_unmap_sg(dev, sgt->sgl, sgt->orig_nents, dir);
+> +	if (ops && ops->free_noncontiguous)
+> +		ops->free_noncontiguous(dev, size, sgt, dir);
+> +	else
+> +		free_single_sgt(dev, size, sgt, dir);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
+> +
+> +void *dma_vmap_noncontiguous(struct device *dev, size_t size,
+> +		struct sg_table *sgt)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> +
+> +	if (ops && ops->alloc_noncontiguous)
+> +		return vmap(sgt_handle(sgt)->pages, count, VM_MAP, PAGE_KERNEL);
+> +	return page_address(sg_page(sgt->sgl));
 
-> > > The I2C controllers are still probed before the DMA controllers.
-> > > But DMA becomes available a bit earlier, before the probing of the last
-> > > I2C slave driver.
+If the fallback case was consistent, you could simply look at whether 
+sgt_handle(sgt)->pages was set and avoid having to poke at the ops at 
+all. Or even better, just look at sgt->orig_nents, where if it's 1 you 
+don't need to vmap either way, and if it's larger then you can assume 
+pages is valid because it couldn't have come from the fallback case.
 
->  fw_devlinks calling driver_deferred_probe_add()
-> on all consumers has a big impact on probe order.
+FWIW I still think this deserves to be a common sg_vmap_table() helper 
+rather than pretending the operation is somehow exclusive to the DMA 
+API. Even if it has to effectively perform sg_alloc_table_from_pages() 
+in reverse, it's not like we don't have precedent for that sort of 
+thing, e.g. dma_common_contiguous_remap(). That particular point is just 
+a grumble though, and I'm not going to let it stand in the way of this 
+series which I know is addressing actual issues :)
 
-Ugh... yeah. That's the real issue. This is really a device links
-issue that fw_devlink is exposing. I already have a bunch of things in
-my TODO list to improve deferred probing and probe ordering. Since
-this is not causing boot issues (only DMA issue) with fw_devlink=on,
-can we treat this as not a blocking item for fw_devlink=on? Once I go
-through my TODO list, it should be fixed (by not changing probe
-ordering unnecessarily). And if not, I can help find out a different
-solution at that point.
+> +}
+> +EXPORT_SYMBOL_GPL(dma_vmap_noncontiguous);
+> +
+> +void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +	if (ops && ops->alloc_noncontiguous)
 
-Also, if you have IOMMU drivers, then fw_devlink.strict is also
-another solution that's available. On a separate note (not a final
-fix), I was wondering if we should have a config for fw_devlink.strict
-default value and then have it selected when IOMMU drivers configs are
-enabled.
+is_vmalloc_addr(vaddr) seems like an even more logical condition, and at 
+that point it really becomes a very generic helper that could already be 
+used in a few other places.
 
--Saravana
+> +		vunmap(vaddr);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_vunmap_noncontiguous);
+> +
+> +int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
+> +		size_t size, struct sg_table *sgt)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +
+> +	if (ops && ops->alloc_noncontiguous) {
+> +		unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> +
+> +		if (vma->vm_pgoff >= count ||
+> +		    vma_pages(vma) > count - vma->vm_pgoff)
+> +			return -ENXIO;
+
+If you're calling vm_map_pages() you shouldn't need to duplicate these 
+checks.
+
+> +		return vm_map_pages(vma, sgt_handle(sgt)->pages, count);
+> +	}
+> +	return dma_mmap_pages(dev, vma, size, sg_page(sgt->sgl));
+
+Same comment about pages/orig_nents as above. Although does this 
+function even need to have a split personality at all - how hard would 
+it really be to call remap_pfn_range() in a for_each_sgtable_sg() loop? 
+(Or perhaps for_each_sgtable_page()/vm_insert_page() would be even 
+closer to what you already have here...)
+
+Robin.
+
+> +}
+> +EXPORT_SYMBOL_GPL(dma_mmap_noncontiguous);
+> +
+>   int dma_supported(struct device *dev, u64 mask)
+>   {
+>   	const struct dma_map_ops *ops = get_dma_ops(dev);
+> 
