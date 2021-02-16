@@ -2,79 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 914B0C43381
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68ABEC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:41:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C59564E04
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:35:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C25F64E10
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbhBPOfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 09:35:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230038AbhBPOfK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 09:35:10 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7713C061574;
-        Tue, 16 Feb 2021 06:34:27 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id j12so6218064pfj.12;
-        Tue, 16 Feb 2021 06:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=9AsRqRGn0MWixx73KXgK8PNlpqgSNU3lrracUWioopg=;
-        b=YfPfq1/D22BdFQJv0b33A86n9EmS1c2Fzz7teSzpkw4M/nKdIl+3T/LFWDmROy70fD
-         lhrg02hYCsmjxv/GYE5aw7Z2p+ph41rjyRf0Gd9hMJN/zQ6qlwXZqsvBgxa7wMbEELKk
-         n6Z+EkRuysBZtLwC0UTUcSfowT9faNSU05JSQLE9MYnJb6sujicIDcpd/S/NIaKRGbEs
-         F8tpDPl8SueEXLK8MBAd1tl1nCePEsYW7f1cV8xa+mLo3bGO4c0p8Bye2QKwOfKHnM1K
-         yC5kKh2RY1spyiDFXJSX2g+M7ZY6S6bssbB0IFlr/yQlZQFeFDCtf3lmJ1MiylIYMHte
-         +wxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=9AsRqRGn0MWixx73KXgK8PNlpqgSNU3lrracUWioopg=;
-        b=HSZNQIy/HtSlCeN4MxYuuVd7UK7Q4xMCytvRF53zulskacKbG3uTd1QgQOuHzEoAjH
-         RPZavIdzTFLfAEdf0Tel3uOPwNrBl9GKBIM4LlB8ysoqnPUAKF4kWGadkcDn5V1KoJjU
-         JWPrAwdvH7tjffbzsGSLyZ+QNrIrtTDR+PyD4LYz83fg+IeG+hFOcD2RF7GX+IkuCuOB
-         OUMOlzEwgwzs33PKPJsEQ9onVYhEkCyiJx0hcHqiS8COuPWxgzW2Ucf4rJpGJO1Lh7d8
-         J/4aYlIc6M9SsUo+NHg7gzIFYz6TBmF6XwyuwzqZxbB72jDD+RQAfCzIygSLspqabnLD
-         WRlA==
-X-Gm-Message-State: AOAM530xyWZalWauqGKrkLhZ7IVyKdNR5XsQXtpVHEkSWXZEBQWehp5r
-        h5Oyp4RMc7J5+kIHOdAb7Rl+YkEtuPtwrXJLoWvf9lii+ZdHCyuGpZw=
-X-Google-Smtp-Source: ABdhPJxuBuoiYoJac6FeR7KQUvNLDiA83ZOlcUQVbCWq+WOJh8251H/R/0rO8eJ4ssfUz3tWXuJsA5mjRbGfymWtcXU=
-X-Received: by 2002:a05:6a00:854:b029:1b7:6233:c5f with SMTP id
- q20-20020a056a000854b02901b762330c5fmr20357515pfk.73.1613486066961; Tue, 16
- Feb 2021 06:34:26 -0800 (PST)
+        id S230162AbhBPOlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 09:41:40 -0500
+Received: from mga06.intel.com ([134.134.136.31]:60032 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229916AbhBPOlL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 09:41:11 -0500
+IronPort-SDR: jIas1xF4TaOMw+ssUkMtzicRfSWUDAzUO3b4FTlWVdjqE2uvNGLv88+rt1kqPeX96WU+LtIsPJ
+ +vsmfDa+0+/A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="244377521"
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
+   d="scan'208";a="244377521"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 06:39:14 -0800
+IronPort-SDR: zXTNp0diplCmlIc1HMcl9+3iipNwCOEwZUWnYn4bABY29FaA3CkgDNxoeIKWy3Mx9tjPvJn2Kj
+ /KU7OBGzcpRA==
+X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
+   d="scan'208";a="493310383"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 06:39:11 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lC1VN-005U7J-4w; Tue, 16 Feb 2021 16:39:09 +0200
+Date:   Tue, 16 Feb 2021 16:39:09 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        mika.westerberg@linux.intel.com, rric@kernel.org,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, kw@linux.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] i2c: designware: Use the correct name of
+ device-managed function
+Message-ID: <YCvZDTLYPOvg73lb@smile.fi.intel.com>
+References: <20210216141810.747678-1-zhengdejin5@gmail.com>
+ <20210216141810.747678-4-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Feb 2021 16:34:11 +0200
-Message-ID: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
-Subject: anonymous enums in kernel doc
-To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210216141810.747678-4-zhengdejin5@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro, can you do some test cases in your workflow against anonymous
-enum in ernel doc, please?
+On Tue, Feb 16, 2021 at 10:18:09PM +0800, Dejin Zheng wrote:
+> Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
+> the pcim_alloc_irq_vectors() function, an explicit device-managed version
+> of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
+> before, then pci_alloc_irq_vectors() is actually a device-managed
+> function. It is used here as a device-managed function, So replace it
+> with pcim_alloc_irq_vectors().
 
-They are broken again, please fix the script!
+...
 
-drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
-identifier on line:
-* enum - Locking variants of the pad configuration
+> -	r = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+> +	r = pcim_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+>  	if (r < 0)
+>  		return r;
 
-Above is simply a wrong statement.
+It's good, but now why do we have pci_free_irq_vectors() in the same file?
+
 
 -- 
 With Best Regards,
 Andy Shevchenko
+
+
