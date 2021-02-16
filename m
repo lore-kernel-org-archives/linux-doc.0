@@ -4,38 +4,37 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DEE2C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE2EC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:22:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BAE064E02
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6109864DAF
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:22:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbhBPIQ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 03:16:58 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42062 "EHLO mx2.suse.de"
+        id S229862AbhBPIWS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 03:22:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45514 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229916AbhBPIQk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Feb 2021 03:16:40 -0500
+        id S229811AbhBPIVv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 03:21:51 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613463352; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1613463662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Cd6iBVx8TLBh3eG8PbSuUvtxi0546CjvNoO2Rg8UJbo=;
-        b=ff0+X2CNo/g34XoaYWYd+6mjjJvmqDexKEitwg62RNGxJPmQENfikjDuVCe9o6D3+xi0C4
-        fNMneR8n7GZVjxLI/Xk3uP5ivfK1EK6Xk6ErzCnCfwatUiUSJGhX5KRVDUOaGWv+ohz4rF
-        CpFvVsxFEYtZd/aVNMEZbOx56ATbbYY=
+        bh=yxFwziSyZyOqU27QatYvWYrbroR4UnAqOg89qO7rMuM=;
+        b=eYhfed6NW++hDwqLUPTACF6UbC/shda+lS/QxJlotWM16Wipv6jy5WmRh0cQc/dRvyIxn1
+        ej82DijW+bwiWE8xN5YuvI0cL/vh4pQBm5opBLNybn59CV64dhCAs6bX7KzaRJl7Wzoetb
+        brEJ3VJWFdkxM425lJ/yR6eCq3l9z6o=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 6FCFAB027;
-        Tue, 16 Feb 2021 08:15:52 +0000 (UTC)
-Date:   Tue, 16 Feb 2021 09:15:51 +0100
+        by mx2.suse.de (Postfix) with ESMTP id 8D7B1AD29;
+        Tue, 16 Feb 2021 08:21:02 +0000 (UTC)
+Date:   Tue, 16 Feb 2021 09:21:01 +0100
 From:   Michal Hocko <mhocko@suse.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Muchun Song <songmuchun@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
         bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -50,7 +49,6 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Matthew Wilcox <willy@infradead.org>,
         Oscar Salvador <osalvador@suse.de>,
         "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
         HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
         <naoya.horiguchi@nec.com>,
         Joao Martins <joao.m.martins@oracle.com>,
@@ -60,53 +58,44 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
  pages associated with each HugeTLB page
-Message-ID: <YCt/N9LkJT1VJEW1@dhcp22.suse.cz>
-References: <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
+Message-ID: <YCuAbWJC751ROfTS@dhcp22.suse.cz>
+References: <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
+ <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
  <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
  <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
  <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
  <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
  <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
  <CAMZfGtW6n_YUbZOPFbivzn-HP4Q2yi0DrUoQ3JAjSYy5m17VWw@mail.gmail.com>
- <CAMZfGtWVwEdBfiof3=wW2-FUN4PU-N5J=HfiAETVbwbEzdvAGQ@mail.gmail.com>
- <YCrN4/EWRTOwNw72@dhcp22.suse.cz>
- <CAMZfGtX8xizYQxwB_Ffe6VcesaftkzGPDr=BP=6va_=aR3HikQ@mail.gmail.com>
+ <YCrFY4ODu/O9KSND@dhcp22.suse.cz>
+ <4f8664fb-0d65-b7d6-39d6-2ce5fc86623a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMZfGtX8xizYQxwB_Ffe6VcesaftkzGPDr=BP=6va_=aR3HikQ@mail.gmail.com>
+In-Reply-To: <4f8664fb-0d65-b7d6-39d6-2ce5fc86623a@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 16-02-21 12:34:41, Muchun Song wrote:
-> On Tue, Feb 16, 2021 at 3:39 AM Michal Hocko <mhocko@suse.com> wrote:
-[...]
-> > > Using GFP_KERNEL will also use the current task cpuset to allocate
-> > > memory. Do we have an interface to ignore current task cpuset？If not,
-> > > WQ may be the only option and it also will not limit the context of
-> > > put_page. Right?
-> >
-> > Well, GFP_KERNEL is constrained to the task cpuset only if the said
-> > cpuset is hardwalled IIRC. But I do not see why this is a problem.
+On Tue 16-02-21 09:13:09, David Hildenbrand wrote:
+> On 15.02.21 20:02, Michal Hocko wrote:
+> > Would it be feasible to reused parts of the freed page in
+> > the worst case?
 > 
-> I mean that if there are more than one node in the system,
-> but the current task cpuset only allows one node.
+> As already discussed, this is only possible when the huge page does not
+> reside on ZONE_MOVABLE/CMA.
 
-How would that cpuset get a huge pages from a node which is not part of
-the cpuset? Well, that would be possible if the cpuset was dynamic but I
-am not sure that such a configuration would be very sensible along with
-hardwall setup.
+Right. But usually this is not the case so it would be at least
+something.
 
-> If current
-> node has no memory and other nodes have enough memory.
-> We can fail to allocate vmemmap pages. But actually it is
-> suitable to allocate vmemmap pages from other nodes.
-> Right?
+> In addition, we can no longer form a huge page at that memory location ever.
 
-Falling back to a different node would be very suboptimal because then
-you would have vmemmap back by remote pages. We do not want that.
+Yes, that's why I am saying in the worst case. E.g. when dissolving is
+really necessary like in hwpoison case.
+
+Maybe we are really far from needing something like that. I just wanted
+to mention this option and I was not aware this has been discussed
+previously.
 -- 
 Michal Hocko
 SUSE Labs
