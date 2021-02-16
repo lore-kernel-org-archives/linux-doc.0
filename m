@@ -2,105 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F11C433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D18C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:12:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F7AD64E0F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:12:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA73264E07
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 16:12:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbhBPQMR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 11:12:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45418 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbhBPQMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 11:12:13 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3923CC06174A;
-        Tue, 16 Feb 2021 08:11:33 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id b8so5718947plh.12;
-        Tue, 16 Feb 2021 08:11:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=O4BOSVZF//SD2MgB6FxC/ZePgnMl6scWXFEj2mjFbLc=;
-        b=aDkMzIUgy1SLS9scUmC+Su6orAL1zTCD2Yw9xgN+b2/POclQFBzkkXvhroX6ET/lXZ
-         9J4HMvdYYSs/WlS3qjSgBPG6+BCGMhdYnKz8B6HWPcfyhlXm9F9bP1o5D2vu0ZMTtVvf
-         tb7BXQVdOkYGo/ncZ1F19VJhU3dpeFN9E7Zi/BYkL6ISG2IYlZTZ+AgxXZ0zYz51sKkx
-         CIXKzl4CTYK/uQ26mKUjxnQrmW84tGSA0vApC3mm+M1WYpG/2xZQKnftm7IPOJkZtagS
-         YC3U5oqIoksZ+X72FTwO17dcGLHbHtgxJiiLFmmYWk4+dhrwD/ciffEv81zQLEW0neKb
-         k0Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=O4BOSVZF//SD2MgB6FxC/ZePgnMl6scWXFEj2mjFbLc=;
-        b=QMvx8Dj7ypYMqZN6TRN9qrORWC2bZCrpgnFKeHtq+EPiTdixm5xqVxpiVW45RkZtOP
-         +YOD63aY+F+9frs5cB6Pfmjjv0Vb6HrhxXn8IX/tny2UPYYqd1PVWzOldnaoH8XfRUEj
-         d/JSwl4G1i45F2LcSC1J6hYEJ9yuHFOJ+Fu8hXeYgVjbPZ8LwVeMhn7PKk+x1bBLpGX2
-         6iGYWl9QqVA2yUJfWYyT07M8db6Y4X9ilxZWxm88qsY/1BAvNZ11QZcReOyrXRNO5ZEZ
-         S9rhkZ8DpeT1OXceZhzKBAB4bALMnfb1b2L46hIQ7cK9Jiub+Vh18wBPVFJl8UrlA6gK
-         xlww==
-X-Gm-Message-State: AOAM532O6pYKDvmTw64LM3wRvjwbNFkAwXxNPD5+bSMb4peDBFa06ruy
-        wm2TD4T5d/EY5uI0bHGkEhQ=
-X-Google-Smtp-Source: ABdhPJxP9MNZA1JtzW+Gu4yCVPqpOMZbT9L05YafA2kUgdGNkmtAltcNUj2Q6GTFOzCDw0WKhHv0MQ==
-X-Received: by 2002:a17:90b:4acc:: with SMTP id mh12mr4951568pjb.10.1613491892710;
-        Tue, 16 Feb 2021 08:11:32 -0800 (PST)
-Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
-        by smtp.gmail.com with ESMTPSA id ms24sm3228789pjb.18.2021.02.16.08.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 08:11:32 -0800 (PST)
-Date:   Wed, 17 Feb 2021 00:11:29 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, kw@linux.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] i2c: designware: Use the correct name of
- device-managed function
-Message-ID: <20210216161129.GA749996@nuc8i5>
-References: <20210216141810.747678-1-zhengdejin5@gmail.com>
- <20210216141810.747678-4-zhengdejin5@gmail.com>
- <YCvZDTLYPOvg73lb@smile.fi.intel.com>
+        id S230496AbhBPQMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 11:12:39 -0500
+Received: from mga01.intel.com ([192.55.52.88]:31316 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230499AbhBPQMd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Feb 2021 11:12:33 -0500
+IronPort-SDR: 8o4MimEv/v0MFqZcRKM38qNDhJD7N6Oev87E9SRByAuF2XjrkGTB3fCbOjuX1woAQ5PPZJy5tI
+ IdK8oMTNVtTA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="202118596"
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="202118596"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:08:09 -0800
+IronPort-SDR: zh/374SG7yj0lIBvv9fWouF7d0bh94e4N1eKAGPnEXCG2KgnINKEg+HzrugjXNwzt+DuK4npHL
+ VP4I/XN0ZmPA==
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="493336683"
+Received: from gna-dev.igk.intel.com ([10.102.80.34])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 08:08:06 -0800
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: [PATCH v1 06/12] gna: add hardware ids
+Date:   Tue, 16 Feb 2021 17:05:19 +0100
+Message-Id: <20210216160525.5028-7-maciej.kwapulinski@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YCvZDTLYPOvg73lb@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 04:39:09PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 16, 2021 at 10:18:09PM +0800, Dejin Zheng wrote:
-> > Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
-> > the pcim_alloc_irq_vectors() function, an explicit device-managed version
-> > of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
-> > before, then pci_alloc_irq_vectors() is actually a device-managed
-> > function. It is used here as a device-managed function, So replace it
-> > with pcim_alloc_irq_vectors().
-> 
-> ...
-> 
-> > -	r = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-> > +	r = pcim_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-> >  	if (r < 0)
-> >  		return r;
-> 
-> It's good, but now why do we have pci_free_irq_vectors() in the same file?
->
-Done. and thank you for your careful inspection.
+From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 
+Add PCI ids of Intel(R) Gaussian & Neural Accelerator on supported
+platforms.
 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+Tested-by: Savo Novakovic <savox.novakovic@intel.com>
+Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+---
+ drivers/misc/gna/gna_device.c | 76 +++++++++++++++++++++++++++++++++++
+ drivers/misc/gna/gna_device.h |  2 +
+ drivers/misc/gna/gna_driver.c |  1 +
+ 3 files changed, 79 insertions(+)
+
+diff --git a/drivers/misc/gna/gna_device.c b/drivers/misc/gna/gna_device.c
+index d6a6d3cab570..7031a5d7c16c 100644
+--- a/drivers/misc/gna/gna_device.c
++++ b/drivers/misc/gna/gna_device.c
+@@ -8,6 +8,82 @@
+ #include "gna_driver.h"
+ #include "gna_hw.h"
+ 
++#define GNA_DEV_HWID_CNL	0x5A11
++#define GNA_DEV_HWID_EHL	0x4511
++#define GNA_DEV_HWID_GLK	0x3190
++#define GNA_DEV_HWID_ICL	0x8A11
++#define GNA_DEV_HWID_JSL	0x4E11
++#define GNA_DEV_HWID_TGL	0x9A11
++
++#define GNA_FEATURES \
++	.max_hw_mem = 256 * 1024 * 1024, \
++	.num_pagetables = 64, \
++	.num_page_entries = PAGE_SIZE / sizeof(u32), \
++	/* desc_info all in bytes */ \
++	.desc_info = { \
++		.rsvd_size = 256, \
++		.cfg_size = 256, \
++		.desc_size = 784, \
++		.mmu_info = { \
++			.vamax_size = 4, \
++			.rsvd_size = 12, \
++			.pd_size = 4 * 64, \
++		}, \
++	}
++
++#define GNA_GEN1_FEATURES \
++	GNA_FEATURES, \
++	.max_layer_count = 1024
++
++#define GNA_GEN2_FEATURES \
++	GNA_FEATURES, \
++	.max_layer_count = 4096
++
++static const struct gna_drv_info cnl_drv_info = {
++	.hwid = GNA_DEV_HWID_CNL,
++	GNA_GEN1_FEATURES
++};
++
++static const struct gna_drv_info glk_drv_info = {
++	.hwid = GNA_DEV_HWID_GLK,
++	GNA_GEN1_FEATURES
++};
++
++static const struct gna_drv_info ehl_drv_info = {
++	.hwid = GNA_DEV_HWID_EHL,
++	GNA_GEN1_FEATURES
++};
++
++static const struct gna_drv_info icl_drv_info = {
++	.hwid = GNA_DEV_HWID_ICL,
++	GNA_GEN1_FEATURES
++};
++
++static const struct gna_drv_info jsl_drv_info = {
++	.hwid = GNA_DEV_HWID_JSL,
++	GNA_GEN2_FEATURES
++};
++
++static const struct gna_drv_info tgl_drv_info = {
++	.hwid = GNA_DEV_HWID_TGL,
++	GNA_GEN2_FEATURES
++};
++
++#define INTEL_GNA_DEVICE(hwid, info) \
++	{ PCI_VDEVICE(INTEL, hwid), (kernel_ulong_t)(info) }
++
++const struct pci_device_id gna_pci_ids[] = {
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_CNL, &cnl_drv_info),
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_EHL, &ehl_drv_info),
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_GLK, &glk_drv_info),
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_ICL, &icl_drv_info),
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_JSL, &jsl_drv_info),
++	INTEL_GNA_DEVICE(GNA_DEV_HWID_TGL, &tgl_drv_info),
++	{ }
++};
++
++MODULE_DEVICE_TABLE(pci, gna_pci_ids);
++
+ static int gna_dev_init(struct gna_private *gna_priv, struct pci_dev *pcidev,
+ 			const struct pci_device_id *pci_id)
+ {
+diff --git a/drivers/misc/gna/gna_device.h b/drivers/misc/gna/gna_device.h
+index ee234e474d43..22c47f2c03ec 100644
+--- a/drivers/misc/gna/gna_device.h
++++ b/drivers/misc/gna/gna_device.h
+@@ -56,6 +56,8 @@ struct gna_private {
+ 	struct mutex memidr_lock;
+ };
+ 
++extern const struct pci_device_id gna_pci_ids[];
++
+ int gna_probe(struct pci_dev *dev, const struct pci_device_id *id);
+ 
+ void gna_remove(struct pci_dev *dev);
+diff --git a/drivers/misc/gna/gna_driver.c b/drivers/misc/gna/gna_driver.c
+index 81f0f003f377..80981c448f3a 100644
+--- a/drivers/misc/gna/gna_driver.c
++++ b/drivers/misc/gna/gna_driver.c
+@@ -15,6 +15,7 @@ struct class *gna_class;
+ 
+ static struct pci_driver gna_driver = {
+ 	.name = GNA_DRV_NAME,
++	.id_table = gna_pci_ids,
+ 	.probe = gna_probe,
+ 	.remove = gna_remove,
+ };
+-- 
+2.28.0
+
