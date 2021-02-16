@@ -2,371 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 873B0C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 20:19:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7927AC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 20:32:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5774464EC2
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 20:19:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FFF864EB6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 20:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbhBPUTI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 15:19:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbhBPUTG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 15:19:06 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C54C061574;
-        Tue, 16 Feb 2021 12:18:26 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id my11so319547pjb.1;
-        Tue, 16 Feb 2021 12:18:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sw3Xj2DTYhteZ+AfUavTEkrGfD2bGGbjZ7Fu3XOlC1o=;
-        b=bYxqjpb1IzrHGTXF3/YVisqyGnOa5ir60g4VTYFA5gtqfHoBE6UdmYl4h50AS7nwA6
-         NxwuhTQ/wiRP9LRebJm3GXkSsx87YOp4KXFrPBPGha24J6dhEFMri5e7uLNDcqw2BojO
-         wvNeR0OwN27LjD9rwuQ601NWk4etixUFws75xWeBQsGJzYlqYj753112hJq2bLIzPwXv
-         wI7U7PF9ZUwLc5/OTJ0qvAb2EizSqe+MjGIDTOfqtbtRlN7qBxGCp4VSYo4Rfj2yo6z4
-         TeQZsalRsI5E+pJfE5fpCdU4ZzB30JJTlGqk9y90vroj3ydpxCo0HQsWKuChaL4jDitb
-         DxpA==
+        id S229811AbhBPUch (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 15:32:37 -0500
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:41380 "EHLO
+        mail-oi1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229771AbhBPUch (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 15:32:37 -0500
+Received: by mail-oi1-f174.google.com with SMTP id v193so12584610oie.8;
+        Tue, 16 Feb 2021 12:32:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sw3Xj2DTYhteZ+AfUavTEkrGfD2bGGbjZ7Fu3XOlC1o=;
-        b=D29BhOzHG8LAS1a4owrH6nIXpsBe0pw2yLWfTQRhdJlojzLPteKFAgk2OxqYKlXJlC
-         gtHrY549GTQMsnEGHeFjbrYN0i9CPy7T8ZvvOtGTmDuAr7Mp2n7fNlE8sRFuC2EVbPh9
-         wVu+PoPbrjZCl6L+/f4hSWxQPUCsOaUbnXIMctWnA1DR9qXDsQtXtX3nxboQfxrv5bJx
-         fH1EGqvJMNiDOKkCp4JjIwtsMqXu72I0mWzh+cL1ePRlEdQYmCyAByu3c7X8i5VD5oRs
-         7BDn/TYjeWJ7cWlbQeIXnUz0Rv6wM3ZtBEyD1GV40QwkpvBCx7LTijF93RQnUV6FmRu6
-         E2Rg==
-X-Gm-Message-State: AOAM533TEabZCF5maSCT5ywQ6QR2YmIFLOOo82D0AFOl3FzJXymVcDbf
-        yxubuerMT6/OV+4nTkoDq7lMxelWYKY=
-X-Google-Smtp-Source: ABdhPJywzIWQJLi9mvEQKW4Fk+OZ3WbyFCGg0+p4JgAsSVpf2CjctJi8QBdzLP18Dr/F1HRNDED9hA==
-X-Received: by 2002:a17:902:9009:b029:dc:52a6:575 with SMTP id a9-20020a1709029009b02900dc52a60575mr20617651plp.57.1613506705969;
-        Tue, 16 Feb 2021 12:18:25 -0800 (PST)
-Received: from shane-XPS-13-9380.hsd1.ca.comcast.net ([2601:646:8800:1c00:423b:9598:9909:5513])
-        by smtp.gmail.com with ESMTPSA id f25sm23695717pfk.184.2021.02.16.12.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 12:18:25 -0800 (PST)
-From:   Xie He <xie.he.0141@gmail.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-x25@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Martin Schiller <ms@dev.tdt.de>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Xie He <xie.he.0141@gmail.com>
-Subject: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-Date:   Tue, 16 Feb 2021 12:18:13 -0800
-Message-Id: <20210216201813.60394-1-xie.he.0141@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=927w3C5wOreIMVqF7KZZWL8Qt1QVMVnJDepIixCvrzw=;
+        b=mkZ4wf02MfAcIz+RPGKOobSfMgZAsQXuQTXOAeN+KnB5WEblsW5IwXZBJttkqGoahL
+         rjlBxfe4YL9g0ymlfclSEAddYkd6SNNv6CoCSOSc//yXcGYoaUjQ3QW2GumxoyzII5Bc
+         XQlxT1xLkKJ1Mf4lwz4DBCpTssWPBxh12or5iBIgY9vUf6o2wV9J9sOAuhplXvmysQpz
+         /QKM2rPMDRxlpVZy7i9i6lyYcP43xxzjgP4ats5eIAVMizkuJMRTreqzfGFHdwCMIYjE
+         k6rQwU2ZjG5v5QXL+nLJqYxWCNcyLY3Bo0932J9/FVi7UlzQhsMOjT0CVc+6FpEg/mzy
+         YG/Q==
+X-Gm-Message-State: AOAM531xUE2THg97tYg6xwe2crYHYGuosHRenx4cHFNhBvTpJdb9DUBj
+        hBMVHtIiYTIYmnLoE1/g2dJ2KG3t8IbpJ60UpoI=
+X-Google-Smtp-Source: ABdhPJymxKKC1ZNPlWTz8A3a7NhS0cM9LpJ1C3gukdn1HAk3BQNK9bw1MTvavykJRbbqavqRyHqhbWSVphMC6+E14qw=
+X-Received: by 2002:aca:744:: with SMTP id 65mr3638907oih.153.1613507515477;
+ Tue, 16 Feb 2021 12:31:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210205222644.2357303-1-saravanak@google.com>
+ <CAMuHMdVL-1RKJ5u-HDVA4F4w_+8yGvQQuJQBcZMsdV4yXzzfcw@mail.gmail.com>
+ <CAGETcx-668+uGigaOMcsvv00mo6o_eGPcH0YyD28OCVEyVbw+w@mail.gmail.com>
+ <CAMuHMdXduvBqjAqraXkEKErNJFyN6JNq5wqagc4yHHPpH5SPGQ@mail.gmail.com>
+ <CAGETcx_4FGa-rzLp6bjXbm4F4R6H2W78+nM_kN=XPz5hswzANA@mail.gmail.com>
+ <CAMuHMdVodauqBmLMxsfi0kQtAFT8ruJ36LJL9YuQgqwQNKwHHg@mail.gmail.com> <CAGETcx_-yBvhXDPtOiKjenvx83oMNr32UvpMN0Dt-qz5ToXEbw@mail.gmail.com>
+In-Reply-To: <CAGETcx_-yBvhXDPtOiKjenvx83oMNr32UvpMN0Dt-qz5ToXEbw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 16 Feb 2021 21:31:43 +0100
+Message-ID: <CAMuHMdXTO8wQ3=woLMjDaf9g3tTr-dRB3Nu_XvZUrr+wGSXyeg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/8] Make fw_devlink=on more forgiving
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When sending packets, we will first hand over the (L3) packets to the
-LAPB module. The LAPB module will then hand over the corresponding LAPB
-(L2) frames back to us for us to transmit.
+Hi Saravana,
 
-The LAPB module can also emit LAPB (L2) frames at any time, even without
-an (L3) packet currently being sent on the device. This happens when the
-LAPB module tries to send (L3) packets queued up in its internal queue,
-or when the LAPB module decides to send some (L2) control frame.
+On Tue, Feb 16, 2021 at 7:49 PM Saravana Kannan <saravanak@google.com> wrote:
+> On Tue, Feb 16, 2021 at 12:05 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Feb 15, 2021 at 10:27 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > On Mon, Feb 15, 2021 at 4:38 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Fri, Feb 12, 2021 at 4:00 AM Saravana Kannan <saravanak@google.com> wrote:
+> > > > > On Thu, Feb 11, 2021 at 5:00 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > >       - I2C on R-Car Gen3 does not seem to use DMA, according to
+> > > > > >         /sys/kernel/debug/dmaengine/summary:
+> > > > > >
+> > > > > >             -dma4chan0    | e66d8000.i2c:tx
+> > > > > >             -dma4chan1    | e66d8000.i2c:rx
+> > > > > >             -dma5chan0    | e6510000.i2c:tx
+> > > > >
+> > > > > I think I need more context on the problem before I can try to fix it.
+> > > > > I'm also very unfamiliar with that file. With fw_devlink=permissive,
+> > > > > I2C was using DMA? If so, the next step is to see if the I2C relative
+> > > > > probe order with DMA is getting changed and if so, why.
+> > > >
+> > > > More detailed log:
+> > > >
+> > > >     platform e66d8000.i2c: Linked as a consumer to e6150000.clock-controller
+> > > >     platform e66d8000.i2c: Linked as a sync state only consumer to e6055400.gpio
+> > > >
+> > > > Why is e66d8000.i2c not linked as a consumer to e6700000.dma-controller?
+> > >
+> > > Because fw_devlink.strict=1 is not set and dma/iommu is considered an
+> > > "optional"/"driver decides" dependency.
+> >
+> > Oh, I thought dma/iommu were considered mandatory initially,
+> > but dropped as dependencies in the late boot process?
+>
+> No, I didn't do that in case the drivers that didn't need the
+> IOMMU/DMA were sensitive to probe order.
+>
+> My goal was for fw_devlink=on to not affect probe order for devices
+> that currently don't need to defer probe. But see below...
+>
+> >
+> > >
+> > > >     platform e6700000.dma-controller: Linked as a consumer to
+> > > > e6150000.clock-controller
+> > >
+> > > Is this the only supplier of dma-controller?
+> >
+> > No, e6180000.system-controller is also a supplier.
+> >
+> > > >     platform e66d8000.i2c: Added to deferred list
+> > > >     platform e6700000.dma-controller: Added to deferred list
+> > > >
+> > > >     bus: 'platform': driver_probe_device: matched device
+> > > > e6700000.dma-controller with driver rcar-dmac
+> > > >     bus: 'platform': really_probe: probing driver rcar-dmac with
+> > > > device e6700000.dma-controller
+> > > >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
+> > > >
+> > > >     bus: 'platform': driver_probe_device: matched device e66d8000.i2c
+> > > > with driver i2c-rcar
+> > > >     bus: 'platform': really_probe: probing driver i2c-rcar with device
+> > > > e66d8000.i2c
+> > > >
+> > > > I2C becomes available...
+> > > >
+> > > >     i2c-rcar e66d8000.i2c: request_channel failed for tx (-517)
+> > > >     [...]
+> > > >
+> > > > but DMA is not available yet, so the driver falls back to PIO.
+> > > >
+> > > >     driver: 'i2c-rcar': driver_bound: bound to device 'e66d8000.i2c'
+> > > >     bus: 'platform': really_probe: bound device e66d8000.i2c to driver i2c-rcar
+> > > >
+> > > >     platform e6700000.dma-controller: Retrying from deferred list
+> > > >     bus: 'platform': driver_probe_device: matched device
+> > > > e6700000.dma-controller with driver rcar-dmac
+> > > >     bus: 'platform': really_probe: probing driver rcar-dmac with
+> > > > device e6700000.dma-controller
+> > > >     platform e6700000.dma-controller: Driver rcar-dmac requests probe deferral
+> > > >     platform e6700000.dma-controller: Added to deferred list
+> > > >     platform e6700000.dma-controller: Retrying from deferred list
+> > > >     bus: 'platform': driver_probe_device: matched device
+> > > > e6700000.dma-controller with driver rcar-dmac
+> > > >     bus: 'platform': really_probe: probing driver rcar-dmac with
+> > > > device e6700000.dma-controller
+> > > >     driver: 'rcar-dmac': driver_bound: bound to device 'e6700000.dma-controller'
+> > > >     bus: 'platform': really_probe: bound device
+> > > > e6700000.dma-controller to driver rcar-dmac
+> > > >
+> > > > DMA becomes available.
+> > > >
+> > > > Here userspace is entered. /sys/kernel/debug/dmaengine/summary shows
+> > > > that the I2C controllers do not have DMA channels allocated, as the
+> > > > kernel has performed no more I2C transfers after DMA became available.
+> > > >
+> > > > Using i2cdetect shows that DMA is used, which is good:
+> > > >
+> > > >     i2c-rcar e66d8000.i2c: got DMA channel for rx
+> > > >
+> > > > With permissive devlinks, the clock controller consumers are not added
+> > > > to the deferred probing list, and probe order is slightly different.
+> > > > The I2C controllers are still probed before the DMA controllers.
+> > > > But DMA becomes available a bit earlier, before the probing of the last
+> > > > I2C slave driver.
+> > >
+> > > This seems like a race? I'm guessing it's two different threads
+> > > probing those two devices? And it just happens to work for
+> > > "permissive" assuming the boot timing doesn't change?
+> > >
+> > > > Hence /sys/kernel/debug/dmaengine/summary shows that
+> > > > some I2C transfers did use DMA.
+> > > >
+> > > > So the real issue is that e66d8000.i2c not linked as a consumer to
+> > > > e6700000.dma-controller.
+> > >
+> > > That's because fw_devlink.strict=1 isn't set. If you need DMA to be
+> > > treated as a mandatory supplier, you'll need to set the flag.
+> > >
+> > > Is fw_devlink=on really breaking anything here? It just seems like
+> > > "permissive" got lucky with the timing and it could break at any point
+> > > in the future. Thought?
+> >
+> > I don't think there is a race.
+>
+> Can you explain more please? This below makes it sound like DMA just
+> sneaks in at the last minute.
 
-This means we need to have a queue for these outgoing LAPB (L2) frames,
-otherwise frames can be dropped if sent when the hardware driver is
-already busy in transmitting. The queue needs to be controlled by
-the hardware driver's netif_stop_queue and netif_wake_queue calls.
-Therefore, we need to use the device's qdisc TX queue for this purpose.
-However, currently outgoing LAPB (L2) frames are not queued.
+Yes it does, as the DMAC also has a consumer link to the IOMMU.
+If you ignore the consumer link from I2C to DMAC, the I2C device has
+less dependencies than the DMAC, so the I2C device, and the
+devices on the I2C bus, are probed much earlier than the DMAC.
 
-On the other hand, outgoing (L3) packets (before they are handed over
-to the LAPB module) don't need to be queued, because the LAPB module
-already has an internal queue for them, and is able to queue new outgoing
-(L3) packets at any time. However, currently outgoing (L3) packets are
-being queued in the device's qdisc TX queue, which is controlled by
-the hardware driver's netif_stop_queue and netif_wake_queue calls.
-This is unnecessary and meaningless.
+Gr{oetje,eeting}s,
 
-To fix these issues, we can split the HDLC device into two devices -
-a virtual X.25 device and the actual HDLC device, use the virtual X.25
-device to send (L3) packets and then use the actual HDLC device to
-queue LAPB (L2) frames. The outgoing (L2) LAPB queue will be controlled
-by the hardware driver's netif_stop_queue and netif_wake_queue calls,
-while outgoing (L3) packets will not be affected by these calls.
+                        Geert
 
-Cc: Martin Schiller <ms@dev.tdt.de>
-Signed-off-by: Xie He <xie.he.0141@gmail.com>
----
-
-Change from RFC v3:
-Call netif_carrier_off in x25_hdlc_open before calling register_netdevice.
-
-Change from RFC v2:
-Simplified the commit message.
-Dropped the x25_open fix which is already merged into net-next now.
-Use HDLC_MAX_MTU as the mtu of the X.25 virtual device.
-Add an explanation to the documentation about the X.25 virtual device.
-
-Change from RFC v1:
-Properly initialize state(hdlc)->x25_dev and state(hdlc)->x25_dev_lock.
-
----
- Documentation/networking/generic-hdlc.rst |   3 +
- drivers/net/wan/hdlc_x25.c                | 156 ++++++++++++++++++----
- 2 files changed, 133 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/networking/generic-hdlc.rst b/Documentation/networking/generic-hdlc.rst
-index 1c3bb5cb98d4..55f6b0ab45be 100644
---- a/Documentation/networking/generic-hdlc.rst
-+++ b/Documentation/networking/generic-hdlc.rst
-@@ -59,6 +59,9 @@ or::
- In Frame Relay mode, ifconfig master hdlc device up (without assigning
- any IP address to it) before using pvc devices.
- 
-+In X.25 mode, ifconfig the hdlc device up, then a virtual X.25 device
-+would appear for use.
-+
- 
- Setting interface:
- 
-diff --git a/drivers/net/wan/hdlc_x25.c b/drivers/net/wan/hdlc_x25.c
-index 4aaa6388b9ee..b7744065900f 100644
---- a/drivers/net/wan/hdlc_x25.c
-+++ b/drivers/net/wan/hdlc_x25.c
-@@ -23,6 +23,13 @@
- 
- struct x25_state {
- 	x25_hdlc_proto settings;
-+	struct net_device *x25_dev;
-+	spinlock_t x25_dev_lock; /* Protects the x25_dev pointer */
-+};
-+
-+/* Pointed to by netdev_priv(x25_dev) */
-+struct x25_device {
-+	struct net_device *hdlc_dev;
- };
- 
- static int x25_ioctl(struct net_device *dev, struct ifreq *ifr);
-@@ -32,6 +39,11 @@ static struct x25_state *state(hdlc_device *hdlc)
- 	return hdlc->state;
- }
- 
-+static struct x25_device *dev_to_x25(struct net_device *dev)
-+{
-+	return netdev_priv(dev);
-+}
-+
- /* These functions are callbacks called by LAPB layer */
- 
- static void x25_connect_disconnect(struct net_device *dev, int reason, int code)
-@@ -89,15 +101,10 @@ static int x25_data_indication(struct net_device *dev, struct sk_buff *skb)
- 
- static void x25_data_transmit(struct net_device *dev, struct sk_buff *skb)
- {
--	hdlc_device *hdlc = dev_to_hdlc(dev);
--
-+	skb->dev = dev_to_x25(dev)->hdlc_dev;
-+	skb->protocol = htons(ETH_P_HDLC);
- 	skb_reset_network_header(skb);
--	skb->protocol = hdlc_type_trans(skb, dev);
--
--	if (dev_nit_active(dev))
--		dev_queue_xmit_nit(skb, dev);
--
--	hdlc->xmit(skb, dev); /* Ignore return value :-( */
-+	dev_queue_xmit(skb);
- }
- 
- 
-@@ -163,7 +170,8 @@ static int x25_open(struct net_device *dev)
- 		.data_indication = x25_data_indication,
- 		.data_transmit = x25_data_transmit,
- 	};
--	hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *hdlc_dev = dev_to_x25(dev)->hdlc_dev;
-+	hdlc_device *hdlc = dev_to_hdlc(hdlc_dev);
- 	struct lapb_parms_struct params;
- 	int result;
- 
-@@ -195,9 +203,101 @@ static int x25_open(struct net_device *dev)
- 
- 
- 
--static void x25_close(struct net_device *dev)
-+static int x25_close(struct net_device *dev)
- {
- 	lapb_unregister(dev);
-+	return 0;
-+}
-+
-+static const struct net_device_ops hdlc_x25_netdev_ops = {
-+	.ndo_open       = x25_open,
-+	.ndo_stop       = x25_close,
-+	.ndo_start_xmit = x25_xmit,
-+};
-+
-+static void x25_setup_virtual_dev(struct net_device *dev)
-+{
-+	dev->netdev_ops	     = &hdlc_x25_netdev_ops;
-+	dev->type            = ARPHRD_X25;
-+	dev->addr_len        = 0;
-+	dev->hard_header_len = 0;
-+	dev->mtu             = HDLC_MAX_MTU;
-+
-+	/* When transmitting data:
-+	 * first we'll remove a pseudo header of 1 byte,
-+	 * then the LAPB module will prepend an LAPB header of at most 3 bytes.
-+	 */
-+	dev->needed_headroom = 3 - 1;
-+}
-+
-+static int x25_hdlc_open(struct net_device *dev)
-+{
-+	struct hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *x25_dev;
-+	char x25_dev_name[sizeof(x25_dev->name)];
-+	int result;
-+
-+	if (strlen(dev->name) + 4 >= sizeof(x25_dev_name))
-+		return -EINVAL;
-+
-+	strcpy(x25_dev_name, dev->name);
-+	strcat(x25_dev_name, "_x25");
-+
-+	x25_dev = alloc_netdev(sizeof(struct x25_device), x25_dev_name,
-+			       NET_NAME_PREDICTABLE, x25_setup_virtual_dev);
-+	if (!x25_dev)
-+		return -ENOMEM;
-+
-+	dev_to_x25(x25_dev)->hdlc_dev = dev;
-+
-+	/* netif_carrier_on will be called later by x25_hdlc_start */
-+	netif_carrier_off(x25_dev);
-+
-+	result = register_netdevice(x25_dev);
-+	if (result) {
-+		free_netdev(x25_dev);
-+		return result;
-+	}
-+
-+	spin_lock_bh(&state(hdlc)->x25_dev_lock);
-+	state(hdlc)->x25_dev = x25_dev;
-+	spin_unlock_bh(&state(hdlc)->x25_dev_lock);
-+
-+	return 0;
-+}
-+
-+static void x25_hdlc_close(struct net_device *dev)
-+{
-+	struct hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *x25_dev = state(hdlc)->x25_dev;
-+
-+	if (x25_dev->flags & IFF_UP)
-+		dev_close(x25_dev);
-+
-+	spin_lock_bh(&state(hdlc)->x25_dev_lock);
-+	state(hdlc)->x25_dev = NULL;
-+	spin_unlock_bh(&state(hdlc)->x25_dev_lock);
-+
-+	unregister_netdevice(x25_dev);
-+	free_netdev(x25_dev);
-+}
-+
-+static void x25_hdlc_start(struct net_device *dev)
-+{
-+	struct hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *x25_dev = state(hdlc)->x25_dev;
-+
-+	/* hdlc.c guarantees no racing so we're sure x25_dev is valid */
-+	netif_carrier_on(x25_dev);
-+}
-+
-+static void x25_hdlc_stop(struct net_device *dev)
-+{
-+	struct hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *x25_dev = state(hdlc)->x25_dev;
-+
-+	/* hdlc.c guarantees no racing so we're sure x25_dev is valid */
-+	netif_carrier_off(x25_dev);
- }
- 
- 
-@@ -205,27 +305,38 @@ static void x25_close(struct net_device *dev)
- static int x25_rx(struct sk_buff *skb)
- {
- 	struct net_device *dev = skb->dev;
-+	struct hdlc_device *hdlc = dev_to_hdlc(dev);
-+	struct net_device *x25_dev;
- 
- 	if ((skb = skb_share_check(skb, GFP_ATOMIC)) == NULL) {
- 		dev->stats.rx_dropped++;
- 		return NET_RX_DROP;
- 	}
- 
--	if (lapb_data_received(dev, skb) == LAPB_OK)
--		return NET_RX_SUCCESS;
--
--	dev->stats.rx_errors++;
-+	spin_lock_bh(&state(hdlc)->x25_dev_lock);
-+	x25_dev = state(hdlc)->x25_dev;
-+	if (!x25_dev)
-+		goto drop;
-+	if (lapb_data_received(x25_dev, skb) != LAPB_OK)
-+		goto drop;
-+	spin_unlock_bh(&state(hdlc)->x25_dev_lock);
-+	return NET_RX_SUCCESS;
-+
-+drop:
-+	spin_unlock_bh(&state(hdlc)->x25_dev_lock);
-+	dev->stats.rx_dropped++;
- 	dev_kfree_skb_any(skb);
- 	return NET_RX_DROP;
- }
- 
- 
- static struct hdlc_proto proto = {
--	.open		= x25_open,
--	.close		= x25_close,
-+	.open		= x25_hdlc_open,
-+	.close		= x25_hdlc_close,
-+	.start		= x25_hdlc_start,
-+	.stop		= x25_hdlc_stop,
- 	.ioctl		= x25_ioctl,
- 	.netif_rx	= x25_rx,
--	.xmit		= x25_xmit,
- 	.module		= THIS_MODULE,
- };
- 
-@@ -298,16 +409,9 @@ static int x25_ioctl(struct net_device *dev, struct ifreq *ifr)
- 			return result;
- 
- 		memcpy(&state(hdlc)->settings, &new_settings, size);
-+		state(hdlc)->x25_dev = NULL;
-+		spin_lock_init(&state(hdlc)->x25_dev_lock);
- 
--		/* There's no header_ops so hard_header_len should be 0. */
--		dev->hard_header_len = 0;
--		/* When transmitting data:
--		 * first we'll remove a pseudo header of 1 byte,
--		 * then we'll prepend an LAPB header of at most 3 bytes.
--		 */
--		dev->needed_headroom = 3 - 1;
--
--		dev->type = ARPHRD_X25;
- 		call_netdevice_notifiers(NETDEV_POST_TYPE_CHANGE, dev);
- 		netif_dormant_off(dev);
- 		return 0;
 -- 
-2.27.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
