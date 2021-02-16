@@ -2,155 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F5AC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19518C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:16:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C01864DC3
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:15:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CED7464E00
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 08:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbhBPIOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 03:14:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54777 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229662AbhBPIOx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 03:14:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613463206;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mrBI3gmDGE4IcqlEPbbLaR/5KOLeuQUWrbl5wiK6Nv8=;
-        b=Pf0V6udfHXXGDunQ80myyXhHP0Hcn//ApuGHWaGGGxenr8T76TvDLHnCuNbyukz//1DQD5
-        zGHjuL9Y501bp28DSl+dfs1RMD7a6Uxw9ZSBO3eU56t7mcDs7FXdfO3og4pjyYLtmdwzFc
-        rfjMYbl8YuN3FaufPuJZzw7GrFToNv0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-7mnurP3rNQGA5ySur9Yqbw-1; Tue, 16 Feb 2021 03:13:22 -0500
-X-MC-Unique: 7mnurP3rNQGA5ySur9Yqbw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02480189CD2E;
-        Tue, 16 Feb 2021 08:13:18 +0000 (UTC)
-Received: from [10.36.114.70] (ovpn-114-70.ams2.redhat.com [10.36.114.70])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F0FB57216B;
-        Tue, 16 Feb 2021 08:13:09 +0000 (UTC)
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-References: <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
- <YCpN38i75olgispI@dhcp22.suse.cz>
- <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
- <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
- <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
- <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
- <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
- <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
- <CAMZfGtW6n_YUbZOPFbivzn-HP4Q2yi0DrUoQ3JAjSYy5m17VWw@mail.gmail.com>
- <YCrFY4ODu/O9KSND@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <4f8664fb-0d65-b7d6-39d6-2ce5fc86623a@redhat.com>
-Date:   Tue, 16 Feb 2021 09:13:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S229907AbhBPIQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 03:16:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229889AbhBPIQS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 03:16:18 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DCFAC061794
+        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 00:15:10 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id y26so15059464eju.13
+        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 00:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vzhTdPHbs48+KQ9HqL9TbcxPy1qXKHCXgtGLrYyU4FA=;
+        b=SDYBzdh1dpId2B0EUuMVomU+ozCkhWpfs1MII9Mq81AfCJSc5faOJLTlj6CGDwNpnt
+         T9dVAPZB1KagNR6cQdi/Dzj1kgnJrLp40S5cinUkqaayF2B49k70Rc+BiTzPMm8pmkaH
+         LGPq1CT/uAiDDKllkdLKDHWgXS5omwWtay4p4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vzhTdPHbs48+KQ9HqL9TbcxPy1qXKHCXgtGLrYyU4FA=;
+        b=qQ3ZNSYojxxk68es3QoNjgI09F4Qduj5WGnHr87iWBRM7kwNJ1WPxBRCs+8qMnDh8k
+         mA9ZTcZXtU9xH5x/cNZTPNuN7VG49g1jhtZK1djiRtGka/B7BbQhhSdW8/rdVwpzFq8V
+         /StfPyUj481BS5L9z4gA6AgNr+BGT+IiV/q6zLJ1VzSFrdXc7DmM79HEuufrMPyNqeM+
+         Hw2ri/ON7HqzQaDAORg0NskFKHzE+bfgMCZNzw2omechIXT/zk93fXyreSB0EiDiyvMc
+         fQT647sGsH2gm6L3O7PTBbtO925OCWyXpbUFkmNGqo1m2qJXO9JCoNczrUgKV1sN5pU8
+         qNbg==
+X-Gm-Message-State: AOAM530olGTd3EwV4s0lSWJ7IXoC6NZUegIUflWy6p9iZ+GX0eMX3MhF
+        KTCNiz5t79woI69UXUJgSc9sxA6RYMtsWV98
+X-Google-Smtp-Source: ABdhPJw+HlaVC61gLSDPlUofz17m3AZz3ekXLvNRn7YWj9K9RzyOg7+AlxMpiMZZ6KxU5ft9YmpxDQ==
+X-Received: by 2002:a17:907:a059:: with SMTP id gz25mr19525577ejc.400.1613463308680;
+        Tue, 16 Feb 2021 00:15:08 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
+        by smtp.gmail.com with ESMTPSA id o26sm4703824edr.16.2021.02.16.00.15.07
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Feb 2021 00:15:07 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id g6so11862543wrs.11
+        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 00:15:07 -0800 (PST)
+X-Received: by 2002:adf:ea48:: with SMTP id j8mr22504831wrn.197.1613463306880;
+ Tue, 16 Feb 2021 00:15:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YCrFY4ODu/O9KSND@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20210202095110.1215346-1-hch@lst.de> <20210202095110.1215346-7-hch@lst.de>
+In-Reply-To: <20210202095110.1215346-7-hch@lst.de>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 16 Feb 2021 17:14:55 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BXAWeB2h4RvqsF1q8ip-Rhew80c7y1_og22-x3rS8KOQ@mail.gmail.com>
+Message-ID: <CAAFQd5BXAWeB2h4RvqsF1q8ip-Rhew80c7y1_og22-x3rS8KOQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] dma-iommu: implement ->alloc_noncontiguous
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15.02.21 20:02, Michal Hocko wrote:
-> On Tue 16-02-21 01:48:29, Muchun Song wrote:
->> On Tue, Feb 16, 2021 at 12:28 AM Michal Hocko <mhocko@suse.com> wrote:
->>>
->>> On Mon 15-02-21 23:36:49, Muchun Song wrote:
->>> [...]
->>>>> There shouldn't be any real reason why the memory allocation for
->>>>> vmemmaps, or handling vmemmap in general, has to be done from within the
->>>>> hugetlb lock and therefore requiring a non-sleeping semantic. All that
->>>>> can be deferred to a more relaxed context. If you want to make a
->>>>
->>>> Yeah, you are right. We can put the freeing hugetlb routine to a
->>>> workqueue. Just like I do in the previous version (before v13) patch.
->>>> I will pick up these patches.
->>>
->>> I haven't seen your v13 and I will unlikely have time to revisit that
->>> version. I just wanted to point out that the actual allocation doesn't
->>> have to happen from under the spinlock. There are multiple ways to go
->>> around that. Dropping the lock would be one of them. Preallocation
->>> before the spin lock is taken is another. WQ is certainly an option but
->>> I would take it as the last resort when other paths are not feasible.
->>>
->>
->> "Dropping the lock" and "Preallocation before the spin lock" can limit
->> the context of put_page to non-atomic context. I am not sure if there
->> is a page puted somewhere under an atomic context. e.g. compaction.
->> I am not an expert on this.
-> 
-> Then do a due research or ask for a help from the MM community. Do
-> not just try to go around harder problems and somehow duct tape a
-> solution. I am sorry for sounding harsh here but this is a repetitive
-> pattern.
-> 
-> Now to the merit. put_page can indeed be called from all sorts of
-> contexts. And it might be indeed impossible to guarantee that hugetlb
-> pages are never freed up from an atomic context. Requiring that would be
-> even hard to maintain longterm. There are ways around that, I believe,
-> though.
-> 
-> The most simple one that I can think of right now would be using
-> in_atomic() rather than in_task() check free_huge_page. IIRC recent
-> changes would allow in_atomic to be reliable also on !PREEMPT kernels
-> (via RCU tree, not sure where this stands right now). That would make
-> __free_huge_page always run in a non-atomic context which sounds like an
-> easy enough solution.
-> Another way would be to keep a pool of ready pages to use in case of
-> GFP_NOWAIT allocation fails and have means to keep that pool replenished
-> when needed. Would it be feasible to reused parts of the freed page in
-> the worst case?
+Hi Christoph
 
-As already discussed, this is only possible when the huge page does not 
-reside on ZONE_MOVABLE/CMA.
 
-In addition, we can no longer form a huge page at that memory location ever.
+On Tue, Feb 2, 2021 at 6:51 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Implement support for allocating a non-contiguous DMA region.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/iommu/dma-iommu.c | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 85cb004d7a44c6..4e0b170d38d57a 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -718,6 +718,7 @@ static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
+>                 goto out_free_sg;
+>
+>         sgt->sgl->dma_address = iova;
+> +       sgt->sgl->dma_length = size;
+>         return pages;
+>
+>  out_free_sg:
+> @@ -755,6 +756,36 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+>         return NULL;
+>  }
+>
+> +#ifdef CONFIG_DMA_REMAP
+> +static struct sg_table *iommu_dma_alloc_noncontiguous(struct device *dev,
+> +               size_t size, enum dma_data_direction dir, gfp_t gfp)
+> +{
+> +       struct dma_sgt_handle *sh;
+> +
+> +       sh = kmalloc(sizeof(*sh), gfp);
+> +       if (!sh)
+> +               return NULL;
+> +
+> +       sh->pages = __iommu_dma_alloc_noncontiguous(dev, size, &sh->sgt, gfp,
+> +                                                   PAGE_KERNEL, 0);
 
--- 
-Thanks,
+When working on the videobuf2 integration with Sergey I noticed that
+we always pass 0 as DMA attrs here, which removes the ability for
+drivers to use DMA_ATTR_ALLOC_SINGLE_PAGES.
 
-David / dhildenb
+It's quite important from a system stability point of view, because by
+default the iommu_dma allocator would prefer big order allocations for
+TLB locality reasons. For many devices, though, it doesn't really
+affect the performance, because of random access patterns, so single
+pages are good enough and reduce the risk of allocation failures or
+latency due to fragmentation.
 
+Do you think we could add the attrs parameter to the
+dma_alloc_noncontiguous() API?
+
+Best regards,
+Tomasz
