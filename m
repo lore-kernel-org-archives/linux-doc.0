@@ -2,121 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F167C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 13:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF62C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:19:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F11C664DE0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 13:39:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD73E64E28
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:19:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhBPNj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 08:39:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
+        id S230048AbhBPOTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 09:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbhBPNjY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 08:39:24 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08BC6C061574
-        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 05:38:43 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id v9so7770941edw.8
-        for <linux-doc@vger.kernel.org>; Tue, 16 Feb 2021 05:38:42 -0800 (PST)
+        with ESMTP id S229830AbhBPOTB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 09:19:01 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35B9EC061574;
+        Tue, 16 Feb 2021 06:18:21 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id o38so6285306pgm.9;
+        Tue, 16 Feb 2021 06:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=WVdO5Suny8ndHlIrRpoBrmqIPx4CWmlNbuYupKr2Cqc=;
-        b=mx72lufRdfc46M4ag+yiDlWAEO4kn8+gbsl3jWz0aFqVijhPbgaHfBEQpRr24bWoo3
-         Kzcg5/Qv0MqwuyCOWfV1DbKnZu075rzPranwK6vD4iech5drvH3efYd5mAeEH9goRzIa
-         WVW3u5QveHXn/Yw7x4byE6AG/TaLuDBAt4Gb8=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PLAWiU4u+/JN6Cect1nU2YTOuyF3kymSRVIxQKTfE7M=;
+        b=ARopcqVdkaKOiZfM1Ig0o9IQpQhfRmv3CfZ5OWs82gp5HJtZNiT9g14DA6eMU7dwyb
+         R+h05Cymdgv2MEE5uhuFsrGPhPxRVr/CvRhCnsHK1xrfC4hyHhazo3jp2q9yE8I98J1T
+         AQc+AAraBQoiyq2iMxrOGsVxkbOiP5kCYfQ/sAI9I4I6b+X46zgbGByz27lqb4vLdBL+
+         B47lFuXUQDq9EA9tbHXNH49CJzdAeLqMNe0q+RDTROSwxoc7NPy0RRp+emvRkYcbRp8Y
+         7n0i6r7Gh4MGwKOxHGp0cJ+WN7rqT7jV90DIUUST1Sig3idozousEmDiNq15Z81H3dM1
+         m/0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WVdO5Suny8ndHlIrRpoBrmqIPx4CWmlNbuYupKr2Cqc=;
-        b=pF03cdo4SvvaFVL6G93xafFW9f+x9VQ+nHa0sWP8blQ9vDCDa5HWO3VSkl35DlOSs4
-         J+NugiFdlBM/b75Wk3iPgik6BlaDjzi+pjc8GYwpM0muMSkb7Uxc3otSKAiLNx3jopxn
-         txnIYEPW4HyS71wMBAOldcFBrDdxMIBwlp1V9Ch3HfDw9yzqzGCAMgP34uB6Lvg68yFY
-         kQbZ0mWz9AprblxY2IuSUpmHYvuMuFZGMwIi9KUtFSmY8S3nagedKIoqQ0B313kbGzx7
-         2pCaNAdCH5NpVY8RcYUCsOTHz9wHCGyNN3qq9Sb9C/DIh7eLlzHH+Y50a1JmJPmYmTgf
-         jObA==
-X-Gm-Message-State: AOAM533w7GNQZUOR/ORW3D6ZlELZQR793mGBmzPLpH2Sl+qw080MjIpe
-        ZDFR4714JofSrJZ2pqpeKXvFeQ==
-X-Google-Smtp-Source: ABdhPJzpPnxzHatNnDsBqyQ+8F5czdeOrvKXZriPXHaF1qmKcbRlVfIHYJBPmwi07+8O5GcHXWnEEw==
-X-Received: by 2002:a50:fe02:: with SMTP id f2mr938391edt.173.1613482721746;
-        Tue, 16 Feb 2021 05:38:41 -0800 (PST)
-Received: from localhost ([2a01:4b00:8432:8a00:63de:dd93:20be:f460])
-        by smtp.gmail.com with ESMTPSA id i21sm13620839edy.9.2021.02.16.05.38.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PLAWiU4u+/JN6Cect1nU2YTOuyF3kymSRVIxQKTfE7M=;
+        b=VxAtNuPQ14x8kwr1+cELl2gaCZ8IPLKdiwqTAtGmqGb/FYuQLshs5MaQ2R9sx0veqa
+         Evmtw20u8JMRAzWlkeWTTlxSi/nuoASmsDGls+5vxdQJoFXIF6g6aD1YGfvqiZu5nCgp
+         TP1VxgeCGDJWs5q4QMK26LT9FOfGeZSO7v+TSIvVNrEB3cpXBTOcuNblxGjiciUrFhhE
+         3ZBIyIdzDW9ouknHFrIZNwCNu2uMOWbkuSP7DOGL6D6FwR0tO0ZtrJKjFjmSicNS5+1s
+         mN4jVm2k/Dv2iHQ9EY1zPFc3TPeT/Oe8wtxerq7ZCjFNJTdQo/yZLTkX50BiaczQ5600
+         apnA==
+X-Gm-Message-State: AOAM531r/iB78HzBZKcsRwJTzq3q+TU8NNfNH+wZlCIapVCA43YyF7Kr
+        HEZ9+Ed89ufx5fazhyGTTgg=
+X-Google-Smtp-Source: ABdhPJyJYksZEPu8FRF4aATJc1TyLBshMBCNdt1NHgVD5mJvrsga1WKLlugALHoGTiF/j0fQJwNkfA==
+X-Received: by 2002:a65:4983:: with SMTP id r3mr20001308pgs.288.1613485100793;
+        Tue, 16 Feb 2021 06:18:20 -0800 (PST)
+Received: from localhost (185.212.56.4.16clouds.com. [185.212.56.4])
+        by smtp.gmail.com with ESMTPSA id d124sm16101242pgc.82.2021.02.16.06.18.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 05:38:41 -0800 (PST)
-Date:   Tue, 16 Feb 2021 13:38:40 +0000
-From:   Chris Down <chris@chrisdown.name>
-To:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, felipe.franciosi@nutanix.com
-Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
-Message-ID: <YCvK4EPg30ocI8gP@chrisdown.name>
-References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+        Tue, 16 Feb 2021 06:18:20 -0800 (PST)
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, kw@linux.com
+Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
+Subject: [PATCH v2 0/4] Introduce pcim_alloc_irq_vectors()
+Date:   Tue, 16 Feb 2021 22:18:06 +0800
+Message-Id: <20210216141810.747678-1-zhengdejin5@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
-User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Eiichi,
+Introduce pcim_alloc_irq_vectors(), a device-managed version of
+pci_alloc_irq_vectors(), In some i2c drivers, If pcim_enable_device()
+has been called before, then pci_alloc_irq_vectors() is actually a
+device-managed function. It is used as a device-managed function, So
+replace it with pcim_alloc_irq_vectors().
 
-I agree with Michal's points, and I think there are also some other design 
-questions which don't quite make sense to me. Perhaps you can clear them up?  
-:-)
+Changelog
+---------
+v1 -> v2:
+	- Use pci_free_irq_vectors() to replace some code in
+	  pcim_release().
+	- Modify some commit messages.
 
-Eiichi Tsukata writes:
->diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->index 4bdb58ab14cb..e2d57200fd00 100644
->--- a/mm/hugetlb.c
->+++ b/mm/hugetlb.c
->@@ -1726,8 +1726,8 @@ static int alloc_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
->  * balanced over allowed nodes.
->  * Called with hugetlb_lock locked.
->  */
->-static int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
->-							 bool acct_surplus)
->+int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
->+			bool acct_surplus)
-> {
-> 	int nr_nodes, node;
-> 	int ret = 0;
+Andy and Krzysztof, thanks for your help!
 
-The immediate red flag to me is that we're investing further mm knowledge into 
-hugetlb. For the vast majority of intents and purposes, hugetlb exists outside 
-of the typical memory management lifecycle, and historic behaviour has been to 
-treat a separate reserve that we don't touch. We expect that hugetlb is a 
-reserve which is by and large explicitly managed by the system administrator, 
-not by us, and this seems to violate that.
+Dejin Zheng (4):
+  PCI: Introduce pcim_alloc_irq_vectors()
+  Documentation: devres: Add pcim_alloc_irq_vectors()
+  i2c: designware: Use the correct name of device-managed function
+  i2c: thunderx: Use the correct name of device-managed function
 
-Shoehorning in shrink-on-OOM support to it seems a little suspicious to me, 
-because we already have a modernised system for huge pages that handles not 
-only this, but many other memory management situations: THP. THP not only has 
-support for this particular case, but so many other features which are 
-necessary to coherently manage it as part of the mm lifecycle. For that reason, 
-I'm not convinced that those composes to a sensible interface.
+ .../driver-api/driver-model/devres.rst        |  1 +
+ drivers/i2c/busses/i2c-designware-pcidrv.c    |  2 +-
+ drivers/i2c/busses/i2c-thunderx-pcidrv.c      |  2 +-
+ drivers/pci/pci.c                             | 33 ++++++++++++++++---
+ include/linux/pci.h                           |  3 ++
+ 5 files changed, 35 insertions(+), 6 deletions(-)
 
-As some example questions which appear unresolved to me: if hugetlb pages are 
-lost, what mechanisms will we provide to tell automation or the system 
-administrator what to do in that scenario? How should the interface for 
-resolving hugepage starvation due to repeated OOMs look? By what metrics will 
-you decide if releasing the hugepage is worse for the system than selecting a 
-victim for OOM? Why can't the system use the existing THP mechanisms to resolve 
-this ahead of time?
+-- 
+2.25.0
 
-Thanks,
-
-Chris
