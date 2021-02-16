@@ -7,114 +7,74 @@ X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ABFCC433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:27:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 914B0C43381
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:35:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFFAF64DF5
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:27:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C59564E04
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Feb 2021 14:35:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbhBPO1X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Feb 2021 09:27:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
+        id S230255AbhBPOfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Feb 2021 09:35:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbhBPO1K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 09:27:10 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D792C061574;
-        Tue, 16 Feb 2021 06:26:29 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id z68so6337394pgz.0;
-        Tue, 16 Feb 2021 06:26:29 -0800 (PST)
+        with ESMTP id S230038AbhBPOfK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Feb 2021 09:35:10 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7713C061574;
+        Tue, 16 Feb 2021 06:34:27 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id j12so6218064pfj.12;
+        Tue, 16 Feb 2021 06:34:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=faHK0cyvGGeTK0Lu2KFV2g1IzncYxmvTiObKgbcKmx0=;
-        b=qRlbmw9QjZCjMvUcUGVN8zUC3MT5NH+dYnEVedbk1SZi/hod3HnSm239TTk2FHeNkJ
-         47kpT0p57IWaSec4PR9BFHfJ8jg52O/paiSrSEaYF2BVX4EdeUYREInTzKa1SvGmxqfw
-         05bwsThstX++KCMslLXP1SgjzvDSBk+XCe/yc3DFAjmryMHMM54cpZ/AmqSIqJtVQxtf
-         Vif7+CBybed6x9vCFHj0QNLoQRFRdSbarw8AZENJgoIm2ayyyN9V6KLSpkyuKkUs1H/H
-         8TkNhjds0aFcVmiaXvPsNa9Uq0QbKHam/pt+Rv5nxXrgVw0wXaiviNQrn9jYK2ayYByY
-         5QsQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=9AsRqRGn0MWixx73KXgK8PNlpqgSNU3lrracUWioopg=;
+        b=YfPfq1/D22BdFQJv0b33A86n9EmS1c2Fzz7teSzpkw4M/nKdIl+3T/LFWDmROy70fD
+         lhrg02hYCsmjxv/GYE5aw7Z2p+ph41rjyRf0Gd9hMJN/zQ6qlwXZqsvBgxa7wMbEELKk
+         n6Z+EkRuysBZtLwC0UTUcSfowT9faNSU05JSQLE9MYnJb6sujicIDcpd/S/NIaKRGbEs
+         F8tpDPl8SueEXLK8MBAd1tl1nCePEsYW7f1cV8xa+mLo3bGO4c0p8Bye2QKwOfKHnM1K
+         yC5kKh2RY1spyiDFXJSX2g+M7ZY6S6bssbB0IFlr/yQlZQFeFDCtf3lmJ1MiylIYMHte
+         +wxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=faHK0cyvGGeTK0Lu2KFV2g1IzncYxmvTiObKgbcKmx0=;
-        b=PVzVHW0+cIVND28siBgn5ME+ZiTYltipgLrXo5D7vJsovbtuIuYe9Z9shZEkGWxIGy
-         tNZAGeT3EVRvYLvzvH5fMKIv/XqwXTtaNBFum2MSYyBkmcXWJCOWczSmDJVPUVY/V3UR
-         mJPX3ljqG43ijbD5DHhUlIT84fe8FtQNPdlGal1cR3roq0ocksFg4I4waDdchSp6ZyBH
-         I53goXJt07+5OQMC/2Gz8L9Kgc5vi11Yeb4OWTlCsmHbd9G2UYSNfTlThLD9ZSXk/mzP
-         QJwNes/o+Ufa4nJDyI8SUh/UtO9ArejGkg4A3i/rNYxjhn0ydOhdxir0ADUSGNAb4V+y
-         bE9Q==
-X-Gm-Message-State: AOAM533B+CFikrlbHwlp1XTrq3bn19HK+HmHbet3yA4mWnd1O9xM4m54
-        KEKg+G87JY5oFwODsPlH9GE=
-X-Google-Smtp-Source: ABdhPJwiT1RhR1WEFZ7nGGATonnaewsEVZLnFdy6/orkPw4DRiIJmMOFovA/RiTlQCYGzqf5YWP2vQ==
-X-Received: by 2002:a63:af1b:: with SMTP id w27mr19028491pge.162.1613485588909;
-        Tue, 16 Feb 2021 06:26:28 -0800 (PST)
-Received: from localhost (185.212.56.4.16clouds.com. [185.212.56.4])
-        by smtp.gmail.com with ESMTPSA id t1sm22289668pfl.194.2021.02.16.06.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 06:26:28 -0800 (PST)
-Date:   Tue, 16 Feb 2021 22:26:26 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        helgaas@kernel.org, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210216142626.GA747814@nuc8i5>
-References: <20210215181550.714101-1-zhengdejin5@gmail.com>
- <20210215181550.714101-2-zhengdejin5@gmail.com>
- <YCrfqungNSSxe5lK@rocinante>
- <YCual+Fq9mcnxbM4@smile.fi.intel.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=9AsRqRGn0MWixx73KXgK8PNlpqgSNU3lrracUWioopg=;
+        b=HSZNQIy/HtSlCeN4MxYuuVd7UK7Q4xMCytvRF53zulskacKbG3uTd1QgQOuHzEoAjH
+         RPZavIdzTFLfAEdf0Tel3uOPwNrBl9GKBIM4LlB8ysoqnPUAKF4kWGadkcDn5V1KoJjU
+         JWPrAwdvH7tjffbzsGSLyZ+QNrIrtTDR+PyD4LYz83fg+IeG+hFOcD2RF7GX+IkuCuOB
+         OUMOlzEwgwzs33PKPJsEQ9onVYhEkCyiJx0hcHqiS8COuPWxgzW2Ucf4rJpGJO1Lh7d8
+         J/4aYlIc6M9SsUo+NHg7gzIFYz6TBmF6XwyuwzqZxbB72jDD+RQAfCzIygSLspqabnLD
+         WRlA==
+X-Gm-Message-State: AOAM530xyWZalWauqGKrkLhZ7IVyKdNR5XsQXtpVHEkSWXZEBQWehp5r
+        h5Oyp4RMc7J5+kIHOdAb7Rl+YkEtuPtwrXJLoWvf9lii+ZdHCyuGpZw=
+X-Google-Smtp-Source: ABdhPJxuBuoiYoJac6FeR7KQUvNLDiA83ZOlcUQVbCWq+WOJh8251H/R/0rO8eJ4ssfUz3tWXuJsA5mjRbGfymWtcXU=
+X-Received: by 2002:a05:6a00:854:b029:1b7:6233:c5f with SMTP id
+ q20-20020a056a000854b02901b762330c5fmr20357515pfk.73.1613486066961; Tue, 16
+ Feb 2021 06:34:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YCual+Fq9mcnxbM4@smile.fi.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 16 Feb 2021 16:34:11 +0200
+Message-ID: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
+Subject: anonymous enums in kernel doc
+To:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 12:12:39PM +0200, Andy Shevchenko wrote:
-> On Mon, Feb 15, 2021 at 09:55:06PM +0100, Krzysztof Wilczyński wrote:
-> 
-> > Question: wouldn't you need to call pci_free_irq_vectors() somewhere,
-> > possibly to pcim_release() callback?  Although, I am not sure where the
-> > right place would be.
-> > 
-> > I am asking, as the documentation (see [4]) suggests that one would have
-> > to release allocated IRQ vectors (relevant exceprt):
-> 
-> It's done in pcim_release() but not explicitly.
-> 
->         if (dev->msi_enabled)
->                 pci_disable_msi(dev);
->         if (dev->msix_enabled)
->                 pci_disable_msix(dev);
-> 
-> Maybe above can be replaced by pci_free_irq_vectors() to be sure that any
-> future change to PCI IRQ allocation APIs.
-> 
-> Yes, I have checked and currently the above code is equivalent to
-> pci_free_irq_vectors().
-> 
-> Dejin, please update your patch accordingly.
->
-Hi Andy and Krzysztof,
+Mauro, can you do some test cases in your workflow against anonymous
+enum in ernel doc, please?
 
-I have modified it and sent patch v2. thank you very much!
+They are broken again, please fix the script!
 
-BR,
-Dejin
+drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
+identifier on line:
+* enum - Locking variants of the pad configuration
 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Above is simply a wrong statement.
+
+-- 
+With Best Regards,
+Andy Shevchenko
