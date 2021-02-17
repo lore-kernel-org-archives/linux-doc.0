@@ -2,108 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 669A7C4332B
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:44:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA164C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 20:27:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A54664E4A
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:44:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93DEA64E6C
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 20:27:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233807AbhBQToF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 14:44:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27935 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233715AbhBQTnt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 14:43:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613590943;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EJM1EJb2IlVcsAafjc8DDTue6Vq84muOSo4iOsYZMrA=;
-        b=MP4kxDUT+AiE/YVBjbLkN3dOcOVUt9+RAvqqqCwcDUbw5bXLbdsiSRhmlfufpivkDAlilp
-        ghN72T75smg+Vy444mBbtUkIraVTFRBYRnlmfm6bD69yWwgBZaPAUoZTrkj06jkM88e65o
-        mxYucoPa90o7vKH+M1LSCbERt5EO5SU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224--D2yc6o0M--F1RjNWsSPDQ-1; Wed, 17 Feb 2021 14:42:19 -0500
-X-MC-Unique: -D2yc6o0M--F1RjNWsSPDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AAA6107ACE3;
-        Wed, 17 Feb 2021 19:42:16 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-123.rdu2.redhat.com [10.10.114.123])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 94AD25C276;
-        Wed, 17 Feb 2021 19:42:12 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
-        id E191E220BCF; Wed, 17 Feb 2021 14:42:11 -0500 (EST)
-Date:   Wed, 17 Feb 2021 14:42:11 -0500
-From:   Vivek Goyal <vgoyal@redhat.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     john.p.donnelly@oracle.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for
- vmcore creation
-Message-ID: <20210217194211.GC31184@redhat.com>
-References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
- <77fcb8e8-c3ec-6161-14a8-c142e02a9061@oracle.com>
- <20210217142653.0fcd9ce3@gandalf.local.home>
+        id S235011AbhBQU0r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 15:26:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40412 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233645AbhBQU0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 15:26:42 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E28EDC061574;
+        Wed, 17 Feb 2021 12:26:01 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id 75so5826953pgf.13;
+        Wed, 17 Feb 2021 12:26:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oQrfzO17knb0L2S7w06JElc/0RtdSnwzho+6k4zHaN0=;
+        b=u0aqlOkz+ygOgoDWu2MW9cD0xGWxxpjARMtgQFTLUiGhKbE8H3CwYteDRFgmkvrLZ0
+         Sjd0zuR2k10uoGsoLtMHhDn1Q90X/v4n3U81fjPq466AglSZOCboNrUas8mSjf3OpCvv
+         /g/kh1B8mIN7l3kpIh4Sy64eWfZOU7uAk+nSUSd2XeekNmBEXKbGboU4hCyHm0LonEnn
+         GYzMJylmmd9ysYawLXdqkaUnQGO12cOPG2SROGDmbdqa0D6Rj+4hkFUpq7LJ4iUGdV1h
+         96ShljAITpMrVsYoII2iz7aOr/mS7n3KxFdRRCmLoqdN4fOVvLMdh1DNv2vY51gaspjY
+         BLRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oQrfzO17knb0L2S7w06JElc/0RtdSnwzho+6k4zHaN0=;
+        b=VE80Wjbquj89d0P+MibEhriTCXfBt06/l8LnD+9Z+TN59W24bjIWuG/uT5e685kiCr
+         AeJLquzrl+TzpuqzVtAjI4BSuMdP/zhOUrU67R9mKZqhnGP5JMUP6vRaHQ9E+knY4xff
+         uXjBIQI7DnZm/lOjEOmf4SBGOKQp1FTv3Mha3gZysvYYzAGvkGTWHLhVd7zuBJq+vaIZ
+         ADnLFAibVMsJPyyRFGHu5zsvrgFuEt9qvEn0vKs3Fi4Ae540cSyluRmuOTwaa0kX1f7L
+         FPnxYzQOfr9i1bYnUfm+/YJOA8Sd486u0l98RW6dGHxKMvmAqUGhdDF0FUcT9AxSb57r
+         GxoQ==
+X-Gm-Message-State: AOAM5320YrF1N74RgKVq/gj9kcz33SLq8d9GYh+2/JlrCJVbi2YqXvid
+        GgX7VcIdreQuAmsgIxclpNNJE6PCSwM=
+X-Google-Smtp-Source: ABdhPJw7sprEYpUjr8VOY599l4n2vzIFZHUpSg+RjAqb0AIMDTySDpu7Fvog9t6aHHctDV29dyatJA==
+X-Received: by 2002:a05:6a00:787:b029:1da:643b:6d41 with SMTP id g7-20020a056a000787b02901da643b6d41mr967979pfu.31.1613593560975;
+        Wed, 17 Feb 2021 12:26:00 -0800 (PST)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id n1sm3470238pgi.78.2021.02.17.12.25.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 12:26:00 -0800 (PST)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     netdev@vger.kernel.org
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
+        DEVICE TREE)
+Subject: [PATCH net-next] net: mdio: Remove of_phy_attach()
+Date:   Wed, 17 Feb 2021 12:25:57 -0800
+Message-Id: <20210217202558.2645876-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210217142653.0fcd9ce3@gandalf.local.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 02:26:53PM -0500, Steven Rostedt wrote:
-> On Wed, 17 Feb 2021 12:40:43 -0600
-> john.p.donnelly@oracle.com wrote:
-> 
-> > Hello.
-> > 
-> > Ping.
-> > 
-> > Can we get this reviewed and staged ?
-> > 
-> > Thank you.
-> 
-> Andrew,
-> 
-> Seems you are the only one pushing patches in for kexec/crash. Is this
-> maintained by anyone?
+We have no in-tree users, also update the sfp-phylink.rst documentation
+to indicate that phy_attach_direct() is used instead of of_phy_attach().
 
-Dave Young and Baoquan He still maintain kexec/kdump stuff, AFAIK. I
-don't get time to look into this stuff now a days. 
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+ Documentation/networking/sfp-phylink.rst |  2 +-
+ drivers/net/mdio/of_mdio.c               | 30 ------------------------
+ include/linux/of_mdio.h                  | 10 --------
+ 3 files changed, 1 insertion(+), 41 deletions(-)
 
-Vivek
+diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
+index 5aec7c8857d0..328f8d39eeb3 100644
+--- a/Documentation/networking/sfp-phylink.rst
++++ b/Documentation/networking/sfp-phylink.rst
+@@ -163,7 +163,7 @@ this documentation.
+ 	err = phylink_of_phy_connect(priv->phylink, node, flags);
+ 
+    For the most part, ``flags`` can be zero; these flags are passed to
+-   the of_phy_attach() inside this function call if a PHY is specified
++   the phy_attach_direct() inside this function call if a PHY is specified
+    in the DT node ``node``.
+ 
+    ``node`` should be the DT node which contains the network phy property,
+diff --git a/drivers/net/mdio/of_mdio.c b/drivers/net/mdio/of_mdio.c
+index 4daf94bb56a5..ea9d5855fb52 100644
+--- a/drivers/net/mdio/of_mdio.c
++++ b/drivers/net/mdio/of_mdio.c
+@@ -462,36 +462,6 @@ struct phy_device *of_phy_get_and_connect(struct net_device *dev,
+ }
+ EXPORT_SYMBOL(of_phy_get_and_connect);
+ 
+-/**
+- * of_phy_attach - Attach to a PHY without starting the state machine
+- * @dev: pointer to net_device claiming the phy
+- * @phy_np: Node pointer for the PHY
+- * @flags: flags to pass to the PHY
+- * @iface: PHY data interface type
+- *
+- * If successful, returns a pointer to the phy_device with the embedded
+- * struct device refcount incremented by one, or NULL on failure. The
+- * refcount must be dropped by calling phy_disconnect() or phy_detach().
+- */
+-struct phy_device *of_phy_attach(struct net_device *dev,
+-				 struct device_node *phy_np, u32 flags,
+-				 phy_interface_t iface)
+-{
+-	struct phy_device *phy = of_phy_find_device(phy_np);
+-	int ret;
+-
+-	if (!phy)
+-		return NULL;
+-
+-	ret = phy_attach_direct(dev, phy, flags, iface);
+-
+-	/* refcount is held by phy_attach_direct() on success */
+-	put_device(&phy->mdio.dev);
+-
+-	return ret ? NULL : phy;
+-}
+-EXPORT_SYMBOL(of_phy_attach);
+-
+ /*
+  * of_phy_is_fixed_link() and of_phy_register_fixed_link() must
+  * support two DT bindings:
+diff --git a/include/linux/of_mdio.h b/include/linux/of_mdio.h
+index cfe8c607a628..2b05e7f7c238 100644
+--- a/include/linux/of_mdio.h
++++ b/include/linux/of_mdio.h
+@@ -26,9 +26,6 @@ of_phy_connect(struct net_device *dev, struct device_node *phy_np,
+ struct phy_device *
+ of_phy_get_and_connect(struct net_device *dev, struct device_node *np,
+ 		       void (*hndlr)(struct net_device *));
+-struct phy_device *
+-of_phy_attach(struct net_device *dev, struct device_node *phy_np,
+-	      u32 flags, phy_interface_t iface);
+ 
+ struct mii_bus *of_mdio_find_bus(struct device_node *mdio_np);
+ int of_phy_register_fixed_link(struct device_node *np);
+@@ -100,13 +97,6 @@ of_phy_get_and_connect(struct net_device *dev, struct device_node *np,
+ 	return NULL;
+ }
+ 
+-static inline struct phy_device *of_phy_attach(struct net_device *dev,
+-					       struct device_node *phy_np,
+-					       u32 flags, phy_interface_t iface)
+-{
+-	return NULL;
+-}
+-
+ static inline struct mii_bus *of_mdio_find_bus(struct device_node *mdio_np)
+ {
+ 	return NULL;
+-- 
+2.25.1
 
