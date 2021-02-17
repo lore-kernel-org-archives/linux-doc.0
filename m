@@ -2,57 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C7C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7534C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 14:57:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADB1864E4D
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A7AB64E28
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 14:57:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232729AbhBQNye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 08:54:34 -0500
-Received: from muru.com ([72.249.23.125]:34676 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231470AbhBQNye (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 08:54:34 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 6F8CF8061;
-        Wed, 17 Feb 2021 13:54:14 +0000 (UTC)
-Date:   Wed, 17 Feb 2021 15:53:46 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Drew Fustini <drew@beagleboard.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 0/3] pinctrl: pinmux: Add pinmux-select debugfs file
-Message-ID: <YC0f6uuNlbv7wjyP@atomide.com>
-References: <20210216224455.1504008-1-drew@beagleboard.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210216224455.1504008-1-drew@beagleboard.org>
+        id S233524AbhBQO5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 09:57:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233381AbhBQO5P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 09:57:15 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A14C061574;
+        Wed, 17 Feb 2021 06:56:35 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id u143so8557415pfc.7;
+        Wed, 17 Feb 2021 06:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=umrhymygAjTfKKuGa9j9kzWZRmkTLrdJqnZSqOqe44c=;
+        b=ZRifIs2DaEZ0LEtho8jXMGQeDYrvcjndsqk9MOhjsYC1fpC279lJddN/I/YPBvqQAp
+         Xh6Ef1WOxac+h3I4blwPlP+KfFs2EAyXPvCmQI5IvNEIFkCbcplzM5R83do0IHnjY3WT
+         Ein/k+c3X+YGvtMCLb/lEelZXXcb4kcJfKC+SUksF1yzlq/w97+X/uPrMpfAMPqyP47v
+         jgyVYWth0/bZEt65CYppdBEFDhhIwnuKtuXGQT0ldoKjX0sMBkEOraTM0jd1Yp/G1LmO
+         yTOsGGZ/AmQaCoNGRLMoKoO/dQmB5XQzH7isHETw05N6fcOK0BPa+8lhcLPUB8yIdwhj
+         a4AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=umrhymygAjTfKKuGa9j9kzWZRmkTLrdJqnZSqOqe44c=;
+        b=i1YqoJvpnDhEAWgulhVHlMQFQKMDs2sVxuW4H1JqB5UyNlwQq9igZIM7pTRvxjgvvk
+         iyMwK549fB6PlCmQ4kuDoQProlbHAMO13wIOIdMJkmiwtzGHRA7NYqXJs9OPxjuHYiho
+         Kqud045/crx4jVzXazKTeMcTpIJ4aTFeK80Doep6MBWMTLO/UZGogbVvBHkPN53lrKQq
+         sVJDWkTJlA3DPKLBxBiQh6sCbb77vUwb9ZVk48sozYn5Kj4TweMxQ4nL2I+quAQXPz5q
+         +WpPzrWk1K8EaiQ5a1WTcwNo8ty0nSi5l4SmIPjzY57UM4P4QxK1yQCI12exS/Ppi7Nh
+         xtMg==
+X-Gm-Message-State: AOAM5303E97vE5VDkCjKFFoFlFc946VCyofTHojmMol+i7+B61m7+qiQ
+        3Tu1fE1xu9gzj4P0oSDXhhI=
+X-Google-Smtp-Source: ABdhPJzjdsLfosibFqefQs5Lrqw/fmLmF8ruBYTEeDJ/hbrpviG4kOHul5ZBVqG2Y929SydEwDBoVQ==
+X-Received: by 2002:a05:6a00:1a03:b029:1d3:1fa3:4a5d with SMTP id g3-20020a056a001a03b02901d31fa34a5dmr2996903pfv.1.1613573795393;
+        Wed, 17 Feb 2021 06:56:35 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:600d:a089:b8fb:8ce2:5aae:b58d])
+        by smtp.googlemail.com with ESMTPSA id 190sm3064124pgh.81.2021.02.17.06.56.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 06:56:35 -0800 (PST)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [RFC] scripts: kernel-doc: fix array element capture in pointer-to-func parsing
+Date:   Wed, 17 Feb 2021 20:26:25 +0530
+Message-Id: <20210217145625.14006-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Drew Fustini <drew@beagleboard.org> [210216 22:46]:
-> This series first converts the debugfs files in the pinctrl subsystem to
-> octal permissions and then adds a new debugfs file "pinmux-select".
-> 
-> Function name and group name can be written to "pinmux-select" which
-> will cause the function and group to be activated on the pin controller.
+Currently, kernel-doc causes an unexpected error when array element (i.e.,
+"type (*foo[bar])(args)") is present as pointer parameter in
+pointer-to-function parsing.
 
-Nice to see this happening!
+For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
+error:
+"Use of uninitialized value $param in regexp compilation at ...", in
+combination with:
+"warning: Function parameter or member '' not described in 'gcov_info'"
 
-Reviewed-by: Tony Lindgren <tony@atomide.com>
+Here, the parameter parsing does not take into account the presence of
+array element (i.e. square brackets) in $param.
+
+Provide a simple fix by adding square brackets in the regex, responsible
+for capturing $param.
+
+A quick evaluation, by running 'kernel-doc -none' on entire kernel-tree,
+reveals that no additional warning or error has been added or removed by
+the fix.
+
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly over next-20210217
+
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index e046e16e4411..8b5bc7bf4bb8 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1553,7 +1553,7 @@ sub create_parameterlist($$$$) {
+ 	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+ 	    # pointer-to-function
+ 	    $arg =~ tr/#/,/;
+-	    $arg =~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
++	    $arg =~ m/[^\(]+\(\*?\s*([\w\[\]\.]*)\s*\)/;
+ 	    $param = $1;
+ 	    $type = $arg;
+ 	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+-- 
+2.17.1
+
