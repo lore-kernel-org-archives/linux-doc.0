@@ -2,91 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A91CC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 12:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D566C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:46:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C82FF64E62
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 12:41:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E3DC64E79
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:46:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232620AbhBQMlb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 07:41:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39216 "EHLO mx2.suse.de"
+        id S232034AbhBQNqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 08:46:30 -0500
+Received: from mga11.intel.com ([192.55.52.93]:49319 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232090AbhBQMl3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 07:41:29 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613565642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eFaD6cMmUflfe3zZL8l/1NnW+074aRMBx7mpt03K63o=;
-        b=T3NWYvman7n71RhYgVvyPrPRDNUhUpUESPEg1c+s/N1CuBVc0QBEPJW6rIvcSjTwOhyXpy
-        2VYCtSP/dZG7z5I2jh4WrO+TJ1rMZMu1jvL/jpMXu5XDO7F/zKwaNNaRDv3ee++RcExMS/
-        /4Q7qPxK6uEgQ7X9LGLMF8fTy9ce8F8=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id B2025AF26;
-        Wed, 17 Feb 2021 12:40:42 +0000 (UTC)
-Date:   Wed, 17 Feb 2021 13:40:36 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "yzaikin@google.com" <yzaikin@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Felipe Franciosi <felipe@nutanix.com>
-Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
-Message-ID: <YC0OjfaiFzRUJOx4@dhcp22.suse.cz>
-References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
- <YCt+cVvWPbWvt2rG@dhcp22.suse.cz>
- <bb3508e7-48d1-fa1b-f1a0-7f42be55ed9c@oracle.com>
- <YCzMVa5QSyUtlmnI@dhcp22.suse.cz>
- <D66DC6A7-C708-4888-8FCF-E4EB0F90ED48@nutanix.com>
- <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
+        id S231748AbhBQNq0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Feb 2021 08:46:26 -0500
+IronPort-SDR: AGNfUCZ4eQmR1OyD13cQ5ZkA21767Y9Z/Gl4fpy30PzY09PX2RH0J29+/bYgQVRhQ1qOwoGtYs
+ 4VM0ui33Z5LA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="179687483"
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="179687483"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 05:44:40 -0800
+IronPort-SDR: V7ayCDOY8nnXq9NkW+ZHBLE6NemCXzcUqKAiDmar80O1x3cENFgF3lrNvMoRPtTV/rXjRc2/d8
+ 4ZzHff33vwCw==
+X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
+   d="scan'208";a="494108194"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 05:44:34 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lCN83-005iZj-Ne; Wed, 17 Feb 2021 15:44:31 +0200
+Date:   Wed, 17 Feb 2021 15:44:31 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        mika.westerberg@linux.intel.com, rric@kernel.org,
+        helgaas@kernel.org, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] Documentation: devres: Add
+ pcim_alloc_irq_vectors()
+Message-ID: <YC0dv5zlymiwlH0P@smile.fi.intel.com>
+References: <20210216160249.749799-1-zhengdejin5@gmail.com>
+ <20210216160249.749799-3-zhengdejin5@gmail.com>
+ <YCv8nCX0ZdAb+CHm@rocinante>
+ <20210217105004.GA766103@nuc8i5>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210217105004.GA766103@nuc8i5>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 17-02-21 13:31:07, Michal Hocko wrote:
-[...]
-> Thanks for your usecase description. It helped me to understand what you
-> are doing and how this can be really useful for your particular setup.
-> This is really a very specific situation from my POV. I am not yet sure
-> this is generic enough to warrant for a yet another tunable. One thing
-> you can do [1] is to
-> hook into oom notifiers interface (register_oom_notifier) and release
-> pages from the callback.
+On Wed, Feb 17, 2021 at 06:50:04PM +0800, Dejin Zheng wrote:
+> On Tue, Feb 16, 2021 at 06:10:52PM +0100, Krzysztof Wilczyński wrote:
 
-Forgot to mention that this would be done from a kernel module.
+...
 
-> Why is that batter than a global tunable?
-> For one thing you can make the implementation tailored to your specific
-> usecase. As the review feedback has shown this would be more tricky to
-> be done in a general case. Unlike a generic solution it would allow you
-> to coordinate with your userspace if you need. Would something like that
-> work for you?
-> 
-> ---
-> [1] and I have to say I hate myself for suggesting that because I was
-> really hoping this interface would go away. But the reality disagrees so
-> I gave up on that goal...
-> -- 
-> Michal Hocko
-> SUSE Labs
+> > Having said that, people might ask - how does it simplify the error
+> > handling path?
+> > 
+> > You might have to back this with a line of two to explain how does the
+> > change achieved that, so that when someone looks at the commit message
+> > it would be clear what the benefits of the change were.
+
+> The device-managed function is a conventional concept that every developer
+> knows. So don't worry about this. And I really can't explain its operation
+> mechanism to you in a sentence or two. If you are really interested, you
+> can read the relevant code.
+
+I tend on agree on the above. It would be enough to spell it clearly that it's
+part of devres API (Managed Device Resource) and we are fine.
 
 -- 
-Michal Hocko
-SUSE Labs
+With Best Regards,
+Andy Shevchenko
+
+
