@@ -2,83 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CF1C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:49:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2C7C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:54:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CDDF64E4D
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:49:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADB1864E4D
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 13:54:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232730AbhBQNtH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 08:49:07 -0500
-Received: from mga14.intel.com ([192.55.52.115]:57442 "EHLO mga14.intel.com"
+        id S232729AbhBQNye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 08:54:34 -0500
+Received: from muru.com ([72.249.23.125]:34676 "EHLO muru.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231748AbhBQNtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 08:49:03 -0500
-IronPort-SDR: Ucd2bFIG2htyppdwu8dLV2IZlKeesNPq4+jrEhaiwdoQj50rG0S/hA4/lIlv08y1v2pCJw24zn
- Vo1x13lzPHtw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="182413780"
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="182413780"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 05:47:07 -0800
-IronPort-SDR: F90pREd138flyL/iIcxg7rFosRi7BUx7S/w3QiWC6N/l+QKAx/taM8RgmZbgQo8eKCkORNf4Os
- qP9ZHR9qgzjQ==
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="580866233"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2021 05:47:03 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lCNAT-005ibQ-4B; Wed, 17 Feb 2021 15:47:01 +0200
-Date:   Wed, 17 Feb 2021 15:47:01 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        helgaas@kernel.org, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] i2c: designware: Use the correct name of
- device-managed function
-Message-ID: <YC0eVZf4Xci0IF5+@smile.fi.intel.com>
-References: <20210216160249.749799-1-zhengdejin5@gmail.com>
- <20210216160249.749799-4-zhengdejin5@gmail.com>
- <YCwE2cf9X/Gd6lWy@rocinante>
- <20210217114014.GB766103@nuc8i5>
+        id S231470AbhBQNye (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Feb 2021 08:54:34 -0500
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 6F8CF8061;
+        Wed, 17 Feb 2021 13:54:14 +0000 (UTC)
+Date:   Wed, 17 Feb 2021 15:53:46 +0200
+From:   Tony Lindgren <tony@atomide.com>
+To:     Drew Fustini <drew@beagleboard.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Jason Kridner <jkridner@beagleboard.org>,
+        Robert Nelson <robertcnelson@beagleboard.org>,
+        Joe Perches <joe@perches.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/3] pinctrl: pinmux: Add pinmux-select debugfs file
+Message-ID: <YC0f6uuNlbv7wjyP@atomide.com>
+References: <20210216224455.1504008-1-drew@beagleboard.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210217114014.GB766103@nuc8i5>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210216224455.1504008-1-drew@beagleboard.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 07:40:14PM +0800, Dejin Zheng wrote:
-> On Tue, Feb 16, 2021 at 06:46:01PM +0100, Krzysztof Wilczyński wrote:
+* Drew Fustini <drew@beagleboard.org> [210216 22:46]:
+> This series first converts the debugfs files in the pinctrl subsystem to
+> octal permissions and then adds a new debugfs file "pinmux-select".
+> 
+> Function name and group name can be written to "pinmux-select" which
+> will cause the function and group to be activated on the pin controller.
 
-...
+Nice to see this happening!
 
-> > The change simplifies the error handling path, how?  A line of two which
-> > explains how it has been achieved might help should someone reads the
-> > commit message in the future.
-> > 
-> To put it simply, if the driver probe fail, the device-managed function
-> mechanism will automatically call pcim_release(), then the pci_free_irq_vectors()
-> will be executed. For details, please see the relevant code.
-
-Perhaps as a compromise you may add this short sentence to your commit
-messages, like "the freeing resources will take automatically when device
-is gone".
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Tony Lindgren <tony@atomide.com>
